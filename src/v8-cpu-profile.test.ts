@@ -117,6 +117,22 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
     |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
     |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
 
+    #### Callees
+
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+
+    ##### \`funcC\` (src/c.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
+
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
@@ -241,6 +257,22 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
     |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
     |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
 
+    #### Callees
+
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+
+    ##### \`funcC\` (src/c.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
+
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
@@ -334,6 +366,16 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
     | Total % | Total | Self % |  Self | Function | Location     |
     | ------: | ----: | -----: | ----: | -------- | ------------ |
     |  100.0% | 0.1ms | 100.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 |
+
+    #### Callees
+
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.1ms | \`funcA\` | src/a.ts:1:1 |
 
     ## Hottest call stacks
 
@@ -464,6 +506,22 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
     |  100.0% | 0.3ms | 100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
     |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
     |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
+
+    #### Callees
+
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+
+    ##### \`funcC\` (src/c.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
 
     ## Hottest call stacks
 
@@ -761,6 +819,121 @@ test(`v8CpuProfileToMd fixture`, async () => {
     |    1.7% |  106.3ms |   1.7% | 106.3ms | \`(garbage collector)\`                            | [unknown]                                                                             |
     |    1.7% |  104.4ms |   1.7% | 104.4ms | \`(program)\`                                      | [unknown]                                                                             |
     |    1.4% |   87.1ms |   0.0% |   0.0ms | \`sample\`                                         | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
+
+    #### Callees
+
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+
+    ##### \`(anonymous)\` (scripts/profile.ts:1:1)
+
+    | Total % |    Total | Callee           | Location                                                                              |
+    | ------: | -------: | ---------------- | ------------------------------------------------------------------------------------- |
+    |   98.2% | 5719.3ms | \`uneval\`         | src/index.ts:75:16                                                                    |
+    |    1.5% |   87.1ms | \`sample\`         | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
+    |    0.0% |    2.1ms | \`anything\`       | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:8168:18 |
+    |    0.0% |    1.7ms | \`unevalInternal\` | src/internal/index.ts:25:32                                                           |
+    |    0.0% |    0.6ms | \`traverseObject\` | src/index.ts:204:26                                                                   |
+
+    ##### \`uneval\` (src/index.ts:75:16)
+
+    | Total % |    Total | Callee                 | Location                     |
+    | ------: | -------: | ---------------------- | ---------------------------- |
+    |   69.4% | 3969.6ms | \`unevalInternal\`       | src/internal/index.ts:25:32  |
+    |   29.9% | 1709.1ms | \`createState\`          | src/index.ts:144:21          |
+    |    0.0% |    0.5ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
+    |    0.0% |    0.1ms | \`traverseObject\`       | src/index.ts:204:26          |
+
+    ##### \`unevalInternal\` (src/internal/index.ts:25:32)
+
+    | Total % |    Total | Callee          | Location                         |
+    | ------: | -------: | --------------- | -------------------------------- |
+    |   98.4% | 3912.5ms | \`unevalObject\`  | src/internal/object.ts:20:29     |
+    |   14.4% |  571.0ms | \`unevalString\`  | src/internal/primitive.ts:133:29 |
+    |   10.2% |  404.6ms | \`unevalNumber\`  | src/internal/primitive.ts:12:29  |
+    |    1.0% |   39.5ms | \`isObject\`      | src/internal/object.ts:434:25    |
+    |    0.1% |    5.5ms | \`unevalBoolean\` | src/internal/primitive.ts:8:30   |
+
+    ##### \`unevalObject\` (src/internal/object.ts:20:29)
+
+    | Total % |    Total | Callee                 | Location                        |
+    | ------: | -------: | ---------------------- | ------------------------------- |
+    |   99.4% | 3890.7ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30    |
+    |    0.0% |    0.9ms | \`unevalArray\`          | src/internal/collection.ts:7:47 |
+    |    0.0% |    0.8ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26   |
+
+    ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
+
+    | Total % |    Total | Callee                 | Location                        |
+    | ------: | -------: | ---------------------- | ------------------------------- |
+    |   77.1% | 3000.5ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26   |
+    |   44.4% | 1729.2ms | \`unevalArray\`          | src/internal/collection.ts:7:47 |
+    |    0.5% |   18.4ms | \`unevalInternal\`       | src/internal/index.ts:25:32     |
+    |    0.0% |    0.3ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30    |
+
+    ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
+
+    | Total % |    Total | Callee                     | Location                      |
+    | ------: | -------: | -------------------------- | ----------------------------- |
+    |   50.4% | 1513.1ms | \`unevalInternal\`           | src/internal/index.ts:25:32   |
+    |   40.0% | 1200.9ms | \`unevalObjectLiteralKey\`   | src/internal/object.ts:384:32 |
+    |    0.4% |   13.3ms | \`isRegularDataDescriptor\`  | src/internal/object.ts:287:33 |
+    |    0.1% |    2.2ms | \`(anonymous)\`              | src/internal/object.ts:201:30 |
+    |    0.0% |    0.9ms | \`isDefaultObjectPrototype\` | src/internal/object.ts:429:41 |
+
+    ##### \`unevalArray\` (src/internal/collection.ts:7:47)
+
+    | Total % |    Total | Callee               | Location                         |
+    | ------: | -------: | -------------------- | -------------------------------- |
+    |   85.2% | 1474.1ms | \`unevalInternal\`     | src/internal/index.ts:25:32      |
+    |    0.1% |    2.6ms | \`unevalObjectAssign\` | src/internal/collection.ts:89:28 |
+
+    ##### \`createState\` (src/index.ts:144:21)
+
+    | Total % |    Total | Callee     | Location            |
+    | ------: | -------: | ---------- | ------------------- |
+    |   91.0% | 1554.5ms | \`traverse\` | src/index.ts:164:20 |
+
+    ##### \`traverse\` (src/index.ts:164:20)
+
+    | Total % |    Total | Callee           | Location                  |
+    | ------: | -------: | ---------------- | ------------------------- |
+    |   94.1% | 1462.3ms | \`traverseObject\` | src/index.ts:204:26       |
+    |    0.0% |    0.1ms | \`getType\`        | src/internal/type.ts:4:24 |
+
+    ##### \`traverseObject\` (src/index.ts:204:26)
+
+    | Total % |   Total | Callee                     | Location                      |
+    | ------: | ------: | -------------------------- | ----------------------------- |
+    |   60.5% | 886.0ms | \`traverse\`                 | src/index.ts:164:20           |
+    |   14.8% | 216.8ms | \`getType\`                  | src/internal/type.ts:4:24     |
+    |    0.1% |   1.2ms | \`traverseObject\`           | src/index.ts:204:26           |
+    |    0.0% |   0.5ms | \`isDefaultObjectPrototype\` | src/internal/object.ts:429:41 |
+
+    ##### \`unevalObjectLiteralKey\` (src/internal/object.ts:384:32)
+
+    | Total % |   Total | Callee                                           | Location                    |
+    | ------: | ------: | ------------------------------------------------ | --------------------------- |
+    |   75.6% | 907.7ms | \`unevalWithoutCustom\`                            | src/internal/index.ts:14:37 |
+    |   10.6% | 127.4ms | \`RegExp: ^[$_\\p{ID_Start}][$_\\p{ID_Continue}]*$\` | [unknown]                   |
+
+    ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
+
+    | Total % |   Total | Callee           | Location                    |
+    | ------: | ------: | ---------------- | --------------------------- |
+    |   42.3% | 383.7ms | \`unevalInternal\` | src/internal/index.ts:25:32 |
+
+    ##### \`unevalString\` (src/internal/primitive.ts:133:29)
+
+    | Total % |   Total | Callee          | Location                         |
+    | ------: | ------: | --------------- | -------------------------------- |
+    |   90.7% | 517.7ms | \`unevalLiteral\` | src/internal/primitive.ts:139:23 |
+
+    ##### \`sample\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16)
+
+    | Total % |  Total | Callee         | Location                                                                              |
+    | ------: | -----: | -------------- | ------------------------------------------------------------------------------------- |
+    |   99.7% | 86.8ms | \`mapHelper\`    | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:20   |
+    |    0.3% |  0.3ms | \`streamSample\` | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2524:22 |
 
     ## Hottest call stacks
 
