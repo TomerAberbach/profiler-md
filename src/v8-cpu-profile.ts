@@ -232,9 +232,12 @@ const parseProfile = (text: string): CpuProfile =>
 type CpuProfileSummary = {
   /** The total amount of time the code ran for in microseconds. */
   totalTime: number
+
   /** The total number of samples taken while profiling. */
   totalSamples: number
-  urlSourceTimes: UrlSourceTimeSummary
+
+  /** Total time spent in microseconds by call frame category. */
+  callFrameCategoryToTime: Map<string, number>
   nodes: ProfileNodeSummary[]
   callStacks: CallStackSummary[]
 }
@@ -250,11 +253,10 @@ const summarizeProfile = (
   options: NormalizedV8CpuProfileToMdOptions,
 ): CpuProfileSummary => {
   const graph = computeProfileNodeGraph(profile)
-  const times = computeProfileTimes(profile, graph)
+  const times = computeProfileTimes(profile, graph, options)
 
   const totalSamples = profile.samples.length
 
-  const urlSourceTimes = summarizeUrlSourceTimes(profile, graph, options)
   const nodes = [...new Set(graph.idToNode.values())]
     .filter(node => options.includeCallFrame(node.callFrame))
     .map(node => summarizeProfileNode(node, graph, times, options))
@@ -263,63 +265,34 @@ const summarizeProfile = (
   return {
     totalTime: times.totalTime,
     totalSamples,
-    urlSourceTimes,
+    callFrameCategoryToTime: times.callFrameCategoryToTime,
     nodes,
     callStacks,
   }
 }
 
-type UrlSourceTimeSummary = {
-  /** Self time in microseconds spent in our code. */
-  oursTime: number
-  /** Self time in microseconds spent in third-party code. */
-  thirdPartyTime: number
-  /** Self time in microseconds spent in native/builtin code. */
-  nativeTime: number
-}
-
-const summarizeUrlSourceTimes = (
-  profile: CpuProfile,
-  graph: ProfileNodeGraph,
-  options: NormalizedV8CpuProfileToMdOptions,
-): UrlSourceTimeSummary => {
-  let oursTime = 0
-  let thirdPartyTime = 0
-  let nativeTime = 0
-
-  for (const [index, nodeId] of profile.samples.entries()) {
-    const delta = profile.timeDeltas[index] ?? 0
-    const node = graph.idToNode.get(nodeId)!
-
-    switch (categorizeUrl(node.callFrame.url, options)) {
-      case `ours`:
-        oursTime += delta
-        break
-      case `third-party`:
-        thirdPartyTime += delta
-        break
-      case `native`:
-        nativeTime += delta
-        break
-    }
-  }
-
-  return { oursTime, thirdPartyTime, nativeTime }
-}
-
-type UrlCategory = `ours` | `third-party` | `native`
-
-const categorizeUrl = (
-  url: string,
+const categorizeCallFrame = (
+  callFrame: CallFrame,
   { isThirdPartyURL }: NormalizedV8CpuProfileToMdOptions,
-): UrlCategory => {
-  if (!url) {
+): string => {
+  if (!callFrame.url) {
+    const { functionName } = callFrame
+    if (functionName.startsWith(`(`) && functionName.endsWith(`)`)) {
+      // This is a special sentinel function name like `(garbage collector)`,
+      // `(idle)`, etc.
+      return functionName.slice(1, -1)
+    }
+
+    if (functionName.startsWith(`RegExp: `)) {
+      return `regexp`
+    }
+
     return `native`
   }
 
   let urlObject: URL
   try {
-    urlObject = new URL(url)
+    urlObject = new URL(callFrame.url)
   } catch {
     return `native`
   }
@@ -410,13 +383,18 @@ type ProfileTimes = {
 
   /** Canonical node self time spent with each caller in microseconds. */
   idToCallerToSelfTime: Map<number, Map<number, number>>
+
   /** Canonical node total time spent with each callee in microseconds. */
   idToCalleeToTotalTime: Map<number, Map<number, number>>
+
+  /** Total time spent in microseconds by call frame category. */
+  callFrameCategoryToTime: Map<string, number>
 }
 
 const computeProfileTimes = (
   profile: CpuProfile,
   graph: ProfileNodeGraph,
+  options: NormalizedV8CpuProfileToMdOptions,
 ): ProfileTimes => {
   const totalTime = profile.timeDeltas.reduce(
     (delta1, delta2) => delta1 + delta2,
@@ -427,6 +405,7 @@ const computeProfileTimes = (
   const idToTotalTime = new Map<number, number>()
   const idToCallerToSelfTime = new Map<number, Map<number, number>>()
   const idToCalleeToTotalTime = new Map<number, Map<number, number>>()
+  const callFrameCategoryToTime = new Map<string, number>()
 
   for (const [index, nodeId] of profile.samples.entries()) {
     const delta = profile.timeDeltas[index] ?? 0
@@ -478,6 +457,15 @@ const computeProfileTimes = (
         (calleeToTotalTime.get(calleeNode.id) ?? 0) + delta,
       )
     }
+
+    const callFrameCategory = categorizeCallFrame(
+      canonicalNode.callFrame,
+      options,
+    )
+    callFrameCategoryToTime.set(
+      callFrameCategory,
+      (callFrameCategoryToTime.get(callFrameCategory) ?? 0) + delta,
+    )
   }
 
   return {
@@ -486,6 +474,7 @@ const computeProfileTimes = (
     idToTotalTime,
     idToCallerToSelfTime,
     idToCalleeToTotalTime,
+    callFrameCategoryToTime,
   }
 }
 
@@ -615,30 +604,35 @@ const formatProfileSummary = (
 ): string =>
   `${[
     `# CPU Profile`,
-    formatSummaryLine(summary),
+    formatOverallProfileSummary(summary),
     formatHottestFunctions(summary, options),
     formatHottestCallStacks(summary, options),
   ]
     .filter(Boolean)
     .join(`\n\n`)}\n`
 
-const formatSummaryLine = (summary: CpuProfileSummary): string => {
-  const sampleInterval = formatMicroseconds(
-    summary.totalTime / summary.totalSamples,
-  )
+const formatOverallProfileSummary = ({
+  totalTime,
+  totalSamples,
+  callFrameCategoryToTime,
+}: CpuProfileSummary): string => {
+  const sampleInterval = formatMicroseconds(totalTime / totalSamples)
 
-  const { oursTime, thirdPartyTime, nativeTime } = summary.urlSourceTimes
-  const urlSourcePercents = [
-    `${formatPercent(oursTime / summary.totalTime)} ours`,
-    `${formatPercent(thirdPartyTime / summary.totalTime)} third-party`,
-    `${formatPercent(nativeTime / summary.totalTime)} native`,
-  ].join(`, `)
-
-  return `Took ${formatMilliseconds(
-    summary.totalTime,
-  )} (${urlSourcePercents}) over ${
-    summary.totalSamples
-  } sample${summary.totalSamples > 1 ? `s` : ``} (${sampleInterval} per sample).`
+  return [
+    `Took ${formatMilliseconds(totalTime)} over ${
+      totalSamples
+    } sample${totalSamples > 1 ? `s` : ``} (${sampleInterval} per sample).`,
+    formatTable(
+      [`Category`, `Total %`, `Total`],
+      [...callFrameCategoryToTime]
+        .sort(([, time1], [, time2]) => time2 - time1)
+        .map(([category, time]) => [
+          category,
+          formatPercent(time / totalTime),
+          formatMilliseconds(time),
+        ]),
+    ),
+  ].join(`\n\n`)
 }
 
 const formatHottestFunctions = (
