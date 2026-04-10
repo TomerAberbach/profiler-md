@@ -657,6 +657,7 @@ const formatHottestSelfTimeFunctions = (
 
   return [
     `### Self time`,
+    `Functions ranked by time in the function body, excluding callees.`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -680,7 +681,7 @@ const formatHottestSelfTimeFunctions = (
     ...(hottestCallerSections.length > 0
       ? [
           `#### Callers`,
-          `Callers may not always be direct due to V8 JIT inlining.`,
+          `Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.`,
         ]
       : []),
     ...hottestCallerSections,
@@ -719,6 +720,7 @@ const formatHottestTotalTimeFunctions = (
 ): string =>
   [
     `### Total time`,
+    `Functions ranked by total time in the function and all its callees.`,
     formatTable(
       [
         { content: `Total %`, align: `right` },
@@ -755,16 +757,17 @@ const formatHottestCallStacks = (
 
   return [
     `## Hottest call stacks`,
+    `Call stacks ranked by time spent in their top frame.`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
         { content: `Self`, align: `right` },
-        `Call path`,
+        `Call stack`,
       ],
-      hottestCallStacks.map(path => [
-        formatPercent(path.selfTime / summary.totalTime),
-        formatMilliseconds(path.selfTime),
-        path.frames.join(` ← `),
+      hottestCallStacks.map(callStack => [
+        formatPercent(callStack.selfTime / summary.totalTime),
+        formatMilliseconds(callStack.selfTime),
+        callStack.frames.join(` ← `),
       ]),
     ),
   ].join(`\n\n`)

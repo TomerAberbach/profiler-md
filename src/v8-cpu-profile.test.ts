@@ -88,6 +88,8 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ### Self time
 
+    Functions ranked by time in the function body, excluding callees.
+
     | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
     | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
     | 100.0% | 0.3ms |  100.0% | 0.3ms | funcB    | src/b.ts:1:1 | [unknown]    |
@@ -96,7 +98,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### funcB (src/b.ts:1:1)
 
@@ -107,6 +109,8 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ### Total time
 
+    Functions ranked by total time in the function and all its callees.
+
     | Total % | Total | Self % |  Self | Function | Location     |
     | ------: | ----: | -----: | ----: | -------- | ------------ |
     |  100.0% | 0.3ms | 100.0% | 0.3ms | funcB    | src/b.ts:1:1 |
@@ -115,7 +119,9 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ## Hottest call stacks
 
-    | Self % |  Self | Call path                                   |
+    Call stacks ranked by time spent in their top frame.
+
+    | Self % |  Self | Call stack                                  |
     | -----: | ----: | ------------------------------------------- |
     |  66.7% | 0.2ms | funcB (src/b.ts:1:1) ← funcA (src/a.ts:1:1) |
     |  33.3% | 0.1ms | funcB (src/b.ts:1:1) ← funcC (src/c.ts:1:1) |
@@ -206,6 +212,8 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ### Self time
 
+    Functions ranked by time in the function body, excluding callees.
+
     | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
     | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
     | 100.0% | 0.3ms |  100.0% | 0.3ms | funcB    | src/b.ts:1:1 | 8            |
@@ -214,7 +222,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### funcB (src/b.ts:1:1)
 
@@ -225,6 +233,8 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ### Total time
 
+    Functions ranked by total time in the function and all its callees.
+
     | Total % | Total | Self % |  Self | Function | Location     |
     | ------: | ----: | -----: | ----: | -------- | ------------ |
     |  100.0% | 0.3ms | 100.0% | 0.3ms | funcB    | src/b.ts:1:1 |
@@ -233,7 +243,9 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ## Hottest call stacks
 
-    | Self % |  Self | Call path                                   |
+    Call stacks ranked by time spent in their top frame.
+
+    | Self % |  Self | Call stack                                  |
     | -----: | ----: | ------------------------------------------- |
     |  66.7% | 0.2ms | funcB (src/b.ts:1:1) ← funcA (src/a.ts:1:1) |
     |  33.3% | 0.1ms | funcB (src/b.ts:1:1) ← funcC (src/c.ts:1:1) |
@@ -299,13 +311,15 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ### Self time
 
+    Functions ranked by time in the function body, excluding callees.
+
     | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
     | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
     | 100.0% | 0.1ms |  100.0% | 0.1ms | funcA    | src/a.ts:1:1 | [unknown]    |
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### funcA (src/a.ts:1:1)
 
@@ -315,13 +329,17 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ### Total time
 
+    Functions ranked by total time in the function and all its callees.
+
     | Total % | Total | Self % |  Self | Function | Location     |
     | ------: | ----: | -----: | ----: | -------- | ------------ |
     |  100.0% | 0.1ms | 100.0% | 0.1ms | funcA    | src/a.ts:1:1 |
 
     ## Hottest call stacks
 
-    | Self % |  Self | Call path                          |
+    Call stacks ranked by time spent in their top frame.
+
+    | Self % |  Self | Call stack                         |
     | -----: | ----: | ---------------------------------- |
     | 100.0% | 0.1ms | funcA (src/a.ts:1:1) ← funcA (1:1) |
     "
@@ -418,6 +436,8 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ### Self time
 
+    Functions ranked by time in the function body, excluding callees.
+
     | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
     | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
     | 100.0% | 0.3ms |  100.0% | 0.3ms | funcB    | src/b.ts:1:1 | 5            |
@@ -426,7 +446,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### funcB (src/b.ts:1:1)
 
@@ -437,6 +457,8 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ### Total time
 
+    Functions ranked by total time in the function and all its callees.
+
     | Total % | Total | Self % |  Self | Function | Location     |
     | ------: | ----: | -----: | ----: | -------- | ------------ |
     |  100.0% | 0.3ms | 100.0% | 0.3ms | funcB    | src/b.ts:1:1 |
@@ -445,7 +467,9 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ## Hottest call stacks
 
-    | Self % |  Self | Call path                                   |
+    Call stacks ranked by time spent in their top frame.
+
+    | Self % |  Self | Call stack                                  |
     | -----: | ----: | ------------------------------------------- |
     |  66.7% | 0.2ms | funcB (src/b.ts:1:1) ← funcA (src/a.ts:1:1) |
     |  33.3% | 0.1ms | funcB (src/b.ts:1:1) ← funcC (src/c.ts:1:1) |
@@ -498,13 +522,15 @@ test(`v8CpuProfileToMd displays empty functionName as (anonymous)`, () => {
 
     ### Self time
 
+    Functions ranked by time in the function body, excluding callees.
+
     | Self % |  Self | Total % | Total | Function    | Location      | Hottest line |
     | -----: | ----: | ------: | ----: | ----------- | ------------- | ------------ |
     | 100.0% | 0.1ms |  100.0% | 0.1ms | (anonymous) | src/a.ts:11:6 | [unknown]    |
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### (anonymous) (src/a.ts:11:6)
 
@@ -513,6 +539,8 @@ test(`v8CpuProfileToMd displays empty functionName as (anonymous)`, () => {
     | 100.0% | 0.1ms | (root) | [unknown] |
 
     ### Total time
+
+    Functions ranked by total time in the function and all its callees.
 
     | Total % | Total | Self % |  Self | Function    | Location      |
     | ------: | ----: | -----: | ----: | ----------- | ------------- |
@@ -536,6 +564,8 @@ test(`v8CpuProfileToMd fixture`, async () => {
     ## Hottest functions
 
     ### Self time
+
+    Functions ranked by time in the function body, excluding callees.
 
     | Self % |    Self | Total % |    Total | Function                                       | Location                                                                                          | Hottest line |
     | -----: | ------: | ------: | -------: | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------ |
@@ -562,7 +592,7 @@ test(`v8CpuProfileToMd fixture`, async () => {
 
     #### Callers
 
-    Callers may not always be direct due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
 
     ##### traverseObject (src/index.ts:204:26)
 
@@ -707,6 +737,8 @@ test(`v8CpuProfileToMd fixture`, async () => {
 
     ### Total time
 
+    Functions ranked by total time in the function and all its callees.
+
     | Total % |    Total | Self % |    Self | Function                                       | Location                                                                              |
     | ------: | -------: | -----: | ------: | ---------------------------------------------- | ------------------------------------------------------------------------------------- |
     |   94.3% | 5824.7ms |   0.2% |  13.9ms | (anonymous)                                    | scripts/profile.ts:1:1                                                                |
@@ -732,7 +764,9 @@ test(`v8CpuProfileToMd fixture`, async () => {
 
     ## Hottest call stacks
 
-    | Self % |    Self | Call path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+    Call stacks ranked by time spent in their top frame.
+
+    | Self % |    Self | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
     | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     |   7.5% | 465.0ms | traverseObject (src/index.ts:204:26) ← traverse (164:20) ← createState (144:21) ← uneval (75:16) ← (anonymous) (scripts/profile.ts:1:1)                                                                                                                                                                                                                                                                                                                                                      |
     |   7.0% | 434.9ms | unevalObjectLike (src/internal/object.ts:103:26) ← unevalObjectInternal (68:30) ← unevalObject (20:29) ← unevalInternal (src/internal/index.ts:25:32) ← uneval (src/index.ts:75:16) ← (anonymous) (scripts/profile.ts:1:1)                                                                                                                                                                                                                                                                   |
