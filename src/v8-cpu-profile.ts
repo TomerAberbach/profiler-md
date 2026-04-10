@@ -3,7 +3,7 @@ import {
   formatMilliseconds,
   formatPercent,
 } from './internal/format.ts'
-import { formatTable } from './internal/markdown.ts'
+import { formatTable, inlineCode } from './internal/markdown.ts'
 
 /** A single call frame in a V8 CPU profile. */
 export type V8CpuProfileCallFrame = {
@@ -638,7 +638,7 @@ const formatHottestSelfTimeFunctions = (
         formatMilliseconds(node.selfTime),
         formatPercent(node.totalTime / summary.totalTime),
         formatMilliseconds(node.totalTime),
-        node.functionName,
+        inlineCode(node.functionName),
         node.location,
         String(node.hottestLine ?? `[unknown]`),
       ]),
@@ -661,7 +661,7 @@ const formatHottestCallers = (
     .toSorted((caller1, caller2) => caller2.selfTime - caller1.selfTime)
     .slice(0, Math.ceil(topN / 4))
   return [
-    `##### ${node.functionName} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${node.location})`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -672,7 +672,7 @@ const formatHottestCallers = (
       hottestCallers.map(caller => [
         formatPercent(caller.selfTime / node.selfTime),
         formatMilliseconds(caller.selfTime),
-        caller.functionName,
+        inlineCode(caller.functionName),
         caller.location,
       ]),
     ),
@@ -703,7 +703,7 @@ const formatHottestTotalTimeFunctions = (
           formatMilliseconds(node.totalTime),
           formatPercent(node.selfTime / summary.totalTime),
           formatMilliseconds(node.selfTime),
-          node.functionName,
+          inlineCode(node.functionName),
           node.location,
         ]),
     ),
@@ -785,7 +785,7 @@ const formatCallStack = (
 ): string =>
   frames
     .map((callFrame, index) => {
-      const name = callFrame.functionName || `(anonymous)`
+      const name = inlineCode(callFrame.functionName || `(anonymous)`)
       if (!callFrame.url) {
         return name
       }

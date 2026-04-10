@@ -1,3 +1,14 @@
+export const inlineCode = (text: string): string => {
+  const longestBacktickRun = Math.max(
+    0,
+    ...Array.from(text.matchAll(/`+/gu), match => match[0].length),
+  )
+  const fence = `\``.repeat(longestBacktickRun + 1)
+  const needsPadding = text.startsWith(`\``) || text.endsWith(`\``)
+  const inner = needsPadding ? ` ${text} ` : text
+  return `${fence}${inner}${fence}`
+}
+
 export type Header = string | { content: string; align: `left` | `right` }
 
 export const formatTable = (headers: Header[], rows: string[][]): string => {
