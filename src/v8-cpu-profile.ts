@@ -335,8 +335,8 @@ const categorizeUrl = (
 type CallStackSummary = {
   /** Total time spent on this exact call stack in microseconds. */
   selfTime: number
-  /** Function names from innermost callee to outermost caller. */
-  frames: string[]
+  /** Call frames from innermost callee to outermost caller. */
+  frames: CallFrame[]
 }
 
 type ProfileNodeGraph = {
@@ -546,19 +546,7 @@ const summarizeCallStacks = (
     const callStack = getCallStack(graph, nodeId)
     const frames = callStack
       .filter(node => options.includeCallFrame(node.callFrame))
-      .map(({ callFrame }, index, callStack) => {
-        const name = callFrame.functionName || `(anonymous)`
-        if (!callFrame.url) {
-          return name
-        }
-
-        const previousUrl = callStack[index - 1]?.callFrame.url
-        const location =
-          callFrame.url === previousUrl
-            ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
-            : callFrameLocation(callFrame, options)
-        return `${name} (${location})`
-      })
+      .map(node => node.callFrame)
     if (frames.length <= 1) {
       // Exclude 0 or 1 function calls. The latter are already represented by
       // the hottest functions section.
@@ -575,29 +563,6 @@ const summarizeCallStacks = (
   }
 
   return [...pathMap.values()]
-}
-
-const callFrameLocation = (
-  callFrame: CallFrame,
-  { cwd }: NormalizedV8CpuProfileToMdOptions,
-): string => {
-  let urlObject: URL
-  try {
-    urlObject = new URL(callFrame.url)
-  } catch {
-    return callFrame.url || `[unknown]`
-  }
-
-  if (urlObject.protocol !== `file:`) {
-    return callFrame.url || `[unknown]`
-  }
-
-  let path = urlObject.pathname
-  if (cwd !== undefined && path.startsWith(cwd)) {
-    path = path.slice(cwd.length)
-  }
-
-  return `${path}:${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
 }
 
 const formatProfileSummary = (
@@ -746,18 +711,22 @@ const formatHottestTotalTimeFunctions = (
 
 const formatHottestCallStacks = (
   summary: CpuProfileSummary,
-  { topN }: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8CpuProfileToMdOptions,
 ): string | null => {
   const hottestCallStacks = summary.callStacks
     .toSorted((path1, path2) => path2.selfTime - path1.selfTime)
-    .slice(0, topN)
+    .slice(0, options.topN)
   if (hottestCallStacks.length === 0) {
     return null
   }
 
+  const commonCallStack = findCommonCallStack(hottestCallStacks)
   return [
     `## Hottest call stacks`,
     `Call stacks ranked by time spent in their top frame.`,
+    ...(commonCallStack.length > 0
+      ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
+      : []),
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -767,8 +736,87 @@ const formatHottestCallStacks = (
       hottestCallStacks.map(callStack => [
         formatPercent(callStack.selfTime / summary.totalTime),
         formatMilliseconds(callStack.selfTime),
-        callStack.frames.join(` ← `),
+        formatCallStack(
+          commonCallStack.length > 0
+            ? callStack.frames.slice(0, -commonCallStack.length)
+            : callStack.frames,
+          options,
+        ),
       ]),
     ),
   ].join(`\n\n`)
+}
+
+const findCommonCallStack = (callStacks: CallStackSummary[]): CallFrame[] => {
+  if (callStacks.length <= 1) {
+    return []
+  }
+
+  const minLength = Math.min(
+    ...callStacks.map(callStack => callStack.frames.length),
+  )
+  const firstFrames = callStacks[0]!.frames
+  let suffixLength = 0
+
+  for (let i = 1; i < minLength; i++) {
+    const suffix = firstFrames.slice(-i).map(callFrameId)
+    if (
+      callStacks.every(callStack =>
+        callStack.frames
+          .slice(-i)
+          .every((frame, j) => callFrameId(frame) === suffix[j]),
+      )
+    ) {
+      suffixLength = i
+    } else {
+      break
+    }
+  }
+
+  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
+}
+
+const callFrameId = (frame: CallFrame): string =>
+  `${frame.functionName}|${frame.url}|${frame.lineNumber}|${frame.columnNumber}`
+
+const formatCallStack = (
+  frames: CallFrame[],
+  options: NormalizedV8CpuProfileToMdOptions,
+): string =>
+  frames
+    .map((callFrame, index) => {
+      const name = callFrame.functionName || `(anonymous)`
+      if (!callFrame.url) {
+        return name
+      }
+      const previousUrl = frames[index - 1]?.url
+      const location =
+        callFrame.url === previousUrl
+          ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
+          : callFrameLocation(callFrame, options)
+      return `${name} (${location})`
+    })
+    .join(` ← `)
+
+const callFrameLocation = (
+  callFrame: CallFrame,
+  { cwd }: NormalizedV8CpuProfileToMdOptions,
+): string => {
+  let urlObject: URL
+  try {
+    urlObject = new URL(callFrame.url)
+  } catch {
+    return callFrame.url || `[unknown]`
+  }
+
+  if (urlObject.protocol !== `file:`) {
+    return callFrame.url || `[unknown]`
+  }
+
+  let path = urlObject.pathname
+  if (cwd !== undefined && path.startsWith(cwd)) {
+    path = path.slice(cwd.length)
+  }
+
+  return `${path}:${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
 }
