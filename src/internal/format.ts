@@ -1,5 +1,5 @@
 export const formatPercent = (fraction: number): string =>
-  `${(fraction * 100).toFixed(1).padStart(5)}%`
+  `${(fraction * 100).toFixed(1)}%`
 
 export const formatMilliseconds = (microseconds: number): string =>
   `${(microseconds / 1000).toFixed(1)}ms`

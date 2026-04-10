@@ -36,6 +36,16 @@ export type V8CpuProfileToMdOptions = {
   includeCallFrame?: (frame: V8CpuProfileCallFrame) => boolean
 
   /**
+   * Whether the given {@link url} points to third-party code.
+   *
+   * This is used compute summaries in the Markdown output and make other
+   * decisions about what's important to display.
+   *
+   * Defaults to {@link defaultIsThirdPartyURL}.
+   */
+  isThirdPartyURL?: (url: URL) => boolean
+
+  /**
    * The current working directory to use to make file paths relative in the
    * Markdown output.
    *
@@ -75,12 +85,14 @@ export const v8CpuProfileToMd = (
 type NormalizedV8CpuProfileToMdOptions = {
   topN: number
   includeCallFrame: (callFrame: CallFrame) => boolean
+  isThirdPartyURL: (url: URL) => boolean
   cwd: string | undefined
 }
 
 const normalizeProfileOptions = ({
   topN = 20,
   includeCallFrame = defaultIncludeV8CpuProfileCallFrame,
+  isThirdPartyURL = defaultIsThirdPartyURL,
   cwd,
 }: V8CpuProfileToMdOptions = {}): NormalizedV8CpuProfileToMdOptions => {
   if (cwd === undefined && typeof process !== `undefined`) {
@@ -93,21 +105,8 @@ const normalizeProfileOptions = ({
     topN,
     includeCallFrame: callFrame =>
       includeCallFrame(toV8CpuProfileCallFrame(callFrame)),
+    isThirdPartyURL,
     cwd: cwd ?? undefined,
-  }
-}
-
-const toV8CpuProfileCallFrame = (
-  callFrame: CallFrame,
-): V8CpuProfileCallFrame => {
-  let url: URL | undefined
-  try {
-    url = new URL(callFrame.url)
-  } catch {}
-
-  return {
-    functionName: callFrame.functionName || undefined,
-    url,
   }
 }
 
@@ -139,6 +138,30 @@ export const defaultIncludeV8CpuProfileCallFrame = (
   }
 
   return true
+}
+
+/**
+ * Returns whether the given {@link url} points to third-party code.
+ *
+ * This is the default value for {@link V8CpuProfileToMdOptions.isThirdPartyURL}.
+ *
+ * Excludes `node_modules` only by default.
+ */
+export const defaultIsThirdPartyURL = (url: URL): boolean =>
+  url.pathname.includes(`/node_modules/`)
+
+const toV8CpuProfileCallFrame = (
+  callFrame: CallFrame,
+): V8CpuProfileCallFrame => {
+  let url: URL | undefined
+  try {
+    url = new URL(callFrame.url)
+  } catch {}
+
+  return {
+    functionName: callFrame.functionName || undefined,
+    url,
+  }
 }
 
 /**
@@ -211,6 +234,7 @@ type CpuProfileSummary = {
   totalTime: number
   /** The total number of samples taken while profiling. */
   totalSamples: number
+  urlSourceTimes: UrlSourceTimeSummary
   nodes: ProfileNodeSummary[]
   callPaths: CallPathSummary[]
 }
@@ -224,6 +248,7 @@ const summarizeProfile = (
 
   const totalSamples = profile.samples.length
 
+  const urlSourceTimes = summarizeUrlSourceTimes(profile, graph, options)
   const nodes = [...new Set(graph.idToNode.values())]
     .filter(node => options.includeCallFrame(node.callFrame))
     .map(node => summarizeProfileNode(node, times, options))
@@ -232,9 +257,72 @@ const summarizeProfile = (
   return {
     totalTime: times.totalTime,
     totalSamples,
+    urlSourceTimes,
     nodes,
     callPaths,
   }
+}
+
+type UrlSourceTimeSummary = {
+  /** Self time in microseconds spent in our code. */
+  oursTime: number
+  /** Self time in microseconds spent in third-party code. */
+  thirdPartyTime: number
+  /** Self time in microseconds spent in native/builtin code. */
+  nativeTime: number
+}
+
+const summarizeUrlSourceTimes = (
+  profile: CpuProfile,
+  graph: ProfileNodeGraph,
+  options: NormalizedV8CpuProfileToMdOptions,
+): UrlSourceTimeSummary => {
+  let oursTime = 0
+  let thirdPartyTime = 0
+  let nativeTime = 0
+
+  for (const [index, nodeId] of profile.samples.entries()) {
+    const delta = profile.timeDeltas[index] ?? 0
+    const node = graph.idToNode.get(nodeId)!
+
+    switch (categorizeUrl(node.callFrame.url, options)) {
+      case `ours`:
+        oursTime += delta
+        break
+      case `third-party`:
+        thirdPartyTime += delta
+        break
+      case `native`:
+        nativeTime += delta
+        break
+    }
+  }
+
+  return { oursTime, thirdPartyTime, nativeTime }
+}
+
+type UrlCategory = `ours` | `third-party` | `native`
+
+const categorizeUrl = (
+  url: string,
+  { isThirdPartyURL }: NormalizedV8CpuProfileToMdOptions,
+): UrlCategory => {
+  if (!url) {
+    return `native`
+  }
+
+  let urlObject: URL
+  try {
+    urlObject = new URL(url)
+  } catch {
+    return `native`
+  }
+
+  if (urlObject.protocol !== `file:`) {
+    return `native`
+  }
+
+  return isThirdPartyURL(urlObject) ? `third-party` : `ours`
 }
 
 type CallPathSummary = {
@@ -468,10 +556,6 @@ const formatProfileSummary = (
   summary: CpuProfileSummary,
   { topN }: NormalizedV8CpuProfileToMdOptions,
 ): string => {
-  const sampleInterval = formatMicroseconds(
-    summary.totalTime / summary.totalSamples,
-  )
-
   const topSelfTimeNodes = summary.nodes
     .toSorted((node1, node2) => node2.selfTime - node1.selfTime)
     .slice(0, topN)
@@ -484,7 +568,7 @@ const formatProfileSummary = (
 
   return `# CPU Profile
 
-Took ${formatMilliseconds(summary.totalTime)} over ${summary.totalSamples} samples (${sampleInterval} per sample).
+${formatSummaryLine(summary)}
 
 ## Hottest functions
 
@@ -551,4 +635,23 @@ ${formatTable(
 )}
 `
 }`
+}
+
+const formatSummaryLine = (summary: CpuProfileSummary): string => {
+  const sampleInterval = formatMicroseconds(
+    summary.totalTime / summary.totalSamples,
+  )
+
+  const { oursTime, thirdPartyTime, nativeTime } = summary.urlSourceTimes
+  const urlSourcePercents = [
+    `${formatPercent(oursTime / summary.totalTime)} ours`,
+    `${formatPercent(thirdPartyTime / summary.totalTime)} third-party`,
+    `${formatPercent(nativeTime / summary.totalTime)} native`,
+  ].join(`, `)
+
+  return `Took ${formatMilliseconds(
+    summary.totalTime,
+  )} (${urlSourcePercents}) over ${
+    summary.totalSamples
+  } sample${summary.totalSamples > 1 ? `s` : ``} (${sampleInterval} per sample).`
 }
