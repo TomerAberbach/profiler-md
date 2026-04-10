@@ -236,7 +236,14 @@ type CpuProfileSummary = {
   totalSamples: number
   urlSourceTimes: UrlSourceTimeSummary
   nodes: ProfileNodeSummary[]
-  callPaths: CallPathSummary[]
+  callStacks: CallStackSummary[]
+}
+
+type CallerSummary = {
+  functionName: string
+  location: string
+  /** Self-time of the callee attributed to this caller, in microseconds. */
+  selfTime: number
 }
 
 const summarizeProfile = (
@@ -251,15 +258,15 @@ const summarizeProfile = (
   const urlSourceTimes = summarizeUrlSourceTimes(profile, graph, options)
   const nodes = [...new Set(graph.idToNode.values())]
     .filter(node => options.includeCallFrame(node.callFrame))
-    .map(node => summarizeProfileNode(node, times, options))
-  const callPaths = summarizeCallPaths(profile, graph, options)
+    .map(node => summarizeProfileNode(node, graph, times, options))
+  const callStacks = summarizeCallStacks(profile, graph, options)
 
   return {
     totalTime: times.totalTime,
     totalSamples,
     urlSourceTimes,
     nodes,
-    callPaths,
+    callStacks,
   }
 }
 
@@ -325,10 +332,10 @@ const categorizeUrl = (
   return isThirdPartyURL(urlObject) ? `third-party` : `ours`
 }
 
-type CallPathSummary = {
-  /** Total time spent on this exact call path in microseconds. */
+type CallStackSummary = {
+  /** Total time spent on this exact call stack in microseconds. */
   selfTime: number
-  /** Function names from outermost caller to innermost callee. */
+  /** Function names from innermost callee to outermost caller. */
   frames: string[]
 }
 
@@ -389,11 +396,20 @@ const computeProfileNodeGraph = (profile: CpuProfile): ProfileNodeGraph => {
 }
 
 type ProfileTimes = {
+  /** The total time spent during the CPU profile in microseconds. */
   totalTime: number
+
   /** Self time in microseconds, keyed by canonical node ID. */
-  selfTimes: Map<number, number>
-  /** Total time in microseconds, keyed by canonical node ID. Each sample contributes at most once per canonical node. */
-  totalTimes: Map<number, number>
+  idToSelfTime: Map<number, number>
+
+  /**
+   * Total time in microseconds, keyed by canonical node ID.
+   *
+   * Each sample contributes at most once per canonical node.
+   */
+  idToTotalTime: Map<number, number>
+
+  idToCallerToSelfTime: Map<number, Map<number, number>>
 }
 
 const computeProfileTimes = (
@@ -405,28 +421,45 @@ const computeProfileTimes = (
     0,
   )
 
-  const selfTimes = new Map<number, number>()
-  const totalTimes = new Map<number, number>()
+  const idToSelfTime = new Map<number, number>()
+  const idToTotalTime = new Map<number, number>()
+  const idToCallerToSelfTime = new Map<number, Map<number, number>>()
 
   for (const [index, nodeId] of profile.samples.entries()) {
     const delta = profile.timeDeltas[index] ?? 0
     const canonicalNode = graph.idToNode.get(nodeId)!
-    selfTimes.set(
+    idToSelfTime.set(
       canonicalNode.id,
-      (selfTimes.get(canonicalNode.id) ?? 0) + delta,
+      (idToSelfTime.get(canonicalNode.id) ?? 0) + delta,
     )
 
-    const stack = getCallStack(graph, nodeId)
-    const seen = new Set<ProfileNode>()
-    for (const node of stack) {
-      if (!seen.has(node)) {
-        totalTimes.set(node.id, (totalTimes.get(node.id) ?? 0) + delta)
-        seen.add(node)
+    const callStack = getCallStack(graph, nodeId)
+    const seenNodes = new Set<ProfileNode>()
+    for (const node of callStack) {
+      if (!seenNodes.has(node)) {
+        idToTotalTime.set(node.id, (idToTotalTime.get(node.id) ?? 0) + delta)
+        seenNodes.add(node)
       }
     }
+
+    let callerId = graph.idToParentId.get(nodeId)
+    if (callerId === undefined) {
+      continue
+    }
+    callerId = graph.idToNode.get(callerId)!.id
+
+    let callerToSelfTime = idToCallerToSelfTime.get(canonicalNode.id)
+    if (!callerToSelfTime) {
+      callerToSelfTime = new Map()
+      idToCallerToSelfTime.set(canonicalNode.id, callerToSelfTime)
+    }
+    callerToSelfTime.set(
+      callerId,
+      (callerToSelfTime.get(callerId) ?? 0) + delta,
+    )
   }
 
-  return { totalTime, selfTimes, totalTimes }
+  return { totalTime, idToSelfTime, idToTotalTime, idToCallerToSelfTime }
 }
 
 /** Returns the full call stack for a node (bottom-up). */
@@ -461,10 +494,12 @@ type ProfileNodeSummary = {
   location: string
   /** The line number where the CPU spent the most time, if known. */
   hottestLine?: number
+  callers: CallerSummary[]
 }
 
 const summarizeProfileNode = (
   node: ProfileNode,
+  graph: ProfileNodeGraph,
   times: ProfileTimes,
   options: NormalizedV8CpuProfileToMdOptions,
 ): ProfileNodeSummary => {
@@ -476,35 +511,48 @@ const summarizeProfileNode = (
       ).line
     : undefined
 
+  const callerToSelfTime = times.idToCallerToSelfTime.get(id)
+  const callers = callerToSelfTime
+    ? Array.from(callerToSelfTime, ([callerId, callerTime]) => {
+        const callerNode = graph.idToNode.get(callerId)!
+        return {
+          functionName: callerNode.callFrame.functionName || `(anonymous)`,
+          location: callFrameLocation(callerNode.callFrame, options),
+          selfTime: callerTime,
+        }
+      })
+    : []
+
   return {
     functionName: callFrame.functionName || `(anonymous)`,
-    selfTime: times.selfTimes.get(id) ?? 0,
-    totalTime: times.totalTimes.get(id) ?? 0,
+    selfTime: times.idToSelfTime.get(id) ?? 0,
+    totalTime: times.idToTotalTime.get(id) ?? 0,
     location,
     hottestLine,
+    callers,
   }
 }
 
-const summarizeCallPaths = (
+const summarizeCallStacks = (
   profile: CpuProfile,
   graph: ProfileNodeGraph,
   options: NormalizedV8CpuProfileToMdOptions,
-): CallPathSummary[] => {
-  const pathMap = new Map<string, CallPathSummary>()
+): CallStackSummary[] => {
+  const pathMap = new Map<string, CallStackSummary>()
 
   for (const [index, nodeId] of profile.samples.entries()) {
     const delta = profile.timeDeltas[index] ?? 0
 
-    const callPath = getCallStack(graph, nodeId).reverse()
-    const frames = callPath
+    const callStack = getCallStack(graph, nodeId)
+    const frames = callStack
       .filter(node => options.includeCallFrame(node.callFrame))
-      .map(({ callFrame }, index) => {
+      .map(({ callFrame }, index, callStack) => {
         const name = callFrame.functionName || `(anonymous)`
         if (!callFrame.url) {
           return name
         }
 
-        const previousUrl = callPath[index - 1]?.callFrame.url
+        const previousUrl = callStack[index - 1]?.callFrame.url
         const location =
           callFrame.url === previousUrl
             ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
@@ -517,7 +565,7 @@ const summarizeCallPaths = (
       continue
     }
 
-    const key = callPath.map(node => node.id).join(`,`)
+    const key = callStack.map(node => node.id).join(`,`)
     let existing = pathMap.get(key)
     if (!existing) {
       existing = { selfTime: 0, frames }
@@ -554,88 +602,16 @@ const callFrameLocation = (
 
 const formatProfileSummary = (
   summary: CpuProfileSummary,
-  { topN }: NormalizedV8CpuProfileToMdOptions,
-): string => {
-  const topSelfTimeNodes = summary.nodes
-    .toSorted((node1, node2) => node2.selfTime - node1.selfTime)
-    .slice(0, topN)
-  const topTotalTimeNodes = summary.nodes
-    .toSorted((node1, node2) => node2.totalTime - node1.totalTime)
-    .slice(0, topN)
-  const topCallPaths = summary.callPaths
-    .toSorted((path1, path2) => path2.selfTime - path1.selfTime)
-    .slice(0, topN)
-
-  return `# CPU Profile
-
-${formatSummaryLine(summary)}
-
-## Hottest functions
-
-### Self time
-
-${formatTable(
-  [
-    { content: `Self %`, align: `right` },
-    { content: `Self time`, align: `right` },
-    { content: `Total %`, align: `right` },
-    { content: `Total`, align: `right` },
-    `Function`,
-    `Location`,
-    `Hottest line`,
-  ],
-  topSelfTimeNodes.map(node => [
-    formatPercent(node.selfTime / summary.totalTime),
-    formatMilliseconds(node.selfTime),
-    formatPercent(node.totalTime / summary.totalTime),
-    formatMilliseconds(node.totalTime),
-    node.functionName,
-    node.location,
-    String(node.hottestLine ?? `[unknown]`),
-  ]),
-)}
-
-### Total time
-
-${formatTable(
-  [
-    { content: `Total %`, align: `right` },
-    { content: `Total`, align: `right` },
-    { content: `Self %`, align: `right` },
-    { content: `Self`, align: `right` },
-    `Function`,
-    `Location`,
-  ],
-  topTotalTimeNodes.map(node => [
-    formatPercent(node.totalTime / summary.totalTime),
-    formatMilliseconds(node.totalTime),
-    formatPercent(node.selfTime / summary.totalTime),
-    formatMilliseconds(node.selfTime),
-    node.functionName,
-    node.location,
-  ]),
-)}
-${
-  topCallPaths.length === 0
-    ? ``
-    : `
-## Hottest call paths
-
-${formatTable(
-  [
-    { content: `Self %`, align: `right` },
-    { content: `Self`, align: `right` },
-    `Call path`,
-  ],
-  topCallPaths.map(path => [
-    formatPercent(path.selfTime / summary.totalTime),
-    formatMilliseconds(path.selfTime),
-    path.frames.join(` → `),
-  ]),
-)}
-`
-}`
-}
+  options: NormalizedV8CpuProfileToMdOptions,
+): string =>
+  `${[
+    `# CPU Profile`,
+    formatSummaryLine(summary),
+    formatHottestFunctions(summary, options),
+    formatHottestCallStacks(summary, options),
+  ]
+    .filter(Boolean)
+    .join(`\n\n`)}\n`
 
 const formatSummaryLine = (summary: CpuProfileSummary): string => {
   const sampleInterval = formatMicroseconds(
@@ -654,4 +630,142 @@ const formatSummaryLine = (summary: CpuProfileSummary): string => {
   )} (${urlSourcePercents}) over ${
     summary.totalSamples
   } sample${summary.totalSamples > 1 ? `s` : ``} (${sampleInterval} per sample).`
+}
+
+const formatHottestFunctions = (
+  summary: CpuProfileSummary,
+  options: NormalizedV8CpuProfileToMdOptions,
+): string =>
+  [
+    `## Hottest functions`,
+    formatHottestSelfTimeFunctions(summary, options),
+    formatHottestTotalTimeFunctions(summary, options),
+  ].join(`\n\n`)
+
+const formatHottestSelfTimeFunctions = (
+  summary: CpuProfileSummary,
+  options: NormalizedV8CpuProfileToMdOptions,
+): string => {
+  const { topN } = options
+
+  const hottestSelfTimeNodes = summary.nodes
+    .toSorted((node1, node2) => node2.selfTime - node1.selfTime)
+    .slice(0, topN)
+  const hottestCallerSections = hottestSelfTimeNodes
+    .filter(node => node.callers.length > 0)
+    .map(node => formatHottestCallers(node, options))
+
+  return [
+    `### Self time`,
+    formatTable(
+      [
+        { content: `Self %`, align: `right` },
+        { content: `Self`, align: `right` },
+        { content: `Total %`, align: `right` },
+        { content: `Total`, align: `right` },
+        `Function`,
+        `Location`,
+        `Hottest line`,
+      ],
+      hottestSelfTimeNodes.map(node => [
+        formatPercent(node.selfTime / summary.totalTime),
+        formatMilliseconds(node.selfTime),
+        formatPercent(node.totalTime / summary.totalTime),
+        formatMilliseconds(node.totalTime),
+        node.functionName,
+        node.location,
+        String(node.hottestLine ?? `[unknown]`),
+      ]),
+    ),
+    ...(hottestCallerSections.length > 0
+      ? [
+          `#### Callers`,
+          `Callers may not always be direct due to V8 JIT inlining.`,
+        ]
+      : []),
+    ...hottestCallerSections,
+  ].join(`\n\n`)
+}
+
+const formatHottestCallers = (
+  node: ProfileNodeSummary,
+  { topN }: NormalizedV8CpuProfileToMdOptions,
+): string => {
+  const hottestCallers = node.callers
+    .toSorted((caller1, caller2) => caller2.selfTime - caller1.selfTime)
+    .slice(0, Math.ceil(topN / 4))
+  return [
+    `##### ${node.functionName} (${node.location})`,
+    formatTable(
+      [
+        { content: `Self %`, align: `right` },
+        { content: `Self`, align: `right` },
+        `Caller`,
+        `Location`,
+      ],
+      hottestCallers.map(caller => [
+        formatPercent(caller.selfTime / node.selfTime),
+        formatMilliseconds(caller.selfTime),
+        caller.functionName,
+        caller.location,
+      ]),
+    ),
+  ].join(`\n\n`)
+}
+
+const formatHottestTotalTimeFunctions = (
+  summary: CpuProfileSummary,
+  { topN }: NormalizedV8CpuProfileToMdOptions,
+): string =>
+  [
+    `### Total time`,
+    formatTable(
+      [
+        { content: `Total %`, align: `right` },
+        { content: `Total`, align: `right` },
+        { content: `Self %`, align: `right` },
+        { content: `Self`, align: `right` },
+        `Function`,
+        `Location`,
+      ],
+      summary.nodes
+        .toSorted((node1, node2) => node2.totalTime - node1.totalTime)
+        .slice(0, topN)
+        .map(node => [
+          formatPercent(node.totalTime / summary.totalTime),
+          formatMilliseconds(node.totalTime),
+          formatPercent(node.selfTime / summary.totalTime),
+          formatMilliseconds(node.selfTime),
+          node.functionName,
+          node.location,
+        ]),
+    ),
+  ].join(`\n\n`)
+
+const formatHottestCallStacks = (
+  summary: CpuProfileSummary,
+  { topN }: NormalizedV8CpuProfileToMdOptions,
+): string | null => {
+  const hottestCallStacks = summary.callStacks
+    .toSorted((path1, path2) => path2.selfTime - path1.selfTime)
+    .slice(0, topN)
+  if (hottestCallStacks.length === 0) {
+    return null
+  }
+
+  return [
+    `## Hottest call stacks`,
+    formatTable(
+      [
+        { content: `Self %`, align: `right` },
+        { content: `Self`, align: `right` },
+        `Call path`,
+      ],
+      hottestCallStacks.map(path => [
+        formatPercent(path.selfTime / summary.totalTime),
+        formatMilliseconds(path.selfTime),
+        path.frames.join(` ← `),
+      ]),
+    ),
+  ].join(`\n\n`)
 }
