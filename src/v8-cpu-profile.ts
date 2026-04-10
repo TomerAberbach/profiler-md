@@ -227,7 +227,7 @@ const summarizeProfile = (
   const nodes = [...new Set(graph.idToNode.values())]
     .filter(node => options.includeCallFrame(node.callFrame))
     .map(node => summarizeProfileNode(node, times, options))
-  const callPaths = computeCallPaths(profile, graph, options)
+  const callPaths = summarizeCallPaths(profile, graph, options)
 
   return {
     totalTime: times.totalTime,
@@ -242,50 +242,6 @@ type CallPathSummary = {
   time: number
   /** Function names from outermost caller to innermost callee. */
   frames: string[]
-}
-
-const computeCallPaths = (
-  profile: CpuProfile,
-  graph: ProfileNodeGraph,
-  options: NormalizedV8CpuProfileToMdOptions,
-): CallPathSummary[] => {
-  const pathMap = new Map<string, CallPathSummary>()
-
-  for (const [index, nodeId] of profile.samples.entries()) {
-    const delta = profile.timeDeltas[index] ?? 0
-    const stack = getCallStack(graph, nodeId).reverse()
-
-    const frames = stack
-      .filter(node => options.includeCallFrame(node.callFrame))
-      .map((node, index) => {
-        const name = node.callFrame.functionName || `(anonymous)`
-        const prevUrl = stack[index - 1]?.callFrame.url
-        const sameFile =
-          node.callFrame.url !== `` && node.callFrame.url === prevUrl
-        const location = sameFile
-          ? `${node.callFrame.lineNumber + 1}:${node.callFrame.columnNumber + 1}`
-          : callFrameLocation(node.callFrame, options)
-        return `${name} (${location})`
-      })
-
-    if (frames.length <= 1) {
-      continue
-    }
-
-    const key = stack
-      .slice(0, -1)
-      .map(node => node.id)
-      .join(`,`)
-
-    const existing = pathMap.get(key)
-    if (existing) {
-      existing.time += delta
-    } else {
-      pathMap.set(key, { time: delta, frames })
-    }
-  }
-
-  return [...pathMap.values()]
 }
 
 type ProfileNodeGraph = {
@@ -404,8 +360,11 @@ const getCallStack = (
 }
 
 type ProfileNodeSummary = {
-  /** The name of the function, or `undefined` for anonymous functions. */
-  functionName: string | undefined
+  /**
+   * The name of the function or strings like `(anonymous)`,
+   * `(garbage collector)`, etc. for non-functions.
+   */
+  functionName: string
   /** The amount of time spent directly in this function's code in microseconds. */
   selfTime: number
   /** The amount of time spent within in this function's subtree in microseconds. */
@@ -430,12 +389,56 @@ const summarizeProfileNode = (
     : undefined
 
   return {
-    functionName: callFrame.functionName || undefined,
+    functionName: callFrame.functionName || `(anonymous)`,
     selfTime: times.selfTimes.get(id) ?? 0,
     totalTime: times.totalTimes.get(id) ?? 0,
     location,
     hottestLine,
   }
+}
+
+const summarizeCallPaths = (
+  profile: CpuProfile,
+  graph: ProfileNodeGraph,
+  options: NormalizedV8CpuProfileToMdOptions,
+): CallPathSummary[] => {
+  const pathMap = new Map<string, CallPathSummary>()
+
+  for (const [index, nodeId] of profile.samples.entries()) {
+    const delta = profile.timeDeltas[index] ?? 0
+
+    const callPath = getCallStack(graph, nodeId).reverse()
+    const frames = callPath
+      .filter(node => options.includeCallFrame(node.callFrame))
+      .map(({ callFrame }, index) => {
+        const name = callFrame.functionName || `(anonymous)`
+        if (!callFrame.url) {
+          return name
+        }
+
+        const previousUrl = callPath[index - 1]?.callFrame.url
+        const location =
+          callFrame.url === previousUrl
+            ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
+            : callFrameLocation(callFrame, options)
+        return `${name} (${location})`
+      })
+    if (frames.length <= 1) {
+      // Exclude 0 or 1 function calls. The latter are already represented by
+      // the hottest functions section.
+      continue
+    }
+
+    const key = callPath.map(node => node.id).join(`,`)
+    let existing = pathMap.get(key)
+    if (!existing) {
+      existing = { time: 0, frames }
+      pathMap.set(key, existing)
+    }
+    existing.time += delta
+  }
+
+  return [...pathMap.values()]
 }
 
 const callFrameLocation = (
@@ -446,11 +449,11 @@ const callFrameLocation = (
   try {
     urlObject = new URL(callFrame.url)
   } catch {
-    return callFrame.url || `[native code]`
+    return callFrame.url || `[unknown]`
   }
 
   if (urlObject.protocol !== `file:`) {
-    return callFrame.url || `[native code]`
+    return callFrame.url || `[unknown]`
   }
 
   let path = urlObject.pathname
@@ -502,7 +505,7 @@ ${formatTable(
     formatMilliseconds(node.selfTime),
     formatPercent(node.totalTime / summary.totalTime),
     formatMilliseconds(node.totalTime),
-    node.functionName ?? `(anonymous)`,
+    node.functionName,
     node.location,
     String(node.hottestLine ?? `[unknown]`),
   ]),
@@ -524,7 +527,7 @@ ${formatTable(
     formatMilliseconds(node.totalTime),
     formatPercent(node.selfTime / summary.totalTime),
     formatMilliseconds(node.selfTime),
-    node.functionName ?? `(anonymous)`,
+    node.functionName,
     node.location,
   ]),
 )}
