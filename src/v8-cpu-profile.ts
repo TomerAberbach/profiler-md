@@ -327,7 +327,7 @@ const categorizeUrl = (
 
 type CallPathSummary = {
   /** Total time spent on this exact call path in microseconds. */
-  time: number
+  selfTime: number
   /** Function names from outermost caller to innermost callee. */
   frames: string[]
 }
@@ -520,10 +520,10 @@ const summarizeCallPaths = (
     const key = callPath.map(node => node.id).join(`,`)
     let existing = pathMap.get(key)
     if (!existing) {
-      existing = { time: 0, frames }
+      existing = { selfTime: 0, frames }
       pathMap.set(key, existing)
     }
-    existing.time += delta
+    existing.selfTime += delta
   }
 
   return [...pathMap.values()]
@@ -563,7 +563,7 @@ const formatProfileSummary = (
     .toSorted((node1, node2) => node2.totalTime - node1.totalTime)
     .slice(0, topN)
   const topCallPaths = summary.callPaths
-    .toSorted((path1, path2) => path2.time - path1.time)
+    .toSorted((path1, path2) => path2.selfTime - path1.selfTime)
     .slice(0, topN)
 
   return `# CPU Profile
@@ -623,13 +623,13 @@ ${
 
 ${formatTable(
   [
-    { content: `%`, align: `right` },
-    { content: `Time`, align: `right` },
+    { content: `Self %`, align: `right` },
+    { content: `Self`, align: `right` },
     `Call path`,
   ],
   topCallPaths.map(path => [
-    formatPercent(path.time / summary.totalTime),
-    formatMilliseconds(path.time),
+    formatPercent(path.selfTime / summary.totalTime),
+    formatMilliseconds(path.selfTime),
     path.frames.join(` → `),
   ]),
 )}
