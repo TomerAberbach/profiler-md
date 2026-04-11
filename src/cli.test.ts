@@ -17,7 +17,7 @@ test(`outputs markdown from a .cpuprofile file`, () => {
   const { status, stdout } = runCli([v8CpuProfilePath])
 
   expect(status).toBe(0)
-  expect(stdout).toMatch(/^# CPU Profile/u)
+  expect(stdout).toMatch(/^# CPU profile/u)
 })
 
 test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
@@ -26,7 +26,7 @@ test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
   const { status, stdout } = runCli([flag, `v8-cpu`], input)
 
   expect(status).toBe(0)
-  expect(stdout).toMatch(/^# CPU Profile/u)
+  expect(stdout).toMatch(/^# CPU profile/u)
 })
 
 test.each([`--output`, `-o`])(`writes output to a file with %s`, flag => {
@@ -36,7 +36,7 @@ test.each([`--output`, `-o`])(`writes output to a file with %s`, flag => {
 
   expect(status).toBe(0)
   expect(stdout).toBe(``)
-  expect(readFileSync(tempPath, `utf8`)).toMatch(/^# CPU Profile/u)
+  expect(readFileSync(tempPath, `utf8`)).toMatch(/^# CPU profile/u)
   rmSync(tempPath, { recursive: true })
 })
 

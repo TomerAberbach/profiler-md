@@ -14,6 +14,9 @@ importers:
       picomatch:
         specifier: ^4.0.4
         version: 4.0.4
+      pretty-bytes:
+        specifier: ^7.1.0
+        version: 7.1.0
     devDependencies:
       '@fast-check/vitest':
         specifier: ^0.4.0
@@ -2204,6 +2207,10 @@ packages:
     resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
     engines: {node: '>=14'}
     hasBin: true
+
+  pretty-bytes@7.1.0:
+    resolution: {integrity: sha512-nODzvTiYVRGRqAOvE84Vk5JDPyyxsVk0/fbA/bq7RqlnhksGpset09XTxbpvLTIjoaF7K8Z8DG8yHtKGTPSYRw==}
+    engines: {node: '>=20'}
 
   pretty-format@30.3.0:
     resolution: {integrity: sha512-oG4T3wCbfeuvljnyAzhBvpN45E8iOTXCU/TD3zXW80HA3dQ4ahdqMkWGiPWZvjpQwlbyHrPTWUAqUzGzv4l1JQ==}
@@ -5175,6 +5182,8 @@ snapshots:
       prettier: 3.8.1
 
   prettier@3.8.1: {}
+
+  pretty-bytes@7.1.0: {}
 
   pretty-format@30.3.0:
     dependencies:
