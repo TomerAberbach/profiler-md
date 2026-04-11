@@ -22,18 +22,19 @@ const extensionToProfileConverter = new Map<string, ProfileConverter>([
     `.cpuprofile`,
     {
       type: `v8-cpu`,
-      convert: (text, { topN, cwd, thirdPartyGlobs }) =>
-        v8CpuProfileToMd(text, {
+      convert: (text, { topN, cwd, thirdPartyGlobs }) => {
+        const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
+          picomatch(glob, { dot: true }),
+        )
+        return v8CpuProfileToMd(text, {
           topN,
           cwd,
           isThirdPartyURL:
-            thirdPartyGlobs.length > 0
-              ? url =>
-                  thirdPartyGlobs.some(glob =>
-                    picomatch(glob, { dot: true })(url.pathname),
-                  )
+            thirdPartyMatchers.length > 0
+              ? url => thirdPartyMatchers.some(match => match(url.pathname))
               : undefined,
-        }),
+        })
+      },
     },
   ],
 ])
