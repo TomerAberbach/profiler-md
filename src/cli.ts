@@ -49,8 +49,6 @@ const cli = meow(
   `
   Usage: profiler-md [options] [file]
 
-  Converts a profiler output file to Markdown. Reads from stdin if no file is given.
-
   Options:
     -t, --type <type>     Profile type (auto-detected from file extension by default)
     -o, --output <file>   Output file (default: - for stdout)

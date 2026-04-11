@@ -6,8 +6,24 @@
     "email": "tomer@aberba.ch",
     "url": "https://tomeraberba.ch"
   },
-  "description": "An awesome module.",
-  "keywords": [],
+  "description": "Converts performance profiles to Markdown.",
+  "keywords": [
+    "ai",
+    "cli",
+    "cpu",
+    "deopt",
+    "deoptimization",
+    "heap",
+    "llm",
+    "markdown",
+    "md",
+    "optimization",
+    "perf",
+    "performance",
+    "profile",
+    "profiler",
+    "timing"
+  ],
   "homepage": "https://github.com/TomerAberbach/profiler-md",
   "repository": "TomerAberbach/profiler-md",
   "bugs": {
