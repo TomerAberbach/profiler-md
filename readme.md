@@ -21,14 +21,15 @@
 </div>
 
 <div align="center">
-  An awesome module.
+  Converts performance profiles to human and LLM friendly Markdown.
 </div>
 
 ## Features
 
-- **Wow:** so amazing
-- **Amazing:** so wow
-- **Fancy:** has a tie and everything
+- **Auto-detection:** infers profile type automatically
+- **Configurable:** control the number of top entries shown, working directory
+  for relative paths, and third-party URL detection
+- **CLI and API:** usable on the command-line or programmatically
 
 ## Install
 
@@ -38,11 +39,63 @@ $ npm i profiler-md
 
 ## Usage
 
-```js
-import profilerMd from 'profiler-md'
+### CLI
 
-console.log(profilerMd())
-//=> Hello World!
+<!-- CLI_HELP START -->
+
+```sh
+$ profiler-md --help
+
+  Converts performance profiles to human and LLM friendly Markdown.
+
+  Usage: profiler-md [options] [file]
+
+  Options:
+    -t, --type <type>     Profile type (auto-detected from file extension by default)
+    -o, --output <file>   Output file (default: - for stdout)
+    --top-n <n>           Number of top entries to show (default: 20)
+    --cwd <path>          Working directory for relative file paths in output
+    --third-party <glob>  Mark URLs matching this glob as third-party (repeatable; default: node_modules)
+    --help                Show this help message
+
+  Supported profile types:
+    *.cpuprofile -> v8-cpu
+```
+
+<!-- CLI_HELP END -->
+
+### API
+
+```js
+import { readFile } from 'node:fs/promises'
+import {
+  defaultIncludeCallFrame,
+  defaultIsThirdPartyURL,
+  v8CpuProfileToMd,
+} from 'profiler-md'
+
+const text = await readFile(`profile.cpuprofile`, `utf8`)
+
+// Basic usage
+const markdown1 = v8CpuProfileToMd(text)
+console.log(markdown1)
+
+// Complex usage
+const markdown2 = v8CpuProfileToMd(text, {
+  // Show top 10 functions instead of the default 20.
+  topN: 10,
+  // Make make paths relative to a custom directory.
+  cwd: `/path/to/project`,
+  isThirdPartyURL: url =>
+    defaultIsThirdPartyURL(url) ||
+    // Treat an additional vendor directory as third-party.
+    url.pathname.includes(`/vendor/`),
+  includeCallFrame: callFrame =>
+    defaultIncludeCallFrame(callFrame) &&
+    // Exclude frames from a specific file.
+    callFrame.url?.pathname !== `/path/to/project/src/noisy.js`,
+})
+console.log(markdown2)
 ```
 
 ## Contributing

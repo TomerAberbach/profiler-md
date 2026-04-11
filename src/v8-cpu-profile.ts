@@ -31,7 +31,7 @@ export type V8CpuProfileToMdOptions = {
    *
    * Excluding the call frame does not exclude it from time computations.
    *
-   * Defaults to {@link defaultIncludeV8CpuProfileCallFrame}.
+   * Defaults to {@link defaultIncludeCallFrame}.
    */
   includeCallFrame?: (frame: V8CpuProfileCallFrame) => boolean
 
@@ -91,7 +91,7 @@ type NormalizedV8CpuProfileToMdOptions = {
 
 const normalizeProfileOptions = ({
   topN = 20,
-  includeCallFrame = defaultIncludeV8CpuProfileCallFrame,
+  includeCallFrame = defaultIncludeCallFrame,
   isThirdPartyURL = defaultIsThirdPartyURL,
   cwd,
 }: V8CpuProfileToMdOptions = {}): NormalizedV8CpuProfileToMdOptions => {
@@ -121,7 +121,7 @@ const normalizeProfileOptions = ({
  * display. For example, Node internals related to loading ESM loading are
  * excluded.
  */
-export const defaultIncludeV8CpuProfileCallFrame = (
+export const defaultIncludeCallFrame = (
   callFrame: V8CpuProfileCallFrame,
 ): boolean => {
   const { functionName, url } = callFrame

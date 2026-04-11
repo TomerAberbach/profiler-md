@@ -6,7 +6,7 @@
     "email": "tomer@aberba.ch",
     "url": "https://tomeraberba.ch"
   },
-  "description": "Converts performance profiles to Markdown.",
+  "description": "Converts performance profiles to human and LLM friendly Markdown.",
   "keywords": [
     "ai",
     "cli",
@@ -59,6 +59,8 @@
     "coverage": "vitest --coverage",
     "bench": "vitest bench",
     "build": "tsdown",
+    "update-readme": "node scripts/update-readme.js",
+    "check-readme": "node scripts/update-readme.js --check",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",

@@ -48,3 +48,6 @@ jobs:
 
       - name: Test
         run: pnpm coverage
+
+      - name: Check readme
+        run: pnpm check-readme
