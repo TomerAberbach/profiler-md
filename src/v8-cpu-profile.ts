@@ -4,58 +4,19 @@ import {
   formatPercent,
 } from './internal/format.ts'
 import { formatTable, inlineCode } from './internal/markdown.ts'
-
-/** A single call frame in a V8 CPU profile. */
-export type V8CpuProfileCallFrame = {
-  /** The name of the function, or undefined for anonymous functions. */
-  functionName?: string
-
-  /**
-   * The URL of the script this frame belongs to, or undefined if it's native
-   * code.
-   */
-  url?: URL
-}
-
-/** Options for {@link v8CpuProfileToMd}. */
-export type V8CpuProfileToMdOptions = {
-  /**
-   * The number of entries to display when computing the "top N" by some metric.
-   *
-   * Defaults to 20.
-   */
-  topN?: number
-
-  /**
-   * Whether to include the given {@link callFrame} in the Markdown output.
-   *
-   * Excluding the call frame does not exclude it from time computations.
-   *
-   * Defaults to {@link defaultIncludeCallFrame}.
-   */
-  includeCallFrame?: (frame: V8CpuProfileCallFrame) => boolean
-
-  /**
-   * Whether the given {@link url} points to third-party code.
-   *
-   * This is used compute summaries in the Markdown output and make other
-   * decisions about what's important to display.
-   *
-   * Defaults to {@link defaultIsThirdPartyURL}.
-   */
-  isThirdPartyURL?: (url: URL) => boolean
-
-  /**
-   * The current working directory to use to make file paths relative in the
-   * Markdown output.
-   *
-   * A value of `null` indicates that the paths should be absolute.
-   *
-   * Defaults to `process.cwd()` when available. Otherwise leaves paths
-   * absolute.
-   */
-  cwd?: string | null
-}
+import {
+  callFrameKey,
+  categorizeCallFrame,
+  findCommonCallStack,
+  formatCallFrameLocation,
+  formatCallStack,
+  normalizeV8ProfileToMdOptions,
+} from './v8.ts'
+import type {
+  CallFrame,
+  NormalizedV8ProfileToMdOptions,
+  V8ProfileToMdOptions,
+} from './v8.ts'
 
 /**
  * Converts the given V8 CPU profile to Markdown.
@@ -72,96 +33,12 @@ export type V8CpuProfileToMdOptions = {
  */
 export const v8CpuProfileToMd = (
   text: string,
-  options?: V8CpuProfileToMdOptions,
+  options?: V8ProfileToMdOptions,
 ): string => {
-  const normalizedOptions = normalizeProfileOptions(options)
+  const normalizedOptions = normalizeV8ProfileToMdOptions(options)
   const profile = parseProfile(text)
   const summary = summarizeProfile(profile, normalizedOptions)
-  const markdown = formatProfileSummary(summary, normalizedOptions)
-  return markdown
-}
-
-/** {@link V8CpuProfileToMdOptions} with defaults applied. */
-type NormalizedV8CpuProfileToMdOptions = {
-  topN: number
-  includeCallFrame: (callFrame: CallFrame) => boolean
-  isThirdPartyURL: (url: URL) => boolean
-  cwd: string | undefined
-}
-
-const normalizeProfileOptions = ({
-  topN = 20,
-  includeCallFrame = defaultIncludeCallFrame,
-  isThirdPartyURL = defaultIsThirdPartyURL,
-  cwd,
-}: V8CpuProfileToMdOptions = {}): NormalizedV8CpuProfileToMdOptions => {
-  if (cwd === undefined && typeof process !== `undefined`) {
-    cwd = process.cwd()
-  }
-  if (cwd != null && !cwd.endsWith(`/`)) {
-    cwd = `${cwd}/`
-  }
-  return {
-    topN,
-    includeCallFrame: callFrame =>
-      includeCallFrame(toV8CpuProfileCallFrame(callFrame)),
-    isThirdPartyURL,
-    cwd: cwd ?? undefined,
-  }
-}
-
-/**
- * Returns whether to include the given {@link callFrame} in the Markdown
- * output.
- *
- * This is the default value for
- * {@link V8CpuProfileToMdOptions.includeCallFrame}.
- *
- * It makes reasonable assumptions about which call frames are uninteresting to
- * display. For example, Node internals related to loading ESM loading are
- * excluded.
- */
-export const defaultIncludeCallFrame = (
-  callFrame: V8CpuProfileCallFrame,
-): boolean => {
-  const { functionName, url } = callFrame
-
-  if (functionName === `(root)`) {
-    return false
-  }
-
-  if (url?.protocol === `node:` && url.pathname.startsWith(`internal/`)) {
-    // Exclude internal Node call frames. They are rarely actionable and when
-    // they _are_ actionable, they are preceded by some public Node call frame
-    // that isn't filtered (e.g. `node:fs`).
-    return false
-  }
-
-  return true
-}
-
-/**
- * Returns whether the given {@link url} points to third-party code.
- *
- * This is the default value for {@link V8CpuProfileToMdOptions.isThirdPartyURL}.
- *
- * Excludes `node_modules` only by default.
- */
-export const defaultIsThirdPartyURL = (url: URL): boolean =>
-  url.pathname.includes(`/node_modules/`)
-
-const toV8CpuProfileCallFrame = (
-  callFrame: CallFrame,
-): V8CpuProfileCallFrame => {
-  let url: URL | undefined
-  try {
-    url = new URL(callFrame.url)
-  } catch {}
-
-  return {
-    functionName: callFrame.functionName || undefined,
-    url,
-  }
+  return formatProfileSummary(summary, normalizedOptions)
 }
 
 /**
@@ -201,23 +78,6 @@ type ProfileNode = {
   positionTicks?: PositionTick[]
 }
 
-type CallFrame = {
-  /** The name of the function, or an empty string for anonymous functions. */
-  functionName: string
-
-  /** The ID of the script this frame belongs to. */
-  scriptId: number
-
-  /** The URL of the script this frame belongs to. */
-  url: string
-
-  /** The 0-based line number of the code corresponding to this frame. */
-  lineNumber: number
-
-  /** The 0-based column number of the code corresponding to this frame. */
-  columnNumber: number
-}
-
 type PositionTick = {
   /** The 1-based line number of the code corresponding to this position. */
   line: number
@@ -250,7 +110,7 @@ type CallFrameSummary = {
 
 const summarizeProfile = (
   profile: CpuProfile,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): CpuProfileSummary => {
   const graph = computeProfileNodeGraph(profile)
   const times = computeProfileTimes(profile, graph, options)
@@ -269,46 +129,6 @@ const summarizeProfile = (
     nodes,
     callStacks,
   }
-}
-
-const categorizeCallFrame = (
-  callFrame: CallFrame,
-  { isThirdPartyURL }: NormalizedV8CpuProfileToMdOptions,
-): string => {
-  if (!callFrame.url) {
-    const { functionName } = callFrame
-    if (functionName.startsWith(`(`) && functionName.endsWith(`)`)) {
-      // This is a special sentinel function name like `(garbage collector)`,
-      // `(idle)`, etc.
-      return functionName.slice(1, -1)
-    }
-
-    if (functionName.startsWith(`RegExp: `)) {
-      return `regexp`
-    }
-
-    return `native`
-  }
-
-  let urlObject: URL
-  try {
-    urlObject = new URL(callFrame.url)
-  } catch {
-    return `native`
-  }
-
-  if (urlObject.protocol !== `file:`) {
-    return `native`
-  }
-
-  return isThirdPartyURL(urlObject) ? `third-party` : `ours`
-}
-
-type CallStackSummary = {
-  /** Total time spent on this exact call stack in microseconds. */
-  selfTime: number
-  /** Call frames from innermost callee to outermost caller. */
-  frames: CallFrame[]
 }
 
 type ProfileNodeGraph = {
@@ -394,7 +214,7 @@ type ProfileTimes = {
 const computeProfileTimes = (
   profile: CpuProfile,
   graph: ProfileNodeGraph,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): ProfileTimes => {
   const totalTime = profile.timeDeltas.reduce(
     (delta1, delta2) => delta1 + delta2,
@@ -518,10 +338,10 @@ const summarizeProfileNode = (
   node: ProfileNode,
   graph: ProfileNodeGraph,
   times: ProfileTimes,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): ProfileNodeSummary => {
   const { id, callFrame, positionTicks } = node
-  const location = callFrameLocation(callFrame, options)
+  const location = formatCallFrameLocation(callFrame, options)
   const hottestLine = positionTicks?.length
     ? positionTicks.reduce((tick1, tick2) =>
         tick2.ticks > tick1.ticks ? tick2 : tick1,
@@ -530,15 +350,23 @@ const summarizeProfileNode = (
 
   const callerToSelfTime = times.idToCallerToSelfTime.get(id)
   const callers = callerToSelfTime
-    ? Array.from(callerToSelfTime, ([callerId, callerTime]) =>
-        summarizeCallFrame(callerId, callerTime, graph, options),
-      )
+    ? [...callerToSelfTime]
+        .filter(([callerId]) =>
+          options.includeCallFrame(graph.idToNode.get(callerId)!.callFrame),
+        )
+        .map(([callerId, callerTime]) =>
+          summarizeCallFrame(callerId, callerTime, graph, options),
+        )
     : []
   const calleeToTotalTime = times.idToCalleeToTotalTime.get(id)
   const callees = calleeToTotalTime
-    ? Array.from(calleeToTotalTime, ([calleeId, calleeTime]) =>
-        summarizeCallFrame(calleeId, calleeTime, graph, options),
-      )
+    ? [...calleeToTotalTime]
+        .filter(([calleeId]) =>
+          options.includeCallFrame(graph.idToNode.get(calleeId)!.callFrame),
+        )
+        .map(([calleeId, calleeTime]) =>
+          summarizeCallFrame(calleeId, calleeTime, graph, options),
+        )
     : []
 
   return {
@@ -556,20 +384,27 @@ const summarizeCallFrame = (
   nodeId: number,
   time: number,
   graph: ProfileNodeGraph,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): CallFrameSummary => {
   const node = graph.idToNode.get(nodeId)!
   return {
     functionName: node.callFrame.functionName || `(anonymous)`,
-    location: callFrameLocation(node.callFrame, options),
+    location: formatCallFrameLocation(node.callFrame, options),
     time,
   }
+}
+
+type CallStackSummary = {
+  /** Total time spent on this exact call stack in microseconds. */
+  selfTime: number
+  /** Call frames from innermost callee to outermost caller. */
+  frames: CallFrame[]
 }
 
 const summarizeCallStacks = (
   profile: CpuProfile,
   graph: ProfileNodeGraph,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): CallStackSummary[] => {
   const pathMap = new Map<string, CallStackSummary>()
 
@@ -586,7 +421,7 @@ const summarizeCallStacks = (
       continue
     }
 
-    const key = callStack.map(node => node.id).join(`,`)
+    const key = frames.map(callFrameKey).join(`,`)
     let existing = pathMap.get(key)
     if (!existing) {
       existing = { selfTime: 0, frames }
@@ -600,10 +435,10 @@ const summarizeCallStacks = (
 
 const formatProfileSummary = (
   summary: CpuProfileSummary,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): string =>
   `${[
-    `# CPU Profile`,
+    `# CPU profile`,
     formatOverallProfileSummary(summary),
     formatHottestFunctions(summary, options),
     formatHottestCallStacks(summary, options),
@@ -637,7 +472,7 @@ const formatOverallProfileSummary = ({
 
 const formatHottestFunctions = (
   summary: CpuProfileSummary,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): string =>
   [
     `## Hottest functions`,
@@ -647,7 +482,7 @@ const formatHottestFunctions = (
 
 const formatHottestSelfTimeFunctions = (
   summary: CpuProfileSummary,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const { topN } = options
 
@@ -693,7 +528,7 @@ const formatHottestSelfTimeFunctions = (
 
 const formatHottestCallers = (
   node: ProfileNodeSummary,
-  { topN }: NormalizedV8CpuProfileToMdOptions,
+  { topN }: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestCallers = node.callers
     .toSorted((caller1, caller2) => caller2.time - caller1.time)
@@ -719,7 +554,7 @@ const formatHottestCallers = (
 
 const formatHottestTotalTimeFunctions = (
   summary: CpuProfileSummary,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const { topN } = options
 
@@ -763,7 +598,7 @@ const formatHottestTotalTimeFunctions = (
 
 const formatHottestCallees = (
   node: ProfileNodeSummary,
-  { topN }: NormalizedV8CpuProfileToMdOptions,
+  { topN }: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestCallees = node.callees
     .toSorted((callee1, callee2) => callee2.time - callee1.time)
@@ -789,7 +624,7 @@ const formatHottestCallees = (
 
 const formatHottestCallStacks = (
   summary: CpuProfileSummary,
-  options: NormalizedV8CpuProfileToMdOptions,
+  options: NormalizedV8ProfileToMdOptions,
 ): string | null => {
   const hottestCallStacks = summary.callStacks
     .toSorted((path1, path2) => path2.selfTime - path1.selfTime)
@@ -823,78 +658,4 @@ const formatHottestCallStacks = (
       ]),
     ),
   ].join(`\n\n`)
-}
-
-const findCommonCallStack = (callStacks: CallStackSummary[]): CallFrame[] => {
-  if (callStacks.length <= 1) {
-    return []
-  }
-
-  const minLength = Math.min(
-    ...callStacks.map(callStack => callStack.frames.length),
-  )
-  const firstFrames = callStacks[0]!.frames
-  let suffixLength = 0
-
-  for (let i = 1; i < minLength; i++) {
-    const suffix = firstFrames.slice(-i).map(callFrameId)
-    if (
-      callStacks.every(callStack =>
-        callStack.frames
-          .slice(-i)
-          .every((frame, j) => callFrameId(frame) === suffix[j]),
-      )
-    ) {
-      suffixLength = i
-    } else {
-      break
-    }
-  }
-
-  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
-}
-
-const callFrameId = (frame: CallFrame): string =>
-  `${frame.functionName}|${frame.url}|${frame.lineNumber}|${frame.columnNumber}`
-
-const formatCallStack = (
-  frames: CallFrame[],
-  options: NormalizedV8CpuProfileToMdOptions,
-): string =>
-  frames
-    .map((callFrame, index) => {
-      const name = inlineCode(callFrame.functionName || `(anonymous)`)
-      if (!callFrame.url) {
-        return name
-      }
-      const previousUrl = frames[index - 1]?.url
-      const location =
-        callFrame.url === previousUrl
-          ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
-          : callFrameLocation(callFrame, options)
-      return `${name} (${location})`
-    })
-    .join(` ← `)
-
-const callFrameLocation = (
-  callFrame: CallFrame,
-  { cwd }: NormalizedV8CpuProfileToMdOptions,
-): string => {
-  let urlObject: URL
-  try {
-    urlObject = new URL(callFrame.url)
-  } catch {
-    return callFrame.url || `[unknown]`
-  }
-
-  if (urlObject.protocol !== `file:`) {
-    return callFrame.url || `[unknown]`
-  }
-
-  let path = urlObject.pathname
-  if (cwd !== undefined && path.startsWith(cwd)) {
-    path = path.slice(cwd.length)
-  }
-
-  return `${path}:${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
 }

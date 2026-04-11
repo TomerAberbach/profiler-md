@@ -59,14 +59,17 @@
     "coverage": "vitest --coverage",
     "bench": "vitest bench",
     "build": "tsdown",
-    "update-readme": "node scripts/update-readme.js",
-    "check-readme": "node scripts/update-readme.js --check",
+    "update-readme": "node scripts/update-readme.ts",
+    "check-readme": "node scripts/update-readme.ts --check",
+    "update-examples": "node scripts/update-examples.ts",
+    "check-examples": "node scripts/update-examples.ts --check",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",
   "dependencies": {
     "meow": "^14.1.0",
-    "picomatch": "^4.0.4"
+    "picomatch": "^4.0.4",
+    "pretty-bytes": "^7.1.0"
   },
   "devDependencies": {
     "@fast-check/vitest": "^0.4.0",

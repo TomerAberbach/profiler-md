@@ -1,11 +1,7 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
+import { readFixture } from './testing/fixtures.ts'
 import { v8CpuProfileToMd } from './v8-cpu-profile.ts'
-
-const readFixture = (name: string): Promise<string> =>
-  fs.readFile(path.join(import.meta.dirname, `fixtures/${name}`), `utf8`)
 
 test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
   const profile = JSON.stringify({
@@ -80,7 +76,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
   // `funcB` appears as two separate nodes (called from `funcA` and `funcC`), so
   // it should be merged into a single row with combined times.
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
@@ -224,7 +220,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
   // Node 4 has ticks on line 5 (2 ticks), node 5 has ticks on line 8 (3 ticks).
   // After merging, hottest line should be 8.
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
@@ -343,7 +339,7 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
   // `funcA` calls itself recursively (two nodes, same identity). Total time
   // should be counted once per sample, not twice.
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
@@ -482,7 +478,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
   // and 6 (1). Line 5's ticks must be summed (1+3=4), making line 5 the
   // hottest. Without summing, line 8 (ticks=3) would incorrectly win.
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
@@ -588,7 +584,7 @@ test(`v8CpuProfileToMd displays empty functionName as (anonymous)`, () => {
 
   // A node with an empty functionName should display as `(anonymous)`.
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
@@ -605,16 +601,6 @@ test(`v8CpuProfileToMd displays empty functionName as (anonymous)`, () => {
     | Self % |  Self | Total % | Total | Function      | Location      | Hottest line |
     | -----: | ----: | ------: | ----: | ------------- | ------------- | ------------ |
     | 100.0% | 0.1ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:11:6 | [unknown]    |
-
-    #### Callers
-
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
-
-    ##### \`(anonymous)\` (src/a.ts:11:6)
-
-    | Self % |  Self | Caller   | Location  |
-    | -----: | ----: | -------- | --------- |
-    | 100.0% | 0.1ms | \`(root)\` | [unknown] |
 
     ### Total time
 
@@ -635,7 +621,7 @@ test(`v8CpuProfileToMd fixture`, async () => {
   })
 
   expect(markdown).toMatchInlineSnapshot(`
-    "# CPU Profile
+    "# CPU profile
 
     Took 6176.2ms over 47806 samples (129.2µs per sample).
 
@@ -688,7 +674,6 @@ test(`v8CpuProfileToMd fixture`, async () => {
     | -----: | ------: | ---------------- | ---------------------- |
     |  99.7% | 963.3ms | \`traverse\`       | src/index.ts:164:20    |
     |   0.1% |   1.2ms | \`traverseObject\` | src/index.ts:204:26    |
-    |   0.1% |   1.0ms | \`(root)\`         | [unknown]              |
     |   0.1% |   0.6ms | \`(anonymous)\`    | scripts/profile.ts:1:1 |
     |   0.0% |   0.1ms | \`uneval\`         | src/index.ts:75:16     |
 
@@ -698,14 +683,12 @@ test(`v8CpuProfileToMd fixture`, async () => {
     | -----: | ------: | ---------------------- | ---------------------------- |
     |  99.8% | 925.3ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
     |   0.1% |   0.8ms | \`unevalObject\`         | src/internal/object.ts:20:29 |
-    |   0.1% |   0.8ms | \`(root)\`               | [unknown]                    |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
     | Self % |    Self | Caller                 | Location                      |
     | -----: | ------: | ---------------------- | ----------------------------- |
     |  99.4% | 524.1ms | \`unevalObject\`         | src/internal/object.ts:20:29  |
-    |   0.3% |   1.8ms | \`(root)\`               | [unknown]                     |
     |   0.1% |   0.5ms | \`uneval\`               | src/index.ts:75:16            |
     |   0.1% |   0.4ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26 |
     |   0.0% |   0.3ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30  |
@@ -741,7 +724,6 @@ test(`v8CpuProfileToMd fixture`, async () => {
     | -----: | ------: | ---------------------- | ---------------------------- |
     |  99.6% | 358.1ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
     |   0.3% |   0.9ms | \`unevalObject\`         | src/internal/object.ts:20:29 |
-    |   0.1% |   0.5ms | \`(root)\`               | [unknown]                    |
 
     ##### \`unevalInternal\` (src/internal/index.ts:25:32)
 
@@ -778,18 +760,6 @@ test(`v8CpuProfileToMd fixture`, async () => {
     | -----: | ------: | ------------------------ | ----------------------------- |
     | 100.0% | 127.4ms | \`unevalObjectLiteralKey\` | src/internal/object.ts:384:32 |
 
-    ##### \`(garbage collector)\` ([unknown])
-
-    | Self % |    Self | Caller   | Location  |
-    | -----: | ------: | -------- | --------- |
-    | 100.0% | 106.3ms | \`(root)\` | [unknown] |
-
-    ##### \`(program)\` ([unknown])
-
-    | Self % |    Self | Caller   | Location  |
-    | -----: | ------: | -------- | --------- |
-    | 100.0% | 104.4ms | \`(root)\` | [unknown] |
-
     ##### \`unevalString\` (src/internal/primitive.ts:133:29)
 
     | Self % |   Self | Caller           | Location                    |
@@ -804,11 +774,9 @@ test(`v8CpuProfileToMd fixture`, async () => {
 
     ##### \`uneval\` (src/index.ts:75:16)
 
-    | Self % |   Self | Caller        | Location                             |
-    | -----: | -----: | ------------- | ------------------------------------ |
-    |  97.5% | 39.9ms | \`(anonymous)\` | scripts/profile.ts:1:1               |
-    |   1.3% |  0.5ms | \`(root)\`      | [unknown]                            |
-    |   1.3% |  0.5ms | \`run\`         | node:internal/modules/esm/module_job |
+    | Self % |   Self | Caller        | Location               |
+    | -----: | -----: | ------------- | ---------------------- |
+    |  97.5% | 39.9ms | \`(anonymous)\` | scripts/profile.ts:1:1 |
 
     ##### \`isObject\` (src/internal/object.ts:434:25)
 

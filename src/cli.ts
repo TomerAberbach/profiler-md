@@ -4,7 +4,7 @@ import { extname } from 'node:path'
 import type { Writable } from 'node:stream'
 import meow from 'meow'
 import picomatch from 'picomatch'
-import { v8CpuProfileToMd } from './index.ts'
+import { v8CpuProfileToMd, v8HeapProfileToMd } from './index.ts'
 
 type ResolvedCliOptions = {
   topN: number | undefined
@@ -27,6 +27,25 @@ const extensionToProfileConverter = new Map<string, ProfileConverter>([
           picomatch(glob, { dot: true }),
         )
         return v8CpuProfileToMd(text, {
+          topN,
+          cwd,
+          isThirdPartyURL:
+            thirdPartyMatchers.length > 0
+              ? url => thirdPartyMatchers.some(match => match(url.pathname))
+              : undefined,
+        })
+      },
+    },
+  ],
+  [
+    `.heapprofile`,
+    {
+      type: `v8-heap`,
+      convert: (text, { topN, cwd, thirdPartyGlobs }) => {
+        const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
+          picomatch(glob, { dot: true }),
+        )
+        return v8HeapProfileToMd(text, {
           topN,
           cwd,
           isThirdPartyURL:

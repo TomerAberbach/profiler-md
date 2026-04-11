@@ -54,6 +54,7 @@ $ profiler-md --help
 
   Supported profile types:
     *.cpuprofile -> v8-cpu
+    *.heapprofile -> v8-heap
 ```
 
 <!-- CLI_HELP END -->
@@ -66,19 +67,21 @@ import {
   defaultIncludeCallFrame,
   defaultIsThirdPartyURL,
   v8CpuProfileToMd,
+  v8HeapProfileToMd,
 } from 'profiler-md'
 
-const text = await readFile(`profile.cpuprofile`, `utf8`)
+const cpuText = await readFile(`profile.cpuprofile`, `utf8`)
+const heapText = await readFile(`profile.heapprofile`, `utf8`)
 
 // Basic usage
-const markdown1 = v8CpuProfileToMd(text)
-console.log(markdown1)
+console.log(v8CpuProfileToMd(cpuText))
+console.log(v8HeapProfileToMd(heapText))
 
 // Complex usage
-const markdown2 = v8CpuProfileToMd(text, {
+const options = {
   // Show top 10 functions instead of the default 20.
   topN: 10,
-  // Make make paths relative to a custom directory.
+  // Make paths relative to a custom directory.
   cwd: `/path/to/project`,
   isThirdPartyURL: url =>
     defaultIsThirdPartyURL(url) ||
@@ -88,8 +91,9 @@ const markdown2 = v8CpuProfileToMd(text, {
     defaultIncludeCallFrame(callFrame) &&
     // Exclude frames from a specific file.
     callFrame.url?.pathname !== `/path/to/project/src/noisy.js`,
-})
-console.log(markdown2)
+}
+console.log(v8CpuProfileToMd(cpuText, options))
+console.log(v8HeapProfileToMd(heapText, options))
 ```
 
 ## Contributing
