@@ -25,6 +25,9 @@
   "engines": {
     "node": ">= 22"
   },
+  "bin": {
+    "profiler-md": "./dist/cli.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -43,11 +46,16 @@
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",
+  "dependencies": {
+    "meow": "^14.1.0",
+    "picomatch": "^4.0.4"
+  },
   "devDependencies": {
     "@fast-check/vitest": "^0.4.0",
     "@rollup/plugin-terser": "^1.0.0",
     "@tomer/eslint-config": "^5.0.0",
     "@tomer/prettier-config": "^4.0.1",
+    "@types/picomatch": "^4.0.3",
     "@vitest/coverage-v8": "^4.1.3",
     "eslint": "^10.2.0",
     "jest-extended": "^7.0.0",

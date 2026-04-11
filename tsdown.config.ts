@@ -34,4 +34,11 @@ export default defineConfig([
     entry: `src/index.ts`,
     dts: { emitDtsOnly: true },
   },
+  {
+    entry: `src/cli.ts`,
+    platform: `node`,
+    dts: false,
+    minify: false,
+    banner: { js: `#!/usr/bin/env node` },
+  },
 ])
