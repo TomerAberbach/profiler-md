@@ -98,11 +98,11 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
-    | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 | [unknown]    |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 | [unknown]    |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 | [unknown]    |
+    | Self % |  Self | Total % | Total | Function | Location     |
+    | -----: | ----: | ------: | ----: | -------- | ------------ |
+    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callers
 
@@ -337,9 +337,9 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
-    | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
-    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 | [unknown]    |
+    | Self % |  Self | Total % | Total | Function | Location     |
+    | -----: | ----: | ------: | ----: | -------- | ------------ |
+    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 |
 
     #### Callers
 
@@ -583,11 +583,11 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function      | Location      | Hottest line |
-    | -----: | ----: | ------: | ----: | ------------- | ------------- | ------------ |
-    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`allocate\`    | src/a.ts:31:1 | [unknown]    |
-    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:11:1 | [unknown]    |
-    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:21:1 | [unknown]    |
+    | Self % |  Self | Total % | Total | Function      | Location      |
+    | -----: | ----: | ------: | ----: | ------------- | ------------- |
+    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`allocate\`    | src/a.ts:31:1 |
+    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:11:1 |
+    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:21:1 |
 
     #### Callers
 
@@ -699,11 +699,11 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function     | Location                      | Hottest line |
-    | -----: | ----: | ------: | ----: | ------------ | ----------------------------- | ------------ |
-    |  57.1% | 1.0ms |  100.0% | 1.8ms | \`ownFunc\`    | src/index.ts:1:1              | [unknown]    |
-    |  28.6% | 0.5ms |   42.9% | 0.8ms | \`thirdParty\` | node_modules/lib/index.js:1:1 | [unknown]    |
-    |  14.3% | 0.3ms |   14.3% | 0.3ms | \`allocate\`   | src/util.ts:1:1               | [unknown]    |
+    | Self % |  Self | Total % | Total | Function     | Location                      |
+    | -----: | ----: | ------: | ----: | ------------ | ----------------------------- |
+    |  57.1% | 1.0ms |  100.0% | 1.8ms | \`ownFunc\`    | src/index.ts:1:1              |
+    |  28.6% | 0.5ms |   42.9% | 0.8ms | \`thirdParty\` | node_modules/lib/index.js:1:1 |
+    |  14.3% | 0.3ms |   14.3% | 0.3ms | \`allocate\`   | src/util.ts:1:1               |
 
     #### Callers
 

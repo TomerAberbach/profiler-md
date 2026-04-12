@@ -486,6 +486,11 @@ const formatHottestSelfTimeFunctions = (
 ): string => {
   const { topN } = options
 
+  // Some CPU profiles never have `positionTicks` (e.g. `bun`).
+  const hasHottestLines = summary.nodes.some(
+    node => node.hottestLine !== undefined,
+  )
+
   const hottestSelfTimeNodes = summary.nodes
     .toSorted((node1, node2) => node2.selfTime - node1.selfTime)
     .slice(0, topN)
@@ -504,7 +509,7 @@ const formatHottestSelfTimeFunctions = (
         { content: `Total`, align: `right` },
         `Function`,
         `Location`,
-        `Hottest line`,
+        ...(hasHottestLines ? [`Hottest line`] : []),
       ],
       hottestSelfTimeNodes.map(node => [
         formatPercent(node.selfTime / summary.totalTime),
@@ -513,7 +518,7 @@ const formatHottestSelfTimeFunctions = (
         formatMilliseconds(node.totalTime),
         inlineCode(node.functionName),
         node.location,
-        String(node.hottestLine ?? `[unknown]`),
+        ...(hasHottestLines ? [String(node.hottestLine ?? `[unknown]`)] : []),
       ]),
     ),
     ...(hottestCallerSections.length > 0

@@ -14,28 +14,28 @@ Took 10338.4ms over 64273 samples (160.9µs per sample).
 
 Functions ranked by time in the function body, excluding callees.
 
-| Self % |     Self | Total % |    Total | Function                                    | Location                         | Hottest line |
-| -----: | -------: | ------: | -------: | ------------------------------------------- | -------------------------------- | ------------ |
-|  24.2% | 2505.2ms |   24.2% | 2505.2ms | `unevalLiteral`                             | src/internal/primitive.ts:149:22 | [unknown]    |
-|  12.8% | 1323.0ms |   12.8% | 1323.0ms | `join`                                      | [unknown]                        | [unknown]    |
-|   8.2% |  851.5ms |    8.2% |  851.5ms | `getOwnPropertyDescriptor`                  | [unknown]                        | [unknown]    |
-|   6.6% |  685.1ms |    6.6% |  685.1ms | `unevalNumber`                              | src/internal/primitive.ts:23:22  | [unknown]    |
-|   3.9% |  398.2ms |    3.9% |  398.2ms | `traverseObject`                            | src/index.ts:246:28              | [unknown]    |
-|   3.0% |  308.3ms |    3.0% |  308.3ms | `traverseObject`                            | src/index.ts:249:20              | [unknown]    |
-|   2.9% |  299.9ms |    2.9% |  299.9ms | `getType`                                   | src/internal/type.ts:18:18       | [unknown]    |
-|   2.6% |  265.9ms |    2.6% |  265.9ms | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | [unknown]                        | [unknown]    |
-|   2.2% |  232.5ms |    2.2% |  232.5ms | `unevalNumber`                              | src/internal/primitive.ts:26:24  | [unknown]    |
-|   1.9% |  201.4ms |    1.9% |  201.4ms | `traverseObject`                            | src/index.ts:209:12              | [unknown]    |
-|   1.8% |  186.5ms |   10.0% | 1037.2ms | `traverseObject`                            | src/index.ts:220:36              | [unknown]    |
-|   1.6% |  163.3ms |    1.6% |  168.4ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:407:8     | [unknown]    |
-|   1.5% |  155.2ms |    1.5% |  156.0ms | `traverse`                                  | src/index.ts:200:19              | [unknown]    |
-|   1.5% |  150.9ms |   28.5% | 2949.9ms | `unevalString`                              | src/internal/primitive.ts:135:8  | [unknown]    |
-|   1.4% |  148.5ms |   16.8% | 1732.9ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:427:22    | [unknown]    |
-|   1.3% |  137.5ms |   68.8% | 7116.1ms | `uneval`                                    | src/index.ts:78:19               | [unknown]    |
-|   1.2% |  124.3ms |    3.8% |  390.1ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:423:25    | [unknown]    |
-|   1.1% |  118.7ms |    1.1% |  118.7ms | `unevalBoolean`                             | src/internal/primitive.ts:11:8   | [unknown]    |
-|   1.1% |  111.2ms |    1.1% |  111.2ms | `unevalObjectLike`                          | src/internal/object.ts:143:32    | [unknown]    |
-|   1.0% |  107.2ms |    1.0% |  107.6ms | `traverseObject`                            | src/index.ts:211:29              | [unknown]    |
+| Self % |     Self | Total % |    Total | Function                                    | Location                         |
+| -----: | -------: | ------: | -------: | ------------------------------------------- | -------------------------------- |
+|  24.2% | 2505.2ms |   24.2% | 2505.2ms | `unevalLiteral`                             | src/internal/primitive.ts:149:22 |
+|  12.8% | 1323.0ms |   12.8% | 1323.0ms | `join`                                      | [unknown]                        |
+|   8.2% |  851.5ms |    8.2% |  851.5ms | `getOwnPropertyDescriptor`                  | [unknown]                        |
+|   6.6% |  685.1ms |    6.6% |  685.1ms | `unevalNumber`                              | src/internal/primitive.ts:23:22  |
+|   3.9% |  398.2ms |    3.9% |  398.2ms | `traverseObject`                            | src/index.ts:246:28              |
+|   3.0% |  308.3ms |    3.0% |  308.3ms | `traverseObject`                            | src/index.ts:249:20              |
+|   2.9% |  299.9ms |    2.9% |  299.9ms | `getType`                                   | src/internal/type.ts:18:18       |
+|   2.6% |  265.9ms |    2.6% |  265.9ms | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | [unknown]                        |
+|   2.2% |  232.5ms |    2.2% |  232.5ms | `unevalNumber`                              | src/internal/primitive.ts:26:24  |
+|   1.9% |  201.4ms |    1.9% |  201.4ms | `traverseObject`                            | src/index.ts:209:12              |
+|   1.8% |  186.5ms |   10.0% | 1037.2ms | `traverseObject`                            | src/index.ts:220:36              |
+|   1.6% |  163.3ms |    1.6% |  168.4ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:407:8     |
+|   1.5% |  155.2ms |    1.5% |  156.0ms | `traverse`                                  | src/index.ts:200:19              |
+|   1.5% |  150.9ms |   28.5% | 2949.9ms | `unevalString`                              | src/internal/primitive.ts:135:8  |
+|   1.4% |  148.5ms |   16.8% | 1732.9ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:427:22    |
+|   1.3% |  137.5ms |   68.8% | 7116.1ms | `uneval`                                    | src/index.ts:78:19               |
+|   1.2% |  124.3ms |    3.8% |  390.1ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:423:25    |
+|   1.1% |  118.7ms |    1.1% |  118.7ms | `unevalBoolean`                             | src/internal/primitive.ts:11:8   |
+|   1.1% |  111.2ms |    1.1% |  111.2ms | `unevalObjectLike`                          | src/internal/object.ts:143:32    |
+|   1.0% |  107.2ms |    1.0% |  107.6ms | `traverseObject`                            | src/index.ts:211:29              |
 
 #### Callers
 
