@@ -1,5 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-export const readFixture = (name: string): Promise<string> =>
-  fs.readFile(path.join(import.meta.dirname, `../fixtures/${name}`), `utf8`)
+export const fixturePath = (filename: string): string =>
+  path.join(import.meta.dirname, `../fixtures/${filename}`)
+
+export const readFixture = (filename: string): Promise<string> =>
+  fs.readFile(fixturePath(filename), `utf8`)

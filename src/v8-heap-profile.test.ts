@@ -19,37 +19,61 @@ const root = (children: object[]) => ({
   children,
 })
 
-const node = (
-  id: number,
-  functionName: string,
-  url: string,
-  lineNumber: number,
-  selfSize: number,
-  children: object[] = [],
-) => ({
-  callFrame: {
-    functionName,
-    scriptId: `1`,
-    url,
-    lineNumber,
-    columnNumber: 0,
-  },
-  selfSize,
-  id,
-  children,
-})
-
 test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
   // `funcB` is called from both `funcA` and funcC`. With identical call frames,
   // they should be merged into one row with combined self size.
   const profile = makeProfile(
     root([
-      node(2, `funcA`, `file:///project/src/a.ts`, 0, 0, [
-        node(4, `funcB`, `file:///project/src/b.ts`, 0, 0),
-      ]),
-      node(3, `funcC`, `file:///project/src/c.ts`, 0, 0, [
-        node(5, `funcB`, `file:///project/src/b.ts`, 0, 0),
-      ]),
+      {
+        callFrame: {
+          functionName: `funcA`,
+          scriptId: `1`,
+          url: `file:///project/src/a.ts`,
+          lineNumber: 0,
+          columnNumber: 0,
+        },
+        selfSize: 0,
+        id: 2,
+        children: [
+          {
+            callFrame: {
+              functionName: `funcB`,
+              scriptId: `1`,
+              url: `file:///project/src/b.ts`,
+              lineNumber: 0,
+              columnNumber: 0,
+            },
+            selfSize: 0,
+            id: 4,
+            children: [],
+          },
+        ],
+      },
+      {
+        callFrame: {
+          functionName: `funcC`,
+          scriptId: `1`,
+          url: `file:///project/src/c.ts`,
+          lineNumber: 0,
+          columnNumber: 0,
+        },
+        selfSize: 0,
+        id: 3,
+        children: [
+          {
+            callFrame: {
+              functionName: `funcB`,
+              scriptId: `1`,
+              url: `file:///project/src/b.ts`,
+              lineNumber: 0,
+              columnNumber: 0,
+            },
+            selfSize: 0,
+            id: 5,
+            children: [],
+          },
+        ],
+      },
     ]),
     [
       { size: 200, nodeId: 4, ordinal: 1 },
@@ -135,11 +159,44 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
   // and both be labeled `(anonymous)` in the output.
   const profile = makeProfile(
     root([
-      node(2, ``, `file:///project/src/a.ts`, 10, 0, [
-        node(3, ``, `file:///project/src/a.ts`, 20, 0, [
-          node(4, `allocate`, `file:///project/src/a.ts`, 30, 0),
-        ]),
-      ]),
+      {
+        callFrame: {
+          functionName: ``,
+          scriptId: `1`,
+          url: `file:///project/src/a.ts`,
+          lineNumber: 10,
+          columnNumber: 0,
+        },
+        selfSize: 0,
+        id: 2,
+        children: [
+          {
+            callFrame: {
+              functionName: ``,
+              scriptId: `1`,
+              url: `file:///project/src/a.ts`,
+              lineNumber: 20,
+              columnNumber: 0,
+            },
+            selfSize: 0,
+            id: 3,
+            children: [
+              {
+                callFrame: {
+                  functionName: `allocate`,
+                  scriptId: `1`,
+                  url: `file:///project/src/a.ts`,
+                  lineNumber: 30,
+                  columnNumber: 0,
+                },
+                selfSize: 0,
+                id: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
     ]),
     [{ size: 100, nodeId: 4, ordinal: 1 }],
   )
@@ -214,19 +271,141 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
   `)
 })
 
+test(`v8HeapProfileToMd deduplicates total size for recursive functions`, () => {
+  // `funcA` calls itself recursively (two nodes, same identity). Total size
+  // should be counted once, not twice.
+  const profile = makeProfile(
+    root([
+      {
+        callFrame: {
+          functionName: `funcA`,
+          scriptId: `1`,
+          url: `file:///project/src/a.ts`,
+          lineNumber: 0,
+          columnNumber: 0,
+        },
+        selfSize: 0,
+        id: 2,
+        children: [
+          {
+            callFrame: {
+              functionName: `funcA`,
+              scriptId: `1`,
+              url: `file:///project/src/a.ts`,
+              lineNumber: 0,
+              columnNumber: 0,
+            },
+            selfSize: 0,
+            id: 3,
+            children: [],
+          },
+        ],
+      },
+    ]),
+    [{ size: 100, nodeId: 3, ordinal: 1 }],
+  )
+
+  const markdown = v8HeapProfileToMd(profile, { cwd: `/project` })
+
+  expect(markdown).toMatchInlineSnapshot(`
+    "# Heap profile
+
+    Allocated 100 B over 1 sample (100 B per sample).
+
+    | Category | Total % | Total |
+    | -------- | ------- | ----- |
+    | ours     | 100.0%  | 100 B |
+
+    ## Hottest functions
+
+    ### Self size
+
+    Functions ranked by bytes allocated directly in the function body, excluding callees.
+
+    | Self % |  Self | Total % | Total | Function | Location     |
+    | -----: | ----: | ------: | ----: | -------- | ------------ |
+    | 100.0% | 100 B |  100.0% | 100 B | \`funcA\`  | src/a.ts:1:1 |
+
+    #### Callers
+
+    Callers ranked by contribution to each function's self size.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Self % |  Self | Caller  | Location     |
+    | -----: | ----: | ------- | ------------ |
+    | 100.0% | 100 B | \`funcA\` | src/a.ts:1:1 |
+
+    ### Total size
+
+    Functions ranked by total bytes allocated in the function and all its callees.
+
+    | Total % | Total | Self % |  Self | Function | Location     |
+    | ------: | ----: | -----: | ----: | -------- | ------------ |
+    |  100.0% | 100 B | 100.0% | 100 B | \`funcA\`  | src/a.ts:1:1 |
+
+    #### Callees
+
+    Callees ranked by contribution to each function's total size.
+
+    ##### \`funcA\` (src/a.ts:1:1)
+
+    | Total % | Total | Callee  | Location     |
+    | ------: | ----: | ------- | ------------ |
+    |  100.0% | 100 B | \`funcA\` | src/a.ts:1:1 |
+
+    ## Hottest call stacks
+
+    Call stacks ranked by bytes allocated in their top frame.
+
+    | Self % |  Self | Call stack                             |
+    | -----: | ----: | -------------------------------------- |
+    | 100.0% | 100 B | \`funcA\` (src/a.ts:1:1) ← \`funcA\` (1:1) |
+    "
+  `)
+})
+
 test(`v8HeapProfileToMd categorizes own, third-party, and native code`, () => {
   const profile = makeProfile(
     root([
-      node(2, `ownFunc`, `file:///project/src/index.ts`, 0, 0, [
-        node(
-          3,
-          `thirdParty`,
-          `file:///project/node_modules/lib/index.js`,
-          0,
-          0,
-          [node(4, `allocate`, `file:///project/src/util.ts`, 0, 0)],
-        ),
-      ]),
+      {
+        callFrame: {
+          functionName: `ownFunc`,
+          scriptId: `1`,
+          url: `file:///project/src/index.ts`,
+          lineNumber: 0,
+          columnNumber: 0,
+        },
+        selfSize: 0,
+        id: 2,
+        children: [
+          {
+            callFrame: {
+              functionName: `thirdParty`,
+              scriptId: `1`,
+              url: `file:///project/node_modules/lib/index.js`,
+              lineNumber: 0,
+              columnNumber: 0,
+            },
+            selfSize: 0,
+            id: 3,
+            children: [
+              {
+                callFrame: {
+                  functionName: `allocate`,
+                  scriptId: `1`,
+                  url: `file:///project/src/util.ts`,
+                  lineNumber: 0,
+                  columnNumber: 0,
+                },
+                selfSize: 0,
+                id: 4,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
     ]),
     [
       { size: 1000, nodeId: 2, ordinal: 1 },

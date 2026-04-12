@@ -138,7 +138,7 @@ export type CallFrame = {
   columnNumber: number
 }
 
-export const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
+const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
   let url: URL | undefined
   try {
     url = new URL(callFrame.url)

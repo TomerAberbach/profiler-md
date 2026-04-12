@@ -2,72 +2,79 @@ import { spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
+import { fixturePath } from './testing/fixtures.ts'
 
-const cliPath = join(import.meta.dirname, `cli.ts`)
-const v8CpuProfilePath = join(
-  import.meta.dirname,
-  `fixtures/example.cpuprofile`,
-)
+describe.each([
+  {
+    type: `v8-cpu`,
+    filename: `example.cpuprofile`,
+    expectedMarkdown: /^# CPU profile/u,
+  },
+  {
+    type: `v8-heap`,
+    filename: `example.heapprofile`,
+    expectedMarkdown: /^# Heap profile/u,
+  },
+])(`$type`, ({ type, filename, expectedMarkdown }) => {
+  const path = fixturePath(filename)
+  const fileContent = readFileSync(path, `utf8`)
 
-const runCli = (args: string[], input?: string) =>
-  spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
+  test(`outputs markdown from a ${filename} file`, () => {
+    const { status, stdout } = runCli([path])
 
-test(`outputs markdown from a .cpuprofile file`, () => {
-  const { status, stdout } = runCli([v8CpuProfilePath])
+    expect(status).toBe(0)
+    expect(stdout).toMatch(expectedMarkdown)
+  })
 
-  expect(status).toBe(0)
-  expect(stdout).toMatch(/^# CPU profile/u)
-})
+  test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
+    const { status, stdout } = runCli([flag, type], fileContent)
 
-test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
-  const input = readFileSync(v8CpuProfilePath, `utf8`)
+    expect(status).toBe(0)
+    expect(stdout).toMatch(expectedMarkdown)
+  })
 
-  const { status, stdout } = runCli([flag, `v8-cpu`], input)
+  test.each([`--output`, `-o`])(`writes output to a file with %s`, flag => {
+    const tempPath = join(mkdtempSync(join(tmpdir(), `profiler-md-`)), `out.md`)
 
-  expect(status).toBe(0)
-  expect(stdout).toMatch(/^# CPU profile/u)
-})
+    const { status, stdout } = runCli([path, flag, tempPath])
 
-test.each([`--output`, `-o`])(`writes output to a file with %s`, flag => {
-  const tempPath = join(mkdtempSync(join(tmpdir(), `profiler-md-`)), `out.md`)
+    expect(status).toBe(0)
+    expect(stdout).toBe(``)
+    expect(readFileSync(tempPath, `utf8`)).toMatch(expectedMarkdown)
 
-  const { status, stdout } = runCli([v8CpuProfilePath, flag, tempPath])
+    rmSync(tempPath, { recursive: true })
+  })
 
-  expect(status).toBe(0)
-  expect(stdout).toBe(``)
-  expect(readFileSync(tempPath, `utf8`)).toMatch(/^# CPU profile/u)
-  rmSync(tempPath, { recursive: true })
-})
+  test(`--top-n limits the number of entries shown`, () => {
+    const { stdout: top1 } = runCli([path, `--top-n`, `1`])
+    const { stdout: top5 } = runCli([path, `--top-n`, `5`])
 
-test(`--top-n limits the number of entries shown`, () => {
-  const { stdout: top1 } = runCli([v8CpuProfilePath, `--top-n`, `1`])
-  const { stdout: top5 } = runCli([v8CpuProfilePath, `--top-n`, `5`])
+    expect(top1.length).toBeLessThan(top5.length)
+  })
 
-  expect(top1.length).toBeLessThan(top5.length)
-})
+  test(`--cwd makes file paths relative to the given directory`, () => {
+    const cwd = `/Users/tomer/Documents/work/code/uneval`
 
-test(`--cwd makes file paths relative to the given directory`, () => {
-  const cwd = `/Users/tomer/Documents/work/code/uneval`
+    const { stdout: withoutCwd } = runCli([path])
+    const { stdout: withCwd } = runCli([path, `--cwd`, cwd])
 
-  const { stdout: withoutCwd } = runCli([v8CpuProfilePath])
-  const { stdout: withCwd } = runCli([v8CpuProfilePath, `--cwd`, cwd])
+    expect(withoutCwd).toContain(`${cwd}/src/index.ts`)
+    expect(withCwd).not.toContain(`${cwd}/src/index.ts`)
+    expect(withCwd).toContain(`src/index.ts`)
+  })
 
-  expect(withoutCwd).toContain(`${cwd}/src/index.ts`)
-  expect(withCwd).not.toContain(`${cwd}/src/index.ts`)
-  expect(withCwd).toContain(`src/index.ts`)
-})
+  test(`--third-party changes which paths are considered third-party`, () => {
+    const { stdout: withDefaultThirdParty } = runCli([path])
+    const { stdout: withCustomThirdParty } = runCli([
+      path,
+      `--third-party`,
+      `**`,
+    ])
 
-test(`--third-party changes which paths are considered third-party`, () => {
-  const { stdout: withDefaultThirdParty } = runCli([v8CpuProfilePath])
-  const { stdout: withCustomThirdParty } = runCli([
-    v8CpuProfilePath,
-    `--third-party`,
-    `**`,
-  ])
-
-  expect(withDefaultThirdParty).toContain(`ours`)
-  expect(withCustomThirdParty).not.toContain(`ours`)
+    expect(withDefaultThirdParty).toContain(`ours`)
+    expect(withCustomThirdParty).not.toContain(`ours`)
+  })
 })
 
 test.each([
@@ -107,3 +114,8 @@ test.each([
   expect(status).toBe(expectedStatus)
   expect(stderr).toContain(expectedStderr)
 })
+
+const runCli = (args: string[], input?: string) =>
+  spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
+
+const cliPath = join(import.meta.dirname, `cli.ts`)
