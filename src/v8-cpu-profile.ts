@@ -1,4 +1,5 @@
 import {
+  formatCount,
   formatMicroseconds,
   formatMilliseconds,
   formatPercent,
@@ -461,9 +462,11 @@ const formatOverallProfileSummary = ({
   const sampleInterval = formatMicroseconds(totalTime / totalSamples)
 
   return [
-    `Took ${formatMilliseconds(totalTime)} over ${
-      totalSamples
-    } sample${totalSamples > 1 ? `s` : ``} (${sampleInterval} per sample).`,
+    `Took ${formatMilliseconds(
+      totalTime,
+    )} over ${formatCount(totalSamples)} sample${
+      totalSamples > 1 ? `s` : ``
+    } (${sampleInterval} per sample).`,
     formatTable(
       [`Category`, `Total %`, `Total`],
       [...callFrameCategoryToTime]
@@ -562,7 +565,7 @@ const formatHottestLines = (
       ],
       hottestLines.map(line => [
         formatPercent(line.hitCount / totalHitCount),
-        String(line.hitCount),
+        formatCount(line.hitCount),
         line.location,
       ]),
     ),

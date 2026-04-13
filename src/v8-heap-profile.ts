@@ -1,5 +1,5 @@
 import prettyBytes from 'pretty-bytes'
-import { formatPercent } from './internal/format.ts'
+import { formatCount, formatPercent } from './internal/format.ts'
 import { formatTable, inlineCode } from './internal/markdown.ts'
 import {
   callFrameKey,
@@ -385,9 +385,11 @@ const formatOverallProfileSummary = ({
   const sampleInterval = prettyBytes(totalSize / totalSamples)
 
   return [
-    `Allocated ${prettyBytes(totalSize)} over ${
-      totalSamples
-    } sample${totalSamples === 1 ? `` : `s`} (${sampleInterval} per sample).`,
+    `Allocated ${prettyBytes(
+      totalSize,
+    )} over ${formatCount(totalSamples)} sample${
+      totalSamples === 1 ? `` : `s`
+    } (${sampleInterval} per sample).`,
     formatTable(
       [`Category`, `Total %`, `Total`],
       [...callFrameCategoryToSize]

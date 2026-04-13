@@ -6,3 +6,6 @@ export const formatMilliseconds = (microseconds: number): string =>
 
 export const formatMicroseconds = (microseconds: number): string =>
   `${microseconds.toFixed(1)}µs`
+
+export const formatCount = (count: number): string =>
+  count.toLocaleString(`en-US`)

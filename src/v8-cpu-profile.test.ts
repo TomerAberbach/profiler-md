@@ -795,7 +795,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 6176.2ms over 47806 samples (129.2µs per sample).
+    Took 6176.2ms over 47,806 samples (129.2µs per sample).
 
     | Category          | Total % | Total    |
     | ----------------- | ------- | -------- |
@@ -829,34 +829,34 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     | Count % | Count | Location           |
     | ------: | ----: | ------------------ |
-    |   44.8% |  3352 | src/index.ts:211:1 |
-    |   21.4% |  1597 | src/index.ts:220:1 |
+    |   44.8% | 3,352 | src/index.ts:211:1 |
+    |   21.4% | 1,597 | src/index.ts:220:1 |
 
     ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
 
     | Count % | Count | Location                     |
     | ------: | ----: | ---------------------------- |
-    |   42.3% |  3037 | src/internal/object.ts:202:1 |
-    |   29.3% |  2102 | src/internal/object.ts:129:1 |
+    |   42.3% | 3,037 | src/internal/object.ts:202:1 |
+    |   29.3% | 2,102 | src/internal/object.ts:129:1 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
     | Count % | Count | Location                    |
     | ------: | ----: | --------------------------- |
-    |   50.8% |  2074 | src/internal/object.ts:79:1 |
-    |   38.5% |  1572 | src/internal/object.ts:78:1 |
+    |   50.8% | 2,074 | src/internal/object.ts:79:1 |
+    |   38.5% | 1,572 | src/internal/object.ts:78:1 |
 
     ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
 
     | Count % | Count | Location                   |
     | ------: | ----: | -------------------------- |
-    |  100.0% |  4059 | src/internal/index.ts:18:1 |
+    |  100.0% | 4,059 | src/internal/index.ts:18:1 |
 
     ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
 
     | Count % | Count | Location                        |
     | ------: | ----: | ------------------------------- |
-    |   27.7% |  1112 | src/internal/primitive.ts:147:1 |
+    |   27.7% | 1,112 | src/internal/primitive.ts:147:1 |
     |   20.6% |   825 | src/internal/primitive.ts:149:1 |
 
     #### Callers
