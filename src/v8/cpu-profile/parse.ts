@@ -45,5 +45,9 @@ export type PositionTick = {
   ticks: number
 }
 
-export const parseProfile = (text: string): CpuProfile =>
-  JSON.parse(text) as CpuProfile
+export const parseProfile = (data: string | Buffer): CpuProfile =>
+  JSON.parse(
+    // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
+    // include that in the types.
+    data,
+  ) as CpuProfile

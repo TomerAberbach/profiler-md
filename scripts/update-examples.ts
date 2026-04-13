@@ -31,7 +31,7 @@ for (const filename of fixtureFilenames) {
   const examplePath = join(`examples`, `${filename}.md`)
 
   const markdown = execSync(
-    `node src/cli.ts ${fixturePath} --cwd /Users/tomer/Documents/work/code/uneval`,
+    `node src/cli.ts ${fixturePath} --cwd /Users/tomer/Documents/work/code`,
     { encoding: `utf8` },
   )
 

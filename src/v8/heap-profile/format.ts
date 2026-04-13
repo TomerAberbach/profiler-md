@@ -9,14 +9,14 @@ import type {
 } from './summarize.ts'
 
 export const formatSummarizedProfile = (
-  summary: SummarizedHeapProfile,
+  profile: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string =>
   `${[
     `# Heap profile`,
-    formatOverallProfileSummary(summary),
-    formatHottestFunctions(summary, options),
-    formatHottestCallStacks(summary, options),
+    formatOverallProfileSummary(profile),
+    formatHottestFunctions(profile, options),
+    formatHottestCallStacks(profile, options),
   ]
     .filter(Boolean)
     .join(`\n\n`)}\n`
@@ -26,33 +26,33 @@ const formatOverallProfileSummary = ({
   sampleCount,
   samplingInterval,
   callFrameCategoryToSize,
-}: SummarizedHeapProfile): string =>
-  [
+}: SummarizedHeapProfile): string => {
+  const hottestCallFrameCategories = [...callFrameCategoryToSize].sort(
+    ([, size1], [, size2]) => size2 - size1,
+  )
+  return [
     `Allocated ${prettyBytes(
       totalSize,
-    )} over ${formatCount(sampleCount)} sample${
-      sampleCount === 1 ? `` : `s`
-    } (${prettyBytes(samplingInterval)} per sample).`,
+    )} over ${formatCount(sampleCount)} sample${sampleCount === 1 ? `` : `s`} (${prettyBytes(samplingInterval)} per sample).`,
     formatTable(
-      [`Category`, `Total %`, `Total`],
-      [...callFrameCategoryToSize]
-        .sort(([, size1], [, size2]) => size2 - size1)
-        .map(([category, size]) => [
-          category,
-          formatPercent(size / totalSize),
-          prettyBytes(size),
-        ]),
+      [`Category`, `Self %`, `Self`],
+      hottestCallFrameCategories.map(([category, size]) => [
+        category,
+        formatPercent(size / totalSize),
+        prettyBytes(size),
+      ]),
     ),
   ].join(`\n\n`)
+}
 
 const formatHottestFunctions = (
-  summary: SummarizedHeapProfile,
+  profile: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string =>
   [
     `## Hottest functions`,
-    formatHottestSelfSizeFunctions(summary, options),
-    formatHottestTotalSizeFunctions(summary, options),
+    formatHottestSelfSizeFunctions(profile, options),
+    formatHottestTotalSizeFunctions(profile, options),
   ].join(`\n\n`)
 
 const formatHottestSelfSizeFunctions = (
@@ -204,10 +204,10 @@ const formatHottestCallees = (
 }
 
 const formatHottestCallStacks = (
-  summary: SummarizedHeapProfile,
+  profile: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string | null => {
-  const hottestCallStacks = summary.callStacks
+  const hottestCallStacks = profile.callStacks
     .map(callStack => ({
       ...callStack,
       nodes: callStack.nodes.filter(options.includeCallFrame),
@@ -233,7 +233,7 @@ const formatHottestCallStacks = (
         `Call stack`,
       ],
       hottestCallStacks.map(callStack => [
-        formatPercent(callStack.selfSize / summary.totalSize),
+        formatPercent(callStack.selfSize / profile.totalSize),
         prettyBytes(callStack.selfSize),
         formatCallStack(
           commonCallStack.length > 0

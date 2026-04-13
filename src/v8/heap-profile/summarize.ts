@@ -1,7 +1,7 @@
 import {
   callFrameKey,
   categorizeCallFrame,
-  formatUrl,
+  formatURL,
   getSummarizedCallStack,
 } from '../common.ts'
 import type {
@@ -10,26 +10,6 @@ import type {
   ProfileGraph,
 } from '../common.ts'
 import type { HeapProfile, HeapProfileNode } from './parse.ts'
-
-export type SummarizedHeapProfile = {
-  /** Total bytes allocated across all samples. */
-  totalSize: number
-
-  /** The number of samples taken. */
-  sampleCount: number
-
-  /** The number of samples taken per byte. */
-  samplingInterval: number
-
-  /** Total bytes by call frame category. */
-  callFrameCategoryToSize: Map<string, number>
-
-  /** All summarized nodes. */
-  nodes: SummarizedProfileNode[]
-
-  /** All summarized call stacks. */
-  callStacks: SummarizedCallStack[]
-}
 
 /**
  * A merged node containing information of all nodes with the same
@@ -81,6 +61,26 @@ export type SummarizedCallStack = {
 
   /** The amount of size used in the topmost node with this stack. */
   selfSize: number
+}
+
+export type SummarizedHeapProfile = {
+  /** Total bytes allocated across all samples. */
+  totalSize: number
+
+  /** The number of samples taken. */
+  sampleCount: number
+
+  /** The number of samples taken per byte. */
+  samplingInterval: number
+
+  /** Total bytes by call frame category. */
+  callFrameCategoryToSize: Map<string, number>
+
+  /** All summarized nodes. */
+  nodes: SummarizedProfileNode[]
+
+  /** All summarized call stacks. */
+  callStacks: SummarizedCallStack[]
 }
 
 export const summarizeProfile = (
@@ -188,15 +188,14 @@ const computeProfileGraph = (
   const stack: { node: HeapProfileNode; parentId?: number }[] = [
     { node: profile.head },
   ]
-
-  while (stack.length > 0) {
+  do {
     const { node, parentId } = stack.pop()!
 
     const key = callFrameKey(node.callFrame)
     let summarizedNode = keyToSummarizedNode.get(key)
     if (!summarizedNode) {
       const { functionName, url, lineNumber, columnNumber } = node.callFrame
-      const fileLocation = formatUrl(url, options)
+      const fileLocation = formatURL(url, options)
       summarizedNode = {
         id: node.id,
         callFrame: node.callFrame,
@@ -222,7 +221,7 @@ const computeProfileGraph = (
     for (const child of node.children) {
       stack.push({ node: child, parentId: node.id })
     }
-  }
+  } while (stack.length > 0)
 
   return { rawIdToSummarizedNode, keyToSummarizedNode, rawIdToParentRawId }
 }

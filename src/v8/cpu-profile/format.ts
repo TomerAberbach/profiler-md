@@ -13,14 +13,14 @@ import type {
 } from './summarize.ts'
 
 export const formatSummarizedProfile = (
-  summary: SummarizedCpuProfile,
+  profile: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string =>
   `${[
     `# CPU profile`,
-    formatOverallProfileSummary(summary),
-    formatHottestFunctions(summary, options),
-    formatHottestCallStacks(summary, options),
+    formatOverallProfileSummary(profile),
+    formatHottestFunctions(profile, options),
+    formatHottestCallStacks(profile, options),
   ]
     .filter(Boolean)
     .join(`\n\n`)}\n`
@@ -41,7 +41,7 @@ const formatOverallProfileSummary = ({
       sampleCount > 1 ? `s` : ``
     } (${formatMicroseconds(samplingInterval)} per sample).`,
     formatTable(
-      [`Category`, `Total %`, `Total`],
+      [`Category`, `Self %`, `Self`],
       hottestCallFrameCategories.map(([category, time]) => [
         category,
         formatPercent(time / totalTime),
@@ -52,13 +52,13 @@ const formatOverallProfileSummary = ({
 }
 
 const formatHottestFunctions = (
-  summary: SummarizedCpuProfile,
+  profile: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string =>
   [
     `## Hottest functions`,
-    formatHottestSelfTimeFunctions(summary, options),
-    formatHottestTotalTimeFunctions(summary, options),
+    formatHottestSelfTimeFunctions(profile, options),
+    formatHottestTotalTimeFunctions(profile, options),
   ].join(`\n\n`)
 
 const formatHottestSelfTimeFunctions = (
@@ -245,10 +245,10 @@ const formatHottestCallees = (
 }
 
 const formatHottestCallStacks = (
-  summary: SummarizedCpuProfile,
+  profile: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string | null => {
-  const hottestCallStacks = summary.callStacks
+  const hottestCallStacks = profile.callStacks
     .map(callStack => ({
       ...callStack,
       nodes: callStack.nodes.filter(options.includeCallFrame),
@@ -274,7 +274,7 @@ const formatHottestCallStacks = (
         `Call stack`,
       ],
       hottestCallStacks.map(callStack => [
-        formatPercent(callStack.selfTime / summary.totalTime),
+        formatPercent(callStack.selfTime / profile.totalTime),
         formatMilliseconds(callStack.selfTime),
         formatCallStack(
           commonCallStack.length > 0

@@ -36,5 +36,9 @@ export type HeapProfileSample = {
   ordinal: number
 }
 
-export const parseProfile = (text: string): HeapProfile =>
-  JSON.parse(text) as HeapProfile
+export const parseProfile = (data: string | Buffer): HeapProfile =>
+  JSON.parse(
+    // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
+    // include that in the types.
+    data,
+  ) as HeapProfile

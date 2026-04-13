@@ -55,6 +55,7 @@ $ profiler-md --help
   Supported profile types:
     *.cpuprofile -> v8-cpu-profile
     *.heapprofile -> v8-heap-profile
+    *.heapsnapshot -> v8-heap-snapshot
 ```
 
 <!-- CLI_HELP END -->
@@ -70,8 +71,8 @@ import {
   v8HeapProfileToMd,
 } from 'profiler-md'
 
-const cpuText = await readFile(`profile.cpuprofile`, `utf8`)
-const heapText = await readFile(`profile.heapprofile`, `utf8`)
+const cpuText = await readFile(`profile.cpuprofile`)
+const heapText = await readFile(`profile.heapprofile`)
 
 // Basic usage
 console.log(v8CpuProfileToMd(cpuText))

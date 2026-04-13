@@ -1,7 +1,7 @@
 import {
   callFrameKey,
   categorizeCallFrame,
-  formatUrl,
+  formatURL,
   getSummarizedCallStack,
 } from '../common.ts'
 import type {
@@ -10,6 +10,75 @@ import type {
   ProfileGraph,
 } from '../common.ts'
 import type { CpuProfile } from './parse.ts'
+
+/**
+ * A merged node containing information of all nodes with the same
+ * {@link callFrameKey}.
+ */
+export type SummarizedProfileNode = {
+  /** The raw ID of the first node that corresponded to this summarized node. */
+  id: number
+
+  /** The call frame this node represents. */
+  callFrame: CallFrame
+
+  /** The summarizedized function name of this node's call frame. */
+  functionName: string
+
+  /** A string describing the location of the file this node belongs to. */
+  fileLocation: string
+
+  /** A string describing the exact location this node belongs to. */
+  location: string
+
+  /**
+   * The call frame category of this node.
+   *
+   * @see {@link categorizeCallFrame}
+   */
+  category: string
+
+  /** Number of samples where this node was at the top of the stack. */
+  hitCount: number
+
+  /** 0-based line number to hit count. */
+  lineToHitCount: Map<number, number>
+
+  /** Time spent directly in this node's function body in microseconds. */
+  selfTime: number
+
+  /**
+   * Time spent directly in this node's function body and all callees in
+   * microseconds.
+   */
+  totalTime: number
+
+  /**
+   * Time spent directly in this node's function body in microseconds by direct
+   * caller.
+   */
+  callerIdToSelfTime: Map<
+    number,
+    { caller: SummarizedProfileNode; selfTime: number }
+  >
+
+  /**
+   * Time spent directly in this node's function body and all callees in
+   * microseconds by direct callee.
+   */
+  calleeIdToTotalTime: Map<
+    number,
+    { callee: SummarizedProfileNode; totalTime: number }
+  >
+}
+
+export type SummarizedCallStack = {
+  /** The summarized stack nodes in topmost to bottommost order. */
+  nodes: SummarizedProfileNode[]
+
+  /** The amount of time spent in the topmost node with this stack. */
+  selfTime: number
+}
 
 export type SummarizedCpuProfile = {
   /** The total time spent in microseconds. */
@@ -125,75 +194,6 @@ export const summarizeProfile = (
   }
 }
 
-/**
- * A merged node containing information of all nodes with the same
- * {@link callFrameKey}.
- */
-export type SummarizedProfileNode = {
-  /** The raw ID of the first node that corresponded to this summarized node. */
-  id: number
-
-  /** The call frame this node represents. */
-  callFrame: CallFrame
-
-  /** The summarizedized function name of this node's call frame. */
-  functionName: string
-
-  /** A string describing the location of the file this node belongs to. */
-  fileLocation: string
-
-  /** A string describing the exact location this node belongs to. */
-  location: string
-
-  /**
-   * The call frame category of this node.
-   *
-   * @see {@link categorizeCallFrame}
-   */
-  category: string
-
-  /** Number of samples where this node was at the top of the stack. */
-  hitCount: number
-
-  /** 0-based line number to hit count. */
-  lineToHitCount: Map<number, number>
-
-  /** Time spent directly in this node's function body in microseconds. */
-  selfTime: number
-
-  /**
-   * Time spent directly in this node's function body and all callees in
-   * microseconds.
-   */
-  totalTime: number
-
-  /**
-   * Time spent directly in this node's function body in microseconds by direct
-   * caller.
-   */
-  callerIdToSelfTime: Map<
-    number,
-    { caller: SummarizedProfileNode; selfTime: number }
-  >
-
-  /**
-   * Time spent directly in this node's function body and all callees in
-   * microseconds by direct callee.
-   */
-  calleeIdToTotalTime: Map<
-    number,
-    { callee: SummarizedProfileNode; totalTime: number }
-  >
-}
-
-export type SummarizedCallStack = {
-  /** The summarized stack nodes in topmost to bottommost order. */
-  nodes: SummarizedProfileNode[]
-
-  /** The amount of time spent in the topmost node with this stack. */
-  selfTime: number
-}
-
 const computeProfileGraph = (
   profile: CpuProfile,
   options: NormalizedV8ProfileToMdOptions,
@@ -211,7 +211,7 @@ const computeProfileGraph = (
     let summarizedNode = keyToSummarizedNode.get(key)
     if (!summarizedNode) {
       const { functionName, url, lineNumber, columnNumber } = node.callFrame
-      const fileLocation = formatUrl(url, options)
+      const fileLocation = formatURL(url, options)
       summarizedNode = {
         id: node.id,
         callFrame: node.callFrame,

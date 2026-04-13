@@ -167,7 +167,7 @@ const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
   return { functionName: callFrame.functionName || undefined, url }
 }
 
-export const formatUrl = (
+export const formatURL = (
   url: string,
   { cwd }: NormalizedV8ProfileToMdOptions,
 ): string | null => {

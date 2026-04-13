@@ -90,9 +90,9 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
 
     Allocated 500 B over 3 samples (167 B per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 500 B |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 500 B |
 
     ## Hottest functions
 
@@ -209,9 +209,9 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
 
     Allocated 100 B over 1 sample (100 B per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 100 B |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 100 B |
 
     ## Hottest functions
 
@@ -313,9 +313,9 @@ test(`v8HeapProfileToMd deduplicates total size for recursive functions`, () => 
 
     Allocated 100 B over 1 sample (100 B per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 100 B |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 100 B |
 
     ## Hottest functions
 
@@ -422,10 +422,10 @@ test(`v8HeapProfileToMd categorizes own, third-party, and native code`, () => {
 
     Allocated 1.75 kB over 3 samples (583 B per sample).
 
-    | Category    | Total % | Total   |
-    | ----------- | ------- | ------- |
-    | ours        | 71.4%   | 1.25 kB |
-    | third-party | 28.6%   | 500 B   |
+    | Category    | Self % | Self    |
+    | ----------- | ------ | ------- |
+    | ours        | 71.4%  | 1.25 kB |
+    | third-party | 28.6%  | 500 B   |
 
     ## Hottest functions
 
@@ -774,11 +774,11 @@ test(`v8HeapProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Allocated 600 B over 3 samples (200 B per sample).
 
-    | Category          | Total % | Total |
-    | ----------------- | ------- | ----- |
-    | garbage collector | 50.0%   | 300 B |
-    | program           | 33.3%   | 200 B |
-    | regexp            | 16.7%   | 100 B |
+    | Category          | Self % | Self  |
+    | ----------------- | ------ | ----- |
+    | garbage collector | 50.0%  | 300 B |
+    | program           | 33.3%  | 200 B |
+    | regexp            | 16.7%  | 100 B |
 
     ## Hottest functions
 
@@ -927,15 +927,15 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
 
-    | Category          | Total % | Total   |
-    | ----------------- | ------- | ------- |
-    | native            | 78.9%   | 3.88 MB |
-    | IDLE              | 9.3%    | 458 kB  |
-    | third-party       | 8.1%    | 400 kB  |
-    | ours              | 3.1%    | 152 kB  |
-    | BYTECODE_COMPILER | 0.2%    | 12.2 kB |
-    | PARSER            | 0.2%    | 10.2 kB |
-    | V8 API            | 0.1%    | 4.27 kB |
+    | Category          | Self % | Self    |
+    | ----------------- | ------ | ------- |
+    | native            | 78.9%  | 3.88 MB |
+    | IDLE              | 9.3%   | 458 kB  |
+    | third-party       | 8.1%   | 400 kB  |
+    | ours              | 3.1%   | 152 kB  |
+    | BYTECODE_COMPILER | 0.2%   | 12.2 kB |
+    | PARSER            | 0.2%   | 10.2 kB |
+    | V8 API            | 0.1%   | 4.27 kB |
 
     ## Hottest functions
 

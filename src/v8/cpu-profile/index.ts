@@ -7,7 +7,7 @@ import { summarizeProfile } from './summarize.ts'
 /**
  * Converts the given V8 CPU profile to Markdown.
  *
- * It is assumed that {@link content} is a valid profile. The behavior of this
+ * It is assumed that {@link data} is a valid profile. The behavior of this
  * function is undefined for invalid profiles.
  *
  * You can generate a V8 CPU profile in several ways:
@@ -18,11 +18,11 @@ import { summarizeProfile } from './summarize.ts'
  * Lower the sampling interval to capture more granular data.
  */
 export const v8CpuProfileToMd = (
-  text: string,
+  data: string | Buffer,
   options?: V8ProfileToMdOptions,
 ): string => {
   const normalizedOptions = normalizeV8ProfileToMdOptions(options)
-  const profile = parseProfile(text)
+  const profile = parseProfile(data)
   const summary = summarizeProfile(profile, normalizedOptions)
   return formatSummarizedProfile(summary, normalizedOptions)
 }

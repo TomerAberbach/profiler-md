@@ -16,6 +16,11 @@ describe.each([
     filename: `example.heapprofile`,
     expectedMarkdown: /^# Heap profile/u,
   },
+  {
+    type: `v8-heap-snapshot`,
+    filename: `example.heapsnapshot`,
+    expectedMarkdown: /^# Heap snapshot/u,
+  },
 ])(`$type`, ({ type, filename, expectedMarkdown }) => {
   const path = fixturePath(filename)
   const fileContent = readFileSync(path, `utf8`)
@@ -54,27 +59,30 @@ describe.each([
   })
 
   test(`--cwd makes file paths relative to the given directory`, () => {
-    const cwd = `/Users/tomer/Documents/work/code/uneval`
+    const cwd = `/Users/tomer/Documents/work/code`
 
     const { stdout: withoutCwd } = runCli([path])
     const { stdout: withCwd } = runCli([path, `--cwd`, cwd])
 
-    expect(withoutCwd).toContain(`${cwd}/src/index.ts`)
-    expect(withCwd).not.toContain(`${cwd}/src/index.ts`)
-    expect(withCwd).toContain(`src/index.ts`)
+    expect(withoutCwd).toContain(cwd)
+    expect(withCwd).not.toContain(cwd)
+    expect(withCwd).toContain(`src/index`)
   })
 
-  test(`--third-party changes which paths are considered third-party`, () => {
-    const { stdout: withDefaultThirdParty } = runCli([path])
-    const { stdout: withCustomThirdParty } = runCli([
-      path,
-      `--third-party`,
-      `**`,
-    ])
+  test.skipIf(type === `v8-heap-snapshot`)(
+    `--third-party changes which paths are considered third-party`,
+    () => {
+      const { stdout: withDefaultThirdParty } = runCli([path])
+      const { stdout: withCustomThirdParty } = runCli([
+        path,
+        `--third-party`,
+        `**`,
+      ])
 
-    expect(withDefaultThirdParty).toContain(`ours`)
-    expect(withCustomThirdParty).not.toContain(`ours`)
-  })
+      expect(withDefaultThirdParty).toContain(`ours`)
+      expect(withCustomThirdParty).not.toContain(`ours`)
+    },
+  )
 })
 
 test.each([

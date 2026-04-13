@@ -89,9 +89,9 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 0.3ms |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 0.3ms |
 
     ## Hottest functions
 
@@ -221,9 +221,9 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 0.3ms |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 0.3ms |
 
     ## Hottest functions
 
@@ -339,9 +339,9 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 0.1ms |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 0.1ms |
 
     ## Hottest functions
 
@@ -463,9 +463,9 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 0.3ms |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 0.3ms |
 
     ## Hottest functions
 
@@ -593,9 +593,9 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | Total % | Total |
-    | -------- | ------- | ----- |
-    | ours     | 100.0%  | 0.1ms |
+    | Category | Self % | Self  |
+    | -------- | ------ | ----- |
+    | ours     | 100.0% | 0.1ms |
 
     ## Hottest functions
 
@@ -708,10 +708,10 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     Took 1.8ms over 3 samples (583.3µs per sample).
 
-    | Category    | Total % | Total |
-    | ----------- | ------- | ----- |
-    | ours        | 71.4%   | 1.3ms |
-    | third-party | 28.6%   | 0.5ms |
+    | Category    | Self % | Self  |
+    | ----------- | ------ | ----- |
+    | ours        | 71.4%  | 1.3ms |
+    | third-party | 28.6%  | 0.5ms |
 
     ## Hottest functions
 
@@ -1049,11 +1049,11 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Took 0.6ms over 6 samples (100.0µs per sample).
 
-    | Category          | Total % | Total |
-    | ----------------- | ------- | ----- |
-    | garbage collector | 50.0%   | 0.3ms |
-    | program           | 33.3%   | 0.2ms |
-    | regexp            | 16.7%   | 0.1ms |
+    | Category          | Self % | Self  |
+    | ----------------- | ------ | ----- |
+    | garbage collector | 50.0%  | 0.3ms |
+    | program           | 33.3%  | 0.2ms |
+    | regexp            | 16.7%  | 0.1ms |
 
     ## Hottest functions
 
@@ -1202,15 +1202,15 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     Took 6176.3ms over 47,806 samples (129.2µs per sample).
 
-    | Category          | Total % | Total    |
-    | ----------------- | ------- | -------- |
-    | ours              | 91.0%   | 5620.4ms |
-    | regexp            | 2.1%    | 127.4ms  |
-    | native            | 2.0%    | 124.6ms  |
-    | garbage collector | 1.7%    | 106.3ms  |
-    | program           | 1.7%    | 104.4ms  |
-    | third-party       | 1.5%    | 90.2ms   |
-    | idle              | 0.0%    | 3.0ms    |
+    | Category          | Self % | Self     |
+    | ----------------- | ------ | -------- |
+    | ours              | 91.0%  | 5620.4ms |
+    | regexp            | 2.1%   | 127.4ms  |
+    | native            | 2.0%   | 124.6ms  |
+    | garbage collector | 1.7%   | 106.3ms  |
+    | program           | 1.7%   | 104.4ms  |
+    | third-party       | 1.5%   | 90.2ms   |
+    | idle              | 0.0%   | 3.0ms    |
 
     ## Hottest functions
 

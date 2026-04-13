@@ -4,58 +4,23 @@ import { extname } from 'node:path'
 import type { Writable } from 'node:stream'
 import meow from 'meow'
 import picomatch from 'picomatch'
-import { v8CpuProfileToMd, v8HeapProfileToMd } from './index.ts'
-
-type ResolvedCliOptions = {
-  topN: number | undefined
-  cwd: string | undefined
-  thirdPartyGlobs: string[]
-}
+import {
+  defaultIsThirdPartyURL,
+  v8CpuProfileToMd,
+  v8HeapProfileToMd,
+  v8HeapSnapshotToMd,
+} from './index.ts'
+import type { V8ProfileToMdOptions } from './index.ts'
 
 type ProfileConverter = {
   type: string
-  convert: (text: string, opts: ResolvedCliOptions) => string
+  convert: (data: string | Buffer, options: V8ProfileToMdOptions) => string
 }
 
 const extensionToProfileConverter = new Map<string, ProfileConverter>([
-  [
-    `.cpuprofile`,
-    {
-      type: `v8-cpu-profile`,
-      convert: (text, { topN, cwd, thirdPartyGlobs }) => {
-        const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
-          picomatch(glob, { dot: true }),
-        )
-        return v8CpuProfileToMd(text, {
-          topN,
-          cwd,
-          isThirdPartyURL:
-            thirdPartyMatchers.length > 0
-              ? url => thirdPartyMatchers.some(match => match(url.pathname))
-              : undefined,
-        })
-      },
-    },
-  ],
-  [
-    `.heapprofile`,
-    {
-      type: `v8-heap-profile`,
-      convert: (text, { topN, cwd, thirdPartyGlobs }) => {
-        const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
-          picomatch(glob, { dot: true }),
-        )
-        return v8HeapProfileToMd(text, {
-          topN,
-          cwd,
-          isThirdPartyURL:
-            thirdPartyMatchers.length > 0
-              ? url => thirdPartyMatchers.some(match => match(url.pathname))
-              : undefined,
-        })
-      },
-    },
-  ],
+  [`.cpuprofile`, { type: `v8-cpu-profile`, convert: v8CpuProfileToMd }],
+  [`.heapprofile`, { type: `v8-heap-profile`, convert: v8HeapProfileToMd }],
+  [`.heapsnapshot`, { type: `v8-heap-snapshot`, convert: v8HeapSnapshotToMd }],
 ])
 
 const profileTypeToConverter = new Map(
@@ -130,23 +95,31 @@ try {
     process.exit(2)
   }
 
-  let text: string
+  let data: Buffer
   if (filePath) {
     try {
-      text = await readFile(filePath, `utf8`)
+      data = await readFile(filePath)
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
       process.stderr.write(`error: ${message}\n`)
       process.exit(1)
     }
   } else {
-    text = Buffer.concat(await Array.fromAsync(process.stdin)).toString(`utf8`)
+    data = Buffer.concat(await Array.fromAsync(process.stdin))
   }
 
-  const markdown = profileConverter.convert(text, {
+  const thirdPartyMatchers = thirdParty.map(glob =>
+    picomatch(glob, { dot: true }),
+  )
+  const markdown = profileConverter.convert(data, {
     topN,
     cwd,
-    thirdPartyGlobs: thirdParty,
+    isThirdPartyURL:
+      thirdPartyMatchers.length > 0
+        ? url =>
+            defaultIsThirdPartyURL(url) ||
+            thirdPartyMatchers.some(match => match(url.pathname))
+        : undefined,
   })
 
   let output: Writable
