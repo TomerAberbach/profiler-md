@@ -328,8 +328,8 @@ type ProfileNodeSummary = {
   totalTime: number
   /** A string representing the location of the node (e.g. url or file path). */
   location: string
-  /** The line number where the CPU spent the most time, if known. */
-  hottestLine?: number
+  /** The line numbers where the CPU spent time within the function. */
+  lines: { location: string; hitCount: number }[]
   callers: CallFrameSummary[]
   callees: CallFrameSummary[]
 }
@@ -342,12 +342,21 @@ const summarizeProfileNode = (
 ): ProfileNodeSummary => {
   const { id, callFrame, positionTicks } = node
   const location = formatCallFrameLocation(callFrame, options)
-  const hottestLine = positionTicks?.length
-    ? positionTicks.reduce((tick1, tick2) =>
-        tick2.ticks > tick1.ticks ? tick2 : tick1,
-      ).line
-    : undefined
 
+  const lineToHitCount = new Map<number, number>()
+  if (positionTicks) {
+    for (const { line, ticks } of positionTicks) {
+      lineToHitCount.set(line, (lineToHitCount.get(line) ?? 0) + ticks)
+    }
+  }
+
+  const lines = Array.from(lineToHitCount, ([line, hitCount]) => ({
+    hitCount,
+    location: formatCallFrameLocation(
+      { ...callFrame, lineNumber: line, columnNumber: 0 },
+      options,
+    ),
+  }))
   const callerToSelfTime = times.idToCallerToSelfTime.get(id)
   const callers = callerToSelfTime
     ? [...callerToSelfTime]
@@ -374,7 +383,7 @@ const summarizeProfileNode = (
     selfTime: times.idToSelfTime.get(id) ?? 0,
     totalTime: times.idToTotalTime.get(id) ?? 0,
     location,
-    hottestLine,
+    lines,
     callers,
     callees,
   }
@@ -486,14 +495,12 @@ const formatHottestSelfTimeFunctions = (
 ): string => {
   const { topN } = options
 
-  // Some CPU profiles never have `positionTicks` (e.g. `bun`).
-  const hasHottestLines = summary.nodes.some(
-    node => node.hottestLine !== undefined,
-  )
-
   const hottestSelfTimeNodes = summary.nodes
     .toSorted((node1, node2) => node2.selfTime - node1.selfTime)
     .slice(0, topN)
+  const hottestLinesSections = hottestSelfTimeNodes
+    .filter(node => node.lines.length > 0)
+    .map(node => formatHottestLines(node, options))
   const hottestCallerSections = hottestSelfTimeNodes
     .filter(node => node.callers.length > 0)
     .map(node => formatHottestCallers(node, options))
@@ -509,7 +516,6 @@ const formatHottestSelfTimeFunctions = (
         { content: `Total`, align: `right` },
         `Function`,
         `Location`,
-        ...(hasHottestLines ? [`Hottest line`] : []),
       ],
       hottestSelfTimeNodes.map(node => [
         formatPercent(node.selfTime / summary.totalTime),
@@ -518,9 +524,15 @@ const formatHottestSelfTimeFunctions = (
         formatMilliseconds(node.totalTime),
         inlineCode(node.functionName),
         node.location,
-        ...(hasHottestLines ? [String(node.hottestLine ?? `[unknown]`)] : []),
       ]),
     ),
+    ...(hottestLinesSections.length > 0
+      ? [
+          `#### Lines`,
+          `Lines ranked by contribution to each function's sample count.`,
+        ]
+      : []),
+    ...hottestLinesSections,
     ...(hottestCallerSections.length > 0
       ? [
           `#### Callers`,
@@ -528,6 +540,34 @@ const formatHottestSelfTimeFunctions = (
         ]
       : []),
     ...hottestCallerSections,
+  ].join(`\n\n`)
+}
+
+const formatHottestLines = (
+  node: ProfileNodeSummary,
+  { topN }: NormalizedV8ProfileToMdOptions,
+): string => {
+  const totalHitCount = node.lines.reduce(
+    (hitCount, line) => hitCount + line.hitCount,
+    0,
+  )
+  const hottestLines = node.lines
+    .toSorted((line1, line2) => line2.hitCount - line1.hitCount)
+    .slice(0, Math.ceil(topN / 4))
+  return [
+    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    formatTable(
+      [
+        { content: `Count %`, align: `right` },
+        { content: `Count`, align: `right` },
+        `Location`,
+      ],
+      hottestLines.map(line => [
+        formatPercent(line.hitCount / totalHitCount),
+        String(line.hitCount),
+        line.location,
+      ]),
+    ),
   ].join(`\n\n`)
 }
 

@@ -18,28 +18,187 @@ Took 6176.2ms over 47806 samples (129.2µs per sample).
 
 Functions ranked by time in the function body, excluding callees.
 
-| Self % |    Self | Total % |    Total | Function                                         | Location                                                                                          | Hottest line |
-| -----: | ------: | ------: | -------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------- | ------------ |
-|  15.6% | 966.3ms |   23.7% | 1464.1ms | `traverseObject`                                 | src/index.ts:204:26                                                                               | 210          |
-|  15.0% | 926.9ms |   48.6% | 3001.9ms | `unevalObjectLike`                               | src/internal/object.ts:103:26                                                                     | 128          |
-|   8.5% | 527.0ms |   63.0% | 3893.0ms | `unevalObjectInternal`                           | src/internal/object.ts:68:30                                                                      | 78           |
-|   8.5% | 524.1ms |   14.7% |  907.7ms | `unevalWithoutCustom`                            | src/internal/index.ts:14:37                                                                       | 17           |
-|   8.4% | 517.7ms |    8.4% |  517.7ms | `unevalLiteral`                                  | src/internal/primitive.ts:139:23                                                                  | 146          |
-|   6.6% | 404.6ms |    6.6% |  404.6ms | `unevalNumber`                                   | src/internal/primitive.ts:12:29                                                                   | 22           |
-|   6.0% | 372.6ms |   25.2% | 1554.5ms | `traverse`                                       | src/index.ts:164:20                                                                               | 178          |
-|   5.8% | 359.6ms |   28.0% | 1730.2ms | `unevalArray`                                    | src/internal/collection.ts:7:47                                                                   | 86           |
-|   4.3% | 266.6ms |   64.4% | 3978.1ms | `unevalInternal`                                 | src/internal/index.ts:25:32                                                                       | 33           |
-|   3.5% | 217.0ms |    3.5% |  217.0ms | `getType`                                        | src/internal/type.ts:4:24                                                                         | 17           |
-|   2.7% | 165.8ms |   19.4% | 1200.9ms | `unevalObjectLiteralKey`                         | src/internal/object.ts:384:32                                                                     | 406          |
-|   2.5% | 154.6ms |   27.7% | 1709.1ms | `createState`                                    | src/index.ts:144:21                                                                               | 332          |
-|   2.1% | 127.4ms |    2.1% |  127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | [unknown]                                                                                         | [unknown]    |
-|   1.7% | 106.3ms |    1.7% |  106.3ms | `(garbage collector)`                            | [unknown]                                                                                         | [unknown]    |
-|   1.7% | 104.4ms |    1.7% |  104.4ms | `(program)`                                      | [unknown]                                                                                         | [unknown]    |
-|   0.9% |  53.3ms |    9.2% |  571.0ms | `unevalString`                                   | src/internal/primitive.ts:133:29                                                                  | 134          |
-|   0.7% |  44.8ms |   63.3% | 3912.5ms | `unevalObject`                                   | src/internal/object.ts:20:29                                                                      | 25           |
-|   0.7% |  40.9ms |   92.6% | 5720.4ms | `uneval`                                         | src/index.ts:75:16                                                                                | 77           |
-|   0.6% |  39.5ms |    0.6% |   39.5ms | `isObject`                                       | src/internal/object.ts:434:25                                                                     | 436          |
-|   0.3% |  20.5ms |    0.3% |   20.8ms | `uniformIntInternal`                             | node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28 | 11           |
+| Self % |    Self | Total % |    Total | Function                                         | Location                                                                                          |
+| -----: | ------: | ------: | -------: | ------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+|  15.6% | 966.3ms |   23.7% | 1464.1ms | `traverseObject`                                 | src/index.ts:204:26                                                                               |
+|  15.0% | 926.9ms |   48.6% | 3001.9ms | `unevalObjectLike`                               | src/internal/object.ts:103:26                                                                     |
+|   8.5% | 527.0ms |   63.0% | 3893.0ms | `unevalObjectInternal`                           | src/internal/object.ts:68:30                                                                      |
+|   8.5% | 524.1ms |   14.7% |  907.7ms | `unevalWithoutCustom`                            | src/internal/index.ts:14:37                                                                       |
+|   8.4% | 517.7ms |    8.4% |  517.7ms | `unevalLiteral`                                  | src/internal/primitive.ts:139:23                                                                  |
+|   6.6% | 404.6ms |    6.6% |  404.6ms | `unevalNumber`                                   | src/internal/primitive.ts:12:29                                                                   |
+|   6.0% | 372.6ms |   25.2% | 1554.5ms | `traverse`                                       | src/index.ts:164:20                                                                               |
+|   5.8% | 359.6ms |   28.0% | 1730.2ms | `unevalArray`                                    | src/internal/collection.ts:7:47                                                                   |
+|   4.3% | 266.6ms |   64.4% | 3978.1ms | `unevalInternal`                                 | src/internal/index.ts:25:32                                                                       |
+|   3.5% | 217.0ms |    3.5% |  217.0ms | `getType`                                        | src/internal/type.ts:4:24                                                                         |
+|   2.7% | 165.8ms |   19.4% | 1200.9ms | `unevalObjectLiteralKey`                         | src/internal/object.ts:384:32                                                                     |
+|   2.5% | 154.6ms |   27.7% | 1709.1ms | `createState`                                    | src/index.ts:144:21                                                                               |
+|   2.1% | 127.4ms |    2.1% |  127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | [unknown]                                                                                         |
+|   1.7% | 106.3ms |    1.7% |  106.3ms | `(garbage collector)`                            | [unknown]                                                                                         |
+|   1.7% | 104.4ms |    1.7% |  104.4ms | `(program)`                                      | [unknown]                                                                                         |
+|   0.9% |  53.3ms |    9.2% |  571.0ms | `unevalString`                                   | src/internal/primitive.ts:133:29                                                                  |
+|   0.7% |  44.8ms |   63.3% | 3912.5ms | `unevalObject`                                   | src/internal/object.ts:20:29                                                                      |
+|   0.7% |  40.9ms |   92.6% | 5720.4ms | `uneval`                                         | src/index.ts:75:16                                                                                |
+|   0.6% |  39.5ms |    0.6% |   39.5ms | `isObject`                                       | src/internal/object.ts:434:25                                                                     |
+|   0.3% |  20.5ms |    0.3% |   20.8ms | `uniformIntInternal`                             | node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28 |
+
+#### Lines
+
+Lines ranked by contribution to each function's sample count.
+
+##### `traverseObject` (src/index.ts:204:26)
+
+| Count % | Count | Location           |
+| ------: | ----: | ------------------ |
+|   44.8% |  3352 | src/index.ts:211:1 |
+|   21.4% |  1597 | src/index.ts:220:1 |
+|   11.2% |   837 | src/index.ts:246:1 |
+|    8.2% |   611 | src/index.ts:209:1 |
+|    3.5% |   259 | src/index.ts:249:1 |
+
+##### `unevalObjectLike` (src/internal/object.ts:103:26)
+
+| Count % | Count | Location                     |
+| ------: | ----: | ---------------------------- |
+|   42.3% |  3037 | src/internal/object.ts:202:1 |
+|   29.3% |  2102 | src/internal/object.ts:129:1 |
+|    8.9% |   635 | src/internal/object.ts:139:1 |
+|    5.4% |   385 | src/internal/object.ts:143:1 |
+|    3.3% |   235 | src/internal/object.ts:113:1 |
+
+##### `unevalObjectInternal` (src/internal/object.ts:68:30)
+
+| Count % | Count | Location                    |
+| ------: | ----: | --------------------------- |
+|   50.8% |  2074 | src/internal/object.ts:79:1 |
+|   38.5% |  1572 | src/internal/object.ts:78:1 |
+|    5.5% |   225 | src/internal/object.ts:75:1 |
+|    2.4% |    99 | src/internal/object.ts:70:1 |
+|    1.6% |    65 | src/internal/object.ts:76:1 |
+
+##### `unevalWithoutCustom` (src/internal/index.ts:14:37)
+
+| Count % | Count | Location                   |
+| ------: | ----: | -------------------------- |
+|  100.0% |  4059 | src/internal/index.ts:18:1 |
+
+##### `unevalLiteral` (src/internal/primitive.ts:139:23)
+
+| Count % | Count | Location                        |
+| ------: | ----: | ------------------------------- |
+|   27.7% |  1112 | src/internal/primitive.ts:147:1 |
+|   20.6% |   825 | src/internal/primitive.ts:149:1 |
+|   14.0% |   563 | src/internal/primitive.ts:150:1 |
+|   12.5% |   500 | src/internal/primitive.ts:148:1 |
+|   11.3% |   452 | src/internal/primitive.ts:156:1 |
+
+##### `unevalNumber` (src/internal/primitive.ts:12:29)
+
+| Count % | Count | Location                       |
+| ------: | ----: | ------------------------------ |
+|   94.9% |  2969 | src/internal/primitive.ts:23:1 |
+|    3.0% |    94 | src/internal/primitive.ts:28:1 |
+|    1.0% |    30 | src/internal/primitive.ts:14:1 |
+|    0.5% |    16 | src/internal/primitive.ts:18:1 |
+|    0.5% |    15 | src/internal/primitive.ts:16:1 |
+
+##### `traverse` (src/index.ts:164:20)
+
+| Count % | Count | Location           |
+| ------: | ----: | ------------------ |
+|   30.8% |   888 | src/index.ts:179:1 |
+|   21.0% |   607 | src/index.ts:202:1 |
+|   13.5% |   390 | src/index.ts:201:1 |
+|   11.6% |   336 | src/index.ts:166:1 |
+|   11.3% |   325 | src/index.ts:185:1 |
+
+##### `unevalArray` (src/internal/collection.ts:7:47)
+
+| Count % | Count | Location                        |
+| ------: | ----: | ------------------------------- |
+|   74.0% |  2059 | src/internal/collection.ts:87:1 |
+|    7.2% |   201 | src/internal/collection.ts:53:1 |
+|    5.7% |   159 | src/internal/collection.ts:11:1 |
+|    4.6% |   128 | src/internal/collection.ts:63:1 |
+|    3.4% |    95 | src/internal/collection.ts:64:1 |
+
+##### `unevalInternal` (src/internal/index.ts:25:32)
+
+| Count % | Count | Location                   |
+| ------: | ----: | -------------------------- |
+|   51.2% |  1056 | src/internal/index.ts:34:1 |
+|   10.2% |   210 | src/internal/index.ts:41:1 |
+|    8.4% |   173 | src/internal/index.ts:33:1 |
+|    8.2% |   170 | src/internal/index.ts:45:1 |
+|    5.0% |   104 | src/internal/index.ts:26:1 |
+
+##### `getType` (src/internal/type.ts:4:24)
+
+| Count % | Count | Location                  |
+| ------: | ----: | ------------------------- |
+|   76.4% |  1285 | src/internal/type.ts:18:1 |
+|   20.8% |   349 | src/internal/type.ts:8:1  |
+|    1.8% |    31 | src/internal/type.ts:19:1 |
+|    1.0% |    16 | src/internal/type.ts:10:1 |
+
+##### `unevalObjectLiteralKey` (src/internal/object.ts:384:32)
+
+| Count % | Count | Location                     |
+| ------: | ----: | ---------------------------- |
+|   34.6% |   445 | src/internal/object.ts:407:1 |
+|   22.0% |   283 | src/internal/object.ts:423:1 |
+|   17.8% |   229 | src/internal/object.ts:408:1 |
+|    9.2% |   118 | src/internal/object.ts:393:1 |
+|    7.7% |    99 | src/internal/object.ts:427:1 |
+
+##### `createState` (src/index.ts:144:21)
+
+| Count % | Count | Location           |
+| ------: | ----: | ------------------ |
+|   17.6% |   210 | src/index.ts:333:1 |
+|   16.2% |   194 | src/index.ts:150:1 |
+|   15.1% |   181 | src/index.ts:163:1 |
+|   14.6% |   175 | src/index.ts:151:1 |
+|   13.6% |   163 | src/index.ts:149:1 |
+
+##### `unevalString` (src/internal/primitive.ts:133:29)
+
+| Count % | Count | Location                        |
+| ------: | ----: | ------------------------------- |
+|  100.0% |   411 | src/internal/primitive.ts:135:1 |
+
+##### `unevalObject` (src/internal/object.ts:20:29)
+
+| Count % | Count | Location                    |
+| ------: | ----: | --------------------------- |
+|   44.0% |   153 | src/internal/object.ts:26:1 |
+|   28.2% |    98 | src/internal/object.ts:34:1 |
+|   23.6% |    82 | src/internal/object.ts:31:1 |
+|    4.3% |    15 | src/internal/object.ts:32:1 |
+
+##### `uneval` (src/index.ts:75:16)
+
+| Count % | Count | Location          |
+| ------: | ----: | ----------------- |
+|   73.5% |   233 | src/index.ts:78:1 |
+|   13.6% |    43 | src/index.ts:76:1 |
+|    7.6% |    24 | src/index.ts:83:1 |
+|    2.8% |     9 | src/index.ts:86:1 |
+|    2.5% |     8 | src/index.ts:77:1 |
+
+##### `isObject` (src/internal/object.ts:434:25)
+
+| Count % | Count | Location                     |
+| ------: | ----: | ---------------------------- |
+|   72.9% |   223 | src/internal/object.ts:437:1 |
+|   27.1% |    83 | src/internal/object.ts:436:1 |
+
+##### `uniformIntInternal` (node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28)
+
+| Count % | Count | Location                                                                                          |
+| ------: | ----: | ------------------------------------------------------------------------------------------------- |
+|   98.1% |   154 | node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:12:1 |
+|    1.3% |     2 | node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:9:1  |
+|    0.6% |     1 | node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:11:1 |
 
 #### Callers
 
