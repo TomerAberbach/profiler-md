@@ -119,7 +119,7 @@ const summarizeProfile = (
   const sizes = computeProfileSizes(profile, graph, options)
 
   const nodes = [...new Set(graph.idToNode.values())]
-    .filter(node => options.includeCallFrame(node.callFrame))
+    .filter(node => options.includeCallFrame(node))
     .map(node => summarizeProfileNode(node, graph, sizes, options))
   const callStacks = summarizeCallStacks(profile, graph, options)
 
@@ -295,7 +295,7 @@ const summarizeProfileNode = (
   const callers = callerToSelfSize
     ? [...callerToSelfSize]
         .filter(([callerId]) =>
-          options.includeCallFrame(graph.idToNode.get(callerId)!.callFrame),
+          options.includeCallFrame(graph.idToNode.get(callerId)!),
         )
         .map(([callerId, callerSize]) =>
           summarizeCallFrame(callerId, callerSize, graph, options),
@@ -305,7 +305,7 @@ const summarizeProfileNode = (
   const callees = calleeToTotalSize
     ? [...calleeToTotalSize]
         .filter(([calleeId]) =>
-          options.includeCallFrame(graph.idToNode.get(calleeId)!.callFrame),
+          options.includeCallFrame(graph.idToNode.get(calleeId)!),
         )
         .map(([calleeId, calleeSize]) =>
           summarizeCallFrame(calleeId, calleeSize, graph, options),
@@ -346,7 +346,7 @@ const summarizeCallStacks = (
   for (const { size, nodeId } of profile.samples) {
     const callStack = getCallStack(graph, nodeId)
     const frames = callStack
-      .filter(node => options.includeCallFrame(node.callFrame))
+      .filter(node => options.includeCallFrame(node))
       .map(node => node.callFrame)
     if (frames.length <= 1) {
       continue

@@ -119,7 +119,7 @@ const summarizeProfile = (
   const totalSamples = profile.samples.length
 
   const nodes = [...new Set(graph.idToNode.values())]
-    .filter(node => options.includeCallFrame(node.callFrame))
+    .filter(node => options.includeCallFrame(node))
     .map(node => summarizeProfileNode(node, graph, times, options))
   const callStacks = summarizeCallStacks(profile, graph, options)
 
@@ -226,6 +226,9 @@ const computeProfileTimes = (
   const idToCalleeToTotalTime = new Map<number, Map<number, number>>()
   const callFrameCategoryToTime = new Map<string, number>()
 
+  const callStackCache = new Map<number, ProfileNode[]>()
+  const categoryCache = new Map<number, string>()
+
   for (const [index, nodeId] of profile.samples.entries()) {
     const delta = profile.timeDeltas[index] ?? 0
     const canonicalNode = graph.idToNode.get(nodeId)!
@@ -234,7 +237,12 @@ const computeProfileTimes = (
       (idToSelfTime.get(canonicalNode.id) ?? 0) + delta,
     )
 
-    const callStack = getCallStack(graph, nodeId)
+    let callStack = callStackCache.get(nodeId)
+    if (!callStack) {
+      callStack = getCallStack(graph, nodeId)
+      callStackCache.set(nodeId, callStack)
+    }
+
     const seenNodes = new Set<ProfileNode>()
     for (const node of callStack) {
       if (!seenNodes.has(node)) {
@@ -277,10 +285,11 @@ const computeProfileTimes = (
       )
     }
 
-    const callFrameCategory = categorizeCallFrame(
-      canonicalNode.callFrame,
-      options,
-    )
+    let callFrameCategory = categoryCache.get(canonicalNode.id)
+    if (callFrameCategory === undefined) {
+      callFrameCategory = categorizeCallFrame(canonicalNode.callFrame, options)
+      categoryCache.set(canonicalNode.id, callFrameCategory)
+    }
     callFrameCategoryToTime.set(
       callFrameCategory,
       (callFrameCategoryToTime.get(callFrameCategory) ?? 0) + delta,
@@ -360,7 +369,7 @@ const summarizeProfileNode = (
   const callers = callerToSelfTime
     ? [...callerToSelfTime]
         .filter(([callerId]) =>
-          options.includeCallFrame(graph.idToNode.get(callerId)!.callFrame),
+          options.includeCallFrame(graph.idToNode.get(callerId)!),
         )
         .map(([callerId, callerTime]) =>
           summarizeCallFrame(callerId, callerTime, graph, options),
@@ -370,7 +379,7 @@ const summarizeProfileNode = (
   const callees = calleeToTotalTime
     ? [...calleeToTotalTime]
         .filter(([calleeId]) =>
-          options.includeCallFrame(graph.idToNode.get(calleeId)!.callFrame),
+          options.includeCallFrame(graph.idToNode.get(calleeId)!),
         )
         .map(([calleeId, calleeTime]) =>
           summarizeCallFrame(calleeId, calleeTime, graph, options),
@@ -415,13 +424,19 @@ const summarizeCallStacks = (
   options: NormalizedV8ProfileToMdOptions,
 ): CallStackSummary[] => {
   const pathMap = new Map<string, CallStackSummary>()
+  const callStackCache = new Map<number, ProfileNode[]>()
 
   for (const [index, nodeId] of profile.samples.entries()) {
     const delta = profile.timeDeltas[index] ?? 0
 
-    const callStack = getCallStack(graph, nodeId)
+    let callStack = callStackCache.get(nodeId)
+    if (!callStack) {
+      callStack = getCallStack(graph, nodeId)
+      callStackCache.set(nodeId, callStack)
+    }
+
     const frames = callStack
-      .filter(node => options.includeCallFrame(node.callFrame))
+      .filter(node => options.includeCallFrame(node))
       .map(node => node.callFrame)
     if (frames.length <= 1) {
       // Exclude 0 or 1 function calls. The latter are already represented by

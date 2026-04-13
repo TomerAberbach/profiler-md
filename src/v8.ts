@@ -89,10 +89,15 @@ export const defaultIncludeCallFrame = (
 export const defaultIsThirdPartyURL = (url: URL): boolean =>
   url.pathname.includes(`/node_modules/`)
 
+export type ProfileNode = {
+  id: number
+  callFrame: CallFrame
+}
+
 /** {@link V8ProfileToMdOptions} with defaults applied. */
 export type NormalizedV8ProfileToMdOptions = {
   topN: number
-  includeCallFrame: (callFrame: CallFrame) => boolean
+  includeCallFrame: (node: ProfileNode) => boolean
   isThirdPartyURL: (url: URL) => boolean
   cwd: string | undefined
 }
@@ -109,10 +114,19 @@ export const normalizeV8ProfileToMdOptions = ({
   if (cwd != null && !cwd.endsWith(`/`)) {
     cwd = `${cwd}/`
   }
+
+  const includeCallFrameCache = new Map<number, boolean>()
   return {
     topN,
-    includeCallFrame: callFrame =>
-      includeCallFrame(toPublicCallFrame(callFrame)),
+    includeCallFrame: node => {
+      let include = includeCallFrameCache.get(node.id)
+      if (include !== undefined) {
+        return include
+      }
+      include = includeCallFrame(toPublicCallFrame(node.callFrame))
+      includeCallFrameCache.set(node.id, include)
+      return include
+    },
     isThirdPartyURL,
     cwd: cwd ?? undefined,
   }
