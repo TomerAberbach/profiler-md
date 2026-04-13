@@ -1,6 +1,6 @@
 # Heap profile
 
-Allocated 4.91 MB over 2844 samples (1.73 kB per sample).
+Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
 
 | Category          | Total % | Total   |
 | ----------------- | ------- | ------- |

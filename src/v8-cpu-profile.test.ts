@@ -244,8 +244,8 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     | Count % | Count | Location     |
     | ------: | ----: | ------------ |
-    |   60.0% |     3 | src/b.ts:9:1 |
-    |   40.0% |     2 | src/b.ts:6:1 |
+    |   60.0% |     3 | src/b.ts:8:1 |
+    |   40.0% |     2 | src/b.ts:5:1 |
 
     #### Callers
 
@@ -489,9 +489,9 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     | Count % | Count | Location     |
     | ------: | ----: | ------------ |
-    |   50.0% |     4 | src/b.ts:6:1 |
-    |   37.5% |     3 | src/b.ts:9:1 |
-    |   12.5% |     1 | src/b.ts:7:1 |
+    |   50.0% |     4 | src/b.ts:5:1 |
+    |   37.5% |     3 | src/b.ts:8:1 |
+    |   12.5% |     1 | src/b.ts:6:1 |
 
     #### Callers
 
@@ -829,35 +829,35 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     | Count % | Count | Location           |
     | ------: | ----: | ------------------ |
-    |   44.8% | 3,352 | src/index.ts:211:1 |
-    |   21.4% | 1,597 | src/index.ts:220:1 |
+    |   44.8% | 3,352 | src/index.ts:210:1 |
+    |   21.4% | 1,597 | src/index.ts:219:1 |
 
     ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
 
     | Count % | Count | Location                     |
     | ------: | ----: | ---------------------------- |
-    |   42.3% | 3,037 | src/internal/object.ts:202:1 |
-    |   29.3% | 2,102 | src/internal/object.ts:129:1 |
+    |   42.3% | 3,037 | src/internal/object.ts:201:1 |
+    |   29.3% | 2,102 | src/internal/object.ts:128:1 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
     | Count % | Count | Location                    |
     | ------: | ----: | --------------------------- |
-    |   50.8% | 2,074 | src/internal/object.ts:79:1 |
-    |   38.5% | 1,572 | src/internal/object.ts:78:1 |
+    |   50.8% | 2,074 | src/internal/object.ts:78:1 |
+    |   38.5% | 1,572 | src/internal/object.ts:77:1 |
 
     ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
 
     | Count % | Count | Location                   |
     | ------: | ----: | -------------------------- |
-    |  100.0% | 4,059 | src/internal/index.ts:18:1 |
+    |  100.0% | 4,059 | src/internal/index.ts:17:1 |
 
     ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
 
     | Count % | Count | Location                        |
     | ------: | ----: | ------------------------------- |
-    |   27.7% | 1,112 | src/internal/primitive.ts:147:1 |
-    |   20.6% |   825 | src/internal/primitive.ts:149:1 |
+    |   27.7% | 1,112 | src/internal/primitive.ts:146:1 |
+    |   20.6% |   825 | src/internal/primitive.ts:148:1 |
 
     #### Callers
 

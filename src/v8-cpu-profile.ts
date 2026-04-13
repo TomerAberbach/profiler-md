@@ -352,7 +352,7 @@ const summarizeProfileNode = (
   const lines = Array.from(lineToHitCount, ([line, hitCount]) => ({
     hitCount,
     location: formatCallFrameLocation(
-      { ...callFrame, lineNumber: line, columnNumber: 0 },
+      { ...callFrame, lineNumber: line - 1, columnNumber: 0 },
       options,
     ),
   }))
