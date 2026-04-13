@@ -230,11 +230,22 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
-    | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 | 8            |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 | [unknown]    |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 | [unknown]    |
+    | Self % |  Self | Total % | Total | Function | Location     |
+    | -----: | ----: | ------: | ----: | -------- | ------------ |
+    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
+
+    #### Lines
+
+    Lines ranked by contribution to each function's sample count.
+
+    ##### \`funcB\` (src/b.ts:1:1)
+
+    | Count % | Count | Location     |
+    | ------: | ----: | ------------ |
+    |   60.0% |     3 | src/b.ts:9:1 |
+    |   40.0% |     2 | src/b.ts:6:1 |
 
     #### Callers
 
@@ -464,11 +475,23 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     | Hottest line |
-    | -----: | ----: | ------: | ----: | -------- | ------------ | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 | 5            |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 | [unknown]    |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 | [unknown]    |
+    | Self % |  Self | Total % | Total | Function | Location     |
+    | -----: | ----: | ------: | ----: | -------- | ------------ |
+    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
+
+    #### Lines
+
+    Lines ranked by contribution to each function's sample count.
+
+    ##### \`funcB\` (src/b.ts:1:1)
+
+    | Count % | Count | Location     |
+    | ------: | ----: | ------------ |
+    |   50.0% |     4 | src/b.ts:6:1 |
+    |   37.5% |     3 | src/b.ts:9:1 |
+    |   12.5% |     1 | src/b.ts:7:1 |
 
     #### Callers
 
@@ -790,13 +813,51 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |    Self | Total % |    Total | Function               | Location                         | Hottest line |
-    | -----: | ------: | ------: | -------: | ---------------------- | -------------------------------- | ------------ |
-    |  15.6% | 966.3ms |   23.7% | 1464.1ms | \`traverseObject\`       | src/index.ts:204:26              | 210          |
-    |  15.0% | 926.9ms |   48.6% | 3001.9ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26    | 128          |
-    |   8.5% | 527.0ms |   63.0% | 3893.0ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30     | 78           |
-    |   8.5% | 524.1ms |   14.7% |  907.7ms | \`unevalWithoutCustom\`  | src/internal/index.ts:14:37      | 17           |
-    |   8.4% | 517.7ms |    8.4% |  517.7ms | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 | 146          |
+    | Self % |    Self | Total % |    Total | Function               | Location                         |
+    | -----: | ------: | ------: | -------: | ---------------------- | -------------------------------- |
+    |  15.6% | 966.3ms |   23.7% | 1464.1ms | \`traverseObject\`       | src/index.ts:204:26              |
+    |  15.0% | 926.9ms |   48.6% | 3001.9ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26    |
+    |   8.5% | 527.0ms |   63.0% | 3893.0ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30     |
+    |   8.5% | 524.1ms |   14.7% |  907.7ms | \`unevalWithoutCustom\`  | src/internal/index.ts:14:37      |
+    |   8.4% | 517.7ms |    8.4% |  517.7ms | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 |
+
+    #### Lines
+
+    Lines ranked by contribution to each function's sample count.
+
+    ##### \`traverseObject\` (src/index.ts:204:26)
+
+    | Count % | Count | Location           |
+    | ------: | ----: | ------------------ |
+    |   44.8% |  3352 | src/index.ts:211:1 |
+    |   21.4% |  1597 | src/index.ts:220:1 |
+
+    ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
+
+    | Count % | Count | Location                     |
+    | ------: | ----: | ---------------------------- |
+    |   42.3% |  3037 | src/internal/object.ts:202:1 |
+    |   29.3% |  2102 | src/internal/object.ts:129:1 |
+
+    ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
+
+    | Count % | Count | Location                    |
+    | ------: | ----: | --------------------------- |
+    |   50.8% |  2074 | src/internal/object.ts:79:1 |
+    |   38.5% |  1572 | src/internal/object.ts:78:1 |
+
+    ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
+
+    | Count % | Count | Location                   |
+    | ------: | ----: | -------------------------- |
+    |  100.0% |  4059 | src/internal/index.ts:18:1 |
+
+    ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
+
+    | Count % | Count | Location                        |
+    | ------: | ----: | ------------------------------- |
+    |   27.7% |  1112 | src/internal/primitive.ts:147:1 |
+    |   20.6% |   825 | src/internal/primitive.ts:149:1 |
 
     #### Callers
 
