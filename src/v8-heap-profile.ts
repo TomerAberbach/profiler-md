@@ -154,9 +154,7 @@ const computeProfileNodeGraph = (profile: HeapProfile): ProfileNodeGraph => {
   while (stack.length > 0) {
     const { node, parentId } = stack.pop()!
 
-    const { functionName, url, lineNumber, columnNumber } = node.callFrame
-    const key = `${functionName}|${url}|${lineNumber}|${columnNumber}`
-
+    const key = callFrameKey(node.callFrame)
     const canonical = keyToCanonicalNode.get(key)
     if (canonical) {
       idToNode.set(node.id, canonical)

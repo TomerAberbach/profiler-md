@@ -146,9 +146,7 @@ const computeProfileNodeGraph = (profile: CpuProfile): ProfileNodeGraph => {
       throw new Error(`Unexpected duplicate node ID: ${node.id}`)
     }
 
-    const { functionName, url, lineNumber, columnNumber } = node.callFrame
-    const key = `${functionName}|${url}|${lineNumber}|${columnNumber}`
-
+    const key = callFrameKey(node.callFrame)
     const canonicalNode = keyToCanonicalNode.get(key)
     if (canonicalNode) {
       // Point this ID to the existing canonical node and merge positionTicks.
