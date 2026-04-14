@@ -3,8 +3,8 @@ import {
   formatMicroseconds,
   formatMilliseconds,
   formatPercent,
-} from './internal/format.ts'
-import { formatTable, inlineCode } from './internal/markdown.ts'
+} from '../internal/format.ts'
+import { formatTable, inlineCode } from '../internal/markdown.ts'
 import {
   callFrameKey,
   categorizeCallFrame,
@@ -12,12 +12,12 @@ import {
   formatCallFrameLocation,
   formatCallStack,
   normalizeV8ProfileToMdOptions,
-} from './v8.ts'
+} from './common.ts'
 import type {
   CallFrame,
   NormalizedV8ProfileToMdOptions,
   V8ProfileToMdOptions,
-} from './v8.ts'
+} from './common.ts'
 
 /**
  * Converts the given V8 CPU profile to Markdown.

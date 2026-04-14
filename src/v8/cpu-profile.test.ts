@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { readFixture } from './testing/fixtures.ts'
-import { v8CpuProfileToMd } from './v8-cpu-profile.ts'
+import { readFixture } from '../testing/fixtures.ts'
+import { v8CpuProfileToMd } from './cpu-profile.ts'
 
 const makeProfile = (
   nodes: object[],

@@ -1,4 +1,4 @@
-import { inlineCode } from './internal/markdown.ts'
+import { inlineCode } from '../internal/markdown.ts'
 
 /** A single call frame in a V8 profile as seen by callers. */
 export type V8ProfileCallFrame = {

@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { readFixture } from './testing/fixtures.ts'
-import { v8HeapProfileToMd } from './v8-heap-profile.ts'
+import { readFixture } from '../testing/fixtures.ts'
+import { v8HeapProfileToMd } from './heap-profile.ts'
 
 const makeProfile = (head: object, samples: object[]) =>
   JSON.stringify({ head, samples })

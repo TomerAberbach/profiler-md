@@ -21,7 +21,7 @@ const extensionToProfileConverter = new Map<string, ProfileConverter>([
   [
     `.cpuprofile`,
     {
-      type: `v8-cpu`,
+      type: `v8-cpu-profile`,
       convert: (text, { topN, cwd, thirdPartyGlobs }) => {
         const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
           picomatch(glob, { dot: true }),
@@ -40,7 +40,7 @@ const extensionToProfileConverter = new Map<string, ProfileConverter>([
   [
     `.heapprofile`,
     {
-      type: `v8-heap`,
+      type: `v8-heap-profile`,
       convert: (text, { topN, cwd, thirdPartyGlobs }) => {
         const thirdPartyMatchers = thirdPartyGlobs.map(glob =>
           picomatch(glob, { dot: true }),

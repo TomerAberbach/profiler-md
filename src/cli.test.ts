@@ -7,12 +7,12 @@ import { fixturePath } from './testing/fixtures.ts'
 
 describe.each([
   {
-    type: `v8-cpu`,
+    type: `v8-cpu-profile`,
     filename: `example.cpuprofile`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
-    type: `v8-heap`,
+    type: `v8-heap-profile`,
     filename: `example.heapprofile`,
     expectedMarkdown: /^# Heap profile/u,
   },
