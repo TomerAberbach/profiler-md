@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { readFixture } from '../testing/fixtures.ts'
-import { v8HeapProfileToMd } from './heap-profile.ts'
+import { readFixture } from '../../testing/fixtures.ts'
+import { v8HeapProfileToMd } from './index.ts'
 
 const makeProfile = (head: object, samples: object[]) =>
   JSON.stringify({ head, samples })
@@ -523,10 +523,10 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     | Self % |    Self | Total % |   Total | Function          | Location                                                                          |
     | -----: | ------: | ------: | ------: | ----------------- | --------------------------------------------------------------------------------- |
-    |   9.3% |  458 kB |    9.3% |  458 kB | \`(IDLE)\`          | [unknown]                                                                         |
+    |   9.3% |  458 kB |    9.3% |  458 kB | \`(IDLE)\`          | [unknown]:0:0                                                                     |
     |   3.0% |  148 kB |    3.2% |  157 kB | \`(anonymous)\`     | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1 |
-    |   2.3% |  113 kB |    2.4% |  116 kB | \`js-to-wasm:iii:\` | wasm://wasm/009f676a                                                              |
-    |   1.5% | 73.1 kB |    1.5% | 73.1 kB | \`push\`            | [unknown]                                                                         |
+    |   2.3% |  113 kB |    2.4% |  116 kB | \`js-to-wasm:iii:\` | wasm://wasm/009f676a:1:2029168                                                    |
+    |   1.5% | 73.1 kB |    1.5% | 73.1 kB | \`push\`            | [unknown]:0:0                                                                     |
     |   1.3% | 65.6 kB |    1.3% | 65.6 kB | \`unevalNumber\`    | src/internal/primitive.ts:12:29                                                   |
 
     #### Callers
@@ -535,11 +535,11 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     ##### \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1)
 
-    | Self % |   Self | Caller | Location  |
-    | -----: | -----: | ------ | --------- |
-    |  74.4% | 110 kB | \`next\` | [unknown] |
+    | Self % |   Self | Caller | Location      |
+    | -----: | -----: | ------ | ------------- |
+    |  74.4% | 110 kB | \`next\` | [unknown]:0:0 |
 
-    ##### \`push\` ([unknown])
+    ##### \`push\` ([unknown]:0:0)
 
     | Self % |    Self | Caller             | Location                                                                             |
     | -----: | ------: | ------------------ | ------------------------------------------------------------------------------------ |
@@ -556,25 +556,25 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     Functions ranked by total bytes allocated in the function and all its callees.
 
-    | Total % |   Total | Self % |    Self | Function       | Location                 |
-    | ------: | ------: | -----: | ------: | -------------- | ------------------------ |
-    |   55.8% | 2.74 MB |   0.1% |  6.3 kB | \`(anonymous)\`  | [unknown]                |
-    |   36.1% | 1.77 MB |   0.0% | 1.01 kB | \`tracePromise\` | node:diagnostics_channel |
-    |   13.1% |  643 kB |   0.0% | 1.08 kB | \`next\`         | [unknown]                |
-    |   10.3% |  507 kB |   0.1% | 2.54 kB | \`(anonymous)\`  | scripts/profile.ts:1:1   |
-    |    9.3% |  458 kB |   9.3% |  458 kB | \`(IDLE)\`       | [unknown]                |
+    | Total % |   Total | Self % |    Self | Function       | Location                        |
+    | ------: | ------: | -----: | ------: | -------------- | ------------------------------- |
+    |   55.8% | 2.74 MB |   0.1% |  6.3 kB | \`(anonymous)\`  | [unknown]:0:0                   |
+    |   36.1% | 1.77 MB |   0.0% | 1.01 kB | \`tracePromise\` | node:diagnostics_channel:348:15 |
+    |   13.1% |  643 kB |   0.0% | 1.08 kB | \`next\`         | [unknown]:0:0                   |
+    |   10.3% |  507 kB |   0.1% | 2.54 kB | \`(anonymous)\`  | scripts/profile.ts:1:1          |
+    |    9.3% |  458 kB |   9.3% |  458 kB | \`(IDLE)\`       | [unknown]:0:0                   |
 
     #### Callees
 
     Callees ranked by contribution to each function's total size.
 
-    ##### \`(anonymous)\` ([unknown])
+    ##### \`(anonymous)\` ([unknown]:0:0)
 
-    | Total % |   Total | Callee                | Location  |
-    | ------: | ------: | --------------------- | --------- |
-    |    1.8% | 49.9 kB | \`createGlobalConsole\` | [unknown] |
+    | Total % |   Total | Callee                | Location      |
+    | ------: | ------: | --------------------- | ------------- |
+    |    1.8% | 49.9 kB | \`createGlobalConsole\` | [unknown]:0:0 |
 
-    ##### \`next\` ([unknown])
+    ##### \`next\` ([unknown]:0:0)
 
     | Total % |  Total | Callee        | Location                                                                            |
     | ------: | -----: | ------------- | ----------------------------------------------------------------------------------- |
@@ -594,13 +594,13 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     Common call stack: \`(anonymous)\`
 
-    | Self % |    Self | Call stack                                                                                                                                                                                                                                                                                                                                          |
-    | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |  31.7% | 1.56 MB | \`tracePromise\` (node:diagnostics_channel)                                                                                                                                                                                                                                                                                                           |
-    |   2.4% |  116 kB | \`js-to-wasm:iii:\` (wasm://wasm/009f676a) ← \`tracePromise\` (node:diagnostics_channel)                                                                                                                                                                                                                                                                |
-    |   2.2% |  110 kB | \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1) ← \`next\`                                                                                                                                                                                                                                          |
-    |   1.3% | 65.6 kB | \`unevalNumber\` (src/internal/primitive.ts:12:29) ← \`unevalInternal\` (src/internal/index.ts:25:32) ← \`unevalObjectLike\` (src/internal/object.ts:103:26) ← \`unevalObjectInternal\` (68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32) ← \`uneval\` (src/index.ts:75:16) ← \`(anonymous)\` (scripts/profile.ts:1:1) ← \`next\` |
-    |   1.3% | 61.5 kB | \`exec\` ← \`tracePromise\` (node:diagnostics_channel)                                                                                                                                                                                                                                                                                                  |
+    | Self % |    Self | Call stack                                                                                                 |
+    | -----: | ------: | ---------------------------------------------------------------------------------------------------------- |
+    |  14.2% |  699 kB | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
+    |   6.5% |  321 kB | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
+    |   3.9% |  194 kB | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
+    |   2.2% |  110 kB | \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1) ← \`next\` |
+    |   1.8% | 88.3 kB | \`js-to-wasm:iii:\` (wasm://wasm/009f676a:1:2029168) ← \`tracePromise\` (node:diagnostics_channel:348:15)      |
     "
   `)
 })

@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { readFixture } from '../testing/fixtures.ts'
-import { v8CpuProfileToMd } from './cpu-profile.ts'
+import { readFixture } from '../../testing/fixtures.ts'
+import { v8CpuProfileToMd } from './index.ts'
 
 const makeProfile = (
   nodes: object[],
@@ -154,7 +154,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 })
 
 test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`, () => {
-  // Node 4 has ticks on line 5 (2 ticks), node 5 has ticks on line 8 (3 ticks).
+  // Node 4 has ticks on line 5 (1 tick), node 5 has ticks on line 8 (2 ticks).
   // After merging, hottest line should be 8.
   const profile = makeProfile(
     [
@@ -193,7 +193,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
           lineNumber: 0,
           columnNumber: 0,
         },
-        positionTicks: [{ line: 5, ticks: 2 }],
+        positionTicks: [{ line: 5, ticks: 1 }],
       },
       {
         id: 5,
@@ -205,7 +205,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
           lineNumber: 0,
           columnNumber: 0,
         },
-        positionTicks: [{ line: 8, ticks: 3 }],
+        positionTicks: [{ line: 8, ticks: 2 }],
       },
     ],
     300,
@@ -242,10 +242,10 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Count % | Count | Location     |
-    | ------: | ----: | ------------ |
-    |   60.0% |     3 | src/b.ts:8:1 |
-    |   40.0% |     2 | src/b.ts:5:1 |
+    | Count % | Count | Location   |
+    | ------: | ----: | ---------- |
+    |   66.7% |     2 | src/b.ts:8 |
+    |   33.3% |     1 | src/b.ts:5 |
 
     #### Callers
 
@@ -392,9 +392,9 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 })
 
 test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`, () => {
-  // Node 4 has ticks on lines 8 (3) and 5 (1). Node 5 has ticks on lines 5 (3)
-  // and 6 (1). Line 5's ticks must be summed (1+3=4), making line 5 the
-  // hottest. Without summing, line 8 (ticks=3) would incorrectly win.
+  // Node 4 has ticks on lines 8 (1) and 5 (1). Node 5 has ticks on line 5 (1).
+  // Line 5's ticks must be summed (1+1=2), making line 5 the hottest. Without
+  // summing, line 8 and line 5 would tie on node 4 alone.
   const profile = makeProfile(
     [
       root([2, 3]),
@@ -433,7 +433,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
           columnNumber: 0,
         },
         positionTicks: [
-          { line: 8, ticks: 3 },
+          { line: 8, ticks: 1 },
           { line: 5, ticks: 1 },
         ],
       },
@@ -447,10 +447,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
           lineNumber: 0,
           columnNumber: 0,
         },
-        positionTicks: [
-          { line: 5, ticks: 3 },
-          { line: 6, ticks: 1 },
-        ],
+        positionTicks: [{ line: 5, ticks: 1 }],
       },
     ],
     300,
@@ -487,11 +484,10 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Count % | Count | Location     |
-    | ------: | ----: | ------------ |
-    |   50.0% |     4 | src/b.ts:5:1 |
-    |   37.5% |     3 | src/b.ts:8:1 |
-    |   12.5% |     1 | src/b.ts:6:1 |
+    | Count % | Count | Location   |
+    | ------: | ----: | ---------- |
+    |   66.7% |     2 | src/b.ts:5 |
+    |   33.3% |     1 | src/b.ts:8 |
 
     #### Callers
 
@@ -795,7 +791,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 6176.2ms over 47,806 samples (129.2µs per sample).
+    Took 6176.3ms over 47,806 samples (129.2µs per sample).
 
     | Category          | Total % | Total    |
     | ----------------- | ------- | -------- |
@@ -827,37 +823,37 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     ##### \`traverseObject\` (src/index.ts:204:26)
 
-    | Count % | Count | Location           |
-    | ------: | ----: | ------------------ |
-    |   44.8% | 3,352 | src/index.ts:210:1 |
-    |   21.4% | 1,597 | src/index.ts:219:1 |
+    | Count % | Count | Location         |
+    | ------: | ----: | ---------------- |
+    |   44.8% | 3,352 | src/index.ts:210 |
+    |   21.4% | 1,597 | src/index.ts:219 |
 
     ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
 
-    | Count % | Count | Location                     |
-    | ------: | ----: | ---------------------------- |
-    |   42.3% | 3,037 | src/internal/object.ts:201:1 |
-    |   29.3% | 2,102 | src/internal/object.ts:128:1 |
+    | Count % | Count | Location                   |
+    | ------: | ----: | -------------------------- |
+    |   42.3% | 3,037 | src/internal/object.ts:201 |
+    |   29.3% | 2,102 | src/internal/object.ts:128 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
-    | Count % | Count | Location                    |
-    | ------: | ----: | --------------------------- |
-    |   50.8% | 2,074 | src/internal/object.ts:78:1 |
-    |   38.5% | 1,572 | src/internal/object.ts:77:1 |
+    | Count % | Count | Location                  |
+    | ------: | ----: | ------------------------- |
+    |   50.8% | 2,074 | src/internal/object.ts:78 |
+    |   38.5% | 1,572 | src/internal/object.ts:77 |
 
     ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
 
-    | Count % | Count | Location                   |
-    | ------: | ----: | -------------------------- |
-    |  100.0% | 4,059 | src/internal/index.ts:17:1 |
+    | Count % | Count | Location                 |
+    | ------: | ----: | ------------------------ |
+    |  100.0% | 4,059 | src/internal/index.ts:17 |
 
     ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
 
-    | Count % | Count | Location                        |
-    | ------: | ----: | ------------------------------- |
-    |   27.7% | 1,112 | src/internal/primitive.ts:146:1 |
-    |   20.6% |   825 | src/internal/primitive.ts:148:1 |
+    | Count % | Count | Location                      |
+    | ------: | ----: | ----------------------------- |
+    |   27.7% | 1,112 | src/internal/primitive.ts:146 |
+    |   20.6% |   825 | src/internal/primitive.ts:148 |
 
     #### Callers
 

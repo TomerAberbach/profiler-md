@@ -116,18 +116,29 @@ export const normalizeV8ProfileToMdOptions = ({
   }
 
   const includeCallFrameCache = new Map<number, boolean>()
+  const isThirdPartyUrlCache = new Map<string, boolean>()
+
   return {
     topN,
     includeCallFrame: node => {
-      let include = includeCallFrameCache.get(node.id)
-      if (include !== undefined) {
-        return include
+      let result = includeCallFrameCache.get(node.id)
+      if (result !== undefined) {
+        return result
       }
-      include = includeCallFrame(toPublicCallFrame(node.callFrame))
-      includeCallFrameCache.set(node.id, include)
-      return include
+      result = includeCallFrame(toPublicCallFrame(node.callFrame))
+      includeCallFrameCache.set(node.id, result)
+      return result
     },
-    isThirdPartyURL,
+    isThirdPartyURL: url => {
+      const { href } = url
+      let result = isThirdPartyUrlCache.get(href)
+      if (result !== undefined) {
+        return result
+      }
+      result = isThirdPartyURL(url)
+      isThirdPartyUrlCache.set(href, result)
+      return result
+    },
     cwd: cwd ?? undefined,
   }
 }
@@ -164,19 +175,19 @@ const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
   }
 }
 
-export const formatCallFrameLocation = (
-  callFrame: CallFrame,
+export const formatUrl = (
+  url: string,
   { cwd }: NormalizedV8ProfileToMdOptions,
 ): string => {
   let urlObject: URL
   try {
-    urlObject = new URL(callFrame.url)
+    urlObject = new URL(url)
   } catch {
-    return callFrame.url || `[unknown]`
+    return url || `[unknown]`
   }
 
   if (urlObject.protocol !== `file:`) {
-    return callFrame.url || `[unknown]`
+    return url || `[unknown]`
   }
 
   let path = urlObject.pathname
@@ -184,12 +195,12 @@ export const formatCallFrameLocation = (
     path = path.slice(cwd.length)
   }
 
-  return `${path}:${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
+  return path
 }
 
 export const categorizeCallFrame = (
   callFrame: CallFrame,
-  { isThirdPartyURL }: { isThirdPartyURL: (url: URL) => boolean },
+  { isThirdPartyURL }: NormalizedV8ProfileToMdOptions,
 ): string => {
   if (!callFrame.url) {
     const { functionName } = callFrame
@@ -260,10 +271,12 @@ export const formatCallStack = (
         return name
       }
       const previousUrl = frames[index - 1]?.url
+      const lineColumn = `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
+
       const location =
         callFrame.url === previousUrl
-          ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
-          : formatCallFrameLocation(callFrame, options)
+          ? lineColumn
+          : `${formatUrl(callFrame.url, options)}:${lineColumn}`
       return `${name} (${location})`
     })
     .join(` ← `)

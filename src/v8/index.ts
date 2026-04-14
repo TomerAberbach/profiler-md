@@ -4,5 +4,5 @@ export {
   defaultIncludeCallFrame,
   defaultIsThirdPartyURL,
 } from './common.ts'
-export * from './cpu-profile.ts'
-export * from './heap-profile.ts'
+export * from './cpu-profile/index.ts'
+export * from './heap-profile/index.ts'
