@@ -1,5 +1,14 @@
-import { callFrameKey, categorizeCallFrame, formatUrl } from '../common.ts'
-import type { CallFrame, NormalizedV8ProfileToMdOptions } from '../common.ts'
+import {
+  callFrameKey,
+  categorizeCallFrame,
+  formatUrl,
+  getSummarizedCallStack,
+} from '../common.ts'
+import type {
+  CallFrame,
+  NormalizedV8ProfileToMdOptions,
+  ProfileGraph,
+} from '../common.ts'
 import type { HeapProfile, HeapProfileNode } from './parse.ts'
 
 export type SummarizedHeapProfile = {
@@ -168,22 +177,10 @@ export const summarizeProfile = (
   }
 }
 
-/** The relationships between nodes in the profile. */
-type HeapProfileGraph = {
-  /** Raw node ID to summarized node. */
-  rawIdToSummarizedNode: Map<number, SummarizedProfileNode>
-
-  /** {@link callFrameKey} to summarized node. */
-  keyToSummarizedNode: Map<string, SummarizedProfileNode>
-
-  /** Raw node ID to raw parent node ID. */
-  rawIdToParentRawId: Map<number, number>
-}
-
 const computeProfileGraph = (
   profile: HeapProfile,
   options: NormalizedV8ProfileToMdOptions,
-): HeapProfileGraph => {
+): ProfileGraph<SummarizedProfileNode> => {
   const rawIdToSummarizedNode = new Map<number, SummarizedProfileNode>()
   const keyToSummarizedNode = new Map<string, SummarizedProfileNode>()
   const rawIdToParentRawId = new Map<number, number>()
@@ -226,19 +223,4 @@ const computeProfileGraph = (
   }
 
   return { rawIdToSummarizedNode, keyToSummarizedNode, rawIdToParentRawId }
-}
-
-/** Returns the full call stack for a node (bottom-up). */
-const getSummarizedCallStack = (
-  graph: HeapProfileGraph,
-  rawNodeId: number,
-): SummarizedProfileNode[] => {
-  const stack: SummarizedProfileNode[] = []
-  let currentRawNodeId: number | undefined = rawNodeId
-  do {
-    const node = graph.rawIdToSummarizedNode.get(currentRawNodeId)!
-    stack.push(node)
-    currentRawNodeId = graph.rawIdToParentRawId.get(currentRawNodeId)
-  } while (currentRawNodeId !== undefined)
-  return stack
 }

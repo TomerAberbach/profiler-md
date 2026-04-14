@@ -1,8 +1,13 @@
-import { callFrameKey, categorizeCallFrame, formatUrl } from '../common.ts'
+import {
+  callFrameKey,
+  categorizeCallFrame,
+  formatUrl,
+  getSummarizedCallStack,
+} from '../common.ts'
 import type {
   CallFrame,
   NormalizedV8ProfileToMdOptions,
-  ProfileNode,
+  ProfileGraph,
 } from '../common.ts'
 import type { CpuProfile } from './parse.ts'
 
@@ -65,7 +70,7 @@ export const summarizeProfile = (
 
     const callStack = summarizedCallStack.nodes
 
-    const seenCallers = new Set<ProfileNode>()
+    const seenCallers = new Set<SummarizedProfileNode>()
     for (const caller of callStack) {
       if (!seenCallers.has(caller)) {
         seenCallers.add(caller)
@@ -189,22 +194,10 @@ export type SummarizedCallStack = {
   selfTime: number
 }
 
-/** The relationships between nodes in the profile. */
-type CpuProfileGraph = {
-  /** Raw node ID to summarized node. */
-  rawIdToSummarizedNode: Map<number, SummarizedProfileNode>
-
-  /** {@link callFrameKey} to summarized node. */
-  keyToSummarizedNode: Map<string, SummarizedProfileNode>
-
-  /** Raw node ID to raw parent node ID. */
-  rawIdToParentRawId: Map<number, number>
-}
-
 const computeProfileGraph = (
   profile: CpuProfile,
   options: NormalizedV8ProfileToMdOptions,
-): CpuProfileGraph => {
+): ProfileGraph<SummarizedProfileNode> => {
   const rawIdToSummarizedNode = new Map<number, SummarizedProfileNode>()
   const keyToSummarizedNode = new Map<string, SummarizedProfileNode>()
   const rawIdToParentRawId = new Map<number, number>()
@@ -262,19 +255,4 @@ const computeProfileGraph = (
   }
 
   return { rawIdToSummarizedNode, keyToSummarizedNode, rawIdToParentRawId }
-}
-
-/** Returns the full call stack for a node (bottom-up). */
-const getSummarizedCallStack = (
-  graph: CpuProfileGraph,
-  rawNodeId: number,
-): SummarizedProfileNode[] => {
-  const stack: SummarizedProfileNode[] = []
-  let currentRawNodeId: number | undefined = rawNodeId
-  do {
-    const node = graph.rawIdToSummarizedNode.get(currentRawNodeId)!
-    stack.push(node)
-    currentRawNodeId = graph.rawIdToParentRawId.get(currentRawNodeId)
-  } while (currentRawNodeId !== undefined)
-  return stack
 }

@@ -260,16 +260,12 @@ const formatHottestCallStacks = (
     return null
   }
 
-  const commonCallStack = findCommonCallStack(
-    hottestCallStacks.map(callStack => ({
-      frames: callStack.nodes.map(node => node.callFrame),
-    })),
-  )
+  const commonCallStack = findCommonCallStack(hottestCallStacks)
   return [
     `## Hottest call stacks`,
     `Call stacks ranked by time spent in their top frame.`,
     ...(commonCallStack.length > 0
-      ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
+      ? [`Common call stack: ${formatCallStack(commonCallStack)}`]
       : []),
     formatTable(
       [
@@ -281,11 +277,9 @@ const formatHottestCallStacks = (
         formatPercent(callStack.selfTime / summary.totalTime),
         formatMilliseconds(callStack.selfTime),
         formatCallStack(
-          (commonCallStack.length > 0
+          commonCallStack.length > 0
             ? callStack.nodes.slice(0, -commonCallStack.length)
-            : callStack.nodes
-          ).map(node => node.callFrame),
-          options,
+            : callStack.nodes,
         ),
       ]),
     ),

@@ -89,15 +89,10 @@ export const defaultIncludeCallFrame = (
 export const defaultIsThirdPartyURL = (url: URL): boolean =>
   url.pathname.includes(`/node_modules/`)
 
-export type ProfileNode = {
-  id: number
-  callFrame: CallFrame
-}
-
 /** {@link V8ProfileToMdOptions} with defaults applied. */
 export type NormalizedV8ProfileToMdOptions = {
   topN: number
-  includeCallFrame: (node: ProfileNode) => boolean
+  includeCallFrame: (node: { id: number; callFrame: CallFrame }) => boolean
   isThirdPartyURL: (url: URL) => boolean
   cwd: string | undefined
 }
@@ -169,10 +164,7 @@ const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
     url = new URL(callFrame.url)
   } catch {}
 
-  return {
-    functionName: callFrame.functionName || undefined,
-    url,
-  }
+  return { functionName: callFrame.functionName || undefined, url }
 }
 
 export const formatUrl = (
@@ -231,24 +223,30 @@ export const categorizeCallFrame = (
   return isThirdPartyURL(urlObject) ? `third-party` : `ours`
 }
 
-export const findCommonCallStack = (
-  callStacks: { frames: CallFrame[] }[],
-): CallFrame[] => {
+export const findCommonCallStack = <
+  SummarizedProfileNode extends { callFrame: CallFrame },
+>(
+  callStacks: { nodes: SummarizedProfileNode[] }[],
+): SummarizedProfileNode[] => {
   if (callStacks.length <= 1) {
     return []
   }
 
-  const minLength = Math.min(...callStacks.map(cs => cs.frames.length))
-  const firstFrames = callStacks[0]!.frames
+  const minLength = Math.min(
+    ...callStacks.map(callStack => callStack.nodes.length),
+  )
+  const firstNodes = callStacks[0]!.nodes
   let suffixLength = 0
 
   for (let i = 1; i < minLength; i++) {
-    const suffix = firstFrames.slice(-i).map(callFrameKey)
+    const suffix = firstNodes
+      .slice(-i)
+      .map(node => callFrameKey(node.callFrame))
     if (
-      callStacks.every(cs =>
-        cs.frames
+      callStacks.every(callStack =>
+        callStack.nodes
           .slice(-i)
-          .every((frame, j) => callFrameKey(frame) === suffix[j]),
+          .every((node, j) => callFrameKey(node.callFrame) === suffix[j]),
       )
     ) {
       suffixLength = i
@@ -257,27 +255,29 @@ export const findCommonCallStack = (
     }
   }
 
-  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
+  return suffixLength > 0 ? firstNodes.slice(-suffixLength) : []
 }
 
 export const formatCallStack = (
-  frames: CallFrame[],
-  options: NormalizedV8ProfileToMdOptions,
+  callStack: {
+    callFrame: CallFrame
+    functionName: string
+    location: string
+  }[],
 ): string =>
-  frames
-    .map((callFrame, index) => {
-      const name = inlineCode(callFrame.functionName || `(anonymous)`)
+  callStack
+    .map(({ callFrame, functionName, location }, index) => {
+      const name = inlineCode(functionName)
       if (!callFrame.url) {
         return name
       }
-      const previousUrl = frames[index - 1]?.url
-      const lineColumn = `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
 
-      const location =
+      const previousUrl = callStack[index - 1]?.callFrame.url
+      return `${name} (${
         callFrame.url === previousUrl
-          ? lineColumn
-          : `${formatUrl(callFrame.url, options)}:${lineColumn}`
-      return `${name} (${location})`
+          ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
+          : location
+      })`
     })
     .join(` ← `)
 
@@ -287,3 +287,30 @@ export const callFrameKey = ({
   lineNumber,
   columnNumber,
 }: CallFrame): string => `${functionName}|${url}|${lineNumber}|${columnNumber}`
+
+/** The relationships between nodes in the profile. */
+export type ProfileGraph<SummarizedProfileNode> = {
+  /** Raw node ID to summarized node. */
+  rawIdToSummarizedNode: Map<number, SummarizedProfileNode>
+
+  /** {@link callFrameKey} to summarized node. */
+  keyToSummarizedNode: Map<string, SummarizedProfileNode>
+
+  /** Raw node ID to raw parent node ID. */
+  rawIdToParentRawId: Map<number, number>
+}
+
+/** Returns the full call stack for a node (bottom-up). */
+export const getSummarizedCallStack = <SummarizedProfileNode>(
+  graph: ProfileGraph<SummarizedProfileNode>,
+  rawNodeId: number,
+): SummarizedProfileNode[] => {
+  const stack: SummarizedProfileNode[] = []
+  let currentRawNodeId: number | undefined = rawNodeId
+  do {
+    const node = graph.rawIdToSummarizedNode.get(currentRawNodeId)!
+    stack.push(node)
+    currentRawNodeId = graph.rawIdToParentRawId.get(currentRawNodeId)
+  } while (currentRawNodeId !== undefined)
+  return stack
+}
