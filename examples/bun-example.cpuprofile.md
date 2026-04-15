@@ -1,11 +1,11 @@
 # CPU profile
 
-Took 10338.4ms over 64,273 samples (160.9µs per sample).
+Took 10362.4ms over 64,273 samples (161.2µs per sample).
 
 | Category    | Total % | Total    |
 | ----------- | ------- | -------- |
-| ours        | 74.5%   | 7700.5ms |
-| native      | 24.7%   | 2552.4ms |
+| ours        | 74.3%   | 7700.5ms |
+| native      | 24.6%   | 2552.4ms |
 | third-party | 0.8%    | 85.5ms   |
 
 ## Hottest functions
@@ -20,7 +20,7 @@ Functions ranked by time in the function body, excluding callees.
 |  12.8% | 1323.0ms |   12.8% | 1323.0ms | `join`                                      | [unknown]                        |
 |   8.2% |  851.5ms |    8.2% |  851.5ms | `getOwnPropertyDescriptor`                  | [unknown]                        |
 |   6.6% |  685.1ms |    6.6% |  685.1ms | `unevalNumber`                              | src/internal/primitive.ts:23:22  |
-|   3.9% |  398.2ms |    3.9% |  398.2ms | `traverseObject`                            | src/index.ts:246:28              |
+|   3.8% |  398.2ms |    3.8% |  398.2ms | `traverseObject`                            | src/index.ts:246:28              |
 |   3.0% |  308.3ms |    3.0% |  308.3ms | `traverseObject`                            | src/index.ts:249:20              |
 |   2.9% |  299.9ms |    2.9% |  299.9ms | `getType`                                   | src/internal/type.ts:18:18       |
 |   2.6% |  265.9ms |    2.6% |  265.9ms | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | [unknown]                        |
@@ -30,8 +30,8 @@ Functions ranked by time in the function body, excluding callees.
 |   1.6% |  163.3ms |    1.6% |  168.4ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:407:8     |
 |   1.5% |  155.2ms |    1.5% |  156.0ms | `traverse`                                  | src/index.ts:200:19              |
 |   1.5% |  150.9ms |   28.5% | 2949.9ms | `unevalString`                              | src/internal/primitive.ts:135:8  |
-|   1.4% |  148.5ms |   16.8% | 1732.9ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:427:22    |
-|   1.3% |  137.5ms |   68.8% | 7116.1ms | `uneval`                                    | src/index.ts:78:19               |
+|   1.4% |  148.5ms |   16.7% | 1732.9ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:427:22    |
+|   1.3% |  137.5ms |   68.7% | 7116.1ms | `uneval`                                    | src/index.ts:78:19               |
 |   1.2% |  124.3ms |    3.8% |  390.1ms | `unevalObjectLiteralKey`                    | src/internal/object.ts:423:25    |
 |   1.1% |  118.7ms |    1.1% |  118.7ms | `unevalBoolean`                             | src/internal/primitive.ts:11:8   |
 |   1.1% |  111.2ms |    1.1% |  111.2ms | `unevalObjectLike`                          | src/internal/object.ts:143:32    |
@@ -181,25 +181,25 @@ Functions ranked by total time in the function and all its callees.
 
 | Total % |     Total | Self % |     Self | Function                   | Location                         |
 | ------: | --------: | -----: | -------: | -------------------------- | -------------------------------- |
-|   99.8% | 10316.9ms |   0.0% |    0.0ms | `loadAndEvaluateModule`    | [unknown]                        |
-|   99.7% | 10310.3ms |   0.0% |    0.0ms | `moduleEvaluation`         | [unknown]                        |
-|   99.7% | 10310.3ms |   0.0% |    1.1ms | `evaluate`                 | [unknown]                        |
-|   94.7% |  9790.0ms |   0.1% |    9.2ms | `(module)`                 | scripts/profile.ts:17:6          |
-|   68.8% |  7116.1ms |   1.3% |  137.5ms | `uneval`                   | src/index.ts:78:19               |
+|   99.6% | 10316.9ms |   0.0% |    0.0ms | `loadAndEvaluateModule`    | [unknown]                        |
+|   99.5% | 10310.3ms |   0.0% |    0.0ms | `moduleEvaluation`         | [unknown]                        |
+|   99.5% | 10310.3ms |   0.0% |    1.1ms | `evaluate`                 | [unknown]                        |
+|   94.5% |  9790.0ms |   0.1% |    9.2ms | `(module)`                 | scripts/profile.ts:17:6          |
+|   68.7% |  7116.1ms |   1.3% |  137.5ms | `uneval`                   | src/index.ts:78:19               |
 |   29.5% |  3052.7ms |   0.2% |   22.6ms | `uneval`                   | src/index.ts:77:18               |
 |   28.5% |  2949.9ms |   1.5% |  150.9ms | `unevalString`             | src/internal/primitive.ts:135:8  |
 |   28.5% |  2949.4ms |   0.0% |    0.0ms | `unevalInternal`           | src/internal/index.ts:55:13      |
-|   28.3% |  2923.2ms |   0.7% |   77.0ms | `unevalArray`              | src/internal/collection.ts:62:21 |
+|   28.2% |  2923.2ms |   0.7% |   77.0ms | `unevalArray`              | src/internal/collection.ts:62:21 |
 |   27.9% |  2888.5ms |   0.3% |   31.7ms | `unevalObjectLike`         | src/internal/object.ts:129:26    |
-|   27.7% |  2863.8ms |   0.3% |   26.5ms | `createState`              | src/index.ts:328:4               |
-|   26.1% |  2696.3ms |   0.6% |   61.9ms | `traverse`                 | src/index.ts:201:6               |
+|   27.6% |  2863.8ms |   0.3% |   26.5ms | `createState`              | src/index.ts:328:4               |
+|   26.0% |  2696.3ms |   0.6% |   61.9ms | `traverse`                 | src/index.ts:201:6               |
 |   25.0% |  2586.0ms |   0.1% |    5.4ms | `unevalObjectLike`         | src/internal/object.ts:136:8     |
 |   24.2% |  2505.2ms |  24.2% | 2505.2ms | `unevalLiteral`            | src/internal/primitive.ts:149:22 |
-|   16.8% |  1732.9ms |   1.4% |  148.5ms | `unevalObjectLiteralKey`   | src/internal/object.ts:427:22    |
+|   16.7% |  1732.9ms |   1.4% |  148.5ms | `unevalObjectLiteralKey`   | src/internal/object.ts:427:22    |
 |   12.8% |  1323.0ms |  12.8% | 1323.0ms | `join`                     | [unknown]                        |
 |   10.1% |  1043.1ms |   0.0% |    0.0ms | `unevalInternal`           | src/internal/index.ts:51:13      |
 |   10.0% |  1037.2ms |   1.8% |  186.5ms | `traverseObject`           | src/index.ts:220:36              |
-|    8.5% |   874.7ms |   0.3% |   32.3ms | `unevalObjectLike`         | src/internal/object.ts:202:55    |
+|    8.4% |   874.7ms |   0.3% |   32.3ms | `unevalObjectLike`         | src/internal/object.ts:202:55    |
 |    8.2% |   851.5ms |   8.2% |  851.5ms | `getOwnPropertyDescriptor` | [unknown]                        |
 
 #### Callees

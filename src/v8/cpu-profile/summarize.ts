@@ -216,8 +216,10 @@ const computeProfileGraph = (
         id: node.id,
         callFrame: node.callFrame,
         functionName: functionName || `(anonymous)`,
-        fileLocation,
-        location: `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`,
+        fileLocation: fileLocation ?? `[unknown]`,
+        location: fileLocation
+          ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`
+          : `[unknown]`,
         category: categorizeCallFrame(node.callFrame, options),
         hitCount: 0,
         lineToHitCount: new Map(),

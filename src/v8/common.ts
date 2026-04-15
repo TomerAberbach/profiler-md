@@ -170,16 +170,16 @@ const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
 export const formatUrl = (
   url: string,
   { cwd }: NormalizedV8ProfileToMdOptions,
-): string => {
+): string | null => {
   let urlObject: URL
   try {
     urlObject = new URL(url)
   } catch {
-    return url || `[unknown]`
+    return url || null
   }
 
   if (urlObject.protocol !== `file:`) {
-    return url || `[unknown]`
+    return url || null
   }
 
   let path = urlObject.pathname

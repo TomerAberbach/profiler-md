@@ -650,7 +650,7 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -|  66.7% | 400 B |   66.7% | 400 B | \`funcC\`          | src/c.ts:1:1                         |
     -|  16.7% | 100 B |   16.7% | 100 B | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -|  16.7% | 100 B |   83.3% | 500 B | \`funcA\`          | src/a.ts:1:1                         |
-    -|   0.0% |   0 B |  100.0% | 600 B | \`(root)\`         | [unknown]:0:0                        |
+    -|   0.0% |   0 B |  100.0% | 600 B | \`(root)\`         | [unknown]                            |
     -|   0.0% |   0 B |   16.7% | 100 B | \`readFileSync\`   | node:fs:1:1                          |
     -|   0.0% |   0 B |   66.7% | 400 B | \`funcB\`          | src/b.ts:1:1                         |
     +| Self % |  Self | Total % | Total | Function       | Location     |
@@ -668,14 +668,14 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -
     -##### \`funcA\` (src/a.ts:1:1)
     -
-    -| Self % |  Self | Caller   | Location      |
-    -| -----: | ----: | -------- | ------------- |
-    -| 100.0% | 100 B | \`(root)\` | [unknown]:0:0 |
+    -| Self % |  Self | Caller   | Location  |
+    -| -----: | ----: | -------- | --------- |
+    -| 100.0% | 100 B | \`(root)\` | [unknown] |
     -
     @@ -51,8 +37,6 @@
     -| Total % | Total | Self % |  Self | Function         | Location                             |
     -| ------: | ----: | -----: | ----: | ---------------- | ------------------------------------ |
-    -|  100.0% | 600 B |   0.0% |   0 B | \`(root)\`         | [unknown]:0:0                        |
+    -|  100.0% | 600 B |   0.0% |   0 B | \`(root)\`         | [unknown]                            |
     -|   83.3% | 500 B |  16.7% | 100 B | \`funcA\`          | src/a.ts:1:1                         |
     -|   66.7% | 400 B |   0.0% |   0 B | \`funcB\`          | src/b.ts:1:1                         |
     -|   66.7% | 400 B |  66.7% | 400 B | \`funcC\`          | src/c.ts:1:1                         |
@@ -688,7 +688,7 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     +|   66.7% | 400 B |  66.7% | 400 B | \`funcC\`        | src/c.ts:1:1 |
     +|   16.7% | 100 B |   0.0% |   0 B | \`readFileSync\` | node:fs:1:1  |
     @@ -64,7 +47,0 @@
-    -##### \`(root)\` ([unknown]:0:0)
+    -##### \`(root)\` ([unknown])
     -
     -| Total % | Total | Callee         | Location     |
     -| ------: | ----: | -------------- | ------------ |
@@ -786,21 +786,21 @@ test(`v8HeapProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Functions ranked by bytes allocated directly in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function              | Location      |
-    | -----: | ----: | ------: | ----: | --------------------- | ------------- |
-    |  50.0% | 300 B |   50.0% | 300 B | \`(garbage collector)\` | [unknown]:0:0 |
-    |  33.3% | 200 B |   33.3% | 200 B | \`(program)\`           | [unknown]:0:0 |
-    |  16.7% | 100 B |   16.7% | 100 B | \`RegExp: /foo/\`       | [unknown]:0:0 |
+    | Self % |  Self | Total % | Total | Function              | Location  |
+    | -----: | ----: | ------: | ----: | --------------------- | --------- |
+    |  50.0% | 300 B |   50.0% | 300 B | \`(garbage collector)\` | [unknown] |
+    |  33.3% | 200 B |   33.3% | 200 B | \`(program)\`           | [unknown] |
+    |  16.7% | 100 B |   16.7% | 100 B | \`RegExp: /foo/\`       | [unknown] |
 
     ### Total size
 
     Functions ranked by total bytes allocated in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function              | Location      |
-    | ------: | ----: | -----: | ----: | --------------------- | ------------- |
-    |   50.0% | 300 B |  50.0% | 300 B | \`(garbage collector)\` | [unknown]:0:0 |
-    |   33.3% | 200 B |  33.3% | 200 B | \`(program)\`           | [unknown]:0:0 |
-    |   16.7% | 100 B |  16.7% | 100 B | \`RegExp: /foo/\`       | [unknown]:0:0 |
+    | Total % | Total | Self % |  Self | Function              | Location  |
+    | ------: | ----: | -----: | ----: | --------------------- | --------- |
+    |   50.0% | 300 B |  50.0% | 300 B | \`(garbage collector)\` | [unknown] |
+    |   33.3% | 200 B |  33.3% | 200 B | \`(program)\`           | [unknown] |
+    |   16.7% | 100 B |  16.7% | 100 B | \`RegExp: /foo/\`       | [unknown] |
     "
   `)
 })
@@ -945,10 +945,10 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     | Self % |    Self | Total % |   Total | Function          | Location                                                                          |
     | -----: | ------: | ------: | ------: | ----------------- | --------------------------------------------------------------------------------- |
-    |   9.3% |  458 kB |    9.3% |  458 kB | \`(IDLE)\`          | [unknown]:0:0                                                                     |
+    |   9.3% |  458 kB |    9.3% |  458 kB | \`(IDLE)\`          | [unknown]                                                                         |
     |   3.0% |  148 kB |    3.2% |  157 kB | \`(anonymous)\`     | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1 |
     |   2.3% |  113 kB |    2.4% |  116 kB | \`js-to-wasm:iii:\` | wasm://wasm/009f676a:1:2029168                                                    |
-    |   1.5% | 73.1 kB |    1.5% | 73.1 kB | \`push\`            | [unknown]:0:0                                                                     |
+    |   1.5% | 73.1 kB |    1.5% | 73.1 kB | \`push\`            | [unknown]                                                                         |
     |   1.3% | 65.6 kB |    1.3% | 65.6 kB | \`unevalNumber\`    | src/internal/primitive.ts:12:29                                                   |
 
     #### Callers
@@ -957,11 +957,11 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     ##### \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1)
 
-    | Self % |   Self | Caller | Location      |
-    | -----: | -----: | ------ | ------------- |
-    |  74.4% | 110 kB | \`next\` | [unknown]:0:0 |
+    | Self % |   Self | Caller | Location  |
+    | -----: | -----: | ------ | --------- |
+    |  74.4% | 110 kB | \`next\` | [unknown] |
 
-    ##### \`push\` ([unknown]:0:0)
+    ##### \`push\` ([unknown])
 
     | Self % |    Self | Caller             | Location                                                                             |
     | -----: | ------: | ------------------ | ------------------------------------------------------------------------------------ |
@@ -980,23 +980,23 @@ test(`v8HeapProfileToMd with real fixture`, async () => {
 
     | Total % |   Total | Self % |    Self | Function       | Location                        |
     | ------: | ------: | -----: | ------: | -------------- | ------------------------------- |
-    |   55.8% | 2.74 MB |   0.1% |  6.3 kB | \`(anonymous)\`  | [unknown]:0:0                   |
+    |   55.8% | 2.74 MB |   0.1% |  6.3 kB | \`(anonymous)\`  | [unknown]                       |
     |   36.1% | 1.77 MB |   0.0% | 1.01 kB | \`tracePromise\` | node:diagnostics_channel:348:15 |
-    |   13.1% |  643 kB |   0.0% | 1.08 kB | \`next\`         | [unknown]:0:0                   |
+    |   13.1% |  643 kB |   0.0% | 1.08 kB | \`next\`         | [unknown]                       |
     |   10.3% |  507 kB |   0.1% | 2.54 kB | \`(anonymous)\`  | scripts/profile.ts:1:1          |
-    |    9.3% |  458 kB |   9.3% |  458 kB | \`(IDLE)\`       | [unknown]:0:0                   |
+    |    9.3% |  458 kB |   9.3% |  458 kB | \`(IDLE)\`       | [unknown]                       |
 
     #### Callees
 
     Callees ranked by contribution to each function's total size.
 
-    ##### \`(anonymous)\` ([unknown]:0:0)
+    ##### \`(anonymous)\` ([unknown])
 
-    | Total % |   Total | Callee                | Location      |
-    | ------: | ------: | --------------------- | ------------- |
-    |    1.8% | 49.9 kB | \`createGlobalConsole\` | [unknown]:0:0 |
+    | Total % |   Total | Callee                | Location  |
+    | ------: | ------: | --------------------- | --------- |
+    |    1.8% | 49.9 kB | \`createGlobalConsole\` | [unknown] |
 
-    ##### \`next\` ([unknown]:0:0)
+    ##### \`next\` ([unknown])
 
     | Total % |  Total | Callee        | Location                                                                            |
     | ------: | -----: | ------------- | ----------------------------------------------------------------------------------- |

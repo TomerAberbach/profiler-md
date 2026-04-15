@@ -53,8 +53,8 @@ $ profiler-md --help
     --help                Show this help message
 
   Supported profile types:
-    *.cpuprofile -> v8-cpu
-    *.heapprofile -> v8-heap
+    *.cpuprofile -> v8-cpu-profile
+    *.heapprofile -> v8-heap-profile
 ```
 
 <!-- CLI_HELP END -->

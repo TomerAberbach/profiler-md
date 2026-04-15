@@ -929,7 +929,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     -|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`          | src/c.ts:1:1                         |
     -|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`          | src/a.ts:1:1                         |
     -|  25.0% | 0.1ms |   25.0% | 0.1ms | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -|   0.0% | 0.0ms |  100.0% | 0.4ms | \`(root)\`         | [unknown]:0:0                        |
+    -|   0.0% | 0.0ms |  100.0% | 0.4ms | \`(root)\`         | [unknown]                            |
     -|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`          | src/b.ts:1:1                         |
     -|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\`   | node:fs:1:1                          |
     +| Self % |  Self | Total % | Total | Function       | Location     |
@@ -941,9 +941,9 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     @@ -35,12 +32,0 @@
     -##### \`funcA\` (src/a.ts:1:1)
     -
-    -| Self % |  Self | Caller   | Location      |
-    -| -----: | ----: | -------- | ------------- |
-    -| 100.0% | 0.1ms | \`(root)\` | [unknown]:0:0 |
+    -| Self % |  Self | Caller   | Location  |
+    -| -----: | ----: | -------- | --------- |
+    -| 100.0% | 0.1ms | \`(root)\` | [unknown] |
     -
     -##### \`internalLoader\` (node:internal/modules/esm/loader:1:1)
     -
@@ -954,7 +954,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     @@ -51,8 +37,6 @@
     -| Total % | Total | Self % |  Self | Function         | Location                             |
     -| ------: | ----: | -----: | ----: | ---------------- | ------------------------------------ |
-    -|  100.0% | 0.4ms |   0.0% | 0.0ms | \`(root)\`         | [unknown]:0:0                        |
+    -|  100.0% | 0.4ms |   0.0% | 0.0ms | \`(root)\`         | [unknown]                            |
     -|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`          | src/a.ts:1:1                         |
     -|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`          | src/b.ts:1:1                         |
     -|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`          | src/c.ts:1:1                         |
@@ -967,7 +967,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     +|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
     +|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\` | node:fs:1:1  |
     @@ -64,7 +47,0 @@
-    -##### \`(root)\` ([unknown]:0:0)
+    -##### \`(root)\` ([unknown])
     -
     -| Total % | Total | Callee         | Location     |
     -| ------: | ----: | -------------- | ------------ |
@@ -1061,21 +1061,21 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function              | Location      |
-    | -----: | ----: | ------: | ----: | --------------------- | ------------- |
-    |  50.0% | 0.3ms |   50.0% | 0.3ms | \`(garbage collector)\` | [unknown]:0:0 |
-    |  33.3% | 0.2ms |   33.3% | 0.2ms | \`(program)\`           | [unknown]:0:0 |
-    |  16.7% | 0.1ms |   16.7% | 0.1ms | \`RegExp: /foo/\`       | [unknown]:0:0 |
+    | Self % |  Self | Total % | Total | Function              | Location  |
+    | -----: | ----: | ------: | ----: | --------------------- | --------- |
+    |  50.0% | 0.3ms |   50.0% | 0.3ms | \`(garbage collector)\` | [unknown] |
+    |  33.3% | 0.2ms |   33.3% | 0.2ms | \`(program)\`           | [unknown] |
+    |  16.7% | 0.1ms |   16.7% | 0.1ms | \`RegExp: /foo/\`       | [unknown] |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function              | Location      |
-    | ------: | ----: | -----: | ----: | --------------------- | ------------- |
-    |   50.0% | 0.3ms |  50.0% | 0.3ms | \`(garbage collector)\` | [unknown]:0:0 |
-    |   33.3% | 0.2ms |  33.3% | 0.2ms | \`(program)\`           | [unknown]:0:0 |
-    |   16.7% | 0.1ms |  16.7% | 0.1ms | \`RegExp: /foo/\`       | [unknown]:0:0 |
+    | Total % | Total | Self % |  Self | Function              | Location  |
+    | ------: | ----: | -----: | ----: | --------------------- | --------- |
+    |   50.0% | 0.3ms |  50.0% | 0.3ms | \`(garbage collector)\` | [unknown] |
+    |   33.3% | 0.2ms |  33.3% | 0.2ms | \`(program)\`           | [unknown] |
+    |   16.7% | 0.1ms |  16.7% | 0.1ms | \`RegExp: /foo/\`       | [unknown] |
     "
   `)
 })

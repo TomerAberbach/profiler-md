@@ -201,7 +201,9 @@ const computeProfileGraph = (
         id: node.id,
         callFrame: node.callFrame,
         functionName: functionName || `(anonymous)`,
-        location: `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`,
+        location: fileLocation
+          ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`
+          : `[unknown]`,
         category: categorizeCallFrame(node.callFrame, options),
         selfSize: 0,
         totalSize: 0,
