@@ -69,7 +69,8 @@
   "dependencies": {
     "meow": "^14.1.0",
     "picomatch": "^4.0.4",
-    "pretty-bytes": "^7.1.0"
+    "pretty-bytes": "^7.1.0",
+    "pretty-ms": "^9.3.0"
   },
   "devDependencies": {
     "@fast-check/vitest": "^0.4.0",

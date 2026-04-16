@@ -37,21 +37,34 @@ export type SummarizedProfileNode = {
   /** Bytes allocated in this node's function body and all callees. */
   totalSize: number
 
+  /** Number of samples allocated directly in this node's function body. */
+  selfSampleCount: number
+
   /**
-   * Bytes allocated directly in this node's function body by direct caller.
+   * Number of samples allocated in this node's function body and all callees.
    */
-  callerIdToSelfSize: Map<
+  totalSampleCount: number
+
+  /**
+   * Bytes allocated and samples directly in this node's function body by direct
+   * caller.
+   */
+  callerIdToStats: Map<
     number,
-    { caller: SummarizedProfileNode; selfSize: number }
+    { caller: SummarizedProfileNode; selfSize: number; selfSampleCount: number }
   >
 
   /**
-   * Bytes allocated in this node's function body and all callees by direct
-   * callee.
+   * Bytes allocated and samples in this node's function body and all callees by
+   * direct callee.
    */
-  calleeIdToTotalSize: Map<
+  calleeIdToStats: Map<
     number,
-    { callee: SummarizedProfileNode; totalSize: number }
+    {
+      callee: SummarizedProfileNode
+      totalSize: number
+      totalSampleCount: number
+    }
   >
 }
 
@@ -61,6 +74,9 @@ export type SummarizedCallStack = {
 
   /** The amount of size used in the topmost node with this stack. */
   selfSize: number
+
+  /** Number of samples allocated in the topmost node with this stack. */
+  selfSampleCount: number
 }
 
 export type SummarizedHeapProfile = {
@@ -73,8 +89,8 @@ export type SummarizedHeapProfile = {
   /** The number of samples taken per byte. */
   samplingInterval: number
 
-  /** Total bytes by call frame category. */
-  callFrameCategoryToSize: Map<string, number>
+  /** Total bytes and samples by call frame category. */
+  callFrameCategoryToStats: Map<string, { size: number; sampleCount: number }>
 
   /** All summarized nodes. */
   nodes: SummarizedProfileNode[]
@@ -98,11 +114,15 @@ export const summarizeProfile = (
 
   const rawNodeIdToSummarizedCallStack = new Map<number, SummarizedCallStack>()
   const keyToSummarizedCallStack = new Map<string, SummarizedCallStack>()
-  const callFrameCategoryToSize = new Map<string, number>()
+  const callFrameCategoryToStats = new Map<
+    string,
+    { size: number; sampleCount: number }
+  >()
 
   for (const { size, nodeId } of profile.samples) {
     const node = graph.rawIdToSummarizedNode.get(nodeId)!
     node.selfSize += size
+    node.selfSampleCount++
 
     let summarizedCallStack = rawNodeIdToSummarizedCallStack.get(nodeId)
     if (!summarizedCallStack) {
@@ -111,13 +131,18 @@ export const summarizeProfile = (
 
       summarizedCallStack = keyToSummarizedCallStack.get(key)
       if (!summarizedCallStack) {
-        summarizedCallStack = { nodes: callStack, selfSize: 0 }
+        summarizedCallStack = {
+          nodes: callStack,
+          selfSize: 0,
+          selfSampleCount: 0,
+        }
         keyToSummarizedCallStack.set(key, summarizedCallStack)
       }
 
       rawNodeIdToSummarizedCallStack.set(nodeId, summarizedCallStack)
     }
     summarizedCallStack.selfSize += size
+    summarizedCallStack.selfSampleCount++
 
     const callStack = summarizedCallStack.nodes
 
@@ -126,17 +151,19 @@ export const summarizeProfile = (
       if (!seenNodes.has(caller)) {
         seenNodes.add(caller)
         caller.totalSize += size
+        caller.totalSampleCount++
       }
     }
 
     const caller = callStack[1]
     if (caller) {
-      let callerSelfSize = node.callerIdToSelfSize.get(caller.id)
-      if (!callerSelfSize) {
-        callerSelfSize = { caller, selfSize: 0 }
-        node.callerIdToSelfSize.set(caller.id, callerSelfSize)
+      let callerStats = node.callerIdToStats.get(caller.id)
+      if (!callerStats) {
+        callerStats = { caller, selfSize: 0, selfSampleCount: 0 }
+        node.callerIdToStats.set(caller.id, callerStats)
       }
-      callerSelfSize.selfSize += size
+      callerStats.selfSize += size
+      callerStats.selfSampleCount++
     }
 
     const seenCallerCalleePairs = new Set<string>()
@@ -150,18 +177,22 @@ export const summarizeProfile = (
       }
       seenCallerCalleePairs.add(pair)
 
-      let calleeTotalSize = caller.calleeIdToTotalSize.get(callee.id)
-      if (!calleeTotalSize) {
-        calleeTotalSize = { callee, totalSize: 0 }
-        caller.calleeIdToTotalSize.set(callee.id, calleeTotalSize)
+      let calleeStats = caller.calleeIdToStats.get(callee.id)
+      if (!calleeStats) {
+        calleeStats = { callee, totalSize: 0, totalSampleCount: 0 }
+        caller.calleeIdToStats.set(callee.id, calleeStats)
       }
-      calleeTotalSize.totalSize += size
+      calleeStats.totalSize += size
+      calleeStats.totalSampleCount++
     }
 
-    callFrameCategoryToSize.set(
-      node.category,
-      (callFrameCategoryToSize.get(node.category) ?? 0) + size,
-    )
+    let categoryStats = callFrameCategoryToStats.get(node.category)
+    if (!categoryStats) {
+      categoryStats = { size: 0, sampleCount: 0 }
+      callFrameCategoryToStats.set(node.category, categoryStats)
+    }
+    categoryStats.size += size
+    categoryStats.sampleCount++
   }
 
   const nodes = [...graph.keyToSummarizedNode.values()]
@@ -171,7 +202,7 @@ export const summarizeProfile = (
     totalSize,
     sampleCount,
     samplingInterval,
-    callFrameCategoryToSize,
+    callFrameCategoryToStats,
     nodes,
     callStacks,
   }
@@ -206,8 +237,10 @@ const computeProfileGraph = (
         category: categorizeCallFrame(node.callFrame, options),
         selfSize: 0,
         totalSize: 0,
-        callerIdToSelfSize: new Map(),
-        calleeIdToTotalSize: new Map(),
+        selfSampleCount: 0,
+        totalSampleCount: 0,
+        callerIdToStats: new Map(),
+        calleeIdToStats: new Map(),
       }
       keyToSummarizedNode.set(key, summarizedNode)
     }
