@@ -1,24 +1,24 @@
 # Heap snapshot
 
-Allocated 11.4 MB across 60,157 objects and 233,425 references.
+Allocated 272 MB across 1,792,439 objects and 7,746,182 references.
 
 | Category            |     % |    Size | Objects |
 | ------------------- | ----: | ------: | ------: |
-| string              | 49.0% | 5.58 MB |  15,784 |
-| native              | 23.8% | 2.71 MB |     184 |
-| array               |  7.2% |  824 kB |   1,594 |
-| code                |  7.1% |  813 kB |  16,346 |
-| object shape        |  3.9% |  442 kB |   4,618 |
-| closure             |  3.0% |  345 kB |   5,836 |
-| hidden              |  2.3% |  267 kB |   5,389 |
-| object              |  1.9% |  221 kB |   3,871 |
-| concatenated string |  1.5% |  166 kB |   5,192 |
-| number              |  0.1% | 16.8 kB |   1,060 |
-| symbol              |  0.0% | 4.32 kB |     196 |
-| regexp              |  0.0% |  2.8 kB |      50 |
+| string              | 28.8% | 78.4 MB | 299,595 |
+| native              | 26.8% | 72.9 MB |   2,435 |
+| code                | 15.0% | 40.8 MB | 354,918 |
+| array               | 11.0% | 29.9 MB | 158,724 |
+| object              |  8.7% | 23.7 MB | 487,315 |
+| closure             |  3.7% | 9.94 MB | 172,859 |
+| object shape        |  2.9% |    8 MB |  86,186 |
+| hidden              |  1.6% | 4.35 MB |  92,905 |
+| concatenated string |  1.2% | 3.23 MB | 101,084 |
+| sliced string       |  0.3% |  879 kB |  27,463 |
+| regexp              |  0.1% |  137 kB |   2,447 |
+| number              |  0.0% | 89.6 kB |   5,609 |
+| symbol              |  0.0% |   20 kB |     848 |
 | synthetic           |  0.0% | 2.59 kB |      33 |
-| sliced string       |  0.0% |    64 B |       2 |
-| bigint              |  0.0% |    48 B |       2 |
+| bigint              |  0.0% |   392 B |      18 |
 
 ## Largest constructors
 
@@ -26,28 +26,28 @@ Allocated 11.4 MB across 60,157 objects and 233,425 references.
 
 Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
 
-|    % |    Size | Instances | Constructor            | Location                        |
-| ---: | ------: | --------: | ---------------------- | ------------------------------- |
-| 0.7% |   83 kB |     1,782 | `Object`               | `<native>`                      |
-| 0.1% | 8.99 kB |       281 | `Array`                | `<native>`                      |
-| 0.0% | 5.11 kB |       197 | `Error`                | `<native>`                      |
-| 0.0% | 3.61 kB |        38 | `ArrayBuffer`          | `<native>`                      |
-| 0.0% | 2.33 kB |        97 | `TypeError`            | `<native>`                      |
-| 0.0% | 1.35 kB |        13 | `Float64Array`         | `<native>`                      |
-| 0.0% |   840 B |        27 | `Map`                  | `<native>`                      |
-| 0.0% |   800 B |         7 | `FinalizationRegistry` | `<native>`                      |
-| 0.0% |   752 B |         8 | `Uint8Array`           | `<native>`                      |
-| 0.0% |   744 B |        31 | `RangeError`           | `<native>`                      |
-| 0.0% |   728 B |         7 | `Uint32Array`          | `<native>`                      |
-| 0.0% |   720 B |        22 | `Set`                  | `<native>`                      |
-| 0.0% |   672 B |        12 | `TypedArray`           | `<native>`                      |
-| 0.0% |   648 B |        14 | `Queue`                | quetie/src/index.js:2:14        |
-| 0.0% |   560 B |        12 | `Promise`              | `<native>`                      |
-| 0.0% |   528 B |        11 | `Channel`              | node:diagnostics_channel:182:14 |
-| 0.0% |   520 B |         5 | `Int8Array`            | `<native>`                      |
-| 0.0% |   432 B |        13 | `WeakRef`              | `<native>`                      |
-| 0.0% |   336 B |        10 | `WeakMap`              | `<native>`                      |
-| 0.0% |   336 B |         6 | `AsyncWrap`            | `<native>`                      |
+|    % |    Size | Instances | Constructor             | Location                                                                                                                                                               |
+| ---: | ------: | --------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5.0% | 13.7 MB |   279,002 | `Object`                | `<native>`                                                                                                                                                             |
+| 1.1% | 3.12 MB |    97,432 | `Array`                 | `<native>`                                                                                                                                                             |
+| 0.2% |  665 kB |     8,311 | `CaptureRule`           | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1032:14                                                 |
+| 0.2% |  494 kB |     7,725 | `_RegExpSource`         | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1429:14                                                 |
+| 0.1% |  362 kB |     2,511 | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                 |
+| 0.1% |  302 kB |     3,314 | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32        |
+| 0.1% |  259 kB |     2,702 | `MatchRule`             | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1052:14                                                 |
+| 0.1% |  219 kB |     6,827 | `Set`                   | `<native>`                                                                                                                                                             |
+| 0.0% |  112 kB |     1,170 | `IncludeOnlyRule`       | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1088:14                                                 |
+| 0.0% |  111 kB |     2,323 | `Promise`               | `<native>`                                                                                                                                                             |
+| 0.0% | 75.5 kB |       393 | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13 |
+| 0.0% | 56.7 kB |       591 | `ArrayBuffer`           | `<native>`                                                                                                                                                             |
+| 0.0% | 49.9 kB |       481 | `Uint8Array`            | `<native>`                                                                                                                                                             |
+| 0.0% |   38 kB |     1,188 | `Map`                   | `<native>`                                                                                                                                                             |
+| 0.0% |   35 kB |       729 | `DefinedInfo`           | website/node_modules/.pnpm/property-information@7.1.0/node_modules/property-information/lib/util/defined-info.js:26:14                                                 |
+| 0.0% | 32.4 kB |       253 | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                 |
+| 0.0% |   30 kB |     1,133 | `a`                     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                    |
+| 0.0% | 26.4 kB |       174 | `Hook`                  | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/Hook.js:30:13                                                       |
+| 0.0% | 16.9 kB |       423 | `BasicScopeAttributes`  | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1696:14                                                 |
+| 0.0% | 16.2 kB |       145 | `ExportedTokenType`     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@babel+parser@7.29.0/node_modules/@babel/parser/lib/index.js:901:14                                        |
 
 #### Instances
 
@@ -55,230 +55,230 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Object` (`<native>`)
 
-|    % |  Size | Path                                                                                                                                                   |
-| ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1.1% | 872 B | `.variables Object ← .config process`                                                                                                                  |
-| 0.6% | 512 B | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1139 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 0.5% | 376 B | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .464 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)`  |
-| 0.4% | 368 B | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1049 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 0.4% | 312 B | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1178 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|    % |    Size | Path                                                      |
+| ---: | ------: | --------------------------------------------------------- |
+| 0.0% | 1.04 kB | `.$e38a1a895f6aeb54$var$UNICODE_SCRIPTS system / Context` |
+| 0.0% | 1.04 kB | `.repository Object`                                      |
+| 0.0% | 1.01 kB | `.repository Object`                                      |
+| 0.0% | 1.01 kB | `.types Object`                                           |
+| 0.0% |   992 B | `.repository Object`                                      |
 
 ##### `Array` (`<native>`)
 
 |    % | Size | Path        |
 | ---: | ---: | ----------- |
-| 0.4% | 32 B | `(GC root)` |
-| 0.4% | 32 B | `(GC root)` |
-| 0.4% | 32 B | `(GC root)` |
-| 0.4% | 32 B | `(GC root)` |
-| 0.4% | 32 B | `(GC root)` |
+| 0.0% | 56 B | `(GC root)` |
+| 0.0% | 56 B | `(GC root)` |
+| 0.0% | 56 B | `(GC root)` |
+| 0.0% | 56 B | `(GC root)` |
+| 0.0% | 56 B | `(GC root)` |
 
-##### `Error` (`<native>`)
+##### `CaptureRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1032:14)
 
-|    % | Size | Path        |
-| ---: | ---: | ----------- |
-| 1.1% | 56 B | `(GC root)` |
-| 1.1% | 56 B | `(GC root)` |
-| 1.1% | 56 B | `(GC root)` |
-| 1.1% | 56 B | `(GC root)` |
-| 1.1% | 56 B | `(GC root)` |
+|    % | Size | Path                                                                                                                                                                                          |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.0% | 80 B | `[3366] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 80 B | `[3367] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 80 B | `[3368] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 80 B | `[3369] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 80 B | `[3371] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
-##### `ArrayBuffer` (`<native>`)
+##### `_RegExpSource` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1429:14)
 
-|    % | Size | Path                   |
-| ---: | ---: | ---------------------- |
-| 2.7% | 96 B | `(GC root)`            |
-| 2.7% | 96 B | `.buffer Float64Array` |
-| 2.7% | 96 B | `.buffer Uint32Array`  |
-| 2.7% | 96 B | `.buffer Float64Array` |
-| 2.7% | 96 B | `.buffer Uint32Array`  |
+|    % | Size | Path                                                                                                                                                                                                                                                                                                                                          |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.0% | 64 B | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                |
+| 0.0% | 64 B | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                |
+| 0.0% | 64 B | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                |
+| 0.0% | 64 B | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                |
+| 0.0% | 64 B | `._begin BeginEndRule (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14) ← [4944] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
-##### `TypeError` (`<native>`)
+##### `BeginEndRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14)
 
-|    % | Size | Path                                                                                                                          |
-| ---: | ---: | ----------------------------------------------------------------------------------------------------------------------------- |
-| 1.0% | 24 B | `(GC root)`                                                                                                                   |
-| 1.0% | 24 B | `(GC root)`                                                                                                                   |
-| 1.0% | 24 B | `(GC root)`                                                                                                                   |
-| 1.0% | 24 B | `.prototype ReduceAwareErrMissingArgs (node:internal/streams/operators:230:14) ← .ReduceAwareErrMissingArgs system / Context` |
-| 1.0% | 24 B | `.prototype NodeError (node:internal/errors:472:20)`                                                                          |
+|    % |  Size | Path                                                                                                                                                                                          |
+| ---: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.0% | 144 B | `[5107] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 144 B | `[5112] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 144 B | `[5133] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 144 B | `[5138] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 144 B | `[5141] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
-##### `Float64Array` (`<native>`)
+##### `Generator` (website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32)
 
-|    % |  Size | Path                   |
-| ---: | ----: | ---------------------- |
-| 7.7% | 104 B | `(GC root)`            |
-| 7.7% | 104 B | `(GC root)`            |
-| 7.7% | 104 B | `(GC root)`            |
-| 7.7% | 104 B | `(GC root)`            |
-| 7.7% | 104 B | `.statFsValues Object` |
+|    % |  Size | Path                                                    |
+| ---: | ----: | ------------------------------------------------------- |
+| 0.1% | 160 B | `.(Builtins) system / SourceTextModule ← .2 ModuleWrap` |
+| 0.1% | 160 B | `.(Builtins) system / SourceTextModule ← .2 ModuleWrap` |
+| 0.1% | 160 B | `(GC root)`                                             |
+| 0.1% | 160 B | `(GC root)`                                             |
+| 0.1% | 160 B | `(GC root)`                                             |
 
-##### `Map` (`<native>`)
+##### `MatchRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1052:14)
 
-|    % | Size | Path                                                        |
-| ---: | ---: | ----------------------------------------------------------- |
-| 6.7% | 56 B | `(GC root)`                                                 |
-| 3.8% | 32 B | `.map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 3.8% | 32 B | `.statWatchers system / Context`                            |
-| 3.8% | 32 B | `.generatedSourceMapCache system / Context`                 |
-| 3.8% | 32 B | `.decodersLoose system / Context`                           |
-
-##### `FinalizationRegistry` (`<native>`)
-
-|     % |  Size | Path                                                                                   |
-| ----: | ----: | -------------------------------------------------------------------------------------- |
-| 20.0% | 160 B | `.#finalizers WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
-| 20.0% | 160 B | `.clearTimeoutRegistry system / Context`                                               |
-| 20.0% | 160 B | `.dependantSignalsCleanupRegistry system / Context`                                    |
-| 20.0% | 160 B | `.sourceSignalsCleanupRegistry system / Context`                                       |
-| 10.0% |  80 B | `.CLOSURE_DTORS system / Context ← .default Object ← .import_wasm system / Context`    |
-
-##### `Uint8Array` (`<native>`)
-
-|     % |  Size | Path                                  |
-| ----: | ----: | ------------------------------------- |
-| 13.8% | 104 B | `(GC root)`                           |
-| 13.8% | 104 B | `(GC root)`                           |
-| 13.8% | 104 B | `(GC root)`                           |
-| 13.8% | 104 B | `(GC root)`                           |
-| 13.8% | 104 B | `.uInt8Float64Array system / Context` |
-
-##### `RangeError` (`<native>`)
-
-|    % | Size | Path                                                                          |
-| ---: | ---: | ----------------------------------------------------------------------------- |
-| 3.2% | 24 B | `(GC root)`                                                                   |
-| 3.2% | 24 B | `(GC root)`                                                                   |
-| 3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20) ← .ERR_INVALID_FD Object` |
-| 3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
-| 3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
-
-##### `Uint32Array` (`<native>`)
-
-|     % |  Size | Path        |
-| ----: | ----: | ----------- |
-| 14.3% | 104 B | `(GC root)` |
-| 14.3% | 104 B | `(GC root)` |
-| 14.3% | 104 B | `(GC root)` |
-| 14.3% | 104 B | `(GC root)` |
-| 14.3% | 104 B | `(GC root)` |
+|    % | Size | Path                                                                                                                                                                                          |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.0% | 96 B | `[5094] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 96 B | `[5095] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 96 B | `[5096] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 96 B | `[5097] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.0% | 96 B | `[5098] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
 ##### `Set` (`<native>`)
 
-|    % | Size | Path                                                                     |
-| ---: | ---: | ------------------------------------------------------------------------ |
-| 7.8% | 56 B | `(GC root)`                                                              |
-| 4.4% | 32 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 4.4% | 32 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 4.4% | 32 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 4.4% | 32 B | `.processBindingAllowList system / Context`                              |
+|    % |  Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1% | 112 B | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 0.0% |  56 B | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 0.0% |  56 B | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 0.0% |  32 B | `.type system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:400:20) ← .next system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:148:20) ← .source Object ← .match Object ← .angle Object ← .types Lexer (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/Lexer.js:102:16)`   |
+| 0.0% |  32 B | `.type system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:400:20) ← .next system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:148:20) ← .source Object ← .match Object ← .decibel Object ← .types Lexer (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/Lexer.js:102:16)` |
 
-##### `TypedArray` (`<native>`)
+##### `IncludeOnlyRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1088:14)
 
-|    % | Size | Path        |
-| ---: | ---: | ----------- |
-| 8.3% | 56 B | `(GC root)` |
-| 8.3% | 56 B | `(GC root)` |
-| 8.3% | 56 B | `(GC root)` |
-| 8.3% | 56 B | `(GC root)` |
-| 8.3% | 56 B | `(GC root)` |
-
-##### `Queue` (quetie/src/index.js:2:14)
-
-|    % | Size | Path                                                  |
-| ---: | ---: | ----------------------------------------------------- |
-| 7.4% | 48 B | `(GC root)`                                           |
-| 7.4% | 48 B | `(GC root)`                                           |
-| 7.4% | 48 B | `(GC root)`                                           |
-| 7.4% | 48 B | `(GC root)`                                           |
-| 7.4% | 48 B | `[0] Array ← ._data Deque (quetie/src/index.js:68:8)` |
+|    % | Size | Path                                                                                                                                                                                          |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1% | 96 B | `[5117] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.1% | 96 B | `[2249] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.1% | 96 B | `[2257] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.1% | 96 B | `[2261] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.1% | 96 B | `[2285] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
 ##### `Promise` (`<native>`)
 
-|     % | Size | Path        |
-| ----: | ---: | ----------- |
-| 10.0% | 56 B | `(GC root)` |
-|  8.6% | 48 B | `(GC root)` |
-|  8.6% | 48 B | `(GC root)` |
-|  8.6% | 48 B | `(GC root)` |
-|  8.6% | 48 B | `(GC root)` |
+|    % | Size | Path                                                                                                                                                                                                        |
+| ---: | ---: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1% | 56 B | `(GC root)`                                                                                                                                                                                                 |
+| 0.1% | 56 B | `(GC root)`                                                                                                                                                                                                 |
+| 0.0% | 48 B | `(GC root)`                                                                                                                                                                                                 |
+| 0.0% | 48 B | `(GC root)`                                                                                                                                                                                                 |
+| 0.0% | 48 B | `.modulePromise ModuleJob (node:internal/modules/esm/module_job:210:14) ← .table LoadCache (node:internal/modules/esm/module_map:93:1) ← .loadCache ModuleLoader (node:internal/modules/esm/loader:212:14)` |
 
-##### `Channel` (node:diagnostics_channel:182:14)
+##### `EnvironmentModuleNode` (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13)
+
+|    % |  Size | Path        |
+| ---: | ----: | ----------- |
+| 0.3% | 192 B | `(GC root)` |
+| 0.3% | 192 B | `(GC root)` |
+| 0.3% | 192 B | `(GC root)` |
+| 0.3% | 192 B | `(GC root)` |
+| 0.3% | 192 B | `(GC root)` |
+
+##### `ArrayBuffer` (`<native>`)
+
+|    % | Size | Path                                                                                                                                    |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.2% | 96 B | `(GC root)`                                                                                                                             |
+| 0.2% | 96 B | `.buffer Uint8Array`                                                                                                                    |
+| 0.2% | 96 B | `.buffer Uint8Array ← .reactions_or_result Promise ← .data Object ← .6 array ← .table Map`                                              |
+| 0.2% | 96 B | `.buffer Uint8Array ← .data Object ← .reactions_or_result Promise ← .data Object ← .6 array ← .table Map`                               |
+| 0.2% | 96 B | `.cache matter (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/gray-matter@4.0.3/node_modules/gray-matter/index.js:29:16)` |
+
+##### `Uint8Array` (`<native>`)
+
+|    % |  Size | Path        |
+| ---: | ----: | ----------- |
+| 0.2% | 104 B | `(GC root)` |
+| 0.2% | 104 B | `(GC root)` |
+| 0.2% | 104 B | `(GC root)` |
+| 0.2% | 104 B | `(GC root)` |
+| 0.2% | 104 B | `(GC root)` |
+
+##### `Map` (`<native>`)
+
+|    % | Size | Path                                                                                                                                                                                                                                                                                                |
+| ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.1% | 56 B | `(GC root)`                                                                                                                                                                                                                                                                                         |
+| 0.1% | 56 B | `(GC root)`                                                                                                                                                                                                                                                                                         |
+| 0.1% | 32 B | `._langs Resolver (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13) ← ._options Registry (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:239:13) ← ._registry system / Context`       |
+| 0.1% | 32 B | `._scopeToLang Resolver (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13) ← ._options Registry (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:239:13) ← ._registry system / Context` |
+| 0.1% | 32 B | `._injections Resolver (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13) ← ._options Registry (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:239:13) ← ._registry system / Context`  |
+
+##### `DefinedInfo` (website/node_modules/.pnpm/property-information@7.1.0/node_modules/property-information/lib/util/defined-info.js:26:14)
 
 |    % | Size | Path        |
 | ---: | ---: | ----------- |
-| 9.1% | 48 B | `(GC root)` |
-| 9.1% | 48 B | `(GC root)` |
-| 9.1% | 48 B | `(GC root)` |
-| 9.1% | 48 B | `(GC root)` |
-| 9.1% | 48 B | `(GC root)` |
+| 0.1% | 48 B | `(GC root)` |
+| 0.1% | 48 B | `(GC root)` |
+| 0.1% | 48 B | `(GC root)` |
+| 0.1% | 48 B | `(GC root)` |
+| 0.1% | 48 B | `(GC root)` |
 
-##### `Int8Array` (`<native>`)
+##### `Grammar` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14)
 
-|     % |  Size | Path                                                                                                                                                                                    |
-| ----: | ----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 20.0% | 104 B | `(GC root)`                                                                                                                                                                             |
-| 20.0% | 104 B | `.unhexTable system / Context`                                                                                                                                                          |
-| 20.0% | 104 B | `.noEscape system / Context`                                                                                                                                                            |
-| 20.0% | 104 B | `.noEscapeAuth system / Context ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1331 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 20.0% | 104 B | `.noEscape system / Context`                                                                                                                                                            |
+|    % |  Size | Path                          |
+| ---: | ----: | ----------------------------- |
+| 0.4% | 128 B | `._registry system / Context` |
+| 0.4% | 128 B | `._registry system / Context` |
+| 0.4% | 128 B | `._registry system / Context` |
+| 0.4% | 128 B | `._registry system / Context` |
+| 0.4% | 128 B | `._registry system / Context` |
 
-##### `WeakRef` (`<native>`)
+##### `a` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673)
 
-|     % | Size | Path                                                                                                                                            |
-| ----: | ---: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| 13.0% | 56 B | `(GC root)`                                                                                                                                     |
-|  7.4% | 32 B | `.#weak WeakReference (node:internal/util:911:14) ← .15 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
-|  7.4% | 32 B | `.#weak WeakReference (node:internal/util:911:14) ← .18 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
-|  7.4% | 32 B | `.#weak WeakReference (node:internal/util:911:14) ← .21 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
-|  7.4% | 32 B | `.#weak WeakReference (node:internal/util:911:14) ← .24 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
+|    % |  Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---: | ----: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.3% | 104 B | `.innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .form Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .left Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .out a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .elicitation Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .capabilities Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .df system / Context`                                                                                                                                                                                |
+| 0.3% | 104 B | `.right Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .form Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .left Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .out a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .elicitation Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .capabilities Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .df system / Context` |
+| 0.3% | 104 B | `.innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .costPriority Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .modelPreferences Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .Ev system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 0.3% | 104 B | `.innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .speedPriority Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .innerType Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .modelPreferences Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .Ev system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 0.3% | 104 B | `.content Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .Gs system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
-##### `WeakMap` (`<native>`)
+##### `Hook` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/Hook.js:30:13)
 
-|     % | Size | Path                                                                                                    |
-| ----: | ---: | ------------------------------------------------------------------------------------------------------- |
-| 16.7% | 56 B | `(GC root)`                                                                                             |
-|  9.5% | 32 B | `.internalsMap system / Context ← .context DOMException (node:internal/per_context/domexception:72:14)` |
-|  9.5% | 32 B | `.optionsMap system / Context`                                                                          |
-|  9.5% | 32 B | `._isUsingInspector system / Context`                                                                   |
-|  9.5% | 32 B | `.moduleRegistries system / Context`                                                                    |
+|    % |  Size | Path                   |
+| ---: | ----: | ---------------------- |
+| 0.6% | 152 B | `.Br system / Context` |
+| 0.6% | 152 B | `.Br system / Context` |
+| 0.6% | 152 B | `.Br system / Context` |
+| 0.6% | 152 B | `.Br system / Context` |
+| 0.6% | 152 B | `.Br system / Context` |
 
-##### `AsyncWrap` (`<native>`)
+##### `BasicScopeAttributes` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1696:14)
 
-|     % | Size | Path                       |
-| ----: | ---: | -------------------------- |
-| 16.7% | 56 B | `.prototype FSReqCallback` |
-| 16.7% | 56 B | `.prototype FileHandle`    |
-| 16.7% | 56 B | `(GC root)`                |
-| 16.7% | 56 B | `.prototype ShutdownWrap`  |
-| 16.7% | 56 B | `.prototype WriteWrap`     |
+|    % | Size | Path                                                                                                                                                                                                                                                                                                                                                                         |
+| ---: | ---: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+
+##### `ExportedTokenType` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@babel+parser@7.29.0/node_modules/@babel/parser/lib/index.js:901:14)
+
+|    % |  Size | Path        |
+| ---: | ----: | ----------- |
+| 0.7% | 112 B | `(GC root)` |
+| 0.7% | 112 B | `(GC root)` |
+| 0.7% | 112 B | `(GC root)` |
+| 0.7% | 112 B | `(GC root)` |
+| 0.7% | 112 B | `(GC root)` |
 
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-|     % |    Size | Constructor    | Location                      |
-| ----: | ------: | -------------- | ----------------------------- |
-| 35.4% | 4.03 MB | `Object`       | `<native>`                    |
-| 23.7% |  2.7 MB | `ArrayBuffer`  | `<native>`                    |
-|  4.1% |  469 kB | `Array`        | `<native>`                    |
-|  2.5% |  286 kB | `Map`          | `<native>`                    |
-|  1.7% |  194 kB | `Queue`        | quetie/src/index.js:2:14      |
-|  1.1% |  121 kB | `Error`        | `<native>`                    |
-|  1.0% |  109 kB | `Deque`        | quetie/src/index.js:68:8      |
-|  0.6% | 66.7 kB | `process`      | `<native>`                    |
-|  0.5% | 59.8 kB | `TypeError`    | `<native>`                    |
-|  0.4% |   51 kB | `Table`        | `<native>`                    |
-|  0.2% | 20.7 kB | `console`      | `<native>`                    |
-|  0.2% | 19.2 kB | `RangeError`   | `<native>`                    |
-|  0.1% | 15.6 kB | `Set`          | `<native>`                    |
-|  0.1% | 8.92 kB | `Uint8Array`   | `<native>`                    |
-|  0.1% | 7.82 kB | `WeakRefMap`   | node:diagnostics_channel:38:1 |
-|  0.0% | 5.48 kB | `Event`        | `<native>`                    |
-|  0.0% | 5.35 kB | `EventTarget`  | `<native>`                    |
-|  0.0% |  4.7 kB | `DOMException` | `<native>`                    |
-|  0.0% | 3.78 kB | `AbortSignal`  | `<native>`                    |
-|  0.0% |  3.5 kB | `TypedArray`   | `<native>`                    |
+|     % |    Size | Constructor             | Location                                                                                                                                                                                       |
+| ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.6% |  149 MB | `Object`                | `<native>`                                                                                                                                                                                     |
+| 26.7% | 72.6 MB | `ArrayBuffer`           | `<native>`                                                                                                                                                                                     |
+| 11.6% | 31.6 MB | `Array`                 | `<native>`                                                                                                                                                                                     |
+|  6.6% |   18 MB | `Registry`              | website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                                                                                        |
+|  6.5% | 17.7 MB | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                                         |
+|  4.9% | 13.4 MB | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32                                |
+|  4.0% | 10.8 MB | `a`                     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                            |
+|  3.7% | 10.2 MB | `Map`                   | `<native>`                                                                                                                                                                                     |
+|  2.6% | 6.96 MB | `Uint8Array`            | `<native>`                                                                                                                                                                                     |
+|  1.8% | 5.03 MB | `Set`                   | `<native>`                                                                                                                                                                                     |
+|  1.6% | 4.39 MB | `Memory`                | `<native>`                                                                                                                                                                                     |
+|  1.6% | 4.34 MB | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13                         |
+|  1.2% | 3.18 MB | `Promise`               | `<native>`                                                                                                                                                                                     |
+|  1.1% |    3 MB | `DirEntry`              | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14                         |
+|  1.0% | 2.78 MB | `Lexer`                 | website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16                                                                                                       |
+|  0.7% | 1.91 MB | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                                         |
+|  0.6% | 1.71 MB | `zt`                    | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854                                                                                         |
+|  0.5% |  1.5 MB | `K`                     | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476                                                                                           |
+|  0.5% | 1.41 MB | `Resolver`              | website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13                                                                                      |
+|  0.4% |  1.2 MB | `B`                     | website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483 |
 
 #### Instances
 
@@ -286,168 +286,192 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Object` (`<native>`)
 
-|     % |    Size | Path                                                               |
-| ----: | ------: | ------------------------------------------------------------------ |
-| 74.9% | 3.02 MB | `.import_wasm system / Context`                                    |
-| 74.5% |    3 MB | `.default Object ← .import_wasm system / Context`                  |
-|  6.5% |  263 kB | `.__wasm Object ← .default Object ← .import_wasm system / Context` |
-|  6.1% |  244 kB | `(GC root)`                                                        |
-|  1.9% | 75.9 kB | `(GC root)`                                                        |
+|     % |    Size | Path                    |
+| ----: | ------: | ----------------------- |
+| 40.7% | 60.5 MB | `(GC root)`             |
+| 12.1% |   18 MB | `(GC root)`             |
+|  2.7% | 4.08 MB | `.C system / Context`   |
+|  1.8% | 2.75 MB | `.6 array ← .table Map` |
+|  1.5% | 2.21 MB | `(GC root)`             |
 
 ##### `ArrayBuffer` (`<native>`)
 
-|     % |    Size | Path                                               |
-| ----: | ------: | -------------------------------------------------- |
-| 99.5% | 2.69 MB | `.default Object ← .import_wasm system / Context`  |
-|  0.3% | 8.46 kB | `(GC root)`                                        |
-|  0.0% |   608 B | `(GC root)`                                        |
-|  0.0% |   384 B | `.buffer BigInt64Array ← .bigintStatValues Object` |
-|  0.0% |   384 B | `.buffer Float64Array`                             |
+|     % |    Size | Path                                                                                                                    |
+| ----: | ------: | ----------------------------------------------------------------------------------------------------------------------- |
+| 83.2% | 60.4 MB | `(GC root)`                                                                                                             |
+|  8.5% | 6.16 MB | `.buffer Uint8Array ← .stdout system / Context`                                                                         |
+|  5.6% | 4.06 MB | `.(GC roots) Memory ← .memory Object ← .C system / Context`                                                             |
+|  0.6% |  467 kB | `.buffer Uint8Array`                                                                                                    |
+|  0.2% |  131 kB | `.(GC roots) Memory ← .llhttpInstance system / Context ← .context connectH1 (node:internal/deps/undici/undici:7541:23)` |
 
 ##### `Array` (`<native>`)
 
-|     % |    Size | Path                                      |
-| ----: | ------: | ----------------------------------------- |
-| 35.6% |  167 kB | `._data Queue (quetie/src/index.js:2:14)` |
-| 18.9% | 88.4 kB | `._data Deque (quetie/src/index.js:68:8)` |
-| 10.4% | 48.8 kB | `(GC root)`                               |
-|  5.7% | 26.5 kB | `(GC root)`                               |
-|  4.3% | 20.2 kB | `._data Deque (quetie/src/index.js:68:8)` |
+|    % |    Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ---: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 4.3% | 1.38 MB | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 4.2% | 1.33 MB | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 2.7% |  846 kB | `._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 2.2% |  706 kB | `.performTools_default system / Context ← .previous system / Context ← .previous system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/server/agent/performTools.js:14:35) ← .get default Object`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| 2.2% |  704 kB | `.options a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .left Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .element a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .actions Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .valueType a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .cachedActionsSchema system / Context ← .previous system / Context ← .previous system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/server/agent/actions.js:14:35) ← .get cachedActionsSchema Object` |
+
+##### `Registry` (website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16)
+
+|     % |    Size | Path                                                                                                                |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------- |
+| 99.6% |   18 MB | `._registry system / Context`                                                                                       |
+|  0.2% | 43.3 kB | `.registry system / Context ← .previous system / Context`                                                           |
+|  0.1% | 19.4 kB | `(GC root)`                                                                                                         |
+|  0.0% |   952 B | `.symbolRegistry SuperJSON (website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/index.js:10:16)` |
+|  0.0% |   480 B | `(GC root)`                                                                                                         |
+
+##### `Grammar` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14)
+
+|     % |    Size | Path                          |
+| ----: | ------: | ----------------------------- |
+| 14.0% | 2.48 MB | `._registry system / Context` |
+| 13.7% | 2.43 MB | `._registry system / Context` |
+|  8.4% | 1.49 MB | `._registry system / Context` |
+|  3.3% |  578 kB | `._registry system / Context` |
+|  1.9% |  337 kB | `._registry system / Context` |
+
+##### `Generator` (website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32)
+
+|    % |   Size | Path                                                    |
+| ---: | -----: | ------------------------------------------------------- |
+| 5.8% | 784 kB | `.(Builtins) system / SourceTextModule ← .2 ModuleWrap` |
+| 3.2% | 431 kB | `(GC root)`                                             |
+| 2.6% | 351 kB | `(GC root)`                                             |
+| 2.3% | 312 kB | `(GC root)`                                             |
+| 2.2% | 294 kB | `.(Builtins) system / SourceTextModule ← .2 ModuleWrap` |
+
+##### `a` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673)
+
+|     % |    Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 11.8% | 1.28 MB | `.jv system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 11.7% | 1.26 MB | `.params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 10.4% | 1.13 MB | `.requestedSchema Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 10.0% | 1.08 MB | `.properties Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .requestedSchema Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context`                                                                                                                                                                      |
+|  9.8% | 1.06 MB | `.valueType a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .properties Object ← .<dummy> system / Context ← .context get (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .requestedSchema Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context` |
 
 ##### `Map` (`<native>`)
 
-|     % |    Size | Path                                                        |
-| ----: | ------: | ----------------------------------------------------------- |
-| 82.4% |  236 kB | `.map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-|  5.0% | 14.4 kB | `.messages system / Context`                                |
-|  2.9% | 8.41 kB | `(GC root)`                                                 |
-|  2.5% | 7.24 kB | `.encodings system / Context`                               |
-|  1.6% | 4.65 kB | `(GC root)`                                                 |
-
-##### `Queue` (quetie/src/index.js:2:14)
-
-|     % |    Size | Path                                                  |
-| ----: | ------: | ----------------------------------------------------- |
-| 86.1% |  167 kB | `(GC root)`                                           |
-|  2.2% | 4.19 kB | `(GC root)`                                           |
-|  1.1% | 2.22 kB | `[0] Array ← ._data Deque (quetie/src/index.js:68:8)` |
-|  1.1% | 2.22 kB | `[1] Array ← ._data Deque (quetie/src/index.js:68:8)` |
-|  1.1% | 2.22 kB | `[2] Array ← ._data Deque (quetie/src/index.js:68:8)` |
-
-##### `Error` (`<native>`)
-
-|    % |  Size | Path                                                                                       |
-| ---: | ----: | ------------------------------------------------------------------------------------------ |
-| 0.5% | 664 B | `(GC root)`                                                                                |
-| 0.5% | 656 B | `.prototype NodeError (node:internal/errors:472:20) ← .ERR_INTERNAL_ASSERTION Object`      |
-| 0.5% | 656 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_WORKER Object`    |
-| 0.5% | 656 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_CONNECTED Object` |
-| 0.5% | 656 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_AVAILABLE Object` |
-
-##### `Deque` (quetie/src/index.js:68:8)
-
-|     % |    Size | Path        |
-| ----: | ------: | ----------- |
-| 81.3% | 88.6 kB | `(GC root)` |
-| 18.7% | 20.3 kB | `(GC root)` |
-
-##### `process` (`<native>`)
-
-|      % |    Size | Path        |
-| -----: | ------: | ----------- |
-| 100.0% | 66.6 kB | `(GC root)` |
-|   0.0% |    32 B | `.40 array` |
-
-##### `TypeError` (`<native>`)
-
-|    % |  Size | Path                                                 |
-| ---: | ----: | ---------------------------------------------------- |
-| 1.1% | 656 B | `(GC root)`                                          |
-| 1.1% | 656 B | `(GC root)`                                          |
-| 1.1% | 656 B | `(GC root)`                                          |
-| 1.1% | 656 B | `.prototype NodeError (node:internal/errors:472:20)` |
-| 1.1% | 656 B | `.prototype NodeError (node:internal/errors:504:20)` |
-
-##### `Table` (`<native>`)
-
-|      % |  Size | Path                                                                                             |
-| -----: | ----: | ------------------------------------------------------------------------------------------------ |
-| 100.0% | 51 kB | `.__wbindgen_export_1 Object ← .__wasm Object ← .default Object ← .import_wasm system / Context` |
-
-##### `console` (`<native>`)
-
-|     % |    Size | Path        |
-| ----: | ------: | ----------- |
-| 91.6% |   19 kB | `(GC root)` |
-|  8.4% | 1.74 kB | `(GC root)` |
-
-##### `RangeError` (`<native>`)
-
-|    % |  Size | Path                                                                          |
-| ---: | ----: | ----------------------------------------------------------------------------- |
-| 3.4% | 656 B | `(GC root)`                                                                   |
-| 3.4% | 656 B | `(GC root)`                                                                   |
-| 3.4% | 656 B | `.prototype NodeError (node:internal/errors:504:20) ← .ERR_INVALID_FD Object` |
-| 3.4% | 656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
-| 3.4% | 656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
-
-##### `Set` (`<native>`)
-
-|     % |    Size | Path                                                      |
-| ----: | ------: | --------------------------------------------------------- |
-| 31.7% | 4.97 kB | `(GC root)`                                               |
-| 16.8% | 2.63 kB | `.canBeRequiredByUsersList system / Context`              |
-| 16.8% | 2.63 kB | `.canBeRequiredByUsersWithoutSchemeList system / Context` |
-|  8.6% | 1.35 kB | `.builtInObjects system / Context`                        |
-|  4.6% |   712 B | `.processBindingAllowList system / Context`               |
+|     % |    Size | Path                                                                                                                                                                                           |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 26.9% | 2.75 MB | `(GC root)`                                                                                                                                                                                    |
+| 26.9% | 2.75 MB | `.reactions_or_result Promise ← .data Object ← .6 array ← .table Map`                                                                                                                          |
+| 14.7% |  1.5 MB | `._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 14.5% | 1.48 MB | `._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+|  5.5% |  565 kB | `.realpathCache system / Context`                                                                                                                                                              |
 
 ##### `Uint8Array` (`<native>`)
 
-|     % |  Size | Path        |
-| ----: | ----: | ----------- |
-| 89.7% |  8 kB | `(GC root)` |
-|  2.3% | 202 B | `(GC root)` |
-|  2.3% | 201 B | `(GC root)` |
-|  1.2% | 104 B | `(GC root)` |
-|  1.2% | 104 B | `(GC root)` |
+|     % |    Size | Path                                                                  |
+| ----: | ------: | --------------------------------------------------------------------- |
+| 88.6% | 6.16 MB | `.stdout system / Context`                                            |
+|  6.7% |  467 kB | `(GC root)`                                                           |
+|  1.8% |  123 kB | `(GC root)`                                                           |
+|  0.7% |   46 kB | `.reactions_or_result Promise ← .data Object ← .6 array ← .table Map` |
+|  0.3% | 20.4 kB | `(GC root)`                                                           |
 
-##### `WeakRefMap` (node:diagnostics_channel:38:1)
+##### `Set` (`<native>`)
 
-|      % |    Size | Path                         |
-| -----: | ------: | ---------------------------- |
-| 100.0% | 7.82 kB | `.channels system / Context` |
+|    % |   Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---: | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 6.0% | 302 kB | `.items DirEntry (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14) ← .207 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 6.0% | 302 kB | `.items DirEntry (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14) ← .198 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 6.0% | 302 kB | `.items DirEntry (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14) ← .183 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 6.0% | 302 kB | `.items DirEntry (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14) ← .192 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 6.0% | 300 kB | `.items DirEntry (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14) ← .186 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
 
-##### `Event` (`<native>`)
+##### `Memory` (`<native>`)
 
-|      % |    Size | Path        |
-| -----: | ------: | ----------- |
-| 100.0% | 5.48 kB | `(GC root)` |
+|     % |    Size | Path                                                                                               |
+| ----: | ------: | -------------------------------------------------------------------------------------------------- |
+| 92.5% | 4.06 MB | `.memory Object ← .C system / Context`                                                             |
+|  3.0% |  131 kB | `.llhttpInstance system / Context ← .context connectH1 (node:internal/deps/undici/undici:7541:23)` |
+|  3.0% |  131 kB | `.memory Object ← .C system / Context`                                                             |
+|  1.5% | 65.8 kB | `.memory Object ← .C system / Context`                                                             |
+|  0.0% |   104 B | `.memory Object`                                                                                   |
 
-##### `EventTarget` (`<native>`)
+##### `EnvironmentModuleNode` (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13)
 
-|     % |    Size | Path                                                                                                                                                                                                                                             |
-| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 53.5% | 2.86 kB | `.prototype NodeEventTarget (node:internal/event_target:901:14) ← .NodeEventTarget Object ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .635 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
-| 46.5% | 2.49 kB | `(GC root)`                                                                                                                                                                                                                                      |
+|     % |    Size | Path        |
+| ----: | ------: | ----------- |
+| 46.3% | 2.01 MB | `(GC root)` |
+| 20.6% |  894 kB | `(GC root)` |
+|  2.2% | 94.7 kB | `(GC root)` |
+|  1.7% | 75.2 kB | `(GC root)` |
+|  1.4% | 59.2 kB | `(GC root)` |
 
-##### `DOMException` (`<native>`)
+##### `Promise` (`<native>`)
 
-|      % |   Size | Path                                                                     |
-| -----: | -----: | ------------------------------------------------------------------------ |
-| 100.0% | 4.7 kB | `.prototype DOMException (node:internal/per_context/domexception:72:14)` |
+|     % |    Size | Path                                   |
+| ----: | ------: | -------------------------------------- |
+| 86.3% | 2.75 MB | `.data Object ← .6 array ← .table Map` |
+|  7.7% |  244 kB | `.data Object ← .6 array ← .table Map` |
+|  1.4% |   46 kB | `.data Object ← .6 array ← .table Map` |
+|  0.5% | 15.5 kB | `.data Object ← .6 array ← .table Map` |
+|  0.1% | 3.64 kB | `.data Object ← .6 array ← .table Map` |
 
-##### `AbortSignal` (`<native>`)
+##### `DirEntry` (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14)
 
-|      % |    Size | Path        |
-| -----: | ------: | ----------- |
-| 100.0% | 3.78 kB | `(GC root)` |
+|     % |   Size | Path                                                                                                                                                                                                                     |
+| ----: | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 10.1% | 302 kB | `.207 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 10.1% | 302 kB | `.198 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 10.1% | 302 kB | `.183 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 10.1% | 302 kB | `.192 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
+| 10.0% | 300 kB | `.186 array ← .table Map ← ._watched FSWatcher (website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13860:14)` |
 
-##### `TypedArray` (`<native>`)
+##### `Lexer` (website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16)
 
-|     % |  Size | Path        |
-| ----: | ----: | ----------- |
-| 11.9% | 416 B | `(GC root)` |
-|  8.0% | 280 B | `(GC root)` |
-|  8.0% | 280 B | `(GC root)` |
-|  8.0% | 280 B | `(GC root)` |
-|  8.0% | 280 B | `(GC root)` |
+|     % |    Size | Path        |
+| ----: | ------: | ----------- |
+| 36.8% | 1.03 MB | `(GC root)` |
+| 33.8% |  940 kB | `(GC root)` |
+| 29.4% |  817 kB | `(GC root)` |
+
+##### `BeginEndRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14)
+
+|    % |    Size | Path                                                                                                                                                                                         |
+| ---: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.2% | 4.27 kB | `[396] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 4.05 kB | `[777] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% |  3.9 kB | `[933] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 3.66 kB | `[765] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
+| 0.2% | 3.62 kB | `[57] Array ← ._ruleId2desc Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context`  |
+
+##### `zt` (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854)
+
+|     % |   Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----: | -----: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.9% | 938 kB | `.utilities Object`                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 45.1% | 771 kB | `.utilities Object ← .i system / Context ← .context build (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:38:894) ← .build Object ← .e system / Context ← .compiler B (website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483) ← .jr system / Context` |
+
+##### `K` (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476)
+
+|     % |   Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ----: | -----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 46.5% | 696 kB | `.utilities zt (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854) ← .utilities Object`                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 35.3% | 528 kB | `.utilities zt (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854) ← .utilities Object ← .i system / Context ← .context build (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:38:894) ← .build Object ← .e system / Context ← .compiler B (website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483) ← .jr system / Context` |
+|  9.5% | 143 kB | `.l system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  8.0% | 119 kB | `.s system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  7.7% | 115 kB | `.9 array ← .table K (website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476) ← .l system / Context`                                                                                                                                                                                                                                                                                                                                                                                                                     |
+
+##### `Resolver` (website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13)
+
+|     % |    Size | Path                                                |
+| ----: | ------: | --------------------------------------------------- |
+| 69.6% |  981 kB | `.jr system / Context`                              |
+| 16.3% |  230 kB | `.Br system / Context`                              |
+|  3.1% | 43.8 kB | `.ni system / Context ← .previous system / Context` |
+|  3.1% | 43.8 kB | `.oi system / Context ← .previous system / Context` |
+|  3.1% | 43.7 kB | `.Yr system / Context`                              |
+
+##### `B` (website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483)
+
+|     % |   Size | Path                   |
+| ----: | -----: | ---------------------- |
+| 66.7% | 802 kB | `.jr system / Context` |
+| 33.3% | 400 kB | `(GC root)`            |

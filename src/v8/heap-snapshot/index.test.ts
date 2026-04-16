@@ -330,25 +330,25 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# Heap snapshot
 
-    Allocated 11.4 MB across 60,157 objects and 233,425 references.
+    Allocated 272 MB across 1,792,439 objects and 7,746,182 references.
 
     | Category            |     % |    Size | Objects |
     | ------------------- | ----: | ------: | ------: |
-    | string              | 49.0% | 5.58 MB |  15,784 |
-    | native              | 23.8% | 2.71 MB |     184 |
-    | array               |  7.2% |  824 kB |   1,594 |
-    | code                |  7.1% |  813 kB |  16,346 |
-    | object shape        |  3.9% |  442 kB |   4,618 |
-    | closure             |  3.0% |  345 kB |   5,836 |
-    | hidden              |  2.3% |  267 kB |   5,389 |
-    | object              |  1.9% |  221 kB |   3,871 |
-    | concatenated string |  1.5% |  166 kB |   5,192 |
-    | number              |  0.1% | 16.8 kB |   1,060 |
-    | symbol              |  0.0% | 4.32 kB |     196 |
-    | regexp              |  0.0% |  2.8 kB |      50 |
+    | string              | 28.8% | 78.4 MB | 299,595 |
+    | native              | 26.8% | 72.9 MB |   2,435 |
+    | code                | 15.0% | 40.8 MB | 354,918 |
+    | array               | 11.0% | 29.9 MB | 158,724 |
+    | object              |  8.7% | 23.7 MB | 487,315 |
+    | closure             |  3.7% | 9.94 MB | 172,859 |
+    | object shape        |  2.9% |    8 MB |  86,186 |
+    | hidden              |  1.6% | 4.35 MB |  92,905 |
+    | concatenated string |  1.2% | 3.23 MB | 101,084 |
+    | sliced string       |  0.3% |  879 kB |  27,463 |
+    | regexp              |  0.1% |  137 kB |   2,447 |
+    | number              |  0.0% | 89.6 kB |   5,609 |
+    | symbol              |  0.0% |   20 kB |     848 |
     | synthetic           |  0.0% | 2.59 kB |      33 |
-    | sliced string       |  0.0% |    64 B |       2 |
-    | bigint              |  0.0% |    48 B |       2 |
+    | bigint              |  0.0% |   392 B |      18 |
 
     ## Largest constructors
 
@@ -356,13 +356,13 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
 
-    |    % |    Size | Instances | Constructor   | Location   |
-    | ---: | ------: | --------: | ------------- | ---------- |
-    | 0.7% |   83 kB |     1,782 | \`Object\`      | \`<native>\` |
-    | 0.1% | 8.99 kB |       281 | \`Array\`       | \`<native>\` |
-    | 0.0% | 5.11 kB |       197 | \`Error\`       | \`<native>\` |
-    | 0.0% | 3.61 kB |        38 | \`ArrayBuffer\` | \`<native>\` |
-    | 0.0% | 2.33 kB |        97 | \`TypeError\`   | \`<native>\` |
+    |    % |    Size | Instances | Constructor     | Location                                                                                                                                                |
+    | ---: | ------: | --------: | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 5.0% | 13.7 MB |   279,002 | \`Object\`        | \`<native>\`                                                                                                                                              |
+    | 1.1% | 3.12 MB |    97,432 | \`Array\`         | \`<native>\`                                                                                                                                              |
+    | 0.2% |  665 kB |     8,311 | \`CaptureRule\`   | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1032:14 |
+    | 0.2% |  494 kB |     7,725 | \`_RegExpSource\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1429:14 |
+    | 0.1% |  362 kB |     2,511 | \`BeginEndRule\`  | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14 |
 
     #### Instances
 
@@ -370,50 +370,50 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     ##### \`Object\` (\`<native>\`)
 
-    |    % |  Size | Path                                                                                                                                                   |
-    | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-    | 1.1% | 872 B | \`.variables Object ← .config process\`                                                                                                                  |
-    | 0.6% | 512 B | \`.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1139 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)\` |
+    |    % |    Size | Path                                                      |
+    | ---: | ------: | --------------------------------------------------------- |
+    | 0.0% | 1.04 kB | \`.$e38a1a895f6aeb54$var$UNICODE_SCRIPTS system / Context\` |
+    | 0.0% | 1.04 kB | \`.repository Object\`                                      |
 
     ##### \`Array\` (\`<native>\`)
 
     |    % | Size | Path        |
     | ---: | ---: | ----------- |
-    | 0.4% | 32 B | \`(GC root)\` |
-    | 0.4% | 32 B | \`(GC root)\` |
+    | 0.0% | 56 B | \`(GC root)\` |
+    | 0.0% | 56 B | \`(GC root)\` |
 
-    ##### \`Error\` (\`<native>\`)
+    ##### \`CaptureRule\` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1032:14)
 
-    |    % | Size | Path        |
-    | ---: | ---: | ----------- |
-    | 1.1% | 56 B | \`(GC root)\` |
-    | 1.1% | 56 B | \`(GC root)\` |
+    |    % | Size | Path                                                                                                                                                                                                                           |
+    | ---: | ---: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+    | 0.0% | 80 B | \`[3366] Array ← ._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
+    | 0.0% | 80 B | \`[3367] Array ← ._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
 
-    ##### \`ArrayBuffer\` (\`<native>\`)
+    ##### \`_RegExpSource\` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1429:14)
 
-    |    % | Size | Path                   |
-    | ---: | ---: | ---------------------- |
-    | 2.7% | 96 B | \`(GC root)\`            |
-    | 2.7% | 96 B | \`.buffer Float64Array\` |
+    |    % | Size | Path                                                                                                                                                                                                            |
+    | ---: | ---: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 0.0% | 64 B | \`._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
+    | 0.0% | 64 B | \`._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
 
-    ##### \`TypeError\` (\`<native>\`)
+    ##### \`BeginEndRule\` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14)
 
-    |    % | Size | Path        |
-    | ---: | ---: | ----------- |
-    | 1.0% | 24 B | \`(GC root)\` |
-    | 1.0% | 24 B | \`(GC root)\` |
+    |    % |  Size | Path                                                                                                                                                                                                                           |
+    | ---: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+    | 0.0% | 144 B | \`[5107] Array ← ._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
+    | 0.0% | 144 B | \`[5112] Array ← ._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
 
     ### Retained size
 
     Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-    |     % |    Size | Constructor   | Location          |
-    | ----: | ------: | ------------- | ----------------- |
-    | 35.4% | 4.03 MB | \`Object\`      | \`<native>\`        |
-    | 23.7% |  2.7 MB | \`ArrayBuffer\` | \`<native>\`        |
-    |  4.1% |  469 kB | \`Array\`       | \`<native>\`        |
-    |  2.5% |  286 kB | \`Map\`         | \`<native>\`        |
-    |  1.7% |  194 kB | \`Queue\`       | src/index.js:2:14 |
+    |     % |    Size | Constructor   | Location                                                                                                                                                |
+    | ----: | ------: | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 54.6% |  149 MB | \`Object\`      | \`<native>\`                                                                                                                                              |
+    | 26.7% | 72.6 MB | \`ArrayBuffer\` | \`<native>\`                                                                                                                                              |
+    | 11.6% | 31.6 MB | \`Array\`       | \`<native>\`                                                                                                                                              |
+    |  6.6% |   18 MB | \`Registry\`    | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                |
+    |  6.5% | 17.7 MB | \`Grammar\`     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14 |
 
     #### Instances
 
@@ -421,38 +421,38 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     ##### \`Object\` (\`<native>\`)
 
-    |     % |    Size | Path                                              |
-    | ----: | ------: | ------------------------------------------------- |
-    | 74.9% | 3.02 MB | \`.import_wasm system / Context\`                   |
-    | 74.5% |    3 MB | \`.default Object ← .import_wasm system / Context\` |
+    |     % |    Size | Path        |
+    | ----: | ------: | ----------- |
+    | 40.7% | 60.5 MB | \`(GC root)\` |
+    | 12.1% |   18 MB | \`(GC root)\` |
 
     ##### \`ArrayBuffer\` (\`<native>\`)
 
-    |     % |    Size | Path                                              |
-    | ----: | ------: | ------------------------------------------------- |
-    | 99.5% | 2.69 MB | \`.default Object ← .import_wasm system / Context\` |
-    |  0.3% | 8.46 kB | \`(GC root)\`                                       |
+    |     % |    Size | Path                                            |
+    | ----: | ------: | ----------------------------------------------- |
+    | 83.2% | 60.4 MB | \`(GC root)\`                                     |
+    |  8.5% | 6.16 MB | \`.buffer Uint8Array ← .stdout system / Context\` |
 
     ##### \`Array\` (\`<native>\`)
 
-    |     % |    Size | Path                               |
-    | ----: | ------: | ---------------------------------- |
-    | 35.6% |  167 kB | \`._data Queue (src/index.js:2:14)\` |
-    | 18.9% | 88.4 kB | \`._data Deque (src/index.js:68:8)\` |
+    |    % |    Size | Path                                                                                                                                                                                                            |
+    | ---: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 4.3% | 1.38 MB | \`._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
+    | 4.2% | 1.33 MB | \`._ruleId2desc Grammar (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context\` |
 
-    ##### \`Map\` (\`<native>\`)
+    ##### \`Registry\` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16)
 
-    |     % |    Size | Path                                                        |
-    | ----: | ------: | ----------------------------------------------------------- |
-    | 82.4% |  236 kB | \`.map BuiltinModule (node:internal/bootstrap/realm:236:14)\` |
-    |  5.0% | 14.4 kB | \`.messages system / Context\`                                |
+    |     % |    Size | Path                                                      |
+    | ----: | ------: | --------------------------------------------------------- |
+    | 99.6% |   18 MB | \`._registry system / Context\`                             |
+    |  0.2% | 43.3 kB | \`.registry system / Context ← .previous system / Context\` |
 
-    ##### \`Queue\` (src/index.js:2:14)
+    ##### \`Grammar\` (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14)
 
-    |     % |    Size | Path        |
-    | ----: | ------: | ----------- |
-    | 86.1% |  167 kB | \`(GC root)\` |
-    |  2.2% | 4.19 kB | \`(GC root)\` |
+    |     % |    Size | Path                          |
+    | ----: | ------: | ----------------------------- |
+    | 14.0% | 2.48 MB | \`._registry system / Context\` |
+    | 13.7% | 2.43 MB | \`._registry system / Context\` |
     "
   `)
 })
