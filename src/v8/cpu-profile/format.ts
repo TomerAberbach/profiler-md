@@ -128,8 +128,8 @@ const formatHottestLines = (
     })`,
     formatTable(
       [
-        { content: `Count %`, align: `right` },
-        { content: `Count`, align: `right` },
+        { content: `Hit %`, align: `right` },
+        { content: `Hits`, align: `right` },
         `Location`,
       ],
       hottestLines.map(([line, hitCount]) => [

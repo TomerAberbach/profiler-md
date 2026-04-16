@@ -47,152 +47,152 @@ Lines ranked by contribution to each function's sample count.
 
 ##### `unevalObjectLike` (uneval/src/internal/object.ts:103:26)
 
-| Count % | Count | Location                          |
-| ------: | ----: | --------------------------------- |
-|   42.1% | 3,022 | uneval/src/internal/object.ts:144 |
-|   30.5% | 2,189 | uneval/src/internal/object.ts:93  |
-|    8.0% |   573 | uneval/src/internal/object.ts:99  |
-|    5.7% |   411 | uneval/src/internal/object.ts:100 |
-|    4.1% |   296 | uneval/src/internal/object.ts:83  |
+| Hit % |  Hits | Location                          |
+| ----: | ----: | --------------------------------- |
+| 42.1% | 3,022 | uneval/src/internal/object.ts:144 |
+| 30.5% | 2,189 | uneval/src/internal/object.ts:93  |
+|  8.0% |   573 | uneval/src/internal/object.ts:99  |
+|  5.7% |   411 | uneval/src/internal/object.ts:100 |
+|  4.1% |   296 | uneval/src/internal/object.ts:83  |
 
 ##### `traverseObject` (uneval/src/index.ts:204:26)
 
-| Count % | Count | Location                |
-| ------: | ----: | ----------------------- |
-|   43.0% | 2,960 | uneval/src/index.ts:152 |
-|   21.9% | 1,509 | uneval/src/index.ts:160 |
-|   12.7% |   874 | uneval/src/index.ts:184 |
-|    6.9% |   478 | uneval/src/index.ts:150 |
-|    3.6% |   246 | uneval/src/index.ts:187 |
+| Hit % |  Hits | Location                |
+| ----: | ----: | ----------------------- |
+| 43.0% | 2,960 | uneval/src/index.ts:152 |
+| 21.9% | 1,509 | uneval/src/index.ts:160 |
+| 12.7% |   874 | uneval/src/index.ts:184 |
+|  6.9% |   478 | uneval/src/index.ts:150 |
+|  3.6% |   246 | uneval/src/index.ts:187 |
 
 ##### `unevalObjectInternal` (uneval/src/internal/object.ts:68:30)
 
-| Count % | Count | Location                         |
-| ------: | ----: | -------------------------------- |
-|   89.3% | 3,659 | uneval/src/internal/object.ts:54 |
-|    5.9% |   243 | uneval/src/internal/object.ts:52 |
-|    2.5% |   103 | uneval/src/internal/object.ts:48 |
-|    1.4% |    56 | uneval/src/internal/object.ts:53 |
-|    0.7% |    29 | uneval/src/internal/object.ts:50 |
+| Hit % |  Hits | Location                         |
+| ----: | ----: | -------------------------------- |
+| 89.3% | 3,659 | uneval/src/internal/object.ts:54 |
+|  5.9% |   243 | uneval/src/internal/object.ts:52 |
+|  2.5% |   103 | uneval/src/internal/object.ts:48 |
+|  1.4% |    56 | uneval/src/internal/object.ts:53 |
+|  0.7% |    29 | uneval/src/internal/object.ts:50 |
 
 ##### `unevalLiteral` (uneval/src/internal/primitive.ts:139:23)
 
-| Count % | Count | Location                             |
-| ------: | ----: | ------------------------------------ |
-|   27.0% | 1,097 | uneval/src/internal/primitive.ts:105 |
-|   25.0% | 1,013 | uneval/src/internal/primitive.ts:103 |
-|   12.6% |   513 | uneval/src/internal/primitive.ts:104 |
-|   11.9% |   484 | uneval/src/internal/primitive.ts:111 |
-|    9.5% |   386 | uneval/src/internal/primitive.ts:136 |
+| Hit % |  Hits | Location                             |
+| ----: | ----: | ------------------------------------ |
+| 27.0% | 1,097 | uneval/src/internal/primitive.ts:105 |
+| 25.0% | 1,013 | uneval/src/internal/primitive.ts:103 |
+| 12.6% |   513 | uneval/src/internal/primitive.ts:104 |
+| 11.9% |   484 | uneval/src/internal/primitive.ts:111 |
+|  9.5% |   386 | uneval/src/internal/primitive.ts:136 |
 
 ##### `unevalWithoutCustom` (uneval/src/internal/index.ts:14:37)
 
-| Count % | Count | Location                       |
-| ------: | ----: | ------------------------------ |
-|  100.0% | 3,990 | uneval/src/internal/index.ts:4 |
+|  Hit % |  Hits | Location                       |
+| -----: | ----: | ------------------------------ |
+| 100.0% | 3,990 | uneval/src/internal/index.ts:4 |
 
 ##### `unevalNumber` (uneval/src/internal/primitive.ts:12:29)
 
-| Count % | Count | Location                            |
-| ------: | ----: | ----------------------------------- |
-|   93.7% | 3,010 | uneval/src/internal/primitive.ts:15 |
-|    3.8% |   123 | uneval/src/internal/primitive.ts:19 |
-|    1.3% |    43 | uneval/src/internal/primitive.ts:7  |
-|    0.5% |    17 | uneval/src/internal/primitive.ts:9  |
-|    0.5% |    15 | uneval/src/internal/primitive.ts:11 |
+| Hit % |  Hits | Location                            |
+| ----: | ----: | ----------------------------------- |
+| 93.7% | 3,010 | uneval/src/internal/primitive.ts:15 |
+|  3.8% |   123 | uneval/src/internal/primitive.ts:19 |
+|  1.3% |    43 | uneval/src/internal/primitive.ts:7  |
+|  0.5% |    17 | uneval/src/internal/primitive.ts:9  |
+|  0.5% |    15 | uneval/src/internal/primitive.ts:11 |
 
 ##### `traverse` (uneval/src/index.ts:164:20)
 
-| Count % | Count | Location                |
-| ------: | ----: | ----------------------- |
-|   28.8% |   831 | uneval/src/index.ts:122 |
-|   24.5% |   706 | uneval/src/index.ts:142 |
-|   15.4% |   445 | uneval/src/index.ts:141 |
-|   11.0% |   317 | uneval/src/index.ts:127 |
-|   10.0% |   290 | uneval/src/index.ts:108 |
+| Hit % | Hits | Location                |
+| ----: | ---: | ----------------------- |
+| 28.8% |  831 | uneval/src/index.ts:122 |
+| 24.5% |  706 | uneval/src/index.ts:142 |
+| 15.4% |  445 | uneval/src/index.ts:141 |
+| 11.0% |  317 | uneval/src/index.ts:127 |
+| 10.0% |  290 | uneval/src/index.ts:108 |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 
-| Count % | Count | Location                             |
-| ------: | ----: | ------------------------------------ |
-|   72.5% | 2,035 | uneval/src/internal/collection.ts:69 |
-|    7.4% |   208 | uneval/src/internal/collection.ts:37 |
-|    5.3% |   148 | uneval/src/internal/collection.ts:46 |
-|    5.1% |   143 | uneval/src/internal/collection.ts:6  |
-|    4.1% |   115 | uneval/src/internal/collection.ts:47 |
+| Hit % |  Hits | Location                             |
+| ----: | ----: | ------------------------------------ |
+| 72.5% | 2,035 | uneval/src/internal/collection.ts:69 |
+|  7.4% |   208 | uneval/src/internal/collection.ts:37 |
+|  5.3% |   148 | uneval/src/internal/collection.ts:46 |
+|  5.1% |   143 | uneval/src/internal/collection.ts:6  |
+|  4.1% |   115 | uneval/src/internal/collection.ts:47 |
 
 ##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
 
-| Count % | Count | Location                        |
-| ------: | ----: | ------------------------------- |
-|   44.2% |   938 | uneval/src/internal/index.ts:9  |
-|    9.9% |   209 | uneval/src/internal/index.ts:16 |
-|    9.7% |   206 | uneval/src/internal/index.ts:8  |
-|    7.0% |   149 | uneval/src/internal/index.ts:19 |
-|    6.9% |   147 | uneval/src/internal/index.ts:5  |
+| Hit % | Hits | Location                        |
+| ----: | ---: | ------------------------------- |
+| 44.2% |  938 | uneval/src/internal/index.ts:9  |
+|  9.9% |  209 | uneval/src/internal/index.ts:16 |
+|  9.7% |  206 | uneval/src/internal/index.ts:8  |
+|  7.0% |  149 | uneval/src/internal/index.ts:19 |
+|  6.9% |  147 | uneval/src/internal/index.ts:5  |
 
 ##### `getType` (uneval/src/internal/type.ts:4:24)
 
-| Count % | Count | Location                       |
-| ------: | ----: | ------------------------------ |
-|   74.3% | 1,171 | uneval/src/internal/type.ts:11 |
-|   23.0% |   363 | uneval/src/internal/type.ts:3  |
-|    2.0% |    32 | uneval/src/internal/type.ts:4  |
-|    0.3% |     5 | uneval/src/internal/type.ts:12 |
-|    0.3% |     4 | uneval/src/internal/type.ts:13 |
+| Hit % |  Hits | Location                       |
+| ----: | ----: | ------------------------------ |
+| 74.3% | 1,171 | uneval/src/internal/type.ts:11 |
+| 23.0% |   363 | uneval/src/internal/type.ts:3  |
+|  2.0% |    32 | uneval/src/internal/type.ts:4  |
+|  0.3% |     5 | uneval/src/internal/type.ts:12 |
+|  0.3% |     4 | uneval/src/internal/type.ts:13 |
 
 ##### `unevalObjectLiteralKey` (uneval/src/internal/object.ts:384:32)
 
-| Count % | Count | Location                          |
-| ------: | ----: | --------------------------------- |
-|   33.3% |   448 | uneval/src/internal/object.ts:284 |
-|   23.0% |   310 | uneval/src/internal/object.ts:296 |
-|   15.7% |   211 | uneval/src/internal/object.ts:285 |
-|    9.3% |   125 | uneval/src/internal/object.ts:275 |
-|    8.2% |   110 | uneval/src/internal/object.ts:283 |
+| Hit % | Hits | Location                          |
+| ----: | ---: | --------------------------------- |
+| 33.3% |  448 | uneval/src/internal/object.ts:284 |
+| 23.0% |  310 | uneval/src/internal/object.ts:296 |
+| 15.7% |  211 | uneval/src/internal/object.ts:285 |
+|  9.3% |  125 | uneval/src/internal/object.ts:275 |
+|  8.2% |  110 | uneval/src/internal/object.ts:283 |
 
 ##### `createState` (uneval/src/index.ts:144:21)
 
-| Count % | Count | Location                |
-| ------: | ----: | ----------------------- |
-|   20.9% |   240 | uneval/src/index.ts:249 |
-|   18.2% |   210 | uneval/src/index.ts:93  |
-|   16.2% |   186 | uneval/src/index.ts:106 |
-|   14.5% |   167 | uneval/src/index.ts:92  |
-|   13.6% |   156 | uneval/src/index.ts:94  |
+| Hit % | Hits | Location                |
+| ----: | ---: | ----------------------- |
+| 20.9% |  240 | uneval/src/index.ts:249 |
+| 18.2% |  210 | uneval/src/index.ts:93  |
+| 16.2% |  186 | uneval/src/index.ts:106 |
+| 14.5% |  167 | uneval/src/index.ts:92  |
+| 13.6% |  156 | uneval/src/index.ts:94  |
 
 ##### `unevalObject` (uneval/src/internal/object.ts:20:29)
 
-| Count % | Count | Location                         |
-| ------: | ----: | -------------------------------- |
-|   40.2% |   136 | uneval/src/internal/object.ts:12 |
-|   29.9% |   101 | uneval/src/internal/object.ts:16 |
-|   19.5% |    66 | uneval/src/internal/object.ts:19 |
-|    5.6% |    19 | uneval/src/internal/object.ts:17 |
-|    4.1% |    14 | uneval/src/internal/object.ts:14 |
+| Hit % | Hits | Location                         |
+| ----: | ---: | -------------------------------- |
+| 40.2% |  136 | uneval/src/internal/object.ts:12 |
+| 29.9% |  101 | uneval/src/internal/object.ts:16 |
+| 19.5% |   66 | uneval/src/internal/object.ts:19 |
+|  5.6% |   19 | uneval/src/internal/object.ts:17 |
+|  4.1% |   14 | uneval/src/internal/object.ts:14 |
 
 ##### `isObject` (uneval/src/internal/object.ts:434:25)
 
-| Count % | Count | Location                          |
-| ------: | ----: | --------------------------------- |
-|   73.1% |   226 | uneval/src/internal/object.ts:309 |
-|   26.9% |    83 | uneval/src/internal/object.ts:308 |
+| Hit % | Hits | Location                          |
+| ----: | ---: | --------------------------------- |
+| 73.1% |  226 | uneval/src/internal/object.ts:309 |
+| 26.9% |   83 | uneval/src/internal/object.ts:308 |
 
 ##### `unevalString` (uneval/src/internal/primitive.ts:133:29)
 
-| Count % | Count | Location                            |
-| ------: | ----: | ----------------------------------- |
-|  100.0% |   308 | uneval/src/internal/primitive.ts:97 |
+|  Hit % | Hits | Location                            |
+| -----: | ---: | ----------------------------------- |
+| 100.0% |  308 | uneval/src/internal/primitive.ts:97 |
 
 ##### `uneval` (uneval/src/index.ts:75:16)
 
-| Count % | Count | Location               |
-| ------: | ----: | ---------------------- |
-|   80.1% |   233 | uneval/src/index.ts:36 |
-|   13.1% |    38 | uneval/src/index.ts:34 |
-|    3.4% |    10 | uneval/src/index.ts:40 |
-|    2.1% |     6 | uneval/src/index.ts:43 |
-|    1.4% |     4 | uneval/src/index.ts:35 |
+| Hit % | Hits | Location               |
+| ----: | ---: | ---------------------- |
+| 80.1% |  233 | uneval/src/index.ts:36 |
+| 13.1% |   38 | uneval/src/index.ts:34 |
+|  3.4% |   10 | uneval/src/index.ts:40 |
+|  2.1% |    6 | uneval/src/index.ts:43 |
+|  1.4% |    4 | uneval/src/index.ts:35 |
 
 #### Callers
 
