@@ -144,8 +144,13 @@ try {
     })
   })
 } catch (error) {
-  process.stderr.write(
-    `error: ${error instanceof Error ? error.message : String(error)}\n`,
-  )
+  if (error instanceof Error) {
+    process.stderr.write(`error: ${error.message}\n`)
+    if (error.stack) {
+      process.stderr.write(`${error.stack}\n`)
+    }
+  } else {
+    process.stderr.write(`error: ${String(error)}\n`)
+  }
   process.exit(1)
 }

@@ -9,7 +9,7 @@ import type {
   NormalizedV8ProfileToMdOptions,
   ProfileGraph,
 } from '../common.ts'
-import type { CpuProfile } from './parse.ts'
+import type { CpuProfile, ProfileNode } from './parse.ts'
 
 /**
  * A merged node containing information of all nodes with the same
@@ -38,11 +38,17 @@ export type SummarizedProfileNode = {
    */
   category: string
 
-  /** Number of samples where this node was at the top of the stack. */
-  hitCount: number
+  /** Number of samples taken directly in this node's function body. */
+  selfSampleCount: number
 
-  /** 0-based line number to hit count. */
-  lineToHitCount: Map<number, number>
+  /**
+   * Number of samples taken directly in this node's function body and all
+   * callees.
+   */
+  totalSampleCount: number
+
+  /** 0-based line number to time and sample count. */
+  lineToStats: Map<number, { time: number; sampleCount: number }>
 
   /** Time spent directly in this node's function body in microseconds. */
   selfTime: number
@@ -54,21 +60,29 @@ export type SummarizedProfileNode = {
   totalTime: number
 
   /**
-   * Time spent directly in this node's function body in microseconds by direct
-   * caller.
+   * Time spent in microseconds and sample count directly in this node's
+   * function body by direct caller.
    */
-  callerIdToSelfTime: Map<
+  callerIdToStats: Map<
     number,
-    { caller: SummarizedProfileNode; selfTime: number }
+    {
+      caller: SummarizedProfileNode
+      selfTime: number
+      selfSampleCount: number
+    }
   >
 
   /**
-   * Time spent directly in this node's function body and all callees in
-   * microseconds by direct callee.
+   * Time spent in microseconds and sample count directly in this node's
+   * function body and all callees by direct callee.
    */
-  calleeIdToTotalTime: Map<
+  calleeIdToStats: Map<
     number,
-    { callee: SummarizedProfileNode; totalTime: number }
+    {
+      callee: SummarizedProfileNode
+      totalTime: number
+      totalSampleCount: number
+    }
   >
 }
 
@@ -78,20 +92,25 @@ export type SummarizedCallStack = {
 
   /** The amount of time spent in the topmost node with this stack. */
   selfTime: number
+
+  /** Number of samples taken in the topmost node with this stack. */
+  selfSampleCount: number
 }
 
 export type SummarizedCpuProfile = {
   /** The total time spent in microseconds. */
   totalTime: number
 
-  /** The number of samples taken. */
-  sampleCount: number
+  /** The total number of samples taken. */
+  totalSampleCount: number
 
   /** The number of samples taken per microseconds. */
   samplingInterval: number
 
-  /** Total time spent in microseconds by call frame category. */
-  callFrameCategoryToTime: Map<string, number>
+  /**
+   * Total time spent in microseconds and samples taken by call frame category.
+   */
+  callFrameCategoryToStats: Map<string, { time: number; sampleCount: number }>
 
   /** All summarized nodes. */
   nodes: SummarizedProfileNode[]
@@ -107,13 +126,16 @@ export const summarizeProfile = (
   const graph = computeProfileGraph(profile, options)
 
   const totalTime = profile.endTime - profile.startTime
-  const sampleCount = profile.samples.length
-  const samplingInterval = totalTime / sampleCount
+  const totalSampleCount = profile.samples.length
+  const samplingInterval = totalTime / totalSampleCount
   const nodes = [...graph.keyToSummarizedNode.values()]
 
   const rawNodeIdToSummarizedCallStack = new Map<number, SummarizedCallStack>()
   const keyToSummarizedCallStack = new Map<string, SummarizedCallStack>()
-  const callFrameCategoryToTime = new Map<string, number>()
+  const callFrameCategoryToStats = new Map<
+    string,
+    { time: number; sampleCount: number }
+  >()
 
   for (let index = 0; index < profile.samples.length; index++) {
     const rawNodeId = profile.samples[index]!
@@ -122,6 +144,19 @@ export const summarizeProfile = (
     const node = graph.rawIdToSummarizedNode.get(rawNodeId)!
     node.selfTime += timeDelta
 
+    const { positionTicks } = graph.rawIdToRawNode.get(rawNodeId)!
+    if (positionTicks) {
+      const totalLineTicks = positionTicks.reduce(
+        (totalTicks, tick) => totalTicks + tick.ticks,
+        0,
+      )
+      for (const tick of positionTicks) {
+        const line = tick.line - 1
+        node.lineToStats.get(line)!.time +=
+          timeDelta * (tick.ticks / totalLineTicks)
+      }
+    }
+
     let summarizedCallStack = rawNodeIdToSummarizedCallStack.get(rawNodeId)
     if (!summarizedCallStack) {
       const callStack = getSummarizedCallStack(graph, rawNodeId)
@@ -129,13 +164,18 @@ export const summarizeProfile = (
 
       summarizedCallStack = keyToSummarizedCallStack.get(key)
       if (!summarizedCallStack) {
-        summarizedCallStack = { nodes: callStack, selfTime: 0 }
+        summarizedCallStack = {
+          nodes: callStack,
+          selfTime: 0,
+          selfSampleCount: 0,
+        }
         keyToSummarizedCallStack.set(key, summarizedCallStack)
       }
 
       rawNodeIdToSummarizedCallStack.set(rawNodeId, summarizedCallStack)
     }
     summarizedCallStack.selfTime += timeDelta
+    summarizedCallStack.selfSampleCount++
 
     const callStack = summarizedCallStack.nodes
 
@@ -144,17 +184,19 @@ export const summarizeProfile = (
       if (!seenCallers.has(caller)) {
         seenCallers.add(caller)
         caller.totalTime += timeDelta
+        caller.totalSampleCount++
       }
     }
 
     const caller = callStack[1]
     if (caller) {
-      let callerSelfTime = node.callerIdToSelfTime.get(caller.id)
+      let callerSelfTime = node.callerIdToStats.get(caller.id)
       if (!callerSelfTime) {
-        callerSelfTime = { caller, selfTime: 0 }
-        node.callerIdToSelfTime.set(caller.id, callerSelfTime)
+        callerSelfTime = { caller, selfTime: 0, selfSampleCount: 0 }
+        node.callerIdToStats.set(caller.id, callerSelfTime)
       }
       callerSelfTime.selfTime += timeDelta
+      callerSelfTime.selfSampleCount++
     }
 
     const seenCallerCalleePairs = new Set<string>()
@@ -168,27 +210,31 @@ export const summarizeProfile = (
       }
       seenCallerCalleePairs.add(pair)
 
-      let calleeTotalTime = caller.calleeIdToTotalTime.get(callee.id)
+      let calleeTotalTime = caller.calleeIdToStats.get(callee.id)
       if (!calleeTotalTime) {
-        calleeTotalTime = { callee, totalTime: 0 }
-        caller.calleeIdToTotalTime.set(callee.id, calleeTotalTime)
+        calleeTotalTime = { callee, totalTime: 0, totalSampleCount: 0 }
+        caller.calleeIdToStats.set(callee.id, calleeTotalTime)
       }
       calleeTotalTime.totalTime += timeDelta
+      calleeTotalTime.totalSampleCount++
     }
 
-    callFrameCategoryToTime.set(
-      node.category,
-      (callFrameCategoryToTime.get(node.category) ?? 0) + timeDelta,
-    )
+    let categoryStats = callFrameCategoryToStats.get(node.category)
+    if (!categoryStats) {
+      categoryStats = { time: 0, sampleCount: 0 }
+      callFrameCategoryToStats.set(node.category, categoryStats)
+    }
+    categoryStats.time += timeDelta
+    categoryStats.sampleCount++
   }
 
   const callStacks = [...keyToSummarizedCallStack.values()]
 
   return {
     totalTime,
-    sampleCount,
+    totalSampleCount,
     samplingInterval,
-    callFrameCategoryToTime,
+    callFrameCategoryToStats,
     nodes,
     callStacks,
   }
@@ -197,15 +243,19 @@ export const summarizeProfile = (
 const computeProfileGraph = (
   profile: CpuProfile,
   options: NormalizedV8ProfileToMdOptions,
-): ProfileGraph<SummarizedProfileNode> => {
+): ProfileGraph<SummarizedProfileNode> & {
+  rawIdToRawNode: Map<number, ProfileNode>
+} => {
+  const rawIdToRawNode = new Map<number, ProfileNode>()
   const rawIdToSummarizedNode = new Map<number, SummarizedProfileNode>()
   const keyToSummarizedNode = new Map<string, SummarizedProfileNode>()
   const rawIdToParentRawId = new Map<number, number>()
 
   for (const node of profile.nodes) {
-    if (rawIdToSummarizedNode.has(node.id)) {
+    if (rawIdToRawNode.has(node.id)) {
       throw new Error(`Unexpected duplicate node ID: ${node.id}`)
     }
+    rawIdToRawNode.set(node.id, node)
 
     const key = callFrameKey(node.callFrame)
     let summarizedNode = keyToSummarizedNode.get(key)
@@ -221,26 +271,29 @@ const computeProfileGraph = (
           ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`
           : undefined,
         category: categorizeCallFrame(node.callFrame, options),
-        hitCount: 0,
-        lineToHitCount: new Map(),
+        selfSampleCount: 0,
+        totalSampleCount: 0,
+        lineToStats: new Map(),
         selfTime: 0,
         totalTime: 0,
-        callerIdToSelfTime: new Map(),
-        calleeIdToTotalTime: new Map(),
+        callerIdToStats: new Map(),
+        calleeIdToStats: new Map(),
       }
       keyToSummarizedNode.set(key, summarizedNode)
     }
 
     rawIdToSummarizedNode.set(node.id, summarizedNode)
 
-    summarizedNode.hitCount += node.hitCount
+    summarizedNode.selfSampleCount += node.hitCount
     if (node.positionTicks) {
       for (const tick of node.positionTicks) {
         const line = tick.line - 1
-        summarizedNode.lineToHitCount.set(
-          line,
-          (summarizedNode.lineToHitCount.get(line) ?? 0) + tick.ticks,
-        )
+        let stats = summarizedNode.lineToStats.get(line)
+        if (!stats) {
+          stats = { time: 0, sampleCount: 0 }
+          summarizedNode.lineToStats.set(line, stats)
+        }
+        stats.sampleCount += tick.ticks
       }
     }
 
@@ -256,5 +309,10 @@ const computeProfileGraph = (
     }
   }
 
-  return { rawIdToSummarizedNode, keyToSummarizedNode, rawIdToParentRawId }
+  return {
+    rawIdToRawNode,
+    rawIdToSummarizedNode,
+    keyToSummarizedNode,
+    rawIdToParentRawId,
+  }
 }

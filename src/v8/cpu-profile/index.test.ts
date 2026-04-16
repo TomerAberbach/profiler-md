@@ -89,9 +89,9 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Self % | Self  |
-    | -------- | ------ | ----- |
-    | ours     | 100.0% | 0.3ms |
+    | Category | %      | Time  | Samples |
+    | -------- | ------ | ----- | ------- |
+    | ours     | 100.0% | 0.3ms | 3       |
 
     ## Hottest functions
 
@@ -99,11 +99,11 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     |
-    | -----: | ----: | ------: | ----: | -------- | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callers
 
@@ -111,20 +111,20 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Self % |  Self | Caller  | Location     |
-    | -----: | ----: | ------- | ------------ |
-    |  66.7% | 0.2ms | \`funcA\` | src/a.ts:1:1 |
-    |  33.3% | 0.1ms | \`funcC\` | src/c.ts:1:1 |
+    |     % |  Time | Samples | Caller  | Location     |
+    | ----: | ----: | ------: | ------- | ------------ |
+    | 66.7% | 0.2ms |       2 | \`funcA\` | src/a.ts:1:1 |
+    | 33.3% | 0.1ms |       1 | \`funcC\` | src/c.ts:1:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function | Location     |
-    | ------: | ----: | -----: | ----: | -------- | ------------ |
-    |  100.0% | 0.3ms | 100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
-    |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |  66.7% | 0.2ms |       2 | \`funcA\`  | src/a.ts:1:1 |
+    |  33.3% | 0.1ms |       1 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callees
 
@@ -132,24 +132,24 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ##### \`funcA\` (src/a.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
 
     ##### \`funcC\` (src/c.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcB\` | src/b.ts:1:1 |
 
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
 
-    | Self % |  Self | Call stack                                      |
-    | -----: | ----: | ----------------------------------------------- |
-    |  66.7% | 0.2ms | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
-    |  33.3% | 0.1ms | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
+    |     % |  Time | Samples | Call stack                                      |
+    | ----: | ----: | ------: | ----------------------------------------------- |
+    | 66.7% | 0.2ms |       2 | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    | 33.3% | 0.1ms |       1 | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
     "
   `)
 })
@@ -221,9 +221,9 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Self % | Self  |
-    | -------- | ------ | ----- |
-    | ours     | 100.0% | 0.3ms |
+    | Category | %      | Time  | Samples |
+    | -------- | ------ | ----- | ------- |
+    | ours     | 100.0% | 0.3ms | 3       |
 
     ## Hottest functions
 
@@ -231,22 +231,22 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     |
-    | -----: | ----: | ------: | ----: | -------- | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Lines
 
-    Lines ranked by contribution to each function's sample count.
+    Lines ranked by contribution to each function's self time.
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Count % | Count | Location   |
-    | ------: | ----: | ---------- |
-    |   66.7% |     2 | src/b.ts:8 |
-    |   33.3% |     1 | src/b.ts:5 |
+    |     % |  Time | Samples | Location   |
+    | ----: | ----: | ------: | ---------- |
+    | 66.7% | 0.2ms |       1 | src/b.ts:5 |
+    | 33.3% | 0.1ms |       2 | src/b.ts:8 |
 
     #### Callers
 
@@ -254,20 +254,20 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Self % |  Self | Caller  | Location     |
-    | -----: | ----: | ------- | ------------ |
-    |  66.7% | 0.2ms | \`funcA\` | src/a.ts:1:1 |
-    |  33.3% | 0.1ms | \`funcC\` | src/c.ts:1:1 |
+    |     % |  Time | Samples | Caller  | Location     |
+    | ----: | ----: | ------: | ------- | ------------ |
+    | 66.7% | 0.2ms |       2 | \`funcA\` | src/a.ts:1:1 |
+    | 33.3% | 0.1ms |       1 | \`funcC\` | src/c.ts:1:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function | Location     |
-    | ------: | ----: | -----: | ----: | -------- | ------------ |
-    |  100.0% | 0.3ms | 100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
-    |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |  66.7% | 0.2ms |       2 | \`funcA\`  | src/a.ts:1:1 |
+    |  33.3% | 0.1ms |       1 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callees
 
@@ -275,24 +275,24 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ##### \`funcA\` (src/a.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
 
     ##### \`funcC\` (src/c.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcB\` | src/b.ts:1:1 |
 
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
 
-    | Self % |  Self | Call stack                                      |
-    | -----: | ----: | ----------------------------------------------- |
-    |  66.7% | 0.2ms | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
-    |  33.3% | 0.1ms | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
+    |     % |  Time | Samples | Call stack                                      |
+    | ----: | ----: | ------: | ----------------------------------------------- |
+    | 66.7% | 0.2ms |       2 | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    | 33.3% | 0.1ms |       1 | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
     "
   `)
 })
@@ -339,9 +339,9 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | Self % | Self  |
-    | -------- | ------ | ----- |
-    | ours     | 100.0% | 0.1ms |
+    | Category | %      | Time  | Samples |
+    | -------- | ------ | ----- | ------- |
+    | ours     | 100.0% | 0.1ms | 1       |
 
     ## Hottest functions
 
@@ -349,9 +349,9 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     |
-    | -----: | ----: | ------: | ----: | -------- | ------------ |
-    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
 
     #### Callers
 
@@ -359,17 +359,17 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ##### \`funcA\` (src/a.ts:1:1)
 
-    | Self % |  Self | Caller  | Location     |
-    | -----: | ----: | ------- | ------------ |
-    | 100.0% | 0.1ms | \`funcA\` | src/a.ts:1:1 |
+    |      % |  Time | Samples | Caller  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcA\` | src/a.ts:1:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function | Location     |
-    | ------: | ----: | -----: | ----: | -------- | ------------ |
-    |  100.0% | 0.1ms | 100.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
 
     #### Callees
 
@@ -377,17 +377,17 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ##### \`funcA\` (src/a.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.1ms | \`funcA\` | src/a.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcA\` | src/a.ts:1:1 |
 
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
 
-    | Self % |  Self | Call stack                             |
-    | -----: | ----: | -------------------------------------- |
-    | 100.0% | 0.1ms | \`funcA\` (src/a.ts:1:1) ← \`funcA\` (1:1) |
+    |      % |  Time | Samples | Call stack                             |
+    | -----: | ----: | ------: | -------------------------------------- |
+    | 100.0% | 0.1ms |       1 | \`funcA\` (src/a.ts:1:1) ← \`funcA\` (1:1) |
     "
   `)
 })
@@ -463,9 +463,9 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | Self % | Self  |
-    | -------- | ------ | ----- |
-    | ours     | 100.0% | 0.3ms |
+    | Category | %      | Time  | Samples |
+    | -------- | ------ | ----- | ------- |
+    | ours     | 100.0% | 0.3ms | 3       |
 
     ## Hottest functions
 
@@ -473,22 +473,22 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function | Location     |
-    | -----: | ----: | ------: | ----: | -------- | ------------ |
-    | 100.0% | 0.3ms |  100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% | 0.0ms |   66.7% | 0.2ms | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% | 0.0ms |   33.3% | 0.1ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
+    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Lines
 
-    Lines ranked by contribution to each function's sample count.
+    Lines ranked by contribution to each function's self time.
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Count % | Count | Location   |
-    | ------: | ----: | ---------- |
-    |   66.7% |     2 | src/b.ts:5 |
-    |   33.3% |     1 | src/b.ts:8 |
+    |     % |  Time | Samples | Location   |
+    | ----: | ----: | ------: | ---------- |
+    | 66.7% | 0.2ms |       2 | src/b.ts:5 |
+    | 33.3% | 0.1ms |       1 | src/b.ts:8 |
 
     #### Callers
 
@@ -496,20 +496,20 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ##### \`funcB\` (src/b.ts:1:1)
 
-    | Self % |  Self | Caller  | Location     |
-    | -----: | ----: | ------- | ------------ |
-    |  66.7% | 0.2ms | \`funcA\` | src/a.ts:1:1 |
-    |  33.3% | 0.1ms | \`funcC\` | src/c.ts:1:1 |
+    |     % |  Time | Samples | Caller  | Location     |
+    | ----: | ----: | ------: | ------- | ------------ |
+    | 66.7% | 0.2ms |       2 | \`funcA\` | src/a.ts:1:1 |
+    | 33.3% | 0.1ms |       1 | \`funcC\` | src/c.ts:1:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function | Location     |
-    | ------: | ----: | -----: | ----: | -------- | ------------ |
-    |  100.0% | 0.3ms | 100.0% | 0.3ms | \`funcB\`  | src/b.ts:1:1 |
-    |   66.7% | 0.2ms |   0.0% | 0.0ms | \`funcA\`  | src/a.ts:1:1 |
-    |   33.3% | 0.1ms |   0.0% | 0.0ms | \`funcC\`  | src/c.ts:1:1 |
+    |      % |  Time | Samples | Function | Location     |
+    | -----: | ----: | ------: | -------- | ------------ |
+    | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
+    |  66.7% | 0.2ms |       2 | \`funcA\`  | src/a.ts:1:1 |
+    |  33.3% | 0.1ms |       1 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callees
 
@@ -517,24 +517,24 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ##### \`funcA\` (src/a.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
 
     ##### \`funcC\` (src/c.ts:1:1)
 
-    | Total % | Total | Callee  | Location     |
-    | ------: | ----: | ------- | ------------ |
-    |  100.0% | 0.1ms | \`funcB\` | src/b.ts:1:1 |
+    |      % |  Time | Samples | Callee  | Location     |
+    | -----: | ----: | ------: | ------- | ------------ |
+    | 100.0% | 0.1ms |       1 | \`funcB\` | src/b.ts:1:1 |
 
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
 
-    | Self % |  Self | Call stack                                      |
-    | -----: | ----: | ----------------------------------------------- |
-    |  66.7% | 0.2ms | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
-    |  33.3% | 0.1ms | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
+    |     % |  Time | Samples | Call stack                                      |
+    | ----: | ----: | ------: | ----------------------------------------------- |
+    | 66.7% | 0.2ms |       2 | \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    | 33.3% | 0.1ms |       1 | \`funcB\` (src/b.ts:1:1) ← \`funcC\` (src/c.ts:1:1) |
     "
   `)
 })
@@ -593,9 +593,9 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | Self % | Self  |
-    | -------- | ------ | ----- |
-    | ours     | 100.0% | 0.1ms |
+    | Category | %      | Time  | Samples |
+    | -------- | ------ | ----- | ------- |
+    | ours     | 100.0% | 0.1ms | 1       |
 
     ## Hottest functions
 
@@ -603,11 +603,11 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function      | Location      |
-    | -----: | ----: | ------: | ----: | ------------- | ------------- |
-    | 100.0% | 0.1ms |  100.0% | 0.1ms | \`allocate\`    | src/a.ts:31:1 |
-    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:11:1 |
-    |   0.0% | 0.0ms |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:21:1 |
+    |      % |  Time | Samples | Function      | Location      |
+    | -----: | ----: | ------: | ------------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`allocate\`    | src/a.ts:31:1 |
+    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:11:1 |
+    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:21:1 |
 
     #### Callers
 
@@ -615,19 +615,19 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     ##### \`allocate\` (src/a.ts:31:1)
 
-    | Self % |  Self | Caller        | Location      |
-    | -----: | ----: | ------------- | ------------- |
-    | 100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:21:1 |
+    |      % |  Time | Samples | Caller        | Location      |
+    | -----: | ----: | ------: | ------------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function      | Location      |
-    | ------: | ----: | -----: | ----: | ------------- | ------------- |
-    |  100.0% | 0.1ms |   0.0% | 0.0ms | \`(anonymous)\` | src/a.ts:11:1 |
-    |  100.0% | 0.1ms |   0.0% | 0.0ms | \`(anonymous)\` | src/a.ts:21:1 |
-    |  100.0% | 0.1ms | 100.0% | 0.1ms | \`allocate\`    | src/a.ts:31:1 |
+    |      % |  Time | Samples | Function      | Location      |
+    | -----: | ----: | ------: | ------------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:11:1 |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
+    | 100.0% | 0.1ms |       1 | \`allocate\`    | src/a.ts:31:1 |
 
     #### Callees
 
@@ -635,23 +635,23 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     ##### \`(anonymous)\` (src/a.ts:11:1)
 
-    | Total % | Total | Callee        | Location      |
-    | ------: | ----: | ------------- | ------------- |
-    |  100.0% | 0.1ms | \`(anonymous)\` | src/a.ts:21:1 |
+    |      % |  Time | Samples | Callee        | Location      |
+    | -----: | ----: | ------: | ------------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
 
     ##### \`(anonymous)\` (src/a.ts:21:1)
 
-    | Total % | Total | Callee     | Location      |
-    | ------: | ----: | ---------- | ------------- |
-    |  100.0% | 0.1ms | \`allocate\` | src/a.ts:31:1 |
+    |      % |  Time | Samples | Callee     | Location      |
+    | -----: | ----: | ------: | ---------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`allocate\` | src/a.ts:31:1 |
 
     ## Hottest call stacks
 
     Call stacks ranked by time spent in their top frame.
 
-    | Self % |  Self | Call stack                                                               |
-    | -----: | ----: | ------------------------------------------------------------------------ |
-    | 100.0% | 0.1ms | \`allocate\` (src/a.ts:31:1) ← \`(anonymous)\` (21:1) ← \`(anonymous)\` (11:1) |
+    |      % |  Time | Samples | Call stack                                                               |
+    | -----: | ----: | ------: | ------------------------------------------------------------------------ |
+    | 100.0% | 0.1ms |       1 | \`allocate\` (src/a.ts:31:1) ← \`(anonymous)\` (21:1) ← \`(anonymous)\` (11:1) |
     "
   `)
 })
@@ -708,10 +708,10 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     Took 1.8ms over 3 samples (583.3µs per sample).
 
-    | Category    | Self % | Self  |
-    | ----------- | ------ | ----- |
-    | ours        | 71.4%  | 1.3ms |
-    | third-party | 28.6%  | 0.5ms |
+    | Category    | %     | Time  | Samples |
+    | ----------- | ----- | ----- | ------- |
+    | ours        | 71.4% | 1.3ms | 2       |
+    | third-party | 28.6% | 0.5ms | 1       |
 
     ## Hottest functions
 
@@ -719,11 +719,11 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function     | Location                      |
-    | -----: | ----: | ------: | ----: | ------------ | ----------------------------- |
-    |  57.1% | 1.0ms |  100.0% | 1.8ms | \`ownFunc\`    | src/index.ts:1:1              |
-    |  28.6% | 0.5ms |   42.9% | 0.8ms | \`thirdParty\` | node_modules/lib/index.js:1:1 |
-    |  14.3% | 0.3ms |   14.3% | 0.3ms | \`allocate\`   | src/util.ts:1:1               |
+    |     % |  Time | Samples | Function     | Location                      |
+    | ----: | ----: | ------: | ------------ | ----------------------------- |
+    | 57.1% | 1.0ms |       1 | \`ownFunc\`    | src/index.ts:1:1              |
+    | 28.6% | 0.5ms |       1 | \`thirdParty\` | node_modules/lib/index.js:1:1 |
+    | 14.3% | 0.3ms |       1 | \`allocate\`   | src/util.ts:1:1               |
 
     #### Callers
 
@@ -731,25 +731,25 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     ##### \`thirdParty\` (node_modules/lib/index.js:1:1)
 
-    | Self % |  Self | Caller    | Location         |
-    | -----: | ----: | --------- | ---------------- |
-    | 100.0% | 0.5ms | \`ownFunc\` | src/index.ts:1:1 |
+    |      % |  Time | Samples | Caller    | Location         |
+    | -----: | ----: | ------: | --------- | ---------------- |
+    | 100.0% | 0.5ms |       1 | \`ownFunc\` | src/index.ts:1:1 |
 
     ##### \`allocate\` (src/util.ts:1:1)
 
-    | Self % |  Self | Caller       | Location                      |
-    | -----: | ----: | ------------ | ----------------------------- |
-    | 100.0% | 0.3ms | \`thirdParty\` | node_modules/lib/index.js:1:1 |
+    |      % |  Time | Samples | Caller       | Location                      |
+    | -----: | ----: | ------: | ------------ | ----------------------------- |
+    | 100.0% | 0.3ms |       1 | \`thirdParty\` | node_modules/lib/index.js:1:1 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function     | Location                      |
-    | ------: | ----: | -----: | ----: | ------------ | ----------------------------- |
-    |  100.0% | 1.8ms |  57.1% | 1.0ms | \`ownFunc\`    | src/index.ts:1:1              |
-    |   42.9% | 0.8ms |  28.6% | 0.5ms | \`thirdParty\` | node_modules/lib/index.js:1:1 |
-    |   14.3% | 0.3ms |  14.3% | 0.3ms | \`allocate\`   | src/util.ts:1:1               |
+    |      % |  Time | Samples | Function     | Location                      |
+    | -----: | ----: | ------: | ------------ | ----------------------------- |
+    | 100.0% | 1.8ms |       3 | \`ownFunc\`    | src/index.ts:1:1              |
+    |  42.9% | 0.8ms |       2 | \`thirdParty\` | node_modules/lib/index.js:1:1 |
+    |  14.3% | 0.3ms |       1 | \`allocate\`   | src/util.ts:1:1               |
 
     #### Callees
 
@@ -757,15 +757,15 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     ##### \`ownFunc\` (src/index.ts:1:1)
 
-    | Total % | Total | Callee       | Location                      |
-    | ------: | ----: | ------------ | ----------------------------- |
-    |   42.9% | 0.8ms | \`thirdParty\` | node_modules/lib/index.js:1:1 |
+    |     % |  Time | Samples | Callee       | Location                      |
+    | ----: | ----: | ------: | ------------ | ----------------------------- |
+    | 42.9% | 0.8ms |       2 | \`thirdParty\` | node_modules/lib/index.js:1:1 |
 
     ##### \`thirdParty\` (node_modules/lib/index.js:1:1)
 
-    | Total % | Total | Callee     | Location        |
-    | ------: | ----: | ---------- | --------------- |
-    |   33.3% | 0.3ms | \`allocate\` | src/util.ts:1:1 |
+    |     % |  Time | Samples | Callee     | Location        |
+    | ----: | ----: | ------: | ---------- | --------------- |
+    | 33.3% | 0.3ms |       1 | \`allocate\` | src/util.ts:1:1 |
 
     ## Hottest call stacks
 
@@ -773,10 +773,10 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     Common call stack: \`ownFunc\` (src/index.ts:1:1)
 
-    | Self % |  Self | Call stack                                                                  |
-    | -----: | ----: | --------------------------------------------------------------------------- |
-    |  28.6% | 0.5ms | \`thirdParty\` (node_modules/lib/index.js:1:1)                                |
-    |  14.3% | 0.3ms | \`allocate\` (src/util.ts:1:1) ← \`thirdParty\` (node_modules/lib/index.js:1:1) |
+    |     % |  Time | Samples | Call stack                                                                  |
+    | ----: | ----: | ------: | --------------------------------------------------------------------------- |
+    | 28.6% | 0.5ms |       1 | \`thirdParty\` (node_modules/lib/index.js:1:1)                                |
+    | 14.3% | 0.3ms |       1 | \`allocate\` (src/util.ts:1:1) ← \`thirdParty\` (node_modules/lib/index.js:1:1) |
     "
   `)
 })
@@ -868,7 +868,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     "--- base
     +++ modified
     @@ -20,1 +19,0 @@
-    -|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`        | src/b.ts:1:1 |
+    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
     @@ -23,10 +21,0 @@
     -#### Callers
     -
@@ -876,12 +876,12 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     -
     -##### \`funcC\` (src/c.ts:1:1)
     -
-    -| Self % |  Self | Caller  | Location     |
-    -| -----: | ----: | ------- | ------------ |
-    -| 100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+    -|      % |  Time | Samples | Caller  | Location     |
+    -| -----: | ----: | ------: | ------- | ------------ |
+    -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     -
     @@ -40,1 +28,0 @@
-    -|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`        | src/b.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     @@ -44,16 +31,0 @@
     -#### Callees
     -
@@ -889,23 +889,23 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     -
     -##### \`funcA\` (src/a.ts:1:1)
     -
-    -| Total % | Total | Callee  | Location     |
-    -| ------: | ----: | ------- | ------------ |
-    -|   66.7% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
+    -|     % |  Time | Samples | Callee  | Location     |
+    -| ----: | ----: | ------: | ------- | ------------ |
+    -| 66.7% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     -
     -##### \`funcB\` (src/b.ts:1:1)
     -
-    -| Total % | Total | Callee  | Location     |
-    -| ------: | ----: | ------- | ------------ |
-    -|  100.0% | 0.2ms | \`funcC\` | src/c.ts:1:1 |
+    -|      % |  Time | Samples | Callee  | Location     |
+    -| -----: | ----: | ------: | ------- | ------------ |
+    -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
     -
     @@ -64,3 +36,3 @@
-    -| Self % |  Self | Call stack                                                               |
-    -| -----: | ----: | ------------------------------------------------------------------------ |
-    -|  50.0% | 0.2ms | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
-    +| Self % |  Self | Call stack                                      |
-    +| -----: | ----: | ----------------------------------------------- |
-    +|  50.0% | 0.2ms | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    -|     % |  Time | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    +|     % |  Time | Samples | Call stack                                      |
+    +| ----: | ----: | ------: | ----------------------------------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     "
   `)
 })
@@ -924,74 +924,74 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     "--- base
     +++ modified
     @@ -16,8 +16,6 @@
-    -| Self % |  Self | Total % | Total | Function         | Location                             |
-    -| -----: | ----: | ------: | ----: | ---------------- | ------------------------------------ |
-    -|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`          | src/c.ts:1:1                         |
-    -|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`          | src/a.ts:1:1                         |
-    -|  25.0% | 0.1ms |   25.0% | 0.1ms | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -|   0.0% | 0.0ms |  100.0% | 0.4ms | \`(root)\`         | \`<native>\`                           |
-    -|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`          | src/b.ts:1:1                         |
-    -|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\`   | node:fs:1:1                          |
-    +| Self % |  Self | Total % | Total | Function       | Location     |
-    +| -----: | ----: | ------: | ----: | -------------- | ------------ |
-    +|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    +|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`        | src/a.ts:1:1 |
-    +|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`        | src/b.ts:1:1 |
-    +|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\` | node:fs:1:1  |
+    -|     % |  Time | Samples | Function         | Location                             |
+    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
+    -| 25.0% | 0.1ms |       1 | \`funcA\`          | src/a.ts:1:1                         |
+    -| 25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    -|  0.0% |   0ms |       0 | \`(root)\`         | \`<native>\`                           |
+    -|  0.0% |   0ms |       0 | \`funcB\`          | src/b.ts:1:1                         |
+    -|  0.0% |   0ms |       0 | \`readFileSync\`   | node:fs:1:1                          |
+    +|     % |  Time | Samples | Function       | Location     |
+    +| ----: | ----: | ------: | -------------- | ------------ |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
+    +|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
+    +|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
     @@ -35,12 +32,0 @@
     -##### \`funcA\` (src/a.ts:1:1)
     -
-    -| Self % |  Self | Caller   | Location   |
-    -| -----: | ----: | -------- | ---------- |
-    -| 100.0% | 0.1ms | \`(root)\` | \`<native>\` |
+    -|      % |  Time | Samples | Caller   | Location   |
+    -| -----: | ----: | ------: | -------- | ---------- |
+    -| 100.0% | 0.1ms |       1 | \`(root)\` | \`<native>\` |
     -
     -##### \`internalLoader\` (node:internal/modules/esm/loader:1:1)
     -
-    -| Self % |  Self | Caller         | Location    |
-    -| -----: | ----: | -------------- | ----------- |
-    -| 100.0% | 0.1ms | \`readFileSync\` | node:fs:1:1 |
+    -|      % |  Time | Samples | Caller         | Location    |
+    -| -----: | ----: | ------: | -------------- | ----------- |
+    -| 100.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1 |
     -
     @@ -51,8 +37,6 @@
-    -| Total % | Total | Self % |  Self | Function         | Location                             |
-    -| ------: | ----: | -----: | ----: | ---------------- | ------------------------------------ |
-    -|  100.0% | 0.4ms |   0.0% | 0.0ms | \`(root)\`         | \`<native>\`                           |
-    -|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`          | src/a.ts:1:1                         |
-    -|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`          | src/b.ts:1:1                         |
-    -|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`          | src/c.ts:1:1                         |
-    -|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\`   | node:fs:1:1                          |
-    -|   25.0% | 0.1ms |  25.0% | 0.1ms | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    +| Total % | Total | Self % |  Self | Function       | Location     |
-    +| ------: | ----: | -----: | ----: | -------------- | ------------ |
-    +|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`        | src/a.ts:1:1 |
-    +|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`        | src/b.ts:1:1 |
-    +|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    +|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\` | node:fs:1:1  |
+    -|      % |  Time | Samples | Function         | Location                             |
+    -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
+    -| 100.0% | 0.4ms |       4 | \`(root)\`         | \`<native>\`                           |
+    -|  75.0% | 0.3ms |       3 | \`funcA\`          | src/a.ts:1:1                         |
+    -|  50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
+    -|  50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
+    -|  25.0% | 0.1ms |       1 | \`readFileSync\`   | node:fs:1:1                          |
+    -|  25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    +|     % |  Time | Samples | Function       | Location     |
+    +| ----: | ----: | ------: | -------------- | ------------ |
+    +| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     @@ -64,7 +47,0 @@
     -##### \`(root)\` (\`<native>\`)
     -
-    -| Total % | Total | Callee         | Location     |
-    -| ------: | ----: | -------------- | ------------ |
-    -|   75.0% | 0.3ms | \`funcA\`        | src/a.ts:1:1 |
-    -|   25.0% | 0.1ms | \`readFileSync\` | node:fs:1:1  |
+    -|     % |  Time | Samples | Callee         | Location     |
+    -| ----: | ----: | ------: | -------------- | ------------ |
+    -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     -
     @@ -83,6 +59,0 @@
     -##### \`readFileSync\` (node:fs:1:1)
     -
-    -| Total % | Total | Callee           | Location                             |
-    -| ------: | ----: | ---------------- | ------------------------------------ |
-    -|  100.0% | 0.1ms | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    -|      % |  Time | Samples | Callee           | Location                             |
+    -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
+    -| 100.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -
     @@ -93,7 +64,3 @@
     -Common call stack: \`(root)\`
     -
-    -| Self % |  Self | Call stack                                                                             |
-    -| -----: | ----: | -------------------------------------------------------------------------------------- |
-    -|  50.0% | 0.2ms | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
-    -|  25.0% | 0.1ms | \`funcA\` (src/a.ts:1:1)                                                                 |
-    -|  25.0% | 0.1ms | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1) |
-    +| Self % |  Self | Call stack                                                               |
-    +| -----: | ----: | ------------------------------------------------------------------------ |
-    +|  50.0% | 0.2ms | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    -|     % |  Time | Samples | Call stack                                                                             |
+    -| ----: | ----: | ------: | -------------------------------------------------------------------------------------- |
+    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
+    -| 25.0% | 0.1ms |       1 | \`funcA\` (src/a.ts:1:1)                                                                 |
+    -| 25.0% | 0.1ms |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1) |
+    +|     % |  Time | Samples | Call stack                                                               |
+    +| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    +| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     "
   `)
 })
@@ -1049,11 +1049,11 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Took 0.6ms over 6 samples (100.0µs per sample).
 
-    | Category          | Self % | Self  |
-    | ----------------- | ------ | ----- |
-    | garbage collector | 50.0%  | 0.3ms |
-    | program           | 33.3%  | 0.2ms |
-    | regexp            | 16.7%  | 0.1ms |
+    | Category          | %     | Time  | Samples |
+    | ----------------- | ----- | ----- | ------- |
+    | garbage collector | 50.0% | 0.3ms | 3       |
+    | program           | 33.3% | 0.2ms | 2       |
+    | regexp            | 16.7% | 0.1ms | 1       |
 
     ## Hottest functions
 
@@ -1061,21 +1061,21 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |  Self | Total % | Total | Function              | Location   |
-    | -----: | ----: | ------: | ----: | --------------------- | ---------- |
-    |  50.0% | 0.3ms |   50.0% | 0.3ms | \`(garbage collector)\` | \`<native>\` |
-    |  33.3% | 0.2ms |   33.3% | 0.2ms | \`(program)\`           | \`<native>\` |
-    |  16.7% | 0.1ms |   16.7% | 0.1ms | \`RegExp: /foo/\`       | \`<native>\` |
+    |     % |  Time | Samples | Function              | Location   |
+    | ----: | ----: | ------: | --------------------- | ---------- |
+    | 50.0% | 0.3ms |       3 | \`(garbage collector)\` | \`<native>\` |
+    | 33.3% | 0.2ms |       2 | \`(program)\`           | \`<native>\` |
+    | 16.7% | 0.1ms |       1 | \`RegExp: /foo/\`       | \`<native>\` |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % | Total | Self % |  Self | Function              | Location   |
-    | ------: | ----: | -----: | ----: | --------------------- | ---------- |
-    |   50.0% | 0.3ms |  50.0% | 0.3ms | \`(garbage collector)\` | \`<native>\` |
-    |   33.3% | 0.2ms |  33.3% | 0.2ms | \`(program)\`           | \`<native>\` |
-    |   16.7% | 0.1ms |  16.7% | 0.1ms | \`RegExp: /foo/\`       | \`<native>\` |
+    |     % |  Time | Samples | Function              | Location   |
+    | ----: | ----: | ------: | --------------------- | ---------- |
+    | 50.0% | 0.3ms |       3 | \`(garbage collector)\` | \`<native>\` |
+    | 33.3% | 0.2ms |       2 | \`(program)\`           | \`<native>\` |
+    | 16.7% | 0.1ms |       1 | \`RegExp: /foo/\`       | \`<native>\` |
     "
   `)
 })
@@ -1090,27 +1090,27 @@ test(`v8CpuProfileToMd respects topN option`, () => {
     "--- base
     +++ modified
     @@ -16,6 +16,4 @@
-    -| Self % |  Self | Total % | Total | Function       | Location     |
-    -| -----: | ----: | ------: | ----: | -------------- | ------------ |
-    -|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    -|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`        | src/a.ts:1:1 |
-    -|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`        | src/b.ts:1:1 |
-    -|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\` | node:fs:1:1  |
-    +| Self % |  Self | Total % | Total | Function | Location     |
-    +| -----: | ----: | ------: | ----: | -------- | ------------ |
-    +|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`  | src/c.ts:1:1 |
-    +|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`  | src/a.ts:1:1 |
+    -|     % |  Time | Samples | Function       | Location     |
+    -| ----: | ----: | ------: | -------------- | ------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
+    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
+    -|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
+    +|     % |  Time | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
     @@ -37,6 +35,4 @@
-    -| Total % | Total | Self % |  Self | Function       | Location     |
-    -| ------: | ----: | -----: | ----: | -------------- | ------------ |
-    -|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`        | src/a.ts:1:1 |
-    -|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`        | src/b.ts:1:1 |
-    -|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    -|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\` | node:fs:1:1  |
-    +| Total % | Total | Self % |  Self | Function | Location     |
-    +| ------: | ----: | -----: | ----: | -------- | ------------ |
-    +|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`  | src/a.ts:1:1 |
-    +|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`  | src/b.ts:1:1 |
+    -|     % |  Time | Samples | Function       | Location     |
+    -| ----: | ----: | ------: | -------------- | ------------ |
+    -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
+    +|     % |  Time | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 75.0% | 0.3ms |       3 | \`funcA\`  | src/a.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`  | src/b.ts:1:1 |
     "
   `)
 })
@@ -1123,68 +1123,68 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
     "--- base
     +++ modified
     @@ -16,6 +16,6 @@
-    -| Self % |  Self | Total % | Total | Function       | Location     |
-    -| -----: | ----: | ------: | ----: | -------------- | ------------ |
-    -|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    -|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`        | src/a.ts:1:1 |
-    -|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`        | src/b.ts:1:1 |
-    -|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\` | node:fs:1:1  |
-    +| Self % |  Self | Total % | Total | Function       | Location              |
-    +| -----: | ----: | ------: | ----: | -------------- | --------------------- |
-    +|  50.0% | 0.2ms |   50.0% | 0.2ms | \`funcC\`        | /project/src/c.ts:1:1 |
-    +|  25.0% | 0.1ms |   75.0% | 0.3ms | \`funcA\`        | /project/src/a.ts:1:1 |
-    +|   0.0% | 0.0ms |   50.0% | 0.2ms | \`funcB\`        | /project/src/b.ts:1:1 |
-    +|   0.0% | 0.0ms |   25.0% | 0.1ms | \`readFileSync\` | node:fs:1:1           |
+    -|     % |  Time | Samples | Function       | Location     |
+    -| ----: | ----: | ------: | -------------- | ------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
+    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
+    -|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
+    +|     % |  Time | Samples | Function       | Location              |
+    +| ----: | ----: | ------: | -------------- | --------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`        | /project/src/a.ts:1:1 |
+    +|  0.0% |   0ms |       0 | \`funcB\`        | /project/src/b.ts:1:1 |
+    +|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1           |
     @@ -27,1 +27,1 @@
     -##### \`funcC\` (src/c.ts:1:1)
     +##### \`funcC\` (/project/src/c.ts:1:1)
     @@ -29,3 +29,3 @@
-    -| Self % |  Self | Caller  | Location     |
-    -| -----: | ----: | ------- | ------------ |
-    -| 100.0% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
-    +| Self % |  Self | Caller  | Location              |
-    +| -----: | ----: | ------- | --------------------- |
-    +| 100.0% | 0.2ms | \`funcB\` | /project/src/b.ts:1:1 |
+    -|      % |  Time | Samples | Caller  | Location     |
+    -| -----: | ----: | ------: | ------- | ------------ |
+    -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
+    +|      % |  Time | Samples | Caller  | Location              |
+    +| -----: | ----: | ------: | ------- | --------------------- |
+    +| 100.0% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
     @@ -37,6 +37,6 @@
-    -| Total % | Total | Self % |  Self | Function       | Location     |
-    -| ------: | ----: | -----: | ----: | -------------- | ------------ |
-    -|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`        | src/a.ts:1:1 |
-    -|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`        | src/b.ts:1:1 |
-    -|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`        | src/c.ts:1:1 |
-    -|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\` | node:fs:1:1  |
-    +| Total % | Total | Self % |  Self | Function       | Location              |
-    +| ------: | ----: | -----: | ----: | -------------- | --------------------- |
-    +|   75.0% | 0.3ms |  25.0% | 0.1ms | \`funcA\`        | /project/src/a.ts:1:1 |
-    +|   50.0% | 0.2ms |   0.0% | 0.0ms | \`funcB\`        | /project/src/b.ts:1:1 |
-    +|   50.0% | 0.2ms |  50.0% | 0.2ms | \`funcC\`        | /project/src/c.ts:1:1 |
-    +|   25.0% | 0.1ms |   0.0% | 0.0ms | \`readFileSync\` | node:fs:1:1           |
+    -|     % |  Time | Samples | Function       | Location     |
+    -| ----: | ----: | ------: | -------------- | ------------ |
+    -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
+    +|     % |  Time | Samples | Function       | Location              |
+    +| ----: | ----: | ------: | -------------- | --------------------- |
+    +| 75.0% | 0.3ms |       3 | \`funcA\`        | /project/src/a.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`        | /project/src/b.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1           |
     @@ -48,1 +48,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
     +##### \`funcA\` (/project/src/a.ts:1:1)
     @@ -50,3 +50,3 @@
-    -| Total % | Total | Callee  | Location     |
-    -| ------: | ----: | ------- | ------------ |
-    -|   66.7% | 0.2ms | \`funcB\` | src/b.ts:1:1 |
-    +| Total % | Total | Callee  | Location              |
-    +| ------: | ----: | ------- | --------------------- |
-    +|   66.7% | 0.2ms | \`funcB\` | /project/src/b.ts:1:1 |
+    -|     % |  Time | Samples | Callee  | Location     |
+    -| ----: | ----: | ------: | ------- | ------------ |
+    -| 66.7% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
+    +|     % |  Time | Samples | Callee  | Location              |
+    +| ----: | ----: | ------: | ------- | --------------------- |
+    +| 66.7% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
     @@ -54,1 +54,1 @@
     -##### \`funcB\` (src/b.ts:1:1)
     +##### \`funcB\` (/project/src/b.ts:1:1)
     @@ -56,3 +56,3 @@
-    -| Total % | Total | Callee  | Location     |
-    -| ------: | ----: | ------- | ------------ |
-    -|  100.0% | 0.2ms | \`funcC\` | src/c.ts:1:1 |
-    +| Total % | Total | Callee  | Location              |
-    +| ------: | ----: | ------- | --------------------- |
-    +|  100.0% | 0.2ms | \`funcC\` | /project/src/c.ts:1:1 |
+    -|      % |  Time | Samples | Callee  | Location     |
+    -| -----: | ----: | ------: | ------- | ------------ |
+    -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
+    +|      % |  Time | Samples | Callee  | Location              |
+    +| -----: | ----: | ------: | ------- | --------------------- |
+    +| 100.0% | 0.2ms |       2 | \`funcC\` | /project/src/c.ts:1:1 |
     @@ -64,3 +64,3 @@
-    -| Self % |  Self | Call stack                                                               |
-    -| -----: | ----: | ------------------------------------------------------------------------ |
-    -|  50.0% | 0.2ms | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
-    +| Self % |  Self | Call stack                                                                                          |
-    +| -----: | ----: | --------------------------------------------------------------------------------------------------- |
-    +|  50.0% | 0.2ms | \`funcC\` (/project/src/c.ts:1:1) ← \`funcB\` (/project/src/b.ts:1:1) ← \`funcA\` (/project/src/a.ts:1:1) |
+    -|     % |  Time | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    +|     % |  Time | Samples | Call stack                                                                                          |
+    +| ----: | ----: | ------: | --------------------------------------------------------------------------------------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\` (/project/src/c.ts:1:1) ← \`funcB\` (/project/src/b.ts:1:1) ← \`funcA\` (/project/src/a.ts:1:1) |
     "
   `)
 })
@@ -1200,17 +1200,17 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 6176.3ms over 47,806 samples (129.2µs per sample).
+    Took 6.17s over 47,806 samples (129.2µs per sample).
 
-    | Category          | Self % | Self     |
-    | ----------------- | ------ | -------- |
-    | ours              | 91.0%  | 5620.4ms |
-    | regexp            | 2.1%   | 127.4ms  |
-    | native            | 2.0%   | 124.6ms  |
-    | garbage collector | 1.7%   | 106.3ms  |
-    | program           | 1.7%   | 104.4ms  |
-    | third-party       | 1.5%   | 90.2ms   |
-    | idle              | 0.0%   | 3.0ms    |
+    | Category          | %     | Time    | Samples |
+    | ----------------- | ----- | ------- | ------- |
+    | ours              | 91.0% | 5.62s   | 43,522  |
+    | regexp            | 2.1%  | 127.4ms | 987     |
+    | native            | 2.0%  | 124.6ms | 961     |
+    | garbage collector | 1.7%  | 106.3ms | 814     |
+    | program           | 1.7%  | 104.4ms | 816     |
+    | third-party       | 1.5%  | 90.2ms  | 691     |
+    | idle              | 0.0%  | 3.0ms   | 15      |
 
     ## Hottest functions
 
@@ -1218,51 +1218,51 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     Functions ranked by time in the function body, excluding callees.
 
-    | Self % |    Self | Total % |    Total | Function               | Location                         |
-    | -----: | ------: | ------: | -------: | ---------------------- | -------------------------------- |
-    |  15.6% | 966.3ms |   23.7% | 1464.1ms | \`traverseObject\`       | src/index.ts:204:26              |
-    |  15.0% | 926.9ms |   48.6% | 3001.9ms | \`unevalObjectLike\`     | src/internal/object.ts:103:26    |
-    |   8.5% | 527.0ms |   63.0% | 3893.0ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30     |
-    |   8.5% | 524.1ms |   14.7% |  907.7ms | \`unevalWithoutCustom\`  | src/internal/index.ts:14:37      |
-    |   8.4% | 517.7ms |    8.4% |  517.7ms | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 |
+    |     % |    Time | Samples | Function               | Location                         |
+    | ----: | ------: | ------: | ---------------------- | -------------------------------- |
+    | 15.6% | 966.3ms |   7,479 | \`traverseObject\`       | src/index.ts:204:26              |
+    | 15.0% | 926.9ms |   7,173 | \`unevalObjectLike\`     | src/internal/object.ts:103:26    |
+    |  8.5% | 527.0ms |   4,083 | \`unevalObjectInternal\` | src/internal/object.ts:68:30     |
+    |  8.5% | 524.1ms |   4,059 | \`unevalWithoutCustom\`  | src/internal/index.ts:14:37      |
+    |  8.4% | 517.7ms |   4,009 | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 |
 
     #### Lines
 
-    Lines ranked by contribution to each function's sample count.
+    Lines ranked by contribution to each function's self time.
 
     ##### \`traverseObject\` (src/index.ts:204:26)
 
-    | Count % | Count | Location         |
-    | ------: | ----: | ---------------- |
-    |   44.8% | 3,352 | src/index.ts:210 |
-    |   21.4% | 1,597 | src/index.ts:219 |
+    |     % |    Time | Samples | Location         |
+    | ----: | ------: | ------: | ---------------- |
+    | 44.8% | 433.1ms |   3,352 | src/index.ts:210 |
+    | 21.4% | 206.3ms |   1,597 | src/index.ts:219 |
 
     ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
 
-    | Count % | Count | Location                   |
-    | ------: | ----: | -------------------------- |
-    |   42.3% | 3,037 | src/internal/object.ts:201 |
-    |   29.3% | 2,102 | src/internal/object.ts:128 |
+    |     % |    Time | Samples | Location                   |
+    | ----: | ------: | ------: | -------------------------- |
+    | 42.3% | 392.4ms |   3,037 | src/internal/object.ts:201 |
+    | 29.3% | 271.6ms |   2,102 | src/internal/object.ts:128 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
-    | Count % | Count | Location                  |
-    | ------: | ----: | ------------------------- |
-    |   50.8% | 2,074 | src/internal/object.ts:78 |
-    |   38.5% | 1,572 | src/internal/object.ts:77 |
+    |     % |    Time | Samples | Location                  |
+    | ----: | ------: | ------: | ------------------------- |
+    | 50.8% | 267.7ms |   2,074 | src/internal/object.ts:78 |
+    | 38.5% | 202.9ms |   1,572 | src/internal/object.ts:77 |
 
     ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
 
-    | Count % | Count | Location                 |
-    | ------: | ----: | ------------------------ |
-    |  100.0% | 4,059 | src/internal/index.ts:17 |
+    |      % |    Time | Samples | Location                 |
+    | -----: | ------: | ------: | ------------------------ |
+    | 100.0% | 524.1ms |   4,059 | src/internal/index.ts:17 |
 
     ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
 
-    | Count % | Count | Location                      |
-    | ------: | ----: | ----------------------------- |
-    |   27.7% | 1,112 | src/internal/primitive.ts:146 |
-    |   20.6% |   825 | src/internal/primitive.ts:148 |
+    |     % |    Time | Samples | Location                      |
+    | ----: | ------: | ------: | ----------------------------- |
+    | 27.7% | 143.6ms |   1,112 | src/internal/primitive.ts:146 |
+    | 20.6% | 106.5ms |     825 | src/internal/primitive.ts:148 |
 
     #### Callers
 
@@ -1270,48 +1270,48 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     ##### \`traverseObject\` (src/index.ts:204:26)
 
-    | Self % |    Self | Caller           | Location            |
-    | -----: | ------: | ---------------- | ------------------- |
-    |  99.7% | 963.3ms | \`traverse\`       | src/index.ts:164:20 |
-    |   0.1% |   1.2ms | \`traverseObject\` | src/index.ts:204:26 |
+    |     % |    Time | Samples | Caller           | Location            |
+    | ----: | ------: | ------: | ---------------- | ------------------- |
+    | 99.7% | 963.3ms |   7,456 | \`traverse\`       | src/index.ts:164:20 |
+    |  0.1% |   1.2ms |       9 | \`traverseObject\` | src/index.ts:204:26 |
 
     ##### \`unevalObjectLike\` (src/internal/object.ts:103:26)
 
-    | Self % |    Self | Caller                 | Location                     |
-    | -----: | ------: | ---------------------- | ---------------------------- |
-    |  99.8% | 925.3ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
-    |   0.1% |   0.8ms | \`unevalObject\`         | src/internal/object.ts:20:29 |
+    |     % |    Time | Samples | Caller                 | Location                     |
+    | ----: | ------: | ------: | ---------------------- | ---------------------------- |
+    | 99.8% | 925.3ms |   7,163 | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
+    |  0.1% |   0.8ms |       6 | \`unevalObject\`         | src/internal/object.ts:20:29 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
-    | Self % |    Self | Caller         | Location                     |
-    | -----: | ------: | -------------- | ---------------------------- |
-    |  99.4% | 524.1ms | \`unevalObject\` | src/internal/object.ts:20:29 |
-    |   0.1% |   0.5ms | \`uneval\`       | src/index.ts:75:16           |
+    |     % |    Time | Samples | Caller         | Location                     |
+    | ----: | ------: | ------: | -------------- | ---------------------------- |
+    | 99.4% | 524.1ms |   4,060 | \`unevalObject\` | src/internal/object.ts:20:29 |
+    |  0.1% |   0.5ms |       4 | \`uneval\`       | src/index.ts:75:16           |
 
     ##### \`unevalWithoutCustom\` (src/internal/index.ts:14:37)
 
-    | Self % |    Self | Caller                   | Location                      |
-    | -----: | ------: | ------------------------ | ----------------------------- |
-    | 100.0% | 524.1ms | \`unevalObjectLiteralKey\` | src/internal/object.ts:384:32 |
+    |      % |    Time | Samples | Caller                   | Location                      |
+    | -----: | ------: | ------: | ------------------------ | ----------------------------- |
+    | 100.0% | 524.1ms |   4,059 | \`unevalObjectLiteralKey\` | src/internal/object.ts:384:32 |
 
     ##### \`unevalLiteral\` (src/internal/primitive.ts:139:23)
 
-    | Self % |    Self | Caller         | Location                         |
-    | -----: | ------: | -------------- | -------------------------------- |
-    | 100.0% | 517.7ms | \`unevalString\` | src/internal/primitive.ts:133:29 |
+    |      % |    Time | Samples | Caller         | Location                         |
+    | -----: | ------: | ------: | -------------- | -------------------------------- |
+    | 100.0% | 517.7ms |   4,010 | \`unevalString\` | src/internal/primitive.ts:133:29 |
 
     ### Total time
 
     Functions ranked by total time in the function and all its callees.
 
-    | Total % |    Total | Self % |    Self | Function               | Location                     |
-    | ------: | -------: | -----: | ------: | ---------------------- | ---------------------------- |
-    |   94.3% | 5824.7ms |   0.2% |  13.9ms | \`(anonymous)\`          | scripts/profile.ts:1:1       |
-    |   92.6% | 5720.4ms |   0.7% |  40.9ms | \`uneval\`               | src/index.ts:75:16           |
-    |   64.4% | 3978.1ms |   4.3% | 266.6ms | \`unevalInternal\`       | src/internal/index.ts:25:32  |
-    |   63.3% | 3912.5ms |   0.7% |  44.8ms | \`unevalObject\`         | src/internal/object.ts:20:29 |
-    |   63.0% | 3893.0ms |   8.5% | 527.0ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
+    |     % |  Time | Samples | Function               | Location                     |
+    | ----: | ----: | ------: | ---------------------- | ---------------------------- |
+    | 94.3% | 5.82s |  45,097 | \`(anonymous)\`          | scripts/profile.ts:1:1       |
+    | 92.6% | 5.72s |  44,294 | \`uneval\`               | src/index.ts:75:16           |
+    | 64.4% | 3.97s |  30,805 | \`unevalInternal\`       | src/internal/index.ts:25:32  |
+    | 63.3% | 3.91s |  30,296 | \`unevalObject\`         | src/internal/object.ts:20:29 |
+    | 63.0% | 3.89s |  30,145 | \`unevalObjectInternal\` | src/internal/object.ts:68:30 |
 
     #### Callees
 
@@ -1319,38 +1319,38 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     ##### \`(anonymous)\` (scripts/profile.ts:1:1)
 
-    | Total % |    Total | Callee   | Location                                                                              |
-    | ------: | -------: | -------- | ------------------------------------------------------------------------------------- |
-    |   98.2% | 5719.3ms | \`uneval\` | src/index.ts:75:16                                                                    |
-    |    1.5% |   87.1ms | \`sample\` | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
+    |     % |   Time | Samples | Callee   | Location                                                                              |
+    | ----: | -----: | ------: | -------- | ------------------------------------------------------------------------------------- |
+    | 98.2% |  5.71s |  44,286 | \`uneval\` | src/index.ts:75:16                                                                    |
+    |  1.5% | 87.1ms |     667 | \`sample\` | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
 
     ##### \`uneval\` (src/index.ts:75:16)
 
-    | Total % |    Total | Callee           | Location                    |
-    | ------: | -------: | ---------------- | --------------------------- |
-    |   69.4% | 3969.6ms | \`unevalInternal\` | src/internal/index.ts:25:32 |
-    |   29.9% | 1709.1ms | \`createState\`    | src/index.ts:144:21         |
+    |     % |  Time | Samples | Callee           | Location                    |
+    | ----: | ----: | ------: | ---------------- | --------------------------- |
+    | 69.4% | 3.96s |  30,739 | \`unevalInternal\` | src/internal/index.ts:25:32 |
+    | 29.9% | 1.70s |  13,233 | \`createState\`    | src/index.ts:144:21         |
 
     ##### \`unevalInternal\` (src/internal/index.ts:25:32)
 
-    | Total % |    Total | Callee         | Location                         |
-    | ------: | -------: | -------------- | -------------------------------- |
-    |   98.4% | 3912.5ms | \`unevalObject\` | src/internal/object.ts:20:29     |
-    |   14.4% |  571.0ms | \`unevalString\` | src/internal/primitive.ts:133:29 |
+    |     % |    Time | Samples | Callee         | Location                         |
+    | ----: | ------: | ------: | -------------- | -------------------------------- |
+    | 98.4% |   3.91s |  30,296 | \`unevalObject\` | src/internal/object.ts:20:29     |
+    | 14.4% | 571.0ms |   4,421 | \`unevalString\` | src/internal/primitive.ts:133:29 |
 
     ##### \`unevalObject\` (src/internal/object.ts:20:29)
 
-    | Total % |    Total | Callee                 | Location                        |
-    | ------: | -------: | ---------------------- | ------------------------------- |
-    |   99.4% | 3890.7ms | \`unevalObjectInternal\` | src/internal/object.ts:68:30    |
-    |    0.0% |    0.9ms | \`unevalArray\`          | src/internal/collection.ts:7:47 |
+    |     % |  Time | Samples | Callee                 | Location                        |
+    | ----: | ----: | ------: | ---------------------- | ------------------------------- |
+    | 99.4% | 3.89s |  30,127 | \`unevalObjectInternal\` | src/internal/object.ts:68:30    |
+    |  0.0% | 0.9ms |       7 | \`unevalArray\`          | src/internal/collection.ts:7:47 |
 
     ##### \`unevalObjectInternal\` (src/internal/object.ts:68:30)
 
-    | Total % |    Total | Callee             | Location                        |
-    | ------: | -------: | ------------------ | ------------------------------- |
-    |   77.1% | 3000.5ms | \`unevalObjectLike\` | src/internal/object.ts:103:26   |
-    |   44.4% | 1729.2ms | \`unevalArray\`      | src/internal/collection.ts:7:47 |
+    |     % |  Time | Samples | Callee             | Location                        |
+    | ----: | ----: | ------: | ------------------ | ------------------------------- |
+    | 77.1% |    3s |  23,229 | \`unevalObjectLike\` | src/internal/object.ts:103:26   |
+    | 44.4% | 1.72s |  13,390 | \`unevalArray\`      | src/internal/collection.ts:7:47 |
 
     ## Hottest call stacks
 
@@ -1358,13 +1358,13 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     Common call stack: \`uneval\` (src/index.ts:75:16) ← \`(anonymous)\` (scripts/profile.ts:1:1)
 
-    | Self % |    Self | Call stack                                                                                                                                                                                                                                              |
-    | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    |   7.5% | 465.0ms | \`traverseObject\` (src/index.ts:204:26) ← \`traverse\` (164:20) ← \`createState\` (144:21)                                                                                                                                                                   |
-    |   7.0% | 434.9ms | \`unevalObjectLike\` (src/internal/object.ts:103:26) ← \`unevalObjectInternal\` (68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32)                                                                                           |
-    |   5.9% | 365.8ms | \`traverseObject\` (src/index.ts:204:26) ← \`traverse\` (164:20) ← \`traverseObject\` (204:26) ← \`traverse\` (164:20) ← \`createState\` (144:21)                                                                                                                 |
-    |   4.0% | 245.3ms | \`unevalWithoutCustom\` (src/internal/index.ts:14:37) ← \`unevalObjectLiteralKey\` (src/internal/object.ts:384:32) ← \`unevalObjectLike\` (103:26) ← \`unevalObjectInternal\` (68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32) |
-    |   3.9% | 239.1ms | \`unevalObjectInternal\` (src/internal/object.ts:68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32)                                                                                                                         |
+    |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                              |
+    | ---: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 7.5% | 465.0ms |   3,596 | \`traverseObject\` (src/index.ts:204:26) ← \`traverse\` (164:20) ← \`createState\` (144:21)                                                                                                                                                                   |
+    | 7.0% | 434.9ms |   3,365 | \`unevalObjectLike\` (src/internal/object.ts:103:26) ← \`unevalObjectInternal\` (68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32)                                                                                           |
+    | 5.9% | 365.8ms |   2,835 | \`traverseObject\` (src/index.ts:204:26) ← \`traverse\` (164:20) ← \`traverseObject\` (204:26) ← \`traverse\` (164:20) ← \`createState\` (144:21)                                                                                                                 |
+    | 4.0% | 245.3ms |   1,900 | \`unevalWithoutCustom\` (src/internal/index.ts:14:37) ← \`unevalObjectLiteralKey\` (src/internal/object.ts:384:32) ← \`unevalObjectLike\` (103:26) ← \`unevalObjectInternal\` (68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32) |
+    | 3.9% | 239.1ms |   1,855 | \`unevalObjectInternal\` (src/internal/object.ts:68:30) ← \`unevalObject\` (20:29) ← \`unevalInternal\` (src/internal/index.ts:25:32)                                                                                                                         |
     "
   `)
 })

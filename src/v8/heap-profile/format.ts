@@ -1,5 +1,8 @@
-import prettyBytes from 'pretty-bytes'
-import { formatCount, formatPercent } from '../../internal/format.ts'
+import {
+  formatBytes,
+  formatCount,
+  formatPercent,
+} from '../../internal/format.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import { findCommonCallStack, formatCallStack } from '../common.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
@@ -25,21 +28,25 @@ const formatOverallProfileSummary = ({
   totalSize,
   sampleCount,
   samplingInterval,
-  callFrameCategoryToSize,
+  callFrameCategoryToStats,
 }: SummarizedHeapProfile): string => {
-  const hottestCallFrameCategories = [...callFrameCategoryToSize].sort(
-    ([, size1], [, size2]) => size2 - size1,
+  const hottestCallFrameCategories = [...callFrameCategoryToStats].sort(
+    ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
+
   return [
-    `Allocated ${prettyBytes(
+    `Allocated ${formatBytes(
       totalSize,
-    )} over ${formatCount(sampleCount)} sample${sampleCount === 1 ? `` : `s`} (${prettyBytes(samplingInterval)} per sample).`,
+    )} over ${formatCount(sampleCount, `sample`)} (${formatBytes(
+      samplingInterval,
+    )} per sample).`,
     formatTable(
-      [`Category`, `Self %`, `Self`],
-      hottestCallFrameCategories.map(([category, size]) => [
+      [`Category`, `%`, `Size`, `Samples`],
+      hottestCallFrameCategories.map(([category, { size, sampleCount }]) => [
         category,
         formatPercent(size / totalSize),
-        prettyBytes(size),
+        formatBytes(size),
+        formatCount(sampleCount),
       ]),
     ),
   ].join(`\n\n`)
@@ -72,21 +79,21 @@ const formatHottestSelfSizeFunctions = (
     `Functions ranked by bytes allocated directly in the function body, excluding callees.`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
       ],
-      hottestSelfSizeNodes.map(node => [
-        formatPercent(node.selfSize / totalSize),
-        prettyBytes(node.selfSize),
-        formatPercent(node.totalSize / totalSize),
-        prettyBytes(node.totalSize),
-        inlineCode(node.functionName),
-        node.location ?? inlineCode(`<native>`),
-      ]),
+      hottestSelfSizeNodes.map(
+        ({ functionName, location, selfSize, selfSampleCount }) => [
+          formatPercent(selfSize / totalSize),
+          formatBytes(selfSize),
+          formatCount(selfSampleCount),
+          inlineCode(functionName),
+          location ?? inlineCode(`<native>`),
+        ],
+      ),
     ),
     ...(hottestCallerSections.length > 0
       ? [
@@ -102,7 +109,7 @@ const formatHottestCallers = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallers = [...node.callerIdToSelfSize.values()]
+  const hottestCallers = [...node.callerIdToStats.values()]
     .filter(({ caller }) => options.includeCallFrame(caller))
     .sort((entry1, entry2) => entry2.selfSize - entry1.selfSize)
     .slice(0, Math.ceil(options.topN / 4))
@@ -116,14 +123,16 @@ const formatHottestCallers = (
     })`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Caller`,
         `Location`,
       ],
-      hottestCallers.map(({ caller, selfSize }) => [
+      hottestCallers.map(({ caller, selfSize, selfSampleCount }) => [
         formatPercent(selfSize / node.selfSize),
-        prettyBytes(selfSize),
+        formatBytes(selfSize),
+        formatCount(selfSampleCount),
         inlineCode(caller.functionName),
         caller.location ?? inlineCode(`<native>`),
       ]),
@@ -148,21 +157,26 @@ const formatHottestTotalSizeFunctions = (
     `Functions ranked by total bytes allocated in the function and all its callees.`,
     formatTable(
       [
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
       ],
-      hottestTotalSizeNodes.map(node => [
-        formatPercent(node.totalSize / totalSize),
-        prettyBytes(node.totalSize),
-        formatPercent(node.selfSize / totalSize),
-        prettyBytes(node.selfSize),
-        inlineCode(node.functionName),
-        node.location ?? inlineCode(`<native>`),
-      ]),
+      hottestTotalSizeNodes.map(
+        ({
+          functionName,
+          location,
+          totalSize: nodeTotal,
+          totalSampleCount,
+        }) => [
+          formatPercent(nodeTotal / totalSize),
+          formatBytes(nodeTotal),
+          formatCount(totalSampleCount),
+          inlineCode(functionName),
+          location ?? inlineCode(`<native>`),
+        ],
+      ),
     ),
     ...(hottestCalleeSections.length > 0
       ? [
@@ -178,7 +192,7 @@ const formatHottestCallees = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallees = [...node.calleeIdToTotalSize.values()]
+  const hottestCallees = [...node.calleeIdToStats.values()]
     .filter(({ callee }) => options.includeCallFrame(callee))
     .sort((entry1, entry2) => entry2.totalSize - entry1.totalSize)
     .slice(0, Math.ceil(options.topN / 4))
@@ -192,14 +206,16 @@ const formatHottestCallees = (
     })`,
     formatTable(
       [
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Callee`,
         `Location`,
       ],
-      hottestCallees.map(({ callee, totalSize }) => [
+      hottestCallees.map(({ callee, totalSize, totalSampleCount }) => [
         formatPercent(totalSize / node.totalSize),
-        prettyBytes(totalSize),
+        formatBytes(totalSize),
+        formatCount(totalSampleCount),
         inlineCode(callee.functionName),
         callee.location ?? inlineCode(`<native>`),
       ]),
@@ -232,17 +248,19 @@ const formatHottestCallStacks = (
       : []),
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Call stack`,
       ],
-      hottestCallStacks.map(callStack => [
-        formatPercent(callStack.selfSize / profile.totalSize),
-        prettyBytes(callStack.selfSize),
+      hottestCallStacks.map(({ nodes, selfSize, selfSampleCount }) => [
+        formatPercent(selfSize / profile.totalSize),
+        formatBytes(selfSize),
+        formatCount(selfSampleCount),
         formatCallStack(
           commonCallStack.length > 0
-            ? callStack.nodes.slice(0, -commonCallStack.length)
-            : callStack.nodes,
+            ? nodes.slice(0, -commonCallStack.length)
+            : nodes,
         ),
       ]),
     ),

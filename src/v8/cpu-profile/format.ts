@@ -1,7 +1,7 @@
 import {
   formatCount,
   formatMicroseconds,
-  formatMilliseconds,
+  formatMicrosecondsExact,
   formatPercent,
 } from '../../internal/format.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
@@ -27,25 +27,27 @@ export const formatSummarizedProfile = (
 
 const formatOverallProfileSummary = ({
   totalTime,
-  sampleCount,
+  totalSampleCount,
   samplingInterval,
-  callFrameCategoryToTime,
+  callFrameCategoryToStats,
 }: SummarizedCpuProfile): string => {
-  const hottestCallFrameCategories = [...callFrameCategoryToTime].sort(
-    ([, time1], [, time2]) => time2 - time1,
+  const hottestCallFrameCategories = [...callFrameCategoryToStats].sort(
+    ([, stats1], [, stats2]) => stats2.time - stats1.time,
   )
+
   return [
-    `Took ${formatMilliseconds(
+    `Took ${formatMicroseconds(
       totalTime,
-    )} over ${formatCount(sampleCount)} sample${
-      sampleCount > 1 ? `s` : ``
-    } (${formatMicroseconds(samplingInterval)} per sample).`,
+    )} over ${formatCount(totalSampleCount, `sample`)} (${formatMicrosecondsExact(
+      samplingInterval,
+    )} per sample).`,
     formatTable(
-      [`Category`, `Self %`, `Self`],
-      hottestCallFrameCategories.map(([category, time]) => [
+      [`Category`, `%`, `Time`, `Samples`],
+      hottestCallFrameCategories.map(([category, { time, sampleCount }]) => [
         category,
         formatPercent(time / totalTime),
-        formatMilliseconds(time),
+        formatMicroseconds(time),
+        formatCount(sampleCount),
       ]),
     ),
   ].join(`\n\n`)
@@ -70,7 +72,7 @@ const formatHottestSelfTimeFunctions = (
     .sort((node1, node2) => node2.selfTime - node1.selfTime)
     .slice(0, options.topN)
   const hottestLinesSections = hottestSelfTimeNodes
-    .filter(node => node.lineToHitCount.size > 0)
+    .filter(node => node.lineToStats.size > 0)
     .map(node => formatHottestLines(node, options))
   const hottestCallerSections = hottestSelfTimeNodes
     .map(node => formatHottestCallers(node, options))
@@ -81,26 +83,26 @@ const formatHottestSelfTimeFunctions = (
     `Functions ranked by time in the function body, excluding callees.`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
       ],
-      hottestSelfTimeNodes.map(node => [
-        formatPercent(node.selfTime / totalTime),
-        formatMilliseconds(node.selfTime),
-        formatPercent(node.totalTime / totalTime),
-        formatMilliseconds(node.totalTime),
-        inlineCode(node.functionName),
-        node.location ?? inlineCode(`<native>`),
-      ]),
+      hottestSelfTimeNodes.map(
+        ({ functionName, location, selfTime, selfSampleCount }) => [
+          formatPercent(selfTime / totalTime),
+          formatMicroseconds(selfTime),
+          formatCount(selfSampleCount),
+          inlineCode(functionName),
+          location ?? inlineCode(`<native>`),
+        ],
+      ),
     ),
     ...(hottestLinesSections.length > 0
       ? [
           `#### Lines`,
-          `Lines ranked by contribution to each function's sample count.`,
+          `Lines ranked by contribution to each function's self time.`,
         ]
       : []),
     ...hottestLinesSections,
@@ -118,8 +120,8 @@ const formatHottestLines = (
   node: SummarizedProfileNode,
   { topN }: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const hottestLines = [...node.lineToHitCount]
-    .sort(([, hitCount1], [, hitCount2]) => hitCount2 - hitCount1)
+  const hottestLines = [...node.lineToStats]
+    .sort(([, stats1], [, stats2]) => stats2.time - stats1.time)
     .slice(0, Math.ceil(topN / 4))
 
   return [
@@ -128,13 +130,15 @@ const formatHottestLines = (
     })`,
     formatTable(
       [
-        { content: `Hit %`, align: `right` },
-        { content: `Hits`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Location`,
       ],
-      hottestLines.map(([line, hitCount]) => [
-        formatPercent(hitCount / node.hitCount),
-        formatCount(hitCount),
+      hottestLines.map(([line, { time, sampleCount }]) => [
+        formatPercent(time / node.selfTime),
+        formatMicroseconds(time),
+        formatCount(sampleCount),
         `${node.fileLocation}:${line + 1}`,
       ]),
     ),
@@ -145,7 +149,7 @@ const formatHottestCallers = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallerSelfTimes = [...node.callerIdToSelfTime.values()]
+  const hottestCallerSelfTimes = [...node.callerIdToStats.values()]
     .filter(({ caller }) => options.includeCallFrame(caller))
     .sort((caller1, caller2) => caller2.selfTime - caller1.selfTime)
     .slice(0, Math.ceil(options.topN / 4))
@@ -159,14 +163,16 @@ const formatHottestCallers = (
     })`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Caller`,
         `Location`,
       ],
-      hottestCallerSelfTimes.map(({ caller, selfTime }) => [
+      hottestCallerSelfTimes.map(({ caller, selfTime, selfSampleCount }) => [
         formatPercent(selfTime / node.selfTime),
-        formatMilliseconds(selfTime),
+        formatMicroseconds(selfTime),
+        formatCount(selfSampleCount),
         inlineCode(caller.functionName),
         caller.location ?? inlineCode(`<native>`),
       ]),
@@ -191,18 +197,16 @@ const formatHottestTotalTimeFunctions = (
     `Functions ranked by total time in the function and all its callees.`,
     formatTable(
       [
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
       ],
       hottestTotalTimeNodes.map(node => [
         formatPercent(node.totalTime / totalTime),
-        formatMilliseconds(node.totalTime),
-        formatPercent(node.selfTime / totalTime),
-        formatMilliseconds(node.selfTime),
+        formatMicroseconds(node.totalTime),
+        formatCount(node.totalSampleCount),
         inlineCode(node.functionName),
         node.location ?? inlineCode(`<native>`),
       ]),
@@ -221,7 +225,7 @@ const formatHottestCallees = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCalleeTotalTimes = [...node.calleeIdToTotalTime.values()]
+  const hottestCalleeTotalTimes = [...node.calleeIdToStats.values()]
     .filter(({ callee }) => options.includeCallFrame(callee))
     .sort((callee1, callee2) => callee2.totalTime - callee1.totalTime)
     .slice(0, Math.ceil(options.topN / 4))
@@ -235,14 +239,16 @@ const formatHottestCallees = (
     })`,
     formatTable(
       [
-        { content: `Total %`, align: `right` },
-        { content: `Total`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Callee`,
         `Location`,
       ],
-      hottestCalleeTotalTimes.map(({ callee, totalTime }) => [
+      hottestCalleeTotalTimes.map(({ callee, totalTime, totalSampleCount }) => [
         formatPercent(totalTime / node.totalTime),
-        formatMilliseconds(totalTime),
+        formatMicroseconds(totalTime),
+        formatCount(totalSampleCount),
         inlineCode(callee.functionName),
         callee.location ?? inlineCode(`<native>`),
       ]),
@@ -251,10 +257,10 @@ const formatHottestCallees = (
 }
 
 const formatHottestCallStacks = (
-  profile: SummarizedCpuProfile,
+  { totalTime, callStacks }: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallStacks = profile.callStacks
+  const hottestCallStacks = callStacks
     .map(callStack => ({
       ...callStack,
       nodes: callStack.nodes.filter(options.includeCallFrame),
@@ -275,17 +281,19 @@ const formatHottestCallStacks = (
       : []),
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Time`, align: `right` },
+        { content: `Samples`, align: `right` },
         `Call stack`,
       ],
-      hottestCallStacks.map(callStack => [
-        formatPercent(callStack.selfTime / profile.totalTime),
-        formatMilliseconds(callStack.selfTime),
+      hottestCallStacks.map(({ nodes, selfTime, selfSampleCount }) => [
+        formatPercent(selfTime / totalTime),
+        formatMicroseconds(selfTime),
+        formatCount(selfSampleCount),
         formatCallStack(
           commonCallStack.length > 0
-            ? callStack.nodes.slice(0, -commonCallStack.length)
-            : callStack.nodes,
+            ? nodes.slice(0, -commonCallStack.length)
+            : nodes,
         ),
       ]),
     ),
