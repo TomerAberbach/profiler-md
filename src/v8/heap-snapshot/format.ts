@@ -208,12 +208,14 @@ const formatLargestRetainedSizeConstructorInstances = (
         { content: `Retained`, align: `right` },
         { content: `Self %`, align: `right` },
         { content: `Self`, align: `right` },
+        `Retainer path`,
       ],
       largestInstances.map(instance => [
         formatPercent(instance.retainedSize / constructor.retainedSize),
         prettyBytes(instance.retainedSize),
         formatPercent(instance.selfSize / constructor.selfSize),
         prettyBytes(instance.selfSize),
+        inlineCode(instance.retainerPath),
       ]),
     ),
   ].join(`\n\n`)

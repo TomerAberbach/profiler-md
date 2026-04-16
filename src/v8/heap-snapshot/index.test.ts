@@ -266,15 +266,15 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     ##### \`MyClass\` ([native])
 
-    | Retained % | Retained | Self % |  Self |
-    | ---------: | -------: | -----: | ----: |
-    |     100.0% |    200 B | 100.0% | 200 B |
+    | Retained % | Retained | Self % |  Self | Retainer path |
+    | ---------: | -------: | -----: | ----: | ------------- |
+    |     100.0% |    200 B | 100.0% | 200 B | \`(GC root)\`   |
 
     ##### \`DetachedClass\` ([native])
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |     100.0% |     80 B | 100.0% | 80 B |
+    | Retained % | Retained | Self % | Self | Retainer path |
+    | ---------: | -------: | -----: | ---: | ------------- |
+    |     100.0% |     80 B | 100.0% | 80 B | \`(GC root)\`   |
     "
   `)
 })
@@ -419,38 +419,38 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     ##### \`Object\` ([native])
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |      74.9% |  3.02 MB |   0.1% | 56 B |
-    |      74.5% |     3 MB |   0.1% | 56 B |
+    | Retained % | Retained | Self % | Self | Retainer path                                     |
+    | ---------: | -------: | -----: | ---: | ------------------------------------------------- |
+    |      74.9% |  3.02 MB |   0.1% | 56 B | \`.import_wasm system / Context\`                   |
+    |      74.5% |     3 MB |   0.1% | 56 B | \`.default Object ← .import_wasm system / Context\` |
 
     ##### \`ArrayBuffer\` ([native])
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |      99.5% |  2.69 MB |   2.7% | 96 B |
-    |       0.3% |  8.46 kB |   2.7% | 96 B |
+    | Retained % | Retained | Self % | Self | Retainer path                                     |
+    | ---------: | -------: | -----: | ---: | ------------------------------------------------- |
+    |      99.5% |  2.69 MB |   2.7% | 96 B | \`.default Object ← .import_wasm system / Context\` |
+    |       0.3% |  8.46 kB |   2.7% | 96 B | \`(GC root)\`                                       |
 
     ##### \`Array\` ([native])
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |      35.6% |   167 kB |   0.4% | 32 B |
-    |      18.9% |  88.4 kB |   0.4% | 32 B |
+    | Retained % | Retained | Self % | Self | Retainer path  |
+    | ---------: | -------: | -----: | ---: | -------------- |
+    |      35.6% |   167 kB |   0.4% | 32 B | \`._data Queue\` |
+    |      18.9% |  88.4 kB |   0.4% | 32 B | \`._data Deque\` |
 
     ##### \`Map\` ([native])
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |      82.4% |   236 kB |   3.8% | 32 B |
-    |       5.0% |  14.4 kB |   3.8% | 32 B |
+    | Retained % | Retained | Self % | Self | Retainer path                |
+    | ---------: | -------: | -----: | ---: | ---------------------------- |
+    |      82.4% |   236 kB |   3.8% | 32 B | \`.map BuiltinModule\`         |
+    |       5.0% |  14.4 kB |   3.8% | 32 B | \`.messages system / Context\` |
 
     ##### \`Queue\` (src/index.js:2:14)
 
-    | Retained % | Retained | Self % | Self |
-    | ---------: | -------: | -----: | ---: |
-    |      86.1% |   167 kB |   7.4% | 48 B |
-    |       2.2% |  4.19 kB |   7.4% | 48 B |
+    | Retained % | Retained | Self % | Self | Retainer path |
+    | ---------: | -------: | -----: | ---: | ------------- |
+    |      86.1% |   167 kB |   7.4% | 48 B | \`(GC root)\`   |
+    |       2.2% |  4.19 kB |   7.4% | 48 B | \`(GC root)\`   |
     "
   `)
 })

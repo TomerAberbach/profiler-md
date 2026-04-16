@@ -24,6 +24,7 @@ export type SummarizedConstructor = {
   instances: {
     selfSize: number
     retainedSize: number
+    retainerPath: string
   }[]
 }
 
@@ -56,14 +57,16 @@ export const summarizeSnapshot = (
   const [nodeTypes] = meta.node_types
 
   const fieldLayout = computeFieldLayout(meta)
+  const nodeAdjacencyGraph = computeNodeAdjacencyGraph(snapshot, fieldLayout)
   const nodeIndexToLocation = computeNodeIndexToLocation(
     snapshot,
+    nodeAdjacencyGraph,
     fieldLayout,
     options,
   )
   const immediateDominatorGraph = computeImmediateDominatorGraph(
     snapshot,
-    fieldLayout,
+    nodeAdjacencyGraph,
   )
   const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
     snapshot,
@@ -113,9 +116,19 @@ export const summarizeSnapshot = (
         }
         constructor.selfSize += selfSize
         constructor.location ??= nodeIndexToLocation.get(nodeIndex)
+        let retainerPath: string | undefined
         constructor.instances.push({
           selfSize,
           retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
+          get retainerPath() {
+            return (retainerPath ??= computeRetainerPath(
+              nodeOrdinal,
+              snapshot,
+              nodeAdjacencyGraph,
+              immediateDominatorGraph,
+              fieldLayout,
+            ))
+          },
         })
         nodeOrdinalToConstructor.set(nodeOrdinal, constructor)
         break
@@ -141,31 +154,78 @@ export const summarizeSnapshot = (
   }
 }
 
+type NodeAdjacencyGraph = {
+  ordinalToSuccessors: NodeEdge[][]
+  ordinalToPredecessors: NodeEdge[][]
+}
+
+type NodeEdge = {
+  edgeIndex: number
+  targetNodeOrdinal: number
+}
+
+const computeNodeAdjacencyGraph = (
+  { snapshot: { node_count: nodeCount }, nodes, edges }: HeapSnapshot,
+  fieldLayout: FieldLayout,
+): NodeAdjacencyGraph => {
+  // Build forward (successor) and reverse (predecessor) adjacency lists,
+  // excluding weak edges since they don't keep objects alive.
+  const ordinalToSuccessors: NodeEdge[][] = Array.from(
+    { length: nodeCount },
+    () => [],
+  )
+  const ordinalToPredecessors: NodeEdge[][] = Array.from(
+    { length: nodeCount },
+    () => [],
+  )
+  let nodeEdgesStartIndex = 0
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
+    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
+    for (
+      let nodeEdgeOrdinal = 0;
+      nodeEdgeOrdinal < edgeCount;
+      nodeEdgeOrdinal++
+    ) {
+      const nodeEdgeIndex =
+        nodeEdgesStartIndex + nodeEdgeOrdinal * fieldLayout.edgeFieldCount
+      const edgeType = edges[nodeEdgeIndex + fieldLayout.edgeTypeOffset]
+      if (edgeType === fieldLayout.edgeTypeWeak) {
+        continue
+      }
+
+      const successorNodeIndex =
+        edges[nodeEdgeIndex + fieldLayout.edgeToNodeOffset]!
+      const successorNodeOrdinal =
+        successorNodeIndex / fieldLayout.nodeFieldCount
+      ordinalToSuccessors[nodeOrdinal]!.push({
+        targetNodeOrdinal: successorNodeOrdinal,
+        edgeIndex: nodeEdgeIndex,
+      })
+      ordinalToPredecessors[successorNodeOrdinal]!.push({
+        targetNodeOrdinal: nodeOrdinal,
+        edgeIndex: nodeEdgeIndex,
+      })
+    }
+    nodeEdgesStartIndex += edgeCount * fieldLayout.edgeFieldCount
+  }
+
+  return { ordinalToSuccessors, ordinalToPredecessors }
+}
+
 const computeNodeIndexToLocation = (
   { nodes, edges, strings, locations }: HeapSnapshot,
+  nodeAdjacencyGraph: NodeAdjacencyGraph,
   fieldLayout: FieldLayout,
   options: NormalizedV8ProfileToMdOptions,
 ): Map<number, string> => {
-  const nodeEdgeStartIndex = new Map<number, number>()
-  let edgeOffset = 0
-  for (
-    let nodeIndex = 0;
-    nodeIndex < nodes.length;
-    nodeIndex += fieldLayout.nodeFieldCount
-  ) {
-    nodeEdgeStartIndex.set(nodeIndex, edgeOffset)
-    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    edgeOffset += edgeCount * fieldLayout.edgeFieldCount
-  }
-
   const followNamedEdge = (
     nodeIndex: number,
     targetEdgeName: string,
   ): number | undefined => {
-    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    const edgeStartIndex = nodeEdgeStartIndex.get(nodeIndex)!
-    for (let edgeOffset = 0; edgeOffset < edgeCount; edgeOffset++) {
-      const edgeIndex = edgeStartIndex + edgeOffset * fieldLayout.edgeFieldCount
+    const nodeOrdinal = nodeIndex / fieldLayout.nodeFieldCount
+    const successors = nodeAdjacencyGraph.ordinalToSuccessors[nodeOrdinal]!
+    for (const { edgeIndex } of successors) {
       const edgeName =
         strings[edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!]!
       if (edgeName === targetEdgeName) {
@@ -266,55 +326,11 @@ type ImmediateDominatorGraph = {
  */
 const computeImmediateDominatorGraph = (
   snapshot: HeapSnapshot,
-  fieldLayout: FieldLayout,
+  { ordinalToSuccessors, ordinalToPredecessors }: NodeAdjacencyGraph,
 ): ImmediateDominatorGraph => {
   const {
     snapshot: { node_count: nodeCount },
-    nodes,
-    edges,
   } = snapshot
-  const {
-    nodeFieldCount,
-    nodeEdgeCountOffset,
-    edgeFieldCount,
-    edgeToNodeOffset,
-    edgeTypeOffset,
-    edgeTypeWeak,
-  } = fieldLayout
-
-  // Build forward (children) and reverse (parents) adjacency lists, excluding
-  // weak edges since they don't keep objects alive.
-  const ordinalToChildOrdinals: number[][] = Array.from(
-    { length: nodeCount },
-    () => [],
-  )
-  const ordinalToPredecessorOrdinals: number[][] = Array.from(
-    { length: nodeCount },
-    () => [],
-  )
-  let nodeEdgeStartIndex = 0
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const nodeIndex = nodeOrdinal * nodeFieldCount
-    const edgeCount = nodes[nodeIndex + nodeEdgeCountOffset]!
-    for (
-      let nodeEdgeOrdinal = 0;
-      nodeEdgeOrdinal < edgeCount;
-      nodeEdgeOrdinal++
-    ) {
-      const nodeEdgeIndex =
-        nodeEdgeStartIndex + nodeEdgeOrdinal * edgeFieldCount
-      const edgeType = edges[nodeEdgeIndex + edgeTypeOffset]
-      if (edgeType === edgeTypeWeak) {
-        continue
-      }
-
-      const childNodeIndex = edges[nodeEdgeIndex + edgeToNodeOffset]!
-      const childNodeOrdinal = childNodeIndex / nodeFieldCount
-      ordinalToChildOrdinals[nodeOrdinal]!.push(childNodeOrdinal)
-      ordinalToPredecessorOrdinals[childNodeOrdinal]!.push(nodeOrdinal)
-    }
-    nodeEdgeStartIndex += edgeCount * edgeFieldCount
-  }
 
   // Lengauer-Tarjan dominator tree. Node 0 is the GC root super-node.
   const ordinalToDfsIndex = new Int32Array(nodeCount).fill(-1)
@@ -344,7 +360,7 @@ const computeImmediateDominatorGraph = (
   do {
     const frame = dfsStack.at(-1)!
     if (
-      frame.nextChildIndex === ordinalToChildOrdinals[frame.nodeOrdinal]!.length
+      frame.nextChildIndex === ordinalToSuccessors[frame.nodeOrdinal]!.length
     ) {
       // Done processing this node's children.
       dfsStack.pop()
@@ -352,7 +368,8 @@ const computeImmediateDominatorGraph = (
     }
 
     const childOrdinal =
-      ordinalToChildOrdinals[frame.nodeOrdinal]![frame.nextChildIndex]!
+      ordinalToSuccessors[frame.nodeOrdinal]![frame.nextChildIndex]!
+        .targetNodeOrdinal
     frame.nextChildIndex++
     if (ordinalToDfsIndex[childOrdinal] !== -1) {
       // Already assigned a DFS index.
@@ -415,9 +432,9 @@ const computeImmediateDominatorGraph = (
   // from buckets.
   for (let dfsIndex = reachableCount - 1; dfsIndex >= 1; dfsIndex--) {
     const nodeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    for (const predecessorOrdinal of ordinalToPredecessorOrdinals[
-      nodeOrdinal
-    ]!) {
+    for (const {
+      targetNodeOrdinal: predecessorOrdinal,
+    } of ordinalToPredecessors[nodeOrdinal]!) {
       const predecessorDfsIndex = ordinalToDfsIndex[predecessorOrdinal]
       if (predecessorDfsIndex === -1) {
         continue
@@ -499,6 +516,82 @@ const computeNodeOrdinalToRetainedSize = (
   }
 
   return nodeOrdinalToRetainedSize
+}
+
+const computeRetainerPath = (
+  nodeOrdinal: number,
+  {
+    snapshot: {
+      meta: {
+        node_types: [nodeTypes],
+      },
+    },
+    nodes,
+    edges,
+    strings,
+  }: HeapSnapshot,
+  { ordinalToPredecessors }: NodeAdjacencyGraph,
+  { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
+  fieldLayout: FieldLayout,
+): string => {
+  // Each hop tracks the formatted label and whether the retaining node is
+  // internal. Stored from immediate retainer outward (closest first).
+  type Hop = { label: string; internal: boolean }
+  const hops: Hop[] = []
+
+  while (true) {
+    const predecessors = ordinalToPredecessors[nodeOrdinal]!
+    if (predecessors.length === 0) {
+      break
+    }
+
+    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
+    const predecessor = predecessors.find(
+      ({ targetNodeOrdinal }) => targetNodeOrdinal === dominatorOrdinal,
+    )
+    if (!predecessor) {
+      nodeOrdinal = dominatorOrdinal
+      continue
+    }
+
+    const { targetNodeOrdinal, edgeIndex } = predecessor
+
+    // Element edges store the numeric array index directly in `name_or_index`.
+    // All other edge types store a string index.
+    const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
+    const edgeNameOrIndex =
+      edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
+    const edgeLabel =
+      edgeType === fieldLayout.edgeTypeElement
+        ? `[${edgeNameOrIndex}]`
+        : `.${strings[edgeNameOrIndex]!}`
+
+    const retainerNodeIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
+    const retainerType = nodes[retainerNodeIndex + fieldLayout.nodeTypeOffset]!
+    const retainerName =
+      strings[nodes[retainerNodeIndex + fieldLayout.nodeNameOffset]!]! ||
+      nodeTypes[retainerType]!
+
+    hops.push({
+      label: `${edgeLabel} ${retainerName}`,
+      internal:
+        retainerType === fieldLayout.nodeTypeSynthetic ||
+        retainerType === fieldLayout.nodeTypeHidden,
+    })
+    nodeOrdinal = targetNodeOrdinal
+  }
+
+  // Trim trailing internal hops. These are V8 pseudo-nodes (GC roots, stack
+  // roots, global handles, etc.) that never point to user code.
+  while (hops.at(-1)?.internal) {
+    hops.pop()
+  }
+
+  if (hops.length === 0) {
+    return `(GC root)`
+  }
+
+  return hops.map(hop => hop.label).join(` ← `)
 }
 
 /**
