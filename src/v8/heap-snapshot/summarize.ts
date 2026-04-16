@@ -53,23 +53,23 @@ export const summarizeSnapshot = (
     nodes,
     strings,
   } = snapshot
-  const fieldLayout = computeFieldLayout(meta)
-  const immediateDominatorGraph = computeImmediateDominatorGraph(
-    snapshot,
-    fieldLayout,
-  )
-  const nodeOrdinalToRetainedSize = computeRetainedSizes(
-    snapshot,
-    immediateDominatorGraph,
-    fieldLayout,
-  )
+  const [nodeTypes] = meta.node_types
 
+  const fieldLayout = computeFieldLayout(meta)
   const nodeIndexToLocation = computeNodeIndexToLocation(
     snapshot,
     fieldLayout,
     options,
   )
-  const [nodeTypes] = meta.node_types
+  const immediateDominatorGraph = computeImmediateDominatorGraph(
+    snapshot,
+    fieldLayout,
+  )
+  const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
+    snapshot,
+    immediateDominatorGraph,
+    fieldLayout,
+  )
 
   let totalSize = 0
   const objectCategoryToSizeStats = new Map<
@@ -77,9 +77,7 @@ export const summarizeSnapshot = (
     { size: number; count: number }
   >()
   const nameToConstructor = new Map<string, SummarizedConstructor>()
-  const nodeOrdinalToConstructor = Array.from<
-    SummarizedConstructor | undefined
-  >({ length: objectCount })
+  const nodeOrdinalToConstructor = new Map<number, SummarizedConstructor>()
 
   for (let nodeOrdinal = 0; nodeOrdinal < objectCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
@@ -87,7 +85,8 @@ export const summarizeSnapshot = (
     const selfSize = nodes[nodeIndex + fieldLayout.nodeSelfSizeOffset]!
     totalSize += selfSize
 
-    const category = nodeTypes[nodes[nodeIndex + fieldLayout.nodeTypeOffset]!]!
+    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+    const category = nodeTypes[nodeType]!
     let categoryStats = objectCategoryToSizeStats.get(category)
     if (!categoryStats) {
       categoryStats = { size: 0, count: 0 }
@@ -96,27 +95,31 @@ export const summarizeSnapshot = (
     categoryStats.size += selfSize
     categoryStats.count++
 
-    const name = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
-    if (category === `object` || category === `native`) {
-      // For these types the names are constructors.
-      let constructor = nameToConstructor.get(name)
-      if (!constructor) {
-        constructor = {
-          name,
-          location: undefined,
-          selfSize: 0,
-          retainedSize: 0,
-          instances: [],
+    switch (nodeType) {
+      case fieldLayout.nodeTypeObject:
+      case fieldLayout.nodeTypeNative: {
+        // For these types the names are constructors.
+        const name = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+        let constructor = nameToConstructor.get(name)
+        if (!constructor) {
+          constructor = {
+            name,
+            location: undefined,
+            selfSize: 0,
+            retainedSize: 0,
+            instances: [],
+          }
+          nameToConstructor.set(name, constructor)
         }
-        nameToConstructor.set(name, constructor)
+        constructor.selfSize += selfSize
+        constructor.location ??= nodeIndexToLocation.get(nodeIndex)
+        constructor.instances.push({
+          selfSize,
+          retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
+        })
+        nodeOrdinalToConstructor.set(nodeOrdinal, constructor)
+        break
       }
-      constructor.selfSize += selfSize
-      constructor.location ??= nodeIndexToLocation.get(nodeIndex)
-      constructor.instances.push({
-        selfSize,
-        retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-      })
-      nodeOrdinalToConstructor[nodeOrdinal] = constructor
     }
   }
 
@@ -136,6 +139,114 @@ export const summarizeSnapshot = (
     objectCategoryToSizeStats,
     constructors,
   }
+}
+
+const computeNodeIndexToLocation = (
+  { nodes, edges, strings, locations }: HeapSnapshot,
+  fieldLayout: FieldLayout,
+  options: NormalizedV8ProfileToMdOptions,
+): Map<number, string> => {
+  const nodeEdgeStartIndex = new Map<number, number>()
+  let edgeOffset = 0
+  for (
+    let nodeIndex = 0;
+    nodeIndex < nodes.length;
+    nodeIndex += fieldLayout.nodeFieldCount
+  ) {
+    nodeEdgeStartIndex.set(nodeIndex, edgeOffset)
+    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
+    edgeOffset += edgeCount * fieldLayout.edgeFieldCount
+  }
+
+  const followNamedEdge = (
+    nodeIndex: number,
+    targetEdgeName: string,
+  ): number | undefined => {
+    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
+    const edgeStartIndex = nodeEdgeStartIndex.get(nodeIndex)!
+    for (let edgeOffset = 0; edgeOffset < edgeCount; edgeOffset++) {
+      const edgeIndex = edgeStartIndex + edgeOffset * fieldLayout.edgeFieldCount
+      const edgeName =
+        strings[edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!]!
+      if (edgeName === targetEdgeName) {
+        return edges[edgeIndex + fieldLayout.edgeToNodeOffset]!
+      }
+    }
+    return undefined
+  }
+
+  const scriptIdToFileLocation = new Map<number, string>()
+  for (
+    let locationIndex = 0;
+    locationIndex < locations.length;
+    locationIndex += fieldLayout.locationFieldCount
+  ) {
+    const scriptId =
+      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
+    if (scriptIdToFileLocation.has(scriptId)) {
+      continue
+    }
+
+    const nodeIndex =
+      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
+    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]
+    if (nodeType !== fieldLayout.nodeTypeClosure) {
+      // Only closures have location url.
+      continue
+    }
+
+    // Closure -> shared (SharedFunctionInfo) -> script (Script) → name (URL)
+    const sharedNodeIndex = followNamedEdge(nodeIndex, `shared`)
+    if (sharedNodeIndex === undefined) {
+      continue
+    }
+    const scriptNodeIndex = followNamedEdge(sharedNodeIndex, `script`)
+    if (scriptNodeIndex === undefined) {
+      continue
+    }
+    const urlNodeIndex = followNamedEdge(scriptNodeIndex, `name`)
+    if (urlNodeIndex === undefined) {
+      continue
+    }
+
+    const url = strings[nodes[urlNodeIndex + fieldLayout.nodeNameOffset]!]
+    if (!url) {
+      continue
+    }
+
+    const fileLocation = formatURL(url, options)
+    if (fileLocation) {
+      scriptIdToFileLocation.set(scriptId, fileLocation)
+    }
+  }
+
+  // This must be a separate loop from the above because it's possible a file
+  // location is reachable from one node, but not another, even though they
+  // share the same script ID.
+  const nodeIndexToLocation = new Map<number, string>()
+  for (
+    let locationIndex = 0;
+    locationIndex < locations.length;
+    locationIndex += fieldLayout.locationFieldCount
+  ) {
+    const scriptId =
+      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
+    const fileLocation = scriptIdToFileLocation.get(scriptId)
+    if (!fileLocation) {
+      continue
+    }
+
+    const nodeIndex =
+      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
+    const line = locations[locationIndex + fieldLayout.locationLineOffset]!
+    const column = locations[locationIndex + fieldLayout.locationColumnOffset]!
+    nodeIndexToLocation.set(
+      nodeIndex,
+      `${fileLocation}:${line + 1}:${column + 1}`,
+    )
+  }
+
+  return nodeIndexToLocation
 }
 
 type ImmediateDominatorGraph = {
@@ -360,7 +471,7 @@ const computeImmediateDominatorGraph = (
   }
 }
 
-const computeRetainedSizes = (
+const computeNodeOrdinalToRetainedSize = (
   { nodes }: HeapSnapshot,
   {
     ordinalToImmediateDominatorOrdinal,
@@ -409,7 +520,7 @@ const attributeGroupRetainedSizes = ({
 }: {
   nodeOrdinalToRetainedSize: Float64Array
   ordinalToImmediateDominatorOrdinal: Int32Array
-  nodeOrdinalToGroup: readonly ({ retainedSize: number } | undefined)[]
+  nodeOrdinalToGroup: Map<number, { retainedSize: number }>
 }): void => {
   const dominatorOrdinalToChildOrdinals: number[][] = Array.from(
     { length: ordinalToImmediateDominatorOrdinal.length },
@@ -434,7 +545,7 @@ const attributeGroupRetainedSizes = ({
   ]
   do {
     const { nodeOrdinal, entering } = stack.pop()!
-    const group = nodeOrdinalToGroup[nodeOrdinal]
+    const group = nodeOrdinalToGroup.get(nodeOrdinal)
     if (!entering) {
       if (group) {
         groupPathDepth.set(group, groupPathDepth.get(group)! - 1)
@@ -576,17 +687,68 @@ type FieldLayout = {
    * excluded from retainer path analysis.
    */
   edgeTypeWeak: number
+
+  /** V8 internal object not visible in JS (e.g. hidden class, map). */
+  nodeTypeHidden: number
+
+  /** V8 internal fixed-length array (e.g. `FixedArray`). */
+  nodeTypeArray: number
+
+  /** JS string value. */
+  nodeTypeString: number
+
+  /** Plain JS object (constructor name is its class). */
+  nodeTypeObject: number
+
+  /** Compiled JS code (e.g. `BytecodeArray`, `Code`). */
+  nodeTypeCode: number
+
+  /** JS function/closure. */
+  nodeTypeClosure: number
+
+  /** JS `RegExp` instance. */
+  nodeTypeRegexp: number
+
+  /** JS number (boxed). */
+  nodeTypeNumber: number
+
+  /** Object allocated by native (C++) code, e.g. a DOM node. */
+  nodeTypeNative: number
+
+  /**
+   * Synthetic root node that V8 uses as a GC entry-point super-node.
+   *
+   * Not a real heap object.
+   */
+  nodeTypeSynthetic: number
+
+  /** String formed by concatenating two other strings (lazy, not yet flattened). */
+  nodeTypeConcatenatedString: number
+
+  /** String formed by slicing another string (lazy, shares backing store). */
+  nodeTypeSlicedString: number
+
+  /** JS `Symbol` value. */
+  nodeTypeSymbol: number
+
+  /** JS `BigInt` value. */
+  nodeTypeBigint: number
+
+  /** V8 object shape descriptor (hidden class / map metadata). */
+  nodeTypeObjectShape: number
 }
 
 const computeFieldLayout = (meta: SnapshotMeta): FieldLayout => {
   const {
     node_fields: nodeFields,
+    node_types: [nodeTypes],
     edge_fields: edgeFields,
     edge_types: [edgeTypes],
     location_fields: locationFields,
   } = meta
 
   const nodeFieldToIndex = valueToIndex(nodeFields)
+  const nodeTypeToIndex = valueToIndex(nodeTypes)
   const edgeFieldToIndex = valueToIndex(edgeFields)
   const locationFieldToIndex = valueToIndex(locationFields)
   const edgeTypeToIndex = valueToIndex(edgeTypes)
@@ -610,6 +772,22 @@ const computeFieldLayout = (meta: SnapshotMeta): FieldLayout => {
     locationColumnOffset: locationFieldToIndex.get(`column`)!,
     locationFieldCount: locationFields.length,
 
+    nodeTypeHidden: nodeTypeToIndex.get(`hidden`)!,
+    nodeTypeArray: nodeTypeToIndex.get(`array`)!,
+    nodeTypeString: nodeTypeToIndex.get(`string`)!,
+    nodeTypeObject: nodeTypeToIndex.get(`object`)!,
+    nodeTypeCode: nodeTypeToIndex.get(`code`)!,
+    nodeTypeClosure: nodeTypeToIndex.get(`closure`)!,
+    nodeTypeRegexp: nodeTypeToIndex.get(`regexp`)!,
+    nodeTypeNumber: nodeTypeToIndex.get(`number`)!,
+    nodeTypeNative: nodeTypeToIndex.get(`native`)!,
+    nodeTypeSynthetic: nodeTypeToIndex.get(`synthetic`)!,
+    nodeTypeConcatenatedString: nodeTypeToIndex.get(`concatenated string`)!,
+    nodeTypeSlicedString: nodeTypeToIndex.get(`sliced string`)!,
+    nodeTypeSymbol: nodeTypeToIndex.get(`symbol`)!,
+    nodeTypeBigint: nodeTypeToIndex.get(`bigint`)!,
+    nodeTypeObjectShape: nodeTypeToIndex.get(`object shape`)!,
+
     edgeTypeElement: edgeTypeToIndex.get(`element`)!,
     edgeTypeInternal: edgeTypeToIndex.get(`internal`)!,
     edgeTypeWeak: edgeTypeToIndex.get(`weak`)!,
@@ -618,121 +796,3 @@ const computeFieldLayout = (meta: SnapshotMeta): FieldLayout => {
 
 const valueToIndex = <T>(values: T[]): Map<T, number> =>
   new Map(values.map((value, index) => [value, index]))
-
-const computeNodeIndexToLocation = (
-  {
-    snapshot: {
-      meta: {
-        node_types: [nodeTypes],
-      },
-    },
-    nodes,
-    edges,
-    strings,
-    locations,
-  }: HeapSnapshot,
-  fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
-): Map<number, string> => {
-  const nodeEdgeStartIndex = new Map<number, number>()
-  let edgeOffset = 0
-  for (
-    let nodeIndex = 0;
-    nodeIndex < nodes.length;
-    nodeIndex += fieldLayout.nodeFieldCount
-  ) {
-    nodeEdgeStartIndex.set(nodeIndex, edgeOffset)
-    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    edgeOffset += edgeCount * fieldLayout.edgeFieldCount
-  }
-
-  const followNamedEdge = (
-    nodeIndex: number,
-    targetEdgeName: string,
-  ): number | undefined => {
-    const edgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    const edgeStartIndex = nodeEdgeStartIndex.get(nodeIndex)!
-    for (let edgeOffset = 0; edgeOffset < edgeCount; edgeOffset++) {
-      const edgeIndex = edgeStartIndex + edgeOffset * fieldLayout.edgeFieldCount
-      const edgeName =
-        strings[edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!]!
-      if (edgeName === targetEdgeName) {
-        return edges[edgeIndex + fieldLayout.edgeToNodeOffset]!
-      }
-    }
-    return undefined
-  }
-
-  const scriptIdToFileLocation = new Map<number, string>()
-  for (
-    let locationIndex = 0;
-    locationIndex < locations.length;
-    locationIndex += fieldLayout.locationFieldCount
-  ) {
-    const scriptId =
-      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
-    if (scriptIdToFileLocation.has(scriptId)) {
-      continue
-    }
-
-    const nodeIndex =
-      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
-    const nodeType = nodeTypes[nodes[nodeIndex + fieldLayout.nodeTypeOffset]!]
-    if (nodeType !== `closure`) {
-      // Only closures have location url.
-      continue
-    }
-
-    // Closure -> shared (SharedFunctionInfo) -> script (Script) → name (URL)
-    const sharedNodeIndex = followNamedEdge(nodeIndex, `shared`)
-    if (sharedNodeIndex === undefined) {
-      continue
-    }
-    const scriptNodeIndex = followNamedEdge(sharedNodeIndex, `script`)
-    if (scriptNodeIndex === undefined) {
-      continue
-    }
-    const urlNodeIndex = followNamedEdge(scriptNodeIndex, `name`)
-    if (urlNodeIndex === undefined) {
-      continue
-    }
-
-    const url = strings[nodes[urlNodeIndex + fieldLayout.nodeNameOffset]!]
-    if (!url) {
-      continue
-    }
-
-    const fileLocation = formatURL(url, options)
-    if (fileLocation) {
-      scriptIdToFileLocation.set(scriptId, fileLocation)
-    }
-  }
-
-  // This must be a separate loop from the above because it's possible a file
-  // location is reachable from one node, but not another, even though they
-  // share the same script ID.
-  const nodeIndexToLocation = new Map<number, string>()
-  for (
-    let locationIndex = 0;
-    locationIndex < locations.length;
-    locationIndex += fieldLayout.locationFieldCount
-  ) {
-    const scriptId =
-      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
-    const fileLocation = scriptIdToFileLocation.get(scriptId)
-    if (!fileLocation) {
-      continue
-    }
-
-    const nodeIndex =
-      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
-    const line = locations[locationIndex + fieldLayout.locationLineOffset]!
-    const column = locations[locationIndex + fieldLayout.locationColumnOffset]!
-    nodeIndexToLocation.set(
-      nodeIndex,
-      `${fileLocation}:${line + 1}:${column + 1}`,
-    )
-  }
-
-  return nodeIndexToLocation
-}
