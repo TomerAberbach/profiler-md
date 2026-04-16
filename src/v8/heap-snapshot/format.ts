@@ -1,5 +1,8 @@
-import prettyBytes from 'pretty-bytes'
-import { formatCount, formatPercent } from '../../internal/format.ts'
+import {
+  formatBytes,
+  formatCount,
+  formatPercent,
+} from '../../internal/format.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type {
@@ -29,20 +32,20 @@ const formatOverallSummary = ({
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
   return [
-    `Allocated ${prettyBytes(totalSize)} across ${formatCount(
+    `Allocated ${formatBytes(totalSize)} across ${formatCount(
       objectCount,
     )} objects and ${formatCount(referenceCount)} references.`,
     formatTable(
       [
         `Category`,
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
-        { content: `Count`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        { content: `Objects`, align: `right` },
       ],
       hottestObjectCategories.map(([type, { size, count }]) => [
         type,
         formatPercent(size / totalSize),
-        prettyBytes(size),
+        formatBytes(size),
         formatCount(count),
       ]),
     ),
@@ -81,19 +84,15 @@ const formatLargestSelfSizeConstructors = (
     `Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
-        { content: `Retained %`, align: `right` },
-        { content: `Retained`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
         { content: `Instances`, align: `right` },
         `Constructor`,
         `Location`,
       ],
       largestConstructors.map(constructor => [
         formatPercent(constructor.selfSize / totalSize),
-        prettyBytes(constructor.selfSize),
-        formatPercent(constructor.retainedSize / totalSize),
-        prettyBytes(constructor.retainedSize),
+        formatBytes(constructor.selfSize),
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
         constructor.location ?? inlineCode(`<native>`),
@@ -126,17 +125,13 @@ const formatLargestSelfSizeConstructorInstances = (
     })`,
     formatTable(
       [
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
-        { content: `Retained %`, align: `right` },
-        { content: `Retained`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
         `Path`,
       ],
       largestInstances.map(instance => [
         formatPercent(instance.selfSize / constructor.selfSize),
-        prettyBytes(instance.selfSize),
-        formatPercent(instance.retainedSize / constructor.retainedSize),
-        prettyBytes(instance.retainedSize),
+        formatBytes(instance.selfSize),
         inlineCode(instance.retainerPath),
       ]),
     ),
@@ -165,18 +160,14 @@ const formatLargestRetainedSizeConstructors = (
     `Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.`,
     formatTable(
       [
-        { content: `Retained %`, align: `right` },
-        { content: `Retained`, align: `right` },
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
         `Constructor`,
         `Location`,
       ],
       largestConstructors.map(constructor => [
         formatPercent(constructor.retainedSize / totalSize),
-        prettyBytes(constructor.retainedSize),
-        formatPercent(constructor.selfSize / totalSize),
-        prettyBytes(constructor.selfSize),
+        formatBytes(constructor.retainedSize),
         inlineCode(constructor.name),
         constructor.location ?? inlineCode(`<native>`),
       ]),
@@ -210,17 +201,13 @@ const formatLargestRetainedSizeConstructorInstances = (
     })`,
     formatTable(
       [
-        { content: `Retained %`, align: `right` },
-        { content: `Retained`, align: `right` },
-        { content: `Self %`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
         `Path`,
       ],
       largestInstances.map(instance => [
         formatPercent(instance.retainedSize / constructor.retainedSize),
-        prettyBytes(instance.retainedSize),
-        formatPercent(instance.selfSize / constructor.selfSize),
-        prettyBytes(instance.selfSize),
+        formatBytes(instance.retainedSize),
         inlineCode(instance.retainerPath),
       ]),
     ),
