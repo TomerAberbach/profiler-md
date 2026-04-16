@@ -32,9 +32,9 @@ Functions ranked by time in the function body, excluding callees.
 |   3.5% | 217.0ms |    3.5% |  217.0ms | `getType`                                        | uneval/src/internal/type.ts:4:24                                                                         |
 |   2.7% | 165.8ms |   19.4% | 1200.9ms | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32                                                                     |
 |   2.5% | 154.6ms |   27.7% | 1709.1ms | `createState`                                    | uneval/src/index.ts:144:21                                                                               |
-|   2.1% | 127.4ms |    2.1% |  127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | [unknown]                                                                                                |
-|   1.7% | 106.3ms |    1.7% |  106.3ms | `(garbage collector)`                            | [unknown]                                                                                                |
-|   1.7% | 104.4ms |    1.7% |  104.4ms | `(program)`                                      | [unknown]                                                                                                |
+|   2.1% | 127.4ms |    2.1% |  127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                                                                                               |
+|   1.7% | 106.3ms |    1.7% |  106.3ms | `(garbage collector)`                            | `<native>`                                                                                               |
+|   1.7% | 104.4ms |    1.7% |  104.4ms | `(program)`                                      | `<native>`                                                                                               |
 |   0.9% |  53.3ms |    9.2% |  571.0ms | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29                                                                  |
 |   0.7% |  44.8ms |   63.3% | 3912.5ms | `unevalObject`                                   | uneval/src/internal/object.ts:20:29                                                                      |
 |   0.7% |  40.9ms |   92.6% | 5720.4ms | `uneval`                                         | uneval/src/index.ts:75:16                                                                                |
@@ -290,7 +290,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ------: | -------- | ------------------------- |
 | 100.0% | 154.6ms | `uneval` | uneval/src/index.ts:75:16 |
 
-##### `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` ([unknown])
+##### `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` (`<native>`)
 
 | Self % |    Self | Caller                   | Location                             |
 | -----: | ------: | ------------------------ | ------------------------------------ |
@@ -349,9 +349,9 @@ Functions ranked by total time in the function and all its callees.
 |    8.4% |  517.7ms |   8.4% | 517.7ms | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23                                                      |
 |    6.6% |  404.6ms |   6.6% | 404.6ms | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29                                                       |
 |    3.5% |  217.0ms |   3.5% | 217.0ms | `getType`                                        | uneval/src/internal/type.ts:4:24                                                             |
-|    2.1% |  127.4ms |   2.1% | 127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | [unknown]                                                                                    |
-|    1.7% |  106.3ms |   1.7% | 106.3ms | `(garbage collector)`                            | [unknown]                                                                                    |
-|    1.7% |  104.4ms |   1.7% | 104.4ms | `(program)`                                      | [unknown]                                                                                    |
+|    2.1% |  127.4ms |   2.1% | 127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                                                                                   |
+|    1.7% |  106.3ms |   1.7% | 106.3ms | `(garbage collector)`                            | `<native>`                                                                                   |
+|    1.7% |  104.4ms |   1.7% | 104.4ms | `(program)`                                      | `<native>`                                                                                   |
 |    1.4% |   87.1ms |   0.0% |   0.0ms | `sample`                                         | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
 
 #### Callees
@@ -448,7 +448,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | Total % |   Total | Callee                                           | Location                           |
 | ------: | ------: | ------------------------------------------------ | ---------------------------------- |
 |   75.6% | 907.7ms | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37 |
-|   10.6% | 127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | [unknown]                          |
+|   10.6% | 127.4ms | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                         |
 
 ##### `unevalWithoutCustom` (uneval/src/internal/index.ts:14:37)
 

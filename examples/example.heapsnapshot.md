@@ -28,32 +28,32 @@ Constructors ranked by bytes allocated for their instances, excluding objects ke
 
 | Self % |    Self | Retained % | Retained | Instances | Constructor            | Location                        |
 | -----: | ------: | ---------: | -------: | --------: | ---------------------- | ------------------------------- |
-|   0.7% |   83 kB |      35.4% |  4.03 MB |     1,782 | `Object`               | [native]                        |
-|   0.1% | 8.99 kB |       4.1% |   469 kB |       281 | `Array`                | [native]                        |
-|   0.0% | 5.11 kB |       1.1% |   121 kB |       197 | `Error`                | [native]                        |
-|   0.0% | 3.61 kB |      23.7% |   2.7 MB |        38 | `ArrayBuffer`          | [native]                        |
-|   0.0% | 2.33 kB |       0.5% |  59.8 kB |        97 | `TypeError`            | [native]                        |
-|   0.0% | 1.35 kB |       0.0% |  3.46 kB |        13 | `Float64Array`         | [native]                        |
-|   0.0% |   840 B |       2.5% |   286 kB |        27 | `Map`                  | [native]                        |
-|   0.0% |   800 B |       0.0% |  2.81 kB |         7 | `FinalizationRegistry` | [native]                        |
-|   0.0% |   752 B |       0.1% |  8.92 kB |         8 | `Uint8Array`           | [native]                        |
-|   0.0% |   744 B |       0.2% |  19.2 kB |        31 | `RangeError`           | [native]                        |
-|   0.0% |   728 B |       0.0% |   1.3 kB |         7 | `Uint32Array`          | [native]                        |
-|   0.0% |   720 B |       0.1% |  15.6 kB |        22 | `Set`                  | [native]                        |
-|   0.0% |   672 B |       0.0% |   3.5 kB |        12 | `TypedArray`           | [native]                        |
+|   0.7% |   83 kB |      35.4% |  4.03 MB |     1,782 | `Object`               | `<native>`                      |
+|   0.1% | 8.99 kB |       4.1% |   469 kB |       281 | `Array`                | `<native>`                      |
+|   0.0% | 5.11 kB |       1.1% |   121 kB |       197 | `Error`                | `<native>`                      |
+|   0.0% | 3.61 kB |      23.7% |   2.7 MB |        38 | `ArrayBuffer`          | `<native>`                      |
+|   0.0% | 2.33 kB |       0.5% |  59.8 kB |        97 | `TypeError`            | `<native>`                      |
+|   0.0% | 1.35 kB |       0.0% |  3.46 kB |        13 | `Float64Array`         | `<native>`                      |
+|   0.0% |   840 B |       2.5% |   286 kB |        27 | `Map`                  | `<native>`                      |
+|   0.0% |   800 B |       0.0% |  2.81 kB |         7 | `FinalizationRegistry` | `<native>`                      |
+|   0.0% |   752 B |       0.1% |  8.92 kB |         8 | `Uint8Array`           | `<native>`                      |
+|   0.0% |   744 B |       0.2% |  19.2 kB |        31 | `RangeError`           | `<native>`                      |
+|   0.0% |   728 B |       0.0% |   1.3 kB |         7 | `Uint32Array`          | `<native>`                      |
+|   0.0% |   720 B |       0.1% |  15.6 kB |        22 | `Set`                  | `<native>`                      |
+|   0.0% |   672 B |       0.0% |   3.5 kB |        12 | `TypedArray`           | `<native>`                      |
 |   0.0% |   648 B |       1.7% |   194 kB |        14 | `Queue`                | quetie/src/index.js:2:14        |
-|   0.0% |   560 B |       0.0% |  2.74 kB |        12 | `Promise`              | [native]                        |
+|   0.0% |   560 B |       0.0% |  2.74 kB |        12 | `Promise`              | `<native>`                      |
 |   0.0% |   528 B |       0.0% |    528 B |        11 | `Channel`              | node:diagnostics_channel:182:14 |
-|   0.0% |   520 B |       0.0% |   1.9 kB |         5 | `Int8Array`            | [native]                        |
-|   0.0% |   432 B |       0.0% |  1.01 kB |        13 | `WeakRef`              | [native]                        |
-|   0.0% |   336 B |       0.0% |  1.73 kB |        10 | `WeakMap`              | [native]                        |
-|   0.0% |   336 B |       0.0% |  3.29 kB |         6 | `AsyncWrap`            | [native]                        |
+|   0.0% |   520 B |       0.0% |   1.9 kB |         5 | `Int8Array`            | `<native>`                      |
+|   0.0% |   432 B |       0.0% |  1.01 kB |        13 | `WeakRef`              | `<native>`                      |
+|   0.0% |   336 B |       0.0% |  1.73 kB |        10 | `WeakMap`              | `<native>`                      |
+|   0.0% |   336 B |       0.0% |  3.29 kB |         6 | `AsyncWrap`            | `<native>`                      |
 
 #### Instances
 
 Instances ranked by contribution to each constructor's self size.
 
-##### `Object` ([native])
+##### `Object` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path                                                                                                                                                   |
 | -----: | ----: | ---------: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -63,7 +63,7 @@ Instances ranked by contribution to each constructor's self size.
 |   0.4% | 368 B |       0.1% |  5.16 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1049 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |   0.4% | 312 B |       0.2% |  6.84 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1178 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 
-##### `Array` ([native])
+##### `Array` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path        |
 | -----: | ---: | ---------: | -------: | ----------- |
@@ -73,7 +73,7 @@ Instances ranked by contribution to each constructor's self size.
 |   0.4% | 32 B |       0.5% |  2.12 kB | `(GC root)` |
 |   0.4% | 32 B |       0.3% |  1.57 kB | `(GC root)` |
 
-##### `Error` ([native])
+##### `Error` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path        |
 | -----: | ---: | ---------: | -------: | ----------- |
@@ -83,7 +83,7 @@ Instances ranked by contribution to each constructor's self size.
 |   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
 |   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
 
-##### `ArrayBuffer` ([native])
+##### `ArrayBuffer` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                   |
 | -----: | ---: | ---------: | -------: | ---------------------- |
@@ -93,7 +93,7 @@ Instances ranked by contribution to each constructor's self size.
 |   2.7% | 96 B |       0.0% |    128 B | `.buffer Float64Array` |
 |   2.7% | 96 B |       0.0% |    108 B | `.buffer Uint32Array`  |
 
-##### `TypeError` ([native])
+##### `TypeError` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                                                                                          |
 | -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -103,7 +103,7 @@ Instances ranked by contribution to each constructor's self size.
 |   1.0% | 24 B |       0.3% |    176 B | `.prototype ReduceAwareErrMissingArgs (node:internal/streams/operators:230:14) ← .ReduceAwareErrMissingArgs system / Context` |
 |   1.0% | 24 B |       1.1% |    656 B | `.prototype NodeError (node:internal/errors:472:20)`                                                                          |
 
-##### `Float64Array` ([native])
+##### `Float64Array` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path                   |
 | -----: | ----: | ---------: | -------: | ---------------------- |
@@ -113,7 +113,7 @@ Instances ranked by contribution to each constructor's self size.
 |   7.7% | 104 B |      14.1% |    488 B | `(GC root)`            |
 |   7.7% | 104 B |       7.4% |    256 B | `.statFsValues Object` |
 
-##### `Map` ([native])
+##### `Map` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                        |
 | -----: | ---: | ---------: | -------: | ----------------------------------------------------------- |
@@ -123,7 +123,7 @@ Instances ranked by contribution to each constructor's self size.
 |   3.8% | 32 B |       0.1% |    184 B | `.generatedSourceMapCache system / Context`                 |
 |   3.8% | 32 B |       0.1% |    184 B | `.decodersLoose system / Context`                           |
 
-##### `FinalizationRegistry` ([native])
+##### `FinalizationRegistry` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path                                                                                   |
 | -----: | ----: | ---------: | -------: | -------------------------------------------------------------------------------------- |
@@ -133,7 +133,7 @@ Instances ranked by contribution to each constructor's self size.
 |  20.0% | 160 B |      12.0% |    336 B | `.sourceSignalsCleanupRegistry system / Context`                                       |
 |  10.0% |  80 B |       9.1% |    256 B | `.CLOSURE_DTORS system / Context ← .default Object ← .import_wasm system / Context`    |
 
-##### `Uint8Array` ([native])
+##### `Uint8Array` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path                                  |
 | -----: | ----: | ---------: | -------: | ------------------------------------- |
@@ -143,7 +143,7 @@ Instances ranked by contribution to each constructor's self size.
 |  13.8% | 104 B |       2.3% |    201 B | `(GC root)`                           |
 |  13.8% | 104 B |       1.2% |    104 B | `.uInt8Float64Array system / Context` |
 
-##### `RangeError` ([native])
+##### `RangeError` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                                          |
 | -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------- |
@@ -153,7 +153,7 @@ Instances ranked by contribution to each constructor's self size.
 |   3.2% | 24 B |       3.4% |    656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 |   3.2% | 24 B |       3.4% |    656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 
-##### `Uint32Array` ([native])
+##### `Uint32Array` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path        |
 | -----: | ----: | ---------: | -------: | ----------- |
@@ -163,7 +163,7 @@ Instances ranked by contribution to each constructor's self size.
 |  14.3% | 104 B |       8.0% |    104 B | `(GC root)` |
 |  14.3% | 104 B |       8.0% |    104 B | `(GC root)` |
 
-##### `Set` ([native])
+##### `Set` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                                     |
 | -----: | ---: | ---------: | -------: | ------------------------------------------------------------------------ |
@@ -173,7 +173,7 @@ Instances ranked by contribution to each constructor's self size.
 |   4.4% | 32 B |       1.0% |    152 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |   4.4% | 32 B |       4.6% |    712 B | `.processBindingAllowList system / Context`                              |
 
-##### `TypedArray` ([native])
+##### `TypedArray` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path        |
 | -----: | ---: | ---------: | -------: | ----------- |
@@ -193,7 +193,7 @@ Instances ranked by contribution to each constructor's self size.
 |   7.4% | 48 B |      86.1% |   167 kB | `(GC root)`                                           |
 |   7.4% | 48 B |       1.1% |  2.22 kB | `[0] Array ← ._data Deque (quetie/src/index.js:68:8)` |
 
-##### `Promise` ([native])
+##### `Promise` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path        |
 | -----: | ---: | ---------: | -------: | ----------- |
@@ -213,7 +213,7 @@ Instances ranked by contribution to each constructor's self size.
 |   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
 |   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
 
-##### `Int8Array` ([native])
+##### `Int8Array` (`<native>`)
 
 | Self % |  Self | Retained % | Retained | Path                                                                                                                                                                                    |
 | -----: | ----: | ---------: | -------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -223,7 +223,7 @@ Instances ranked by contribution to each constructor's self size.
 |  20.0% | 104 B |      17.3% |    328 B | `.noEscapeAuth system / Context ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1331 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |  20.0% | 104 B |      17.3% |    328 B | `.noEscape system / Context`                                                                                                                                                            |
 
-##### `WeakRef` ([native])
+##### `WeakRef` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                                                                                                            |
 | -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -233,7 +233,7 @@ Instances ranked by contribution to each constructor's self size.
 |   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .21 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
 |   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .24 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
 
-##### `WeakMap` ([native])
+##### `WeakMap` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                                                                                                    |
 | -----: | ---: | ---------: | -------: | ------------------------------------------------------------------------------------------------------- |
@@ -243,7 +243,7 @@ Instances ranked by contribution to each constructor's self size.
 |   9.5% | 32 B |       7.9% |    136 B | `._isUsingInspector system / Context`                                                                   |
 |   9.5% | 32 B |       7.9% |    136 B | `.moduleRegistries system / Context`                                                                    |
 
-##### `AsyncWrap` ([native])
+##### `AsyncWrap` (`<native>`)
 
 | Self % | Self | Retained % | Retained | Path                       |
 | -----: | ---: | ---------: | -------: | -------------------------- |
@@ -259,32 +259,32 @@ Constructors ranked by bytes allocated for their instances and all objects that 
 
 | Retained % | Retained | Self % |    Self | Constructor    | Location                      |
 | ---------: | -------: | -----: | ------: | -------------- | ----------------------------- |
-|      35.4% |  4.03 MB |   0.7% |   83 kB | `Object`       | [native]                      |
-|      23.7% |   2.7 MB |   0.0% | 3.61 kB | `ArrayBuffer`  | [native]                      |
-|       4.1% |   469 kB |   0.1% | 8.99 kB | `Array`        | [native]                      |
-|       2.5% |   286 kB |   0.0% |   840 B | `Map`          | [native]                      |
+|      35.4% |  4.03 MB |   0.7% |   83 kB | `Object`       | `<native>`                    |
+|      23.7% |   2.7 MB |   0.0% | 3.61 kB | `ArrayBuffer`  | `<native>`                    |
+|       4.1% |   469 kB |   0.1% | 8.99 kB | `Array`        | `<native>`                    |
+|       2.5% |   286 kB |   0.0% |   840 B | `Map`          | `<native>`                    |
 |       1.7% |   194 kB |   0.0% |   648 B | `Queue`        | quetie/src/index.js:2:14      |
-|       1.1% |   121 kB |   0.0% | 5.11 kB | `Error`        | [native]                      |
+|       1.1% |   121 kB |   0.0% | 5.11 kB | `Error`        | `<native>`                    |
 |       1.0% |   109 kB |   0.0% |   240 B | `Deque`        | quetie/src/index.js:68:8      |
-|       0.6% |  66.7 kB |   0.0% |    64 B | `process`      | [native]                      |
-|       0.5% |  59.8 kB |   0.0% | 2.33 kB | `TypeError`    | [native]                      |
-|       0.4% |    51 kB |   0.0% |    80 B | `Table`        | [native]                      |
-|       0.2% |  20.7 kB |   0.0% |    48 B | `console`      | [native]                      |
-|       0.2% |  19.2 kB |   0.0% |   744 B | `RangeError`   | [native]                      |
-|       0.1% |  15.6 kB |   0.0% |   720 B | `Set`          | [native]                      |
-|       0.1% |  8.92 kB |   0.0% |   752 B | `Uint8Array`   | [native]                      |
+|       0.6% |  66.7 kB |   0.0% |    64 B | `process`      | `<native>`                    |
+|       0.5% |  59.8 kB |   0.0% | 2.33 kB | `TypeError`    | `<native>`                    |
+|       0.4% |    51 kB |   0.0% |    80 B | `Table`        | `<native>`                    |
+|       0.2% |  20.7 kB |   0.0% |    48 B | `console`      | `<native>`                    |
+|       0.2% |  19.2 kB |   0.0% |   744 B | `RangeError`   | `<native>`                    |
+|       0.1% |  15.6 kB |   0.0% |   720 B | `Set`          | `<native>`                    |
+|       0.1% |  8.92 kB |   0.0% |   752 B | `Uint8Array`   | `<native>`                    |
 |       0.1% |  7.82 kB |   0.0% |   120 B | `WeakRefMap`   | node:diagnostics_channel:38:1 |
-|       0.0% |  5.48 kB |   0.0% |    24 B | `Event`        | [native]                      |
-|       0.0% |  5.35 kB |   0.0% |    48 B | `EventTarget`  | [native]                      |
-|       0.0% |   4.7 kB |   0.0% |    24 B | `DOMException` | [native]                      |
-|       0.0% |  3.78 kB |   0.0% |    24 B | `AbortSignal`  | [native]                      |
-|       0.0% |   3.5 kB |   0.0% |   672 B | `TypedArray`   | [native]                      |
+|       0.0% |  5.48 kB |   0.0% |    24 B | `Event`        | `<native>`                    |
+|       0.0% |  5.35 kB |   0.0% |    48 B | `EventTarget`  | `<native>`                    |
+|       0.0% |   4.7 kB |   0.0% |    24 B | `DOMException` | `<native>`                    |
+|       0.0% |  3.78 kB |   0.0% |    24 B | `AbortSignal`  | `<native>`                    |
+|       0.0% |   3.5 kB |   0.0% |   672 B | `TypedArray`   | `<native>`                    |
 
 #### Instances
 
 Instances ranked by contribution to each constructor's retained size.
 
-##### `Object` ([native])
+##### `Object` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                               |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------ |
@@ -294,7 +294,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       6.1% |   244 kB |   0.0% | 24 B | `(GC root)`                                                        |
 |       1.9% |  75.9 kB |   0.0% | 24 B | `(GC root)`                                                        |
 
-##### `ArrayBuffer` ([native])
+##### `ArrayBuffer` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                               |
 | ---------: | -------: | -----: | ---: | -------------------------------------------------- |
@@ -304,7 +304,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       0.0% |    384 B |   2.7% | 96 B | `.buffer BigInt64Array ← .bigintStatValues Object` |
 |       0.0% |    384 B |   2.7% | 96 B | `.buffer Float64Array`                             |
 
-##### `Array` ([native])
+##### `Array` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                      |
 | ---------: | -------: | -----: | ---: | ----------------------------------------- |
@@ -314,7 +314,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       5.7% |  26.5 kB |   0.4% | 32 B | `(GC root)`                               |
 |       4.3% |  20.2 kB |   0.4% | 32 B | `._data Deque (quetie/src/index.js:68:8)` |
 
-##### `Map` ([native])
+##### `Map` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                        |
 | ---------: | -------: | -----: | ---: | ----------------------------------------------------------- |
@@ -334,7 +334,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       1.1% |  2.22 kB |   7.4% | 48 B | `[1] Array ← ._data Deque (quetie/src/index.js:68:8)` |
 |       1.1% |  2.22 kB |   7.4% | 48 B | `[2] Array ← ._data Deque (quetie/src/index.js:68:8)` |
 
-##### `Error` ([native])
+##### `Error` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                                                       |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------ |
@@ -351,14 +351,14 @@ Instances ranked by contribution to each constructor's retained size.
 |      81.3% |  88.6 kB |  50.0% | 120 B | `(GC root)` |
 |      18.7% |  20.3 kB |  50.0% | 120 B | `(GC root)` |
 
-##### `process` ([native])
+##### `process` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path        |
 | ---------: | -------: | -----: | ---: | ----------- |
 |     100.0% |  66.6 kB |  50.0% | 32 B | `(GC root)` |
 |       0.0% |     32 B |  50.0% | 32 B | `.40 array` |
 
-##### `TypeError` ([native])
+##### `TypeError` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                 |
 | ---------: | -------: | -----: | ---: | ---------------------------------------------------- |
@@ -368,20 +368,20 @@ Instances ranked by contribution to each constructor's retained size.
 |       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError (node:internal/errors:472:20)` |
 |       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError (node:internal/errors:504:20)` |
 
-##### `Table` ([native])
+##### `Table` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                                                             |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------ |
 |     100.0% |    51 kB | 100.0% | 80 B | `.__wbindgen_export_1 Object ← .__wasm Object ← .default Object ← .import_wasm system / Context` |
 
-##### `console` ([native])
+##### `console` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path        |
 | ---------: | -------: | -----: | ---: | ----------- |
 |      91.6% |    19 kB |  50.0% | 24 B | `(GC root)` |
 |       8.4% |  1.74 kB |  50.0% | 24 B | `(GC root)` |
 
-##### `RangeError` ([native])
+##### `RangeError` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                                          |
 | ---------: | -------: | -----: | ---: | ----------------------------------------------------------------------------- |
@@ -391,7 +391,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 |       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 
-##### `Set` ([native])
+##### `Set` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                      |
 | ---------: | -------: | -----: | ---: | --------------------------------------------------------- |
@@ -401,7 +401,7 @@ Instances ranked by contribution to each constructor's retained size.
 |       8.6% |  1.35 kB |   4.4% | 32 B | `.builtInObjects system / Context`                        |
 |       4.6% |    712 B |   4.4% | 32 B | `.processBindingAllowList system / Context`               |
 
-##### `Uint8Array` ([native])
+##### `Uint8Array` (`<native>`)
 
 | Retained % | Retained | Self % |  Self | Path        |
 | ---------: | -------: | -----: | ----: | ----------- |
@@ -417,32 +417,32 @@ Instances ranked by contribution to each constructor's retained size.
 | ---------: | -------: | -----: | ----: | ---------------------------- |
 |     100.0% |  7.82 kB | 100.0% | 120 B | `.channels system / Context` |
 
-##### `Event` ([native])
+##### `Event` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path        |
 | ---------: | -------: | -----: | ---: | ----------- |
 |     100.0% |  5.48 kB | 100.0% | 24 B | `(GC root)` |
 
-##### `EventTarget` ([native])
+##### `EventTarget` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                                                                                                                                                                                                             |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 |      53.5% |  2.86 kB |  50.0% | 24 B | `.prototype NodeEventTarget (node:internal/event_target:901:14) ← .NodeEventTarget Object ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .635 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |      46.5% |  2.49 kB |  50.0% | 24 B | `(GC root)`                                                                                                                                                                                                                                      |
 
-##### `DOMException` ([native])
+##### `DOMException` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path                                                                     |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------ |
 |     100.0% |   4.7 kB | 100.0% | 24 B | `.prototype DOMException (node:internal/per_context/domexception:72:14)` |
 
-##### `AbortSignal` ([native])
+##### `AbortSignal` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path        |
 | ---------: | -------: | -----: | ---: | ----------- |
 |     100.0% |  3.78 kB | 100.0% | 24 B | `(GC root)` |
 
-##### `TypedArray` ([native])
+##### `TypedArray` (`<native>`)
 
 | Retained % | Retained | Self % | Self | Path        |
 | ---------: | -------: | -----: | ---: | ----------- |

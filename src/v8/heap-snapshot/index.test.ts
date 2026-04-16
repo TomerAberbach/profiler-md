@@ -230,22 +230,22 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
 
-    | Self % |  Self | Retained % | Retained | Instances | Constructor     | Location |
-    | -----: | ----: | ---------: | -------: | --------: | --------------- | -------- |
-    |  39.8% | 200 B |      39.8% |    200 B |         1 | \`MyClass\`       | [native] |
-    |  15.9% |  80 B |      15.9% |     80 B |         1 | \`DetachedClass\` | [native] |
+    | Self % |  Self | Retained % | Retained | Instances | Constructor     | Location   |
+    | -----: | ----: | ---------: | -------: | --------: | --------------- | ---------- |
+    |  39.8% | 200 B |      39.8% |    200 B |         1 | \`MyClass\`       | \`<native>\` |
+    |  15.9% |  80 B |      15.9% |     80 B |         1 | \`DetachedClass\` | \`<native>\` |
 
     #### Instances
 
     Instances ranked by contribution to each constructor's self size.
 
-    ##### \`MyClass\` ([native])
+    ##### \`MyClass\` (\`<native>\`)
 
     | Self % |  Self | Retained % | Retained | Path        |
     | -----: | ----: | ---------: | -------: | ----------- |
     | 100.0% | 200 B |     100.0% |    200 B | \`(GC root)\` |
 
-    ##### \`DetachedClass\` ([native])
+    ##### \`DetachedClass\` (\`<native>\`)
 
     | Self % | Self | Retained % | Retained | Path        |
     | -----: | ---: | ---------: | -------: | ----------- |
@@ -255,22 +255,22 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-    | Retained % | Retained | Self % |  Self | Constructor     | Location |
-    | ---------: | -------: | -----: | ----: | --------------- | -------- |
-    |      39.8% |    200 B |  39.8% | 200 B | \`MyClass\`       | [native] |
-    |      15.9% |     80 B |  15.9% |  80 B | \`DetachedClass\` | [native] |
+    | Retained % | Retained | Self % |  Self | Constructor     | Location   |
+    | ---------: | -------: | -----: | ----: | --------------- | ---------- |
+    |      39.8% |    200 B |  39.8% | 200 B | \`MyClass\`       | \`<native>\` |
+    |      15.9% |     80 B |  15.9% |  80 B | \`DetachedClass\` | \`<native>\` |
 
     #### Instances
 
     Instances ranked by contribution to each constructor's retained size.
 
-    ##### \`MyClass\` ([native])
+    ##### \`MyClass\` (\`<native>\`)
 
     | Retained % | Retained | Self % |  Self | Path        |
     | ---------: | -------: | -----: | ----: | ----------- |
     |     100.0% |    200 B | 100.0% | 200 B | \`(GC root)\` |
 
-    ##### \`DetachedClass\` ([native])
+    ##### \`DetachedClass\` (\`<native>\`)
 
     | Retained % | Retained | Self % | Self | Path        |
     | ---------: | -------: | -----: | ---: | ----------- |
@@ -354,47 +354,47 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
 
-    | Self % |    Self | Retained % | Retained | Instances | Constructor   | Location |
-    | -----: | ------: | ---------: | -------: | --------: | ------------- | -------- |
-    |   0.7% |   83 kB |      35.4% |  4.03 MB |     1,782 | \`Object\`      | [native] |
-    |   0.1% | 8.99 kB |       4.1% |   469 kB |       281 | \`Array\`       | [native] |
-    |   0.0% | 5.11 kB |       1.1% |   121 kB |       197 | \`Error\`       | [native] |
-    |   0.0% | 3.61 kB |      23.7% |   2.7 MB |        38 | \`ArrayBuffer\` | [native] |
-    |   0.0% | 2.33 kB |       0.5% |  59.8 kB |        97 | \`TypeError\`   | [native] |
+    | Self % |    Self | Retained % | Retained | Instances | Constructor   | Location   |
+    | -----: | ------: | ---------: | -------: | --------: | ------------- | ---------- |
+    |   0.7% |   83 kB |      35.4% |  4.03 MB |     1,782 | \`Object\`      | \`<native>\` |
+    |   0.1% | 8.99 kB |       4.1% |   469 kB |       281 | \`Array\`       | \`<native>\` |
+    |   0.0% | 5.11 kB |       1.1% |   121 kB |       197 | \`Error\`       | \`<native>\` |
+    |   0.0% | 3.61 kB |      23.7% |   2.7 MB |        38 | \`ArrayBuffer\` | \`<native>\` |
+    |   0.0% | 2.33 kB |       0.5% |  59.8 kB |        97 | \`TypeError\`   | \`<native>\` |
 
     #### Instances
 
     Instances ranked by contribution to each constructor's self size.
 
-    ##### \`Object\` ([native])
+    ##### \`Object\` (\`<native>\`)
 
     | Self % |  Self | Retained % | Retained | Path                                                                                                                                                   |
     | -----: | ----: | ---------: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
     |   1.1% | 872 B |       0.9% |    38 kB | \`.variables Object ← .config process\`                                                                                                                  |
     |   0.6% | 512 B |       0.3% |  12.9 kB | \`.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1139 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)\` |
 
-    ##### \`Array\` ([native])
+    ##### \`Array\` (\`<native>\`)
 
     | Self % | Self | Retained % | Retained | Path        |
     | -----: | ---: | ---------: | -------: | ----------- |
     |   0.4% | 32 B |       0.0% |     32 B | \`(GC root)\` |
     |   0.4% | 32 B |       5.7% |  26.5 kB | \`(GC root)\` |
 
-    ##### \`Error\` ([native])
+    ##### \`Error\` (\`<native>\`)
 
     | Self % | Self | Retained % | Retained | Path        |
     | -----: | ---: | ---------: | -------: | ----------- |
     |   1.1% | 56 B |       0.3% |    304 B | \`(GC root)\` |
     |   1.1% | 56 B |       0.3% |    304 B | \`(GC root)\` |
 
-    ##### \`ArrayBuffer\` ([native])
+    ##### \`ArrayBuffer\` (\`<native>\`)
 
     | Self % | Self | Retained % | Retained | Path                   |
     | -----: | ---: | ---------: | -------: | ---------------------- |
     |   2.7% | 96 B |       0.0% |     98 B | \`(GC root)\`            |
     |   2.7% | 96 B |       0.0% |    352 B | \`.buffer Float64Array\` |
 
-    ##### \`TypeError\` ([native])
+    ##### \`TypeError\` (\`<native>\`)
 
     | Self % | Self | Retained % | Retained | Path        |
     | -----: | ---: | ---------: | -------: | ----------- |
@@ -407,38 +407,38 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     | Retained % | Retained | Self % |    Self | Constructor   | Location          |
     | ---------: | -------: | -----: | ------: | ------------- | ----------------- |
-    |      35.4% |  4.03 MB |   0.7% |   83 kB | \`Object\`      | [native]          |
-    |      23.7% |   2.7 MB |   0.0% | 3.61 kB | \`ArrayBuffer\` | [native]          |
-    |       4.1% |   469 kB |   0.1% | 8.99 kB | \`Array\`       | [native]          |
-    |       2.5% |   286 kB |   0.0% |   840 B | \`Map\`         | [native]          |
+    |      35.4% |  4.03 MB |   0.7% |   83 kB | \`Object\`      | \`<native>\`        |
+    |      23.7% |   2.7 MB |   0.0% | 3.61 kB | \`ArrayBuffer\` | \`<native>\`        |
+    |       4.1% |   469 kB |   0.1% | 8.99 kB | \`Array\`       | \`<native>\`        |
+    |       2.5% |   286 kB |   0.0% |   840 B | \`Map\`         | \`<native>\`        |
     |       1.7% |   194 kB |   0.0% |   648 B | \`Queue\`       | src/index.js:2:14 |
 
     #### Instances
 
     Instances ranked by contribution to each constructor's retained size.
 
-    ##### \`Object\` ([native])
+    ##### \`Object\` (\`<native>\`)
 
     | Retained % | Retained | Self % | Self | Path                                              |
     | ---------: | -------: | -----: | ---: | ------------------------------------------------- |
     |      74.9% |  3.02 MB |   0.1% | 56 B | \`.import_wasm system / Context\`                   |
     |      74.5% |     3 MB |   0.1% | 56 B | \`.default Object ← .import_wasm system / Context\` |
 
-    ##### \`ArrayBuffer\` ([native])
+    ##### \`ArrayBuffer\` (\`<native>\`)
 
     | Retained % | Retained | Self % | Self | Path                                              |
     | ---------: | -------: | -----: | ---: | ------------------------------------------------- |
     |      99.5% |  2.69 MB |   2.7% | 96 B | \`.default Object ← .import_wasm system / Context\` |
     |       0.3% |  8.46 kB |   2.7% | 96 B | \`(GC root)\`                                       |
 
-    ##### \`Array\` ([native])
+    ##### \`Array\` (\`<native>\`)
 
     | Retained % | Retained | Self % | Self | Path                               |
     | ---------: | -------: | -----: | ---: | ---------------------------------- |
     |      35.6% |   167 kB |   0.4% | 32 B | \`._data Queue (src/index.js:2:14)\` |
     |      18.9% |  88.4 kB |   0.4% | 32 B | \`._data Deque (src/index.js:68:8)\` |
 
-    ##### \`Map\` ([native])
+    ##### \`Map\` (\`<native>\`)
 
     | Retained % | Retained | Self % | Self | Path                                                        |
     | ---------: | -------: | -----: | ---: | ----------------------------------------------------------- |

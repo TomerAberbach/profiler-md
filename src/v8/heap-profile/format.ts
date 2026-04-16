@@ -85,7 +85,7 @@ const formatHottestSelfSizeFunctions = (
         formatPercent(node.totalSize / totalSize),
         prettyBytes(node.totalSize),
         inlineCode(node.functionName),
-        node.location,
+        node.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(hottestCallerSections.length > 0
@@ -111,7 +111,9 @@ const formatHottestCallers = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${
+      node.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -123,7 +125,7 @@ const formatHottestCallers = (
         formatPercent(selfSize / node.selfSize),
         prettyBytes(selfSize),
         inlineCode(caller.functionName),
-        caller.location,
+        caller.location ?? inlineCode(`<native>`),
       ]),
     ),
   ].join(`\n\n`)
@@ -159,7 +161,7 @@ const formatHottestTotalSizeFunctions = (
         formatPercent(node.selfSize / totalSize),
         prettyBytes(node.selfSize),
         inlineCode(node.functionName),
-        node.location,
+        node.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(hottestCalleeSections.length > 0
@@ -185,7 +187,9 @@ const formatHottestCallees = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${
+      node.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Total %`, align: `right` },
@@ -197,7 +201,7 @@ const formatHottestCallees = (
         formatPercent(totalSize / node.totalSize),
         prettyBytes(totalSize),
         inlineCode(callee.functionName),
-        callee.location,
+        callee.location ?? inlineCode(`<native>`),
       ]),
     ),
   ].join(`\n\n`)

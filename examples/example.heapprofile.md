@@ -20,26 +20,26 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 | Self % |    Self | Total % |   Total | Function                      | Location                                                                                                     |
 | -----: | ------: | ------: | ------: | ----------------------------- | ------------------------------------------------------------------------------------------------------------ |
-|   9.3% |  458 kB |    9.3% |  458 kB | `(IDLE)`                      | [unknown]                                                                                                    |
+|   9.3% |  458 kB |    9.3% |  458 kB | `(IDLE)`                      | `<native>`                                                                                                   |
 |   3.0% |  148 kB |    3.2% |  157 kB | `(anonymous)`                 | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1                     |
 |   2.3% |  113 kB |    2.4% |  116 kB | `js-to-wasm:iii:`             | wasm://wasm/009f676a:1:2029168                                                                               |
-|   1.5% | 73.1 kB |    1.5% | 73.1 kB | `push`                        | [unknown]                                                                                                    |
+|   1.5% | 73.1 kB |    1.5% | 73.1 kB | `push`                        | `<native>`                                                                                                   |
 |   1.3% | 65.6 kB |    1.3% | 65.6 kB | `unevalNumber`                | uneval/src/internal/primitive.ts:12:29                                                                       |
-|   1.3% | 61.5 kB |    1.3% | 61.5 kB | `exec`                        | [unknown]                                                                                                    |
-|   1.1% | 56.5 kB |    1.1% | 56.5 kB | `set`                         | [unknown]                                                                                                    |
+|   1.3% | 61.5 kB |    1.3% | 61.5 kB | `exec`                        | `<native>`                                                                                                   |
+|   1.1% | 56.5 kB |    1.1% | 56.5 kB | `set`                         | `<native>`                                                                                                   |
 |   0.9% | 45.6 kB |    1.9% | 91.4 kB | `traverseObject`              | uneval/src/index.ts:204:26                                                                                   |
-|   0.8% | 37.1 kB |    0.8% | 37.1 kB | `getOwnPropertyDescriptor`    | [unknown]                                                                                                    |
+|   0.8% | 37.1 kB |    0.8% | 37.1 kB | `getOwnPropertyDescriptor`    | `<native>`                                                                                                   |
 |   0.5% | 26.9 kB |    0.6% |   28 kB | `keyValuePairsToObjectMapper` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:3928:37                 |
 |   0.5% | 23.3 kB |    3.0% |  149 kB | `(anonymous)`                 | node:fs:1:1                                                                                                  |
 |   0.4% | 18.9 kB |    0.4% | 18.9 kB | `uniformBigInt`               | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformBigInt.js:13:23 |
 |   0.4% | 18.2 kB |    1.3% | 65.5 kB | `(anonymous)`                 | node:buffer:1:1                                                                                              |
-|   0.3% | 15.8 kB |    0.8% | 38.8 kB | `Map`                         | [unknown]                                                                                                    |
+|   0.3% | 15.8 kB |    0.8% | 38.8 kB | `Map`                         | `<native>`                                                                                                   |
 |   0.3% |   14 kB |    0.3% |   14 kB | `generate`                    | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:3551:10                 |
 |   0.3% | 13.4 kB |    0.6% | 27.3 kB | `tokenizeString`              | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:4239:24                 |
 |   0.3% | 12.6 kB |    0.5% | 24.8 kB | `realpathSync`                | node:fs:2683:22                                                                                              |
-|   0.2% | 12.2 kB |    0.2% | 12.2 kB | `(BYTECODE_COMPILER)`         | [unknown]                                                                                                    |
+|   0.2% | 12.2 kB |    0.2% | 12.2 kB | `(BYTECODE_COMPILER)`         | `<native>`                                                                                                   |
 |   0.2% |   11 kB |    0.6% | 28.9 kB | `valueMapper`                 | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:474:13                  |
-|   0.2% | 10.2 kB |    0.2% | 10.2 kB | `(PARSER)`                    | [unknown]                                                                                                    |
+|   0.2% | 10.2 kB |    0.2% | 10.2 kB | `(PARSER)`                    | `<native>`                                                                                                   |
 
 #### Callers
 
@@ -47,11 +47,11 @@ Callers ranked by contribution to each function's self size.
 
 ##### `(anonymous)` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1)
 
-| Self % |   Self | Caller | Location  |
-| -----: | -----: | ------ | --------- |
-|  74.4% | 110 kB | `next` | [unknown] |
+| Self % |   Self | Caller | Location   |
+| -----: | -----: | ------ | ---------- |
+|  74.4% | 110 kB | `next` | `<native>` |
 
-##### `push` ([unknown])
+##### `push` (`<native>`)
 
 | Self % |    Self | Caller               | Location                                                                                     |
 | -----: | ------: | -------------------- | -------------------------------------------------------------------------------------------- |
@@ -67,11 +67,11 @@ Callers ranked by contribution to each function's self size.
 | -----: | ------: | ---------------- | ---------------------------------- |
 | 100.0% | 65.6 kB | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
 
-##### `set` ([unknown])
+##### `set` (`<native>`)
 
 | Self % |    Self | Caller           | Location                                                                                    |
 | -----: | ------: | ---------------- | ------------------------------------------------------------------------------------------- |
-|  40.8% |   23 kB | `Map`            | [unknown]                                                                                   |
+|  40.8% |   23 kB | `Map`            | `<native>`                                                                                  |
 |  15.5% | 8.78 kB | `traverseObject` | uneval/src/index.ts:204:26                                                                  |
 |   6.4% | 3.62 kB | `safeMapSet`     | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:827:20 |
 |   3.2% | 1.83 kB | `realpathSync`   | node:fs:2683:22                                                                             |
@@ -84,7 +84,7 @@ Callers ranked by contribution to each function's self size.
 |  39.8% | 18.1 kB | `uneval`         | uneval/src/index.ts:75:16  |
 |   7.1% | 3.22 kB | `traverse`       | uneval/src/index.ts:164:20 |
 
-##### `getOwnPropertyDescriptor` ([unknown])
+##### `getOwnPropertyDescriptor` (`<native>`)
 
 | Self % |    Self | Caller           | Location                   |
 | -----: | ------: | ---------------- | -------------------------- |
@@ -104,7 +104,7 @@ Callers ranked by contribution to each function's self size.
 |  94.1% | 17.8 kB | `generate`   | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:3390:10 |
 |   5.9% | 1.12 kB | `nextBigInt` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2245:12 |
 
-##### `Map` ([unknown])
+##### `Map` (`<native>`)
 
 | Self % |    Self | Caller        | Location                             |
 | -----: | ------: | ------------- | ------------------------------------ |
@@ -135,11 +135,11 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 | Total % |   Total | Self % |    Self | Function                         | Location                                                                                     |
 | ------: | ------: | -----: | ------: | -------------------------------- | -------------------------------------------------------------------------------------------- |
-|   55.8% | 2.74 MB |   0.1% |  6.3 kB | `(anonymous)`                    | [unknown]                                                                                    |
+|   55.8% | 2.74 MB |   0.1% |  6.3 kB | `(anonymous)`                    | `<native>`                                                                                   |
 |   36.1% | 1.77 MB |   0.0% | 1.01 kB | `tracePromise`                   | node:diagnostics_channel:348:15                                                              |
-|   13.1% |  643 kB |   0.0% | 1.08 kB | `next`                           | [unknown]                                                                                    |
+|   13.1% |  643 kB |   0.0% | 1.08 kB | `next`                           | `<native>`                                                                                   |
 |   10.3% |  507 kB |   0.1% | 2.54 kB | `(anonymous)`                    | uneval/scripts/profile.ts:1:1                                                                |
-|    9.3% |  458 kB |   9.3% |  458 kB | `(IDLE)`                         | [unknown]                                                                                    |
+|    9.3% |  458 kB |   9.3% |  458 kB | `(IDLE)`                         | `<native>`                                                                                   |
 |    4.6% |  226 kB |   0.0% |     0 B | `uneval`                         | uneval/src/index.ts:75:16                                                                    |
 |    4.2% |  208 kB |   0.0% |     0 B | `sample`                         | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
 |    4.2% |  205 kB |   0.0% | 2.07 kB | `takeNHelper`                    | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:70:22   |
@@ -160,13 +160,13 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 Callees ranked by contribution to each function's total size.
 
-##### `(anonymous)` ([unknown])
+##### `(anonymous)` (`<native>`)
 
-| Total % |   Total | Callee                | Location  |
-| ------: | ------: | --------------------- | --------- |
-|    1.8% | 49.9 kB | `createGlobalConsole` | [unknown] |
+| Total % |   Total | Callee                | Location   |
+| ------: | ------: | --------------------- | ---------- |
+|    1.8% | 49.9 kB | `createGlobalConsole` | `<native>` |
 
-##### `next` ([unknown])
+##### `next` (`<native>`)
 
 | Total % |  Total | Callee        | Location                                                                                     |
 | ------: | -----: | ------------- | -------------------------------------------------------------------------------------------- |
@@ -196,20 +196,20 @@ Callees ranked by contribution to each function's total size.
 
 | Total % |   Total | Callee         | Location                                                                                     |
 | ------: | ------: | -------------- | -------------------------------------------------------------------------------------------- |
-|   98.4% |  204 kB | `next`         | [unknown]                                                                                    |
+|   98.4% |  204 kB | `next`         | `<native>`                                                                                   |
 |    1.6% | 3.25 kB | `streamSample` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2524:22 |
 
 ##### `takeNHelper` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:70:22)
 
-| Total % |  Total | Callee | Location  |
-| ------: | -----: | ------ | --------- |
-|   99.0% | 203 kB | `next` | [unknown] |
+| Total % |  Total | Callee | Location   |
+| ------: | -----: | ------ | ---------- |
+|   99.0% | 203 kB | `next` | `<native>` |
 
 ##### `mapHelper` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:20)
 
-| Total % |  Total | Callee | Location  |
-| ------: | -----: | ------ | --------- |
-|  100.0% | 204 kB | `next` | [unknown] |
+| Total % |  Total | Callee | Location   |
+| ------: | -----: | ------ | ---------- |
+|  100.0% | 204 kB | `next` | `<native>` |
 
 ##### `toss` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2274:15)
 

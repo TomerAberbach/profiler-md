@@ -96,7 +96,7 @@ const formatLargestSelfSizeConstructors = (
         prettyBytes(constructor.retainedSize),
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
-        constructor.location ?? `[native]`,
+        constructor.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(largestInstanceSections.length > 0
@@ -121,7 +121,9 @@ const formatLargestSelfSizeConstructorInstances = (
   }
 
   return [
-    `##### ${inlineCode(constructor.name)} (${constructor.location ?? `[native]`})`,
+    `##### ${inlineCode(constructor.name)} (${
+      constructor.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -176,7 +178,7 @@ const formatLargestRetainedSizeConstructors = (
         formatPercent(constructor.selfSize / totalSize),
         prettyBytes(constructor.selfSize),
         inlineCode(constructor.name),
-        constructor.location ?? `[native]`,
+        constructor.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(largestInstanceSections.length > 0
@@ -203,7 +205,9 @@ const formatLargestRetainedSizeConstructorInstances = (
   }
 
   return [
-    `##### ${inlineCode(constructor.name)} (${constructor.location ?? `[native]`})`,
+    `##### ${inlineCode(constructor.name)} (${
+      constructor.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Retained %`, align: `right` },

@@ -94,7 +94,7 @@ const formatHottestSelfTimeFunctions = (
         formatPercent(node.totalTime / totalTime),
         formatMilliseconds(node.totalTime),
         inlineCode(node.functionName),
-        node.location,
+        node.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(hottestLinesSections.length > 0
@@ -123,7 +123,9 @@ const formatHottestLines = (
     .slice(0, Math.ceil(topN / 4))
 
   return [
-    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${
+      node.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Count %`, align: `right` },
@@ -152,7 +154,9 @@ const formatHottestCallers = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${
+      node.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Self %`, align: `right` },
@@ -164,7 +168,7 @@ const formatHottestCallers = (
         formatPercent(selfTime / node.selfTime),
         formatMilliseconds(selfTime),
         inlineCode(caller.functionName),
-        caller.location,
+        caller.location ?? inlineCode(`<native>`),
       ]),
     ),
   ].join(`\n\n`)
@@ -200,7 +204,7 @@ const formatHottestTotalTimeFunctions = (
         formatPercent(node.selfTime / totalTime),
         formatMilliseconds(node.selfTime),
         inlineCode(node.functionName),
-        node.location,
+        node.location ?? inlineCode(`<native>`),
       ]),
     ),
     ...(hottestCalleeSections.length > 0
@@ -226,7 +230,9 @@ const formatHottestCallees = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${node.location})`,
+    `##### ${inlineCode(node.functionName)} (${
+      node.location ?? inlineCode(`<native>`)
+    })`,
     formatTable(
       [
         { content: `Total %`, align: `right` },
@@ -238,7 +244,7 @@ const formatHottestCallees = (
         formatPercent(totalTime / node.totalTime),
         formatMilliseconds(totalTime),
         inlineCode(callee.functionName),
-        callee.location,
+        callee.location ?? inlineCode(`<native>`),
       ]),
     ),
   ].join(`\n\n`)

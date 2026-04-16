@@ -26,7 +26,7 @@ export type SummarizedProfileNode = {
   functionName: string
 
   /** A string describing the exact location this node belongs to. */
-  location: string
+  location: string | undefined
 
   /** The call frame category of this node. */
   category: string
@@ -202,7 +202,7 @@ const computeProfileGraph = (
         functionName: functionName || `(anonymous)`,
         location: fileLocation
           ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`
-          : `[unknown]`,
+          : undefined,
         category: categorizeCallFrame(node.callFrame, options),
         selfSize: 0,
         totalSize: 0,

@@ -262,7 +262,7 @@ export const formatCallStack = (
   callStack: {
     callFrame: CallFrame
     functionName: string
-    location: string
+    location: string | undefined
   }[],
 ): string =>
   callStack
@@ -276,7 +276,7 @@ export const formatCallStack = (
       return `${name} (${
         callFrame.url === previousUrl
           ? `${callFrame.lineNumber + 1}:${callFrame.columnNumber + 1}`
-          : location
+          : (location ?? inlineCode(`<native>`))
       })`
     })
     .join(` ← `)
