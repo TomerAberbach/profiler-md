@@ -459,16 +459,19 @@ const attributeGroupRetainedSizes = ({
 
 type FieldLayout = {
   /**
-   * The category of heap object, e.g. "object" (plain JS object), "closure"
-   * (function), "native" (DOM/Blink-allocated), "array" (internal V8 array),
-   * "hidden" (V8 internal), "string", "regexp", "number", "symbol", "bigint".
+   * The category of heap object.
+   *
+   * One of `object` (plain JS object), `closure` (function), `native`
+   * (DOM-allocated), `array` (internal V8 array), `hidden` (V8 internal),
+   * `string`, `regexp`, `number`, `symbol`, and `bigint`.
    */
   nodeTypeOffset: number
 
   /**
-   * A human-readable label for the node. For plain objects this is the
-   * constructor name (e.g. "HTMLDivElement"), for strings it is the string
-   * value itself, and for closures it is the function name.
+   * A human-readable label for the node.
+   *
+   * For plain objects this is the constructor name (e.g. `Array`), for strings
+   * it is the string value itself, and for closures it is the function name.
    */
   nodeNameOffset: number
 
@@ -478,36 +481,41 @@ type FieldLayout = {
   nodeSelfSizeOffset: number
 
   /**
-   * How many outgoing references this node has. The node's edges occupy the
-   * next `edge_count * edgeFieldCount` slots in the flat `edges` array,
-   * immediately following the edges of the previous node.
+   * How many outgoing references this node has.
+   *
+   * The node's edges occupy the next `edge_count * edgeFieldCount` slots in the
+   * flat `edges` array, immediately following the edges of the previous node.
    */
   nodeEdgeCountOffset: number
 
   /**
-   * Whether the node is reachable from the `window` global. `0` = attached
-   * (reachable); `1` = detached (unreachable from `window`, i.e. a potential
-   * memory leak if still referenced elsewhere).
+   * Whether the node is reachable from the `window` global.
+   *
+   * `0` = attached (reachable) and `1` = detached (unreachable from `window`).
    */
   nodeDetachednessOffset: number
 
   /**
-   * Number of fields per node entry; used to stride through the flat `nodes`
-   * array.
+   * Number of fields per node entry
+   *
+   * Used to stride through the flat `nodes` array.
    */
   nodeFieldCount: number
 
   /**
-   * How the edge relates to its parent node — e.g. "property" (named JS
-   * property), "element" (numeric array index), "internal" (V8-internal slot
-   * not visible in JS), "weak" (weak reference), "hidden", "shortcut".
+   * How the edge relates to its parent node.
+   *
+   * One of `property` (named JS property), `element` (numeric array index),
+   * `internal` (V8-internal slot not visible in JS), `weak` (weak reference),
+   * `hidden`, and `shortcut`.
    */
   edgeTypeOffset: number
 
   /**
-   * The label identifying which property or slot this edge represents. For
-   * named edges (property, internal, etc.) this is a string such as "x" or
-   * "context". For element edges it is the numeric array index.
+   * The label identifying which property or slot this edge represents.
+   *
+   * For named edges (`property`, `internal`, etc.) this is a string such as `x`
+   * or `context`. For element edges it is the numeric array index.
    */
   edgeNameOrIndexOffset: number
 
@@ -518,8 +526,9 @@ type FieldLayout = {
   edgeToNodeOffset: number
 
   /**
-   * Number of fields per edge entry; used to stride through the flat `edges`
-   * array.
+   * Number of fields per edge entry.
+   *
+   * Used to stride through the flat `edges` array.
    */
   edgeFieldCount: number
 
@@ -529,10 +538,7 @@ type FieldLayout = {
    */
   locationObjectIndexOffset: number
 
-  /**
-   * ID of the script (matching `script.id` in the V8 inspector) where the node
-   * was allocated.
-   */
+  /** ID of the script where the node was allocated. */
   locationScriptIdOffset: number
 
   /** 0-based line number within the script where the node was allocated. */
@@ -542,28 +548,32 @@ type FieldLayout = {
   locationColumnOffset: number
 
   /**
-   * Number of fields per location entry; used to stride through the flat
-   * `locations` array.
+   * Number of fields per location entry
+   *
+   * Used to stride through the flat `locations` array.
    */
   locationFieldCount: number
 
   /**
-   * Numeric array index properties (e.g. `arr[0]`). The edge's `name_or_index`
-   * is the integer index.
+   * Numeric array index properties (e.g. `arr[0]`).
+   *
+   * The edge's `name_or_index` is the integer index.
    */
   edgeTypeElement: number
 
   /**
-   * V8-internal references with no JS-visible name, e.g. a function's captured
-   * scope ("context"), hidden class ("map"), or prototype chain slot. Important
-   * for tracing retainer paths even though they don't appear in JS.
+   * V8-internal references with no JS-visible name.
+   *
+   * e.g. a function's captured scope (`context`), hidden class (`map`), or
+   * prototype chain slot.
    */
   edgeTypeInternal: number
 
   /**
-   * Weak references that do not keep the target alive. Objects held only by
-   * weak edges can be garbage-collected, so these are excluded from retainer
-   * path analysis.
+   * Weak references that do not keep the target alive.
+   *
+   * Objects held only by weak edges can be garbage-collected, so these are
+   * excluded from retainer path analysis.
    */
   edgeTypeWeak: number
 }
