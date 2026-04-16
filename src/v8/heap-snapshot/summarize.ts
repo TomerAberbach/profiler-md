@@ -125,6 +125,7 @@ export const summarizeSnapshot = (
               nodeOrdinal,
               snapshot,
               nodeAdjacencyGraph,
+              nodeIndexToLocation,
               immediateDominatorGraph,
               fieldLayout,
             ))
@@ -531,6 +532,7 @@ const computeRetainerPath = (
     strings,
   }: HeapSnapshot,
   { ordinalToPredecessors }: NodeAdjacencyGraph,
+  nodeIndexToLocation: Map<number, string>,
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
 ): string => {
@@ -566,14 +568,17 @@ const computeRetainerPath = (
         ? `[${edgeNameOrIndex}]`
         : `.${strings[edgeNameOrIndex]!}`
 
-    const retainerNodeIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
-    const retainerType = nodes[retainerNodeIndex + fieldLayout.nodeTypeOffset]!
+    const retainerIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
+    const retainerType = nodes[retainerIndex + fieldLayout.nodeTypeOffset]!
     const retainerName =
-      strings[nodes[retainerNodeIndex + fieldLayout.nodeNameOffset]!]! ||
+      strings[nodes[retainerIndex + fieldLayout.nodeNameOffset]!]! ||
       nodeTypes[retainerType]!
+    const retainerLocation = nodeIndexToLocation.get(retainerIndex)
 
     hops.push({
-      label: `${edgeLabel} ${retainerName}`,
+      label: `${edgeLabel} ${retainerName}${
+        retainerLocation ? ` (${retainerLocation})` : ``
+      }`,
       internal:
         retainerType === fieldLayout.nodeTypeSynthetic ||
         retainerType === fieldLayout.nodeTypeHidden,

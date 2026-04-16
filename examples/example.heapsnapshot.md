@@ -306,43 +306,43 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Array` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path  |
-| ---------: | -------: | -----: | ---: | -------------- |
-|      35.6% |   167 kB |   0.4% | 32 B | `._data Queue` |
-|      18.9% |  88.4 kB |   0.4% | 32 B | `._data Deque` |
-|      10.4% |  48.8 kB |   0.4% | 32 B | `(GC root)`    |
-|       5.7% |  26.5 kB |   0.4% | 32 B | `(GC root)`    |
-|       4.3% |  20.2 kB |   0.4% | 32 B | `._data Deque` |
+| Retained % | Retained | Self % | Self | Retainer path                             |
+| ---------: | -------: | -----: | ---: | ----------------------------------------- |
+|      35.6% |   167 kB |   0.4% | 32 B | `._data Queue (quetie/src/index.js:2:14)` |
+|      18.9% |  88.4 kB |   0.4% | 32 B | `._data Deque (quetie/src/index.js:68:8)` |
+|      10.4% |  48.8 kB |   0.4% | 32 B | `(GC root)`                               |
+|       5.7% |  26.5 kB |   0.4% | 32 B | `(GC root)`                               |
+|       4.3% |  20.2 kB |   0.4% | 32 B | `._data Deque (quetie/src/index.js:68:8)` |
 
 ##### `Map` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                 |
-| ---------: | -------: | -----: | ---: | ----------------------------- |
-|      82.4% |   236 kB |   3.8% | 32 B | `.map BuiltinModule`          |
-|       5.0% |  14.4 kB |   3.8% | 32 B | `.messages system / Context`  |
-|       2.9% |  8.41 kB |   3.8% | 32 B | `(GC root)`                   |
-|       2.5% |  7.24 kB |   3.8% | 32 B | `.encodings system / Context` |
-|       1.6% |  4.65 kB |   2.9% | 24 B | `(GC root)`                   |
+| Retained % | Retained | Self % | Self | Retainer path                                               |
+| ---------: | -------: | -----: | ---: | ----------------------------------------------------------- |
+|      82.4% |   236 kB |   3.8% | 32 B | `.map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|       5.0% |  14.4 kB |   3.8% | 32 B | `.messages system / Context`                                |
+|       2.9% |  8.41 kB |   3.8% | 32 B | `(GC root)`                                                 |
+|       2.5% |  7.24 kB |   3.8% | 32 B | `.encodings system / Context`                               |
+|       1.6% |  4.65 kB |   2.9% | 24 B | `(GC root)`                                                 |
 
 ##### `Queue` (quetie/src/index.js:2:14)
 
-| Retained % | Retained | Self % | Self | Retainer path              |
-| ---------: | -------: | -----: | ---: | -------------------------- |
-|      86.1% |   167 kB |   7.4% | 48 B | `(GC root)`                |
-|       2.2% |  4.19 kB |   7.4% | 48 B | `(GC root)`                |
-|       1.1% |  2.22 kB |   7.4% | 48 B | `[0] Array ← ._data Deque` |
-|       1.1% |  2.22 kB |   7.4% | 48 B | `[1] Array ← ._data Deque` |
-|       1.1% |  2.22 kB |   7.4% | 48 B | `[2] Array ← ._data Deque` |
+| Retained % | Retained | Self % | Self | Retainer path                                         |
+| ---------: | -------: | -----: | ---: | ----------------------------------------------------- |
+|      86.1% |   167 kB |   7.4% | 48 B | `(GC root)`                                           |
+|       2.2% |  4.19 kB |   7.4% | 48 B | `(GC root)`                                           |
+|       1.1% |  2.22 kB |   7.4% | 48 B | `[0] Array ← ._data Deque (quetie/src/index.js:68:8)` |
+|       1.1% |  2.22 kB |   7.4% | 48 B | `[1] Array ← ._data Deque (quetie/src/index.js:68:8)` |
+|       1.1% |  2.22 kB |   7.4% | 48 B | `[2] Array ← ._data Deque (quetie/src/index.js:68:8)` |
 
 ##### `Error` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                |
-| ---------: | -------: | -----: | ---: | ------------------------------------------------------------ |
-|       0.5% |    664 B |   0.5% | 24 B | `(GC root)`                                                  |
-|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError ← .ERR_INTERNAL_ASSERTION Object`      |
-|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError ← .ERR_INSPECTOR_NOT_WORKER Object`    |
-|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError ← .ERR_INSPECTOR_NOT_CONNECTED Object` |
-|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError ← .ERR_INSPECTOR_NOT_AVAILABLE Object` |
+| Retained % | Retained | Self % | Self | Retainer path                                                                              |
+| ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------ |
+|       0.5% |    664 B |   0.5% | 24 B | `(GC root)`                                                                                |
+|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError (node:internal/errors:472:20) ← .ERR_INTERNAL_ASSERTION Object`      |
+|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_WORKER Object`    |
+|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_CONNECTED Object` |
+|       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError (node:internal/errors:443:20) ← .ERR_INSPECTOR_NOT_AVAILABLE Object` |
 
 ##### `Deque` (quetie/src/index.js:68:8)
 
@@ -360,13 +360,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `TypeError` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path          |
-| ---------: | -------: | -----: | ---: | ---------------------- |
-|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`            |
-|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`            |
-|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`            |
-|       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError` |
-|       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError` |
+| Retained % | Retained | Self % | Self | Retainer path                                        |
+| ---------: | -------: | -----: | ---: | ---------------------------------------------------- |
+|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`                                          |
+|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`                                          |
+|       1.1% |    656 B |   1.0% | 24 B | `(GC root)`                                          |
+|       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError (node:internal/errors:472:20)` |
+|       1.1% |    656 B |   1.0% | 24 B | `.prototype NodeError (node:internal/errors:504:20)` |
 
 ##### `Table` ([native])
 
@@ -383,13 +383,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `RangeError` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                   |
-| ---------: | -------: | -----: | ---: | ----------------------------------------------- |
-|       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                     |
-|       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                     |
-|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError ← .ERR_INVALID_FD Object` |
-|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError`                          |
-|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError`                          |
+| Retained % | Retained | Self % | Self | Retainer path                                                                 |
+| ---------: | -------: | -----: | ---: | ----------------------------------------------------------------------------- |
+|       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                                                   |
+|       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                                                   |
+|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20) ← .ERR_INVALID_FD Object` |
+|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
+|       3.4% |    656 B |   3.2% | 24 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 
 ##### `Set` ([native])
 
@@ -425,16 +425,16 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `EventTarget` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                                                                                  |
-| ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------------------------------------ |
-|      53.5% |  2.86 kB |  50.0% | 24 B | `.prototype NodeEventTarget ← .NodeEventTarget Object ← .exports BuiltinModule ← .635 array ← .table Map ← .map BuiltinModule` |
-|      46.5% |  2.49 kB |  50.0% | 24 B | `(GC root)`                                                                                                                    |
+| Retained % | Retained | Self % | Self | Retainer path                                                                                                                                                                                                                                    |
+| ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|      53.5% |  2.86 kB |  50.0% | 24 B | `.prototype NodeEventTarget (node:internal/event_target:901:14) ← .NodeEventTarget Object ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .635 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|      46.5% |  2.49 kB |  50.0% | 24 B | `(GC root)`                                                                                                                                                                                                                                      |
 
 ##### `DOMException` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path             |
-| ---------: | -------: | -----: | ---: | ------------------------- |
-|     100.0% |   4.7 kB | 100.0% | 24 B | `.prototype DOMException` |
+| Retained % | Retained | Self % | Self | Retainer path                                                            |
+| ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------ |
+|     100.0% |   4.7 kB | 100.0% | 24 B | `.prototype DOMException (node:internal/per_context/domexception:72:14)` |
 
 ##### `AbortSignal` ([native])
 

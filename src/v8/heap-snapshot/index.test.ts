@@ -433,17 +433,17 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     ##### \`Array\` ([native])
 
-    | Retained % | Retained | Self % | Self | Retainer path  |
-    | ---------: | -------: | -----: | ---: | -------------- |
-    |      35.6% |   167 kB |   0.4% | 32 B | \`._data Queue\` |
-    |      18.9% |  88.4 kB |   0.4% | 32 B | \`._data Deque\` |
+    | Retained % | Retained | Self % | Self | Retainer path                      |
+    | ---------: | -------: | -----: | ---: | ---------------------------------- |
+    |      35.6% |   167 kB |   0.4% | 32 B | \`._data Queue (src/index.js:2:14)\` |
+    |      18.9% |  88.4 kB |   0.4% | 32 B | \`._data Deque (src/index.js:68:8)\` |
 
     ##### \`Map\` ([native])
 
-    | Retained % | Retained | Self % | Self | Retainer path                |
-    | ---------: | -------: | -----: | ---: | ---------------------------- |
-    |      82.4% |   236 kB |   3.8% | 32 B | \`.map BuiltinModule\`         |
-    |       5.0% |  14.4 kB |   3.8% | 32 B | \`.messages system / Context\` |
+    | Retained % | Retained | Self % | Self | Retainer path                                               |
+    | ---------: | -------: | -----: | ---: | ----------------------------------------------------------- |
+    |      82.4% |   236 kB |   3.8% | 32 B | \`.map BuiltinModule (node:internal/bootstrap/realm:236:14)\` |
+    |       5.0% |  14.4 kB |   3.8% | 32 B | \`.messages system / Context\`                                |
 
     ##### \`Queue\` (src/index.js:2:14)
 
