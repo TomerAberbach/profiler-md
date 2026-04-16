@@ -141,7 +141,12 @@ export const summarizeProfile = (
     const rawNodeId = profile.samples[index]!
     const timeDelta = profile.timeDeltas[index]!
 
-    const node = graph.rawIdToSummarizedNode.get(rawNodeId)!
+    const node = graph.rawIdToSummarizedNode.get(rawNodeId)
+    if (!node) {
+      // V8 can emit samples referencing nodes pruned from the call tree.
+      continue
+    }
+
     node.selfTime += timeDelta
 
     const { positionTicks } = graph.rawIdToRawNode.get(rawNodeId)!

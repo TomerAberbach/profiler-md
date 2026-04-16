@@ -120,7 +120,12 @@ export const summarizeProfile = (
   >()
 
   for (const { size, nodeId } of profile.samples) {
-    const node = graph.rawIdToSummarizedNode.get(nodeId)!
+    const node = graph.rawIdToSummarizedNode.get(nodeId)
+    if (!node) {
+      // V8 can emit samples referencing nodes pruned from the call tree.
+      continue
+    }
+
     node.selfSize += size
     node.selfSampleCount++
 
