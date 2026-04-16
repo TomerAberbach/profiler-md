@@ -55,203 +55,203 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Object` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|   1.1% | 872 B |       0.9% |    38 kB |
-|   0.6% | 512 B |       0.3% |  12.9 kB |
-|   0.5% | 376 B |       0.1% |  4.87 kB |
-|   0.4% | 368 B |       0.1% |  5.16 kB |
-|   0.4% | 312 B |       0.2% |  6.84 kB |
+| Self % |  Self | Retained % | Retained | Path                                                                                                                                                   |
+| -----: | ----: | ---------: | -------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|   1.1% | 872 B |       0.9% |    38 kB | `.variables Object ← .config process`                                                                                                                  |
+|   0.6% | 512 B |       0.3% |  12.9 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1139 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   0.5% | 376 B |       0.1% |  4.87 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .464 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)`  |
+|   0.4% | 368 B |       0.1% |  5.16 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1049 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   0.4% | 312 B |       0.2% |  6.84 kB | `.exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1178 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 
 ##### `Array` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   0.4% | 32 B |       0.0% |     32 B |
-|   0.4% | 32 B |       5.7% |  26.5 kB |
-|   0.4% | 32 B |      10.4% |  48.8 kB |
-|   0.4% | 32 B |       0.5% |  2.12 kB |
-|   0.4% | 32 B |       0.3% |  1.57 kB |
+| Self % | Self | Retained % | Retained | Path        |
+| -----: | ---: | ---------: | -------: | ----------- |
+|   0.4% | 32 B |       0.0% |     32 B | `(GC root)` |
+|   0.4% | 32 B |       5.7% |  26.5 kB | `(GC root)` |
+|   0.4% | 32 B |      10.4% |  48.8 kB | `(GC root)` |
+|   0.4% | 32 B |       0.5% |  2.12 kB | `(GC root)` |
+|   0.4% | 32 B |       0.3% |  1.57 kB | `(GC root)` |
 
 ##### `Error` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   1.1% | 56 B |       0.3% |    304 B |
-|   1.1% | 56 B |       0.3% |    304 B |
-|   1.1% | 56 B |       0.3% |    304 B |
-|   1.1% | 56 B |       0.3% |    304 B |
-|   1.1% | 56 B |       0.3% |    304 B |
+| Self % | Self | Retained % | Retained | Path        |
+| -----: | ---: | ---------: | -------: | ----------- |
+|   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
+|   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
+|   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
+|   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
+|   1.1% | 56 B |       0.3% |    304 B | `(GC root)` |
 
 ##### `ArrayBuffer` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   2.7% | 96 B |       0.0% |     98 B |
-|   2.7% | 96 B |       0.0% |    352 B |
-|   2.7% | 96 B |       0.0% |    132 B |
-|   2.7% | 96 B |       0.0% |    128 B |
-|   2.7% | 96 B |       0.0% |    108 B |
+| Self % | Self | Retained % | Retained | Path                   |
+| -----: | ---: | ---------: | -------: | ---------------------- |
+|   2.7% | 96 B |       0.0% |     98 B | `(GC root)`            |
+|   2.7% | 96 B |       0.0% |    352 B | `.buffer Float64Array` |
+|   2.7% | 96 B |       0.0% |    132 B | `.buffer Uint32Array`  |
+|   2.7% | 96 B |       0.0% |    128 B | `.buffer Float64Array` |
+|   2.7% | 96 B |       0.0% |    108 B | `.buffer Uint32Array`  |
 
 ##### `TypeError` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   1.0% | 24 B |       1.1% |    656 B |
-|   1.0% | 24 B |       1.1% |    656 B |
-|   1.0% | 24 B |       1.1% |    656 B |
-|   1.0% | 24 B |       0.3% |    176 B |
-|   1.0% | 24 B |       1.1% |    656 B |
+| Self % | Self | Retained % | Retained | Path                                                                                                                          |
+| -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------------------------------------------------------- |
+|   1.0% | 24 B |       1.1% |    656 B | `(GC root)`                                                                                                                   |
+|   1.0% | 24 B |       1.1% |    656 B | `(GC root)`                                                                                                                   |
+|   1.0% | 24 B |       1.1% |    656 B | `(GC root)`                                                                                                                   |
+|   1.0% | 24 B |       0.3% |    176 B | `.prototype ReduceAwareErrMissingArgs (node:internal/streams/operators:230:14) ← .ReduceAwareErrMissingArgs system / Context` |
+|   1.0% | 24 B |       1.1% |    656 B | `.prototype NodeError (node:internal/errors:472:20)`                                                                          |
 
 ##### `Float64Array` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|   7.7% | 104 B |      13.2% |    456 B |
-|   7.7% | 104 B |       6.7% |    232 B |
-|   7.7% | 104 B |       3.0% |    104 B |
-|   7.7% | 104 B |      14.1% |    488 B |
-|   7.7% | 104 B |       7.4% |    256 B |
+| Self % |  Self | Retained % | Retained | Path                   |
+| -----: | ----: | ---------: | -------: | ---------------------- |
+|   7.7% | 104 B |      13.2% |    456 B | `(GC root)`            |
+|   7.7% | 104 B |       6.7% |    232 B | `(GC root)`            |
+|   7.7% | 104 B |       3.0% |    104 B | `(GC root)`            |
+|   7.7% | 104 B |      14.1% |    488 B | `(GC root)`            |
+|   7.7% | 104 B |       7.4% |    256 B | `.statFsValues Object` |
 
 ##### `Map` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   6.7% | 56 B |       0.1% |    144 B |
-|   3.8% | 32 B |      82.4% |   236 kB |
-|   3.8% | 32 B |       0.1% |    184 B |
-|   3.8% | 32 B |       0.1% |    184 B |
-|   3.8% | 32 B |       0.1% |    184 B |
+| Self % | Self | Retained % | Retained | Path                                                        |
+| -----: | ---: | ---------: | -------: | ----------------------------------------------------------- |
+|   6.7% | 56 B |       0.1% |    144 B | `(GC root)`                                                 |
+|   3.8% | 32 B |      82.4% |   236 kB | `.map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   3.8% | 32 B |       0.1% |    184 B | `.statWatchers system / Context`                            |
+|   3.8% | 32 B |       0.1% |    184 B | `.generatedSourceMapCache system / Context`                 |
+|   3.8% | 32 B |       0.1% |    184 B | `.decodersLoose system / Context`                           |
 
 ##### `FinalizationRegistry` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|  20.0% | 160 B |      37.3% |  1.05 kB |
-|  20.0% | 160 B |       5.7% |    160 B |
-|  20.0% | 160 B |      12.0% |    336 B |
-|  20.0% | 160 B |      12.0% |    336 B |
-|  10.0% |  80 B |       9.1% |    256 B |
+| Self % |  Self | Retained % | Retained | Path                                                                                   |
+| -----: | ----: | ---------: | -------: | -------------------------------------------------------------------------------------- |
+|  20.0% | 160 B |      37.3% |  1.05 kB | `.#finalizers WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
+|  20.0% | 160 B |       5.7% |    160 B | `.clearTimeoutRegistry system / Context`                                               |
+|  20.0% | 160 B |      12.0% |    336 B | `.dependantSignalsCleanupRegistry system / Context`                                    |
+|  20.0% | 160 B |      12.0% |    336 B | `.sourceSignalsCleanupRegistry system / Context`                                       |
+|  10.0% |  80 B |       9.1% |    256 B | `.CLOSURE_DTORS system / Context ← .default Object ← .import_wasm system / Context`    |
 
 ##### `Uint8Array` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|  13.8% | 104 B |       2.3% |    202 B |
-|  13.8% | 104 B |       1.2% |    104 B |
-|  13.8% | 104 B |       1.2% |    104 B |
-|  13.8% | 104 B |       2.3% |    201 B |
-|  13.8% | 104 B |       1.2% |    104 B |
+| Self % |  Self | Retained % | Retained | Path                                  |
+| -----: | ----: | ---------: | -------: | ------------------------------------- |
+|  13.8% | 104 B |       2.3% |    202 B | `(GC root)`                           |
+|  13.8% | 104 B |       1.2% |    104 B | `(GC root)`                           |
+|  13.8% | 104 B |       1.2% |    104 B | `(GC root)`                           |
+|  13.8% | 104 B |       2.3% |    201 B | `(GC root)`                           |
+|  13.8% | 104 B |       1.2% |    104 B | `.uInt8Float64Array system / Context` |
 
 ##### `RangeError` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   3.2% | 24 B |       3.4% |    656 B |
-|   3.2% | 24 B |       3.4% |    656 B |
-|   3.2% | 24 B |       3.4% |    656 B |
-|   3.2% | 24 B |       3.4% |    656 B |
-|   3.2% | 24 B |       3.4% |    656 B |
+| Self % | Self | Retained % | Retained | Path                                                                          |
+| -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------- |
+|   3.2% | 24 B |       3.4% |    656 B | `(GC root)`                                                                   |
+|   3.2% | 24 B |       3.4% |    656 B | `(GC root)`                                                                   |
+|   3.2% | 24 B |       3.4% |    656 B | `.prototype NodeError (node:internal/errors:504:20) ← .ERR_INVALID_FD Object` |
+|   3.2% | 24 B |       3.4% |    656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
+|   3.2% | 24 B |       3.4% |    656 B | `.prototype NodeError (node:internal/errors:504:20)`                          |
 
 ##### `Uint32Array` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|  14.3% | 104 B |      18.1% |    236 B |
-|  14.3% | 104 B |      16.3% |    212 B |
-|  14.3% | 104 B |      15.6% |    204 B |
-|  14.3% | 104 B |       8.0% |    104 B |
-|  14.3% | 104 B |       8.0% |    104 B |
+| Self % |  Self | Retained % | Retained | Path        |
+| -----: | ----: | ---------: | -------: | ----------- |
+|  14.3% | 104 B |      18.1% |    236 B | `(GC root)` |
+|  14.3% | 104 B |      16.3% |    212 B | `(GC root)` |
+|  14.3% | 104 B |      15.6% |    204 B | `(GC root)` |
+|  14.3% | 104 B |       8.0% |    104 B | `(GC root)` |
+|  14.3% | 104 B |       8.0% |    104 B | `(GC root)` |
 
 ##### `Set` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   7.8% | 56 B |       1.2% |    192 B |
-|   4.4% | 32 B |       1.0% |    152 B |
-|   4.4% | 32 B |       2.5% |    392 B |
-|   4.4% | 32 B |       1.0% |    152 B |
-|   4.4% | 32 B |       4.6% |    712 B |
+| Self % | Self | Retained % | Retained | Path                                                                     |
+| -----: | ---: | ---------: | -------: | ------------------------------------------------------------------------ |
+|   7.8% | 56 B |       1.2% |    192 B | `(GC root)`                                                              |
+|   4.4% | 32 B |       1.0% |    152 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   4.4% | 32 B |       2.5% |    392 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   4.4% | 32 B |       1.0% |    152 B | `.table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|   4.4% | 32 B |       4.6% |    712 B | `.processBindingAllowList system / Context`                              |
 
 ##### `TypedArray` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   8.3% | 56 B |      11.9% |    416 B |
-|   8.3% | 56 B |       8.0% |    280 B |
-|   8.3% | 56 B |       8.0% |    280 B |
-|   8.3% | 56 B |       8.0% |    280 B |
-|   8.3% | 56 B |       8.0% |    280 B |
+| Self % | Self | Retained % | Retained | Path        |
+| -----: | ---: | ---------: | -------: | ----------- |
+|   8.3% | 56 B |      11.9% |    416 B | `(GC root)` |
+|   8.3% | 56 B |       8.0% |    280 B | `(GC root)` |
+|   8.3% | 56 B |       8.0% |    280 B | `(GC root)` |
+|   8.3% | 56 B |       8.0% |    280 B | `(GC root)` |
+|   8.3% | 56 B |       8.0% |    280 B | `(GC root)` |
 
 ##### `Queue` (quetie/src/index.js:2:14)
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   7.4% | 48 B |       1.1% |  2.19 kB |
-|   7.4% | 48 B |       2.2% |  4.19 kB |
-|   7.4% | 48 B |       0.1% |    224 B |
-|   7.4% | 48 B |      86.1% |   167 kB |
-|   7.4% | 48 B |       1.1% |  2.22 kB |
+| Self % | Self | Retained % | Retained | Path                                                  |
+| -----: | ---: | ---------: | -------: | ----------------------------------------------------- |
+|   7.4% | 48 B |       1.1% |  2.19 kB | `(GC root)`                                           |
+|   7.4% | 48 B |       2.2% |  4.19 kB | `(GC root)`                                           |
+|   7.4% | 48 B |       0.1% |    224 B | `(GC root)`                                           |
+|   7.4% | 48 B |      86.1% |   167 kB | `(GC root)`                                           |
+|   7.4% | 48 B |       1.1% |  2.22 kB | `[0] Array ← ._data Deque (quetie/src/index.js:68:8)` |
 
 ##### `Promise` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|  10.0% | 56 B |      14.3% |    392 B |
-|   8.6% | 48 B |       1.7% |     48 B |
-|   8.6% | 48 B |       1.7% |     48 B |
-|   8.6% | 48 B |       1.7% |     48 B |
-|   8.6% | 48 B |       1.7% |     48 B |
+| Self % | Self | Retained % | Retained | Path        |
+| -----: | ---: | ---------: | -------: | ----------- |
+|  10.0% | 56 B |      14.3% |    392 B | `(GC root)` |
+|   8.6% | 48 B |       1.7% |     48 B | `(GC root)` |
+|   8.6% | 48 B |       1.7% |     48 B | `(GC root)` |
+|   8.6% | 48 B |       1.7% |     48 B | `(GC root)` |
+|   8.6% | 48 B |       1.7% |     48 B | `(GC root)` |
 
 ##### `Channel` (node:diagnostics_channel:182:14)
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|   9.1% | 48 B |       9.1% |     48 B |
-|   9.1% | 48 B |       9.1% |     48 B |
-|   9.1% | 48 B |       9.1% |     48 B |
-|   9.1% | 48 B |       9.1% |     48 B |
-|   9.1% | 48 B |       9.1% |     48 B |
+| Self % | Self | Retained % | Retained | Path        |
+| -----: | ---: | ---------: | -------: | ----------- |
+|   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
+|   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
+|   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
+|   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
+|   9.1% | 48 B |       9.1% |     48 B | `(GC root)` |
 
 ##### `Int8Array` ([native])
 
-| Self % |  Self | Retained % | Retained |
-| -----: | ----: | ---------: | -------: |
-|  20.0% | 104 B |      24.1% |    456 B |
-|  20.0% | 104 B |      24.1% |    456 B |
-|  20.0% | 104 B |      17.3% |    328 B |
-|  20.0% | 104 B |      17.3% |    328 B |
-|  20.0% | 104 B |      17.3% |    328 B |
+| Self % |  Self | Retained % | Retained | Path                                                                                                                                                                                    |
+| -----: | ----: | ---------: | -------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  20.0% | 104 B |      24.1% |    456 B | `(GC root)`                                                                                                                                                                             |
+|  20.0% | 104 B |      24.1% |    456 B | `.unhexTable system / Context`                                                                                                                                                          |
+|  20.0% | 104 B |      17.3% |    328 B | `.noEscape system / Context`                                                                                                                                                            |
+|  20.0% | 104 B |      17.3% |    328 B | `.noEscapeAuth system / Context ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .1331 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
+|  20.0% | 104 B |      17.3% |    328 B | `.noEscape system / Context`                                                                                                                                                            |
 
 ##### `WeakRef` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|  13.0% | 56 B |      30.2% |    304 B |
-|   7.4% | 32 B |       3.2% |     32 B |
-|   7.4% | 32 B |       3.2% |     32 B |
-|   7.4% | 32 B |       3.2% |     32 B |
-|   7.4% | 32 B |       3.2% |     32 B |
+| Self % | Self | Retained % | Retained | Path                                                                                                                                            |
+| -----: | ---: | ---------: | -------: | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+|  13.0% | 56 B |      30.2% |    304 B | `(GC root)`                                                                                                                                     |
+|   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .15 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
+|   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .18 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
+|   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .21 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
+|   7.4% | 32 B |       3.2% |     32 B | `.#weak WeakReference (node:internal/util:911:14) ← .24 array ← .table WeakRefMap (node:diagnostics_channel:38:1) ← .channels system / Context` |
 
 ##### `WeakMap` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|  16.7% | 56 B |       5.6% |     96 B |
-|   9.5% | 32 B |       7.9% |    136 B |
-|   9.5% | 32 B |       7.9% |    136 B |
-|   9.5% | 32 B |       7.9% |    136 B |
-|   9.5% | 32 B |       7.9% |    136 B |
+| Self % | Self | Retained % | Retained | Path                                                                                                    |
+| -----: | ---: | ---------: | -------: | ------------------------------------------------------------------------------------------------------- |
+|  16.7% | 56 B |       5.6% |     96 B | `(GC root)`                                                                                             |
+|   9.5% | 32 B |       7.9% |    136 B | `.internalsMap system / Context ← .context DOMException (node:internal/per_context/domexception:72:14)` |
+|   9.5% | 32 B |       7.9% |    136 B | `.optionsMap system / Context`                                                                          |
+|   9.5% | 32 B |       7.9% |    136 B | `._isUsingInspector system / Context`                                                                   |
+|   9.5% | 32 B |       7.9% |    136 B | `.moduleRegistries system / Context`                                                                    |
 
 ##### `AsyncWrap` ([native])
 
-| Self % | Self | Retained % | Retained |
-| -----: | ---: | ---------: | -------: |
-|  16.7% | 56 B |       8.8% |    288 B |
-|  16.7% | 56 B |      32.8% |  1.08 kB |
-|  16.7% | 56 B |      11.7% |    384 B |
-|  16.7% | 56 B |       8.8% |    288 B |
-|  16.7% | 56 B |       8.8% |    288 B |
+| Self % | Self | Retained % | Retained | Path                       |
+| -----: | ---: | ---------: | -------: | -------------------------- |
+|  16.7% | 56 B |       8.8% |    288 B | `.prototype FSReqCallback` |
+|  16.7% | 56 B |      32.8% |  1.08 kB | `.prototype FileHandle`    |
+|  16.7% | 56 B |      11.7% |    384 B | `(GC root)`                |
+|  16.7% | 56 B |       8.8% |    288 B | `.prototype ShutdownWrap`  |
+|  16.7% | 56 B |       8.8% |    288 B | `.prototype WriteWrap`     |
 
 ### Retained size
 
@@ -286,7 +286,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Object` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                      |
+| Retained % | Retained | Self % | Self | Path                                                               |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------ |
 |      74.9% |  3.02 MB |   0.1% | 56 B | `.import_wasm system / Context`                                    |
 |      74.5% |     3 MB |   0.1% | 56 B | `.default Object ← .import_wasm system / Context`                  |
@@ -296,7 +296,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `ArrayBuffer` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                      |
+| Retained % | Retained | Self % | Self | Path                                               |
 | ---------: | -------: | -----: | ---: | -------------------------------------------------- |
 |      99.5% |  2.69 MB |   2.7% | 96 B | `.default Object ← .import_wasm system / Context`  |
 |       0.3% |  8.46 kB |   2.7% | 96 B | `(GC root)`                                        |
@@ -306,7 +306,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Array` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                             |
+| Retained % | Retained | Self % | Self | Path                                      |
 | ---------: | -------: | -----: | ---: | ----------------------------------------- |
 |      35.6% |   167 kB |   0.4% | 32 B | `._data Queue (quetie/src/index.js:2:14)` |
 |      18.9% |  88.4 kB |   0.4% | 32 B | `._data Deque (quetie/src/index.js:68:8)` |
@@ -316,7 +316,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Map` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                               |
+| Retained % | Retained | Self % | Self | Path                                                        |
 | ---------: | -------: | -----: | ---: | ----------------------------------------------------------- |
 |      82.4% |   236 kB |   3.8% | 32 B | `.map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |       5.0% |  14.4 kB |   3.8% | 32 B | `.messages system / Context`                                |
@@ -326,7 +326,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Queue` (quetie/src/index.js:2:14)
 
-| Retained % | Retained | Self % | Self | Retainer path                                         |
+| Retained % | Retained | Self % | Self | Path                                                  |
 | ---------: | -------: | -----: | ---: | ----------------------------------------------------- |
 |      86.1% |   167 kB |   7.4% | 48 B | `(GC root)`                                           |
 |       2.2% |  4.19 kB |   7.4% | 48 B | `(GC root)`                                           |
@@ -336,7 +336,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Error` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                                              |
+| Retained % | Retained | Self % | Self | Path                                                                                       |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------ |
 |       0.5% |    664 B |   0.5% | 24 B | `(GC root)`                                                                                |
 |       0.5% |    656 B |   0.5% | 24 B | `.prototype NodeError (node:internal/errors:472:20) ← .ERR_INTERNAL_ASSERTION Object`      |
@@ -346,21 +346,21 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Deque` (quetie/src/index.js:68:8)
 
-| Retained % | Retained | Self % |  Self | Retainer path |
-| ---------: | -------: | -----: | ----: | ------------- |
-|      81.3% |  88.6 kB |  50.0% | 120 B | `(GC root)`   |
-|      18.7% |  20.3 kB |  50.0% | 120 B | `(GC root)`   |
+| Retained % | Retained | Self % |  Self | Path        |
+| ---------: | -------: | -----: | ----: | ----------- |
+|      81.3% |  88.6 kB |  50.0% | 120 B | `(GC root)` |
+|      18.7% |  20.3 kB |  50.0% | 120 B | `(GC root)` |
 
 ##### `process` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path |
-| ---------: | -------: | -----: | ---: | ------------- |
-|     100.0% |  66.6 kB |  50.0% | 32 B | `(GC root)`   |
-|       0.0% |     32 B |  50.0% | 32 B | `.40 array`   |
+| Retained % | Retained | Self % | Self | Path        |
+| ---------: | -------: | -----: | ---: | ----------- |
+|     100.0% |  66.6 kB |  50.0% | 32 B | `(GC root)` |
+|       0.0% |     32 B |  50.0% | 32 B | `.40 array` |
 
 ##### `TypeError` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                        |
+| Retained % | Retained | Self % | Self | Path                                                 |
 | ---------: | -------: | -----: | ---: | ---------------------------------------------------- |
 |       1.1% |    656 B |   1.0% | 24 B | `(GC root)`                                          |
 |       1.1% |    656 B |   1.0% | 24 B | `(GC root)`                                          |
@@ -370,20 +370,20 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Table` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                                                    |
+| Retained % | Retained | Self % | Self | Path                                                                                             |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------ |
 |     100.0% |    51 kB | 100.0% | 80 B | `.__wbindgen_export_1 Object ← .__wasm Object ← .default Object ← .import_wasm system / Context` |
 
 ##### `console` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path |
-| ---------: | -------: | -----: | ---: | ------------- |
-|      91.6% |    19 kB |  50.0% | 24 B | `(GC root)`   |
-|       8.4% |  1.74 kB |  50.0% | 24 B | `(GC root)`   |
+| Retained % | Retained | Self % | Self | Path        |
+| ---------: | -------: | -----: | ---: | ----------- |
+|      91.6% |    19 kB |  50.0% | 24 B | `(GC root)` |
+|       8.4% |  1.74 kB |  50.0% | 24 B | `(GC root)` |
 
 ##### `RangeError` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                                 |
+| Retained % | Retained | Self % | Self | Path                                                                          |
 | ---------: | -------: | -----: | ---: | ----------------------------------------------------------------------------- |
 |       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                                                   |
 |       3.4% |    656 B |   3.2% | 24 B | `(GC root)`                                                                   |
@@ -393,7 +393,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Set` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                             |
+| Retained % | Retained | Self % | Self | Path                                                      |
 | ---------: | -------: | -----: | ---: | --------------------------------------------------------- |
 |      31.7% |  4.97 kB |   3.3% | 24 B | `(GC root)`                                               |
 |      16.8% |  2.63 kB |   4.4% | 32 B | `.canBeRequiredByUsersList system / Context`              |
@@ -403,51 +403,51 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Uint8Array` ([native])
 
-| Retained % | Retained | Self % |  Self | Retainer path |
-| ---------: | -------: | -----: | ----: | ------------- |
-|      89.7% |     8 kB |   3.2% |  24 B | `(GC root)`   |
-|       2.3% |    202 B |  13.8% | 104 B | `(GC root)`   |
-|       2.3% |    201 B |  13.8% | 104 B | `(GC root)`   |
-|       1.2% |    104 B |  13.8% | 104 B | `(GC root)`   |
-|       1.2% |    104 B |  13.8% | 104 B | `(GC root)`   |
+| Retained % | Retained | Self % |  Self | Path        |
+| ---------: | -------: | -----: | ----: | ----------- |
+|      89.7% |     8 kB |   3.2% |  24 B | `(GC root)` |
+|       2.3% |    202 B |  13.8% | 104 B | `(GC root)` |
+|       2.3% |    201 B |  13.8% | 104 B | `(GC root)` |
+|       1.2% |    104 B |  13.8% | 104 B | `(GC root)` |
+|       1.2% |    104 B |  13.8% | 104 B | `(GC root)` |
 
 ##### `WeakRefMap` (node:diagnostics_channel:38:1)
 
-| Retained % | Retained | Self % |  Self | Retainer path                |
+| Retained % | Retained | Self % |  Self | Path                         |
 | ---------: | -------: | -----: | ----: | ---------------------------- |
 |     100.0% |  7.82 kB | 100.0% | 120 B | `.channels system / Context` |
 
 ##### `Event` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path |
-| ---------: | -------: | -----: | ---: | ------------- |
-|     100.0% |  5.48 kB | 100.0% | 24 B | `(GC root)`   |
+| Retained % | Retained | Self % | Self | Path        |
+| ---------: | -------: | -----: | ---: | ----------- |
+|     100.0% |  5.48 kB | 100.0% | 24 B | `(GC root)` |
 
 ##### `EventTarget` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                                                                                                                                                                                                    |
+| Retained % | Retained | Self % | Self | Path                                                                                                                                                                                                                                             |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 |      53.5% |  2.86 kB |  50.0% | 24 B | `.prototype NodeEventTarget (node:internal/event_target:901:14) ← .NodeEventTarget Object ← .exports BuiltinModule (node:internal/bootstrap/realm:236:14) ← .635 array ← .table Map ← .map BuiltinModule (node:internal/bootstrap/realm:236:14)` |
 |      46.5% |  2.49 kB |  50.0% | 24 B | `(GC root)`                                                                                                                                                                                                                                      |
 
 ##### `DOMException` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path                                                            |
+| Retained % | Retained | Self % | Self | Path                                                                     |
 | ---------: | -------: | -----: | ---: | ------------------------------------------------------------------------ |
 |     100.0% |   4.7 kB | 100.0% | 24 B | `.prototype DOMException (node:internal/per_context/domexception:72:14)` |
 
 ##### `AbortSignal` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path |
-| ---------: | -------: | -----: | ---: | ------------- |
-|     100.0% |  3.78 kB | 100.0% | 24 B | `(GC root)`   |
+| Retained % | Retained | Self % | Self | Path        |
+| ---------: | -------: | -----: | ---: | ----------- |
+|     100.0% |  3.78 kB | 100.0% | 24 B | `(GC root)` |
 
 ##### `TypedArray` ([native])
 
-| Retained % | Retained | Self % | Self | Retainer path |
-| ---------: | -------: | -----: | ---: | ------------- |
-|      11.9% |    416 B |   8.3% | 56 B | `(GC root)`   |
-|       8.0% |    280 B |   8.3% | 56 B | `(GC root)`   |
-|       8.0% |    280 B |   8.3% | 56 B | `(GC root)`   |
-|       8.0% |    280 B |   8.3% | 56 B | `(GC root)`   |
-|       8.0% |    280 B |   8.3% | 56 B | `(GC root)`   |
+| Retained % | Retained | Self % | Self | Path        |
+| ---------: | -------: | -----: | ---: | ----------- |
+|      11.9% |    416 B |   8.3% | 56 B | `(GC root)` |
+|       8.0% |    280 B |   8.3% | 56 B | `(GC root)` |
+|       8.0% |    280 B |   8.3% | 56 B | `(GC root)` |
+|       8.0% |    280 B |   8.3% | 56 B | `(GC root)` |
+|       8.0% |    280 B |   8.3% | 56 B | `(GC root)` |
