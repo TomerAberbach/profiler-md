@@ -65,7 +65,7 @@ const formatHottestSelfSizeFunctions = (
     .slice(0, options.topN)
   const hottestCallerSections = hottestSelfSizeNodes
     .map(node => formatHottestCallers(node, options))
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Self size`,
@@ -101,13 +101,13 @@ const formatHottestSelfSizeFunctions = (
 const formatHottestCallers = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCallers = [...node.callerIdToSelfSize.values()]
     .filter(({ caller }) => options.includeCallFrame(caller))
     .sort((entry1, entry2) => entry2.selfSize - entry1.selfSize)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallers.length === 0) {
-    return null
+    return undefined
   }
 
   return [
@@ -139,7 +139,7 @@ const formatHottestTotalSizeFunctions = (
     .slice(0, options.topN)
   const hottestCalleeSections = hottestTotalSizeNodes
     .map(node => formatHottestCallees(node, options))
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Total size`,
@@ -175,13 +175,13 @@ const formatHottestTotalSizeFunctions = (
 const formatHottestCallees = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCallees = [...node.calleeIdToTotalSize.values()]
     .filter(({ callee }) => options.includeCallFrame(callee))
     .sort((entry1, entry2) => entry2.totalSize - entry1.totalSize)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallees.length === 0) {
-    return null
+    return undefined
   }
 
   return [
@@ -206,7 +206,7 @@ const formatHottestCallees = (
 const formatHottestCallStacks = (
   profile: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCallStacks = profile.callStacks
     .map(callStack => ({
       ...callStack,
@@ -216,7 +216,7 @@ const formatHottestCallStacks = (
     .sort((callStack1, callStack2) => callStack2.selfSize - callStack1.selfSize)
     .slice(0, options.topN)
   if (hottestCallStacks.length === 0) {
-    return null
+    return undefined
   }
 
   const commonCallStack = findCommonCallStack(hottestCallStacks)

@@ -74,7 +74,7 @@ const formatHottestSelfTimeFunctions = (
     .map(node => formatHottestLines(node, options))
   const hottestCallerSections = hottestSelfTimeNodes
     .map(node => formatHottestCallers(node, options))
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Self time`,
@@ -142,13 +142,13 @@ const formatHottestLines = (
 const formatHottestCallers = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCallerSelfTimes = [...node.callerIdToSelfTime.values()]
     .filter(({ caller }) => options.includeCallFrame(caller))
     .sort((caller1, caller2) => caller2.selfTime - caller1.selfTime)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallerSelfTimes.length === 0) {
-    return null
+    return undefined
   }
 
   return [
@@ -180,7 +180,7 @@ const formatHottestTotalTimeFunctions = (
     .slice(0, options.topN)
   const hottestCalleeSections = hottestTotalTimeNodes
     .map(node => formatHottestCallees(node, options))
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Total time`,
@@ -216,13 +216,13 @@ const formatHottestTotalTimeFunctions = (
 const formatHottestCallees = (
   node: SummarizedProfileNode,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCalleeTotalTimes = [...node.calleeIdToTotalTime.values()]
     .filter(({ callee }) => options.includeCallFrame(callee))
     .sort((callee1, callee2) => callee2.totalTime - callee1.totalTime)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCalleeTotalTimes.length === 0) {
-    return null
+    return undefined
   }
 
   return [
@@ -247,7 +247,7 @@ const formatHottestCallees = (
 const formatHottestCallStacks = (
   profile: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const hottestCallStacks = profile.callStacks
     .map(callStack => ({
       ...callStack,
@@ -257,7 +257,7 @@ const formatHottestCallStacks = (
     .sort((callStack1, callStack2) => callStack2.selfTime - callStack1.selfTime)
     .slice(0, options.topN)
   if (hottestCallStacks.length === 0) {
-    return null
+    return undefined
   }
 
   const commonCallStack = findCommonCallStack(hottestCallStacks)

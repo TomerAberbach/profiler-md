@@ -3,12 +3,24 @@ import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type { HeapSnapshot, SnapshotMeta } from './parse.ts'
 
 export type SummarizedConstructor = {
+  /** The human readable name of the constructor. */
   name: string
-  location: string | null
-  selfSize: number
-  retainedSize: number
-  count: number
 
+  /**
+   * A string describing the exact location where the constructor was defined.
+   */
+  location: string | undefined
+
+  /** Bytes allocated for all instances of this constructor. */
+  selfSize: number
+
+  /**
+   * Bytes allocated for all instances of this constructor, as well as all
+   * objects that would be freed if their instances were garbage collected.
+   */
+  retainedSize: number
+
+  /** Instances of this constructor and their sizes. */
   instances: {
     selfSize: number
     retainedSize: number
@@ -91,17 +103,15 @@ export const summarizeSnapshot = (
       if (!constructor) {
         constructor = {
           name,
-          location: null,
+          location: undefined,
           selfSize: 0,
           retainedSize: 0,
-          count: 0,
           instances: [],
         }
         nameToConstructor.set(name, constructor)
       }
       constructor.selfSize += selfSize
-      constructor.count++
-      constructor.location ??= nodeIndexToLocation.get(nodeIndex) ?? null
+      constructor.location ??= nodeIndexToLocation.get(nodeIndex)
       constructor.instances.push({
         selfSize,
         retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,

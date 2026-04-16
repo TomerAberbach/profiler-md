@@ -74,7 +74,7 @@ const formatLargestSelfSizeConstructors = (
     .map(constructor =>
       formatLargestSelfSizeConstructorInstances(constructor, options),
     )
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Self size`,
@@ -112,12 +112,12 @@ const formatLargestSelfSizeConstructors = (
 const formatLargestSelfSizeConstructorInstances = (
   constructor: SummarizedConstructor,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const largestInstances = constructor.instances
     .toSorted((instance1, instance2) => instance2.selfSize - instance1.selfSize)
     .slice(0, Math.ceil(options.topN / 4))
   if (largestInstances.length === 0) {
-    return null
+    return undefined
   }
 
   return [
@@ -154,7 +154,7 @@ const formatLargestRetainedSizeConstructors = (
     .map(constructor =>
       formatLargestRetainedSizeConstructorInstances(constructor, options),
     )
-    .filter(section => section !== null)
+    .filter(section => section !== undefined)
 
   return [
     `### Retained size`,
@@ -190,14 +190,14 @@ const formatLargestRetainedSizeConstructors = (
 const formatLargestRetainedSizeConstructorInstances = (
   constructor: SummarizedConstructor,
   options: NormalizedV8ProfileToMdOptions,
-): string | null => {
+): string | undefined => {
   const largestInstances = constructor.instances
     .toSorted(
       (instance1, instance2) => instance2.retainedSize - instance1.retainedSize,
     )
     .slice(0, Math.ceil(options.topN / 4))
   if (largestInstances.length === 0) {
-    return null
+    return undefined
   }
 
   return [
