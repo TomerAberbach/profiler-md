@@ -167,22 +167,25 @@ const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
   return { functionName: callFrame.functionName || undefined, url }
 }
 
-export const formatURL = (
-  url: string,
+export const formatLocation = (
+  location: string,
   { cwd }: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  let urlObject: URL
+  let url: URL | undefined
   try {
-    urlObject = new URL(url)
-  } catch {
-    return url || undefined
+    url = new URL(location)
+  } catch {}
+
+  let path: string
+  if (url) {
+    if (url.protocol !== `file:`) {
+      return location || undefined
+    }
+    path = url.pathname
+  } else {
+    path = location
   }
 
-  if (urlObject.protocol !== `file:`) {
-    return url || undefined
-  }
-
-  let path = urlObject.pathname
   if (cwd !== undefined && path.startsWith(cwd)) {
     path = path.slice(cwd.length)
   }

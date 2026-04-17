@@ -1,7 +1,7 @@
 import {
   callFrameKey,
   categorizeCallFrame,
-  formatURL,
+  formatLocation,
   getSummarizedCallStack,
 } from '../common.ts'
 import type {
@@ -266,7 +266,7 @@ const computeProfileGraph = (
     let summarizedNode = keyToSummarizedNode.get(key)
     if (!summarizedNode) {
       const { functionName, url, lineNumber, columnNumber } = node.callFrame
-      const fileLocation = formatURL(url, options)
+      const fileLocation = formatLocation(url, options)
       summarizedNode = {
         id: node.id,
         callFrame: node.callFrame,

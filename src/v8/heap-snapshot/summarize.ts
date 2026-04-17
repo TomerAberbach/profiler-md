@@ -1,4 +1,4 @@
-import { formatURL } from '../common.ts'
+import { formatLocation } from '../common.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type { HeapSnapshot, SnapshotMeta } from './parse.ts'
 
@@ -265,17 +265,18 @@ const computeNodeIndexToLocation = (
     if (scriptNodeIndex === undefined) {
       continue
     }
-    const urlNodeIndex = followNamedEdge(scriptNodeIndex, `name`)
-    if (urlNodeIndex === undefined) {
+    const locationNodeIndex = followNamedEdge(scriptNodeIndex, `name`)
+    if (locationNodeIndex === undefined) {
       continue
     }
 
-    const url = strings[nodes[urlNodeIndex + fieldLayout.nodeNameOffset]!]
-    if (!url) {
+    const location =
+      strings[nodes[locationNodeIndex + fieldLayout.nodeNameOffset]!]
+    if (!location) {
       continue
     }
 
-    const fileLocation = formatURL(url, options)
+    const fileLocation = formatLocation(location, options)
     if (fileLocation) {
       scriptIdToFileLocation.set(scriptId, fileLocation)
     }
