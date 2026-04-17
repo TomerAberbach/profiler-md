@@ -304,7 +304,7 @@ export type ProfileGraph<SummarizedProfileNode> = {
 }
 
 /** Returns the full call stack for a node (bottom-up). */
-export const getSummarizedCallStack = <SummarizedProfileNode>(
+export const summarizeCallStack = <SummarizedProfileNode>(
   graph: ProfileGraph<SummarizedProfileNode>,
   rawNodeId: number,
 ): SummarizedProfileNode[] => {

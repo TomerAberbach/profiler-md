@@ -28,6 +28,12 @@ export type SummarizedConstructor = {
   }[]
 }
 
+export type SummarizedString = {
+  value: string
+  selfSize: number
+  retainerPath: string
+}
+
 export type SummarizedHeapSnapshot = {
   /** Total bytes allocated in the snapshot. */
   totalSize: number
@@ -43,6 +49,9 @@ export type SummarizedHeapSnapshot = {
 
   /** All summarized constructors. */
   constructors: SummarizedConstructor[]
+
+  /** All summarized strings. */
+  strings: SummarizedString[]
 }
 
 export const summarizeSnapshot = (
@@ -81,6 +90,7 @@ export const summarizeSnapshot = (
   >()
   const nameToConstructor = new Map<string, SummarizedConstructor>()
   const nodeOrdinalToConstructor = new Map<number, SummarizedConstructor>()
+  const summarizedStrings: SummarizedString[] = []
 
   for (let nodeOrdinal = 0; nodeOrdinal < objectCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
@@ -128,10 +138,34 @@ export const summarizeSnapshot = (
               nodeIndexToLocation,
               immediateDominatorGraph,
               fieldLayout,
+              options,
             ))
           },
         })
         nodeOrdinalToConstructor.set(nodeOrdinal, constructor)
+        break
+      }
+      case fieldLayout.nodeTypeString:
+      case fieldLayout.nodeTypeSlicedString:
+      case fieldLayout.nodeTypeConcatenatedString: {
+        // For these types the names are the strings.
+        const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+        let retainerPath: string | undefined
+        summarizedStrings.push({
+          value: string,
+          selfSize,
+          get retainerPath() {
+            return (retainerPath ??= computeRetainerPath(
+              nodeOrdinal,
+              snapshot,
+              nodeAdjacencyGraph,
+              nodeIndexToLocation,
+              immediateDominatorGraph,
+              fieldLayout,
+              options,
+            ))
+          },
+        })
         break
       }
     }
@@ -152,6 +186,7 @@ export const summarizeSnapshot = (
     referenceCount,
     objectCategoryToSizeStats,
     constructors,
+    strings: summarizedStrings,
   }
 }
 
@@ -536,6 +571,7 @@ const computeRetainerPath = (
   nodeIndexToLocation: Map<number, string>,
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
+  options: NormalizedV8ProfileToMdOptions,
 ): string => {
   // Each hop tracks the formatted label and whether the retaining node is
   // internal. Stored from immediate retainer outward (closest first).
@@ -571,9 +607,12 @@ const computeRetainerPath = (
 
     const retainerIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
     const retainerType = nodes[retainerIndex + fieldLayout.nodeTypeOffset]!
-    const retainerName =
+    const rawRetainerName =
       strings[nodes[retainerIndex + fieldLayout.nodeNameOffset]!]! ||
       nodeTypes[retainerType]!
+    const retainerName =
+      // Sometimes the retainer name is a file URL.
+      formatLocation(rawRetainerName, options) ?? rawRetainerName
     const retainerLocation = nodeIndexToLocation.get(retainerIndex)
 
     hops.push({

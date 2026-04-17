@@ -18,6 +18,7 @@ export const formatSummarizedSnapshot = (
     `# Heap snapshot`,
     formatOverallSummary(snapshot),
     formatLargestConstructors(snapshot, options),
+    formatLargestStrings(snapshot, options),
   ]
     .filter(Boolean)
     .join(`\n\n`)}\n`
@@ -246,3 +247,40 @@ const defaultIncludeConstructor = (
 
   return true
 }
+
+const formatLargestStrings = (
+  { totalSize, strings }: SummarizedHeapSnapshot,
+  options: NormalizedV8ProfileToMdOptions,
+): string => {
+  const largestStrings = strings
+    .toSorted((string1, string2) => string2.selfSize - string1.selfSize)
+    .slice(0, options.topN)
+
+  return [
+    `## Largest strings`,
+    formatTable(
+      [
+        { content: `%`, align: `right` },
+        { content: `Size`, align: `right` },
+        `Length`,
+        `Location`,
+      ],
+      largestStrings.map(string => [
+        formatPercent(string.selfSize / totalSize),
+        formatBytes(string.selfSize),
+        inlineCode(formatString(string.value)),
+        inlineCode(string.retainerPath),
+      ]),
+    ),
+  ].join(`\n\n`)
+}
+
+const formatString = (string: string): string => {
+  if (string.length > MAX_STRING_LENGTH) {
+    string = `${string.slice(0, MAX_STRING_LENGTH - 1)}…`
+  }
+  string = string.replaceAll(`\n`, `\\n`)
+  return `"${string}"`
+}
+
+const MAX_STRING_LENGTH = 50
