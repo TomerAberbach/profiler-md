@@ -18,6 +18,14 @@
   Converts performance profiles to human and LLM friendly Markdown.
 </div>
 
+> [!NOTE]
+>
+> This package is in a **beta** state and I'm excited for you to try it out!
+>
+> I'd love your feedback! Share any suggestions, bug reports, feature requests,
+> or general thoughts by
+> [filing an issue](https://github.com/TomerAberbach/profiler-md/issues/new).
+
 ## Features
 
 - **Auto-detection:** infers profile type automatically
