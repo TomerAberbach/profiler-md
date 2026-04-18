@@ -277,6 +277,13 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
     |      % | Size | Path        |
     | -----: | ---: | ----------- |
     | 100.0% | 80 B | \`(GC root)\` |
+
+    ## Largest strings
+
+    |     % |  Size | Length                       | Location    |
+    | ----: | ----: | ---------------------------- | ----------- |
+    | 21.9% | 110 B | \`"hello world"\`              | \`(GC root)\` |
+    |  0.0% |   0 B | \`"file:///project/src/a.ts"\` | \`(GC root)\` |
     "
   `)
 })
@@ -453,6 +460,16 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
     | ----: | ------: | ----------------------------- |
     | 14.0% | 2.48 MB | \`._registry system / Context\` |
     | 13.7% | 2.43 MB | \`._registry system / Context\` |
+
+    ## Largest strings
+
+    |    % |    Size | Length                                                   | Location                                                                                                                                                                                                                                                          |
+    | ---: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 1.0% | 2.67 MB | \`"import { a as __toCommonJS, i as __require, n as …"\`   | \`(GC root)\`                                                                                                                                                                                                                                                       |
+    | 0.7% | 2.04 MB | \`"(function anonymous(domprops,exports\\n) {\\n/*******…"\` | \`.first (concatenated string) ← .source code\`                                                                                                                                                                                                                     |
+    | 0.7% | 2.01 MB | \`"import {\\n  require_react_dom\\n} from "/node_module…"\` | \`.code Object ← .transformResult EnvironmentModuleNode (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13)\` |
+    | 0.4% | 1.21 MB | \`"/**\\n * Lexing or parsing positional information f…"\`  | \`.source /Users/tomer/Documents/work/code/website/node_modules/.pnpm/katex@0.16.33/node_modules/katex/dist/katex.mjs\`                                                                                                                                             |
+    | 0.4% | 1.13 MB | \`"var $elh9A$restructure = require("restructure");\\n…"\`  | \`.source /Users/tomer/Documents/work/code/website/node_modules/.pnpm/fontkit@2.0.4/node_modules/fontkit/dist/main.cjs\`                                                                                                                                            |
     "
   `)
 })

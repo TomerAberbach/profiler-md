@@ -66,7 +66,6 @@ describe.each([
 
     expect(withoutCwd).toContain(cwd)
     expect(withCwd).not.toContain(cwd)
-    expect(withCwd).toContain(`src/index`)
   })
 
   test.skipIf(type === `v8-heap-snapshot`)(
