@@ -11,6 +11,14 @@ import type {
 } from '../common.ts'
 import type { HeapProfile, HeapProfileNode } from './parse.ts'
 
+export type CallFrameCategoryStats = {
+  /** Size in bytes. */
+  size: number
+
+  /** Number of call frames contributing to the size. */
+  sampleCount: number
+}
+
 /**
  * A merged node containing information of all nodes with the same
  * {@link callFrameKey}.
@@ -93,7 +101,7 @@ export type SummarizedHeapProfile = {
   samplingInterval: number
 
   /** Total bytes and samples by call frame category. */
-  callFrameCategoryToStats: Map<string, { size: number; sampleCount: number }>
+  callFrameCategoryToStats: Map<string, CallFrameCategoryStats>
 
   /** All summarized nodes. */
   nodes: SummarizedProfileNode[]
@@ -117,10 +125,7 @@ export const summarizeProfile = (
 
   const rawNodeIdToSummarizedCallStack = new Map<number, SummarizedCallStack>()
   const keyToSummarizedCallStack = new Map<string, SummarizedCallStack>()
-  const callFrameCategoryToStats = new Map<
-    string,
-    { size: number; sampleCount: number }
-  >()
+  const callFrameCategoryToStats = new Map<string, CallFrameCategoryStats>()
 
   const summarizedNodeCount = graph.keyToSummarizedNode.size
   const ordinalToIterationLastVisited = new Int32Array(

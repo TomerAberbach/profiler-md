@@ -44,11 +44,11 @@ const formatOverallSummary = ({
         { content: `Size`, align: `right` },
         { content: `Objects`, align: `right` },
       ],
-      hottestObjectCategories.map(([type, { size, count }]) => [
+      hottestObjectCategories.map(([type, { size, objectCount }]) => [
         type,
         formatPercent(size / totalSize),
         formatBytes(size),
-        formatCount(count),
+        formatCount(objectCount),
       ]),
     ),
   ].join(`\n\n`)

@@ -2,6 +2,30 @@ import { formatLocation } from '../common.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type { HeapSnapshot, SnapshotMeta } from './parse.ts'
 
+export type ObjectCategoryStats = {
+  /** Size in bytes. */
+  size: number
+
+  /** Number of instances contributing to the size. */
+  objectCount: number
+}
+
+export type SummarizedConstructorInstance = {
+  /**
+   * Unique ID for this constructor instance that can also be used as an index.
+   */
+  nodeOrdinal: number
+
+  /** Bytes allocated for this constructor instance. */
+  selfSize: number
+
+  /**
+   * Bytes allocated for this constructor instance, as well as all objects that
+   * would be freed if the instance were garbage collected.
+   */
+  retainedSize: number
+}
+
 export type SummarizedConstructor = {
   /** The human readable name of the constructor. */
   name: string
@@ -16,22 +40,23 @@ export type SummarizedConstructor = {
 
   /**
    * Bytes allocated for all instances of this constructor, as well as all
-   * objects that would be freed if their instances were garbage collected.
+   * objects that would be freed if the instances were garbage collected.
    */
   retainedSize: number
 
   /** Instances of this constructor and their sizes. */
-  instances: {
-    selfSize: number
-    retainedSize: number
-    nodeOrdinal: number
-  }[]
+  instances: SummarizedConstructorInstance[]
 }
 
 export type SummarizedString = {
-  value: string
-  selfSize: number
+  /** Unique ID for this string instance that can also be used as an index. */
   nodeOrdinal: number
+
+  /** The string's value, possibly truncated. */
+  value: string
+
+  /** Bytes allocated for this string. */
+  selfSize: number
 }
 
 export type SummarizedHeapSnapshot = {
@@ -45,7 +70,7 @@ export type SummarizedHeapSnapshot = {
   referenceCount: number
 
   /** Total bytes and count by object category. */
-  objectCategoryToSizeStats: Map<string, { size: number; count: number }>
+  objectCategoryToSizeStats: Map<string, ObjectCategoryStats>
 
   /** All summarized constructors. */
   constructors: SummarizedConstructor[]
@@ -87,10 +112,7 @@ export const summarizeSnapshot = (
   )
 
   let totalSize = 0
-  const objectCategoryToSizeStats = new Map<
-    string,
-    { size: number; count: number }
-  >()
+  const objectCategoryToSizeStats = new Map<string, ObjectCategoryStats>()
   const constructors: SummarizedConstructor[] = []
   const nameToConstructorIndex = new Map<string, number>()
   const nodeOrdinalToConstructorIndex = new Int32Array(objectCount).fill(-1)
@@ -106,11 +128,11 @@ export const summarizeSnapshot = (
     const category = nodeTypes[nodeType]!
     let categoryStats = objectCategoryToSizeStats.get(category)
     if (!categoryStats) {
-      categoryStats = { size: 0, count: 0 }
+      categoryStats = { size: 0, objectCount: 0 }
       objectCategoryToSizeStats.set(category, categoryStats)
     }
     categoryStats.size += selfSize
-    categoryStats.count++
+    categoryStats.objectCount++
 
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
@@ -133,9 +155,9 @@ export const summarizeSnapshot = (
         constructor.selfSize += selfSize
         constructor.location ??= nodeIndexToLocation.get(nodeIndex)
         constructor.instances.push({
+          nodeOrdinal,
           selfSize,
           retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-          nodeOrdinal,
         })
         nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
         break
@@ -146,9 +168,9 @@ export const summarizeSnapshot = (
         // For these types the names are the strings.
         const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
         summarizedStrings.push({
+          nodeOrdinal,
           value: string,
           selfSize,
-          nodeOrdinal,
         })
         break
       }
