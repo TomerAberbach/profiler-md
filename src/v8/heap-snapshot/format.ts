@@ -19,6 +19,7 @@ export const formatSummarizedSnapshot = (
     `# Heap snapshot`,
     formatOverallSummary(snapshot),
     formatLargestConstructors(snapshot, options),
+    formatLargestClosures(snapshot, options),
     formatLargestStrings(snapshot, options),
   ]
     .filter(Boolean)
@@ -223,6 +224,63 @@ const formatLargestRetainedSizeConstructorInstances = (
         formatPercent(instance.retainedSize / constructor.retainedSize),
         formatBytes(instance.retainedSize),
         inlineCode(retainerPathOf(instance.nodeOrdinal)),
+      ]),
+    ),
+  ].join(`\n\n`)
+}
+
+const formatLargestClosures = (
+  { totalSize, closures, retainerPathOf }: SummarizedHeapSnapshot,
+  options: NormalizedV8ProfileToMdOptions,
+): string => {
+  const includedClosures = closures.filter(options.includeRow)
+  const largestByRetained = selectTopN(
+    includedClosures,
+    options.topN,
+    (closure1, closure2) => closure2.retainedSize - closure1.retainedSize,
+  )
+  const largestBySelf = selectTopN(
+    includedClosures,
+    options.topN,
+    (closure1, closure2) => closure2.selfSize - closure1.selfSize,
+  )
+
+  return [
+    `## Largest closures`,
+    `### Retained size`,
+    `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
+    formatTable(
+      [
+        { content: `%`, align: `right` },
+        { content: `Retained`, align: `right` },
+        `Name`,
+        `Location`,
+        `Path`,
+      ],
+      largestByRetained.map(closure => [
+        formatPercent(closure.retainedSize / totalSize),
+        formatBytes(closure.retainedSize),
+        inlineCode(closure.name || `(anonymous)`),
+        closure.location ?? inlineCode(`<unknown>`),
+        inlineCode(retainerPathOf(closure.id)),
+      ]),
+    ),
+    `### Self size`,
+    `Closures ranked by bytes allocated for the closure itself.`,
+    formatTable(
+      [
+        { content: `%`, align: `right` },
+        { content: `Self`, align: `right` },
+        `Name`,
+        `Location`,
+        `Path`,
+      ],
+      largestBySelf.map(closure => [
+        formatPercent(closure.selfSize / totalSize),
+        formatBytes(closure.selfSize),
+        inlineCode(closure.name || `(anonymous)`),
+        closure.location ?? inlineCode(`<unknown>`),
+        inlineCode(retainerPathOf(closure.id)),
       ]),
     ),
   ].join(`\n\n`)
