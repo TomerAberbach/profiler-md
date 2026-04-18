@@ -73,18 +73,21 @@ $ profiler-md --help
 ```js
 import { readFile } from 'node:fs/promises'
 import {
-  defaultIncludeCallFrame,
+  defaultIncludeRow,
   defaultIsThirdPartyURL,
   v8CpuProfileToMd,
   v8HeapProfileToMd,
+  v8HeapSnapshotToMd,
 } from 'profiler-md'
 
-const cpuText = await readFile(`profile.cpuprofile`)
-const heapText = await readFile(`profile.heapprofile`)
+const cpuProfileData = await readFile(`example.cpuprofile`)
+const heapProfileData = await readFile(`example.heapprofile`)
+const heapSnapshotData = await readFile(`example.heapsnapshot`)
 
 // Basic usage
-console.log(v8CpuProfileToMd(cpuText))
-console.log(v8HeapProfileToMd(heapText))
+console.log(v8CpuProfileToMd(cpuProfileData))
+console.log(v8HeapProfileToMd(heapProfileData))
+console.log(v8HeapSnapshotToMd(heapSnapshotData))
 
 // Complex usage
 const options = {
@@ -96,13 +99,14 @@ const options = {
     defaultIsThirdPartyURL(url) ||
     // Treat an additional vendor directory as third-party.
     url.pathname.includes(`/vendor/`),
-  includeCallFrame: callFrame =>
-    defaultIncludeCallFrame(callFrame) &&
-    // Exclude frames from a specific file.
-    callFrame.url?.pathname !== `/path/to/project/src/noisy.js`,
+  includeRow: row =>
+    defaultIncludeRow(row) &&
+    // Exclude rows from a specific file.
+    !row.location?.includes(`/path/to/project/src/noisy.js`),
 }
-console.log(v8CpuProfileToMd(cpuText, options))
-console.log(v8HeapProfileToMd(heapText, options))
+console.log(v8CpuProfileToMd(cpuProfileData, options))
+console.log(v8HeapProfileToMd(heapProfileData, options))
+console.log(v8HeapSnapshotToMd(heapSnapshotData, options))
 ```
 
 ## Contributing

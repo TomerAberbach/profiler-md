@@ -71,7 +71,7 @@ const formatLargestSelfSizeConstructors = (
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(defaultIncludeConstructor),
+    constructors.filter(options.includeRow),
     options.topN,
     (constructor1, constructor2) =>
       constructor2.selfSize - constructor1.selfSize,
@@ -151,7 +151,7 @@ const formatLargestRetainedSizeConstructors = (
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(defaultIncludeConstructor),
+    constructors.filter(options.includeRow),
     options.topN,
     (constructor1, constructor2) =>
       constructor2.retainedSize - constructor1.retainedSize,
@@ -226,45 +226,8 @@ const formatLargestRetainedSizeConstructorInstances = (
   ].join(`\n\n`)
 }
 
-const defaultIncludeConstructor = (
-  constructor: SummarizedConstructor,
-): boolean => {
-  const { name, location } = constructor
-
-  if (
-    name.startsWith(`system /`) ||
-    name.startsWith(`Node /`) ||
-    (name.startsWith(`(`) && name.endsWith(`)`))
-  ) {
-    // V8 and Node internals
-    return false
-  }
-
-  if (name === `ModuleWrap` && !location) {
-    return false
-  }
-  if (name === `Generator` && location?.endsWith(`:1:1`)) {
-    // Module eval
-    return false
-  }
-
-  if (name === `global`) {
-    return false
-  }
-
-  if (location?.startsWith(`node:internal/`)) {
-    return false
-  }
-
-  return true
-}
-
 const formatLargestStrings = (
-  {
-    totalSize,
-    strings,
-    retainerPathOf: computeRetainerPath,
-  }: SummarizedHeapSnapshot,
+  { totalSize, strings, retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const largestStrings = selectTopN(
@@ -286,7 +249,7 @@ const formatLargestStrings = (
         formatPercent(string.selfSize / totalSize),
         formatBytes(string.selfSize),
         inlineCode(formatString(string.value)),
-        inlineCode(computeRetainerPath(string.nodeOrdinal)),
+        inlineCode(retainerPathOf(string.nodeOrdinal)),
       ]),
     ),
   ].join(`\n\n`)

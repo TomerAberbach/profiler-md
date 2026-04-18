@@ -1,7 +1,7 @@
 export {
-  type V8ProfileCallFrame,
+  type V8ProfileRow,
   type V8ProfileToMdOptions,
-  defaultIncludeCallFrame,
+  defaultIncludeRow,
   defaultIsThirdPartyURL,
 } from './common.ts'
 export * from './cpu-profile/index.ts'

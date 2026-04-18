@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { diffMd, readFixture } from '../../testing/fixtures.ts'
-import { defaultIncludeCallFrame } from '../common.ts'
+import { defaultIncludeRow } from '../common.ts'
 import { v8CpuProfileToMd } from './index.ts'
 
 const makeProfile = (
@@ -860,8 +860,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
   // The call stack shows `funcC <- funcA` with `funcB` removed.
   const markdown = v8CpuProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeCallFrame: callFrame =>
-      defaultIncludeCallFrame(callFrame) && callFrame.functionName !== `funcB`,
+    includeRow: row => defaultIncludeRow(row) && row.name !== `funcB`,
   })
 
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
@@ -917,7 +916,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
   // Diff is vs. a baseline that shows all frames (includeCallFrame: () => true).
   const allFrames = v8CpuProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeCallFrame: () => true,
+    includeRow: () => true,
   })
 
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
@@ -1190,9 +1189,9 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
 })
 
 test(`v8CpuProfileToMd with real fixture`, async () => {
-  const cpuProfile = await readFixture(`example.cpuprofile`)
+  const data = await readFixture(`example.cpuprofile`)
 
-  const markdown = v8CpuProfileToMd(cpuProfile, {
+  const markdown = v8CpuProfileToMd(data, {
     cwd: `/Users/tomer/Documents/work/code/uneval`,
     topN: 5,
   })

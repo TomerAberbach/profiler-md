@@ -68,7 +68,7 @@ const formatHottestSelfSizeFunctions = (
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestSelfSizeNodes = selectTopN(
-    nodes.filter(options.includeCallFrame),
+    nodes.filter(options.includeRow),
     options.topN,
     (node1, node2) => node2.selfSize - node1.selfSize,
   )
@@ -88,11 +88,11 @@ const formatHottestSelfSizeFunctions = (
         `Location`,
       ],
       hottestSelfSizeNodes.map(
-        ({ functionName, location, selfSize, selfSampleCount }) => [
+        ({ name, location, selfSize, selfSampleCount }) => [
           formatPercent(selfSize / totalSize),
           formatBytes(selfSize),
           formatCount(selfSampleCount),
-          inlineCode(functionName),
+          inlineCode(name),
           location ?? inlineCode(`<native>`),
         ],
       ),
@@ -112,7 +112,7 @@ const formatHottestCallers = (
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const hottestCallers = [...node.callerIdToStats.values()]
-    .filter(({ caller }) => options.includeCallFrame(caller))
+    .filter(({ caller }) => options.includeRow(caller))
     .sort((entry1, entry2) => entry2.selfSize - entry1.selfSize)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallers.length === 0) {
@@ -120,7 +120,7 @@ const formatHottestCallers = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${
+    `##### ${inlineCode(node.name)} (${
       node.location ?? inlineCode(`<native>`)
     })`,
     formatTable(
@@ -135,7 +135,7 @@ const formatHottestCallers = (
         formatPercent(selfSize / node.selfSize),
         formatBytes(selfSize),
         formatCount(selfSampleCount),
-        inlineCode(caller.functionName),
+        inlineCode(caller.name),
         caller.location ?? inlineCode(`<native>`),
       ]),
     ),
@@ -147,7 +147,7 @@ const formatHottestTotalSizeFunctions = (
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestTotalSizeNodes = selectTopN(
-    nodes.filter(options.includeCallFrame),
+    nodes.filter(options.includeRow),
     options.topN,
     (node1, node2) => node2.totalSize - node1.totalSize,
   )
@@ -167,16 +167,11 @@ const formatHottestTotalSizeFunctions = (
         `Location`,
       ],
       hottestTotalSizeNodes.map(
-        ({
-          functionName,
-          location,
-          totalSize: nodeTotal,
-          totalSampleCount,
-        }) => [
+        ({ name, location, totalSize: nodeTotal, totalSampleCount }) => [
           formatPercent(nodeTotal / totalSize),
           formatBytes(nodeTotal),
           formatCount(totalSampleCount),
-          inlineCode(functionName),
+          inlineCode(name),
           location ?? inlineCode(`<native>`),
         ],
       ),
@@ -196,7 +191,7 @@ const formatHottestCallees = (
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const hottestCallees = [...node.calleeIdToStats.values()]
-    .filter(({ callee }) => options.includeCallFrame(callee))
+    .filter(({ callee }) => options.includeRow(callee))
     .sort((entry1, entry2) => entry2.totalSize - entry1.totalSize)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallees.length === 0) {
@@ -204,7 +199,7 @@ const formatHottestCallees = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${
+    `##### ${inlineCode(node.name)} (${
       node.location ?? inlineCode(`<native>`)
     })`,
     formatTable(
@@ -219,7 +214,7 @@ const formatHottestCallees = (
         formatPercent(totalSize / node.totalSize),
         formatBytes(totalSize),
         formatCount(totalSampleCount),
-        inlineCode(callee.functionName),
+        inlineCode(callee.name),
         callee.location ?? inlineCode(`<native>`),
       ]),
     ),
@@ -234,7 +229,7 @@ const formatHottestCallStacks = (
     profile.callStacks
       .map(callStack => ({
         ...callStack,
-        nodes: callStack.nodes.filter(options.includeCallFrame),
+        nodes: callStack.nodes.filter(options.includeRow),
       }))
       .filter(callStack => callStack.nodes.length > 1),
     options.topN,

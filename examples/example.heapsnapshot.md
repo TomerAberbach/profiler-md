@@ -36,6 +36,7 @@ Constructors ranked by bytes allocated for their instances, excluding objects ke
 | 0.1% |  302 kB |     3,314 | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32        |
 | 0.1% |  259 kB |     2,702 | `MatchRule`             | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1052:14                                                 |
 | 0.1% |  219 kB |     6,827 | `Set`                   | `<native>`                                                                                                                                                             |
+| 0.1% |  150 kB |     1,706 | `ModuleWrap`            | `<native>`                                                                                                                                                             |
 | 0.0% |  112 kB |     1,170 | `IncludeOnlyRule`       | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1088:14                                                 |
 | 0.0% |  111 kB |     2,323 | `Promise`               | `<native>`                                                                                                                                                             |
 | 0.0% | 75.5 kB |       393 | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13 |
@@ -47,7 +48,6 @@ Constructors ranked by bytes allocated for their instances, excluding objects ke
 | 0.0% |   30 kB |     1,133 | `a`                     | website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                                     |
 | 0.0% | 26.4 kB |       174 | `Hook`                  | website/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/Hook.js:30:13                                                                                        |
 | 0.0% | 16.9 kB |       423 | `BasicScopeAttributes`  | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1696:14                                                 |
-| 0.0% | 16.2 kB |       145 | `ExportedTokenType`     | website/node_modules/.pnpm/@babel+parser@7.29.0/node_modules/@babel/parser/lib/index.js:901:14                                                                         |
 
 #### Instances
 
@@ -132,6 +132,16 @@ Instances ranked by contribution to each constructor's self size.
 | 0.0% |  56 B | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | 0.0% |  32 B | `.type system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:400:20) ← .next system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:148:20) ← .source Object ← .match Object ← .angle Object ← .types Lexer (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/Lexer.js:102:16)`   |
 | 0.0% |  32 B | `.type system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:400:20) ← .next system / Context ← .context closure (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/generic.js:148:20) ← .source Object ← .match Object ← .decibel Object ← .types Lexer (website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/lexer/Lexer.js:102:16)` |
+
+##### `ModuleWrap` (`<native>`)
+
+|    % | Size | Path        |
+| ---: | ---: | ----------- |
+| 0.1% | 88 B | `(GC root)` |
+| 0.1% | 88 B | `(GC root)` |
+| 0.1% | 88 B | `(GC root)` |
+| 0.1% | 88 B | `(GC root)` |
+| 0.1% | 88 B | `(GC root)` |
 
 ##### `IncludeOnlyRule` (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1088:14)
 
@@ -243,42 +253,32 @@ Instances ranked by contribution to each constructor's self size.
 | 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 | 0.2% | 40 B | `._defaultAttributes _BasicScopeAttributesProvider (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1704:14) ← ._basicScopeAttributesProvider Grammar (website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14) ← ._registry system / Context` |
 
-##### `ExportedTokenType` (website/node_modules/.pnpm/@babel+parser@7.29.0/node_modules/@babel/parser/lib/index.js:901:14)
-
-|    % |  Size | Path        |
-| ---: | ----: | ----------- |
-| 0.7% | 112 B | `(GC root)` |
-| 0.7% | 112 B | `(GC root)` |
-| 0.7% | 112 B | `(GC root)` |
-| 0.7% | 112 B | `(GC root)` |
-| 0.7% | 112 B | `(GC root)` |
-
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-|     % |    Size | Constructor             | Location                                                                                                                                                                                       |
-| ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.6% |  149 MB | `Object`                | `<native>`                                                                                                                                                                                     |
-| 26.7% | 72.6 MB | `ArrayBuffer`           | `<native>`                                                                                                                                                                                     |
-| 11.6% | 31.6 MB | `Array`                 | `<native>`                                                                                                                                                                                     |
-|  6.6% |   18 MB | `Registry`              | website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                                                                                        |
-|  6.5% | 17.7 MB | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                                         |
-|  4.9% | 13.4 MB | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32                                |
-|  4.0% | 10.8 MB | `a`                     | website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                                                             |
-|  3.7% | 10.2 MB | `Map`                   | `<native>`                                                                                                                                                                                     |
-|  2.6% | 6.96 MB | `Uint8Array`            | `<native>`                                                                                                                                                                                     |
-|  1.8% | 5.03 MB | `Set`                   | `<native>`                                                                                                                                                                                     |
-|  1.6% | 4.39 MB | `Memory`                | `<native>`                                                                                                                                                                                     |
-|  1.6% | 4.34 MB | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13                         |
-|  1.2% | 3.18 MB | `Promise`               | `<native>`                                                                                                                                                                                     |
-|  1.1% |    3 MB | `DirEntry`              | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14                         |
-|  1.0% | 2.78 MB | `Lexer`                 | website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16                                                                                                       |
-|  0.7% | 1.91 MB | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                                         |
-|  0.6% | 1.71 MB | `zt`                    | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854                                                                                         |
-|  0.5% |  1.5 MB | `K`                     | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476                                                                                           |
-|  0.5% | 1.41 MB | `Resolver`              | website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13                                                                                      |
-|  0.4% |  1.2 MB | `B`                     | website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483 |
+|     % |    Size | Constructor             | Location                                                                                                                                                               |
+| ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.6% |  149 MB | `Object`                | `<native>`                                                                                                                                                             |
+| 26.7% | 72.6 MB | `ArrayBuffer`           | `<native>`                                                                                                                                                             |
+| 11.6% | 31.6 MB | `Array`                 | `<native>`                                                                                                                                                             |
+|  6.6% |   18 MB | `Registry`              | website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                                                                |
+|  6.5% | 17.7 MB | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                 |
+|  4.9% | 13.4 MB | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32        |
+|  4.0% | 10.8 MB | `a`                     | website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                                     |
+|  3.7% | 10.2 MB | `Map`                   | `<native>`                                                                                                                                                             |
+|  2.6% | 6.96 MB | `Uint8Array`            | `<native>`                                                                                                                                                             |
+|  2.5% |  6.8 MB | `ModuleWrap`            | `<native>`                                                                                                                                                             |
+|  1.8% | 5.03 MB | `Set`                   | `<native>`                                                                                                                                                             |
+|  1.6% | 4.39 MB | `Memory`                | `<native>`                                                                                                                                                             |
+|  1.6% | 4.34 MB | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13 |
+|  1.2% | 3.18 MB | `Promise`               | `<native>`                                                                                                                                                             |
+|  1.1% |    3 MB | `DirEntry`              | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14 |
+|  1.0% | 2.78 MB | `Lexer`                 | website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16                                                                               |
+|  0.7% | 1.91 MB | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                 |
+|  0.6% | 1.71 MB | `zt`                    | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854                                                                 |
+|  0.5% |  1.5 MB | `K`                     | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476                                                                   |
+|  0.5% | 1.41 MB | `Resolver`              | website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13                                                              |
 
 #### Instances
 
@@ -374,6 +374,16 @@ Instances ranked by contribution to each constructor's retained size.
 |  0.7% |   46 kB | `.reactions_or_result Promise ← .data Object ← .6 array ← .table Map` |
 |  0.3% | 20.4 kB | `(GC root)`                                                           |
 
+##### `ModuleWrap` (`<native>`)
+
+|     % |   Size | Path        |
+| ----: | -----: | ----------- |
+| 11.5% | 785 kB | `(GC root)` |
+|  4.3% | 295 kB | `(GC root)` |
+|  4.0% | 270 kB | `(GC root)` |
+|  3.0% | 205 kB | `(GC root)` |
+|  2.9% | 196 kB | `(GC root)` |
+
 ##### `Set` (`<native>`)
 
 |    % |   Size | Path                                                                                                                                                                                                                                                                                                                                                                                                                |
@@ -468,13 +478,6 @@ Instances ranked by contribution to each constructor's retained size.
 |  3.1% | 43.8 kB | `.ni system / Context ← .previous system / Context` |
 |  3.1% | 43.8 kB | `.oi system / Context ← .previous system / Context` |
 |  3.1% | 43.7 kB | `.Yr system / Context`                              |
-
-##### `B` (website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483)
-
-|     % |   Size | Path                   |
-| ----: | -----: | ---------------------- |
-| 66.7% | 802 kB | `.jr system / Context` |
-| 33.3% | 400 kB | `(GC root)`            |
 
 ## Largest strings
 
