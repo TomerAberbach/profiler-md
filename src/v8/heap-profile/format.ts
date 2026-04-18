@@ -3,6 +3,7 @@ import {
   formatCount,
   formatPercent,
 } from '../../internal/format.ts'
+import { selectTopN } from '../../internal/heap.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import { findCommonCallStack, formatCallStack } from '../common.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
@@ -66,10 +67,11 @@ const formatHottestSelfSizeFunctions = (
   { totalSize, nodes }: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const hottestSelfSizeNodes = nodes
-    .filter(options.includeCallFrame)
-    .sort((node1, node2) => node2.selfSize - node1.selfSize)
-    .slice(0, options.topN)
+  const hottestSelfSizeNodes = selectTopN(
+    nodes.filter(options.includeCallFrame),
+    options.topN,
+    (node1, node2) => node2.selfSize - node1.selfSize,
+  )
   const hottestCallerSections = hottestSelfSizeNodes
     .map(node => formatHottestCallers(node, options))
     .filter(section => section !== undefined)
@@ -144,10 +146,11 @@ const formatHottestTotalSizeFunctions = (
   { totalSize, nodes }: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const hottestTotalSizeNodes = nodes
-    .filter(options.includeCallFrame)
-    .sort((node1, node2) => node2.totalSize - node1.totalSize)
-    .slice(0, options.topN)
+  const hottestTotalSizeNodes = selectTopN(
+    nodes.filter(options.includeCallFrame),
+    options.topN,
+    (node1, node2) => node2.totalSize - node1.totalSize,
+  )
   const hottestCalleeSections = hottestTotalSizeNodes
     .map(node => formatHottestCallees(node, options))
     .filter(section => section !== undefined)
@@ -227,14 +230,16 @@ const formatHottestCallStacks = (
   profile: SummarizedHeapProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallStacks = profile.callStacks
-    .map(callStack => ({
-      ...callStack,
-      nodes: callStack.nodes.filter(options.includeCallFrame),
-    }))
-    .filter(callStack => callStack.nodes.length > 1)
-    .sort((callStack1, callStack2) => callStack2.selfSize - callStack1.selfSize)
-    .slice(0, options.topN)
+  const hottestCallStacks = selectTopN(
+    profile.callStacks
+      .map(callStack => ({
+        ...callStack,
+        nodes: callStack.nodes.filter(options.includeCallFrame),
+      }))
+      .filter(callStack => callStack.nodes.length > 1),
+    options.topN,
+    (callStack1, callStack2) => callStack2.selfSize - callStack1.selfSize,
+  )
   if (hottestCallStacks.length === 0) {
     return undefined
   }

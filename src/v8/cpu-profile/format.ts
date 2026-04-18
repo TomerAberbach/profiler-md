@@ -4,6 +4,7 @@ import {
   formatMicrosecondsExact,
   formatPercent,
 } from '../../internal/format.ts'
+import { selectTopN } from '../../internal/heap.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import { findCommonCallStack, formatCallStack } from '../common.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
@@ -67,10 +68,11 @@ const formatHottestSelfTimeFunctions = (
   { totalTime, nodes }: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const hottestSelfTimeNodes = nodes
-    .filter(options.includeCallFrame)
-    .sort((node1, node2) => node2.selfTime - node1.selfTime)
-    .slice(0, options.topN)
+  const hottestSelfTimeNodes = selectTopN(
+    nodes.filter(options.includeCallFrame),
+    options.topN,
+    (node1, node2) => node2.selfTime - node1.selfTime,
+  )
   const hottestLinesSections = hottestSelfTimeNodes
     .filter(node => node.lineToStats.size > 0)
     .map(node => formatHottestLines(node, options))
@@ -184,10 +186,11 @@ const formatHottestTotalTimeFunctions = (
   { totalTime, nodes }: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const hottestTotalTimeNodes = nodes
-    .filter(options.includeCallFrame)
-    .sort((node1, node2) => node2.totalTime - node1.totalTime)
-    .slice(0, options.topN)
+  const hottestTotalTimeNodes = selectTopN(
+    nodes.filter(options.includeCallFrame),
+    options.topN,
+    (node1, node2) => node2.totalTime - node1.totalTime,
+  )
   const hottestCalleeSections = hottestTotalTimeNodes
     .map(node => formatHottestCallees(node, options))
     .filter(section => section !== undefined)
@@ -260,14 +263,16 @@ const formatHottestCallStacks = (
   { totalTime, callStacks }: SummarizedCpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const hottestCallStacks = callStacks
-    .map(callStack => ({
-      ...callStack,
-      nodes: callStack.nodes.filter(options.includeCallFrame),
-    }))
-    .filter(callStack => callStack.nodes.length > 1)
-    .sort((callStack1, callStack2) => callStack2.selfTime - callStack1.selfTime)
-    .slice(0, options.topN)
+  const hottestCallStacks = selectTopN(
+    callStacks
+      .map(callStack => ({
+        ...callStack,
+        nodes: callStack.nodes.filter(options.includeCallFrame),
+      }))
+      .filter(callStack => callStack.nodes.length > 1),
+    options.topN,
+    (callStack1, callStack2) => callStack2.selfTime - callStack1.selfTime,
+  )
   if (hottestCallStacks.length === 0) {
     return undefined
   }
