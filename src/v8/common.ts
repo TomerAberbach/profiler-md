@@ -1,15 +1,15 @@
 import { inlineCode } from '../internal/markdown.ts'
 
-/** A single call frame in a V8 profile as seen by callers. */
-export type V8ProfileCallFrame = {
-  /** The name of the function, or undefined for anonymous functions. */
-  functionName?: string
+/** A single table row in a rendered V8 profile. */
+export type V8ProfileRow = {
+  /** The name of the entity corresponding to the row. */
+  name: string
 
   /**
    * The URL of the script this frame belongs to, or undefined if it's native
    * code.
    */
-  url?: URL
+  location?: string
 }
 
 /** Options for V8 profile converters. */
@@ -26,9 +26,9 @@ export type V8ProfileToMdOptions = {
    *
    * Excluding a call frame does not exclude it from metric computations.
    *
-   * Defaults to {@link defaultIncludeCallFrame}.
+   * Defaults to {@link defaultIncludeRow}.
    */
-  includeCallFrame?: (callFrame: V8ProfileCallFrame) => boolean
+  includeRow?: (row: V8ProfileRow) => boolean
 
   /**
    * Whether the given URL points to third-party code.
@@ -53,26 +53,30 @@ export type V8ProfileToMdOptions = {
 }
 
 /**
- * Returns whether to include the given call frame in the Markdown output.
+ * Returns whether to include the given row in the Markdown output.
  *
- * This is the default value for {@link V8ProfileToMdOptions.includeCallFrame}.
+ * This is the default value for {@link V8ProfileToMdOptions.includeRow}.
  *
- * It makes reasonable assumptions about which call frames are uninteresting to
+ * It makes reasonable assumptions about which rows are uninteresting to
  * display. For example, Node internals related to ESM loading are excluded.
  */
-export const defaultIncludeCallFrame = (
-  callFrame: V8ProfileCallFrame,
-): boolean => {
-  const { functionName, url } = callFrame
-
-  if (functionName === `(root)`) {
+export const defaultIncludeRow = ({
+  name,
+  location,
+}: V8ProfileRow): boolean => {
+  if (name === `(root)`) {
+    // Synthetic root call frame.
     return false
   }
 
-  if (url?.protocol === `node:` && url.pathname.startsWith(`internal/`)) {
-    // Exclude internal Node call frames. They are rarely actionable and when
-    // they _are_ actionable, they are preceded by some public Node call frame
-    // that isn't filtered (e.g. `node:fs`).
+  if (
+    name.startsWith(`system /`) ||
+    name.startsWith(`Node /`) ||
+    location?.startsWith(`node:internal/`)
+  ) {
+    // V8 and Node internals. They are rarely actionable and when they _are_
+    // actionable, they are preceded by some public Node call frame that isn't
+    // filtered (e.g. `node:fs`).
     return false
   }
 
@@ -92,14 +96,14 @@ export const defaultIsThirdPartyURL = (url: URL): boolean =>
 /** {@link V8ProfileToMdOptions} with defaults applied. */
 export type NormalizedV8ProfileToMdOptions = {
   topN: number
-  includeCallFrame: (node: { id: number; callFrame: CallFrame }) => boolean
+  includeRow: (row: V8ProfileRow & { id: number }) => boolean
   isThirdPartyURL: (url: URL) => boolean
   cwd: string | undefined
 }
 
 export const normalizeV8ProfileToMdOptions = ({
   topN = 20,
-  includeCallFrame = defaultIncludeCallFrame,
+  includeRow = defaultIncludeRow,
   isThirdPartyURL = defaultIsThirdPartyURL,
   cwd,
 }: V8ProfileToMdOptions = {}): NormalizedV8ProfileToMdOptions => {
@@ -110,18 +114,18 @@ export const normalizeV8ProfileToMdOptions = ({
     cwd = `${cwd}/`
   }
 
-  const includeCallFrameCache = new Map<number, boolean>()
+  const includeRowCache = new Map<number, boolean>()
   const isThirdPartyUrlCache = new Map<string, boolean>()
 
   return {
     topN,
-    includeCallFrame: node => {
-      let result = includeCallFrameCache.get(node.id)
+    includeRow: row => {
+      let result = includeRowCache.get(row.id)
       if (result !== undefined) {
         return result
       }
-      result = includeCallFrame(toPublicCallFrame(node.callFrame))
-      includeCallFrameCache.set(node.id, result)
+      result = includeRow(row)
+      includeRowCache.set(row.id, result)
       return result
     },
     isThirdPartyURL: url => {
@@ -156,15 +160,6 @@ export type CallFrame = {
 
   /** The 0-based column number of the code corresponding to this frame. */
   columnNumber: number
-}
-
-const toPublicCallFrame = (callFrame: CallFrame): V8ProfileCallFrame => {
-  let url: URL | undefined
-  try {
-    url = new URL(callFrame.url)
-  } catch {}
-
-  return { functionName: callFrame.functionName || undefined, url }
 }
 
 export const formatLocation = (
@@ -264,13 +259,13 @@ export const findCommonCallStack = <
 export const formatCallStack = (
   callStack: {
     callFrame: CallFrame
-    functionName: string
+    name: string
     location: string | undefined
   }[],
 ): string =>
   callStack
-    .map(({ callFrame, functionName, location }, index) => {
-      const name = inlineCode(functionName)
+    .map(({ callFrame, name, location }, index) => {
+      name = inlineCode(name)
       if (!callFrame.url) {
         return name
       }

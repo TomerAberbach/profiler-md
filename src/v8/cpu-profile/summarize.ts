@@ -33,8 +33,8 @@ export type SummarizedProfileNode = {
   /** The call frame this node represents. */
   callFrame: CallFrame
 
-  /** The summarizedized function name of this node's call frame. */
-  functionName: string
+  /** The summarized function name of this node's call frame. */
+  name: string
 
   /** A string describing the location of the file this node belongs to. */
   fileLocation: string | undefined
@@ -289,7 +289,7 @@ const computeProfileGraph = (
         id: node.id,
         ordinal: nextOrdinal++,
         callFrame: node.callFrame,
-        functionName: functionName || `(anonymous)`,
+        name: functionName || `(anonymous)`,
         fileLocation,
         location: fileLocation
           ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`

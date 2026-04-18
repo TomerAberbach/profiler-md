@@ -69,7 +69,7 @@ const formatHottestSelfTimeFunctions = (
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestSelfTimeNodes = selectTopN(
-    nodes.filter(options.includeCallFrame),
+    nodes.filter(options.includeRow),
     options.topN,
     (node1, node2) => node2.selfTime - node1.selfTime,
   )
@@ -92,11 +92,11 @@ const formatHottestSelfTimeFunctions = (
         `Location`,
       ],
       hottestSelfTimeNodes.map(
-        ({ functionName, location, selfTime, selfSampleCount }) => [
+        ({ name, location, selfTime, selfSampleCount }) => [
           formatPercent(selfTime / totalTime),
           formatMicroseconds(selfTime),
           formatCount(selfSampleCount),
-          inlineCode(functionName),
+          inlineCode(name),
           location ?? inlineCode(`<native>`),
         ],
       ),
@@ -127,7 +127,7 @@ const formatHottestLines = (
     .slice(0, Math.ceil(topN / 4))
 
   return [
-    `##### ${inlineCode(node.functionName)} (${
+    `##### ${inlineCode(node.name)} (${
       node.location ?? inlineCode(`<native>`)
     })`,
     formatTable(
@@ -152,7 +152,7 @@ const formatHottestCallers = (
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const hottestCallerSelfTimes = [...node.callerIdToStats.values()]
-    .filter(({ caller }) => options.includeCallFrame(caller))
+    .filter(({ caller }) => options.includeRow(caller))
     .sort((caller1, caller2) => caller2.selfTime - caller1.selfTime)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCallerSelfTimes.length === 0) {
@@ -160,7 +160,7 @@ const formatHottestCallers = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${
+    `##### ${inlineCode(node.name)} (${
       node.location ?? inlineCode(`<native>`)
     })`,
     formatTable(
@@ -175,7 +175,7 @@ const formatHottestCallers = (
         formatPercent(selfTime / node.selfTime),
         formatMicroseconds(selfTime),
         formatCount(selfSampleCount),
-        inlineCode(caller.functionName),
+        inlineCode(caller.name),
         caller.location ?? inlineCode(`<native>`),
       ]),
     ),
@@ -187,7 +187,7 @@ const formatHottestTotalTimeFunctions = (
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const hottestTotalTimeNodes = selectTopN(
-    nodes.filter(options.includeCallFrame),
+    nodes.filter(options.includeRow),
     options.topN,
     (node1, node2) => node2.totalTime - node1.totalTime,
   )
@@ -210,7 +210,7 @@ const formatHottestTotalTimeFunctions = (
         formatPercent(node.totalTime / totalTime),
         formatMicroseconds(node.totalTime),
         formatCount(node.totalSampleCount),
-        inlineCode(node.functionName),
+        inlineCode(node.name),
         node.location ?? inlineCode(`<native>`),
       ]),
     ),
@@ -229,7 +229,7 @@ const formatHottestCallees = (
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const hottestCalleeTotalTimes = [...node.calleeIdToStats.values()]
-    .filter(({ callee }) => options.includeCallFrame(callee))
+    .filter(({ callee }) => options.includeRow(callee))
     .sort((callee1, callee2) => callee2.totalTime - callee1.totalTime)
     .slice(0, Math.ceil(options.topN / 4))
   if (hottestCalleeTotalTimes.length === 0) {
@@ -237,7 +237,7 @@ const formatHottestCallees = (
   }
 
   return [
-    `##### ${inlineCode(node.functionName)} (${
+    `##### ${inlineCode(node.name)} (${
       node.location ?? inlineCode(`<native>`)
     })`,
     formatTable(
@@ -252,7 +252,7 @@ const formatHottestCallees = (
         formatPercent(totalTime / node.totalTime),
         formatMicroseconds(totalTime),
         formatCount(totalSampleCount),
-        inlineCode(callee.functionName),
+        inlineCode(callee.name),
         callee.location ?? inlineCode(`<native>`),
       ]),
     ),
@@ -267,7 +267,7 @@ const formatHottestCallStacks = (
     callStacks
       .map(callStack => ({
         ...callStack,
-        nodes: callStack.nodes.filter(options.includeCallFrame),
+        nodes: callStack.nodes.filter(options.includeRow),
       }))
       .filter(callStack => callStack.nodes.length > 1),
     options.topN,

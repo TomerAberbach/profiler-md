@@ -329,11 +329,13 @@ test(`v8HeapSnapshotToMd omits detached section when there are no detached objec
 })
 
 test(`v8HeapSnapshotToMd with real fixture`, async () => {
-  const text = await fs.readFile(fixturePath(`example.heapsnapshot`))
-  const markdown = v8HeapSnapshotToMd(text, {
+  const data = await fs.readFile(fixturePath(`example.heapsnapshot`))
+
+  const markdown = v8HeapSnapshotToMd(data, {
     cwd: `/Users/tomer/Documents/work/code/quetie`,
     topN: 5,
   })
+
   expect(markdown).toMatchInlineSnapshot(`
     "# Heap snapshot
 

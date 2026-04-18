@@ -3,7 +3,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { diffMd, readFixture } from '../../testing/fixtures.ts'
-import { defaultIncludeCallFrame } from '../common.ts'
+import { defaultIncludeRow } from '../common.ts'
 import { v8HeapProfileToMd } from './index.ts'
 
 const makeProfile = (head: object, samples: object[]) =>
@@ -583,8 +583,7 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
   // excluded. The call stack shows `funcC <- funcA` with `funcB` removed.
   const markdown = v8HeapProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeCallFrame: callFrame =>
-      defaultIncludeCallFrame(callFrame) && callFrame.functionName !== `funcB`,
+    includeRow: row => defaultIncludeRow(row) && row.name !== `funcB`,
   })
 
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
@@ -640,7 +639,7 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
   // Diff is vs. a baseline that shows all frames (includeCallFrame: () => true).
   const allFrames = v8HeapProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeCallFrame: () => true,
+    includeRow: () => true,
   })
 
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
@@ -917,9 +916,9 @@ test(`v8HeapProfileToMd shows absolute paths when cwd is null`, () => {
 })
 
 test(`v8HeapProfileToMd with real fixture`, async () => {
-  const text = await readFixture(`example.heapprofile`)
+  const data = await readFixture(`example.heapprofile`)
 
-  const markdown = v8HeapProfileToMd(text, {
+  const markdown = v8HeapProfileToMd(data, {
     cwd: `/Users/tomer/Documents/work/code/uneval`,
     topN: 5,
   })

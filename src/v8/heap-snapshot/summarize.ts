@@ -27,6 +27,9 @@ export type SummarizedConstructorInstance = {
 }
 
 export type SummarizedConstructor = {
+  /** The ordinal of the first node that corresponded to this constructor. */
+  id: number
+
   /** The human readable name of the constructor. */
   name: string
 
@@ -143,6 +146,7 @@ export const summarizeSnapshot = (
         if (constructorIndex === undefined) {
           constructorIndex = constructors.length
           constructors.push({
+            id: nodeOrdinal,
             name,
             location: undefined,
             selfSize: 0,
