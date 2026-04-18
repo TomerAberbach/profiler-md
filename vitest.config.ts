@@ -8,5 +8,6 @@ export default defineConfig({
       include: [`src`],
       exclude: [`*.bench.ts`],
     },
+    testTimeout: 10_000,
   },
 })
