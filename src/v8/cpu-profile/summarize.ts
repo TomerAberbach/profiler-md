@@ -2,7 +2,7 @@ import {
   callFrameKey,
   categorizeCallFrame,
   formatLocation,
-  getSummarizedCallStack,
+  summarizeCallStack,
 } from '../common.ts'
 import type {
   CallFrame,
@@ -164,7 +164,7 @@ export const summarizeProfile = (
 
     let summarizedCallStack = rawNodeIdToSummarizedCallStack.get(rawNodeId)
     if (!summarizedCallStack) {
-      const callStack = getSummarizedCallStack(graph, rawNodeId)
+      const callStack = summarizeCallStack(graph, rawNodeId)
       const key = callStack.map(node => callFrameKey(node.callFrame)).join(`,`)
 
       summarizedCallStack = keyToSummarizedCallStack.get(key)
