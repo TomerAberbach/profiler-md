@@ -257,10 +257,10 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-    |     % |  Size | Constructor     | Location   |
-    | ----: | ----: | --------------- | ---------- |
-    | 39.8% | 200 B | \`MyClass\`       | \`<native>\` |
-    | 15.9% |  80 B | \`DetachedClass\` | \`<native>\` |
+    |     % |  Size | Instances | Constructor     | Location   |
+    | ----: | ----: | --------: | --------------- | ---------- |
+    | 39.8% | 200 B |         1 | \`MyClass\`       | \`<native>\` |
+    | 15.9% |  80 B |         1 | \`DetachedClass\` | \`<native>\` |
 
     #### Instances
 
@@ -416,13 +416,13 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-    |     % |    Size | Constructor   | Location                                                                                                                                                |
-    | ----: | ------: | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-    | 54.6% |  149 MB | \`Object\`      | \`<native>\`                                                                                                                                              |
-    | 26.7% | 72.6 MB | \`ArrayBuffer\` | \`<native>\`                                                                                                                                              |
-    | 11.6% | 31.6 MB | \`Array\`       | \`<native>\`                                                                                                                                              |
-    |  6.6% |   18 MB | \`Registry\`    | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                |
-    |  6.5% | 17.7 MB | \`Grammar\`     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14 |
+    |     % |    Size | Instances | Constructor   | Location                                                                                                                                                |
+    | ----: | ------: | --------: | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 54.6% |  149 MB |   279,002 | \`Object\`      | \`<native>\`                                                                                                                                              |
+    | 26.7% | 72.6 MB |       591 | \`ArrayBuffer\` | \`<native>\`                                                                                                                                              |
+    | 11.6% | 31.6 MB |    97,432 | \`Array\`       | \`<native>\`                                                                                                                                              |
+    |  6.6% |   18 MB |         5 | \`Registry\`    | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                |
+    |  6.5% | 17.7 MB |       253 | \`Grammar\`     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14 |
 
     #### Instances
 
