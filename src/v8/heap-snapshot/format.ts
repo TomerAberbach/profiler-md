@@ -173,12 +173,14 @@ const formatLargestRetainedSizeConstructors = (
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
+        { content: `Instances`, align: `right` },
         `Constructor`,
         `Location`,
       ],
       largestConstructors.map(constructor => [
         formatPercent(constructor.retainedSize / totalSize),
         formatBytes(constructor.retainedSize),
+        formatCount(constructor.instances.length),
         inlineCode(constructor.name),
         constructor.location ?? inlineCode(`<native>`),
       ]),

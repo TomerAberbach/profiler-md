@@ -257,28 +257,28 @@ Instances ranked by contribution to each constructor's self size.
 
 Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
 
-|     % |    Size | Constructor             | Location                                                                                                                                                               |
-| ----: | ------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.6% |  149 MB | `Object`                | `<native>`                                                                                                                                                             |
-| 26.7% | 72.6 MB | `ArrayBuffer`           | `<native>`                                                                                                                                                             |
-| 11.6% | 31.6 MB | `Array`                 | `<native>`                                                                                                                                                             |
-|  6.6% |   18 MB | `Registry`              | website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                                                                |
-|  6.5% | 17.7 MB | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                 |
-|  4.9% | 13.4 MB | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32        |
-|  4.0% | 10.8 MB | `a`                     | website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                                     |
-|  3.7% | 10.2 MB | `Map`                   | `<native>`                                                                                                                                                             |
-|  2.6% | 6.96 MB | `Uint8Array`            | `<native>`                                                                                                                                                             |
-|  2.5% |  6.8 MB | `ModuleWrap`            | `<native>`                                                                                                                                                             |
-|  1.8% | 5.03 MB | `Set`                   | `<native>`                                                                                                                                                             |
-|  1.6% | 4.39 MB | `Memory`                | `<native>`                                                                                                                                                             |
-|  1.6% | 4.34 MB | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13 |
-|  1.2% | 3.18 MB | `Promise`               | `<native>`                                                                                                                                                             |
-|  1.1% |    3 MB | `DirEntry`              | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14 |
-|  1.0% | 2.78 MB | `Lexer`                 | website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16                                                                               |
-|  0.7% | 1.91 MB | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                 |
-|  0.6% | 1.71 MB | `zt`                    | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854                                                                 |
-|  0.5% |  1.5 MB | `K`                     | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476                                                                   |
-|  0.5% | 1.41 MB | `Resolver`              | website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13                                                              |
+|     % |    Size | Instances | Constructor             | Location                                                                                                                                                               |
+| ----: | ------: | --------: | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.6% |  149 MB |   279,002 | `Object`                | `<native>`                                                                                                                                                             |
+| 26.7% | 72.6 MB |       591 | `ArrayBuffer`           | `<native>`                                                                                                                                                             |
+| 11.6% | 31.6 MB |    97,432 | `Array`                 | `<native>`                                                                                                                                                             |
+|  6.6% |   18 MB |         5 | `Registry`              | website/node_modules/.pnpm/superjson@2.2.6/node_modules/superjson/dist/registry.js:3:16                                                                                |
+|  6.5% | 17.7 MB |       253 | `Grammar`               | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:2294:14                                                 |
+|  4.9% | 13.4 MB |     3,314 | `Generator`             | website/node_modules/.pnpm/react-router@7.13.1_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/react-router/dist/development/chunk-JPUPSTYD.mjs:508:32        |
+|  4.0% | 10.8 MB |     1,133 | `a`                     | website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673                                                     |
+|  3.7% | 10.2 MB |     1,188 | `Map`                   | `<native>`                                                                                                                                                             |
+|  2.6% | 6.96 MB |       481 | `Uint8Array`            | `<native>`                                                                                                                                                             |
+|  2.5% |  6.8 MB |     1,706 | `ModuleWrap`            | `<native>`                                                                                                                                                             |
+|  1.8% | 5.03 MB |     6,827 | `Set`                   | `<native>`                                                                                                                                                             |
+|  1.6% | 4.39 MB |         5 | `Memory`                | `<native>`                                                                                                                                                             |
+|  1.6% | 4.34 MB |       393 | `EnvironmentModuleNode` | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:34441:13 |
+|  1.2% | 3.18 MB |     2,323 | `Promise`               | `<native>`                                                                                                                                                             |
+|  1.1% |    3 MB |       163 | `DirEntry`              | website/node_modules/.pnpm/vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3/node_modules/vite/dist/node/chunks/config.js:13748:14 |
+|  1.0% | 2.78 MB |         3 | `Lexer`                 | website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/lexer/Lexer.js:92:16                                                                               |
+|  0.7% | 1.91 MB |     2,511 | `BeginEndRule`          | website/node_modules/.pnpm/@shikijs+vscode-textmate@10.0.2/node_modules/@shikijs/vscode-textmate/dist/index.js:1130:14                                                 |
+|  0.6% | 1.71 MB |         2 | `zt`                    | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:10:10854                                                                 |
+|  0.5% |  1.5 MB |        21 | `K`                     | website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:1:8476                                                                   |
+|  0.5% | 1.41 MB |         7 | `Resolver`              | website/node_modules/.pnpm/@shikijs+primitive@4.0.0/node_modules/@shikijs/primitive/dist/index.mjs:341:13                                                              |
 
 #### Instances
 
