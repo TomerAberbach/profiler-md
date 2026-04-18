@@ -6,7 +6,7 @@ export default defineConfig({
     setupFiles: [`vitest.setup.ts`],
     coverage: {
       include: [`src`],
-      exclude: [`*.bench.ts`],
+      exclude: [`src/fixtures`, `src/testing`, `*.bench.ts`],
     },
     testTimeout: 10_000,
   },
