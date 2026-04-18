@@ -19,6 +19,9 @@ export type SummarizedProfileNode = {
   /** The raw ID of the first node that corresponded to this summarized node. */
   id: number
 
+  /** Unique ID for this summarized node, which can also be used as an index. */
+  ordinal: number
+
   /** The call frame this node represents. */
   callFrame: CallFrame
 
@@ -119,7 +122,15 @@ export const summarizeProfile = (
     { size: number; sampleCount: number }
   >()
 
-  for (const { size, nodeId } of profile.samples) {
+  const summarizedNodeCount = graph.keyToSummarizedNode.size
+  const ordinalToIterationLastVisited = new Int32Array(
+    summarizedNodeCount,
+  ).fill(-1)
+  const pairOrdinalToIterationLastVisited = new Int32Array(
+    summarizedNodeCount * summarizedNodeCount,
+  ).fill(-1)
+
+  for (const [index, { size, nodeId }] of profile.samples.entries()) {
     const node = graph.rawIdToSummarizedNode.get(nodeId)
     if (!node) {
       // V8 can emit samples referencing nodes pruned from the call tree.
@@ -132,7 +143,7 @@ export const summarizeProfile = (
     let summarizedCallStack = rawNodeIdToSummarizedCallStack.get(nodeId)
     if (!summarizedCallStack) {
       const callStack = summarizeCallStack(graph, nodeId)
-      const key = callStack.map(node => callFrameKey(node.callFrame)).join(`,`)
+      const key = callStack.map(stackNode => stackNode.ordinal).join(`,`)
 
       summarizedCallStack = keyToSummarizedCallStack.get(key)
       if (!summarizedCallStack) {
@@ -151,13 +162,13 @@ export const summarizeProfile = (
 
     const callStack = summarizedCallStack.nodes
 
-    const seenNodes = new Set<SummarizedProfileNode>()
-    for (const caller of callStack) {
-      if (!seenNodes.has(caller)) {
-        seenNodes.add(caller)
-        caller.totalSize += size
-        caller.totalSampleCount++
+    for (const stackNode of callStack) {
+      if (ordinalToIterationLastVisited[stackNode.ordinal] === index) {
+        continue
       }
+      ordinalToIterationLastVisited[stackNode.ordinal] = index
+      stackNode.totalSize += size
+      stackNode.totalSampleCount++
     }
 
     const caller = callStack[1]
@@ -171,16 +182,15 @@ export const summarizeProfile = (
       callerStats.selfSampleCount++
     }
 
-    const seenCallerCalleePairs = new Set<string>()
     for (let i = 0; i < callStack.length - 1; i++) {
       const callee = callStack[i]!
       const caller = callStack[i + 1]!
 
-      const pair = `${caller.id},${callee.id}`
-      if (seenCallerCalleePairs.has(pair)) {
+      const pairOrdinal = caller.ordinal * summarizedNodeCount + callee.ordinal
+      if (pairOrdinalToIterationLastVisited[pairOrdinal] === index) {
         continue
       }
-      seenCallerCalleePairs.add(pair)
+      pairOrdinalToIterationLastVisited[pairOrdinal] = index
 
       let calleeStats = caller.calleeIdToStats.get(callee.id)
       if (!calleeStats) {
@@ -220,6 +230,7 @@ const computeProfileGraph = (
   const rawIdToSummarizedNode = new Map<number, SummarizedProfileNode>()
   const keyToSummarizedNode = new Map<string, SummarizedProfileNode>()
   const rawIdToParentRawId = new Map<number, number>()
+  let nextOrdinal = 0
 
   const stack: { node: HeapProfileNode; parentId?: number }[] = [
     { node: profile.head },
@@ -234,6 +245,7 @@ const computeProfileGraph = (
       const fileLocation = formatLocation(url, options)
       summarizedNode = {
         id: node.id,
+        ordinal: nextOrdinal++,
         callFrame: node.callFrame,
         functionName: functionName || `(anonymous)`,
         location: fileLocation
