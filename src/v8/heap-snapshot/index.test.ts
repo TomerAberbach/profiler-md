@@ -278,6 +278,24 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
     | -----: | ---: | ----------- |
     | 100.0% | 80 B | \`(GC root)\` |
 
+    ## Largest closures
+
+    ### Retained size
+
+    Closures ranked by bytes that would be freed if the closure were garbage collected.
+
+    |     % | Retained | Name   | Location      | Path        |
+    | ----: | -------: | ------ | ------------- | ----------- |
+    | 12.7% |     64 B | \`myFn\` | src/a.ts:6:11 | \`(GC root)\` |
+
+    ### Self size
+
+    Closures ranked by bytes allocated for the closure itself.
+
+    |     % | Self | Name   | Location      | Path        |
+    | ----: | ---: | ------ | ------------- | ----------- |
+    | 12.7% | 64 B | \`myFn\` | src/a.ts:6:11 | \`(GC root)\` |
+
     ## Largest strings
 
     |     % |  Size | Data                         | Location    |
@@ -462,6 +480,32 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
     | ----: | ------: | ----------------------------- |
     | 14.0% | 2.48 MB | \`._registry system / Context\` |
     | 13.7% | 2.43 MB | \`._registry system / Context\` |
+
+    ## Largest closures
+
+    ### Retained size
+
+    Closures ranked by bytes that would be freed if the closure were garbage collected.
+
+    |    % | Retained | Name        | Location                                                                                                                                            | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+    | ---: | -------: | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 0.5% |  1.27 MB | \`get shape\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853 | \`.get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context\`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+    | 0.4% |  1.16 MB | \`get shape\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853 | \`.get shape Object ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context\`                                                                                                                                                                                                                                                                                                                                                                                                               |
+    | 0.4% |  1.12 MB | \`get\`       | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438 | \`.get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .requestedSchema Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .params Object ← .e system / Context ← .context get shape (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:71853) ← .get shape Object ← .def a (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:64:63673) ← .jv system / Context\` |
+    | 0.3% |   820 kB | \`get\`       | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/server/agent/actions.js:14:35   | \`.get cachedActionsSchema Object\`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+    | 0.3% |   796 kB | \`build\`     | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/tailwindcss@4.2.1/node_modules/tailwindcss/dist/chunk-L5IEUH3R.mjs:38:894               | \`.build Object ← .e system / Context ← .compiler B (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/@tailwindcss+vite@4.2.1_vite@7.3.1_@types+node@25.3.2_jiti@2.6.1_lightningcss@1.31.1_terser@5.46.0_tsx@4.20.3_/node_modules/@tailwindcss/vite/dist/index.mjs:1:4483) ← .jr system / Context\`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+
+    ### Self size
+
+    Closures ranked by bytes allocated for the closure itself.
+
+    |    % | Self | Name          | Location                                                                                                                         | Path                                                                                                                                                                                             |
+    | ---: | ---: | ------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+    | 0.0% | 72 B | \`(anonymous)\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/utils/List.js:83:23         | \`.<symbol Symbol.iterator> Object ← .prototype List (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/css-tree@3.1.0/node_modules/css-tree/lib/utils/List.js:28:16)\`                  |
+    | 0.0% | 72 B | \`(anonymous)\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/@alloc+quick-lru@5.2.0/node_modules/@alloc/quick-lru/index.js:197:21 | \`.<symbol Symbol.iterator> Object\`                                                                                                                                                               |
+    | 0.0% | 72 B | \`(anonymous)\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/async@3.2.3/node_modules/async/dist/async.js:4088:28                 | \`.<symbol Symbol.iterator> Object ← .prototype Heap (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/async@3.2.3/node_modules/async/dist/async.js:4018:20) ← .Heap system / Context\` |
+    | 0.0% | 72 B | \`(anonymous)\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/async@3.2.3/node_modules/async/dist/async.js:1432:28                 | \`.<symbol Symbol.iterator> Object ← .prototype DLL (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/async@3.2.3/node_modules/async/dist/async.js:1371:20) ← .DLL system / Context\`   |
+    | 0.0% | 72 B | \`(anonymous)\` | /Users/tomer/Documents/work/code/website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/utils/List.js:83:23         | \`.<symbol Symbol.iterator> Object ← .prototype List (/Users/tomer/Documents/work/code/website/node_modules/.pnpm/css-tree@2.2.1/node_modules/css-tree/lib/utils/List.js:28:16)\`                  |
 
     ## Largest strings
 

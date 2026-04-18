@@ -51,6 +51,26 @@ export type SummarizedConstructor = {
   instances: SummarizedConstructorInstance[]
 }
 
+export type SummarizedClosure = {
+  /** Unique ID for this closure instance that can also be used as an index. */
+  id: number
+
+  /** The function name. */
+  name: string
+
+  /** Bytes allocated for this closure. */
+  selfSize: number
+
+  /**
+   * Bytes allocated for this closure, as well as all objects that would be
+   * freed if the closure were garbage collected.
+   */
+  retainedSize: number
+
+  /** Source location where the function was defined. */
+  location: string | undefined
+}
+
 export type SummarizedString = {
   /** Unique ID for this string instance that can also be used as an index. */
   nodeOrdinal: number
@@ -77,6 +97,9 @@ export type SummarizedHeapSnapshot = {
 
   /** All summarized constructors. */
   constructors: SummarizedConstructor[]
+
+  /** All summarized closures. */
+  closures: SummarizedClosure[]
 
   /** All summarized strings. */
   strings: SummarizedString[]
@@ -119,6 +142,7 @@ export const summarizeSnapshot = (
   const constructors: SummarizedConstructor[] = []
   const nameToConstructorIndex = new Map<string, number>()
   const nodeOrdinalToConstructorIndex = new Int32Array(objectCount).fill(-1)
+  const closures: SummarizedClosure[] = []
   const summarizedStrings: SummarizedString[] = []
 
   for (let nodeOrdinal = 0; nodeOrdinal < objectCount; nodeOrdinal++) {
@@ -166,6 +190,17 @@ export const summarizeSnapshot = (
         nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
         break
       }
+      case fieldLayout.nodeTypeClosure: {
+        const name = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+        closures.push({
+          id: nodeOrdinal,
+          name,
+          selfSize,
+          retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
+          location: nodeIndexToLocation.get(nodeIndex),
+        })
+        break
+      }
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
       case fieldLayout.nodeTypeConcatenatedString: {
@@ -195,6 +230,7 @@ export const summarizeSnapshot = (
     referenceCount,
     objectCategoryToSizeStats,
     constructors,
+    closures,
     strings: summarizedStrings,
     retainerPathOf: nodeOrdinal =>
       computeRetainerPath(
