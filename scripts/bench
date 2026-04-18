@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+name=${1:?Usage: bench <benchmark-name>}
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+
+node \
+  --cpu-prof \
+  --cpu-prof-interval=100 \
+  --diagnostic-dir="$tmpdir" \
+  "scripts/benchmarks/$name.ts"
+
+cpuprofile="$(echo "$tmpdir"/*.cpuprofile)"
+node src/cli.ts "$cpuprofile"

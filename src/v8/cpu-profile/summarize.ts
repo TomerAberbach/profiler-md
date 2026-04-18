@@ -9,7 +9,7 @@ import type {
   NormalizedV8ProfileToMdOptions,
   ProfileGraph,
 } from '../common.ts'
-import type { CpuProfile, ProfileNode } from './parse.ts'
+import type { CpuProfile } from './parse.ts'
 
 /**
  * A merged node containing information of all nodes with the same
@@ -18,6 +18,9 @@ import type { CpuProfile, ProfileNode } from './parse.ts'
 export type SummarizedProfileNode = {
   /** The raw ID of the first node that corresponded to this summarized node. */
   id: number
+
+  /** Unique ID for this summarized node, which can also be used as an index. */
+  ordinal: number
 
   /** The call frame this node represents. */
   callFrame: CallFrame
@@ -137,6 +140,14 @@ export const summarizeProfile = (
     { time: number; sampleCount: number }
   >()
 
+  const summarizedNodeCount = graph.keyToSummarizedNode.size
+  const ordinalToIterationLastVisited = new Int32Array(
+    summarizedNodeCount,
+  ).fill(-1)
+  const pairOrdinalToIterationLastVisited = new Int32Array(
+    summarizedNodeCount * summarizedNodeCount,
+  ).fill(-1)
+
   for (let index = 0; index < profile.samples.length; index++) {
     const rawNodeId = profile.samples[index]!
     const timeDelta = profile.timeDeltas[index]!
@@ -149,23 +160,19 @@ export const summarizeProfile = (
 
     node.selfTime += timeDelta
 
-    const { positionTicks } = graph.rawIdToRawNode.get(rawNodeId)!
-    if (positionTicks) {
-      const totalLineTicks = positionTicks.reduce(
-        (totalTicks, tick) => totalTicks + tick.ticks,
-        0,
-      )
-      for (const tick of positionTicks) {
-        const line = tick.line - 1
-        node.lineToStats.get(line)!.time +=
-          timeDelta * (tick.ticks / totalLineTicks)
+    const tickInfo = graph.rawIdToTickInfo.get(rawNodeId)
+    if (tickInfo) {
+      const { stats: tickStats, fractions: tickFractions } = tickInfo
+      for (let i = 0; i < tickStats.length; i++) {
+        const tickStat = tickStats[i]!
+        tickStat.time += timeDelta * tickFractions[i]!
       }
     }
 
     let summarizedCallStack = rawNodeIdToSummarizedCallStack.get(rawNodeId)
     if (!summarizedCallStack) {
       const callStack = summarizeCallStack(graph, rawNodeId)
-      const key = callStack.map(node => callFrameKey(node.callFrame)).join(`,`)
+      const key = callStack.map(node => node.ordinal).join(`,`)
 
       summarizedCallStack = keyToSummarizedCallStack.get(key)
       if (!summarizedCallStack) {
@@ -184,13 +191,13 @@ export const summarizeProfile = (
 
     const callStack = summarizedCallStack.nodes
 
-    const seenCallers = new Set<SummarizedProfileNode>()
-    for (const caller of callStack) {
-      if (!seenCallers.has(caller)) {
-        seenCallers.add(caller)
-        caller.totalTime += timeDelta
-        caller.totalSampleCount++
+    for (const stackNode of callStack) {
+      if (ordinalToIterationLastVisited[stackNode.ordinal] === index) {
+        continue
       }
+      ordinalToIterationLastVisited[stackNode.ordinal] = index
+      stackNode.totalTime += timeDelta
+      stackNode.totalSampleCount++
     }
 
     const caller = callStack[1]
@@ -204,16 +211,15 @@ export const summarizeProfile = (
       callerSelfTime.selfSampleCount++
     }
 
-    const seenCallerCalleePairs = new Set<string>()
     for (let i = 0; i < callStack.length - 1; i++) {
       const callee = callStack[i]!
       const caller = callStack[i + 1]!
 
-      const pair = `${caller.id},${callee.id}`
-      if (seenCallerCalleePairs.has(pair)) {
+      const pairOrdinal = caller.ordinal * summarizedNodeCount + callee.ordinal
+      if (pairOrdinalToIterationLastVisited[pairOrdinal] === index) {
         continue
       }
-      seenCallerCalleePairs.add(pair)
+      pairOrdinalToIterationLastVisited[pairOrdinal] = index
 
       let calleeTotalTime = caller.calleeIdToStats.get(callee.id)
       if (!calleeTotalTime) {
@@ -245,23 +251,30 @@ export const summarizeProfile = (
   }
 }
 
+type TickInfo = {
+  /**
+   * Direct references to the stats objects in
+   * {@link SummarizedProfileNode.lineToStats}.
+   */
+  stats: { time: number; sampleCount: number }[]
+
+  /** Precomputed `tick.ticks / totalTicks` for each tick. */
+  fractions: Float64Array
+}
+
 const computeProfileGraph = (
   profile: CpuProfile,
   options: NormalizedV8ProfileToMdOptions,
 ): ProfileGraph<SummarizedProfileNode> & {
-  rawIdToRawNode: Map<number, ProfileNode>
+  rawIdToTickInfo: Map<number, TickInfo>
 } => {
-  const rawIdToRawNode = new Map<number, ProfileNode>()
   const rawIdToSummarizedNode = new Map<number, SummarizedProfileNode>()
   const keyToSummarizedNode = new Map<string, SummarizedProfileNode>()
   const rawIdToParentRawId = new Map<number, number>()
+  const rawIdToTickInfo = new Map<number, TickInfo>()
+  let nextOrdinal = 0
 
   for (const node of profile.nodes) {
-    if (rawIdToRawNode.has(node.id)) {
-      throw new Error(`Unexpected duplicate node ID: ${node.id}`)
-    }
-    rawIdToRawNode.set(node.id, node)
-
     const key = callFrameKey(node.callFrame)
     let summarizedNode = keyToSummarizedNode.get(key)
     if (!summarizedNode) {
@@ -269,6 +282,7 @@ const computeProfileGraph = (
       const fileLocation = formatLocation(url, options)
       summarizedNode = {
         id: node.id,
+        ordinal: nextOrdinal++,
         callFrame: node.callFrame,
         functionName: functionName || `(anonymous)`,
         fileLocation,
@@ -291,6 +305,8 @@ const computeProfileGraph = (
 
     summarizedNode.selfSampleCount += node.hitCount
     if (node.positionTicks) {
+      const tickStats: { time: number; sampleCount: number }[] = []
+      let totalTicks = 0
       for (const tick of node.positionTicks) {
         const line = tick.line - 1
         let stats = summarizedNode.lineToStats.get(line)
@@ -299,7 +315,14 @@ const computeProfileGraph = (
           summarizedNode.lineToStats.set(line, stats)
         }
         stats.sampleCount += tick.ticks
+        totalTicks += tick.ticks
+        tickStats.push(stats)
       }
+      const fractions = new Float64Array(node.positionTicks.length)
+      for (let i = 0; i < node.positionTicks.length; i++) {
+        fractions[i] = node.positionTicks[i]!.ticks / totalTicks
+      }
+      rawIdToTickInfo.set(node.id, { stats: tickStats, fractions })
     }
 
     if (node.children) {
@@ -315,9 +338,9 @@ const computeProfileGraph = (
   }
 
   return {
-    rawIdToRawNode,
     rawIdToSummarizedNode,
     keyToSummarizedNode,
     rawIdToParentRawId,
+    rawIdToTickInfo,
   }
 }
