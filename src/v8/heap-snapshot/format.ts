@@ -3,6 +3,7 @@ import {
   formatCount,
   formatPercent,
 } from '../../internal/format.ts'
+import { selectTopN } from '../../internal/heap.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type {
@@ -69,13 +70,12 @@ const formatLargestSelfSizeConstructors = (
 ): string => {
   const { totalSize, constructors } = snapshot
 
-  const largestConstructors = constructors
-    .filter(defaultIncludeConstructor)
-    .sort(
-      (constructor1, constructor2) =>
-        constructor2.selfSize - constructor1.selfSize,
-    )
-    .slice(0, options.topN)
+  const largestConstructors = selectTopN(
+    constructors.filter(defaultIncludeConstructor),
+    options.topN,
+    (constructor1, constructor2) =>
+      constructor2.selfSize - constructor1.selfSize,
+  )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
       formatLargestSelfSizeConstructorInstances(constructor, snapshot, options),
@@ -116,9 +116,11 @@ const formatLargestSelfSizeConstructorInstances = (
   { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const largestInstances = constructor.instances
-    .toSorted((instance1, instance2) => instance2.selfSize - instance1.selfSize)
-    .slice(0, Math.ceil(options.topN / 4))
+  const largestInstances = selectTopN(
+    constructor.instances,
+    Math.ceil(options.topN / 4),
+    (instance1, instance2) => instance2.selfSize - instance1.selfSize,
+  )
   if (largestInstances.length === 0) {
     return undefined
   }
@@ -148,13 +150,12 @@ const formatLargestRetainedSizeConstructors = (
 ): string => {
   const { totalSize, constructors } = snapshot
 
-  const largestConstructors = constructors
-    .filter(defaultIncludeConstructor)
-    .sort(
-      (constructor1, constructor2) =>
-        constructor2.retainedSize - constructor1.retainedSize,
-    )
-    .slice(0, options.topN)
+  const largestConstructors = selectTopN(
+    constructors.filter(defaultIncludeConstructor),
+    options.topN,
+    (constructor1, constructor2) =>
+      constructor2.retainedSize - constructor1.retainedSize,
+  )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
       formatLargestRetainedSizeConstructorInstances(
@@ -197,11 +198,11 @@ const formatLargestRetainedSizeConstructorInstances = (
   { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
-  const largestInstances = constructor.instances
-    .toSorted(
-      (instance1, instance2) => instance2.retainedSize - instance1.retainedSize,
-    )
-    .slice(0, Math.ceil(options.topN / 4))
+  const largestInstances = selectTopN(
+    constructor.instances,
+    Math.ceil(options.topN / 4),
+    (instance1, instance2) => instance2.retainedSize - instance1.retainedSize,
+  )
   if (largestInstances.length === 0) {
     return undefined
   }
@@ -266,9 +267,11 @@ const formatLargestStrings = (
   }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const largestStrings = strings
-    .toSorted((string1, string2) => string2.selfSize - string1.selfSize)
-    .slice(0, options.topN)
+  const largestStrings = selectTopN(
+    strings,
+    options.topN,
+    (string1, string2) => string2.selfSize - string1.selfSize,
+  )
 
   return [
     `## Largest strings`,
