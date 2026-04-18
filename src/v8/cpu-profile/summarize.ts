@@ -11,6 +11,14 @@ import type {
 } from '../common.ts'
 import type { CpuProfile } from './parse.ts'
 
+export type GroupStats = {
+  /** Time spent in microseconds. */
+  time: number
+
+  /** Number of call frames contributing to the time. */
+  sampleCount: number
+}
+
 /**
  * A merged node containing information of all nodes with the same
  * {@link callFrameKey}.
@@ -51,7 +59,7 @@ export type SummarizedProfileNode = {
   totalSampleCount: number
 
   /** 0-based line number to time and sample count. */
-  lineToStats: Map<number, { time: number; sampleCount: number }>
+  lineToStats: Map<number, GroupStats>
 
   /** Time spent directly in this node's function body in microseconds. */
   selfTime: number
@@ -113,7 +121,7 @@ export type SummarizedCpuProfile = {
   /**
    * Total time spent in microseconds and samples taken by call frame category.
    */
-  callFrameCategoryToStats: Map<string, { time: number; sampleCount: number }>
+  callFrameCategoryToStats: Map<string, GroupStats>
 
   /** All summarized nodes. */
   nodes: SummarizedProfileNode[]
@@ -135,10 +143,7 @@ export const summarizeProfile = (
 
   const rawNodeIdToSummarizedCallStack = new Map<number, SummarizedCallStack>()
   const keyToSummarizedCallStack = new Map<string, SummarizedCallStack>()
-  const callFrameCategoryToStats = new Map<
-    string,
-    { time: number; sampleCount: number }
-  >()
+  const callFrameCategoryToStats = new Map<string, GroupStats>()
 
   const summarizedNodeCount = graph.keyToSummarizedNode.size
   const ordinalToIterationLastVisited = new Int32Array(
@@ -256,7 +261,7 @@ type TickInfo = {
    * Direct references to the stats objects in
    * {@link SummarizedProfileNode.lineToStats}.
    */
-  stats: { time: number; sampleCount: number }[]
+  stats: GroupStats[]
 
   /** Precomputed `tick.ticks / totalTicks` for each tick. */
   fractions: Float64Array
@@ -305,7 +310,7 @@ const computeProfileGraph = (
 
     summarizedNode.selfSampleCount += node.hitCount
     if (node.positionTicks) {
-      const tickStats: { time: number; sampleCount: number }[] = []
+      const tickStats: GroupStats[] = []
       let totalTicks = 0
       for (const tick of node.positionTicks) {
         const line = tick.line - 1
