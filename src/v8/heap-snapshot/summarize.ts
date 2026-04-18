@@ -24,14 +24,14 @@ export type SummarizedConstructor = {
   instances: {
     selfSize: number
     retainedSize: number
-    retainerPath: string
+    nodeOrdinal: number
   }[]
 }
 
 export type SummarizedString = {
   value: string
   selfSize: number
-  retainerPath: string
+  nodeOrdinal: number
 }
 
 export type SummarizedHeapSnapshot = {
@@ -52,6 +52,9 @@ export type SummarizedHeapSnapshot = {
 
   /** All summarized strings. */
   strings: SummarizedString[]
+
+  /** Returns the retainer path of the node with the given ordinal. */
+  retainerPathOf: (nodeOrdinal: number) => string
 }
 
 export const summarizeSnapshot = (
@@ -129,21 +132,10 @@ export const summarizeSnapshot = (
         const constructor = constructors[constructorIndex]!
         constructor.selfSize += selfSize
         constructor.location ??= nodeIndexToLocation.get(nodeIndex)
-        let retainerPath: string | undefined
         constructor.instances.push({
           selfSize,
           retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-          get retainerPath() {
-            return (retainerPath ??= computeRetainerPath(
-              nodeOrdinal,
-              snapshot,
-              nodeAdjacencyGraph,
-              nodeIndexToLocation,
-              immediateDominatorGraph,
-              fieldLayout,
-              options,
-            ))
-          },
+          nodeOrdinal,
         })
         nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
         break
@@ -153,21 +145,10 @@ export const summarizeSnapshot = (
       case fieldLayout.nodeTypeConcatenatedString: {
         // For these types the names are the strings.
         const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
-        let retainerPath: string | undefined
         summarizedStrings.push({
           value: string,
           selfSize,
-          get retainerPath() {
-            return (retainerPath ??= computeRetainerPath(
-              nodeOrdinal,
-              snapshot,
-              nodeAdjacencyGraph,
-              nodeIndexToLocation,
-              immediateDominatorGraph,
-              fieldLayout,
-              options,
-            ))
-          },
+          nodeOrdinal,
         })
         break
       }
@@ -189,6 +170,16 @@ export const summarizeSnapshot = (
     objectCategoryToSizeStats,
     constructors,
     strings: summarizedStrings,
+    retainerPathOf: nodeOrdinal =>
+      computeRetainerPath(
+        nodeOrdinal,
+        snapshot,
+        nodeAdjacencyGraph,
+        nodeIndexToLocation,
+        immediateDominatorGraph,
+        fieldLayout,
+        options,
+      ),
   }
 }
 

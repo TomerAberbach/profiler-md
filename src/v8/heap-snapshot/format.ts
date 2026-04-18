@@ -64,9 +64,11 @@ const formatLargestConstructors = (
   ].join(`\n\n`)
 
 const formatLargestSelfSizeConstructors = (
-  { totalSize, constructors }: SummarizedHeapSnapshot,
+  snapshot: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
+  const { totalSize, constructors } = snapshot
+
   const largestConstructors = constructors
     .filter(defaultIncludeConstructor)
     .sort(
@@ -76,7 +78,7 @@ const formatLargestSelfSizeConstructors = (
     .slice(0, options.topN)
   const largestInstanceSections = largestConstructors
     .map(constructor =>
-      formatLargestSelfSizeConstructorInstances(constructor, options),
+      formatLargestSelfSizeConstructorInstances(constructor, snapshot, options),
     )
     .filter(section => section !== undefined)
 
@@ -111,6 +113,7 @@ const formatLargestSelfSizeConstructors = (
 
 const formatLargestSelfSizeConstructorInstances = (
   constructor: SummarizedConstructor,
+  { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const largestInstances = constructor.instances
@@ -133,16 +136,18 @@ const formatLargestSelfSizeConstructorInstances = (
       largestInstances.map(instance => [
         formatPercent(instance.selfSize / constructor.selfSize),
         formatBytes(instance.selfSize),
-        inlineCode(instance.retainerPath),
+        inlineCode(retainerPathOf(instance.nodeOrdinal)),
       ]),
     ),
   ].join(`\n\n`)
 }
 
 const formatLargestRetainedSizeConstructors = (
-  { totalSize, constructors }: SummarizedHeapSnapshot,
+  snapshot: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
+  const { totalSize, constructors } = snapshot
+
   const largestConstructors = constructors
     .filter(defaultIncludeConstructor)
     .sort(
@@ -152,7 +157,11 @@ const formatLargestRetainedSizeConstructors = (
     .slice(0, options.topN)
   const largestInstanceSections = largestConstructors
     .map(constructor =>
-      formatLargestRetainedSizeConstructorInstances(constructor, options),
+      formatLargestRetainedSizeConstructorInstances(
+        constructor,
+        snapshot,
+        options,
+      ),
     )
     .filter(section => section !== undefined)
 
@@ -185,6 +194,7 @@ const formatLargestRetainedSizeConstructors = (
 
 const formatLargestRetainedSizeConstructorInstances = (
   constructor: SummarizedConstructor,
+  { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const largestInstances = constructor.instances
@@ -209,7 +219,7 @@ const formatLargestRetainedSizeConstructorInstances = (
       largestInstances.map(instance => [
         formatPercent(instance.retainedSize / constructor.retainedSize),
         formatBytes(instance.retainedSize),
-        inlineCode(instance.retainerPath),
+        inlineCode(retainerPathOf(instance.nodeOrdinal)),
       ]),
     ),
   ].join(`\n\n`)
@@ -249,7 +259,11 @@ const defaultIncludeConstructor = (
 }
 
 const formatLargestStrings = (
-  { totalSize, strings }: SummarizedHeapSnapshot,
+  {
+    totalSize,
+    strings,
+    retainerPathOf: computeRetainerPath,
+  }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
   const largestStrings = strings
@@ -269,7 +283,7 @@ const formatLargestStrings = (
         formatPercent(string.selfSize / totalSize),
         formatBytes(string.selfSize),
         inlineCode(formatString(string.value)),
-        inlineCode(string.retainerPath),
+        inlineCode(computeRetainerPath(string.nodeOrdinal)),
       ]),
     ),
   ].join(`\n\n`)
