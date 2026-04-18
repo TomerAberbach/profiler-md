@@ -242,7 +242,7 @@ const formatLargestStrings = (
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
-        `Length`,
+        `Data`,
         `Location`,
       ],
       largestStrings.map(string => [
