@@ -280,7 +280,7 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     ## Largest strings
 
-    |     % |  Size | Length                       | Location    |
+    |     % |  Size | Data                         | Location    |
     | ----: | ----: | ---------------------------- | ----------- |
     | 21.9% | 110 B | \`"hello world"\`              | \`(GC root)\` |
     |  0.0% |   0 B | \`"file:///project/src/a.ts"\` | \`(GC root)\` |
@@ -465,7 +465,7 @@ test(`v8HeapSnapshotToMd with real fixture`, async () => {
 
     ## Largest strings
 
-    |    % |    Size | Length                                                   | Location                                                                                                                                                                                                                                                          |
+    |    % |    Size | Data                                                     | Location                                                                                                                                                                                                                                                          |
     | ---: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
     | 1.0% | 2.67 MB | \`"import { a as __toCommonJS, i as __require, n as …"\`   | \`(GC root)\`                                                                                                                                                                                                                                                       |
     | 0.7% | 2.04 MB | \`"(function anonymous(domprops,exports\\n) {\\n/*******…"\` | \`.first (concatenated string) ← .source code\`                                                                                                                                                                                                                     |
