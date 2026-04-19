@@ -749,10 +749,15 @@ const computeRetainerPath = (
     const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
     const edgeNameOrIndex =
       edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
-    const edgeLabel =
-      edgeType === fieldLayout.edgeTypeElement
-        ? `[${edgeNameOrIndex}]`
-        : `.${strings[edgeNameOrIndex]!}`
+    let edgeLabel: string
+    if (edgeType === fieldLayout.edgeTypeElement) {
+      edgeLabel = `[${edgeNameOrIndex}]`
+    } else {
+      const rawEdgeName = strings[edgeNameOrIndex]!
+      edgeLabel =
+        // Sometimes the edge name is a file URL.
+        `.${formatLocation(rawEdgeName, options) ?? rawEdgeName}`
+    }
 
     const retainerIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
     const retainerType = nodes[retainerIndex + fieldLayout.nodeTypeOffset]!
