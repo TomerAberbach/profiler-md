@@ -7,6 +7,7 @@ import { selectTopN } from '../../internal/heap.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type {
+  SummarizedClosure,
   SummarizedConstructor,
   SummarizedHeapSnapshot,
 } from './summarize.ts'
@@ -230,24 +231,22 @@ const formatLargestRetainedSizeConstructorInstances = (
 }
 
 const formatLargestClosures = (
-  { totalSize, closures, retainerPathOf }: SummarizedHeapSnapshot,
+  snapshot: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
-  const includedClosures = closures.filter(options.includeRow)
-  const largestByRetained = selectTopN(
-    includedClosures,
+  const { totalSize, closures, retainerPathOf } = snapshot
+  const largestClosures = selectTopN(
+    closures.filter(options.includeRow),
     options.topN,
     (closure1, closure2) => closure2.retainedSize - closure1.retainedSize,
   )
-  const largestBySelf = selectTopN(
-    includedClosures,
-    options.topN,
-    (closure1, closure2) => closure2.selfSize - closure1.selfSize,
-  )
+
+  const retainedSections = largestClosures
+    .map(closure => formatClosureRetainedObjects(closure, snapshot, options))
+    .filter(section => section !== undefined)
 
   return [
     `## Largest closures`,
-    `### Retained size`,
     `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
     formatTable(
       [
@@ -257,30 +256,57 @@ const formatLargestClosures = (
         `Location`,
         `Path`,
       ],
-      largestByRetained.map(closure => [
+      largestClosures.map(closure => [
         formatPercent(closure.retainedSize / totalSize),
         formatBytes(closure.retainedSize),
-        inlineCode(closure.name || `(anonymous)`),
+        inlineCode(closure.name),
         closure.location ?? inlineCode(`<unknown>`),
         inlineCode(retainerPathOf(closure.id)),
       ]),
     ),
-    `### Self size`,
-    `Closures ranked by bytes allocated for the closure itself.`,
+    ...(retainedSections.length > 0
+      ? [
+          `### Retained`,
+          `Objects ranked by contribution to each closure's retained size.`,
+        ]
+      : []),
+    ...retainedSections,
+  ].join(`\n\n`)
+}
+
+const formatClosureRetainedObjects = (
+  closure: SummarizedClosure,
+  {
+    retainedObjectsOf: retainedNodesOf,
+    retainerPathOf,
+  }: SummarizedHeapSnapshot,
+  options: NormalizedV8ProfileToMdOptions,
+): string | undefined => {
+  const retainedNodes = selectTopN(
+    retainedNodesOf(closure.id).filter(options.includeRow),
+    Math.ceil(options.topN / 4),
+    (node1, node2) => node2.selfSize - node1.selfSize,
+  )
+  if (retainedNodes.length === 0) {
+    return undefined
+  }
+
+  return [
+    `#### ${inlineCode(closure.name)} (${
+      closure.location ?? inlineCode(`<unknown>`)
+    })`,
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: `Self`, align: `right` },
+        { content: `Size`, align: `right` },
         `Name`,
-        `Location`,
         `Path`,
       ],
-      largestBySelf.map(closure => [
-        formatPercent(closure.selfSize / totalSize),
-        formatBytes(closure.selfSize),
-        inlineCode(closure.name || `(anonymous)`),
-        closure.location ?? inlineCode(`<unknown>`),
-        inlineCode(retainerPathOf(closure.id)),
+      retainedNodes.map(node => [
+        formatPercent(node.selfSize / closure.retainedSize),
+        formatBytes(node.selfSize),
+        inlineCode(node.name || `(unknown)`),
+        inlineCode(retainerPathOf(node.id)),
       ]),
     ),
   ].join(`\n\n`)
@@ -298,29 +324,20 @@ const formatLargestStrings = (
 
   return [
     `## Largest strings`,
+    `Strings ranked by bytes allocated for them.`,
     formatTable(
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
-        `Data`,
+        `Value`,
         `Location`,
       ],
       largestStrings.map(string => [
         formatPercent(string.selfSize / totalSize),
         formatBytes(string.selfSize),
-        inlineCode(formatString(string.value)),
+        inlineCode(string.name),
         inlineCode(retainerPathOf(string.nodeOrdinal)),
       ]),
     ),
   ].join(`\n\n`)
 }
-
-const formatString = (string: string): string => {
-  if (string.length > MAX_STRING_LENGTH) {
-    string = `${string.slice(0, MAX_STRING_LENGTH - 1)}…`
-  }
-  string = string.replaceAll(`\n`, `\\n`)
-  return `"${string}"`
-}
-
-const MAX_STRING_LENGTH = 50

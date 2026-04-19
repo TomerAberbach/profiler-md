@@ -70,8 +70,10 @@ export const defaultIncludeRow = ({
   }
 
   if (
-    name.startsWith(`system /`) ||
-    name.startsWith(`Node /`) ||
+    (!location &&
+      (name === `ModuleWrap` ||
+        name.startsWith(`system /`) ||
+        name.startsWith(`Node /`))) ||
     location?.startsWith(`node:internal/`)
   ) {
     // V8 and Node internals. They are rarely actionable and when they _are_

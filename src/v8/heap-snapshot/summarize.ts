@@ -75,11 +75,28 @@ export type SummarizedString = {
   /** Unique ID for this string instance that can also be used as an index. */
   nodeOrdinal: number
 
-  /** The string's value, possibly truncated. */
-  value: string
+  /** The string's value's label, possibly truncated. */
+  name: string
 
   /** Bytes allocated for this string. */
   selfSize: number
+}
+
+export type RetainedObject = {
+  /** Unique ID for this object that can also be used as an index. */
+  id: number
+
+  /** The object's label. */
+  name: string
+
+  /** Bytes allocated for this object. */
+  selfSize: number
+
+  /**
+   * Bytes allocated for this object, as well as all objects that would be freed
+   * if the object were garbage collected.
+   */
+  retainedSize: number
 }
 
 export type SummarizedHeapSnapshot = {
@@ -106,6 +123,9 @@ export type SummarizedHeapSnapshot = {
 
   /** Returns the retainer path of the node with the given ordinal. */
   retainerPathOf: (nodeOrdinal: number) => string
+
+  /** Returns the objects retained by the given node, by retained size. */
+  retainedObjectsOf: (nodeOrdinal: number) => RetainedObject[]
 }
 
 export const summarizeSnapshot = (
@@ -115,7 +135,6 @@ export const summarizeSnapshot = (
   const {
     snapshot: { meta, node_count: objectCount, edge_count: referenceCount },
     nodes,
-    strings,
   } = snapshot
   const [nodeTypes] = meta.node_types
 
@@ -164,8 +183,7 @@ export const summarizeSnapshot = (
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
       case fieldLayout.nodeTypeNative: {
-        // For these types the names are constructors.
-        const name = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+        const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
         let constructorIndex = nameToConstructorIndex.get(name)
         if (constructorIndex === undefined) {
           constructorIndex = constructors.length
@@ -190,36 +208,35 @@ export const summarizeSnapshot = (
         nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
         break
       }
-      case fieldLayout.nodeTypeClosure: {
-        const name = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+      case fieldLayout.nodeTypeClosure:
         closures.push({
           id: nodeOrdinal,
-          name,
+          name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
           selfSize,
           retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
           location: nodeIndexToLocation.get(nodeIndex),
         })
         break
-      }
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
-      case fieldLayout.nodeTypeConcatenatedString: {
-        // For these types the names are the strings.
-        const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+      case fieldLayout.nodeTypeConcatenatedString:
         summarizedStrings.push({
           nodeOrdinal,
-          value: string,
+          name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
           selfSize,
         })
         break
-      }
     }
   }
 
+  const immediateDominatorChildren = computeImmediateDominatorChildren(
+    immediateDominatorGraph,
+    objectCount,
+  )
+
   attributeGroupRetainedSizes({
     nodeOrdinalToRetainedSize,
-    ordinalToImmediateDominatorOrdinal:
-      immediateDominatorGraph.ordinalToImmediateDominatorOrdinal,
+    immediateDominatorChildren,
     nodeOrdinalToConstructorIndex,
     constructors,
   })
@@ -239,6 +256,15 @@ export const summarizeSnapshot = (
         nodeAdjacencyGraph,
         nodeIndexToLocation,
         immediateDominatorGraph,
+        fieldLayout,
+        options,
+      ),
+    retainedObjectsOf: nodeOrdinal =>
+      computeRetainedObjects(
+        nodeOrdinal,
+        snapshot,
+        nodeOrdinalToRetainedSize,
+        immediateDominatorChildren,
         fieldLayout,
         options,
       ),
@@ -691,16 +717,7 @@ const computeNodeOrdinalToRetainedSize = (
 
 const computeRetainerPath = (
   nodeOrdinal: number,
-  {
-    snapshot: {
-      meta: {
-        node_types: [nodeTypes],
-      },
-    },
-    nodes,
-    edges,
-    strings,
-  }: HeapSnapshot,
+  snapshot: HeapSnapshot,
   {
     ordinalToPredecessorStartOffset,
     offsetToPredecessorOrdinal,
@@ -711,6 +728,8 @@ const computeRetainerPath = (
   fieldLayout: FieldLayout,
   options: NormalizedV8ProfileToMdOptions,
 ): string => {
+  const { nodes } = snapshot
+
   // Each hop tracks the formatted label and whether the retaining node is
   // internal. Stored from immediate retainer outward (closest first).
   type Hop = { label: string; internal: boolean }
@@ -741,36 +760,22 @@ const computeRetainerPath = (
       continue
     }
 
-    const targetNodeOrdinal = offsetToPredecessorOrdinal[predecessorOffset]!
     const edgeIndex = offsetToPredecessorEdgeIndex[predecessorOffset]!
+    const edgeLabel = formatEdgeLabel(edgeIndex, snapshot, fieldLayout, options)
 
-    // Element edges store the numeric array index directly in `name_or_index`.
-    // All other edge types store a string index.
-    const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
-    const edgeNameOrIndex =
-      edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
-    let edgeLabel: string
-    if (edgeType === fieldLayout.edgeTypeElement) {
-      edgeLabel = `[${edgeNameOrIndex}]`
-    } else {
-      const rawEdgeName = strings[edgeNameOrIndex]!
-      edgeLabel =
-        // Sometimes the edge name is a file URL.
-        `.${formatLocation(rawEdgeName, options) ?? rawEdgeName}`
-    }
-
+    const targetNodeOrdinal = offsetToPredecessorOrdinal[predecessorOffset]!
     const retainerIndex = targetNodeOrdinal * fieldLayout.nodeFieldCount
     const retainerType = nodes[retainerIndex + fieldLayout.nodeTypeOffset]!
-    const rawRetainerName =
-      strings[nodes[retainerIndex + fieldLayout.nodeNameOffset]!]! ||
-      nodeTypes[retainerType]!
-    const retainerName =
-      // Sometimes the retainer name is a file URL.
-      formatLocation(rawRetainerName, options) ?? rawRetainerName
+    const retainerLabel = formatNodeLabel(
+      retainerIndex,
+      snapshot,
+      fieldLayout,
+      options,
+    )
     const retainerLocation = nodeIndexToLocation.get(retainerIndex)
 
     hops.push({
-      label: `${edgeLabel} ${retainerName}${
+      label: `${edgeLabel} ${retainerLabel}${
         retainerLocation ? ` (${retainerLocation})` : ``
       }`,
       internal:
@@ -793,6 +798,155 @@ const computeRetainerPath = (
   return hops.map(hop => hop.label).join(` ← `)
 }
 
+const computeRetainedObjects = (
+  nodeOrdinal: number,
+  snapshot: HeapSnapshot,
+  nodeOrdinalToRetainedSize: Float64Array,
+  { childStartOffsets, childOrdinals }: ImmediateDominatorChildren,
+  fieldLayout: FieldLayout,
+  options: NormalizedV8ProfileToMdOptions,
+) => {
+  const { nodes } = snapshot
+
+  const retainedObjects: RetainedObject[] = []
+
+  const childOrdinalStack: number[] = []
+  const childStartOffset = childStartOffsets[nodeOrdinal]!
+  const childEndOffset = childStartOffsets[nodeOrdinal + 1]!
+  for (let offset = childStartOffset; offset < childEndOffset; offset++) {
+    childOrdinalStack.push(childOrdinals[offset]!)
+  }
+
+  while (childOrdinalStack.length > 0) {
+    const nodeOrdinal = childOrdinalStack.pop()!
+    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
+    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+    if (
+      nodeType !== fieldLayout.nodeTypeHidden &&
+      nodeType !== fieldLayout.nodeTypeSynthetic
+    ) {
+      retainedObjects.push({
+        id: nodeOrdinal,
+        name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
+        selfSize: nodes[nodeIndex + fieldLayout.nodeSelfSizeOffset]!,
+        retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
+      })
+    }
+
+    const childStartOffset = childStartOffsets[nodeOrdinal]!
+    const childEndOffset = childStartOffsets[nodeOrdinal + 1]!
+    for (let offset = childStartOffset; offset < childEndOffset; offset++) {
+      childOrdinalStack.push(childOrdinals[offset]!)
+    }
+  }
+
+  return retainedObjects
+}
+
+const formatEdgeLabel = (
+  edgeIndex: number,
+  { edges, strings }: HeapSnapshot,
+  fieldLayout: FieldLayout,
+  options: NormalizedV8ProfileToMdOptions,
+) => {
+  const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
+  const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
+  if (edgeType === fieldLayout.edgeTypeElement) {
+    // In this case, the edge name is an index.
+    return `[${edgeNameOrIndex}]`
+  }
+
+  const rawEdgeName = strings[edgeNameOrIndex]!
+  const edgeName =
+    // Sometimes the edge name is a file URL.
+    formatLocation(rawEdgeName, options) ?? rawEdgeName
+
+  return `.${edgeName}`
+}
+
+const formatNodeLabel = (
+  nodeIndex: number,
+  {
+    snapshot: {
+      meta: {
+        node_types: [nodeTypes],
+      },
+    },
+    nodes,
+    strings,
+  }: HeapSnapshot,
+  fieldLayout: FieldLayout,
+  options: NormalizedV8ProfileToMdOptions,
+): string => {
+  const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+  switch (nodeType) {
+    case fieldLayout.nodeTypeString:
+    case fieldLayout.nodeTypeSlicedString:
+    case fieldLayout.nodeTypeConcatenatedString: {
+      const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
+      return formatString(string)
+    }
+    case fieldLayout.nodeTypeClosure:
+      return (
+        strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
+        `(anonymous)`
+      )
+    default: {
+      const rawNodeName =
+        strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
+        nodeTypes[nodeType]!
+      return (
+        // Sometimes the node name is a file URL.
+        formatLocation(rawNodeName, options) ?? rawNodeName
+      )
+    }
+  }
+}
+
+const formatString = (string: string): string => {
+  if (string.length > MAX_STRING_LENGTH) {
+    string = `${string.slice(0, MAX_STRING_LENGTH - 1)}…`
+  }
+  return string.replaceAll(`\n`, `\\n`)
+}
+
+const MAX_STRING_LENGTH = 50
+
+type ImmediateDominatorChildren = {
+  childStartOffsets: Int32Array
+  childOrdinals: Int32Array
+}
+
+const computeImmediateDominatorChildren = (
+  { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
+  nodeCount: number,
+): ImmediateDominatorChildren => {
+  const childCounts = new Int32Array(nodeCount)
+  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
+    if (dominatorOrdinal !== -1) {
+      childCounts[dominatorOrdinal] = childCounts[dominatorOrdinal]! + 1
+    }
+  }
+  const childStartOffsets = new Int32Array(nodeCount + 1)
+  for (let offset = 0; offset < nodeCount; offset++) {
+    childStartOffsets[offset + 1] =
+      childStartOffsets[offset]! + childCounts[offset]!
+  }
+  const childOrdinals = new Int32Array(childStartOffsets[nodeCount]!)
+  childCounts.fill(0)
+  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
+    if (dominatorOrdinal !== -1) {
+      childOrdinals[
+        childStartOffsets[dominatorOrdinal]! + childCounts[dominatorOrdinal]!
+      ] = nodeOrdinal
+      childCounts[dominatorOrdinal] = childCounts[dominatorOrdinal]! + 1
+    }
+  }
+  return { childStartOffsets, childOrdinals }
+}
+
 /**
  * Attributes retained sizes to groups of nodes without double-counting.
  *
@@ -807,40 +961,16 @@ const computeRetainerPath = (
  */
 const attributeGroupRetainedSizes = ({
   nodeOrdinalToRetainedSize,
-  ordinalToImmediateDominatorOrdinal,
+  immediateDominatorChildren: { childStartOffsets, childOrdinals },
   nodeOrdinalToConstructorIndex,
   constructors,
 }: {
   nodeOrdinalToRetainedSize: Float64Array
-  ordinalToImmediateDominatorOrdinal: Int32Array
+  immediateDominatorChildren: ImmediateDominatorChildren
   nodeOrdinalToConstructorIndex: Int32Array
   constructors: SummarizedConstructor[]
 }): void => {
-  const nodeCount = ordinalToImmediateDominatorOrdinal.length
-
-  // Build CSR children list from the dominator tree.
-  const childCounts = new Int32Array(nodeCount)
-  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    if (dominatorOrdinal !== -1) {
-      childCounts[dominatorOrdinal] = childCounts[dominatorOrdinal]! + 1
-    }
-  }
-  const childStartOffsets = new Int32Array(nodeCount + 1)
-  for (let i = 0; i < nodeCount; i++) {
-    childStartOffsets[i + 1] = childStartOffsets[i]! + childCounts[i]!
-  }
-  const childOrdinals = new Int32Array(childStartOffsets[nodeCount]!)
-  childCounts.fill(0)
-  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    if (dominatorOrdinal !== -1) {
-      childOrdinals[
-        childStartOffsets[dominatorOrdinal]! + childCounts[dominatorOrdinal]!
-      ] = nodeOrdinal
-      childCounts[dominatorOrdinal] = childCounts[dominatorOrdinal]! + 1
-    }
-  }
+  const nodeCount = nodeOrdinalToRetainedSize.length
 
   // Track same-group ancestor depth. Only the outermost (depth=0) instance
   // on any root-to-leaf path contributes its retained size.
