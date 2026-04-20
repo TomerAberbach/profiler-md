@@ -1,18 +1,18 @@
 # CPU profile
 
-Took 10.36s over 64,273 samples (161.2µs per sample).
+Took 10.33s over 64,273 samples (160.0µs per sample).
 
-| Category    | %     | Time   | Samples |
-| ----------- | ----- | ------ | ------- |
-| ours        | 74.3% | 7.70s  | 47,848  |
-| native      | 24.6% | 2.55s  | 15,937  |
-| third-party | 0.8%  | 85.5ms | 488     |
+| Category    |     % |   Time | Samples |
+| ----------- | ----: | -----: | ------: |
+| ours        | 74.5% |  7.70s |  47,848 |
+| native      | 24.7% |  2.55s |  15,937 |
+| third-party |  0.8% | 85.5ms |     488 |
 
 ## Hottest functions
 
 ### Self time
 
-Functions ranked by time in the function body, excluding callees.
+Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                                    | Location                                |
 | ----: | ------: | ------: | ------------------------------------------- | --------------------------------------- |
@@ -20,7 +20,7 @@ Functions ranked by time in the function body, excluding callees.
 | 12.8% |   1.32s |   8,273 | `join`                                      | `<native>`                              |
 |  8.2% | 851.5ms |   5,313 | `getOwnPropertyDescriptor`                  | `<native>`                              |
 |  6.6% | 685.1ms |   4,284 | `unevalNumber`                              | uneval/src/internal/primitive.ts:23:22  |
-|  3.8% | 398.2ms |   2,487 | `traverseObject`                            | uneval/src/index.ts:246:28              |
+|  3.9% | 398.2ms |   2,487 | `traverseObject`                            | uneval/src/index.ts:246:28              |
 |  3.0% | 308.3ms |   1,932 | `traverseObject`                            | uneval/src/index.ts:249:20              |
 |  2.9% | 299.9ms |   1,873 | `getType`                                   | uneval/src/internal/type.ts:18:18       |
 |  2.6% | 265.9ms |   1,675 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<native>`                              |
@@ -39,7 +39,7 @@ Functions ranked by time in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
 ##### `unevalLiteral` (uneval/src/internal/primitive.ts:149:22)
 
@@ -177,34 +177,34 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ### Total time
 
-Functions ranked by total time in the function and all its callees.
+Functions ranked by total time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                   | Location                                |
 | ----: | ------: | ------: | -------------------------- | --------------------------------------- |
-| 99.6% |  10.31s |  64,147 | `loadAndEvaluateModule`    | `<native>`                              |
-| 99.5% |  10.31s |  64,102 | `moduleEvaluation`         | `<native>`                              |
-| 99.5% |  10.31s |  64,102 | `evaluate`                 | `<native>`                              |
-| 94.5% |   9.78s |  60,901 | `(module)`                 | uneval/scripts/profile.ts:17:6          |
-| 68.7% |   7.11s |  44,408 | `uneval`                   | uneval/src/index.ts:78:19               |
+| 99.8% |  10.31s |  64,147 | `loadAndEvaluateModule`    | `<native>`                              |
+| 99.7% |  10.31s |  64,102 | `evaluate`                 | `<native>`                              |
+| 99.7% |  10.31s |  64,102 | `moduleEvaluation`         | `<native>`                              |
+| 94.7% |   9.78s |  60,901 | `(module)`                 | uneval/scripts/profile.ts:17:6          |
+| 68.8% |   7.11s |  44,408 | `uneval`                   | uneval/src/index.ts:78:19               |
 | 29.5% |   3.05s |  18,857 | `uneval`                   | uneval/src/index.ts:77:18               |
 | 28.5% |   2.94s |  18,445 | `unevalString`             | uneval/src/internal/primitive.ts:135:8  |
 | 28.5% |   2.94s |  18,442 | `unevalInternal`           | uneval/src/internal/index.ts:55:13      |
-| 28.2% |   2.92s |  18,244 | `unevalArray`              | uneval/src/internal/collection.ts:62:21 |
+| 28.3% |   2.92s |  18,244 | `unevalArray`              | uneval/src/internal/collection.ts:62:21 |
 | 27.9% |   2.88s |  18,046 | `unevalObjectLike`         | uneval/src/internal/object.ts:129:26    |
-| 27.6% |   2.86s |  17,773 | `createState`              | uneval/src/index.ts:328:4               |
-| 26.0% |   2.69s |  16,789 | `traverse`                 | uneval/src/index.ts:201:6               |
+| 27.7% |   2.86s |  17,773 | `createState`              | uneval/src/index.ts:328:4               |
+| 26.1% |   2.69s |  16,789 | `traverse`                 | uneval/src/index.ts:201:6               |
 | 25.0% |   2.58s |  16,166 | `unevalObjectLike`         | uneval/src/internal/object.ts:136:8     |
 | 24.2% |   2.50s |  15,687 | `unevalLiteral`            | uneval/src/internal/primitive.ts:149:22 |
-| 16.7% |   1.73s |  10,837 | `unevalObjectLiteralKey`   | uneval/src/internal/object.ts:427:22    |
+| 16.8% |   1.73s |  10,837 | `unevalObjectLiteralKey`   | uneval/src/internal/object.ts:427:22    |
 | 12.8% |   1.32s |   8,273 | `join`                     | `<native>`                              |
 | 10.1% |   1.04s |   6,521 | `unevalInternal`           | uneval/src/internal/index.ts:51:13      |
 | 10.0% |   1.03s |   6,475 | `traverseObject`           | uneval/src/index.ts:220:36              |
-|  8.4% | 874.7ms |   5,467 | `unevalObjectLike`         | uneval/src/internal/object.ts:202:55    |
+|  8.5% | 874.7ms |   5,467 | `unevalObjectLike`         | uneval/src/internal/object.ts:202:55    |
 |  8.2% | 851.5ms |   5,313 | `getOwnPropertyDescriptor` | `<native>`                              |
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
 ##### `loadAndEvaluateModule` (`<native>`)
 
@@ -215,13 +215,6 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |  0.0% |  1.8ms |      11 | `loadModule`            | `<native>` |
 |  0.0% |  0.2ms |       1 | `resolve`               | `<native>` |
 
-##### `moduleEvaluation` (`<native>`)
-
-|      % |   Time | Samples | Callee             | Location   |
-| -----: | -----: | ------: | ------------------ | ---------- |
-| 100.0% | 10.31s |  64,102 | `evaluate`         | `<native>` |
-| 100.0% | 10.31s |  64,101 | `moduleEvaluation` | `<native>` |
-
 ##### `evaluate` (`<native>`)
 
 |     % |    Time | Samples | Callee     | Location                        |
@@ -231,6 +224,13 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |  0.9% |  97.6ms |     555 | `(module)` | uneval/scripts/profile.ts:5:20  |
 |  0.3% |  29.4ms |     187 | `(module)` | uneval/scripts/profile.ts:16:15 |
 |  0.0% |   3.1ms |      22 | `(module)` | uneval/scripts/profile.ts:5:30  |
+
+##### `moduleEvaluation` (`<native>`)
+
+|      % |   Time | Samples | Callee             | Location   |
+| -----: | -----: | ------: | ------------------ | ---------- |
+| 100.0% | 10.31s |  64,102 | `evaluate`         | `<native>` |
+| 100.0% | 10.31s |  64,101 | `moduleEvaluation` | `<native>` |
 
 ##### `(module)` (uneval/scripts/profile.ts:17:6)
 

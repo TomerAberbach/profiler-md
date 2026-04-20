@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { diffMd, readFixture } from '../../testing/fixtures.ts'
-import { defaultIncludeRow } from '../common.ts'
+import { diffMd, readFixture } from '../../../testing/fixtures.ts'
+import { defaultIncludeV8Entry } from '../common.ts'
 import { v8CpuProfileToMd } from './index.ts'
 
 const makeProfile = (
@@ -89,15 +89,15 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | %      | Time  | Samples |
-    | -------- | ------ | ----- | ------- |
-    | ours     | 100.0% | 0.3ms | 3       |
+    | Category |      % |  Time | Samples |
+    | -------- | -----: | ----: | ------: |
+    | ours     | 100.0% | 0.3ms |       3 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -107,7 +107,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`funcB\` (src/b.ts:1:1)
 
@@ -118,7 +118,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -128,7 +128,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`funcA\` (src/a.ts:1:1)
 
@@ -221,15 +221,15 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | %      | Time  | Samples |
-    | -------- | ------ | ----- | ------- |
-    | ours     | 100.0% | 0.3ms | 3       |
+    | Category |      % |  Time | Samples |
+    | -------- | -----: | ----: | ------: |
+    | ours     | 100.0% | 0.3ms |       3 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -245,12 +245,12 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     |     % |  Time | Samples | Location   |
     | ----: | ----: | ------: | ---------- |
-    | 66.7% | 0.2ms |       1 | src/b.ts:5 |
-    | 33.3% | 0.1ms |       2 | src/b.ts:8 |
+    | 66.7% | 0.2ms |       2 | src/b.ts:8 |
+    | 33.3% | 0.1ms |       1 | src/b.ts:5 |
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`funcB\` (src/b.ts:1:1)
 
@@ -261,7 +261,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -271,7 +271,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`funcA\` (src/a.ts:1:1)
 
@@ -339,15 +339,15 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | %      | Time  | Samples |
-    | -------- | ------ | ----- | ------- |
-    | ours     | 100.0% | 0.1ms | 1       |
+    | Category |      % |  Time | Samples |
+    | -------- | -----: | ----: | ------: |
+    | ours     | 100.0% | 0.1ms |       1 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -355,7 +355,7 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`funcA\` (src/a.ts:1:1)
 
@@ -365,7 +365,7 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -373,7 +373,7 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`funcA\` (src/a.ts:1:1)
 
@@ -463,15 +463,15 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     Took 0.3ms over 3 samples (100.0µs per sample).
 
-    | Category | %      | Time  | Samples |
-    | -------- | ------ | ----- | ------- |
-    | ours     | 100.0% | 0.3ms | 3       |
+    | Category |      % |  Time | Samples |
+    | -------- | -----: | ----: | ------: |
+    | ours     | 100.0% | 0.3ms |       3 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -492,7 +492,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`funcB\` (src/b.ts:1:1)
 
@@ -503,7 +503,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
@@ -513,7 +513,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`funcA\` (src/a.ts:1:1)
 
@@ -593,25 +593,25 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Took 0.1ms over 1 sample (100.0µs per sample).
 
-    | Category | %      | Time  | Samples |
-    | -------- | ------ | ----- | ------- |
-    | ours     | 100.0% | 0.1ms | 1       |
+    | Category |      % |  Time | Samples |
+    | -------- | -----: | ----: | ------: |
+    | ours     | 100.0% | 0.1ms |       1 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |      % |  Time | Samples | Function      | Location      |
     | -----: | ----: | ------: | ------------- | ------------- |
     | 100.0% | 0.1ms |       1 | \`allocate\`    | src/a.ts:31:1 |
-    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:11:1 |
     |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:21:1 |
+    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:11:1 |
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`allocate\` (src/a.ts:31:1)
 
@@ -621,29 +621,29 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function      | Location      |
     | -----: | ----: | ------: | ------------- | ------------- |
-    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:11:1 |
-    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
     | 100.0% | 0.1ms |       1 | \`allocate\`    | src/a.ts:31:1 |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:11:1 |
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
-
-    ##### \`(anonymous)\` (src/a.ts:11:1)
-
-    |      % |  Time | Samples | Callee        | Location      |
-    | -----: | ----: | ------: | ------------- | ------------- |
-    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`(anonymous)\` (src/a.ts:21:1)
 
     |      % |  Time | Samples | Callee     | Location      |
     | -----: | ----: | ------: | ---------- | ------------- |
     | 100.0% | 0.1ms |       1 | \`allocate\` | src/a.ts:31:1 |
+
+    ##### \`(anonymous)\` (src/a.ts:11:1)
+
+    |      % |  Time | Samples | Callee        | Location      |
+    | -----: | ----: | ------: | ------------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`(anonymous)\` | src/a.ts:21:1 |
 
     ## Hottest call stacks
 
@@ -706,18 +706,18 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 1.8ms over 3 samples (583.3µs per sample).
+    Took 1.8ms over 3 samples (583.0µs per sample).
 
-    | Category    | %     | Time  | Samples |
-    | ----------- | ----- | ----- | ------- |
-    | ours        | 71.4% | 1.3ms | 2       |
-    | third-party | 28.6% | 0.5ms | 1       |
+    | Category    |     % |  Time | Samples |
+    | ----------- | ----: | ----: | ------: |
+    | ours        | 71.4% | 1.3ms |       2 |
+    | third-party | 28.6% | 0.5ms |       1 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |     % |  Time | Samples | Function     | Location                      |
     | ----: | ----: | ------: | ------------ | ----------------------------- |
@@ -727,7 +727,7 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`thirdParty\` (node_modules/lib/index.js:1:1)
 
@@ -743,7 +743,7 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |      % |  Time | Samples | Function     | Location                      |
     | -----: | ----: | ------: | ------------ | ----------------------------- |
@@ -753,7 +753,7 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`ownFunc\` (src/index.ts:1:1)
 
@@ -860,7 +860,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
   // The call stack shows `funcC <- funcA` with `funcB` removed.
   const markdown = v8CpuProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeRow: row => defaultIncludeRow(row) && row.name !== `funcB`,
+    includeEntry: row => defaultIncludeV8Entry(row) && row.name !== `funcB`,
   })
 
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
@@ -871,7 +871,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     @@ -23,10 +21,0 @@
     -#### Callers
     -
-    -Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    -Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
     -
     -##### \`funcC\` (src/c.ts:1:1)
     -
@@ -879,12 +879,12 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     -
-    @@ -40,1 +28,0 @@
+    @@ -41,1 +29,0 @@
     -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     @@ -44,16 +31,0 @@
     -#### Callees
     -
-    -Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    -Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
     -
     -##### \`funcA\` (src/a.ts:1:1)
     -
@@ -916,7 +916,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
   // Diff is vs. a baseline that shows all frames (includeCallFrame: () => true).
   const allFrames = v8CpuProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeRow: () => true,
+    includeEntry: () => true,
   })
 
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
@@ -955,15 +955,15 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 0.4ms |       4 | \`(root)\`         | \`<native>\`                           |
     -|  75.0% | 0.3ms |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    -|  50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
     -|  50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -|  25.0% | 0.1ms |       1 | \`readFileSync\`   | node:fs:1:1                          |
+    -|  50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
     -|  25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    -|  25.0% | 0.1ms |       1 | \`readFileSync\`   | node:fs:1:1                          |
     +|     % |  Time | Samples | Function       | Location     |
     +| ----: | ----: | ------: | -------------- | ------------ |
     +| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
-    +| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     +| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     @@ -64,7 +47,0 @@
     -##### \`(root)\` (\`<native>\`)
@@ -1048,17 +1048,17 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     Took 0.6ms over 6 samples (100.0µs per sample).
 
-    | Category          | %     | Time  | Samples |
-    | ----------------- | ----- | ----- | ------- |
-    | garbage collector | 50.0% | 0.3ms | 3       |
-    | program           | 33.3% | 0.2ms | 2       |
-    | regexp            | 16.7% | 0.1ms | 1       |
+    | Category          |     % |  Time | Samples |
+    | ----------------- | ----: | ----: | ------: |
+    | garbage collector | 50.0% | 0.3ms |       3 |
+    | program           | 33.3% | 0.2ms |       2 |
+    | regexp            | 16.7% | 0.1ms |       1 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |     % |  Time | Samples | Function              | Location   |
     | ----: | ----: | ------: | --------------------- | ---------- |
@@ -1068,13 +1068,15 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |     % |  Time | Samples | Function              | Location   |
     | ----: | ----: | ------: | --------------------- | ---------- |
     | 50.0% | 0.3ms |       3 | \`(garbage collector)\` | \`<native>\` |
     | 33.3% | 0.2ms |       2 | \`(program)\`           | \`<native>\` |
     | 16.7% | 0.1ms |       1 | \`RegExp: /foo/\`       | \`<native>\` |
+
+
     "
   `)
 })
@@ -1103,13 +1105,20 @@ test(`v8CpuProfileToMd respects topN option`, () => {
     -|     % |  Time | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
-    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     +|     % |  Time | Samples | Function | Location     |
     +| ----: | ----: | ------: | -------- | ------------ |
     +| 75.0% | 0.3ms |       3 | \`funcA\`  | src/a.ts:1:1 |
-    +| 50.0% | 0.2ms |       2 | \`funcB\`  | src/b.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    @@ -54,6 +49,0 @@
+    -##### \`funcB\` (src/b.ts:1:1)
+    -
+    -|      % |  Time | Samples | Callee  | Location     |
+    -| -----: | ----: | ------: | ------- | ------------ |
+    -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
+    -
     "
   `)
 })
@@ -1148,14 +1157,14 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
     -|     % |  Time | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
-    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     +|     % |  Time | Samples | Function       | Location              |
     +| ----: | ----: | ------: | -------------- | --------------------- |
     +| 75.0% | 0.3ms |       3 | \`funcA\`        | /project/src/a.ts:1:1 |
-    +| 50.0% | 0.2ms |       2 | \`funcB\`        | /project/src/b.ts:1:1 |
     +| 50.0% | 0.2ms |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`        | /project/src/b.ts:1:1 |
     +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1           |
     @@ -48,1 +48,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
@@ -1199,31 +1208,31 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 6.17s over 47,806 samples (129.2µs per sample).
+    Took 6.17s over 47,806 samples (129.0µs per sample).
 
-    | Category          | %     | Time    | Samples |
-    | ----------------- | ----- | ------- | ------- |
-    | ours              | 91.0% | 5.62s   | 43,522  |
-    | regexp            | 2.1%  | 127.4ms | 987     |
-    | native            | 2.0%  | 124.6ms | 961     |
-    | garbage collector | 1.7%  | 106.3ms | 814     |
-    | program           | 1.7%  | 104.4ms | 816     |
-    | third-party       | 1.5%  | 90.2ms  | 691     |
-    | idle              | 0.0%  | 3.0ms   | 15      |
+    | Category          |     % |    Time | Samples |
+    | ----------------- | ----: | ------: | ------: |
+    | ours              | 91.0% |   5.62s |  43,522 |
+    | regexp            |  2.1% | 127.4ms |     987 |
+    | native            |  2.0% | 124.6ms |     961 |
+    | garbage collector |  1.7% | 106.3ms |     814 |
+    | program           |  1.7% | 104.4ms |     816 |
+    | third-party       |  1.5% |  90.2ms |     691 |
+    | idle              |  0.0% |   3.0ms |      15 |
 
     ## Hottest functions
 
     ### Self time
 
-    Functions ranked by time in the function body, excluding callees.
+    Functions ranked by time spent directly in the function body, excluding callees.
 
     |     % |    Time | Samples | Function               | Location                         |
     | ----: | ------: | ------: | ---------------------- | -------------------------------- |
     | 15.6% | 966.3ms |   7,479 | \`traverseObject\`       | src/index.ts:204:26              |
-    | 15.0% | 926.9ms |   7,173 | \`unevalObjectLike\`     | src/internal/object.ts:103:26    |
+    | 15.0% | 926.9ms |   7,175 | \`unevalObjectLike\`     | src/internal/object.ts:103:26    |
     |  8.5% | 527.0ms |   4,083 | \`unevalObjectInternal\` | src/internal/object.ts:68:30     |
     |  8.5% | 524.1ms |   4,059 | \`unevalWithoutCustom\`  | src/internal/index.ts:14:37      |
-    |  8.4% | 517.7ms |   4,009 | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 |
+    |  8.4% | 517.7ms |   4,010 | \`unevalLiteral\`        | src/internal/primitive.ts:139:23 |
 
     #### Lines
 
@@ -1265,7 +1274,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     #### Callers
 
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to V8 JIT inlining.
+    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
     ##### \`traverseObject\` (src/index.ts:204:26)
 
@@ -1302,7 +1311,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     ### Total time
 
-    Functions ranked by total time in the function and all its callees.
+    Functions ranked by total time spent in the function and all its callees.
 
     |     % |  Time | Samples | Function               | Location                     |
     | ----: | ----: | ------: | ---------------------- | ---------------------------- |
@@ -1314,7 +1323,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
 
     #### Callees
 
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to V8 JIT inlining.
+    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
     ##### \`(anonymous)\` (scripts/profile.ts:1:1)
 

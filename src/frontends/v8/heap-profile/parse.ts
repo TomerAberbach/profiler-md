@@ -1,19 +1,19 @@
-import type { CallFrame } from '../common.ts'
+import type { V8CallFrame } from '../common.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/inspector/v8-heap-profiler-agent-impl.cc
  */
-export type HeapProfile = {
+export type V8HeapProfile = {
   /** Root node of the allocation call tree. */
-  head: HeapProfileNode
+  head: V8HeapProfileNode
 
   /** Individual allocation samples, each referencing a node in the call tree. */
-  samples: HeapProfileSample[]
+  samples: V8HeapProfileSample[]
 }
 
-export type HeapProfileNode = {
+export type V8HeapProfileNode = {
   /** The function and source location of this call site. */
-  callFrame: CallFrame
+  callFrame: V8CallFrame
 
   /** Total bytes allocated directly at this call site (size × count). */
   selfSize: number
@@ -22,10 +22,10 @@ export type HeapProfileNode = {
   id: number
 
   /** Child call sites, forming the allocation call tree. */
-  children: HeapProfileNode[]
+  children: V8HeapProfileNode[]
 }
 
-export type HeapProfileSample = {
+export type V8HeapProfileSample = {
   /** Total bytes for this allocation (size * count). */
   size: number
 
@@ -36,9 +36,9 @@ export type HeapProfileSample = {
   ordinal: number
 }
 
-export const parseProfile = (data: string | Buffer): HeapProfile =>
+export const parseV8HeapProfile = (data: string | Buffer): V8HeapProfile =>
   JSON.parse(
     // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
     // include that in the types.
     data,
-  ) as HeapProfile
+  ) as V8HeapProfile

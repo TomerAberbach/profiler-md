@@ -1,17 +1,13 @@
-import type { CallFrame } from '../common.ts'
+import type { V8CallFrame } from '../common.ts'
 
 /**
+ * A parsed V8 CPU profile.
+ *
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#937
  */
-export type CpuProfile = {
+export type V8CpuProfile = {
   /** The profile nodes forming the call tree. */
-  nodes: ProfileNode[]
-
-  /** Microseconds since origin. */
-  startTime: number
-
-  /** Microseconds since origin. */
-  endTime: number
+  nodes: V8CpuProfileNode[]
 
   /** Node IDs in temporal order. */
   samples: number[]
@@ -20,7 +16,8 @@ export type CpuProfile = {
   timeDeltas: number[]
 }
 
-export type ProfileNode = {
+/** A single function call within a V8 CPU profile. */
+export type V8CpuProfileNode = {
   /** Unique node ID. */
   id: number
 
@@ -28,26 +25,24 @@ export type ProfileNode = {
   hitCount: number
 
   /** The call frame this node represents. */
-  callFrame: CallFrame
+  callFrame: V8CallFrame
 
   /** Child node IDs. */
   children?: number[]
 
   /** Per-line hit counts within this function. */
-  positionTicks?: PositionTick[]
+  positionTicks?: {
+    /** The 1-based line number of the code corresponding to this position. */
+    line: number
+
+    /** The hit count for this source line. */
+    ticks: number
+  }[]
 }
 
-export type PositionTick = {
-  /** The 1-based line number of the code corresponding to this position. */
-  line: number
-
-  /** The hit count for this source line. */
-  ticks: number
-}
-
-export const parseProfile = (data: string | Buffer): CpuProfile =>
+export const parseV8CpuProfile = (data: string | Buffer): V8CpuProfile =>
   JSON.parse(
     // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
     // include that in the types.
     data,
-  ) as CpuProfile
+  ) as V8CpuProfile

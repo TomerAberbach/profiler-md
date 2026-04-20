@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
+import { v8HeapProfileToMd } from '../../src/index.ts'
 import { fixturePath } from '../../src/testing/fixtures.ts'
-import { v8HeapProfileToMd } from '../../src/v8/heap-profile/index.ts'
 
 const data = await readFile(fixturePath(`example.heapprofile`))
 

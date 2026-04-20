@@ -2,7 +2,7 @@
 
 import fs from 'node:fs/promises'
 import { expect, test } from 'vitest'
-import { fixturePath } from '../../testing/fixtures.ts'
+import { fixturePath } from '../../../testing/fixtures.ts'
 import { v8HeapSnapshotToMd } from './index.ts'
 
 const NODE_TYPE_STRING = 2

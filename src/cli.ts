@@ -6,21 +6,23 @@ import meow from 'meow'
 import picomatch from 'picomatch'
 import {
   defaultIsThirdPartyURL,
+  pprofToMd,
   v8CpuProfileToMd,
   v8HeapProfileToMd,
   v8HeapSnapshotToMd,
 } from './index.ts'
-import type { V8ProfileToMdOptions } from './index.ts'
+import type { ProfileToMdOptions } from './index.ts'
 
 type ProfileConverter = {
   type: string
-  convert: (data: string | Buffer, options: V8ProfileToMdOptions) => string
+  convert: (data: Buffer, options: ProfileToMdOptions) => string
 }
 
 const extensionToProfileConverter = new Map<string, ProfileConverter>([
   [`.cpuprofile`, { type: `v8-cpu-profile`, convert: v8CpuProfileToMd }],
   [`.heapprofile`, { type: `v8-heap-profile`, convert: v8HeapProfileToMd }],
   [`.heapsnapshot`, { type: `v8-heap-snapshot`, convert: v8HeapSnapshotToMd }],
+  [`.pprof`, { type: `pprof`, convert: pprofToMd }],
 ])
 
 const profileTypeToConverter = new Map(
@@ -77,8 +79,12 @@ try {
       process.exit(2)
     }
   } else if (filePath) {
-    const extension = extname(filePath)
-    profileConverter = extensionToProfileConverter.get(extension)
+    const lastExt = extname(filePath)
+    const prevExt = extname(filePath.slice(0, -lastExt.length))
+    const extension = prevExt ? prevExt + lastExt : lastExt
+    profileConverter =
+      extensionToProfileConverter.get(extension) ??
+      extensionToProfileConverter.get(lastExt)
     if (!profileConverter) {
       process.stderr.write(
         `error: unrecognized file extension "${extension}"\nUse --type to specify the profile type, or run with --help to see supported types.\n`,

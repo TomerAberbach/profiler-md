@@ -1,12 +1,12 @@
+import plur from 'plur'
 import prettyBytes from 'pretty-bytes'
 import prettyMilliseconds from 'pretty-ms'
 
 export const formatCount = (count: number, unit?: string): string =>
-  count.toLocaleString(`en-US`) +
-  (unit ? ` ${unit}${count === 1 ? `` : `s`}` : ``)
+  count.toLocaleString(`en-US`) + (unit ? ` ${plur(unit, count)}` : ``)
 
-export const formatMicroseconds = (microseconds: number): string =>
-  prettyMilliseconds(microseconds / 1000, {
+export const formatMilliseconds = (milliseconds: number): string =>
+  prettyMilliseconds(milliseconds, {
     secondsDecimalDigits: 2,
     millisecondsDecimalDigits: 1,
     unitCount: 2,
@@ -20,3 +20,11 @@ export const formatBytes = (bytes: number): string =>
 
 export const formatPercent = (fraction: number): string =>
   `${(fraction * 100).toFixed(1)}%`
+
+export const formatConjunction = (strings: Iterable<string>): string =>
+  conjunctionFormatter.format(strings)
+
+const conjunctionFormatter = new Intl.ListFormat(`en`, {
+  style: `long`,
+  type: `conjunction`,
+})

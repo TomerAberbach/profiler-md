@@ -1,22 +1,22 @@
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
  */
-export type HeapSnapshot = {
+export type V8HeapSnapshot = {
   snapshot: {
     /** Describes the structure/encoding of the flat arrays. */
-    meta: SnapshotMeta
+    meta: V8HeapSnapshotMeta
 
-    /** Number of nodes encoded in {@link HeapSnapshot.nodes}. */
+    /** Number of nodes encoded in {@link V8HeapSnapshot.nodes}. */
     node_count: number
 
-    /** Number of edges encoded in {@link HeapSnapshot.edges}. */
+    /** Number of edges encoded in {@link V8HeapSnapshot.edges}. */
     edge_count: number
   }
 
   /**
    * Flat array of nodes.
    *
-   * Each consecutive {@link SnapshotMeta.node_fields} length integers represent
+   * Each consecutive {@link V8HeapSnapshotMeta.node_fields} length integers represent
    * a single node record.
    */
   nodes: number[]
@@ -24,7 +24,7 @@ export type HeapSnapshot = {
   /**
    * Flat array of edges.
    *
-   * Each consecutive {@link SnapshotMeta.edge_fields} length integers represent
+   * Each consecutive {@link V8HeapSnapshotMeta.edge_fields} length integers represent
    * a single edge record.
    */
   edges: number[]
@@ -35,17 +35,17 @@ export type HeapSnapshot = {
   /**
    * Flat array of locations.
    *
-   * Each consecutive {@link SnapshotMeta.location_fields} length integers
+   * Each consecutive {@link V8HeapSnapshotMeta.location_fields} length integers
    * represent a single location record.
    */
   locations: number[]
 }
 
-export type SnapshotMeta = {
+export type V8HeapSnapshotMeta = {
   /**
    * Names for each field in a node record.
    *
-   * @see {@link HeapSnapshot.nodes}
+   * @see {@link V8HeapSnapshot.nodes}
    */
   node_fields: string[]
 
@@ -58,7 +58,7 @@ export type SnapshotMeta = {
   /**
    * Names for each position in an edge record.
    *
-   * @see {@link HeapSnapshot.edges}
+   * @see {@link V8HeapSnapshot.edges}
    */
   edge_fields: string[]
 
@@ -71,14 +71,14 @@ export type SnapshotMeta = {
   /**
    * Names for each position in a location record.
    *
-   * @see {@link HeapSnapshot.locations}
+   * @see {@link V8HeapSnapshot.locations}
    */
   location_fields: string[]
 }
 
-export const parseSnapshot = (data: string | Buffer): HeapSnapshot =>
+export const parseV8HeapSnapshot = (data: string | Buffer): V8HeapSnapshot =>
   JSON.parse(
     // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
     // include that in the types.
     data,
-  ) as HeapSnapshot
+  ) as V8HeapSnapshot
