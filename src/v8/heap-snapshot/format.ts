@@ -7,9 +7,9 @@ import { selectTopN } from '../../internal/heap.ts'
 import { formatTable, inlineCode } from '../../internal/markdown.ts'
 import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
 import type {
-  SummarizedClosure,
   SummarizedConstructor,
   SummarizedHeapSnapshot,
+  SummarizedSnapshotNode,
 } from './summarize.ts'
 
 export const formatSummarizedSnapshot = (
@@ -28,17 +28,17 @@ export const formatSummarizedSnapshot = (
 
 const formatOverallSummary = ({
   totalSize,
-  objectCount,
-  referenceCount,
-  objectCategoryToSizeStats,
+  nodeCount,
+  edgeCount,
+  nodeCategoryToStats,
 }: SummarizedHeapSnapshot): string => {
-  const hottestObjectCategories = [...objectCategoryToSizeStats].sort(
+  const hottestObjectCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
   return [
     `Allocated ${formatBytes(totalSize)} across ${formatCount(
-      objectCount,
-    )} objects and ${formatCount(referenceCount)} references.`,
+      nodeCount,
+    )} objects and ${formatCount(edgeCount)} references.`,
     formatTable(
       [
         `Category`,
@@ -46,12 +46,14 @@ const formatOverallSummary = ({
         { content: `Size`, align: `right` },
         { content: `Objects`, align: `right` },
       ],
-      hottestObjectCategories.map(([type, { size, objectCount }]) => [
-        type,
-        formatPercent(size / totalSize),
-        formatBytes(size),
-        formatCount(objectCount),
-      ]),
+      hottestObjectCategories.map(
+        ([type, { size, nodeCount: objectCount }]) => [
+          type,
+          formatPercent(size / totalSize),
+          formatBytes(size),
+          formatCount(objectCount),
+        ],
+      ),
     ),
   ].join(`\n\n`)
 }
@@ -140,7 +142,7 @@ const formatLargestSelfSizeConstructorInstances = (
       largestInstances.map(instance => [
         formatPercent(instance.selfSize / constructor.selfSize),
         formatBytes(instance.selfSize),
-        inlineCode(retainerPathOf(instance.nodeOrdinal)),
+        inlineCode(retainerPathOf(instance.id)),
       ]),
     ),
   ].join(`\n\n`)
@@ -224,7 +226,7 @@ const formatLargestRetainedSizeConstructorInstances = (
       largestInstances.map(instance => [
         formatPercent(instance.retainedSize / constructor.retainedSize),
         formatBytes(instance.retainedSize),
-        inlineCode(retainerPathOf(instance.nodeOrdinal)),
+        inlineCode(retainerPathOf(instance.id)),
       ]),
     ),
   ].join(`\n\n`)
@@ -275,11 +277,8 @@ const formatLargestClosures = (
 }
 
 const formatClosureRetainedObjects = (
-  closure: SummarizedClosure,
-  {
-    retainedObjectsOf: retainedNodesOf,
-    retainerPathOf,
-  }: SummarizedHeapSnapshot,
+  closure: SummarizedSnapshotNode,
+  { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedV8ProfileToMdOptions,
 ): string | undefined => {
   const retainedNodes = selectTopN(
@@ -336,7 +335,7 @@ const formatLargestStrings = (
         formatPercent(string.selfSize / totalSize),
         formatBytes(string.selfSize),
         inlineCode(string.name),
-        inlineCode(retainerPathOf(string.nodeOrdinal)),
+        inlineCode(retainerPathOf(string.id)),
       ]),
     ),
   ].join(`\n\n`)
