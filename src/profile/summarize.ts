@@ -14,7 +14,7 @@ export class ProfileBuilder<Node extends { id: number }> {
 
   readonly #keyToCallStack: Map<string, ProfileCallStack>
   readonly #keyToFunction: Map<number | string, ProfileFunction>
-  readonly #idToFunction: Map<number, ProfileFunction>
+  readonly #idToFunction: ProfileFunction[]
   #functionIdToLastSeenSampleCount: Uint32Array
   #frameIndexToFramePairKey: Int32Array
 
@@ -45,7 +45,7 @@ export class ProfileBuilder<Node extends { id: number }> {
 
     this.#keyToCallStack = new Map()
     this.#keyToFunction = new Map()
-    this.#idToFunction = new Map()
+    this.#idToFunction = []
     this.#functionIdToLastSeenSampleCount = new Uint32Array(1)
     this.#frameIndexToFramePairKey = new Int32Array(64)
   }
@@ -221,7 +221,7 @@ export class ProfileBuilder<Node extends { id: number }> {
   }
 
   #getOrCreateFunction(node: Node): ProfileFunction {
-    let func = this.#idToFunction.get(node.id)
+    let func = this.#idToFunction[node.id]
     if (func) {
       return func
     }
@@ -229,7 +229,7 @@ export class ProfileBuilder<Node extends { id: number }> {
     const key = this.#functionKey(node)
     func = this.#keyToFunction.get(key)
     if (func) {
-      this.#idToFunction.set(node.id, func)
+      this.#idToFunction[node.id] = func
       return func
     }
 
@@ -244,7 +244,7 @@ export class ProfileBuilder<Node extends { id: number }> {
       callerIdToMetrics: new Map(),
       calleeIdToMetrics: new Map(),
     }
-    this.#idToFunction.set(node.id, func)
+    this.#idToFunction[node.id] = func
     this.#keyToFunction.set(key, func)
     return func
   }
