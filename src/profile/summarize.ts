@@ -15,6 +15,8 @@ export class ProfileBuilder<Node extends { id: number }> {
   readonly #keyToCallStack: Map<string, ProfileCallStack>
   readonly #keyToFunction: Map<number | string, ProfileFunction>
   readonly #idToFunction: Map<number, ProfileFunction>
+  #functionIdToLastSeenSampleCount: Uint32Array
+  #frameIndexToFramePairKey: Int32Array
 
   public constructor({
     metrics,
@@ -44,6 +46,8 @@ export class ProfileBuilder<Node extends { id: number }> {
     this.#keyToCallStack = new Map()
     this.#keyToFunction = new Map()
     this.#idToFunction = new Map()
+    this.#functionIdToLastSeenSampleCount = new Uint32Array(1)
+    this.#frameIndexToFramePairKey = new Int32Array(64)
   }
 
   /** Adds a single profile sample. */
@@ -114,12 +118,18 @@ export class ProfileBuilder<Node extends { id: number }> {
       }
     }
 
-    const seenFunctions = new Uint8Array(this.#keyToFunction.size)
+    const funcCount = this.#keyToFunction.size
+    if (this.#functionIdToLastSeenSampleCount.length < funcCount) {
+      this.#functionIdToLastSeenSampleCount = new Uint32Array(funcCount)
+    }
     for (const func of callStack.frames) {
-      if (seenFunctions[func.id]) {
+      if (
+        this.#functionIdToLastSeenSampleCount[func.id] ===
+        this.#totalSampleCount
+      ) {
         continue
       }
-      seenFunctions[func.id] = 1
+      this.#functionIdToLastSeenSampleCount[func.id] = this.#totalSampleCount
 
       func.totalSampleCount++
       for (let i = 0; i < values.length; i++) {
@@ -127,16 +137,27 @@ export class ProfileBuilder<Node extends { id: number }> {
       }
     }
 
-    const seenFunctionPairs = new Uint8Array(this.#keyToFunction.size ** 2)
-    for (let i = 0; i < callStack.frames.length - 1; i++) {
+    const maxFramePairCount = callStack.frames.length - 1
+    if (this.#frameIndexToFramePairKey.length < maxFramePairCount) {
+      this.#frameIndexToFramePairKey = new Int32Array(maxFramePairCount * 2)
+    }
+    let seenFramePairCount = 0
+    for (let i = 0; i < maxFramePairCount; i++) {
       const callee = callStack.frames[i]!
       const caller = callStack.frames[i + 1]!
+      const pairKey = caller.id * funcCount + callee.id
 
-      const pairOrdinal = caller.id * this.#keyToFunction.size + callee.id
-      if (seenFunctionPairs[pairOrdinal]) {
+      let pairAlreadySeen = false
+      for (let j = 0; j < seenFramePairCount; j++) {
+        if (this.#frameIndexToFramePairKey[j] === pairKey) {
+          pairAlreadySeen = true
+          break
+        }
+      }
+      if (pairAlreadySeen) {
         continue
       }
-      seenFunctionPairs[pairOrdinal] = 1
+      this.#frameIndexToFramePairKey[seenFramePairCount++] = pairKey
 
       let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
       if (!calleeMetrics) {
@@ -183,14 +204,15 @@ export class ProfileBuilder<Node extends { id: number }> {
   }
 
   #getOrCreateCallStack(nodes: Node[]): ProfileCallStack {
-    const key = nodes.map(frame => this.#functionKey(frame)).join(`,`)
+    const frames = nodes.map(node => this.#getOrCreateFunction(node))
+    const key = frames.map(frame => frame.id).join(`,`)
     let callStack = this.#keyToCallStack.get(key)
     if (callStack) {
       return callStack
     }
 
     callStack = {
-      frames: nodes.map(frame => this.#getOrCreateFunction(frame)),
+      frames,
       selfSampleCount: 0,
       selfValues: new Int32Array(this.#metrics.length),
     }
