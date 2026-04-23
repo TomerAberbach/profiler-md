@@ -35,7 +35,7 @@ export const summarizeV8CpuProfile = (
     }
   }
 
-  const idToSelfTime = new Int32Array(profile.nodes.length)
+  const idToSelfTime = new Float64Array(profile.nodes.length)
 
   for (let index = 0; index < profile.samples.length; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]

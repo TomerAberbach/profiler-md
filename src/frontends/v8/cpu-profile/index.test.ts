@@ -706,7 +706,7 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 1.8ms over 3 samples (583.0µs per sample).
+    Took 1.8ms over 3 samples (583.3µs per sample).
 
     | Category    |     % |  Time | Samples |
     | ----------- | ----: | ----: | ------: |
@@ -1208,7 +1208,7 @@ test(`v8CpuProfileToMd with real fixture`, async () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 6.17s over 47,806 samples (129.0µs per sample).
+    Took 6.17s over 47,806 samples (129.2µs per sample).
 
     | Category          |     % |    Time | Samples |
     | ----------------- | ----: | ------: | ------: |
