@@ -1,6 +1,6 @@
-import { formatLocation } from '../common.ts'
-import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
-import type { HeapSnapshot, SnapshotMeta } from './parse.ts'
+import { formatLocation } from '../../../common.ts'
+import type { NormalizedProfileToMdOptions } from '../../../common.ts'
+import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 
 export type NodeCategoryStats = {
   /** Bytes allocated directly for nodes in this category. */
@@ -56,9 +56,9 @@ export type SummarizedHeapSnapshot = {
   retainedNodesOf: (nodeOrdinal: number) => SummarizedSnapshotNode[]
 }
 
-export const summarizeSnapshot = (
-  snapshot: HeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+export const summarizeV8HeapSnapshot = (
+  snapshot: V8HeapSnapshot,
+  options: NormalizedProfileToMdOptions,
 ): SummarizedHeapSnapshot => {
   const {
     snapshot: { meta, node_count: nodeCount, edge_count: edgeCount },
@@ -264,7 +264,7 @@ type NodeAdjacencyGraph = {
 }
 
 const computeNodeAdjacencyGraph = (
-  { snapshot: { node_count: nodeCount }, nodes, edges }: HeapSnapshot,
+  { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
 ): NodeAdjacencyGraph => {
   // Pass 1: Count non-weak edges per source and per target node.
@@ -356,13 +356,13 @@ const computeNodeAdjacencyGraph = (
 }
 
 const computeNodeIndexToLocation = (
-  { nodes, edges, strings, locations }: HeapSnapshot,
+  { nodes, edges, strings, locations }: V8HeapSnapshot,
   {
     ordinalToSuccessorStartOffset,
     offsetToSuccessorEdgeIndex,
   }: NodeAdjacencyGraph,
   fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): Map<number, string> => {
   const namedEdgeToNodeIndex = (
     nodeIndex: number,
@@ -512,7 +512,7 @@ type ImmediateDominatorGraph = {
  * @see https://www.cs.princeton.edu/courses/archive/fall03/cs528/handouts/a%20fast%20algorithm%20for%20finding.pdf
  */
 const computeImmediateDominatorGraph = (
-  snapshot: HeapSnapshot,
+  snapshot: V8HeapSnapshot,
   {
     ordinalToSuccessorStartOffset,
     offsetToSuccessorOrdinal,
@@ -720,7 +720,7 @@ const computeImmediateDominatorGraph = (
 }
 
 const computeNodeOrdinalToRetainedSize = (
-  { nodes }: HeapSnapshot,
+  { nodes }: V8HeapSnapshot,
   {
     dfsIndexToOrdinal,
     ordinalToImmediateDominatorOrdinal,
@@ -751,7 +751,7 @@ const computeNodeOrdinalToRetainedSize = (
 
 const computeRetainerPath = (
   nodeOrdinal: number,
-  snapshot: HeapSnapshot,
+  snapshot: V8HeapSnapshot,
   {
     ordinalToPredecessorStartOffset,
     offsetToPredecessorOrdinal,
@@ -760,7 +760,7 @@ const computeRetainerPath = (
   nodeIndexToLocation: Map<number, string>,
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const { nodes } = snapshot
 
@@ -832,14 +832,14 @@ const computeRetainerPath = (
 
 const computeRetainedNodes = (
   nodeOrdinal: number,
-  snapshot: HeapSnapshot,
+  snapshot: V8HeapSnapshot,
   nodeOrdinalToRetainedSize: Float64Array,
   {
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ) => {
   const { nodes } = snapshot
 
@@ -891,9 +891,9 @@ const isInternalNodeType = (
 
 const formatEdgeLabel = (
   edgeIndex: number,
-  { edges, strings }: HeapSnapshot,
+  { edges, strings }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ) => {
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
@@ -920,9 +920,9 @@ const formatNodeLabel = (
     },
     nodes,
     strings,
-  }: HeapSnapshot,
+  }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
   switch (nodeType) {
@@ -1028,7 +1028,7 @@ const attributeGroupRetainedSizes = (
   } while (topOffset > 0)
 }
 
-/** Sentinel offsets and values for accessing data in a {@link HeapSnapshot}. */
+/** Sentinel offsets and values for accessing data in a {@link V8HeapSnapshot}. */
 type FieldLayout = {
   /**
    * The category of heap object.
@@ -1199,7 +1199,7 @@ type FieldLayout = {
   nodeTypeObjectShape: number
 }
 
-const computeFieldLayout = (meta: SnapshotMeta): FieldLayout => {
+const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
   const {
     node_fields: nodeFields,
     node_types: [nodeTypes],

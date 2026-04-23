@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
+import { v8HeapSnapshotToMd } from '../../src/index.ts'
 import { fixturePath } from '../../src/testing/fixtures.ts'
-import { v8HeapSnapshotToMd } from '../../src/v8/heap-snapshot/index.ts'
 
 const data = await readFile(fixturePath(`example.heapsnapshot`))
 

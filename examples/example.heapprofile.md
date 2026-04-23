@@ -2,15 +2,15 @@
 
 Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
 
-| Category          | %     | Size    | Samples |
-| ----------------- | ----- | ------- | ------- |
-| native            | 78.9% | 3.88 MB | 2,337   |
-| IDLE              | 9.3%  | 458 kB  | 80      |
-| third-party       | 8.1%  | 400 kB  | 322     |
-| ours              | 3.1%  | 152 kB  | 80      |
-| BYTECODE_COMPILER | 0.2%  | 12.2 kB | 11      |
-| PARSER            | 0.2%  | 10.2 kB | 10      |
-| V8 API            | 0.1%  | 4.27 kB | 4       |
+| Category          |     % |    Size | Samples |
+| ----------------- | ----: | ------: | ------: |
+| native            | 78.9% | 3.88 MB |   2,337 |
+| IDLE              |  9.3% |  458 kB |      80 |
+| third-party       |  8.1% |  400 kB |     322 |
+| ours              |  3.1% |  152 kB |      80 |
+| BYTECODE_COMPILER |  0.2% | 12.2 kB |      11 |
+| PARSER            |  0.2% | 10.2 kB |      10 |
+| V8 API            |  0.1% | 4.27 kB |       4 |
 
 ## Hottest functions
 
@@ -43,7 +43,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self size.
+Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
 
 ##### `(anonymous)` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1)
 
@@ -158,7 +158,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size.
+Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
 
 ##### `(anonymous)` (`<native>`)
 

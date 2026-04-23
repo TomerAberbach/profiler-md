@@ -1,20 +1,20 @@
+import type { NormalizedProfileToMdOptions } from '../../../common.ts'
 import {
   formatBytes,
   formatCount,
   formatPercent,
-} from '../../internal/format.ts'
-import { selectTopN } from '../../internal/heap.ts'
-import { formatTable, inlineCode } from '../../internal/markdown.ts'
-import type { NormalizedV8ProfileToMdOptions } from '../common.ts'
+} from '../../../helpers/format.ts'
+import { selectTopN } from '../../../helpers/heap.ts'
+import { formatTable, inlineCode } from '../../../helpers/markdown.ts'
 import type {
   SummarizedConstructor,
   SummarizedHeapSnapshot,
   SummarizedSnapshotNode,
 } from './summarize.ts'
 
-export const formatSummarizedSnapshot = (
+export const formatV8HeapSnapshot = (
   snapshot: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string =>
   `${[
     `# Heap snapshot`,
@@ -60,7 +60,7 @@ const formatOverallSummary = ({
 
 const formatLargestConstructors = (
   snapshot: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string =>
   [
     `## Largest constructors`,
@@ -70,12 +70,12 @@ const formatLargestConstructors = (
 
 const formatLargestSelfSizeConstructors = (
   snapshot: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(options.includeRow),
+    constructors.filter(options.includeEntry),
     options.topN,
     (constructor1, constructor2) =>
       constructor2.selfSize - constructor1.selfSize,
@@ -118,7 +118,7 @@ const formatLargestSelfSizeConstructors = (
 const formatLargestSelfSizeConstructorInstances = (
   constructor: SummarizedConstructor,
   { retainerPathOf }: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const largestInstances = selectTopN(
     constructor.instances,
@@ -150,12 +150,12 @@ const formatLargestSelfSizeConstructorInstances = (
 
 const formatLargestRetainedSizeConstructors = (
   snapshot: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(options.includeRow),
+    constructors.filter(options.includeEntry),
     options.topN,
     (constructor1, constructor2) =>
       constructor2.retainedSize - constructor1.retainedSize,
@@ -202,7 +202,7 @@ const formatLargestRetainedSizeConstructors = (
 const formatLargestRetainedSizeConstructorInstances = (
   constructor: SummarizedConstructor,
   { retainerPathOf }: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const largestInstances = selectTopN(
     constructor.instances,
@@ -234,11 +234,11 @@ const formatLargestRetainedSizeConstructorInstances = (
 
 const formatLargestClosures = (
   snapshot: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, closures, retainerPathOf } = snapshot
   const largestClosures = selectTopN(
-    closures.filter(options.includeRow),
+    closures.filter(options.includeEntry),
     options.topN,
     (closure1, closure2) => closure2.retainedSize - closure1.retainedSize,
   )
@@ -279,10 +279,10 @@ const formatLargestClosures = (
 const formatClosureRetainedObjects = (
   closure: SummarizedSnapshotNode,
   { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const retainedNodes = selectTopN(
-    retainedNodesOf(closure.id).filter(options.includeRow),
+    retainedNodesOf(closure.id).filter(options.includeEntry),
     Math.ceil(options.topN / 4),
     (node1, node2) => node2.selfSize - node1.selfSize,
   )
@@ -313,7 +313,7 @@ const formatClosureRetainedObjects = (
 
 const formatLargestStrings = (
   { totalSize, strings, retainerPathOf }: SummarizedHeapSnapshot,
-  options: NormalizedV8ProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const largestStrings = selectTopN(
     strings,

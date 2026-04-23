@@ -64,6 +64,7 @@ $ profiler-md --help
     *.cpuprofile -> v8-cpu-profile
     *.heapprofile -> v8-heap-profile
     *.heapsnapshot -> v8-heap-snapshot
+    *.pprof -> pprof
 ```
 
 <!-- CLI_HELP END -->
@@ -73,8 +74,9 @@ $ profiler-md --help
 ```js
 import { readFile } from 'node:fs/promises'
 import {
-  defaultIncludeRow,
+  defaultIncludeV8Entry,
   defaultIsThirdPartyURL,
+  pprofToMd,
   v8CpuProfileToMd,
   v8HeapProfileToMd,
   v8HeapSnapshotToMd,
@@ -83,11 +85,13 @@ import {
 const cpuProfileData = await readFile(`example.cpuprofile`)
 const heapProfileData = await readFile(`example.heapprofile`)
 const heapSnapshotData = await readFile(`example.heapsnapshot`)
+const pprofData = await readFile(`example.pprof`)
 
 // Basic usage
 console.log(v8CpuProfileToMd(cpuProfileData))
 console.log(v8HeapProfileToMd(heapProfileData))
 console.log(v8HeapSnapshotToMd(heapSnapshotData))
+console.log(pprofToMd(pprofData))
 
 // Complex usage
 const options = {
@@ -99,10 +103,10 @@ const options = {
     defaultIsThirdPartyURL(url) ||
     // Treat an additional vendor directory as third-party.
     url.pathname.includes(`/vendor/`),
-  includeRow: row =>
-    defaultIncludeRow(row) &&
-    // Exclude rows from a specific file.
-    !row.location?.includes(`/path/to/project/src/noisy.js`),
+  includeEntry: entry =>
+    defaultIncludeV8Entry(entry) &&
+    // Exclude entries from a specific file.
+    !entry.location?.includes(`/path/to/project/src/noisy.js`),
 }
 console.log(v8CpuProfileToMd(cpuProfileData, options))
 console.log(v8HeapProfileToMd(heapProfileData, options))

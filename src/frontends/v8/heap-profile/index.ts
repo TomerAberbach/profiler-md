@@ -1,8 +1,8 @@
+import type { ProfileToMdOptions } from '../../../common.ts'
 import { normalizeV8ProfileToMdOptions } from '../common.ts'
-import type { V8ProfileToMdOptions } from '../common.ts'
-import { formatSummarizedProfile } from './format.ts'
-import { parseProfile } from './parse.ts'
-import { summarizeProfile } from './summarize.ts'
+import { formatV8HeapProfile } from './format.ts'
+import { parseV8HeapProfile } from './parse.ts'
+import { summarizeV8HeapProfile } from './summarize.ts'
 
 /**
  * Converts the given V8 sampling heap profile to Markdown.
@@ -19,10 +19,10 @@ import { summarizeProfile } from './summarize.ts'
  */
 export const v8HeapProfileToMd = (
   data: string | Buffer,
-  options?: V8ProfileToMdOptions,
+  options?: ProfileToMdOptions,
 ): string => {
   const normalizedOptions = normalizeV8ProfileToMdOptions(options)
-  const profile = parseProfile(data)
-  const summary = summarizeProfile(profile, normalizedOptions)
-  return formatSummarizedProfile(summary, normalizedOptions)
+  const rawProfile = parseV8HeapProfile(data)
+  const profile = summarizeV8HeapProfile(rawProfile, normalizedOptions)
+  return formatV8HeapProfile(profile, normalizedOptions)
 }

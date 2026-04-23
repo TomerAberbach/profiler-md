@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
+import { v8CpuProfileToMd } from '../../src/index.ts'
 import { fixturePath } from '../../src/testing/fixtures.ts'
-import { v8CpuProfileToMd } from '../../src/v8/cpu-profile/index.ts'
 
 const data = await readFile(fixturePath(`example.cpuprofile`))
 

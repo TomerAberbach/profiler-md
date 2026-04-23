@@ -1,8 +1,8 @@
+import type { ProfileToMdOptions } from '../../../common.ts'
 import { normalizeV8ProfileToMdOptions } from '../common.ts'
-import type { V8ProfileToMdOptions } from '../common.ts'
-import { formatSummarizedProfile } from './format.ts'
-import { parseProfile } from './parse.ts'
-import { summarizeProfile } from './summarize.ts'
+import { formatV8CpuProfile } from './format.ts'
+import { parseV8CpuProfile } from './parse.ts'
+import { summarizeV8CpuProfile } from './summarize.ts'
 
 /**
  * Converts the given V8 CPU profile to Markdown.
@@ -19,10 +19,10 @@ import { summarizeProfile } from './summarize.ts'
  */
 export const v8CpuProfileToMd = (
   data: string | Buffer,
-  options?: V8ProfileToMdOptions,
+  options?: ProfileToMdOptions,
 ): string => {
   const normalizedOptions = normalizeV8ProfileToMdOptions(options)
-  const profile = parseProfile(data)
-  const summary = summarizeProfile(profile, normalizedOptions)
-  return formatSummarizedProfile(summary, normalizedOptions)
+  const rawProfile = parseV8CpuProfile(data)
+  const profile = summarizeV8CpuProfile(rawProfile, normalizedOptions)
+  return formatV8CpuProfile(profile, normalizedOptions)
 }
