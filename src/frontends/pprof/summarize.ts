@@ -27,18 +27,18 @@ export const summarizePprof = (
 
   const profileBuilder = new ProfileBuilder<PprofFunction>({
     metrics,
-    functionKey: fn => fn.id,
-    functionMetadata: fn => {
-      const fileLocation = formatLocation(fn.filename, options)
+    functionKey: func => func.id,
+    functionMetadata: func => {
+      const fileLocation = formatLocation(func.filename, options)
       return {
-        name: fn.name || fn.systemName || `(unknown)`,
+        name: func.name || func.systemName || `(unknown)`,
         fileLocation,
         location: fileLocation
-          ? fn.startLine > 0
-            ? `${fileLocation}:${fn.startLine}`
+          ? func.startLine > 0
+            ? `${fileLocation}:${func.startLine}`
             : fileLocation
           : undefined,
-        category: categorizeFunction(fn.filename, options),
+        category: categorizeFunction(func.filename, options),
       }
     },
   })
@@ -50,20 +50,12 @@ export const summarizePprof = (
     let leafLine: number | undefined
 
     for (const locationId of locationIds) {
-      const loc = locations.get(locationId)
-      if (!loc) {
-        continue
-      }
-      for (const { functionId, line } of loc.lines) {
-        const fn = functions.get(functionId)
-        if (!fn) {
-          continue
-        }
-        nodes.push(fn)
+      const location = locations[locationId]!
+      for (const { functionId, line } of location.lines) {
+        nodes.push(functions[functionId]!)
         leafLine ??= line
       }
     }
-
     if (nodes.length === 0) {
       continue
     }

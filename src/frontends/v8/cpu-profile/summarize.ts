@@ -15,32 +15,49 @@ export const summarizeV8CpuProfile = (
       callFrameFunctionMetadata(node.callFrame, options),
   })
 
-  const idToNode = new Map<number, V8CpuProfileNode>()
-  const idToParentNode = new Map<number, V8CpuProfileNode>()
+  const idToIndex: number[] = []
+  for (let index = 0; index < profile.nodes.length; index++) {
+    const node = profile.nodes[index]!
+    idToIndex[node.id] = index
+    node.id = index
+  }
+
+  const indexToParentIndex = new Int32Array(profile.nodes.length).fill(-1)
   for (const node of profile.nodes) {
-    idToNode.set(node.id, node)
     if (node.children) {
       for (const childId of node.children) {
-        idToParentNode.set(childId, node)
+        const childIndex = idToIndex[childId]
+        if (childIndex === undefined) {
+          continue
+        }
+        indexToParentIndex[childIndex] = node.id
       }
     }
   }
 
-  const idToSelfTime = new Map<number, number>()
+  const idToSelfTime = new Int32Array(profile.nodes.length)
 
   for (let index = 0; index < profile.samples.length; index++) {
-    const nodeId = profile.samples[index]!
-    const node = idToNode.get(nodeId)!
+    const nodeIndex = idToIndex[profile.samples[index]!]
+    if (nodeIndex === undefined) {
+      continue
+    }
+
+    const node = profile.nodes[nodeIndex]!
     const timeDelta = profile.timeDeltas[index]!
 
-    idToSelfTime.set(nodeId, (idToSelfTime.get(nodeId) ?? 0) + timeDelta)
+    idToSelfTime[nodeIndex]! += timeDelta
 
     const nodes: V8CpuProfileNode[] = []
-    let currentNode: V8CpuProfileNode | undefined = node
-    do {
+    let currentNode: V8CpuProfileNode = node
+    while (true) {
       nodes.push(currentNode)
-      currentNode = idToParentNode.get(currentNode.id)
-    } while (currentNode !== undefined)
+      const parentIndex: number = indexToParentIndex[currentNode.id]!
+      if (parentIndex === -1) {
+        break
+      }
+      currentNode = profile.nodes[parentIndex]!
+    }
 
     profileBuilder.addSample({ values: [timeDelta], nodes })
   }
@@ -50,7 +67,7 @@ export const summarizeV8CpuProfile = (
       continue
     }
 
-    const selfTime = idToSelfTime.get(node.id)!
+    const selfTime = idToSelfTime[node.id]!
     profileBuilder.addLineMetrics({
       node,
       lines: node.positionTicks.map(({ line, ticks }) => ({

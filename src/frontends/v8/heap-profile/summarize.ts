@@ -15,37 +15,45 @@ export const summarizeV8HeapProfile = (
       callFrameFunctionMetadata(node.callFrame, options),
   })
 
-  const idToNode = new Map<number, V8HeapProfileNode>()
-  const idToParentId = new Map<number, number>()
+  const flatNodes: V8HeapProfileNode[] = []
+  const idToIndex: number[] = []
+  const indexToParentIndex: number[] = []
 
-  const stack: { node: V8HeapProfileNode; parentId?: number }[] = [
-    { node: profile.head },
+  const stack: { node: V8HeapProfileNode; parentIndex: number }[] = [
+    { node: profile.head, parentIndex: -1 },
   ]
   do {
-    const { node, parentId } = stack.pop()!
-    idToNode.set(node.id, node)
-    if (parentId !== undefined) {
-      idToParentId.set(node.id, parentId)
-    }
+    const { node, parentIndex } = stack.pop()!
+
+    const index = flatNodes.length
+    idToIndex[node.id] = index
+    node.id = index
+    flatNodes.push(node)
+    indexToParentIndex.push(parentIndex)
+
     for (const child of node.children) {
-      stack.push({ node: child, parentId: node.id })
+      stack.push({ node: child, parentIndex: index })
     }
   } while (stack.length > 0)
 
   for (const { size, nodeId } of profile.samples) {
+    const nodeIndex = idToIndex[nodeId]
+    if (nodeIndex === undefined) {
+      continue
+    }
+
     const nodes: V8HeapProfileNode[] = []
-    let currentId: number | undefined = nodeId
-    while (currentId !== undefined) {
-      const node = idToNode.get(currentId)
-      if (!node) {
+    let currentIndex = nodeIndex
+    while (true) {
+      nodes.push(flatNodes[currentIndex]!)
+      const parentIndex: number = indexToParentIndex[currentIndex]!
+      if (parentIndex === -1) {
         break
       }
-      nodes.push(node)
-      currentId = idToParentId.get(currentId)
+      currentIndex = parentIndex
     }
-    if (nodes.length > 0) {
-      profileBuilder.addSample({ values: [size], nodes })
-    }
+
+    profileBuilder.addSample({ values: [size], nodes })
   }
 
   return profileBuilder.build()

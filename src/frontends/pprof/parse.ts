@@ -52,8 +52,8 @@ export type PprofSample = {
 export type Pprof = {
   valueTypes: PprofValueType[]
   samples: PprofSample[]
-  locations: Map<number, PprofLocation>
-  functions: Map<number, PprofFunction>
+  locations: PprofLocation[]
+  functions: PprofFunction[]
   durationNanos: number
 }
 
@@ -67,32 +67,38 @@ export const parsePprof = (data: Buffer): Pprof => {
     unit: strings[Number(unit)] ?? ``,
   }))
 
-  const functions = new Map<number, PprofFunction>()
-  for (const fn of profile.function) {
-    const id = Number(fn.id)
-    functions.set(id, {
+  const functionIdToIndex: number[] = []
+  const functions: PprofFunction[] = []
+  for (const func of profile.function) {
+    const id = Number(func.id)
+    const index = functions.length
+    functionIdToIndex[id] = index
+    functions.push({
       id,
-      name: strings[Number(fn.name)] ?? ``,
-      systemName: strings[Number(fn.systemName)] ?? ``,
-      filename: strings[Number(fn.filename)] ?? ``,
-      startLine: Number(fn.startLine),
+      name: strings[Number(func.name)] ?? ``,
+      systemName: strings[Number(func.systemName)] ?? ``,
+      filename: strings[Number(func.filename)] ?? ``,
+      startLine: Number(func.startLine),
     })
   }
 
-  const locations = new Map<number, PprofLocation>()
-  for (const loc of profile.location) {
-    const id = Number(loc.id)
-    locations.set(id, {
+  const locationIdToIndex: number[] = []
+  const locations: PprofLocation[] = []
+  for (const location of profile.location) {
+    const id = Number(location.id)
+    const index = locations.length
+    locationIdToIndex[id] = index
+    locations.push({
       id,
-      lines: loc.line.map(({ functionId, line }) => ({
-        functionId: Number(functionId),
+      lines: location.line.map(({ functionId, line }) => ({
+        functionId: functionIdToIndex[Number(functionId)]!,
         line: Number(line),
       })),
     })
   }
 
   const samples = profile.sample.map(({ locationId, value }) => ({
-    locationIds: locationId.map(Number),
+    locationIds: locationId.map(id => locationIdToIndex[Number(id)]!),
     values: value.map(Number),
   }))
 
