@@ -53,18 +53,14 @@ $ profiler-md --help
   Usage: profiler-md [options] [file]
 
   Options:
-    -t, --type <type>     Profile type (auto-detected from file extension by default)
+    -t, --type <type>     Profile type, auto-detected from content if omitted
+                          [v8-cpu-profile|v8-heap-profile|v8-heap-snapshot|pprof]
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
-    --third-party <glob>  Mark URLs matching this glob as third-party (repeatable; default: node_modules)
+    --third-party <glob>  Mark URLs matching this glob as third-party
+                          (repeatable; default: node_modules)
     --help                Show this help message
-
-  Supported profile types:
-    *.cpuprofile -> v8-cpu-profile
-    *.heapprofile -> v8-heap-profile
-    *.heapsnapshot -> v8-heap-snapshot
-    *.pprof -> pprof
 ```
 
 <!-- CLI_HELP END -->
