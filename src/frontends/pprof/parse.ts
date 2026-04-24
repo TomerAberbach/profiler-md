@@ -57,7 +57,7 @@ export type Pprof = {
   durationNanos: number
 }
 
-export const parsePprof = (data: Buffer): Pprof =>
+export const parsePprof = (data: Uint8Array): Pprof =>
   parsePprofInternal(Profile.decode(data))
 
 export const parsePprofInternal = (profile: Profile): Pprof => {

@@ -6,7 +6,7 @@ import type { Pprof } from './parse.ts'
 import { parsePprof, parsePprofInternal } from './parse.ts'
 import { summarizePprof } from './summarize.ts'
 
-export const detectPprof = (data: Buffer): Pprof | undefined => {
+export const detectPprof = (data: Uint8Array): Pprof | undefined => {
   if (data.length === 0) {
     return undefined
   }
@@ -36,8 +36,10 @@ export const detectPprof = (data: Buffer): Pprof | undefined => {
  * - Python's [`py-spy`](https://github.com/benfred/py-spy)
  * - Rust's [`pprof-rs`](https://github.com/tikv/pprof-rs)
  */
-export const pprofToMd = (data: Buffer, options?: ProfileToMdOptions): string =>
-  pprofToMdInternal(parsePprof(data), options)
+export const pprofToMd = (
+  data: Uint8Array,
+  options?: ProfileToMdOptions,
+): string => pprofToMdInternal(parsePprof(data), options)
 
 export const pprofToMdInternal = (
   pprof: Pprof,

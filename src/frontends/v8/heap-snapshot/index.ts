@@ -44,7 +44,7 @@ export const detectV8HeapSnapshot = (
  * - [`v8.writeHeapSnapshot()`](https://nodejs.org/api/v8.html#v8writeheapsnapshotfilename)
  */
 export const v8HeapSnapshotToMd = (
-  data: string | Buffer,
+  data: string | Uint8Array,
   options?: ProfileToMdOptions,
 ): string => v8HeapSnapshotToMdInternal(parseV8HeapSnapshot(data), options)
 

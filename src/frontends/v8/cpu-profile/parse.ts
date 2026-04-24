@@ -40,9 +40,9 @@ export type V8CpuProfileNode = {
   }[]
 }
 
-export const parseV8CpuProfile = (data: string | Buffer): V8CpuProfile =>
+export const parseV8CpuProfile = (data: string | Uint8Array): V8CpuProfile =>
   JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
-    // include that in the types.
+    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
+    // doesn't include that in the types.
     data,
   ) as V8CpuProfile
