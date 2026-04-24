@@ -1,54 +1,86 @@
 import { createWriteStream } from 'node:fs'
 import { readFile } from 'node:fs/promises'
-import { extname } from 'node:path'
 import type { Writable } from 'node:stream'
 import meow from 'meow'
 import picomatch from 'picomatch'
 import {
-  defaultIsThirdPartyURL,
+  detectPprof,
+  detectV8CpuProfile,
+  detectV8HeapProfile,
+  detectV8HeapSnapshot,
   pprofToMd,
+  pprofToMdInternal,
   v8CpuProfileToMd,
+  v8CpuProfileToMdInternal,
   v8HeapProfileToMd,
+  v8HeapProfileToMdInternal,
   v8HeapSnapshotToMd,
-} from './index.ts'
+  v8HeapSnapshotToMdInternal,
+} from './frontends/index.ts'
+import type { Pprof } from './frontends/pprof/parse.ts'
+import type { V8CpuProfile } from './frontends/v8/cpu-profile/parse.ts'
+import type { V8HeapProfile } from './frontends/v8/heap-profile/parse.ts'
+import type { V8HeapSnapshot } from './frontends/v8/heap-snapshot/parse.ts'
+import { defaultIsThirdPartyURL } from './index.ts'
 import type { ProfileToMdOptions } from './index.ts'
 
-type ProfileConverter = {
+type JsonProfileConverter<Parsed> = {
   type: string
-  convert: (data: Buffer, options: ProfileToMdOptions) => string
+  detect: (json: unknown) => Parsed | undefined
+  toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
+  toMd: (data: Buffer, options: ProfileToMdOptions) => string
 }
 
-const extensionToProfileConverter = new Map<string, ProfileConverter>([
-  [`.cpuprofile`, { type: `v8-cpu-profile`, convert: v8CpuProfileToMd }],
-  [`.heapprofile`, { type: `v8-heap-profile`, convert: v8HeapProfileToMd }],
-  [`.heapsnapshot`, { type: `v8-heap-snapshot`, convert: v8HeapSnapshotToMd }],
-  [`.pprof`, { type: `pprof`, convert: pprofToMd }],
-])
+type BinaryProfileConverter<Parsed> = {
+  type: string
+  detect: (data: Buffer) => Parsed | undefined
+  toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
+  toMd: (data: Buffer, options: ProfileToMdOptions) => string
+}
 
-const profileTypeToConverter = new Map(
-  Array.from(extensionToProfileConverter.values(), profileConverter => [
-    profileConverter.type,
-    profileConverter,
-  ]),
-)
+const jsonProfileConverters: JsonProfileConverter<any>[] = [
+  {
+    type: `v8-cpu-profile`,
+    detect: detectV8CpuProfile,
+    toMdInternal: v8CpuProfileToMdInternal,
+    toMd: v8CpuProfileToMd,
+  } satisfies JsonProfileConverter<V8CpuProfile>,
+  {
+    type: `v8-heap-profile`,
+    detect: detectV8HeapProfile,
+    toMdInternal: v8HeapProfileToMdInternal,
+    toMd: v8HeapProfileToMd,
+  } satisfies JsonProfileConverter<V8HeapProfile>,
+  {
+    type: `v8-heap-snapshot`,
+    detect: detectV8HeapSnapshot,
+    toMdInternal: v8HeapSnapshotToMdInternal,
+    toMd: v8HeapSnapshotToMd,
+  } satisfies JsonProfileConverter<V8HeapSnapshot>,
+]
+const binaryProfileConverters: BinaryProfileConverter<any>[] = [
+  {
+    type: `pprof`,
+    detect: detectPprof,
+    toMdInternal: pprofToMdInternal,
+    toMd: pprofToMd,
+  } satisfies BinaryProfileConverter<Pprof>,
+]
+const profileConverters = [...jsonProfileConverters, ...binaryProfileConverters]
 
 const cli = meow(
   `
   Usage: profiler-md [options] [file]
 
   Options:
-    -t, --type <type>     Profile type (auto-detected from file extension by default)
+    -t, --type <type>     Profile type, auto-detected from content if omitted
+                          [${profileConverters.map(({ type }) => type).join(`|`)}]
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
-    --third-party <glob>  Mark URLs matching this glob as third-party (repeatable; default: node_modules)
+    --third-party <glob>  Mark URLs matching this glob as third-party
+                          (repeatable; default: node_modules)
     --help                Show this help message
-
-  Supported profile types:
-${Array.from(
-  extensionToProfileConverter,
-  ([extension, { type }]) => `    *${extension} -> ${type}`,
-).join(`\n`)}
 `,
   {
     importMeta: import.meta,
@@ -69,36 +101,23 @@ try {
     flags: { output: outputPath, type: profileType, topN, cwd, thirdParty },
   } = cli
 
-  let profileConverter: ProfileConverter | undefined
+  let forcedProfileConverter:
+    | JsonProfileConverter<any>
+    | BinaryProfileConverter<any>
+    | undefined
   if (profileType !== undefined) {
-    profileConverter = profileTypeToConverter.get(profileType)
-    if (!profileConverter) {
+    forcedProfileConverter = profileConverters.find(
+      format => format.type === profileType,
+    )
+    if (!forcedProfileConverter) {
       process.stderr.write(
         `error: unknown profile type "${profileType}"\nRun with --help to see supported types.\n`,
       )
       process.exit(2)
     }
-  } else if (filePath) {
-    const lastExt = extname(filePath)
-    const prevExt = extname(filePath.slice(0, -lastExt.length))
-    const extension = prevExt ? prevExt + lastExt : lastExt
-    profileConverter =
-      extensionToProfileConverter.get(extension) ??
-      extensionToProfileConverter.get(lastExt)
-    if (!profileConverter) {
-      process.stderr.write(
-        `error: unrecognized file extension "${extension}"\nUse --type to specify the profile type, or run with --help to see supported types.\n`,
-      )
-      process.exit(2)
-    }
-  } else if (process.stdin.isTTY) {
+  } else if (!filePath && process.stdin.isTTY) {
     cli.showHelp(0)
     process.exit(0)
-  } else {
-    process.stderr.write(
-      `error: --type is required when reading from stdin\nRun with --help to see supported types.\n`,
-    )
-    process.exit(2)
   }
 
   let data: Buffer
@@ -117,7 +136,7 @@ try {
   const thirdPartyMatchers = thirdParty.map(glob =>
     picomatch(glob, { dot: true }),
   )
-  const markdown = profileConverter.convert(data, {
+  const options: ProfileToMdOptions = {
     topN,
     cwd,
     isThirdPartyURL:
@@ -126,7 +145,47 @@ try {
             defaultIsThirdPartyURL(url) ||
             thirdPartyMatchers.some(match => match(url.pathname))
         : undefined,
-  })
+  }
+
+  let markdown: string | undefined
+  if (forcedProfileConverter) {
+    markdown = forcedProfileConverter.toMd(data, options)
+  } else {
+    let json: unknown
+    try {
+      json = JSON.parse(
+        // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript
+        // doesn't include that in the types.
+        data,
+      )
+    } catch {}
+    if (json === undefined) {
+      for (const converter of binaryProfileConverters) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const parsed = converter.detect(data)
+        if (parsed !== undefined) {
+          markdown = converter.toMdInternal(parsed, options)
+          break
+        }
+      }
+    } else {
+      for (const converter of jsonProfileConverters) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const parsed = converter.detect(json)
+        if (parsed !== undefined) {
+          markdown = converter.toMdInternal(parsed, options)
+          break
+        }
+      }
+    }
+
+    if (markdown === undefined) {
+      process.stderr.write(
+        `error: could not detect profile format from content\nUse --type to specify the format, or run with --help to see supported types.\n`,
+      )
+      process.exit(2)
+    }
+  }
 
   let output: Writable
   if (outputPath === `-`) {

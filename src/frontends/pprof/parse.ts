@@ -57,9 +57,10 @@ export type Pprof = {
   durationNanos: number
 }
 
-export const parsePprof = (data: Buffer): Pprof => {
-  const profile = Profile.decode(data)
+export const parsePprof = (data: Buffer): Pprof =>
+  parsePprofInternal(Profile.decode(data))
 
+export const parsePprofInternal = (profile: Profile): Pprof => {
   const { strings } = profile.stringTable
 
   const valueTypes = profile.sampleType.map(({ type, unit }) => ({

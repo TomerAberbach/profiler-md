@@ -21,9 +21,14 @@ describe.each([
     filename: `example.heapsnapshot`,
     expectedMarkdown: /^# Heap snapshot/u,
   },
+  {
+    type: `pprof`,
+    filename: `example.pprof`,
+    expectedMarkdown: /^# CPU profile/u,
+  },
 ])(`$type`, ({ type, filename, expectedMarkdown }) => {
   const path = fixturePath(filename)
-  const fileContent = readFileSync(path, `utf8`)
+  const fileContent = readFileSync(path)
 
   test(`outputs markdown from a ${filename} file`, () => {
     const { status, stdout } = runCli([path])
@@ -34,6 +39,13 @@ describe.each([
 
   test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
     const { status, stdout } = runCli([flag, type], fileContent)
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(expectedMarkdown)
+  })
+
+  test(`reads from stdin and auto-detects format`, () => {
+    const { status, stdout } = runCli([], fileContent)
 
     expect(status).toBe(0)
     expect(stdout).toMatch(expectedMarkdown)
@@ -86,21 +98,16 @@ describe.each([
 
 test.each([
   {
-    scenario: `stdin without --type`,
+    scenario: `stdin with unrecognizable content`,
     args: [],
-    expectedStderr: `--type is required`,
+    input: `{}`,
+    expectedStderr: `could not detect profile format from content`,
     expectedStatus: 2,
   },
   {
     scenario: `unknown --type value`,
     args: [`--type`, `unknown-type`],
     expectedStderr: `unknown profile type "unknown-type"`,
-    expectedStatus: 2,
-  },
-  {
-    scenario: `unrecognized file extension`,
-    args: [`file.unknown`],
-    expectedStderr: `unrecognized file extension ".unknown"`,
     expectedStatus: 2,
   },
   {
@@ -115,14 +122,14 @@ test.each([
     expectedStderr: `Unknown flag`,
     expectedStatus: 2,
   },
-])(`errors on $scenario`, ({ args, expectedStderr, expectedStatus }) => {
-  const { status, stderr } = runCli(args)
+])(`errors on $scenario`, ({ args, input, expectedStderr, expectedStatus }) => {
+  const { status, stderr } = runCli(args, input)
 
   expect(status).toBe(expectedStatus)
   expect(stderr).toContain(expectedStderr)
 })
 
-const runCli = (args: string[], input?: string) =>
+const runCli = (args: string[], input?: Buffer | string) =>
   spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
 
 const cliPath = join(import.meta.dirname, `cli.ts`)

@@ -1,8 +1,28 @@
+import { Profile } from 'pprof-format'
 import type { ProfileToMdOptions } from '../../common.ts'
 import { normalizePprofToMdOptions } from './common.ts'
 import { formatPprof } from './format.ts'
-import { parsePprof } from './parse.ts'
+import type { Pprof } from './parse.ts'
+import { parsePprof, parsePprofInternal } from './parse.ts'
 import { summarizePprof } from './summarize.ts'
+
+export const detectPprof = (data: Buffer): Pprof | undefined => {
+  if (data.length === 0) {
+    return undefined
+  }
+
+  let profile: Profile
+  try {
+    profile = Profile.decode(data)
+  } catch {
+    return undefined
+  }
+
+  if (profile.stringTable.strings[0] !== ``) {
+    return undefined
+  }
+  return parsePprofInternal(profile)
+}
 
 /**
  * Converts the given pprof to Markdown.
@@ -16,12 +36,16 @@ import { summarizePprof } from './summarize.ts'
  * - Python's [`py-spy`](https://github.com/benfred/py-spy)
  * - Rust's [`pprof-rs`](https://github.com/tikv/pprof-rs)
  */
-export const pprofToMd = (
-  data: Buffer,
+export const pprofToMd = (data: Buffer, options?: ProfileToMdOptions): string =>
+  pprofToMdInternal(parsePprof(data), options)
+
+export const pprofToMdInternal = (
+  pprof: Pprof,
   options?: ProfileToMdOptions,
 ): string => {
   const normalizedOptions = normalizePprofToMdOptions(options)
-  const rawProfile = parsePprof(data)
-  const profile = summarizePprof(rawProfile, normalizedOptions)
+  const profile = summarizePprof(pprof, normalizedOptions)
   return formatPprof(profile, normalizedOptions)
 }
+
+export { defaultPprofIncludeEntry } from './common.ts'
