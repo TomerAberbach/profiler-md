@@ -6,10 +6,10 @@ export class ProfileBuilder<Node extends { id: number }> {
   readonly #functionMetadata: (node: Node) => ProfileFunctionMetadata
 
   #totalSampleCount: number
-  readonly #totalValues: Int32Array
+  readonly #totalValues: Float64Array
   readonly #categoryToMetrics: Map<
     string,
-    { sampleCount: number; values: Int32Array }
+    { sampleCount: number; values: Float64Array }
   >
 
   readonly #keyToCallStack: Map<string, ProfileCallStack>
@@ -40,7 +40,7 @@ export class ProfileBuilder<Node extends { id: number }> {
     this.#functionMetadata = functionMetadata
 
     this.#totalSampleCount = 0
-    this.#totalValues = new Int32Array(this.#metrics.length)
+    this.#totalValues = new Float64Array(this.#metrics.length)
     this.#categoryToMetrics = new Map()
 
     this.#keyToCallStack = new Map()
@@ -64,7 +64,7 @@ export class ProfileBuilder<Node extends { id: number }> {
     if (!categoryMetrics) {
       categoryMetrics = {
         sampleCount: 0,
-        values: new Int32Array(this.#metrics.length),
+        values: new Float64Array(this.#metrics.length),
       }
       this.#categoryToMetrics.set(callee.category, categoryMetrics)
     }
@@ -76,7 +76,7 @@ export class ProfileBuilder<Node extends { id: number }> {
         callerMetrics = {
           caller,
           selfSampleCount: 0,
-          selfValues: new Int32Array(this.#metrics.length),
+          selfValues: new Float64Array(this.#metrics.length),
         }
         callee.callerIdToMetrics.set(caller.id, callerMetrics)
       }
@@ -88,7 +88,7 @@ export class ProfileBuilder<Node extends { id: number }> {
       if (!lineMetrics) {
         lineMetrics = {
           sampleCount: 0,
-          values: new Int32Array(this.#metrics.length),
+          values: new Float64Array(this.#metrics.length),
         }
         callee.lineToMetrics.set(line, lineMetrics)
       }
@@ -164,7 +164,7 @@ export class ProfileBuilder<Node extends { id: number }> {
         calleeMetrics = {
           callee,
           totalSampleCount: 0,
-          totalValues: new Int32Array(this.#metrics.length),
+          totalValues: new Float64Array(this.#metrics.length),
         }
         caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
       }
@@ -192,7 +192,7 @@ export class ProfileBuilder<Node extends { id: number }> {
       if (!lineMetrics) {
         lineMetrics = {
           sampleCount: 0,
-          values: new Int32Array(this.#metrics.length),
+          values: new Float64Array(this.#metrics.length),
         }
         func.lineToMetrics.set(line, lineMetrics)
       }
@@ -214,7 +214,7 @@ export class ProfileBuilder<Node extends { id: number }> {
     callStack = {
       frames,
       selfSampleCount: 0,
-      selfValues: new Int32Array(this.#metrics.length),
+      selfValues: new Float64Array(this.#metrics.length),
     }
     this.#keyToCallStack.set(key, callStack)
     return callStack
@@ -238,8 +238,8 @@ export class ProfileBuilder<Node extends { id: number }> {
       id: this.#keyToFunction.size,
       selfSampleCount: 0,
       totalSampleCount: 0,
-      selfValues: new Int32Array(this.#metrics.length),
-      totalValues: new Int32Array(this.#metrics.length),
+      selfValues: new Float64Array(this.#metrics.length),
+      totalValues: new Float64Array(this.#metrics.length),
       lineToMetrics: new Map(),
       callerIdToMetrics: new Map(),
       calleeIdToMetrics: new Map(),
@@ -250,7 +250,7 @@ export class ProfileBuilder<Node extends { id: number }> {
   }
 
   public build(): Profile {
-    const samplingIntervals = new Int32Array(this.#metrics.length)
+    const samplingIntervals = new Float64Array(this.#metrics.length)
     for (let i = 0; i < samplingIntervals.length; i++) {
       samplingIntervals[i] = this.#totalValues[i]! / this.#totalSampleCount
     }
@@ -331,13 +331,13 @@ export type ProfileFunction = ProfileFunctionMetadata & {
    * For each metric in {@link Profile.metrics}, the sum of values from samples
    * taken directly within the function's body, excluding its callees.
    */
-  selfValues: Int32Array
+  selfValues: Float64Array
 
   /**
    * For each metric in {@link Profile.metrics}, the sum of values from samples
    * taken directly within the function's body _and_ all its callees.
    */
-  totalValues: Int32Array
+  totalValues: Float64Array
 
   /** 1-based line number to values and sample count for that line. */
   lineToMetrics: Map<
@@ -353,7 +353,7 @@ export type ProfileFunction = ProfileFunctionMetadata & {
        * For each metric in {@link Profile.metrics}, the sum of values from
        * samples taken directly within the function's body at this line.
        */
-      values: Int32Array
+      values: Float64Array
     }
   >
 
@@ -377,7 +377,7 @@ export type ProfileFunction = ProfileFunctionMetadata & {
        * For each metric in {@link Profile.metrics}, the sum of values from
        * samples taken directly within the function's body with this caller.
        */
-      selfValues: Int32Array
+      selfValues: Float64Array
     }
   >
 
@@ -402,7 +402,7 @@ export type ProfileFunction = ProfileFunctionMetadata & {
        * samples taken directly within the function's body, _and_ all its
        * callees. with this callee.
        */
-      totalValues: Int32Array
+      totalValues: Float64Array
     }
   >
 }
@@ -422,7 +422,7 @@ export type ProfileCallStack = {
    * For each metric in {@link Profile.metrics}, the sum of values from samples
    * taken with this exact call stack.
    */
-  selfValues: Int32Array
+  selfValues: Float64Array
 }
 
 /** An aggregation of all samples within a profile. */
@@ -437,13 +437,13 @@ export type Profile = {
    * For each metric in {@link Profile.metrics}, the sum of values from samples
    * taken within this profile.
    */
-  totalValues: Int32Array
+  totalValues: Float64Array
 
   /**
    * For each metric in {@link Profile.metrics}, the number of samples taken
    * per metric value.
    */
-  samplingIntervals: Int32Array
+  samplingIntervals: Float64Array
 
   /**
    * Function category to values and sample count for calls of functions with
@@ -459,7 +459,7 @@ export type Profile = {
        * For each metric in {@link Profile.metrics}, the sum of values from
        * samples taken for functions with this category.
        */
-      values: Int32Array
+      values: Float64Array
     }
   >
 

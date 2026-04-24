@@ -90,7 +90,7 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# Heap profile
 
-    Allocated 500 B over 3 samples (166 B per sample).
+    Allocated 500 B over 3 samples (167 B per sample).
 
     | Category |      % |  Size | Samples |
     | -------- | -----: | ----: | ------: |
