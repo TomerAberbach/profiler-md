@@ -162,7 +162,7 @@ test.each([
   expect(stderr).toContain(expectedStderr)
 })
 
-const runCli = (args: string[], input?: Buffer | string) =>
+const runCli = (args: string[], input?: string | Uint8Array) =>
   spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
 
 const cliPath = join(import.meta.dirname, `cli.ts`)

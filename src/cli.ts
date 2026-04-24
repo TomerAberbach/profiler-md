@@ -30,14 +30,14 @@ type JsonProfileConverter<Parsed> = {
   type: string
   detect: (json: unknown) => Parsed | undefined
   toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Buffer, options: ProfileToMdOptions) => string
+  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
 }
 
 type BinaryProfileConverter<Parsed> = {
   type: string
-  detect: (data: Buffer) => Parsed | undefined
+  detect: (data: Uint8Array) => Parsed | undefined
   toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Buffer, options: ProfileToMdOptions) => string
+  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
 }
 
 const jsonProfileConverters: JsonProfileConverter<any>[] = [
@@ -101,9 +101,9 @@ const gunzipAsync = promisify(gunzip)
 const brotliDecompressAsync = promisify(brotliDecompress)
 
 const decompressData = async (
-  data: Buffer,
+  data: Uint8Array,
   filePath?: string,
-): Promise<Buffer> => {
+): Promise<Uint8Array> => {
   if (filePath?.endsWith(`.br`)) {
     return brotliDecompressAsync(data)
   }
@@ -138,7 +138,7 @@ try {
     process.exit(0)
   }
 
-  let data: Buffer
+  let data: Uint8Array
   if (filePath) {
     try {
       data = await readFile(filePath)
@@ -180,7 +180,7 @@ try {
     let json: unknown
     try {
       json = JSON.parse(
-        // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript
+        // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
         // doesn't include that in the types.
         data,
       )

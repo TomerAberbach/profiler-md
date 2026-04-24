@@ -36,9 +36,9 @@ export type V8HeapProfileSample = {
   ordinal: number
 }
 
-export const parseV8HeapProfile = (data: string | Buffer): V8HeapProfile =>
+export const parseV8HeapProfile = (data: string | Uint8Array): V8HeapProfile =>
   JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
-    // include that in the types.
+    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
+    // doesn't include that in the types.
     data,
   ) as V8HeapProfile

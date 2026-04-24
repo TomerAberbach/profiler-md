@@ -32,7 +32,7 @@ export const detectV8CpuProfile = (json: unknown): V8CpuProfile | undefined => {
  * Lower the sampling interval to capture more granular data.
  */
 export const v8CpuProfileToMd = (
-  data: string | Buffer,
+  data: string | Uint8Array,
   options?: ProfileToMdOptions,
 ): string => v8CpuProfileToMdInternal(parseV8CpuProfile(data), options)
 

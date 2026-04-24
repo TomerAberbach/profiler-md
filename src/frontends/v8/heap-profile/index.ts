@@ -38,7 +38,7 @@ export const detectV8HeapProfile = (
  * generates a heap _snapshot_ on exit, not a heap _profile_.
  */
 export const v8HeapProfileToMd = (
-  data: string | Buffer,
+  data: string | Uint8Array,
   options?: ProfileToMdOptions,
 ): string => v8HeapProfileToMdInternal(parseV8HeapProfile(data), options)
 

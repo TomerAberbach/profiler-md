@@ -76,9 +76,11 @@ export type V8HeapSnapshotMeta = {
   location_fields: string[]
 }
 
-export const parseV8HeapSnapshot = (data: string | Buffer): V8HeapSnapshot =>
+export const parseV8HeapSnapshot = (
+  data: string | Uint8Array,
+): V8HeapSnapshot =>
   JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Buffer`, but TypeScript doesn't
-    // include that in the types.
+    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
+    // doesn't include that in the types.
     data,
   ) as V8HeapSnapshot
