@@ -1,6 +1,8 @@
 import { createWriteStream } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import type { Writable } from 'node:stream'
+import { promisify } from 'node:util'
+import { brotliDecompress, gunzip } from 'node:zlib'
 import meow from 'meow'
 import picomatch from 'picomatch'
 import {
@@ -95,6 +97,22 @@ const cli = meow(
   },
 )
 
+const gunzipAsync = promisify(gunzip)
+const brotliDecompressAsync = promisify(brotliDecompress)
+
+const decompressData = async (
+  data: Buffer,
+  filePath?: string,
+): Promise<Buffer> => {
+  if (filePath?.endsWith(`.br`)) {
+    return brotliDecompressAsync(data)
+  }
+  if (data[0] === 0x1f && data[1] === 0x8b) {
+    return gunzipAsync(data)
+  }
+  return data
+}
+
 try {
   const {
     input: [filePath],
@@ -131,6 +149,14 @@ try {
     }
   } else {
     data = Buffer.concat(await Array.fromAsync(process.stdin))
+  }
+
+  try {
+    data = await decompressData(data, filePath)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    process.stderr.write(`error: failed to decompress input: ${message}\n`)
+    process.exit(1)
   }
 
   const thirdPartyMatchers = thirdParty.map(glob =>

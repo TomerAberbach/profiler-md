@@ -1,7 +1,8 @@
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
 import { fixturePath } from './testing/fixtures.ts'
 
@@ -92,6 +93,38 @@ describe.each([
 
       expect(withDefaultThirdParty).toContain(`ours`)
       expect(withCustomThirdParty).not.toContain(`ours`)
+    },
+  )
+})
+
+describe.each([
+  { compression: `gzip`, compress: gzipSync, ext: `.gz` },
+  { compression: `brotli`, compress: brotliCompressSync, ext: `.br` },
+])(`$compression decompression`, ({ compression, compress, ext }) => {
+  const raw = readFileSync(fixturePath(`example.cpuprofile`))
+  const compressed = compress(raw)
+  const expectedMarkdown = /^# CPU profile/u
+
+  test(`auto-decompresses a ${compression} file`, () => {
+    const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
+    const path = join(dir, `example.cpuprofile${ext}`)
+    writeFileSync(path, compressed)
+
+    const { status, stdout } = runCli([path])
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(expectedMarkdown)
+
+    rmSync(dir, { recursive: true })
+  })
+
+  test.skipIf(compression === `brotli`)(
+    `auto-decompresses ${compression} from stdin`,
+    () => {
+      const { status, stdout } = runCli([], compressed)
+
+      expect(status).toBe(0)
+      expect(stdout).toMatch(expectedMarkdown)
     },
   )
 })
