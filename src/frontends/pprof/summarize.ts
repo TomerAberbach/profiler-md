@@ -5,25 +5,15 @@ import type { Profile } from '../../profile/index.ts'
 import type { Pprof, PprofFunction } from './parse.ts'
 
 export const summarizePprof = (
-  profile: Pprof,
+  { valueTypes, samples, locations, functions }: Pprof,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const { valueTypes, samples, locations, functions } = profile
-
-  const nonCountIndices = valueTypes
-    .map((vt, i) => ({ vt, i }))
-    .filter(({ vt }) => vt.unit.toLowerCase() !== `count`)
-    .map(({ i }) => i)
-
-  const metrics = nonCountIndices.map(i =>
-    determineMetric({
-      name: valueTypes[i]!.type,
-      unit: valueTypes[i]!.unit,
-    }),
+  const nonCountValueTypes = [...valueTypes.entries()].filter(
+    ([, valueType]) => valueType.unit.toLowerCase() !== `count`,
   )
-
-  const nonCountValues = (sourceAll: number[]): number[] =>
-    nonCountIndices.map(i => sourceAll[i]!)
+  const metrics = nonCountValueTypes.map(([, valueType]) =>
+    determineMetric({ name: valueType.type, unit: valueType.unit }),
+  )
 
   const profileBuilder = new ProfileBuilder<PprofFunction>({
     metrics,
@@ -61,7 +51,7 @@ export const summarizePprof = (
     }
 
     profileBuilder.addSample({
-      values: nonCountValues(values),
+      values: nonCountValueTypes.map(([index]) => values[index]!),
       nodes,
       line: leafLine,
     })
