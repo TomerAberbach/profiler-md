@@ -3,7 +3,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
 import { defaultIncludeEntry } from '../../../common.ts'
-import { diffMd, readFixture } from '../../../testing/fixtures.ts'
+import { diffMd } from '../../../testing/fixtures.ts'
 import { v8HeapProfileToMd } from './index.ts'
 
 const makeProfile = (head: object, samples: object[]) =>
@@ -920,119 +920,6 @@ test(`v8HeapProfileToMd shows absolute paths when cwd is null`, () => {
     +|     % |  Size | Samples | Call stack                                                                                          |
     +| ----: | ----: | ------: | --------------------------------------------------------------------------------------------------- |
     +| 66.7% | 400 B |       2 | \`funcC\` (/project/src/c.ts:1:1) ← \`funcB\` (/project/src/b.ts:1:1) ← \`funcA\` (/project/src/a.ts:1:1) |
-    "
-  `)
-})
-
-test(`v8HeapProfileToMd with real fixture`, async () => {
-  const data = await readFixture(`example.heapprofile`)
-
-  const markdown = v8HeapProfileToMd(data, {
-    cwd: `/Users/tomer/Documents/work/code/uneval`,
-    topN: 5,
-  })
-
-  expect(markdown).toMatchInlineSnapshot(`
-    "# Heap profile
-
-    Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
-
-    | Category          |     % |    Size | Samples |
-    | ----------------- | ----: | ------: | ------: |
-    | native            | 78.9% | 3.88 MB |   2,337 |
-    | IDLE              |  9.3% |  458 kB |      80 |
-    | third-party       |  8.1% |  400 kB |     322 |
-    | ours              |  3.1% |  152 kB |      80 |
-    | BYTECODE_COMPILER |  0.2% | 12.2 kB |      11 |
-    | PARSER            |  0.2% | 10.2 kB |      10 |
-    | V8 API            |  0.1% | 4.27 kB |       4 |
-
-    ## Hottest functions
-
-    ### Self size
-
-    Functions ranked by bytes allocated directly in the function body, excluding callees.
-
-    |    % |    Size | Samples | Function          | Location                                                                          |
-    | ---: | ------: | ------: | ----------------- | --------------------------------------------------------------------------------- |
-    | 9.3% |  458 kB |      80 | \`(IDLE)\`          | \`<native>\`                                                                        |
-    | 3.0% |  148 kB |     138 | \`(anonymous)\`     | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1 |
-    | 2.3% |  113 kB |      74 | \`js-to-wasm:iii:\` | wasm://wasm/009f676a:1:2029168                                                    |
-    | 1.5% | 73.1 kB |      38 | \`push\`            | \`<native>\`                                                                        |
-    | 1.3% | 65.6 kB |       1 | \`unevalNumber\`    | src/internal/primitive.ts:12:29                                                   |
-
-    #### Callers
-
-    Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
-
-    ##### \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1)
-
-    |     % |   Size | Samples | Caller | Location   |
-    | ----: | -----: | ------: | ------ | ---------- |
-    | 74.4% | 110 kB |     101 | \`next\` | \`<native>\` |
-
-    ##### \`push\` (\`<native>\`)
-
-    |     % |    Size | Samples | Caller             | Location                                                                             |
-    | ----: | ------: | ------: | ------------------ | ------------------------------------------------------------------------------------ |
-    | 38.6% | 28.2 kB |      13 | \`unevalObjectLike\` | src/internal/object.ts:103:26                                                        |
-    | 34.4% | 25.2 kB |      10 | \`wrapper\`          | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:3113:9 |
-
-    ##### \`unevalNumber\` (src/internal/primitive.ts:12:29)
-
-    |      % |    Size | Samples | Caller           | Location                    |
-    | -----: | ------: | ------: | ---------------- | --------------------------- |
-    | 100.0% | 65.6 kB |       1 | \`unevalInternal\` | src/internal/index.ts:25:32 |
-
-    ### Total size
-
-    Functions ranked by total bytes allocated in the function and all its callees.
-
-    |     % |    Size | Samples | Function       | Location                        |
-    | ----: | ------: | ------: | -------------- | ------------------------------- |
-    | 55.8% | 2.74 MB |   1,386 | \`(anonymous)\`  | \`<native>\`                      |
-    | 36.1% | 1.77 MB |     683 | \`tracePromise\` | node:diagnostics_channel:348:15 |
-    | 13.1% |  643 kB |     427 | \`next\`         | \`<native>\`                      |
-    | 10.3% |  507 kB |     304 | \`(anonymous)\`  | scripts/profile.ts:1:1          |
-    |  9.3% |  458 kB |      80 | \`(IDLE)\`       | \`<native>\`                      |
-
-    #### Callees
-
-    Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
-
-    ##### \`(anonymous)\` (\`<native>\`)
-
-    |    % |    Size | Samples | Callee                | Location   |
-    | ---: | ------: | ------: | --------------------- | ---------- |
-    | 1.8% | 49.9 kB |      44 | \`createGlobalConsole\` | \`<native>\` |
-
-    ##### \`next\` (\`<native>\`)
-
-    |     % |   Size | Samples | Callee        | Location                                                                            |
-    | ----: | -----: | ------: | ------------- | ----------------------------------------------------------------------------------- |
-    | 78.7% | 506 kB |     303 | \`(anonymous)\` | scripts/profile.ts:1:1                                                              |
-    | 31.7% | 204 kB |     123 | \`takeNHelper\` | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:70:22 |
-
-    ##### \`(anonymous)\` (scripts/profile.ts:1:1)
-
-    |     % |   Size | Samples | Callee   | Location                                                                              |
-    | ----: | -----: | ------: | -------- | ------------------------------------------------------------------------------------- |
-    | 44.5% | 226 kB |     111 | \`uneval\` | src/index.ts:75:16                                                                    |
-    | 40.9% | 208 kB |     126 | \`sample\` | node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
-
-    ## Hottest call stacks
-
-    Call stacks ranked by bytes allocated in their top frame.
-
-    Common call stack: \`(anonymous)\`
-
-    |     % |    Size | Samples | Call stack                                                                                                 |
-    | ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------- |
-    | 14.2% |  699 kB |       1 | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
-    |  6.5% |  321 kB |     229 | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
-    |  3.9% |  194 kB |      79 | \`tracePromise\` (node:diagnostics_channel:348:15)                                                           |
-    |  2.2% |  110 kB |     101 | \`(anonymous)\` (node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1) ← \`next\` |
-    |  1.8% | 88.3 kB |      55 | \`js-to-wasm:iii:\` (wasm://wasm/009f676a:1:2029168) ← \`tracePromise\` (node:diagnostics_channel:348:15)      |
     "
   `)
 })

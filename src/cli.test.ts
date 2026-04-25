@@ -9,22 +9,22 @@ import { fixturePath } from './testing/fixtures.ts'
 describe.each([
   {
     type: `pprof`,
-    filename: `example.pprof`,
+    filename: `node.pprof`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
     type: `v8-cpu-profile`,
-    filename: `example.cpuprofile`,
+    filename: `node.cpuprofile`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
     type: `v8-heap-profile`,
-    filename: `example.heapprofile`,
+    filename: `node.heapprofile`,
     expectedMarkdown: /^# Heap profile/u,
   },
   {
     type: `v8-heap-snapshot`,
-    filename: `example.heapsnapshot`,
+    filename: `node.heapsnapshot`,
     expectedMarkdown: /^# Heap snapshot/u,
   },
 ])(`$type`, ({ type, filename, expectedMarkdown }) => {
@@ -101,13 +101,13 @@ describe.each([
   { compression: `gzip`, compress: gzipSync, ext: `.gz` },
   { compression: `brotli`, compress: brotliCompressSync, ext: `.br` },
 ])(`$compression decompression`, ({ compression, compress, ext }) => {
-  const raw = readFileSync(fixturePath(`example.cpuprofile`))
+  const raw = readFileSync(fixturePath(`node.cpuprofile`))
   const compressed = compress(raw)
   const expectedMarkdown = /^# CPU profile/u
 
   test(`auto-decompresses a ${compression} file`, () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-    const path = join(dir, `example.cpuprofile${ext}`)
+    const path = join(dir, `node.cpuprofile${ext}`)
     writeFileSync(path, compressed)
 
     const { status, stdout } = runCli([path])

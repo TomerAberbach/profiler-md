@@ -1,12 +1,8 @@
-import fs from 'node:fs/promises'
 import path from 'node:path'
 import { createTwoFilesPatch } from 'diff'
 
 export const fixturePath = (filename: string): string =>
   path.join(import.meta.dirname, `../fixtures/${filename}`)
-
-export const readFixture = (filename: string): Promise<string> =>
-  fs.readFile(fixturePath(filename), `utf8`)
 
 /**
  * Returns a unified diff of `base` vs `modified` with no context lines, so
