@@ -1,10 +1,6 @@
 import { expect, test } from 'vitest'
 import { parseJson } from '../../helpers/json.ts'
-import {
-  defaultIncludeSpeedscopeEntry,
-  detectSpeedscopeProfile,
-  speedscopeProfileToMd,
-} from './index.ts'
+import { detectSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
 
 const makeProfile = (
   profiles: object[],
@@ -64,11 +60,6 @@ test(`detectSpeedscope rejects non-speedscope JSON`, () => {
       shared: { frames: [] },
     }),
   ).toBeUndefined()
-})
-
-test(`defaultIncludeSpeedscopeEntry includes named frames`, () => {
-  expect(defaultIncludeSpeedscopeEntry({ name: `main` })).toBe(true)
-  expect(defaultIncludeSpeedscopeEntry({ name: `` })).toBe(false)
 })
 
 test(`speedscopeProfileToMd sampled profile — basic two-function stack`, () => {

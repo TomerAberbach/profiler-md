@@ -1,7 +1,7 @@
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
+import { defaultIncludeEntry } from '../../../common.ts'
 import { diffMd, readFixture } from '../../../testing/fixtures.ts'
-import { defaultIncludeV8Entry } from '../common.ts'
 import { v8CpuProfileToMd } from './index.ts'
 
 const makeProfile = (
@@ -860,7 +860,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
   // The call stack shows `funcC <- funcA` with `funcB` removed.
   const markdown = v8CpuProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeEntry: row => defaultIncludeV8Entry(row) && row.name !== `funcB`,
+    includeEntry: row => defaultIncludeEntry(row) && row.name !== `funcB`,
   })
 
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`

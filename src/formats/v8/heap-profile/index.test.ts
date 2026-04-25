@@ -2,8 +2,8 @@
 
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
+import { defaultIncludeEntry } from '../../../common.ts'
 import { diffMd, readFixture } from '../../../testing/fixtures.ts'
-import { defaultIncludeV8Entry } from '../common.ts'
 import { v8HeapProfileToMd } from './index.ts'
 
 const makeProfile = (head: object, samples: object[]) =>
@@ -583,7 +583,7 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
   // excluded. The call stack shows `funcC <- funcA` with `funcB` removed.
   const markdown = v8HeapProfileToMd(baseProfile, {
     cwd: `/project`,
-    includeEntry: row => defaultIncludeV8Entry(row) && row.name !== `funcB`,
+    includeEntry: row => defaultIncludeEntry(row) && row.name !== `funcB`,
   })
 
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`

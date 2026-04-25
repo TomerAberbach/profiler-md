@@ -1,9 +1,6 @@
-export { defaultIsThirdPartyURL } from './common.ts'
+export { defaultIncludeEntry, defaultIsThirdPartyURL } from './common.ts'
 export type { ProfileEntry, ProfileToMdOptions } from './common.ts'
 export {
-  defaultIncludePprofEntry,
-  defaultIncludeSpeedscopeEntry,
-  defaultIncludeV8Entry,
   pprofToMd,
   speedscopeProfileToMd,
   v8CpuProfileToMd,

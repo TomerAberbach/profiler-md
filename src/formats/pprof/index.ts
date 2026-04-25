@@ -1,6 +1,6 @@
 import { Profile } from 'pprof-format'
+import { normalizeProfileToMdOptions } from '../../common.ts'
 import type { ProfileToMdOptions } from '../../common.ts'
-import { normalizePprofToMdOptions } from './common.ts'
 import { formatPprof } from './format.ts'
 import type { Pprof } from './parse.ts'
 import { parsePprof, parsePprofInternal } from './parse.ts'
@@ -45,9 +45,7 @@ export const pprofToMdInternal = (
   pprof: Pprof,
   options?: ProfileToMdOptions,
 ): string => {
-  const normalizedOptions = normalizePprofToMdOptions(options)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
   const profile = summarizePprof(pprof, normalizedOptions)
   return formatPprof(profile, normalizedOptions)
 }
-
-export { defaultIncludePprofEntry } from './common.ts'

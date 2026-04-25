@@ -8,6 +8,11 @@ import { fixturePath } from './testing/fixtures.ts'
 
 describe.each([
   {
+    type: `pprof`,
+    filename: `example.pprof`,
+    expectedMarkdown: /^# CPU profile/u,
+  },
+  {
     type: `v8-cpu-profile`,
     filename: `example.cpuprofile`,
     expectedMarkdown: /^# CPU profile/u,
@@ -21,11 +26,6 @@ describe.each([
     type: `v8-heap-snapshot`,
     filename: `example.heapsnapshot`,
     expectedMarkdown: /^# Heap snapshot/u,
-  },
-  {
-    type: `pprof`,
-    filename: `example.pprof`,
-    expectedMarkdown: /^# CPU profile/u,
   },
 ])(`$type`, ({ type, filename, expectedMarkdown }) => {
   const path = fixturePath(filename)

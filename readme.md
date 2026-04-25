@@ -70,7 +70,7 @@ $ profiler-md --help
 ```js
 import { readFile } from 'node:fs/promises'
 import {
-  defaultIncludeV8Entry,
+  defaultIncludeEntry,
   defaultIsThirdPartyURL,
   pprofToMd,
   speedscopeProfileToMd,
@@ -103,10 +103,12 @@ const options = {
     // Treat an additional vendor directory as third-party.
     url.pathname.includes(`/vendor/`),
   includeEntry: entry =>
-    defaultIncludeV8Entry(entry) &&
+    defaultIncludeEntry(entry) &&
     // Exclude entries from a specific file.
-    !entry.location?.includes(`/path/to/project/src/noisy.js`),
+    !entry.location?.includes(`/path/to/project/src/noisy`),
 }
+console.log(pprofToMd(pprofData, options))
+console.log(speedscopeProfileToMd(speedscopeProfileData, options))
 console.log(v8CpuProfileToMd(v8CpuProfileData, options))
 console.log(v8HeapProfileToMd(v8HeapProfileData, options))
 console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))

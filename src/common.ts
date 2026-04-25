@@ -1,4 +1,4 @@
-/** A single table entry in a rendered profile. */
+/** A single entry in a rendered profile. */
 export type ProfileEntry = {
   /**
    * The name of the entity corresponding to this entry (e.g. a function name).
@@ -59,20 +59,12 @@ export type NormalizedProfileToMdOptions = {
   cwd: string | undefined
 }
 
-export const normalizeProfileToMdOptions = (
-  options: ProfileToMdOptions | undefined,
-  {
-    defaultIncludeEntry,
-  }: { defaultIncludeEntry: NonNullable<ProfileToMdOptions[`includeEntry`]> },
-): NormalizedProfileToMdOptions => {
-  let {
-    topN = 20,
-    includeEntry,
-    isThirdPartyURL = defaultIsThirdPartyURL,
-    cwd,
-  } = options ?? {}
-  includeEntry ??= defaultIncludeEntry
-
+export const normalizeProfileToMdOptions = ({
+  topN = 20,
+  includeEntry = defaultIncludeEntry,
+  isThirdPartyURL = defaultIsThirdPartyURL,
+  cwd,
+}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
   if (cwd === undefined && typeof process !== `undefined`) {
     cwd = process.cwd()
   }
@@ -106,6 +98,31 @@ export const normalizeProfileToMdOptions = (
     },
     cwd: cwd ?? undefined,
   }
+}
+
+export const defaultIncludeEntry = ({
+  name,
+  location,
+}: ProfileEntry): boolean => {
+  if (name === `(root)`) {
+    // Synthetic root call frame.
+    return false
+  }
+
+  if (
+    (!location &&
+      (name === `ModuleWrap` ||
+        name.startsWith(`system /`) ||
+        name.startsWith(`Node /`))) ||
+    location?.startsWith(`node:internal/`)
+  ) {
+    // V8 and Node internals. They are rarely actionable and when they _are_
+    // actionable, they are preceded by some public Node call frame that isn't
+    // filtered (e.g. `node:fs`).
+    return false
+  }
+
+  return true
 }
 
 /**
