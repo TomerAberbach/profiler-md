@@ -5,15 +5,17 @@ import type {
   ProfileToMdOptions,
 } from '../../common.ts'
 
-export const normalizePprofToMdOptions = (
+export const normalizeSpeedscopeToMdOptions = (
   options?: ProfileToMdOptions,
 ): NormalizedProfileToMdOptions =>
   normalizeProfileToMdOptions(options, {
-    defaultIncludeEntry: defaultIncludePprofEntry,
+    defaultIncludeEntry: defaultIncludeSpeedscopeEntry,
   })
 
-/** Returns whether to include the given pprof entry in the Markdown output. */
-export const defaultIncludePprofEntry = ({
+/**
+ * Returns whether to include the given speedscope profile entry in the Markdown
+ * output.
+ */
+export const defaultIncludeSpeedscopeEntry = ({
   name,
-  location,
-}: ProfileEntry): boolean => !!(name || location)
+}: ProfileEntry): boolean => !!name

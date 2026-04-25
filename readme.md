@@ -54,7 +54,7 @@ $ profiler-md --help
 
   Options:
     -t, --type <type>     Profile type, auto-detected from content if omitted
-                          [v8-cpu-profile|v8-heap-profile|v8-heap-snapshot|pprof]
+                          [speedscope|v8-cpu-profile|v8-heap-profile|v8-heap-snapshot|pprof]
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
@@ -73,21 +73,24 @@ import {
   defaultIncludeV8Entry,
   defaultIsThirdPartyURL,
   pprofToMd,
+  speedscopeProfileToMd,
   v8CpuProfileToMd,
   v8HeapProfileToMd,
   v8HeapSnapshotToMd,
 } from 'profiler-md'
 
-const cpuProfileData = await readFile(`example.cpuprofile`)
-const heapProfileData = await readFile(`example.heapprofile`)
-const heapSnapshotData = await readFile(`example.heapsnapshot`)
 const pprofData = await readFile(`example.pprof`)
+const speedscopeProfileData = await readFile(`example.speedscope.json`)
+const v8CpuProfileData = await readFile(`example.cpuprofile`)
+const v8HeapProfileData = await readFile(`example.heapprofile`)
+const v8HeapSnapshotData = await readFile(`example.heapsnapshot`)
 
 // Basic usage
-console.log(v8CpuProfileToMd(cpuProfileData))
-console.log(v8HeapProfileToMd(heapProfileData))
-console.log(v8HeapSnapshotToMd(heapSnapshotData))
 console.log(pprofToMd(pprofData))
+console.log(speedscopeProfileToMd(speedscopeProfileData))
+console.log(v8CpuProfileToMd(v8CpuProfileData))
+console.log(v8HeapProfileToMd(v8HeapProfileData))
+console.log(v8HeapSnapshotToMd(v8HeapSnapshotData))
 
 // Complex usage
 const options = {
@@ -104,9 +107,9 @@ const options = {
     // Exclude entries from a specific file.
     !entry.location?.includes(`/path/to/project/src/noisy.js`),
 }
-console.log(v8CpuProfileToMd(cpuProfileData, options))
-console.log(v8HeapProfileToMd(heapProfileData, options))
-console.log(v8HeapSnapshotToMd(heapSnapshotData, options))
+console.log(v8CpuProfileToMd(v8CpuProfileData, options))
+console.log(v8HeapProfileToMd(v8HeapProfileData, options))
+console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
 ```
 
 ## Contributing

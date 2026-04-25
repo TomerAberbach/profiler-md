@@ -50,4 +50,4 @@ export const pprofToMdInternal = (
   return formatPprof(profile, normalizedOptions)
 }
 
-export { defaultPprofIncludeEntry } from './common.ts'
+export { defaultIncludePprofEntry } from './common.ts'
