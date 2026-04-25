@@ -35,9 +35,9 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  1.2% |  28.3ms |     178 | `unevalBoolean`                             | uneval/src/internal/primitive.ts:8:30   |
 |  0.5% |  13.0ms |      80 | `push`                                      | `<native>`                              |
 |  0.4% |  11.0ms |       7 | `(anonymous)`                               | `<native>`                              |
-|  0.4% |   9.8ms |      60 | `(module)`                                  | uneval/scripts/profile.ts:1:1           |
 |  0.3% |   8.2ms |      46 | `map`                                       | `<native>`                              |
 |  0.3% |   7.5ms |      38 | `parseModule`                               | `<native>`                              |
+|  0.3% |   7.3ms |      47 | `unevalInternal`                            | uneval/src/internal/index.ts:25:32      |
 
 #### Lines
 
@@ -157,20 +157,21 @@ Lines ranked by contribution to each function's self time.
 | ----: | -----: | ------: | -------- |
 | 96.2% | 10.5ms |       4 | 11       |
 
-##### `(module)` (uneval/scripts/profile.ts:1:1)
-
-|     % |  Time | Samples | Location                     |
-| ----: | ----: | ------: | ---------------------------- |
-| 81.7% | 8.0ms |      49 | uneval/scripts/profile.ts:15 |
-| 13.3% | 1.3ms |       8 | uneval/scripts/profile.ts:16 |
-|  3.3% | 0.3ms |       2 | uneval/scripts/profile.ts:9  |
-|  1.7% | 0.2ms |       1 | uneval/scripts/profile.ts:8  |
-
 ##### `map` (`<native>`)
 
 |      % |  Time | Samples | Location |
 | -----: | ----: | ------: | -------- |
 | 100.0% | 8.2ms |      46 | 1        |
+
+##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
+
+|     % |  Time | Samples | Location                        |
+| ----: | ----: | ------: | ------------------------------- |
+| 63.6% | 4.7ms |      30 | uneval/src/internal/index.ts:32 |
+| 16.9% | 1.2ms |       8 | uneval/src/internal/index.ts:33 |
+|  2.2% | 0.2ms |       1 | uneval/src/internal/index.ts:53 |
+|  2.2% | 0.2ms |       1 | uneval/src/internal/index.ts:54 |
+|  2.1% | 0.2ms |       1 | uneval/src/internal/index.ts:44 |
 
 #### Callers
 
@@ -266,12 +267,6 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | -------- | ------------------------- |
 | 100.0% | 32.4ms |     183 | `uneval` | uneval/src/index.ts:75:16 |
 
-##### `uneval` (uneval/src/index.ts:75:16)
-
-|      % |   Time | Samples | Caller     | Location                      |
-| -----: | -----: | ------: | ---------- | ----------------------------- |
-| 100.0% | 32.1ms |     200 | `(module)` | uneval/scripts/profile.ts:1:1 |
-
 ##### `unevalBoolean` (uneval/src/internal/primitive.ts:8:30)
 
 |      % |   Time | Samples | Caller           | Location                           |
@@ -294,12 +289,6 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | ---: | ----: | ------: | ------------- | ---------- |
 | 6.2% | 0.7ms |       5 | `(anonymous)` | `<native>` |
 
-##### `(module)` (uneval/scripts/profile.ts:1:1)
-
-|      % |  Time | Samples | Caller     | Location   |
-| -----: | ----: | ------: | ---------- | ---------- |
-| 100.0% | 9.8ms |      60 | `evaluate` | `<native>` |
-
 ##### `map` (`<native>`)
 
 |      % |  Time | Samples | Caller             | Location                             |
@@ -312,6 +301,15 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ----: | ------: | ------------- | ---------- |
 | 100.0% | 7.5ms |      38 | `(anonymous)` | `<native>` |
 
+##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
+
+|     % |  Time | Samples | Caller                   | Location                               |
+| ----: | ----: | ------: | ------------------------ | -------------------------------------- |
+| 80.5% | 5.9ms |      38 | `unevalObjectLike`       | uneval/src/internal/object.ts:103:26   |
+| 12.9% | 0.9ms |       6 | `unevalArray`            | uneval/src/internal/collection.ts:7:47 |
+|  4.4% | 0.3ms |       2 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:384:32   |
+|  2.2% | 0.2ms |       1 | `uneval`                 | uneval/src/index.ts:75:16              |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
@@ -321,7 +319,6 @@ Functions ranked by total time spent in the function and all its callees.
 | 98.9% |   2.42s |  15,097 | `loadAndEvaluateModule`    | `<native>`                                                                                   |
 | 98.7% |   2.41s |  15,063 | `moduleEvaluation`         | `<native>`                                                                                   |
 | 98.7% |   2.41s |  15,062 | `evaluate`                 | `<native>`                                                                                   |
-| 98.6% |   2.41s |  15,046 | `(module)`                 | uneval/scripts/profile.ts:1:1                                                                |
 | 94.7% |   2.31s |  14,473 | `uneval`                   | uneval/src/index.ts:75:16                                                                    |
 | 52.5% |   1.28s |   8,030 | `unevalObjectLike`         | uneval/src/internal/object.ts:103:26                                                         |
 | 41.2% |      1s |   6,318 | `unevalInternal`           | uneval/src/internal/index.ts:25:32                                                           |
@@ -338,6 +335,7 @@ Functions ranked by total time spent in the function and all its callees.
 |  4.5% | 110.1ms |     694 | `getType`                  | uneval/src/internal/type.ts:4:24                                                             |
 |  3.5% |  84.5ms |     496 | `sample`                   | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
 |  3.4% |  84.2ms |     494 | `performIteration`         | `<native>`                                                                                   |
+|  3.4% |  84.1ms |     493 | `mapHelper`                | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:27   |
 
 #### Callees
 
@@ -357,25 +355,6 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | -----: | ----: | ------: | ------------------ | ---------- |
 | 100.0% | 2.41s |  15,062 | `evaluate`         | `<native>` |
 | 100.0% | 2.41s |  15,061 | `moduleEvaluation` | `<native>` |
-
-##### `evaluate` (`<native>`)
-
-|     % |  Time | Samples | Callee     | Location                                                                                 |
-| ----: | ----: | ------: | ---------- | ---------------------------------------------------------------------------------------- |
-| 99.9% | 2.41s |  15,046 | `(module)` | uneval/scripts/profile.ts:1:1                                                            |
-|  0.0% | 0.6ms |       5 | `(module)` | uneval/src/internal/primitive.ts:4:1                                                     |
-|  0.0% | 0.5ms |       4 | `(module)` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1 |
-|  0.0% | 0.1ms |       1 | `(module)` | uneval/src/internal/object.ts:4:1                                                        |
-|  0.0% | 0.1ms |       1 | `(module)` | uneval/src/internal/identifier.ts:2:8                                                    |
-
-##### `(module)` (uneval/scripts/profile.ts:1:1)
-
-|     % |   Time | Samples | Callee                | Location                                                                                     |
-| ----: | -----: | ------: | --------------------- | -------------------------------------------------------------------------------------------- |
-| 96.0% |  2.31s |  14,473 | `uneval`              | uneval/src/index.ts:75:16                                                                    |
-|  3.5% | 84.5ms |     496 | `sample`              | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
-|  0.1% |  2.0ms |      14 | `anything`            | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:8168:18 |
-|  0.0% |  0.4ms |       3 | `anyArbitraryBuilder` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:8012:29 |
 
 ##### `uneval` (uneval/src/index.ts:75:16)
 
@@ -482,11 +461,17 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | -----: | ------: | ----------------- | ---------- |
 | 99.8% | 84.1ms |     493 | `generatorResume` | `<native>` |
 
+##### `mapHelper` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:27)
+
+|     % |   Time | Samples | Callee            | Location   |
+| ----: | -----: | ------: | ----------------- | ---------- |
+| 99.8% | 83.9ms |     492 | `generatorResume` | `<native>` |
+
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their top frame.
 
-Common call stack: `uneval` (uneval/src/index.ts:75:16) ← `(module)` (uneval/scripts/profile.ts:1:1) ← `evaluate` ← `moduleEvaluation` ← `moduleEvaluation` ← `loadAndEvaluateModule`
+Common call stack: `uneval` (uneval/src/index.ts:75:16) ← `evaluate` ← `moduleEvaluation` ← `moduleEvaluation` ← `loadAndEvaluateModule`
 
 |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                           |
 | ---: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

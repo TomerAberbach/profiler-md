@@ -109,8 +109,8 @@ export const defaultIncludeEntry = ({
   name,
   location,
 }: ProfileEntry): boolean => {
-  if (name === `(root)`) {
-    // Synthetic root call frame.
+  if (name === `(root)` || name === `(module)`) {
+    // Synthetic roots.
     return false
   }
 
