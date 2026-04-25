@@ -333,7 +333,7 @@ const formatLargestStrings = (
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
         `Value`,
-        `Location`,
+        `Path`,
       ],
       largestStrings.map(string => [
         formatPercent(string.selfSize / totalSize),

@@ -288,7 +288,7 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     Strings ranked by bytes allocated for them.
 
-    |     % |  Size | Value                      | Location    |
+    |     % |  Size | Value                      | Path        |
     | ----: | ----: | -------------------------- | ----------- |
     | 21.9% | 110 B | \`hello world\`              | \`(GC root)\` |
     |  0.0% |   0 B | \`file:///project/src/a.ts\` | \`(GC root)\` |
