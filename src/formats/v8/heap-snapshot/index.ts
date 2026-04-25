@@ -41,7 +41,13 @@ export const detectV8HeapSnapshot = (
  *
  * You can generate a V8 heap snapshot in several ways:
  * - [`node --heapsnapshot-signal`](https://nodejs.org/api/cli.html#--heapsnapshot-signalsignal)
+ * - [`bun --heap-prof`](https://bun.com/docs/project/benchmarking#heap-profiling)
  * - [`v8.writeHeapSnapshot()`](https://nodejs.org/api/v8.html#v8writeheapsnapshotfilename)
+ * - [`node --inspect`](https://nodejs.org/api/debugger.html#v8-inspector-integration-for-nodejs),
+ *   [`deno run --inspect`](https://docs.deno.com/runtime/fundamentals/debugging/#--inspect),
+ *   or [`bun --inspect`](https://bun.com/docs/runtime/debugger#inspect) with
+ *   [Chrome DevTools](https://developer.chrome.com/docs/devtools/memory-problems/heap-snapshots)
+ * - [Chrome DevTools directly](https://developer.chrome.com/docs/devtools/memory-problems/heap-snapshots)
  */
 export const v8HeapSnapshotToMd = (
   data: string | Uint8Array,
