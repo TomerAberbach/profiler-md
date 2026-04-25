@@ -1,2 +1,3 @@
-pnpm-lock.yaml
 examples
+src/fixtures
+pnpm-lock.yaml
