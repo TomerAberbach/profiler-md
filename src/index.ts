@@ -5,8 +5,8 @@ export {
   defaultIncludeSpeedscopeEntry,
   defaultIncludeV8Entry,
   pprofToMd,
-  speedscopeProfileToMd as speedscopeToMd,
+  speedscopeProfileToMd,
   v8CpuProfileToMd,
   v8HeapProfileToMd,
   v8HeapSnapshotToMd,
-} from './frontends/index.ts'
+} from './formats/index.ts'

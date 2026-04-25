@@ -21,12 +21,12 @@ import {
   v8HeapProfileToMdInternal,
   v8HeapSnapshotToMd,
   v8HeapSnapshotToMdInternal,
-} from './frontends/index.ts'
-import type { Pprof } from './frontends/pprof/parse.ts'
-import type { SpeedscopeProfile } from './frontends/speedscope-profile/parse.ts'
-import type { V8CpuProfile } from './frontends/v8/cpu-profile/parse.ts'
-import type { V8HeapProfile } from './frontends/v8/heap-profile/parse.ts'
-import type { V8HeapSnapshot } from './frontends/v8/heap-snapshot/parse.ts'
+} from './formats/index.ts'
+import type { Pprof } from './formats/pprof/parse.ts'
+import type { SpeedscopeProfile } from './formats/speedscope-profile/parse.ts'
+import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
+import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
+import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
 import { defaultIsThirdPartyURL } from './index.ts'
 import type { ProfileToMdOptions } from './index.ts'
 
