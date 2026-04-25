@@ -1,5 +1,5 @@
+import { normalizeProfileToMdOptions } from '../../common.ts'
 import type { ProfileToMdOptions } from '../../common.ts'
-import { normalizeSpeedscopeToMdOptions } from './common.ts'
 import { formatSpeedscope } from './format.ts'
 import { parseSpeedscopeProfile } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
@@ -44,13 +44,11 @@ export const speedscopeProfileToMd = (
   speedscopeProfileToMdInternal(parseSpeedscopeProfile(data), options)
 
 export const speedscopeProfileToMdInternal = (
-  file: SpeedscopeProfile,
+  profile: SpeedscopeProfile,
   options?: ProfileToMdOptions,
 ): string => {
-  const normalizedOptions = normalizeSpeedscopeToMdOptions(options)
-  return summarizeSpeedscopeProfile(file, normalizedOptions)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
+  return summarizeSpeedscopeProfile(profile, normalizedOptions)
     .map(profile => formatSpeedscope(profile, normalizedOptions))
     .join(`\n\n---\n\n`)
 }
-
-export { defaultIncludeSpeedscopeEntry } from './common.ts'

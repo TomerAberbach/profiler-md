@@ -1,5 +1,5 @@
+import { normalizeProfileToMdOptions } from '../../../common.ts'
 import type { ProfileToMdOptions } from '../../../common.ts'
-import { normalizeV8ProfileToMdOptions } from '../common.ts'
 import { formatV8HeapSnapshot } from './format.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 import { parseV8HeapSnapshot } from './parse.ts'
@@ -52,7 +52,7 @@ export const v8HeapSnapshotToMdInternal = (
   snapshot: V8HeapSnapshot,
   options?: ProfileToMdOptions,
 ): string => {
-  const normalizedOptions = normalizeV8ProfileToMdOptions(options)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatV8HeapSnapshot(
     summarizeV8HeapSnapshot(snapshot, normalizedOptions),
     normalizedOptions,

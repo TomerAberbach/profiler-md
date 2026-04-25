@@ -1,5 +1,5 @@
+import { normalizeProfileToMdOptions } from '../../../common.ts'
 import type { ProfileToMdOptions } from '../../../common.ts'
-import { normalizeV8ProfileToMdOptions } from '../common.ts'
 import { formatV8CpuProfile } from './format.ts'
 import type { V8CpuProfile } from './parse.ts'
 import { parseV8CpuProfile } from './parse.ts'
@@ -40,7 +40,7 @@ export const v8CpuProfileToMdInternal = (
   profile: V8CpuProfile,
   options?: ProfileToMdOptions,
 ): string => {
-  const normalizedOptions = normalizeV8ProfileToMdOptions(options)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatV8CpuProfile(
     summarizeV8CpuProfile(profile, normalizedOptions),
     normalizedOptions,
