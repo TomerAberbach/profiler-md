@@ -2,15 +2,14 @@
 name: bench
 description: Profile a benchmark, identify hotspots, and optimize.
 disable-model-invocation: true
-argument-hint: '[name]'
+argument-hint: '[args]'
 ---
 
 # Arguments
 
-`$ARGUMENTS` is the benchmark name, which matches a file in
-`scripts/benchmarks/`.
+`$ARGUMENTS` are the arguments to pass to the CLI.
 
-Available benchmarks: `v8-cpu-profile`, `v8-heap-profile`, `v8-heap-snapshot`.
+It's typically a path to a profile or no arguments if benchmarking CLI startup.
 
 # Workflow
 
