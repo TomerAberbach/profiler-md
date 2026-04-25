@@ -1,3 +1,4 @@
+import { parseJson } from '../../../helpers/json.ts'
 import type { V8CallFrame } from '../common.ts'
 
 /**
@@ -37,8 +38,4 @@ export type V8HeapProfileSample = {
 }
 
 export const parseV8HeapProfile = (data: string | Uint8Array): V8HeapProfile =>
-  JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
-    // doesn't include that in the types.
-    data,
-  ) as V8HeapProfile
+  parseJson(data) as V8HeapProfile

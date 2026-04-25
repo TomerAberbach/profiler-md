@@ -1,3 +1,5 @@
+import { parseJson } from '../../helpers/json.ts'
+
 export type SpeedscopeFrame = {
   name: string
   file?: string
@@ -44,9 +46,4 @@ export type SpeedscopeProfile = {
 
 export const parseSpeedscopeProfile = (
   data: string | Uint8Array,
-): SpeedscopeProfile =>
-  JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
-    // doesn't include that in the types.
-    data,
-  ) as SpeedscopeProfile
+): SpeedscopeProfile => parseJson(data) as SpeedscopeProfile
