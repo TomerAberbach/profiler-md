@@ -23,7 +23,7 @@ import {
   v8HeapSnapshotToMdInternal,
 } from './formats/index.ts'
 import type { Pprof } from './formats/pprof/parse.ts'
-import type { SpeedscopeProfile } from './formats/speedscope-profile/parse.ts'
+import type { SpeedscopeProfile } from './formats/speedscope/parse.ts'
 import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
 import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
 import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
