@@ -4,10 +4,10 @@ Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
 
 | Category          |     % |    Size | Samples |
 | ----------------- | ----: | ------: | ------: |
-| native            | 78.9% | 3.88 MB |   2,337 |
+| native            | 76.6% | 3.77 MB |   2,263 |
 | IDLE              |  9.3% |  458 kB |      80 |
 | third-party       |  8.1% |  400 kB |     322 |
-| ours              |  3.1% |  152 kB |      80 |
+| ours              |  5.4% |  265 kB |     154 |
 | BYTECODE_COMPILER |  0.2% | 12.2 kB |      11 |
 | PARSER            |  0.2% | 10.2 kB |      10 |
 | V8 API            |  0.1% | 4.27 kB |       4 |

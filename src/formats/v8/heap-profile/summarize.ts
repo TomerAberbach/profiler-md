@@ -1,19 +1,21 @@
-import type { NormalizedProfileToMdOptions } from '../../../common.ts'
+import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import { BYTES, ProfileBuilder } from '../../../profile/index.ts'
 import type { Profile } from '../../../profile/index.ts'
-import { callFrameFunctionMetadata, callFrameKey } from '../common.ts'
+import { callFrameFunctionInput, callFrameKey } from '../common.ts'
 import type { V8HeapProfile, V8HeapProfileNode } from './parse.ts'
 
 export const summarizeV8HeapProfile = (
   profile: V8HeapProfile,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const profileBuilder = new ProfileBuilder<V8HeapProfileNode>({
-    metrics: [BYTES],
-    functionKey: node => callFrameKey(node.callFrame),
-    functionMetadata: node =>
-      callFrameFunctionMetadata(node.callFrame, options),
-  })
+  const profileBuilder = new ProfileBuilder<V8HeapProfileNode>(
+    {
+      metrics: [BYTES],
+      functionKey: node => callFrameKey(node.callFrame),
+      functionInput: node => callFrameFunctionInput(node.callFrame),
+    },
+    options,
+  )
 
   const flatNodes: V8HeapProfileNode[] = []
   const idToIndex: number[] = []

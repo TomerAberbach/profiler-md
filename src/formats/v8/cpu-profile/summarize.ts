@@ -1,19 +1,21 @@
-import type { NormalizedProfileToMdOptions } from '../../../common.ts'
+import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import { MICROSECONDS, ProfileBuilder } from '../../../profile/index.ts'
 import type { Profile } from '../../../profile/index.ts'
-import { callFrameFunctionMetadata, callFrameKey } from '../common.ts'
+import { callFrameFunctionInput, callFrameKey } from '../common.ts'
 import type { V8CpuProfile, V8CpuProfileNode } from './parse.ts'
 
 export const summarizeV8CpuProfile = (
   profile: V8CpuProfile,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const profileBuilder = new ProfileBuilder<V8CpuProfileNode>({
-    metrics: [MICROSECONDS],
-    functionKey: node => callFrameKey(node.callFrame),
-    functionMetadata: node =>
-      callFrameFunctionMetadata(node.callFrame, options),
-  })
+  const profileBuilder = new ProfileBuilder<V8CpuProfileNode>(
+    {
+      metrics: [MICROSECONDS],
+      functionKey: node => callFrameKey(node.callFrame),
+      functionInput: node => callFrameFunctionInput(node.callFrame),
+    },
+    options,
+  )
 
   const idToIndex: number[] = []
   for (let index = 0; index < profile.nodes.length; index++) {

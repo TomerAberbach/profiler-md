@@ -1,5 +1,9 @@
-import { formatLocation } from '../../../common.ts'
-import type { NormalizedProfileToMdOptions } from '../../../common.ts'
+import {
+  formatProfileLocation,
+  makeProfileLocation,
+} from '../../../location.ts'
+import type { ProfileLocation } from '../../../location.ts'
+import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 
 export type NodeCategoryStats = {
@@ -27,7 +31,7 @@ export type SummarizedSnapshotNode = {
   retainedSize: number
 
   /** The exact location where the node was defined. */
-  location?: string
+  location?: ProfileLocation
 }
 
 export type SummarizedConstructor = SummarizedSnapshotNode & {
@@ -72,7 +76,6 @@ export const summarizeV8HeapSnapshot = (
     snapshot,
     nodeAdjacencyGraph,
     fieldLayout,
-    options,
   )
   const immediateDominatorGraph = computeImmediateDominatorGraph(
     snapshot,
@@ -362,8 +365,7 @@ const computeNodeIndexToLocation = (
     offsetToSuccessorEdgeIndex,
   }: NodeAdjacencyGraph,
   fieldLayout: FieldLayout,
-  options: NormalizedProfileToMdOptions,
-): Map<number, string> => {
+): Map<number, ProfileLocation> => {
   const namedEdgeToNodeIndex = (
     nodeIndex: number,
     targetEdgeName: string,
@@ -426,16 +428,13 @@ const computeNodeIndexToLocation = (
       continue
     }
 
-    const fileLocation = formatLocation(location, options)
-    if (fileLocation) {
-      scriptIdToFileLocation.set(scriptId, fileLocation)
-    }
+    scriptIdToFileLocation.set(scriptId, location)
   }
 
   // This must be a separate loop from the above because it's possible a file
   // location is reachable from one node, but not another, even though they
   // share the same script ID.
-  const nodeIndexToLocation = new Map<number, string>()
+  const nodeIndexToLocation = new Map<number, ProfileLocation>()
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
@@ -452,10 +451,14 @@ const computeNodeIndexToLocation = (
       locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
     const line = locations[locationIndex + fieldLayout.locationLineOffset]!
     const column = locations[locationIndex + fieldLayout.locationColumnOffset]!
-    nodeIndexToLocation.set(
-      nodeIndex,
-      `${fileLocation}:${line + 1}:${column + 1}`,
-    )
+    const location = makeProfileLocation({
+      urlOrPath: fileLocation,
+      line: line + 1,
+      column: column + 1,
+    })
+    if (location) {
+      nodeIndexToLocation.set(nodeIndex, location)
+    }
   }
 
   return nodeIndexToLocation
@@ -757,7 +760,7 @@ const computeRetainerPath = (
     offsetToPredecessorOrdinal,
     offsetToPredecessorEdgeIndex,
   }: NodeAdjacencyGraph,
-  nodeIndexToLocation: Map<number, string>,
+  nodeIndexToLocation: Map<number, ProfileLocation>,
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
   options: NormalizedProfileToMdOptions,
@@ -810,7 +813,9 @@ const computeRetainerPath = (
 
     hops.push({
       label: `${edgeLabel} ${retainerLabel}${
-        retainerLocation ? ` (${retainerLocation})` : ``
+        retainerLocation
+          ? ` (${formatProfileLocation(retainerLocation, options)})`
+          : ``
       }`,
       internal: isInternalNodeType(retainerType, fieldLayout),
     })
@@ -903,9 +908,11 @@ const formatEdgeLabel = (
   }
 
   const rawEdgeName = strings[edgeNameOrIndex]!
-  const edgeName =
-    // Sometimes the edge name is a file URL.
-    formatLocation(rawEdgeName, options) ?? rawEdgeName
+  // Sometimes the edge name is a file URL.
+  const edgeLocation = makeProfileLocation({ urlOrPath: rawEdgeName })
+  const edgeName = edgeLocation
+    ? formatProfileLocation(edgeLocation, options)
+    : rawEdgeName
 
   return `.${edgeName}`
 }
@@ -941,10 +948,11 @@ const formatNodeLabel = (
       const rawNodeName =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      return (
-        // Sometimes the node name is a file URL.
-        formatLocation(rawNodeName, options) ?? rawNodeName
-      )
+      // Sometimes the node name is a file URL.
+      const nodeLocation = makeProfileLocation({ urlOrPath: rawNodeName })
+      return nodeLocation
+        ? formatProfileLocation(nodeLocation, options)
+        : rawNodeName
     }
   }
 }

@@ -1,4 +1,3 @@
-import type { NormalizedProfileToMdOptions } from '../common.ts'
 import {
   formatBytes,
   formatConjunction,
@@ -9,6 +8,8 @@ import {
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatTable, inlineCode } from '../helpers/markdown.ts'
+import { formatProfileLocation } from '../location.ts'
+import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type { Metric } from './metric.ts'
 import type { Profile, ProfileFunction } from './summarize.ts'
 import { findCommonCallStack } from './summarize.ts'
@@ -192,7 +193,7 @@ const formatHottestSelfFunctions = (
         formatValue(func.selfValues[metricIndex]!, metric),
         formatCount(func.selfSampleCount),
         inlineCode(func.name),
-        func.location ?? inlineCode(`<native>`),
+        formatProfileLocation(func.location, options),
       ]),
     ),
     ...(hottestLinesSections.length > 0
@@ -216,19 +217,22 @@ const formatHottestLines = (
   metricIndex: number,
   func: ProfileFunction,
   profile: Profile,
-  { topN }: NormalizedProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
   const selfValue = func.selfValues[metricIndex]!
   const hottestLines = selectTopN(
     [...func.lineToMetrics],
-    Math.ceil(topN / 4),
+    Math.ceil(options.topN / 4),
     ([, metrics1], [, metrics2]) =>
       metrics2.values[metricIndex]! - metrics1.values[metricIndex]!,
   )
 
   const metric = profile.metrics[metricIndex]!
   return [
-    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${func.location ?? inlineCode(`<native>`)})`,
+    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${formatProfileLocation(
+      func.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -240,7 +244,12 @@ const formatHottestLines = (
         formatPercent(stats.values[metricIndex]! / selfValue),
         formatValue(stats.values[metricIndex]!, metric),
         formatCount(stats.sampleCount),
-        func.fileLocation ? `${func.fileLocation}:${line}` : `${line}`,
+        func.location
+          ? formatProfileLocation(
+              { ...func.location, line, column: undefined },
+              options,
+            )
+          : String(line),
       ]),
     ),
   ].join(`\n\n`)
@@ -267,7 +276,10 @@ const formatHottestCallers = (
 
   const metric = profile.metrics[metricIndex]!
   return [
-    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${func.location ?? inlineCode(`<native>`)})`,
+    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${formatProfileLocation(
+      func.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -281,7 +293,7 @@ const formatHottestCallers = (
         formatValue(selfValues[metricIndex]!, metric),
         formatCount(selfSampleCount),
         inlineCode(caller.name),
-        caller.location ?? inlineCode(`<native>`),
+        formatProfileLocation(caller.location, options),
       ]),
     ),
   ].join(`\n\n`)
@@ -321,7 +333,7 @@ const formatHottestTotalFunctions = (
         formatValue(func.totalValues[metricIndex]!, metric),
         formatCount(func.totalSampleCount),
         inlineCode(func.name),
-        func.location ?? inlineCode(`<native>`),
+        formatProfileLocation(func.location, options),
       ]),
     ),
     ...(calleeSections.length > 0
@@ -355,7 +367,10 @@ const formatHottestCallees = (
   const metric = profile.metrics[metricIndex]!
   const metricName = metricDisplayName(metric)
   return [
-    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${func.location ?? inlineCode(`<native>`)})`,
+    `#####${profile.metrics.length > 1 ? `#` : ``} ${inlineCode(func.name)} (${formatProfileLocation(
+      func.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -369,7 +384,7 @@ const formatHottestCallees = (
         formatValue(totalValues[metricIndex]!, metric),
         formatCount(totalSampleCount),
         inlineCode(callee.name),
-        callee.location ?? inlineCode(`<native>`),
+        formatProfileLocation(callee.location, options),
       ]),
     ),
   ].join(`\n\n`)
@@ -404,7 +419,7 @@ const formatHottestCallStacks = (
     `##${profile.metrics.length > 1 ? `#` : ``} Hottest call stacks`,
     `Call stacks ranked by ${metricPastParticipleVerbPhrase(metric)} in their top frame.`,
     ...(commonCallStack.length > 0
-      ? [`Common call stack: ${formatCallStack(commonCallStack)}`]
+      ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
       : []),
     formatTable(
       [
@@ -421,28 +436,35 @@ const formatHottestCallStacks = (
           commonCallStack.length > 0
             ? frames.slice(0, -commonCallStack.length)
             : frames,
+          options,
         ),
       ]),
     ),
   ].join(`\n\n`)
 }
 
-const formatCallStack = (nodes: ProfileFunction[]): string =>
+const formatCallStack = (
+  nodes: ProfileFunction[],
+  options: NormalizedProfileToMdOptions,
+): string =>
   nodes
     .map((node, index) => {
       const name = inlineCode(node.name)
       if (!node.location) {
         return name
       }
-      const prevFileLocation = nodes[index - 1]?.fileLocation
-      if (
-        prevFileLocation &&
-        node.fileLocation === prevFileLocation &&
-        node.location.startsWith(`${prevFileLocation}:`)
-      ) {
-        return `${name} (${node.location.slice(prevFileLocation.length + 1)})`
+
+      const previousHref = nodes[index - 1]?.location?.url.href
+      if (!previousHref || node.location.url.href !== previousHref) {
+        return `${name} (${formatProfileLocation(node.location, options)})`
       }
-      return `${name} (${node.location})`
+
+      const { line, column } = node.location
+      if (line === undefined) {
+        return name
+      }
+
+      return `${name} (${line}${column === undefined ? `` : `:${column}`})`
     })
     .join(` ← `)
 

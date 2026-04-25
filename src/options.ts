@@ -1,3 +1,5 @@
+import type { ProfileLocation } from './location.ts'
+
 /** A single entry in a rendered profile. */
 export type ProfileEntry = {
   /**
@@ -6,13 +8,16 @@ export type ProfileEntry = {
   name: string
 
   /**
-   * The URL or path to the source this entry belongs to, or undefined if it's
-   * native code.
+   * The location where the entity corresponding to this entry was defined, or
+   * undefined if it's unknown.
    */
-  location?: string
+  location?: ProfileLocation
 }
 
-/** Options for profile converters. */
+/** A profile entry with an ID. */
+export type UniqueProfileEntry = ProfileEntry & { id: number }
+
+/** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
   /**
    * The number of entries to display when computing the "top N" by some metric.
@@ -32,12 +37,12 @@ export type ProfileToMdOptions = {
   includeEntry?: (entry: ProfileEntry) => boolean
 
   /**
-   * Whether the given URL points to third-party code.
+   * Whether the given entry points to third-party code.
    *
    * This is used to compute summaries in the Markdown output and make other
    * decisions about what's important to display.
    */
-  isThirdPartyURL?: (url: URL) => boolean
+  isThirdPartyEntry?: (entry: ProfileEntry) => boolean
 
   /**
    * The current working directory to use to make file paths relative in the
@@ -54,15 +59,15 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
-  includeEntry: (entry: ProfileEntry & { id: number }) => boolean
-  isThirdPartyURL: (url: URL) => boolean
+  includeEntry: (entry: UniqueProfileEntry) => boolean
+  isThirdPartyEntry: (entry: UniqueProfileEntry) => boolean
   cwd: string | undefined
 }
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
   includeEntry = defaultIncludeEntry,
-  isThirdPartyURL = defaultIsThirdPartyURL,
+  isThirdPartyEntry = defaultIsThirdPartyEntry,
   cwd,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
   if (cwd === undefined && typeof process !== `undefined`) {
@@ -72,34 +77,34 @@ export const normalizeProfileToMdOptions = ({
     cwd = `${cwd}/`
   }
 
-  const includeEntryCache = new Map<number, boolean>()
-  const isThirdPartyUrlCache = new Map<string, boolean>()
-
   return {
     topN,
-    includeEntry: row => {
-      let result = includeEntryCache.get(row.id)
-      if (result !== undefined) {
-        return result
-      }
-      result = includeEntry(row)
-      includeEntryCache.set(row.id, result)
-      return result
-    },
-    isThirdPartyURL: url => {
-      const { href } = url
-      let result = isThirdPartyUrlCache.get(href)
-      if (result !== undefined) {
-        return result
-      }
-      result = isThirdPartyURL(url)
-      isThirdPartyUrlCache.set(href, result)
-      return result
-    },
+    includeEntry: cacheEntryFunction(includeEntry),
+    isThirdPartyEntry: cacheEntryFunction(isThirdPartyEntry),
     cwd: cwd ?? undefined,
   }
 }
 
+const cacheEntryFunction = (
+  func: (entry: UniqueProfileEntry) => boolean,
+): ((entry: UniqueProfileEntry) => boolean) => {
+  const cache: boolean[] = []
+  return entry => {
+    let result = cache[entry.id]
+    if (result !== undefined) {
+      return result
+    }
+    result = func(entry)
+    cache[entry.id] = result
+    return result
+  }
+}
+
+/**
+ * Returns whether to include the given entry in the Markdown output.
+ *
+ * Excludes synthetic profile data and redundant internals by default.
+ */
 export const defaultIncludeEntry = ({
   name,
   location,
@@ -114,7 +119,8 @@ export const defaultIncludeEntry = ({
       (name === `ModuleWrap` ||
         name.startsWith(`system /`) ||
         name.startsWith(`Node /`))) ||
-    location?.startsWith(`node:internal/`)
+    (location?.url.protocol === `node:` &&
+      location.url.pathname.startsWith(`internal/`))
   ) {
     // V8 and Node internals. They are rarely actionable and when they _are_
     // actionable, they are preceded by some public Node call frame that isn't
@@ -126,67 +132,9 @@ export const defaultIncludeEntry = ({
 }
 
 /**
- * Returns whether the given URL points to third-party code.
+ * Returns whether the given entry points to third-party code.
  *
  * Excludes `node_modules` only by default.
  */
-export const defaultIsThirdPartyURL = (url: URL): boolean =>
-  url.pathname.includes(`/node_modules/`)
-
-export const formatLocation = (
-  location: string,
-  { cwd }: NormalizedProfileToMdOptions,
-): string | undefined => {
-  if (!location) {
-    return undefined
-  }
-
-  let url: URL | undefined
-  try {
-    url = new URL(location)
-  } catch {}
-
-  let path: string
-  if (url) {
-    if (url.protocol !== `file:`) {
-      return location
-    }
-    path = url.pathname
-  } else {
-    path = location
-  }
-
-  if (cwd !== undefined && path.startsWith(cwd)) {
-    path = path.slice(cwd.length)
-  }
-
-  return path || undefined
-}
-
-export const categorizeFunction = (
-  location: string,
-  { isThirdPartyURL }: NormalizedProfileToMdOptions,
-): string => {
-  if (!location) {
-    return `native`
-  }
-
-  let url: URL | undefined
-  try {
-    url = new URL(location)
-  } catch {}
-
-  if (!url) {
-    try {
-      url = new URL(`file://${location}`)
-    } catch {
-      return `native`
-    }
-  }
-
-  if (url.protocol !== `file:`) {
-    return `native`
-  }
-
-  return isThirdPartyURL(url) ? `third-party` : `ours`
-}
+export const defaultIsThirdPartyEntry = (entry: ProfileEntry): boolean =>
+  !!entry.location?.url.pathname.includes(`/node_modules/`)

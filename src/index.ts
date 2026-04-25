@@ -1,5 +1,5 @@
-export { defaultIncludeEntry, defaultIsThirdPartyURL } from './common.ts'
-export type { ProfileEntry, ProfileToMdOptions } from './common.ts'
+export { defaultIncludeEntry, defaultIsThirdPartyEntry } from './options.ts'
+export type { ProfileEntry, ProfileToMdOptions } from './options.ts'
 export {
   pprofToMd,
   speedscopeProfileToMd,

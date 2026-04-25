@@ -1,5 +1,5 @@
-import { normalizeProfileToMdOptions } from '../../../common.ts'
-import type { ProfileToMdOptions } from '../../../common.ts'
+import { normalizeProfileToMdOptions } from '../../../options.ts'
+import type { ProfileToMdOptions } from '../../../options.ts'
 import { formatV8CpuProfile } from './format.ts'
 import type { V8CpuProfile } from './parse.ts'
 import { parseV8CpuProfile } from './parse.ts'

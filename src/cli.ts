@@ -28,7 +28,7 @@ import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
 import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
 import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
 import { parseJson } from './helpers/json.ts'
-import { defaultIsThirdPartyURL } from './index.ts'
+import { defaultIsThirdPartyEntry } from './index.ts'
 import type { ProfileToMdOptions } from './index.ts'
 
 type JsonProfileConverter<Parsed> = {
@@ -176,11 +176,14 @@ try {
   const options: ProfileToMdOptions = {
     topN,
     cwd,
-    isThirdPartyURL:
+    isThirdPartyEntry:
       thirdPartyMatchers.length > 0
-        ? url =>
-            defaultIsThirdPartyURL(url) ||
-            thirdPartyMatchers.some(match => match(url.pathname))
+        ? entry =>
+            defaultIsThirdPartyEntry(entry) ||
+            (!!entry.location &&
+              thirdPartyMatchers.some(match =>
+                match(entry.location!.url.pathname),
+              ))
         : undefined,
   }
 

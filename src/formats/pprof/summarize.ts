@@ -1,5 +1,4 @@
-import { categorizeFunction, formatLocation } from '../../common.ts'
-import type { NormalizedProfileToMdOptions } from '../../common.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { determineMetric, ProfileBuilder } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type { Pprof, PprofFunction } from './parse.ts'
@@ -15,23 +14,20 @@ export const summarizePprof = (
     determineMetric({ name: valueType.type, unit: valueType.unit }),
   )
 
-  const profileBuilder = new ProfileBuilder<PprofFunction>({
-    metrics,
-    functionKey: func => func.id,
-    functionMetadata: func => {
-      const fileLocation = formatLocation(func.filename, options)
-      return {
-        name: func.name || func.systemName || `(unknown)`,
-        fileLocation,
-        location: fileLocation
-          ? func.startLine > 0
-            ? `${fileLocation}:${func.startLine}`
-            : fileLocation
-          : undefined,
-        category: categorizeFunction(func.filename, options),
-      }
+  const profileBuilder = new ProfileBuilder<PprofFunction>(
+    {
+      metrics,
+      functionKey: func => func.id,
+      functionInput: func => ({
+        name: func.name || func.systemName,
+        location: {
+          urlOrPath: func.filename,
+          line: func.startLine > 0 ? func.startLine : undefined,
+        },
+      }),
     },
-  })
+    options,
+  )
 
   for (const sample of samples) {
     const { locationIds, values } = sample
