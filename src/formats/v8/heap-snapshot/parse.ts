@@ -1,3 +1,5 @@
+import { parseJson } from '../../../helpers/json.ts'
+
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
  */
@@ -78,9 +80,4 @@ export type V8HeapSnapshotMeta = {
 
 export const parseV8HeapSnapshot = (
   data: string | Uint8Array,
-): V8HeapSnapshot =>
-  JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
-    // doesn't include that in the types.
-    data,
-  ) as V8HeapSnapshot
+): V8HeapSnapshot => parseJson(data) as V8HeapSnapshot

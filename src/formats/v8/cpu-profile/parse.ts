@@ -1,3 +1,4 @@
+import { parseJson } from '../../../helpers/json.ts'
 import type { V8CallFrame } from '../common.ts'
 
 /**
@@ -41,8 +42,4 @@ export type V8CpuProfileNode = {
 }
 
 export const parseV8CpuProfile = (data: string | Uint8Array): V8CpuProfile =>
-  JSON.parse(
-    // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
-    // doesn't include that in the types.
-    data,
-  ) as V8CpuProfile
+  parseJson(data) as V8CpuProfile

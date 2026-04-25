@@ -1,4 +1,5 @@
 import { expect, test } from 'vitest'
+import { parseJson } from '../../helpers/json.ts'
 import {
   defaultIncludeSpeedscopeEntry,
   detectSpeedscopeProfile,
@@ -46,9 +47,9 @@ const makeEvented = (
 })
 
 test(`detectSpeedscope accepts valid speedscope file`, () => {
-  const json = JSON.parse(
+  const json = parseJson(
     makeProfile([makeSampled([[0]], [1])], [{ name: `main` }]),
-  ) as unknown
+  )
   expect(detectSpeedscopeProfile(json)).toBeDefined()
 })
 

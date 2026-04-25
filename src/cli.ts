@@ -27,6 +27,7 @@ import type { SpeedscopeProfile } from './formats/speedscope-profile/parse.ts'
 import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
 import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
 import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
+import { parseJson } from './helpers/json.ts'
 import { defaultIsThirdPartyURL } from './index.ts'
 import type { ProfileToMdOptions } from './index.ts'
 
@@ -189,11 +190,7 @@ try {
   } else {
     let json: unknown
     try {
-      json = JSON.parse(
-        // @ts-expect-error `JSON.parse` accepts `Uint8Array`, but TypeScript
-        // doesn't include that in the types.
-        data,
-      )
+      json = parseJson(data)
     } catch {}
     if (json === undefined) {
       for (const converter of binaryProfileConverters) {
