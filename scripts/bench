@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-name=${1:?Usage: bench <benchmark-name>}
+script_dir=$(cd "$(dirname "$0")" && pwd)
 tmpdir=$(mktemp -d)
 trap 'rm -rf "$tmpdir"' EXIT
 
@@ -9,7 +9,11 @@ node \
   --cpu-prof \
   --cpu-prof-interval=100 \
   --diagnostic-dir="$tmpdir" \
-  "scripts/benchmarks/$name.ts"
+  --input-type=module -e "
+    for (let i = 0; i < 10; i++) {
+      await import(\`${script_dir}/../src/cli.ts?\${i}\`)
+    }
+  " -- "$script_dir/bench.js" "$@" > /dev/null
 
 cpuprofile="$(echo "$tmpdir"/*.cpuprofile)"
-node src/cli.ts "$cpuprofile"
+node "$script_dir/../src/cli.ts" "$cpuprofile"
