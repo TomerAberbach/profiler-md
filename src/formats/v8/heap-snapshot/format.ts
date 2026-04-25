@@ -8,6 +8,7 @@ import { formatTable, inlineCode } from '../../../helpers/markdown.ts'
 import { formatProfileLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import type {
+  SummarizedClosure,
   SummarizedConstructor,
   SummarizedHeapSnapshot,
   SummarizedSnapshotNode,
@@ -241,7 +242,9 @@ const formatLargestClosures = (
 ): string => {
   const { totalSize, closures, retainerPathOf } = snapshot
   const largestClosures = selectTopN(
-    closures.filter(options.includeEntry),
+    closures.filter(closure =>
+      options.includeEntry({ ...closure, id: closure.largestInstanceId }),
+    ),
     options.topN,
     (closure1, closure2) => closure2.retainedSize - closure1.retainedSize,
   )
@@ -257,16 +260,20 @@ const formatLargestClosures = (
       [
         { content: `%`, align: `right` },
         { content: `Retained`, align: `right` },
+        { content: `Instances`, align: `right` },
+        { content: `Paths`, align: `right` },
         `Name`,
         `Location`,
-        `Path`,
+        `Example path`,
       ],
       largestClosures.map(closure => [
         formatPercent(closure.retainedSize / totalSize),
         formatBytes(closure.retainedSize),
+        formatCount(closure.instanceIds.length),
+        formatCount(new Set(closure.instanceIds.map(retainerPathOf)).size),
         inlineCode(closure.name),
         formatProfileLocation(closure.location, options),
-        inlineCode(retainerPathOf(closure.id)),
+        inlineCode(retainerPathOf(closure.largestInstanceId)),
       ]),
     ),
     ...(retainedSections.length > 0
@@ -280,12 +287,19 @@ const formatLargestClosures = (
 }
 
 const formatClosureRetainedObjects = (
-  closure: SummarizedSnapshotNode,
+  closure: SummarizedClosure,
   { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
+  const allRetainedNodes: SummarizedSnapshotNode[] = []
+  for (const instanceId of closure.instanceIds) {
+    for (const node of retainedNodesOf(instanceId)) {
+      allRetainedNodes[node.id] ??= node
+    }
+  }
+
   const retainedNodes = selectTopN(
-    retainedNodesOf(closure.id).filter(options.includeEntry),
+    allRetainedNodes.filter(options.includeEntry),
     Math.ceil(options.topN / 4),
     (node1, node2) => node2.selfSize - node1.selfSize,
   )
@@ -301,7 +315,7 @@ const formatClosureRetainedObjects = (
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: `Size`, align: `right` },
+        { content: `Self`, align: `right` },
         `Name`,
         `Path`,
       ],

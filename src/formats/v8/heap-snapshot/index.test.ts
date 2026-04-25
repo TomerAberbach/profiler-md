@@ -280,9 +280,9 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     Closures ranked by bytes that would be freed if the closure were garbage collected.
 
-    |     % | Retained | Name   | Location      | Path        |
-    | ----: | -------: | ------ | ------------- | ----------- |
-    | 12.7% |     64 B | \`myFn\` | src/a.ts:6:11 | \`(GC root)\` |
+    |     % | Retained | Instances | Paths | Name   | Location      | Example path |
+    | ----: | -------: | --------: | ----: | ------ | ------------- | ------------ |
+    | 12.7% |     64 B |         1 |     1 | \`myFn\` | src/a.ts:6:11 | \`(GC root)\`  |
 
     ## Largest strings
 

@@ -39,6 +39,26 @@ export type SummarizedConstructor = SummarizedSnapshotNode & {
   instances: SummarizedSnapshotNode[]
 }
 
+export type SummarizedClosure = {
+  /** A human readable label for this closure. */
+  name: string
+
+  /** The exact location where the closure was defined. */
+  location?: ProfileLocation
+
+  /**
+   * Bytes allocated for all instances of this closure and all nodes that would
+   * be freed if every instance were garbage collected.
+   */
+  retainedSize: number
+
+  /** Node ordinal of the instance with the largest individual retained size. */
+  largestInstanceId: number
+
+  /** Node ordinals of all instances, for computing unique retainer path counts. */
+  instanceIds: number[]
+}
+
 export type SummarizedHeapSnapshot = {
   /** Total bytes allocated in the snapshot. */
   totalSize: number
@@ -53,7 +73,7 @@ export type SummarizedHeapSnapshot = {
   nodeCategoryToStats: Map<string, NodeCategoryStats>
 
   constructors: SummarizedConstructor[]
-  closures: SummarizedSnapshotNode[]
+  closures: SummarizedClosure[]
   strings: SummarizedSnapshotNode[]
 
   retainerPathOf: (nodeOrdinal: number) => string
@@ -89,10 +109,15 @@ export const summarizeV8HeapSnapshot = (
 
   let totalSize = 0
   const nodeCategoryToStats = new Map<string, NodeCategoryStats>()
+
   const constructors: SummarizedConstructor[] = []
   const nameToConstructorIndex = new Map<string, number>()
   const nodeOrdinalToConstructorIndex = new Int32Array(nodeCount).fill(-1)
-  const closures: SummarizedSnapshotNode[] = []
+
+  const closures: SummarizedClosure[] = []
+  const keyToClosureIndex = new Map<string, number>()
+  const nodeOrdinalToClosureIndex = new Int32Array(nodeCount).fill(-1)
+
   const strings: SummarizedSnapshotNode[] = []
 
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
@@ -148,15 +173,35 @@ export const summarizeV8HeapSnapshot = (
         nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
         break
       }
-      case fieldLayout.nodeTypeClosure:
-        closures.push({
-          id: nodeOrdinal,
-          name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
-          selfSize,
-          retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-          location: nodeIndexToLocation.get(nodeIndex),
-        })
+      case fieldLayout.nodeTypeClosure: {
+        const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
+        const location = nodeIndexToLocation.get(nodeIndex)
+        const key = `${name}|${location ? formatProfileLocation(location, options) : ``}`
+        const retainedSize = nodeOrdinalToRetainedSize[nodeOrdinal]!
+
+        let closureIndex = keyToClosureIndex.get(key)
+        if (closureIndex === undefined) {
+          closureIndex = closures.length
+          closures.push({
+            name,
+            location,
+            retainedSize: 0,
+            largestInstanceId: nodeOrdinal,
+            instanceIds: [],
+          })
+          keyToClosureIndex.set(key, closureIndex)
+        }
+
+        const closure = closures[closureIndex]!
+        closure.instanceIds.push(nodeOrdinal)
+        if (
+          retainedSize > nodeOrdinalToRetainedSize[closure.largestInstanceId]!
+        ) {
+          closure.largestInstanceId = nodeOrdinal
+        }
+        nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
         break
+      }
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
       case fieldLayout.nodeTypeConcatenatedString:
@@ -175,6 +220,12 @@ export const summarizeV8HeapSnapshot = (
     immediateDominatorGraph,
     nodeOrdinalToConstructorIndex,
     constructors,
+  )
+  attributeGroupRetainedSizes(
+    nodeOrdinalToRetainedSize,
+    immediateDominatorGraph,
+    nodeOrdinalToClosureIndex,
+    closures,
   )
 
   return {
@@ -985,7 +1036,7 @@ const attributeGroupRetainedSizes = (
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
   nodeOrdinalToSummarizedNodeIndex: Int32Array,
-  summarizedNodes: SummarizedSnapshotNode[],
+  summarizedNodes: { retainedSize: number }[],
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
