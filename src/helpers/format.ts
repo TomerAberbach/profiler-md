@@ -22,9 +22,9 @@ export const formatPercent = (fraction: number): string =>
   `${(fraction * 100).toFixed(1)}%`
 
 export const formatConjunction = (strings: Iterable<string>): string =>
-  conjunctionFormatter.format(strings)
+  (conjunctionFormatter ??= new Intl.ListFormat(`en`, {
+    style: `long`,
+    type: `conjunction`,
+  })).format(strings)
 
-const conjunctionFormatter = new Intl.ListFormat(`en`, {
-  style: `long`,
-  type: `conjunction`,
-})
+let conjunctionFormatter: Intl.ListFormat | undefined

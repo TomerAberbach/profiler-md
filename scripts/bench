@@ -7,7 +7,7 @@ trap 'rm -rf "$tmpdir"' EXIT
 
 node \
   --cpu-prof \
-  --cpu-prof-interval=100 \
+  --cpu-prof-interval=50 \
   --diagnostic-dir="$tmpdir" \
   --input-type=module -e "
     for (let i = 0; i < 10; i++) {
