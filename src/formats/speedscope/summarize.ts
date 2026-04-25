@@ -1,5 +1,4 @@
-import { categorizeFunction, formatLocation } from '../../common.ts'
-import type { NormalizedProfileToMdOptions } from '../../common.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { determineMetric, ProfileBuilder } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type {
@@ -103,19 +102,20 @@ const makeProfileBuilder = (
   unit: string,
   options: NormalizedProfileToMdOptions,
 ): ProfileBuilder<SpeedscopeNode> =>
-  new ProfileBuilder<SpeedscopeNode>({
-    metrics: [determineMetric({ name: unit, unit })],
-    functionKey: node => node.id,
-    functionMetadata: node => {
-      const fileLocation = formatLocation(node.file ?? ``, options)
-      return {
-        name: node.name || `(anonymous)`,
-        fileLocation,
-        location:
-          fileLocation && node.line != null
-            ? `${fileLocation}:${node.line}`
-            : fileLocation,
-        category: categorizeFunction(node.file ?? ``, options),
-      }
+  new ProfileBuilder<SpeedscopeNode>(
+    {
+      metrics: [determineMetric({ name: unit, unit })],
+      functionKey: node => node.id,
+      functionInput: node => ({
+        name: node.name,
+        location: node.file
+          ? {
+              urlOrPath: node.file,
+              line: node.line,
+              column: node.col,
+            }
+          : undefined,
+      }),
     },
-  })
+    options,
+  )

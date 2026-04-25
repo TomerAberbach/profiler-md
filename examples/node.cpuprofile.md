@@ -4,9 +4,9 @@ Took 6.17s over 47,806 samples (129.2µs per sample).
 
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
-| ours              | 91.0% |   5.62s |  43,522 |
+| ours              | 91.3% |   5.63s |  43,666 |
 | regexp            |  2.1% | 127.4ms |     987 |
-| native            |  2.0% | 124.6ms |     961 |
+| native            |  1.7% | 106.6ms |     817 |
 | garbage collector |  1.7% | 106.3ms |     814 |
 | program           |  1.7% | 104.4ms |     816 |
 | third-party       |  1.5% |  90.2ms |     691 |

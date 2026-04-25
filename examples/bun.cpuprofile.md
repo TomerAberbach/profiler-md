@@ -4,9 +4,10 @@ Took 2.44s over 15,182 samples (161.2µs per sample).
 
 | Category    |     % |    Time | Samples |
 | ----------- | ----: | ------: | ------: |
-| ours        | 73.4% |   1.79s |  11,203 |
+| ours        | 73.0% |   1.78s |  11,143 |
 | native      | 23.6% | 578.7ms |   3,551 |
-| third-party |  3.0% |  72.9ms |     427 |
+| third-party |  3.0% |  72.7ms |     425 |
+| module      |  0.4% |  10.1ms |      62 |
 | unknown     |  0.0% |   0.2ms |       1 |
 
 ## Hottest functions

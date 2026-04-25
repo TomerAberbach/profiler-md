@@ -1,4 +1,3 @@
-import type { NormalizedProfileToMdOptions } from '../../../common.ts'
 import {
   formatBytes,
   formatCount,
@@ -6,6 +5,8 @@ import {
 } from '../../../helpers/format.ts'
 import { selectTopN } from '../../../helpers/heap.ts'
 import { formatTable, inlineCode } from '../../../helpers/markdown.ts'
+import { formatProfileLocation } from '../../../location.ts'
+import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import type {
   SummarizedConstructor,
   SummarizedHeapSnapshot,
@@ -102,7 +103,7 @@ const formatLargestSelfSizeConstructors = (
         formatBytes(constructor.selfSize),
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
-        constructor.location ?? inlineCode(`<native>`),
+        formatProfileLocation(constructor.location, options),
       ]),
     ),
     ...(largestInstanceSections.length > 0
@@ -130,9 +131,10 @@ const formatLargestSelfSizeConstructorInstances = (
   }
 
   return [
-    `##### ${inlineCode(constructor.name)} (${
-      constructor.location ?? inlineCode(`<native>`)
-    })`,
+    `##### ${inlineCode(constructor.name)} (${formatProfileLocation(
+      constructor.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -186,7 +188,7 @@ const formatLargestRetainedSizeConstructors = (
         formatBytes(constructor.retainedSize),
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
-        constructor.location ?? inlineCode(`<native>`),
+        formatProfileLocation(constructor.location, options),
       ]),
     ),
     ...(largestInstanceSections.length > 0
@@ -214,9 +216,10 @@ const formatLargestRetainedSizeConstructorInstances = (
   }
 
   return [
-    `##### ${inlineCode(constructor.name)} (${
-      constructor.location ?? inlineCode(`<native>`)
-    })`,
+    `##### ${inlineCode(constructor.name)} (${formatProfileLocation(
+      constructor.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -262,7 +265,7 @@ const formatLargestClosures = (
         formatPercent(closure.retainedSize / totalSize),
         formatBytes(closure.retainedSize),
         inlineCode(closure.name),
-        closure.location ?? inlineCode(`<unknown>`),
+        formatProfileLocation(closure.location, options),
         inlineCode(retainerPathOf(closure.id)),
       ]),
     ),
@@ -291,9 +294,10 @@ const formatClosureRetainedObjects = (
   }
 
   return [
-    `#### ${inlineCode(closure.name)} (${
-      closure.location ?? inlineCode(`<unknown>`)
-    })`,
+    `#### ${inlineCode(closure.name)} (${formatProfileLocation(
+      closure.location,
+      options,
+    )})`,
     formatTable(
       [
         { content: `%`, align: `right` },

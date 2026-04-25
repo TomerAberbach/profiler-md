@@ -1,9 +1,16 @@
+import { makeProfileLocation } from '../location.ts'
+import type { ProfileLocation, ProfileLocationInput } from '../location.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  UniqueProfileEntry,
+} from '../options.ts'
 import type { Metric } from './metric.ts'
 
 export class ProfileBuilder<Node extends { id: number }> {
   readonly #metrics: Metric[]
   readonly #functionKey: (node: Node) => number | string
-  readonly #functionMetadata: (node: Node) => ProfileFunctionMetadata
+  readonly #functionInput: (node: Node) => ProfileFunctionInput
+  readonly #options: NormalizedProfileToMdOptions
 
   #totalSampleCount: number
   readonly #totalValues: Float64Array
@@ -18,26 +25,30 @@ export class ProfileBuilder<Node extends { id: number }> {
   #functionIdToLastSeenSampleCount: Uint32Array
   #frameIndexToFramePairKey: Int32Array
 
-  public constructor({
-    metrics,
-    functionKey,
-    functionMetadata,
-  }: {
-    /** @see {@link Profile.metrics} */
-    metrics: Metric[]
+  public constructor(
+    {
+      metrics,
+      functionKey,
+      functionInput,
+    }: {
+      /** @see {@link Profile.metrics} */
+      metrics: Metric[]
 
-    /** Returns a unique key for the function corresponding to {@link node}. */
-    functionKey: (node: Node) => number | string
+      /** Returns a unique key for the function corresponding to {@link node}. */
+      functionKey: (node: Node) => number | string
 
-    /**
-     * Returns the {@link ProfileFunctionMetadata} for the function
-     * corresponding to {@link node}.
-     */
-    functionMetadata: (node: Node) => ProfileFunctionMetadata
-  }) {
+      /**
+       * Returns the {@link ProfileFunctionInput} for the function corresponding
+       * to {@link node}.
+       */
+      functionInput: (node: Node) => ProfileFunctionInput
+    },
+    options: NormalizedProfileToMdOptions,
+  ) {
     this.#metrics = metrics
     this.#functionKey = functionKey
-    this.#functionMetadata = functionMetadata
+    this.#functionInput = functionInput
+    this.#options = options
 
     this.#totalSampleCount = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
@@ -233,9 +244,17 @@ export class ProfileBuilder<Node extends { id: number }> {
       return func
     }
 
-    func = {
-      ...this.#functionMetadata(node),
+    const { name: nameInput, location: locationInput } =
+      this.#functionInput(node)
+    const entry: UniqueProfileEntry = {
       id: this.#keyToFunction.size,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      name: nameInput || `(anonymous)`,
+      location: locationInput ? makeProfileLocation(locationInput) : undefined,
+    }
+    func = {
+      ...entry,
+      category: categorizeFunction(entry, this.#options),
       selfSampleCount: 0,
       totalSampleCount: 0,
       selfValues: new Float64Array(this.#metrics.length),
@@ -270,6 +289,15 @@ export class ProfileBuilder<Node extends { id: number }> {
   }
 }
 
+/** Base information used for constructing a {@link ProfileFunction}. */
+export type ProfileFunctionInput = {
+  /** The name of the function, if known. */
+  name?: string
+
+  /** Where the function was defined, if known. */
+  location?: ProfileLocationInput
+}
+
 /** A single sample within a profile. */
 export type Sample<Node extends { id: number }> = {
   /** The values recorded for each metric in {@link Profile.metrics}. */
@@ -282,38 +310,22 @@ export type Sample<Node extends { id: number }> = {
   line?: number
 }
 
-/** Metadata about a unique function within a profile. */
-export type ProfileFunctionMetadata = {
-  /** The name of the function in code. */
-  name: string
-
-  /**
-   * A path or URL to the file where the function was defined, if known.
-   *
-   * It will be `undefined` for native functions.
-   */
-  fileLocation: string | undefined
-
-  /**
-   * A path or URL to the file:line:column where the function was defined, if
-   * known.
-   *
-   * It may be defined, but exclude the column number if that part's unknown. It
-   * will be `undefined` for native functions.
-   */
-  location: string | undefined
-
-  /** A string describing the category of functions this function belongs to.*/
-  category: string
-}
-
 /**
  * An aggregation of data from every sample involving a given function within a
  * profile.
  */
-export type ProfileFunction = ProfileFunctionMetadata & {
+export type ProfileFunction = {
   /** An index that uniquely identifies this function. */
   id: number
+
+  /** The name of the function in code. */
+  name: string
+
+  /** Where the function was defined, if known. */
+  location?: ProfileLocation
+
+  /** A string describing the category of functions this function belongs to.*/
+  category: string
 
   /**
    * The number of samples taken directly within the function's body, excluding
@@ -470,6 +482,41 @@ export type Profile = {
   callStacks: ProfileCallStack[]
 }
 
+const categorizeFunction = (
+  entry: UniqueProfileEntry,
+  { isThirdPartyEntry }: NormalizedProfileToMdOptions,
+): string => {
+  const { name, location } = entry
+
+  if (
+    name.startsWith(`(`) &&
+    name.endsWith(`)`) &&
+    !name.startsWith(`(anonymous`)
+  ) {
+    // This is a special sentinel function name like `(garbage collector)`,
+    // `(idle)`, etc.
+    return name.slice(1, -1)
+  }
+
+  if (name.startsWith(`RegExp: `)) {
+    return `regexp`
+  }
+
+  if (!location || location.url.protocol === `node:`) {
+    return `native`
+  }
+
+  return isThirdPartyEntry(entry) ? `third-party` : `ours`
+}
+
+/**
+ * Returns the list of callers of {@link callStacks} that is the longest common
+ * suffix of their frames, except it never returns a call stack as long as one
+ * of the input call stacks.
+ *
+ * This behavior is so that it's safe to remove that suffix from any of the call
+ * stacks and end up with a non-empty call stack to render.
+ */
 export const findCommonCallStack = (
   callStacks: { frames: ProfileFunction[] }[],
 ): ProfileFunction[] => {

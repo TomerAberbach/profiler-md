@@ -2,7 +2,7 @@
 
 import { test } from '@fast-check/vitest'
 import { expect } from 'vitest'
-import { defaultIncludeEntry } from '../../../common.ts'
+import { defaultIncludeEntry } from '../../../options.ts'
 import { diffMd } from '../../../testing/fixtures.ts'
 import { v8HeapProfileToMd } from './index.ts'
 

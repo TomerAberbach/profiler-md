@@ -4,13 +4,13 @@ Took 6.08s over 46,255 samples (131.6µs per sample).
 
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
-| ours              | 91.8% |   5.58s |  42,819 |
+| ours              | 91.9% |   5.58s |  42,820 |
 | garbage collector |  2.3% | 139.7ms |   1,060 |
 | regexp            |  2.1% | 128.6ms |     983 |
 | program           |  1.7% | 106.1ms |     817 |
 | third-party       |  1.2% |  71.1ms |     536 |
 | idle              |  0.8% |  50.1ms |      38 |
-| native            |  0.0% |   0.3ms |       2 |
+| native            |  0.0% |   0.1ms |       1 |
 
 ## Hottest functions
 

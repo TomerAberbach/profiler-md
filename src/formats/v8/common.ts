@@ -1,6 +1,4 @@
-import { categorizeFunction, formatLocation } from '../../common.ts'
-import type { NormalizedProfileToMdOptions } from '../../common.ts'
-import type { ProfileFunctionMetadata } from '../../profile/index.ts'
+import type { ProfileFunctionInput } from '../../profile/index.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#937
@@ -22,28 +20,6 @@ export type V8CallFrame = {
   columnNumber: number
 }
 
-export const categorizeCallFrame = (
-  callFrame: V8CallFrame,
-  options: NormalizedProfileToMdOptions,
-): string => {
-  if (!callFrame.url) {
-    const { functionName } = callFrame
-    if (functionName.startsWith(`(`) && functionName.endsWith(`)`)) {
-      // This is a special sentinel function name like `(garbage collector)`,
-      // `(idle)`, etc.
-      return functionName.slice(1, -1)
-    }
-
-    if (functionName.startsWith(`RegExp: `)) {
-      return `regexp`
-    }
-
-    return `native`
-  }
-
-  return categorizeFunction(callFrame.url, options)
-}
-
 export const callFrameKey = ({
   functionName,
   url,
@@ -52,18 +28,14 @@ export const callFrameKey = ({
 }: V8CallFrame): string =>
   `${functionName}|${url}|${lineNumber}|${columnNumber}`
 
-export const callFrameFunctionMetadata = (
+export const callFrameFunctionInput = (
   callFrame: V8CallFrame,
-  options: NormalizedProfileToMdOptions,
-): ProfileFunctionMetadata => {
+): ProfileFunctionInput => {
   const { functionName, url, lineNumber, columnNumber } = callFrame
-  const fileLocation = formatLocation(url, options)
   return {
-    name: functionName || `(anonymous)`,
-    fileLocation,
-    location: fileLocation
-      ? `${fileLocation}:${lineNumber + 1}:${columnNumber + 1}`
+    name: functionName,
+    location: url
+      ? { urlOrPath: url, line: lineNumber + 1, column: columnNumber + 1 }
       : undefined,
-    category: categorizeCallFrame(callFrame, options),
   }
 }

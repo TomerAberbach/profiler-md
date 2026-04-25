@@ -71,7 +71,7 @@ $ profiler-md --help
 import { readFile } from 'node:fs/promises'
 import {
   defaultIncludeEntry,
-  defaultIsThirdPartyURL,
+  defaultIsThirdPartyEntry,
   pprofToMd,
   speedscopeProfileToMd,
   v8CpuProfileToMd,
@@ -98,10 +98,10 @@ const options = {
   topN: 10,
   // Make paths relative to a custom directory.
   cwd: `/path/to/project`,
-  isThirdPartyURL: url =>
-    defaultIsThirdPartyURL(url) ||
+  isThirdPartyEntry: entry =>
+    defaultIsThirdPartyEntry(entry) ||
     // Treat an additional vendor directory as third-party.
-    url.pathname.includes(`/vendor/`),
+    !!entry.location?.url.pathname.includes(`/vendor/`),
   includeEntry: entry =>
     defaultIncludeEntry(entry) &&
     // Exclude entries from a specific file.

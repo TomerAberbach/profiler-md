@@ -1,5 +1,5 @@
-import { normalizeProfileToMdOptions } from '../../common.ts'
-import type { ProfileToMdOptions } from '../../common.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
+import type { ProfileToMdOptions } from '../../options.ts'
 import { formatSpeedscope } from './format.ts'
 import { parseSpeedscopeProfile } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
