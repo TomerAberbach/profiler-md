@@ -32,7 +32,11 @@ export const detectV8HeapProfile = (
  *
  * You can generate a V8 heap profile in several ways:
  * - [`node --heap-prof`](https://nodejs.org/api/cli.html#--heap-prof)
- * - [`v8.writeHeapProfileSync()`](https://nodejs.org/api/v8.html#v8writeheapprofilesyncfilename)
+ * - [`node --inspect`](https://nodejs.org/api/debugger.html#v8-inspector-integration-for-nodejs),
+ *   [`deno run --inspect`](https://docs.deno.com/runtime/fundamentals/debugging/#--inspect),
+ *   or [`bun --inspect`](https://bun.com/docs/runtime/debugger#inspect) with
+ *   [Chrome DevTools](https://developer.chrome.com/docs/devtools/memory-problems/allocation-profiler)
+ * - [Chrome DevTools directly](https://developer.chrome.com/docs/devtools/memory-problems/allocation-profiler)
  *
  * Note that [`bun --heap-prof`](https://bun.com/docs/project/benchmarking#heap-profiling)
  * generates a heap _snapshot_ on exit, not a heap _profile_.

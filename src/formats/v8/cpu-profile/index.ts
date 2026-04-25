@@ -26,8 +26,15 @@ export const detectV8CpuProfile = (json: unknown): V8CpuProfile | undefined => {
  *
  * You can generate a V8 CPU profile in several ways:
  * - [`node --cpu-prof`](https://nodejs.org/api/cli.html#cpu-prof)
- * - [`deno --cpu-prof`](https://docs.deno.com/runtime/fundamentals/debugging/#cpu-profiling)
+ * - [`deno run --cpu-prof`](https://docs.deno.com/runtime/fundamentals/debugging/#cpu-profiling)
  * - [`bun --cpu-prof`](https://bun.com/docs/project/benchmarking#cpu-profiling)
+ *   (NOTE: output was incorrect until
+ *   [v1.3.13](https://bun.com/blog/bun-v1.3.13#node-js-compatibility-improvements))
+ * - [`node --inspect`](https://nodejs.org/api/debugger.html#v8-inspector-integration-for-nodejs),
+ *   [`deno run --inspect`](https://docs.deno.com/runtime/fundamentals/debugging/#--inspect),
+ *   or [`bun --inspect`](https://bun.com/docs/runtime/debugger#inspect) with
+ *   [Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/nodejs)
+ * - [Chrome DevTools directly](https://developer.chrome.com/docs/devtools/performance#record)
  *
  * Lower the sampling interval to capture more granular data.
  */
