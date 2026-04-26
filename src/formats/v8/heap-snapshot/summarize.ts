@@ -92,7 +92,7 @@ export const summarizeV8HeapSnapshot = (
 
   const fieldLayout = computeFieldLayout(meta)
   const nodeAdjacencyGraph = computeNodeAdjacencyGraph(snapshot, fieldLayout)
-  const nodeIndexToLocation = computeNodeIndexToLocation(
+  const nodeOrdinalToLocation = computeNodeOrdinalToLocation(
     snapshot,
     nodeAdjacencyGraph,
     fieldLayout,
@@ -162,7 +162,7 @@ export const summarizeV8HeapSnapshot = (
         }
 
         constructor.selfSize += selfSize
-        constructor.location ??= nodeIndexToLocation.get(nodeIndex)
+        constructor.location ??= nodeOrdinalToLocation[nodeOrdinal]
         constructor.instances.push({
           id: nodeOrdinal,
           name: constructor.name,
@@ -175,7 +175,7 @@ export const summarizeV8HeapSnapshot = (
       }
       case fieldLayout.nodeTypeClosure: {
         const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
-        const location = nodeIndexToLocation.get(nodeIndex)
+        const location = nodeOrdinalToLocation[nodeOrdinal]
         const key = `${name}|${location ? formatProfileLocation(location, options) : ``}`
         const retainedSize = nodeOrdinalToRetainedSize[nodeOrdinal]!
 
@@ -241,7 +241,7 @@ export const summarizeV8HeapSnapshot = (
         nodeOrdinal,
         snapshot,
         nodeAdjacencyGraph,
-        nodeIndexToLocation,
+        nodeOrdinalToLocation,
         immediateDominatorGraph,
         fieldLayout,
         options,
@@ -409,19 +409,31 @@ const computeNodeAdjacencyGraph = (
   }
 }
 
-const computeNodeIndexToLocation = (
+const computeNodeOrdinalToLocation = (
   { nodes, edges, strings, locations }: V8HeapSnapshot,
   {
     ordinalToSuccessorStartOffset,
     offsetToSuccessorEdgeIndex,
   }: NodeAdjacencyGraph,
-  fieldLayout: FieldLayout,
-): Map<number, ProfileLocation> => {
+  {
+    nodeFieldCount,
+    nodeTypeOffset,
+    nodeNameOffset,
+    nodeTypeClosure,
+    edgeNameOrIndexOffset,
+    edgeToNodeOffset,
+    locationFieldCount,
+    locationScriptIdOffset,
+    locationObjectIndexOffset,
+    locationLineOffset,
+    locationColumnOffset,
+  }: FieldLayout,
+): ProfileLocation[] => {
   const namedEdgeToNodeIndex = (
     nodeIndex: number,
     targetEdgeName: string,
   ): number | undefined => {
-    const nodeOrdinal = nodeIndex / fieldLayout.nodeFieldCount
+    const nodeOrdinal = nodeIndex / nodeFieldCount
     const successorStartOffset = ordinalToSuccessorStartOffset[nodeOrdinal]!
     const successorEndOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
     for (
@@ -430,10 +442,9 @@ const computeNodeIndexToLocation = (
       successorOffset++
     ) {
       const edgeIndex = offsetToSuccessorEdgeIndex[successorOffset]!
-      const edgeName =
-        strings[edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!]!
+      const edgeName = strings[edges[edgeIndex + edgeNameOrIndexOffset]!]!
       if (edgeName === targetEdgeName) {
-        return edges[edgeIndex + fieldLayout.edgeToNodeOffset]!
+        return edges[edgeIndex + edgeToNodeOffset]!
       }
     }
     return undefined
@@ -443,19 +454,17 @@ const computeNodeIndexToLocation = (
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
-    locationIndex += fieldLayout.locationFieldCount
+    locationIndex += locationFieldCount
   ) {
-    const scriptId =
-      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
+    const scriptId = locations[locationIndex + locationScriptIdOffset]!
     if (scriptIdToFileLocation.has(scriptId)) {
       // We already found the file location for this script ID.
       continue
     }
 
-    const nodeIndex =
-      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
-    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]
-    if (nodeType !== fieldLayout.nodeTypeClosure) {
+    const nodeIndex = locations[locationIndex + locationObjectIndexOffset]!
+    const nodeType = nodes[nodeIndex + nodeTypeOffset]
+    if (nodeType !== nodeTypeClosure) {
       // Only closures have location urls.
       continue
     }
@@ -473,8 +482,7 @@ const computeNodeIndexToLocation = (
     if (locationNodeIndex === undefined) {
       continue
     }
-    const location =
-      strings[nodes[locationNodeIndex + fieldLayout.nodeNameOffset]!]
+    const location = strings[nodes[locationNodeIndex + nodeNameOffset]!]
     if (!location) {
       continue
     }
@@ -485,34 +493,40 @@ const computeNodeIndexToLocation = (
   // This must be a separate loop from the above because it's possible a file
   // location is reachable from one node, but not another, even though they
   // share the same script ID.
-  const nodeIndexToLocation = new Map<number, ProfileLocation>()
+  const nodeOrdinalToLocation: ProfileLocation[] = []
+  // Cache URLs per file path to avoid repeated expensive URL construction.
+  const fileLocationToUrl = new Map<string, URL | null>()
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
-    locationIndex += fieldLayout.locationFieldCount
+    locationIndex += locationFieldCount
   ) {
-    const scriptId =
-      locations[locationIndex + fieldLayout.locationScriptIdOffset]!
+    const scriptId = locations[locationIndex + locationScriptIdOffset]!
     const fileLocation = scriptIdToFileLocation.get(scriptId)
     if (!fileLocation) {
       continue
     }
 
-    const nodeIndex =
-      locations[locationIndex + fieldLayout.locationObjectIndexOffset]!
-    const line = locations[locationIndex + fieldLayout.locationLineOffset]!
-    const column = locations[locationIndex + fieldLayout.locationColumnOffset]!
-    const location = makeProfileLocation({
-      urlOrPath: fileLocation,
+    let url = fileLocationToUrl.get(fileLocation)
+    if (url === undefined) {
+      url = makeProfileLocation({ urlOrPath: fileLocation })?.url ?? null
+      fileLocationToUrl.set(fileLocation, url)
+    }
+    if (!url) {
+      continue
+    }
+
+    const nodeIndex = locations[locationIndex + locationObjectIndexOffset]!
+    const line = locations[locationIndex + locationLineOffset]!
+    const column = locations[locationIndex + locationColumnOffset]!
+    nodeOrdinalToLocation[nodeIndex / nodeFieldCount] = {
+      url,
       line: line + 1,
       column: column + 1,
-    })
-    if (location) {
-      nodeIndexToLocation.set(nodeIndex, location)
     }
   }
 
-  return nodeIndexToLocation
+  return nodeOrdinalToLocation
 }
 
 /**
@@ -624,10 +638,10 @@ const computeImmediateDominatorGraph = (
 
   const ancestorNodeOrdinalPath = new Int32Array(nodeCount)
   const ordinalToForestAncestorOrdinal = new Int32Array(nodeCount).fill(-1)
-  const ordinalToMinSemiAncestorOrdinal = Int32Array.from(
-    { length: nodeCount },
-    (_, index) => index,
-  )
+  const ordinalToMinSemiAncestorOrdinal = new Int32Array(nodeCount)
+  for (let i = 0; i < nodeCount; i++) {
+    ordinalToMinSemiAncestorOrdinal[i] = i
+  }
   const compressAncestorPath = (startNodeOrdinal: number): void => {
     let pathLength = 0
     let nodeOrdinal = startNodeOrdinal
@@ -811,7 +825,7 @@ const computeRetainerPath = (
     offsetToPredecessorOrdinal,
     offsetToPredecessorEdgeIndex,
   }: NodeAdjacencyGraph,
-  nodeIndexToLocation: Map<number, ProfileLocation>,
+  nodeOrdinalToLocation: ProfileLocation[],
   { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
   fieldLayout: FieldLayout,
   options: NormalizedProfileToMdOptions,
@@ -860,7 +874,7 @@ const computeRetainerPath = (
       fieldLayout,
       options,
     )
-    const retainerLocation = nodeIndexToLocation.get(retainerIndex)
+    const retainerLocation = nodeOrdinalToLocation[predecessorOrdinal]
 
     hops.push({
       label: `${edgeLabel} ${retainerLabel}${
