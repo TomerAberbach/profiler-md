@@ -18,7 +18,7 @@ It's typically a path to a profile or no arguments if benchmarking CLI startup.
 Run the benchmark and capture its self-profiled output:
 
 ```bash
-./scripts/bench $ARGUMENTS 2>&1
+pnpm bench $ARGUMENTS 2>&1
 ```
 
 Wait for it to complete and read the markdown report printed to stdout.
@@ -66,7 +66,7 @@ unrelated code.
 Rerun the benchmark:
 
 ```bash
-./scripts/bench $ARGUMENTS 2>&1
+pnpm bench $ARGUMENTS 2>&1
 ```
 
 Compare self time % for the targeted function(s) against the baseline.

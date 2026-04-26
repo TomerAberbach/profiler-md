@@ -1,3 +1,66 @@
+export class MaxHeap<Value> {
+  readonly #heap: [number, Value][]
+  #size: number
+  readonly #compare: (
+    entry1: [number, Value],
+    entry2: [number, Value],
+  ) => number
+
+  public constructor(
+    values: readonly Value[],
+    compare: (value1: Value, value2: Value) => number,
+  ) {
+    this.#heap = [...values.entries()]
+    this.#size = this.#heap.length
+    this.#compare = ([index1, value1], [index2, value2]) => {
+      const result = compare(value1, value2)
+      return result === 0 ? index2 - index1 : result
+    }
+    for (let i = Math.floor(this.#size / 2) - 1; i >= 0; i--) {
+      this.#siftDown(i)
+    }
+  }
+
+  public get length(): number {
+    return this.#size
+  }
+
+  public pop(): Value | undefined {
+    if (this.#size === 0) {
+      return undefined
+    }
+
+    const max = this.#heap[0]![1]
+    this.#heap[0] = this.#heap[--this.#size]!
+    this.#siftDown(0)
+    return max
+  }
+
+  #siftDown(i: number): void {
+    while (true) {
+      let largest = 2 * i + 1
+      if (largest >= this.#size) {
+        break
+      }
+      const right = largest + 1
+      if (
+        right < this.#size &&
+        this.#compare(this.#heap[right]!, this.#heap[largest]!) > 0
+      ) {
+        largest = right
+      }
+      if (this.#compare(this.#heap[largest]!, this.#heap[i]!) <= 0) {
+        break
+      }
+      ;[this.#heap[i], this.#heap[largest]] = [
+        this.#heap[largest]!,
+        this.#heap[i]!,
+      ]
+      i = largest
+    }
+  }
+}
+
 export const selectTopN = <Value>(
   values: readonly Value[],
   topN: number,
@@ -7,57 +70,9 @@ export const selectTopN = <Value>(
     return []
   }
   if (values.length <= topN) {
-    return values.toSorted(compare)
+    return values.toSorted((value1, value2) => compare(value2, value1))
   }
 
-  // Track original indices alongside items so equal-valued elements are ordered
-  // by their position in `values`, matching `.sort(...)`'s stability.
-  const stableCompare = (
-    [index1, value1]: [number, Value],
-    [index2, value2]: [number, Value],
-  ): number => {
-    const result = compare(value1, value2)
-    return result === 0 ? index1 - index2 : result
-  }
-
-  const heap: [number, Value][] = [...values.entries()]
-  for (let i = Math.floor(topN / 2) - 1; i >= 0; i--) {
-    siftDown(heap, i, topN, stableCompare)
-  }
-
-  for (let i = topN; i < values.length; i++) {
-    const candidate: [number, Value] = [i, values[i]!]
-    if (stableCompare(candidate, heap[0]!) < 0) {
-      heap[0] = candidate
-      siftDown(heap, 0, topN, stableCompare)
-    }
-  }
-
-  return heap
-    .slice(0, topN)
-    .sort(stableCompare)
-    .map(([, value]) => value)
-}
-
-const siftDown = <Value>(
-  heap: Value[],
-  i: number,
-  size: number,
-  compare: (value1: Value, value2: Value) => number,
-): void => {
-  while (true) {
-    let minChild = 2 * i + 1
-    if (minChild >= size) {
-      break
-    }
-    const right = minChild + 1
-    if (right < size && compare(heap[minChild]!, heap[right]!) < 0) {
-      minChild = right
-    }
-    if (compare(heap[i]!, heap[minChild]!) >= 0) {
-      break
-    }
-    ;[heap[i], heap[minChild]] = [heap[minChild]!, heap[i]!]
-    i = minChild
-  }
+  const heap = new MaxHeap(values, compare)
+  return Array.from({ length: topN }, () => heap.pop()!)
 }

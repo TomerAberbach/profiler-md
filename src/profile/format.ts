@@ -164,7 +164,7 @@ const formatHottestSelfFunctions = (
     profile.functions.filter(options.includeEntry),
     options.topN,
     (function1, function2) =>
-      function2.selfValues[metricIndex]! - function1.selfValues[metricIndex]!,
+      function1.selfValues[metricIndex]! - function2.selfValues[metricIndex]!,
   )
   const hottestLinesSections = hottestFunctions
     .filter(func => func.lineToMetrics.size > 0)
@@ -224,7 +224,7 @@ const formatHottestLines = (
     [...func.lineToMetrics],
     Math.ceil(options.topN / 4),
     ([, metrics1], [, metrics2]) =>
-      metrics2.values[metricIndex]! - metrics1.values[metricIndex]!,
+      metrics1.values[metricIndex]! - metrics2.values[metricIndex]!,
   )
 
   const metric = profile.metrics[metricIndex]!
@@ -268,7 +268,7 @@ const formatHottestCallers = (
     ),
     Math.ceil(options.topN / 4),
     (entry1, entry2) =>
-      entry2.selfValues[metricIndex]! - entry1.selfValues[metricIndex]!,
+      entry1.selfValues[metricIndex]! - entry2.selfValues[metricIndex]!,
   )
 
   if (hottestCallers.length === 0) {
@@ -310,7 +310,7 @@ const formatHottestTotalFunctions = (
     profile.functions.filter(options.includeEntry),
     options.topN,
     (func1, func2) =>
-      func2.totalValues[metricIndex]! - func1.totalValues[metricIndex]!,
+      func1.totalValues[metricIndex]! - func2.totalValues[metricIndex]!,
   )
   const calleeSections = hottestFunctions
     .map(func => formatHottestCallees(metricIndex, func, profile, options))
@@ -360,7 +360,7 @@ const formatHottestCallees = (
     ),
     Math.ceil(options.topN / 4),
     (entry1, entry2) =>
-      entry2.totalValues[metricIndex]! - entry1.totalValues[metricIndex]!,
+      entry1.totalValues[metricIndex]! - entry2.totalValues[metricIndex]!,
   )
   if (hottestCallees.length === 0) {
     return undefined
@@ -407,7 +407,7 @@ const formatHottestCallStacks = (
       .filter(callStack => callStack.frames.length > 1),
     options.topN,
     (callStack1, callStack2) =>
-      callStack2.selfValues[metricIndex]! - callStack1.selfValues[metricIndex]!,
+      callStack1.selfValues[metricIndex]! - callStack2.selfValues[metricIndex]!,
   )
   if (hottestCallStacks.length === 0) {
     return undefined
