@@ -13,6 +13,11 @@ describe.each([
     expectedMarkdown: /^# CPU profile/u,
   },
   {
+    type: `python-profile`,
+    filename: `python.prof`,
+    expectedMarkdown: /^# CPU profile/u,
+  },
+  {
     type: `speedscope`,
     filename: `node.speedscope.json`,
     expectedMarkdown: /^# CPU profile/u,

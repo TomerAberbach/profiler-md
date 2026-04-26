@@ -7,12 +7,15 @@ import meow from 'meow'
 import picomatch from 'picomatch'
 import {
   detectPprof,
+  detectPythonProfile,
   detectSpeedscopeProfile,
   detectV8CpuProfile,
   detectV8HeapProfile,
   detectV8HeapSnapshot,
   pprofToMd,
   pprofToMdInternal,
+  pythonProfileToMd,
+  pythonProfileToMdInternal,
   speedscopeProfileToMd,
   speedscopeProfileToMdInternal,
   v8CpuProfileToMd,
@@ -23,6 +26,7 @@ import {
   v8HeapSnapshotToMdInternal,
 } from './formats/index.ts'
 import type { Pprof } from './formats/pprof/parse.ts'
+import type { PythonProfile } from './formats/python-profile/parse.ts'
 import type { SpeedscopeProfile } from './formats/speedscope/parse.ts'
 import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
 import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
@@ -78,6 +82,12 @@ const binaryProfileConverters: BinaryProfileConverter<any>[] = [
     toMdInternal: pprofToMdInternal,
     toMd: pprofToMd,
   } satisfies BinaryProfileConverter<Pprof>,
+  {
+    type: `python-profile`,
+    detect: detectPythonProfile,
+    toMdInternal: pythonProfileToMdInternal,
+    toMd: pythonProfileToMd,
+  } satisfies BinaryProfileConverter<PythonProfile>,
 ]
 const profileConverters = [...jsonProfileConverters, ...binaryProfileConverters]
 
