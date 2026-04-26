@@ -262,13 +262,14 @@ const formatHottestCallers = (
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const selfValue = func.selfValues[metricIndex]!
-  const hottestCallers = [...func.callerIdToMetrics.values()]
-    .filter(({ caller }) => options.includeEntry(caller))
-    .sort(
-      (entry1, entry2) =>
-        entry2.selfValues[metricIndex]! - entry1.selfValues[metricIndex]!,
-    )
-    .slice(0, Math.ceil(options.topN / 4))
+  const hottestCallers = selectTopN(
+    [...func.callerIdToMetrics.values()].filter(({ caller }) =>
+      options.includeEntry(caller),
+    ),
+    Math.ceil(options.topN / 4),
+    (entry1, entry2) =>
+      entry2.selfValues[metricIndex]! - entry1.selfValues[metricIndex]!,
+  )
 
   if (hottestCallers.length === 0) {
     return undefined
@@ -353,13 +354,14 @@ const formatHottestCallees = (
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const totalValue = func.totalValues[metricIndex]!
-  const hottestCallees = [...func.calleeIdToMetrics.values()]
-    .filter(({ callee }) => options.includeEntry(callee))
-    .sort(
-      (entry1, entry2) =>
-        entry2.totalValues[metricIndex]! - entry1.totalValues[metricIndex]!,
-    )
-    .slice(0, Math.ceil(options.topN / 4))
+  const hottestCallees = selectTopN(
+    [...func.calleeIdToMetrics.values()].filter(({ callee }) =>
+      options.includeEntry(callee),
+    ),
+    Math.ceil(options.topN / 4),
+    (entry1, entry2) =>
+      entry2.totalValues[metricIndex]! - entry1.totalValues[metricIndex]!,
+  )
   if (hottestCallees.length === 0) {
     return undefined
   }
