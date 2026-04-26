@@ -102,8 +102,6 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
     | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callers
 
@@ -234,8 +232,6 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
     | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Lines
 
@@ -476,8 +472,6 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
     |      % |  Time | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
     | 100.0% | 0.3ms |       3 | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% |   0ms |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Lines
 
@@ -603,11 +597,9 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     Functions ranked by time spent directly in the function body, excluding callees.
 
-    |      % |  Time | Samples | Function      | Location      |
-    | -----: | ----: | ------: | ------------- | ------------- |
-    | 100.0% | 0.1ms |       1 | \`allocate\`    | src/a.ts:31:1 |
-    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:21:1 |
-    |   0.0% |   0ms |       0 | \`(anonymous)\` | src/a.ts:11:1 |
+    |      % |  Time | Samples | Function   | Location      |
+    | -----: | ----: | ------: | ---------- | ------------- |
+    | 100.0% | 0.1ms |       1 | \`allocate\` | src/a.ts:31:1 |
 
     #### Callers
 
@@ -866,9 +858,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -20,1 +19,0 @@
-    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
-    @@ -23,10 +21,0 @@
+    @@ -21,10 +20,0 @@
     -#### Callers
     -
     -Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
@@ -879,9 +869,9 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     -
-    @@ -41,1 +29,0 @@
+    @@ -39,1 +28,0 @@
     -| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
-    @@ -44,16 +31,0 @@
+    @@ -42,16 +30,0 @@
     -#### Callees
     -
     -Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
@@ -898,7 +888,7 @@ test(`v8CpuProfileToMd excludes frames from display when includeCallFrame return
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
     -
-    @@ -64,3 +36,3 @@
+    @@ -62,3 +35,3 @@
     -|     % |  Time | Samples | Call stack                                                               |
     -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
     -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
@@ -922,22 +912,17 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,8 +16,6 @@
+    @@ -16,5 +16,4 @@
     -|     % |  Time | Samples | Function         | Location                             |
     -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
     -| 25.0% | 0.1ms |       1 | \`funcA\`          | src/a.ts:1:1                         |
     -| 25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -|  0.0% |   0ms |       0 | \`(root)\`         | \`<native>\`                           |
-    -|  0.0% |   0ms |       0 | \`funcB\`          | src/b.ts:1:1                         |
-    -|  0.0% |   0ms |       0 | \`readFileSync\`   | node:fs:1:1                          |
-    +|     % |  Time | Samples | Function       | Location     |
-    +| ----: | ----: | ------: | -------------- | ------------ |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
-    +| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
-    +|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
-    +|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
-    @@ -35,12 +32,0 @@
+    +|     % |  Time | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
+    @@ -32,12 +30,0 @@
     -##### \`funcA\` (src/a.ts:1:1)
     -
     -|      % |  Time | Samples | Caller   | Location   |
@@ -950,7 +935,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     -| -----: | ----: | ------: | -------------- | ----------- |
     -| 100.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1 |
     -
-    @@ -51,8 +37,6 @@
+    @@ -48,8 +35,6 @@
     -|      % |  Time | Samples | Function         | Location                             |
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 0.4ms |       4 | \`(root)\`         | \`<native>\`                           |
@@ -965,7 +950,7 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     +| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
     +| 50.0% | 0.2ms |       2 | \`funcB\`        | src/b.ts:1:1 |
     +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
-    @@ -64,7 +47,0 @@
+    @@ -61,7 +45,0 @@
     -##### \`(root)\` (\`<native>\`)
     -
     -|     % |  Time | Samples | Callee         | Location     |
@@ -973,14 +958,14 @@ test(`v8CpuProfileToMd filters node:internal/ frames by default`, () => {
     -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
     -| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1  |
     -
-    @@ -83,6 +59,0 @@
+    @@ -80,6 +57,0 @@
     -##### \`readFileSync\` (node:fs:1:1)
     -
     -|      % |  Time | Samples | Callee           | Location                             |
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -
-    @@ -93,7 +64,3 @@
+    @@ -90,7 +62,3 @@
     -Common call stack: \`(root)\`
     -
     -|     % |  Time | Samples | Call stack                                                                             |
@@ -1090,18 +1075,7 @@ test(`v8CpuProfileToMd respects topN option`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,6 +16,4 @@
-    -|     % |  Time | Samples | Function       | Location     |
-    -| ----: | ----: | ------: | -------------- | ------------ |
-    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
-    -| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
-    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
-    -|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
-    +|     % |  Time | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
-    +| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
-    @@ -37,6 +35,4 @@
+    @@ -35,6 +35,4 @@
     -|     % |  Time | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
@@ -1112,7 +1086,7 @@ test(`v8CpuProfileToMd respects topN option`, () => {
     +| ----: | ----: | ------: | -------- | ------------ |
     +| 75.0% | 0.3ms |       3 | \`funcA\`  | src/a.ts:1:1 |
     +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
-    @@ -54,6 +49,0 @@
+    @@ -52,6 +49,0 @@
     -##### \`funcB\` (src/b.ts:1:1)
     -
     -|      % |  Time | Samples | Callee  | Location     |
@@ -1130,30 +1104,26 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,6 +16,6 @@
-    -|     % |  Time | Samples | Function       | Location     |
-    -| ----: | ----: | ------: | -------------- | ------------ |
-    -| 50.0% | 0.2ms |       2 | \`funcC\`        | src/c.ts:1:1 |
-    -| 25.0% | 0.1ms |       1 | \`funcA\`        | src/a.ts:1:1 |
-    -|  0.0% |   0ms |       0 | \`funcB\`        | src/b.ts:1:1 |
-    -|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1  |
-    +|     % |  Time | Samples | Function       | Location              |
-    +| ----: | ----: | ------: | -------------- | --------------------- |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
-    +| 25.0% | 0.1ms |       1 | \`funcA\`        | /project/src/a.ts:1:1 |
-    +|  0.0% |   0ms |       0 | \`funcB\`        | /project/src/b.ts:1:1 |
-    +|  0.0% |   0ms |       0 | \`readFileSync\` | node:fs:1:1           |
-    @@ -27,1 +27,1 @@
+    @@ -16,4 +16,4 @@
+    -|     % |  Time | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
+    +|     % |  Time | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`  | /project/src/a.ts:1:1 |
+    @@ -25,1 +25,1 @@
     -##### \`funcC\` (src/c.ts:1:1)
     +##### \`funcC\` (/project/src/c.ts:1:1)
-    @@ -29,3 +29,3 @@
+    @@ -27,3 +27,3 @@
     -|      % |  Time | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     +|      % |  Time | Samples | Caller  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -37,6 +37,6 @@
+    @@ -35,6 +35,6 @@
     -|     % |  Time | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 75.0% | 0.3ms |       3 | \`funcA\`        | src/a.ts:1:1 |
@@ -1166,27 +1136,27 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
     +| 50.0% | 0.2ms |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
     +| 50.0% | 0.2ms |       2 | \`funcB\`        | /project/src/b.ts:1:1 |
     +| 25.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1           |
-    @@ -48,1 +48,1 @@
+    @@ -46,1 +46,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
     +##### \`funcA\` (/project/src/a.ts:1:1)
-    @@ -50,3 +50,3 @@
+    @@ -48,3 +48,3 @@
     -|     % |  Time | Samples | Callee  | Location     |
     -| ----: | ----: | ------: | ------- | ------------ |
     -| 66.7% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     +|     % |  Time | Samples | Callee  | Location              |
     +| ----: | ----: | ------: | ------- | --------------------- |
     +| 66.7% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -54,1 +54,1 @@
+    @@ -52,1 +52,1 @@
     -##### \`funcB\` (src/b.ts:1:1)
     +##### \`funcB\` (/project/src/b.ts:1:1)
-    @@ -56,3 +56,3 @@
+    @@ -54,3 +54,3 @@
     -|      % |  Time | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
     +|      % |  Time | Samples | Callee  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 0.2ms |       2 | \`funcC\` | /project/src/c.ts:1:1 |
-    @@ -64,3 +64,3 @@
+    @@ -62,3 +62,3 @@
     -|     % |  Time | Samples | Call stack                                                               |
     -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
     -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |

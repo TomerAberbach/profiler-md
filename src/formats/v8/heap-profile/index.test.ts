@@ -105,8 +105,6 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
     |      % |  Size | Samples | Function | Location     |
     | -----: | ----: | ------: | -------- | ------------ |
     | 100.0% | 500 B |       3 | \`funcB\`  | src/b.ts:1:1 |
-    |   0.0% |   0 B |       0 | \`funcA\`  | src/a.ts:1:1 |
-    |   0.0% |   0 B |       0 | \`funcC\`  | src/c.ts:1:1 |
 
     #### Callers
 
@@ -221,11 +219,9 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
 
     Functions ranked by bytes allocated directly in the function body, excluding callees.
 
-    |      % |  Size | Samples | Function      | Location      |
-    | -----: | ----: | ------: | ------------- | ------------- |
-    | 100.0% | 100 B |       1 | \`allocate\`    | src/a.ts:31:1 |
-    |   0.0% |   0 B |       0 | \`(anonymous)\` | src/a.ts:21:1 |
-    |   0.0% |   0 B |       0 | \`(anonymous)\` | src/a.ts:11:1 |
+    |      % |  Size | Samples | Function   | Location      |
+    | -----: | ----: | ------: | ---------- | ------------- |
+    | 100.0% | 100 B |       1 | \`allocate\` | src/a.ts:31:1 |
 
     #### Callers
 
@@ -589,9 +585,7 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -20,1 +19,0 @@
-    -|  0.0% |   0 B |       0 | \`funcB\`        | src/b.ts:1:1 |
-    @@ -23,10 +21,0 @@
+    @@ -21,10 +20,0 @@
     -#### Callers
     -
     -Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
@@ -602,9 +596,9 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     -
-    @@ -41,1 +29,0 @@
+    @@ -39,1 +28,0 @@
     -| 66.7% | 400 B |       2 | \`funcB\`        | src/b.ts:1:1 |
-    @@ -44,16 +31,0 @@
+    @@ -42,16 +30,0 @@
     -#### Callees
     -
     -Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
@@ -621,7 +615,7 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcC\` | src/c.ts:1:1 |
     -
-    @@ -64,3 +36,3 @@
+    @@ -62,3 +35,3 @@
     -|     % |  Size | Samples | Call stack                                                               |
     -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
     -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
@@ -645,22 +639,17 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,8 +16,6 @@
+    @@ -16,5 +16,4 @@
     -|     % |  Size | Samples | Function         | Location                             |
     -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
     -| 16.7% | 100 B |       1 | \`funcA\`          | src/a.ts:1:1                         |
     -| 16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -|  0.0% |   0 B |       0 | \`(root)\`         | \`<native>\`                           |
-    -|  0.0% |   0 B |       0 | \`funcB\`          | src/b.ts:1:1                         |
-    -|  0.0% |   0 B |       0 | \`readFileSync\`   | node:fs:1:1                          |
-    +|     % |  Size | Samples | Function       | Location     |
-    +| ----: | ----: | ------: | -------------- | ------------ |
-    +| 66.7% | 400 B |       2 | \`funcC\`        | src/c.ts:1:1 |
-    +| 16.7% | 100 B |       1 | \`funcA\`        | src/a.ts:1:1 |
-    +|  0.0% |   0 B |       0 | \`funcB\`        | src/b.ts:1:1 |
-    +|  0.0% |   0 B |       0 | \`readFileSync\` | node:fs:1:1  |
-    @@ -35,12 +32,0 @@
+    +|     % |  Size | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    +| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
+    @@ -32,12 +30,0 @@
     -##### \`funcA\` (src/a.ts:1:1)
     -
     -|      % |  Size | Samples | Caller   | Location   |
@@ -673,7 +662,7 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -| -----: | ----: | ------: | -------------- | ----------- |
     -| 100.0% | 100 B |       1 | \`readFileSync\` | node:fs:1:1 |
     -
-    @@ -51,8 +37,6 @@
+    @@ -48,8 +35,6 @@
     -|      % |  Size | Samples | Function         | Location                             |
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 600 B |       4 | \`(root)\`         | \`<native>\`                           |
@@ -688,7 +677,7 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     +| 66.7% | 400 B |       2 | \`funcC\`        | src/c.ts:1:1 |
     +| 66.7% | 400 B |       2 | \`funcB\`        | src/b.ts:1:1 |
     +| 16.7% | 100 B |       1 | \`readFileSync\` | node:fs:1:1  |
-    @@ -64,7 +47,0 @@
+    @@ -61,7 +45,0 @@
     -##### \`(root)\` (\`<native>\`)
     -
     -|     % |  Size | Samples | Callee         | Location     |
@@ -696,14 +685,14 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -| 83.3% | 500 B |       3 | \`funcA\`        | src/a.ts:1:1 |
     -| 16.7% | 100 B |       1 | \`readFileSync\` | node:fs:1:1  |
     -
-    @@ -83,6 +59,0 @@
+    @@ -80,6 +57,0 @@
     -##### \`readFileSync\` (node:fs:1:1)
     -
     -|      % |  Size | Samples | Callee           | Location                             |
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -
-    @@ -93,7 +64,3 @@
+    @@ -90,7 +62,3 @@
     -Common call stack: \`(root)\`
     -
     -|     % |  Size | Samples | Call stack                                                                             |
@@ -817,18 +806,7 @@ test(`v8HeapProfileToMd respects topN option`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,6 +16,4 @@
-    -|     % |  Size | Samples | Function       | Location     |
-    -| ----: | ----: | ------: | -------------- | ------------ |
-    -| 66.7% | 400 B |       2 | \`funcC\`        | src/c.ts:1:1 |
-    -| 16.7% | 100 B |       1 | \`funcA\`        | src/a.ts:1:1 |
-    -|  0.0% |   0 B |       0 | \`funcB\`        | src/b.ts:1:1 |
-    -|  0.0% |   0 B |       0 | \`readFileSync\` | node:fs:1:1  |
-    +|     % |  Size | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
-    +| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
-    @@ -37,6 +35,4 @@
+    @@ -35,6 +35,4 @@
     -|     % |  Size | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 83.3% | 500 B |       3 | \`funcA\`        | src/a.ts:1:1 |
@@ -839,7 +817,7 @@ test(`v8HeapProfileToMd respects topN option`, () => {
     +| ----: | ----: | ------: | -------- | ------------ |
     +| 83.3% | 500 B |       3 | \`funcA\`  | src/a.ts:1:1 |
     +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
-    @@ -54,6 +49,0 @@
+    @@ -52,6 +49,0 @@
     -##### \`funcB\` (src/b.ts:1:1)
     -
     -|      % |  Size | Samples | Callee  | Location     |
@@ -857,30 +835,26 @@ test(`v8HeapProfileToMd shows absolute paths when cwd is null`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,6 +16,6 @@
-    -|     % |  Size | Samples | Function       | Location     |
-    -| ----: | ----: | ------: | -------------- | ------------ |
-    -| 66.7% | 400 B |       2 | \`funcC\`        | src/c.ts:1:1 |
-    -| 16.7% | 100 B |       1 | \`funcA\`        | src/a.ts:1:1 |
-    -|  0.0% |   0 B |       0 | \`funcB\`        | src/b.ts:1:1 |
-    -|  0.0% |   0 B |       0 | \`readFileSync\` | node:fs:1:1  |
-    +|     % |  Size | Samples | Function       | Location              |
-    +| ----: | ----: | ------: | -------------- | --------------------- |
-    +| 66.7% | 400 B |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
-    +| 16.7% | 100 B |       1 | \`funcA\`        | /project/src/a.ts:1:1 |
-    +|  0.0% |   0 B |       0 | \`funcB\`        | /project/src/b.ts:1:1 |
-    +|  0.0% |   0 B |       0 | \`readFileSync\` | node:fs:1:1           |
-    @@ -27,1 +27,1 @@
+    @@ -16,4 +16,4 @@
+    -|     % |  Size | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
+    +|     % |  Size | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 16.7% | 100 B |       1 | \`funcA\`  | /project/src/a.ts:1:1 |
+    @@ -25,1 +25,1 @@
     -##### \`funcC\` (src/c.ts:1:1)
     +##### \`funcC\` (/project/src/c.ts:1:1)
-    @@ -29,3 +29,3 @@
+    @@ -27,3 +27,3 @@
     -|      % |  Size | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     +|      % |  Size | Samples | Caller  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 400 B |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -37,6 +37,6 @@
+    @@ -35,6 +35,6 @@
     -|     % |  Size | Samples | Function       | Location     |
     -| ----: | ----: | ------: | -------------- | ------------ |
     -| 83.3% | 500 B |       3 | \`funcA\`        | src/a.ts:1:1 |
@@ -893,27 +867,27 @@ test(`v8HeapProfileToMd shows absolute paths when cwd is null`, () => {
     +| 66.7% | 400 B |       2 | \`funcC\`        | /project/src/c.ts:1:1 |
     +| 66.7% | 400 B |       2 | \`funcB\`        | /project/src/b.ts:1:1 |
     +| 16.7% | 100 B |       1 | \`readFileSync\` | node:fs:1:1           |
-    @@ -48,1 +48,1 @@
+    @@ -46,1 +46,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
     +##### \`funcA\` (/project/src/a.ts:1:1)
-    @@ -50,3 +50,3 @@
+    @@ -48,3 +48,3 @@
     -|     % |  Size | Samples | Callee  | Location     |
     -| ----: | ----: | ------: | ------- | ------------ |
     -| 80.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     +|     % |  Size | Samples | Callee  | Location              |
     +| ----: | ----: | ------: | ------- | --------------------- |
     +| 80.0% | 400 B |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -54,1 +54,1 @@
+    @@ -52,1 +52,1 @@
     -##### \`funcB\` (src/b.ts:1:1)
     +##### \`funcB\` (/project/src/b.ts:1:1)
-    @@ -56,3 +56,3 @@
+    @@ -54,3 +54,3 @@
     -|      % |  Size | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcC\` | src/c.ts:1:1 |
     +|      % |  Size | Samples | Callee  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 400 B |       2 | \`funcC\` | /project/src/c.ts:1:1 |
-    @@ -64,3 +64,3 @@
+    @@ -62,3 +62,3 @@
     -|     % |  Size | Samples | Call stack                                                               |
     -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
     -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
