@@ -7,9 +7,8 @@ argument-hint: '[args]'
 
 # Arguments
 
-`$ARGUMENTS` are the arguments to pass to the CLI.
-
-It's typically a path to a profile or no arguments if benchmarking CLI startup.
+`$ARGUMENTS` are the arguments to pass to the CLI. It's typically a path to a
+profile.
 
 # Workflow
 
@@ -17,11 +16,11 @@ It's typically a path to a profile or no arguments if benchmarking CLI startup.
 
 Run the benchmark and capture its self-profiled output:
 
-```bash
+```sh
 pnpm bench $ARGUMENTS 2>&1
 ```
 
-Wait for it to complete and read the markdown report printed to stdout.
+Wait for it to complete and read the Markdown report printed to stdout.
 
 Focus on:
 
@@ -59,13 +58,21 @@ carefully.
 ## 4. Implement the optimization
 
 Apply the minimal change that addresses the bottleneck. Do not refactor
-unrelated code.
+unrelated code. Do not apply more than one optimization at a time.
 
-## 5. Verify
+## 5. Run tests
+
+```sh
+pnpm test
+```
+
+Confirm nothing regressed before moving onto the next step.
+
+## 6. Verify
 
 Rerun the benchmark:
 
-```bash
+```sh
 pnpm bench $ARGUMENTS 2>&1
 ```
 
@@ -78,11 +85,3 @@ Report:
 
 If the improvement is negligible or unclear, revert and reconsider the
 hypothesis. Do not iterate blindly.
-
-## 6. Run tests
-
-```bash
-pnpm test
-```
-
-Confirm nothing regressed.

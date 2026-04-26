@@ -1,3 +1,4 @@
+import { DynamicTypedArray } from '../../../helpers/array.ts'
 import {
   formatBytes,
   formatCount,
@@ -351,14 +352,15 @@ const formatClosureRetainedObjects = (
   { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
-  const instanceIdToSeen: boolean[] = []
+  const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
   const allRetainedNodes: SummarizedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
     for (const node of retainedNodesOf(instanceId)) {
-      if (instanceIdToSeen[node.id]) {
+      const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
+      if (seen[node.id]) {
         continue
       }
-      instanceIdToSeen[node.id] = true
+      seen[node.id] = 1
       if (options.includeEntry(node)) {
         allRetainedNodes.push(node)
       }

@@ -37,7 +37,7 @@ export const summarizeV8CpuProfile = (
     }
   }
 
-  const idToSelfTime = new Float64Array(profile.nodes.length)
+  const indexToSelfTime = new Float64Array(profile.nodes.length)
 
   for (let index = 0; index < profile.samples.length; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]
@@ -48,7 +48,7 @@ export const summarizeV8CpuProfile = (
     const node = profile.nodes[nodeIndex]!
     const timeDelta = profile.timeDeltas[index]!
 
-    idToSelfTime[nodeIndex]! += timeDelta
+    indexToSelfTime[nodeIndex]! += timeDelta
 
     const nodes: V8CpuProfileNode[] = []
     let currentNode: V8CpuProfileNode = node
@@ -69,7 +69,7 @@ export const summarizeV8CpuProfile = (
       continue
     }
 
-    const selfTime = idToSelfTime[node.id]!
+    const selfTime = indexToSelfTime[node.id]!
     profileBuilder.addLineMetrics({
       node,
       lines: node.positionTicks.map(({ line, ticks }) => ({

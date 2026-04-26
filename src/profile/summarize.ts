@@ -1,3 +1,4 @@
+import { DynamicTypedArray } from '../helpers/array.ts'
 import { makeProfileLocation } from '../location.ts'
 import type { ProfileLocation, ProfileLocationInput } from '../location.ts'
 import type {
@@ -22,8 +23,8 @@ export class ProfileBuilder<Node extends { id: number }> {
   readonly #keyToCallStack: Map<string, ProfileCallStack>
   readonly #keyToFunction: Map<number | string, ProfileFunction>
   readonly #idToFunction: ProfileFunction[]
-  #functionIdToLastSeenSampleCount: Uint32Array
-  #frameIndexToFramePairKey: Int32Array
+  readonly #functionIdToLastSeenSampleCount: DynamicTypedArray<Uint32Array>
+  readonly #frameIndexToFramePairKey: DynamicTypedArray<Int32Array>
 
   public constructor(
     {
@@ -57,8 +58,10 @@ export class ProfileBuilder<Node extends { id: number }> {
     this.#keyToCallStack = new Map()
     this.#keyToFunction = new Map()
     this.#idToFunction = []
-    this.#functionIdToLastSeenSampleCount = new Uint32Array(1)
-    this.#frameIndexToFramePairKey = new Int32Array(64)
+    this.#functionIdToLastSeenSampleCount = new DynamicTypedArray(
+      new Uint32Array(1),
+    )
+    this.#frameIndexToFramePairKey = new DynamicTypedArray(new Int32Array(64))
   }
 
   /** Adds a single profile sample. */
@@ -130,17 +133,13 @@ export class ProfileBuilder<Node extends { id: number }> {
     }
 
     const funcCount = this.#keyToFunction.size
-    if (this.#functionIdToLastSeenSampleCount.length < funcCount) {
-      this.#functionIdToLastSeenSampleCount = new Uint32Array(funcCount)
-    }
+    const functionIdToLastSeenSampleCount =
+      this.#functionIdToLastSeenSampleCount.ensureCapacity(funcCount)
     for (const func of callStack.frames) {
-      if (
-        this.#functionIdToLastSeenSampleCount[func.id] ===
-        this.#totalSampleCount
-      ) {
+      if (functionIdToLastSeenSampleCount[func.id] === this.#totalSampleCount) {
         continue
       }
-      this.#functionIdToLastSeenSampleCount[func.id] = this.#totalSampleCount
+      functionIdToLastSeenSampleCount[func.id] = this.#totalSampleCount
 
       func.totalSampleCount++
       for (let i = 0; i < values.length; i++) {
@@ -149,9 +148,8 @@ export class ProfileBuilder<Node extends { id: number }> {
     }
 
     const maxFramePairCount = callStack.frames.length - 1
-    if (this.#frameIndexToFramePairKey.length < maxFramePairCount) {
-      this.#frameIndexToFramePairKey = new Int32Array(maxFramePairCount * 2)
-    }
+    const frameIndexToFramePairKey =
+      this.#frameIndexToFramePairKey.ensureCapacity(maxFramePairCount)
     let seenFramePairCount = 0
     for (let i = 0; i < maxFramePairCount; i++) {
       const callee = callStack.frames[i]!
@@ -160,7 +158,7 @@ export class ProfileBuilder<Node extends { id: number }> {
 
       let pairAlreadySeen = false
       for (let j = 0; j < seenFramePairCount; j++) {
-        if (this.#frameIndexToFramePairKey[j] === pairKey) {
+        if (frameIndexToFramePairKey[j] === pairKey) {
           pairAlreadySeen = true
           break
         }
@@ -168,7 +166,7 @@ export class ProfileBuilder<Node extends { id: number }> {
       if (pairAlreadySeen) {
         continue
       }
-      this.#frameIndexToFramePairKey[seenFramePairCount++] = pairKey
+      frameIndexToFramePairKey[seenFramePairCount++] = pairKey
 
       let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
       if (!calleeMetrics) {

@@ -1,3 +1,4 @@
+import { DynamicTypedArray } from './helpers/array.ts'
 import type { ProfileLocation } from './location.ts'
 
 /** A single entry in a rendered profile. */
@@ -88,14 +89,17 @@ export const normalizeProfileToMdOptions = ({
 const cacheEntryFunction = (
   func: (entry: UniqueProfileEntry) => boolean,
 ): ((entry: UniqueProfileEntry) => boolean) => {
-  const cache: boolean[] = []
+  // 0=uncached, 1=false, 2=true
+  const cache = new DynamicTypedArray(new Uint8Array(256))
   return entry => {
-    let result = cache[entry.id]
-    if (result !== undefined) {
-      return result
+    const { id } = entry
+    const array = cache.ensureCapacity(id + 1)
+    const value = array[id]!
+    if (value !== 0) {
+      return value === 2
     }
-    result = func(entry)
-    cache[entry.id] = result
+    const result = func(entry)
+    array[id] = result ? 2 : 1
     return result
   }
 }
