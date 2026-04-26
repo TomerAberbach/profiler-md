@@ -161,7 +161,9 @@ const formatHottestSelfFunctions = (
   options: NormalizedProfileToMdOptions,
 ): string => {
   const hottestFunctions = selectTopN(
-    profile.functions.filter(options.includeEntry),
+    profile.functions.filter(
+      func => options.includeEntry(func) && func.selfValues[metricIndex]! > 0,
+    ),
     options.topN,
     (function1, function2) =>
       function1.selfValues[metricIndex]! - function2.selfValues[metricIndex]!,
