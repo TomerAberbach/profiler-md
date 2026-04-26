@@ -88,7 +88,8 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - NEVER sort, filter by `topN`, or perform any other formatting related logic
 - Use sequential IDs, `TypedArray`s, and compressed sparse row format when it
   would improve performance
-- Use sparse arrays over `Map<number, T>` for performance
+- Use sparse arrays over `Map<number, T>` for performance for dense or
+  moderately sparse data, which is often the case for sequential IDs
 
 ### Formatting
 
