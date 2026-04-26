@@ -33,13 +33,13 @@ export const summarizePprof = (
     const { locationIds, values } = sample
 
     const nodes: PprofFunction[] = []
-    let leafLine: number | undefined
+    let calleeLine: number | undefined
 
     for (const locationId of locationIds) {
       const location = locations[locationId]!
       for (const { functionId, line } of location.lines) {
         nodes.push(functions[functionId]!)
-        leafLine ??= line
+        calleeLine ??= line
       }
     }
     if (nodes.length === 0) {
@@ -49,7 +49,7 @@ export const summarizePprof = (
     profileBuilder.addSample({
       values: nonCountValueTypes.map(([index]) => values[index]!),
       nodes,
-      line: leafLine,
+      line: calleeLine,
     })
   }
 
