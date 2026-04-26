@@ -51,6 +51,7 @@ pnpm format
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test -u   # Update snapshots
 pnpm coverage
 
 # Update `examples/` from `src/fixtures/`

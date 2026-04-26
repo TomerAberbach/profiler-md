@@ -3,7 +3,7 @@ import {
   formatCount,
   formatPercent,
 } from '../../../helpers/format.ts'
-import { selectTopN } from '../../../helpers/heap.ts'
+import { MaxHeap, selectTopN } from '../../../helpers/heap.ts'
 import { formatTable, inlineCode } from '../../../helpers/markdown.ts'
 import { formatProfileLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
@@ -80,7 +80,7 @@ const formatLargestSelfSizeConstructors = (
     constructors.filter(options.includeEntry),
     options.topN,
     (constructor1, constructor2) =>
-      constructor2.selfSize - constructor1.selfSize,
+      constructor1.selfSize - constructor2.selfSize,
   )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
@@ -122,12 +122,13 @@ const formatLargestSelfSizeConstructorInstances = (
   { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
-  const largestInstances = selectTopN(
+  const largestInstanceGroups = selectLargestInstancesByRetainerPath(
     constructor.instances,
+    instance => instance.selfSize,
+    retainerPathOf,
     Math.ceil(options.topN / 4),
-    (instance1, instance2) => instance2.selfSize - instance1.selfSize,
-  )
-  if (largestInstances.length === 0) {
+  ).sort((group1, group2) => group2.selfSize - group1.selfSize)
+  if (largestInstanceGroups.length === 0) {
     return undefined
   }
 
@@ -140,12 +141,14 @@ const formatLargestSelfSizeConstructorInstances = (
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
+        { content: `Instances`, align: `right` },
         `Path`,
       ],
-      largestInstances.map(instance => [
-        formatPercent(instance.selfSize / constructor.selfSize),
-        formatBytes(instance.selfSize),
-        inlineCode(retainerPathOf(instance.id)),
+      largestInstanceGroups.map(group => [
+        formatPercent(group.selfSize / constructor.selfSize),
+        formatBytes(group.selfSize),
+        formatCount(group.instanceCount),
+        inlineCode(group.retainerPath),
       ]),
     ),
   ].join(`\n\n`)
@@ -161,7 +164,7 @@ const formatLargestRetainedSizeConstructors = (
     constructors.filter(options.includeEntry),
     options.topN,
     (constructor1, constructor2) =>
-      constructor2.retainedSize - constructor1.retainedSize,
+      constructor1.retainedSize - constructor2.retainedSize,
   )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
@@ -207,12 +210,13 @@ const formatLargestRetainedSizeConstructorInstances = (
   { retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
-  const largestInstances = selectTopN(
+  const largestInstanceGroups = selectLargestInstancesByRetainerPath(
     constructor.instances,
+    instance => instance.retainedSize,
+    retainerPathOf,
     Math.ceil(options.topN / 4),
-    (instance1, instance2) => instance2.retainedSize - instance1.retainedSize,
-  )
-  if (largestInstances.length === 0) {
+  ).sort((group1, group2) => group2.retainedSize - group1.retainedSize)
+  if (largestInstanceGroups.length === 0) {
     return undefined
   }
 
@@ -225,15 +229,71 @@ const formatLargestRetainedSizeConstructorInstances = (
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
+        { content: `Instances`, align: `right` },
         `Path`,
       ],
-      largestInstances.map(instance => [
-        formatPercent(instance.retainedSize / constructor.retainedSize),
-        formatBytes(instance.retainedSize),
-        inlineCode(retainerPathOf(instance.id)),
+      largestInstanceGroups.map(group => [
+        formatPercent(group.retainedSize / constructor.retainedSize),
+        formatBytes(group.retainedSize),
+        formatCount(group.instanceCount),
+        inlineCode(group.retainerPath),
       ]),
     ),
   ].join(`\n\n`)
+}
+
+/** A group of instances with the same retainer path. */
+type InstanceGroup = {
+  /** The retainer path to every instance in the group. */
+  retainerPath: string
+
+  /** The number of instances in the group. */
+  instanceCount: number
+
+  /** The combined self size of the instances in the group. */
+  selfSize: number
+
+  /** The combined retained size of the instances in the group. */
+  retainedSize: number
+}
+
+const selectLargestInstancesByRetainerPath = (
+  instances: SummarizedSnapshotNode[],
+  sizeOf: (instance: SummarizedSnapshotNode) => number,
+  retainerPathOf: (nodeOrdinal: number) => string,
+  topN: number,
+): InstanceGroup[] => {
+  // Process instances in descending size order, stopping once we have `topN`
+  // unique paths. Avoids `retainerPathOf` calls for the long tail.
+  const heap = new MaxHeap(
+    instances,
+    (instance1, instance2) => sizeOf(instance1) - sizeOf(instance2),
+  )
+  const pathToGroup = new Map<string, InstanceGroup>()
+
+  while (heap.length > 0 && pathToGroup.size < topN) {
+    const instance = heap.pop()!
+
+    const retainerPath = retainerPathOf(instance.id)
+    let group = pathToGroup.get(retainerPath)
+    if (!group) {
+      group = {
+        retainerPath,
+        instanceCount: 0,
+        selfSize: 0,
+        retainedSize: 0,
+      }
+      pathToGroup.set(retainerPath, group)
+    }
+
+    group.instanceCount++
+    group.selfSize += instance.selfSize
+    // Safe to sum: same-path instances can't be in a dominator/dominatee
+    // relationship, so their retained subtrees are disjoint.
+    group.retainedSize += instance.retainedSize
+  }
+
+  return [...pathToGroup.values()]
 }
 
 const formatLargestClosures = (
@@ -246,7 +306,7 @@ const formatLargestClosures = (
       options.includeEntry({ ...closure, id: closure.largestInstanceId }),
     ),
     options.topN,
-    (closure1, closure2) => closure2.retainedSize - closure1.retainedSize,
+    (closure1, closure2) => closure1.retainedSize - closure2.retainedSize,
   )
 
   const retainedSections = largestClosures
@@ -301,7 +361,7 @@ const formatClosureRetainedObjects = (
   const retainedNodes = selectTopN(
     allRetainedNodes.filter(options.includeEntry),
     Math.ceil(options.topN / 4),
-    (node1, node2) => node2.selfSize - node1.selfSize,
+    (node1, node2) => node1.selfSize - node2.selfSize,
   )
   if (retainedNodes.length === 0) {
     return undefined
@@ -336,7 +396,7 @@ const formatLargestStrings = (
   const largestStrings = selectTopN(
     strings,
     options.topN,
-    (string1, string2) => string2.selfSize - string1.selfSize,
+    (string1, string2) => string1.selfSize - string2.selfSize,
   )
 
   return [

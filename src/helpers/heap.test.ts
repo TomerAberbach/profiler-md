@@ -5,7 +5,9 @@ import { selectTopN } from './heap.ts'
 test.prop([fc.array(fc.nat()), fc.nat(), fc.compareFunc()], { numRuns: 500 })(
   `selectTopN is equivalent to sorting and then selecting the top N`,
   (values, topN, compare) => {
-    const expectedTopN = values.toSorted(compare).slice(0, topN)
+    const expectedTopN = values
+      .toSorted((value1, value2) => compare(value2, value1))
+      .slice(0, topN)
 
     const actualTopN = selectTopN(values, topN, compare)
 

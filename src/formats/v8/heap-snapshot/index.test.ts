@@ -241,15 +241,15 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     ##### \`MyClass\` (\`<native>\`)
 
-    |      % |  Size | Path        |
-    | -----: | ----: | ----------- |
-    | 100.0% | 200 B | \`(GC root)\` |
+    |      % |  Size | Instances | Path        |
+    | -----: | ----: | --------: | ----------- |
+    | 100.0% | 200 B |         1 | \`(GC root)\` |
 
     ##### \`DetachedClass\` (\`<native>\`)
 
-    |      % | Size | Path        |
-    | -----: | ---: | ----------- |
-    | 100.0% | 80 B | \`(GC root)\` |
+    |      % | Size | Instances | Path        |
+    | -----: | ---: | --------: | ----------- |
+    | 100.0% | 80 B |         1 | \`(GC root)\` |
 
     ### Retained size
 
@@ -266,15 +266,15 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
 
     ##### \`MyClass\` (\`<native>\`)
 
-    |      % |  Size | Path        |
-    | -----: | ----: | ----------- |
-    | 100.0% | 200 B | \`(GC root)\` |
+    |      % |  Size | Instances | Path        |
+    | -----: | ----: | --------: | ----------- |
+    | 100.0% | 200 B |         1 | \`(GC root)\` |
 
     ##### \`DetachedClass\` (\`<native>\`)
 
-    |      % | Size | Path        |
-    | -----: | ---: | ----------- |
-    | 100.0% | 80 B | \`(GC root)\` |
+    |      % | Size | Instances | Path        |
+    | -----: | ---: | --------: | ----------- |
+    | 100.0% | 80 B |         1 | \`(GC root)\` |
 
     ## Largest closures
 
