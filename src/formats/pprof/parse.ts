@@ -27,34 +27,51 @@ export type PprofFunction = {
   startLine: number
 }
 
-/**
- * An instruction address in the profiled program.
- *
- * Carries multiple lines when inlined calls collapse onto one address.
- */
+/** An instruction address in the pprof. */
 export type PprofLocation = {
+  /** Unique location ID. */
   id: number
-  lines: { functionId: number; line: number }[]
+
+  /**
+   * The lines corresponding to the location. In most cases it's just an array
+   * of length 1, but there can be multiple lines when inlined calls collapse
+   * onto one address.
+   */
+  lines: {
+    /** The unique ID of the {@link PprofFunction} that this line is in. */
+    functionId: number
+
+    /** The 1-based line number. */
+    line: number
+  }[]
 }
 
-/**
- * A single profiling observation.
- *
- * `locationIds` form the call stack (callee first), and each entry in `values`
- * corresponds to the matching `valueType` in the profile.
- */
+/** A single pprof profiling observation. */
 export type PprofSample = {
+  /**
+   * The call stack at the profile sample in callee-to-caller order.
+   *
+   * Each ID corresponds to a {@link PprofLocation}.
+   */
   locationIds: number[]
+
+  /** The values sampled parallel to {@link Pprof.valueTypes}. */
   values: number[]
 }
 
 /** Parsed representation of a pprof. */
 export type Pprof = {
+  /** The value types at each sample. */
   valueTypes: PprofValueType[]
+
+  /** The samples observed in the pprof. */
   samples: PprofSample[]
+
+  /** All the locations observed and referenced by samples. */
   locations: PprofLocation[]
+
+  /** All the functions referenced by locations. */
   functions: PprofFunction[]
-  durationNanos: number
 }
 
 export const parsePprof = (data: Uint8Array): Pprof =>
@@ -108,6 +125,5 @@ export const parsePprofInternal = (profile: Profile): Pprof => {
     samples,
     locations,
     functions,
-    durationNanos: Number(profile.durationNanos),
   }
 }
