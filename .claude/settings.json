@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm format *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm coverage *)",
+      "Bash(pnpm bench *)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm update-readme *)",
+      "Bash(pnpm check-readme *)",
+      "Bash(pnpm update-examples *)",
+      "Bash(pnpm check-examples *)",
+      "Bash(node src/cli.ts *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | { read -r f; cd /Users/tomer/Documents/work/code/profiler-md && case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mts|*.mjs|*.cjs) pnpm lint:base \"$f\" ;; esac; pnpm format:base \"$f\"; } 2>/dev/null || true",
+            "statusMessage": "Linting and formatting..."
+          }
+        ]
+      }
+    ]
+  }
+}
