@@ -43,25 +43,23 @@ export const makeProfileLocation = ({
     return undefined
   }
 
-  let url: URL | undefined
-  try {
-    url = new URL(urlOrPath)
-  } catch {}
-
-  if (!url) {
-    if (!urlOrPath.startsWith(`/`)) {
-      // This is either a relative file path or not a file path at all.
-      return undefined
-    }
-
+  if (urlOrPath.startsWith(`/`)) {
     try {
-      url = new URL(`file://${urlOrPath}`)
+      return { url: new URL(`file://${urlOrPath}`), line, column }
     } catch {
       return undefined
     }
   }
 
-  return { url, line, column }
+  if (!urlOrPath.includes(`:`)) {
+    return undefined
+  }
+
+  try {
+    return { url: new URL(urlOrPath), line, column }
+  } catch {
+    return undefined
+  }
 }
 
 export const formatProfileLocation = (
