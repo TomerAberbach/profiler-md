@@ -351,15 +351,22 @@ const formatClosureRetainedObjects = (
   { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
+  const instanceIdToSeen: boolean[] = []
   const allRetainedNodes: SummarizedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
     for (const node of retainedNodesOf(instanceId)) {
-      allRetainedNodes[node.id] ??= node
+      if (instanceIdToSeen[node.id]) {
+        continue
+      }
+      instanceIdToSeen[node.id] = true
+      if (options.includeEntry(node)) {
+        allRetainedNodes.push(node)
+      }
     }
   }
 
   const retainedNodes = selectTopN(
-    allRetainedNodes.filter(options.includeEntry),
+    allRetainedNodes,
     Math.ceil(options.topN / 4),
     (node1, node2) => node1.selfSize - node2.selfSize,
   )
