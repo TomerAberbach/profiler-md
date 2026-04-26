@@ -66,7 +66,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "bench": "vitest bench",
+    "bench": "./scripts/bench",
     "build": "tsdown",
     "update-readme": "node scripts/update-readme.ts",
     "check-readme": "node scripts/update-readme.ts --check",
