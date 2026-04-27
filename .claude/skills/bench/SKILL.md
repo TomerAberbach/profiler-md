@@ -3,6 +3,8 @@ name: bench
 description: Profile a benchmark, identify hotspots, and optimize.
 disable-model-invocation: true
 argument-hint: '[args]'
+metadata:
+  internal: true
 ---
 
 # Arguments
