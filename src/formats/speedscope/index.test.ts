@@ -63,10 +63,15 @@ test(`detectSpeedscope accepts valid speedscope file`, () => {
   expect(detectSpeedscopeProfile(json)).toBeDefined()
 })
 
-test(`detectSpeedscope rejects non-speedscope JSON`, () => {
-  expect(detectSpeedscopeProfile({ nodes: [], timeDeltas: [] })).toBeUndefined()
+test(`detectSpeedscope rejects null`, () => {
   expect(detectSpeedscopeProfile(null)).toBeUndefined()
+})
+
+test(`detectSpeedscope rejects non-objects`, () => {
   expect(detectSpeedscopeProfile(42)).toBeUndefined()
+})
+
+test(`detectSpeedscope rejects wrong $schema`, () => {
   expect(
     detectSpeedscopeProfile({
       $schema: `https://other.app/schema.json`,
@@ -76,7 +81,21 @@ test(`detectSpeedscope rejects non-speedscope JSON`, () => {
   ).toBeUndefined()
 })
 
-test(`speedscopeProfileToMd sampled profile — basic two-function stack`, () => {
+test(`detectSpeedscope rejects missing $schema`, () => {
+  expect(detectSpeedscopeProfile({ nodes: [], timeDeltas: [] })).toBeUndefined()
+})
+
+test(`detectSpeedscope rejects null shared`, () => {
+  expect(
+    detectSpeedscopeProfile({
+      $schema: `https://www.speedscope.app/file-format-schema.json`,
+      profiles: [],
+      shared: null,
+    }),
+  ).toBeUndefined()
+})
+
+test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () => {
   const profile = makeProfile({
     profiles: [
       makeSampledProfile({
@@ -152,7 +171,7 @@ test(`speedscopeProfileToMd sampled profile — basic two-function stack`, () =>
   `)
 })
 
-test(`speedscopeProfileToMd evented profile — durations computed from open/close events`, () => {
+test(`speedscopeProfileToMd evented profile with durations computed from open/close events`, () => {
   // Main (0-15): calls work (5-10), then continues (10-15)
   const profile = makeProfile({
     profiles: [
@@ -232,7 +251,7 @@ test(`speedscopeProfileToMd evented profile — durations computed from open/clo
   `)
 })
 
-test(`speedscopeProfileToMd multi-profile file — both profiles appear separated by ---`, () => {
+test(`speedscopeProfileToMd multi-profile file`, () => {
   const profile = makeProfile({
     profiles: [
       makeSampledProfile({ samples: [[0]], weights: [100] }),
@@ -246,7 +265,6 @@ test(`speedscopeProfileToMd multi-profile file — both profiles appear separate
 
   const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
 
-  expect(markdown).toContain(`---`)
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
@@ -275,10 +293,6 @@ test(`speedscopeProfileToMd multi-profile file — both profiles appear separate
     | 100.0% | 100.0ms |       1 | \`funcA\`  | src/a.ts:1 |
 
 
-
-
-    ---
-
     # CPU profile
 
     Took 200.0ms over 1 sample (200000.0µs per sample).
@@ -304,13 +318,11 @@ test(`speedscopeProfileToMd multi-profile file — both profiles appear separate
     |      % |    Time | Samples | Function | Location   |
     | -----: | ------: | ------: | -------- | ---------- |
     | 100.0% | 200.0ms |       1 | \`funcB\`  | src/b.ts:1 |
-
-
     "
   `)
 })
 
-test(`speedscopeProfileToMd sampled profile — zero-weight samples are skipped`, () => {
+test(`speedscopeProfileToMd sampled profile with zero-weight samples are skipped`, () => {
   const profile = makeProfile({
     profiles: [
       makeSampledProfile({
@@ -350,13 +362,11 @@ test(`speedscopeProfileToMd sampled profile — zero-weight samples are skipped`
     |      % |   Time | Samples | Function | Location       |
     | -----: | -----: | ------: | -------- | -------------- |
     | 100.0% | 30.0ms |       2 | \`main\`   | src/index.ts:1 |
-
-
     "
   `)
 })
 
-test(`speedscopeProfileToMd evented profile — recursive function`, () => {
+test(`speedscopeProfileToMd evented profile with recursive function`, () => {
   // Factorial calls itself: factorial(0-15) → factorial(5-10)
   const profile = makeProfile({
     profiles: [
@@ -445,4 +455,69 @@ test(`speedscopeProfileToMd microseconds unit is formatted as time`, () => {
   const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
 
   expect(markdown).toContain(`ms`)
+})
+
+test(`speedscopeProfileToMd sampled profile with empty-stack samples are skipped`, () => {
+  const profile = makeProfile({
+    profiles: [
+      makeSampledProfile({
+        samples: [[], [0], []],
+        weights: [100, 50, 100],
+      }),
+    ],
+    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+  })
+
+  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+
+  // Only the non-empty sample (50ms) is counted, not the empty-stack ones (100ms + 100ms)
+  expect(markdown).toContain(`50.0ms over 1 sample`)
+})
+
+test(`speedscopeProfileToMd with frame without file location renders as <native>`, () => {
+  const profile = makeProfile({
+    profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
+    frames: [{ name: `nativeFunc` }],
+  })
+
+  const markdown = speedscopeProfileToMd(profile)
+
+  expect(markdown).toContain(`\`<native>\``)
+})
+
+test(`speedscopeProfileToMd bytes unit produces heap profile with size formatting`, () => {
+  const profile = makeProfile({
+    profiles: [
+      makeSampledProfile({
+        unit: `bytes`,
+        samples: [[0, 1], [0]],
+        weights: [1024, 512],
+      }),
+    ],
+    frames: [
+      { name: `allocMain`, file: `/project/src/index.ts`, line: 1 },
+      { name: `allocWork`, file: `/project/src/index.ts`, line: 10 },
+    ],
+  })
+
+  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+
+  expect(markdown).toContain(`# Heap profile`)
+  expect(markdown).toContain(`Allocated`)
+  expect(markdown).toContain(`kB`)
+})
+
+test(`speedscopeProfileToMd none unit falls back to custom metric`, () => {
+  const profile = makeProfile({
+    profiles: [
+      makeSampledProfile({ unit: `none`, samples: [[0]], weights: [42] }),
+    ],
+    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+  })
+
+  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+
+  expect(markdown).toContain(`# Count profile`)
+  expect(markdown).toContain(`Recorded`)
+  expect(markdown).toContain(`42 counts`)
 })

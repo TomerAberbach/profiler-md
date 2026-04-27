@@ -159,10 +159,15 @@ const formatMetricSections = (
         }
       }
 
+      const callStacksSection = formatHottestCallStacks(
+        index,
+        profile,
+        sectionOptions,
+      )
       return [
         ...sections,
         formatHottestFunctions(index, profile, sectionOptions),
-        formatHottestCallStacks(index, profile, sectionOptions),
+        ...(callStacksSection === undefined ? [] : [callStacksSection]),
       ]
     })
     .join(`\n\n`)
