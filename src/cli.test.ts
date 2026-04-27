@@ -134,6 +134,36 @@ describe.each([
   )
 })
 
+test(`--source-maps applies source maps to profile locations`, () => {
+  const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
+  const sourceMapPath = join(dir, `index.ts.map`)
+  // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
+  // /mapped/original.ts line 1 col 0.
+  const mappings = `${`;`.repeat(203)}yBAAA`
+  writeFileSync(
+    sourceMapPath,
+    JSON.stringify({
+      version: 3,
+      file: `file:///Users/tomer/Documents/work/code/uneval/src/index.ts`,
+      sources: [`/mapped/original.ts`],
+      names: [],
+      mappings,
+    }),
+  )
+
+  const { status, stdout } = runCli([
+    fixturePath(`node.cpuprofile`),
+    `--source-maps`,
+    `${dir}/*.map`,
+  ])
+
+  expect(status).toBe(0)
+  expect(stdout).toContain(`/mapped/original.ts`)
+  expect(stdout).not.toContain(dir)
+
+  rmSync(dir, { recursive: true })
+})
+
 test.each([
   {
     scenario: `stdin with unrecognizable content`,

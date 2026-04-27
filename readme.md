@@ -66,6 +66,8 @@ $ profiler-md --help
     --cwd <path>          Working directory for relative file paths in output
     --third-party <glob>  Mark URLs matching this glob as third-party
                           (repeatable; default: node_modules)
+    --source-maps <glob>  Apply source maps matching this glob to profile
+                          locations (repeatable)
     --help                Show this help message
 ```
 

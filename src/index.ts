@@ -1,5 +1,6 @@
 export { defaultIncludeEntry, defaultIsThirdPartyEntry } from './options.ts'
 export type { ProfileEntry, ProfileToMdOptions } from './options.ts'
+export type { SourceMap } from './source-map.ts'
 export {
   pprofToMd,
   speedscopeProfileToMd,

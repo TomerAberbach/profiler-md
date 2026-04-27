@@ -1,5 +1,6 @@
 import { inlineCode } from './helpers/markdown.ts'
 import type { NormalizedProfileToMdOptions } from './options.ts'
+import { sourceMapProfileLocation } from './source-map.ts'
 
 /** An input that can be converted to a {@link ProfileLocation}. */
 export type ProfileLocationInput = {
@@ -43,32 +44,49 @@ export const makeProfileLocation = ({
     return undefined
   }
 
+  const fileReference = makeFileReference(urlOrPath)
+  if (fileReference.type !== `absolute`) {
+    return undefined
+  }
+
+  return { url: fileReference.url, line, column }
+}
+
+export type FileReference =
+  | { type: `absolute`; url: URL }
+  | { type: `relative`; path: string }
+
+export const makeFileReference = (urlOrPath: string): FileReference => {
   if (urlOrPath.startsWith(`/`)) {
     try {
-      return { url: new URL(`file://${urlOrPath}`), line, column }
+      return { type: `absolute`, url: new URL(`file://${urlOrPath}`) }
     } catch {
-      return undefined
+      return { type: `relative`, path: urlOrPath }
     }
   }
 
   if (!urlOrPath.includes(`:`)) {
-    return undefined
+    return { type: `relative`, path: urlOrPath }
   }
 
   try {
-    return { url: new URL(urlOrPath), line, column }
+    return { type: `absolute`, url: new URL(urlOrPath) }
   } catch {
-    return undefined
+    return { type: `relative`, path: urlOrPath }
   }
 }
 
 export const formatProfileLocation = (
   location: ProfileLocation | undefined,
-  { cwd }: NormalizedProfileToMdOptions,
+  options: NormalizedProfileToMdOptions,
 ): string => {
+  const { cwd } = options
+
   if (!location) {
     return inlineCode(`<native>`)
   }
+
+  location = sourceMapProfileLocation(location, options)
 
   let path: string
   if (location.url.protocol === `file:`) {

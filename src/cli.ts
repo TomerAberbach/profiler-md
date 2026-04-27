@@ -1,6 +1,8 @@
 import { createWriteStream } from 'node:fs'
-import { readFile } from 'node:fs/promises'
+import { glob, readFile } from 'node:fs/promises'
+import { dirname, resolve } from 'node:path'
 import type { Writable } from 'node:stream'
+import { pathToFileURL } from 'node:url'
 import { promisify } from 'node:util'
 import { brotliDecompress, gunzip } from 'node:zlib'
 import meow from 'meow'
@@ -29,7 +31,8 @@ import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
 import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
 import { parseJson } from './helpers/json.ts'
 import { defaultIsThirdPartyEntry } from './index.ts'
-import type { ProfileToMdOptions } from './index.ts'
+import type { ProfileToMdOptions, SourceMap } from './index.ts'
+import { makeFileReference } from './location.ts'
 
 type JsonProfileConverter<Parsed> = {
   type: string
@@ -96,6 +99,8 @@ const cli = meow(
     --cwd <path>          Working directory for relative file paths in output
     --third-party <glob>  Mark URLs matching this glob as third-party
                           (repeatable; default: node_modules)
+    --source-maps <glob>  Apply source maps matching this glob to profile
+                          locations (repeatable)
     --help                Show this help message
 `,
   {
@@ -107,6 +112,7 @@ const cli = meow(
       topN: { type: `number` },
       cwd: { type: `string` },
       thirdParty: { type: `string`, isMultiple: true, default: [] as string[] },
+      sourceMaps: { type: `string`, isMultiple: true, default: [] as string[] },
     },
   },
 )
@@ -130,7 +136,14 @@ const decompressData = async (
 try {
   const {
     input: [filePath],
-    flags: { output: outputPath, type: profileType, topN, cwd, thirdParty },
+    flags: {
+      output: outputPath,
+      type: profileType,
+      topN,
+      cwd,
+      thirdParty,
+      sourceMaps: sourceMapPatterns,
+    },
   } = cli
 
   let forcedProfileConverter:
@@ -173,21 +186,49 @@ try {
     process.exit(1)
   }
 
-  const thirdPartyMatchers = thirdParty.map(glob =>
-    picomatch(glob, { dot: true }),
+  const thirdPartyMatchers = thirdParty.map(pattern =>
+    picomatch(pattern, { dot: true }),
   )
+  const isThirdPartyEntry: ProfileToMdOptions[`isThirdPartyEntry`] =
+    thirdPartyMatchers.length > 0
+      ? entry =>
+          defaultIsThirdPartyEntry(entry) ||
+          (!!entry.location &&
+            thirdPartyMatchers.some(match =>
+              match(entry.location!.url.pathname),
+            ))
+      : undefined
+
+  const sourceMapPaths = (
+    await Promise.all(
+      sourceMapPatterns.map(pattern => Array.fromAsync(glob(pattern))),
+    )
+  ).flat()
+  const sourceMaps = await Promise.all(
+    sourceMapPaths.map(async path => {
+      const sourceMap = JSON.parse(await readFile(path, `utf8`)) as SourceMap
+      if (sourceMap.sourceRoot) {
+        return sourceMap
+      }
+
+      // Pre-resolve relative source paths against the map file's directory so
+      // that `source-map-js` returns absolute URLs.
+      return {
+        ...sourceMap,
+        sources: sourceMap.sources.map(source =>
+          makeFileReference(source).type === `absolute`
+            ? source
+            : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
+        ),
+      }
+    }),
+  )
+
   const options: ProfileToMdOptions = {
     topN,
     cwd,
-    isThirdPartyEntry:
-      thirdPartyMatchers.length > 0
-        ? entry =>
-            defaultIsThirdPartyEntry(entry) ||
-            (!!entry.location &&
-              thirdPartyMatchers.some(match =>
-                match(entry.location!.url.pathname),
-              ))
-        : undefined,
+    isThirdPartyEntry,
+    sourceMaps,
   }
 
   let markdown: string | undefined
