@@ -310,8 +310,10 @@ const formatHottestCallers = (
 ): string | undefined => {
   const selfValue = func.selfValues[metricIndex]!
   const hottestCallers = selectTopN(
-    [...func.callerIdToMetrics.values()].filter(({ caller }) =>
-      options.includeEntry(caller),
+    [...func.callerIdToMetrics.values()].filter(
+      entry =>
+        options.includeEntry(entry.caller) &&
+        entry.selfValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
     (entry1, entry2) =>
@@ -357,7 +359,9 @@ const formatHottestTotalFunctions = (
 ): string => {
   const totalValue = profile.totalValues[metricIndex]!
   const hottestFunctions = selectTopN(
-    profile.functions.filter(options.includeEntry),
+    profile.functions.filter(
+      func => options.includeEntry(func) && func.totalValues[metricIndex]! > 0,
+    ),
     options.topN,
     (func1, func2) =>
       func1.totalValues[metricIndex]! - func2.totalValues[metricIndex]!,
@@ -412,8 +416,10 @@ const formatHottestCallees = (
 ): string | undefined => {
   const totalValue = func.totalValues[metricIndex]!
   const hottestCallees = selectTopN(
-    [...func.calleeIdToMetrics.values()].filter(({ callee }) =>
-      options.includeEntry(callee),
+    [...func.calleeIdToMetrics.values()].filter(
+      entry =>
+        options.includeEntry(entry.callee) &&
+        entry.totalValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
     (entry1, entry2) =>
