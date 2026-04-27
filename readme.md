@@ -28,9 +28,15 @@
 
 ## Features
 
-- **Auto-detection:** infers profile type automatically
+- **Multi-format:** supports [pprof](https://github.com/google/pprof),
+  [Speedscope](https://github.com/jlfwong/speedscope),
+  [V8 CPU profiles](https://nodejs.org/api/cli.html#cpu-prof),
+  [V8 heap profiles](https://nodejs.org/api/cli.html#--heap-prof), and
+  [V8 heap snapshots](https://nodejs.org/api/cli.html#heapsnapshot-near-heap-limitmax-count)
+- **Multi-language:** JS/TS via V8 formats (Node.js, Bun, Deno); Go, Python,
+  Rust, Java, and more via pprof and Speedscope
 - **Configurable:** control the number of top entries shown, working directory
-  for relative paths, and third-party URL detection
+  for relative paths, third-party detection, and entry filtering
 - **CLI and API:** usable on the command-line or programmatically
 
 ## Install
@@ -113,6 +119,19 @@ console.log(v8CpuProfileToMd(v8CpuProfileData, options))
 console.log(v8HeapProfileToMd(v8HeapProfileData, options))
 console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
 ```
+
+## Skills
+
+Use this `profiler-md` skill to have an agent profile and optimize your code:
+
+```sh
+$ npx skills add TomerAberbach/profiler-md --skill profile-optimize
+```
+
+See [skills.sh](https://skills.sh/docs) for more info.
+
+Fun fact: the skill has been used to profile and optimize `profiler-md` using
+itself!
 
 ## Contributing
 
