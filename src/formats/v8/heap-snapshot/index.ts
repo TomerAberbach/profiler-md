@@ -40,6 +40,7 @@ export const detectV8HeapSnapshot = (
  * function is undefined for invalid snapshots.
  *
  * You can generate a V8 heap snapshot in several ways:
+ * - [`node --heapsnapshot-near-heap-limit=1`](https://nodejs.org/api/cli.html#heapsnapshot-near-heap-limitmax-count)
  * - [`node --heapsnapshot-signal`](https://nodejs.org/api/cli.html#--heapsnapshot-signalsignal)
  * - [`bun --heap-prof`](https://bun.com/docs/project/benchmarking#heap-profiling)
  * - [`v8.writeHeapSnapshot()`](https://nodejs.org/api/v8.html#v8writeheapsnapshotfilename)
