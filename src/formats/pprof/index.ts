@@ -35,6 +35,8 @@ export const detectPprof = (data: Uint8Array): Pprof | undefined => {
  * - Node.js's [`pprof`](https://www.npmjs.com/package/pprof) npm package
  * - Python's [`py-spy`](https://github.com/benfred/py-spy)
  * - Rust's [`pprof-rs`](https://github.com/tikv/pprof-rs)
+ * - Java/Kotlin's [`async-profiler`](https://github.com/async-profiler/async-profiler)
+ * - C/C++'s [`gperftools`](https://github.com/gperftools/gperftools) (via `pprof --proto`)
  */
 export const pprofToMd = (
   data: Uint8Array,
