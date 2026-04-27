@@ -86,6 +86,21 @@ guard.report().build()?.pprof()?.encode(&mut buf)?;
 std::fs::write("cpu.pprof", &buf)?;
 ```
 
+Note: `pprof` crashes with a SIGBUS error on macOS by default. You'll need to
+enable the `frame-pointer` feature to use a different unwinding mechanism.
+
+```toml
+[dependencies]
+pprof = { version = "...", features = ["prost-codec", "frame-pointer"] }
+```
+
+You will also need to add the `force-frame-pointers` rustflag to make frame-
+pointer unwinding work reliably.
+
+```sh
+RUSTFLAGS="-C force-frame-pointers=yes" cargo build ...
+```
+
 ## 2. Baseline
 
 Generate a profile and run `profiler-md` to capture the Markdown report:
