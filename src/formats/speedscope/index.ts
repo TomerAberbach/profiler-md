@@ -36,6 +36,8 @@ export const detectSpeedscopeProfile = (
  * - [rbspy](https://rbspy.github.io) for Ruby
  * - [py-spy](https://github.com/benfred/py-spy) for Python (`--format speedscope`)
  * - [pprof-rs](https://github.com/tikv/pprof-rs) for Rust
+ * - [async-profiler](https://github.com/async-profiler/async-profiler) for Java/Kotlin (`-o speedscope`)
+ * - [phpspy](https://github.com/adsr/phpspy) for PHP (`--output-format=speedscope`)
  */
 export const speedscopeProfileToMd = (
   data: string | Uint8Array,
