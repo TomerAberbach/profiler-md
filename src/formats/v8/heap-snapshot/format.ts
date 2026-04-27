@@ -80,8 +80,7 @@ const formatLargestSelfSizeConstructors = (
   const largestConstructors = selectTopN(
     constructors.filter(options.includeEntry),
     options.topN,
-    (constructor1, constructor2) =>
-      constructor1.selfSize - constructor2.selfSize,
+    constructor => constructor.selfSize,
   )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
@@ -164,8 +163,7 @@ const formatLargestRetainedSizeConstructors = (
   const largestConstructors = selectTopN(
     constructors.filter(options.includeEntry),
     options.topN,
-    (constructor1, constructor2) =>
-      constructor1.retainedSize - constructor2.retainedSize,
+    constructor => constructor.retainedSize,
   )
   const largestInstanceSections = largestConstructors
     .map(constructor =>
@@ -266,10 +264,7 @@ const selectLargestInstancesByRetainerPath = (
 ): InstanceGroup[] => {
   // Process instances in descending size order, stopping once we have `topN`
   // unique paths. Avoids `retainerPathOf` calls for the long tail.
-  const heap = new MaxHeap(
-    instances,
-    (instance1, instance2) => sizeOf(instance1) - sizeOf(instance2),
-  )
+  const heap = new MaxHeap(instances, sizeOf)
   const pathToGroup = new Map<string, InstanceGroup>()
 
   while (heap.length > 0 && pathToGroup.size < topN) {
@@ -307,7 +302,7 @@ const formatLargestClosures = (
       options.includeEntry({ ...closure, id: closure.largestInstanceId }),
     ),
     options.topN,
-    (closure1, closure2) => closure1.retainedSize - closure2.retainedSize,
+    closure => closure.retainedSize,
   )
 
   const retainedSections = largestClosures
@@ -370,7 +365,7 @@ const formatClosureRetainedObjects = (
   const retainedNodes = selectTopN(
     allRetainedNodes,
     Math.ceil(options.topN / 4),
-    (node1, node2) => node1.selfSize - node2.selfSize,
+    node => node.selfSize,
   )
   if (retainedNodes.length === 0) {
     return undefined
@@ -405,7 +400,7 @@ const formatLargestStrings = (
   const largestStrings = selectTopN(
     strings,
     options.topN,
-    (string1, string2) => string1.selfSize - string2.selfSize,
+    string => string.selfSize,
   )
 
   return [

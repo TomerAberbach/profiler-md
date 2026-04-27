@@ -198,8 +198,7 @@ const formatHottestSelfFunctions = (
       func => options.includeEntry(func) && func.selfValues[metricIndex]! > 0,
     ),
     options.topN,
-    (function1, function2) =>
-      function1.selfValues[metricIndex]! - function2.selfValues[metricIndex]!,
+    func => func.selfValues[metricIndex]!,
   )
 
   const subsectionOptions = {
@@ -267,8 +266,7 @@ const formatHottestLines = (
   const hottestLines = selectTopN(
     [...func.lineToMetrics],
     Math.ceil(options.topN / 4),
-    ([, metrics1], [, metrics2]) =>
-      metrics1.values[metricIndex]! - metrics2.values[metricIndex]!,
+    ([, metrics]) => metrics.values[metricIndex]!,
   )
 
   const metric = profile.metrics[metricIndex]!
@@ -316,8 +314,7 @@ const formatHottestCallers = (
         entry.selfValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
-    (entry1, entry2) =>
-      entry1.selfValues[metricIndex]! - entry2.selfValues[metricIndex]!,
+    entry => entry.selfValues[metricIndex]!,
   )
 
   if (hottestCallers.length === 0) {
@@ -363,8 +360,7 @@ const formatHottestTotalFunctions = (
       func => options.includeEntry(func) && func.totalValues[metricIndex]! > 0,
     ),
     options.topN,
-    (func1, func2) =>
-      func1.totalValues[metricIndex]! - func2.totalValues[metricIndex]!,
+    func => func.totalValues[metricIndex]!,
   )
 
   const subsectionOptions = {
@@ -422,8 +418,7 @@ const formatHottestCallees = (
         entry.totalValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
-    (entry1, entry2) =>
-      entry1.totalValues[metricIndex]! - entry2.totalValues[metricIndex]!,
+    entry => entry.totalValues[metricIndex]!,
   )
   if (hottestCallees.length === 0) {
     return undefined
@@ -472,8 +467,7 @@ const formatHottestCallStacks = (
       }))
       .filter(callStack => callStack.frames.length > 1),
     options.topN,
-    (callStack1, callStack2) =>
-      callStack1.selfValues[metricIndex]! - callStack2.selfValues[metricIndex]!,
+    callStack => callStack.selfValues[metricIndex]!,
   )
   if (hottestCallStacks.length === 0) {
     return undefined

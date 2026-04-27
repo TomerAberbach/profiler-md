@@ -410,7 +410,13 @@ const computeNodeAdjacencyGraph = (
 }
 
 const computeNodeOrdinalToLocation = (
-  { nodes, edges, strings, locations }: V8HeapSnapshot,
+  {
+    snapshot: { node_count: nodeCount },
+    nodes,
+    edges,
+    strings,
+    locations,
+  }: V8HeapSnapshot,
   {
     ordinalToSuccessorStartOffset,
     offsetToSuccessorEdgeIndex,
@@ -493,7 +499,9 @@ const computeNodeOrdinalToLocation = (
   // This must be a separate loop from the above because it's possible a file
   // location is reachable from one node, but not another, even though they
   // share the same script ID.
-  const nodeOrdinalToLocation: ProfileLocation[] = []
+  const nodeOrdinalToLocation = Array.from<ProfileLocation>({
+    length: nodeCount,
+  })
   // Cache URLs per file path to avoid repeated expensive URL construction.
   const fileLocationToUrl = new Map<string, URL | null>()
   for (
