@@ -50,5 +50,5 @@ export const speedscopeProfileToMdInternal = (
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return summarizeSpeedscopeProfile(profile, normalizedOptions)
     .map(profile => formatSpeedscope(profile, normalizedOptions))
-    .join(`\n\n---\n\n`)
+    .join(`\n\n`)
 }

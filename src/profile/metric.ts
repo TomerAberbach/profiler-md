@@ -84,4 +84,6 @@ const METRICS: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [`gbytes`, GIGABYTES],
   [`gbyte`, GIGABYTES],
   [`gb`, GIGABYTES],
+
+  [`none`, { type: `custom`, name: `count`, unit: `count` }],
 ])

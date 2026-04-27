@@ -1060,8 +1060,6 @@ test(`v8CpuProfileToMd categorizes sentinel and RegExp functions`, () => {
     | 50.0% | 0.3ms |       3 | \`(garbage collector)\` | \`<native>\` |
     | 33.3% | 0.2ms |       2 | \`(program)\`           | \`<native>\` |
     | 16.7% | 0.1ms |       1 | \`RegExp: /foo/\`       | \`<native>\` |
-
-
     "
   `)
 })

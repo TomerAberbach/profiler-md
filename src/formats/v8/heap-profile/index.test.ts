@@ -791,8 +791,6 @@ test(`v8HeapProfileToMd categorizes sentinel and RegExp functions`, () => {
     | 50.0% | 300 B |       1 | \`(garbage collector)\` | \`<native>\` |
     | 33.3% | 200 B |       1 | \`(program)\`           | \`<native>\` |
     | 16.7% | 100 B |       1 | \`RegExp: /foo/\`       | \`<native>\` |
-
-
     "
   `)
 })
