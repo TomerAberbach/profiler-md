@@ -87,7 +87,10 @@ const cli = meow(
 
   Options:
     -t, --type <type>     Profile type, auto-detected from content if omitted
-                          [${profileConverters.map(({ type }) => type).join(`|`)}]
+                          [${profileConverters
+                            .map(({ type }) => type)
+                            .sort()
+                            .join(`|`)}]
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output

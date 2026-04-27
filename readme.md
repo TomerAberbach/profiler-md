@@ -54,7 +54,7 @@ $ profiler-md --help
 
   Options:
     -t, --type <type>     Profile type, auto-detected from content if omitted
-                          [speedscope|v8-cpu-profile|v8-heap-profile|v8-heap-snapshot|pprof]
+                          [pprof|speedscope|v8-cpu-profile|v8-heap-profile|v8-heap-snapshot]
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
