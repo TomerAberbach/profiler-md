@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      convert-source-map:
+        specifier: ^2.0.0
+        version: 2.0.0
       meow:
         specifier: ^14.1.0
         version: 14.1.0
@@ -42,6 +45,9 @@ importers:
       '@tomer/prettier-config':
         specifier: ^4.0.1
         version: 4.0.1(prettier@3.8.3)
+      '@types/convert-source-map':
+        specifier: ^2.0.3
+        version: 2.0.3
       '@types/picomatch':
         specifier: ^4.0.3
         version: 4.0.3
@@ -610,6 +616,9 @@ packages:
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
+
+  '@types/convert-source-map@2.0.3':
+    resolution: {integrity: sha512-ag0BfJLZf6CQz8VIuRIEYQ5Ggwk/82uvTQf27RcpyDNbY0Vw49LIPqAxk5tqYfrCs9xDaIMvl4aj7ZopnYL8bA==}
 
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
@@ -3335,6 +3344,8 @@ snapshots:
     dependencies:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
+
+  '@types/convert-source-map@2.0.3': {}
 
   '@types/debug@4.1.13':
     dependencies:

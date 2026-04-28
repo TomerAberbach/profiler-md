@@ -78,6 +78,7 @@
   },
   "prettier": "@tomer/prettier-config",
   "dependencies": {
+    "convert-source-map": "^2.0.0",
     "meow": "^14.1.0",
     "picomatch": "^4.0.4",
     "plur": "^6.0.0",
@@ -91,6 +92,7 @@
     "@rollup/plugin-terser": "^1.0.0",
     "@tomer/eslint-config": "^5.0.0",
     "@tomer/prettier-config": "^4.0.1",
+    "@types/convert-source-map": "^2.0.3",
     "@types/picomatch": "^4.0.3",
     "@vitest/coverage-v8": "^4.1.5",
     "diff": "^9.0.0",
