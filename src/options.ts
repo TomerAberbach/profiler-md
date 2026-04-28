@@ -1,5 +1,7 @@
 import { DynamicTypedArray } from './helpers/array.ts'
 import type { ProfileLocation } from './location.ts'
+import { normalizeSourceMaps } from './source-map.ts'
+import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
 
 /** A single entry in a rendered profile. */
 export type ProfileEntry = {
@@ -55,6 +57,17 @@ export type ProfileToMdOptions = {
    * absolute.
    */
   cwd?: string | null
+
+  /**
+   * Source maps to apply when rendering profile locations.
+   *
+   * Accepts either a list of raw source map objects, or a record mapping
+   * generated file URLs or absolute/relative paths to raw source map objects.
+   *
+   * When a list is provided, the generated file is inferred from each source
+   * map's `file` field (and optionally `sourceRoot`).
+   */
+  sourceMaps?: SourceMap[] | Record<string, SourceMap>
 }
 
 /** {@link ProfileToMdOptions} with defaults applied. */
@@ -63,6 +76,7 @@ export type NormalizedProfileToMdOptions = {
   includeEntry: (entry: UniqueProfileEntry) => boolean
   isThirdPartyEntry: (entry: UniqueProfileEntry) => boolean
   cwd: string | undefined
+  sourceMaps: NormalizedSourceMaps
 }
 
 export const normalizeProfileToMdOptions = ({
@@ -70,6 +84,7 @@ export const normalizeProfileToMdOptions = ({
   includeEntry = defaultIncludeEntry,
   isThirdPartyEntry = defaultIsThirdPartyEntry,
   cwd,
+  sourceMaps,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
   if (cwd === undefined && typeof process !== `undefined`) {
     cwd = process.cwd()
@@ -83,6 +98,7 @@ export const normalizeProfileToMdOptions = ({
     includeEntry: cacheEntryFunction(includeEntry),
     isThirdPartyEntry: cacheEntryFunction(isThirdPartyEntry),
     cwd: cwd ?? undefined,
+    sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
   }
 }
 
