@@ -5,6 +5,7 @@ import type { Writable } from 'node:stream'
 import { pathToFileURL } from 'node:url'
 import { promisify } from 'node:util'
 import { brotliDecompress, gunzip } from 'node:zlib'
+import convertSourceMap from 'convert-source-map'
 import meow from 'meow'
 import picomatch from 'picomatch'
 import {
@@ -100,7 +101,8 @@ const cli = meow(
     --third-party <glob>  Mark URLs matching this glob as third-party
                           (repeatable; default: node_modules)
     --source-maps <glob>  Apply source maps matching this glob to profile
-                          locations (repeatable)
+                          locations; files may be source map JSON or contain
+                          inline source map comments (repeatable)
     --help                Show this help message
 `,
   {
@@ -119,6 +121,28 @@ const cli = meow(
 
 const gunzipAsync = promisify(gunzip)
 const brotliDecompressAsync = promisify(brotliDecompress)
+
+/**
+ * Pre-resolves relative source paths against the map file's directory so that `source-map-js` returns
+ * absolute URLs.
+ */
+const resolveSourceMapSources = (
+  sourceMap: SourceMap,
+  path: string,
+): SourceMap => {
+  if (sourceMap.sourceRoot) {
+    return sourceMap
+  }
+
+  return {
+    ...sourceMap,
+    sources: sourceMap.sources.map(source =>
+      makeFileReference(source).type === `absolute`
+        ? source
+        : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
+    ),
+  }
+}
 
 const decompressData = async (
   data: Uint8Array,
@@ -206,21 +230,18 @@ try {
   ).flat()
   const sourceMaps = await Promise.all(
     sourceMapPaths.map(async path => {
-      const sourceMap = JSON.parse(await readFile(path, `utf8`)) as SourceMap
-      if (sourceMap.sourceRoot) {
-        return sourceMap
+      const content = await readFile(path, `utf8`)
+      const inlineSourceMap = convertSourceMap
+        .fromSource(content)
+        ?.toObject() as SourceMap | undefined
+      if (!inlineSourceMap) {
+        return resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
       }
 
-      // Pre-resolve relative source paths against the map file's directory so
-      // that `source-map-js` returns absolute URLs.
-      return {
-        ...sourceMap,
-        sources: sourceMap.sources.map(source =>
-          makeFileReference(source).type === `absolute`
-            ? source
-            : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
-        ),
-      }
+      // Default `file` to the containing file so `normalizeSourceMaps` can associate the map with profile
+      // locations referencing this file.
+      inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
+      return resolveSourceMapSources(inlineSourceMap, path)
     }),
   )
 

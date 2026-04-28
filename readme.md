@@ -67,7 +67,8 @@ $ profiler-md --help
     --third-party <glob>  Mark URLs matching this glob as third-party
                           (repeatable; default: node_modules)
     --source-maps <glob>  Apply source maps matching this glob to profile
-                          locations (repeatable)
+                          locations; files may be source map JSON or contain
+                          inline source map comments (repeatable)
     --help                Show this help message
 ```
 
