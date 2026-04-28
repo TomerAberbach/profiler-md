@@ -12,7 +12,7 @@
       "Bash(pnpm check-readme *)",
       "Bash(pnpm update-examples *)",
       "Bash(pnpm check-examples *)",
-      "Bash(node src/cli.ts *)"
+      "Bash(node src/cli/index.ts *)"
     ]
   },
   "hooks": {

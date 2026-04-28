@@ -8,93 +8,34 @@ import { brotliDecompress, gunzip } from 'node:zlib'
 import convertSourceMap from 'convert-source-map'
 import meow from 'meow'
 import picomatch from 'picomatch'
-import {
-  detectPprof,
-  detectSpeedscopeProfile,
-  detectV8CpuProfile,
-  detectV8HeapProfile,
-  detectV8HeapSnapshot,
-  pprofToMd,
-  pprofToMdInternal,
-  speedscopeProfileToMd,
-  speedscopeProfileToMdInternal,
-  v8CpuProfileToMd,
-  v8CpuProfileToMdInternal,
-  v8HeapProfileToMd,
-  v8HeapProfileToMdInternal,
-  v8HeapSnapshotToMd,
-  v8HeapSnapshotToMdInternal,
-} from './formats/index.ts'
-import type { Pprof } from './formats/pprof/parse.ts'
-import type { SpeedscopeProfile } from './formats/speedscope/parse.ts'
-import type { V8CpuProfile } from './formats/v8/cpu-profile/parse.ts'
-import type { V8HeapProfile } from './formats/v8/heap-profile/parse.ts'
-import type { V8HeapSnapshot } from './formats/v8/heap-snapshot/parse.ts'
-import { parseJson } from './helpers/json.ts'
-import { defaultIsThirdPartyEntry } from './index.ts'
-import type { ProfileToMdOptions, SourceMap } from './index.ts'
-import { makeFileReference } from './location.ts'
+import { parseJson } from '../helpers/json.ts'
+import { defaultIsThirdPartyEntry } from '../index.ts'
+import type { ProfileToMdOptions, SourceMap } from '../index.ts'
+import { makeFileReference } from '../location.ts'
+import type { BinaryFormat, JsonFormat } from './formats.ts'
+import { formats, languageAliasToPrimary, languages } from './formats.ts'
 
-type JsonProfileConverter<Parsed> = {
-  type: string
-  detect: (json: unknown) => Parsed | undefined
-  toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
-}
+const jsonFormats = [...formats.entries()].filter(
+  (entry): entry is [string, JsonFormat<any>] => entry[1].kind === `json`,
+)
+const binaryFormats = [...formats.entries()].filter(
+  (entry): entry is [string, BinaryFormat<any>] => entry[1].kind === `binary`,
+)
 
-type BinaryProfileConverter<Parsed> = {
-  type: string
-  detect: (data: Uint8Array) => Parsed | undefined
-  toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
-}
-
-const jsonProfileConverters: JsonProfileConverter<any>[] = [
-  {
-    type: `speedscope`,
-    detect: detectSpeedscopeProfile,
-    toMdInternal: speedscopeProfileToMdInternal,
-    toMd: speedscopeProfileToMd,
-  } satisfies JsonProfileConverter<SpeedscopeProfile>,
-  {
-    type: `v8-cpu-profile`,
-    detect: detectV8CpuProfile,
-    toMdInternal: v8CpuProfileToMdInternal,
-    toMd: v8CpuProfileToMd,
-  } satisfies JsonProfileConverter<V8CpuProfile>,
-  {
-    type: `v8-heap-profile`,
-    detect: detectV8HeapProfile,
-    toMdInternal: v8HeapProfileToMdInternal,
-    toMd: v8HeapProfileToMd,
-  } satisfies JsonProfileConverter<V8HeapProfile>,
-  {
-    type: `v8-heap-snapshot`,
-    detect: detectV8HeapSnapshot,
-    toMdInternal: v8HeapSnapshotToMdInternal,
-    toMd: v8HeapSnapshotToMd,
-  } satisfies JsonProfileConverter<V8HeapSnapshot>,
-]
-const binaryProfileConverters: BinaryProfileConverter<any>[] = [
-  {
-    type: `pprof`,
-    detect: detectPprof,
-    toMdInternal: pprofToMdInternal,
-    toMd: pprofToMd,
-  } satisfies BinaryProfileConverter<Pprof>,
-]
-const profileConverters = [...jsonProfileConverters, ...binaryProfileConverters]
+const formatTopics = [...formats.keys()]
+const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
+  id,
+  ...(aliases?.map(alias => alias.id) ?? []),
+])
+const topics = [...formatTopics, ...languageTopics]
 
 const cli = meow(
   `
   Usage: profiler-md [options] [file]
+         profiler-md --help [format|language]
 
   Options:
-    -t, --type <type>     Profile type, auto-detected from content if omitted
-                          [${profileConverters
-                            .map(({ type }) => type)
-                            .sort()
-                            .join(`|`)}]
+    -f, --format <format> Profile format, auto-detected from content if omitted
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
@@ -103,13 +44,18 @@ const cli = meow(
     --source-maps <glob>  Apply source maps matching this glob to profile
                           locations; files may be source map JSON or contain
                           inline source map comments (repeatable)
-    --help                Show this help message
+    --help [format|language] Show this help message or topic docs
+
+  Formats: ${formatTopics.join(`, `)}
+  Languages: ${languageTopics.join(`, `)}
 `,
   {
     importMeta: import.meta,
+    autoHelp: false,
     allowUnknownFlags: false,
     flags: {
-      type: { type: `string`, shortFlag: `t` },
+      help: { type: `boolean`, shortFlag: `h` },
+      format: { type: `string`, shortFlag: `f` },
       output: { type: `string`, shortFlag: `o`, default: `-` },
       topN: { type: `number` },
       cwd: { type: `string` },
@@ -161,8 +107,9 @@ try {
   const {
     input: [filePath],
     flags: {
+      help,
       output: outputPath,
-      type: profileType,
+      format: profileFormat,
       topN,
       cwd,
       thirdParty,
@@ -170,22 +117,55 @@ try {
     },
   } = cli
 
-  let forcedProfileConverter:
-    | JsonProfileConverter<any>
-    | BinaryProfileConverter<any>
-    | undefined
-  if (profileType !== undefined) {
-    forcedProfileConverter = profileConverters.find(
-      format => format.type === profileType,
+  if (help) {
+    if (filePath === undefined) {
+      process.stdout.write(cli.help)
+      process.exit(0)
+    }
+
+    const language = languages.get(
+      languageAliasToPrimary.get(filePath) ?? filePath,
     )
-    if (!forcedProfileConverter) {
+    const format = formats.get(filePath)
+    if (!language && !format) {
       process.stderr.write(
-        `error: unknown profile type "${profileType}"\nRun with --help to see supported types.\n`,
+        `error: unknown topic "${filePath}"\nAvailable topics: ${topics.join(`, `)}\n`,
       )
       process.exit(2)
     }
+
+    const docURL = new URL(
+      `../../docs/${format ? `formats` : `languages`}/${filePath}.md`,
+      import.meta.url,
+    )
+    process.stdout.write(await readFile(docURL, `utf8`))
+
+    const seeAlso = format
+      ? [...languages.entries()].flatMap(([id, language]) => {
+          if (!language.formats.includes(filePath)) {
+            return []
+          }
+          return [id, ...(language.aliases?.map(alias => alias.id) ?? [])]
+        })
+      : language
+        ? language.formats
+        : []
+    if (seeAlso.length > 0) {
+      process.stdout.write(`\nSee also: ${seeAlso.join(`, `)}\n`)
+    }
+
+    process.exit(0)
+  }
+
+  const forcedFormat =
+    profileFormat === undefined ? undefined : formats.get(profileFormat)
+  if (profileFormat !== undefined && !forcedFormat) {
+    process.stderr.write(
+      `error: unknown format "${profileFormat}"\nRun with --help to see supported formats.\n`,
+    )
+    process.exit(2)
   } else if (!filePath && process.stdin.isTTY) {
-    cli.showHelp(0)
+    process.stdout.write(cli.help)
     process.exit(0)
   }
 
@@ -253,28 +233,28 @@ try {
   }
 
   let markdown: string | undefined
-  if (forcedProfileConverter) {
-    markdown = forcedProfileConverter.toMd(data, options)
+  if (forcedFormat) {
+    markdown = forcedFormat.toMd(data, options)
   } else {
     let json: unknown
     try {
       json = parseJson(data)
     } catch {}
     if (json === undefined) {
-      for (const converter of binaryProfileConverters) {
+      for (const [, format] of binaryFormats) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const parsed = converter.detect(data)
+        const parsed = format.detect(data)
         if (parsed !== undefined) {
-          markdown = converter.toMdInternal(parsed, options)
+          markdown = format.toMdInternal(parsed, options)
           break
         }
       }
     } else {
-      for (const converter of jsonProfileConverters) {
+      for (const [, format] of jsonFormats) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const parsed = converter.detect(json)
+        const parsed = format.detect(json)
         if (parsed !== undefined) {
-          markdown = converter.toMdInternal(parsed, options)
+          markdown = format.toMdInternal(parsed, options)
           break
         }
       }
@@ -282,7 +262,7 @@ try {
 
     if (markdown === undefined) {
       process.stderr.write(
-        `error: could not detect profile format from content\nUse --type to specify the format, or run with --help to see supported types.\n`,
+        `error: could not detect profile format from content\nUse --format to specify the format, or run with --help to see supported formats.\n`,
       )
       process.exit(2)
     }

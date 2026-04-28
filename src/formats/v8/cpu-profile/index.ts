@@ -24,19 +24,9 @@ export const detectV8CpuProfile = (json: unknown): V8CpuProfile | undefined => {
  * It is assumed that {@link data} is a valid profile. The behavior of this
  * function is undefined for invalid profiles.
  *
- * You can generate a V8 CPU profile in several ways:
- * - [`node --cpu-prof`](https://nodejs.org/api/cli.html#cpu-prof)
- * - [`deno run --cpu-prof`](https://docs.deno.com/runtime/fundamentals/debugging/#cpu-profiling)
- * - [`bun --cpu-prof`](https://bun.com/docs/project/benchmarking#cpu-profiling)
- *   (NOTE: output was incorrect until
- *   [v1.3.13](https://bun.com/blog/bun-v1.3.13#node-js-compatibility-improvements))
- * - [`node --inspect`](https://nodejs.org/api/debugger.html#v8-inspector-integration-for-nodejs),
- *   [`deno run --inspect`](https://docs.deno.com/runtime/fundamentals/debugging/#--inspect),
- *   or [`bun --inspect`](https://bun.com/docs/runtime/debugger#inspect) with
- *   [Chrome DevTools](https://developer.chrome.com/docs/devtools/performance/nodejs)
- * - [Chrome DevTools directly](https://developer.chrome.com/docs/devtools/performance#record)
- *
- * Lower the sampling interval to capture more granular data.
+ * See the [V8 CPU profile docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/v8-cpu-profile.md)
+ * for supported runtimes and generation instructions
+ * (`profiler-md --help v8-cpu-profile`).
  */
 export const v8CpuProfileToMd = (
   data: string | Uint8Array,

@@ -8,10 +8,13 @@ and LLM friendly Markdown.
 ```
 profiler-md
 ├── src/
-│   ├── cli.ts                # CLI entry point (must register each format)
+│   ├── cli/
+│   │   ├── index.ts          # CLI entry point
+│   │   └── formats.ts        # Format and language (must register each)
 │   ├── index.ts              # API entry point (must export each format)
 │   │
 │   ├── formats/              # Individual profile format implementations
+│   │   ├── index.ts          # Barrel file (must export each format)
 │   │   └── <name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── summarize.ts  # Aggregates profile data
@@ -24,9 +27,11 @@ profiler-md
 │   │   ├── format.ts         # Generic profile to Markdown formatting
 │   │   └── index.ts          # Barrel file
 │   ├── location.ts           # URL, file path, and line:column location logic
+│   ├── source-map.ts         # Source map resolution logic
 │   ├── options.ts            # API option types and normalization logic
 │   │
 │   ├── helpers/              # Generic utility functions
+│   │   ├── array.ts
 │   │   ├── heap.ts
 │   │   ├── json.ts
 │   │   ├── format.ts
@@ -35,13 +40,17 @@ profiler-md
 │   ├── fixtures/             # Profiles for testing and docs
 │   └── testing/              # Test-only utilities
 │
+├── docs/
+│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
+│   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
+│
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
 │   ├── update-examples.ts    # Update the examples/ directory based on src/fixtures/
-│   └── update-readme.ts      # Update the readme based on CLI `--help`
+│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/topics.ts
 │
 ├── examples/                 # Markdown generated from src/fixtures/* using `pnpm update-examples`
-└── readme.md                 # CLI section generated using `pnpm update-readme`
+└── readme.md                 # CLI and matrix sections generated using `pnpm update-readme`
 ```
 
 ## Development
@@ -56,7 +65,7 @@ pnpm coverage
 
 # Update `examples/` from `src/fixtures/`
 pnpm update-examples
-# Update readme CLI section from `--help` text
+# Update readme (CLI help + language matrix) from src/topics.ts and `--help`
 pnpm update-readme
 
 # Benchmark the CLI with the given args

@@ -39,16 +39,9 @@ export const detectV8HeapSnapshot = (
  * It is assumed that {@link data} is a valid snapshot. The behavior of this
  * function is undefined for invalid snapshots.
  *
- * You can generate a V8 heap snapshot in several ways:
- * - [`node --heapsnapshot-near-heap-limit=1`](https://nodejs.org/api/cli.html#heapsnapshot-near-heap-limitmax-count)
- * - [`node --heapsnapshot-signal`](https://nodejs.org/api/cli.html#--heapsnapshot-signalsignal)
- * - [`bun --heap-prof`](https://bun.com/docs/project/benchmarking#heap-profiling)
- * - [`v8.writeHeapSnapshot()`](https://nodejs.org/api/v8.html#v8writeheapsnapshotfilename)
- * - [`node --inspect`](https://nodejs.org/api/debugger.html#v8-inspector-integration-for-nodejs),
- *   [`deno run --inspect`](https://docs.deno.com/runtime/fundamentals/debugging/#--inspect),
- *   or [`bun --inspect`](https://bun.com/docs/runtime/debugger#inspect) with
- *   [Chrome DevTools](https://developer.chrome.com/docs/devtools/memory-problems/heap-snapshots)
- * - [Chrome DevTools directly](https://developer.chrome.com/docs/devtools/memory-problems/heap-snapshots)
+ * See the [V8 heap snapshot docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/v8-heap-snapshot.md)
+ * for supported runtimes and generation instructions
+ * (`profiler-md --help v8-heap-snapshot`).
  */
 export const v8HeapSnapshotToMd = (
   data: string | Uint8Array,
