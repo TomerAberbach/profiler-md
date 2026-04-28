@@ -152,6 +152,7 @@ console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
 - [Node.js Speedscope](examples/node.speedscope.json.md)
 - [Deno CPU profile](examples/deno.cpuprofile.md)
 - [Bun CPU profile](examples/bun.cpuprofile.md)
+- [Rust pprof](examples/rust1.pprof.md)
 
 ## Skills
 
