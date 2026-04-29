@@ -86,6 +86,8 @@ $ profiler-md --help
     --source-maps <glob>  Apply source maps matching this glob to profile
                           locations; files may be source map JSON or contain
                           inline source map comments (repeatable)
+    --no-pager            Disable paging of stdout output (default: paged when
+                          stdout is a TTY, using $PAGER or less)
     --help [format|language] Show this help message or topic docs
 
   Formats: speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, pprof

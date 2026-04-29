@@ -1,12 +1,18 @@
 import { readFile } from 'node:fs/promises'
 import { cli, topics } from './cli.ts'
 import { formats, languageAliasToPrimary, languages } from './formats.ts'
+import { writeOutput } from './output.ts'
+
+export type PrintHelpTopicOptions = {
+  pager: boolean
+}
 
 export const printHelpTopic = async (
   topic: string | undefined,
+  { pager }: PrintHelpTopicOptions,
 ): Promise<never> => {
   if (topic === undefined) {
-    process.stdout.write(cli.help)
+    await writeOutput(cli.help, `-`, { pager })
     process.exit(0)
   }
 
@@ -23,7 +29,7 @@ export const printHelpTopic = async (
     `../../docs/${format ? `formats` : `languages`}/${topic}.md`,
     import.meta.url,
   )
-  process.stdout.write(await readFile(docURL, `utf8`))
+  const doc = await readFile(docURL, `utf8`)
 
   const seeAlso = format
     ? [...languages.entries()].flatMap(([id, language]) => {
@@ -35,9 +41,9 @@ export const printHelpTopic = async (
     : language
       ? language.formats
       : []
-  if (seeAlso.length > 0) {
-    process.stdout.write(`\nSee also: ${seeAlso.join(`, `)}\n`)
-  }
+  const seeAlsoSuffix =
+    seeAlso.length > 0 ? `\nSee also: ${seeAlso.join(`, `)}\n` : ``
 
+  await writeOutput(`${doc}${seeAlsoSuffix}`, `-`, { pager })
   process.exit(0)
 }

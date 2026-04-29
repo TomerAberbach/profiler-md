@@ -9,8 +9,16 @@ and LLM friendly Markdown.
 profiler-md
 ├── src/
 │   ├── cli/
-│   │   ├── index.ts          # CLI entry point
-│   │   └── formats.ts        # Format and language (must register each)
+│   │   ├── cli.ts            # meow flag/usage/topic definitions
+│   │   ├── convert.ts        # Format dispatch and auto-detection
+│   │   ├── error.ts          # CliError class and top-level error reporting
+│   │   ├── formats.ts        # Format and language registry (must register each)
+│   │   ├── help.ts           # Prints CLI help and per-topic docs
+│   │   ├── index.ts          # CLI entry point that orchestrates the run
+│   │   ├── input.ts          # Reads stdin or file, decompresses gzip/brotli
+│   │   ├── options.ts        # Builds API options from CLI flags
+│   │   ├── output.ts         # Writes Markdown to file or stdout (optionally paged)
+│   │   └── pager.ts          # Spawns $PAGER or `less` for stdout output
 │   ├── index.ts              # API entry point (must export each format)
 │   │
 │   ├── formats/              # Individual profile format implementations
