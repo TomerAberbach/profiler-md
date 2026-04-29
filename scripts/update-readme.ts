@@ -11,14 +11,22 @@ const matrix = formatTable(
   [`Language`, `Formats`],
   Array.from(
     languages.entries(),
-    ([id, { name, aliases, formats: langFormats }]) => [
+    ([id, { name, aliases, formats: langFormats, examples }]) => [
       [{ id, name }, ...(aliases ?? [])]
         .map(language => `[${language.name}](docs/languages/${language.id}.md)`)
         .join(`/`),
       langFormats
-        .map(
-          format => `[${formats.get(format)!.name}](docs/formats/${format}.md)`,
-        )
+        .map(format => {
+          const link = `[${formats.get(format)!.name}](docs/formats/${format}.md)`
+          const formatExamples = examples?.[format]
+          if (!formatExamples?.length) {
+            return link
+          }
+          const exampleLinks = formatExamples
+            .map(({ filename, label }) => `[${label}](examples/${filename}.md)`)
+            .join(`, `)
+          return `${link} (examples: ${exampleLinks})`
+        })
         .join(`, `),
     ],
   ),

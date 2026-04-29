@@ -22,9 +22,15 @@ export type LanguageAlias = {
   name: string
 }
 
+export type LanguageExample = {
+  filename: string
+  label: string
+}
+
 export type Language = {
   name: string
   formats: string[]
+  examples?: Record<string, LanguageExample[] | undefined>
   aliases?: LanguageAlias[]
 }
 
@@ -68,14 +74,45 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `javascript`,
     {
       name: `JavaScript`,
-      formats: [`v8-cpu-profile`, `v8-heap-profile`, `v8-heap-snapshot`],
+      formats: [
+        `v8-cpu-profile`,
+        `v8-heap-profile`,
+        `v8-heap-snapshot`,
+        `pprof`,
+        `speedscope`,
+      ],
+      examples: {
+        'v8-cpu-profile': [
+          { filename: `node.cpuprofile`, label: `Node.js` },
+          { filename: `deno.cpuprofile`, label: `Deno` },
+          { filename: `bun.cpuprofile`, label: `Bun` },
+        ],
+        'v8-heap-profile': [{ filename: `node.heapprofile`, label: `Node.js` }],
+        'v8-heap-snapshot': [
+          { filename: `node.heapsnapshot`, label: `Node.js` },
+        ],
+        pprof: [{ filename: `node.pprof`, label: `Node.js` }],
+        speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
+      },
       aliases: [{ id: `typescript`, name: `TypeScript` }],
     },
   ],
   [`php`, { name: `PHP`, formats: [`speedscope`] }],
   [`python`, { name: `Python`, formats: [`pprof`, `speedscope`] }],
   [`ruby`, { name: `Ruby`, formats: [`speedscope`] }],
-  [`rust`, { name: `Rust`, formats: [`pprof`, `speedscope`] }],
+  [
+    `rust`,
+    {
+      name: `Rust`,
+      formats: [`pprof`, `speedscope`],
+      examples: {
+        pprof: [
+          { filename: `rust1.pprof`, label: `1` },
+          { filename: `rust2.pprof`, label: `2` },
+        ],
+      },
+    },
+  ],
 ])
 
 export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(
