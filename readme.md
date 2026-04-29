@@ -39,6 +39,23 @@
   for relative paths, third-party detection, and entry filtering
 - **CLI and API:** usable on the command-line or programmatically
 
+## Languages and formats
+
+<!-- LANGUAGE_MATRIX START -->
+
+| Language                                                                              | Formats                                                                                                                                                    |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [C](docs/languages/c.md)/[C++](docs/languages/cpp.md)                                 | [pprof](docs/formats/pprof.md)                                                                                                                             |
+| [Go](docs/languages/go.md)                                                            | [pprof](docs/formats/pprof.md)                                                                                                                             |
+| [Java](docs/languages/java.md)/[Kotlin](docs/languages/kotlin.md)                     | [pprof](docs/formats/pprof.md), [Speedscope](docs/formats/speedscope.md)                                                                                   |
+| [JavaScript](docs/languages/javascript.md)/[TypeScript](docs/languages/typescript.md) | [V8 CPU profile](docs/formats/v8-cpu-profile.md), [V8 heap profile](docs/formats/v8-heap-profile.md), [V8 heap snapshot](docs/formats/v8-heap-snapshot.md) |
+| [PHP](docs/languages/php.md)                                                          | [Speedscope](docs/formats/speedscope.md)                                                                                                                   |
+| [Python](docs/languages/python.md)                                                    | [pprof](docs/formats/pprof.md), [Speedscope](docs/formats/speedscope.md)                                                                                   |
+| [Ruby](docs/languages/ruby.md)                                                        | [Speedscope](docs/formats/speedscope.md)                                                                                                                   |
+| [Rust](docs/languages/rust.md)                                                        | [pprof](docs/formats/pprof.md), [Speedscope](docs/formats/speedscope.md)                                                                                   |
+
+<!-- LANGUAGE_MATRIX END -->
+
 ## Install
 
 ```sh
@@ -57,10 +74,10 @@ $ profiler-md --help
   Converts performance profiles to human and LLM friendly Markdown.
 
   Usage: profiler-md [options] [file]
+         profiler-md --help [format|language]
 
   Options:
-    -t, --type <type>     Profile type, auto-detected from content if omitted
-                          [pprof|speedscope|v8-cpu-profile|v8-heap-profile|v8-heap-snapshot]
+    -f, --format <format> Profile format, auto-detected from content if omitted
     -o, --output <file>   Output file (default: - for stdout)
     --top-n <n>           Number of top entries to show (default: 20)
     --cwd <path>          Working directory for relative file paths in output
@@ -69,7 +86,10 @@ $ profiler-md --help
     --source-maps <glob>  Apply source maps matching this glob to profile
                           locations; files may be source map JSON or contain
                           inline source map comments (repeatable)
-    --help                Show this help message
+    --help [format|language] Show this help message or topic docs
+
+  Formats: speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, pprof
+  Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, rust
 ```
 
 <!-- CLI_HELP END -->
@@ -122,6 +142,16 @@ console.log(v8CpuProfileToMd(v8CpuProfileData, options))
 console.log(v8HeapProfileToMd(v8HeapProfileData, options))
 console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
 ```
+
+## Examples
+
+- [Node.js CPU profile](examples/node.cpuprofile.md)
+- [Node.js heap profile](examples/node.heapprofile.md)
+- [Node.js heap snapshot](examples/node.heapsnapshot.md)
+- [Node.js pprof](examples/node.pprof.md)
+- [Node.js Speedscope](examples/node.speedscope.json.md)
+- [Deno CPU profile](examples/deno.cpuprofile.md)
+- [Bun CPU profile](examples/bun.cpuprofile.md)
 
 ## Skills
 

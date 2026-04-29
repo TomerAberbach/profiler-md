@@ -1,21 +1,49 @@
 import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
+import { formats, languages } from '../src/cli/formats.ts'
+import { formatTable } from '../src/helpers/markdown.ts'
 
 const check = process.argv.includes(`--check`)
 
-const help = execSync(`node src/cli.ts --help`, { encoding: `utf8` })
+const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
-const readme = readFileSync(`readme.md`, `utf8`)
-const updated = readme.replace(
+const matrix = formatTable(
+  [`Language`, `Formats`],
+  Array.from(
+    languages.entries(),
+    ([id, { name, aliases, formats: langFormats }]) => [
+      [{ id, name }, ...(aliases ?? [])]
+        .map(language => `[${language.name}](docs/languages/${language.id}.md)`)
+        .join(`/`),
+      langFormats
+        .map(
+          format => `[${formats.get(format)!.name}](docs/formats/${format}.md)`,
+        )
+        .join(`, `),
+    ],
+  ),
+)
+
+let readme = readFileSync(`readme.md`, `utf8`)
+
+readme = readme.replace(
   /<!-- CLI_HELP START -->[\S\s]*?<!-- CLI_HELP END -->/u,
   `<!-- CLI_HELP START -->\n\n\`\`\`sh\n$ profiler-md --help\n${help.trimEnd()}\n\`\`\`\n\n<!-- CLI_HELP END -->`,
 )
 
-if (!check) {
-  writeFileSync(`readme.md`, updated)
-} else if (readme !== updated) {
-  process.stderr.write(
-    `readme.md CLI help section is out of date. Run \`pnpm update-readme\` to fix.\n`,
-  )
-  process.exit(1)
+readme = readme.replace(
+  /<!-- LANGUAGE_MATRIX START -->[\S\s]*?<!-- LANGUAGE_MATRIX END -->/u,
+  `<!-- LANGUAGE_MATRIX START -->\n\n${matrix}\n\n<!-- LANGUAGE_MATRIX END -->`,
+)
+
+if (check) {
+  const original = readFileSync(`readme.md`, `utf8`)
+  if (original !== readme) {
+    process.stderr.write(
+      `readme.md is out of date. Run \`pnpm update-readme\` to fix.\n`,
+    )
+    process.exit(1)
+  }
+} else {
+  writeFileSync(`readme.md`, readme)
 }

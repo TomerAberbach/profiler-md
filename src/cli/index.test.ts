@@ -4,35 +4,35 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
-import { fixturePath } from './testing/fixtures.ts'
+import { fixturePath } from '../testing/fixtures.ts'
 
 describe.each([
   {
-    type: `pprof`,
+    format: `pprof`,
     filename: `node.pprof`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
-    type: `speedscope`,
+    format: `speedscope`,
     filename: `node.speedscope.json`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
-    type: `v8-cpu-profile`,
+    format: `v8-cpu-profile`,
     filename: `node.cpuprofile`,
     expectedMarkdown: /^# CPU profile/u,
   },
   {
-    type: `v8-heap-profile`,
+    format: `v8-heap-profile`,
     filename: `node.heapprofile`,
     expectedMarkdown: /^# Heap profile/u,
   },
   {
-    type: `v8-heap-snapshot`,
+    format: `v8-heap-snapshot`,
     filename: `node.heapsnapshot`,
     expectedMarkdown: /^# Heap snapshot/u,
   },
-])(`$type`, ({ type, filename, expectedMarkdown }) => {
+])(`$format`, ({ format, filename, expectedMarkdown }) => {
   const path = fixturePath(filename)
   const fileContent = readFileSync(path)
 
@@ -43,8 +43,8 @@ describe.each([
     expect(stdout).toMatch(expectedMarkdown)
   })
 
-  test.each([`--type`, `-t`])(`reads from stdin when %s is given`, flag => {
-    const { status, stdout } = runCli([flag, type], fileContent)
+  test.each([`--format`, `-f`])(`reads from stdin when %s is given`, flag => {
+    const { status, stdout } = runCli([flag, format], fileContent)
 
     expect(status).toBe(0)
     expect(stdout).toMatch(expectedMarkdown)
@@ -86,7 +86,7 @@ describe.each([
     expect(withCwd).not.toContain(cwd)
   })
 
-  test.skipIf(type === `v8-heap-snapshot`)(
+  test.skipIf(format === `v8-heap-snapshot`)(
     `--third-party changes which paths are considered third-party`,
     () => {
       const { stdout: withDefaultThirdParty } = runCli([path])
@@ -204,9 +204,9 @@ test.each([
     expectedStatus: 2,
   },
   {
-    scenario: `unknown --type value`,
-    args: [`--type`, `unknown-type`],
-    expectedStderr: `unknown profile type "unknown-type"`,
+    scenario: `unknown --format value`,
+    args: [`--format`, `unknown-type`],
+    expectedStderr: `unknown format "unknown-type"`,
     expectedStatus: 2,
   },
   {
@@ -231,4 +231,4 @@ test.each([
 const runCli = (args: string[], input?: string | Uint8Array) =>
   spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
 
-const cliPath = join(import.meta.dirname, `cli.ts`)
+const cliPath = join(import.meta.dirname, `index.ts`)

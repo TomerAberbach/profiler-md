@@ -43,7 +43,8 @@
   },
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "docs"
   ],
   "type": "module",
   "sideEffects": false,
@@ -51,7 +52,7 @@
     "node": ">= 22"
   },
   "bin": {
-    "profiler-md": "./dist/cli.mjs"
+    "profiler-md": "./dist/cli/index.mjs"
   },
   "exports": {
     ".": {

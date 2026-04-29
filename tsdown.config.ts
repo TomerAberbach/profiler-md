@@ -35,7 +35,8 @@ export default defineConfig([
     dts: { emitDtsOnly: true },
   },
   {
-    entry: `src/cli.ts`,
+    entry: `src/cli/index.ts`,
+    outDir: `dist/cli`,
     platform: `node`,
     dts: false,
     minify: false,
