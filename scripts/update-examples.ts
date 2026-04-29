@@ -26,12 +26,17 @@ if (check) {
   }
 }
 
+const otherCwds = new Map([
+  [`rust1.pprof`, `/Users/mike/code/mikecluck`],
+  [`rust2.pprof`, `/Users/mike/code/mikecluck`],
+])
+
 for (const filename of fixtureFilenames) {
   const fixturePath = join(`src/fixtures`, filename)
   const examplePath = join(`examples`, `${filename}.md`)
 
   const markdown = execSync(
-    `node src/cli/index.ts ${fixturePath} --cwd /Users/tomer/Documents/work/code`,
+    `node src/cli/index.ts ${fixturePath} --cwd ${otherCwds.get(filename) ?? `/Users/tomer/Documents/work/code`}`,
     { encoding: `utf8` },
   )
 
