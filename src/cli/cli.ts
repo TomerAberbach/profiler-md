@@ -22,6 +22,8 @@ export const cli = meow(
     --source-maps <glob>  Apply source maps matching this glob to profile
                           locations; files may be source map JSON or contain
                           inline source map comments (repeatable)
+    --no-pager            Disable paging of stdout output (default: paged when
+                          stdout is a TTY, using $PAGER or less)
     --help [format|language] Show this help message or topic docs
 
   Formats: ${formatTopics.join(`, `)}
@@ -39,6 +41,7 @@ export const cli = meow(
       cwd: { type: `string` },
       thirdParty: { type: `string`, isMultiple: true, default: [] as string[] },
       sourceMaps: { type: `string`, isMultiple: true, default: [] as string[] },
+      pager: { type: `boolean`, default: true },
     },
   },
 )

@@ -17,23 +17,24 @@ try {
       cwd,
       thirdParty,
       sourceMaps,
+      pager,
     },
   } = cli
 
   if (help) {
-    await printHelpTopic(filePath)
+    await printHelpTopic(filePath, { pager })
   }
 
   const forcedFormat =
     profileFormat === undefined ? undefined : requireFormat(profileFormat)
   if (!filePath && process.stdin.isTTY) {
-    await printHelpTopic(undefined)
+    await printHelpTopic(undefined, { pager })
   }
 
   const data = await readInput(filePath)
   const options = await buildOptions({ topN, cwd, thirdParty, sourceMaps })
   const markdown = convertToMarkdown(data, forcedFormat, options)
-  await writeOutput(markdown, outputPath)
+  await writeOutput(markdown, outputPath, { pager })
 } catch (error) {
   reportError(error)
 }
