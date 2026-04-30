@@ -80,6 +80,11 @@
   },
   "prettier": "@tomer/prettier-config",
   "dependencies": {
+    "@shikijs/core": "^4.0.2",
+    "@shikijs/engine-oniguruma": "^4.0.2",
+    "@shikijs/langs": "^4.0.2",
+    "@shikijs/themes": "^4.0.2",
+    "ansis": "^4.2.0",
     "convert-source-map": "^2.0.0",
     "meow": "^14.1.0",
     "picomatch": "^4.0.4",

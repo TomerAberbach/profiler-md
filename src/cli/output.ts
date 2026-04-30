@@ -15,13 +15,13 @@ export const writeOutput = async (
   { pager }: WriteOutputOptions,
 ): Promise<void> => {
   const output =
-    (shouldUsePager(outputPath, pager) ? await openPager() : null) ??
+    (pager && isTTYOutput(outputPath) ? await openPager() : null) ??
     (await openOutput(outputPath))
   await output.write(text)
 }
 
-const shouldUsePager = (outputPath: string, pager: boolean): boolean =>
-  pager && outputPath === `-` && Boolean(process.stdout.isTTY)
+export const isTTYOutput = (outputPath: string): boolean =>
+  outputPath === `-` && Boolean(process.stdout.isTTY)
 
 const openOutput = async (outputPath: string): Promise<Output> => {
   if (outputPath === `-`) {

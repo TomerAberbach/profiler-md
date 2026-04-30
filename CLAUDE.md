@@ -10,15 +10,18 @@ profiler-md
 ├── src/
 │   ├── cli/
 │   │   ├── cli.ts            # meow flag/usage/topic definitions
+│   │   ├── color.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── convert.ts        # Format dispatch and auto-detection
 │   │   ├── error.ts          # CliError class and top-level error reporting
 │   │   ├── formats.ts        # Format and language registry (must register each)
 │   │   ├── help.ts           # Prints CLI help and per-topic docs
+│   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
 │   │   ├── index.ts          # CLI entry point that orchestrates the run
 │   │   ├── input.ts          # Reads stdin or file, decompresses gzip/brotli
 │   │   ├── options.ts        # Builds API options from CLI flags
 │   │   ├── output.ts         # Writes Markdown to file or stdout (optionally paged)
-│   │   └── pager.ts          # Spawns $PAGER or `less` for stdout output
+│   │   ├── pager.ts          # Spawns $PAGER or `less` for stdout output
+│   │   └── theme-kindling.ts # Custom Shiki theme for syntax highlighting
 │   ├── index.ts              # API entry point (must export each format)
 │   │
 │   ├── formats/              # Individual profile format implementations
@@ -55,7 +58,7 @@ profiler-md
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
 │   ├── update-examples.ts    # Update the examples/ directory based on src/fixtures/
-│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/topics.ts
+│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/format.ts
 │
 ├── examples/                 # Markdown generated from src/fixtures/* using `pnpm update-examples`
 └── readme.md                 # CLI and matrix sections generated using `pnpm update-readme`
@@ -73,7 +76,7 @@ pnpm coverage
 
 # Update `examples/` from `src/fixtures/`
 pnpm update-examples
-# Update readme (CLI help + language matrix) from src/topics.ts and `--help`
+# Update readme (CLI help + language matrix) from src/cli/formats.ts and `--help`
 pnpm update-readme
 
 # Benchmark the CLI with the given args
@@ -107,6 +110,8 @@ pnpm bench ./src/fixtures/node.cpuprofile
   would improve performance
 - Use sparse arrays over `Map<number, T>` for performance for dense or
   moderately sparse data, which is often the case for sequential IDs
+- NEVER assume parsed profile data contains sequential IDs unless it's mandated
+  by the profile format's spec
 
 ### Formatting
 
