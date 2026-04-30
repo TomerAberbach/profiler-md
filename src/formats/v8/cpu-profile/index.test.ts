@@ -142,7 +142,7 @@ test(`v8CpuProfileToMd merges nodes with the same identity`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                      |
     | ----: | ----: | ------: | ----------------------------------------------- |
@@ -283,7 +283,7 @@ test(`v8CpuProfileToMd merges positionTicks across nodes with the same identity`
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                      |
     | ----: | ----: | ------: | ----------------------------------------------- |
@@ -379,7 +379,7 @@ test(`v8CpuProfileToMd deduplicates total time for recursive functions`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                             |
     | -----: | ----: | ------: | -------------------------------------- |
@@ -523,7 +523,7 @@ test(`v8CpuProfileToMd sums positionTicks on the same line across merged nodes`,
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                      |
     | ----: | ----: | ------: | ----------------------------------------------- |
@@ -639,7 +639,7 @@ test(`v8CpuProfileToMd handles anonymous functions`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                                                               |
     | -----: | ----: | ------: | ------------------------------------------------------------------------ |
@@ -761,7 +761,7 @@ test(`v8CpuProfileToMd categorizes own, third-party, and native code`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     Common call stack: \`ownFunc\` (src/index.ts:1:1)
 

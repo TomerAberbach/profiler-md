@@ -4,7 +4,7 @@ import type { AsyncProfileData, BinaryProfileData } from '../../options.ts'
 
 /** A metric sampled over time in a pprof. */
 export type PprofValueType = {
-  /** The metric's dimension (e.g. time) */
+  /** What is being measured (e.g. time) */
   type: string
 
   /** The metric's unit (e.g. microseconds) */
@@ -48,7 +48,7 @@ export type PprofLocation = {
   }[]
 }
 
-/** A single pprof profiling observation. */
+/** A single pprof sample. */
 export type PprofSample = {
   /**
    * The call stack at the profile sample in callee-to-caller order.

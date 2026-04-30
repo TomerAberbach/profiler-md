@@ -2,7 +2,7 @@ import type { ProfileLocation } from '../location.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
-  attributeGroupRetainedSizes,
+  attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
 
@@ -182,13 +182,13 @@ export class SnapshotAggregator {
   }
 
   public aggregate(): AggregatedHeapSnapshot {
-    attributeGroupRetainedSizes(
+    attributeCategoryRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToConstructorIndex,
       this.#constructors,
     )
-    attributeGroupRetainedSizes(
+    attributeCategoryRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
       this.#nodeOrdinalToClosureIndex,

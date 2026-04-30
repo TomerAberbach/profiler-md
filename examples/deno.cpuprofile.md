@@ -460,7 +460,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their top frame.
+Call stacks ranked by time spent in their leaf frame.
 
 Common call stack: `uneval` (uneval/src/index.ts:75:16) ← `(anonymous)` (uneval/scripts/profile.ts:1:1)
 

@@ -145,7 +145,7 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |     % |  Size | Samples | Call stack                                      |
     | ----: | ----: | ------: | ----------------------------------------------- |
@@ -261,7 +261,7 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |      % |  Size | Samples | Call stack                                                               |
     | -----: | ----: | ------: | ------------------------------------------------------------------------ |
@@ -355,7 +355,7 @@ test(`v8HeapProfileToMd deduplicates total size for recursive functions`, () => 
 
     ## Hottest call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |      % |  Size | Samples | Call stack                             |
     | -----: | ----: | ------: | -------------------------------------- |
@@ -481,7 +481,7 @@ test(`v8HeapProfileToMd categorizes own, third-party, and native code`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     Common call stack: \`ownFunc\` (src/index.ts:1:1)
 

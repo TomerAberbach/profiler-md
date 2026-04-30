@@ -146,7 +146,7 @@ test(`pprofToMd basic two-function call stack`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                                  |
     | -----: | ----: | ------: | ------------------------------------------- |
@@ -295,7 +295,7 @@ test(`pprofToMd handles inlined calls, multiple lines in a location`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                                   |
     | -----: | ----: | ------: | -------------------------------------------- |

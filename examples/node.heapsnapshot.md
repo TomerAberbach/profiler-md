@@ -1,8 +1,8 @@
 # Heap snapshot
 
-Allocated 117 MB across 1,038,922 objects and 4,793,095 references.
+Allocated 117 MB across 1,038,922 nodes and 4,793,095 edges.
 
-| Category            |     % |    Size | Objects |
+| Category            |     % |    Size |   Nodes |
 | ------------------- | ----: | ------: | ------: |
 | string              | 40.0% | 46.9 MB | 179,122 |
 | code                | 19.1% | 22.4 MB | 262,568 |
@@ -24,7 +24,7 @@ Allocated 117 MB across 1,038,922 objects and 4,793,095 references.
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
+Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
 
 |    % |    Size | Instances | Constructor                                 | Location                                                                                                                                                               |
 | ---: | ------: | --------: | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -235,7 +235,7 @@ Instances ranked by contribution to each constructor's self size.
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
+Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
 |     % |    Size | Instances | Constructor              | Location                                                                                                                                                                |
 | ----: | ------: | --------: | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -462,7 +462,7 @@ Closures ranked by bytes that would be freed if the closure were garbage collect
 
 ### Retained
 
-Objects ranked by contribution to each closure's retained size.
+Nodes ranked by contribution to each closure's retained size.
 
 #### `get` (website/node_modules/.pnpm/playwright-core@1.58.2/node_modules/playwright-core/lib/mcpBundleImpl/index.js:67:10438)
 

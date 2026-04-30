@@ -101,20 +101,20 @@ test(`jscHeapSnapshotToMd renders all sections`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# Heap snapshot
 
-    Allocated 460 B across 5 objects and 4 references.
+    Allocated 460 B across 5 nodes and 4 edges.
 
-    | Category |     % |  Size | Objects |
-    | -------- | ----: | ----: | ------: |
-    | object   | 60.9% | 280 B |       2 |
-    | closure  | 26.1% | 120 B |       1 |
-    | string   | 13.0% |  60 B |       1 |
-    | internal |  0.0% |   0 B |       1 |
+    | Category |     % |  Size | Nodes |
+    | -------- | ----: | ----: | ----: |
+    | object   | 60.9% | 280 B |     2 |
+    | closure  | 26.1% | 120 B |     1 |
+    | string   | 13.0% |  60 B |     1 |
+    | internal |  0.0% |   0 B |     1 |
 
     ## Largest constructors
 
     ### Self size
 
-    Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
+    Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
 
     |     % |  Size | Instances | Constructor |
     | ----: | ----: | --------: | ----------- |
@@ -139,7 +139,7 @@ test(`jscHeapSnapshotToMd renders all sections`, () => {
 
     ### Retained size
 
-    Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
+    Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
     |     % |  Size | Instances | Constructor |
     | ----: | ----: | --------: | ----------- |

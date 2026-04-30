@@ -298,7 +298,7 @@ Callees ranked by contribution to each function's total size. Callee attribution
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their top frame.
+Call stacks ranked by bytes allocated in their leaf frame.
 
 Common call stack: `(anonymous)`
 

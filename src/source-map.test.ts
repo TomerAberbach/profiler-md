@@ -210,7 +210,7 @@ test(`sourceMapProfileLocation returns original location when no entry matches`,
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapProfileLocation returns input when position has no mapping`, () => {
+test(`sourceMapProfileLocation returns input when location has no mapping`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     url: new URL(url),

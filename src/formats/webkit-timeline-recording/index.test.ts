@@ -187,7 +187,7 @@ test(`webkitTimelineRecordingToMd basic two-function stack`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |   Time | Samples | Call stack                                |
     | ----: | -----: | ------: | ----------------------------------------- |
@@ -303,7 +303,7 @@ test(`webkitTimelineRecordingToMd recursive function`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                         |
     | ----: | ----: | ------: | -------------------------------------------------- |
@@ -401,7 +401,7 @@ test(`webkitTimelineRecordingToMd categorizes third-party and URL frames`, () =>
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     Common call stack: \`main\` (src/index.ts:1:1)
 
@@ -506,7 +506,7 @@ test(`webkitTimelineRecordingToMd uses expressionLocation for line breakdown`, (
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |   Time | Samples | Call stack                                |
     | -----: | -----: | ------: | ----------------------------------------- |

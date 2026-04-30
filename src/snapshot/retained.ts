@@ -32,18 +32,19 @@ export const computeNodeOrdinalToRetainedSize = (
 }
 
 /**
- * Attributes retained sizes to groups of nodes without double-counting.
+ * Attributes retained sizes to categories of nodes without double-counting.
  *
- * Summing per-node retained sizes across all instances of a group over-counts
- * when one instance dominates another from the same group (the dominated node's
- * memory is already included in the dominator's retained size).
+ * Summing per-node retained sizes across all instances of a category
+ * over-counts when one instance dominates another from the same category (the
+ * dominated node's memory is already included in the dominator's retained
+ * size).
  *
  * This function correctly attributes by doing a DFS of the dominator tree and
- * only crediting the outermost instance of each group on any root-to-leaf path.
- * Inner instances are entirely contained within the outer one's retained set,
- * so they add nothing.
+ * only crediting the outermost instance of each category on any root-to-leaf
+ * path. Inner instances are entirely contained within the outer one's retained
+ * set, so they add nothing.
  */
-export const attributeGroupRetainedSizes = (
+export const attributeCategoryRetainedSizes = (
   nodeOrdinalToRetainedSize: Float64Array,
   {
     immediateDominateeOrdinalToStartOffset,
@@ -54,9 +55,9 @@ export const attributeGroupRetainedSizes = (
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
-  // Track same-group ancestor depth. Only the outermost (depth=0) instance
+  // Track same-category ancestor depth. Only the outermost (depth=0) instance
   // on any root-to-leaf path contributes its retained size.
-  const groupPathDepth = new Int32Array(aggregatedNodes.length)
+  const categoryPathDepth = new Int32Array(aggregatedNodes.length)
 
   // DFS with flat Int32Array stack.
   // Convention: value >= 0 = entering node, ~value (always < 0) = exiting node.
@@ -70,7 +71,8 @@ export const attributeGroupRetainedSizes = (
       const nodeOrdinal = ~encodedNodeOrdinal
       const constructorIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
       if (constructorIndex !== -1) {
-        groupPathDepth[constructorIndex] = groupPathDepth[constructorIndex]! - 1
+        categoryPathDepth[constructorIndex] =
+          categoryPathDepth[constructorIndex]! - 1
       }
       continue
     }
@@ -78,12 +80,12 @@ export const attributeGroupRetainedSizes = (
     const nodeOrdinal = encodedNodeOrdinal
     const aggregatedNodeIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
     if (aggregatedNodeIndex !== -1) {
-      const depth = groupPathDepth[aggregatedNodeIndex]!
+      const depth = categoryPathDepth[aggregatedNodeIndex]!
       if (depth === 0) {
         aggregatedNodes[aggregatedNodeIndex]!.retainedSize +=
           nodeOrdinalToRetainedSize[nodeOrdinal]!
       }
-      groupPathDepth[aggregatedNodeIndex] = depth + 1
+      categoryPathDepth[aggregatedNodeIndex] = depth + 1
       stack[topOffset++] = ~nodeOrdinal
     }
 
