@@ -1,3 +1,3 @@
-export * from './format.ts'
+export * from './aggregate.ts'
 export * from './metric.ts'
-export * from './summarize.ts'
+export * from './render.ts'

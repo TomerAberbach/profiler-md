@@ -9,14 +9,14 @@ import { formatTable, inlineCode } from '../../../helpers/markdown.ts'
 import { formatProfileLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import type {
-  SummarizedClosure,
-  SummarizedConstructor,
-  SummarizedHeapSnapshot,
-  SummarizedSnapshotNode,
-} from './summarize.ts'
+  AggregatedClosure,
+  AggregatedConstructor,
+  AggregatedHeapSnapshot,
+  AggregatedSnapshotNode,
+} from './aggregate.ts'
 
-export const formatV8HeapSnapshot = (
-  snapshot: SummarizedHeapSnapshot,
+export const renderV8HeapSnapshot = (
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string =>
   `${[
@@ -34,35 +34,33 @@ const formatOverallSummary = ({
   nodeCount,
   edgeCount,
   nodeCategoryToStats,
-}: SummarizedHeapSnapshot): string => {
-  const hottestObjectCategories = [...nodeCategoryToStats].sort(
+}: AggregatedHeapSnapshot): string => {
+  const topObjectCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
   return [
     `Allocated ${formatBytes(totalSize)} across ${formatCount(
       nodeCount,
-    )} objects and ${formatCount(edgeCount)} references.`,
+    )} nodes and ${formatCount(edgeCount)} edges.`,
     formatTable(
       [
         `Category`,
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
-        { content: `Objects`, align: `right` },
+        { content: `Nodes`, align: `right` },
       ],
-      hottestObjectCategories.map(
-        ([type, { size, nodeCount: objectCount }]) => [
-          type,
-          formatPercent(size / totalSize),
-          formatBytes(size),
-          formatCount(objectCount),
-        ],
-      ),
+      topObjectCategories.map(([type, { size, nodeCount: objectCount }]) => [
+        type,
+        formatPercent(size / totalSize),
+        formatBytes(size),
+        formatCount(objectCount),
+      ]),
     ),
   ].join(`\n\n`)
 }
 
 const formatLargestConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string =>
   [
@@ -72,7 +70,7 @@ const formatLargestConstructors = (
   ].join(`\n\n`)
 
 const formatLargestSelfSizeConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, constructors } = snapshot
@@ -118,8 +116,8 @@ const formatLargestSelfSizeConstructors = (
 }
 
 const formatLargestSelfSizeConstructorInstances = (
-  constructor: SummarizedConstructor,
-  { retainerPathOf }: SummarizedHeapSnapshot,
+  constructor: AggregatedConstructor,
+  { retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath(
@@ -155,7 +153,7 @@ const formatLargestSelfSizeConstructorInstances = (
 }
 
 const formatLargestRetainedSizeConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, constructors } = snapshot
@@ -205,8 +203,8 @@ const formatLargestRetainedSizeConstructors = (
 }
 
 const formatLargestRetainedSizeConstructorInstances = (
-  constructor: SummarizedConstructor,
-  { retainerPathOf }: SummarizedHeapSnapshot,
+  constructor: AggregatedConstructor,
+  { retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath(
@@ -257,8 +255,8 @@ type InstanceGroup = {
 }
 
 const selectLargestInstancesByRetainerPath = (
-  instances: SummarizedSnapshotNode[],
-  sizeOf: (instance: SummarizedSnapshotNode) => number,
+  instances: AggregatedSnapshotNode[],
+  sizeOf: (instance: AggregatedSnapshotNode) => number,
   retainerPathOf: (nodeOrdinal: number) => string,
   topN: number,
 ): InstanceGroup[] => {
@@ -293,7 +291,7 @@ const selectLargestInstancesByRetainerPath = (
 }
 
 const formatLargestClosures = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string => {
   const { totalSize, closures, retainerPathOf } = snapshot
@@ -306,7 +304,7 @@ const formatLargestClosures = (
   )
 
   const retainedSections = largestClosures
-    .map(closure => formatClosureRetainedObjects(closure, snapshot, options))
+    .map(closure => formatClosureRetainedNodes(closure, snapshot, options))
     .filter(section => section !== undefined)
 
   return [
@@ -335,20 +333,20 @@ const formatLargestClosures = (
     ...(retainedSections.length > 0
       ? [
           `### Retained`,
-          `Objects ranked by contribution to each closure's retained size.`,
+          `Nodes ranked by contribution to each closure's retained size.`,
         ]
       : []),
     ...retainedSections,
   ].join(`\n\n`)
 }
 
-const formatClosureRetainedObjects = (
-  closure: SummarizedClosure,
-  { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
+const formatClosureRetainedNodes = (
+  closure: AggregatedClosure,
+  { retainedNodesOf, retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string | undefined => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
-  const allRetainedNodes: SummarizedSnapshotNode[] = []
+  const allRetainedNodes: AggregatedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
     for (const node of retainedNodesOf(instanceId)) {
       const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
@@ -394,7 +392,7 @@ const formatClosureRetainedObjects = (
 }
 
 const formatLargestStrings = (
-  { totalSize, strings, retainerPathOf }: SummarizedHeapSnapshot,
+  { totalSize, strings, retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string => {
   const largestStrings = selectTopN(

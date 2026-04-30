@@ -10,16 +10,16 @@ import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
 import { formatProfileLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { Profile, ProfileFunction } from './aggregate.ts'
+import { findCommonCallStack } from './aggregate.ts'
 import type { Metric } from './metric.ts'
-import type { Profile, ProfileFunction } from './summarize.ts'
-import { findCommonCallStack } from './summarize.ts'
 
-type FormatProfileOptions = NormalizedProfileToMdOptions & {
+type RenderProfileOptions = NormalizedProfileToMdOptions & {
   /** The Markdown heading level to use. */
   headingLevel: number
 }
 
-export const formatProfile = (
+export const renderProfile = (
   profile: Profile,
   options: NormalizedProfileToMdOptions,
 ): string => {
@@ -78,7 +78,7 @@ const formatCategoryTable = ({
   totalValues,
   categoryToMetrics,
 }: Profile): string => {
-  const hottestCategories = [...categoryToMetrics].sort(
+  const topCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) => metrics2.values[0]! - metrics1.values[0]!,
   )
 
@@ -92,7 +92,7 @@ const formatCategoryTable = ({
       })),
       { content: `Samples`, align: `right` },
     ],
-    hottestCategories.map(([category, { values, sampleCount }]) => [
+    topCategories.map(([category, { values, sampleCount }]) => [
       category,
       formatPercent(values[0]! / totalValues[0]!),
       ...metrics.map((metric, index) => formatValue(values[index]!, metric)),
@@ -119,7 +119,7 @@ const formatSamplingInterval = (
 
 const formatMetricSections = (
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string =>
   profile.metrics
     .flatMap((metric, index) => {
@@ -139,41 +139,41 @@ const formatMetricSections = (
         }
       }
 
-      const callStacksSection = formatHottestCallStacks(
+      const callStacksSection = formatTopCallStacks(
         index,
         profile,
         sectionOptions,
       )
       return [
         ...sections,
-        formatHottestFunctions(index, profile, sectionOptions),
+        formatTopFunctions(index, profile, sectionOptions),
         ...(callStacksSection === undefined ? [] : [callStacksSection]),
       ]
     })
     .join(`\n\n`)
 
-const formatHottestFunctions = (
+const formatTopFunctions = (
   metricIndex: number,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string => {
   const subsectionOptions = {
     ...options,
     headingLevel: options.headingLevel + 1,
   }
   return [
-    formatHeading(options.headingLevel, `Hottest functions`),
-    formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
-    formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
+    formatHeading(options.headingLevel, `Top functions`),
+    formatTopSelfFunctions(metricIndex, profile, subsectionOptions),
+    formatTopTotalFunctions(metricIndex, profile, subsectionOptions),
   ].join(`\n\n`)
 }
 
-const formatHottestSelfFunctions = (
+const formatTopSelfFunctions = (
   metricIndex: number,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string => {
-  const hottestFunctions = selectTopN(
+  const topFunctions = selectTopN(
     profile.functions.filter(
       func => options.includeEntry(func) && func.selfValues[metricIndex]! > 0,
     ),
@@ -185,14 +185,12 @@ const formatHottestSelfFunctions = (
     ...options,
     headingLevel: options.headingLevel + 2,
   }
-  const hottestLinesSections = hottestFunctions
+  const topLinesSections = topFunctions
     .filter(func => func.lineToMetrics.size > 0)
+    .map(func => formatTopLines(metricIndex, func, profile, subsectionOptions))
+  const topCallersSections = topFunctions
     .map(func =>
-      formatHottestLines(metricIndex, func, profile, subsectionOptions),
-    )
-  const hottestCallersSections = hottestFunctions
-    .map(func =>
-      formatHottestCallers(metricIndex, func, profile, subsectionOptions),
+      formatTopCallers(metricIndex, func, profile, subsectionOptions),
     )
     .filter(section => section !== undefined)
 
@@ -211,7 +209,7 @@ const formatHottestSelfFunctions = (
         `Function`,
         `Location`,
       ],
-      hottestFunctions.map(func => [
+      topFunctions.map(func => [
         formatPercent(
           func.selfValues[metricIndex]! / profile.totalValues[metricIndex]!,
         ),
@@ -221,31 +219,31 @@ const formatHottestSelfFunctions = (
         formatProfileLocation(func.location, options),
       ]),
     ),
-    ...(hottestLinesSections.length > 0
+    ...(topLinesSections.length > 0
       ? [
           formatHeading(options.headingLevel + 1, `Lines`),
           `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
         ]
       : []),
-    ...hottestLinesSections,
-    ...(hottestCallersSections.length > 0
+    ...topLinesSections,
+    ...(topCallersSections.length > 0
       ? [
           formatHeading(options.headingLevel + 1, `Callers`),
           `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Caller attribution may be imprecise due to inlining.`,
         ]
       : []),
-    ...hottestCallersSections,
+    ...topCallersSections,
   ].join(`\n\n`)
 }
 
-const formatHottestLines = (
+const formatTopLines = (
   metricIndex: number,
   func: ProfileFunction,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string => {
   const selfValue = func.selfValues[metricIndex]!
-  const hottestLines = selectTopN(
+  const topLines = selectTopN(
     [...func.lineToMetrics],
     Math.ceil(options.topN / 4),
     ([, metrics]) => metrics.values[metricIndex]!,
@@ -270,7 +268,7 @@ const formatHottestLines = (
         { content: `Samples`, align: `right` },
         `Location`,
       ],
-      hottestLines.map(([line, stats]) => [
+      topLines.map(([line, stats]) => [
         formatPercent(stats.values[metricIndex]! / selfValue),
         formatValue(stats.values[metricIndex]!, metric),
         formatCount(stats.sampleCount),
@@ -285,14 +283,14 @@ const formatHottestLines = (
   ].join(`\n\n`)
 }
 
-const formatHottestCallers = (
+const formatTopCallers = (
   metricIndex: number,
   func: ProfileFunction,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string | undefined => {
   const selfValue = func.selfValues[metricIndex]!
-  const hottestCallers = selectTopN(
+  const topCallers = selectTopN(
     [...func.callerIdToMetrics.values()].filter(
       entry =>
         options.includeEntry(entry.caller) &&
@@ -302,7 +300,7 @@ const formatHottestCallers = (
     entry => entry.selfValues[metricIndex]!,
   )
 
-  if (hottestCallers.length === 0) {
+  if (topCallers.length === 0) {
     return undefined
   }
 
@@ -326,7 +324,7 @@ const formatHottestCallers = (
         `Caller`,
         `Location`,
       ],
-      hottestCallers.map(({ caller, selfValues, selfSampleCount }) => [
+      topCallers.map(({ caller, selfValues, selfSampleCount }) => [
         formatPercent(selfValues[metricIndex]! / selfValue),
         formatValue(selfValues[metricIndex]!, metric),
         formatCount(selfSampleCount),
@@ -337,13 +335,13 @@ const formatHottestCallers = (
   ].join(`\n\n`)
 }
 
-const formatHottestTotalFunctions = (
+const formatTopTotalFunctions = (
   metricIndex: number,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string => {
   const totalValue = profile.totalValues[metricIndex]!
-  const hottestFunctions = selectTopN(
+  const topFunctions = selectTopN(
     profile.functions.filter(
       func => options.includeEntry(func) && func.totalValues[metricIndex]! > 0,
     ),
@@ -355,9 +353,9 @@ const formatHottestTotalFunctions = (
     ...options,
     headingLevel: options.headingLevel + 2,
   }
-  const calleeSections = hottestFunctions
+  const calleeSections = topFunctions
     .map(func =>
-      formatHottestCallees(metricIndex, func, profile, subsectionOptions),
+      formatTopCallees(metricIndex, func, profile, subsectionOptions),
     )
     .filter(section => section !== undefined)
 
@@ -376,7 +374,7 @@ const formatHottestTotalFunctions = (
         `Function`,
         `Location`,
       ],
-      hottestFunctions.map(func => [
+      topFunctions.map(func => [
         formatPercent(func.totalValues[metricIndex]! / totalValue),
         formatValue(func.totalValues[metricIndex]!, metric),
         formatCount(func.totalSampleCount),
@@ -394,14 +392,14 @@ const formatHottestTotalFunctions = (
   ].join(`\n\n`)
 }
 
-const formatHottestCallees = (
+const formatTopCallees = (
   metricIndex: number,
   func: ProfileFunction,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string | undefined => {
   const totalValue = func.totalValues[metricIndex]!
-  const hottestCallees = selectTopN(
+  const topCallees = selectTopN(
     [...func.calleeIdToMetrics.values()].filter(
       entry =>
         options.includeEntry(entry.callee) &&
@@ -410,7 +408,7 @@ const formatHottestCallees = (
     Math.ceil(options.topN / 4),
     entry => entry.totalValues[metricIndex]!,
   )
-  if (hottestCallees.length === 0) {
+  if (topCallees.length === 0) {
     return undefined
   }
 
@@ -434,7 +432,7 @@ const formatHottestCallees = (
         `Callee`,
         `Location`,
       ],
-      hottestCallees.map(({ callee, totalValues, totalSampleCount }) => [
+      topCallees.map(({ callee, totalValues, totalSampleCount }) => [
         formatPercent(totalValues[metricIndex]! / totalValue),
         formatValue(totalValues[metricIndex]!, metric),
         formatCount(totalSampleCount),
@@ -445,13 +443,13 @@ const formatHottestCallees = (
   ].join(`\n\n`)
 }
 
-const formatHottestCallStacks = (
+const formatTopCallStacks = (
   metricIndex: number,
   profile: Profile,
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string | undefined => {
   const totalValue = profile.totalValues[metricIndex]!
-  const hottestCallStacks = selectTopN(
+  const topCallStacks = selectTopN(
     profile.callStacks
       .map(callStack => ({
         ...callStack,
@@ -461,16 +459,16 @@ const formatHottestCallStacks = (
     options.topN,
     callStack => callStack.selfValues[metricIndex]!,
   )
-  if (hottestCallStacks.length === 0) {
+  if (topCallStacks.length === 0) {
     return undefined
   }
 
   const metric = profile.metrics[metricIndex]!
-  const commonCallStack = findCommonCallStack(hottestCallStacks)
+  const commonCallStack = findCommonCallStack(topCallStacks)
 
   return [
-    formatHeading(options.headingLevel, `Hottest call stacks`),
-    `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their top frame.`,
+    formatHeading(options.headingLevel, `Top call stacks`),
+    `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
     ...(commonCallStack.length > 0
       ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
       : []),
@@ -484,7 +482,7 @@ const formatHottestCallStacks = (
         { content: `Samples`, align: `right` },
         `Call stack`,
       ],
-      hottestCallStacks.map(({ frames, selfValues, selfSampleCount }) => [
+      topCallStacks.map(({ frames, selfValues, selfSampleCount }) => [
         formatPercent(selfValues[metricIndex]! / totalValue),
         formatValue(selfValues[metricIndex]!, metric),
         formatCount(selfSampleCount),
@@ -501,7 +499,7 @@ const formatHottestCallStacks = (
 
 const formatCallStack = (
   nodes: ProfileFunction[],
-  options: FormatProfileOptions,
+  options: RenderProfileOptions,
 ): string =>
   nodes
     .map((node, index) => {

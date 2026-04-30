@@ -95,7 +95,7 @@ test(`pprofToMd basic two-function call stack`, () => {
     | -------- | -----: | ----: | ------: |
     | ours     | 100.0% | 0.2ms |       2 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -144,9 +144,9 @@ test(`pprofToMd basic two-function call stack`, () => {
     | -----: | ----: | ------: | ------- | ---------- |
     | 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                                  |
     | -----: | ----: | ------: | ------------------------------------------- |
@@ -244,7 +244,7 @@ test(`pprofToMd handles inlined calls, multiple lines in a location`, () => {
     | -------- | -----: | ----: | ------: |
     | ours     | 100.0% | 0.1ms |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -293,9 +293,9 @@ test(`pprofToMd handles inlined calls, multiple lines in a location`, () => {
     | -----: | ----: | ------: | ------- | ----------- |
     | 100.0% | 0.1ms |       1 | \`funcB\` | src/b.ts:10 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |      % |  Time | Samples | Call stack                                   |
     | -----: | ----: | ------: | -------------------------------------------- |

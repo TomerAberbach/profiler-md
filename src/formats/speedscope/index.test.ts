@@ -120,7 +120,7 @@ test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () =
     | -------- | -----: | -----: | ------: |
     | ours     | 100.0% | 35.0ms |       3 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -160,9 +160,9 @@ test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () =
     | ----: | -----: | ------: | ------ | --------------- |
     | 85.7% | 30.0ms |       2 | \`work\` | src/index.ts:10 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |   Time | Samples | Call stack                            |
     | ----: | -----: | ------: | ------------------------------------- |
@@ -200,7 +200,7 @@ test(`speedscopeProfileToMd evented profile with durations computed from open/cl
     | -------- | -----: | -----: | ------: |
     | ours     | 100.0% | 15.0ms |       3 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -240,9 +240,9 @@ test(`speedscopeProfileToMd evented profile with durations computed from open/cl
     | ----: | ----: | ------: | ------ | --------------- |
     | 33.3% | 5.0ms |       1 | \`work\` | src/index.ts:10 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                            |
     | ----: | ----: | ------: | ------------------------------------- |
@@ -274,7 +274,7 @@ test(`speedscopeProfileToMd multi-profile file`, () => {
     | -------- | -----: | ------: | ------: |
     | ours     | 100.0% | 100.0ms |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -301,7 +301,7 @@ test(`speedscopeProfileToMd multi-profile file`, () => {
     | -------- | -----: | ------: | ------: |
     | ours     | 100.0% | 200.0ms |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -345,7 +345,7 @@ test(`speedscopeProfileToMd sampled profile with zero-weight samples are skipped
     | -------- | -----: | -----: | ------: |
     | ours     | 100.0% | 30.0ms |       2 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -391,7 +391,7 @@ test(`speedscopeProfileToMd evented profile with recursive function`, () => {
     | -------- | -----: | -----: | ------: |
     | ours     | 100.0% | 15.0ms |       3 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self time
 
@@ -429,9 +429,9 @@ test(`speedscopeProfileToMd evented profile with recursive function`, () => {
     | ----: | ----: | ------: | ----------- | -------------- |
     | 33.3% | 5.0ms |       1 | \`factorial\` | src/index.ts:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                     |
     | ----: | ----: | ------: | ---------------------------------------------- |

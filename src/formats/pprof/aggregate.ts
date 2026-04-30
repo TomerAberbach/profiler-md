@@ -3,7 +3,7 @@ import { determineMetric, ProfileBuilder } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type { Pprof, PprofFunction } from './parse.ts'
 
-export const summarizePprof = (
+export const aggregatePprof = (
   { valueTypes, samples, locations, functions }: Pprof,
   options: NormalizedProfileToMdOptions,
 ): Profile => {

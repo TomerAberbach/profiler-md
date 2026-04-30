@@ -28,14 +28,14 @@ profiler-md
 │   │   ├── index.ts          # Barrel file (must export each format)
 │   │   └── <name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
-│   │       ├── summarize.ts  # Aggregates profile data
-│   │       ├── format.ts     # Formats aggregated profile data as Markdown
+│   │       ├── aggregate.ts  # Aggregates profile data
+│   │       ├── render.ts     # Renders aggregated profile data as Markdown
 │   │       └── index.ts      # End-to-end conversion using the above
 │   │
 │   ├── profile/              # Common sample-based profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
-│   │   ├── summarize.ts      # Generic profile data aggregation builder
-│   │   ├── format.ts         # Generic profile to Markdown formatting
+│   │   ├── aggregate.ts      # Generic profile data aggregation builder
+│   │   ├── render.ts         # Generic profile to Markdown rendering
 │   │   └── index.ts          # Barrel file
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
@@ -103,7 +103,7 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - Simply cast untyped profile data to typed data for performance. Only validate
   when it's necessary to make progress
 
-### Summarization
+### Aggregation
 
 - NEVER sort, filter by `topN`, or perform any other formatting related logic
 - Use sequential IDs, `TypedArray`s, and compressed sparse row format when it
@@ -113,6 +113,6 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - NEVER assume parsed profile data contains sequential IDs unless it's mandated
   by the profile format's spec
 
-### Formatting
+### Rendering
 
 - Use heaps to avoid fully sorting data when possible

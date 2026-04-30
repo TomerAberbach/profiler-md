@@ -10,7 +10,7 @@ import type {
 
 type SpeedscopeNode = SpeedscopeFrame & { id: number }
 
-export const summarizeSpeedscopeProfile = (
+export const aggregateSpeedscopeProfile = (
   profile: SpeedscopeProfile,
   options: NormalizedProfileToMdOptions,
 ): Profile[] => {
@@ -20,12 +20,12 @@ export const summarizeSpeedscopeProfile = (
   }))
   return profile.profiles.map(profile =>
     profile.type === `sampled`
-      ? summarizeSampled(profile, nodes, options)
-      : summarizeEvented(profile, nodes, options),
+      ? aggregateSampled(profile, nodes, options)
+      : aggregateEvented(profile, nodes, options),
   )
 }
 
-const summarizeSampled = (
+const aggregateSampled = (
   profile: SpeedscopeSampledProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
@@ -53,7 +53,7 @@ const summarizeSampled = (
   return profileBuilder.build()
 }
 
-const summarizeEvented = (
+const aggregateEvented = (
   profile: SpeedscopeEventedProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,

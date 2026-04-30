@@ -30,7 +30,7 @@ export type Metric = (
   | {
       type: `custom`
 
-      /** The unit of measurement for the metric. */
+      /** The unit for the metric. */
       unit: string
     }
 ) & { phrases: MetricPhrases }

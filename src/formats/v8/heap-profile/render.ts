@@ -1,8 +1,8 @@
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import { renderProfile } from '../../../profile/index.ts'
 import type { Profile } from '../../../profile/index.ts'
-import { formatProfile } from '../../../profile/index.ts'
 
-export const formatV8CpuProfile = (
+export const renderV8HeapProfile = (
   profile: Profile,
   options: NormalizedProfileToMdOptions,
-): string => formatProfile(profile, options)
+): string => renderProfile(profile, options)

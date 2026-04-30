@@ -25,7 +25,7 @@ export type V8CpuProfileNode = {
   /** Number of samples where this node was at the top of the stack. */
   hitCount: number
 
-  /** The call frame this node represents. */
+  /** The frame this node represents. */
   callFrame: V8CallFrame
 
   /** Child node IDs. */

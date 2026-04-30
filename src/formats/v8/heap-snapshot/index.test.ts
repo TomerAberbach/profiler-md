@@ -214,15 +214,15 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# Heap snapshot
 
-    Allocated 502 B across 8 objects and 10 references.
+    Allocated 502 B across 8 nodes and 10 edges.
 
-    | Category  |     % |  Size | Objects |
-    | --------- | ----: | ----: | ------: |
-    | object    | 55.8% | 280 B |       2 |
-    | string    | 21.9% | 110 B |       2 |
-    | closure   | 12.7% |  64 B |       1 |
-    | code      |  9.6% |  48 B |       1 |
-    | synthetic |  0.0% |   0 B |       2 |
+    | Category  |     % |  Size | Nodes |
+    | --------- | ----: | ----: | ----: |
+    | object    | 55.8% | 280 B |     2 |
+    | string    | 21.9% | 110 B |     2 |
+    | closure   | 12.7% |  64 B |     1 |
+    | code      |  9.6% |  48 B |     1 |
+    | synthetic |  0.0% |   0 B |     2 |
 
     ## Largest constructors
 

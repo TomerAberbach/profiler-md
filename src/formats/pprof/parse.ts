@@ -2,7 +2,7 @@ import { Profile } from 'pprof-format'
 
 /** A metric sampled over time in a pprof. */
 export type PprofValueType = {
-  /** The metric's dimension (e.g. time) */
+  /** The semantic metric being measured (e.g. time) */
   type: string
 
   /** The metric's unit (e.g. microseconds) */

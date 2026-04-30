@@ -23,7 +23,7 @@ const root = (children: object[]) => ({
 })
 
 test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
-  // `funcB` is called from both `funcA` and funcC`. With identical call frames,
+  // `funcB` is called from both `funcA` and funcC`. With identical frames,
   // they should be merged into one row with combined self size.
   const profile = makeProfile(
     root([
@@ -96,7 +96,7 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
     | -------- | -----: | ----: | ------: |
     | ours     | 100.0% | 500 B |       3 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self size
 
@@ -143,9 +143,9 @@ test(`v8HeapProfileToMd merges nodes with the same identity`, () => {
     | -----: | ----: | ------: | ------- | ------------ |
     | 100.0% | 100 B |       1 | \`funcB\` | src/b.ts:1:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |     % |  Size | Samples | Call stack                                      |
     | ----: | ----: | ------: | ----------------------------------------------- |
@@ -213,7 +213,7 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
     | -------- | -----: | ----: | ------: |
     | ours     | 100.0% | 100 B |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self size
 
@@ -259,9 +259,9 @@ test(`v8HeapProfileToMd handles anonymous functions`, () => {
     | -----: | ----: | ------: | ------------- | ------------- |
     | 100.0% | 100 B |       1 | \`(anonymous)\` | src/a.ts:21:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |      % |  Size | Samples | Call stack                                                               |
     | -----: | ----: | ------: | ------------------------------------------------------------------------ |
@@ -315,7 +315,7 @@ test(`v8HeapProfileToMd deduplicates total size for recursive functions`, () => 
     | -------- | -----: | ----: | ------: |
     | ours     | 100.0% | 100 B |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self size
 
@@ -353,9 +353,9 @@ test(`v8HeapProfileToMd deduplicates total size for recursive functions`, () => 
     | -----: | ----: | ------: | ------- | ------------ |
     | 100.0% | 100 B |       1 | \`funcA\` | src/a.ts:1:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     |      % |  Size | Samples | Call stack                             |
     | -----: | ----: | ------: | -------------------------------------- |
@@ -425,7 +425,7 @@ test(`v8HeapProfileToMd categorizes own, third-party, and native code`, () => {
     | ours        | 71.4% | 1.25 kB |       2 |
     | third-party | 28.6% |   500 B |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self size
 
@@ -479,9 +479,9 @@ test(`v8HeapProfileToMd categorizes own, third-party, and native code`, () => {
     | ----: | ----: | ------: | ---------- | --------------- |
     | 33.3% | 250 B |       1 | \`allocate\` | src/util.ts:1:1 |
 
-    ## Hottest call stacks
+    ## Top call stacks
 
-    Call stacks ranked by bytes allocated in their top frame.
+    Call stacks ranked by bytes allocated in their leaf frame.
 
     Common call stack: \`ownFunc\` (src/index.ts:1:1)
 
@@ -770,7 +770,7 @@ test(`v8HeapProfileToMd categorizes sentinel and RegExp functions`, () => {
     | program           | 33.3% | 200 B |       1 |
     | regexp            | 16.7% | 100 B |       1 |
 
-    ## Hottest functions
+    ## Top functions
 
     ### Self size
 

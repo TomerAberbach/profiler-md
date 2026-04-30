@@ -14,7 +14,7 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
-export type SummarizedSnapshotNode = {
+export type AggregatedSnapshotNode = {
   /** Unique ID for this node that can also be used as an index. */
   id: number
 
@@ -34,12 +34,12 @@ export type SummarizedSnapshotNode = {
   location?: ProfileLocation
 }
 
-export type SummarizedConstructor = SummarizedSnapshotNode & {
+export type AggregatedConstructor = AggregatedSnapshotNode & {
   /** Instances of this constructor and their sizes. */
-  instances: SummarizedSnapshotNode[]
+  instances: AggregatedSnapshotNode[]
 }
 
-export type SummarizedClosure = {
+export type AggregatedClosure = {
   /** A human readable label for this closure. */
   name: string
 
@@ -59,7 +59,7 @@ export type SummarizedClosure = {
   instanceIds: number[]
 }
 
-export type SummarizedHeapSnapshot = {
+export type AggregatedHeapSnapshot = {
   /** Total bytes allocated in the snapshot. */
   totalSize: number
 
@@ -72,18 +72,18 @@ export type SummarizedHeapSnapshot = {
   /** Size and count stats by {@link FieldLayout.nodeTypeOffset}. */
   nodeCategoryToStats: Map<string, NodeCategoryStats>
 
-  constructors: SummarizedConstructor[]
-  closures: SummarizedClosure[]
-  strings: SummarizedSnapshotNode[]
+  constructors: AggregatedConstructor[]
+  closures: AggregatedClosure[]
+  strings: AggregatedSnapshotNode[]
 
   retainerPathOf: (nodeOrdinal: number) => string
-  retainedNodesOf: (nodeOrdinal: number) => SummarizedSnapshotNode[]
+  retainedNodesOf: (nodeOrdinal: number) => AggregatedSnapshotNode[]
 }
 
-export const summarizeV8HeapSnapshot = (
+export const aggregateV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
   options: NormalizedProfileToMdOptions,
-): SummarizedHeapSnapshot => {
+): AggregatedHeapSnapshot => {
   const {
     snapshot: { meta, node_count: nodeCount, edge_count: edgeCount },
     nodes,
@@ -110,15 +110,15 @@ export const summarizeV8HeapSnapshot = (
   let totalSize = 0
   const nodeCategoryToStats = new Map<string, NodeCategoryStats>()
 
-  const constructors: SummarizedConstructor[] = []
+  const constructors: AggregatedConstructor[] = []
   const nameToConstructorIndex = new Map<string, number>()
   const nodeOrdinalToConstructorIndex = new Int32Array(nodeCount).fill(-1)
 
-  const closures: SummarizedClosure[] = []
+  const closures: AggregatedClosure[] = []
   const keyToClosureIndex = new Map<string, number>()
   const nodeOrdinalToClosureIndex = new Int32Array(nodeCount).fill(-1)
 
-  const strings: SummarizedSnapshotNode[] = []
+  const strings: AggregatedSnapshotNode[] = []
 
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
@@ -144,7 +144,7 @@ export const summarizeV8HeapSnapshot = (
       case fieldLayout.nodeTypeNative: {
         const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
         let constructorIndex = nameToConstructorIndex.get(name)
-        let constructor: SummarizedConstructor
+        let constructor: AggregatedConstructor
         if (constructorIndex === undefined) {
           constructorIndex = constructors.length
           constructor = {
@@ -921,7 +921,7 @@ const computeRetainedNodes = (
 ) => {
   const { nodes } = snapshot
 
-  const retainedNodes: SummarizedSnapshotNode[] = []
+  const retainedNodes: AggregatedSnapshotNode[] = []
 
   const dominateeOrdinals: number[] = []
   const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
@@ -1057,14 +1057,14 @@ const attributeGroupRetainedSizes = (
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
-  nodeOrdinalToSummarizedNodeIndex: Int32Array,
-  summarizedNodes: { retainedSize: number }[],
+  nodeOrdinalToAggregatedNodeIndex: Int32Array,
+  aggregatedNodes: { retainedSize: number }[],
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
   // Track same-group ancestor depth. Only the outermost (depth=0) instance
   // on any root-to-leaf path contributes its retained size.
-  const groupPathDepth = new Int32Array(summarizedNodes.length)
+  const groupPathDepth = new Int32Array(aggregatedNodes.length)
 
   // DFS with flat Int32Array stack.
   // Convention: value >= 0 = entering node, ~value (always < 0) = exiting node.
@@ -1076,7 +1076,7 @@ const attributeGroupRetainedSizes = (
     if (encodedNodeOrdinal < 0) {
       // Exiting a node.
       const nodeOrdinal = ~encodedNodeOrdinal
-      const constructorIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
+      const constructorIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
       if (constructorIndex !== -1) {
         groupPathDepth[constructorIndex] = groupPathDepth[constructorIndex]! - 1
       }
@@ -1084,11 +1084,11 @@ const attributeGroupRetainedSizes = (
     }
 
     const nodeOrdinal = encodedNodeOrdinal
-    const summarizedNodeIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
+    const summarizedNodeIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
     if (summarizedNodeIndex !== -1) {
       const depth = groupPathDepth[summarizedNodeIndex]!
       if (depth === 0) {
-        summarizedNodes[summarizedNodeIndex]!.retainedSize +=
+        aggregatedNodes[summarizedNodeIndex]!.retainedSize +=
           nodeOrdinalToRetainedSize[nodeOrdinal]!
       }
       groupPathDepth[summarizedNodeIndex] = depth + 1
@@ -1129,7 +1129,7 @@ type FieldLayout = {
   nodeNameOffset: number
 
   /**
-   * Bytes held exclusively by this object, not counting objects it references.
+   * Self size of this node, not counting referenced nodes.
    */
   nodeSelfSizeOffset: number
 
