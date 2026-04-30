@@ -10,7 +10,16 @@ export const openPager = async (): Promise<Output | null> => {
     return null
   }
 
-  const env = { LESS: `FRX`, ...process.env }
+  const env = {
+    // Default `less` flags (overridable via the user's `LESS`):
+    // - `F`: Quit if output fits one screen
+    // - `R`: Pass through ANSI colors
+    // - `S`: Chop long lines instead of wrapping
+    // - `X`: Don't clear the screen on exit
+    // - `-#6`: Scroll horizontally 6 columns at a time
+    LESS: `FRSX -#6`,
+    ...process.env,
+  }
   const child =
     (raw === undefined ? null : await trySpawn(raw, env)) ??
     (await trySpawn(`less`, env))
