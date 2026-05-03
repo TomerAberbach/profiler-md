@@ -88,6 +88,9 @@ $ profiler-md --help
                           inline source map comments (repeatable)
     --no-pager            Disable paging of stdout output (default: paged when
                           stdout is a TTY, using $PAGER or less)
+    --color, --no-color   Force-enable or force-disable ANSI syntax highlighting
+                          (default: auto, on when stdout is a TTY; honors
+                          NO_COLOR and FORCE_COLOR)
     --help [format|language] Show this help message or topic docs
 
   Formats: speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, pprof

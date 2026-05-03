@@ -1,15 +1,17 @@
 import { readFile } from 'node:fs/promises'
 import { cli, topics } from './cli.ts'
 import { formats, languageAliasToPrimary, languages } from './formats.ts'
+import { highlightMarkdown } from './highlight.ts'
 import { writeOutput } from './output.ts'
 
 export type PrintHelpTopicOptions = {
   pager: boolean
+  color: boolean | undefined
 }
 
 export const printHelpTopic = async (
   topic: string | undefined,
-  { pager }: PrintHelpTopicOptions,
+  { pager, color }: PrintHelpTopicOptions,
 ): Promise<never> => {
   if (topic === undefined) {
     await writeOutput(cli.help, `-`, { pager })
@@ -44,6 +46,11 @@ export const printHelpTopic = async (
   const seeAlsoSuffix =
     seeAlso.length > 0 ? `\nSee also: ${seeAlso.join(`, `)}\n` : ``
 
-  await writeOutput(`${doc}${seeAlsoSuffix}`, `-`, { pager })
+  const outputPath = `-`
+  const markdown = await highlightMarkdown(`${doc}${seeAlsoSuffix}`, {
+    outputPath,
+    color,
+  })
+  await writeOutput(markdown, outputPath, { pager })
   process.exit(0)
 }

@@ -24,6 +24,9 @@ export const cli = meow(
                           inline source map comments (repeatable)
     --no-pager            Disable paging of stdout output (default: paged when
                           stdout is a TTY, using $PAGER or less)
+    --color, --no-color   Force-enable or force-disable ANSI syntax highlighting
+                          (default: auto, on when stdout is a TTY; honors
+                          NO_COLOR and FORCE_COLOR)
     --help [format|language] Show this help message or topic docs
 
   Formats: ${formatTopics.join(`, `)}
@@ -33,6 +36,7 @@ export const cli = meow(
     importMeta: import.meta,
     autoHelp: false,
     allowUnknownFlags: false,
+    booleanDefault: undefined,
     flags: {
       help: { type: `boolean`, shortFlag: `h` },
       format: { type: `string`, shortFlag: `f` },
@@ -42,6 +46,7 @@ export const cli = meow(
       thirdParty: { type: `string`, isMultiple: true, default: [] as string[] },
       sourceMaps: { type: `string`, isMultiple: true, default: [] as string[] },
       pager: { type: `boolean`, default: true },
+      color: { type: `boolean` },
     },
   },
 )
