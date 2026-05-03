@@ -206,7 +206,7 @@ test.each([
   {
     scenario: `unknown --format value`,
     args: [`--format`, `unknown-type`],
-    expectedStderr: `unknown format "unknown-type"`,
+    expectedStderr: `"unknown-type"`,
     expectedStatus: 2,
   },
   {
@@ -218,7 +218,7 @@ test.each([
   {
     scenario: `unknown flag`,
     args: [`--unknown-flag`],
-    expectedStderr: `Unknown flag`,
+    expectedStderr: `--unknown-flag`,
     expectedStatus: 2,
   },
 ])(`errors on $scenario`, ({ args, input, expectedStderr, expectedStatus }) => {

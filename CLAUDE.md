@@ -9,7 +9,7 @@ and LLM friendly Markdown.
 profiler-md
 ├── src/
 │   ├── cli/
-│   │   ├── cli.ts            # meow flag/usage/topic definitions
+│   │   ├── cli.ts            # Optique flag/usage/topic definitions
 │   │   ├── color.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── convert.ts        # Format dispatch and auto-detection
 │   │   ├── error.ts          # CliError class and top-level error reporting

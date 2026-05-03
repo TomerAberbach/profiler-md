@@ -1,6 +1,7 @@
-import { cli } from './cli.ts'
-import { convertToMarkdown, requireFormat } from './convert.ts'
+import { parseArgs } from './cli.ts'
+import { convertToMarkdown } from './convert.ts'
 import { reportError } from './error.ts'
+import { formats } from './formats.ts'
 import { printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight.ts'
 import { readInput } from './input.ts'
@@ -9,26 +10,27 @@ import { writeOutput } from './output.ts'
 
 try {
   const {
-    input: [filePath],
-    flags: {
-      help,
-      output: outputPath,
-      format: profileFormat,
-      topN,
-      cwd,
-      thirdParty,
-      sourceMaps,
+    help,
+    output: outputPath,
+    format: profileFormat,
+    topN,
+    cwd,
+    thirdParty,
+    sourceMaps,
+    pager,
+    color,
+    file: filePath,
+  } = parseArgs()
+
+  if (help !== undefined) {
+    await printHelpTopic(typeof help === `string` ? help : undefined, {
       pager,
       color,
-    },
-  } = cli
-
-  if (help) {
-    await printHelpTopic(filePath, { pager, color })
+    })
   }
 
   const forcedFormat =
-    profileFormat === undefined ? undefined : requireFormat(profileFormat)
+    profileFormat === undefined ? undefined : formats.get(profileFormat)
   if (!filePath && process.stdin.isTTY) {
     await printHelpTopic(undefined, { pager, color })
   }

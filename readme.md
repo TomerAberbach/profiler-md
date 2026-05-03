@@ -66,38 +66,41 @@ $ npm i profiler-md
 
 ### CLI
 
+<!-- prettier-ignore-start -->
+
 <!-- CLI_HELP START -->
 
 ```sh
 $ profiler-md --help
+Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
+       [--top-n N] [--cwd PATH] [--third-party GLOB...] [--source-maps GLOB...]
+       [--no-pager] [(--color | --no-color)] [FILE]
 
-  Converts performance profiles to human and LLM friendly Markdown.
+Converts performance profiles to human and LLM friendly Markdown.
 
-  Usage: profiler-md [options] [file]
-         profiler-md --help [format|language]
+  -h, --help [TOPIC]          Show this help message or topic docs
+  -f, --format FORMAT         Input profile format (default: auto)
+  -o, --output FILE           Output file (default: - for stdout)
+  --top-n N                   Number of top entries to show (default: 20)
+  --cwd PATH                  Directory to show paths relative to (default: cwd)
+  --third-party GLOB          Additional URLs to consider third-party 
+                              (repeatable)
+  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
+                              locations (repeatable)
+  --no-pager                  Disable stdout output paging (default: auto)
+  --color                     Enable or disable ANSI syntax highlighting 
+                              (default: auto)
+  --no-color                
+  FILE                        Profile file to convert (reads from stdin if 
+                              omitted)
 
-  Options:
-    -f, --format <format> Profile format, auto-detected from content if omitted
-    -o, --output <file>   Output file (default: - for stdout)
-    --top-n <n>           Number of top entries to show (default: 20)
-    --cwd <path>          Working directory for relative file paths in output
-    --third-party <glob>  Mark URLs matching this glob as third-party
-                          (repeatable; default: node_modules)
-    --source-maps <glob>  Apply source maps matching this glob to profile
-                          locations; files may be source map JSON or contain
-                          inline source map comments (repeatable)
-    --no-pager            Disable paging of stdout output (default: paged when
-                          stdout is a TTY, using $PAGER or less)
-    --color, --no-color   Force-enable or force-disable ANSI syntax highlighting
-                          (default: auto, on when stdout is a TTY; honors
-                          NO_COLOR and FORCE_COLOR)
-    --help [format|language] Show this help message or topic docs
-
-  Formats: speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, pprof
-  Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, rust
+Formats: speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, pprof
+Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, rust
 ```
 
 <!-- CLI_HELP END -->
+
+<!-- prettier-ignore-end -->
 
 ### API
 
