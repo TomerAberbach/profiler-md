@@ -36,19 +36,10 @@ export const formatProfile = (
 
 const formatTitle = (profile: Profile): string =>
   capitalizeFirst(
-    `${formatConjunction(profile.metrics.map(metricTitleName))} profile`,
+    `${formatConjunction(
+      profile.metrics.map(metric => metric.phrases.titleNoun),
+    )} profile`,
   )
-
-const metricTitleName = (metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return `CPU`
-    case `size`:
-      return `heap`
-    case `custom`:
-      return metric.name
-  }
-}
 
 const formatOverallSummary = (profile: Profile): string =>
   `${formatSummaryLine(profile)}\n\n${formatCategoryTable(profile)}`
@@ -63,7 +54,7 @@ const formatSummaryLine = ({
     formatConjunction(
       metrics.map(
         (metric, index) =>
-          `${metricPastTenseVerb(metric)} ${formatValue(
+          `${metric.phrases.pastTenseVerb} ${formatValue(
             totalValues[index]!,
             metric,
           )}`,
@@ -96,7 +87,7 @@ const formatCategoryTable = ({
       `Category`,
       { content: `%`, align: `right` },
       ...metrics.map(metric => ({
-        content: capitalizeFirst(metricDisplayName(metric)),
+        content: capitalizeFirst(metric.phrases.columnNoun),
         align: `right` as const,
       })),
       { content: `Samples`, align: `right` },
@@ -108,17 +99,6 @@ const formatCategoryTable = ({
       formatCount(sampleCount),
     ]),
   )
-}
-
-const metricPastTenseVerb = (metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return `took`
-    case `size`:
-      return `allocated`
-    case `custom`:
-      return `recorded`
-  }
 }
 
 const formatSamplingInterval = (
@@ -150,7 +130,7 @@ const formatMetricSections = (
         sections.push(
           formatHeading(
             options.headingLevel,
-            capitalizeFirst(metricDisplayName(metric)),
+            capitalizeFirst(metric.phrases.titleNoun),
           ),
         )
         sectionOptions = {
@@ -217,14 +197,16 @@ const formatHottestSelfFunctions = (
     .filter(section => section !== undefined)
 
   const metric = profile.metrics[metricIndex]!
-  const metricName = metricDisplayName(metric)
   return [
-    formatHeading(options.headingLevel, `Self ${metricName}`),
-    `Functions ranked by ${metricPastParticipleVerbPhrase(metric)} directly in the function body, excluding callees.`,
+    formatHeading(options.headingLevel, `Self ${metric.phrases.columnNoun}`),
+    `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricName), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
@@ -242,14 +224,14 @@ const formatHottestSelfFunctions = (
     ...(hottestLinesSections.length > 0
       ? [
           formatHeading(options.headingLevel + 1, `Lines`),
-          `Lines ranked by contribution to each function's self ${metricName}.`,
+          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
         ]
       : []),
     ...hottestLinesSections,
     ...(hottestCallersSections.length > 0
       ? [
           formatHeading(options.headingLevel + 1, `Callers`),
-          `Callers ranked by contribution to each function's self ${metricName}. Caller attribution may be imprecise due to inlining.`,
+          `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Caller attribution may be imprecise due to inlining.`,
         ]
       : []),
     ...hottestCallersSections,
@@ -281,7 +263,10 @@ const formatHottestLines = (
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricDisplayName(metric)), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Location`,
       ],
@@ -333,7 +318,10 @@ const formatHottestCallers = (
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricDisplayName(metric)), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Caller`,
         `Location`,
@@ -374,14 +362,16 @@ const formatHottestTotalFunctions = (
     .filter(section => section !== undefined)
 
   const metric = profile.metrics[metricIndex]!
-  const metricName = metricDisplayName(metric)
   return [
-    formatHeading(options.headingLevel, `Total ${metricName}`),
-    `Functions ranked by total ${metricPastParticipleVerbPhrase(metric)} in the function and all its callees.`,
+    formatHeading(options.headingLevel, `Total ${metric.phrases.columnNoun}`),
+    `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees.`,
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricName), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
@@ -397,7 +387,7 @@ const formatHottestTotalFunctions = (
     ...(calleeSections.length > 0
       ? [
           formatHeading(options.headingLevel + 1, `Callees`),
-          `Callees ranked by contribution to each function's total ${metricName}. Callee attribution may be imprecise due to inlining.`,
+          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Callee attribution may be imprecise due to inlining.`,
         ]
       : []),
     ...calleeSections,
@@ -425,7 +415,6 @@ const formatHottestCallees = (
   }
 
   const metric = profile.metrics[metricIndex]!
-  const metricName = metricDisplayName(metric)
   return [
     formatHeading(
       options.headingLevel,
@@ -437,7 +426,10 @@ const formatHottestCallees = (
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricName), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Callee`,
         `Location`,
@@ -474,19 +466,21 @@ const formatHottestCallStacks = (
   }
 
   const metric = profile.metrics[metricIndex]!
-  const metricName = metricDisplayName(metric)
   const commonCallStack = findCommonCallStack(hottestCallStacks)
 
   return [
     formatHeading(options.headingLevel, `Hottest call stacks`),
-    `Call stacks ranked by ${metricPastParticipleVerbPhrase(metric)} in their top frame.`,
+    `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their top frame.`,
     ...(commonCallStack.length > 0
       ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
       : []),
     formatTable(
       [
         { content: `%`, align: `right` },
-        { content: capitalizeFirst(metricName), align: `right` },
+        {
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right`,
+        },
         { content: `Samples`, align: `right` },
         `Call stack`,
       ],
@@ -529,27 +523,6 @@ const formatCallStack = (
       return `${name} (${line}${column === undefined ? `` : `:${column}`})`
     })
     .join(` ← `)
-
-const metricPastParticipleVerbPhrase = (metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return `time spent`
-    case `size`:
-      return `bytes allocated`
-    case `custom`:
-      return `${metricDisplayName(metric)} recorded`
-  }
-}
-
-const metricDisplayName = (metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-    case `size`:
-      return metric.type
-    case `custom`:
-      return metric.name
-  }
-}
 
 const formatValue = (value: number, metric: Metric): string => {
   switch (metric.type) {

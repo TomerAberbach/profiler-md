@@ -1,5 +1,20 @@
+/** Phrases that can be used in prose related to a metric. */
+export type MetricPhrases = {
+  /** A noun to use in headings, like "CPU", "heap", etc. */
+  titleNoun: string
+
+  /** A noun to use in columns like "time", "size", etc. */
+  columnNoun: string
+
+  /** A verb to use in prose like "took", "allocated", etc. */
+  pastTenseVerb: string
+
+  /** A verb phrase to use in prose like "time spent", "bytes allocated", etc. */
+  pastParticipleVerbPhrase: string
+}
+
 /** A metric sampled over time in a profile. */
-export type Metric =
+export type Metric = (
   | {
       type: `time`
 
@@ -9,18 +24,16 @@ export type Metric =
   | {
       type: `size`
 
-      /** The number of bytes this size unit takes up. */
+      /** The number of bytes this space unit takes up. */
       bytes: number
     }
   | {
       type: `custom`
 
-      /** A name describing the metric. */
-      name: string
-
       /** The unit of measurement for the metric. */
       unit: string
     }
+) & { phrases: MetricPhrases }
 
 export const determineMetric = ({
   name,
@@ -28,19 +41,84 @@ export const determineMetric = ({
 }: {
   name: string
   unit: string
-}): Metric => METRICS.get(unit.toLowerCase()) ?? { type: `custom`, name, unit }
+}): Metric => {
+  const metric = UNIT_TO_METRIC.get(unit.toLowerCase()) ?? {
+    type: `custom`,
+    unit,
+    phrases: {
+      titleNoun: name,
+      columnNoun: name,
+      pastTenseVerb: `recorded`,
+      pastParticipleVerbPhrase: `${name} recorded`,
+    },
+  }
 
-export const NANOSECONDS: Metric = { type: `time`, milliseconds: 1e-6 }
-export const MICROSECONDS: Metric = { type: `time`, milliseconds: 0.001 }
-export const MILLISECONDS: Metric = { type: `time`, milliseconds: 1 }
-export const SECONDS: Metric = { type: `time`, milliseconds: 1000 }
+  const phrases = METRIC_TYPE_AND_NAME_TO_PHRASES.get(metric.type)?.get(
+    name.toLowerCase(),
+  )
+  if (phrases) {
+    return { ...metric, phrases }
+  }
 
-export const BYTES: Metric = { type: `size`, bytes: 1 }
-export const KILOBYTES: Metric = { type: `size`, bytes: 1 << 10 }
-export const MEGABYTES: Metric = { type: `size`, bytes: 1 << 20 }
-export const GIGABYTES: Metric = { type: `size`, bytes: 1 << 30 }
+  return metric
+}
 
-const METRICS: ReadonlyMap<string, Metric> = new Map<string, Metric>([
+const TIME_PHRASES: MetricPhrases = {
+  titleNoun: `CPU`,
+  columnNoun: `time`,
+  pastTenseVerb: `took`,
+  pastParticipleVerbPhrase: `time spent`,
+}
+const SIZE_PHRASES: MetricPhrases = {
+  titleNoun: `heap`,
+  columnNoun: `size`,
+  pastTenseVerb: `allocated`,
+  pastParticipleVerbPhrase: `bytes allocated`,
+}
+
+export const NANOSECONDS: Metric = {
+  type: `time`,
+  milliseconds: 1e-6,
+  phrases: TIME_PHRASES,
+}
+export const MICROSECONDS: Metric = {
+  type: `time`,
+  milliseconds: 0.001,
+  phrases: TIME_PHRASES,
+}
+export const MILLISECONDS: Metric = {
+  type: `time`,
+  milliseconds: 1,
+  phrases: TIME_PHRASES,
+}
+export const SECONDS: Metric = {
+  type: `time`,
+  milliseconds: 1000,
+  phrases: TIME_PHRASES,
+}
+
+export const BYTES: Metric = {
+  type: `size`,
+  bytes: 1,
+  phrases: SIZE_PHRASES,
+}
+export const KILOBYTES: Metric = {
+  type: `size`,
+  bytes: 1 << 10,
+  phrases: SIZE_PHRASES,
+}
+export const MEGABYTES: Metric = {
+  type: `size`,
+  bytes: 1 << 20,
+  phrases: SIZE_PHRASES,
+}
+export const GIGABYTES: Metric = {
+  type: `size`,
+  bytes: 1 << 30,
+  phrases: SIZE_PHRASES,
+}
+
+const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [`nanoseconds`, NANOSECONDS],
   [`nanosecond`, NANOSECONDS],
   [`nanos`, NANOSECONDS],
@@ -85,5 +163,46 @@ const METRICS: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [`gbyte`, GIGABYTES],
   [`gb`, GIGABYTES],
 
-  [`none`, { type: `custom`, name: `count`, unit: `count` }],
+  [
+    `none`,
+    {
+      type: `custom`,
+      unit: `count`,
+      phrases: {
+        titleNoun: `count`,
+        columnNoun: `count`,
+        pastTenseVerb: `recorded`,
+        pastParticipleVerbPhrase: `count recorded`,
+      },
+    },
+  ],
+])
+
+const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
+  Metric[`type`],
+  ReadonlyMap<string, MetricPhrases>
+> = new Map([
+  [
+    `size`,
+    new Map<string, MetricPhrases>([
+      [
+        `alloc_space`,
+        {
+          titleNoun: `allocated heap`,
+          columnNoun: `size`,
+          pastTenseVerb: `allocated`,
+          pastParticipleVerbPhrase: `bytes allocated`,
+        },
+      ],
+      [
+        `inuse_space`,
+        {
+          titleNoun: `retained heap`,
+          columnNoun: `size`,
+          pastTenseVerb: `retained`,
+          pastParticipleVerbPhrase: `bytes retained`,
+        },
+      ],
+    ]),
+  ],
 ])
