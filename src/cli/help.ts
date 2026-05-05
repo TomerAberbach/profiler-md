@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { cli, topics } from './cli.ts'
+import { getHelpText, topics } from './cli.ts'
 import { formats, languageAliasToPrimary, languages } from './formats.ts'
 import { highlightMarkdown } from './highlight.ts'
 import { writeOutput } from './output.ts'
@@ -14,7 +14,7 @@ export const printHelpTopic = async (
   { pager, color }: PrintHelpTopicOptions,
 ): Promise<never> => {
   if (topic === undefined) {
-    await writeOutput(cli.help, `-`, { pager })
+    await writeOutput(getHelpText(), `-`, { pager })
     process.exit(0)
   }
 

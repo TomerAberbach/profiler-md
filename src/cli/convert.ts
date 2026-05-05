@@ -11,17 +11,6 @@ const binaryFormats = [...formats.entries()].filter(
   (entry): entry is [string, BinaryFormat<any>] => entry[1].kind === `binary`,
 )
 
-export const requireFormat = (formatId: string): Format => {
-  const format = formats.get(formatId)
-  if (!format) {
-    throw new CliError(
-      `unknown format "${formatId}"\nRun with --help to see supported formats.`,
-      2,
-    )
-  }
-  return format
-}
-
 export const convertToMarkdown = (
   data: Uint8Array,
   forcedFormat: Format | undefined,

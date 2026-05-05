@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@optique/core':
+        specifier: ^1.0.2
+        version: 1.0.2
+      '@optique/run':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@shikijs/core':
         specifier: ^4.0.2
         version: 4.0.2
@@ -26,9 +32,6 @@ importers:
       convert-source-map:
         specifier: ^2.0.0
         version: 2.0.0
-      meow:
-        specifier: ^14.1.0
-        version: 14.1.0
       picomatch:
         specifier: ^4.0.4
         version: 4.0.4
@@ -382,6 +385,14 @@ packages:
     peerDependencies:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
+
+  '@optique/core@1.0.2':
+    resolution: {integrity: sha512-znsqMmjAdeOgSJzdJlpZpgAscojwQmeQYXzYnuEKllz5VCj6WyEkdzU4QuvJQtWQY3ve2taXwudEBRur0VHBOQ==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
+
+  '@optique/run@1.0.2':
+    resolution: {integrity: sha512-0Wc+zC8SLGV8zXQX+pk+o0c6wE/ddx/36CHZ0toTh5lApsjruUuGhqbxvljerAAG5un1xQbOLxzksBVC6UPgSg==}
+    engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
   '@oxc-project/types@0.123.0':
     resolution: {integrity: sha512-YtECP/y8Mj1lSHiUWGSRzy/C6teUKlS87dEfuVKT09LgQbUsBW1rNg+MiJ4buGu3yuADV60gbIvo9/HplA56Ew==}
@@ -2026,10 +2037,6 @@ packages:
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
 
-  meow@14.1.0:
-    resolution: {integrity: sha512-EDYo6VlmtnumlcBCbh1gLJ//9jvM/ndXHfVXIFrZVr6fGcwTUyCTFNTLCKuY3ffbK8L/+3Mzqnd58RojiZqHVw==}
-    engines: {node: '>=20'}
-
   micromark-core-commonmark@2.0.3:
     resolution: {integrity: sha512-RDBrHEMSxVFLg6xvnXmb1Ayr2WzLAWjeSATAoxwKYJV94TeNavgoIdA0a9ytzDSVzBy2YKFK+emCPOEibLeCrg==}
 
@@ -3238,6 +3245,12 @@ snapshots:
       '@emnapi/runtime': 1.9.1
       '@tybys/wasm-util': 0.10.1
     optional: true
+
+  '@optique/core@1.0.2': {}
+
+  '@optique/run@1.0.2':
+    dependencies:
+      '@optique/core': 1.0.2
 
   '@oxc-project/types@0.123.0': {}
 
@@ -5085,8 +5098,6 @@ snapshots:
       '@types/mdast': 4.0.4
 
   mdn-data@2.27.1: {}
-
-  meow@14.1.0: {}
 
   micromark-core-commonmark@2.0.3:
     dependencies:

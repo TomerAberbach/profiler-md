@@ -1,52 +1,112 @@
-import meow from 'meow'
+import { formatDocPage, getDocPage } from '@optique/core'
+import type { InferValue } from '@optique/core'
+import { object, or } from '@optique/core/constructs'
+import { message, text } from '@optique/core/message'
+import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
+import { argument, flag, option } from '@optique/core/primitives'
+import { defineProgram } from '@optique/core/program'
+import { choice, integer, string } from '@optique/core/valueparser'
+import { path, run } from '@optique/run'
+import packageJson from '../../package.json' with { type: 'json' }
 import { formats, languages } from './formats.ts'
 
-export const formatTopics = [...formats.keys()]
-export const languageTopics = [...languages.entries()].flatMap(
-  ([id, { aliases }]) => [id, ...(aliases?.map(alias => alias.id) ?? [])],
-)
+const formatTopics = [...formats.keys()]
+const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
+  id,
+  ...(aliases?.map(alias => alias.id) ?? []),
+])
 export const topics = [...formatTopics, ...languageTopics]
 
-export const cli = meow(
-  `
-  Usage: profiler-md [options] [file]
-         profiler-md --help [format|language]
+const parser = object({
+  help: optional(
+    or(
+      option(`-h`, `--help`, choice(topics, { metavar: `[TOPIC]` }), {
+        description: message`Show this help message or topic docs`,
+      }),
+      flag(`-h`, `--help`, { hidden: `help` }),
+    ),
+  ),
+  format: optional(
+    option(`-f`, `--format`, choice(formatTopics, { metavar: `FORMAT` }), {
+      description: message`Input profile format (default: auto)`,
+    }),
+  ),
+  output: withDefault(
+    option(`-o`, `--output`, path({ metavar: `FILE` }), {
+      description: message`Output file (default: - for stdout)`,
+    }),
+    `-`,
+  ),
+  topN: optional(
+    option(`--top-n`, integer({ metavar: `N` }), {
+      description: message`Number of top entries to show (default: 20)`,
+    }),
+  ),
+  cwd: optional(
+    option(`--cwd`, path(), {
+      description: message`Directory to show paths relative to (default: cwd)`,
+    }),
+  ),
+  thirdParty: multiple(
+    option(`--third-party`, string({ metavar: `GLOB` }), {
+      description: message`Additional URLs to consider third-party (repeatable)`,
+    }),
+  ),
+  sourceMaps: multiple(
+    option(`--source-maps`, string({ metavar: `GLOB` }), {
+      description: message`Source maps (JSON or inline) to apply to profile locations (repeatable)`,
+    }),
+  ),
+  pager: map(
+    option(`--no-pager`, {
+      description: message`Disable stdout output paging (default: auto)`,
+    }),
+    value => !value,
+  ),
+  color: optional(
+    or(
+      flag(`--color`, {
+        description: message`Enable or disable ANSI syntax highlighting (default: auto)`,
+      }),
+      map(flag(`--no-color`), () => false as const),
+    ),
+  ),
+  file: optional(
+    argument(path({ metavar: `FILE` }), {
+      description: message`Profile file to convert (reads from stdin if omitted)`,
+    }),
+  ),
+})
 
-  Options:
-    -f, --format <format> Profile format, auto-detected from content if omitted
-    -o, --output <file>   Output file (default: - for stdout)
-    --top-n <n>           Number of top entries to show (default: 20)
-    --cwd <path>          Working directory for relative file paths in output
-    --third-party <glob>  Mark URLs matching this glob as third-party
-                          (repeatable; default: node_modules)
-    --source-maps <glob>  Apply source maps matching this glob to profile
-                          locations; files may be source map JSON or contain
-                          inline source map comments (repeatable)
-    --no-pager            Disable paging of stdout output (default: paged when
-                          stdout is a TTY, using $PAGER or less)
-    --color, --no-color   Force-enable or force-disable ANSI syntax highlighting
-                          (default: auto, on when stdout is a TTY; honors
-                          NO_COLOR and FORCE_COLOR)
-    --help [format|language] Show this help message or topic docs
-
-  Formats: ${formatTopics.join(`, `)}
-  Languages: ${languageTopics.join(`, `)}
-`,
-  {
-    importMeta: import.meta,
-    autoHelp: false,
-    allowUnknownFlags: false,
-    booleanDefault: undefined,
-    flags: {
-      help: { type: `boolean`, shortFlag: `h` },
-      format: { type: `string`, shortFlag: `f` },
-      output: { type: `string`, shortFlag: `o`, default: `-` },
-      topN: { type: `number` },
-      cwd: { type: `string` },
-      thirdParty: { type: `string`, isMultiple: true, default: [] as string[] },
-      sourceMaps: { type: `string`, isMultiple: true, default: [] as string[] },
-      pager: { type: `boolean`, default: true },
-      color: { type: `boolean` },
-    },
+const program = defineProgram({
+  parser,
+  metadata: {
+    name: packageJson.name,
+    version: packageJson.version,
+    description: message`${text(packageJson.description)}`,
   },
-)
+})
+
+export const getHelpText = (): string =>
+  `${[
+    formatDocPage(
+      program.metadata.name,
+      { ...getDocPage(parser)!, ...program.metadata },
+      {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        maxWidth: process.stdout.columns ?? 80,
+      },
+    ),
+    `Formats: ${formatTopics.join(`, `)}`,
+    `Languages: ${languageTopics.join(`, `)}`,
+  ].join(`\n`)}\n`
+
+export type CLIArgs = InferValue<typeof program.parser>
+
+export const parseArgs = (): CLIArgs =>
+  run(program, {
+    colors: false,
+    version: program.metadata.version,
+    completion: `option`,
+    errorExitCode: 2,
+  })
