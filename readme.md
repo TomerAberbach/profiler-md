@@ -59,7 +59,7 @@
 ## Install
 
 ```sh
-$ npm i profiler-md
+$ npm i -g profiler-md
 ```
 
 ## Usage
@@ -149,6 +149,25 @@ console.log(speedscopeProfileToMd(speedscopeProfileData, options))
 console.log(v8CpuProfileToMd(v8CpuProfileData, options))
 console.log(v8HeapProfileToMd(v8HeapProfileData, options))
 console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
+```
+
+## Shell completions
+
+```sh
+# Bash (Linux)
+$ profiler-md --completion bash > ~/.local/share/bash-completion/completions/profiler-md
+
+# Bash (macOS/Homebrew)
+$ profiler-md --completion bash > $(brew --prefix)/etc/bash_completion.d/profiler-md
+
+# Fish
+$ profiler-md --completion fish > ~/.config/fish/completions/profiler-md.fish
+
+# Zsh
+$ profiler-md --completion zsh > ~/.zfunc/_profiler-md
+
+# PowerShell
+$ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 ```
 
 ## Skills
