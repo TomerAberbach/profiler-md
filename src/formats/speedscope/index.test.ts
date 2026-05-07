@@ -1,5 +1,4 @@
 import { expect, test } from 'vitest'
-import { parseJson } from '../../helpers/json.ts'
 import { detectSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
 import type {
   SpeedscopeEvent,
@@ -53,12 +52,12 @@ const makeEventedProfile = (
 ): SpeedscopeEventedProfile => ({ type: `evented`, name, unit, events })
 
 test(`detectSpeedscope accepts valid speedscope file`, () => {
-  const json = parseJson(
+  const json = JSON.parse(
     makeProfile({
       profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
       frames: [{ name: `main` }],
     }),
-  )
+  ) as unknown
 
   expect(detectSpeedscopeProfile(json)).toBeDefined()
 })

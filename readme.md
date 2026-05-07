@@ -105,29 +105,34 @@ Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, 
 ### API
 
 ```js
-import { readFile } from 'node:fs/promises'
+import { openAsBlob } from 'node:fs'
 import {
   defaultIncludeEntry,
   defaultIsThirdPartyEntry,
   pprofToMd,
+  pprofToMdAsync,
   speedscopeProfileToMd,
+  speedscopeProfileToMdAsync,
   v8CpuProfileToMd,
+  v8CpuProfileToMdAsync,
   v8HeapProfileToMd,
+  v8HeapProfileToMdAsync,
   v8HeapSnapshotToMd,
+  v8HeapSnapshotToMdAsync,
 } from 'profiler-md'
 
-const pprofData = await readFile(`example.pprof`)
-const speedscopeProfileData = await readFile(`example.speedscope.json`)
-const v8CpuProfileData = await readFile(`example.cpuprofile`)
-const v8HeapProfileData = await readFile(`example.heapprofile`)
-const v8HeapSnapshotData = await readFile(`example.heapsnapshot`)
-
 // Basic usage
-console.log(pprofToMd(pprofData))
-console.log(speedscopeProfileToMd(speedscopeProfileData))
-console.log(v8CpuProfileToMd(v8CpuProfileData))
-console.log(v8HeapProfileToMd(v8HeapProfileData))
-console.log(v8HeapSnapshotToMd(v8HeapSnapshotData))
+console.log(await pprofToMdAsync(await openAsBlob(`example.pprof`)))
+console.log(
+  await speedscopeProfileToMdAsync(await openAsBlob(`example.speedscope.json`)),
+)
+console.log(await v8CpuProfileToMdAsync(await openAsBlob(`example.cpuprofile`)))
+console.log(
+  await v8HeapProfileToMdAsync(await openAsBlob(`example.heapprofile`)),
+)
+console.log(
+  await v8HeapSnapshotToMdAsync(await openAsBlob(`example.heapsnapshot`)),
+)
 
 // Complex usage
 const options = {
@@ -144,11 +149,35 @@ const options = {
     // Exclude entries from a specific file.
     !entry.location?.includes(`/path/to/project/src/noisy`),
 }
-console.log(pprofToMd(pprofData, options))
-console.log(speedscopeProfileToMd(speedscopeProfileData, options))
-console.log(v8CpuProfileToMd(v8CpuProfileData, options))
-console.log(v8HeapProfileToMd(v8HeapProfileData, options))
-console.log(v8HeapSnapshotToMd(v8HeapSnapshotData, options))
+console.log(await pprofToMdAsync(await openAsBlob(`example.pprof`), options))
+console.log(
+  await speedscopeProfileToMdAsync(
+    await openAsBlob(`example.speedscope.json`),
+    options,
+  ),
+)
+console.log(
+  await v8CpuProfileToMdAsync(await openAsBlob(`example.cpuprofile`), options),
+)
+console.log(
+  await v8HeapProfileToMdAsync(
+    await openAsBlob(`example.heapprofile`),
+    options,
+  ),
+)
+console.log(
+  await v8HeapSnapshotToMdAsync(
+    await openAsBlob(`example.heapsnapshot`),
+    options,
+  ),
+)
+
+// Synchronous usage
+console.log(pprofToMd(pprofData))
+console.log(speedscopeProfileToMd(speedscopeProfileData))
+console.log(v8CpuProfileToMd(v8CpuProfileData))
+console.log(v8HeapProfileToMd(v8HeapProfileData))
+console.log(v8HeapSnapshotToMd(v8HeapSnapshotData))
 ```
 
 ## Shell completions

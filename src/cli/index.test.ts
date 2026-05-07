@@ -212,7 +212,7 @@ test.each([
   {
     scenario: `nonexistent file`,
     args: [`nonexistent.cpuprofile`],
-    expectedStderr: `ENOENT`,
+    expectedStderr: `Unable to open file as blob`,
     expectedStatus: 1,
   },
   {

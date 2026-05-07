@@ -1,7 +1,11 @@
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import type { ProfileToMdOptions } from '../../options.ts'
+import type {
+  AsyncProfileData,
+  JsonProfileData,
+  ProfileToMdOptions,
+} from '../../options.ts'
 import { formatSpeedscope } from './format.ts'
-import { parseSpeedscopeProfile } from './parse.ts'
+import { parseSpeedscopeProfile, parseSpeedscopeProfileAsync } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
 import { summarizeSpeedscopeProfile } from './summarize.ts'
 
@@ -36,10 +40,29 @@ export const detectSpeedscopeProfile = (
  * (`profiler-md --help speedscope`).
  */
 export const speedscopeProfileToMd = (
-  data: string | Uint8Array,
+  data: JsonProfileData,
   options?: ProfileToMdOptions,
 ): string =>
   speedscopeProfileToMdInternal(parseSpeedscopeProfile(data), options)
+
+/**
+ * Asynchronously converts the given Speedscope profile to Markdown.
+ *
+ * It is assumed that {@link data} is a valid Speedscope JSON file. The behavior
+ * of this function is undefined for invalid profiles.
+ *
+ * See the [Speedscope docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/speedscope.md)
+ * for supported tools and generation instructions
+ * (`profiler-md --help speedscope`).
+ */
+export const speedscopeProfileToMdAsync = async (
+  data: AsyncProfileData,
+  options?: ProfileToMdOptions,
+): Promise<string> =>
+  speedscopeProfileToMdInternal(
+    await parseSpeedscopeProfileAsync(data),
+    options,
+  )
 
 export const speedscopeProfileToMdInternal = (
   profile: SpeedscopeProfile,

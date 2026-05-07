@@ -1,4 +1,6 @@
 import { Profile } from 'pprof-format'
+import { concatUint8Arrays, streamToUint8Array } from '../../helpers/bytes.ts'
+import type { AsyncProfileData, BinaryProfileData } from '../../options.ts'
 
 /** A metric sampled over time in a pprof. */
 export type PprofValueType = {
@@ -74,8 +76,20 @@ export type Pprof = {
   functions: PprofFunction[]
 }
 
-export const parsePprof = (data: Uint8Array): Pprof =>
-  parsePprofInternal(Profile.decode(data))
+export const parsePprofAsync = async (data: AsyncProfileData): Promise<Pprof> =>
+  parsePprof(
+    await (data instanceof Blob ? data.bytes() : streamToUint8Array(data)),
+  )
+
+export const parsePprof = (data: BinaryProfileData): Pprof => {
+  if (!ArrayBuffer.isView(data)) {
+    if (!Array.isArray(data)) {
+      data = [...data]
+    }
+    data = concatUint8Arrays(data)
+  }
+  return parsePprofInternal(Profile.decode(data))
+}
 
 export const parsePprofInternal = (profile: Profile): Pprof => {
   const { strings } = profile.stringTable

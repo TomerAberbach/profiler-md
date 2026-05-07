@@ -4,18 +4,18 @@ import {
   detectV8CpuProfile,
   detectV8HeapProfile,
   detectV8HeapSnapshot,
-  pprofToMd,
+  pprofToMdAsync,
   pprofToMdInternal,
-  speedscopeProfileToMd,
+  speedscopeProfileToMdAsync,
   speedscopeProfileToMdInternal,
-  v8CpuProfileToMd,
+  v8CpuProfileToMdAsync,
   v8CpuProfileToMdInternal,
-  v8HeapProfileToMd,
+  v8HeapProfileToMdAsync,
   v8HeapProfileToMdInternal,
-  v8HeapSnapshotToMd,
+  v8HeapSnapshotToMdAsync,
   v8HeapSnapshotToMdInternal,
 } from '../formats/index.ts'
-import type { ProfileToMdOptions } from '../options.ts'
+import type { AsyncProfileData, ProfileToMdOptions } from '../options.ts'
 
 export type LanguageAlias = {
   id: string
@@ -39,15 +39,21 @@ export type JsonFormat<Parsed> = {
   kind: `json`
   detect: (json: unknown) => Parsed | undefined
   toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
+  toMdAsync: (
+    data: AsyncProfileData,
+    options: ProfileToMdOptions,
+  ) => Promise<string>
 }
 
 export type BinaryFormat<Parsed> = {
   name: string
   kind: `binary`
-  detect: (data: Uint8Array) => Parsed | undefined
+  detect: (data: Blob) => Promise<Parsed | undefined>
   toMdInternal: (parsed: Parsed, options: ProfileToMdOptions) => string
-  toMd: (data: Uint8Array, options: ProfileToMdOptions) => string
+  toMdAsync: (
+    data: AsyncProfileData,
+    options: ProfileToMdOptions,
+  ) => Promise<string>
 }
 
 export type Format<Parsed = any> = JsonFormat<Parsed> | BinaryFormat<Parsed>
@@ -130,7 +136,7 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       kind: `json`,
       detect: detectSpeedscopeProfile,
       toMdInternal: speedscopeProfileToMdInternal,
-      toMd: speedscopeProfileToMd,
+      toMdAsync: speedscopeProfileToMdAsync,
     },
   ],
   [
@@ -140,7 +146,7 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       kind: `json`,
       detect: detectV8CpuProfile,
       toMdInternal: v8CpuProfileToMdInternal,
-      toMd: v8CpuProfileToMd,
+      toMdAsync: v8CpuProfileToMdAsync,
     },
   ],
   [
@@ -150,7 +156,7 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       kind: `json`,
       detect: detectV8HeapProfile,
       toMdInternal: v8HeapProfileToMdInternal,
-      toMd: v8HeapProfileToMd,
+      toMdAsync: v8HeapProfileToMdAsync,
     },
   ],
   [
@@ -160,7 +166,7 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       kind: `json`,
       detect: detectV8HeapSnapshot,
       toMdInternal: v8HeapSnapshotToMdInternal,
-      toMd: v8HeapSnapshotToMd,
+      toMdAsync: v8HeapSnapshotToMdAsync,
     },
   ],
   [
@@ -170,7 +176,7 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       kind: `binary`,
       detect: detectPprof,
       toMdInternal: pprofToMdInternal,
-      toMd: pprofToMd,
+      toMdAsync: pprofToMdAsync,
     },
   ],
 ])
