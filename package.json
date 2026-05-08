@@ -76,6 +76,7 @@
     "check-readme": "node scripts/update-readme.ts --check",
     "update-examples": "node scripts/update-examples.ts",
     "check-examples": "node scripts/update-examples.ts --check",
+    "pub": "./scripts/publish",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",
