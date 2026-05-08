@@ -43,8 +43,8 @@ profiler-md
 │   │
 │   ├── helpers/              # Generic utility functions
 │   │   ├── array.ts
+│   │   ├── bytes.ts
 │   │   ├── heap.ts
-│   │   ├── json.ts
 │   │   ├── format.ts
 │   │   └── markdown.ts
 │   │
