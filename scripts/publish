@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir=$(cd "$(dirname "$0")" && pwd)
+docs_dir="$script_dir/../docs"
+
+# Collect all symlinks in docs/
+declare -A symlinks
+
+while IFS= read -r -d '' link; do
+  symlinks["$link"]=$(readlink "$link")
+done < <(find "$docs_dir" -type l -print0)
+
+# Restore symlinks on exit (success or failure)
+restore_symlinks() {
+  for link in "${!symlinks[@]}"; do
+    rm -f "$link"
+    ln -s "${symlinks[$link]}" "$link"
+  done
+}
+trap restore_symlinks EXIT
+
+# Replace symlinks with real file copies so pnpm packs them
+for link in "${!symlinks[@]}"; do
+  link_dir=$(dirname "$link")
+  cp "$link_dir/${symlinks[$link]}" "${link}.tmp"
+  rm "$link"
+  mv "${link}.tmp" "$link"
+done
+
+pnpm publish "$@"
