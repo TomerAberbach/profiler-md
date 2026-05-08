@@ -1,40 +1,40 @@
-import { readFile } from 'node:fs/promises'
-import { promisify } from 'node:util'
-import { brotliDecompress, gunzip } from 'node:zlib'
+import { openAsBlob } from 'node:fs'
+import type { Transform } from 'node:stream'
+import { blob } from 'node:stream/consumers'
+import { pipeline } from 'node:stream/promises'
+import { createBrotliDecompress, createGunzip } from 'node:zlib'
 import { CliError } from './error.ts'
 
-export const readInput = async (
+export const openInputAsBlob = async (
   filePath: string | undefined,
-): Promise<Uint8Array> => {
-  const data = await readRawInput(filePath)
-  return decompress(data, filePath)
-}
+): Promise<Blob> => decompressBlob(await openRawInputAsBlob(filePath), filePath)
 
-const readRawInput = async (
+const openRawInputAsBlob = async (
   filePath: string | undefined,
-): Promise<Uint8Array> => {
+): Promise<Blob> => {
   if (!filePath) {
-    return Buffer.concat(await Array.fromAsync(process.stdin))
+    return blob(process.stdin)
   }
 
   try {
-    return await readFile(filePath)
+    return await openAsBlob(filePath)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     throw new CliError(message, 1)
   }
 }
 
-const decompress = async (
-  data: Uint8Array,
+const decompressBlob = async (
+  data: Blob,
   filePath: string | undefined,
-): Promise<Uint8Array> => {
+): Promise<Blob> => {
   try {
     if (filePath?.endsWith(`.br`)) {
-      return await brotliDecompressAsync(data)
+      return await decompressStream(data, createBrotliDecompress())
     }
-    if (data[0] === 0x1f && data[1] === 0x8b) {
-      return await gunzipAsync(data)
+    const header = new Uint8Array(await data.slice(0, 2).arrayBuffer())
+    if (header[0] === 0x1f && header[1] === 0x8b) {
+      return await decompressStream(data, createGunzip())
     }
     return data
   } catch (error) {
@@ -43,5 +43,11 @@ const decompress = async (
   }
 }
 
-const gunzipAsync = promisify(gunzip)
-const brotliDecompressAsync = promisify(brotliDecompress)
+const decompressStream = async (
+  data: Blob,
+  transform: Transform,
+): Promise<Blob> => {
+  const decompressedData = blob(transform)
+  await pipeline(data.stream(), transform)
+  return decompressedData
+}

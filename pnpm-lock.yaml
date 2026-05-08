@@ -32,6 +32,9 @@ importers:
       convert-source-map:
         specifier: ^2.0.0
         version: 2.0.0
+      jumbo-json:
+        specifier: ^0.2.0
+        version: 0.2.0
       picomatch:
         specifier: ^4.0.4
         version: 4.0.4
@@ -1861,6 +1864,9 @@ packages:
   jsx-ast-utils@3.3.5:
     resolution: {integrity: sha512-ZZow9HBI5O6EPgSJLUb8n2NKgmVWTwCvHGwFuJlMjvLFqlGG6pjirPhtdsseaLZjSibD8eegzmYpUZwoIlj2cQ==}
     engines: {node: '>=4.0'}
+
+  jumbo-json@0.2.0:
+    resolution: {integrity: sha512-g3ZySZh0IFczCgiRZpVjcbN3FBfSxt9w+523do0o9KrIWMN51okDdSAo3nEnvFV1ee4Fu+6zV0GaKulMBCwfFQ==}
 
   katex@0.16.45:
     resolution: {integrity: sha512-pQpZbdBu7wCTmQUh7ufPmLr0pFoObnGUoL/yhtwJDgmmQpbkg/0HSVti25Fu4rmd1oCR6NGWe9vqTWuWv3GcNA==}
@@ -4855,6 +4861,8 @@ snapshots:
       array.prototype.flat: 1.3.3
       object.assign: 4.1.7
       object.values: 1.2.1
+
+  jumbo-json@0.2.0: {}
 
   katex@0.16.45:
     dependencies:

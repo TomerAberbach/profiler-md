@@ -3,6 +3,17 @@ import type { ProfileLocation } from './location.ts'
 import { normalizeSourceMaps } from './source-map.ts'
 import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
 
+/** Profile data that can be synchronously parsed and converted to Markdown. */
+export type BinaryProfileData = Uint8Array | Iterable<Uint8Array>
+
+/**
+ * JSON profile data that can be synchronously parsed and converted to Markdown.
+ */
+export type JsonProfileData = string | BinaryProfileData
+
+/** Profile data that can be asynchronously parsed and converted to Markdown. */
+export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
+
 /** A single entry in a rendered profile. */
 export type ProfileEntry = {
   /**

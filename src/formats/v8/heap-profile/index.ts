@@ -1,8 +1,12 @@
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import type { ProfileToMdOptions } from '../../../options.ts'
+import type {
+  AsyncProfileData,
+  JsonProfileData,
+  ProfileToMdOptions,
+} from '../../../options.ts'
 import { formatV8HeapProfile } from './format.ts'
 import type { V8HeapProfile } from './parse.ts'
-import { parseV8HeapProfile } from './parse.ts'
+import { parseV8HeapProfile, parseV8HeapProfileAsync } from './parse.ts'
 import { summarizeV8HeapProfile } from './summarize.ts'
 
 export const detectV8HeapProfile = (
@@ -35,9 +39,25 @@ export const detectV8HeapProfile = (
  * (`profiler-md --help v8-heap-profile`).
  */
 export const v8HeapProfileToMd = (
-  data: string | Uint8Array,
+  data: JsonProfileData,
   options?: ProfileToMdOptions,
 ): string => v8HeapProfileToMdInternal(parseV8HeapProfile(data), options)
+
+/**
+ * Asynchronously converts the given V8 sampling heap profile to Markdown.
+ *
+ * It is assumed that {@link data} is a valid profile. The behavior of this
+ * function is undefined for invalid profiles.
+ *
+ * See the [V8 heap profile docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/v8-heap-profile.md)
+ * for supported runtimes and generation instructions
+ * (`profiler-md --help v8-heap-profile`).
+ */
+export const v8HeapProfileToMdAsync = async (
+  data: AsyncProfileData,
+  options?: ProfileToMdOptions,
+): Promise<string> =>
+  v8HeapProfileToMdInternal(await parseV8HeapProfileAsync(data), options)
 
 export const v8HeapProfileToMdInternal = (
   profile: V8HeapProfile,

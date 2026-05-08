@@ -1,8 +1,12 @@
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import type { ProfileToMdOptions } from '../../../options.ts'
+import type {
+  AsyncProfileData,
+  JsonProfileData,
+  ProfileToMdOptions,
+} from '../../../options.ts'
 import { formatV8HeapSnapshot } from './format.ts'
 import type { V8HeapSnapshot } from './parse.ts'
-import { parseV8HeapSnapshot } from './parse.ts'
+import { parseV8HeapSnapshot, parseV8HeapSnapshotAsync } from './parse.ts'
 import { summarizeV8HeapSnapshot } from './summarize.ts'
 
 export const detectV8HeapSnapshot = (
@@ -44,9 +48,25 @@ export const detectV8HeapSnapshot = (
  * (`profiler-md --help v8-heap-snapshot`).
  */
 export const v8HeapSnapshotToMd = (
-  data: string | Uint8Array,
+  data: JsonProfileData,
   options?: ProfileToMdOptions,
 ): string => v8HeapSnapshotToMdInternal(parseV8HeapSnapshot(data), options)
+
+/**
+ * Asynchronously converts the given V8 heap snapshot to Markdown.
+ *
+ * It is assumed that {@link data} is a valid snapshot. The behavior of this
+ * function is undefined for invalid snapshots.
+ *
+ * See the [V8 heap snapshot docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/v8-heap-snapshot.md)
+ * for supported runtimes and generation instructions
+ * (`profiler-md --help v8-heap-snapshot`).
+ */
+export const v8HeapSnapshotToMdAsync = async (
+  data: AsyncProfileData,
+  options?: ProfileToMdOptions,
+): Promise<string> =>
+  v8HeapSnapshotToMdInternal(await parseV8HeapSnapshotAsync(data), options)
 
 export const v8HeapSnapshotToMdInternal = (
   snapshot: V8HeapSnapshot,

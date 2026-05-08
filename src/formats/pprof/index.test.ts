@@ -327,38 +327,42 @@ test(`pprofToMd excludes count unit value types`, () => {
   expect(markdown).not.toContain(`count`)
 })
 
-test(`detectPprof accepts a valid pprof`, () => {
-  const data = makePprof({
-    functions: [
-      { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
-    ],
-    locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
-    samples: [{ locationIds: [1], values: [100_000] }],
-  })
+test(`detectPprof accepts a valid pprof`, async () => {
+  const blob = new Blob([
+    makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [100_000] }],
+    }),
+  ])
 
-  const pprof = detectPprof(data)
+  const pprof = await detectPprof(blob)
 
   expect(pprof).toBeDefined()
 })
 
-test(`detectPprof rejects empty data`, () => {
-  const pprof = detectPprof(new Uint8Array(0))
+test(`detectPprof rejects empty data`, async () => {
+  const emptyBlob = new Blob([])
+
+  const pprof = await detectPprof(emptyBlob)
 
   expect(pprof).toBeUndefined()
 })
 
-test(`detectPprof rejects invalid binary data`, () => {
-  const pprof = detectPprof(new Uint8Array([0xff, 0xfe, 0xfd]))
+test(`detectPprof rejects invalid binary data`, async () => {
+  const invalidBlob = new Blob([new Uint8Array([0xff, 0xfe, 0xfd])])
+
+  const pprof = await detectPprof(invalidBlob)
 
   expect(pprof).toBeUndefined()
 })
 
-test(`detectPprof rejects non-pprof binary (e.g. JSON)`, () => {
-  const json = new TextEncoder().encode(
-    JSON.stringify({ nodes: [], timeDeltas: [] }),
-  )
+test(`detectPprof rejects non-pprof binary (e.g. JSON)`, async () => {
+  const jsonBlob = new Blob([JSON.stringify({ nodes: [], timeDeltas: [] })])
 
-  const pprof = detectPprof(json)
+  const pprof = await detectPprof(jsonBlob)
 
   expect(pprof).toBeUndefined()
 })

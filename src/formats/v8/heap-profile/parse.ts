@@ -1,4 +1,5 @@
-import { parseJson } from '../../../helpers/json.ts'
+import { JumboJSON } from 'jumbo-json'
+import type { AsyncProfileData, JsonProfileData } from '../../../options.ts'
 import type { V8CallFrame } from '../common.ts'
 
 /**
@@ -37,5 +38,9 @@ export type V8HeapProfileSample = {
   ordinal: number
 }
 
-export const parseV8HeapProfile = (data: string | Uint8Array): V8HeapProfile =>
-  parseJson(data) as V8HeapProfile
+export const parseV8HeapProfile = (data: JsonProfileData): V8HeapProfile =>
+  JumboJSON.parse(data)
+
+export const parseV8HeapProfileAsync = (
+  data: AsyncProfileData,
+): Promise<V8HeapProfile> => JumboJSON.parseAsync(data)
