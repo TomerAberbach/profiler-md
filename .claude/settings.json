@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.file_path' | { read -r f; cd /Users/tomer/Documents/work/code/profiler-md && case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.mts|*.mjs|*.cjs) pnpm lint:base \"$f\" ;; esac; pnpm format:base \"$f\"; } 2>/dev/null || true",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/lint-format.sh",
             "statusMessage": "Linting and formatting..."
           }
         ]
