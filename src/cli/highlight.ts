@@ -1,11 +1,10 @@
 import type { HighlighterCore, ThemedToken } from '@shikijs/core'
 import type { Ansis } from 'ansis'
-import { makeAnsis } from './color.ts'
+import { makeAnsis } from './ansis.ts'
 import kindlingTheme from './theme-kindling.ts'
 
 export type HighlightMarkdownOptions = {
   outputPath: string
-  color: boolean | undefined
 }
 
 export const highlightMarkdown = async (
