@@ -2,7 +2,7 @@ import {
   formatBytes,
   formatConjunction,
   formatCount,
-  formatMicrosecondsExact,
+  formatMicroseconds,
   formatMilliseconds,
   formatPercent,
 } from '../helpers/format.ts'
@@ -107,9 +107,7 @@ const formatSamplingInterval = (
 ): string => {
   switch (metric.type) {
     case `time`:
-      return formatMicrosecondsExact(
-        samplingInterval * 1000 * metric.milliseconds,
-      )
+      return formatMicroseconds(samplingInterval * 1000 * metric.milliseconds)
     case `size`:
       return formatBytes(samplingInterval * metric.bytes)
     case `custom`:

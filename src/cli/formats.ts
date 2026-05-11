@@ -4,6 +4,7 @@ import {
   detectV8CpuProfile,
   detectV8HeapProfile,
   detectV8HeapSnapshot,
+  detectWebKitTimelineRecording,
   pprofToMdAsync,
   pprofToMdInternal,
   speedscopeProfileToMdAsync,
@@ -14,6 +15,8 @@ import {
   v8HeapProfileToMdInternal,
   v8HeapSnapshotToMdAsync,
   v8HeapSnapshotToMdInternal,
+  webkitTimelineRecordingToMdAsync,
+  webkitTimelineRecordingToMdInternal,
 } from '../formats/index.ts'
 import type { AsyncProfileData, ProfileToMdOptions } from '../options.ts'
 
@@ -86,6 +89,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
         `v8-heap-snapshot`,
         `pprof`,
         `speedscope`,
+        `webkit-timeline-recording`,
       ],
       examples: {
         'v8-cpu-profile': [
@@ -99,6 +103,9 @@ export const languages: ReadonlyMap<string, Language> = new Map([
         ],
         pprof: [{ filename: `node.pprof`, label: `Node.js` }],
         speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
+        'webkit-timeline-recording': [
+          { filename: `webkit-timeline-recording.json`, label: `example` },
+        ],
       },
       aliases: [{ id: `typescript`, name: `TypeScript` }],
     },
@@ -113,8 +120,8 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       formats: [`pprof`, `speedscope`],
       examples: {
         pprof: [
-          { filename: `rust1.pprof`, label: `1` },
-          { filename: `rust2.pprof`, label: `2` },
+          { filename: `rust1.pprof`, label: `example 1` },
+          { filename: `rust2.pprof`, label: `example 2` },
         ],
       },
     },
@@ -177,6 +184,16 @@ export const formats: ReadonlyMap<string, Format> = new Map([
       detect: detectPprof,
       toMdInternal: pprofToMdInternal,
       toMdAsync: pprofToMdAsync,
+    },
+  ],
+  [
+    `webkit-timeline-recording`,
+    {
+      name: `WebKit Timeline Recording`,
+      kind: `json`,
+      detect: detectWebKitTimelineRecording,
+      toMdInternal: webkitTimelineRecordingToMdInternal,
+      toMdAsync: webkitTimelineRecordingToMdAsync,
     },
   ],
 ])

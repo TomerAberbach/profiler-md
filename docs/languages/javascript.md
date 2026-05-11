@@ -183,3 +183,23 @@ Stop when done to see allocation hot spots by call stack.
 
 Open the **Memory** panel, select **Heap snapshot**, and click **Take
 snapshot**.
+
+## Safari Web Inspector
+
+Safari's Web Inspector records a timeline that combines CPU sampling, browser
+activity, and optionally memory readings and heap allocations, all exported as a
+single file.
+
+### Connecting
+
+Open the Web Inspector with **Develop → Show Web Inspector** (or ⌥⌘I).
+
+### Recording
+
+1. Click the **Timelines** tab.
+2. Enable the instruments you want: **JavaScript & Events** (always), and
+   optionally **Memory** and **JavaScript Allocations**.
+3. Click **Start Recording** (or ⌘R).
+4. Reproduce the scenario you want to profile.
+5. Click **Stop Recording**.
+6. Click the **Export** button (arrow icon) and save as a `.json` file.

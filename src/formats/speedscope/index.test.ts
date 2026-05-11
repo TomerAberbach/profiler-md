@@ -113,7 +113,7 @@ test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () =
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 35.0ms over 3 samples (11666.7µs per sample).
+    Took 35.0ms over 3 samples (11.7ms per sample).
 
     | Category |      % |   Time | Samples |
     | -------- | -----: | -----: | ------: |
@@ -193,7 +193,7 @@ test(`speedscopeProfileToMd evented profile with durations computed from open/cl
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 15.0ms over 3 samples (5000.0µs per sample).
+    Took 15.0ms over 3 samples (5.0ms per sample).
 
     | Category |      % |   Time | Samples |
     | -------- | -----: | -----: | ------: |
@@ -267,7 +267,7 @@ test(`speedscopeProfileToMd multi-profile file`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 100.0ms over 1 sample (100000.0µs per sample).
+    Took 100.0ms over 1 sample (100.0ms per sample).
 
     | Category |      % |    Time | Samples |
     | -------- | -----: | ------: | ------: |
@@ -294,7 +294,7 @@ test(`speedscopeProfileToMd multi-profile file`, () => {
 
     # CPU profile
 
-    Took 200.0ms over 1 sample (200000.0µs per sample).
+    Took 200.0ms over 1 sample (200.0ms per sample).
 
     | Category |      % |    Time | Samples |
     | -------- | -----: | ------: | ------: |
@@ -338,7 +338,7 @@ test(`speedscopeProfileToMd sampled profile with zero-weight samples are skipped
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 30.0ms over 2 samples (15000.0µs per sample).
+    Took 30.0ms over 2 samples (15.0ms per sample).
 
     | Category |      % |   Time | Samples |
     | -------- | -----: | -----: | ------: |
@@ -384,7 +384,7 @@ test(`speedscopeProfileToMd evented profile with recursive function`, () => {
   expect(markdown).toMatchInlineSnapshot(`
     "# CPU profile
 
-    Took 15.0ms over 3 samples (5000.0µs per sample).
+    Took 15.0ms over 3 samples (5.0ms per sample).
 
     | Category |      % |   Time | Samples |
     | -------- | -----: | -----: | ------: |

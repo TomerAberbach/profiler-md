@@ -5,15 +5,17 @@ import prettyMilliseconds from 'pretty-ms'
 export const formatCount = (count: number, unit?: string): string =>
   count.toLocaleString(`en-US`) + (unit ? ` ${plur(unit, count)}` : ``)
 
+export const formatMicroseconds = (microseconds: number): string =>
+  microseconds >= 1000
+    ? formatMilliseconds(microseconds / 1000)
+    : `${microseconds.toFixed(1)}µs`
+
 export const formatMilliseconds = (milliseconds: number): string =>
   prettyMilliseconds(milliseconds, {
     secondsDecimalDigits: 2,
     millisecondsDecimalDigits: 1,
     unitCount: 2,
   })
-
-export const formatMicrosecondsExact = (microseconds: number): string =>
-  `${microseconds.toFixed(1)}µs`
 
 export const formatBytes = (bytes: number): string =>
   prettyBytes(bytes, { nonBreakingSpace: true })

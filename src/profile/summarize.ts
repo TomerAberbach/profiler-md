@@ -7,7 +7,7 @@ import type {
 } from '../options.ts'
 import type { Metric } from './metric.ts'
 
-export class ProfileBuilder<Node extends { id: number }> {
+export class ProfileBuilder<Node extends { id?: number }> {
   readonly #metrics: Metric[]
   readonly #functionKey: (node: Node) => number | string
   readonly #functionInput: (node: Node) => ProfileFunctionInput
@@ -230,15 +230,20 @@ export class ProfileBuilder<Node extends { id: number }> {
   }
 
   #getOrCreateFunction(node: Node): ProfileFunction {
-    let func = this.#idToFunction[node.id]
-    if (func) {
-      return func
+    const { id } = node
+    if (id !== undefined) {
+      const func = this.#idToFunction[id]
+      if (func) {
+        return func
+      }
     }
 
     const key = this.#functionKey(node)
-    func = this.#keyToFunction.get(key)
+    let func = this.#keyToFunction.get(key)
     if (func) {
-      this.#idToFunction[node.id] = func
+      if (id !== undefined) {
+        this.#idToFunction[id] = func
+      }
       return func
     }
 
@@ -261,7 +266,9 @@ export class ProfileBuilder<Node extends { id: number }> {
       callerIdToMetrics: new Map(),
       calleeIdToMetrics: new Map(),
     }
-    this.#idToFunction[node.id] = func
+    if (id !== undefined) {
+      this.#idToFunction[id] = func
+    }
     this.#keyToFunction.set(key, func)
     return func
   }
@@ -297,7 +304,7 @@ export type ProfileFunctionInput = {
 }
 
 /** A single sample within a profile. */
-export type Sample<Node extends { id: number }> = {
+export type Sample<Node extends { id?: number }> = {
   /** The values recorded for each metric in {@link Profile.metrics}. */
   values: number[]
 

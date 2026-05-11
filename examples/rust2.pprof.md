@@ -1,6 +1,6 @@
 # CPU profile
 
-Took 176.0ms over 68 samples (2588.2µs per sample).
+Took 176.0ms over 68 samples (2.6ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
