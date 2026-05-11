@@ -17,9 +17,10 @@ export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
 /** A single entry in a rendered profile. */
 export type ProfileEntry = {
   /**
-   * The name of the entity corresponding to this entry (e.g. a function name).
+   * The name of the entity corresponding to this entry (e.g. a function name)
+   * if it has one.
    */
-  name: string
+  name?: string
 
   /**
    * The location where the entity corresponding to this entry was defined, or
@@ -140,7 +141,7 @@ export const defaultIncludeEntry = ({
   name,
   location,
 }: ProfileEntry): boolean => {
-  if (name === `(root)` || name === `(module)`) {
+  if (name === `(root)` || name === `<root>` || name === `(module)`) {
     // Synthetic roots.
     return false
   }
@@ -148,8 +149,8 @@ export const defaultIncludeEntry = ({
   if (
     (!location &&
       (name === `ModuleWrap` ||
-        name.startsWith(`system /`) ||
-        name.startsWith(`Node /`))) ||
+        name?.startsWith(`system /`) ||
+        name?.startsWith(`Node /`))) ||
     (location?.url.protocol === `node:` &&
       location.url.pathname.startsWith(`internal/`))
   ) {
