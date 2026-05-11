@@ -25,7 +25,7 @@ const matrix = formatTable(
           const exampleLinks = formatExamples
             .map(({ filename, label }) => `[${label}](examples/${filename}.md)`)
             .join(`, `)
-          return `${link} (examples: ${exampleLinks})`
+          return `${link} (${exampleLinks})`
         })
         .join(`, `),
     ],

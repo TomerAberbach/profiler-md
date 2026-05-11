@@ -18,4 +18,6 @@ export {
   v8HeapProfileToMdAsync,
   v8HeapSnapshotToMd,
   v8HeapSnapshotToMdAsync,
+  webkitTimelineRecordingToMd,
+  webkitTimelineRecordingToMdAsync,
 } from './formats/index.ts'
