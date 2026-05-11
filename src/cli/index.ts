@@ -18,21 +18,17 @@ try {
     thirdParty,
     sourceMaps,
     pager,
-    color,
     file: filePath,
   } = parseArgs()
 
   if (help !== undefined) {
-    await printHelpTopic(typeof help === `string` ? help : undefined, {
-      pager,
-      color,
-    })
+    await printHelpTopic(typeof help === `string` ? help : undefined, { pager })
   }
 
   const forcedFormat =
     profileFormat === undefined ? undefined : formats.get(profileFormat)
   if (!filePath && process.stdin.isTTY) {
-    await printHelpTopic(undefined, { pager, color })
+    await printHelpTopic(undefined, { pager })
   }
 
   const [data, options] = await Promise.all([
@@ -40,10 +36,7 @@ try {
     buildOptions({ topN, cwd, thirdParty, sourceMaps }),
   ])
   const markdown = await convertToMarkdown(data, forcedFormat, options)
-  const highlightedMarkdown = await highlightMarkdown(markdown, {
-    outputPath,
-    color,
-  })
+  const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
   await writeOutput(highlightedMarkdown, outputPath, { pager })
 } catch (error) {

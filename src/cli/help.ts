@@ -6,12 +6,11 @@ import { writeOutput } from './output.ts'
 
 export type PrintHelpTopicOptions = {
   pager: boolean
-  color: boolean | undefined
 }
 
 export const printHelpTopic = async (
   topic: string | undefined,
-  { pager, color }: PrintHelpTopicOptions,
+  { pager }: PrintHelpTopicOptions,
 ): Promise<never> => {
   if (topic === undefined) {
     await writeOutput(getHelpText(), `-`, { pager })
@@ -49,7 +48,6 @@ export const printHelpTopic = async (
   const outputPath = `-`
   const markdown = await highlightMarkdown(`${doc}${seeAlsoSuffix}`, {
     outputPath,
-    color,
   })
   await writeOutput(markdown, outputPath, { pager })
   process.exit(0)

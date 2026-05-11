@@ -19,37 +19,6 @@ beforeAll(async () => {
 
 afterEach(() => vi.unstubAllEnvs())
 
-describe(`no-color mode`, () => {
-  test(`FORCE_COLOR=0 returns markdown unchanged`, async () => {
-    vi.stubEnv(`FORCE_COLOR`, `0`)
-
-    const highlighted = await highlightMarkdown(
-      `# Hello`,
-      highlightMarkdownOptions,
-    )
-
-    expect(highlighted).toBe(`# Hello`)
-  })
-
-  test(`color: false returns markdown unchanged`, async () => {
-    const highlighted = await highlightMarkdown(`# Hello`, {
-      ...highlightMarkdownOptions,
-      color: false,
-    })
-
-    expect(highlighted).toBe(`# Hello`)
-  })
-
-  test(`file output without FORCE_COLOR returns markdown unchanged`, async () => {
-    const highlighted = await highlightMarkdown(`# Hello`, {
-      ...highlightMarkdownOptions,
-      outputPath: `out.md`,
-    })
-
-    expect(highlighted).toBe(`# Hello`)
-  })
-})
-
 describe(`ANSI rendering`, () => {
   beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
 
@@ -400,7 +369,4 @@ const defaultRowRed = 211
 // Golden amber (#dbbc7f = 219,188,127) is the default.
 const defaultHeadingRed = 219
 
-const highlightMarkdownOptions: HighlightMarkdownOptions = {
-  outputPath: `-`,
-  color: undefined,
-}
+const highlightMarkdownOptions: HighlightMarkdownOptions = { outputPath: `-` }
