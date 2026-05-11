@@ -29,10 +29,11 @@ jobs:
           node-version: ${{ matrix.nodejs }}
 
       - name: Install pnpm
-        run: npm install -g pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+          cache: true
+          run_install: true
 
       - name: Build
         run: pnpm build
