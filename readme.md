@@ -6,8 +6,8 @@
   <a href="https://npmjs.org/package/profiler-md">
     <img src="https://badgen.net/npm/v/profiler-md" alt="version" />
   </a>
-  <a href="https://github.com/TomerAberbach/profiler-md/actions">
-    <img src="https://github.com/TomerAberbach/profiler-md/workflows/CI/badge.svg" alt="CI" />
+  <a href="https://github.com/TomerAberbach/profiler-md/actions/workflows/ci.yml">
+    <img src="https://github.com/TomerAberbach/profiler-md/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" />
   </a>
   <a href="https://github.com/sponsors/TomerAberbach">
     <img src="https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86" alt="Sponsor" />
