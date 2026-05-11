@@ -26,10 +26,7 @@ if (check) {
   }
 }
 
-const otherCwds = new Map([
-  [`rust1.pprof`, `/Users/mike/code/mikecluck`],
-  [`rust2.pprof`, `/Users/mike/code/mikecluck`],
-])
+const otherCwds = new Map([[`rust.pprof`, `/Users/mike/code/mikecluck`]])
 
 for (const filename of fixtureFilenames) {
   const fixturePath = join(`src/fixtures`, filename)

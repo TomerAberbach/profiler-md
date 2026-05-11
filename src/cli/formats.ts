@@ -119,10 +119,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       name: `Rust`,
       formats: [`pprof`, `speedscope`],
       examples: {
-        pprof: [
-          { filename: `rust1.pprof`, label: `example 1` },
-          { filename: `rust2.pprof`, label: `example 2` },
-        ],
+        pprof: [{ filename: `rust.pprof`, label: `example` }],
       },
     },
   ],
