@@ -7,68 +7,65 @@ import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
 import { fixturePath } from '../testing/fixtures.ts'
 
-describe.concurrent.each(await fs.readdir(fixturePath()))(
-  `$format`,
-  filename => {
-    const path = fixturePath(filename)
-    const fileContent = readFileSync(path)
+describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
+  const path = fixturePath(filename)
+  const fileContent = readFileSync(path)
 
-    test(`outputs markdown from a ${filename} file`, async () => {
-      const { status, stdout } = await runCli([path])
+  test(`outputs markdown from a ${filename} file`, async () => {
+    const { status, stdout } = await runCli([path])
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(/^# /u)
+  })
+
+  test(`reads from stdin and auto-detects format`, async () => {
+    const { status, stdout } = await runCli([], fileContent)
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(/^# /u)
+  })
+
+  test.each([`--output`, `-o`])(
+    `writes output to a file with %s`,
+    async flag => {
+      const tempPath = join(
+        mkdtempSync(join(tmpdir(), `profiler-md-`)),
+        `out.md`,
+      )
+
+      const { status, stdout } = await runCli([path, flag, tempPath])
 
       expect(status).toBe(0)
-      expect(stdout).toMatch(/^# /u)
-    })
+      expect(stdout).toBe(``)
+      expect(readFileSync(tempPath, `utf8`)).toMatch(/^# /u)
 
-    test(`reads from stdin and auto-detects format`, async () => {
-      const { status, stdout } = await runCli([], fileContent)
+      rmSync(tempPath, { recursive: true })
+    },
+  )
 
-      expect(status).toBe(0)
-      expect(stdout).toMatch(/^# /u)
-    })
+  test(`--top-n limits the number of entries shown`, async () => {
+    const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
+      runCli([path, `--top-n`, `1`]),
+      runCli([path, `--top-n`, `5`]),
+    ])
 
-    test.each([`--output`, `-o`])(
-      `writes output to a file with %s`,
-      async flag => {
-        const tempPath = join(
-          mkdtempSync(join(tmpdir(), `profiler-md-`)),
-          `out.md`,
-        )
+    expect(top1.length).toBeLessThan(top5.length)
+  })
 
-        const { status, stdout } = await runCli([path, flag, tempPath])
+  test(`--cwd makes file paths relative to the given directory`, async () => {
+    const cwd = `/Users/tomer/Documents/work/code`
 
-        expect(status).toBe(0)
-        expect(stdout).toBe(``)
-        expect(readFileSync(tempPath, `utf8`)).toMatch(/^# /u)
+    const { stdout } = await runCli([path, `--cwd`, cwd])
 
-        rmSync(tempPath, { recursive: true })
-      },
-    )
+    expect(stdout).not.toContain(cwd)
+  })
 
-    test(`--top-n limits the number of entries shown`, async () => {
-      const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
-        runCli([path, `--top-n`, `1`]),
-        runCli([path, `--top-n`, `5`]),
-      ])
+  test(`--third-party changes which paths are considered third-party`, async () => {
+    const { stdout } = await runCli([path, `--third-party`, `**`])
 
-      expect(top1.length).toBeLessThan(top5.length)
-    })
-
-    test(`--cwd makes file paths relative to the given directory`, async () => {
-      const cwd = `/Users/tomer/Documents/work/code`
-
-      const { stdout } = await runCli([path, `--cwd`, cwd])
-
-      expect(stdout).not.toContain(cwd)
-    })
-
-    test(`--third-party changes which paths are considered third-party`, async () => {
-      const { stdout } = await runCli([path, `--third-party`, `**`])
-
-      expect(stdout).not.toContain(`ours`)
-    })
-  },
-)
+    expect(stdout).not.toContain(`ours`)
+  })
+})
 
 describe.each([
   { compression: `gzip`, compress: gzipSync, ext: `.gz` },

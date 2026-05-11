@@ -1,6 +1,6 @@
-# WebKit Timeline Recording
+# WebKit timeline recording
 
-The [WebKit Timeline Recording](https://webkit.org/web-inspector/timelines-tab)
+The [WebKit timeline recording](https://webkit.org/web-inspector/timelines-tab)
 is a JSON format captured by Safari's Web Inspector. It combines a CPU profile
 from sampling, a browser activity breakdown (layout, rendering, script
 execution, network requests), and optionally in-use memory readings and heap

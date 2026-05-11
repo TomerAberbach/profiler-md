@@ -97,14 +97,14 @@ test(`v8HeapSnapshotToMd renders all five sections`, () => {
   // The DetachedClass object has detachedness=1 to populate the detached section.
   //
   // Node layout (6 fields each: type, name, id, self_size, edge_count, detachedness):
-  //   0: synthetic root  — edges to all other reachable nodes
+  //   0: synthetic root                edges to all other reachable nodes
   //   1: object  MyClass        200 B
   //   2: closure myFn            64 B  (location: scriptId=1, line=5, col=10)
   //   3: string  "hello world"  110 B
   //   4: object  DetachedClass   80 B  detached=1
-  //   5: code    myFn (SFI)      48 B  — SharedFunctionInfo for the closure
-  //   6: synthetic (Script)             — intermediate node for script name resolution
-  //   7: string  "" (script name, 0 B) — "file:///project/src/a.ts"
+  //   5: code    myFn (SFI)      48 B  SharedFunctionInfo for the closure
+  //   6: synthetic (Script)            intermediate node for script name resolution
+  //   7: string  "" (script name, 0 B) "file:///project/src/a.ts"
   //
   // Script name resolution path for the closure:
   //   node2 -[internal "shared"]-> node5 -[internal "script"]-> node6 -[internal "name"]-> node7

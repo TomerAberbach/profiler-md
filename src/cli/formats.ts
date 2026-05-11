@@ -1,10 +1,13 @@
 import {
+  detectJSCHeapSnapshot,
   detectPprof,
   detectSpeedscopeProfile,
   detectV8CpuProfile,
   detectV8HeapProfile,
   detectV8HeapSnapshot,
   detectWebKitTimelineRecording,
+  jscHeapSnapshotToMdAsync,
+  jscHeapSnapshotToMdInternal,
   pprofToMdAsync,
   pprofToMdInternal,
   speedscopeProfileToMdAsync,
@@ -84,14 +87,20 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     {
       name: `JavaScript`,
       formats: [
+        `jsc-heap-snapshot`,
+        `pprof`,
+        `speedscope`,
         `v8-cpu-profile`,
         `v8-heap-profile`,
         `v8-heap-snapshot`,
-        `pprof`,
-        `speedscope`,
         `webkit-timeline-recording`,
       ],
       examples: {
+        'jsc-heap-snapshot': [
+          { filename: `jsc-heap-snapshot.json`, label: `Safari` },
+        ],
+        pprof: [{ filename: `node.pprof`, label: `Node.js` }],
+        speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
         'v8-cpu-profile': [
           { filename: `node.cpuprofile`, label: `Node.js` },
           { filename: `deno.cpuprofile`, label: `Deno` },
@@ -101,8 +110,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
         'v8-heap-snapshot': [
           { filename: `node.heapsnapshot`, label: `Node.js` },
         ],
-        pprof: [{ filename: `node.pprof`, label: `Node.js` }],
-        speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
         'webkit-timeline-recording': [
           { filename: `webkit-timeline-recording.json`, label: `example` },
         ],
@@ -133,6 +140,26 @@ export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(
 )
 
 export const formats: ReadonlyMap<string, Format> = new Map([
+  [
+    `jsc-heap-snapshot`,
+    {
+      name: `JSC heap snapshot`,
+      kind: `json`,
+      detect: detectJSCHeapSnapshot,
+      toMdInternal: jscHeapSnapshotToMdInternal,
+      toMdAsync: jscHeapSnapshotToMdAsync,
+    },
+  ],
+  [
+    `pprof`,
+    {
+      name: `pprof`,
+      kind: `binary`,
+      detect: detectPprof,
+      toMdInternal: pprofToMdInternal,
+      toMdAsync: pprofToMdAsync,
+    },
+  ],
   [
     `speedscope`,
     {
@@ -174,19 +201,9 @@ export const formats: ReadonlyMap<string, Format> = new Map([
     },
   ],
   [
-    `pprof`,
-    {
-      name: `pprof`,
-      kind: `binary`,
-      detect: detectPprof,
-      toMdInternal: pprofToMdInternal,
-      toMdAsync: pprofToMdAsync,
-    },
-  ],
-  [
     `webkit-timeline-recording`,
     {
-      name: `WebKit Timeline Recording`,
+      name: `WebKit timeline recording`,
       kind: `json`,
       detect: detectWebKitTimelineRecording,
       toMdInternal: webkitTimelineRecordingToMdInternal,

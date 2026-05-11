@@ -89,6 +89,7 @@
     "@shikijs/themes": "^4.0.2",
     "ansis": "^4.3.0",
     "convert-source-map": "^2.0.0",
+    "globals": "^17.6.0",
     "jumbo-json": "^0.2.0",
     "picomatch": "^4.0.4",
     "plur": "^6.0.0",
