@@ -30,6 +30,9 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Run Claude Code
         id: claude
         uses: anthropics/claude-code-action@v1
