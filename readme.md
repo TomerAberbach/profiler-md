@@ -113,6 +113,8 @@ import {
   v8HeapProfileToMdAsync,
   v8HeapSnapshotToMd,
   v8HeapSnapshotToMdAsync,
+  webkitTimelineRecordingToMd,
+  webkitTimelineRecordingToMdAsync,
 } from 'profiler-md'
 
 // Basic usage
@@ -126,6 +128,11 @@ console.log(
 )
 console.log(
   await v8HeapSnapshotToMdAsync(await openAsBlob(`example.heapsnapshot`)),
+)
+console.log(
+  await webkitTimelineRecordingToMdAsync(
+    await openAsBlob(`example.webkit-timeline-recording.json`),
+  ),
 )
 
 // Complex usage
@@ -165,6 +172,12 @@ console.log(
     options,
   ),
 )
+console.log(
+  await webkitTimelineRecordingToMdAsync(
+    await openAsBlob(`example.webkit-timeline-recording.json`),
+    options,
+  ),
+)
 
 // Synchronous usage
 console.log(pprofToMd(pprofData))
@@ -172,6 +185,7 @@ console.log(speedscopeProfileToMd(speedscopeProfileData))
 console.log(v8CpuProfileToMd(v8CpuProfileData))
 console.log(v8HeapProfileToMd(v8HeapProfileData))
 console.log(v8HeapSnapshotToMd(v8HeapSnapshotData))
+console.log(webkitTimelineRecordingToMd(webkitTimelineRecordingData))
 ```
 
 ## Shell completions

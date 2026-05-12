@@ -116,3 +116,42 @@ pnpm bench ./src/fixtures/node.cpuprofile
 ### Formatting
 
 - Use heaps to avoid fully sorting data when possible
+
+## New format checklist
+
+### Research
+
+- [ ] Research the format structure online
+- [ ] Acquire an example profile and place it in `src/fixtures`
+- [ ] Analyze the fixture to confirm it aligns with online research
+- [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
+
+### Implementation
+
+- [ ] Create `src/formats/<name>/parse.ts`: typed data types and parse functions
+- [ ] Create `src/formats/<name>/summarize.ts`: aggregation logic
+- [ ] Create `src/formats/<name>/format.ts`: Markdown formatting
+- [ ] Create `src/formats/<name>/index.ts`: exports `detect*`, `*ToMd`,
+      `*ToMdAsync`, `*ToMdInternal`
+- [ ] Create `src/formats/<name>/index.test.ts`: tests for detect and conversion
+- [ ] Export from `src/formats/index.ts`: add
+      `export * from './<name>/index.ts'`
+
+### CLI and programmatic API
+
+- [ ] Register in `src/cli/formats.ts`:
+  - Import `detect*`, `*ToMdInternal`, `*ToMdAsync` at the top
+  - Add entry to `formats` map with `name`, `kind` (`json` or `binary`),
+    `detect`, `toMdInternal`, `toMdAsync`
+  - Add format ID to the relevant language entries in `languages` map
+  - Add example entries (with fixture filenames and labels) if fixtures exist
+- [ ] Export from `src/index.ts`: add `*ToMd` and `*ToMdAsync`
+
+### Documentation
+
+- [ ] Create `docs/formats/<name>.md`: format description for `--help <format>`
+- [ ] Add how to generate the format in relevant `docs/languages/<languages>.md`
+      files for `--help <language>`
+- [ ] Run `pnpm update-examples` to generate `examples/<fixture>.md`
+- [ ] Run `pnpm update-readme` to update the CLI help and language/format matrix
+- [ ] Update the programmatic API code snippet to include the new format
