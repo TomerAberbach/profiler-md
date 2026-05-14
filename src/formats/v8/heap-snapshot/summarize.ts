@@ -4,81 +4,12 @@ import {
 } from '../../../location.ts'
 import type { ProfileLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import { SnapshotBuilder } from '../../../snapshot/index.ts'
+import type {
+  NodeAdjacencyGraph,
+  SummarizedHeapSnapshot,
+} from '../../../snapshot/index.ts'
 import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
-
-export type NodeCategoryStats = {
-  /** Bytes allocated directly for nodes in this category. */
-  size: number
-
-  /** Number of nodes contributing to the size. */
-  nodeCount: number
-}
-
-export type SummarizedSnapshotNode = {
-  /** Unique ID for this node that can also be used as an index. */
-  id: number
-
-  /** A human readable label for this node. */
-  name: string
-
-  /** Bytes allocated directly for this node. */
-  selfSize: number
-
-  /**
-   * Bytes allocated for this node, as well as all nodes that would be freed if
-   * the node were garbage collected.
-   */
-  retainedSize: number
-
-  /** The exact location where the node was defined. */
-  location?: ProfileLocation
-}
-
-export type SummarizedConstructor = SummarizedSnapshotNode & {
-  /** Instances of this constructor and their sizes. */
-  instances: SummarizedSnapshotNode[]
-}
-
-export type SummarizedClosure = {
-  /** A human readable label for this closure. */
-  name: string
-
-  /** The exact location where the closure was defined. */
-  location?: ProfileLocation
-
-  /**
-   * Bytes allocated for all instances of this closure and all nodes that would
-   * be freed if every instance were garbage collected.
-   */
-  retainedSize: number
-
-  /** Node ordinal of the instance with the largest individual retained size. */
-  largestInstanceId: number
-
-  /** Node ordinals of all instances, for computing unique retainer path counts. */
-  instanceIds: number[]
-}
-
-export type SummarizedHeapSnapshot = {
-  /** Total bytes allocated in the snapshot. */
-  totalSize: number
-
-  /** Number of nodes allocated in the snapshot. */
-  nodeCount: number
-
-  /** Number of edges between nodes in the snapshot. */
-  edgeCount: number
-
-  /** Size and count stats by {@link FieldLayout.nodeTypeOffset}. */
-  nodeCategoryToStats: Map<string, NodeCategoryStats>
-
-  constructors: SummarizedConstructor[]
-  closures: SummarizedClosure[]
-  strings: SummarizedSnapshotNode[]
-
-  retainerPathOf: (nodeOrdinal: number) => string
-  retainedNodesOf: (nodeOrdinal: number) => SummarizedSnapshotNode[]
-}
 
 export const summarizeV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
@@ -97,224 +28,79 @@ export const summarizeV8HeapSnapshot = (
     nodeAdjacencyGraph,
     fieldLayout,
   )
-  const immediateDominatorGraph = computeImmediateDominatorGraph(
-    snapshot,
+
+  const snapshotBuilder = new SnapshotBuilder({
+    nodeCount,
+    edgeCount,
     nodeAdjacencyGraph,
-  )
-  const nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
-    snapshot,
-    immediateDominatorGraph,
-    fieldLayout,
-  )
-
-  let totalSize = 0
-  const nodeCategoryToStats = new Map<string, NodeCategoryStats>()
-
-  const constructors: SummarizedConstructor[] = []
-  const nameToConstructorIndex = new Map<string, number>()
-  const nodeOrdinalToConstructorIndex = new Int32Array(nodeCount).fill(-1)
-
-  const closures: SummarizedClosure[] = []
-  const keyToClosureIndex = new Map<string, number>()
-  const nodeOrdinalToClosureIndex = new Int32Array(nodeCount).fill(-1)
-
-  const strings: SummarizedSnapshotNode[] = []
+    nodes,
+    nodeFieldCount: fieldLayout.nodeFieldCount,
+    nodeSelfSizeOffset: fieldLayout.nodeSelfSizeOffset,
+    formatEdgeLabel: (retainerOrdinal, edgeIndex) => {
+      const edgeLabel = formatEdgeLabel(
+        edgeIndex,
+        snapshot,
+        fieldLayout,
+        options,
+      )
+      const retainerLabel = formatNodeLabel(
+        retainerOrdinal,
+        snapshot,
+        fieldLayout,
+        options,
+      )
+      const retainerLocation = nodeOrdinalToLocation[retainerOrdinal]
+      return `${edgeLabel} ${retainerLabel}${
+        retainerLocation
+          ? ` (${formatProfileLocation(retainerLocation, options)})`
+          : ``
+      }`
+    },
+    formatNodeLabel: nodeOrdinal =>
+      formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
+    isInternalNode: nodeOrdinal => {
+      const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
+      const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
+      return (
+        nodeType === fieldLayout.nodeTypeHidden ||
+        nodeType === fieldLayout.nodeTypeSynthetic
+      )
+    },
+  })
 
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-
-    // Node size
-    const selfSize = nodes[nodeIndex + fieldLayout.nodeSelfSizeOffset]!
-    totalSize += selfSize
-
-    // Node category stats
     const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
     const category = nodeTypes[nodeType]!
-    let categoryStats = nodeCategoryToStats.get(category)
-    if (!categoryStats) {
-      categoryStats = { size: 0, nodeCount: 0 }
-      nodeCategoryToStats.set(category, categoryStats)
-    }
-    categoryStats.size += selfSize
-    categoryStats.nodeCount++
 
-    // Summarized snapshot nodes
+    snapshotBuilder.addCategoryNode(nodeOrdinal, category)
+
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
-      case fieldLayout.nodeTypeNative: {
-        const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
-        let constructorIndex = nameToConstructorIndex.get(name)
-        let constructor: SummarizedConstructor
-        if (constructorIndex === undefined) {
-          constructorIndex = constructors.length
-          constructor = {
-            id: nodeOrdinal,
-            name,
-            location: undefined,
-            selfSize: 0,
-            retainedSize: 0,
-            instances: [],
-          }
-          constructors.push(constructor)
-          nameToConstructorIndex.set(name, constructorIndex)
-        } else {
-          constructor = constructors[constructorIndex]!
-        }
-
-        constructor.selfSize += selfSize
-        constructor.location ??= nodeOrdinalToLocation[nodeOrdinal]
-        constructor.instances.push({
-          id: nodeOrdinal,
-          name: constructor.name,
-          selfSize,
-          retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-          location: constructor.location,
-        })
-        nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
+      case fieldLayout.nodeTypeNative:
+        snapshotBuilder.addConstructorNode(
+          nodeOrdinal,
+          nodeOrdinalToLocation[nodeOrdinal],
+        )
         break
-      }
-      case fieldLayout.nodeTypeClosure: {
-        const name = formatNodeLabel(nodeIndex, snapshot, fieldLayout, options)
-        const location = nodeOrdinalToLocation[nodeOrdinal]
-        const key = `${name}|${location ? formatProfileLocation(location, options) : ``}`
-        const retainedSize = nodeOrdinalToRetainedSize[nodeOrdinal]!
-
-        let closureIndex = keyToClosureIndex.get(key)
-        if (closureIndex === undefined) {
-          closureIndex = closures.length
-          closures.push({
-            name,
-            location,
-            retainedSize: 0,
-            largestInstanceId: nodeOrdinal,
-            instanceIds: [],
-          })
-          keyToClosureIndex.set(key, closureIndex)
-        }
-
-        const closure = closures[closureIndex]!
-        closure.instanceIds.push(nodeOrdinal)
-        if (
-          retainedSize > nodeOrdinalToRetainedSize[closure.largestInstanceId]!
-        ) {
-          closure.largestInstanceId = nodeOrdinal
-        }
-        nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
+      case fieldLayout.nodeTypeClosure:
+        snapshotBuilder.addClosureNode(
+          nodeOrdinal,
+          nodeOrdinalToLocation[nodeOrdinal],
+        )
         break
-      }
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
       case fieldLayout.nodeTypeConcatenatedString:
-        strings.push({
-          id: nodeOrdinal,
-          name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
-          selfSize,
-          retainedSize: selfSize,
-        })
+        snapshotBuilder.addStringNode(
+          nodeOrdinal,
+          formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
+        )
         break
     }
   }
 
-  attributeGroupRetainedSizes(
-    nodeOrdinalToRetainedSize,
-    immediateDominatorGraph,
-    nodeOrdinalToConstructorIndex,
-    constructors,
-  )
-  attributeGroupRetainedSizes(
-    nodeOrdinalToRetainedSize,
-    immediateDominatorGraph,
-    nodeOrdinalToClosureIndex,
-    closures,
-  )
-
-  return {
-    totalSize,
-    nodeCount,
-    edgeCount,
-    nodeCategoryToStats,
-    constructors,
-    closures,
-    strings,
-    retainerPathOf: nodeOrdinal =>
-      computeRetainerPath(
-        nodeOrdinal,
-        snapshot,
-        nodeAdjacencyGraph,
-        nodeOrdinalToLocation,
-        immediateDominatorGraph,
-        fieldLayout,
-        options,
-      ),
-    retainedNodesOf: nodeOrdinal =>
-      computeRetainedNodes(
-        nodeOrdinal,
-        snapshot,
-        nodeOrdinalToRetainedSize,
-        immediateDominatorGraph,
-        fieldLayout,
-        options,
-      ),
-  }
-}
-
-/**
- * A successor and predecessor graph between heap snapshot nodes in CSR format.
- *
- * @see https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
- */
-type NodeAdjacencyGraph = {
-  /**
-   * Start offset into
-   * {@link ImmediateDominatorGraph.offsetToSuccessorOrdinal} and
-   * {@link ImmediateDominatorGraph.offsetToSuccessorEdgeIndex} for each
-   * node's successors in the graph.
-   *
-   * Node `i`'s successor ordinals occupy:
-   * `[offsetToSuccessorOrdinal[i], offsetToSuccessorOrdinal[i + 1])`.
-   *
-   * Node `i`'s successor edges occupy:
-   * `[offsetToSuccessorEdgeIndex[i], offsetToSuccessorEdgeIndex[i + 1])`.
-   */
-  ordinalToSuccessorStartOffset: Int32Array
-
-  /**
-   * Successor ordinals, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToSuccessorStartOffset}.
-   */
-  offsetToSuccessorOrdinal: Int32Array
-
-  /**
-   * Successor edge indices, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToSuccessorStartOffset}.
-   */
-  offsetToSuccessorEdgeIndex: Int32Array
-
-  /**
-   * Start offset into
-   * {@link NodeAdjacencyGraph.offsetToPredecessorOrdinal} and
-   * {@link NodeAdjacencyGraph.offsetToPredecessorEdgeIndex} for each
-   * node's predecessors in the graph.
-   *
-   * Node `i`'s predecessor ordinals occupy:
-   * `[offsetToPredecessorOrdinal[i], offsetToPredecessorOrdinal[i + 1])`.
-   *
-   * Node `i`'s predecessor edges occupy:
-   * `[offsetToPredecessorEdgeIndex[i], offsetToPredecessorEdgeIndex[i + 1])`.
-   */
-  ordinalToPredecessorStartOffset: Int32Array
-
-  /**
-   * Predecessor ordinals, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToPredecessorStartOffset}.
-   */
-  offsetToPredecessorOrdinal: Int32Array
-
-  /**
-   * Predecessor edge indices, packed contiguously and indexed via
-   * {@link NodeAdjacencyGraph.ordinalToPredecessorStartOffset}.
-   */
-  offsetToPredecessorEdgeIndex: Int32Array
+  return snapshotBuilder.build()
 }
 
 const computeNodeAdjacencyGraph = (
@@ -537,436 +323,6 @@ const computeNodeOrdinalToLocation = (
   return nodeOrdinalToLocation
 }
 
-/**
- * The immediate dominator graph for a heap snapshot in CSR format.
- *
- * There's a 1:N relationship between immediate dominator and immediate
- * dominatee.
- *
- * @see https://en.wikipedia.org/wiki/Dominator_(graph_theory)
- * @see https://en.wikipedia.org/wiki/Sparse_matrix#Compressed_sparse_row_(CSR,_CRS_or_Yale_format)
- */
-type ImmediateDominatorGraph = {
-  /**
-   * Node ordinal at each DFS traversal index, enabling bottom-up tree walks by
-   * iterating in reverse.
-   */
-  dfsIndexToOrdinal: Int32Array
-
-  /**
-   * The ordinal of each node's immediate dominator.
-   *
-   * -1 for unreachable nodes, self for the root.
-   */
-  ordinalToImmediateDominatorOrdinal: Int32Array
-
-  /**
-   * Start offset into
-   * {@link ImmediateDominatorGraph.offsetToImmediateDominateeOrdinal} for each
-   * node's children in the dominator tree.
-   *
-   * Node `i`'s dominatees occupy:
-   * `[immediateDominateeOrdinalToStartOffset[i], immediateDominateeOrdinalToStartOffset[i + 1])`.
-   */
-  immediateDominateeOrdinalToStartOffset: Int32Array
-
-  /**
-   * Dominatee ordinals, packed contiguously and indexed via
-   * {@link ImmediateDominatorGraph.immediateDominateeOrdinalToStartOffset}.
-   */
-  offsetToImmediateDominateeOrdinal: Int32Array
-}
-
-/**
- * Computes the immediate dominators of every node.
- *
- * Weak edges are excluded because they don't keep nodes alive.
- *
- * Uses the Lengauer-Tarjan dominator tree algorithm.
- *
- * @see https://en.wikipedia.org/wiki/Dominator_(graph_theory)
- * @see https://www.cs.princeton.edu/courses/archive/fall03/cs528/handouts/a%20fast%20algorithm%20for%20finding.pdf
- */
-const computeImmediateDominatorGraph = (
-  snapshot: V8HeapSnapshot,
-  {
-    ordinalToSuccessorStartOffset,
-    offsetToSuccessorOrdinal,
-    ordinalToPredecessorStartOffset,
-    offsetToPredecessorOrdinal,
-  }: NodeAdjacencyGraph,
-): ImmediateDominatorGraph => {
-  const {
-    snapshot: { node_count: nodeCount },
-  } = snapshot
-
-  // Lengauer-Tarjan dominator tree. Node 0 is the GC root super-node.
-  const ordinalToImmediateDominatorOrdinal = new Int32Array(nodeCount).fill(-1)
-  const dfsIndexToOrdinal = new Int32Array(nodeCount)
-
-  // Step 1: Iterative DFS from node 0, assigning DFS indices.
-  const ordinalToParentOrdinal = new Int32Array(nodeCount).fill(-1)
-  const ordinalToDfsIndex = new Int32Array(nodeCount).fill(-1)
-  const ordinalToSemidominatorDfsIndex = new Int32Array(nodeCount)
-  ordinalToDfsIndex[0] = 0
-  dfsIndexToOrdinal[0] = 0
-  const dfsStackOrdinals = new Int32Array(nodeCount)
-  const dfsStackOffsets = new Int32Array(nodeCount)
-  dfsStackOffsets[0] = ordinalToSuccessorStartOffset[0]!
-  let dfsIndex = 1
-  let dfsStackSize = 1
-  do {
-    const topOffset = dfsStackSize - 1
-    const nodeOrdinal = dfsStackOrdinals[topOffset]!
-    const nextOffset = dfsStackOffsets[topOffset]!
-    const endOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
-
-    if (nextOffset === endOffset) {
-      dfsStackSize--
-      continue
-    }
-
-    const childOrdinal = offsetToSuccessorOrdinal[nextOffset]!
-    dfsStackOffsets[topOffset]!++
-
-    if (ordinalToDfsIndex[childOrdinal] !== -1) {
-      continue
-    }
-
-    ordinalToParentOrdinal[childOrdinal] = nodeOrdinal
-    ordinalToDfsIndex[childOrdinal] = dfsIndex
-    ordinalToSemidominatorDfsIndex[childOrdinal] = dfsIndex
-    dfsIndexToOrdinal[dfsIndex] = childOrdinal
-    dfsIndex++
-    dfsStackOrdinals[dfsStackSize] = childOrdinal
-    dfsStackOffsets[dfsStackSize] = ordinalToSuccessorStartOffset[childOrdinal]!
-    dfsStackSize++
-  } while (dfsStackSize > 0)
-  const reachableCount = dfsIndex
-
-  const ancestorNodeOrdinalPath = new Int32Array(nodeCount)
-  const ordinalToForestAncestorOrdinal = new Int32Array(nodeCount).fill(-1)
-  const ordinalToMinSemiAncestorOrdinal = new Int32Array(nodeCount)
-  for (let i = 0; i < nodeCount; i++) {
-    ordinalToMinSemiAncestorOrdinal[i] = i
-  }
-  const compressAncestorPath = (startNodeOrdinal: number): void => {
-    let pathLength = 0
-    let nodeOrdinal = startNodeOrdinal
-    while (
-      ordinalToForestAncestorOrdinal[nodeOrdinal] !== -1 &&
-      ordinalToForestAncestorOrdinal[
-        ordinalToForestAncestorOrdinal[nodeOrdinal]!
-      ] !== -1
-    ) {
-      ancestorNodeOrdinalPath[pathLength++] = nodeOrdinal
-      nodeOrdinal = ordinalToForestAncestorOrdinal[nodeOrdinal]!
-    }
-
-    for (let pathIndex = pathLength - 1; pathIndex >= 0; pathIndex--) {
-      const pathNodeOrdinal = ancestorNodeOrdinalPath[pathIndex]!
-      const ancestorOrdinal = ordinalToForestAncestorOrdinal[pathNodeOrdinal]!
-      if (
-        ordinalToSemidominatorDfsIndex[
-          ordinalToMinSemiAncestorOrdinal[ancestorOrdinal]!
-        ]! <
-        ordinalToSemidominatorDfsIndex[
-          ordinalToMinSemiAncestorOrdinal[pathNodeOrdinal]!
-        ]!
-      ) {
-        ordinalToMinSemiAncestorOrdinal[pathNodeOrdinal] =
-          ordinalToMinSemiAncestorOrdinal[ancestorOrdinal]!
-      }
-      ordinalToForestAncestorOrdinal[pathNodeOrdinal] =
-        ordinalToForestAncestorOrdinal[ancestorOrdinal]!
-    }
-  }
-  const minSemiAncestorOrdinal = (nodeOrdinal: number): number => {
-    if (ordinalToForestAncestorOrdinal[nodeOrdinal] === -1) {
-      return nodeOrdinal
-    }
-    compressAncestorPath(nodeOrdinal)
-    return ordinalToMinSemiAncestorOrdinal[nodeOrdinal]!
-  }
-
-  // Steps 2 & 3: Compute semidominators; derive initial immediate dominators
-  // from buckets.
-  const pendingHeadOrdinals = new Int32Array(nodeCount).fill(-1)
-  const pendingNextOrdinals = new Int32Array(nodeCount).fill(-1)
-  for (let dfsIndex = reachableCount - 1; dfsIndex >= 1; dfsIndex--) {
-    const nodeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    const predecessorStartOffset = ordinalToPredecessorStartOffset[nodeOrdinal]!
-    const predecessorEndOffset =
-      ordinalToPredecessorStartOffset[nodeOrdinal + 1]!
-    for (
-      let predecessorOffset = predecessorStartOffset;
-      predecessorOffset < predecessorEndOffset;
-      predecessorOffset++
-    ) {
-      const predecessorOrdinal = offsetToPredecessorOrdinal[predecessorOffset]!
-      const predecessorDfsIndex = ordinalToDfsIndex[predecessorOrdinal]
-      if (predecessorDfsIndex === -1) {
-        continue
-      }
-
-      const minAncestorOrdinal = minSemiAncestorOrdinal(predecessorOrdinal)
-      if (
-        ordinalToSemidominatorDfsIndex[minAncestorOrdinal]! <
-        ordinalToSemidominatorDfsIndex[nodeOrdinal]!
-      ) {
-        ordinalToSemidominatorDfsIndex[nodeOrdinal] =
-          ordinalToSemidominatorDfsIndex[minAncestorOrdinal]!
-      }
-    }
-
-    // Add nodeOrdinal to the pending bucket of its semidominator.
-    const semiBucketOrdinal =
-      dfsIndexToOrdinal[ordinalToSemidominatorDfsIndex[nodeOrdinal]!]!
-    pendingNextOrdinals[nodeOrdinal] = pendingHeadOrdinals[semiBucketOrdinal]!
-    pendingHeadOrdinals[semiBucketOrdinal] = nodeOrdinal
-
-    ordinalToForestAncestorOrdinal[nodeOrdinal] =
-      ordinalToParentOrdinal[nodeOrdinal]!
-
-    // Process the pending bucket of the parent node.
-    const parentOrdinal = ordinalToParentOrdinal[nodeOrdinal]!
-    let pendingOrdinal = pendingHeadOrdinals[parentOrdinal]!
-    pendingHeadOrdinals[parentOrdinal] = -1
-    while (pendingOrdinal !== -1) {
-      const nextPending = pendingNextOrdinals[pendingOrdinal]!
-      const ancestorOrdinal = minSemiAncestorOrdinal(pendingOrdinal)
-      ordinalToImmediateDominatorOrdinal[pendingOrdinal] =
-        ordinalToSemidominatorDfsIndex[ancestorOrdinal]! <
-        ordinalToSemidominatorDfsIndex[pendingOrdinal]!
-          ? ancestorOrdinal
-          : parentOrdinal
-      pendingOrdinal = nextPending
-    }
-  }
-
-  // Step 4: Adjust immediate dominators that were set to a semidominator proxy.
-  for (let dfsIndex = 1; dfsIndex < reachableCount; dfsIndex++) {
-    const nodeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    if (
-      ordinalToImmediateDominatorOrdinal[nodeOrdinal]! !==
-      dfsIndexToOrdinal[ordinalToSemidominatorDfsIndex[nodeOrdinal]!]!
-    ) {
-      ordinalToImmediateDominatorOrdinal[nodeOrdinal] =
-        ordinalToImmediateDominatorOrdinal[
-          ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-        ]!
-    }
-  }
-  ordinalToImmediateDominatorOrdinal[0] = 0
-
-  const dominatorOrdinalToDominateeCount = new Int32Array(nodeCount)
-  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    if (dominatorOrdinal !== -1) {
-      dominatorOrdinalToDominateeCount[dominatorOrdinal]!++
-    }
-  }
-  const immediateDominateeOrdinalToStartOffset = new Int32Array(nodeCount + 1)
-  for (let offset = 0; offset < nodeCount; offset++) {
-    immediateDominateeOrdinalToStartOffset[offset + 1] =
-      immediateDominateeOrdinalToStartOffset[offset]! +
-      dominatorOrdinalToDominateeCount[offset]!
-  }
-  const offsetToImmediateDominateeOrdinal = new Int32Array(
-    immediateDominateeOrdinalToStartOffset[nodeCount]!,
-  )
-  dominatorOrdinalToDominateeCount.fill(0)
-  for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    if (dominatorOrdinal !== -1) {
-      offsetToImmediateDominateeOrdinal[
-        immediateDominateeOrdinalToStartOffset[dominatorOrdinal]! +
-          dominatorOrdinalToDominateeCount[dominatorOrdinal]!
-      ] = nodeOrdinal
-      dominatorOrdinalToDominateeCount[dominatorOrdinal]!++
-    }
-  }
-
-  return {
-    dfsIndexToOrdinal,
-    ordinalToImmediateDominatorOrdinal,
-    immediateDominateeOrdinalToStartOffset,
-    offsetToImmediateDominateeOrdinal,
-  }
-}
-
-const computeNodeOrdinalToRetainedSize = (
-  { nodes }: V8HeapSnapshot,
-  {
-    dfsIndexToOrdinal,
-    ordinalToImmediateDominatorOrdinal,
-  }: ImmediateDominatorGraph,
-  { nodeFieldCount, nodeSelfSizeOffset }: FieldLayout,
-): Float64Array => {
-  // Accumulate retained sizes bottom-up through the dominator tree.
-  const nodeOrdinalToRetainedSize = new Float64Array(
-    ordinalToImmediateDominatorOrdinal.length,
-  )
-  for (
-    let nodeOrdinal = 0;
-    nodeOrdinal < nodeOrdinalToRetainedSize.length;
-    nodeOrdinal++
-  ) {
-    const selfSize = nodes[nodeOrdinal * nodeFieldCount + nodeSelfSizeOffset]!
-    nodeOrdinalToRetainedSize[nodeOrdinal] = selfSize
-  }
-  for (let dfsIndex = dfsIndexToOrdinal.length - 1; dfsIndex >= 1; dfsIndex--) {
-    const dominateeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    nodeOrdinalToRetainedSize[
-      ordinalToImmediateDominatorOrdinal[dominateeOrdinal]!
-    ]! += nodeOrdinalToRetainedSize[dominateeOrdinal]!
-  }
-
-  return nodeOrdinalToRetainedSize
-}
-
-const computeRetainerPath = (
-  nodeOrdinal: number,
-  snapshot: V8HeapSnapshot,
-  {
-    ordinalToPredecessorStartOffset,
-    offsetToPredecessorOrdinal,
-    offsetToPredecessorEdgeIndex,
-  }: NodeAdjacencyGraph,
-  nodeOrdinalToLocation: ProfileLocation[],
-  { ordinalToImmediateDominatorOrdinal }: ImmediateDominatorGraph,
-  fieldLayout: FieldLayout,
-  options: NormalizedProfileToMdOptions,
-): string => {
-  const { nodes } = snapshot
-
-  // Each hop tracks the formatted label and whether the retaining node is
-  // internal. Stored from immediate retainer outward (closest first).
-  type Hop = { label: string; internal: boolean }
-  const hops: Hop[] = []
-
-  while (true) {
-    const predecessorStartOffset = ordinalToPredecessorStartOffset[nodeOrdinal]!
-    const predecessorEndOffset =
-      ordinalToPredecessorStartOffset[nodeOrdinal + 1]!
-    if (predecessorStartOffset === predecessorEndOffset) {
-      break
-    }
-
-    const dominatorOrdinal = ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-    let predecessorOffset = -1
-    for (
-      let offset = predecessorStartOffset;
-      offset < predecessorEndOffset;
-      offset++
-    ) {
-      if (offsetToPredecessorOrdinal[offset] === dominatorOrdinal) {
-        predecessorOffset = offset
-        break
-      }
-    }
-    if (predecessorOffset === -1) {
-      nodeOrdinal = dominatorOrdinal
-      continue
-    }
-
-    const edgeIndex = offsetToPredecessorEdgeIndex[predecessorOffset]!
-    const edgeLabel = formatEdgeLabel(edgeIndex, snapshot, fieldLayout, options)
-
-    const predecessorOrdinal = offsetToPredecessorOrdinal[predecessorOffset]!
-    const retainerIndex = predecessorOrdinal * fieldLayout.nodeFieldCount
-    const retainerType = nodes[retainerIndex + fieldLayout.nodeTypeOffset]!
-    const retainerLabel = formatNodeLabel(
-      retainerIndex,
-      snapshot,
-      fieldLayout,
-      options,
-    )
-    const retainerLocation = nodeOrdinalToLocation[predecessorOrdinal]
-
-    hops.push({
-      label: `${edgeLabel} ${retainerLabel}${
-        retainerLocation
-          ? ` (${formatProfileLocation(retainerLocation, options)})`
-          : ``
-      }`,
-      internal: isInternalNodeType(retainerType, fieldLayout),
-    })
-    nodeOrdinal = predecessorOrdinal
-  }
-
-  // Trim trailing internal hops. These are V8 pseudo-nodes (GC roots, stack
-  // roots, global handles, etc.) that never point to user code.
-  while (hops.at(-1)?.internal) {
-    hops.pop()
-  }
-
-  if (hops.length === 0) {
-    return `(GC root)`
-  }
-
-  return hops.map(hop => hop.label).join(` ← `)
-}
-
-const computeRetainedNodes = (
-  nodeOrdinal: number,
-  snapshot: V8HeapSnapshot,
-  nodeOrdinalToRetainedSize: Float64Array,
-  {
-    immediateDominateeOrdinalToStartOffset,
-    offsetToImmediateDominateeOrdinal,
-  }: ImmediateDominatorGraph,
-  fieldLayout: FieldLayout,
-  options: NormalizedProfileToMdOptions,
-) => {
-  const { nodes } = snapshot
-
-  const retainedNodes: SummarizedSnapshotNode[] = []
-
-  const dominateeOrdinals: number[] = []
-  const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
-  const childEndOffset =
-    immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
-  for (let offset = childStartOffset; offset < childEndOffset; offset++) {
-    dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
-  }
-
-  while (dominateeOrdinals.length > 0) {
-    const nodeOrdinal = dominateeOrdinals.pop()!
-    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-    const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
-    if (!isInternalNodeType(nodeType, fieldLayout)) {
-      retainedNodes.push({
-        id: nodeOrdinal,
-        name: formatNodeLabel(nodeIndex, snapshot, fieldLayout, options),
-        selfSize: nodes[nodeIndex + fieldLayout.nodeSelfSizeOffset]!,
-        retainedSize: nodeOrdinalToRetainedSize[nodeOrdinal]!,
-      })
-    }
-
-    const dominateeStartOffset =
-      immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
-    const dominateeEndOffset =
-      immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
-    for (
-      let offset = dominateeStartOffset;
-      offset < dominateeEndOffset;
-      offset++
-    ) {
-      dominateeOrdinals.push(offsetToImmediateDominateeOrdinal[offset]!)
-    }
-  }
-
-  return retainedNodes
-}
-
-const isInternalNodeType = (
-  nodeType: number,
-  fieldLayout: FieldLayout,
-): boolean =>
-  nodeType === fieldLayout.nodeTypeHidden ||
-  nodeType === fieldLayout.nodeTypeSynthetic
-
 const formatEdgeLabel = (
   edgeIndex: number,
   { edges, strings }: V8HeapSnapshot,
@@ -991,7 +347,7 @@ const formatEdgeLabel = (
 }
 
 const formatNodeLabel = (
-  nodeIndex: number,
+  nodeOrdinal: number,
   {
     snapshot: {
       meta: {
@@ -1004,6 +360,7 @@ const formatNodeLabel = (
   fieldLayout: FieldLayout,
   options: NormalizedProfileToMdOptions,
 ): string => {
+  const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
   const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
   switch (nodeType) {
     case fieldLayout.nodeTypeString:
@@ -1038,76 +395,6 @@ const formatString = (string: string): string => {
 }
 
 const MAX_STRING_LENGTH = 50
-
-/**
- * Attributes retained sizes to groups of nodes without double-counting.
- *
- * Summing per-node retained sizes across all instances of a group over-counts
- * when one instance dominates another from the same group (the dominated node's
- * memory is already included in the dominator's retained size).
- *
- * This function correctly attributes by doing a DFS of the dominator tree and
- * only crediting the outermost instance of each group on any root-to-leaf path.
- * Inner instances are entirely contained within the outer one's retained set,
- * so they add nothing.
- */
-const attributeGroupRetainedSizes = (
-  nodeOrdinalToRetainedSize: Float64Array,
-  {
-    immediateDominateeOrdinalToStartOffset,
-    offsetToImmediateDominateeOrdinal,
-  }: ImmediateDominatorGraph,
-  nodeOrdinalToSummarizedNodeIndex: Int32Array,
-  summarizedNodes: { retainedSize: number }[],
-): void => {
-  const nodeCount = nodeOrdinalToRetainedSize.length
-
-  // Track same-group ancestor depth. Only the outermost (depth=0) instance
-  // on any root-to-leaf path contributes its retained size.
-  const groupPathDepth = new Int32Array(summarizedNodes.length)
-
-  // DFS with flat Int32Array stack.
-  // Convention: value >= 0 = entering node, ~value (always < 0) = exiting node.
-  const stack = new Int32Array(nodeCount * 2 + 1)
-  stack[0] = 0
-  let topOffset = 1
-  do {
-    const encodedNodeOrdinal = stack[--topOffset]!
-    if (encodedNodeOrdinal < 0) {
-      // Exiting a node.
-      const nodeOrdinal = ~encodedNodeOrdinal
-      const constructorIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
-      if (constructorIndex !== -1) {
-        groupPathDepth[constructorIndex] = groupPathDepth[constructorIndex]! - 1
-      }
-      continue
-    }
-
-    const nodeOrdinal = encodedNodeOrdinal
-    const summarizedNodeIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
-    if (summarizedNodeIndex !== -1) {
-      const depth = groupPathDepth[summarizedNodeIndex]!
-      if (depth === 0) {
-        summarizedNodes[summarizedNodeIndex]!.retainedSize +=
-          nodeOrdinalToRetainedSize[nodeOrdinal]!
-      }
-      groupPathDepth[summarizedNodeIndex] = depth + 1
-      stack[topOffset++] = ~nodeOrdinal
-    }
-
-    const dominateeStartOffset =
-      immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
-    const dominateeEndOffset =
-      immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
-    for (
-      let offset = dominateeStartOffset;
-      offset < dominateeEndOffset;
-      offset++
-    ) {
-      stack[topOffset++] = offsetToImmediateDominateeOrdinal[offset]!
-    }
-  } while (topOffset > 0)
-}
 
 /** Sentinel offsets and values for accessing data in a {@link V8HeapSnapshot}. */
 type FieldLayout = {

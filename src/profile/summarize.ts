@@ -249,7 +249,7 @@ export class ProfileBuilder<Node extends { id?: number }> {
 
     const { name: nameInput, location: locationInput } =
       this.#functionInput(node)
-    const entry: UniqueProfileEntry = {
+    const entry = {
       id: this.#keyToFunction.size,
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       name: nameInput || `(anonymous)`,
@@ -494,7 +494,7 @@ const categorizeFunction = (
   const { name, location } = entry
 
   if (
-    name.startsWith(`(`) &&
+    name?.startsWith(`(`) &&
     name.endsWith(`)`) &&
     !name.startsWith(`(anonymous`)
   ) {
@@ -503,7 +503,7 @@ const categorizeFunction = (
     return name.slice(1, -1)
   }
 
-  if (name.startsWith(`RegExp: `)) {
+  if (name?.startsWith(`RegExp: `)) {
     return `regexp`
   }
 
