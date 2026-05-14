@@ -4,10 +4,10 @@ import type {
   JsonProfileData,
   ProfileToMdOptions,
 } from '../../../options.ts'
+import { aggregateV8CpuProfile } from './aggregate.ts'
 import { formatV8CpuProfile } from './format.ts'
 import type { V8CpuProfile } from './parse.ts'
 import { parseV8CpuProfile, parseV8CpuProfileAsync } from './parse.ts'
-import { summarizeV8CpuProfile } from './summarize.ts'
 
 export const detectV8CpuProfile = (json: unknown): V8CpuProfile | undefined => {
   if (typeof json !== `object` || json === null) {
@@ -59,7 +59,7 @@ export const v8CpuProfileToMdInternal = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatV8CpuProfile(
-    summarizeV8CpuProfile(profile, normalizedOptions),
+    aggregateV8CpuProfile(profile, normalizedOptions),
     normalizedOptions,
   )
 }

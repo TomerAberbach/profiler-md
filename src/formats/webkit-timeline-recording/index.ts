@@ -4,13 +4,13 @@ import type {
   JsonProfileData,
   ProfileToMdOptions,
 } from '../../options.ts'
+import { aggregateWebKitTimelineRecording } from './aggregate.ts'
 import { formatWebKitTimelineRecording } from './format.ts'
 import type { WebKitTimelineRecording } from './parse.ts'
 import {
   parseWebKitTimelineRecording,
   parseWebKitTimelineRecordingAsync,
 } from './parse.ts'
-import { summarizeWebKitTimelineRecording } from './summarize.ts'
 
 export const detectWebKitTimelineRecording = (
   json: unknown,
@@ -81,7 +81,7 @@ export const webkitTimelineRecordingToMdInternal = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatWebKitTimelineRecording(
-    summarizeWebKitTimelineRecording(recording, normalizedOptions),
+    aggregateWebKitTimelineRecording(recording, normalizedOptions),
     normalizedOptions,
   )
 }

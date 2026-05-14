@@ -4,10 +4,10 @@ import type {
   JsonProfileData,
   ProfileToMdOptions,
 } from '../../../options.ts'
+import { aggregateV8HeapSnapshot } from './aggregate.ts'
 import { formatV8HeapSnapshot } from './format.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 import { parseV8HeapSnapshot, parseV8HeapSnapshotAsync } from './parse.ts'
-import { summarizeV8HeapSnapshot } from './summarize.ts'
 
 export const detectV8HeapSnapshot = (
   json: unknown,
@@ -74,7 +74,7 @@ export const v8HeapSnapshotToMdInternal = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatV8HeapSnapshot(
-    summarizeV8HeapSnapshot(snapshot, normalizedOptions),
+    aggregateV8HeapSnapshot(snapshot, normalizedOptions),
     normalizedOptions,
   )
 }

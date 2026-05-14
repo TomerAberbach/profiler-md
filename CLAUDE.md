@@ -28,19 +28,19 @@ profiler-md
 │   │   ├── index.ts          # Barrel file (must export each format)
 │   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
-│   │       ├── summarize.ts  # Aggregates profile data
+│   │       ├── aggregate.ts  # Aggregates profile data
 │   │       ├── format.ts     # Formats aggregated profile data as Markdown
 │   │       └── index.ts      # End-to-end conversion using the above
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
-│   │   ├── summarize.ts      # Sampling profile data aggregation builder
+│   │   ├── aggregate.ts      # Sampling profile data aggregation builder
 │   │   ├── format.ts         # Sampling profile to Markdown formatting
 │   │   └── index.ts          # Barrel file
 │   ├── snapshot/             # Common heap snapshot conversion logic
 │   │   ├── graph.ts          # Node adjacency graph in CSR format
 │   │   ├── retained.ts       # Retained size computation
-│   │   ├── summarize.ts      # Heap snapshot data aggregation
+│   │   ├── aggregate.ts      # Heap snapshot data aggregation
 │   │   ├── format.ts         # Heap snapshot to Markdown formatting
 │   │   └── index.ts          # Barrel file
 │   │
@@ -136,7 +136,7 @@ pnpm bench ./src/fixtures/node.cpuprofile
 ### Implementation
 
 - [ ] Create `src/formats/<name>/parse.ts`: typed data types and parse functions
-- [ ] Create `src/formats/<name>/summarize.ts`: aggregation logic
+- [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic
 - [ ] Create `src/formats/<name>/format.ts`: Markdown formatting
 - [ ] Create `src/formats/<name>/index.ts`: exports `detect*`, `*ToMd`,
       `*ToMdAsync`, `*ToMdInternal`

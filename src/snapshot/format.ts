@@ -5,14 +5,14 @@ import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
 import { formatProfileLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
-  SummarizedClosure,
-  SummarizedConstructor,
-  SummarizedHeapSnapshot,
-  SummarizedSnapshotNode,
-} from './summarize.ts'
+  AggregatedClosure,
+  AggregatedConstructor,
+  AggregatedHeapSnapshot,
+  AggregatedSnapshotNode,
+} from './aggregate.ts'
 
 export const formatHeapSnapshot = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string => {
   // If nothing in the snapshot has a location, then don't output a column for
@@ -36,7 +36,7 @@ const formatOverallSummary = ({
   nodeCount,
   edgeCount,
   nodeCategoryToStats,
-}: SummarizedHeapSnapshot): string[] => {
+}: AggregatedHeapSnapshot): string[] => {
   const hottestObjectCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
@@ -68,7 +68,7 @@ const formatOverallSummary = ({
 }
 
 const formatLargestConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -87,7 +87,7 @@ const formatLargestConstructors = (
 }
 
 const formatLargestSelfSizeConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -143,8 +143,8 @@ const formatLargestSelfSizeConstructors = (
 }
 
 const formatLargestSelfSizeConstructorInstances = (
-  constructor: SummarizedConstructor,
-  { retainerPathOf }: SummarizedHeapSnapshot,
+  constructor: AggregatedConstructor,
+  { retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -185,7 +185,7 @@ const formatLargestSelfSizeConstructorInstances = (
 }
 
 const formatLargestRetainedSizeConstructors = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -241,8 +241,8 @@ const formatLargestRetainedSizeConstructors = (
 }
 
 const formatLargestRetainedSizeConstructorInstances = (
-  constructor: SummarizedConstructor,
-  { retainerPathOf }: SummarizedHeapSnapshot,
+  constructor: AggregatedConstructor,
+  { retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -298,8 +298,8 @@ type InstanceGroup = {
 }
 
 const selectLargestInstancesByRetainerPath = (
-  instances: SummarizedSnapshotNode[],
-  sizeOf: (instance: SummarizedSnapshotNode) => number,
+  instances: AggregatedSnapshotNode[],
+  sizeOf: (instance: AggregatedSnapshotNode) => number,
   retainerPathOf: (nodeOrdinal: number) => string,
   topN: number,
 ): InstanceGroup[] => {
@@ -334,7 +334,7 @@ const selectLargestInstancesByRetainerPath = (
 }
 
 const formatLargestClosures = (
-  snapshot: SummarizedHeapSnapshot,
+  snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
@@ -391,13 +391,13 @@ const formatLargestClosures = (
 }
 
 const formatClosureRetainedObjects = (
-  closure: SummarizedClosure,
-  { retainedNodesOf, retainerPathOf }: SummarizedHeapSnapshot,
+  closure: AggregatedClosure,
+  { retainedNodesOf, retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
-  const allRetainedNodes: SummarizedSnapshotNode[] = []
+  const allRetainedNodes: AggregatedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
     for (const node of retainedNodesOf(instanceId)) {
       const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
@@ -448,7 +448,7 @@ const formatClosureRetainedObjects = (
 }
 
 const formatLargestStrings = (
-  { totalSize, strings, retainerPathOf }: SummarizedHeapSnapshot,
+  { totalSize, strings, retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
   const largestStrings = selectTopN(

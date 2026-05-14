@@ -4,10 +4,10 @@ import type {
   JsonProfileData,
   ProfileToMdOptions,
 } from '../../options.ts'
+import { aggregateJSCHeapSnapshot } from './aggregate.ts'
 import { formatJSCHeapSnapshot } from './format.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 import { parseJSCHeapSnapshot, parseJSCHeapSnapshotAsync } from './parse.ts'
-import { summarizeJSCHeapSnapshot } from './summarize.ts'
 
 export const detectJSCHeapSnapshot = (
   json: unknown,
@@ -61,7 +61,7 @@ export const jscHeapSnapshotToMdInternal = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatJSCHeapSnapshot(
-    summarizeJSCHeapSnapshot(snapshot),
+    aggregateJSCHeapSnapshot(snapshot),
     normalizedOptions,
   )
 }

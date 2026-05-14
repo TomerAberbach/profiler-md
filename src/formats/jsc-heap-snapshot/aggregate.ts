@@ -1,14 +1,14 @@
 import globals from 'globals'
-import { SnapshotBuilder } from '../../snapshot/index.ts'
+import { SnapshotAggregator } from '../../snapshot/index.ts'
 import type {
+  AggregatedHeapSnapshot,
   NodeAdjacencyGraph,
-  SummarizedHeapSnapshot,
 } from '../../snapshot/index.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
-export const summarizeJSCHeapSnapshot = (
+export const aggregateJSCHeapSnapshot = (
   snapshot: JSCHeapSnapshot,
-): SummarizedHeapSnapshot => {
+): AggregatedHeapSnapshot => {
   const { nodes, nodeClassNames, edges, edgeTypes, edgeNames } = snapshot
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const rawEdgeCount = edges.length / EDGE_FIELD_COUNT
@@ -24,7 +24,7 @@ export const summarizeJSCHeapSnapshot = (
     rawEdgeCount,
   )
 
-  const builder = new SnapshotBuilder({
+  const snapshotAggregator = new SnapshotAggregator({
     nodeCount,
     edgeCount,
     nodeAdjacencyGraph,
@@ -58,19 +58,19 @@ export const summarizeJSCHeapSnapshot = (
     const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
     const flags = nodes[nodeIndex + NODE_FLAGS_OFFSET]!
 
-    builder.addCategoryNode(
+    snapshotAggregator.addCategoryNode(
       nodeOrdinal,
       categorizeNode(classNameIndex, flags, classNameIndexToCategoryOrdinal),
     )
 
     if (classNameIndex === stringClassNameIndex) {
-      builder.addStringNode(nodeOrdinal)
+      snapshotAggregator.addStringNode(nodeOrdinal)
     } else {
-      builder.addConstructorNode(nodeOrdinal)
+      snapshotAggregator.addConstructorNode(nodeOrdinal)
     }
   }
 
-  return builder.build()
+  return snapshotAggregator.aggregate()
 }
 
 const computeClassNameIndexToCategoryOrdinal = (

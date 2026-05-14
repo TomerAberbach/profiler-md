@@ -6,7 +6,7 @@ import {
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
 
-export type SnapshotBuilderOptions = {
+export type SnapshotAggregatorOptions = {
   nodes: number[]
   nodeCount: number
   edgeCount: number
@@ -18,7 +18,7 @@ export type SnapshotBuilderOptions = {
   isInternalNode: (nodeOrdinal: number) => boolean
 }
 
-export class SnapshotBuilder {
+export class SnapshotAggregator {
   readonly #nodes: number[]
   readonly #nodeCount: number
   readonly #edgeCount: number
@@ -38,15 +38,15 @@ export class SnapshotBuilder {
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
   readonly #nodeOrdinalToRetainedSize: Float64Array
 
-  readonly #constructors: SummarizedConstructor[] = []
+  readonly #constructors: AggregatedConstructor[] = []
   readonly #nameToConstructorIndex = new Map<string, number>()
   readonly #nodeOrdinalToConstructorIndex: Int32Array
 
-  readonly #closures: SummarizedClosure[] = []
+  readonly #closures: AggregatedClosure[] = []
   readonly #keyToClosureIndex = new Map<string, number>()
   readonly #nodeOrdinalToClosureIndex: Int32Array
 
-  readonly #strings: SummarizedSnapshotNode[] = []
+  readonly #strings: AggregatedSnapshotNode[] = []
 
   public constructor({
     nodes,
@@ -58,7 +58,7 @@ export class SnapshotBuilder {
     formatEdgeLabel,
     formatNodeLabel,
     isInternalNode,
-  }: SnapshotBuilderOptions) {
+  }: SnapshotAggregatorOptions) {
     this.#nodes = nodes
     this.#nodeCount = nodeCount
     this.#edgeCount = edgeCount
@@ -104,7 +104,7 @@ export class SnapshotBuilder {
     const selfSize = this.#selfSize(nodeOrdinal)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let constructorIndex = this.#nameToConstructorIndex.get(name)
-    let constructor: SummarizedConstructor
+    let constructor: AggregatedConstructor
     if (constructorIndex === undefined) {
       constructorIndex = this.#constructors.length
       constructor = {
@@ -181,7 +181,7 @@ export class SnapshotBuilder {
     ]!
   }
 
-  public build(): SummarizedHeapSnapshot {
+  public aggregate(): AggregatedHeapSnapshot {
     attributeGroupRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
@@ -297,8 +297,8 @@ const computeRetainedNodes = (
   nodeSelfSizeOffset: number,
   formatNodeLabel: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
-): SummarizedSnapshotNode[] => {
-  const retainedNodes: SummarizedSnapshotNode[] = []
+): AggregatedSnapshotNode[] => {
+  const retainedNodes: AggregatedSnapshotNode[] = []
 
   const dominateeOrdinals: number[] = []
   const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
@@ -343,7 +343,7 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
-export type SummarizedSnapshotNode = {
+export type AggregatedSnapshotNode = {
   /** Unique ID for this node that can also be used as an index. */
   id: number
 
@@ -363,13 +363,13 @@ export type SummarizedSnapshotNode = {
   location?: ProfileLocation
 }
 
-export type SummarizedConstructor = SummarizedSnapshotNode & {
+export type AggregatedConstructor = AggregatedSnapshotNode & {
   name: string
   /** Instances of this constructor and their sizes. */
-  instances: SummarizedSnapshotNode[]
+  instances: AggregatedSnapshotNode[]
 }
 
-export type SummarizedClosure = {
+export type AggregatedClosure = {
   /** A human readable label for this closure. */
   name: string
 
@@ -389,7 +389,7 @@ export type SummarizedClosure = {
   instanceIds: number[]
 }
 
-export type SummarizedHeapSnapshot = {
+export type AggregatedHeapSnapshot = {
   /** Total bytes allocated in the snapshot. */
   totalSize: number
 
@@ -402,10 +402,10 @@ export type SummarizedHeapSnapshot = {
   /** Size and count stats by node category. */
   nodeCategoryToStats: Map<string, NodeCategoryStats>
 
-  constructors: SummarizedConstructor[]
-  closures: SummarizedClosure[]
-  strings: SummarizedSnapshotNode[]
+  constructors: AggregatedConstructor[]
+  closures: AggregatedClosure[]
+  strings: AggregatedSnapshotNode[]
 
   retainerPathOf: (nodeOrdinal: number) => string
-  retainedNodesOf: (nodeOrdinal: number) => SummarizedSnapshotNode[]
+  retainedNodesOf: (nodeOrdinal: number) => AggregatedSnapshotNode[]
 }

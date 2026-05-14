@@ -1,15 +1,17 @@
 import type { NormalizedProfileToMdOptions } from '../../options.ts'
-import { ProfileBuilder, SECONDS } from '../../profile/index.ts'
+import { ProfileAggregator, SECONDS } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type { WebKitStackFrame, WebKitTimelineRecording } from './parse.ts'
 
-export const summarizeWebKitTimelineRecording = (
+export const aggregateWebKitTimelineRecording = (
   {
     recording: { sampleStackTraces, sampleDurations },
   }: WebKitTimelineRecording,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const profileBuilder = new ProfileBuilder<WebKitStackFrame & { id?: never }>(
+  const profileAggregator = new ProfileAggregator<
+    WebKitStackFrame & { id?: never }
+  >(
     {
       metrics: [SECONDS],
       functionKey: node =>
@@ -37,7 +39,7 @@ export const summarizeWebKitTimelineRecording = (
     }
 
     const expressionLine = stackFrames[0]!.expressionLocation?.line
-    profileBuilder.addSample({
+    profileAggregator.addSample({
       values: [duration],
       nodes: stackFrames,
       line:
@@ -47,5 +49,5 @@ export const summarizeWebKitTimelineRecording = (
     })
   }
 
-  return profileBuilder.build()
+  return profileAggregator.aggregate()
 }

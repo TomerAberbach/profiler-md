@@ -49,14 +49,14 @@ export const attributeGroupRetainedSizes = (
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
-  nodeOrdinalToSummarizedNodeIndex: Int32Array,
-  summarizedNodes: { retainedSize: number }[],
+  nodeOrdinalToAggregatedNodeIndex: Int32Array,
+  aggregatedNodes: { retainedSize: number }[],
 ): void => {
   const nodeCount = nodeOrdinalToRetainedSize.length
 
   // Track same-group ancestor depth. Only the outermost (depth=0) instance
   // on any root-to-leaf path contributes its retained size.
-  const groupPathDepth = new Int32Array(summarizedNodes.length)
+  const groupPathDepth = new Int32Array(aggregatedNodes.length)
 
   // DFS with flat Int32Array stack.
   // Convention: value >= 0 = entering node, ~value (always < 0) = exiting node.
@@ -68,7 +68,7 @@ export const attributeGroupRetainedSizes = (
     if (encodedNodeOrdinal < 0) {
       // Exiting a node.
       const nodeOrdinal = ~encodedNodeOrdinal
-      const constructorIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
+      const constructorIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
       if (constructorIndex !== -1) {
         groupPathDepth[constructorIndex] = groupPathDepth[constructorIndex]! - 1
       }
@@ -76,14 +76,14 @@ export const attributeGroupRetainedSizes = (
     }
 
     const nodeOrdinal = encodedNodeOrdinal
-    const summarizedNodeIndex = nodeOrdinalToSummarizedNodeIndex[nodeOrdinal]!
-    if (summarizedNodeIndex !== -1) {
-      const depth = groupPathDepth[summarizedNodeIndex]!
+    const aggregatedNodeIndex = nodeOrdinalToAggregatedNodeIndex[nodeOrdinal]!
+    if (aggregatedNodeIndex !== -1) {
+      const depth = groupPathDepth[aggregatedNodeIndex]!
       if (depth === 0) {
-        summarizedNodes[summarizedNodeIndex]!.retainedSize +=
+        aggregatedNodes[aggregatedNodeIndex]!.retainedSize +=
           nodeOrdinalToRetainedSize[nodeOrdinal]!
       }
-      groupPathDepth[summarizedNodeIndex] = depth + 1
+      groupPathDepth[aggregatedNodeIndex] = depth + 1
       stack[topOffset++] = ~nodeOrdinal
     }
 

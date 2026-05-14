@@ -1,9 +1,9 @@
 import type { NormalizedProfileToMdOptions } from '../../options.ts'
-import { determineMetric, ProfileBuilder } from '../../profile/index.ts'
+import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type { Pprof, PprofFunction } from './parse.ts'
 
-export const summarizePprof = (
+export const aggregatePprof = (
   { valueTypes, samples, locations, functions }: Pprof,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
@@ -14,7 +14,7 @@ export const summarizePprof = (
     determineMetric({ name: valueType.type, unit: valueType.unit }),
   )
 
-  const profileBuilder = new ProfileBuilder<PprofFunction>(
+  const profileAggregator = new ProfileAggregator<PprofFunction>(
     {
       metrics,
       functionKey: func => func.id,
@@ -46,12 +46,12 @@ export const summarizePprof = (
       continue
     }
 
-    profileBuilder.addSample({
+    profileAggregator.addSample({
       values: nonCountValueTypes.map(([index]) => values[index]!),
       nodes,
       line: calleeLine,
     })
   }
 
-  return profileBuilder.build()
+  return profileAggregator.aggregate()
 }
