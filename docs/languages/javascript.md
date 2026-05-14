@@ -203,3 +203,17 @@ Open the Web Inspector with **Develop → Show Web Inspector** (or ⌥⌘I).
 4. Reproduce the scenario you want to profile.
 5. Click **Stop Recording**.
 6. Click the **Export** button (arrow icon) and save as a `.json` file.
+
+### Heap snapshots
+
+Open the **Memory** panel, select **Heap Snapshot**, and click **Take
+Snapshot**.
+
+#### Programmatic API
+
+`console.takeHeapSnapshot()` is a non-standard WebKit extension that takes a
+heap snapshot from JavaScript and adds it to the **Memory** panel:
+
+```js
+console.takeHeapSnapshot()
+```

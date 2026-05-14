@@ -40,12 +40,12 @@ export const detectWebKitTimelineRecording = (
 }
 
 /**
- * Converts the given WebKit Timeline Recording to Markdown.
+ * Converts the given WebKit timeline recording to Markdown.
  *
  * It is assumed that {@link data} is a valid recording. The behavior of this
  * function is undefined for invalid recordings.
  *
- * See the [WebKit Timeline Recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
+ * See the [WebKit timeline recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
  * for generation instructions (`profiler-md --help webkit-timeline-recording`).
  */
 export const webkitTimelineRecordingToMd = (
@@ -58,12 +58,12 @@ export const webkitTimelineRecordingToMd = (
   )
 
 /**
- * Asynchronously converts the given WebKit Timeline Recording to Markdown.
+ * Asynchronously converts the given WebKit timeline recording to Markdown.
  *
  * It is assumed that {@link data} is a valid recording. The behavior of this
  * function is undefined for invalid recordings.
  *
- * See the [WebKit Timeline Recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
+ * See the [WebKit timeline recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
  * for generation instructions (`profiler-md --help webkit-timeline-recording`).
  */
 export const webkitTimelineRecordingToMdAsync = async (

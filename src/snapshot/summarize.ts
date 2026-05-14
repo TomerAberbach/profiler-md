@@ -165,7 +165,7 @@ export class SnapshotBuilder {
     this.#nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
   }
 
-  public addStringNode(nodeOrdinal: number, name: string | undefined): void {
+  public addStringNode(nodeOrdinal: number, name?: string): void {
     const selfSize = this.#selfSize(nodeOrdinal)
     this.#strings.push({
       id: nodeOrdinal,

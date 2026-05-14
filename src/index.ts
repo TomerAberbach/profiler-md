@@ -8,6 +8,8 @@ export type {
 } from './options.ts'
 export type { SourceMap } from './source-map.ts'
 export {
+  jscHeapSnapshotToMd,
+  jscHeapSnapshotToMdAsync,
   pprofToMd,
   pprofToMdAsync,
   speedscopeProfileToMd,
