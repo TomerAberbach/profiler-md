@@ -1,27 +1,27 @@
 # Heap snapshot
 
-Allocated 6.61 MB across 80,790 objects and 298,576 references.
+Allocated 6.61 MB across 80,790 nodes and 298,576 edges.
 
-| Category |     % |    Size | Objects |
-| -------- | ----: | ------: | ------: |
-| object   | 41.4% | 2.74 MB |  26,535 |
-| internal | 17.4% | 1.15 MB |  22,155 |
-| built-in | 13.7% |  905 kB |   1,736 |
-| code     | 10.6% |  703 kB |   6,293 |
-| string   |  9.4% |  620 kB |   8,747 |
-| closure  |  3.3% |  216 kB |   5,815 |
-| native   |  2.8% |  182 kB |   3,868 |
-| array    |  1.4% | 92.6 kB |   5,510 |
-| regexp   |  0.1% | 4.13 kB |      86 |
-| symbol   |  0.0% |   646 B |      40 |
-| bigint   |  0.0% |    76 B |       3 |
-| number   |  0.0% |    68 B |       2 |
+| Category |     % |    Size |  Nodes |
+| -------- | ----: | ------: | -----: |
+| object   | 41.4% | 2.74 MB | 26,535 |
+| internal | 17.4% | 1.15 MB | 22,155 |
+| built-in | 13.7% |  905 kB |  1,736 |
+| code     | 10.6% |  703 kB |  6,293 |
+| string   |  9.4% |  620 kB |  8,747 |
+| closure  |  3.3% |  216 kB |  5,815 |
+| native   |  2.8% |  182 kB |  3,868 |
+| array    |  1.4% | 92.6 kB |  5,510 |
+| regexp   |  0.1% | 4.13 kB |     86 |
+| symbol   |  0.0% |   646 B |     40 |
+| bigint   |  0.0% |    76 B |      3 |
+| number   |  0.0% |    68 B |      2 |
 
 ## Largest constructors
 
 ### Self size
 
-Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.
+Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
 
 |     % |    Size | Instances | Constructor                  |
 | ----: | ------: | --------: | ---------------------------- |
@@ -252,7 +252,7 @@ Instances ranked by contribution to each constructor's self size.
 
 ### Retained size
 
-Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.
+Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
 |     % |    Size | Instances | Constructor                  |
 | ----: | ------: | --------: | ---------------------------- |

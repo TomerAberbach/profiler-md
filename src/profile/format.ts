@@ -50,7 +50,7 @@ const formatSummaryLine = ({
   metrics,
   totalSampleCount,
   totalValues,
-  samplingIntervals,
+  samplingRates,
 }: AggregatedProfile): string => {
   const totalsSummary = capitalizeFirst(
     formatConjunction(
@@ -63,16 +63,16 @@ const formatSummaryLine = ({
       ),
     ),
   )
-  const samplingIntervalsSummary = `(${formatConjunction(
-    Array.from(samplingIntervals, (interval, index) =>
-      formatSamplingInterval(interval, metrics[index]!),
+  const samplingRatesSummary = `(${formatConjunction(
+    Array.from(samplingRates, (rate, index) =>
+      formatSamplingRate(rate, metrics[index]!),
     ),
   )} per sample)`
 
   return `${totalsSummary} over ${formatCount(
     totalSampleCount,
     `sample`,
-  )} ${samplingIntervalsSummary}.`
+  )} ${samplingRatesSummary}.`
 }
 
 const formatCategoryTable = ({
@@ -108,17 +108,14 @@ const formatCategoryTable = ({
   ]
 }
 
-const formatSamplingInterval = (
-  samplingInterval: number,
-  metric: Metric,
-): string => {
+const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
   switch (metric.type) {
     case `time`:
-      return formatMicroseconds(samplingInterval * 1000 * metric.milliseconds)
+      return formatMicroseconds(samplingRate * 1000 * metric.milliseconds)
     case `size`:
-      return formatBytes(samplingInterval * metric.bytes)
+      return formatBytes(samplingRate * metric.bytes)
     case `custom`:
-      return formatCount(samplingInterval, metric.unit)
+      return formatCount(samplingRate, metric.unit)
   }
 }
 
@@ -479,7 +476,7 @@ const formatHottestCallStacks = (
 
   return [
     formatHeading(options.headingLevel, `Hottest call stacks`),
-    `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their top frame.`,
+    `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
     ...(commonCallStack.length > 0
       ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
       : []),

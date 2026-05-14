@@ -274,9 +274,9 @@ export class ProfileAggregator<Node extends { id?: number }> {
   }
 
   public aggregate(): AggregatedProfile {
-    const samplingIntervals = new Float64Array(this.#metrics.length)
-    for (let i = 0; i < samplingIntervals.length; i++) {
-      samplingIntervals[i] = this.#totalValues[i]! / this.#totalSampleCount
+    const samplingRates = new Float64Array(this.#metrics.length)
+    for (let i = 0; i < samplingRates.length; i++) {
+      samplingRates[i] = this.#totalValues[i]! / this.#totalSampleCount
     }
 
     const functions = [...this.#keyToFunction.values()]
@@ -286,7 +286,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
       metrics: this.#metrics,
       totalSampleCount: this.#totalSampleCount,
       totalValues: this.#totalValues,
-      samplingIntervals,
+      samplingRates,
       categoryToMetrics: this.#categoryToMetrics,
       functions,
       callStacks,
@@ -308,7 +308,7 @@ export type Sample<Node extends { id?: number }> = {
   /** The values recorded for each metric in {@link AggregatedProfile.metrics}. */
   values: number[]
 
-  /** The functions on the stack in callee to caller order. */
+  /** The functions on the call stack in callee to caller order. */
   nodes: Node[]
 
   /** The 1-based line number where the sample was taken, if known. */
@@ -429,7 +429,7 @@ export type ProfileFunction = {
  * stack within a profile.
  */
 export type ProfileCallStack = {
-  /** The functions on the stack in callee to caller order. */
+  /** The functions on the call stack in callee to caller order. */
   frames: ProfileFunction[]
 
   /** The number of samples taken with this exact call stack. */
@@ -457,10 +457,10 @@ export type AggregatedProfile = {
   totalValues: Float64Array
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the number of samples
-   * taken per metric value.
+   * For each metric in {@link AggregatedProfile.metrics}, the average metric
+   * value per sample (total value ÷ total sample count).
    */
-  samplingIntervals: Float64Array
+  samplingRates: Float64Array
 
   /**
    * Function category to values and sample count for calls of functions with
@@ -520,7 +520,7 @@ const categorizeFunction = (
  * of the input call stacks.
  *
  * This behavior is so that it's safe to remove that suffix from any of the call
- * stacks and end up with a non-empty call stack to render.
+ * stacks and end up with a non-empty call stack to format.
  */
 export const findCommonCallStack = (
   callStacks: { frames: ProfileFunction[] }[],

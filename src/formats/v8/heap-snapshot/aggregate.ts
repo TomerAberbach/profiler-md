@@ -399,7 +399,7 @@ const MAX_STRING_LENGTH = 50
 /** Sentinel offsets and values for accessing data in a {@link V8HeapSnapshot}. */
 type FieldLayout = {
   /**
-   * The category of heap object.
+   * The category of heap node.
    *
    * One of `object` (plain JS object), `closure` (function), `native`
    * (DOM-allocated), `array` (internal V8 array), `hidden` (V8 internal),
@@ -415,13 +415,11 @@ type FieldLayout = {
    */
   nodeNameOffset: number
 
-  /**
-   * Bytes held exclusively by this object, not counting objects it references.
-   */
+  /** Bytes held exclusively by this node. */
   nodeSelfSizeOffset: number
 
   /**
-   * How many outgoing references this node has.
+   * How many outgoing edges this node has.
    *
    * The node's edges occupy the next `edge_count * edgeFieldCount` slots in the
    * flat `edges` array, immediately following the edges of the previous node.
@@ -502,7 +500,7 @@ type FieldLayout = {
   edgeTypeElement: number
 
   /**
-   * V8-internal references with no JS-visible name.
+   * V8-internal edges with no JS-visible name.
    *
    * e.g. a function's captured scope (`context`), hidden class (`map`), or
    * prototype chain slot.
@@ -512,12 +510,12 @@ type FieldLayout = {
   /**
    * Weak references that do not keep the target alive.
    *
-   * Objects held only by weak edges can be garbage-collected, so these are
+   * Nodes held only by weak edges can be garbage-collected, so these are
    * excluded from retainer path analysis.
    */
   edgeTypeWeak: number
 
-  /** V8 internal object not visible in JS (e.g. hidden class, map). */
+  /** V8 internal node not visible in JS (e.g. hidden class, map). */
   nodeTypeHidden: number
 
   /** V8 internal fixed-length array (e.g. `FixedArray`). */
@@ -541,13 +539,13 @@ type FieldLayout = {
   /** JS number (boxed). */
   nodeTypeNumber: number
 
-  /** Object allocated by native (C++) code, e.g. a DOM node. */
+  /** Node allocated by native (C++) code, e.g. a DOM node. */
   nodeTypeNative: number
 
   /**
    * Synthetic root node that V8 uses as a GC entry-point super-node.
    *
-   * Not a real heap object.
+   * Not a real heap node.
    */
   nodeTypeSynthetic: number
 

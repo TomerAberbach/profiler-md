@@ -47,17 +47,17 @@ const formatOverallSummary = ({
   return [
     `Allocated ${formatBytes(totalSize)} across ${formatCount(
       nodeCount,
-    )} objects and ${formatCount(edgeCount)} references.`,
+    )} nodes and ${formatCount(edgeCount)} edges.`,
     formatTable(
       [
         `Category`,
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
-        { content: `Objects`, align: `right` },
+        { content: `Nodes`, align: `right` },
       ],
       hottestObjectCategories.map(
-        ([type, { size, nodeCount: objectCount }]) => [
-          type,
+        ([category, { size, nodeCount: objectCount }]) => [
+          category,
           formatPercent(size / totalSize),
           formatBytes(size),
           formatCount(objectCount),
@@ -113,7 +113,7 @@ const formatLargestSelfSizeConstructors = (
 
   return [
     formatHeading(3, `Self size`),
-    `Constructors ranked by bytes allocated for their instances, excluding objects kept reachable by them.`,
+    `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -211,7 +211,7 @@ const formatLargestRetainedSizeConstructors = (
 
   return [
     formatHeading(3, `Retained size`),
-    `Constructors ranked by bytes allocated for their instances and all objects that would be freed if their instances were garbage collected.`,
+    `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -383,7 +383,7 @@ const formatLargestClosures = (
     ...(retainedSections.length > 0
       ? [
           formatHeading(3, `Retained`),
-          `Objects ranked by contribution to each closure's retained size.`,
+          `Nodes ranked by contribution to each closure's retained size.`,
         ]
       : []),
     ...retainedSections,

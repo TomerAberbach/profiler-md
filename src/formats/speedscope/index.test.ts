@@ -161,7 +161,7 @@ test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () =
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |   Time | Samples | Call stack                            |
     | ----: | -----: | ------: | ------------------------------------- |
@@ -241,7 +241,7 @@ test(`speedscopeProfileToMd evented profile with durations computed from open/cl
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                            |
     | ----: | ----: | ------: | ------------------------------------- |
@@ -430,7 +430,7 @@ test(`speedscopeProfileToMd evented profile with recursive function`, () => {
 
     ## Hottest call stacks
 
-    Call stacks ranked by time spent in their top frame.
+    Call stacks ranked by time spent in their leaf frame.
 
     |     % |  Time | Samples | Call stack                                     |
     | ----: | ----: | ------: | ---------------------------------------------- |

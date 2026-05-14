@@ -88,7 +88,7 @@ HeapProfilerStart("heap.prof");
 
 // Code to profile...
 
-HeapProfilerDump("checkpoint"); // optional mid-run snapshot
+HeapProfilerDump("checkpoint"); // optional mid-run profile dump
 HeapProfilerStop();
 ```
 

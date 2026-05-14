@@ -41,7 +41,7 @@ defer pprof.StopCPUProfile()
 Heap profiles come in two variants:
 
 - **heap** (`inuse_space` / `inuse_objects`): live allocations at the time of
-  the snapshot; useful for finding memory leaks
+  the time of each sample; useful for finding memory leaks
 - **allocs** (`alloc_space` / `alloc_objects`): all allocations since program
   start; useful for finding allocation hot spots
 
@@ -74,7 +74,7 @@ import (
   "runtime/pprof"
 )
 
-runtime.GC() // Flush pending samples before snapshotting
+runtime.GC() // Flush pending samples before writing the profile
 
 // Live heap
 f, _ := os.Create("heap.pprof")

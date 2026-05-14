@@ -96,6 +96,10 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - `*.test.ts` files are colocated
 - Most tests run profile to Markdown conversion end-to-end
 
+## Glossary
+
+@glossary.md
+
 ## Principles
 
 ### Performance
@@ -110,7 +114,7 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - Simply cast untyped profile data to typed data for performance. Only validate
   when it's necessary to make progress
 
-### Summarization
+### Aggregating
 
 - NEVER sort, filter by `topN`, or perform any other formatting related logic
 - Use sequential IDs, `TypedArray`s, and compressed sparse row format when it
