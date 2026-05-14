@@ -7,7 +7,7 @@ import type {
 } from '../options.ts'
 import type { Metric } from './metric.ts'
 
-export class ProfileBuilder<Node extends { id?: number }> {
+export class ProfileAggregator<Node extends { id?: number }> {
   readonly #metrics: Metric[]
   readonly #functionKey: (node: Node) => number | string
   readonly #functionInput: (node: Node) => ProfileFunctionInput
@@ -273,7 +273,7 @@ export class ProfileBuilder<Node extends { id?: number }> {
     return func
   }
 
-  public build(): Profile {
+  public aggregate(): Profile {
     const samplingIntervals = new Float64Array(this.#metrics.length)
     for (let i = 0; i < samplingIntervals.length; i++) {
       samplingIntervals[i] = this.#totalValues[i]! / this.#totalSampleCount

@@ -5,10 +5,10 @@ import type {
   BinaryProfileData,
   ProfileToMdOptions,
 } from '../../options.ts'
+import { aggregatePprof } from './aggregate.ts'
 import { formatPprof } from './format.ts'
 import type { Pprof } from './parse.ts'
 import { parsePprof, parsePprofAsync, parsePprofInternal } from './parse.ts'
-import { summarizePprof } from './summarize.ts'
 
 export const detectPprof = async (data: Blob): Promise<Pprof | undefined> => {
   if (data.size === 0) {
@@ -62,7 +62,7 @@ export const pprofToMdInternal = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatPprof(
-    summarizePprof(pprof, normalizedOptions),
+    aggregatePprof(pprof, normalizedOptions),
     normalizedOptions,
   )
 }

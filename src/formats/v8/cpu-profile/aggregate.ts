@@ -1,14 +1,14 @@
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
-import { MICROSECONDS, ProfileBuilder } from '../../../profile/index.ts'
+import { MICROSECONDS, ProfileAggregator } from '../../../profile/index.ts'
 import type { Profile } from '../../../profile/index.ts'
 import { callFrameFunctionInput, callFrameKey } from '../common.ts'
 import type { V8CpuProfile, V8CpuProfileNode } from './parse.ts'
 
-export const summarizeV8CpuProfile = (
+export const aggregateV8CpuProfile = (
   profile: V8CpuProfile,
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const profileBuilder = new ProfileBuilder<V8CpuProfileNode>(
+  const profileAggregator = new ProfileAggregator<V8CpuProfileNode>(
     {
       metrics: [MICROSECONDS],
       functionKey: node => callFrameKey(node.callFrame),
@@ -61,7 +61,7 @@ export const summarizeV8CpuProfile = (
       currentNode = profile.nodes[parentIndex]!
     }
 
-    profileBuilder.addSample({ values: [timeDelta], nodes })
+    profileAggregator.addSample({ values: [timeDelta], nodes })
   }
 
   for (const node of profile.nodes) {
@@ -70,7 +70,7 @@ export const summarizeV8CpuProfile = (
     }
 
     const selfTime = indexToSelfTime[node.id]!
-    profileBuilder.addLineMetrics({
+    profileAggregator.addLineMetrics({
       node,
       lines: node.positionTicks.map(({ line, ticks }) => ({
         line,
@@ -80,5 +80,5 @@ export const summarizeV8CpuProfile = (
     })
   }
 
-  return profileBuilder.build()
+  return profileAggregator.aggregate()
 }

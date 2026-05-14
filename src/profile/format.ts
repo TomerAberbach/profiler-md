@@ -10,9 +10,9 @@ import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
 import { formatProfileLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { Profile, ProfileFunction } from './aggregate.ts'
+import { findCommonCallStack } from './aggregate.ts'
 import type { Metric } from './metric.ts'
-import type { Profile, ProfileFunction } from './summarize.ts'
-import { findCommonCallStack } from './summarize.ts'
 
 type FormatProfileOptions = NormalizedProfileToMdOptions & {
   /** The Markdown heading level to use. */

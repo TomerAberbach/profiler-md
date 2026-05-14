@@ -1,5 +1,5 @@
 import type { NormalizedProfileToMdOptions } from '../../options.ts'
-import { determineMetric, ProfileBuilder } from '../../profile/index.ts'
+import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
 import type { Profile } from '../../profile/index.ts'
 import type {
   SpeedscopeEventedProfile,
@@ -10,7 +10,7 @@ import type {
 
 type SpeedscopeNode = SpeedscopeFrame & { id: number }
 
-export const summarizeSpeedscopeProfile = (
+export const aggregateSpeedscopeProfile = (
   profile: SpeedscopeProfile,
   options: NormalizedProfileToMdOptions,
 ): Profile[] => {
@@ -20,17 +20,17 @@ export const summarizeSpeedscopeProfile = (
   }))
   return profile.profiles.map(profile =>
     profile.type === `sampled`
-      ? summarizeSampled(profile, nodes, options)
-      : summarizeEvented(profile, nodes, options),
+      ? aggregateSampled(profile, nodes, options)
+      : aggregateEvented(profile, nodes, options),
   )
 }
 
-const summarizeSampled = (
+const aggregateSampled = (
   profile: SpeedscopeSampledProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const profileBuilder = makeProfileBuilder(profile.unit, options)
+  const profileAggregator = makeProfileAggregator(profile.unit, options)
 
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
@@ -47,18 +47,18 @@ const summarizeSampled = (
       continue
     }
 
-    profileBuilder.addSample({ values: [weight], nodes: sampleNodes })
+    profileAggregator.addSample({ values: [weight], nodes: sampleNodes })
   }
 
-  return profileBuilder.build()
+  return profileAggregator.aggregate()
 }
 
-const summarizeEvented = (
+const aggregateEvented = (
   profile: SpeedscopeEventedProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
 ): Profile => {
-  const builder = makeProfileBuilder(profile.unit, options)
+  const profileAggregator = makeProfileAggregator(profile.unit, options)
 
   type StackEntry = { node: SpeedscopeNode; lastChildClosed: number }
   const stack: StackEntry[] = []
@@ -72,7 +72,7 @@ const summarizeEvented = (
     if (selfTime <= 0) {
       return
     }
-    builder.addSample({
+    profileAggregator.addSample({
       values: [selfTime],
       nodes: stack
         .map(entry => entry.node)
@@ -95,14 +95,14 @@ const summarizeEvented = (
     }
   }
 
-  return builder.build()
+  return profileAggregator.aggregate()
 }
 
-const makeProfileBuilder = (
+const makeProfileAggregator = (
   unit: string,
   options: NormalizedProfileToMdOptions,
-): ProfileBuilder<SpeedscopeNode> =>
-  new ProfileBuilder<SpeedscopeNode>(
+): ProfileAggregator<SpeedscopeNode> =>
+  new ProfileAggregator<SpeedscopeNode>(
     {
       metrics: [determineMetric({ name: unit, unit })],
       functionKey: node => node.id,

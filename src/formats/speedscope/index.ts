@@ -4,10 +4,10 @@ import type {
   JsonProfileData,
   ProfileToMdOptions,
 } from '../../options.ts'
+import { aggregateSpeedscopeProfile } from './aggregate.ts'
 import { formatSpeedscope } from './format.ts'
 import { parseSpeedscopeProfile, parseSpeedscopeProfileAsync } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
-import { summarizeSpeedscopeProfile } from './summarize.ts'
 
 export const detectSpeedscopeProfile = (
   json: unknown,
@@ -69,7 +69,7 @@ export const speedscopeProfileToMdInternal = (
   options?: ProfileToMdOptions,
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
-  return summarizeSpeedscopeProfile(profile, normalizedOptions)
+  return aggregateSpeedscopeProfile(profile, normalizedOptions)
     .map(profile => formatSpeedscope(profile, normalizedOptions))
     .join(`\n\n`)
 }

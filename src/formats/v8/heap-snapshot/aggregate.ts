@@ -4,17 +4,17 @@ import {
 } from '../../../location.ts'
 import type { ProfileLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
-import { SnapshotBuilder } from '../../../snapshot/index.ts'
+import { SnapshotAggregator } from '../../../snapshot/index.ts'
 import type {
+  AggregatedHeapSnapshot,
   NodeAdjacencyGraph,
-  SummarizedHeapSnapshot,
 } from '../../../snapshot/index.ts'
 import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 
-export const summarizeV8HeapSnapshot = (
+export const aggregateV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
   options: NormalizedProfileToMdOptions,
-): SummarizedHeapSnapshot => {
+): AggregatedHeapSnapshot => {
   const {
     snapshot: { meta, node_count: nodeCount, edge_count: edgeCount },
     nodes,
@@ -29,7 +29,7 @@ export const summarizeV8HeapSnapshot = (
     fieldLayout,
   )
 
-  const snapshotBuilder = new SnapshotBuilder({
+  const snapshotAggregator = new SnapshotAggregator({
     nodeCount,
     edgeCount,
     nodeAdjacencyGraph,
@@ -73,18 +73,18 @@ export const summarizeV8HeapSnapshot = (
     const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
     const category = nodeTypes[nodeType]!
 
-    snapshotBuilder.addCategoryNode(nodeOrdinal, category)
+    snapshotAggregator.addCategoryNode(nodeOrdinal, category)
 
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
       case fieldLayout.nodeTypeNative:
-        snapshotBuilder.addConstructorNode(
+        snapshotAggregator.addConstructorNode(
           nodeOrdinal,
           nodeOrdinalToLocation[nodeOrdinal],
         )
         break
       case fieldLayout.nodeTypeClosure:
-        snapshotBuilder.addClosureNode(
+        snapshotAggregator.addClosureNode(
           nodeOrdinal,
           nodeOrdinalToLocation[nodeOrdinal],
         )
@@ -92,7 +92,7 @@ export const summarizeV8HeapSnapshot = (
       case fieldLayout.nodeTypeString:
       case fieldLayout.nodeTypeSlicedString:
       case fieldLayout.nodeTypeConcatenatedString:
-        snapshotBuilder.addStringNode(
+        snapshotAggregator.addStringNode(
           nodeOrdinal,
           formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
         )
@@ -100,7 +100,7 @@ export const summarizeV8HeapSnapshot = (
     }
   }
 
-  return snapshotBuilder.build()
+  return snapshotAggregator.aggregate()
 }
 
 const computeNodeAdjacencyGraph = (
