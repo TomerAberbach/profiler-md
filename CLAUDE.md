@@ -153,7 +153,6 @@ pnpm bench ./src/fixtures/node.cpuprofile
   - Add format ID to the relevant language entries in `languages` map
   - Add example entries (with fixture filenames and labels) if fixtures exist
 - [ ] Export from `src/index.ts`: add `*ToMd` and `*ToMdAsync`
-- [ ] Add the format to the parameterized tests in `src/cli/index.test.ts`
 
 ### Documentation
 

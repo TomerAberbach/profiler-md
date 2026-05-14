@@ -1,8 +1,8 @@
 import path from 'node:path'
 import { createTwoFilesPatch } from 'diff'
 
-export const fixturePath = (filename: string): string =>
-  path.join(import.meta.dirname, `../fixtures/${filename}`)
+export const fixturePath = (filename?: string): string =>
+  path.join(import.meta.dirname, `../fixtures`, ...(filename ? [filename] : []))
 
 /**
  * Returns a unified diff of `base` vs `modified` with no context lines, so
