@@ -26,8 +26,8 @@ export const formatProfile = (
   const headingLevel = 1
   return `${[
     formatHeading(headingLevel, formatTitle(profile)),
-    formatOverallSummary(profile),
-    formatMetricSections(profile, {
+    ...formatOverallSummary(profile),
+    ...formatMetricSections(profile, {
       ...options,
       headingLevel: headingLevel + 1,
     }),
@@ -41,8 +41,10 @@ const formatTitle = (profile: Profile): string =>
     )} profile`,
   )
 
-const formatOverallSummary = (profile: Profile): string =>
-  `${formatSummaryLine(profile)}\n\n${formatCategoryTable(profile)}`
+const formatOverallSummary = (profile: Profile): string[] => [
+  formatSummaryLine(profile),
+  ...formatCategoryTable(profile),
+]
 
 const formatSummaryLine = ({
   metrics,
@@ -77,28 +79,33 @@ const formatCategoryTable = ({
   metrics,
   totalValues,
   categoryToMetrics,
-}: Profile): string => {
+}: Profile): string[] => {
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) => metrics2.values[0]! - metrics1.values[0]!,
   )
+  if (hottestCategories.length === 0) {
+    return []
+  }
 
-  return formatTable(
-    [
-      `Category`,
-      { content: `%`, align: `right` },
-      ...metrics.map(metric => ({
-        content: capitalizeFirst(metric.phrases.columnNoun),
-        align: `right` as const,
-      })),
-      { content: `Samples`, align: `right` },
-    ],
-    hottestCategories.map(([category, { values, sampleCount }]) => [
-      category,
-      formatPercent(values[0]! / totalValues[0]!),
-      ...metrics.map((metric, index) => formatValue(values[index]!, metric)),
-      formatCount(sampleCount),
-    ]),
-  )
+  return [
+    formatTable(
+      [
+        `Category`,
+        { content: `%`, align: `right` },
+        ...metrics.map(metric => ({
+          content: capitalizeFirst(metric.phrases.columnNoun),
+          align: `right` as const,
+        })),
+        { content: `Samples`, align: `right` },
+      ],
+      hottestCategories.map(([category, { values, sampleCount }]) => [
+        category,
+        formatPercent(values[0]! / totalValues[0]!),
+        ...metrics.map((metric, index) => formatValue(values[index]!, metric)),
+        formatCount(sampleCount),
+      ]),
+    ),
+  ]
 }
 
 const formatSamplingInterval = (
@@ -118,59 +125,59 @@ const formatSamplingInterval = (
 const formatMetricSections = (
   profile: Profile,
   options: FormatProfileOptions,
-): string =>
-  profile.metrics
-    .flatMap((metric, index) => {
-      const sections: string[] = []
+): string[] =>
+  profile.metrics.flatMap((metric, index) => {
+    const sections: string[] = []
 
-      let sectionOptions = options
-      if (profile.metrics.length > 1) {
-        sections.push(
-          formatHeading(
-            options.headingLevel,
-            capitalizeFirst(metric.phrases.titleNoun),
-          ),
-        )
-        sectionOptions = {
-          ...options,
-          headingLevel: options.headingLevel + 1,
-        }
-      }
-
-      const callStacksSection = formatHottestCallStacks(
-        index,
-        profile,
-        sectionOptions,
+    let sectionOptions = options
+    if (profile.metrics.length > 1) {
+      sections.push(
+        formatHeading(
+          options.headingLevel,
+          capitalizeFirst(metric.phrases.titleNoun),
+        ),
       )
-      return [
-        ...sections,
-        formatHottestFunctions(index, profile, sectionOptions),
-        ...(callStacksSection === undefined ? [] : [callStacksSection]),
-      ]
-    })
-    .join(`\n\n`)
+      sectionOptions = {
+        ...options,
+        headingLevel: options.headingLevel + 1,
+      }
+    }
+
+    return [
+      ...sections,
+      ...formatHottestFunctions(index, profile, sectionOptions),
+      ...formatHottestCallStacks(index, profile, sectionOptions),
+    ]
+  })
 
 const formatHottestFunctions = (
   metricIndex: number,
   profile: Profile,
   options: FormatProfileOptions,
-): string => {
+): string[] => {
   const subsectionOptions = {
     ...options,
     headingLevel: options.headingLevel + 1,
   }
+  const functionsSections = [
+    ...formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
+    ...formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
+  ]
+  if (functionsSections.length === 0) {
+    return []
+  }
+
   return [
     formatHeading(options.headingLevel, `Hottest functions`),
-    formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
-    formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
-  ].join(`\n\n`)
+    ...functionsSections,
+  ]
 }
 
 const formatHottestSelfFunctions = (
   metricIndex: number,
   profile: Profile,
   options: FormatProfileOptions,
-): string => {
+): string[] => {
   const hottestFunctions = selectTopN(
     profile.functions.filter(
       func => options.includeEntry(func) && func.selfValues[metricIndex]! > 0,
@@ -178,6 +185,9 @@ const formatHottestSelfFunctions = (
     options.topN,
     func => func.selfValues[metricIndex]!,
   )
+  if (hottestFunctions.length === 0) {
+    return []
+  }
 
   const subsectionOptions = {
     ...options,
@@ -185,14 +195,12 @@ const formatHottestSelfFunctions = (
   }
   const hottestLinesSections = hottestFunctions
     .filter(func => func.lineToMetrics.size > 0)
-    .map(func =>
+    .flatMap(func =>
       formatHottestLines(metricIndex, func, profile, subsectionOptions),
     )
-  const hottestCallersSections = hottestFunctions
-    .map(func =>
-      formatHottestCallers(metricIndex, func, profile, subsectionOptions),
-    )
-    .filter(section => section !== undefined)
+  const hottestCallersSections = hottestFunctions.flatMap(func =>
+    formatHottestCallers(metricIndex, func, profile, subsectionOptions),
+  )
 
   const metric = profile.metrics[metricIndex]!
   return [
@@ -233,7 +241,7 @@ const formatHottestSelfFunctions = (
         ]
       : []),
     ...hottestCallersSections,
-  ].join(`\n\n`)
+  ]
 }
 
 const formatHottestLines = (
@@ -241,13 +249,16 @@ const formatHottestLines = (
   func: ProfileFunction,
   profile: Profile,
   options: FormatProfileOptions,
-): string => {
+): string[] => {
   const selfValue = func.selfValues[metricIndex]!
   const hottestLines = selectTopN(
     [...func.lineToMetrics],
     Math.ceil(options.topN / 4),
     ([, metrics]) => metrics.values[metricIndex]!,
   )
+  if (hottestLines.length === 0) {
+    return []
+  }
 
   const metric = profile.metrics[metricIndex]!
   return [
@@ -280,7 +291,7 @@ const formatHottestLines = (
           : String(line),
       ]),
     ),
-  ].join(`\n\n`)
+  ]
 }
 
 const formatHottestCallers = (
@@ -288,7 +299,7 @@ const formatHottestCallers = (
   func: ProfileFunction,
   profile: Profile,
   options: FormatProfileOptions,
-): string | undefined => {
+): string[] => {
   const selfValue = func.selfValues[metricIndex]!
   const hottestCallers = selectTopN(
     [...func.callerIdToMetrics.values()].filter(
@@ -299,9 +310,8 @@ const formatHottestCallers = (
     Math.ceil(options.topN / 4),
     entry => entry.selfValues[metricIndex]!,
   )
-
   if (hottestCallers.length === 0) {
-    return undefined
+    return []
   }
 
   const metric = profile.metrics[metricIndex]!
@@ -332,14 +342,14 @@ const formatHottestCallers = (
         formatProfileLocation(caller.location, options),
       ]),
     ),
-  ].join(`\n\n`)
+  ]
 }
 
 const formatHottestTotalFunctions = (
   metricIndex: number,
   profile: Profile,
   options: FormatProfileOptions,
-): string => {
+): string[] => {
   const totalValue = profile.totalValues[metricIndex]!
   const hottestFunctions = selectTopN(
     profile.functions.filter(
@@ -348,16 +358,17 @@ const formatHottestTotalFunctions = (
     options.topN,
     func => func.totalValues[metricIndex]!,
   )
+  if (hottestFunctions.length === 0) {
+    return []
+  }
 
   const subsectionOptions = {
     ...options,
     headingLevel: options.headingLevel + 2,
   }
-  const calleeSections = hottestFunctions
-    .map(func =>
-      formatHottestCallees(metricIndex, func, profile, subsectionOptions),
-    )
-    .filter(section => section !== undefined)
+  const calleeSections = hottestFunctions.flatMap(func =>
+    formatHottestCallees(metricIndex, func, profile, subsectionOptions),
+  )
 
   const metric = profile.metrics[metricIndex]!
   return [
@@ -389,7 +400,7 @@ const formatHottestTotalFunctions = (
         ]
       : []),
     ...calleeSections,
-  ].join(`\n\n`)
+  ]
 }
 
 const formatHottestCallees = (
@@ -397,7 +408,7 @@ const formatHottestCallees = (
   func: ProfileFunction,
   profile: Profile,
   options: FormatProfileOptions,
-): string | undefined => {
+): string[] => {
   const totalValue = func.totalValues[metricIndex]!
   const hottestCallees = selectTopN(
     [...func.calleeIdToMetrics.values()].filter(
@@ -409,7 +420,7 @@ const formatHottestCallees = (
     entry => entry.totalValues[metricIndex]!,
   )
   if (hottestCallees.length === 0) {
-    return undefined
+    return []
   }
 
   const metric = profile.metrics[metricIndex]!
@@ -440,14 +451,14 @@ const formatHottestCallees = (
         formatProfileLocation(callee.location, options),
       ]),
     ),
-  ].join(`\n\n`)
+  ]
 }
 
 const formatHottestCallStacks = (
   metricIndex: number,
   profile: Profile,
   options: FormatProfileOptions,
-): string | undefined => {
+): string[] => {
   const totalValue = profile.totalValues[metricIndex]!
   const hottestCallStacks = selectTopN(
     profile.callStacks
@@ -460,7 +471,7 @@ const formatHottestCallStacks = (
     callStack => callStack.selfValues[metricIndex]!,
   )
   if (hottestCallStacks.length === 0) {
-    return undefined
+    return []
   }
 
   const metric = profile.metrics[metricIndex]!
@@ -494,7 +505,7 @@ const formatHottestCallStacks = (
         ),
       ]),
     ),
-  ].join(`\n\n`)
+  ]
 }
 
 const formatCallStack = (
