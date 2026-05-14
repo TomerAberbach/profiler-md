@@ -1,8 +1,1 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
-import { formatProfile } from '../../profile/index.ts'
-import type { Profile } from '../../profile/index.ts'
-
-export const formatWebKitTimelineRecording = (
-  profile: Profile,
-  options: NormalizedProfileToMdOptions,
-): string => formatProfile(profile, options)
+export { formatProfile as formatWebKitTimelineRecording } from '../../profile/index.ts'

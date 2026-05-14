@@ -1,8 +1,1 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
-import { formatProfile } from '../../profile/index.ts'
-import type { Profile } from '../../profile/index.ts'
-
-export const formatPprof = (
-  profile: Profile,
-  options: NormalizedProfileToMdOptions,
-): string => formatProfile(profile, options)
+export { formatProfile as formatPprof } from '../../profile/index.ts'
