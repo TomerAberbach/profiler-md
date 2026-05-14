@@ -1,6 +1,6 @@
 import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { ProfileAggregator, SECONDS } from '../../profile/index.ts'
-import type { Profile } from '../../profile/index.ts'
+import type { AggregatedProfile } from '../../profile/index.ts'
 import type { WebKitStackFrame, WebKitTimelineRecording } from './parse.ts'
 
 export const aggregateWebKitTimelineRecording = (
@@ -8,7 +8,7 @@ export const aggregateWebKitTimelineRecording = (
     recording: { sampleStackTraces, sampleDurations },
   }: WebKitTimelineRecording,
   options: NormalizedProfileToMdOptions,
-): Profile => {
+): AggregatedProfile => {
   const profileAggregator = new ProfileAggregator<
     WebKitStackFrame & { id?: never }
   >(
