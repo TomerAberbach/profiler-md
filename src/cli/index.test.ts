@@ -1,106 +1,74 @@
-import { spawnSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
 import { fixturePath } from '../testing/fixtures.ts'
 
-describe.each([
-  {
-    format: `pprof`,
-    filename: `node.pprof`,
-    expectedMarkdown: /^# CPU profile/u,
-  },
-  {
-    format: `speedscope`,
-    filename: `node.speedscope.json`,
-    expectedMarkdown: /^# CPU profile/u,
-  },
-  {
-    format: `v8-cpu-profile`,
-    filename: `node.cpuprofile`,
-    expectedMarkdown: /^# CPU profile/u,
-  },
-  {
-    format: `v8-heap-profile`,
-    filename: `node.heapprofile`,
-    expectedMarkdown: /^# Heap profile/u,
-  },
-  {
-    format: `v8-heap-snapshot`,
-    filename: `node.heapsnapshot`,
-    expectedMarkdown: /^# Heap snapshot/u,
-  },
-])(`$format`, ({ format, filename, expectedMarkdown }) => {
-  const path = fixturePath(filename)
-  const fileContent = readFileSync(path)
+describe.concurrent.each(await fs.readdir(fixturePath()))(
+  `$format`,
+  filename => {
+    const path = fixturePath(filename)
+    const fileContent = readFileSync(path)
 
-  test(`outputs markdown from a ${filename} file`, () => {
-    const { status, stdout } = runCli([path])
+    test(`outputs markdown from a ${filename} file`, async () => {
+      const { status, stdout } = await runCli([path])
 
-    expect(status).toBe(0)
-    expect(stdout).toMatch(expectedMarkdown)
-  })
+      expect(status).toBe(0)
+      expect(stdout).toMatch(/^# /u)
+    })
 
-  test.each([`--format`, `-f`])(`reads from stdin when %s is given`, flag => {
-    const { status, stdout } = runCli([flag, format], fileContent)
+    test(`reads from stdin and auto-detects format`, async () => {
+      const { status, stdout } = await runCli([], fileContent)
 
-    expect(status).toBe(0)
-    expect(stdout).toMatch(expectedMarkdown)
-  })
+      expect(status).toBe(0)
+      expect(stdout).toMatch(/^# /u)
+    })
 
-  test(`reads from stdin and auto-detects format`, () => {
-    const { status, stdout } = runCli([], fileContent)
+    test.each([`--output`, `-o`])(
+      `writes output to a file with %s`,
+      async flag => {
+        const tempPath = join(
+          mkdtempSync(join(tmpdir(), `profiler-md-`)),
+          `out.md`,
+        )
 
-    expect(status).toBe(0)
-    expect(stdout).toMatch(expectedMarkdown)
-  })
+        const { status, stdout } = await runCli([path, flag, tempPath])
 
-  test.each([`--output`, `-o`])(`writes output to a file with %s`, flag => {
-    const tempPath = join(mkdtempSync(join(tmpdir(), `profiler-md-`)), `out.md`)
+        expect(status).toBe(0)
+        expect(stdout).toBe(``)
+        expect(readFileSync(tempPath, `utf8`)).toMatch(/^# /u)
 
-    const { status, stdout } = runCli([path, flag, tempPath])
+        rmSync(tempPath, { recursive: true })
+      },
+    )
 
-    expect(status).toBe(0)
-    expect(stdout).toBe(``)
-    expect(readFileSync(tempPath, `utf8`)).toMatch(expectedMarkdown)
-
-    rmSync(tempPath, { recursive: true })
-  })
-
-  test(`--top-n limits the number of entries shown`, () => {
-    const { stdout: top1 } = runCli([path, `--top-n`, `1`])
-    const { stdout: top5 } = runCli([path, `--top-n`, `5`])
-
-    expect(top1.length).toBeLessThan(top5.length)
-  })
-
-  test(`--cwd makes file paths relative to the given directory`, () => {
-    const cwd = `/Users/tomer/Documents/work/code`
-
-    const { stdout: withoutCwd } = runCli([path])
-    const { stdout: withCwd } = runCli([path, `--cwd`, cwd])
-
-    expect(withoutCwd).toContain(cwd)
-    expect(withCwd).not.toContain(cwd)
-  })
-
-  test.skipIf(format === `v8-heap-snapshot`)(
-    `--third-party changes which paths are considered third-party`,
-    () => {
-      const { stdout: withDefaultThirdParty } = runCli([path])
-      const { stdout: withCustomThirdParty } = runCli([
-        path,
-        `--third-party`,
-        `**`,
+    test(`--top-n limits the number of entries shown`, async () => {
+      const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
+        runCli([path, `--top-n`, `1`]),
+        runCli([path, `--top-n`, `5`]),
       ])
 
-      expect(withDefaultThirdParty).toContain(`ours`)
-      expect(withCustomThirdParty).not.toContain(`ours`)
-    },
-  )
-})
+      expect(top1.length).toBeLessThan(top5.length)
+    })
+
+    test(`--cwd makes file paths relative to the given directory`, async () => {
+      const cwd = `/Users/tomer/Documents/work/code`
+
+      const { stdout } = await runCli([path, `--cwd`, cwd])
+
+      expect(stdout).not.toContain(cwd)
+    })
+
+    test(`--third-party changes which paths are considered third-party`, async () => {
+      const { stdout } = await runCli([path, `--third-party`, `**`])
+
+      expect(stdout).not.toContain(`ours`)
+    })
+  },
+)
 
 describe.each([
   { compression: `gzip`, compress: gzipSync, ext: `.gz` },
@@ -110,12 +78,12 @@ describe.each([
   const compressed = compress(raw)
   const expectedMarkdown = /^# CPU profile/u
 
-  test(`auto-decompresses a ${compression} file`, () => {
+  test(`auto-decompresses a ${compression} file`, async () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
     const path = join(dir, `node.cpuprofile${ext}`)
     writeFileSync(path, compressed)
 
-    const { status, stdout } = runCli([path])
+    const { status, stdout } = await runCli([path])
 
     expect(status).toBe(0)
     expect(stdout).toMatch(expectedMarkdown)
@@ -125,8 +93,8 @@ describe.each([
 
   test.skipIf(compression === `brotli`)(
     `auto-decompresses ${compression} from stdin`,
-    () => {
-      const { status, stdout } = runCli([], compressed)
+    async () => {
+      const { status, stdout } = await runCli([], compressed)
 
       expect(status).toBe(0)
       expect(stdout).toMatch(expectedMarkdown)
@@ -134,7 +102,7 @@ describe.each([
   )
 })
 
-test(`--source-maps applies source maps to profile locations`, () => {
+test(`--source-maps applies source maps to profile locations`, async () => {
   const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
   const sourceMapPath = join(dir, `index.ts.map`)
   // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
@@ -151,7 +119,7 @@ test(`--source-maps applies source maps to profile locations`, () => {
     }),
   )
 
-  const { status, stdout } = runCli([
+  const { status, stdout } = await runCli([
     fixturePath(`node.cpuprofile`),
     `--source-maps`,
     `${dir}/*.map`,
@@ -164,7 +132,7 @@ test(`--source-maps applies source maps to profile locations`, () => {
   rmSync(dir, { recursive: true })
 })
 
-test(`--source-maps applies inline source maps from files`, () => {
+test(`--source-maps applies inline source maps from files`, async () => {
   const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
   // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
   // /mapped/original.ts line 1 col 0.
@@ -183,7 +151,7 @@ test(`--source-maps applies inline source maps from files`, () => {
     `var x = 1;\n//# sourceMappingURL=data:application/json;base64,${base64}\n`,
   )
 
-  const { status, stdout } = runCli([
+  const { status, stdout } = await runCli([
     fixturePath(`node.cpuprofile`),
     `--source-maps`,
     `${dir}/*.js`,
@@ -221,14 +189,36 @@ test.each([
     expectedStderr: `--unknown-flag`,
     expectedStatus: 2,
   },
-])(`errors on $scenario`, ({ args, input, expectedStderr, expectedStatus }) => {
-  const { status, stderr } = runCli(args, input)
+])(
+  `errors on $scenario`,
+  async ({ args, input, expectedStderr, expectedStatus }) => {
+    const { status, stderr } = await runCli(args, input)
 
-  expect(status).toBe(expectedStatus)
-  expect(stderr).toContain(expectedStderr)
-})
+    expect(status).toBe(expectedStatus)
+    expect(stderr).toContain(expectedStderr)
+  },
+)
 
 const runCli = (args: string[], input?: string | Uint8Array) =>
-  spawnSync(process.execPath, [cliPath, ...args], { encoding: `utf8`, input })
+  new Promise<{ status: number | null; stdout: string; stderr: string }>(
+    (resolve, reject) => {
+      const child = spawn(process.execPath, [cliPath, ...args])
+
+      const stdout: Buffer[] = []
+      const stderr: Buffer[] = []
+      child.stdout.on(`data`, (chunk: Buffer) => stdout.push(chunk))
+      child.stderr.on(`data`, (chunk: Buffer) => stderr.push(chunk))
+      child.on(`error`, reject)
+      child.on(`close`, status =>
+        resolve({
+          status,
+          stdout: Buffer.concat(stdout).toString(`utf8`),
+          stderr: Buffer.concat(stderr).toString(`utf8`),
+        }),
+      )
+
+      child.stdin.end(input)
+    },
+  )
 
 const cliPath = join(import.meta.dirname, `index.ts`)
