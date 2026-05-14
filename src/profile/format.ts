@@ -10,7 +10,7 @@ import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
 import { formatProfileLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import type { Profile, ProfileFunction } from './aggregate.ts'
+import type { AggregatedProfile, ProfileFunction } from './aggregate.ts'
 import { findCommonCallStack } from './aggregate.ts'
 import type { Metric } from './metric.ts'
 
@@ -20,7 +20,7 @@ type FormatProfileOptions = NormalizedProfileToMdOptions & {
 }
 
 export const formatProfile = (
-  profile: Profile,
+  profile: AggregatedProfile,
   options: NormalizedProfileToMdOptions,
 ): string => {
   const headingLevel = 1
@@ -34,14 +34,14 @@ export const formatProfile = (
   ].join(`\n\n`)}\n`
 }
 
-const formatTitle = (profile: Profile): string =>
+const formatTitle = (profile: AggregatedProfile): string =>
   capitalizeFirst(
     `${formatConjunction(
       profile.metrics.map(metric => metric.phrases.titleNoun),
     )} profile`,
   )
 
-const formatOverallSummary = (profile: Profile): string[] => [
+const formatOverallSummary = (profile: AggregatedProfile): string[] => [
   formatSummaryLine(profile),
   ...formatCategoryTable(profile),
 ]
@@ -51,7 +51,7 @@ const formatSummaryLine = ({
   totalSampleCount,
   totalValues,
   samplingIntervals,
-}: Profile): string => {
+}: AggregatedProfile): string => {
   const totalsSummary = capitalizeFirst(
     formatConjunction(
       metrics.map(
@@ -79,7 +79,7 @@ const formatCategoryTable = ({
   metrics,
   totalValues,
   categoryToMetrics,
-}: Profile): string[] => {
+}: AggregatedProfile): string[] => {
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) => metrics2.values[0]! - metrics1.values[0]!,
   )
@@ -123,7 +123,7 @@ const formatSamplingInterval = (
 }
 
 const formatMetricSections = (
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] =>
   profile.metrics.flatMap((metric, index) => {
@@ -152,7 +152,7 @@ const formatMetricSections = (
 
 const formatHottestFunctions = (
   metricIndex: number,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const subsectionOptions = {
@@ -175,7 +175,7 @@ const formatHottestFunctions = (
 
 const formatHottestSelfFunctions = (
   metricIndex: number,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const hottestFunctions = selectTopN(
@@ -247,7 +247,7 @@ const formatHottestSelfFunctions = (
 const formatHottestLines = (
   metricIndex: number,
   func: ProfileFunction,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const selfValue = func.selfValues[metricIndex]!
@@ -297,7 +297,7 @@ const formatHottestLines = (
 const formatHottestCallers = (
   metricIndex: number,
   func: ProfileFunction,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const selfValue = func.selfValues[metricIndex]!
@@ -347,7 +347,7 @@ const formatHottestCallers = (
 
 const formatHottestTotalFunctions = (
   metricIndex: number,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const totalValue = profile.totalValues[metricIndex]!
@@ -406,7 +406,7 @@ const formatHottestTotalFunctions = (
 const formatHottestCallees = (
   metricIndex: number,
   func: ProfileFunction,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const totalValue = func.totalValues[metricIndex]!
@@ -456,7 +456,7 @@ const formatHottestCallees = (
 
 const formatHottestCallStacks = (
   metricIndex: number,
-  profile: Profile,
+  profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
   const totalValue = profile.totalValues[metricIndex]!

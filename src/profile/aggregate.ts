@@ -32,7 +32,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
       functionKey,
       functionInput,
     }: {
-      /** @see {@link Profile.metrics} */
+      /** @see {@link AggregatedProfile.metrics} */
       metrics: Metric[]
 
       /** Returns a unique key for the function corresponding to {@link node}. */
@@ -273,7 +273,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     return func
   }
 
-  public aggregate(): Profile {
+  public aggregate(): AggregatedProfile {
     const samplingIntervals = new Float64Array(this.#metrics.length)
     for (let i = 0; i < samplingIntervals.length; i++) {
       samplingIntervals[i] = this.#totalValues[i]! / this.#totalSampleCount
@@ -305,7 +305,7 @@ export type ProfileFunctionInput = {
 
 /** A single sample within a profile. */
 export type Sample<Node extends { id?: number }> = {
-  /** The values recorded for each metric in {@link Profile.metrics}. */
+  /** The values recorded for each metric in {@link AggregatedProfile.metrics}. */
   values: number[]
 
   /** The functions on the stack in callee to caller order. */
@@ -345,13 +345,13 @@ export type ProfileFunction = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link Profile.metrics}, the sum of values from samples
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from samples
    * taken directly within the function's body, excluding its callees.
    */
   selfValues: Float64Array
 
   /**
-   * For each metric in {@link Profile.metrics}, the sum of values from samples
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from samples
    * taken directly within the function's body _and_ all its callees.
    */
   totalValues: Float64Array
@@ -367,7 +367,7 @@ export type ProfileFunction = {
       sampleCount: number
 
       /**
-       * For each metric in {@link Profile.metrics}, the sum of values from
+       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
        * samples taken directly within the function's body at this line.
        */
       values: Float64Array
@@ -391,7 +391,7 @@ export type ProfileFunction = {
       selfSampleCount: number
 
       /**
-       * For each metric in {@link Profile.metrics}, the sum of values from
+       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
        * samples taken directly within the function's body with this caller.
        */
       selfValues: Float64Array
@@ -415,7 +415,7 @@ export type ProfileFunction = {
       totalSampleCount: number
 
       /**
-       * For each metric in {@link Profile.metrics}, the sum of values from
+       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
        * samples taken directly within the function's body, _and_ all its
        * callees. with this callee.
        */
@@ -436,14 +436,14 @@ export type ProfileCallStack = {
   selfSampleCount: number
 
   /**
-   * For each metric in {@link Profile.metrics}, the sum of values from samples
-   * taken with this exact call stack.
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken with this exact call stack.
    */
   selfValues: Float64Array
 }
 
-/** An aggregation of all samples within a profile. */
-export type Profile = {
+/** An aggregation of all samples within a sampling profile. */
+export type AggregatedProfile = {
   /** Metrics sampled in this profile. */
   metrics: Metric[]
 
@@ -451,14 +451,14 @@ export type Profile = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link Profile.metrics}, the sum of values from samples
-   * taken within this profile.
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken within this profile.
    */
   totalValues: Float64Array
 
   /**
-   * For each metric in {@link Profile.metrics}, the number of samples taken
-   * per metric value.
+   * For each metric in {@link AggregatedProfile.metrics}, the number of samples
+   * taken per metric value.
    */
   samplingIntervals: Float64Array
 
@@ -473,8 +473,8 @@ export type Profile = {
       sampleCount: number
 
       /**
-       * For each metric in {@link Profile.metrics}, the sum of values from
-       * samples taken for functions with this category.
+       * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+       * from samples taken for functions with this category.
        */
       values: Float64Array
     }

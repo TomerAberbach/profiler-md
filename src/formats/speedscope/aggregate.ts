@@ -1,6 +1,6 @@
 import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
-import type { Profile } from '../../profile/index.ts'
+import type { AggregatedProfile } from '../../profile/index.ts'
 import type {
   SpeedscopeEventedProfile,
   SpeedscopeFrame,
@@ -13,7 +13,7 @@ type SpeedscopeNode = SpeedscopeFrame & { id: number }
 export const aggregateSpeedscopeProfile = (
   profile: SpeedscopeProfile,
   options: NormalizedProfileToMdOptions,
-): Profile[] => {
+): AggregatedProfile[] => {
   const nodes: SpeedscopeNode[] = profile.shared.frames.map((frame, id) => ({
     ...frame,
     id,
@@ -29,7 +29,7 @@ const aggregateSampled = (
   profile: SpeedscopeSampledProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
-): Profile => {
+): AggregatedProfile => {
   const profileAggregator = makeProfileAggregator(profile.unit, options)
 
   for (let index = 0; index < profile.samples.length; index++) {
@@ -57,7 +57,7 @@ const aggregateEvented = (
   profile: SpeedscopeEventedProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
-): Profile => {
+): AggregatedProfile => {
   const profileAggregator = makeProfileAggregator(profile.unit, options)
 
   type StackEntry = { node: SpeedscopeNode; lastChildClosed: number }
