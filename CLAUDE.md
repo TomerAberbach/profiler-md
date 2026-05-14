@@ -9,8 +9,8 @@ and LLM friendly Markdown.
 profiler-md
 ├── src/
 │   ├── cli/
+│   │   ├── ansis.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── cli.ts            # Optique flag/usage/topic definitions
-│   │   ├── color.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── convert.ts        # Format dispatch and auto-detection
 │   │   ├── error.ts          # CliError class and top-level error reporting
 │   │   ├── formats.ts        # Format and language registry (must register each)
@@ -26,17 +26,24 @@ profiler-md
 │   │
 │   ├── formats/              # Individual profile format implementations
 │   │   ├── index.ts          # Barrel file (must export each format)
-│   │   └── <name>/
+│   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── summarize.ts  # Aggregates profile data
 │   │       ├── format.ts     # Formats aggregated profile data as Markdown
 │   │       └── index.ts      # End-to-end conversion using the above
 │   │
-│   ├── profile/              # Common sample-based profile conversion logic
+│   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
-│   │   ├── summarize.ts      # Generic profile data aggregation builder
-│   │   ├── format.ts         # Generic profile to Markdown formatting
+│   │   ├── summarize.ts      # Sampling profile data aggregation builder
+│   │   ├── format.ts         # Sampling profile to Markdown formatting
 │   │   └── index.ts          # Barrel file
+│   ├── snapshot/             # Common heap snapshot conversion logic
+│   │   ├── graph.ts          # Node adjacency graph in CSR format
+│   │   ├── retained.ts       # Retained size computation
+│   │   ├── summarize.ts      # Heap snapshot data aggregation
+│   │   ├── format.ts         # Heap snapshot to Markdown formatting
+│   │   └── index.ts          # Barrel file
+│   │
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
 │   ├── options.ts            # API option types and normalization logic
@@ -146,6 +153,7 @@ pnpm bench ./src/fixtures/node.cpuprofile
   - Add format ID to the relevant language entries in `languages` map
   - Add example entries (with fixture filenames and labels) if fixtures exist
 - [ ] Export from `src/index.ts`: add `*ToMd` and `*ToMdAsync`
+- [ ] Add the format to the parameterized tests in `src/cli/index.test.ts`
 
 ### Documentation
 
