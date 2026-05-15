@@ -17,9 +17,9 @@ export class ProfileAggregator<Node extends { id?: number }> {
     { sampleCount: number; values: Float64Array }
   >
 
-  readonly #keyToCallStack: Map<string, ProfileCallStack>
-  readonly #keyToFunction: Map<number | string, ProfileFunction>
-  readonly #idToFunction: ProfileFunction[]
+  readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
+  readonly #keyToFunction: Map<number | string, AggregatedProfileFunction>
+  readonly #idToFunction: AggregatedProfileFunction[]
   readonly #functionIdToLastSeenSampleCount: DynamicTypedArray<Uint32Array>
   readonly #frameIndexToFramePairKey: DynamicTypedArray<Int32Array>
 
@@ -209,7 +209,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
   }
 
-  #getOrCreateCallStack(nodes: Node[]): ProfileCallStack {
+  #getOrCreateCallStack(nodes: Node[]): AggregatedProfileCallStack {
     const frames = nodes.map(node => this.#getOrCreateFunction(node))
     const key = frames.map(frame => frame.id).join(`,`)
     let callStack = this.#keyToCallStack.get(key)
@@ -226,7 +226,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     return callStack
   }
 
-  #getOrCreateFunction(node: Node): ProfileFunction {
+  #getOrCreateFunction(node: Node): AggregatedProfileFunction {
     const { id } = node
     if (id !== undefined) {
       const func = this.#idToFunction[id]
@@ -253,6 +253,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
       location: locationInput ? makeProfileLocation(locationInput) : undefined,
     }
     func = {
+      type: `function`,
       ...entry,
       category: this.#options.categorizeEntry(entry),
       selfSampleCount: 0,
@@ -291,7 +292,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
   }
 }
 
-/** Base information used for constructing a {@link ProfileFunction}. */
+/** Base information used for constructing a {@link AggregatedProfileFunction}. */
 export type ProfileFunctionInput = {
   /** The name of the function, if known. */
   name?: string
@@ -316,7 +317,9 @@ export type Sample<Node extends { id?: number }> = {
  * An aggregation of data from every sample involving a given function within a
  * profile.
  */
-export type ProfileFunction = {
+export type AggregatedProfileFunction = {
+  type: `function`
+
   /** An index that uniquely identifies this function. */
   id: number
 
@@ -379,7 +382,7 @@ export type ProfileFunction = {
     number,
     {
       /** The caller corresponding to the ID. */
-      caller: ProfileFunction
+      caller: AggregatedProfileFunction
 
       /**
        * The number of samples taken directly within the function's body with
@@ -403,7 +406,7 @@ export type ProfileFunction = {
     number,
     {
       /** The callee corresponding to the ordinal. */
-      callee: ProfileFunction
+      callee: AggregatedProfileFunction
 
       /**
        * The number of samples taken directly within the function's, _and_ all
@@ -425,9 +428,9 @@ export type ProfileFunction = {
  * An aggregation of data from every sample involving a given function call
  * stack within a profile.
  */
-export type ProfileCallStack = {
+export type AggregatedProfileCallStack = {
   /** The functions on the call stack in callee to caller order. */
-  frames: ProfileFunction[]
+  frames: AggregatedProfileFunction[]
 
   /** The number of samples taken with this exact call stack. */
   selfSampleCount: number
@@ -478,10 +481,10 @@ export type AggregatedProfile = {
   >
 
   /** Aggregated data for all functions called in this profile. */
-  functions: ProfileFunction[]
+  functions: AggregatedProfileFunction[]
 
   /** Aggregated data for all call stacks encountered in this profile. */
-  callStacks: ProfileCallStack[]
+  callStacks: AggregatedProfileCallStack[]
 }
 
 /**
@@ -493,8 +496,8 @@ export type AggregatedProfile = {
  * stacks and end up with a non-empty call stack to format.
  */
 export const findCommonCallStack = (
-  callStacks: { frames: ProfileFunction[] }[],
-): ProfileFunction[] => {
+  callStacks: { frames: AggregatedProfileFunction[] }[],
+): AggregatedProfileFunction[] => {
   if (callStacks.length <= 1) {
     return []
   }

@@ -585,16 +585,24 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -26,6 +25,0 @@
+    @@ -21,10 +20,0 @@
+    -#### Callers
+    -
+    -Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+    -
     -##### \`funcC\` (src/c.ts:1:1)
     -
     -|      % |  Size | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     -
-    @@ -46,1 +39,0 @@
-    -| 66.7% | 400 B |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    @@ -54,12 +46,0 @@
+    @@ -39,1 +28,0 @@
+    -| 66.7% | 400 B |       2 | \`funcB\`  | src/b.ts:1:1 |
+    @@ -41,16 +29,0 @@
+    -#### Callees
+    -
+    -Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+    -
     -##### \`funcA\` (src/a.ts:1:1)
     -
     -|     % |  Size | Samples | Callee  | Location     |
@@ -607,9 +615,13 @@ test(`v8HeapProfileToMd excludes frames from display when includeCallFrame retur
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcC\` | src/c.ts:1:1 |
     -
-    @@ -78,1 +59,1 @@
-    -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
-    +| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1)                                        |
+    @@ -61,3 +34,3 @@
+    -|     % |  Size | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    +|     % |  Size | Samples | Call stack                                      |
+    +| ----: | ----: | ------: | ----------------------------------------------- |
+    +| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     "
   `)
 })
@@ -627,14 +639,30 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
   expect(diffMd(allFrames, baseMd)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -32,6 +31,0 @@
+    @@ -16,5 +16,4 @@
+    -|     % |  Size | Samples | Function         | Location                             |
+    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
+    -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
+    -| 16.7% | 100 B |       1 | \`funcA\`          | src/a.ts:1:1                         |
+    -| 16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    +|     % |  Size | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    +| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
+    @@ -32,12 +30,0 @@
     -##### \`funcA\` (src/a.ts:1:1)
     -
     -|      % |  Size | Samples | Caller   | Location   |
     -| -----: | ----: | ------: | -------- | ---------- |
     -| 100.0% | 100 B |       1 | \`(root)\` | \`<native>\` |
     -
-    @@ -48,8 +42,7 @@
+    -##### \`internalLoader\` (node:internal/modules/esm/loader:1:1)
+    -
+    -|      % |  Size | Samples | Caller         | Location    |
+    -| -----: | ----: | ------: | -------------- | ----------- |
+    -| 100.0% | 100 B |       1 | \`readFileSync\` | node:fs:1:1 |
+    -
+    @@ -48,8 +35,5 @@
     -|      % |  Size | Samples | Function         | Location                             |
     -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
     -| 100.0% | 600 B |       4 | \`(root)\`         | \`<native>\`                           |
@@ -643,14 +671,12 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -|  66.7% | 400 B |       2 | \`funcB\`          | src/b.ts:1:1                         |
     -|  16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -|  16.7% | 100 B |       1 | \`readFileSync\`   | node:fs:1:1                          |
-    +|     % |  Size | Samples | Function         | Location                             |
-    +| ----: | ----: | ------: | ---------------- | ------------------------------------ |
-    +| 83.3% | 500 B |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    +| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    +| 66.7% | 400 B |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    +| 16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    +| 16.7% | 100 B |       1 | \`readFileSync\`   | node:fs:1:1                          |
-    @@ -61,7 +53,0 @@
+    +|     % |  Size | Samples | Function | Location     |
+    +| ----: | ----: | ------: | -------- | ------------ |
+    +| 83.3% | 500 B |       3 | \`funcA\`  | src/a.ts:1:1 |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    +| 66.7% | 400 B |       2 | \`funcB\`  | src/b.ts:1:1 |
+    @@ -61,7 +44,0 @@
     -##### \`(root)\` (\`<native>\`)
     -
     -|     % |  Size | Samples | Callee         | Location     |
@@ -658,11 +684,24 @@ test(`v8HeapProfileToMd filters node:internal/ frames by default`, () => {
     -| 83.3% | 500 B |       3 | \`funcA\`        | src/a.ts:1:1 |
     -| 16.7% | 100 B |       1 | \`readFileSync\` | node:fs:1:1  |
     -
-    @@ -90,2 +75,0 @@
+    @@ -80,6 +56,0 @@
+    -##### \`readFileSync\` (node:fs:1:1)
+    -
+    -|      % |  Size | Samples | Callee           | Location                             |
+    -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
+    -| 100.0% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
+    -
+    @@ -90,7 +61,3 @@
     -Common call stack: \`(root)\`
     -
-    @@ -95,1 +78,0 @@
+    -|     % |  Size | Samples | Call stack                                                                             |
+    -| ----: | ----: | ------: | -------------------------------------------------------------------------------------- |
+    -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
     -| 16.7% | 100 B |       1 | \`funcA\` (src/a.ts:1:1)                                                                 |
+    -| 16.7% | 100 B |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1) |
+    +|     % |  Size | Samples | Call stack                                                               |
+    +| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    +| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     "
   `)
 })
@@ -764,47 +803,14 @@ test(`v8HeapProfileToMd respects topN option`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,5 +16,4 @@
-    -|     % |  Size | Samples | Function         | Location                             |
-    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 16.7% | 100 B |       1 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    +|     % |  Size | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
-    +| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
-    @@ -32,6 +30,0 @@
-    -##### \`internalLoader\` (node:internal/modules/esm/loader:1:1)
-    -
-    -|      % |  Size | Samples | Caller         | Location    |
-    -| -----: | ----: | ------: | -------------- | ----------- |
-    -| 100.0% | 100 B |       1 | \`readFileSync\` | node:fs:1:1 |
-    -
-    @@ -42,7 +35,4 @@
-    -|     % |  Size | Samples | Function         | Location                             |
-    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 83.3% | 500 B |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 66.7% | 400 B |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    -| 16.7% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -| 16.7% | 100 B |       1 | \`readFileSync\`   | node:fs:1:1                          |
-    +|     % |  Size | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 83.3% | 500 B |       3 | \`funcA\`  | src/a.ts:1:1 |
-    +| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
-    @@ -60,12 +49,0 @@
+    @@ -39,1 +38,0 @@
+    -| 66.7% | 400 B |       2 | \`funcB\`  | src/b.ts:1:1 |
+    @@ -51,6 +49,0 @@
     -##### \`funcB\` (src/b.ts:1:1)
     -
     -|      % |  Size | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcC\` | src/c.ts:1:1 |
-    -
-    -##### \`readFileSync\` (node:fs:1:1)
-    -
-    -|      % |  Size | Samples | Callee           | Location                             |
-    -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 100.0% | 100 B |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -
     "
   `)
@@ -817,57 +823,63 @@ test(`v8HeapProfileToMd shows absolute paths when cwd is null`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -18,2 +18,2 @@
-    -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 16.7% | 100 B |       1 | \`funcA\`          | src/a.ts:1:1                         |
-    +| 66.7% | 400 B |       2 | \`funcC\`          | /project/src/c.ts:1:1                |
-    +| 16.7% | 100 B |       1 | \`funcA\`          | /project/src/a.ts:1:1                |
-    @@ -26,1 +26,1 @@
+    @@ -16,4 +16,4 @@
+    -|     % |  Size | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 16.7% | 100 B |       1 | \`funcA\`  | src/a.ts:1:1 |
+    +|     % |  Size | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 16.7% | 100 B |       1 | \`funcA\`  | /project/src/a.ts:1:1 |
+    @@ -25,1 +25,1 @@
     -##### \`funcC\` (src/c.ts:1:1)
     +##### \`funcC\` (/project/src/c.ts:1:1)
-    @@ -28,3 +28,3 @@
+    @@ -27,3 +27,3 @@
     -|      % |  Size | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     +|      % |  Size | Samples | Caller  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 400 B |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -44,3 +44,3 @@
-    -| 83.3% | 500 B |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 66.7% | 400 B |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 66.7% | 400 B |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    +| 83.3% | 500 B |       3 | \`funcA\`          | /project/src/a.ts:1:1                |
-    +| 66.7% | 400 B |       2 | \`funcC\`          | /project/src/c.ts:1:1                |
-    +| 66.7% | 400 B |       2 | \`funcB\`          | /project/src/b.ts:1:1                |
-    @@ -54,1 +54,1 @@
+    @@ -35,5 +35,5 @@
+    -|     % |  Size | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 83.3% | 500 B |       3 | \`funcA\`  | src/a.ts:1:1 |
+    -| 66.7% | 400 B |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 66.7% | 400 B |       2 | \`funcB\`  | src/b.ts:1:1 |
+    +|     % |  Size | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 83.3% | 500 B |       3 | \`funcA\`  | /project/src/a.ts:1:1 |
+    +| 66.7% | 400 B |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 66.7% | 400 B |       2 | \`funcB\`  | /project/src/b.ts:1:1 |
+    @@ -45,1 +45,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
     +##### \`funcA\` (/project/src/a.ts:1:1)
-    @@ -56,3 +56,3 @@
+    @@ -47,3 +47,3 @@
     -|     % |  Size | Samples | Callee  | Location     |
     -| ----: | ----: | ------: | ------- | ------------ |
     -| 80.0% | 400 B |       2 | \`funcB\` | src/b.ts:1:1 |
     +|     % |  Size | Samples | Callee  | Location              |
     +| ----: | ----: | ------: | ------- | --------------------- |
     +| 80.0% | 400 B |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -60,1 +60,1 @@
+    @@ -51,1 +51,1 @@
     -##### \`funcB\` (src/b.ts:1:1)
     +##### \`funcB\` (/project/src/b.ts:1:1)
-    @@ -62,3 +62,3 @@
+    @@ -53,3 +53,3 @@
     -|      % |  Size | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 400 B |       2 | \`funcC\` | src/c.ts:1:1 |
     +|      % |  Size | Samples | Callee  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 400 B |       2 | \`funcC\` | /project/src/c.ts:1:1 |
-    @@ -76,4 +76,4 @@
-    -|     % |  Size | Samples | Call stack                                                                             |
-    -| ----: | ----: | ------: | -------------------------------------------------------------------------------------- |
-    -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
-    -| 16.7% | 100 B |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1) |
+    @@ -61,3 +61,3 @@
+    -|     % |  Size | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 66.7% | 400 B |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     +|     % |  Size | Samples | Call stack                                                                                          |
     +| ----: | ----: | ------: | --------------------------------------------------------------------------------------------------- |
     +| 66.7% | 400 B |       2 | \`funcC\` (/project/src/c.ts:1:1) ← \`funcB\` (/project/src/b.ts:1:1) ← \`funcA\` (/project/src/a.ts:1:1) |
-    +| 16.7% | 100 B |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1)              |
     "
   `)
 })
