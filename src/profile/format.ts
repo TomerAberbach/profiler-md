@@ -10,7 +10,10 @@ import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
 import { formatProfileLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import type { AggregatedProfile, ProfileFunction } from './aggregate.ts'
+import type {
+  AggregatedProfile,
+  AggregatedProfileFunction,
+} from './aggregate.ts'
 import { findCommonCallStack } from './aggregate.ts'
 import type { Metric } from './metric.ts'
 
@@ -243,7 +246,7 @@ const formatHottestSelfFunctions = (
 
 const formatHottestLines = (
   metricIndex: number,
-  func: ProfileFunction,
+  func: AggregatedProfileFunction,
   profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
@@ -293,7 +296,7 @@ const formatHottestLines = (
 
 const formatHottestCallers = (
   metricIndex: number,
-  func: ProfileFunction,
+  func: AggregatedProfileFunction,
   profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
@@ -401,7 +404,7 @@ const formatHottestTotalFunctions = (
 
 const formatHottestCallees = (
   metricIndex: number,
-  func: ProfileFunction,
+  func: AggregatedProfileFunction,
   profile: AggregatedProfile,
   options: FormatProfileOptions,
 ): string[] => {
@@ -504,7 +507,7 @@ const formatHottestCallStacks = (
 }
 
 const formatCallStack = (
-  nodes: ProfileFunction[],
+  nodes: AggregatedProfileFunction[],
   options: FormatProfileOptions,
 ): string =>
   nodes

@@ -53,7 +53,8 @@ profiler-md
 │   │   ├── bytes.ts
 │   │   ├── heap.ts
 │   │   ├── format.ts
-│   │   └── markdown.ts
+│   │   ├── markdown.ts
+│   │   └── types.ts
 │   │
 │   ├── fixtures/             # Profiles for testing and docs
 │   └── testing/              # Test-only utilities

@@ -858,16 +858,24 @@ test(`v8CpuProfileToMd excludes frames from display when showEntry returns false
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -26,6 +25,0 @@
+    @@ -21,10 +20,0 @@
+    -#### Callers
+    -
+    -Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+    -
     -##### \`funcC\` (src/c.ts:1:1)
     -
     -|      % |  Time | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     -
-    @@ -46,1 +39,0 @@
-    -| 50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    @@ -54,12 +46,0 @@
+    @@ -39,1 +28,0 @@
+    -| 50.0% | 0.2ms |       2 | \`funcB\`  | src/b.ts:1:1 |
+    @@ -41,16 +29,0 @@
+    -#### Callees
+    -
+    -Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+    -
     -##### \`funcA\` (src/a.ts:1:1)
     -
     -|     % |  Time | Samples | Callee  | Location     |
@@ -880,9 +888,13 @@ test(`v8CpuProfileToMd excludes frames from display when showEntry returns false
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
     -
-    @@ -78,1 +59,1 @@
-    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
-    +| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1)                                        |
+    @@ -61,3 +34,3 @@
+    -|     % |  Time | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
+    +|     % |  Time | Samples | Call stack                                      |
+    +| ----: | ----: | ------: | ----------------------------------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     "
   `)
 })
@@ -980,47 +992,14 @@ test(`v8CpuProfileToMd respects topN option`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -16,5 +16,4 @@
-    -|     % |  Time | Samples | Function         | Location                             |
-    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 25.0% | 0.1ms |       1 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    +|     % |  Time | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
-    +| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
-    @@ -32,6 +30,0 @@
-    -##### \`internalLoader\` (node:internal/modules/esm/loader:1:1)
-    -
-    -|      % |  Time | Samples | Caller         | Location    |
-    -| -----: | ----: | ------: | -------------- | ----------- |
-    -| 100.0% | 0.1ms |       1 | \`readFileSync\` | node:fs:1:1 |
-    -
-    @@ -42,7 +35,4 @@
-    -|     % |  Time | Samples | Function         | Location                             |
-    -| ----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 75.0% | 0.3ms |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    -| 25.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
-    -| 25.0% | 0.1ms |       1 | \`readFileSync\`   | node:fs:1:1                          |
-    +|     % |  Time | Samples | Function | Location     |
-    +| ----: | ----: | ------: | -------- | ------------ |
-    +| 75.0% | 0.3ms |       3 | \`funcA\`  | src/a.ts:1:1 |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
-    @@ -60,12 +49,0 @@
+    @@ -39,1 +38,0 @@
+    -| 50.0% | 0.2ms |       2 | \`funcB\`  | src/b.ts:1:1 |
+    @@ -51,6 +49,0 @@
     -##### \`funcB\` (src/b.ts:1:1)
     -
     -|      % |  Time | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
-    -
-    -##### \`readFileSync\` (node:fs:1:1)
-    -
-    -|      % |  Time | Samples | Callee           | Location                             |
-    -| -----: | ----: | ------: | ---------------- | ------------------------------------ |
-    -| 100.0% | 0.1ms |       1 | \`internalLoader\` | node:internal/modules/esm/loader:1:1 |
     -
     "
   `)
@@ -1033,57 +1012,63 @@ test(`v8CpuProfileToMd shows absolute paths when cwd is null`, () => {
   expect(diffMd(baseMd, markdown)).toMatchInlineSnapshot(`
     "--- base
     +++ modified
-    @@ -18,2 +18,2 @@
-    -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 25.0% | 0.1ms |       1 | \`funcA\`          | src/a.ts:1:1                         |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`          | /project/src/c.ts:1:1                |
-    +| 25.0% | 0.1ms |       1 | \`funcA\`          | /project/src/a.ts:1:1                |
-    @@ -26,1 +26,1 @@
+    @@ -16,4 +16,4 @@
+    -|     % |  Time | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 25.0% | 0.1ms |       1 | \`funcA\`  | src/a.ts:1:1 |
+    +|     % |  Time | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 25.0% | 0.1ms |       1 | \`funcA\`  | /project/src/a.ts:1:1 |
+    @@ -25,1 +25,1 @@
     -##### \`funcC\` (src/c.ts:1:1)
     +##### \`funcC\` (/project/src/c.ts:1:1)
-    @@ -28,3 +28,3 @@
+    @@ -27,3 +27,3 @@
     -|      % |  Time | Samples | Caller  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     +|      % |  Time | Samples | Caller  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -44,3 +44,3 @@
-    -| 75.0% | 0.3ms |       3 | \`funcA\`          | src/a.ts:1:1                         |
-    -| 50.0% | 0.2ms |       2 | \`funcC\`          | src/c.ts:1:1                         |
-    -| 50.0% | 0.2ms |       2 | \`funcB\`          | src/b.ts:1:1                         |
-    +| 75.0% | 0.3ms |       3 | \`funcA\`          | /project/src/a.ts:1:1                |
-    +| 50.0% | 0.2ms |       2 | \`funcC\`          | /project/src/c.ts:1:1                |
-    +| 50.0% | 0.2ms |       2 | \`funcB\`          | /project/src/b.ts:1:1                |
-    @@ -54,1 +54,1 @@
+    @@ -35,5 +35,5 @@
+    -|     % |  Time | Samples | Function | Location     |
+    -| ----: | ----: | ------: | -------- | ------------ |
+    -| 75.0% | 0.3ms |       3 | \`funcA\`  | src/a.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcC\`  | src/c.ts:1:1 |
+    -| 50.0% | 0.2ms |       2 | \`funcB\`  | src/b.ts:1:1 |
+    +|     % |  Time | Samples | Function | Location              |
+    +| ----: | ----: | ------: | -------- | --------------------- |
+    +| 75.0% | 0.3ms |       3 | \`funcA\`  | /project/src/a.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcC\`  | /project/src/c.ts:1:1 |
+    +| 50.0% | 0.2ms |       2 | \`funcB\`  | /project/src/b.ts:1:1 |
+    @@ -45,1 +45,1 @@
     -##### \`funcA\` (src/a.ts:1:1)
     +##### \`funcA\` (/project/src/a.ts:1:1)
-    @@ -56,3 +56,3 @@
+    @@ -47,3 +47,3 @@
     -|     % |  Time | Samples | Callee  | Location     |
     -| ----: | ----: | ------: | ------- | ------------ |
     -| 66.7% | 0.2ms |       2 | \`funcB\` | src/b.ts:1:1 |
     +|     % |  Time | Samples | Callee  | Location              |
     +| ----: | ----: | ------: | ------- | --------------------- |
     +| 66.7% | 0.2ms |       2 | \`funcB\` | /project/src/b.ts:1:1 |
-    @@ -60,1 +60,1 @@
+    @@ -51,1 +51,1 @@
     -##### \`funcB\` (src/b.ts:1:1)
     +##### \`funcB\` (/project/src/b.ts:1:1)
-    @@ -62,3 +62,3 @@
+    @@ -53,3 +53,3 @@
     -|      % |  Time | Samples | Callee  | Location     |
     -| -----: | ----: | ------: | ------- | ------------ |
     -| 100.0% | 0.2ms |       2 | \`funcC\` | src/c.ts:1:1 |
     +|      % |  Time | Samples | Callee  | Location              |
     +| -----: | ----: | ------: | ------- | --------------------- |
     +| 100.0% | 0.2ms |       2 | \`funcC\` | /project/src/c.ts:1:1 |
-    @@ -76,4 +76,4 @@
-    -|     % |  Time | Samples | Call stack                                                                             |
-    -| ----: | ----: | ------: | -------------------------------------------------------------------------------------- |
-    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1)               |
-    -| 25.0% | 0.1ms |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1) |
+    @@ -61,3 +61,3 @@
+    -|     % |  Time | Samples | Call stack                                                               |
+    -| ----: | ----: | ------: | ------------------------------------------------------------------------ |
+    -| 50.0% | 0.2ms |       2 | \`funcC\` (src/c.ts:1:1) ← \`funcB\` (src/b.ts:1:1) ← \`funcA\` (src/a.ts:1:1) |
     +|     % |  Time | Samples | Call stack                                                                                          |
     +| ----: | ----: | ------: | --------------------------------------------------------------------------------------------------- |
     +| 50.0% | 0.2ms |       2 | \`funcC\` (/project/src/c.ts:1:1) ← \`funcB\` (/project/src/b.ts:1:1) ← \`funcA\` (/project/src/a.ts:1:1) |
-    +| 25.0% | 0.1ms |       1 | \`internalLoader\` (node:internal/modules/esm/loader:1:1) ← \`readFileSync\` (node:fs:1:1)              |
     "
   `)
 })

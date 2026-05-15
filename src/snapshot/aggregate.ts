@@ -108,6 +108,7 @@ export class SnapshotAggregator {
     if (constructorIndex === undefined) {
       constructorIndex = this.#constructors.length
       constructor = {
+        type: `node`,
         id: nodeOrdinal,
         name,
         location,
@@ -124,6 +125,7 @@ export class SnapshotAggregator {
 
     constructor.selfSize += selfSize
     constructor.instances.push({
+      type: `node`,
       id: nodeOrdinal,
       name,
       selfSize,
@@ -146,8 +148,11 @@ export class SnapshotAggregator {
     if (closureIndex === undefined) {
       closureIndex = this.#closures.length
       this.#closures.push({
+        type: `node`,
+        id: nodeOrdinal,
         name,
         location,
+        selfSize: 0,
         retainedSize: 0,
         largestInstanceId: nodeOrdinal,
         instanceIds: [],
@@ -156,6 +161,7 @@ export class SnapshotAggregator {
     }
 
     const closure = this.#closures[closureIndex]!
+    closure.selfSize += this.#selfSize(nodeOrdinal)
     closure.instanceIds.push(nodeOrdinal)
     if (
       retainedSize > this.#nodeOrdinalToRetainedSize[closure.largestInstanceId]!
@@ -168,6 +174,7 @@ export class SnapshotAggregator {
   public addStringNode(nodeOrdinal: number, name?: string): void {
     const selfSize = this.#selfSize(nodeOrdinal)
     this.#strings.push({
+      type: `node`,
       id: nodeOrdinal,
       name,
       selfSize,
@@ -312,6 +319,7 @@ const computeRetainedNodes = (
     const current = dominateeOrdinals.pop()!
     if (!isInternalNode(current)) {
       retainedNodes.push({
+        type: `node`,
         id: current,
         name: formatNodeLabel(current),
         selfSize: nodes[current * nodeFieldCount + nodeSelfSizeOffset]!,
@@ -344,6 +352,8 @@ export type NodeCategoryStats = {
 }
 
 export type AggregatedSnapshotNode = {
+  type: `node`
+
   /** Unique ID for this node that can also be used as an index. */
   id: number
 
@@ -364,23 +374,16 @@ export type AggregatedSnapshotNode = {
 }
 
 export type AggregatedConstructor = AggregatedSnapshotNode & {
+  /** A human readable label for this constructor. */
   name: string
+
   /** Instances of this constructor and their sizes. */
   instances: AggregatedSnapshotNode[]
 }
 
-export type AggregatedClosure = {
+export type AggregatedClosure = AggregatedSnapshotNode & {
   /** A human readable label for this closure. */
   name: string
-
-  /** The exact location where the closure was defined. */
-  location?: ProfileLocation
-
-  /**
-   * Bytes allocated for all instances of this closure and all nodes that would
-   * be freed if every instance were garbage collected.
-   */
-  retainedSize: number
 
   /** Node ordinal of the instance with the largest individual retained size. */
   largestInstanceId: number

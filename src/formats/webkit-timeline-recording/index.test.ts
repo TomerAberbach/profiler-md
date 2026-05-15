@@ -228,7 +228,9 @@ test(`webkitTimelineRecordingToMd frame with empty URL renders as <native>`, () 
     [0.01],
   )
 
-  const markdown = webkitTimelineRecordingToMd(recording)
+  const markdown = webkitTimelineRecordingToMd(recording, {
+    showEntry: () => true,
+  })
 
   expect(markdown).toContain(`\`<native>\``)
 })

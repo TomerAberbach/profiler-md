@@ -1,10 +1,16 @@
-export { defaultCategorizeEntry, defaultShowEntry } from './options.ts'
+export {
+  defaultCategorizeEntry,
+  defaultShowEntry,
+  isSyntheticEntry,
+  isExternalPrivateEntry,
+} from './options.ts'
 export type {
   BinaryProfileData,
   JsonProfileData,
   AsyncProfileData,
-  ProfileEntry,
   EntryOrigin,
+  ProfileEntry,
+  AggregatedProfileEntry,
   ProfileToMdOptions,
 } from './options.ts'
 export type { SourceMap } from './source-map.ts'

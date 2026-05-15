@@ -479,7 +479,7 @@ test(`speedscopeProfileToMd with frame without file location renders as <native>
     frames: [{ name: `nativeFunc` }],
   })
 
-  const markdown = speedscopeProfileToMd(profile)
+  const markdown = speedscopeProfileToMd(profile, { showEntry: () => true })
 
   expect(markdown).toContain(`\`<native>\``)
 })

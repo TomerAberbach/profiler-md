@@ -451,13 +451,6 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ------: | ------: | --------------- | --------------------------------------- |
 | 92.9% | 529.6ms |   4,061 | `unevalLiteral` | uneval/src/internal/primitive.ts:139:23 |
 
-##### `sample` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16)
-
-|     % |   Time | Samples | Callee         | Location                                                                                     |
-| ----: | -----: | ------: | -------------- | -------------------------------------------------------------------------------------------- |
-| 97.5% | 66.7ms |     502 | `mapHelper`    | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:20   |
-|  0.4% |  0.3ms |       2 | `streamSample` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2524:22 |
-
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their leaf frame.

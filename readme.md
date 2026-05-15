@@ -146,7 +146,7 @@ const options = {
       // Treat an additional vendor directory as third-party.
       return `third-party`
     }
-    return categorizeEntry(entry)
+    return defaultCategorizeEntry(entry)
   },
   showEntry: entry =>
     defaultShowEntry(entry) &&
