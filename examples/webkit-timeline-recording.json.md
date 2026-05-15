@@ -4,7 +4,7 @@ Took 618.1ms over 580 samples (1.1ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
-| native   | 70.4% | 435.0ms |     395 |
+| stdlib   | 70.4% | 435.0ms |     395 |
 | ours     | 29.5% | 182.1ms |     184 |
 | program  |  0.2% |   1.0ms |       1 |
 

@@ -30,7 +30,10 @@ export type ProfileEntry = {
 }
 
 /** A profile entry with an ID. */
-export type UniqueProfileEntry = ProfileEntry & { id: number }
+type UniqueProfileEntry = ProfileEntry & { id: number }
+
+/** The category of code an entry originated from. */
+export type EntryOrigin = `ours` | `stdlib` | `third-party`
 
 /** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
@@ -45,19 +48,18 @@ export type ProfileToMdOptions = {
   topN?: number
 
   /**
-   * Whether to include the given entry in the Markdown output.
+   * Returns an arbitrary category string for this entry.
    *
-   * Excluding an entry does not exclude it from metric computations.
+   * Used to compute a category breakdown in the Markdown output.
    */
-  includeEntry?: (entry: ProfileEntry) => boolean
+  categorizeEntry?: (entry: ProfileEntry) => EntryOrigin | (string & {})
 
   /**
-   * Whether the given entry points to third-party code.
+   * Whether to include the given entry in the Markdown output.
    *
-   * This is used to compute summaries in the Markdown output and make other
-   * decisions about what's important to display.
+   * Not showing an entry does not exclude it from metric computations.
    */
-  isThirdPartyEntry?: (entry: ProfileEntry) => boolean
+  showEntry?: (entry: ProfileEntry) => boolean
 
   /**
    * The current working directory to use to make file paths relative in the
@@ -85,16 +87,16 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
-  includeEntry: (entry: UniqueProfileEntry) => boolean
-  isThirdPartyEntry: (entry: UniqueProfileEntry) => boolean
+  categorizeEntry: (entry: UniqueProfileEntry) => string
+  showEntry: (entry: UniqueProfileEntry) => boolean
   cwd: string | undefined
   sourceMaps: NormalizedSourceMaps
 }
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
-  includeEntry = defaultIncludeEntry,
-  isThirdPartyEntry = defaultIsThirdPartyEntry,
+  categorizeEntry = defaultCategorizeEntry,
+  showEntry = defaultShowEntry,
   cwd,
   sourceMaps,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
@@ -107,14 +109,30 @@ export const normalizeProfileToMdOptions = ({
 
   return {
     topN,
-    includeEntry: cacheEntryFunction(includeEntry),
-    isThirdPartyEntry: cacheEntryFunction(isThirdPartyEntry),
+    categorizeEntry: cacheEntryFunction(categorizeEntry),
+    showEntry: cacheEntryPredicate(showEntry),
     cwd: cwd ?? undefined,
     sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
   }
 }
 
-const cacheEntryFunction = (
+const cacheEntryFunction = <T>(
+  func: (entry: UniqueProfileEntry) => T,
+): ((entry: UniqueProfileEntry) => T) => {
+  const cache: T[] = []
+  return entry => {
+    const { id } = entry
+    const cached = cache[id]
+    if (cached !== undefined) {
+      return cached
+    }
+    const result = func(entry)
+    cache[id] = result
+    return result
+  }
+}
+
+const cacheEntryPredicate = (
   func: (entry: UniqueProfileEntry) => boolean,
 ): ((entry: UniqueProfileEntry) => boolean) => {
   // 0=uncached, 1=false, 2=true
@@ -133,40 +151,45 @@ const cacheEntryFunction = (
 }
 
 /**
- * Returns whether to include the given entry in the Markdown output.
+ * Returns an arbitrary category string for this entry.
  *
- * Excludes synthetic profile data and redundant internals by default.
+ * Categorizes into `ours`, `stdlib`, `third-party`, and a few other categories
+ * by default.
  */
-export const defaultIncludeEntry = ({
-  name,
-  location,
-}: ProfileEntry): boolean => {
-  if (name === `(root)` || name === `<root>` || name === `(module)`) {
-    // Synthetic roots.
-    return false
-  }
+export const defaultCategorizeEntry = (
+  entry: ProfileEntry,
+): EntryOrigin | (string & {}) => {
+  const { name, location } = entry
 
   if (
-    (!location &&
-      (name === `ModuleWrap` ||
-        name?.startsWith(`system /`) ||
-        name?.startsWith(`Node /`))) ||
-    (location?.url.protocol === `node:` &&
-      location.url.pathname.startsWith(`internal/`))
+    name?.startsWith(`(`) &&
+    name.endsWith(`)`) &&
+    !name.startsWith(`(anonymous`)
   ) {
-    // V8 and Node internals. They are rarely actionable and when they _are_
-    // actionable, they are preceded by some public Node call frame that isn't
-    // filtered (e.g. `node:fs`).
-    return false
+    // This is a special sentinel function name like `(garbage collector)`,
+    // `(idle)`, etc.
+    return name.slice(1, -1)
   }
 
-  return true
+  if (name?.startsWith(`RegExp: `)) {
+    return `regexp`
+  }
+
+  if (!location || location.url.protocol === `node:`) {
+    return `stdlib`
+  }
+
+  if (location.url.pathname.includes(`/node_modules/`)) {
+    return `third-party`
+  }
+
+  return `ours`
 }
 
 /**
- * Returns whether the given entry points to third-party code.
+ * Returns whether to include the given entry in the Markdown output.
  *
- * Excludes `node_modules` only by default.
+ * Excludes synthetic profile data by default.
  */
-export const defaultIsThirdPartyEntry = (entry: ProfileEntry): boolean =>
-  !!entry.location?.url.pathname.includes(`/node_modules/`)
+export const defaultShowEntry = ({ name }: ProfileEntry): boolean =>
+  name !== `(root)` && name !== `<root>` && name !== `(module)`

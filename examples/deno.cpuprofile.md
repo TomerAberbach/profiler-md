@@ -10,7 +10,7 @@ Took 6.08s over 46,255 samples (131.6µs per sample).
 | program           |  1.7% | 106.1ms |     817 |
 | third-party       |  1.2% |  71.1ms |     536 |
 | idle              |  0.8% |  50.1ms |      38 |
-| native            |  0.0% |   0.1ms |       1 |
+| stdlib            |  0.0% |   0.1ms |       1 |
 
 ## Hottest functions
 

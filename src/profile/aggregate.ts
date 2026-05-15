@@ -1,10 +1,7 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
 import { makeProfileLocation } from '../location.ts'
 import type { ProfileLocation, ProfileLocationInput } from '../location.ts'
-import type {
-  NormalizedProfileToMdOptions,
-  UniqueProfileEntry,
-} from '../options.ts'
+import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type { Metric } from './metric.ts'
 
 export class ProfileAggregator<Node extends { id?: number }> {
@@ -257,7 +254,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
     func = {
       ...entry,
-      category: categorizeFunction(entry, this.#options),
+      category: this.#options.categorizeEntry(entry),
       selfSampleCount: 0,
       totalSampleCount: 0,
       selfValues: new Float64Array(this.#metrics.length),
@@ -485,33 +482,6 @@ export type AggregatedProfile = {
 
   /** Aggregated data for all call stacks encountered in this profile. */
   callStacks: ProfileCallStack[]
-}
-
-const categorizeFunction = (
-  entry: UniqueProfileEntry,
-  { isThirdPartyEntry }: NormalizedProfileToMdOptions,
-): string => {
-  const { name, location } = entry
-
-  if (
-    name?.startsWith(`(`) &&
-    name.endsWith(`)`) &&
-    !name.startsWith(`(anonymous`)
-  ) {
-    // This is a special sentinel function name like `(garbage collector)`,
-    // `(idle)`, etc.
-    return name.slice(1, -1)
-  }
-
-  if (name?.startsWith(`RegExp: `)) {
-    return `regexp`
-  }
-
-  if (!location || location.url.protocol === `node:`) {
-    return `native`
-  }
-
-  return isThirdPartyEntry(entry) ? `third-party` : `ours`
 }
 
 /**
