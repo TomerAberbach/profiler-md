@@ -94,7 +94,7 @@ const formatLargestSelfSizeConstructors = (
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(options.includeEntry),
+    constructors.filter(options.showEntry),
     options.topN,
     constructor => constructor.selfSize,
   )
@@ -192,7 +192,7 @@ const formatLargestRetainedSizeConstructors = (
   const { totalSize, constructors } = snapshot
 
   const largestConstructors = selectTopN(
-    constructors.filter(options.includeEntry),
+    constructors.filter(options.showEntry),
     options.topN,
     constructor => constructor.retainedSize,
   )
@@ -342,7 +342,7 @@ const formatLargestClosures = (
 
   const largestClosures = selectTopN(
     closures.filter(closure =>
-      options.includeEntry({ ...closure, id: closure.largestInstanceId }),
+      options.showEntry({ ...closure, id: closure.largestInstanceId }),
     ),
     options.topN,
     closure => closure.retainedSize,
@@ -405,7 +405,7 @@ const formatClosureRetainedObjects = (
         continue
       }
       seen[node.id] = 1
-      if (options.includeEntry(node)) {
+      if (options.showEntry(node)) {
         allRetainedNodes.push(node)
       }
     }

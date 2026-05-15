@@ -101,8 +101,8 @@ Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, 
 ```js
 import { openAsBlob } from 'node:fs'
 import {
-  defaultIncludeEntry,
-  defaultIsThirdPartyEntry,
+  defaultCategorizeEntry,
+  defaultShowEntry,
   pprofToMd,
   pprofToMdAsync,
   speedscopeProfileToMd,
@@ -141,12 +141,15 @@ const options = {
   topN: 10,
   // Make paths relative to a custom directory.
   cwd: `/path/to/project`,
-  isThirdPartyEntry: entry =>
-    defaultIsThirdPartyEntry(entry) ||
-    // Treat an additional vendor directory as third-party.
-    !!entry.location?.url.pathname.includes(`/vendor/`),
-  includeEntry: entry =>
-    defaultIncludeEntry(entry) &&
+  categorizeEntry: entry => {
+    if (entry.location?.url.pathname.includes(`/vendor/`)) {
+      // Treat an additional vendor directory as third-party.
+      return `third-party`
+    }
+    return categorizeEntry(entry)
+  },
+  showEntry: entry =>
+    defaultShowEntry(entry) &&
     // Exclude entries from a specific file.
     !entry.location?.includes(`/path/to/project/src/noisy`),
 }

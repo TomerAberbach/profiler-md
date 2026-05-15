@@ -6,7 +6,7 @@ Took 6.17s over 47,806 samples (129.2µs per sample).
 | ----------------- | ----: | ------: | ------: |
 | ours              | 91.3% |   5.63s |  43,666 |
 | regexp            |  2.1% | 127.4ms |     987 |
-| native            |  1.7% | 106.6ms |     817 |
+| stdlib            |  1.7% | 106.6ms |     817 |
 | garbage collector |  1.7% | 106.3ms |     814 |
 | program           |  1.7% | 104.4ms |     816 |
 | third-party       |  1.5% |  90.2ms |     691 |
@@ -18,28 +18,28 @@ Took 6.17s over 47,806 samples (129.2µs per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|     % |    Time | Samples | Function                                         | Location                                                                                                 |
-| ----: | ------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| 15.6% | 966.3ms |   7,479 | `traverseObject`                                 | uneval/src/index.ts:204:26                                                                               |
-| 15.0% | 926.9ms |   7,175 | `unevalObjectLike`                               | uneval/src/internal/object.ts:103:26                                                                     |
-|  8.5% | 527.0ms |   4,083 | `unevalObjectInternal`                           | uneval/src/internal/object.ts:68:30                                                                      |
-|  8.5% | 524.1ms |   4,059 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37                                                                       |
-|  8.4% | 517.7ms |   4,010 | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23                                                                  |
-|  6.6% | 404.6ms |   3,129 | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29                                                                   |
-|  6.0% | 372.6ms |   2,887 | `traverse`                                       | uneval/src/index.ts:164:20                                                                               |
-|  5.8% | 359.6ms |   2,784 | `unevalArray`                                    | uneval/src/internal/collection.ts:7:47                                                                   |
-|  4.3% | 266.6ms |   2,064 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32                                                                       |
-|  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24                                                                         |
-|  2.7% | 165.8ms |   1,288 | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32                                                                     |
-|  2.5% | 154.6ms |   1,196 | `createState`                                    | uneval/src/index.ts:144:21                                                                               |
-|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                                                                                               |
-|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                                                                                               |
-|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                                                                                               |
-|  0.9% |  53.3ms |     411 | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29                                                                  |
-|  0.7% |  44.8ms |     348 | `unevalObject`                                   | uneval/src/internal/object.ts:20:29                                                                      |
-|  0.7% |  40.9ms |     317 | `uneval`                                         | uneval/src/index.ts:75:16                                                                                |
-|  0.6% |  39.5ms |     306 | `isObject`                                       | uneval/src/internal/object.ts:434:25                                                                     |
-|  0.3% |  20.5ms |     157 | `uniformIntInternal`                             | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28 |
+|     % |    Time | Samples | Function                                         | Location                                |
+| ----: | ------: | ------: | ------------------------------------------------ | --------------------------------------- |
+| 15.6% | 966.3ms |   7,479 | `traverseObject`                                 | uneval/src/index.ts:204:26              |
+| 15.0% | 926.9ms |   7,175 | `unevalObjectLike`                               | uneval/src/internal/object.ts:103:26    |
+|  8.5% | 527.0ms |   4,083 | `unevalObjectInternal`                           | uneval/src/internal/object.ts:68:30     |
+|  8.5% | 524.1ms |   4,059 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37      |
+|  8.4% | 517.7ms |   4,010 | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23 |
+|  6.6% | 404.6ms |   3,129 | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29  |
+|  6.0% | 372.6ms |   2,887 | `traverse`                                       | uneval/src/index.ts:164:20              |
+|  5.8% | 359.6ms |   2,784 | `unevalArray`                                    | uneval/src/internal/collection.ts:7:47  |
+|  4.3% | 266.6ms |   2,064 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32      |
+|  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24        |
+|  2.7% | 165.8ms |   1,288 | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32    |
+|  2.5% | 154.6ms |   1,196 | `createState`                                    | uneval/src/index.ts:144:21              |
+|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                              |
+|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                              |
+|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                              |
+|  0.9% |  53.3ms |     411 | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29 |
+|  0.8% |  47.8ms |     373 | `compileForInternalLoader`                       | node:internal/bootstrap/realm:383:27    |
+|  0.7% |  44.8ms |     348 | `unevalObject`                                   | uneval/src/internal/object.ts:20:29     |
+|  0.7% |  40.9ms |     317 | `uneval`                                         | uneval/src/index.ts:75:16               |
+|  0.6% |  39.5ms |     306 | `isObject`                                       | uneval/src/internal/object.ts:434:25    |
 
 #### Lines
 
@@ -166,6 +166,13 @@ Lines ranked by contribution to each function's self time.
 | -----: | -----: | ------: | ------------------------------------ |
 | 100.0% | 53.3ms |     411 | uneval/src/internal/primitive.ts:134 |
 
+##### `compileForInternalLoader` (node:internal/bootstrap/realm:383:27)
+
+|     % |   Time | Samples | Location                          |
+| ----: | -----: | ------: | --------------------------------- |
+| 99.2% | 47.5ms |     370 | node:internal/bootstrap/realm:395 |
+|  0.8% |  0.4ms |       3 | node:internal/bootstrap/realm:398 |
+
 ##### `unevalObject` (uneval/src/internal/object.ts:20:29)
 
 |     % |   Time | Samples | Location                         |
@@ -191,14 +198,6 @@ Lines ranked by contribution to each function's self time.
 | ----: | -----: | ------: | --------------------------------- |
 | 72.9% | 28.8ms |     223 | uneval/src/internal/object.ts:436 |
 | 27.1% | 10.7ms |      83 | uneval/src/internal/object.ts:435 |
-
-##### `uniformIntInternal` (uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28)
-
-|     % |   Time | Samples | Location                                                                                               |
-| ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------ |
-| 98.0% | 20.1ms |     154 | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:11 |
-|  1.3% |  0.3ms |       2 | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:8  |
-|  0.7% |  0.1ms |       1 | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:10 |
 
 #### Callers
 
@@ -302,6 +301,12 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | ---------------- | ---------------------------------- |
 | 100.0% | 53.3ms |     411 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
 
+##### `compileForInternalLoader` (node:internal/bootstrap/realm:383:27)
+
+|      % |   Time | Samples | Caller           | Location                             |
+| -----: | -----: | ------: | ---------------- | ------------------------------------ |
+| 100.0% | 47.8ms |     373 | `requireBuiltin` | node:internal/bootstrap/realm:420:24 |
+
 ##### `unevalObject` (uneval/src/internal/object.ts:20:29)
 
 |      % |   Time | Samples | Caller           | Location                           |
@@ -310,9 +315,10 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ##### `uneval` (uneval/src/index.ts:75:16)
 
-|     % |   Time | Samples | Caller        | Location                      |
-| ----: | -----: | ------: | ------------- | ----------------------------- |
-| 97.5% | 39.9ms |     309 | `(anonymous)` | uneval/scripts/profile.ts:1:1 |
+|     % |   Time | Samples | Caller        | Location                                    |
+| ----: | -----: | ------: | ------------- | ------------------------------------------- |
+| 97.5% | 39.9ms |     309 | `(anonymous)` | uneval/scripts/profile.ts:1:1               |
+|  1.3% |  0.5ms |       4 | `run`         | node:internal/modules/esm/module_job:419:12 |
 
 ##### `isObject` (uneval/src/internal/object.ts:434:25)
 
@@ -320,43 +326,46 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | ---------------- | ---------------------------------- |
 | 100.0% | 39.5ms |     306 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
 
-##### `uniformIntInternal` (uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:7:28)
-
-|     % |   Time | Samples | Caller                    | Location                                                                                                   |
-| ----: | -----: | ------: | ------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 96.7% | 19.8ms |     152 | `uniformInt`              | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:127:20 |
-|  3.3% |  0.7ms |       5 | `uniformArrayIntInternal` | uneval/node_modules/.pnpm/pure-rand@8.4.0/node_modules/pure-rand/lib/esm/distribution/uniformInt.js:83:33  |
-
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|     % |    Time | Samples | Function                                         | Location                                                                                     |
-| ----: | ------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| 94.3% |   5.82s |  45,097 | `(anonymous)`                                    | uneval/scripts/profile.ts:1:1                                                                |
-| 92.6% |   5.72s |  44,294 | `uneval`                                         | uneval/src/index.ts:75:16                                                                    |
-| 64.4% |   3.97s |  30,805 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32                                                           |
-| 63.3% |   3.91s |  30,296 | `unevalObject`                                   | uneval/src/internal/object.ts:20:29                                                          |
-| 63.0% |   3.89s |  30,145 | `unevalObjectInternal`                           | uneval/src/internal/object.ts:68:30                                                          |
-| 48.6% |      3s |  23,240 | `unevalObjectLike`                               | uneval/src/internal/object.ts:103:26                                                         |
-| 28.0% |   1.73s |  13,398 | `unevalArray`                                    | uneval/src/internal/collection.ts:7:47                                                       |
-| 27.7% |   1.70s |  13,233 | `createState`                                    | uneval/src/index.ts:144:21                                                                   |
-| 25.2% |   1.55s |  12,037 | `traverse`                                       | uneval/src/index.ts:164:20                                                                   |
-| 23.7% |   1.46s |  11,338 | `traverseObject`                                 | uneval/src/index.ts:204:26                                                                   |
-| 19.4% |   1.20s |   9,304 | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32                                                         |
-| 14.7% | 907.7ms |   7,029 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37                                                           |
-|  9.2% | 571.0ms |   4,421 | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29                                                      |
-|  8.4% | 517.7ms |   4,010 | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23                                                      |
-|  6.6% | 404.6ms |   3,129 | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29                                                       |
-|  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24                                                             |
-|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                                                                                   |
-|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                                                                                   |
-|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                                                                                   |
-|  1.4% |  87.1ms |     667 | `sample`                                         | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
+|     % |    Time | Samples | Function                                         | Location                                    |
+| ----: | ------: | ------: | ------------------------------------------------ | ------------------------------------------- |
+| 94.3% |   5.82s |  45,110 | `run`                                            | node:internal/modules/esm/module_job:419:12 |
+| 94.3% |   5.82s |  45,097 | `(anonymous)`                                    | uneval/scripts/profile.ts:1:1               |
+| 92.6% |   5.72s |  44,294 | `uneval`                                         | uneval/src/index.ts:75:16                   |
+| 64.4% |   3.97s |  30,805 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32          |
+| 63.3% |   3.91s |  30,296 | `unevalObject`                                   | uneval/src/internal/object.ts:20:29         |
+| 63.0% |   3.89s |  30,145 | `unevalObjectInternal`                           | uneval/src/internal/object.ts:68:30         |
+| 48.6% |      3s |  23,240 | `unevalObjectLike`                               | uneval/src/internal/object.ts:103:26        |
+| 28.0% |   1.73s |  13,398 | `unevalArray`                                    | uneval/src/internal/collection.ts:7:47      |
+| 27.7% |   1.70s |  13,233 | `createState`                                    | uneval/src/index.ts:144:21                  |
+| 25.2% |   1.55s |  12,037 | `traverse`                                       | uneval/src/index.ts:164:20                  |
+| 23.7% |   1.46s |  11,338 | `traverseObject`                                 | uneval/src/index.ts:204:26                  |
+| 19.4% |   1.20s |   9,304 | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32        |
+| 14.7% | 907.7ms |   7,029 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37          |
+|  9.2% | 571.0ms |   4,421 | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29     |
+|  8.4% | 517.7ms |   4,010 | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23     |
+|  6.6% | 404.6ms |   3,129 | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29      |
+|  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24            |
+|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                                  |
+|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                                  |
+|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                                  |
 
 #### Callees
 
 Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+
+##### `run` (node:internal/modules/esm/module_job:419:12)
+
+|      % |  Time | Samples | Callee         | Location                                                                                 |
+| -----: | ----: | ------: | -------------- | ---------------------------------------------------------------------------------------- |
+| 100.0% | 5.82s |  45,097 | `(anonymous)`  | uneval/scripts/profile.ts:1:1                                                            |
+|   0.0% | 0.5ms |       4 | `(anonymous)`  | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:1:1 |
+|   0.0% | 0.5ms |       4 | `uneval`       | uneval/src/index.ts:75:16                                                                |
+|   0.0% | 0.3ms |       2 | `#instantiate` | node:internal/modules/esm/module_job:290:15                                              |
+|   0.0% | 0.1ms |       1 | `(anonymous)`  | uneval/src/internal/primitive.ts:1:1                                                     |
 
 ##### `(anonymous)` (uneval/scripts/profile.ts:1:1)
 
@@ -462,18 +471,11 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ------: | ------: | --------------- | --------------------------------------- |
 | 90.7% | 517.7ms |   4,010 | `unevalLiteral` | uneval/src/internal/primitive.ts:139:23 |
 
-##### `sample` (uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16)
-
-|     % |   Time | Samples | Callee         | Location                                                                                     |
-| ----: | -----: | ------: | -------------- | -------------------------------------------------------------------------------------------- |
-| 99.7% | 86.8ms |     665 | `mapHelper`    | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:58:20   |
-|  0.3% |  0.3ms |       2 | `streamSample` | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2524:22 |
-
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `uneval` (uneval/src/index.ts:75:16) ← `(anonymous)` (uneval/scripts/profile.ts:1:1)
+Common call stack: `uneval` (uneval/src/index.ts:75:16) ← `(anonymous)` (uneval/scripts/profile.ts:1:1) ← `run` (node:internal/modules/esm/module_job:419:12)
 
 |    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ---: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

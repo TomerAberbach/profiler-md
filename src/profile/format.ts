@@ -177,7 +177,7 @@ const formatHottestSelfFunctions = (
 ): string[] => {
   const hottestFunctions = selectTopN(
     profile.functions.filter(
-      func => options.includeEntry(func) && func.selfValues[metricIndex]! > 0,
+      func => options.showEntry(func) && func.selfValues[metricIndex]! > 0,
     ),
     options.topN,
     func => func.selfValues[metricIndex]!,
@@ -301,8 +301,7 @@ const formatHottestCallers = (
   const hottestCallers = selectTopN(
     [...func.callerIdToMetrics.values()].filter(
       entry =>
-        options.includeEntry(entry.caller) &&
-        entry.selfValues[metricIndex]! > 0,
+        options.showEntry(entry.caller) && entry.selfValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
     entry => entry.selfValues[metricIndex]!,
@@ -350,7 +349,7 @@ const formatHottestTotalFunctions = (
   const totalValue = profile.totalValues[metricIndex]!
   const hottestFunctions = selectTopN(
     profile.functions.filter(
-      func => options.includeEntry(func) && func.totalValues[metricIndex]! > 0,
+      func => options.showEntry(func) && func.totalValues[metricIndex]! > 0,
     ),
     options.topN,
     func => func.totalValues[metricIndex]!,
@@ -410,8 +409,7 @@ const formatHottestCallees = (
   const hottestCallees = selectTopN(
     [...func.calleeIdToMetrics.values()].filter(
       entry =>
-        options.includeEntry(entry.callee) &&
-        entry.totalValues[metricIndex]! > 0,
+        options.showEntry(entry.callee) && entry.totalValues[metricIndex]! > 0,
     ),
     Math.ceil(options.topN / 4),
     entry => entry.totalValues[metricIndex]!,
@@ -461,7 +459,7 @@ const formatHottestCallStacks = (
     profile.callStacks
       .map(callStack => ({
         ...callStack,
-        frames: callStack.frames.filter(options.includeEntry),
+        frames: callStack.frames.filter(options.showEntry),
       }))
       .filter(callStack => callStack.frames.length > 1),
     options.topN,

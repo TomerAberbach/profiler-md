@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
-import { defaultIsThirdPartyEntry } from '../index.ts'
+import { defaultCategorizeEntry } from '../index.ts'
 import type { ProfileToMdOptions, SourceMap } from '../index.ts'
 import { makeFileReference } from '../location.ts'
 
@@ -22,22 +22,24 @@ export const buildOptions = async ({
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
   cwd,
-  isThirdPartyEntry: buildIsThirdPartyEntry(thirdParty),
+  categorizeEntry: buildCategorizeEntry(thirdParty),
   sourceMaps: await loadSourceMaps(sourceMaps),
 })
 
-const buildIsThirdPartyEntry = (
+const buildCategorizeEntry = (
   patterns: readonly string[],
-): ProfileToMdOptions[`isThirdPartyEntry`] => {
+): ProfileToMdOptions[`categorizeEntry`] => {
   if (patterns.length === 0) {
     return undefined
   }
 
-  const matchers = patterns.map(pattern => picomatch(pattern, { dot: true }))
-  return entry =>
-    defaultIsThirdPartyEntry(entry) ||
-    (!!entry.location &&
-      matchers.some(match => match(entry.location!.url.pathname)))
+  const isMatch = picomatch([...patterns], { dot: true })
+  return entry => {
+    if (entry.location && isMatch(entry.location.url.pathname)) {
+      return `third-party`
+    }
+    return defaultCategorizeEntry(entry)
+  }
 }
 
 const loadSourceMaps = async (

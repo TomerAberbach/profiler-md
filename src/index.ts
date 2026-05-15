@@ -1,9 +1,10 @@
-export { defaultIncludeEntry, defaultIsThirdPartyEntry } from './options.ts'
+export { defaultCategorizeEntry, defaultShowEntry } from './options.ts'
 export type {
   BinaryProfileData,
   JsonProfileData,
   AsyncProfileData,
   ProfileEntry,
+  EntryOrigin,
   ProfileToMdOptions,
 } from './options.ts'
 export type { SourceMap } from './source-map.ts'
