@@ -1,4 +1,14 @@
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
+import { defaultShowEntry } from '../../options.ts'
+import {
+  callersTables,
+  categoryTables,
+  profileTitles,
+  selfSizeTables,
+  selfTimeTables,
+  summaryLines,
+  totalTimeTables,
+} from '../../testing/markdown.ts'
 import { detectSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
 import type {
   SpeedscopeEvent,
@@ -9,18 +19,17 @@ import type {
   SpeedscopeValueUnit,
 } from './parse.ts'
 
-const makeProfile = ({
+const makeSpeedscopeProfile = ({
   profiles,
   frames,
 }: {
   profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
   frames: SpeedscopeFrame[]
-}): string =>
-  JSON.stringify({
-    $schema: `https://www.speedscope.app/file-format-schema.json`,
-    profiles,
-    shared: { frames },
-  } satisfies SpeedscopeProfile)
+}): SpeedscopeProfile => ({
+  $schema: `https://www.speedscope.app/file-format-schema.json`,
+  profiles,
+  shared: { frames },
+})
 
 const makeSampledProfile = ({
   name = `Profile`,
@@ -40,62 +49,349 @@ const makeSampledProfile = ({
   weights,
 })
 
-const makeEventedProfile = (
-  events: SpeedscopeEvent[],
-  {
-    name = `Profile`,
-    unit = `milliseconds`,
-  }: {
-    name?: string
-    unit?: SpeedscopeValueUnit
-  } = {},
-): SpeedscopeEventedProfile => ({ type: `evented`, name, unit, events })
+const makeEventedProfile = ({
+  events,
+  name = `Profile`,
+  unit = `milliseconds`,
+}: {
+  events: SpeedscopeEvent[]
+  name?: string
+  unit?: SpeedscopeValueUnit
+}): SpeedscopeEventedProfile => ({ type: `evented`, name, unit, events })
 
-test(`detectSpeedscope accepts valid speedscope file`, () => {
-  const json = JSON.parse(
-    makeProfile({
-      profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
-      frames: [{ name: `main` }],
-    }),
-  ) as unknown
+describe(`detect`, () => {
+  test(`accepts valid speedscope file`, () => {
+    expect(
+      detectSpeedscopeProfile(
+        makeSpeedscopeProfile({
+          profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
+          frames: [{ name: `main` }],
+        }),
+      ),
+    ).toBeDefined()
+  })
 
-  expect(detectSpeedscopeProfile(json)).toBeDefined()
+  test(`rejects null`, () => {
+    expect(detectSpeedscopeProfile(null)).toBeUndefined()
+  })
+
+  test(`rejects non-objects`, () => {
+    expect(detectSpeedscopeProfile(42)).toBeUndefined()
+  })
+
+  test(`rejects wrong $schema`, () => {
+    expect(
+      detectSpeedscopeProfile({
+        $schema: `https://other.app/schema.json`,
+        profiles: [],
+        shared: { frames: [] },
+      }),
+    ).toBeUndefined()
+  })
+
+  test(`rejects missing profiles`, () => {
+    expect(
+      detectSpeedscopeProfile({ nodes: [], timeDeltas: [] }),
+    ).toBeUndefined()
+  })
+
+  test(`rejects null shared`, () => {
+    expect(
+      detectSpeedscopeProfile({
+        $schema: `https://www.speedscope.app/file-format-schema.json`,
+        profiles: [],
+        shared: null,
+      }),
+    ).toBeUndefined()
+  })
 })
 
-test(`detectSpeedscope rejects null`, () => {
-  expect(detectSpeedscopeProfile(null)).toBeUndefined()
+describe(`convert`, () => {
+  test(`sampled profile: basic two-function call stack`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [[0, 1], [0, 1], [0]],
+          weights: [10, 20, 5],
+        }),
+      ],
+      frames: [
+        { name: `main`, file: `/project/src/index.ts`, line: 1 },
+        { name: `work`, file: `/project/src/index.ts`, line: 10 },
+      ],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Work has 2 samples (30ms self), main has 1 sample (5ms self)
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `85.7%`,
+          Time: `30.0ms`,
+          Samples: `2`,
+          Function: `work`,
+          Location: `src/index.ts:10`,
+        },
+        {
+          '%': `14.3%`,
+          Time: `5.0ms`,
+          Samples: `1`,
+          Function: `main`,
+          Location: `src/index.ts:1`,
+        },
+      ],
+    ])
+    // Main total = 3 samples (35ms)
+    expect(totalTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `35.0ms`,
+          Samples: `3`,
+          Function: `main`,
+          Location: `src/index.ts:1`,
+        },
+        {
+          '%': `85.7%`,
+          Time: `30.0ms`,
+          Samples: `2`,
+          Function: `work`,
+          Location: `src/index.ts:10`,
+        },
+      ],
+    ])
+  })
+
+  test(`evented profile: durations computed from open/close events`, () => {
+    // Main (0-15): calls work (5-10), then continues (10-15)
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeEventedProfile({
+          events: [
+            { type: `O`, at: 0, frame: 0 },
+            { type: `O`, at: 5, frame: 1 },
+            { type: `C`, at: 10, frame: 1 },
+            { type: `C`, at: 15, frame: 0 },
+          ],
+        }),
+      ],
+      frames: [
+        { name: `main`, file: `/project/src/index.ts`, line: 1 },
+        { name: `work`, file: `/project/src/index.ts`, line: 10 },
+      ],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `10.0ms`,
+          Samples: `2`,
+          Function: `main`,
+          Location: `src/index.ts:1`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `5.0ms`,
+          Samples: `1`,
+          Function: `work`,
+          Location: `src/index.ts:10`,
+        },
+      ],
+    ])
+  })
+
+  test(`multi-profile file concatenates output`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({ samples: [[0]], weights: [100] }),
+        makeSampledProfile({ samples: [[1]], weights: [200] }),
+      ],
+      frames: [
+        { name: `funcA`, file: `/project/src/a.ts`, line: 1 },
+        { name: `funcB`, file: `/project/src/b.ts`, line: 1 },
+      ],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Both profiles should appear in the output.
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Function)),
+    ).toEqual([[`funcA`], [`funcB`]])
+    // Two separate profile sections.
+    expect(profileTitles(md)).toEqual([`CPU profile`, `CPU profile`])
+  })
+
+  test(`zero-weight samples are skipped`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [[0], [0], [0]],
+          weights: [10, 0, 20],
+        }),
+      ],
+      frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Total should be 30ms from 2 non-zero samples
+    expect(summaryLines(md)).toEqual([
+      expect.stringContaining(`30.0ms over 2 samples`),
+    ])
+  })
+
+  test(`evented profile: recursive function deduplicates total time`, () => {
+    // Factorial calls itself: factorial(0-15) -> factorial(5-10)
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeEventedProfile({
+          events: [
+            { type: `O`, at: 0, frame: 0 },
+            { type: `O`, at: 5, frame: 0 },
+            { type: `C`, at: 10, frame: 0 },
+            { type: `C`, at: 15, frame: 0 },
+          ],
+        }),
+      ],
+      frames: [{ name: `factorial`, file: `/project/src/index.ts`, line: 1 }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Recursive: total should be deduplicated (1 sample, not 2)
+    expect(totalTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `15.0ms`,
+          Samples: `3`,
+          Function: `factorial`,
+          Location: `src/index.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`microseconds unit formatted as time`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          unit: `microseconds`,
+          samples: [[0]],
+          weights: [1000],
+        }),
+      ],
+      frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    expect(selfTimeTables(md).map(table => table.map(row => row.Time))).toEqual(
+      [[`1.0ms`]],
+    )
+  })
+
+  test(`empty-stack samples are skipped`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [[], [0], []],
+          weights: [100, 50, 100],
+        }),
+      ],
+      frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    // Only the non-empty sample (50ms) is counted, not the empty-stack ones
+    // (100ms + 100ms).
+    expect(summaryLines(md)).toEqual([
+      expect.stringContaining(`50.0ms over 1 sample`),
+    ])
+  })
+
+  test(`frame without file location renders as native`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
+      frames: [{ name: `nativeFunc` }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      showEntry: () => true,
+    })
+
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Location)),
+    ).toEqual([[`<native>`]])
+  })
+
+  test(`bytes unit produces heap profile`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          unit: `bytes`,
+          samples: [[0, 1], [0]],
+          weights: [1024, 512],
+        }),
+      ],
+      frames: [
+        { name: `allocMain`, file: `/project/src/index.ts`, line: 1 },
+        { name: `allocWork`, file: `/project/src/index.ts`, line: 10 },
+      ],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    expect(profileTitles(md)).toEqual([`Heap profile`])
+    expect(summaryLines(md)).toEqual([expect.stringContaining(`Allocated`)])
+    expect(selfSizeTables(md).map(table => table.map(row => row.Size))).toEqual(
+      [[`1.02 kB`, `512 B`]],
+    )
+  })
+
+  test(`none unit falls back to custom metric`, () => {
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({ unit: `none`, samples: [[0]], weights: [42] }),
+      ],
+      frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+    })
+
+    const md = speedscopeProfileToMd(JSON.stringify(profile), {
+      cwd: `/project/`,
+    })
+
+    expect(profileTitles(md)).toEqual([`Count profile`])
+    expect(summaryLines(md)).toEqual([expect.stringContaining(`Recorded`)])
+    expect(summaryLines(md)).toEqual([expect.stringContaining(`42 counts`)])
+  })
 })
 
-test(`detectSpeedscope rejects non-objects`, () => {
-  expect(detectSpeedscopeProfile(42)).toBeUndefined()
-})
-
-test(`detectSpeedscope rejects wrong $schema`, () => {
-  expect(
-    detectSpeedscopeProfile({
-      $schema: `https://other.app/schema.json`,
-      profiles: [],
-      shared: { frames: [] },
-    }),
-  ).toBeUndefined()
-})
-
-test(`detectSpeedscope rejects missing $schema`, () => {
-  expect(detectSpeedscopeProfile({ nodes: [], timeDeltas: [] })).toBeUndefined()
-})
-
-test(`detectSpeedscope rejects null shared`, () => {
-  expect(
-    detectSpeedscopeProfile({
-      $schema: `https://www.speedscope.app/file-format-schema.json`,
-      profiles: [],
-      shared: null,
-    }),
-  ).toBeUndefined()
-})
-
-test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () => {
-  const profile = makeProfile({
+describe(`options`, () => {
+  const baseProfile = makeSpeedscopeProfile({
     profiles: [
       makeSampledProfile({
         samples: [[0, 1], [0, 1], [0]],
@@ -108,415 +404,48 @@ test(`speedscopeProfileToMd sampled profile with basic two-function stack`, () =
     ],
   })
 
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+  test(`showEntry hides entries while preserving metrics`, () => {
+    // `work` is excluded; `main`'s total still includes `work`'s time
+    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
+      cwd: `/project/`,
+      showEntry: row => defaultShowEntry(row) && row.name !== `work`,
+    })
 
-  expect(markdown).toMatchInlineSnapshot(`
-    "# CPU profile
-
-    Took 35.0ms over 3 samples (11.7ms per sample).
-
-    | Category |      % |   Time | Samples |
-    | -------- | -----: | -----: | ------: |
-    | ours     | 100.0% | 35.0ms |       3 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |     % |   Time | Samples | Function | Location        |
-    | ----: | -----: | ------: | -------- | --------------- |
-    | 85.7% | 30.0ms |       2 | \`work\`   | src/index.ts:10 |
-    | 14.3% |  5.0ms |       1 | \`main\`   | src/index.ts:1  |
-
-    #### Callers
-
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
-
-    ##### \`work\` (src/index.ts:10)
-
-    |      % |   Time | Samples | Caller | Location       |
-    | -----: | -----: | ------: | ------ | -------------- |
-    | 100.0% | 30.0ms |       2 | \`main\` | src/index.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |   Time | Samples | Function | Location        |
-    | -----: | -----: | ------: | -------- | --------------- |
-    | 100.0% | 35.0ms |       3 | \`main\`   | src/index.ts:1  |
-    |  85.7% | 30.0ms |       2 | \`work\`   | src/index.ts:10 |
-
-    #### Callees
-
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
-
-    ##### \`main\` (src/index.ts:1)
-
-    |     % |   Time | Samples | Callee | Location        |
-    | ----: | -----: | ------: | ------ | --------------- |
-    | 85.7% | 30.0ms |       2 | \`work\` | src/index.ts:10 |
-
-    ## Hottest call stacks
-
-    Call stacks ranked by time spent in their leaf frame.
-
-    |     % |   Time | Samples | Call stack                            |
-    | ----: | -----: | ------: | ------------------------------------- |
-    | 85.7% | 30.0ms |       2 | \`work\` (src/index.ts:10) ← \`main\` (1) |
-    "
-  `)
-})
-
-test(`speedscopeProfileToMd evented profile with durations computed from open/close events`, () => {
-  // Main (0-15): calls work (5-10), then continues (10-15)
-  const profile = makeProfile({
-    profiles: [
-      makeEventedProfile([
-        { type: `O`, at: 0, frame: 0 },
-        { type: `O`, at: 5, frame: 1 },
-        { type: `C`, at: 10, frame: 1 },
-        { type: `C`, at: 15, frame: 0 },
-      ]),
-    ],
-    frames: [
-      { name: `main`, file: `/project/src/index.ts`, line: 1 },
-      { name: `work`, file: `/project/src/index.ts`, line: 10 },
-    ],
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Function)),
+    ).toEqual([expect.not.arrayContaining([`work`])])
+    expect(callersTables(md, `work`)).toHaveLength(0)
   })
 
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+  test(`topN limits functions shown`, () => {
+    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
+      cwd: `/project/`,
+      topN: 1,
+    })
 
-  // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
-  expect(markdown).toMatchInlineSnapshot(`
-    "# CPU profile
-
-    Took 15.0ms over 3 samples (5.0ms per sample).
-
-    | Category |      % |   Time | Samples |
-    | -------- | -----: | -----: | ------: |
-    | ours     | 100.0% | 15.0ms |       3 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |     % |   Time | Samples | Function | Location        |
-    | ----: | -----: | ------: | -------- | --------------- |
-    | 66.7% | 10.0ms |       2 | \`main\`   | src/index.ts:1  |
-    | 33.3% |  5.0ms |       1 | \`work\`   | src/index.ts:10 |
-
-    #### Callers
-
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
-
-    ##### \`work\` (src/index.ts:10)
-
-    |      % |  Time | Samples | Caller | Location       |
-    | -----: | ----: | ------: | ------ | -------------- |
-    | 100.0% | 5.0ms |       1 | \`main\` | src/index.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |   Time | Samples | Function | Location        |
-    | -----: | -----: | ------: | -------- | --------------- |
-    | 100.0% | 15.0ms |       3 | \`main\`   | src/index.ts:1  |
-    |  33.3% |  5.0ms |       1 | \`work\`   | src/index.ts:10 |
-
-    #### Callees
-
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
-
-    ##### \`main\` (src/index.ts:1)
-
-    |     % |  Time | Samples | Callee | Location        |
-    | ----: | ----: | ------: | ------ | --------------- |
-    | 33.3% | 5.0ms |       1 | \`work\` | src/index.ts:10 |
-
-    ## Hottest call stacks
-
-    Call stacks ranked by time spent in their leaf frame.
-
-    |     % |  Time | Samples | Call stack                            |
-    | ----: | ----: | ------: | ------------------------------------- |
-    | 33.3% | 5.0ms |       1 | \`work\` (src/index.ts:10) ← \`main\` (1) |
-    "
-  `)
-})
-
-test(`speedscopeProfileToMd multi-profile file`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({ samples: [[0]], weights: [100] }),
-      makeSampledProfile({ samples: [[1]], weights: [200] }),
-    ],
-    frames: [
-      { name: `funcA`, file: `/project/src/a.ts`, line: 1 },
-      { name: `funcB`, file: `/project/src/b.ts`, line: 1 },
-    ],
+    expect(selfTimeTables(md).map(table => table.length)).toEqual([1])
+    expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+  test(`cwd: null shows absolute paths`, () => {
+    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), { cwd: null })
 
-  expect(markdown).toMatchInlineSnapshot(`
-    "# CPU profile
-
-    Took 100.0ms over 1 sample (100.0ms per sample).
-
-    | Category |      % |    Time | Samples |
-    | -------- | -----: | ------: | ------: |
-    | ours     | 100.0% | 100.0ms |       1 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |      % |    Time | Samples | Function | Location   |
-    | -----: | ------: | ------: | -------- | ---------- |
-    | 100.0% | 100.0ms |       1 | \`funcA\`  | src/a.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |    Time | Samples | Function | Location   |
-    | -----: | ------: | ------: | -------- | ---------- |
-    | 100.0% | 100.0ms |       1 | \`funcA\`  | src/a.ts:1 |
-
-
-    # CPU profile
-
-    Took 200.0ms over 1 sample (200.0ms per sample).
-
-    | Category |      % |    Time | Samples |
-    | -------- | -----: | ------: | ------: |
-    | ours     | 100.0% | 200.0ms |       1 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |      % |    Time | Samples | Function | Location   |
-    | -----: | ------: | ------: | -------- | ---------- |
-    | 100.0% | 200.0ms |       1 | \`funcB\`  | src/b.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |    Time | Samples | Function | Location   |
-    | -----: | ------: | ------: | -------- | ---------- |
-    | 100.0% | 200.0ms |       1 | \`funcB\`  | src/b.ts:1 |
-    "
-  `)
-})
-
-test(`speedscopeProfileToMd sampled profile with zero-weight samples are skipped`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({
-        samples: [[0], [0], [0]],
-        weights: [10, 0, 20],
-      }),
-    ],
-    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Location)),
+    ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
+  test(`categorizeEntry groups entries by custom category`, () => {
+    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
+      cwd: `/project/`,
+      categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
+    })
 
-  // Total should be 30ms, not 30ms from 3 samples
-  expect(markdown).toMatchInlineSnapshot(`
-    "# CPU profile
-
-    Took 30.0ms over 2 samples (15.0ms per sample).
-
-    | Category |      % |   Time | Samples |
-    | -------- | -----: | -----: | ------: |
-    | ours     | 100.0% | 30.0ms |       2 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |      % |   Time | Samples | Function | Location       |
-    | -----: | -----: | ------: | -------- | -------------- |
-    | 100.0% | 30.0ms |       2 | \`main\`   | src/index.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |   Time | Samples | Function | Location       |
-    | -----: | -----: | ------: | -------- | -------------- |
-    | 100.0% | 30.0ms |       2 | \`main\`   | src/index.ts:1 |
-    "
-  `)
-})
-
-test(`speedscopeProfileToMd evented profile with recursive function`, () => {
-  // Factorial calls itself: factorial(0-15) → factorial(5-10)
-  const profile = makeProfile({
-    profiles: [
-      makeEventedProfile([
-        { type: `O`, at: 0, frame: 0 },
-        { type: `O`, at: 5, frame: 0 },
-        { type: `C`, at: 10, frame: 0 },
-        { type: `C`, at: 15, frame: 0 },
-      ]),
-    ],
-    frames: [{ name: `factorial`, file: `/project/src/index.ts`, line: 1 }],
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `workers`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
+        { Category: `core`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
+      ],
+    ])
   })
-
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
-
-  expect(markdown).toMatchInlineSnapshot(`
-    "# CPU profile
-
-    Took 15.0ms over 3 samples (5.0ms per sample).
-
-    | Category |      % |   Time | Samples |
-    | -------- | -----: | -----: | ------: |
-    | ours     | 100.0% | 15.0ms |       3 |
-
-    ## Hottest functions
-
-    ### Self time
-
-    Functions ranked by time spent directly in the function body, excluding callees.
-
-    |      % |   Time | Samples | Function    | Location       |
-    | -----: | -----: | ------: | ----------- | -------------- |
-    | 100.0% | 15.0ms |       3 | \`factorial\` | src/index.ts:1 |
-
-    #### Callers
-
-    Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
-
-    ##### \`factorial\` (src/index.ts:1)
-
-    |     % |  Time | Samples | Caller      | Location       |
-    | ----: | ----: | ------: | ----------- | -------------- |
-    | 33.3% | 5.0ms |       1 | \`factorial\` | src/index.ts:1 |
-
-    ### Total time
-
-    Functions ranked by total time spent in the function and all its callees.
-
-    |      % |   Time | Samples | Function    | Location       |
-    | -----: | -----: | ------: | ----------- | -------------- |
-    | 100.0% | 15.0ms |       3 | \`factorial\` | src/index.ts:1 |
-
-    #### Callees
-
-    Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
-
-    ##### \`factorial\` (src/index.ts:1)
-
-    |     % |  Time | Samples | Callee      | Location       |
-    | ----: | ----: | ------: | ----------- | -------------- |
-    | 33.3% | 5.0ms |       1 | \`factorial\` | src/index.ts:1 |
-
-    ## Hottest call stacks
-
-    Call stacks ranked by time spent in their leaf frame.
-
-    |     % |  Time | Samples | Call stack                                     |
-    | ----: | ----: | ------: | ---------------------------------------------- |
-    | 33.3% | 5.0ms |       1 | \`factorial\` (src/index.ts:1) ← \`factorial\` (1) |
-    "
-  `)
-})
-
-test(`speedscopeProfileToMd microseconds unit is formatted as time`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({
-        unit: `microseconds`,
-        samples: [[0]],
-        weights: [1000],
-      }),
-    ],
-    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
-  })
-
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
-
-  expect(markdown).toContain(`ms`)
-})
-
-test(`speedscopeProfileToMd sampled profile with empty-stack samples are skipped`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({
-        samples: [[], [0], []],
-        weights: [100, 50, 100],
-      }),
-    ],
-    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
-  })
-
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
-
-  // Only the non-empty sample (50ms) is counted, not the empty-stack ones (100ms + 100ms)
-  expect(markdown).toContain(`50.0ms over 1 sample`)
-})
-
-test(`speedscopeProfileToMd with frame without file location renders as <native>`, () => {
-  const profile = makeProfile({
-    profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
-    frames: [{ name: `nativeFunc` }],
-  })
-
-  const markdown = speedscopeProfileToMd(profile, { showEntry: () => true })
-
-  expect(markdown).toContain(`\`<native>\``)
-})
-
-test(`speedscopeProfileToMd bytes unit produces heap profile with size formatting`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({
-        unit: `bytes`,
-        samples: [[0, 1], [0]],
-        weights: [1024, 512],
-      }),
-    ],
-    frames: [
-      { name: `allocMain`, file: `/project/src/index.ts`, line: 1 },
-      { name: `allocWork`, file: `/project/src/index.ts`, line: 10 },
-    ],
-  })
-
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
-
-  expect(markdown).toContain(`# Heap profile`)
-  expect(markdown).toContain(`Allocated`)
-  expect(markdown).toContain(`kB`)
-})
-
-test(`speedscopeProfileToMd none unit falls back to custom metric`, () => {
-  const profile = makeProfile({
-    profiles: [
-      makeSampledProfile({ unit: `none`, samples: [[0]], weights: [42] }),
-    ],
-    frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
-  })
-
-  const markdown = speedscopeProfileToMd(profile, { cwd: `/project/` })
-
-  expect(markdown).toContain(`# Count profile`)
-  expect(markdown).toContain(`Recorded`)
-  expect(markdown).toContain(`42 counts`)
 })

@@ -261,7 +261,7 @@ const computeNodeOrdinalToLocation = (
       continue
     }
 
-    // "shared" (`SharedFunctionInfo`) -> "script" (`Script`) → "name" (`URL`)
+    // "shared" (`SharedFunctionInfo`) -> "script" (`Script`) -> "name" (`URL`)
     const sharedNodeIndex = namedEdgeToNodeIndex(nodeIndex, `shared`)
     if (sharedNodeIndex === undefined) {
       continue
