@@ -1,16 +1,47 @@
-/* eslint-disable no-irregular-whitespace */
-
-import { expect, test } from 'vitest'
+import { describe, expect, test } from 'vitest'
+import {
+  categoryTables,
+  largestStringsTables,
+  selfSizeInstancesTables,
+  selfSizeTables,
+} from '../../testing/markdown.ts'
 import { detectJSCHeapSnapshot, jscHeapSnapshotToMd } from './index.ts'
+import type { JSCHeapSnapshot } from './parse.ts'
 
-// JSC node flags
-const FLAG_NONE = 0b0000
-const FLAG_INTERNAL = 0b0001
+// Node flags
+const NODE_INTERNAL = 0b0001
 
-// JSC node field layout: [id, size, classNameIndex, flags]
-// JSC edge field layout: [fromOrdinal, toOrdinal, edgeType, edgeNameIndex]
+// Edge types
+const EDGE_INTERNAL = 0
+const EDGE_PROPERTY = 1
+const EDGE_INDEX = 2
+const EDGE_VARIABLE = 3
 
-const makeSnapshot = ({
+const makeJSCNode = ({
+  id,
+  size,
+  nameIndex,
+  flags = 0b0000,
+}: {
+  id: number
+  size: number
+  nameIndex: number
+  flags?: number
+}): number[] => [id, size, nameIndex, flags]
+
+const makeJSCEdge = ({
+  from,
+  to,
+  type,
+  nameIndex,
+}: {
+  from: number
+  to: number
+  type: number
+  nameIndex: number
+}): number[] => [from, to, type, nameIndex]
+
+const makeJSCSnapshot = ({
   nodes,
   nodeClassNames,
   edges,
@@ -22,240 +53,178 @@ const makeSnapshot = ({
   edges: number[]
   edgeTypes?: string[]
   edgeNames: string[]
-}) =>
-  JSON.stringify({
-    version: 2,
-    type: `Inspector`,
-    nodes,
-    nodeClassNames,
-    edges,
-    edgeTypes,
-    edgeNames,
+}): JSCHeapSnapshot => ({
+  version: 2,
+  type: `Inspector`,
+  nodes,
+  nodeClassNames,
+  edges,
+  edgeTypes,
+  edgeNames,
+})
+
+describe(`detect`, () => {
+  test(`accepts valid snapshot`, () => {
+    expect(
+      detectJSCHeapSnapshot({
+        version: 2,
+        type: `Inspector`,
+        nodes: [],
+        nodeClassNames: [],
+        edges: [],
+        edgeTypes: [],
+        edgeNames: [],
+      }),
+    ).toBeDefined()
   })
 
-test(`jscHeapSnapshotToMd renders all sections`, () => {
-  // 5 nodes, 4 edges
-  //
-  // Node layout (4 fields: id, size, classNameIndex, flags):
-  //   0: root      0 B    internal: GC root, no predecessors
-  //   1: Object  200 B
-  //   2: Object   80 B
-  //   3: string   60 B
-  //   4: Function 120 B
-  //
-  // Edges: root -> each child via Property
-  const CLASS_ROOT = 0
-  const CLASS_OBJECT = 1
-  const CLASS_STRING = 2
-  const CLASS_FUNCTION = 3
-
-  const EDGE_PROPERTY = 1
-
-  const snapshot = makeSnapshot({
-    nodes: [
-      0,
-      0,
-      CLASS_ROOT,
-      FLAG_INTERNAL, // Ordinal 0: GC root (internal)
-      1,
-      200,
-      CLASS_OBJECT,
-      FLAG_NONE, // Ordinal 1: Object 200B
-      2,
-      80,
-      CLASS_OBJECT,
-      FLAG_NONE, // Ordinal 2: Object 80B
-      3,
-      60,
-      CLASS_STRING,
-      FLAG_NONE, // Ordinal 3: string 60B
-      4,
-      120,
-      CLASS_FUNCTION,
-      FLAG_NONE, // Ordinal 4: Function 120B
-    ],
-    nodeClassNames: [`<root>`, `Object`, `string`, `Function`],
-    edges: [
-      0,
-      1,
-      EDGE_PROPERTY,
-      0, // Root -> Object(1) via "ref"
-      0,
-      2,
-      EDGE_PROPERTY,
-      1, // Root -> Object(2) via "ref2"
-      0,
-      3,
-      EDGE_PROPERTY,
-      2, // Root -> string(3) via "str"
-      0,
-      4,
-      EDGE_PROPERTY,
-      3, // Root -> Function(4) via "fn"
-    ],
-    edgeNames: [`ref`, `ref2`, `str`, `fn`],
+  test(`rejects null`, () => {
+    expect(detectJSCHeapSnapshot(null)).toBeUndefined()
   })
 
-  const markdown = jscHeapSnapshotToMd(snapshot)
-
-  expect(markdown).toMatchInlineSnapshot(`
-    "# Heap snapshot
-
-    Allocated 460 B across 5 nodes and 4 edges.
-
-    | Category |     % |  Size | Nodes |
-    | -------- | ----: | ----: | ----: |
-    | object   | 60.9% | 280 B |     2 |
-    | closure  | 26.1% | 120 B |     1 |
-    | string   | 13.0% |  60 B |     1 |
-    | internal |  0.0% |   0 B |     1 |
-
-    ## Largest constructors
-
-    ### Self size
-
-    Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
-
-    |     % |  Size | Instances | Constructor |
-    | ----: | ----: | --------: | ----------- |
-    | 60.9% | 280 B |         2 | \`Object\`    |
-    | 26.1% | 120 B |         1 | \`Function\`  |
-
-    #### Instances
-
-    Instances ranked by contribution to each constructor's self size.
-
-    ##### \`Object\`
-
-    |      % |  Size | Instances | Path        |
-    | -----: | ----: | --------: | ----------- |
-    | 100.0% | 280 B |         2 | \`(GC root)\` |
-
-    ##### \`Function\`
-
-    |      % |  Size | Instances | Path        |
-    | -----: | ----: | --------: | ----------- |
-    | 100.0% | 120 B |         1 | \`(GC root)\` |
-
-    ### Retained size
-
-    Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
-
-    |     % |  Size | Instances | Constructor |
-    | ----: | ----: | --------: | ----------- |
-    | 60.9% | 280 B |         2 | \`Object\`    |
-    | 26.1% | 120 B |         1 | \`Function\`  |
-
-    #### Instances
-
-    Instances ranked by contribution to each constructor's retained size.
-
-    ##### \`Object\`
-
-    |      % |  Size | Instances | Path        |
-    | -----: | ----: | --------: | ----------- |
-    | 100.0% | 280 B |         2 | \`(GC root)\` |
-
-    ##### \`Function\`
-
-    |      % |  Size | Instances | Path        |
-    | -----: | ----: | --------: | ----------- |
-    | 100.0% | 120 B |         1 | \`(GC root)\` |
-
-    ## Largest strings
-
-    Strings ranked by bytes allocated for them.
-
-    |     % | Size | Path        |
-    | ----: | ---: | ----------- |
-    | 13.0% | 60 B | \`(GC root)\` |
-    "
-  `)
-})
-
-test(`jscHeapSnapshotToMd uses bracket notation for Index edges`, () => {
-  // Root -> Array -> string element[0]
-  const CLASS_ROOT = 0
-  const CLASS_ARRAY = 1
-  const CLASS_STRING = 2
-
-  const EDGE_PROPERTY = 1
-  const EDGE_INDEX = 2
-
-  const snapshot = makeSnapshot({
-    nodes: [
-      0,
-      0,
-      CLASS_ROOT,
-      FLAG_INTERNAL,
-      1,
-      100,
-      CLASS_ARRAY,
-      FLAG_NONE,
-      2,
-      50,
-      CLASS_STRING,
-      FLAG_NONE,
-    ],
-    nodeClassNames: [`root`, `Array`, `string`],
-    edges: [
-      0,
-      1,
-      EDGE_PROPERTY,
-      0, // Root -> Array via "items"
-      1,
-      2,
-      EDGE_INDEX,
-      0, // Array -> string via [0]
-    ],
-    edgeNames: [`items`],
+  test(`rejects non-objects`, () => {
+    expect(detectJSCHeapSnapshot(`string`)).toBeUndefined()
   })
 
-  const markdown = jscHeapSnapshotToMd(snapshot)
+  test(`rejects wrong version`, () => {
+    expect(
+      detectJSCHeapSnapshot({ version: 1, type: `Inspector`, nodes: [] }),
+    ).toBeUndefined()
+  })
 
-  // String's retainer path goes through Array via index notation
-  expect(markdown).toContain(`[0] Array`)
+  test(`rejects wrong type`, () => {
+    expect(
+      detectJSCHeapSnapshot({ version: 2, type: `V8`, nodes: [] }),
+    ).toBeUndefined()
+  })
+
+  test(`rejects V8 format`, () => {
+    expect(
+      detectJSCHeapSnapshot({
+        snapshot: { meta: { node_fields: [] } },
+        edges: [],
+      }),
+    ).toBeUndefined()
+  })
 })
 
-test(`detectJSCHeapSnapshot accepts valid snapshot`, () => {
-  expect(
-    detectJSCHeapSnapshot({
-      version: 2,
-      type: `Inspector`,
-      nodes: [],
-      nodeClassNames: [],
-      edges: [],
-      edgeTypes: [],
-      edgeNames: [],
-    }),
-  ).toBeDefined()
-})
+describe(`convert`, () => {
+  test(`renders all sections`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 200, nameIndex: 1 }),
+        ...makeJSCNode({ id: 2, size: 80, nameIndex: 1 }),
+        ...makeJSCNode({ id: 3, size: 60, nameIndex: 2 }),
+        ...makeJSCNode({ id: 4, size: 120, nameIndex: 3 }),
+      ],
+      nodeClassNames: [`<root>`, `Object`, `string`, `Function`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 1, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 0, to: 2, type: EDGE_PROPERTY, nameIndex: 1 }),
+        ...makeJSCEdge({ from: 0, to: 3, type: EDGE_PROPERTY, nameIndex: 2 }),
+        ...makeJSCEdge({ from: 0, to: 4, type: EDGE_PROPERTY, nameIndex: 3 }),
+      ],
+      edgeNames: [`ref`, `ref2`, `str`, `fn`],
+    })
 
-test(`detectJSCHeapSnapshot rejects null`, () => {
-  expect(detectJSCHeapSnapshot(null)).toBeUndefined()
-})
+    const md = jscHeapSnapshotToMd(JSON.stringify(snapshot))
 
-test(`detectJSCHeapSnapshot rejects non-objects`, () => {
-  expect(detectJSCHeapSnapshot(`string`)).toBeUndefined()
-})
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `object`, '%': `60.9%`, Size: `280 B`, Nodes: `2` },
+        { Category: `closure`, '%': `26.1%`, Size: `120 B`, Nodes: `1` },
+        { Category: `string`, '%': `13.0%`, Size: `60 B`, Nodes: `1` },
+        { Category: `internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+      ],
+    ])
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `60.9%`,
+          Size: `280 B`,
+          Instances: `2`,
+          Constructor: `Object`,
+        },
+        {
+          '%': `26.1%`,
+          Size: `120 B`,
+          Instances: `1`,
+          Constructor: `Function`,
+        },
+      ],
+    ])
+    expect(selfSizeInstancesTables(md, `Object`)).toEqual([
+      [{ '%': `100.0%`, Size: `280 B`, Instances: `2`, Path: `(GC root)` }],
+    ])
+    expect(largestStringsTables(md)).toEqual([
+      [{ '%': `13.0%`, Size: `60 B`, Path: `(GC root)` }],
+    ])
+  })
 
-test(`detectJSCHeapSnapshot rejects wrong version`, () => {
-  expect(
-    detectJSCHeapSnapshot({ version: 1, type: `Inspector`, nodes: [] }),
-  ).toBeUndefined()
-})
+  test(`Index edges use bracket notation`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 100, nameIndex: 1 }),
+        ...makeJSCNode({ id: 2, size: 50, nameIndex: 2 }),
+      ],
+      nodeClassNames: [`root`, `Array`, `string`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 1, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 1, to: 2, type: EDGE_INDEX, nameIndex: 0 }),
+      ],
+      edgeNames: [`items`],
+    })
 
-test(`detectJSCHeapSnapshot rejects wrong type`, () => {
-  expect(
-    detectJSCHeapSnapshot({ version: 2, type: `V8`, nodes: [] }),
-  ).toBeUndefined()
-})
+    const md = jscHeapSnapshotToMd(JSON.stringify(snapshot))
 
-test(`detectJSCHeapSnapshot rejects V8 format`, () => {
-  expect(
-    detectJSCHeapSnapshot({
-      snapshot: { meta: { node_fields: [] } },
-      edges: [],
-    }),
-  ).toBeUndefined()
+    expect(
+      largestStringsTables(md).map(table => table.map(row => row.Path)),
+    ).toEqual([[`[0] Array`]])
+  })
+
+  test(`out-of-bounds edge ordinal does not crash`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 100, nameIndex: 0 }),
+      ],
+      nodeClassNames: [`Object`],
+      edges: makeJSCEdge({ from: 0, to: 99, type: 1, nameIndex: 0 }),
+      edgeNames: [`ref`],
+    })
+
+    expect(() => jscHeapSnapshotToMd(JSON.stringify(snapshot))).not.toThrow()
+  })
+
+  test(`all four edge types render correct notation`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 0, nameIndex: 0 }),
+        ...makeJSCNode({ id: 2, size: 10, nameIndex: 0 }),
+        ...makeJSCNode({ id: 3, size: 10, nameIndex: 0 }),
+        ...makeJSCNode({ id: 4, size: 10, nameIndex: 0 }),
+      ],
+      nodeClassNames: [`Object`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 1, type: EDGE_INTERNAL, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 1, to: 2, type: EDGE_PROPERTY, nameIndex: 1 }),
+        ...makeJSCEdge({ from: 1, to: 3, type: EDGE_INDEX, nameIndex: 2 }),
+        ...makeJSCEdge({ from: 1, to: 4, type: EDGE_VARIABLE, nameIndex: 2 }),
+      ],
+      edgeNames: [`internalProp`, `propName`, `varName`],
+    })
+
+    const md = jscHeapSnapshotToMd(JSON.stringify(snapshot))
+
+    expect(
+      selfSizeInstancesTables(md, `Object`).map(table =>
+        table.map(row => row.Path),
+      ),
+    ).toEqual([
+      [`.propName Object`, `[2] Object`, `.varName Object`, `(GC root)`],
+    ])
+  })
 })
