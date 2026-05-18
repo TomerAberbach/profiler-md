@@ -159,9 +159,11 @@ $ npm i -g profiler-md
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
-       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
-       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
-       --no-pager] [(--color | --no-color)] ([FILE] | BASE CURRENT)
+       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [
+       --show-synthetic] [--show-external-impl] [--show-paths GLOB...] [
+       --hide-paths GLOB...] [--show-names REGEX...] [--hide-names REGEX...] [
+       --source-maps GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB
+       ...] [--no-pager] [(--color | --no-color)] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -173,6 +175,15 @@ Converts performance profiles to human and LLM friendly Markdown.
   --base-url STRING           Base URL or path to show paths relative to, or 
                               "auto" to infer the profiled files' common 
                               ancestor directory (default: cwd)
+  --show-synthetic            Include synthetic entries like (root)
+  --show-external-impl        Include stdlib/third-party entries never directly 
+                              called
+  --show-paths GLOB           Show only entries with matching URL pathname 
+                              (repeatable)
+  --hide-paths GLOB           Hide entries with matching URL pathname 
+                              (repeatable)
+  --show-names REGEX          Show only entries with matching name (repeatable)
+  --hide-names REGEX          Hide entries with matching name (repeatable)
   --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
                               locations (repeatable)
   --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 

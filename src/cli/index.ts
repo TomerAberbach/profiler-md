@@ -19,6 +19,12 @@ try {
     thirdParty,
     match,
     sourceMaps,
+    showSynthetic,
+    showExternalImplementation,
+    showPaths,
+    hidePaths,
+    showNames,
+    hideNames,
     pager,
     input,
   } = parseArgs()
@@ -43,6 +49,12 @@ try {
     thirdParty,
     match,
     sourceMaps,
+    showSynthetic,
+    showExternalImplementation,
+    showPaths,
+    hidePaths,
+    showNames,
+    hideNames,
   })
   let markdown
   if (currentPath === undefined) {

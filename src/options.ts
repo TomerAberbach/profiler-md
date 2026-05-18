@@ -368,7 +368,7 @@ export const defaultCategorizeEntries = (
 /**
  * Returns whether to include the given entry in the Markdown output.
  *
- * Excludes synthetic and external-private entries.
+ * Excludes synthetic and external implementation detail entries.
  */
 export const defaultShowEntry = (
   entry: DeepReadonly<AggregatedProfileEntry>,

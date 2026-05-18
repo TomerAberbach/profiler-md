@@ -225,6 +225,101 @@ test.concurrent(
 )
 
 test.concurrent(
+  `--show-synthetic includes synthetic entries like (root)`,
+  async () => {
+    const [{ stdout: withoutFlag }, { stdout: withFlag }] = await Promise.all([
+      runCli([cpuProfilePath]),
+      runCli([cpuProfilePath, `--show-synthetic`]),
+    ])
+
+    expect(withoutFlag).not.toContain(`(root)`)
+    expect(withFlag).toContain(`(root)`)
+  },
+)
+
+test.concurrent(
+  `--show-external-impl includes external implementation detail entries`,
+  async () => {
+    const [{ stdout: withoutFlag }, { stdout: withFlag }] = await Promise.all([
+      runCli([cpuProfilePath]),
+      runCli([cpuProfilePath, `--show-external-impl`]),
+    ])
+
+    expect(withFlag.length).toBeGreaterThan(withoutFlag.length)
+  },
+)
+
+test.concurrent(`--hide-names hides entries with matching name`, async () => {
+  const { stdout } = await runCli([
+    cpuProfilePath,
+    `--hide-names`,
+    `typeCheckProject`,
+  ])
+
+  expect(stdout).not.toContain(`typeCheckProject`)
+})
+
+test.concurrent(
+  `--hide-paths hides entries with pathname matching an unanchored glob`,
+  async () => {
+    const { stdout } = await runCli([
+      cpuProfilePath,
+      `--hide-paths`,
+      `node_modules/typescript`,
+    ])
+
+    expect(stdout).not.toContain(`node_modules/typescript`)
+  },
+)
+
+test.concurrent(
+  `--show-names shows only matching entries, overriding default hiding`,
+  async () => {
+    const [{ stdout: withoutFlag }, { stdout: withFlag }] = await Promise.all([
+      runCli([cpuProfilePath]),
+      runCli([cpuProfilePath, `--show-names`, String.raw`\(root\)`]),
+    ])
+
+    expect(withoutFlag).not.toContain(`(root)`)
+    expect(withFlag).toContain(`(root)`)
+    expect(withFlag).not.toContain(`typeCheckProject`)
+  },
+)
+
+test.concurrent(
+  `--show-synthetic rescues synthetic entries alongside restrictive --show-names`,
+  async () => {
+    const { stdout } = await runCli([
+      cpuProfilePath,
+      `--show-names`,
+      `typeCheckProject`,
+      `--show-synthetic`,
+    ])
+
+    expect(stdout).toContain(`typeCheckProject`)
+    expect(stdout).toContain(`(root)`)
+  },
+)
+
+test.concurrent(
+  `--hide-paths wins over --show-paths when both match`,
+  async () => {
+    const { stdout } = await runCli([
+      cpuProfilePath,
+      // `zod` is the workload directory containing all profiled files, so the
+      // hidden subset leaves other shown entries behind
+      `--show-paths`,
+      `zod`,
+      `--hide-paths`,
+      `node_modules/typescript`,
+    ])
+
+    expect(stdout).toContain(`typeCheckProject`)
+    expect(stdout).not.toContain(`node_modules/typescript`)
+  },
+)
+
+test.concurrent(
   `--match changes how entries match across diffed profiles`,
   async () => {
     // Collapsing every location to `x` must not break self-diff matching: every

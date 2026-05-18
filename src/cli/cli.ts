@@ -24,6 +24,25 @@ export const helpTopics = [...formats, ...languageTopics]
 
 export type RegexReplacement = readonly [RegExp, string]
 
+const regex = (flagName: string): ValueParser<`sync`, RegExp> => ({
+  mode: `sync`,
+  metavar: `REGEX`,
+  placeholder: /(?:)/u,
+  parse: input => {
+    try {
+      return { success: true, value: new RegExp(input, `u`) }
+    } catch (error) {
+      return {
+        success: false,
+        error: message`Invalid ${text(flagName)} regex ${value(input)}: ${text(
+          error instanceof Error ? error.message : String(error),
+        )}.`,
+      }
+    }
+  },
+  format: value => value.source,
+})
+
 const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
   mode: `sync`,
   metavar: `REGEX=REPLACEMENT`,
@@ -86,6 +105,42 @@ const parser = object({
   baseURL: optional(
     option(`--base-url`, string(), {
       description: message`Base URL or path to show paths relative to, or "auto" to infer the profiled files' common ancestor directory (default: cwd)`,
+    }),
+  ),
+  showSynthetic: withDefault(
+    optional(
+      flag(`--show-synthetic`, {
+        description: message`Include synthetic entries like (root)`,
+      }),
+    ),
+    false,
+  ),
+  showExternalImplementation: withDefault(
+    optional(
+      flag(`--show-external-impl`, {
+        description: message`Include stdlib/third-party entries never directly called`,
+      }),
+    ),
+    false,
+  ),
+  showPaths: multiple(
+    option(`--show-paths`, string({ metavar: `GLOB` }), {
+      description: message`Show only entries with matching URL pathname (repeatable)`,
+    }),
+  ),
+  hidePaths: multiple(
+    option(`--hide-paths`, string({ metavar: `GLOB` }), {
+      description: message`Hide entries with matching URL pathname (repeatable)`,
+    }),
+  ),
+  showNames: multiple(
+    option(`--show-names`, regex(`--show-names`), {
+      description: message`Show only entries with matching name (repeatable)`,
+    }),
+  ),
+  hideNames: multiple(
+    option(`--hide-names`, regex(`--hide-names`), {
+      description: message`Hide entries with matching name (repeatable)`,
     }),
   ),
   sourceMaps: multiple(
