@@ -14,7 +14,7 @@ const matrix = formatTable(
     ([id, { name, aliases, formats: langFormats, examples }]) => [
       [{ id, name }, ...(aliases ?? [])]
         .map(language => `[${language.name}](docs/languages/${language.id}.md)`)
-        .join(`/`),
+        .join(`\u2060/\u2060`),
       langFormats
         .map(format => {
           const link = `[${formats.get(format)!.name}](docs/formats/${format}.md)`
@@ -25,9 +25,9 @@ const matrix = formatTable(
           const exampleLinks = formatExamples
             .map(({ filename, label }) => `[${label}](examples/${filename}.md)`)
             .join(`, `)
-          return `${link} (${exampleLinks})`
+          return `${link} (${exampleLinks})`.replaceAll(` `, `\u00A0`)
         })
-        .join(`, `),
+        .join(`<br>`),
     ],
   ),
 )
