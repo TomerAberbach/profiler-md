@@ -1,9 +1,8 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type { JsonFormatConverter } from '../converter.ts'
 import { aggregateWebKitTimelineRecording } from './aggregate.ts'
-import { formatWebKitTimelineRecording } from './format.ts'
 import type { WebKitTimelineRecording } from './parse.ts'
 
-export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
+const matchesWebKitTimelineRecording = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
     return false
   }
@@ -28,11 +27,9 @@ export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
   return true
 }
 
-export const webkitTimelineRecordingToMd = (
-  recording: WebKitTimelineRecording,
-  options: NormalizedProfileToMdOptions,
-): string =>
-  formatWebKitTimelineRecording(
-    aggregateWebKitTimelineRecording(recording, options),
-    options,
-  )
+export const webkitTimelineRecordingConverter = {
+  title: `WebKit timeline recording`,
+  kind: `json`,
+  matches: matchesWebKitTimelineRecording,
+  aggregate: aggregateWebKitTimelineRecording,
+} satisfies JsonFormatConverter<WebKitTimelineRecording>

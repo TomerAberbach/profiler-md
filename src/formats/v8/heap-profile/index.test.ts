@@ -9,7 +9,8 @@ import {
   selfSizeTables,
   totalSizeTables,
 } from '../../../testing/markdown.ts'
-import { matchesV8HeapProfile, v8HeapProfileToMd } from './index.ts'
+import { convertToMd } from '../../testing/convert.ts'
+import { v8HeapProfileConverter } from './index.ts'
 import type { V8HeapProfileNode } from './parse.ts'
 
 const root = (children: V8HeapProfileNode[]): V8HeapProfileNode => ({
@@ -105,7 +106,7 @@ const baseProfile = {
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
     expect(
-      matchesV8HeapProfile({
+      v8HeapProfileConverter.matches({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
         samples: [],
       }),
@@ -113,24 +114,26 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(matchesV8HeapProfile(null)).toBe(false)
+    expect(v8HeapProfileConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesV8HeapProfile(42)).toBe(false)
+    expect(v8HeapProfileConverter.matches(42)).toBe(false)
   })
 
   test(`rejects missing head`, () => {
-    expect(matchesV8HeapProfile({ samples: [] })).toBe(false)
+    expect(v8HeapProfileConverter.matches({ samples: [] })).toBe(false)
   })
 
   test(`rejects head: null`, () => {
-    expect(matchesV8HeapProfile({ head: null, samples: [] })).toBe(false)
+    expect(v8HeapProfileConverter.matches({ head: null, samples: [] })).toBe(
+      false,
+    )
   })
 
   test(`rejects missing samples`, () => {
     expect(
-      matchesV8HeapProfile({
+      v8HeapProfileConverter.matches({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
       }),
     ).toBe(false)
@@ -201,7 +204,8 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -287,7 +291,8 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 4, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -342,7 +347,8 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 3, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -412,7 +418,8 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -477,7 +484,8 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -502,7 +510,8 @@ describe(`convert`, () => {
     // `node:internal/` frames are excluded from display by default. Their
     // allocations still count toward the category summary. The `node:fs` frame
     // (non-internal Node built-in) is NOT filtered.
-    const defaultOutput = v8HeapProfileToMd(
+    const defaultOutput = convertToMd(
+      v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -535,7 +544,8 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
     // because its only direct caller (`funcB`) is excluded.
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -550,7 +560,8 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -563,7 +574,8 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -576,7 +588,8 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = v8HeapProfileToMd(
+    const md = convertToMd(
+      v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,

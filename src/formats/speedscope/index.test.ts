@@ -9,7 +9,8 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { matchesSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
+import { convertToMd } from '../testing/convert.ts'
+import { speedscopeConverter } from './index.ts'
 import type {
   SpeedscopeEvent,
   SpeedscopeEventedProfile,
@@ -62,7 +63,7 @@ const makeEventedProfile = ({
 describe(`matches`, () => {
   test(`accepts valid speedscope file`, () => {
     expect(
-      matchesSpeedscopeProfile(
+      speedscopeConverter.matches(
         makeSpeedscopeProfile({
           profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
           frames: [{ name: `main` }],
@@ -72,16 +73,16 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(matchesSpeedscopeProfile(null)).toBe(false)
+    expect(speedscopeConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesSpeedscopeProfile(42)).toBe(false)
+    expect(speedscopeConverter.matches(42)).toBe(false)
   })
 
   test(`rejects wrong $schema`, () => {
     expect(
-      matchesSpeedscopeProfile({
+      speedscopeConverter.matches({
         $schema: `https://other.app/schema.json`,
         profiles: [],
         shared: { frames: [] },
@@ -90,12 +91,14 @@ describe(`matches`, () => {
   })
 
   test(`rejects missing profiles`, () => {
-    expect(matchesSpeedscopeProfile({ nodes: [], timeDeltas: [] })).toBe(false)
+    expect(speedscopeConverter.matches({ nodes: [], timeDeltas: [] })).toBe(
+      false,
+    )
   })
 
   test(`rejects null shared`, () => {
     expect(
-      matchesSpeedscopeProfile({
+      speedscopeConverter.matches({
         $schema: `https://www.speedscope.app/file-format-schema.json`,
         profiles: [],
         shared: null,
@@ -119,7 +122,8 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -185,7 +189,8 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -225,7 +230,8 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -251,7 +257,8 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -280,7 +287,8 @@ describe(`convert`, () => {
       frames: [{ name: `factorial`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -313,7 +321,8 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -336,7 +345,8 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -356,7 +366,8 @@ describe(`convert`, () => {
       frames: [{ name: `unknownFunc` }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         showEntry: () => true,
@@ -383,7 +394,8 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -405,7 +417,8 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -434,7 +447,8 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -449,7 +463,8 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -462,7 +477,8 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -475,7 +491,8 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = speedscopeProfileToMd(
+    const md = convertToMd(
+      speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,

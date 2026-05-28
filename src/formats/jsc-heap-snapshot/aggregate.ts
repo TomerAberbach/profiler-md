@@ -8,7 +8,7 @@ import type { JSCHeapSnapshot } from './parse.ts'
 
 export const aggregateJSCHeapSnapshot = (
   snapshot: JSCHeapSnapshot,
-): AggregatedHeapSnapshot => {
+): AggregatedHeapSnapshot[] => {
   const { nodes, nodeClassNames, edges, edgeTypes, edgeNames } = snapshot
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const rawEdgeCount = edges.length / EDGE_FIELD_COUNT
@@ -70,7 +70,7 @@ export const aggregateJSCHeapSnapshot = (
     }
   }
 
-  return snapshotAggregator.aggregate()
+  return [snapshotAggregator.aggregate()]
 }
 
 const computeClassNameIndexToCategoryOrdinal = (

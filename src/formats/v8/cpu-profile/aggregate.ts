@@ -7,7 +7,7 @@ import type { V8CpuProfile, V8CpuProfileNode } from './parse.ts'
 export const aggregateV8CpuProfile = (
   profile: V8CpuProfile,
   options: NormalizedProfileToMdOptions,
-): AggregatedProfile => {
+): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<V8CpuProfileNode>(
     {
       metrics: [MICROSECONDS],
@@ -80,5 +80,5 @@ export const aggregateV8CpuProfile = (
     })
   }
 
-  return profileAggregator.aggregate()
+  return [profileAggregator.aggregate()]
 }

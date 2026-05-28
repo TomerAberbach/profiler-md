@@ -1,9 +1,8 @@
-import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import type { JsonFormatConverter } from '../../converter.ts'
 import { aggregateV8HeapSnapshot } from './aggregate.ts'
-import { formatV8HeapSnapshot } from './format.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 
-export const matchesV8HeapSnapshot = (json: unknown): boolean => {
+const matchesV8HeapSnapshot = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
     return false
   }
@@ -29,8 +28,9 @@ export const matchesV8HeapSnapshot = (json: unknown): boolean => {
   return true
 }
 
-export const v8HeapSnapshotToMd = (
-  snapshot: V8HeapSnapshot,
-  options: NormalizedProfileToMdOptions,
-): string =>
-  formatV8HeapSnapshot(aggregateV8HeapSnapshot(snapshot, options), options)
+export const v8HeapSnapshotConverter = {
+  title: `V8 heap snapshot`,
+  kind: `json`,
+  matches: matchesV8HeapSnapshot,
+  aggregate: aggregateV8HeapSnapshot,
+} satisfies JsonFormatConverter<V8HeapSnapshot>

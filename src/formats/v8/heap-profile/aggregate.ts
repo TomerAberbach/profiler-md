@@ -7,7 +7,7 @@ import type { V8HeapProfile, V8HeapProfileNode } from './parse.ts'
 export const aggregateV8HeapProfile = (
   profile: V8HeapProfile,
   options: NormalizedProfileToMdOptions,
-): AggregatedProfile => {
+): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<V8HeapProfileNode>(
     {
       metrics: [BYTES],
@@ -58,5 +58,5 @@ export const aggregateV8HeapProfile = (
     profileAggregator.addSample({ values: [size], nodes })
   }
 
-  return profileAggregator.aggregate()
+  return [profileAggregator.aggregate()]
 }

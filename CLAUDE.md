@@ -24,12 +24,12 @@ profiler-md
 │   ├── index.ts              # API entry point
 │   │
 │   ├── formats/              # Individual profile format implementations
-│   │   ├── index.ts          # Format registry, profileToMd, profileToMdAsync
+│   │   ├── index.ts          # Format registry; profileToMd(Async)/diffProfiles(Async)
+│   │   ├── converter.ts      # Converter types + aggregate/format/convertToMd runner
 │   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── aggregate.ts  # Aggregates profile data
-│   │       ├── format.ts     # Formats aggregated profile data as Markdown
-│   │       └── index.ts      # End-to-end conversion using the above
+│   │       └── index.ts      # Exports the format's converter (matches/parse/aggregate)
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
@@ -142,19 +142,21 @@ pnpm bench ./src/fixtures/node.cpuprofile
 
 - [ ] Create `src/formats/<name>/parse.ts`: typed data types (and a `parse*`
       helper for binary formats; JSON formats just declare types)
-- [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic
-- [ ] Create `src/formats/<name>/format.ts`: Markdown formatting
-- [ ] Create `src/formats/<name>/index.ts`: exports `matches*` + `*ToMd` for
-      JSON formats; `parse*` + `matches*` + `*ToMd` for binary formats
-- [ ] Create `src/formats/<name>/index.test.ts`: tests for matches and
-      conversion
+- [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic (returns an
+      `AggregatedProfile`/`AggregatedProfile[]`/`AggregatedHeapSnapshot`;
+      formatting is centralized in `src/formats/converter.ts`)
+- [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
+      object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
+      `../converter.ts`) with `title`, `kind`, `shape`, `matches`, `aggregate`
+      (plus `parse` for binary formats)
+- [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
+      and conversion via the `convertToMd` runner from `../converter.ts`
 
 ### CLI and programmatic API
 
 - [ ] Register in `src/formats/index.ts`:
-  - Import `matches*` and `*ToMd` (plus `parse*` for binary formats) at the top
-  - Add entry to `formatConverters` with `title`, `kind`, `matches`, `toMd`
-    (plus `parse` for binary formats)
+  - Import `<name>Converter` at the top
+  - Add it to `formatConverters` keyed by format ID
   - Add format ID to the `formats` tuple
 - [ ] Register in `src/cli/languages.ts`:
   - Add format ID to the relevant language entries in `languages` map

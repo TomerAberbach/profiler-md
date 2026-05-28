@@ -6,7 +6,7 @@ import type { Pprof, PprofFunction } from './parse.ts'
 export const aggregatePprof = (
   { valueTypes, samples, locations, functions }: Pprof,
   options: NormalizedProfileToMdOptions,
-): AggregatedProfile => {
+): AggregatedProfile[] => {
   const nonCountValueTypes = [...valueTypes.entries()].filter(
     ([, valueType]) => valueType.unit.toLowerCase() !== `count`,
   )
@@ -53,5 +53,5 @@ export const aggregatePprof = (
     })
   }
 
-  return profileAggregator.aggregate()
+  return [profileAggregator.aggregate()]
 }

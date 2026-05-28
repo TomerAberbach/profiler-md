@@ -204,6 +204,7 @@ export class SnapshotAggregator {
     )
 
     return {
+      kind: `snapshot`,
       totalSize: this.#totalSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
@@ -394,6 +395,8 @@ export type AggregatedClosure = AggregatedSnapshotNode & {
 }
 
 export type AggregatedHeapSnapshot = {
+  kind: `snapshot`
+
   /** Total bytes allocated in the snapshot. */
   totalSize: number
 
