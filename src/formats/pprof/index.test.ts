@@ -126,7 +126,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -171,7 +171,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -191,7 +191,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     // Only the 100µs sample should be counted.
     expect(selfTimeTables(md)).toEqual([
@@ -218,7 +218,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     // Function definition location has no line, but execution lines from
     // samples still do.
@@ -250,7 +250,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -292,7 +292,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000, 1] }],
     })
 
-    const md = pprofToMd(data, { cwd: `/project` })
+    const md = pprofToMd(data, { baseURL: `/project` })
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -325,7 +325,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = pprofToMd(basePprof, { cwd: `/project`, topN: 1 })
+    const md = pprofToMd(basePprof, { baseURL: `/project`, topN: 1 })
 
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
@@ -333,7 +333,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcA` is excluded; `funcB`'s total still shows
     const md = pprofToMd(basePprof, {
-      cwd: `/project`,
+      baseURL: `/project`,
       showEntry: row => defaultShowEntry(row) && row.name !== `funcA`,
     })
 
@@ -343,8 +343,8 @@ describe(`options`, () => {
     expect(callersTables(md, `funcB`)).toHaveLength(0)
   })
 
-  test(`cwd: null shows absolute paths`, () => {
-    const md = pprofToMd(basePprof, { cwd: null })
+  test(`baseURL: null shows absolute paths`, () => {
+    const md = pprofToMd(basePprof, { baseURL: null })
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),

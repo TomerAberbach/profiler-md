@@ -26,14 +26,19 @@ if (check) {
   }
 }
 
-const otherCwds = new Map([[`rust.pprof`, `/Users/mike/code/mikecluck`]])
+const otherBaseURLs = new Map([
+  [`rust.pprof`, `/Users/mike/code/mikecluck`],
+  [`webkit-timeline-recording.json`, `https://tomeraberba.ch`],
+])
 
 for (const filename of fixtureFilenames) {
   const fixturePath = join(`src/fixtures`, filename)
   const examplePath = join(`examples`, `${filename}.md`)
 
   const markdown = execSync(
-    `node src/cli/index.ts ${fixturePath} --cwd ${otherCwds.get(filename) ?? `/Users/tomer/Documents/work/code`}`,
+    `node src/cli/index.ts ${fixturePath} --base-url ${
+      otherBaseURLs.get(filename) ?? `/Users/tomer/Documents/work/code`
+    }`,
     { encoding: `utf8` },
   )
 

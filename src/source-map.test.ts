@@ -19,13 +19,13 @@ const makeSourceMap = (sourceMap: Partial<SourceMap> = {}): SourceMap => ({
 })
 
 const makeNormalizedOptions = ({
-  cwd = `/`,
+  baseURL = `/`,
   sourceMaps,
 }: Pick<
   ProfileToMdOptions,
-  `sourceMaps` | `cwd`
+  `sourceMaps` | `baseURL`
 >): NormalizedProfileToMdOptions =>
-  normalizeProfileToMdOptions({ cwd, sourceMaps })
+  normalizeProfileToMdOptions({ baseURL, sourceMaps })
 
 test(`normalizeSourceMaps drops entries with no file field`, () => {
   const sourceMaps = normalizeSourceMaps([makeSourceMap()])
@@ -278,7 +278,7 @@ test(`sourceMapProfileLocation uses absolute URL source directly`, () => {
   })
 })
 
-test(`sourceMapProfileLocation resolves relative source against cwd`, () => {
+test(`sourceMapProfileLocation resolves relative source against baseURL`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -293,7 +293,7 @@ test(`sourceMapProfileLocation resolves relative source against cwd`, () => {
       line: 1,
       column: 1,
     },
-    makeNormalizedOptions({ sourceMaps, cwd: `/project` }),
+    makeNormalizedOptions({ sourceMaps, baseURL: `/project` }),
   )
 
   expect(mappedLocation).toStrictEqual({
@@ -303,7 +303,7 @@ test(`sourceMapProfileLocation resolves relative source against cwd`, () => {
   })
 })
 
-test(`sourceMapProfileLocation returns input when source is relative and cwd is absent`, () => {
+test(`sourceMapProfileLocation returns input when source is relative and baseURL is absent`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     url: new URL(url),
@@ -314,7 +314,7 @@ test(`sourceMapProfileLocation returns input when source is relative and cwd is 
 
   const mappedLocation = sourceMapProfileLocation(
     location,
-    makeNormalizedOptions({ sourceMaps, cwd: null }),
+    makeNormalizedOptions({ sourceMaps, baseURL: null }),
   )
 
   expect(mappedLocation).toStrictEqual(location)

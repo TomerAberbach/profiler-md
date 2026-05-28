@@ -80,7 +80,7 @@ export const formatProfileLocation = (
   location: ProfileLocation | undefined,
   options: NormalizedProfileToMdOptions,
 ): string => {
-  const { cwd } = options
+  const { baseURL } = options
 
   if (!location) {
     return inlineCode(`<native>`)
@@ -89,11 +89,13 @@ export const formatProfileLocation = (
   location = sourceMapProfileLocation(location, options)
 
   let path: string
-  if (location.url.protocol === `file:`) {
-    path = location.url.pathname
-    if (cwd !== undefined && path.startsWith(cwd)) {
-      path = path.slice(cwd.length)
-    }
+  if (baseURL === undefined) {
+    path =
+      location.url.protocol === `file:`
+        ? location.url.pathname
+        : location.url.href
+  } else if (isSameOrigin(baseURL, location.url)) {
+    path = relativeURLPath(baseURL.pathname, location.url.pathname)
   } else {
     path = location.url.href
   }
@@ -106,4 +108,38 @@ export const formatProfileLocation = (
   }
 
   return path || inlineCode(`<native>`)
+}
+
+const isSameOrigin = (url1: URL, url2: URL): boolean => {
+  if (url1.protocol !== url2.protocol) {
+    return false
+  }
+
+  // Opaque origins (file:, node:, wasm:, etc.) all report `null`. Compare
+  // protocol alone for file: URLs, reject all other opaque pairs.
+  if (url1.origin === `null`) {
+    return url1.protocol === `file:`
+  }
+
+  return url1.origin === url2.origin
+}
+
+const relativeURLPath = (from: string, to: string): string => {
+  // Drop the last segment of `from` (the filename or trailing empty string
+  // after a `/`) so we compute relative to the directory.
+  const fromParts = from.split(`/`).slice(0, -1)
+  const toParts = to.split(`/`)
+
+  let common = 0
+  while (
+    common < fromParts.length &&
+    common < toParts.length &&
+    fromParts[common] === toParts[common]
+  ) {
+    common++
+  }
+
+  const ups = fromParts.length - common
+  const remaining = toParts.slice(common)
+  return [...Array.from({ length: ups }, () => `..`), ...remaining].join(`/`)
 }

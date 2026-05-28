@@ -9,19 +9,22 @@ import { makeFileReference } from '../location.ts'
 
 export type BuildOptionsFlags = {
   topN?: number
-  cwd?: string
+  baseURL?: string
   thirdParty: readonly string[]
   sourceMaps: readonly string[]
 }
 
 export const buildOptions = async ({
   topN,
-  cwd,
+  baseURL,
   thirdParty,
   sourceMaps,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
-  cwd,
+  baseURL:
+    baseURL !== undefined && !URL.canParse(baseURL)
+      ? resolve(baseURL)
+      : baseURL,
   categorizeEntry: buildCategorizeEntry(thirdParty),
   sourceMaps: await loadSourceMaps(sourceMaps),
 })

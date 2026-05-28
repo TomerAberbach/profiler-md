@@ -52,12 +52,21 @@ describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
     expect(top1.length).toBeLessThan(top5.length)
   })
 
-  test(`--cwd makes file paths relative to the given directory`, async () => {
-    const cwd = `/Users/tomer/Documents/work/code`
+  test(`--base-url makes file paths relative to the given directory`, async () => {
+    const baseURL = `/Users/tomer/Documents/work/code`
 
-    const { stdout } = await runCli([path, `--cwd`, cwd])
+    const { stdout } = await runCli([path, `--base-url`, baseURL])
 
-    expect(stdout).not.toContain(cwd)
+    expect(stdout).not.toContain(baseURL)
+  })
+
+  test(`--base-url resolves relative paths`, async () => {
+    const [{ stdout: absolute }, { stdout: relative }] = await Promise.all([
+      runCli([path, `--base-url`, process.cwd()]),
+      runCli([path, `--base-url`, `.`]),
+    ])
+
+    expect(relative).toBe(absolute)
   })
 
   test(`--third-party changes which paths are considered third-party`, async () => {

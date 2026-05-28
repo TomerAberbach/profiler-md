@@ -14,7 +14,7 @@ try {
     output: outputPath,
     format: profileFormat,
     topN,
-    cwd,
+    baseURL,
     thirdParty,
     sourceMaps,
     pager,
@@ -33,7 +33,7 @@ try {
 
   const [data, options] = await Promise.all([
     openInputAsBlob(filePath),
-    buildOptions({ topN, cwd, thirdParty, sourceMaps }),
+    buildOptions({ topN, baseURL, thirdParty, sourceMaps }),
   ])
   const markdown = await convertToMarkdown(data, forcedFormat, options)
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })

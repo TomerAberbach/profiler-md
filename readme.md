@@ -67,8 +67,8 @@ $ npm i -g profiler-md
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
-       [--top-n N] [--cwd PATH] [--third-party GLOB...] [--source-maps GLOB...]
-       [--no-pager] [(--color | --no-color)] [FILE]
+       [--top-n N] [--base-url STRING] [--third-party GLOB...] [--source-maps
+       GLOB...] [--no-pager] [(--color | --no-color)] [FILE]
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -76,8 +76,9 @@ Converts performance profiles to human and LLM friendly Markdown.
   -f, --format FORMAT         Input profile format (default: auto)
   -o, --output FILE           Output file (default: - for stdout)
   --top-n N                   Number of top entries to show (default: 20)
-  --cwd PATH                  Directory to show paths relative to (default: cwd)
-  --third-party GLOB          Additional URLs to consider third-party 
+  --base-url STRING           Base URL or path to show paths relative to 
+                              (default: cwd)
+  --third-party GLOB          Additional URLs or paths to consider third-party 
                               (repeatable)
   --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
                               locations (repeatable)
@@ -139,8 +140,8 @@ console.log(
 const options = {
   // Show top 10 functions instead of the default 20.
   topN: 10,
-  // Make paths relative to a custom directory.
-  cwd: `/path/to/project`,
+  // Make paths relative to a custom base URL or directory.
+  baseURL: `/path/to/project`,
   categorizeEntry: entry => {
     if (entry.location?.url.pathname.includes(`/vendor/`)) {
       // Treat an additional vendor directory as third-party.

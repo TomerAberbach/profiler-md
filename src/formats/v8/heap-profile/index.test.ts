@@ -198,7 +198,9 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8HeapProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // Two funcB nodes -> one row with combined size
     expect(selfSizeTables(md)).toEqual([
@@ -279,7 +281,9 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 4, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8HeapProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     expect(
       totalSizeTables(md).map(table =>
@@ -329,7 +333,9 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 3, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8HeapProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // FuncA total = 1 sample, not 2
     expect(totalSizeTables(md)).toEqual([
@@ -394,7 +400,9 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8HeapProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     expect(categoryTables(md)).toEqual([
       [
@@ -454,7 +462,9 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8HeapProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     expect(categoryTables(md)).toEqual([
       [
@@ -475,7 +485,7 @@ describe(`convert`, () => {
     // Their allocations still count toward the category summary (as `native`).
     // The `node:fs` frame (non-internal Node built-in) is NOT filtered.
     const defaultOutput = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
     })
 
     // InternalLoader and readFileSync are absent; only funcC and funcA appear
@@ -505,7 +515,7 @@ describe(`options`, () => {
     // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
     // because its only direct caller (`funcB`) is excluded.
     const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
     })
 
@@ -517,7 +527,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       topN: 2,
     })
 
@@ -525,8 +535,8 @@ describe(`options`, () => {
     expect(totalSizeTables(md).map(table => table.length)).toEqual([2])
   })
 
-  test(`cwd: null shows absolute paths`, () => {
-    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), { cwd: null })
+  test(`baseURL: null shows absolute paths`, () => {
+    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), { baseURL: null })
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Location)),
@@ -535,7 +545,7 @@ describe(`options`, () => {
 
   test(`categorizeEntry groups entries by custom category`, () => {
     const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       categorizeEntry: entry => (entry.name === `funcA` ? `team-a` : `team-b`),
     })
 

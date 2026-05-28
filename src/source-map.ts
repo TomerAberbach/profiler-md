@@ -1,6 +1,6 @@
 import { SourceMapConsumer } from 'source-map-js'
 import type { MappedPosition, RawSourceMap as SourceMap } from 'source-map-js'
-import { makeFileReference, makeProfileLocation } from './location.ts'
+import { makeFileReference } from './location.ts'
 import type { FileReference, ProfileLocation } from './location.ts'
 import type { NormalizedProfileToMdOptions } from './options.ts'
 
@@ -30,7 +30,7 @@ export const normalizeSourceMaps = (
 
 export const sourceMapProfileLocation = (
   location: ProfileLocation,
-  { cwd, sourceMaps }: NormalizedProfileToMdOptions,
+  { baseURL, sourceMaps }: NormalizedProfileToMdOptions,
 ): ProfileLocation => {
   const sourceMap =
     sourceMaps.find(
@@ -74,18 +74,16 @@ export const sourceMapProfileLocation = (
     }
   }
 
-  if (!cwd) {
+  if (!baseURL) {
     return location
   }
 
-  return (
-    makeProfileLocation({
-      urlOrPath: cwd + mappedLocation.path,
-      line: mappedPosition.line,
-      // Source map columns are 0-based, but ours are 1-based.
-      column: mappedPosition.column + 1,
-    }) ?? location
-  )
+  return {
+    url: new URL(mappedLocation.path, baseURL),
+    line: mappedPosition.line,
+    // Source map columns are 0-based, but ours are 1-based.
+    column: mappedPosition.column + 1,
+  }
 }
 
 export type { RawSourceMap as SourceMap } from 'source-map-js'
