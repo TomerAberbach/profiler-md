@@ -132,7 +132,7 @@ describe(`convert`, () => {
     })
 
     const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(selfTimeTables(md)).toEqual([
@@ -189,7 +189,7 @@ describe(`convert`, () => {
     })
 
     const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(summaryLines(md)).toEqual([
@@ -253,7 +253,7 @@ describe(`convert`, () => {
     })
 
     const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Recursive: total deduplicated (2 samples, not 3)
@@ -298,7 +298,7 @@ describe(`convert`, () => {
     })
 
     const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(categoryTables(md)).toEqual([
@@ -340,7 +340,7 @@ describe(`convert`, () => {
     })
 
     const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Line 15 has more time (20ms), line 12 has less (10ms)
@@ -399,7 +399,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
     const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       showEntry: row => defaultShowEntry(row) && row.name !== `work`,
     })
 
@@ -411,7 +411,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       topN: 1,
     })
 
@@ -419,9 +419,9 @@ describe(`options`, () => {
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
-  test(`cwd: null shows absolute paths`, () => {
+  test(`baseURL: null shows absolute paths`, () => {
     const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      cwd: null,
+      baseURL: null,
     })
 
     expect(
@@ -431,7 +431,7 @@ describe(`options`, () => {
 
   test(`categorizeEntry groups entries by custom category`, () => {
     const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
     })
 

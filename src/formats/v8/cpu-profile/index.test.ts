@@ -103,7 +103,9 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // Two funcB nodes -> one row with 3 combined samples
     expect(selfTimeTables(md)).toEqual([
@@ -196,7 +198,9 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // Line 8 hottest (2 ticks from node 5), line 5 second (1 tick from node 4)
     expect(linesTables(md, `funcB`)).toEqual([
@@ -269,7 +273,9 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // Line 5 has 2 ticks total (summed), line 8 has 1 tick
     expect(linesTables(md, `funcB`)).toEqual([
@@ -314,7 +320,9 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // FuncA total = 1 sample, not 2
     expect(totalTimeTables(md)).toEqual([
@@ -376,7 +384,9 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     // Two distinct (anonymous) entries at different lines
     expect(
@@ -437,7 +447,9 @@ describe(`convert`, () => {
       timeDeltas: [1000, 500, 250],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     expect(categoryTables(md)).toEqual([
       [
@@ -492,7 +504,9 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100, 100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), { cwd: `/project` })
+    const md = v8CpuProfileToMd(JSON.stringify(profile), {
+      baseURL: `/project`,
+    })
 
     expect(categoryTables(md)).toEqual([
       [
@@ -583,7 +597,7 @@ describe(`options`, () => {
     // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
     // its only direct caller (`funcB`) is excluded.
     const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
     })
 
@@ -595,7 +609,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       topN: 2,
     })
 
@@ -603,8 +617,8 @@ describe(`options`, () => {
     expect(totalTimeTables(md).map(table => table.length)).toEqual([2])
   })
 
-  test(`cwd: null shows absolute paths`, () => {
-    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), { cwd: null })
+  test(`baseURL: null shows absolute paths`, () => {
+    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), { baseURL: null })
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -613,7 +627,7 @@ describe(`options`, () => {
 
   test(`categorizeEntry groups entries by custom category`, () => {
     const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project`,
+      baseURL: `/project`,
       categorizeEntry: entry => (entry.name === `funcA` ? `team-a` : `team-b`),
     })
 

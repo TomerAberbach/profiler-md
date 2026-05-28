@@ -1,5 +1,6 @@
 import { DynamicTypedArray } from './helpers/array.ts'
 import type { DeepReadonly } from './helpers/types.ts'
+import { makeFileReference } from './location.ts'
 import type { ProfileLocation } from './location.ts'
 import type { AggregatedProfileFunction } from './profile/aggregate.ts'
 import type { AggregatedSnapshotNode } from './snapshot/aggregate.ts'
@@ -72,15 +73,17 @@ export type ProfileToMdOptions = {
   showEntry?: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
 
   /**
-   * The current working directory to use to make file paths relative in the
-   * Markdown output.
+   * Base URL to show paths relative to in the Markdown output.
    *
-   * A value of `null` indicates that the paths should be absolute.
+   * Accepts an absolute file path string or URL. File paths are converted to
+   * `file://` URLs internally.
+   *
+   * A value of `null` indicates that URLs should be absolute.
    *
    * Defaults to `process.cwd()` when available. Otherwise leaves paths
    * absolute.
    */
-  cwd?: string | null
+  baseURL?: string | URL | null
 
   /**
    * Source maps to apply when rendering profile locations.
@@ -99,7 +102,7 @@ export type NormalizedProfileToMdOptions = {
   topN: number
   categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => string
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
-  cwd: string | undefined
+  baseURL: URL | undefined
   sourceMaps: NormalizedSourceMaps
 }
 
@@ -107,24 +110,15 @@ export const normalizeProfileToMdOptions = ({
   topN = 20,
   categorizeEntry = defaultCategorizeEntry,
   showEntry = defaultShowEntry,
-  cwd,
+  baseURL,
   sourceMaps,
-}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
-  if (cwd === undefined && typeof process !== `undefined`) {
-    cwd = process.cwd()
-  }
-  if (cwd != null && !cwd.endsWith(`/`)) {
-    cwd = `${cwd}/`
-  }
-
-  return {
-    topN,
-    categorizeEntry: cacheEntryFunction(categorizeEntry),
-    showEntry: cacheEntryPredicate(showEntry),
-    cwd: cwd ?? undefined,
-    sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
-  }
-}
+}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
+  topN,
+  categorizeEntry: cacheEntryFunction(categorizeEntry),
+  showEntry: cacheEntryPredicate(showEntry),
+  baseURL: normalizeBaseURL(baseURL),
+  sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
+})
 
 const cacheEntryFunction = <T>(
   func: (entry: DeepReadonly<ProfileEntry>) => T,
@@ -245,4 +239,36 @@ export const isExternalPrivateEntry = (
   }
 
   return true
+}
+
+const normalizeBaseURL = (
+  baseURL: string | URL | null | undefined,
+): URL | undefined => {
+  if (baseURL === null) {
+    return undefined
+  }
+
+  let url: URL | undefined
+  if (baseURL === undefined) {
+    if (typeof process !== `undefined`) {
+      url = new URL(`file://${process.cwd()}/`)
+    }
+  } else if (typeof baseURL === `string`) {
+    const fileReference = makeFileReference(baseURL)
+    if (fileReference.type !== `absolute`) {
+      throw new Error(
+        `baseURL must be an absolute path or URL, got: ${baseURL}`,
+      )
+    }
+    ;({ url } = fileReference)
+  } else {
+    url = baseURL
+  }
+
+  if (url && !url.pathname.endsWith(`/`)) {
+    url = new URL(url.href)
+    url.pathname += `/`
+  }
+
+  return url
 }

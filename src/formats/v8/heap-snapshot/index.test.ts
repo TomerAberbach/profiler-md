@@ -255,7 +255,9 @@ describe(`convert`, () => {
       locations: [12, 1, 5, 10],
     })
 
-    const md = v8HeapSnapshotToMd(JSON.stringify(snapshot), { cwd: `/project` })
+    const md = v8HeapSnapshotToMd(JSON.stringify(snapshot), {
+      baseURL: `/project`,
+    })
 
     // Category table
     expect(categoryTables(md)).toEqual([

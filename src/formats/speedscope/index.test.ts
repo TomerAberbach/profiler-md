@@ -122,7 +122,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Work has 2 samples (30ms self), main has 1 sample (5ms self)
@@ -185,7 +185,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
@@ -222,7 +222,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Both profiles should appear in the output.
@@ -245,7 +245,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Total should be 30ms from 2 non-zero samples
@@ -271,7 +271,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Recursive: total should be deduplicated (1 sample, not 2)
@@ -301,7 +301,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(selfTimeTables(md).map(table => table.map(row => row.Time))).toEqual(
@@ -321,7 +321,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     // Only the non-empty sample (50ms) is counted, not the empty-stack ones
@@ -362,7 +362,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(profileTitles(md)).toEqual([`Heap profile`])
@@ -381,7 +381,7 @@ describe(`convert`, () => {
     })
 
     const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
     })
 
     expect(profileTitles(md)).toEqual([`Count profile`])
@@ -407,7 +407,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
     const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       showEntry: row => defaultShowEntry(row) && row.name !== `work`,
     })
 
@@ -419,7 +419,7 @@ describe(`options`, () => {
 
   test(`topN limits functions shown`, () => {
     const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       topN: 1,
     })
 
@@ -427,8 +427,10 @@ describe(`options`, () => {
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
-  test(`cwd: null shows absolute paths`, () => {
-    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), { cwd: null })
+  test(`baseURL: null shows absolute paths`, () => {
+    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
+      baseURL: null,
+    })
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -437,7 +439,7 @@ describe(`options`, () => {
 
   test(`categorizeEntry groups entries by custom category`, () => {
     const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      cwd: `/project/`,
+      baseURL: `/project/`,
       categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
     })
 

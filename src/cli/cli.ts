@@ -42,14 +42,14 @@ const parser = object({
       description: message`Number of top entries to show (default: 20)`,
     }),
   ),
-  cwd: optional(
-    option(`--cwd`, path(), {
-      description: message`Directory to show paths relative to (default: cwd)`,
+  baseURL: optional(
+    option(`--base-url`, string(), {
+      description: message`Base URL or path to show paths relative to (default: cwd)`,
     }),
   ),
   thirdParty: multiple(
     option(`--third-party`, string({ metavar: `GLOB` }), {
-      description: message`Additional URLs to consider third-party (repeatable)`,
+      description: message`Additional URLs or paths to consider third-party (repeatable)`,
     }),
   ),
   sourceMaps: multiple(
