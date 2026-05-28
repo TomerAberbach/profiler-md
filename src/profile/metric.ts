@@ -118,6 +118,21 @@ export const GIGABYTES: Metric = {
   phrases: SIZE_PHRASES,
 }
 
+/** Returns whether two metrics measure the same dimension in the same unit. */
+export const metricsEqual = (left: Metric, right: Metric): boolean => {
+  if (left.type !== right.type) {
+    return false
+  }
+  switch (left.type) {
+    case `time`:
+      return left.milliseconds === (right as typeof left).milliseconds
+    case `size`:
+      return left.bytes === (right as typeof left).bytes
+    case `custom`:
+      return left.unit === (right as typeof left).unit
+  }
+}
+
 const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [`nanoseconds`, NANOSECONDS],
   [`nanosecond`, NANOSECONDS],

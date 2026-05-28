@@ -2,9 +2,11 @@ import {
   formatBytes,
   formatConjunction,
   formatCount,
+  formatDelta,
   formatMicroseconds,
   formatMilliseconds,
   formatPercent,
+  formatPercentChange,
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
@@ -15,6 +17,10 @@ import type {
   AggregatedProfileFunction,
 } from './aggregate.ts'
 import { findCommonCallStack } from './aggregate.ts'
+import type {
+  AggregatedProfileDiff,
+  AggregatedProfileFunctionDiff,
+} from './diff.ts'
 import type { Metric } from './metric.ts'
 
 type FormatProfileOptions = NormalizedProfileToMdOptions & {
@@ -28,21 +34,42 @@ export const formatProfile = (
 ): string => {
   const headingLevel = 1
   return `${[
-    formatHeading(headingLevel, formatTitle(profile)),
+    formatHeading(headingLevel, formatTitle(profile.metrics)),
     ...formatOverallSummary(profile),
-    ...formatMetricSections(profile, {
-      ...options,
-      headingLevel: headingLevel + 1,
-    }),
+    ...formatMetricSections(
+      profile.metrics,
+      headingLevel + 1,
+      (metricIndex, sectionHeadingLevel) => {
+        const sectionOptions = {
+          ...options,
+          headingLevel: sectionHeadingLevel,
+        }
+        return [
+          ...formatHottestFunctions(metricIndex, profile, sectionOptions),
+          ...formatHottestCallStacks(metricIndex, profile, sectionOptions),
+        ]
+      },
+    ),
   ].join(`\n\n`)}\n`
 }
 
-const formatTitle = (profile: AggregatedProfile): string =>
-  capitalizeFirst(
-    `${formatConjunction(
-      profile.metrics.map(metric => metric.phrases.titleNoun),
-    )} profile`,
-  )
+export const formatProfileDiff = (
+  diff: AggregatedProfileDiff,
+  options: NormalizedProfileToMdOptions,
+): string => {
+  const headingLevel = 1
+  const metrics = diff.metrics.map(({ metric }) => metric)
+  return `${[
+    formatHeading(headingLevel, `${formatTitle(metrics)} diff`),
+    ...formatDiffSummary(diff),
+    ...formatMetricSections(
+      metrics,
+      headingLevel + 1,
+      (metricIndex, sectionHeadingLevel) =>
+        formatDiffFunctions(diff, metricIndex, options, sectionHeadingLevel),
+    ),
+  ].join(`\n\n`)}\n`
+}
 
 const formatOverallSummary = (profile: AggregatedProfile): string[] => [
   formatSummaryLine(profile),
@@ -111,45 +138,6 @@ const formatCategoryTable = ({
   ]
 }
 
-const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return formatMicroseconds(samplingRate * 1000 * metric.milliseconds)
-    case `size`:
-      return formatBytes(samplingRate * metric.bytes)
-    case `custom`:
-      return formatCount(samplingRate, metric.unit)
-  }
-}
-
-const formatMetricSections = (
-  profile: AggregatedProfile,
-  options: FormatProfileOptions,
-): string[] =>
-  profile.metrics.flatMap((metric, index) => {
-    const sections: string[] = []
-
-    let sectionOptions = options
-    if (profile.metrics.length > 1) {
-      sections.push(
-        formatHeading(
-          options.headingLevel,
-          capitalizeFirst(metric.phrases.titleNoun),
-        ),
-      )
-      sectionOptions = {
-        ...options,
-        headingLevel: options.headingLevel + 1,
-      }
-    }
-
-    return [
-      ...sections,
-      ...formatHottestFunctions(index, profile, sectionOptions),
-      ...formatHottestCallStacks(index, profile, sectionOptions),
-    ]
-  })
-
 const formatHottestFunctions = (
   metricIndex: number,
   profile: AggregatedProfile,
@@ -159,18 +147,10 @@ const formatHottestFunctions = (
     ...options,
     headingLevel: options.headingLevel + 1,
   }
-  const functionsSections = [
+  return formatHottestFunctionsSections(options.headingLevel, [
     ...formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
     ...formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
-  ]
-  if (functionsSections.length === 0) {
-    return []
-  }
-
-  return [
-    formatHeading(options.headingLevel, `Hottest functions`),
-    ...functionsSections,
-  ]
+  ])
 }
 
 const formatHottestSelfFunctions = (
@@ -203,9 +183,10 @@ const formatHottestSelfFunctions = (
   )
 
   const metric = profile.metrics[metricIndex]!
+  const { title, description } = selfFunctionsPhrases(metric)
   return [
-    formatHeading(options.headingLevel, `Self ${metric.phrases.columnNoun}`),
-    `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
+    formatHeading(options.headingLevel, title),
+    `Functions ranked by ${description}.`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -370,9 +351,10 @@ const formatHottestTotalFunctions = (
   )
 
   const metric = profile.metrics[metricIndex]!
+  const { title, description } = totalFunctionsPhrases(metric)
   return [
-    formatHeading(options.headingLevel, `Total ${metric.phrases.columnNoun}`),
-    `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees.`,
+    formatHeading(options.headingLevel, title),
+    `Functions ranked by ${description}.`,
     formatTable(
       [
         { content: `%`, align: `right` },
@@ -536,6 +518,285 @@ const formatCallStack = (
       return `${name} (${line}${column === undefined ? `` : `:${column}`})`
     })
     .join(` ← `)
+
+const formatDiffSummary = (diff: AggregatedProfileDiff): string[] => [
+  formatDiffSummaryLine(diff),
+  ...formatDiffCategoryTable(diff),
+]
+
+const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
+  const arrow = `→`
+  const valueParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
+    const baseValue = diff.base.totalValues[baseIndex]!
+    const currentValue = diff.current.totalValues[currentIndex]!
+    const delta = currentValue - baseValue
+    const deltaStr = formatDelta(delta, formatValue(Math.abs(delta), metric))
+    const changeStr = formatPercentChange(baseValue, currentValue)
+    return `${metric.phrases.pastTenseVerb} ${formatValue(baseValue, metric)} ${arrow} ${formatValue(currentValue, metric)} (${deltaStr}, ${changeStr})`
+  })
+  const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
+    const baseRate = formatSamplingRate(
+      diff.base.samplingRates[baseIndex]!,
+      metric,
+    )
+    const currentRate = formatSamplingRate(
+      diff.current.samplingRates[currentIndex]!,
+      metric,
+    )
+    return `${baseRate} ${arrow} ${currentRate}`
+  })
+
+  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatCount(diff.base.totalSampleCount, `sample`)} ${arrow} ${formatCount(diff.current.totalSampleCount, `sample`)} (${formatConjunction(rateParts)} per sample).`
+}
+
+const formatDiffCategoryTable = (diff: AggregatedProfileDiff): string[] => {
+  if (diff.categoryToMetrics.size === 0) {
+    return []
+  }
+
+  const { metric, baseIndex, currentIndex } = diff.metrics[0]!
+  const categories = [...diff.categoryToMetrics].sort(
+    ([, left], [, right]) =>
+      (right.current?.values[currentIndex] ?? 0) -
+      (left.current?.values[currentIndex] ?? 0),
+  )
+  return [
+    formatTable(
+      [
+        `Category`,
+        { content: `Change`, align: `right` },
+        { content: `Delta`, align: `right` },
+        { content: `Base`, align: `right` },
+        { content: `Current`, align: `right` },
+      ],
+      categories.map(([category, { base, current }]) => {
+        const baseValue = base?.values[baseIndex] ?? 0
+        const currentValue = current?.values[currentIndex] ?? 0
+        const delta = currentValue - baseValue
+        return [
+          category,
+          formatPercentChange(baseValue, currentValue),
+          formatDelta(delta, formatValue(Math.abs(delta), metric)),
+          formatValue(baseValue, metric),
+          formatValue(currentValue, metric),
+        ]
+      }),
+    ),
+  ]
+}
+
+const formatDiffFunctions = (
+  diff: AggregatedProfileDiff,
+  metricIndex: number,
+  options: NormalizedProfileToMdOptions,
+  headingLevel: number,
+): string[] =>
+  formatHottestFunctionsSections(headingLevel, [
+    ...formatDiffDirectionSections(
+      diff,
+      metricIndex,
+      options,
+      headingLevel + 1,
+      `self`,
+    ),
+    ...formatDiffDirectionSections(
+      diff,
+      metricIndex,
+      options,
+      headingLevel + 1,
+      `total`,
+    ),
+  ])
+
+/**
+ * A {@link AggregatedProfileFunctionDiff} with its values resolved for a
+ * specific metric.
+ */
+type DiffFunctionValues = {
+  func: AggregatedProfileFunctionDiff
+  baseValue: number
+  currentValue: number
+}
+
+const formatDiffDirectionSections = (
+  diff: AggregatedProfileDiff,
+  metricIndex: number,
+  options: NormalizedProfileToMdOptions,
+  headingLevel: number,
+  kind: `self` | `total`,
+): string[] => {
+  const { metric, baseIndex, currentIndex } = diff.metrics[metricIndex]!
+  const { title, description } =
+    kind === `self`
+      ? selfFunctionsPhrases(metric)
+      : totalFunctionsPhrases(metric)
+
+  const active = diff.functions
+    .map(func => ({
+      func,
+      baseValue: functionValue(func.base, baseIndex, kind),
+      currentValue: functionValue(func.current, currentIndex, kind),
+    }))
+    .filter(
+      ({ func, baseValue, currentValue }) =>
+        (baseValue > 0 || currentValue > 0) && showDiffFunction(func, options),
+    )
+
+  const regressions = selectTopN(
+    active.filter(({ baseValue, currentValue }) => currentValue > baseValue),
+    options.topN,
+    ({ baseValue, currentValue }) => currentValue - baseValue,
+  )
+
+  const progressions = selectTopN(
+    active.filter(({ baseValue, currentValue }) => currentValue < baseValue),
+    options.topN,
+    ({ baseValue, currentValue }) => baseValue - currentValue,
+  )
+
+  if (regressions.length === 0 && progressions.length === 0) {
+    return []
+  }
+
+  const sections = [formatHeading(headingLevel, title)]
+
+  if (regressions.length > 0) {
+    sections.push(
+      formatHeading(headingLevel + 1, `Regressions`),
+      `Functions with the largest increase in ${description}.`,
+      formatDiffFunctionTable(regressions, metric, options),
+    )
+  }
+
+  if (progressions.length > 0) {
+    sections.push(
+      formatHeading(headingLevel + 1, `Progressions`),
+      `Functions with the largest decrease in ${description}.`,
+      formatDiffFunctionTable(progressions, metric, options),
+    )
+  }
+
+  return sections
+}
+
+/**
+ * Returns the function's self or total value for the metric, or zero if the
+ * function is absent from the profile.
+ */
+const functionValue = (
+  func: AggregatedProfileFunction | undefined,
+  metricIndex: number,
+  kind: `self` | `total`,
+): number =>
+  (kind === `self` ? func?.selfValues : func?.totalValues)?.[metricIndex] ?? 0
+
+/** Returns whether either side of the diffed function should be shown. */
+const showDiffFunction = (
+  { base, current }: AggregatedProfileFunctionDiff,
+  options: NormalizedProfileToMdOptions,
+): boolean =>
+  (base !== undefined && options.showEntry(base)) ||
+  (current !== undefined && options.showEntry(current))
+
+const formatDiffFunctionTable = (
+  functions: DiffFunctionValues[],
+  metric: Metric,
+  options: NormalizedProfileToMdOptions,
+): string =>
+  formatTable(
+    [
+      { content: `Change`, align: `right` },
+      { content: `Delta`, align: `right` },
+      { content: `Base`, align: `right` },
+      { content: `Current`, align: `right` },
+      `Function`,
+      `Location`,
+    ],
+    functions.map(({ func, baseValue, currentValue }) => {
+      const delta = currentValue - baseValue
+      return [
+        formatPercentChange(baseValue, currentValue),
+        formatDelta(delta, formatValue(Math.abs(delta), metric)),
+        formatValue(baseValue, metric),
+        formatValue(currentValue, metric),
+        inlineCode(func.name),
+        formatSourceLocation(func.location, options),
+      ]
+    }),
+  )
+
+const formatTitle = (metrics: Metric[]): string =>
+  capitalizeFirst(
+    `${formatConjunction(
+      metrics.map(metric => metric.phrases.titleNoun),
+    )} profile`,
+  )
+
+/**
+ * Formats a Markdown section per metric in {@link metrics} via
+ * {@link formatSections}, wrapping each metric's sections in a heading with
+ * the metric's name when there are multiple metrics.
+ */
+const formatMetricSections = (
+  metrics: Metric[],
+  headingLevel: number,
+  formatSections: (metricIndex: number, headingLevel: number) => string[],
+): string[] =>
+  metrics.flatMap((metric, metricIndex) =>
+    metrics.length === 1
+      ? formatSections(metricIndex, headingLevel)
+      : [
+          formatHeading(
+            headingLevel,
+            capitalizeFirst(metric.phrases.titleNoun),
+          ),
+          ...formatSections(metricIndex, headingLevel + 1),
+        ],
+  )
+
+/**
+ * Wraps the given self and total function sections in a `Hottest functions`
+ * heading, or returns no sections if there are none.
+ */
+const formatHottestFunctionsSections = (
+  headingLevel: number,
+  sections: string[],
+): string[] =>
+  sections.length === 0
+    ? []
+    : [formatHeading(headingLevel, `Hottest functions`), ...sections]
+
+/** The shared phrases of a self or total function section. */
+type FunctionsSectionPhrases = {
+  /** The section's heading title. */
+  title: string
+
+  /** A phrase describing what the section's functions are measured by. */
+  description: string
+}
+
+/** Returns the phrases of a self function section for {@link metric}. */
+const selfFunctionsPhrases = (metric: Metric): FunctionsSectionPhrases => ({
+  title: `Self ${metric.phrases.columnNoun}`,
+  description: `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
+})
+
+/** Returns the phrases of a total function section for {@link metric}. */
+const totalFunctionsPhrases = (metric: Metric): FunctionsSectionPhrases => ({
+  title: `Total ${metric.phrases.columnNoun}`,
+  description: `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
+})
+
+const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
+  switch (metric.type) {
+    case `time`:
+      return formatMicroseconds(samplingRate * 1000 * metric.milliseconds)
+    case `size`:
+      return formatBytes(samplingRate * metric.bytes)
+    case `custom`:
+      return formatCount(samplingRate, metric.unit)
+  }
+}
 
 const formatValue = (value: number, metric: Metric): string => {
   switch (metric.type) {

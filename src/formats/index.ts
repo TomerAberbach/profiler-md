@@ -11,7 +11,8 @@ import type {
   ProfileInput,
   ProfileToMdOptions,
 } from '../options.ts'
-import { formatProfile } from '../profile/format.ts'
+import { diffAggregatedProfiles } from '../profile/diff.ts'
+import { formatProfile, formatProfileDiff } from '../profile/format.ts'
 import { formatHeapSnapshot } from '../snapshot/format.ts'
 import type {
   AggregatedInput,
@@ -55,6 +56,52 @@ export const profileToMdAsync = async (
   const normalizedOptions = normalizeProfileToMdOptions(options)
   const aggregatedInputs = await aggregateInputAsync(input, normalizedOptions)
   return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
+}
+
+/**
+ * Diffs the given base and current profile data, returning the difference as
+ * Markdown.
+ *
+ * Each side accepts the same input as {@link profileToMd}.
+ *
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * for supported formats and generation instructions.
+ */
+export const diffProfiles = (
+  base: ProfileInput<ProfileData>,
+  current: ProfileInput<ProfileData>,
+  options: ProfileToMdOptions = {},
+): string => {
+  const normalizedOptions = normalizeProfileToMdOptions(options)
+  return formatAggregatedDiff(
+    aggregateInput(base, normalizedOptions),
+    aggregateInput(current, normalizedOptions),
+    normalizedOptions,
+  )
+}
+
+/**
+ * Asynchronously diffs the given base and current profile data, returning the
+ * difference as Markdown.
+ *
+ * Each side accepts the same input as {@link profileToMdAsync}.
+ *
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * for supported formats and generation instructions.
+ */
+export const diffProfilesAsync = async (
+  base: ProfileInput<AsyncProfileData>,
+  current: ProfileInput<AsyncProfileData>,
+  options: ProfileToMdOptions = {},
+): Promise<string> => {
+  const normalizedOptions = normalizeProfileToMdOptions(options)
+  return formatAggregatedDiff(
+    ...(await Promise.all([
+      aggregateInputAsync(base, normalizedOptions),
+      aggregateInputAsync(current, normalizedOptions),
+    ])),
+    normalizedOptions,
+  )
 }
 
 const aggregateInput = (
@@ -173,6 +220,43 @@ export const formatAggregatedInputs = (
       }
     })
     .join(`\n\n`)
+
+/**
+ * Diffs the aggregated {@link base} and {@link current} inputs element by
+ * element, returning the differences as Markdown.
+ *
+ * The two sides must have the same length and the same `kind` at each index,
+ * otherwise they aren't comparable.
+ */
+const formatAggregatedDiff = (
+  base: AggregatedInput[],
+  current: AggregatedInput[],
+  options: NormalizedProfileToMdOptions,
+): string => {
+  if (base.length !== current.length) {
+    throw new Error(
+      `cannot diff profiles with differing sub-profile counts: ${base.length} vs. ${current.length}`,
+    )
+  }
+
+  return base
+    .map((baseInput, index) => {
+      const currentInput = current[index]!
+      if (baseInput.kind !== currentInput.kind) {
+        throw new Error(
+          `cannot diff a ${baseInput.kind} against a ${currentInput.kind}`,
+        )
+      }
+      if (baseInput.kind === `snapshot` || currentInput.kind === `snapshot`) {
+        throw new Error(`heap snapshot diffing is not supported`)
+      }
+      return formatProfileDiff(
+        diffAggregatedProfiles(baseInput, currentInput),
+        options,
+      )
+    })
+    .join(`\n\n`)
+}
 
 export const formats = [
   `jsc-heap-snapshot`,

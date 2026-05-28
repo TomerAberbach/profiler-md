@@ -20,6 +20,28 @@ export const formatMilliseconds = (milliseconds: number): string =>
 export const formatBytes = (bytes: number): string =>
   prettyBytes(bytes, { nonBreakingSpace: true })
 
+export const formatPercentChange = (base: number, current: number): string => {
+  if (base === 0) {
+    return current === 0 ? `—` : `new`
+  }
+  if (current === 0) {
+    return `removed`
+  }
+  const change = (current - base) / base
+  return formatDelta(change, formatPercent(change))
+}
+
+export const formatDelta = (value: number, formatted: string): string => {
+  switch (Math.sign(value)) {
+    case -1:
+      return `-${formatted}`
+    case 1:
+      return `+${formatted}`
+    default:
+      return formatted
+  }
+}
+
 export const formatPercent = (fraction: number): string =>
   `${(fraction * 100).toFixed(1)}%`
 

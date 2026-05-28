@@ -9,6 +9,8 @@ import {
   largestStringsTables,
   linesTables,
   profileTitles,
+  progressionsTables,
+  regressionsTables,
   retainedSizeInstancesTables,
   retainedSizeTables,
   selfSizeInstancesTables,
@@ -290,6 +292,122 @@ describe(`callStackTables`, () => {
       [{ Stack: `a > b`, Value: `10ms` }],
       [{ Stack: `c > d`, Value: `20ms` }],
     ])
+  })
+})
+
+describe(`regressionsTables`, () => {
+  test(`returns [] when the section heading is absent`, () => {
+    const tables = regressionsTables(
+      dedent`
+        ### Regressions
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | +1ms |
+      `,
+      `Self time`,
+    )
+
+    expect(tables).toStrictEqual([])
+  })
+
+  test(`returns [] when the section has no Regressions sub-heading`, () => {
+    const tables = regressionsTables(
+      dedent`
+        ### Self time
+
+        #### Progressions
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | -1ms |
+      `,
+      `Self time`,
+    )
+
+    expect(tables).toStrictEqual([])
+  })
+
+  test(`returns parsed rows from the Regressions table within the section`, () => {
+    const tables = regressionsTables(
+      dedent`
+        ### Self time
+
+        #### Regressions
+
+        Some description.
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | +1ms |
+      `,
+      `Self time`,
+    )
+
+    expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `+1ms` }]])
+  })
+
+  test(`does not cross into the next section`, () => {
+    const tables = regressionsTables(
+      dedent`
+        ### Self time
+
+        #### Regressions
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | +1ms |
+
+        ### Total time
+
+        #### Regressions
+
+        | Function | Delta |
+        | --- | --- |
+        | bar | +2ms |
+      `,
+      `Self time`,
+    )
+
+    expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `+1ms` }]])
+  })
+})
+
+describe(`progressionsTables`, () => {
+  test(`returns [] when the section has no Progressions sub-heading`, () => {
+    const tables = progressionsTables(
+      dedent`
+        ### Self time
+
+        #### Regressions
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | +1ms |
+      `,
+      `Self time`,
+    )
+
+    expect(tables).toStrictEqual([])
+  })
+
+  test(`returns parsed rows from the Progressions table within the section`, () => {
+    const tables = progressionsTables(
+      dedent`
+        ### Total time
+
+        #### Progressions
+
+        Some description.
+
+        | Function | Delta |
+        | --- | --- |
+        | foo | -1ms |
+      `,
+      `Total time`,
+    )
+
+    expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `-1ms` }]])
   })
 })
 

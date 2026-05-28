@@ -18,6 +18,7 @@ const matchesJSCHeapSnapshot = (json: unknown): boolean => {
 export const jscHeapSnapshotConverter = {
   title: `JSC heap snapshot`,
   kind: `json`,
+  shape: `snapshot`,
   matches: matchesJSCHeapSnapshot,
   aggregate: aggregateJSCHeapSnapshot,
 } satisfies JsonFormatConverter<JSCHeapSnapshot>

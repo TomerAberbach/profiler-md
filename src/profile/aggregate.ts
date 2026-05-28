@@ -332,6 +332,21 @@ export type Sample<Node extends { id?: number }> = {
 }
 
 /**
+ * An aggregation of data from every sample of functions with a given category
+ * within a profile.
+ */
+export type AggregatedProfileCategoryMetrics = {
+  /** The number of samples taken for functions with this category. */
+  sampleCount: number
+
+  /**
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken for functions with this category.
+   */
+  values: Float64Array
+}
+
+/**
  * An aggregation of data from every sample involving a given function within a
  * profile.
  */
@@ -486,19 +501,7 @@ export type AggregatedProfile = {
    * Function category to values and sample count for calls of functions with
    * that category.
    */
-  categoryToMetrics: Map<
-    string,
-    {
-      /** The number of samples taken for functions with this category. */
-      sampleCount: number
-
-      /**
-       * For each metric in {@link AggregatedProfile.metrics}, the sum of values
-       * from samples taken for functions with this category.
-       */
-      values: Float64Array
-    }
-  >
+  categoryToMetrics: Map<string, AggregatedProfileCategoryMetrics>
 
   /** Aggregated data for all functions called in this profile. */
   functions: AggregatedProfileFunction[]

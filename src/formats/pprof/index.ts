@@ -9,6 +9,7 @@ const matchesPprof = (profile: Profile): boolean =>
 export const pprofConverter = {
   title: `pprof`,
   kind: `binary`,
+  shape: `profile`,
   parse: bytes => Profile.decode(bytes),
   matches: matchesPprof,
   aggregate: (profile, options) =>

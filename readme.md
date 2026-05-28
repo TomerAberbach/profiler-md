@@ -104,6 +104,8 @@ import { openAsBlob, readFileSync } from 'node:fs'
 import {
   defaultCategorizeEntry,
   defaultShowEntry,
+  diffProfiles,
+  diffProfilesAsync,
   profileToMd,
   profileToMdAsync,
 } from 'profiler-md'
@@ -127,6 +129,22 @@ console.log(profileToMd(readFileSync(`example.pprof`)))
 // Synchronous usage with explicit format
 console.log(
   profileToMd({ data: readFileSync(`example.pprof`), format: `pprof` }),
+)
+
+// Diff two profiles (async, auto-detect)
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.cpuprofile`),
+    await openAsBlob(`current.cpuprofile`),
+  ),
+)
+
+// Synchronous diff with explicit format
+console.log(
+  diffProfiles(
+    { data: readFileSync(`base.pprof`), format: `pprof` },
+    { data: readFileSync(`current.pprof`), format: `pprof` },
+  ),
 )
 
 // Complex usage
