@@ -1,5 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
-import type { AsyncProfileData, JsonProfileData } from '../../../options.ts'
 import type { V8CallFrame } from '../common.ts'
 
 /**
@@ -41,10 +39,3 @@ export type V8CpuProfileNode = {
     ticks: number
   }[]
 }
-
-export const parseV8CpuProfile = (data: JsonProfileData): V8CpuProfile =>
-  JumboJSON.parse(data)
-
-export const parseV8CpuProfileAsync = (
-  data: AsyncProfileData,
-): Promise<V8CpuProfile> => JumboJSON.parseAsync(data)

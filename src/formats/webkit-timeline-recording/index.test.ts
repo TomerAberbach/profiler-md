@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry } from '../../options.ts'
+import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
@@ -9,7 +9,7 @@ import {
   totalTimeTables,
 } from '../../testing/markdown.ts'
 import {
-  detectWebKitTimelineRecording,
+  matchesWebKitTimelineRecording,
   webkitTimelineRecordingToMd,
 } from './index.ts'
 import type { WebKitStackFrame, WebKitTimelineRecording } from './parse.ts'
@@ -46,54 +46,54 @@ const makeFrame = ({
   expressionLocation,
 })
 
-describe(`detect`, () => {
+describe(`matches`, () => {
   test(`accepts valid recording`, () => {
     expect(
-      detectWebKitTimelineRecording({
+      matchesWebKitTimelineRecording({
         version: 1,
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
-    ).toBeDefined()
+    ).toBe(true)
   })
 
   test(`rejects null`, () => {
-    expect(detectWebKitTimelineRecording(null)).toBeUndefined()
+    expect(matchesWebKitTimelineRecording(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(detectWebKitTimelineRecording(42)).toBeUndefined()
+    expect(matchesWebKitTimelineRecording(42)).toBe(false)
   })
 
   test(`rejects wrong version`, () => {
     expect(
-      detectWebKitTimelineRecording({
+      matchesWebKitTimelineRecording({
         version: 2,
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 
   test(`rejects missing version`, () => {
     expect(
-      detectWebKitTimelineRecording({
+      matchesWebKitTimelineRecording({
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 
   test(`rejects null recording`, () => {
     expect(
-      detectWebKitTimelineRecording({ version: 1, recording: null }),
-    ).toBeUndefined()
+      matchesWebKitTimelineRecording({ version: 1, recording: null }),
+    ).toBe(false)
   })
 
   test(`rejects missing sampleStackTraces`, () => {
     expect(
-      detectWebKitTimelineRecording({
+      matchesWebKitTimelineRecording({
         version: 1,
         recording: { sampleDurations: [] },
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 })
 
@@ -131,9 +131,12 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02, 0.005],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      baseURL: `/project/`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -188,9 +191,12 @@ describe(`convert`, () => {
       sampleDurations: [0.1, 0.05, 0.1],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      baseURL: `/project/`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(summaryLines(md)).toEqual([
       expect.stringContaining(`50.0ms over 1 sample`),
@@ -215,9 +221,12 @@ describe(`convert`, () => {
       sampleDurations: [0.01],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      showEntry: () => true,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        showEntry: () => true,
+      }),
+    )
 
     expect(selfTimeTables(md)).toEqual([
       [expect.objectContaining({ Location: `<native>` })],
@@ -252,9 +261,12 @@ describe(`convert`, () => {
       sampleDurations: [0.005, 0.01],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      baseURL: `/project/`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Recursive: total deduplicated (2 samples, not 3)
     expect(totalTimeTables(md)).toEqual([
@@ -297,9 +309,12 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      baseURL: `/project/`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -339,9 +354,12 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = webkitTimelineRecordingToMd(JSON.stringify(recording), {
-      baseURL: `/project/`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      recording,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Line 15 has more time (20ms), line 12 has less (10ms)
     expect(linesTables(md, `work`)).toEqual([
@@ -398,10 +416,13 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      baseURL: `/project/`,
-      showEntry: row => defaultShowEntry(row) && row.name !== `work`,
-    })
+    const md = webkitTimelineRecordingToMd(
+      structuredClone(baseRecording),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        showEntry: row => defaultShowEntry(row) && row.name !== `work`,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -410,19 +431,25 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      baseURL: `/project/`,
-      topN: 1,
-    })
+    const md = webkitTimelineRecordingToMd(
+      structuredClone(baseRecording),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        topN: 1,
+      }),
+    )
 
     expect(selfTimeTables(md).map(table => table.length)).toEqual([1])
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      baseURL: null,
-    })
+    const md = webkitTimelineRecordingToMd(
+      structuredClone(baseRecording),
+      normalizeProfileToMdOptions({
+        baseURL: null,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -430,10 +457,13 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = webkitTimelineRecordingToMd(JSON.stringify(baseRecording), {
-      baseURL: `/project/`,
-      categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
-    })
+    const md = webkitTimelineRecordingToMd(
+      structuredClone(baseRecording),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [

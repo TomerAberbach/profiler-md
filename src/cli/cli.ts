@@ -8,14 +8,14 @@ import { defineProgram } from '@optique/core/program'
 import { choice, integer, string } from '@optique/core/valueparser'
 import { path, run } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
-import { formats, languages } from './formats.ts'
+import { formats } from '../formats/index.ts'
+import { languages } from './languages.ts'
 
-const formatTopics = [...formats.keys()]
 const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
   id,
   ...(aliases?.map(alias => alias.id) ?? []),
 ])
-export const topics = [...formatTopics, ...languageTopics]
+export const topics = [...formats, ...languageTopics]
 
 const parser = object({
   help: optional(
@@ -27,7 +27,7 @@ const parser = object({
     ),
   ),
   format: optional(
-    option(`-f`, `--format`, choice(formatTopics, { metavar: `FORMAT` }), {
+    option(`-f`, `--format`, choice(formats, { metavar: `FORMAT` }), {
       description: message`Input profile format (default: auto)`,
     }),
   ),
@@ -97,7 +97,7 @@ export const getHelpText = (): string =>
         maxWidth: process.stdout.columns ?? 80,
       },
     ),
-    `Formats: ${formatTopics.join(`, `)}`,
+    `Formats: ${formats.join(`, `)}`,
     `Languages: ${languageTopics.join(`, `)}`,
   ].join(`\n`)}\n`
 

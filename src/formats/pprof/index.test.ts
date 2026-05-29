@@ -7,14 +7,14 @@ import {
   ValueType,
 } from 'pprof-format'
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry } from '../../options.ts'
+import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   linesTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { detectPprof, pprofToMd } from './index.ts'
+import { matchesPprof, parsePprof, pprofToMd } from './index.ts'
 
 const makePprof = ({
   valueTypes = [{ type: `cpu`, unit: `nanoseconds` }],
@@ -74,37 +74,33 @@ const makePprof = ({
   return profile.encode()
 }
 
-describe(`detect`, () => {
-  test(`accepts a valid pprof blob`, async () => {
-    const blob = new Blob([
-      makePprof({
-        functions: [
-          { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
-        ],
-        locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
-        samples: [{ locationIds: [1], values: [100_000] }],
-      }),
-    ])
+describe(`parse and matches`, () => {
+  test(`accepts a valid pprof`, () => {
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [100_000] }],
+    })
 
-    expect(await detectPprof(blob)).toBeDefined()
+    expect(matchesPprof(parsePprof(data))).toBe(true)
   })
 
-  test(`rejects empty data`, async () => {
-    expect(await detectPprof(new Blob([]))).toBeUndefined()
+  test(`rejects empty data`, () => {
+    expect(matchesPprof(parsePprof(new Uint8Array()))).toBe(false)
   })
 
-  test(`rejects invalid binary data`, async () => {
-    expect(
-      await detectPprof(new Blob([new Uint8Array([0xff, 0xfe, 0xfd])])),
-    ).toBeUndefined()
+  test(`rejects invalid binary data`, () => {
+    expect(() => parsePprof(new Uint8Array([0xff, 0xfe, 0xfd]))).toThrow()
   })
 
-  test(`rejects non-pprof binary`, async () => {
-    expect(
-      await detectPprof(
-        new Blob([JSON.stringify({ nodes: [], timeDeltas: [] })]),
-      ),
-    ).toBeUndefined()
+  test(`rejects non-pprof binary`, () => {
+    const bytes = new TextEncoder().encode(
+      JSON.stringify({ nodes: [], timeDeltas: [] }),
+    )
+
+    expect(() => parsePprof(bytes)).toThrow()
   })
 })
 
@@ -126,7 +122,10 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -171,7 +170,10 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -191,7 +193,10 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     // Only the 100µs sample should be counted.
     expect(selfTimeTables(md)).toEqual([
@@ -218,7 +223,10 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     // Function definition location has no line, but execution lines from
     // samples still do.
@@ -250,7 +258,10 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -292,7 +303,10 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000, 1] }],
     })
 
-    const md = pprofToMd(data, { baseURL: `/project` })
+    const md = pprofToMd(
+      parsePprof(data),
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -325,17 +339,26 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = pprofToMd(basePprof, { baseURL: `/project`, topN: 1 })
+    const md = pprofToMd(
+      parsePprof(basePprof),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        topN: 1,
+      }),
+    )
 
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcA` is excluded; `funcB`'s total still shows
-    const md = pprofToMd(basePprof, {
-      baseURL: `/project`,
-      showEntry: row => defaultShowEntry(row) && row.name !== `funcA`,
-    })
+    const md = pprofToMd(
+      parsePprof(basePprof),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: row => defaultShowEntry(row) && row.name !== `funcA`,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -344,7 +367,10 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = pprofToMd(basePprof, { baseURL: null })
+    const md = pprofToMd(
+      parsePprof(basePprof),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),

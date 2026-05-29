@@ -1,6 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
-import type { AsyncProfileData, JsonProfileData } from '../../options.ts'
-
 /** A function observed in a WebKit timeline recording call stack. */
 export type WebKitStackFrame = {
   /**
@@ -58,11 +55,3 @@ export type WebKitTimelineRecording = {
     sampleDurations: number[]
   }
 }
-
-export const parseWebKitTimelineRecording = (
-  data: JsonProfileData,
-): WebKitTimelineRecording => JumboJSON.parse(data)
-
-export const parseWebKitTimelineRecordingAsync = (
-  data: AsyncProfileData,
-): Promise<WebKitTimelineRecording> => JumboJSON.parseAsync(data)

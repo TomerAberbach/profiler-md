@@ -1,3 +1,5 @@
+export { profileToMd, profileToMdAsync } from './formats/index.ts'
+export type { Format } from './formats/index.ts'
 export {
   defaultCategorizeEntry,
   defaultShowEntry,
@@ -5,8 +7,7 @@ export {
   isExternalPrivateEntry,
 } from './options.ts'
 export type {
-  BinaryProfileData,
-  JsonProfileData,
+  ProfileData,
   AsyncProfileData,
   EntryOrigin,
   ProfileEntry,
@@ -14,19 +15,3 @@ export type {
   ProfileToMdOptions,
 } from './options.ts'
 export type { SourceMap } from './source-map.ts'
-export {
-  jscHeapSnapshotToMd,
-  jscHeapSnapshotToMdAsync,
-  pprofToMd,
-  pprofToMdAsync,
-  speedscopeProfileToMd,
-  speedscopeProfileToMdAsync,
-  v8CpuProfileToMd,
-  v8CpuProfileToMdAsync,
-  v8HeapProfileToMd,
-  v8HeapProfileToMdAsync,
-  v8HeapSnapshotToMd,
-  v8HeapSnapshotToMdAsync,
-  webkitTimelineRecordingToMd,
-  webkitTimelineRecordingToMdAsync,
-} from './formats/index.ts'

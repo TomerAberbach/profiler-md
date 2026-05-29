@@ -1,31 +1,20 @@
-import { normalizeProfileToMdOptions } from '../../options.ts'
-import type {
-  AsyncProfileData,
-  JsonProfileData,
-  ProfileToMdOptions,
-} from '../../options.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { aggregateWebKitTimelineRecording } from './aggregate.ts'
 import { formatWebKitTimelineRecording } from './format.ts'
 import type { WebKitTimelineRecording } from './parse.ts'
-import {
-  parseWebKitTimelineRecording,
-  parseWebKitTimelineRecordingAsync,
-} from './parse.ts'
 
-export const detectWebKitTimelineRecording = (
-  json: unknown,
-): WebKitTimelineRecording | undefined => {
+export const matchesWebKitTimelineRecording = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
-    return undefined
+    return false
   }
 
   const object = json as Record<string, unknown>
   if (object.version !== 1) {
-    return undefined
+    return false
   }
 
   if (typeof object.recording !== `object` || object.recording === null) {
-    return undefined
+    return false
   }
 
   const recording = object.recording as Record<string, unknown>
@@ -33,55 +22,17 @@ export const detectWebKitTimelineRecording = (
     !Array.isArray(recording.sampleStackTraces) ||
     !Array.isArray(recording.sampleDurations)
   ) {
-    return undefined
+    return false
   }
 
-  return json as WebKitTimelineRecording
+  return true
 }
 
-/**
- * Converts the given WebKit timeline recording to Markdown.
- *
- * It is assumed that {@link data} is a valid recording. The behavior of this
- * function is undefined for invalid recordings.
- *
- * See the [WebKit timeline recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
- * for generation instructions (`profiler-md --help webkit-timeline-recording`).
- */
 export const webkitTimelineRecordingToMd = (
-  data: JsonProfileData,
-  options?: ProfileToMdOptions,
-): string =>
-  webkitTimelineRecordingToMdInternal(
-    parseWebKitTimelineRecording(data),
-    options,
-  )
-
-/**
- * Asynchronously converts the given WebKit timeline recording to Markdown.
- *
- * It is assumed that {@link data} is a valid recording. The behavior of this
- * function is undefined for invalid recordings.
- *
- * See the [WebKit timeline recording docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/webkit-timeline-recording.md)
- * for generation instructions (`profiler-md --help webkit-timeline-recording`).
- */
-export const webkitTimelineRecordingToMdAsync = async (
-  data: AsyncProfileData,
-  options?: ProfileToMdOptions,
-): Promise<string> =>
-  webkitTimelineRecordingToMdInternal(
-    await parseWebKitTimelineRecordingAsync(data),
-    options,
-  )
-
-export const webkitTimelineRecordingToMdInternal = (
   recording: WebKitTimelineRecording,
-  options?: ProfileToMdOptions,
-): string => {
-  const normalizedOptions = normalizeProfileToMdOptions(options)
-  return formatWebKitTimelineRecording(
-    aggregateWebKitTimelineRecording(recording, normalizedOptions),
-    normalizedOptions,
+  options: NormalizedProfileToMdOptions,
+): string =>
+  formatWebKitTimelineRecording(
+    aggregateWebKitTimelineRecording(recording, options),
+    options,
   )
-}

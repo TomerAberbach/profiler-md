@@ -11,21 +11,20 @@ profiler-md
 │   ├── cli/
 │   │   ├── ansis.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── cli.ts            # Optique flag/usage/topic definitions
-│   │   ├── convert.ts        # Format dispatch and auto-detection
 │   │   ├── error.ts          # CliError class and top-level error reporting
-│   │   ├── formats.ts        # Format and language registry (must register each)
 │   │   ├── help.ts           # Prints CLI help and per-topic docs
 │   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
 │   │   ├── index.ts          # CLI entry point that orchestrates the run
 │   │   ├── input.ts          # Reads stdin or file, decompresses gzip/brotli
+│   │   ├── languages.ts      # Language display metadata, formats, and examples
 │   │   ├── options.ts        # Builds API options from CLI flags
 │   │   ├── output.ts         # Writes Markdown to file or stdout (optionally paged)
 │   │   ├── pager.ts          # Spawns $PAGER or `less` for stdout output
 │   │   └── theme-kindling.ts # Custom Shiki theme for syntax highlighting
-│   ├── index.ts              # API entry point (must export each format)
+│   ├── index.ts              # API entry point
 │   │
 │   ├── formats/              # Individual profile format implementations
-│   │   ├── index.ts          # Barrel file (must export each format)
+│   │   ├── index.ts          # Format registry, profileToMd, profileToMdAsync
 │   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── aggregate.ts  # Aggregates profile data
@@ -65,8 +64,9 @@ profiler-md
 │
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
+│   ├── publish               # Publish the package
 │   ├── update-examples.ts    # Update the examples/ directory based on src/fixtures/
-│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/format.ts
+│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
 │
 ├── examples/                 # Markdown generated from src/fixtures/* using `pnpm update-examples`
 └── readme.md                 # CLI and matrix sections generated using `pnpm update-readme`
@@ -84,7 +84,7 @@ pnpm coverage
 
 # Update `examples/` from `src/fixtures/`
 pnpm update-examples
-# Update readme (CLI help + language matrix) from src/cli/formats.ts and `--help`
+# Update readme (CLI help + language matrix) from src/cli/languages.ts and `--help`
 pnpm update-readme
 
 # Benchmark the CLI with the given args
@@ -140,24 +140,25 @@ pnpm bench ./src/fixtures/node.cpuprofile
 
 ### Implementation
 
-- [ ] Create `src/formats/<name>/parse.ts`: typed data types and parse functions
+- [ ] Create `src/formats/<name>/parse.ts`: typed data types (and a `parse*`
+      helper for binary formats; JSON formats just declare types)
 - [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic
 - [ ] Create `src/formats/<name>/format.ts`: Markdown formatting
-- [ ] Create `src/formats/<name>/index.ts`: exports `detect*`, `*ToMd`,
-      `*ToMdAsync`, `*ToMdInternal`
-- [ ] Create `src/formats/<name>/index.test.ts`: tests for detect and conversion
-- [ ] Export from `src/formats/index.ts`: add
-      `export * from './<name>/index.ts'`
+- [ ] Create `src/formats/<name>/index.ts`: exports `matches*` + `*ToMd` for
+      JSON formats; `parse*` + `matches*` + `*ToMd` for binary formats
+- [ ] Create `src/formats/<name>/index.test.ts`: tests for matches and
+      conversion
 
 ### CLI and programmatic API
 
-- [ ] Register in `src/cli/formats.ts`:
-  - Import `detect*`, `*ToMdInternal`, `*ToMdAsync` at the top
-  - Add entry to `formats` map with `name`, `kind` (`json` or `binary`),
-    `detect`, `toMdInternal`, `toMdAsync`
+- [ ] Register in `src/formats/index.ts`:
+  - Import `matches*` and `*ToMd` (plus `parse*` for binary formats) at the top
+  - Add entry to `formatConverters` with `title`, `kind`, `matches`, `toMd`
+    (plus `parse` for binary formats)
+  - Add format ID to the `formats` tuple
+- [ ] Register in `src/cli/languages.ts`:
   - Add format ID to the relevant language entries in `languages` map
   - Add example entries (with fixture filenames and labels) if fixtures exist
-- [ ] Export from `src/index.ts`: add `*ToMd` and `*ToMdAsync`
 
 ### Documentation
 
@@ -166,4 +167,3 @@ pnpm bench ./src/fixtures/node.cpuprofile
       files for `--help <language>`
 - [ ] Run `pnpm update-examples` to generate `examples/<fixture>.md`
 - [ ] Run `pnpm update-readme` to update the CLI help and language/format matrix
-- [ ] Update the programmatic API code snippet to include the new format

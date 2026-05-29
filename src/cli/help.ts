@@ -1,7 +1,9 @@
 import { readFile } from 'node:fs/promises'
+import { formatConverters } from '../formats/index.ts'
+import type { Format, FormatConverter } from '../formats/index.ts'
 import { getHelpText, topics } from './cli.ts'
-import { formats, languageAliasToPrimary, languages } from './formats.ts'
 import { highlightMarkdown } from './highlight.ts'
+import { languageAliasToPrimary, languages } from './languages.ts'
 import { writeOutput } from './output.ts'
 
 export type PrintHelpTopicOptions = {
@@ -18,8 +20,10 @@ export const printHelpTopic = async (
   }
 
   const language = languages.get(languageAliasToPrimary.get(topic) ?? topic)
-  const format = formats.get(topic)
-  if (!language && !format) {
+  const formatConverter = (formatConverters as Record<string, FormatConverter>)[
+    topic
+  ]
+  if (!language && !formatConverter) {
     process.stderr.write(
       `error: unknown topic "${topic}"\nAvailable topics: ${topics.join(`, `)}\n`,
     )
@@ -27,14 +31,14 @@ export const printHelpTopic = async (
   }
 
   const docURL = new URL(
-    `../../docs/${format ? `formats` : `languages`}/${topic}.md`,
+    `../../docs/${formatConverter ? `formats` : `languages`}/${topic}.md`,
     import.meta.url,
   )
   const doc = await readFile(docURL, `utf8`)
 
-  const seeAlso = format
+  const seeAlso = formatConverter
     ? [...languages.entries()].flatMap(([id, language]) => {
-        if (!language.formats.includes(topic)) {
+        if (!language.formats.includes(topic as Format)) {
           return []
         }
         return [id, ...(language.aliases?.map(alias => alias.id) ?? [])]

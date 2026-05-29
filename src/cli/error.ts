@@ -16,10 +16,9 @@ export const reportError = (error: unknown): never => {
   }
 
   if (error instanceof Error) {
-    process.stderr.write(`error: ${error.message}\n`)
-    if (error.stack) {
-      process.stderr.write(`${error.stack}\n`)
-    }
+    process.stderr.write(
+      error.stack ? `${error.stack}\n` : `error: ${error.message}\n`,
+    )
     process.exit(1)
   }
 

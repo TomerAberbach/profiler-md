@@ -1,6 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
-import type { AsyncProfileData, JsonProfileData } from '../../options.ts'
-
 /**
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp
  */
@@ -41,10 +38,3 @@ export type JSCHeapSnapshot = {
   /** String table for edge names, indexed by `edgeNameIndex`. */
   edgeNames: string[]
 }
-
-export const parseJSCHeapSnapshot = (data: JsonProfileData): JSCHeapSnapshot =>
-  JumboJSON.parse(data)
-
-export const parseJSCHeapSnapshotAsync = (
-  data: AsyncProfileData,
-): Promise<JSCHeapSnapshot> => JumboJSON.parseAsync(data)

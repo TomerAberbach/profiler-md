@@ -1,6 +1,7 @@
 import { execSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
-import { formats, languages } from '../src/cli/formats.ts'
+import { languages } from '../src/cli/languages.ts'
+import { formatConverters } from '../src/formats/index.ts'
 import { formatTable } from '../src/helpers/markdown.ts'
 
 const check = process.argv.includes(`--check`)
@@ -17,7 +18,7 @@ const matrix = formatTable(
         .join(`\u2060/\u2060`),
       langFormats
         .map(format => {
-          const link = `[${formats.get(format)!.name}](docs/formats/${format}.md)`
+          const link = `[${formatConverters[format].title}](docs/formats/${format}.md)`
           const formatExamples = examples?.[format]
           if (!formatExamples?.length) {
             return link
