@@ -1,8 +1,5 @@
-import {
-  formatProfileLocation,
-  makeProfileLocation,
-} from '../../../location.ts'
-import type { ProfileLocation } from '../../../location.ts'
+import { formatSourceLocation, makeFileReference } from '../../../location.ts'
+import type { FileReference, SourceLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import { SnapshotAggregator } from '../../../snapshot/index.ts'
 import type {
@@ -52,7 +49,7 @@ export const aggregateV8HeapSnapshot = (
       const retainerLocation = nodeOrdinalToLocation[retainerOrdinal]
       return `${edgeLabel} ${retainerLabel}${
         retainerLocation
-          ? ` (${formatProfileLocation(retainerLocation, options)})`
+          ? ` (${formatSourceLocation(retainerLocation, options)})`
           : ``
       }`
     },
@@ -220,7 +217,7 @@ const computeNodeOrdinalToLocation = (
     locationLineOffset,
     locationColumnOffset,
   }: FieldLayout,
-): ProfileLocation[] => {
+): SourceLocation[] => {
   const namedEdgeToNodeIndex = (
     nodeIndex: number,
     targetEdgeName: string,
@@ -285,11 +282,11 @@ const computeNodeOrdinalToLocation = (
   // This must be a separate loop from the above because it's possible a file
   // location is reachable from one node, but not another, even though they
   // share the same script ID.
-  const nodeOrdinalToLocation = Array.from<ProfileLocation>({
+  const nodeOrdinalToLocation = Array.from<SourceLocation>({
     length: nodeCount,
   })
-  // Cache URLs per file path to avoid repeated expensive URL construction.
-  const fileLocationToUrl = new Map<string, URL | null>()
+  // Cache `FileReference` per file path to avoid repeated construction.
+  const fileLocationToRef = new Map<string, FileReference>()
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
@@ -301,20 +298,17 @@ const computeNodeOrdinalToLocation = (
       continue
     }
 
-    let url = fileLocationToUrl.get(fileLocation)
-    if (url === undefined) {
-      url = makeProfileLocation({ urlOrPath: fileLocation })?.url ?? null
-      fileLocationToUrl.set(fileLocation, url)
-    }
-    if (!url) {
-      continue
+    let fileReference = fileLocationToRef.get(fileLocation)
+    if (fileReference === undefined) {
+      fileReference = makeFileReference(fileLocation)
+      fileLocationToRef.set(fileLocation, fileReference)
     }
 
     const nodeIndex = locations[locationIndex + locationObjectIndexOffset]!
     const line = locations[locationIndex + locationLineOffset]!
     const column = locations[locationIndex + locationColumnOffset]!
     nodeOrdinalToLocation[nodeIndex / nodeFieldCount] = {
-      url,
+      ...fileReference,
       line: line + 1,
       column: column + 1,
     }
@@ -337,10 +331,10 @@ const formatEdgeLabel = (
   }
 
   const rawEdgeName = strings[edgeNameOrIndex]!
-  // Sometimes the edge name is a file URL.
-  const edgeLocation = makeProfileLocation({ urlOrPath: rawEdgeName })
-  const edgeName = edgeLocation
-    ? formatProfileLocation(edgeLocation, options)
+  // Sometimes the edge name is a file URL. If it's not, then it's shown as-is
+  // (a relative-path reference formats back to the same string).
+  const edgeName = rawEdgeName
+    ? formatSourceLocation(makeFileReference(rawEdgeName), options)
     : rawEdgeName
 
   return `.${edgeName}`
@@ -378,10 +372,10 @@ const formatNodeLabel = (
       const rawNodeName =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      // Sometimes the node name is a file URL.
-      const nodeLocation = makeProfileLocation({ urlOrPath: rawNodeName })
-      return nodeLocation
-        ? formatProfileLocation(nodeLocation, options)
+      // Sometimes the node name is a file URL. If it's not, then it's shown
+      // as-is (a relative-path reference formats back to the same string).
+      return rawNodeName
+        ? formatSourceLocation(makeFileReference(rawNodeName), options)
         : rawNodeName
     }
   }

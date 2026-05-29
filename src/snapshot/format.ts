@@ -2,7 +2,7 @@ import { DynamicTypedArray } from '../helpers/array.ts'
 import { formatBytes, formatCount, formatPercent } from '../helpers/format.ts'
 import { MaxHeap, selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
-import { formatProfileLocation } from '../location.ts'
+import { formatSourceLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedClosure,
@@ -127,7 +127,7 @@ const formatLargestSelfSizeConstructors = (
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
         ...(hasLocation
-          ? [formatProfileLocation(constructor.location, options)]
+          ? [formatSourceLocation(constructor.location, options)]
           : []),
       ]),
     ),
@@ -162,7 +162,7 @@ const formatLargestSelfSizeConstructorInstances = (
       5,
       `${inlineCode(constructor.name)}${
         hasLocation
-          ? ` (${formatProfileLocation(constructor.location, options)})`
+          ? ` (${formatSourceLocation(constructor.location, options)})`
           : ``
       }`,
     ),
@@ -225,7 +225,7 @@ const formatLargestRetainedSizeConstructors = (
         formatCount(constructor.instances.length),
         inlineCode(constructor.name),
         ...(hasLocation
-          ? [formatProfileLocation(constructor.location, options)]
+          ? [formatSourceLocation(constructor.location, options)]
           : []),
       ]),
     ),
@@ -260,7 +260,7 @@ const formatLargestRetainedSizeConstructorInstances = (
       5,
       `${inlineCode(constructor.name)}${
         hasLocation
-          ? ` (${formatProfileLocation(constructor.location, options)})`
+          ? ` (${formatSourceLocation(constructor.location, options)})`
           : ``
       }`,
     ),
@@ -374,7 +374,7 @@ const formatLargestClosures = (
         formatCount(new Set(closure.instanceIds.map(retainerPathOf)).size),
         inlineCode(closure.name),
         ...(hasLocation
-          ? [formatProfileLocation(closure.location, options)]
+          ? [formatSourceLocation(closure.location, options)]
           : []),
         inlineCode(retainerPathOf(closure.largestInstanceId)),
       ]),
@@ -424,7 +424,7 @@ const formatClosureRetainedObjects = (
       4,
       `${inlineCode(closure.name)}${
         hasLocation
-          ? ` (${formatProfileLocation(closure.location, options)})`
+          ? ` (${formatSourceLocation(closure.location, options)})`
           : ``
       }`,
     ),

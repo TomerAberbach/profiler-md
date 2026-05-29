@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { formatProfileLocation } from './location.ts'
+import { formatSourceLocation } from './location.ts'
 import { normalizeProfileToMdOptions } from './options.ts'
 
 const format = ({
@@ -13,8 +13,8 @@ const format = ({
   column?: number
   baseURL?: string | null
 }) =>
-  formatProfileLocation(
-    { url: new URL(url), line, column },
+  formatSourceLocation(
+    { type: `absolute`, url: new URL(url), line, column },
     normalizeProfileToMdOptions({ baseURL }),
   )
 
@@ -126,9 +126,27 @@ test(`wasm: URL shows full href when baseURL is file`, () => {
 
 test(`undefined location returns <unknown>`, () => {
   expect(
-    formatProfileLocation(
+    formatSourceLocation(
       undefined,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`\`<unknown>\``)
+})
+
+test(`formatSourceLocation with relative reference displays the path`, () => {
+  expect(
+    formatSourceLocation(
+      { type: `relative`, path: `src/index.js` },
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    ),
+  ).toBe(`src/index.js`)
+})
+
+test(`formatSourceLocation with relative reference appends line and column`, () => {
+  expect(
+    formatSourceLocation(
+      { type: `relative`, path: `src/index.js`, line: 10, column: 5 },
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    ),
+  ).toBe(`src/index.js:10:5`)
 })

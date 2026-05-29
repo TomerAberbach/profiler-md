@@ -4,7 +4,7 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileToMdOptions,
 } from './options.ts'
-import { normalizeSourceMaps, sourceMapProfileLocation } from './source-map.ts'
+import { normalizeSourceMaps, sourceMapSourceLocation } from './source-map.ts'
 import type { SourceMap } from './source-map.ts'
 
 // Maps generated line 1 col 0 -> sources[0] line 1 col 0 (0-based).
@@ -142,7 +142,7 @@ test(`normalizeSourceMaps converts relative path key to relative location`, () =
   ])
 })
 
-test(`sourceMapProfileLocation matches by absolute location`, () => {
+test(`sourceMapSourceLocation matches by absolute location`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -151,8 +151,9 @@ test(`sourceMapProfileLocation matches by absolute location`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 1,
       column: 1,
@@ -161,13 +162,14 @@ test(`sourceMapProfileLocation matches by absolute location`, () => {
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation matches by relative location`, () => {
+test(`sourceMapSourceLocation matches by relative location`, () => {
   const sourceMaps = [
     makeSourceMap({
       sources: [`/project/src/original.ts`],
@@ -176,8 +178,9 @@ test(`sourceMapProfileLocation matches by relative location`, () => {
     }),
   ]
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(`file:///project/dist/app.js`),
       line: 1,
       column: 1,
@@ -186,14 +189,16 @@ test(`sourceMapProfileLocation matches by relative location`, () => {
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation returns original location when no entry matches`, () => {
+test(`sourceMapSourceLocation returns original location when no entry matches`, () => {
   const location = {
+    type: `absolute` as const,
     url: new URL(`file:///project/dist/app.js`),
     line: 1,
     column: 1,
@@ -202,7 +207,7 @@ test(`sourceMapProfileLocation returns original location when no entry matches`,
     'file:///project/dist/other.js': makeSourceMap(),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     location,
     makeNormalizedOptions({ sourceMaps }),
   )
@@ -210,9 +215,10 @@ test(`sourceMapProfileLocation returns original location when no entry matches`,
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapProfileLocation returns input when location has no mapping`, () => {
+test(`sourceMapSourceLocation returns input when location has no mapping`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
+    type: `absolute` as const,
     url: new URL(url),
     // `MAPPING` only covers line 1. Line 99 does not match.
     line: 99,
@@ -220,7 +226,7 @@ test(`sourceMapProfileLocation returns input when location has no mapping`, () =
   }
   const sourceMaps = { [url]: makeSourceMap() }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     location,
     makeNormalizedOptions({ sourceMaps }),
   )
@@ -228,7 +234,7 @@ test(`sourceMapProfileLocation returns input when location has no mapping`, () =
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapProfileLocation uses absolute path source directly`, () => {
+test(`sourceMapSourceLocation uses absolute path source directly`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -237,8 +243,9 @@ test(`sourceMapProfileLocation uses absolute path source directly`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 1,
       column: 1,
@@ -247,13 +254,14 @@ test(`sourceMapProfileLocation uses absolute path source directly`, () => {
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation uses absolute URL source directly`, () => {
+test(`sourceMapSourceLocation uses absolute URL source directly`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -262,8 +270,9 @@ test(`sourceMapProfileLocation uses absolute URL source directly`, () => {
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 1,
       column: 1,
@@ -272,13 +281,14 @@ test(`sourceMapProfileLocation uses absolute URL source directly`, () => {
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation resolves relative source against baseURL`, () => {
+test(`sourceMapSourceLocation resolves relative source against baseURL`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -287,8 +297,9 @@ test(`sourceMapProfileLocation resolves relative source against baseURL`, () => 
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 1,
       column: 1,
@@ -297,22 +308,24 @@ test(`sourceMapProfileLocation resolves relative source against baseURL`, () => 
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation returns input when source is relative and baseURL is absent`, () => {
+test(`sourceMapSourceLocation returns input when source is relative and baseURL is absent`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
+    type: `absolute` as const,
     url: new URL(url),
     line: 1,
     column: 1,
   }
   const sourceMaps = { [url]: makeSourceMap() }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     location,
     makeNormalizedOptions({ sourceMaps, baseURL: null }),
   )
@@ -320,7 +333,7 @@ test(`sourceMapProfileLocation returns input when source is relative and baseURL
   expect(mappedLocation).toStrictEqual(location)
 })
 
-test(`sourceMapProfileLocation resolves relative source via absolute sourceRoot`, () => {
+test(`sourceMapSourceLocation resolves relative source via absolute sourceRoot`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -330,8 +343,9 @@ test(`sourceMapProfileLocation resolves relative source via absolute sourceRoot`
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 1,
       column: 1,
@@ -340,13 +354,14 @@ test(`sourceMapProfileLocation resolves relative source via absolute sourceRoot`
   )
 
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,
   })
 })
 
-test(`sourceMapProfileLocation converts result column from 0-based to 1-based`, () => {
+test(`sourceMapSourceLocation converts result column from 0-based to 1-based`, () => {
   const url = `file:///project/dist/app.js`
   const sourceMaps = {
     [url]: makeSourceMap({
@@ -357,8 +372,9 @@ test(`sourceMapProfileLocation converts result column from 0-based to 1-based`, 
     }),
   }
 
-  const mappedLocation = sourceMapProfileLocation(
+  const mappedLocation = sourceMapSourceLocation(
     {
+      type: `absolute`,
       url: new URL(url),
       line: 3,
       column: 1,
@@ -368,6 +384,7 @@ test(`sourceMapProfileLocation converts result column from 0-based to 1-based`, 
 
   // AAAA maps to source col 0 (0-based) -> should appear as col 1 (1-based).
   expect(mappedLocation).toStrictEqual({
+    type: `absolute`,
     url: new URL(`file:///project/src/original.ts`),
     line: 1,
     column: 1,

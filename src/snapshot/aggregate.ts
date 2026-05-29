@@ -1,4 +1,5 @@
-import type { ProfileLocation } from '../location.ts'
+import { fileReferenceId } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
@@ -98,7 +99,7 @@ export class SnapshotAggregator {
 
   public addConstructorNode(
     nodeOrdinal: number,
-    location?: ProfileLocation,
+    location?: SourceLocation,
   ): void {
     const name = this.#formatNodeLabel(nodeOrdinal)
     const selfSize = this.#selfSize(nodeOrdinal)
@@ -137,11 +138,11 @@ export class SnapshotAggregator {
 
   public addClosureNode(
     nodeOrdinal: number,
-    location: ProfileLocation | undefined,
+    location: SourceLocation | undefined,
   ): void {
     const name = this.#formatNodeLabel(nodeOrdinal)
     const key = location
-      ? `${name}|${location.url.href}:${location.line}:${location.column}`
+      ? `${name}|${fileReferenceId(location)}:${location.line}:${location.column}`
       : name
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let closureIndex = this.#keyToClosureIndex.get(key)
@@ -370,7 +371,7 @@ export type AggregatedSnapshotNode = {
   retainedSize: number
 
   /** The exact location where the node was defined. */
-  location?: ProfileLocation
+  location?: SourceLocation
 }
 
 export type AggregatedConstructor = AggregatedSnapshotNode & {

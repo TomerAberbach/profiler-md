@@ -8,7 +8,7 @@ import {
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
-import { formatProfileLocation } from '../location.ts'
+import { fileReferenceId, formatSourceLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
@@ -224,7 +224,7 @@ const formatHottestSelfFunctions = (
         formatValue(func.selfValues[metricIndex]!, metric),
         formatCount(func.selfSampleCount),
         inlineCode(func.name),
-        formatProfileLocation(func.location, options),
+        formatSourceLocation(func.location, options),
       ]),
     ),
     ...(hottestLinesSections.length > 0
@@ -264,7 +264,7 @@ const formatHottestLines = (
   return [
     formatHeading(
       options.headingLevel,
-      `${inlineCode(func.name)} (${formatProfileLocation(
+      `${inlineCode(func.name)} (${formatSourceLocation(
         func.location,
         options,
       )})`,
@@ -284,7 +284,7 @@ const formatHottestLines = (
         formatValue(stats.values[metricIndex]!, metric),
         formatCount(stats.sampleCount),
         func.location
-          ? formatProfileLocation(
+          ? formatSourceLocation(
               { ...func.location, line, column: undefined },
               options,
             )
@@ -317,7 +317,7 @@ const formatHottestCallers = (
   return [
     formatHeading(
       options.headingLevel,
-      `${inlineCode(func.name)} (${formatProfileLocation(
+      `${inlineCode(func.name)} (${formatSourceLocation(
         func.location,
         options,
       )})`,
@@ -338,7 +338,7 @@ const formatHottestCallers = (
         formatValue(selfValues[metricIndex]!, metric),
         formatCount(selfSampleCount),
         inlineCode(caller.name),
-        formatProfileLocation(caller.location, options),
+        formatSourceLocation(caller.location, options),
       ]),
     ),
   ]
@@ -389,7 +389,7 @@ const formatHottestTotalFunctions = (
         formatValue(func.totalValues[metricIndex]!, metric),
         formatCount(func.totalSampleCount),
         inlineCode(func.name),
-        formatProfileLocation(func.location, options),
+        formatSourceLocation(func.location, options),
       ]),
     ),
     ...(calleeSections.length > 0
@@ -425,7 +425,7 @@ const formatHottestCallees = (
   return [
     formatHeading(
       options.headingLevel,
-      `${inlineCode(func.name)} (${formatProfileLocation(
+      `${inlineCode(func.name)} (${formatSourceLocation(
         func.location,
         options,
       )})`,
@@ -446,7 +446,7 @@ const formatHottestCallees = (
         formatValue(totalValues[metricIndex]!, metric),
         formatCount(totalSampleCount),
         inlineCode(callee.name),
-        formatProfileLocation(callee.location, options),
+        formatSourceLocation(callee.location, options),
       ]),
     ),
   ]
@@ -507,22 +507,28 @@ const formatHottestCallStacks = (
 }
 
 const formatCallStack = (
-  nodes: AggregatedProfileFunction[],
+  frames: AggregatedProfileFunction[],
   options: FormatProfileOptions,
 ): string =>
-  nodes
-    .map((node, index) => {
-      const name = inlineCode(node.name)
-      if (!node.location) {
+  frames
+    .map((frame, index) => {
+      const name = inlineCode(frame.name)
+      if (!frame.location) {
         return name
       }
 
-      const previousHref = nodes[index - 1]?.location?.url.href
-      if (!previousHref || node.location.url.href !== previousHref) {
-        return `${name} (${formatProfileLocation(node.location, options)})`
+      const previousFrame = frames[index - 1]
+      const previousFileId = previousFrame?.location
+        ? fileReferenceId(previousFrame.location)
+        : undefined
+      if (
+        !previousFileId ||
+        fileReferenceId(frame.location) !== previousFileId
+      ) {
+        return `${name} (${formatSourceLocation(frame.location, options)})`
       }
 
-      const { line, column } = node.location
+      const { line, column } = frame.location
       if (line === undefined) {
         return name
       }
