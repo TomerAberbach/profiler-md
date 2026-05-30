@@ -1,3 +1,6 @@
 import config from '@tomer/eslint-config'
 
-export default [...config, { ignores: [`skills/**/*`] }]
+export default [
+  ...config,
+  { ignores: [`skills/**/*`, `.claude/worktrees/**/*`] },
+]
