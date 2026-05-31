@@ -1,7 +1,6 @@
+import { profileToMdAsync } from '../index.ts'
 import { parseArgs } from './cli.ts'
-import { convertToMarkdown } from './convert.ts'
 import { reportError } from './error.ts'
-import { formats } from './formats.ts'
 import { printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight.ts'
 import { openInputAsBlob } from './input.ts'
@@ -12,7 +11,7 @@ try {
   const {
     help,
     output: outputPath,
-    format: profileFormat,
+    format,
     topN,
     baseURL,
     thirdParty,
@@ -25,17 +24,15 @@ try {
     await printHelpTopic(typeof help === `string` ? help : undefined, { pager })
   }
 
-  const forcedFormat =
-    profileFormat === undefined ? undefined : formats.get(profileFormat)
   if (!filePath && process.stdin.isTTY) {
     await printHelpTopic(undefined, { pager })
   }
 
   const [data, options] = await Promise.all([
     openInputAsBlob(filePath),
-    buildOptions({ topN, baseURL, thirdParty, sourceMaps }),
+    buildOptions({ format, topN, baseURL, thirdParty, sourceMaps }),
   ])
-  const markdown = await convertToMarkdown(data, forcedFormat, options)
+  const markdown = await profileToMdAsync(data, options)
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
   await writeOutput(highlightedMarkdown, outputPath, { pager })

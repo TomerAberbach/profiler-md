@@ -1,67 +1,22 @@
-import { normalizeProfileToMdOptions } from '../../options.ts'
-import type {
-  AsyncProfileData,
-  JsonProfileData,
-  ProfileToMdOptions,
-} from '../../options.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import { aggregateJSCHeapSnapshot } from './aggregate.ts'
 import { formatJSCHeapSnapshot } from './format.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
-import { parseJSCHeapSnapshot, parseJSCHeapSnapshotAsync } from './parse.ts'
 
-export const detectJSCHeapSnapshot = (
-  json: unknown,
-): JSCHeapSnapshot | undefined => {
+export const matchesJSCHeapSnapshot = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
-    return undefined
+    return false
   }
 
   const { version, type, nodes } = json as Record<string, unknown>
   if (version !== 2 || type !== `Inspector` || !Array.isArray(nodes)) {
-    return undefined
+    return false
   }
 
-  return json as JSCHeapSnapshot
+  return true
 }
 
-/**
- * Converts the given JSC heap snapshot to Markdown.
- *
- * It is assumed that {@link data} is a valid snapshot. The behavior of this
- * function is undefined for invalid snapshots.
- *
- * See the [JSC heap snapshot docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/jsc-heap-snapshot.md)
- * for supported runtimes and generation instructions
- * (`profiler-md --help jsc-heap-snapshot`).
- */
 export const jscHeapSnapshotToMd = (
-  data: JsonProfileData,
-  options?: ProfileToMdOptions,
-): string => jscHeapSnapshotToMdInternal(parseJSCHeapSnapshot(data), options)
-
-/**
- * Asynchronously converts the given JSC heap snapshot to Markdown.
- *
- * It is assumed that {@link data} is a valid snapshot. The behavior of this
- * function is undefined for invalid snapshots.
- *
- * See the [JSC heap snapshot docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats/jsc-heap-snapshot.md)
- * for supported runtimes and generation instructions
- * (`profiler-md --help jsc-heap-snapshot`).
- */
-export const jscHeapSnapshotToMdAsync = async (
-  data: AsyncProfileData,
-  options?: ProfileToMdOptions,
-): Promise<string> =>
-  jscHeapSnapshotToMdInternal(await parseJSCHeapSnapshotAsync(data), options)
-
-export const jscHeapSnapshotToMdInternal = (
   snapshot: JSCHeapSnapshot,
-  options?: ProfileToMdOptions,
-): string => {
-  const normalizedOptions = normalizeProfileToMdOptions(options)
-  return formatJSCHeapSnapshot(
-    aggregateJSCHeapSnapshot(snapshot),
-    normalizedOptions,
-  )
-}
+  options: NormalizedProfileToMdOptions,
+): string => formatJSCHeapSnapshot(aggregateJSCHeapSnapshot(snapshot), options)

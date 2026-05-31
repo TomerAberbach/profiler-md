@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry } from '../../options.ts'
+import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
@@ -9,7 +9,7 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { detectSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
+import { matchesSpeedscopeProfile, speedscopeProfileToMd } from './index.ts'
 import type {
   SpeedscopeEvent,
   SpeedscopeEventedProfile,
@@ -59,50 +59,48 @@ const makeEventedProfile = ({
   unit?: SpeedscopeValueUnit
 }): SpeedscopeEventedProfile => ({ type: `evented`, name, unit, events })
 
-describe(`detect`, () => {
+describe(`matches`, () => {
   test(`accepts valid speedscope file`, () => {
     expect(
-      detectSpeedscopeProfile(
+      matchesSpeedscopeProfile(
         makeSpeedscopeProfile({
           profiles: [makeSampledProfile({ samples: [[0]], weights: [1] })],
           frames: [{ name: `main` }],
         }),
       ),
-    ).toBeDefined()
+    ).toBe(true)
   })
 
   test(`rejects null`, () => {
-    expect(detectSpeedscopeProfile(null)).toBeUndefined()
+    expect(matchesSpeedscopeProfile(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(detectSpeedscopeProfile(42)).toBeUndefined()
+    expect(matchesSpeedscopeProfile(42)).toBe(false)
   })
 
   test(`rejects wrong $schema`, () => {
     expect(
-      detectSpeedscopeProfile({
+      matchesSpeedscopeProfile({
         $schema: `https://other.app/schema.json`,
         profiles: [],
         shared: { frames: [] },
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 
   test(`rejects missing profiles`, () => {
-    expect(
-      detectSpeedscopeProfile({ nodes: [], timeDeltas: [] }),
-    ).toBeUndefined()
+    expect(matchesSpeedscopeProfile({ nodes: [], timeDeltas: [] })).toBe(false)
   })
 
   test(`rejects null shared`, () => {
     expect(
-      detectSpeedscopeProfile({
+      matchesSpeedscopeProfile({
         $schema: `https://www.speedscope.app/file-format-schema.json`,
         profiles: [],
         shared: null,
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 })
 
@@ -121,9 +119,12 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Work has 2 samples (30ms self), main has 1 sample (5ms self)
     expect(selfTimeTables(md)).toEqual([
@@ -184,9 +185,12 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
     expect(selfTimeTables(md)).toEqual([
@@ -221,9 +225,12 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Both profiles should appear in the output.
     expect(
@@ -244,9 +251,12 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Total should be 30ms from 2 non-zero samples
     expect(summaryLines(md)).toEqual([
@@ -270,9 +280,12 @@ describe(`convert`, () => {
       frames: [{ name: `factorial`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Recursive: total should be deduplicated (1 sample, not 2)
     expect(totalTimeTables(md)).toEqual([
@@ -300,9 +313,12 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(selfTimeTables(md).map(table => table.map(row => row.Time))).toEqual(
       [[`1.0ms`]],
@@ -320,9 +336,12 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     // Only the non-empty sample (50ms) is counted, not the empty-stack ones
     // (100ms + 100ms).
@@ -337,9 +356,12 @@ describe(`convert`, () => {
       frames: [{ name: `nativeFunc` }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      showEntry: () => true,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        showEntry: () => true,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -361,9 +383,12 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(profileTitles(md)).toEqual([`Heap profile`])
     expect(summaryLines(md)).toEqual([expect.stringContaining(`Allocated`)])
@@ -380,9 +405,12 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = speedscopeProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project/`,
-    })
+    const md = speedscopeProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
 
     expect(profileTitles(md)).toEqual([`Count profile`])
     expect(summaryLines(md)).toEqual([expect.stringContaining(`Recorded`)])
@@ -406,10 +434,13 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project/`,
-      showEntry: row => defaultShowEntry(row) && row.name !== `work`,
-    })
+    const md = speedscopeProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        showEntry: row => defaultShowEntry(row) && row.name !== `work`,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -418,19 +449,25 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project/`,
-      topN: 1,
-    })
+    const md = speedscopeProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        topN: 1,
+      }),
+    )
 
     expect(selfTimeTables(md).map(table => table.length)).toEqual([1])
     expect(totalTimeTables(md).map(table => table.length)).toEqual([1])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: null,
-    })
+    const md = speedscopeProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: null,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -438,10 +475,13 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = speedscopeProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project/`,
-      categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
-    })
+    const md = speedscopeProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+        categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [

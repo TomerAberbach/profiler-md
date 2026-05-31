@@ -1,6 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
-import type { AsyncProfileData, JsonProfileData } from '../../../options.ts'
-
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
  */
@@ -78,10 +75,3 @@ export type V8HeapSnapshotMeta = {
    */
   location_fields: string[]
 }
-
-export const parseV8HeapSnapshot = (data: JsonProfileData): V8HeapSnapshot =>
-  JumboJSON.parse(data)
-
-export const parseV8HeapSnapshotAsync = (
-  data: AsyncProfileData,
-): Promise<V8HeapSnapshot> => JumboJSON.parseAsync(data)

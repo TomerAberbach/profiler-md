@@ -1,3 +1,4 @@
+import type { Format } from './formats/index.ts'
 import { DynamicTypedArray } from './helpers/array.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import { makeFileReference } from './location.ts'
@@ -8,12 +9,7 @@ import { normalizeSourceMaps } from './source-map.ts'
 import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
 
 /** Profile data that can be synchronously parsed and converted to Markdown. */
-export type BinaryProfileData = Uint8Array | Iterable<Uint8Array>
-
-/**
- * JSON profile data that can be synchronously parsed and converted to Markdown.
- */
-export type JsonProfileData = string | BinaryProfileData
+export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
 
 /** Profile data that can be asynchronously parsed and converted to Markdown. */
 export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
@@ -46,6 +42,9 @@ export type AggregatedProfileEntry =
 
 /** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
+  /** The format to use for conversion. When set, auto-detection is skipped. */
+  format?: Format
+
   /**
    * The number of entries to display when computing the "top N" by some metric.
    *

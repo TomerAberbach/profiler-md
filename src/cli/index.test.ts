@@ -174,8 +174,8 @@ test.each([
     scenario: `stdin with unrecognizable content`,
     args: [],
     input: `{}`,
-    expectedStderr: `could not detect profile format from content`,
-    expectedStatus: 2,
+    expectedStderr: `Could not detect profile format`,
+    expectedStatus: 1,
   },
   {
     scenario: `unknown --format value`,

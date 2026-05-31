@@ -1,12 +1,15 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry } from '../../../options.ts'
+import {
+  defaultShowEntry,
+  normalizeProfileToMdOptions,
+} from '../../../options.ts'
 import {
   callersTables,
   categoryTables,
   selfSizeTables,
   totalSizeTables,
 } from '../../../testing/markdown.ts'
-import { detectV8HeapProfile, v8HeapProfileToMd } from './index.ts'
+import { matchesV8HeapProfile, v8HeapProfileToMd } from './index.ts'
 import type { V8HeapProfileNode } from './parse.ts'
 
 const root = (children: V8HeapProfileNode[]): V8HeapProfileNode => ({
@@ -99,38 +102,38 @@ const baseProfile = {
   ],
 }
 
-describe(`detect`, () => {
+describe(`matches`, () => {
   test(`accepts valid profile`, () => {
     expect(
-      detectV8HeapProfile({
+      matchesV8HeapProfile({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
         samples: [],
       }),
-    ).toBeDefined()
+    ).toBe(true)
   })
 
   test(`rejects null`, () => {
-    expect(detectV8HeapProfile(null)).toBeUndefined()
+    expect(matchesV8HeapProfile(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(detectV8HeapProfile(42)).toBeUndefined()
+    expect(matchesV8HeapProfile(42)).toBe(false)
   })
 
   test(`rejects missing head`, () => {
-    expect(detectV8HeapProfile({ samples: [] })).toBeUndefined()
+    expect(matchesV8HeapProfile({ samples: [] })).toBe(false)
   })
 
   test(`rejects head: null`, () => {
-    expect(detectV8HeapProfile({ head: null, samples: [] })).toBeUndefined()
+    expect(matchesV8HeapProfile({ head: null, samples: [] })).toBe(false)
   })
 
   test(`rejects missing samples`, () => {
     expect(
-      detectV8HeapProfile({
+      matchesV8HeapProfile({
         head: { callFrame: {}, selfSize: 0, id: 1, children: [] },
       }),
-    ).toBeUndefined()
+    ).toBe(false)
   })
 })
 
@@ -198,9 +201,12 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8HeapProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // Two funcB nodes -> one row with combined size
     expect(selfSizeTables(md)).toEqual([
@@ -281,9 +287,12 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 4, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8HeapProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     expect(
       totalSizeTables(md).map(table =>
@@ -333,9 +342,12 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 3, ordinal: 1 }],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8HeapProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // FuncA total = 1 sample, not 2
     expect(totalSizeTables(md)).toEqual([
@@ -400,9 +412,12 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8HeapProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -462,9 +477,12 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = v8HeapProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8HeapProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -484,9 +502,12 @@ describe(`convert`, () => {
     // `node:internal/` frames are excluded from display by default.
     // Their allocations still count toward the category summary (as `native`).
     // The `node:fs` frame (non-internal Node built-in) is NOT filtered.
-    const defaultOutput = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-    })
+    const defaultOutput = v8HeapProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // InternalLoader and readFileSync are absent; only funcC and funcA appear
     expect(selfSizeTables(defaultOutput)).toEqual([
@@ -514,10 +535,13 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
     // because its only direct caller (`funcB`) is excluded.
-    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
-    })
+    const md = v8HeapProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
+      }),
+    )
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Function)),
@@ -526,17 +550,25 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      topN: 2,
-    })
+    const md = v8HeapProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        topN: 2,
+      }),
+    )
 
     expect(selfSizeTables(md).map(table => table.length)).toEqual([2])
     expect(totalSizeTables(md).map(table => table.length)).toEqual([2])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), { baseURL: null })
+    const md = v8HeapProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: null,
+      }),
+    )
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Location)),
@@ -544,10 +576,14 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = v8HeapProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      categorizeEntry: entry => (entry.name === `funcA` ? `team-a` : `team-b`),
-    })
+    const md = v8HeapProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        categorizeEntry: entry =>
+          entry.name === `funcA` ? `team-a` : `team-b`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [

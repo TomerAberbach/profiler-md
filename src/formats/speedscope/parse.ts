@@ -1,6 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
-import type { AsyncProfileData, JsonProfileData } from '../../options.ts'
-
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
   /** The name of the function. */
@@ -88,11 +85,3 @@ export type SpeedscopeProfile = {
     frames: SpeedscopeFrame[]
   }
 }
-
-export const parseSpeedscopeProfile = (
-  data: JsonProfileData,
-): SpeedscopeProfile => JumboJSON.parse(data)
-
-export const parseSpeedscopeProfileAsync = (
-  data: AsyncProfileData,
-): Promise<SpeedscopeProfile> => JumboJSON.parseAsync(data)

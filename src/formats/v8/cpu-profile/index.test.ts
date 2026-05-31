@@ -1,5 +1,8 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry } from '../../../options.ts'
+import {
+  defaultShowEntry,
+  normalizeProfileToMdOptions,
+} from '../../../options.ts'
 import {
   callersTables,
   categoryTables,
@@ -7,7 +10,7 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../../testing/markdown.ts'
-import { detectV8CpuProfile, v8CpuProfileToMd } from './index.ts'
+import { matchesV8CpuProfile, v8CpuProfileToMd } from './index.ts'
 import type { V8CpuProfileNode } from './parse.ts'
 
 const root = (children: number[]): V8CpuProfileNode => ({
@@ -23,25 +26,25 @@ const root = (children: number[]): V8CpuProfileNode => ({
   children,
 })
 
-describe(`detect`, () => {
+describe(`matches`, () => {
   test(`accepts valid profile`, () => {
-    expect(detectV8CpuProfile({ nodes: [], timeDeltas: [] })).toBeDefined()
+    expect(matchesV8CpuProfile({ nodes: [], timeDeltas: [] })).toBe(true)
   })
 
   test(`rejects null`, () => {
-    expect(detectV8CpuProfile(null)).toBeUndefined()
+    expect(matchesV8CpuProfile(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(detectV8CpuProfile(`string`)).toBeUndefined()
+    expect(matchesV8CpuProfile(`string`)).toBe(false)
   })
 
   test(`rejects missing nodes`, () => {
-    expect(detectV8CpuProfile({ timeDeltas: [] })).toBeUndefined()
+    expect(matchesV8CpuProfile({ timeDeltas: [] })).toBe(false)
   })
 
   test(`rejects missing timeDeltas`, () => {
-    expect(detectV8CpuProfile({ nodes: [] })).toBeUndefined()
+    expect(matchesV8CpuProfile({ nodes: [] })).toBe(false)
   })
 })
 
@@ -103,9 +106,12 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // Two funcB nodes -> one row with 3 combined samples
     expect(selfTimeTables(md)).toEqual([
@@ -198,9 +204,12 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // Line 8 hottest (2 ticks from node 5), line 5 second (1 tick from node 4)
     expect(linesTables(md, `funcB`)).toEqual([
@@ -273,9 +282,12 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // Line 5 has 2 ticks total (summed), line 8 has 1 tick
     expect(linesTables(md, `funcB`)).toEqual([
@@ -320,9 +332,12 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // FuncA total = 1 sample, not 2
     expect(totalTimeTables(md)).toEqual([
@@ -384,9 +399,12 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     // Two distinct (anonymous) entries at different lines
     expect(
@@ -447,9 +465,12 @@ describe(`convert`, () => {
       timeDeltas: [1000, 500, 250],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -504,9 +525,12 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100, 100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(JSON.stringify(profile), {
-      baseURL: `/project`,
-    })
+    const md = v8CpuProfileToMd(
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -596,10 +620,13 @@ describe(`options`, () => {
     // `funcB` is excluded via `showEntry`. Its hit count is zero, but it
     // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
     // its only direct caller (`funcB`) is excluded.
-    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
-    })
+    const md = v8CpuProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: row => defaultShowEntry(row) && row.name !== `funcB`,
+      }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
@@ -608,17 +635,23 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      topN: 2,
-    })
+    const md = v8CpuProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        topN: 2,
+      }),
+    )
 
     expect(selfTimeTables(md).map(table => table.length)).toEqual([2])
     expect(totalTimeTables(md).map(table => table.length)).toEqual([2])
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), { baseURL: null })
+    const md = v8CpuProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({ baseURL: null }),
+    )
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
@@ -626,10 +659,14 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = v8CpuProfileToMd(JSON.stringify(baseProfile), {
-      baseURL: `/project`,
-      categorizeEntry: entry => (entry.name === `funcA` ? `team-a` : `team-b`),
-    })
+    const md = v8CpuProfileToMd(
+      structuredClone(baseProfile),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        categorizeEntry: entry =>
+          entry.name === `funcA` ? `team-a` : `team-b`,
+      }),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
