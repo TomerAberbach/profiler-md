@@ -28,4 +28,5 @@ for link in "${!symlinks[@]}"; do
   mv "${link}.tmp" "$link"
 done
 
+export PROFILER_MD_PUBLISH=1
 pnpm publish "$@"
