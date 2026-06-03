@@ -114,7 +114,8 @@ console.log(await profileToMdAsync(await openAsBlob(`example.pprof`)))
 
 // Explicit format
 console.log(
-  await profileToMdAsync(await openAsBlob(`example.pprof`), {
+  await profileToMdAsync({
+    data: await openAsBlob(`example.pprof`),
     format: `pprof`,
   }),
 )
@@ -124,7 +125,9 @@ console.log(profileToMd(readFileSync(`example.cpuprofile`, `utf8`)))
 console.log(profileToMd(readFileSync(`example.pprof`)))
 
 // Synchronous usage with explicit format
-console.log(profileToMd(readFileSync(`example.pprof`), { format: `pprof` }))
+console.log(
+  profileToMd({ data: readFileSync(`example.pprof`), format: `pprof` }),
+)
 
 // Complex usage
 const options = {

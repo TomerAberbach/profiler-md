@@ -30,9 +30,12 @@ try {
 
   const [data, options] = await Promise.all([
     openInputAsBlob(filePath),
-    buildOptions({ format, topN, baseURL, thirdParty, sourceMaps }),
+    buildOptions({ topN, baseURL, thirdParty, sourceMaps }),
   ])
-  const markdown = await profileToMdAsync(data, options)
+  const markdown = await profileToMdAsync(
+    format ? { data, format } : data,
+    options,
+  )
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
   await writeOutput(highlightedMarkdown, outputPath, { pager })

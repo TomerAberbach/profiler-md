@@ -4,11 +4,10 @@ import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
 import { defaultCategorizeEntry } from '../index.ts'
-import type { Format, ProfileToMdOptions, SourceMap } from '../index.ts'
+import type { ProfileToMdOptions, SourceMap } from '../index.ts'
 import { fileReferencePath, makeFileReference } from '../location.ts'
 
 export type BuildOptionsFlags = {
-  format?: Format
   topN?: number
   baseURL?: string
   thirdParty: readonly string[]
@@ -16,13 +15,11 @@ export type BuildOptionsFlags = {
 }
 
 export const buildOptions = async ({
-  format,
   topN,
   baseURL,
   thirdParty,
   sourceMaps,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
-  format,
   topN,
   baseURL:
     baseURL !== undefined && !URL.canParse(baseURL)
