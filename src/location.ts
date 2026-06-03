@@ -1,56 +1,28 @@
 import { inlineCode } from './helpers/markdown.ts'
+import type { DeepReadonly } from './helpers/types.ts'
 import type { NormalizedProfileToMdOptions } from './options.ts'
-import { sourceMapProfileLocation } from './source-map.ts'
+import { sourceMapSourceLocation } from './source-map.ts'
 
-/** An input that can be converted to a {@link ProfileLocation}. */
-export type ProfileLocationInput = {
-  /** A string parseable into a {@link URL} or file path. */
-  urlOrPath: string
-
-  /**
-   * The 1-based line number in the file at
-   * {@link ProfileLocationInput.urlOrPath}.
-   */
+/** A file reference, potentially with line and column information. */
+export type SourceLocation = FileReference & {
+  /** The 1-based line number in the file. */
   line?: number
 
-  /**
-   * The 1-based column number in the file at
-   * {@link ProfileLocationInput.urlOrPath}.
-   */
+  /** The 1-based column number in the file. */
   column?: number
 }
 
-/** A {@link URL} to a file, potentially with line and column information. */
-export type ProfileLocation = {
-  url: URL
+export const fileReferenceId = (fileReference: FileReference): string =>
+  fileReference.type === `absolute`
+    ? fileReference.url.href
+    : fileReference.path
 
-  /** The 1-based line number in the file at {@link ProfileLocation.url}. */
-  line?: number
-
-  /** The 1-based column number in the file at {@link ProfileLocation.url}. */
-  column?: number
-}
-
-/**
- * Converts a {@link ProfileLocationInput} or a {@link ProfileLocation} or
- * returns undefined if it's not a valid location.
- */
-export const makeProfileLocation = ({
-  urlOrPath,
-  line,
-  column,
-}: ProfileLocationInput): ProfileLocation | undefined => {
-  if (!urlOrPath) {
-    return undefined
-  }
-
-  const fileReference = makeFileReference(urlOrPath)
-  if (fileReference.type !== `absolute`) {
-    return undefined
-  }
-
-  return { url: fileReference.url, line, column }
-}
+export const fileReferencePath = (
+  fileReference: DeepReadonly<FileReference>,
+): string =>
+  fileReference.type === `absolute`
+    ? fileReference.url.pathname
+    : fileReference.path
 
 export type FileReference =
   | { type: `absolute`; url: URL }
@@ -76,28 +48,31 @@ export const makeFileReference = (urlOrPath: string): FileReference => {
   }
 }
 
-export const formatProfileLocation = (
-  location: ProfileLocation | undefined,
+export const formatSourceLocation = (
+  location: SourceLocation | undefined,
   options: NormalizedProfileToMdOptions,
 ): string => {
-  const { baseURL } = options
-
   if (!location) {
     return inlineCode(`<unknown>`)
   }
 
-  location = sourceMapProfileLocation(location, options)
+  location = sourceMapSourceLocation(location, options)
 
   let path: string
-  if (baseURL === undefined) {
-    path =
-      location.url.protocol === `file:`
-        ? location.url.pathname
-        : location.url.href
-  } else if (isSameOrigin(baseURL, location.url)) {
-    path = relativeURLPath(baseURL.pathname, location.url.pathname)
+  if (location.type === `relative`) {
+    ;({ path } = location)
   } else {
-    path = location.url.href
+    const { baseURL } = options
+    if (baseURL === undefined) {
+      path =
+        location.url.protocol === `file:`
+          ? location.url.pathname
+          : location.url.href
+    } else if (isSameOrigin(baseURL, location.url)) {
+      path = relativeURLPath(baseURL.pathname, location.url.pathname)
+    } else {
+      path = location.url.href
+    }
   }
 
   if (location.line !== undefined) {

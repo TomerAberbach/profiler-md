@@ -5,7 +5,7 @@ import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
 import { defaultCategorizeEntry } from '../index.ts'
 import type { Format, ProfileToMdOptions, SourceMap } from '../index.ts'
-import { makeFileReference } from '../location.ts'
+import { fileReferencePath, makeFileReference } from '../location.ts'
 
 export type BuildOptionsFlags = {
   format?: Format
@@ -41,9 +41,15 @@ const buildCategorizeEntry = (
 
   const isMatch = picomatch([...patterns], { dot: true })
   return entry => {
-    if (entry.location && isMatch(entry.location.url.pathname)) {
+    if (!entry.location) {
+      return defaultCategorizeEntry(entry)
+    }
+
+    const path = fileReferencePath(entry.location)
+    if (isMatch(path)) {
       return `third-party`
     }
+
     return defaultCategorizeEntry(entry)
   }
 }

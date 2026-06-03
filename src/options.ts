@@ -1,8 +1,8 @@
 import type { Format } from './formats/index.ts'
 import { DynamicTypedArray } from './helpers/array.ts'
 import type { DeepReadonly } from './helpers/types.ts'
-import { makeFileReference } from './location.ts'
-import type { ProfileLocation } from './location.ts'
+import { fileReferencePath, makeFileReference } from './location.ts'
+import type { SourceLocation } from './location.ts'
 import type { AggregatedProfileFunction } from './profile/aggregate.ts'
 import type { AggregatedSnapshotNode } from './snapshot/aggregate.ts'
 import { normalizeSourceMaps } from './source-map.ts'
@@ -32,7 +32,7 @@ export type ProfileEntry = {
    * The location where the entity corresponding to this entry was defined, or
    * undefined if it's unknown.
    */
-  location?: ProfileLocation
+  location?: SourceLocation
 }
 
 /** A aggregated entry in a rendered profile. */
@@ -180,12 +180,23 @@ export const defaultCategorizeEntry = (
     return `regexp`
   }
 
-  if (!location || location.url.protocol === `node:`) {
+  if (!location) {
+    // If the node has no location, then we assume stdlib.
     return `stdlib`
   }
 
-  if (location.url.pathname.includes(`/node_modules/`)) {
+  if (location.type === `absolute` && location.url.protocol === `node:`) {
+    // `node:` URLs are Node.js's stdlib.
+    return `stdlib`
+  }
+
+  const path = fileReferencePath(location)
+  if (path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)) {
     return `third-party`
+  }
+  if (path.startsWith(`__InjectedScript_`)) {
+    // This is a WebKit internal.
+    return `stdlib`
   }
 
   return `ours`
