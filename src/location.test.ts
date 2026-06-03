@@ -124,11 +124,11 @@ test(`wasm: URL shows full href when baseURL is file`, () => {
   ).toBe(`wasm://wasm/009f676a:1:42`)
 })
 
-test(`undefined location returns <native>`, () => {
+test(`undefined location returns <unknown>`, () => {
   expect(
     formatProfileLocation(
       undefined,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),
-  ).toBe(`\`<native>\``)
+  ).toBe(`\`<unknown>\``)
 })

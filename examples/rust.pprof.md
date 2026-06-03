@@ -23,13 +23,13 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  4.7% | 12.0ms |       2 | `core::ptr::drop_in_place<[compiler::phases::backend::ir::Statement]>`               | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs             |
 |  4.3% | 11.0ms |       2 | `compiler::phases::backend::ir::middle_statement_to_block_or_statement::{{closure}}` | web-lang/compiler/src/phases/backend/ir.rs                                                                        |
 |  4.3% | 11.0ms |       1 | `compiler::phases::backend::code_gen::visit_statement`                               | web-lang/compiler/src/phases/backend/code_gen.rs                                                                  |
-|  4.3% | 11.0ms |       5 | `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone`         | `<native>`                                                                                                        |
+|  4.3% | 11.0ms |       5 | `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone`         | `<unknown>`                                                                                                       |
 |  3.5% |  9.0ms |       1 | `<T as alloc::slice::<impl [T]>::to_vec_in::ConvertVec>::to_vec`                     | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/slice.rs              |
 |  3.1% |  8.0ms |       1 | `hashbrown::raw::RawTable<T,A>::reserve`                                             | ../../../../rust/deps/hashbrown-0.16.1/src/raw/mod.rs                                                             |
 |  2.7% |  7.0ms |       5 | `compiler::phases::middle_end::name_resolution::resolve_expression`                  | web-lang/compiler/src/phases/middle_end/name_resolution.rs                                                        |
 |  2.7% |  7.0ms |       1 | `compiler::phases::frontend::parser::__parse__Module::__reduce78`                    | web-lang/compiler/target/profiling/build/web-compiler-969fc0c9ab6adc6a/out/parser.rs                              |
 |  2.3% |  6.0ms |       3 | `compiler::phases::backend::code_gen::generate_code`                                 | web-lang/compiler/src/phases/backend/code_gen.rs                                                                  |
-|  2.3% |  6.0ms |       5 | `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>`                 | `<native>`                                                                                                        |
+|  2.3% |  6.0ms |       5 | `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>`                 | `<unknown>`                                                                                                       |
 |  1.9% |  5.0ms |       3 | `compiler::phases::backend::ir::middle_statement_to_block_or_statement`              | web-lang/compiler/src/phases/backend/ir.rs                                                                        |
 |  1.9% |  5.0ms |       2 | `<T as core::clone::uninit::CopySpec>::clone_one`                                    | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/clone/uninit.rs        |
 |  1.6% |  4.0ms |       4 | `<alloc::vec::Vec<T> as alloc::vec::spec_from_iter::SpecFromIter<T,I>>::from_iter`   | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/alloc/src/vec/spec_from_iter.rs |
@@ -88,7 +88,7 @@ Lines ranked by contribution to each function's self time.
 | -----: | -----: | ------: | ---------------------------------------------------- |
 | 100.0% | 11.0ms |       1 | web-lang/compiler/src/phases/backend/code_gen.rs:104 |
 
-##### `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone` (`<native>`)
+##### `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone` (`<unknown>`)
 
 |      % |   Time | Samples | Location |
 | -----: | -----: | ------: | -------- |
@@ -124,7 +124,7 @@ Lines ranked by contribution to each function's self time.
 | -----: | ----: | ------: | --------------------------------------------------- |
 | 100.0% | 6.0ms |       3 | web-lang/compiler/src/phases/backend/code_gen.rs:25 |
 
-##### `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>` (`<native>`)
+##### `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>` (`<unknown>`)
 
 |      % |  Time | Samples | Location |
 | -----: | ----: | ------: | -------- |
@@ -215,7 +215,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | -------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | 100.0% | 11.0ms |       1 | `core::ops::function::FnMut::call_mut` | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ops/function.rs |
 
-##### `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone` (`<native>`)
+##### `<compiler::phases::middle_end::ir::Statement as core::clone::Clone>::clone` (`<unknown>`)
 
 |      % |   Time | Samples | Caller                                                           | Location                                                                                             |
 | -----: | -----: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -253,12 +253,12 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ----: | ------: | ---------------------------------------- | ------------------------------------------- |
 | 100.0% | 6.0ms |       3 | `compiler::phases::backend::run_backend` | web-lang/compiler/src/phases/backend/mod.rs |
 
-##### `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>` (`<native>`)
+##### `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>` (`<unknown>`)
 
 |     % |  Time | Samples | Caller                                                                 | Location                                                                                              |
 | ----: | ----: | ------: | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | 83.3% | 5.0ms |       4 | `core::ptr::drop_in_place<[compiler::phases::backend::ir::Statement]>` | ../../.rustup/toolchains/stable-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/ptr/mod.rs |
-| 16.7% | 1.0ms |       1 | `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>`   | `<native>`                                                                                            |
+| 16.7% | 1.0ms |       1 | `core::ptr::drop_in_place<compiler::phases::backend::ir::Statement>`   | `<unknown>`                                                                                           |
 
 ##### `compiler::phases::backend::ir::middle_statement_to_block_or_statement` (web-lang/compiler/src/phases/backend/ir.rs)
 

@@ -28,7 +28,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  4.6% |  55.5ms |      37 | `unevalInternal`          | uneval/src/internal/index.ts      |
 |  4.0% |  47.6ms |       4 | `getType`                 | uneval/src/internal/type.ts       |
 |  2.6% |  31.6ms |       2 | `createState`             | uneval/src/index.ts               |
-|  2.3% |  28.0ms |       1 | `Garbage Collection`      | `<native>`                        |
+|  2.3% |  28.0ms |       1 | `Garbage Collection`      | `<unknown>`                       |
 |  1.0% |  11.8ms |      21 | `unevalString`            | uneval/src/internal/primitive.ts  |
 |  0.9% |  10.5ms |       3 | `uneval`                  | uneval/src/index.ts               |
 |  0.8% |   9.4ms |       7 | `unevalObject`            | uneval/src/internal/object.ts     |
@@ -113,7 +113,7 @@ Lines ranked by contribution to each function's self time.
 | -----: | -----: | ------: | ----------------------- |
 | 100.0% | 31.6ms |       2 | uneval/src/index.ts:144 |
 
-##### `Garbage Collection` (`<native>`)
+##### `Garbage Collection` (`<unknown>`)
 
 |      % |   Time | Samples | Location |
 | -----: | -----: | ------: | -------- |
@@ -305,7 +305,7 @@ Functions ranked by total time spent in the function and all its callees.
 |  8.7% | 104.3ms |      32 | `unevalLiteral`           | uneval/src/internal/primitive.ts  |
 |  7.0% |  84.2ms |      24 | `unevalNumber`            | uneval/src/internal/primitive.ts  |
 |  4.0% |  47.6ms |       4 | `getType`                 | uneval/src/internal/type.ts       |
-|  2.3% |  28.0ms |       1 | `Garbage Collection`      | `<native>`                        |
+|  2.3% |  28.0ms |       1 | `Garbage Collection`      | `<unknown>`                       |
 |  0.6% |   7.5ms |      12 | `isObject`                | uneval/src/internal/object.ts     |
 |  0.2% |   2.8ms |       7 | `isRegularDataDescriptor` | uneval/src/internal/object.ts     |
 |  0.1% |   1.6ms |       7 | `unevalBoolean`           | uneval/src/internal/primitive.ts  |

@@ -16,8 +16,7 @@ export const formatHeapSnapshot = (
   options: NormalizedProfileToMdOptions,
 ): string => {
   // If nothing in the snapshot has a location, then don't output a column for
-  // it, since it'd be erroneously filled with `<native>` for every row, which
-  // is likely not accurate.
+  // it, since it'd be noisy.
   const hasLocation =
     snapshot.constructors.some(constructor => constructor.location) ||
     snapshot.closures.some(closure => closure.location)

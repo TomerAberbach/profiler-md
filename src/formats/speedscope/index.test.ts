@@ -350,10 +350,10 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`frame without file location renders as native`, () => {
+  test(`frame without file location renders as unknown`, () => {
     const profile = makeSpeedscopeProfile({
       profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
-      frames: [{ name: `nativeFunc` }],
+      frames: [{ name: `unknownFunc` }],
     })
 
     const md = speedscopeProfileToMd(
@@ -365,7 +365,7 @@ describe(`convert`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[`<native>`]])
+    ).toEqual([[`<unknown>`]])
   })
 
   test(`bytes unit produces heap profile`, () => {

@@ -32,9 +32,9 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24        |
 |  2.7% | 165.8ms |   1,288 | `unevalObjectLiteralKey`                         | uneval/src/internal/object.ts:384:32    |
 |  2.5% | 154.6ms |   1,196 | `createState`                                    | uneval/src/index.ts:144:21              |
-|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                              |
-|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                              |
-|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                              |
+|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<unknown>`                             |
+|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<unknown>`                             |
+|  1.7% | 104.4ms |     816 | `(program)`                                      | `<unknown>`                             |
 |  0.9% |  53.3ms |     411 | `unevalString`                                   | uneval/src/internal/primitive.ts:133:29 |
 |  0.7% |  44.8ms |     348 | `unevalObject`                                   | uneval/src/internal/object.ts:20:29     |
 |  0.7% |  40.9ms |     317 | `uneval`                                         | uneval/src/index.ts:75:16               |
@@ -292,7 +292,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ------: | ------: | -------- | ------------------------- |
 | 100.0% | 154.6ms |   1,196 | `uneval` | uneval/src/index.ts:75:16 |
 
-##### `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` (`<native>`)
+##### `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` (`<unknown>`)
 
 |      % |    Time | Samples | Caller                   | Location                             |
 | -----: | ------: | ------: | ------------------------ | ------------------------------------ |
@@ -344,9 +344,9 @@ Functions ranked by total time spent in the function and all its callees.
 |  8.4% | 517.7ms |   4,010 | `unevalLiteral`                                  | uneval/src/internal/primitive.ts:139:23 |
 |  6.6% | 404.6ms |   3,129 | `unevalNumber`                                   | uneval/src/internal/primitive.ts:12:29  |
 |  3.5% | 217.0ms |   1,681 | `getType`                                        | uneval/src/internal/type.ts:4:24        |
-|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                              |
-|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<native>`                              |
-|  1.7% | 104.4ms |     816 | `(program)`                                      | `<native>`                              |
+|  2.1% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<unknown>`                             |
+|  1.7% | 106.3ms |     814 | `(garbage collector)`                            | `<unknown>`                             |
+|  1.7% | 104.4ms |     816 | `(program)`                                      | `<unknown>`                             |
 |  0.6% |  39.5ms |     306 | `isObject`                                       | uneval/src/internal/object.ts:434:25    |
 
 #### Callees
@@ -441,7 +441,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |    Time | Samples | Callee                                           | Location                           |
 | ----: | ------: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 75.6% | 907.7ms |   7,029 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37 |
-| 10.6% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<native>`                         |
+| 10.6% | 127.4ms |     987 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<unknown>`                        |
 
 ##### `unevalWithoutCustom` (uneval/src/internal/index.ts:14:37)
 
