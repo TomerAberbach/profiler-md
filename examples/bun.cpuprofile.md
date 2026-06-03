@@ -19,22 +19,22 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |     % |    Time | Samples | Function                                    | Location                                |
 | ----: | ------: | ------: | ------------------------------------------- | --------------------------------------- |
 | 28.7% | 701.2ms |   4,402 | `unevalLiteral`                             | uneval/src/internal/primitive.ts:139:23 |
-| 11.5% | 281.3ms |   1,768 | `join`                                      | `<native>`                              |
+| 11.5% | 281.3ms |   1,768 | `join`                                      | `<unknown>`                             |
 | 10.9% | 267.6ms |   1,667 | `traverseObject`                            | uneval/src/index.ts:204:26              |
 |  9.5% | 232.9ms |   1,454 | `unevalNumber`                              | uneval/src/internal/primitive.ts:12:29  |
-|  7.2% | 176.8ms |   1,111 | `getOwnPropertyDescriptor`                  | `<native>`                              |
+|  7.2% | 176.8ms |   1,111 | `getOwnPropertyDescriptor`                  | `<unknown>`                             |
 |  4.8% | 116.4ms |     728 | `unevalObjectLiteralKey`                    | uneval/src/internal/object.ts:384:32    |
 |  4.5% | 109.6ms |     691 | `getType`                                   | uneval/src/internal/type.ts:4:24        |
 |  3.0% |  72.5ms |     451 | `unevalArray`                               | uneval/src/internal/collection.ts:7:47  |
 |  2.9% |  70.6ms |     435 | `traverse`                                  | uneval/src/index.ts:164:20              |
 |  2.8% |  68.3ms |     420 | `unevalObjectLike`                          | uneval/src/internal/object.ts:103:26    |
-|  2.2% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<native>`                              |
+|  2.2% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<unknown>`                             |
 |  1.4% |  33.1ms |     204 | `unevalString`                              | uneval/src/internal/primitive.ts:133:29 |
 |  1.3% |  32.4ms |     183 | `createState`                               | uneval/src/index.ts:144:21              |
 |  1.3% |  32.1ms |     200 | `uneval`                                    | uneval/src/index.ts:75:16               |
 |  1.2% |  28.3ms |     178 | `unevalBoolean`                             | uneval/src/internal/primitive.ts:8:30   |
-|  0.5% |  13.0ms |      80 | `push`                                      | `<native>`                              |
-|  0.3% |   8.2ms |      46 | `map`                                       | `<native>`                              |
+|  0.5% |  13.0ms |      80 | `push`                                      | `<unknown>`                             |
+|  0.3% |   8.2ms |      46 | `map`                                       | `<unknown>`                             |
 |  0.3% |   7.3ms |      47 | `unevalInternal`                            | uneval/src/internal/index.ts:25:32      |
 |  0.2% |   5.5ms |      35 | `unevalObjectInternal`                      | uneval/src/internal/object.ts:68:30     |
 |  0.2% |   4.1ms |      26 | `unevalObjectAssign`                        | uneval/src/internal/collection.ts:89:28 |
@@ -151,7 +151,7 @@ Lines ranked by contribution to each function's self time.
 | -----: | -----: | ------: | ----------------------------------- |
 | 100.0% | 28.3ms |     178 | uneval/src/internal/primitive.ts:10 |
 
-##### `map` (`<native>`)
+##### `map` (`<unknown>`)
 
 |      % |  Time | Samples | Location |
 | -----: | ----: | ------: | -------- |
@@ -190,7 +190,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ------: | ------: | -------------- | --------------------------------------- |
 | 100.0% | 701.2ms |   4,402 | `unevalString` | uneval/src/internal/primitive.ts:133:29 |
 
-##### `join` (`<native>`)
+##### `join` (`<unknown>`)
 
 |     % |    Time | Samples | Caller             | Location                               |
 | ----: | ------: | ------: | ------------------ | -------------------------------------- |
@@ -212,7 +212,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 |  0.6% |   1.3ms |       8 | `unevalObjectLike` | uneval/src/internal/object.ts:103:26   |
 |  0.1% |   0.2ms |       1 | `traverse`         | uneval/src/index.ts:164:20             |
 
-##### `getOwnPropertyDescriptor` (`<native>`)
+##### `getOwnPropertyDescriptor` (`<unknown>`)
 
 |     % |    Time | Samples | Caller           | Location                   |
 | ----: | ------: | ------: | ---------------- | -------------------------- |
@@ -254,7 +254,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | 29.9% | 20.4ms |     122 | `unevalObjectLike` | uneval/src/internal/object.ts:103:26   |
 | 29.4% | 20.1ms |     125 | `unevalArray`      | uneval/src/internal/collection.ts:7:47 |
 
-##### `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` (`<native>`)
+##### `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` (`<unknown>`)
 
 |      % |   Time | Samples | Caller                   | Location                             |
 | -----: | -----: | ------: | ------------------------ | ------------------------------------ |
@@ -279,7 +279,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | ---------------- | ---------------------------------- |
 | 100.0% | 28.3ms |     178 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
 
-##### `push` (`<native>`)
+##### `push` (`<unknown>`)
 
 |     % |  Time | Samples | Caller             | Location                               |
 | ----: | ----: | ------: | ------------------ | -------------------------------------- |
@@ -287,7 +287,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 |  2.6% | 0.3ms |       2 | `traverseObject`   | uneval/src/index.ts:204:26             |
 |  1.3% | 0.2ms |       1 | `unevalObjectLike` | uneval/src/internal/object.ts:103:26   |
 
-##### `map` (`<native>`)
+##### `map` (`<unknown>`)
 
 |      % |  Time | Samples | Caller             | Location                             |
 | -----: | ----: | ------: | ------------------ | ------------------------------------ |
@@ -331,15 +331,15 @@ Functions ranked by total time spent in the function and all its callees.
 | 25.6% | 625.9ms |   3,912 | `traverse`                                  | uneval/src/index.ts:164:20              |
 | 25.5% | 623.7ms |   3,908 | `unevalObjectLiteralKey`                    | uneval/src/internal/object.ts:384:32    |
 | 23.8% | 582.9ms |   3,650 | `traverseObject`                            | uneval/src/index.ts:204:26              |
-| 11.5% | 281.3ms |   1,768 | `join`                                      | `<native>`                              |
+| 11.5% | 281.3ms |   1,768 | `join`                                      | `<unknown>`                             |
 |  9.5% | 232.9ms |   1,454 | `unevalNumber`                              | uneval/src/internal/primitive.ts:12:29  |
-|  7.2% | 176.8ms |   1,111 | `getOwnPropertyDescriptor`                  | `<native>`                              |
+|  7.2% | 176.8ms |   1,111 | `getOwnPropertyDescriptor`                  | `<unknown>`                             |
 |  4.5% | 110.1ms |     694 | `getType`                                   | uneval/src/internal/type.ts:4:24        |
-|  2.2% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<native>`                              |
+|  2.2% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<unknown>`                             |
 |  1.2% |  28.3ms |     178 | `unevalBoolean`                             | uneval/src/internal/primitive.ts:8:30   |
-|  0.5% |  13.0ms |      80 | `push`                                      | `<native>`                              |
+|  0.5% |  13.0ms |      80 | `push`                                      | `<unknown>`                             |
 |  0.4% |   8.6ms |      55 | `unevalObject`                              | uneval/src/internal/object.ts:20:29     |
-|  0.3% |   8.2ms |      46 | `map`                                       | `<native>`                              |
+|  0.3% |   8.2ms |      46 | `map`                                       | `<unknown>`                             |
 |  0.2% |   5.5ms |      35 | `unevalObjectInternal`                      | uneval/src/internal/object.ts:68:30     |
 
 #### Callees
@@ -364,7 +364,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 25.1% | 322.7ms |   2,008 | `unevalObjectLike`       | uneval/src/internal/object.ts:103:26   |
 | 19.8% | 254.1ms |   1,590 | `unevalInternal`         | uneval/src/internal/index.ts:25:32     |
 | 16.7% | 214.8ms |   1,337 | `unevalArray`            | uneval/src/internal/collection.ts:7:47 |
-| 13.5% | 173.9ms |   1,091 | `join`                   | `<native>`                             |
+| 13.5% | 173.9ms |   1,091 | `join`                   | `<unknown>`                            |
 
 ##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
 
@@ -382,8 +382,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 45.4% | 367.7ms |   2,300 | `unevalObjectLike` | uneval/src/internal/object.ts:103:26   |
 | 33.2% | 268.5ms |   1,684 | `unevalInternal`   | uneval/src/internal/index.ts:25:32     |
 | 19.9% | 161.4ms |   1,006 | `unevalArray`      | uneval/src/internal/collection.ts:7:47 |
-| 13.1% | 105.9ms |     668 | `join`             | `<native>`                             |
-|  0.7% |   5.9ms |      36 | `push`             | `<native>`                             |
+| 13.1% | 105.9ms |     668 | `join`             | `<unknown>`                            |
+|  0.7% |   5.9ms |      36 | `push`             | `<unknown>`                            |
 
 ##### `unevalString` (uneval/src/internal/primitive.ts:133:29)
 
@@ -393,11 +393,11 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 ##### `unevalLiteral` (uneval/src/internal/primitive.ts:139:23)
 
-|    % |  Time | Samples | Callee        | Location   |
-| ---: | ----: | ------: | ------------- | ---------- |
-| 0.0% | 0.2ms |       1 | `charCodeAt`  | `<native>` |
-| 0.0% | 0.2ms |       1 | `(unknown)`   | `<native>` |
-| 0.0% | 0.1ms |       1 | `toLowerCase` | `<native>` |
+|    % |  Time | Samples | Callee        | Location    |
+| ---: | ----: | ------: | ------------- | ----------- |
+| 0.0% | 0.2ms |       1 | `charCodeAt`  | `<unknown>` |
+| 0.0% | 0.2ms |       1 | `(unknown)`   | `<unknown>` |
+| 0.0% | 0.1ms |       1 | `toLowerCase` | `<unknown>` |
 
 ##### `createState` (uneval/src/index.ts:144:21)
 
@@ -410,7 +410,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |    Time | Samples | Callee                     | Location                               |
 | ----: | ------: | ------: | -------------------------- | -------------------------------------- |
 | 93.1% | 582.9ms |   3,650 | `traverseObject`           | uneval/src/index.ts:204:26             |
-|  0.1% |   0.5ms |       3 | `getOwnPropertyDescriptor` | `<native>`                             |
+|  0.1% |   0.5ms |       3 | `getOwnPropertyDescriptor` | `<unknown>`                            |
 |  0.0% |   0.2ms |       1 | `unevalNumber`             | uneval/src/internal/primitive.ts:12:29 |
 |  0.0% |   0.2ms |       1 | `unevalInternal`           | uneval/src/internal/index.ts:25:32     |
 
@@ -419,7 +419,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |    Time | Samples | Callee                                      | Location                                |
 | ----: | ------: | ------: | ------------------------------------------- | --------------------------------------- |
 | 72.5% | 452.4ms |   2,838 | `unevalInternal`                            | uneval/src/internal/index.ts:25:32      |
-|  8.8% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<native>`                              |
+|  8.8% |  54.8ms |     341 | `/^[$_\p{ID_Start}][$_\p{ID_Continue}]*$/u` | `<unknown>`                             |
 |  0.0% |   0.1ms |       1 | `unevalString`                              | uneval/src/internal/primitive.ts:133:29 |
 
 ##### `traverseObject` (uneval/src/index.ts:204:26)
@@ -427,23 +427,23 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |    Time | Samples | Callee                     | Location                         |
 | ----: | ------: | ------: | -------------------------- | -------------------------------- |
 | 50.3% | 293.4ms |   1,842 | `traverse`                 | uneval/src/index.ts:164:20       |
-| 30.3% | 176.4ms |   1,108 | `getOwnPropertyDescriptor` | `<native>`                       |
+| 30.3% | 176.4ms |   1,108 | `getOwnPropertyDescriptor` | `<unknown>`                      |
 | 18.9% | 110.1ms |     694 | `getType`                  | uneval/src/internal/type.ts:4:24 |
-|  0.1% |   0.3ms |       2 | `push`                     | `<native>`                       |
-|  0.0% |   0.1ms |       1 | `ownKeys`                  | `<native>`                       |
+|  0.1% |   0.3ms |       2 | `push`                     | `<unknown>`                      |
+|  0.0% |   0.1ms |       1 | `ownKeys`                  | `<unknown>`                      |
 
 ##### `getType` (uneval/src/internal/type.ts:4:24)
 
-|    % |  Time | Samples | Callee     | Location   |
-| ---: | ----: | ------: | ---------- | ---------- |
-| 0.4% | 0.5ms |       3 | `toString` | `<native>` |
+|    % |  Time | Samples | Callee     | Location    |
+| ---: | ----: | ------: | ---------- | ----------- |
+| 0.4% | 0.5ms |       3 | `toString` | `<unknown>` |
 
 ##### `unevalObject` (uneval/src/internal/object.ts:20:29)
 
 |     % |  Time | Samples | Callee                 | Location                            |
 | ----: | ----: | ------: | ---------------------- | ----------------------------------- |
 | 61.6% | 5.3ms |      34 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30 |
-|  2.0% | 0.2ms |       1 | `get`                  | `<native>`                          |
+|  2.0% | 0.2ms |       1 | `get`                  | `<unknown>`                         |
 
 ## Hottest call stacks
 

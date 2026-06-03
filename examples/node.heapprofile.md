@@ -20,32 +20,32 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 |    % |    Size | Samples | Function                   | Location                               |
 | ---: | ------: | ------: | -------------------------- | -------------------------------------- |
-| 9.3% |  458 kB |      80 | `(IDLE)`                   | `<native>`                             |
+| 9.3% |  458 kB |      80 | `(IDLE)`                   | `<unknown>`                            |
 | 2.3% |  113 kB |      74 | `js-to-wasm:iii:`          | wasm://wasm/009f676a:1:2029168         |
-| 1.5% | 73.1 kB |      38 | `push`                     | `<native>`                             |
+| 1.5% | 73.1 kB |      38 | `push`                     | `<unknown>`                            |
 | 1.3% | 65.6 kB |       1 | `unevalNumber`             | uneval/src/internal/primitive.ts:12:29 |
-| 1.1% | 56.5 kB |      13 | `set`                      | `<native>`                             |
+| 1.1% | 56.5 kB |      13 | `set`                      | `<unknown>`                            |
 | 0.9% | 45.6 kB |      44 | `traverseObject`           | uneval/src/index.ts:204:26             |
-| 0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<native>`                             |
-| 0.3% | 15.8 kB |       9 | `Map`                      | `<native>`                             |
-| 0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<native>`                             |
-| 0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<native>`                             |
+| 0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<unknown>`                            |
+| 0.3% | 15.8 kB |       9 | `Map`                      | `<unknown>`                            |
+| 0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<unknown>`                            |
+| 0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<unknown>`                            |
 | 0.1% | 7.14 kB |       6 | `unevalObjectInternal`     | uneval/src/internal/object.ts:68:30    |
 | 0.1% | 6.18 kB |       5 | `(anonymous)`              | uneval/src/internal/type.ts:1:1        |
-| 0.1% | 4.27 kB |       4 | `(V8 API)`                 | `<native>`                             |
+| 0.1% | 4.27 kB |       4 | `(V8 API)`                 | `<unknown>`                            |
 | 0.1% | 3.44 kB |       3 | `unevalArray`              | uneval/src/internal/collection.ts:7:47 |
 | 0.1% | 3.06 kB |       3 | `unevalInternal`           | uneval/src/internal/index.ts:25:32     |
 | 0.1% | 3.02 kB |       2 | `traverse`                 | uneval/src/index.ts:164:20             |
 | 0.1% | 2.73 kB |       2 | `unevalObjectLike`         | uneval/src/internal/object.ts:103:26   |
 | 0.1% | 2.54 kB |       2 | `(anonymous)`              | uneval/scripts/profile.ts:1:1          |
-| 0.0% | 2.29 kB |       2 | `test`                     | `<native>`                             |
+| 0.0% | 2.29 kB |       2 | `test`                     | `<unknown>`                            |
 | 0.0% | 2.03 kB |       2 | `createState`              | uneval/src/index.ts:144:21             |
 
 #### Callers
 
 Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
 
-##### `push` (`<native>`)
+##### `push` (`<unknown>`)
 
 |     % |    Size | Samples | Caller             | Location                             |
 | ----: | ------: | ------: | ------------------ | ------------------------------------ |
@@ -57,11 +57,11 @@ Callers ranked by contribution to each function's self size. Caller attribution 
 | -----: | ------: | ------: | ---------------- | ---------------------------------- |
 | 100.0% | 65.6 kB |       1 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
 
-##### `set` (`<native>`)
+##### `set` (`<unknown>`)
 
 |     % |    Size | Samples | Caller           | Location                   |
 | ----: | ------: | ------: | ---------------- | -------------------------- |
-| 40.8% |   23 kB |       3 | `Map`            | `<native>`                 |
+| 40.8% |   23 kB |       3 | `Map`            | `<unknown>`                |
 | 15.5% | 8.78 kB |       4 | `traverseObject` | uneval/src/index.ts:204:26 |
 
 ##### `traverseObject` (uneval/src/index.ts:204:26)
@@ -72,13 +72,13 @@ Callers ranked by contribution to each function's self size. Caller attribution 
 | 39.8% | 18.1 kB |      18 | `uneval`         | uneval/src/index.ts:75:16  |
 |  7.1% | 3.22 kB |       2 | `traverse`       | uneval/src/index.ts:164:20 |
 
-##### `getOwnPropertyDescriptor` (`<native>`)
+##### `getOwnPropertyDescriptor` (`<unknown>`)
 
 |      % |    Size | Samples | Caller           | Location                   |
 | -----: | ------: | ------: | ---------------- | -------------------------- |
 | 100.0% | 37.1 kB |      19 | `traverseObject` | uneval/src/index.ts:204:26 |
 
-##### `Map` (`<native>`)
+##### `Map` (`<unknown>`)
 
 |     % |    Size | Samples | Caller        | Location                             |
 | ----: | ------: | ------: | ------------- | ------------------------------------ |
@@ -117,7 +117,7 @@ Callers ranked by contribution to each function's self size. Caller attribution 
 | -----: | ------: | ------: | ---------------------- | ----------------------------------- |
 | 100.0% | 2.73 kB |       2 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30 |
 
-##### `test` (`<native>`)
+##### `test` (`<unknown>`)
 
 |      % |    Size | Samples | Caller        | Location                               |
 | -----: | ------: | ------: | ------------- | -------------------------------------- |
@@ -136,7 +136,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |     % |    Size | Samples | Function                   | Location                               |
 | ----: | ------: | ------: | -------------------------- | -------------------------------------- |
 | 10.3% |  507 kB |     304 | `(anonymous)`              | uneval/scripts/profile.ts:1:1          |
-|  9.3% |  458 kB |      80 | `(IDLE)`                   | `<native>`                             |
+|  9.3% |  458 kB |      80 | `(IDLE)`                   | `<unknown>`                            |
 |  4.6% |  226 kB |     111 | `uneval`                   | uneval/src/index.ts:75:16              |
 |  2.4% |  116 kB |      77 | `js-to-wasm:iii:`          | wasm://wasm/009f676a:1:2029168         |
 |  2.4% |  116 kB |      33 | `unevalInternal`           | uneval/src/internal/index.ts:25:32     |
@@ -144,17 +144,17 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  2.1% |  104 kB |      23 | `unevalObjectLike`         | uneval/src/internal/object.ts:103:26   |
 |  2.1% |  102 kB |      25 | `unevalObject`             | uneval/src/internal/object.ts:20:29    |
 |  1.9% | 91.4 kB |      67 | `traverseObject`           | uneval/src/index.ts:204:26             |
-|  1.5% | 73.1 kB |      38 | `push`                     | `<native>`                             |
+|  1.5% | 73.1 kB |      38 | `push`                     | `<unknown>`                            |
 |  1.4% | 67.9 kB |      36 | `createState`              | uneval/src/index.ts:144:21             |
 |  1.3% | 65.6 kB |       1 | `unevalNumber`             | uneval/src/internal/primitive.ts:12:29 |
-|  1.2% | 57.5 kB |      56 | `map`                      | `<native>`                             |
-|  1.1% | 56.5 kB |      13 | `set`                      | `<native>`                             |
-|  0.8% | 38.8 kB |      12 | `Map`                      | `<native>`                             |
-|  0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<native>`                             |
+|  1.2% | 57.5 kB |      56 | `map`                      | `<unknown>`                            |
+|  1.1% | 56.5 kB |      13 | `set`                      | `<unknown>`                            |
+|  0.8% | 38.8 kB |      12 | `Map`                      | `<unknown>`                            |
+|  0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<unknown>`                            |
 |  0.4% | 20.3 kB |      14 | `unevalArray`              | uneval/src/internal/collection.ts:7:47 |
 |  0.3% | 16.5 kB |      10 | `traverse`                 | uneval/src/index.ts:164:20             |
-|  0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<native>`                             |
-|  0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<native>`                             |
+|  0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<unknown>`                            |
+|  0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<unknown>`                            |
 
 #### Callees
 
@@ -202,9 +202,9 @@ Callees ranked by contribution to each function's total size. Callee attribution
 |     % |    Size | Samples | Callee                   | Location                             |
 | ----: | ------: | ------: | ------------------------ | ------------------------------------ |
 | 81.1% | 84.1 kB |      10 | `unevalInternal`         | uneval/src/internal/index.ts:25:32   |
-| 27.2% | 28.2 kB |      13 | `push`                   | `<native>`                           |
+| 27.2% | 28.2 kB |      13 | `push`                   | `<unknown>`                          |
 |  2.0% | 2.09 kB |       2 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:384:32 |
-|  2.0% | 2.06 kB |       2 | `map`                    | `<native>`                           |
+|  2.0% | 2.06 kB |       2 | `map`                    | `<unknown>`                          |
 
 ##### `unevalObject` (uneval/src/internal/object.ts:20:29)
 
@@ -217,9 +217,9 @@ Callees ranked by contribution to each function's total size. Callee attribution
 |     % |    Size | Samples | Callee                     | Location                   |
 | ----: | ------: | ------: | -------------------------- | -------------------------- |
 | 54.8% | 50.1 kB |      36 | `traverseObject`           | uneval/src/index.ts:204:26 |
-| 40.6% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<native>`                 |
+| 40.6% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<unknown>`                |
 | 11.2% | 10.2 kB |       6 | `traverse`                 | uneval/src/index.ts:164:20 |
-|  9.6% | 8.78 kB |       4 | `set`                      | `<native>`                 |
+|  9.6% | 8.78 kB |       4 | `set`                      | `<unknown>`                |
 
 ##### `createState` (uneval/src/index.ts:144:21)
 
@@ -227,19 +227,19 @@ Callees ranked by contribution to each function's total size. Callee attribution
 | ----: | ------: | ------: | ---------------- | -------------------------- |
 | 52.5% | 35.6 kB |      17 | `traverseObject` | uneval/src/index.ts:204:26 |
 | 24.3% | 16.5 kB |      10 | `traverse`       | uneval/src/index.ts:164:20 |
-| 20.2% | 13.7 kB |       7 | `Map`            | `<native>`                 |
+| 20.2% | 13.7 kB |       7 | `Map`            | `<unknown>`                |
 
-##### `map` (`<native>`)
+##### `map` (`<unknown>`)
 
 |    % |    Size | Samples | Callee        | Location                             |
 | ---: | ------: | ------: | ------------- | ------------------------------------ |
 | 1.8% | 1.02 kB |       1 | `(anonymous)` | uneval/src/internal/object.ts:201:30 |
 
-##### `Map` (`<native>`)
+##### `Map` (`<unknown>`)
 
-|     % |  Size | Samples | Callee | Location   |
-| ----: | ----: | ------: | ------ | ---------- |
-| 59.4% | 23 kB |       3 | `set`  | `<native>` |
+|     % |  Size | Samples | Callee | Location    |
+| ----: | ----: | ------: | ------ | ----------- |
+| 59.4% | 23 kB |       3 | `set`  | `<unknown>` |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 

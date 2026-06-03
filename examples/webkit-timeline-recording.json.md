@@ -16,22 +16,22 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                | Location                                   |
 | ----: | ------: | ------: | ----------------------- | ------------------------------------------ |
-| 19.2% | 118.4ms |      78 | `scrollTo`              | `<native>`                                 |
-|  5.3% |  33.0ms |      33 | `insertBefore`          | `<native>`                                 |
+| 19.2% | 118.4ms |      78 | `scrollTo`              | `<unknown>`                                |
+|  5.3% |  33.0ms |      33 | `insertBefore`          | `<unknown>`                                |
 |  5.3% |  33.0ms |      33 | `(anonymous)`           | assets/deserialize-CTeepBb-.js:1:244       |
-|  4.4% |  27.0ms |      27 | `getPropertyValue`      | `<native>`                                 |
-|  2.6% |  16.0ms |      16 | `getBoundingClientRect` | `<native>`                                 |
+|  4.4% |  27.0ms |      27 | `getPropertyValue`      | `<unknown>`                                |
+|  2.6% |  16.0ms |      16 | `getBoundingClientRect` | `<unknown>`                                |
 |  2.1% |  13.0ms |      13 | `(anonymous)`           | assets/home-BLAXmiwx.js:1:118859           |
 |  1.6% |  10.0ms |      10 | `(anonymous)`           | assets/chunk-LFPYN7LY-CZBE6JVM.js:1:122137 |
-|  1.3% |   8.0ms |       8 | `toLocaleDateString`    | `<native>`                                 |
+|  1.3% |   8.0ms |       8 | `toLocaleDateString`    | `<unknown>`                                |
 |  1.1% |   7.1ms |       8 | `(anonymous)`           | assets/entry.client-Ne_rep3S.js:1:142078   |
-|  1.0% |   6.0ms |       6 | `removeChild`           | `<native>`                                 |
+|  1.0% |   6.0ms |       6 | `removeChild`           | `<unknown>`                                |
 |  0.8% |   5.0ms |       6 | `tf`                    | assets/entry.client-Ne_rep3S.js:1:23307    |
-|  0.8% |   5.0ms |       5 | `setAttribute`          | `<native>`                                 |
+|  0.8% |   5.0ms |       5 | `setAttribute`          | `<unknown>`                                |
 |  0.6% |   4.0ms |       4 | `Vi`                    | assets/entry.client-Ne_rep3S.js:1:29922    |
 |  0.6% |   4.0ms |       4 | `xn`                    | assets/chunk-LFPYN7LY-CZBE6JVM.js:1:83381  |
 |  0.6% |   4.0ms |       4 | `(anonymous)`           | assets/entry.client-Ne_rep3S.js:1:101989   |
-|  0.6% |   4.0ms |       4 | `appendChild`           | `<native>`                                 |
+|  0.6% |   4.0ms |       4 | `appendChild`           | `<unknown>`                                |
 |  0.5% |   3.0ms |       3 | `Bi`                    | assets/entry.client-Ne_rep3S.js:1:24177    |
 |  0.5% |   3.0ms |       3 | `at`                    | assets/post-DMDTSjRj.js:1:22685            |
 |  0.5% |   3.0ms |       3 | `(anonymous)`           | assets/entry.client-Ne_rep3S.js:1:50192    |
@@ -117,13 +117,13 @@ Lines ranked by contribution to each function's self time.
 
 Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
 
-##### `scrollTo` (`<native>`)
+##### `scrollTo` (`<unknown>`)
 
 |      % |    Time | Samples | Caller        | Location                                   |
 | -----: | ------: | ------: | ------------- | ------------------------------------------ |
 | 100.0% | 118.4ms |      78 | `(anonymous)` | assets/chunk-LFPYN7LY-CZBE6JVM.js:1:122230 |
 
-##### `insertBefore` (`<native>`)
+##### `insertBefore` (`<unknown>`)
 
 |     % |   Time | Samples | Caller | Location                                 |
 | ----: | -----: | ------: | ------ | ---------------------------------------- |
@@ -135,13 +135,13 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | ------ | -------------------------------- |
 | 100.0% | 33.0ms |      33 | `wr`   | assets/home-BLAXmiwx.js:1:125279 |
 
-##### `getPropertyValue` (`<native>`)
+##### `getPropertyValue` (`<unknown>`)
 
 |     % |   Time | Samples | Caller        | Location                              |
 | ----: | -----: | ------: | ------------- | ------------------------------------- |
 | 44.4% | 12.0ms |      12 | `(anonymous)` | assets/shrink-wrap-D0I1-yBi.js:1:2567 |
 
-##### `getBoundingClientRect` (`<native>`)
+##### `getBoundingClientRect` (`<unknown>`)
 
 |     % |   Time | Samples | Caller        | Location                              |
 | ----: | -----: | ------: | ------------- | ------------------------------------- |
@@ -160,7 +160,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | -----: | ------: | ------------- | ----------------------------------------- |
 | 100.0% | 10.0ms |      10 | `(anonymous)` | assets/chunk-LFPYN7LY-CZBE6JVM.js:1:26765 |
 
-##### `toLocaleDateString` (`<native>`)
+##### `toLocaleDateString` (`<unknown>`)
 
 |     % |  Time | Samples | Caller        | Location                              |
 | ----: | ----: | ------: | ------------- | ------------------------------------- |
@@ -173,7 +173,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ----: | ------: | ------ | --------------------------------------- |
 | 100.0% | 7.1ms |       8 | `Bi`   | assets/entry.client-Ne_rep3S.js:1:24177 |
 
-##### `removeChild` (`<native>`)
+##### `removeChild` (`<unknown>`)
 
 |     % |  Time | Samples | Caller | Location                                 |
 | ----: | ----: | ------: | ------ | ---------------------------------------- |
@@ -186,7 +186,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | 60.3% | 3.0ms |       4 | `(anonymous)` | assets/entry.client-Ne_rep3S.js:1:142078 |
 | 39.7% | 2.0ms |       2 | `li`          | assets/entry.client-Ne_rep3S.js:1:170282 |
 
-##### `setAttribute` (`<native>`)
+##### `setAttribute` (`<unknown>`)
 
 |      % |  Time | Samples | Caller | Location                                 |
 | -----: | ----: | ------: | ------ | ---------------------------------------- |
@@ -210,7 +210,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | -----: | ----: | ------: | ------ | ---------------------------------------- |
 | 100.0% | 4.0ms |       4 | `gc`   | assets/entry.client-Ne_rep3S.js:1:101950 |
 
-##### `appendChild` (`<native>`)
+##### `appendChild` (`<unknown>`)
 
 |     % |  Time | Samples | Caller | Location                                 |
 | ----: | ----: | ------: | ------ | ---------------------------------------- |
@@ -257,13 +257,13 @@ Functions ranked by total time spent in the function and all its callees.
 | 28.0% | 173.0ms |     173 | `dm`           | assets/entry.client-Ne_rep3S.js:1:132714   |
 | 25.6% | 158.0ms |     158 | `mn`           | assets/entry.client-Ne_rep3S.js:1:105658   |
 | 25.6% | 158.0ms |     158 | `Bl`           | assets/entry.client-Ne_rep3S.js:1:114498   |
-| 25.4% | 157.0ms |     157 | `insertBefore` | `<native>`                                 |
+| 25.4% | 157.0ms |     157 | `insertBefore` | `<unknown>`                                |
 | 24.3% | 150.4ms |     110 | `$u`           | assets/entry.client-Ne_rep3S.js:1:100526   |
 | 20.2% | 125.0ms |     125 | `im`           | assets/entry.client-Ne_rep3S.js:1:127356   |
 | 19.6% | 121.4ms |      81 | `xv`           | assets/entry.client-Ne_rep3S.js:1:106137   |
 | 19.6% | 121.4ms |      81 | `hm`           | assets/entry.client-Ne_rep3S.js:1:133961   |
 | 19.5% | 120.4ms |      80 | `Bt`           | assets/entry.client-Ne_rep3S.js:1:115066   |
-| 19.2% | 118.4ms |      78 | `scrollTo`     | `<native>`                                 |
+| 19.2% | 118.4ms |      78 | `scrollTo`     | `<unknown>`                                |
 | 19.2% | 118.4ms |      78 | `(anonymous)`  | assets/chunk-LFPYN7LY-CZBE6JVM.js:1:122230 |
 | 18.6% | 115.0ms |     115 | `(anonymous)`  | assets/entry.client-Ne_rep3S.js:1:121766   |
 | 18.3% | 113.0ms |     113 | `w1`           | assets/entry.client-Ne_rep3S.js:1:127314   |
@@ -333,8 +333,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 |     % |    Time | Samples | Callee         | Location                                 |
 | ----: | ------: | ------: | -------------- | ---------------------------------------- |
-| 99.4% | 157.0ms |     157 | `insertBefore` | `<native>`                               |
-|  0.6% |   1.0ms |       1 | `appendChild`  | `<native>`                               |
+| 99.4% | 157.0ms |     157 | `insertBefore` | `<unknown>`                              |
+|  0.6% |   1.0ms |       1 | `appendChild`  | `<unknown>`                              |
 |  0.6% |   1.0ms |       1 | `mn`           | assets/entry.client-Ne_rep3S.js:1:105658 |
 
 ##### `Bl` (assets/entry.client-Ne_rep3S.js:1:114498)
@@ -343,11 +343,11 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | -----: | ------: | ------: | ------ | ---------------------------------------- |
 | 100.0% | 158.0ms |     158 | `mn`   | assets/entry.client-Ne_rep3S.js:1:105658 |
 
-##### `insertBefore` (`<native>`)
+##### `insertBefore` (`<unknown>`)
 
-|    % |  Time | Samples | Callee      | Location   |
-| ---: | ----: | ------: | ----------- | ---------- |
-| 0.6% | 1.0ms |       1 | `(program)` | `<native>` |
+|    % |  Time | Samples | Callee      | Location    |
+| ---: | ----: | ------: | ----------- | ----------- |
+| 0.6% | 1.0ms |       1 | `(program)` | `<unknown>` |
 
 ##### `$u` (assets/entry.client-Ne_rep3S.js:1:100526)
 
@@ -389,9 +389,9 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 ##### `(anonymous)` (assets/chunk-LFPYN7LY-CZBE6JVM.js:1:122230)
 
-|      % |    Time | Samples | Callee     | Location   |
-| -----: | ------: | ------: | ---------- | ---------- |
-| 100.0% | 118.4ms |      78 | `scrollTo` | `<native>` |
+|      % |    Time | Samples | Callee     | Location    |
+| -----: | ------: | ------: | ---------- | ----------- |
+| 100.0% | 118.4ms |      78 | `scrollTo` | `<unknown>` |
 
 ##### `(anonymous)` (assets/entry.client-Ne_rep3S.js:1:121766)
 

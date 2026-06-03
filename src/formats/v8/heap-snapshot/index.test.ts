@@ -282,7 +282,7 @@ describe(`convert`, () => {
           Size: `200 B`,
           Instances: `1`,
           Constructor: `MyClass`,
-          Location: `<native>`,
+          Location: `<unknown>`,
         },
       ],
     ])

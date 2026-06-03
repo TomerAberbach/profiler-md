@@ -363,7 +363,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`categorizes own, third-party, and native code`, () => {
+  test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
       head: root([
         {
@@ -499,9 +499,9 @@ describe(`convert`, () => {
   })
 
   test(`node:internal/ frames filtered by default`, () => {
-    // `node:internal/` frames are excluded from display by default.
-    // Their allocations still count toward the category summary (as `native`).
-    // The `node:fs` frame (non-internal Node built-in) is NOT filtered.
+    // `node:internal/` frames are excluded from display by default. Their
+    // allocations still count toward the category summary. The `node:fs` frame
+    // (non-internal Node built-in) is NOT filtered.
     const defaultOutput = v8HeapProfileToMd(
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({

@@ -83,7 +83,7 @@ export const formatProfileLocation = (
   const { baseURL } = options
 
   if (!location) {
-    return inlineCode(`<native>`)
+    return inlineCode(`<unknown>`)
   }
 
   location = sourceMapProfileLocation(location, options)
@@ -107,7 +107,7 @@ export const formatProfileLocation = (
     }
   }
 
-  return path || inlineCode(`<native>`)
+  return path || inlineCode(`<unknown>`)
 }
 
 const isSameOrigin = (url1: URL, url2: URL): boolean => {

@@ -203,7 +203,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`frame with empty URL renders as native`, () => {
+  test(`frame with empty URL renders as unknown`, () => {
     const recording = makeWebKitRecording({
       sampleStackTraces: [
         {
@@ -229,7 +229,7 @@ describe(`convert`, () => {
     )
 
     expect(selfTimeTables(md)).toEqual([
-      [expect.objectContaining({ Location: `<native>` })],
+      [expect.objectContaining({ Location: `<unknown>` })],
     ])
   })
 

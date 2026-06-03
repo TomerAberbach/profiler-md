@@ -421,7 +421,7 @@ describe(`convert`, () => {
     ).toEqual([2])
   })
 
-  test(`categorizes own, third-party, and native code`, () => {
+  test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
       nodes: [
         root([2]),
