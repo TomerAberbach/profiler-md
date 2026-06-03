@@ -1,10 +1,14 @@
 import { JumboJSON } from 'jumbo-json'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
-import { normalizeProfileToMdOptions } from '../options.ts'
+import {
+  normalizeProfileInput,
+  normalizeProfileToMdOptions,
+} from '../options.ts'
 import type {
   AsyncProfileData,
   NormalizedProfileToMdOptions,
   ProfileData,
+  ProfileInput,
   ProfileToMdOptions,
 } from '../options.ts'
 import {
@@ -34,18 +38,17 @@ import {
 } from './webkit-timeline-recording/index.ts'
 
 /**
- * Converts the given profile data to Markdown, auto-detecting the format or
- * using an explicit `format` option.
+ * Converts the given profile data to Markdown.
  *
  * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
  * for supported formats and generation instructions.
  */
 export const profileToMd = (
-  data: ProfileData,
+  input: ProfileInput<ProfileData>,
   options: ProfileToMdOptions = {},
 ): string => {
-  const { format, ...otherOptions } = options
-  const normalizedOptions = normalizeProfileToMdOptions(otherOptions)
+  const { data, format } = normalizeProfileInput(input)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
 
   if (format) {
     const converter = formatConverters[format]
@@ -93,18 +96,17 @@ const dataToBytes = (data: ProfileData): Uint8Array => {
 let textEncoder: InstanceType<typeof TextEncoder> | undefined
 
 /**
- * Asynchronously converts the given profile data to Markdown, auto-detecting
- * the format or using an explicit `format` option.
+ * Asynchronously converts the given profile data to Markdown.
  *
  * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
  * for supported formats and generation instructions.
  */
 export const profileToMdAsync = async (
-  data: AsyncProfileData,
+  input: ProfileInput<AsyncProfileData>,
   options: ProfileToMdOptions = {},
 ): Promise<string> => {
-  const { format, ...otherOptions } = options
-  const normalizedOptions = normalizeProfileToMdOptions(otherOptions)
+  const { data, format } = normalizeProfileInput(input)
+  const normalizedOptions = normalizeProfileToMdOptions(options)
 
   if (format) {
     const converter = formatConverters[format]

@@ -61,10 +61,10 @@ describe(`profileToMd`, () => {
     const content = readFileSync(fixturePath(`node.cpuprofile`))
 
     const auto = profileToMd(content.toString(`utf8`), { baseURL: null })
-    const forced = profileToMd(content.toString(`utf8`), {
-      baseURL: null,
-      format: `v8-cpu-profile`,
-    })
+    const forced = profileToMd(
+      { data: content.toString(`utf8`), format: `v8-cpu-profile` },
+      { baseURL: null },
+    )
 
     expect(forced).toBe(auto)
   })
@@ -110,10 +110,10 @@ describe(`profileToMdAsync`, () => {
     const content = readFileSync(fixturePath(`node.cpuprofile`))
     const blob = new Blob([content])
 
-    const md = await profileToMdAsync(blob, {
-      baseURL: null,
-      format: `v8-cpu-profile`,
-    })
+    const md = await profileToMdAsync(
+      { data: blob, format: `v8-cpu-profile` },
+      { baseURL: null },
+    )
 
     expect(md).toMatch(/^# /u)
   })

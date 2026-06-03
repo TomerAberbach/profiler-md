@@ -14,6 +14,25 @@ export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
 /** Profile data that can be asynchronously parsed and converted to Markdown. */
 export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
 
+/**
+ * Profile data with or without an explicit format.
+ *
+ * The format is auto-detected if no format is specified.
+ */
+export type ProfileInput<Data> = Data | { data: Data; format: Format }
+
+export type NormalizedProfileInput<Data> = {
+  data: Data
+  format: Format | undefined
+}
+
+export const normalizeProfileInput = <Data>(
+  data: ProfileInput<Data>,
+): NormalizedProfileInput<Data> =>
+  typeof data === `object` && data !== null && `format` in data
+    ? data
+    : { data, format: undefined }
+
 /** The category of code an entry originated from. */
 export type EntryOrigin = `ours` | `stdlib` | `third-party`
 
@@ -42,9 +61,6 @@ export type AggregatedProfileEntry =
 
 /** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
-  /** The format to use for conversion. When set, auto-detection is skipped. */
-  format?: Format
-
   /**
    * The number of entries to display when computing the "top N" by some metric.
    *

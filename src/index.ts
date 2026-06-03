@@ -9,6 +9,7 @@ export {
 export type {
   ProfileData,
   AsyncProfileData,
+  ProfileInput,
   EntryOrigin,
   ProfileEntry,
   AggregatedProfileEntry,
