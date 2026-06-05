@@ -8,10 +8,8 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import {
-  matchesWebKitTimelineRecording,
-  webkitTimelineRecordingToMd,
-} from './index.ts'
+import { convertToMd } from '../testing/convert.ts'
+import { webkitTimelineRecordingConverter } from './index.ts'
 import type { WebKitStackFrame, WebKitTimelineRecording } from './parse.ts'
 
 const makeWebKitRecording = ({
@@ -49,7 +47,7 @@ const makeFrame = ({
 describe(`matches`, () => {
   test(`accepts valid recording`, () => {
     expect(
-      matchesWebKitTimelineRecording({
+      webkitTimelineRecordingConverter.matches({
         version: 1,
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
@@ -57,16 +55,16 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(matchesWebKitTimelineRecording(null)).toBe(false)
+    expect(webkitTimelineRecordingConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesWebKitTimelineRecording(42)).toBe(false)
+    expect(webkitTimelineRecordingConverter.matches(42)).toBe(false)
   })
 
   test(`rejects wrong version`, () => {
     expect(
-      matchesWebKitTimelineRecording({
+      webkitTimelineRecordingConverter.matches({
         version: 2,
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
@@ -75,7 +73,7 @@ describe(`matches`, () => {
 
   test(`rejects missing version`, () => {
     expect(
-      matchesWebKitTimelineRecording({
+      webkitTimelineRecordingConverter.matches({
         recording: { sampleStackTraces: [], sampleDurations: [] },
       }),
     ).toBe(false)
@@ -83,13 +81,13 @@ describe(`matches`, () => {
 
   test(`rejects null recording`, () => {
     expect(
-      matchesWebKitTimelineRecording({ version: 1, recording: null }),
+      webkitTimelineRecordingConverter.matches({ version: 1, recording: null }),
     ).toBe(false)
   })
 
   test(`rejects missing sampleStackTraces`, () => {
     expect(
-      matchesWebKitTimelineRecording({
+      webkitTimelineRecordingConverter.matches({
         version: 1,
         recording: { sampleDurations: [] },
       }),
@@ -131,7 +129,8 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02, 0.005],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -191,7 +190,8 @@ describe(`convert`, () => {
       sampleDurations: [0.1, 0.05, 0.1],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -221,7 +221,8 @@ describe(`convert`, () => {
       sampleDurations: [0.01],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         showEntry: () => true,
@@ -261,7 +262,8 @@ describe(`convert`, () => {
       sampleDurations: [0.005, 0.01],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -309,7 +311,8 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -354,7 +357,8 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -416,7 +420,8 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -431,7 +436,8 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
@@ -444,7 +450,8 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
         baseURL: null,
@@ -457,7 +464,8 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = webkitTimelineRecordingToMd(
+    const md = convertToMd(
+      webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,

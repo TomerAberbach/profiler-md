@@ -7,7 +7,8 @@ import {
   selfSizeInstancesTables,
   selfSizeTables,
 } from '../../../testing/markdown.ts'
-import { matchesV8HeapSnapshot, v8HeapSnapshotToMd } from './index.ts'
+import { convertToMd } from '../../testing/convert.ts'
+import { v8HeapSnapshotConverter } from './index.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 
 const NODE_TYPE_STRING = 2
@@ -123,7 +124,7 @@ const makeV8Snapshot = ({
 describe(`matches`, () => {
   test(`accepts valid snapshot`, () => {
     expect(
-      matchesV8HeapSnapshot({
+      v8HeapSnapshotConverter.matches({
         snapshot: { meta: { node_fields: [] } },
         edges: [],
       }),
@@ -131,32 +132,34 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(matchesV8HeapSnapshot(null)).toBe(false)
+    expect(v8HeapSnapshotConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesV8HeapSnapshot(`string`)).toBe(false)
+    expect(v8HeapSnapshotConverter.matches(`string`)).toBe(false)
   })
 
   test(`rejects missing snapshot`, () => {
-    expect(matchesV8HeapSnapshot({ edges: [] })).toBe(false)
+    expect(v8HeapSnapshotConverter.matches({ edges: [] })).toBe(false)
   })
 
   test(`rejects snapshot with null meta`, () => {
-    expect(matchesV8HeapSnapshot({ snapshot: { meta: null }, edges: [] })).toBe(
-      false,
-    )
+    expect(
+      v8HeapSnapshotConverter.matches({ snapshot: { meta: null }, edges: [] }),
+    ).toBe(false)
   })
 
   test(`rejects missing node_fields`, () => {
-    expect(matchesV8HeapSnapshot({ snapshot: { meta: {} }, edges: [] })).toBe(
-      false,
-    )
+    expect(
+      v8HeapSnapshotConverter.matches({ snapshot: { meta: {} }, edges: [] }),
+    ).toBe(false)
   })
 
   test(`rejects missing edges`, () => {
     expect(
-      matchesV8HeapSnapshot({ snapshot: { meta: { node_fields: [] } } }),
+      v8HeapSnapshotConverter.matches({
+        snapshot: { meta: { node_fields: [] } },
+      }),
     ).toBe(false)
   })
 })
@@ -256,7 +259,8 @@ describe(`convert`, () => {
       locations: [12, 1, 5, 10],
     })
 
-    const md = v8HeapSnapshotToMd(
+    const md = convertToMd(
+      v8HeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -363,7 +367,11 @@ describe(`convert`, () => {
       strings: [``, `parent`, `child`, `weakRef`],
     })
 
-    const md = v8HeapSnapshotToMd(snapshot, normalizeProfileToMdOptions())
+    const md = convertToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
 
     expect(selfSizeTables(md)).toEqual([
       [
@@ -399,7 +407,11 @@ describe(`convert`, () => {
       strings: [``, `hello`],
     })
 
-    const md = v8HeapSnapshotToMd(snapshot, normalizeProfileToMdOptions())
+    const md = convertToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
 
     expect(md).toContain(`## Largest strings`)
     expect(md).toContain(`hello`)

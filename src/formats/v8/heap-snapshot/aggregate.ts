@@ -11,7 +11,7 @@ import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 export const aggregateV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
   options: NormalizedProfileToMdOptions,
-): AggregatedHeapSnapshot => {
+): AggregatedHeapSnapshot[] => {
   const {
     snapshot: { meta, node_count: nodeCount, edge_count: edgeCount },
     nodes,
@@ -97,7 +97,7 @@ export const aggregateV8HeapSnapshot = (
     }
   }
 
-  return snapshotAggregator.aggregate()
+  return [snapshotAggregator.aggregate()]
 }
 
 const computeNodeAdjacencyGraph = (

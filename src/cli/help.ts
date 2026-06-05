@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { formatConverters } from '../formats/index.ts'
-import type { Format, FormatConverter } from '../formats/index.ts'
+import type { Format } from '../formats/index.ts'
 import { getHelpText, topics } from './cli.ts'
 import { highlightMarkdown } from './highlight.ts'
 import { languageAliasToPrimary, languages } from './languages.ts'
@@ -20,9 +20,9 @@ export const printHelpTopic = async (
   }
 
   const language = languages.get(languageAliasToPrimary.get(topic) ?? topic)
-  const formatConverter = (formatConverters as Record<string, FormatConverter>)[
-    topic
-  ]
+  const formatConverter = (
+    formatConverters as Partial<typeof formatConverters>
+  )[topic as Format]
   if (!language && !formatConverter) {
     process.stderr.write(
       `error: unknown topic "${topic}"\nAvailable topics: ${topics.join(`, `)}\n`,

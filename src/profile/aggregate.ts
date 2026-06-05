@@ -289,6 +289,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     const callStacks = [...this.#keyToCallStack.values()]
 
     return {
+      kind: `profile`,
       metrics: this.#metrics,
       totalSampleCount: this.#totalSampleCount,
       totalValues: this.#totalValues,
@@ -461,6 +462,8 @@ export type AggregatedProfileCallStack = {
 
 /** An aggregation of all samples within a sampling profile. */
 export type AggregatedProfile = {
+  kind: `profile`
+
   /** Metrics sampled in this profile. */
   metrics: Metric[]
 

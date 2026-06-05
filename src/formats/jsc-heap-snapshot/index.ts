@@ -1,9 +1,8 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type { JsonFormatConverter } from '../converter.ts'
 import { aggregateJSCHeapSnapshot } from './aggregate.ts'
-import { formatJSCHeapSnapshot } from './format.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
-export const matchesJSCHeapSnapshot = (json: unknown): boolean => {
+const matchesJSCHeapSnapshot = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
     return false
   }
@@ -16,7 +15,9 @@ export const matchesJSCHeapSnapshot = (json: unknown): boolean => {
   return true
 }
 
-export const jscHeapSnapshotToMd = (
-  snapshot: JSCHeapSnapshot,
-  options: NormalizedProfileToMdOptions,
-): string => formatJSCHeapSnapshot(aggregateJSCHeapSnapshot(snapshot), options)
+export const jscHeapSnapshotConverter = {
+  title: `JSC heap snapshot`,
+  kind: `json`,
+  matches: matchesJSCHeapSnapshot,
+  aggregate: aggregateJSCHeapSnapshot,
+} satisfies JsonFormatConverter<JSCHeapSnapshot>

@@ -8,7 +8,7 @@ export const aggregateWebKitTimelineRecording = (
     recording: { sampleStackTraces, sampleDurations },
   }: WebKitTimelineRecording,
   options: NormalizedProfileToMdOptions,
-): AggregatedProfile => {
+): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<
     WebKitStackFrame & { id?: never }
   >(
@@ -49,5 +49,5 @@ export const aggregateWebKitTimelineRecording = (
     })
   }
 
-  return profileAggregator.aggregate()
+  return [profileAggregator.aggregate()]
 }

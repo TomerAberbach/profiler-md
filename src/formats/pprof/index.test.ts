@@ -14,7 +14,8 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { matchesPprof, parsePprof, pprofToMd } from './index.ts'
+import { convertToMd } from '../testing/convert.ts'
+import { pprofConverter } from './index.ts'
 
 const makePprof = ({
   valueTypes = [{ type: `cpu`, unit: `nanoseconds` }],
@@ -84,15 +85,19 @@ describe(`parse and matches`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    expect(matchesPprof(parsePprof(data))).toBe(true)
+    expect(pprofConverter.matches(pprofConverter.parse(data))).toBe(true)
   })
 
   test(`rejects empty data`, () => {
-    expect(matchesPprof(parsePprof(new Uint8Array()))).toBe(false)
+    expect(pprofConverter.matches(pprofConverter.parse(new Uint8Array()))).toBe(
+      false,
+    )
   })
 
   test(`rejects invalid binary data`, () => {
-    expect(() => parsePprof(new Uint8Array([0xff, 0xfe, 0xfd]))).toThrow()
+    expect(() =>
+      pprofConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
+    ).toThrow()
   })
 
   test(`rejects non-pprof binary`, () => {
@@ -100,7 +105,7 @@ describe(`parse and matches`, () => {
       JSON.stringify({ nodes: [], timeDeltas: [] }),
     )
 
-    expect(() => parsePprof(bytes)).toThrow()
+    expect(() => pprofConverter.parse(bytes)).toThrow()
   })
 })
 
@@ -122,8 +127,9 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -170,8 +176,9 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -193,8 +200,9 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -223,8 +231,9 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -258,8 +267,9 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -303,8 +313,9 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000, 1] }],
     })
 
-    const md = pprofToMd(
-      parsePprof(data),
+    const md = convertToMd(
+      pprofConverter,
+      data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     )
 
@@ -339,8 +350,9 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = pprofToMd(
-      parsePprof(basePprof),
+    const md = convertToMd(
+      pprofConverter,
+      basePprof,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
         topN: 1,
@@ -352,8 +364,9 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcA` is excluded; `funcB`'s total still shows
-    const md = pprofToMd(
-      parsePprof(basePprof),
+    const md = convertToMd(
+      pprofConverter,
+      basePprof,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
         showEntry: row => defaultShowEntry(row) && row.name !== `funcA`,
@@ -367,8 +380,9 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = pprofToMd(
-      parsePprof(basePprof),
+    const md = convertToMd(
+      pprofConverter,
+      basePprof,
       normalizeProfileToMdOptions({ baseURL: null }),
     )
 

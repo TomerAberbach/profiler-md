@@ -6,7 +6,8 @@ import {
   selfSizeInstancesTables,
   selfSizeTables,
 } from '../../testing/markdown.ts'
-import { jscHeapSnapshotToMd, matchesJSCHeapSnapshot } from './index.ts'
+import { convertToMd } from '../testing/convert.ts'
+import { jscHeapSnapshotConverter } from './index.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
 // Node flags
@@ -67,7 +68,7 @@ const makeJSCSnapshot = ({
 describe(`matches`, () => {
   test(`accepts valid snapshot`, () => {
     expect(
-      matchesJSCHeapSnapshot({
+      jscHeapSnapshotConverter.matches({
         version: 2,
         type: `Inspector`,
         nodes: [],
@@ -80,28 +81,32 @@ describe(`matches`, () => {
   })
 
   test(`rejects null`, () => {
-    expect(matchesJSCHeapSnapshot(null)).toBe(false)
+    expect(jscHeapSnapshotConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesJSCHeapSnapshot(`string`)).toBe(false)
+    expect(jscHeapSnapshotConverter.matches(`string`)).toBe(false)
   })
 
   test(`rejects wrong version`, () => {
     expect(
-      matchesJSCHeapSnapshot({ version: 1, type: `Inspector`, nodes: [] }),
+      jscHeapSnapshotConverter.matches({
+        version: 1,
+        type: `Inspector`,
+        nodes: [],
+      }),
     ).toBe(false)
   })
 
   test(`rejects wrong type`, () => {
-    expect(matchesJSCHeapSnapshot({ version: 2, type: `V8`, nodes: [] })).toBe(
-      false,
-    )
+    expect(
+      jscHeapSnapshotConverter.matches({ version: 2, type: `V8`, nodes: [] }),
+    ).toBe(false)
   })
 
   test(`rejects V8 format`, () => {
     expect(
-      matchesJSCHeapSnapshot({
+      jscHeapSnapshotConverter.matches({
         snapshot: { meta: { node_fields: [] } },
         edges: [],
       }),
@@ -129,7 +134,11 @@ describe(`convert`, () => {
       edgeNames: [`ref`, `ref2`, `str`, `fn`],
     })
 
-    const md = jscHeapSnapshotToMd(snapshot, normalizeProfileToMdOptions())
+    const md = convertToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
 
     expect(categoryTables(md)).toEqual([
       [
@@ -178,7 +187,11 @@ describe(`convert`, () => {
       edgeNames: [`items`],
     })
 
-    const md = jscHeapSnapshotToMd(snapshot, normalizeProfileToMdOptions())
+    const md = convertToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
 
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
@@ -197,7 +210,11 @@ describe(`convert`, () => {
     })
 
     expect(() =>
-      jscHeapSnapshotToMd(snapshot, normalizeProfileToMdOptions()),
+      convertToMd(
+        jscHeapSnapshotConverter,
+        snapshot,
+        normalizeProfileToMdOptions(),
+      ),
     ).not.toThrow()
   })
 
@@ -220,7 +237,11 @@ describe(`convert`, () => {
       edgeNames: [`internalProp`, `propName`, `varName`],
     })
 
-    const md = jscHeapSnapshotToMd(snapshot, normalizeProfileToMdOptions())
+    const md = convertToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
 
     expect(
       selfSizeInstancesTables(md, `Object`).map(table =>

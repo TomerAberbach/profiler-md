@@ -1,9 +1,8 @@
-import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import type { JsonFormatConverter } from '../../converter.ts'
 import { aggregateV8CpuProfile } from './aggregate.ts'
-import { formatV8CpuProfile } from './format.ts'
 import type { V8CpuProfile } from './parse.ts'
 
-export const matchesV8CpuProfile = (json: unknown): boolean => {
+const matchesV8CpuProfile = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
     return false
   }
@@ -16,8 +15,9 @@ export const matchesV8CpuProfile = (json: unknown): boolean => {
   return true
 }
 
-export const v8CpuProfileToMd = (
-  profile: V8CpuProfile,
-  options: NormalizedProfileToMdOptions,
-): string =>
-  formatV8CpuProfile(aggregateV8CpuProfile(profile, options), options)
+export const v8CpuProfileConverter = {
+  title: `V8 CPU profile`,
+  kind: `json`,
+  matches: matchesV8CpuProfile,
+  aggregate: aggregateV8CpuProfile,
+} satisfies JsonFormatConverter<V8CpuProfile>

@@ -11,31 +11,21 @@ import type {
   ProfileInput,
   ProfileToMdOptions,
 } from '../options.ts'
-import {
-  jscHeapSnapshotToMd,
-  matchesJSCHeapSnapshot,
-} from './jsc-heap-snapshot/index.ts'
-import { matchesPprof, parsePprof, pprofToMd } from './pprof/index.ts'
-import {
-  matchesSpeedscopeProfile,
-  speedscopeProfileToMd,
-} from './speedscope/index.ts'
-import {
-  matchesV8CpuProfile,
-  v8CpuProfileToMd,
-} from './v8/cpu-profile/index.ts'
-import {
-  matchesV8HeapProfile,
-  v8HeapProfileToMd,
-} from './v8/heap-profile/index.ts'
-import {
-  matchesV8HeapSnapshot,
-  v8HeapSnapshotToMd,
-} from './v8/heap-snapshot/index.ts'
-import {
-  matchesWebKitTimelineRecording,
-  webkitTimelineRecordingToMd,
-} from './webkit-timeline-recording/index.ts'
+import { formatProfile } from '../profile/format.ts'
+import { formatHeapSnapshot } from '../snapshot/format.ts'
+import type {
+  AggregatedInput,
+  BinaryFormatConverter,
+  FormatConverter,
+  JsonFormatConverter,
+} from './converter.ts'
+import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
+import { pprofConverter } from './pprof/index.ts'
+import { speedscopeConverter } from './speedscope/index.ts'
+import { v8CpuProfileConverter } from './v8/cpu-profile/index.ts'
+import { v8HeapProfileConverter } from './v8/heap-profile/index.ts'
+import { v8HeapSnapshotConverter } from './v8/heap-snapshot/index.ts'
+import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/index.ts'
 
 /**
  * Converts the given profile data to Markdown.
@@ -47,14 +37,40 @@ export const profileToMd = (
   input: ProfileInput<ProfileData>,
   options: ProfileToMdOptions = {},
 ): string => {
-  const { data, format } = normalizeProfileInput(input)
   const normalizedOptions = normalizeProfileToMdOptions(options)
+  const aggregatedInputs = aggregateInput(input, normalizedOptions)
+  return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
+}
+
+/**
+ * Asynchronously converts the given profile data to Markdown.
+ *
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * for supported formats and generation instructions.
+ */
+export const profileToMdAsync = async (
+  input: ProfileInput<AsyncProfileData>,
+  options: ProfileToMdOptions = {},
+): Promise<string> => {
+  const normalizedOptions = normalizeProfileToMdOptions(options)
+  const aggregatedInputs = await aggregateInputAsync(input, normalizedOptions)
+  return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
+}
+
+const aggregateInput = (
+  input: ProfileInput<ProfileData>,
+  options: NormalizedProfileToMdOptions,
+): AggregatedInput[] => {
+  const { data, format } = normalizeProfileInput(input)
 
   if (format) {
     const converter = formatConverters[format]
-    return converter.kind === `json`
-      ? converter.toMd(JumboJSON.parse(data), normalizedOptions)
-      : converter.toMd(converter.parse(dataToBytes(data)), normalizedOptions)
+    return converter.aggregate(
+      converter.kind === `json`
+        ? JumboJSON.parse(data)
+        : converter.parse(dataToBytes(data)),
+      options,
+    )
   }
 
   // Materialize a one-shot `Iterable<Uint8Array>` up front so the JSON and
@@ -69,13 +85,58 @@ export const profileToMd = (
     json = JumboJSON.parse(source)
   } catch {}
   if (json !== undefined) {
-    const result = detectFromJson(json, normalizedOptions)
+    const result = detectFromJson(json, options)
     if (result !== undefined) {
       return result
     }
   }
 
-  const result = detectFromBytes(dataToBytes(source), normalizedOptions)
+  const result = detectFromBytes(dataToBytes(source), options)
+  if (result !== undefined) {
+    return result
+  }
+
+  throw unknownFormatError()
+}
+
+const aggregateInputAsync = async (
+  input: ProfileInput<AsyncProfileData>,
+  options: NormalizedProfileToMdOptions,
+): Promise<AggregatedInput[]> => {
+  const { data, format } = normalizeProfileInput(input)
+
+  if (format) {
+    const converter = formatConverters[format]
+    return converter.aggregate(
+      converter.kind === `json`
+        ? await JumboJSON.parseAsync(data)
+        : converter.parse(await asyncDataToBytes(data)),
+      options,
+    )
+  }
+
+  // A `Blob` can be read repeatedly, so let it stream-parse without buffering.
+  // A `ReadableStream` is read-once, so buffer it up front to allow reparsing
+  // across format attempts.
+  const source: Blob | Uint8Array =
+    data instanceof Blob ? data : await streamToUint8Array(data)
+
+  let json: unknown
+  try {
+    json =
+      source instanceof Blob
+        ? await JumboJSON.parseAsync(source)
+        : JumboJSON.parse(source)
+  } catch {}
+  if (json !== undefined) {
+    const result = detectFromJson(json, options)
+    if (result !== undefined) {
+      return result
+    }
+  }
+
+  const bytes = source instanceof Blob ? await source.bytes() : source
+  const result = detectFromBytes(bytes, options)
   if (result !== undefined) {
     return result
   }
@@ -93,81 +154,25 @@ const dataToBytes = (data: ProfileData): Uint8Array => {
   return concatUint8Arrays(data)
 }
 
-let textEncoder: InstanceType<typeof TextEncoder> | undefined
-
-/**
- * Asynchronously converts the given profile data to Markdown.
- *
- * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
- * for supported formats and generation instructions.
- */
-export const profileToMdAsync = async (
-  input: ProfileInput<AsyncProfileData>,
-  options: ProfileToMdOptions = {},
-): Promise<string> => {
-  const { data, format } = normalizeProfileInput(input)
-  const normalizedOptions = normalizeProfileToMdOptions(options)
-
-  if (format) {
-    const converter = formatConverters[format]
-    return converter.kind === `json`
-      ? converter.toMd(await JumboJSON.parseAsync(data), normalizedOptions)
-      : converter.toMd(
-          converter.parse(await asyncDataToBytes(data)),
-          normalizedOptions,
-        )
-  }
-
-  // A `Blob` can be read repeatedly, so let it stream-parse without buffering.
-  // A `ReadableStream` is read-once, so buffer it up front to allow reparsing
-  // across format attempts.
-  const source: Blob | Uint8Array =
-    data instanceof Blob ? data : await streamToUint8Array(data)
-
-  let json: unknown
-  try {
-    json =
-      source instanceof Blob
-        ? await JumboJSON.parseAsync(source)
-        : JumboJSON.parse(source)
-  } catch {}
-  if (json !== undefined) {
-    const result = detectFromJson(json, normalizedOptions)
-    if (result !== undefined) {
-      return result
-    }
-  }
-
-  const bytes = source instanceof Blob ? await source.bytes() : source
-  const result = detectFromBytes(bytes, normalizedOptions)
-  if (result !== undefined) {
-    return result
-  }
-
-  throw unknownFormatError()
-}
-
 const asyncDataToBytes = async (data: AsyncProfileData): Promise<Uint8Array> =>
   data instanceof Blob ? data.bytes() : streamToUint8Array(data)
 
-type JsonFormatConverter<Parsed = unknown> = {
-  kind: `json`
-  title: string
-  matches: (json: unknown) => boolean
-  toMd: (parsed: Parsed, options: NormalizedProfileToMdOptions) => string
-}
+let textEncoder: InstanceType<typeof TextEncoder> | undefined
 
-type BinaryFormatConverter<Parsed = unknown> = {
-  kind: `binary`
-  title: string
-  parse: (bytes: Uint8Array) => Parsed
-  matches: (parsed: Parsed) => boolean
-  toMd: (parsed: Parsed, options: NormalizedProfileToMdOptions) => string
-}
-
-export type FormatConverter<Parsed = unknown> =
-  | JsonFormatConverter<Parsed>
-  | BinaryFormatConverter<Parsed>
+export const formatAggregatedInputs = (
+  inputs: AggregatedInput[],
+  options: NormalizedProfileToMdOptions,
+): string =>
+  inputs
+    .map(input => {
+      switch (input.kind) {
+        case `profile`:
+          return formatProfile(input, options)
+        case `snapshot`:
+          return formatHeapSnapshot(input, options)
+      }
+    })
+    .join(`\n\n`)
 
 export const formats = [
   `jsc-heap-snapshot`,
@@ -183,58 +188,22 @@ export const formats = [
 export type Format = (typeof formats)[number]
 
 export const formatConverters: Record<Format, FormatConverter<any>> = {
-  'jsc-heap-snapshot': {
-    title: `JSC heap snapshot`,
-    kind: `json`,
-    matches: matchesJSCHeapSnapshot,
-    toMd: jscHeapSnapshotToMd,
-  },
-  pprof: {
-    title: `pprof`,
-    kind: `binary`,
-    parse: parsePprof,
-    matches: matchesPprof,
-    toMd: pprofToMd,
-  },
-  speedscope: {
-    title: `Speedscope`,
-    kind: `json`,
-    matches: matchesSpeedscopeProfile,
-    toMd: speedscopeProfileToMd,
-  },
-  'v8-cpu-profile': {
-    title: `V8 CPU profile`,
-    kind: `json`,
-    matches: matchesV8CpuProfile,
-    toMd: v8CpuProfileToMd,
-  },
-  'v8-heap-profile': {
-    title: `V8 heap profile`,
-    kind: `json`,
-    matches: matchesV8HeapProfile,
-    toMd: v8HeapProfileToMd,
-  },
-  'v8-heap-snapshot': {
-    title: `V8 heap snapshot`,
-    kind: `json`,
-    matches: matchesV8HeapSnapshot,
-    toMd: v8HeapSnapshotToMd,
-  },
-  'webkit-timeline-recording': {
-    title: `WebKit timeline recording`,
-    kind: `json`,
-    matches: matchesWebKitTimelineRecording,
-    toMd: webkitTimelineRecordingToMd,
-  },
+  'jsc-heap-snapshot': jscHeapSnapshotConverter,
+  pprof: pprofConverter,
+  speedscope: speedscopeConverter,
+  'v8-cpu-profile': v8CpuProfileConverter,
+  'v8-heap-profile': v8HeapProfileConverter,
+  'v8-heap-snapshot': v8HeapSnapshotConverter,
+  'webkit-timeline-recording': webkitTimelineRecordingConverter,
 }
 
 const detectFromJson = (
   json: unknown,
   options: NormalizedProfileToMdOptions,
-): string | undefined => {
+): AggregatedInput[] | undefined => {
   for (const converter of jsonFormatConverters) {
     if (converter.matches(json)) {
-      return converter.toMd(json, options)
+      return converter.aggregate(json, options)
     }
   }
   return undefined
@@ -249,7 +218,7 @@ const jsonFormatConverters: JsonFormatConverter[] = Object.values(
 const detectFromBytes = (
   bytes: Uint8Array,
   options: NormalizedProfileToMdOptions,
-): string | undefined => {
+): AggregatedInput[] | undefined => {
   for (const converter of binaryFormatConverters) {
     let parsed: unknown
     try {
@@ -258,7 +227,7 @@ const detectFromBytes = (
       continue
     }
     if (converter.matches(parsed)) {
-      return converter.toMd(parsed, options)
+      return converter.aggregate(parsed, options)
     }
   }
   return undefined

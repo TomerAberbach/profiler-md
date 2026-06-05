@@ -10,7 +10,8 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../../testing/markdown.ts'
-import { matchesV8CpuProfile, v8CpuProfileToMd } from './index.ts'
+import { convertToMd } from '../../testing/convert.ts'
+import { v8CpuProfileConverter } from './index.ts'
 import type { V8CpuProfileNode } from './parse.ts'
 
 const root = (children: number[]): V8CpuProfileNode => ({
@@ -28,23 +29,25 @@ const root = (children: number[]): V8CpuProfileNode => ({
 
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
-    expect(matchesV8CpuProfile({ nodes: [], timeDeltas: [] })).toBe(true)
+    expect(v8CpuProfileConverter.matches({ nodes: [], timeDeltas: [] })).toBe(
+      true,
+    )
   })
 
   test(`rejects null`, () => {
-    expect(matchesV8CpuProfile(null)).toBe(false)
+    expect(v8CpuProfileConverter.matches(null)).toBe(false)
   })
 
   test(`rejects non-objects`, () => {
-    expect(matchesV8CpuProfile(`string`)).toBe(false)
+    expect(v8CpuProfileConverter.matches(`string`)).toBe(false)
   })
 
   test(`rejects missing nodes`, () => {
-    expect(matchesV8CpuProfile({ timeDeltas: [] })).toBe(false)
+    expect(v8CpuProfileConverter.matches({ timeDeltas: [] })).toBe(false)
   })
 
   test(`rejects missing timeDeltas`, () => {
-    expect(matchesV8CpuProfile({ nodes: [] })).toBe(false)
+    expect(v8CpuProfileConverter.matches({ nodes: [] })).toBe(false)
   })
 })
 
@@ -106,7 +109,8 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -204,7 +208,8 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -282,7 +287,8 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -332,7 +338,8 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -399,7 +406,8 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -465,7 +473,8 @@ describe(`convert`, () => {
       timeDeltas: [1000, 500, 250],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -525,7 +534,8 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100, 100, 100, 100],
     }
 
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -620,7 +630,8 @@ describe(`options`, () => {
     // `funcB` is excluded via `showEntry`. Its hit count is zero, but it
     // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
     // its only direct caller (`funcB`) is excluded.
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -635,7 +646,8 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
@@ -648,7 +660,8 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({ baseURL: null }),
     )
@@ -659,7 +672,8 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntry groups entries by custom category`, () => {
-    const md = v8CpuProfileToMd(
+    const md = convertToMd(
+      v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,

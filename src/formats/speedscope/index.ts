@@ -1,9 +1,8 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type { JsonFormatConverter } from '../converter.ts'
 import { aggregateSpeedscopeProfile } from './aggregate.ts'
-import { formatSpeedscope } from './format.ts'
 import type { SpeedscopeProfile } from './parse.ts'
 
-export const matchesSpeedscopeProfile = (json: unknown): boolean => {
+const matchesSpeedscopeProfile = (json: unknown): boolean => {
   if (typeof json !== `object` || json === null) {
     return false
   }
@@ -21,10 +20,9 @@ export const matchesSpeedscopeProfile = (json: unknown): boolean => {
   return true
 }
 
-export const speedscopeProfileToMd = (
-  profile: SpeedscopeProfile,
-  options: NormalizedProfileToMdOptions,
-): string =>
-  aggregateSpeedscopeProfile(profile, options)
-    .map(profile => formatSpeedscope(profile, options))
-    .join(`\n\n`)
+export const speedscopeConverter = {
+  title: `Speedscope`,
+  kind: `json`,
+  matches: matchesSpeedscopeProfile,
+  aggregate: aggregateSpeedscopeProfile,
+} satisfies JsonFormatConverter<SpeedscopeProfile>
