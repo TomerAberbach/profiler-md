@@ -37,9 +37,9 @@ const fixtureSets = {
 }
 for (const { examples } of languages.values()) {
   for (const [format, formatExamples] of Object.entries(examples ?? {})) {
-    const { kind, shape } = formatConverters[format as Format]
+    const { type, shape } = formatConverters[format as Format]
     for (const { filename } of formatExamples) {
-      fixtureSets[kind].add(filename)
+      fixtureSets[type].add(filename)
       fixtureSets[shape].add(filename)
     }
   }

@@ -117,7 +117,7 @@ const aggregateInput = (
   if (format) {
     const converter = formatConverters[format]
     return converter.aggregate(
-      converter.kind === `json`
+      converter.type === `json`
         ? JumboJSON.parse(data)
         : converter.parse(dataToBytes(data)),
       options,
@@ -159,7 +159,7 @@ const aggregateInputAsync = async (
   if (format) {
     const converter = formatConverters[format]
     return converter.aggregate(
-      converter.kind === `json`
+      converter.type === `json`
         ? await JumboJSON.parseAsync(data)
         : converter.parse(await asyncDataToBytes(data)),
       options,
@@ -216,7 +216,7 @@ export const formatAggregatedInputs = (
 ): string =>
   inputs
     .map(input => {
-      switch (input.kind) {
+      switch (input.type) {
         case `profile`:
           return formatProfile(input, options)
         case `snapshot`:
@@ -229,7 +229,7 @@ export const formatAggregatedInputs = (
  * Diffs the aggregated {@link base} and {@link current} inputs element by
  * element, returning the differences as Markdown.
  *
- * The two sides must have the same length and the same `kind` at each index,
+ * The two sides must have the same length and the same `type` at each index,
  * otherwise they aren't comparable.
  */
 const formatAggregatedDiff = (
@@ -246,20 +246,20 @@ const formatAggregatedDiff = (
   return base
     .map((baseInput, index) => {
       const currentInput = current[index]!
-      if (baseInput.kind === `profile` && currentInput.kind === `profile`) {
+      if (baseInput.type === `profile` && currentInput.type === `profile`) {
         return formatProfileDiff(
           diffAggregatedProfiles(baseInput, currentInput),
           options,
         )
       }
-      if (baseInput.kind === `snapshot` && currentInput.kind === `snapshot`) {
+      if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
         return formatHeapSnapshotDiff(
           diffAggregatedHeapSnapshots(baseInput, currentInput),
           options,
         )
       }
       throw new Error(
-        `cannot diff a ${baseInput.kind} against a ${currentInput.kind}`,
+        `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
       )
     })
     .join(`\n\n`)
@@ -303,7 +303,7 @@ const detectFromJson = (
 const jsonFormatConverters: JsonFormatConverter[] = Object.values(
   formatConverters,
 ).filter(
-  (converter): converter is JsonFormatConverter => converter.kind === `json`,
+  (converter): converter is JsonFormatConverter => converter.type === `json`,
 )
 
 const detectFromBytes = (
@@ -328,7 +328,7 @@ const binaryFormatConverters: BinaryFormatConverter[] = Object.values(
   formatConverters,
 ).filter(
   (converter): converter is BinaryFormatConverter =>
-    converter.kind === `binary`,
+    converter.type === `binary`,
 )
 
 const unknownFormatError = (): Error =>

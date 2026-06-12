@@ -29,7 +29,7 @@ const matchesWebKitTimelineRecording = (json: unknown): boolean => {
 
 export const webkitTimelineRecordingConverter = {
   title: `WebKit timeline recording`,
-  kind: `json`,
+  type: `json`,
   shape: `profile`,
   matches: matchesWebKitTimelineRecording,
   aggregate: aggregateWebKitTimelineRecording,

@@ -30,7 +30,7 @@ const matchesV8HeapSnapshot = (json: unknown): boolean => {
 
 export const v8HeapSnapshotConverter = {
   title: `V8 heap snapshot`,
-  kind: `json`,
+  type: `json`,
   shape: `snapshot`,
   matches: matchesV8HeapSnapshot,
   aggregate: aggregateV8HeapSnapshot,

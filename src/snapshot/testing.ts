@@ -25,7 +25,7 @@ export const makeAggregatedHeapSnapshot = ({
   closures?: AggregatedClosure[]
   strings?: AggregatedSnapshotNode[]
 } = {}): AggregatedHeapSnapshot => ({
-  kind: `snapshot`,
+  type: `snapshot`,
   totalSize,
   nodeCount,
   edgeCount,
