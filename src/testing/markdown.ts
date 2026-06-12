@@ -58,6 +58,16 @@ export const totalTimeTables = (md: string): Table[] =>
 export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseAst(md), `Hottest call stacks`)
 
+export const regressionsTables = (md: string, section: string): Table[] => {
+  const under = nodesUnderHeading(parseAst(md), section)
+  return allTablesAfterHeadingContaining(under, `Regressions`)
+}
+
+export const progressionsTables = (md: string, section: string): Table[] => {
+  const under = nodesUnderHeading(parseAst(md), section)
+  return allTablesAfterHeadingContaining(under, `Progressions`)
+}
+
 export const callersTables = (md: string, fn: string): Table[] => {
   const under = nodesUnderHeading(parseAst(md), `Callers`)
   return allTablesAfterHeadingContaining(under, fn)

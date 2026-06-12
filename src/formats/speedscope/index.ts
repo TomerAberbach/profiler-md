@@ -23,6 +23,7 @@ const matchesSpeedscopeProfile = (json: unknown): boolean => {
 export const speedscopeConverter = {
   title: `Speedscope`,
   kind: `json`,
+  shape: `profile`,
   matches: matchesSpeedscopeProfile,
   aggregate: aggregateSpeedscopeProfile,
 } satisfies JsonFormatConverter<SpeedscopeProfile>

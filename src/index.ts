@@ -1,4 +1,9 @@
-export { profileToMd, profileToMdAsync } from './formats/index.ts'
+export {
+  profileToMd,
+  profileToMdAsync,
+  diffProfiles,
+  diffProfilesAsync,
+} from './formats/index.ts'
 export type { Format } from './formats/index.ts'
 export {
   defaultCategorizeEntry,

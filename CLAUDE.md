@@ -25,7 +25,9 @@ profiler-md
 │   │
 │   ├── formats/              # Individual profile format implementations
 │   │   ├── index.ts          # Format registry; profileToMd(Async)/diffProfiles(Async)
-│   │   ├── converter.ts      # Converter types + aggregate/format/convertToMd runner
+│   │   ├── converter.ts      # Format converter types
+│   │   ├── testing/
+│   │   │   └── convert.ts    # Test-only convertToMd runner for a single converter
 │   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── aggregate.ts  # Aggregates profile data
@@ -34,7 +36,8 @@ profiler-md
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
 │   │   ├── aggregate.ts      # Sampling profile data aggregation builder
-│   │   ├── format.ts         # Sampling profile to Markdown formatting
+│   │   ├── diff.ts           # Aggregated profile diffing logic
+│   │   ├── format.ts         # Sampling profile and diff to Markdown formatting
 │   │   └── index.ts          # Barrel file
 │   ├── snapshot/             # Common heap snapshot conversion logic
 │   │   ├── graph.ts          # Node adjacency graph in CSR format
@@ -144,13 +147,13 @@ pnpm bench ./src/fixtures/node.cpuprofile
       helper for binary formats; JSON formats just declare types)
 - [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic (returns an
       `AggregatedProfile`/`AggregatedProfile[]`/`AggregatedHeapSnapshot`;
-      formatting is centralized in `src/formats/converter.ts`)
+      formatting is centralized in `src/formats/index.ts`)
 - [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
       object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
       `../converter.ts`) with `title`, `kind`, `shape`, `matches`, `aggregate`
       (plus `parse` for binary formats)
 - [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
-      and conversion via the `convertToMd` runner from `../converter.ts`
+      and conversion via the `convertToMd` runner from `../testing/convert.ts`
 
 ### CLI and programmatic API
 

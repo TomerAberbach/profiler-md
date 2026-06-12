@@ -1,5 +1,4 @@
 import type { Format } from './formats/index.ts'
-import { DynamicTypedArray } from './helpers/array.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import { fileReferencePath, makeFileReference } from './location.ts'
 import type { SourceLocation } from './location.ts'
@@ -130,42 +129,26 @@ export const normalizeProfileToMdOptions = ({
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
   categorizeEntry: cacheEntryFunction(categorizeEntry),
-  showEntry: cacheEntryPredicate(showEntry),
+  showEntry: cacheEntryFunction(showEntry),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
 })
 
-const cacheEntryFunction = <T>(
-  func: (entry: DeepReadonly<ProfileEntry>) => T,
-): ((entry: DeepReadonly<ProfileEntry>) => T) => {
-  const cache: T[] = []
+const cacheEntryFunction = <Entry extends object, Value>(
+  func: (entry: Entry) => Value,
+): ((entry: Entry) => Value) => {
+  // Cache by entry identity rather than entry ID because IDs are only unique
+  // within a single profile, and the same options are used for multiple
+  // profiles when converting a multi-profile file or diffing two profiles.
+  const cache = new WeakMap<Entry, Value>()
   return entry => {
-    const { id } = entry
-    const cached = cache[id]
+    const cached = cache.get(entry)
     if (cached !== undefined) {
       return cached
     }
-    const result = func(entry)
-    cache[id] = result
-    return result
-  }
-}
-
-const cacheEntryPredicate = (
-  func: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean,
-): ((entry: DeepReadonly<AggregatedProfileEntry>) => boolean) => {
-  // 0=uncached, 1=false, 2=true
-  const cache = new DynamicTypedArray(new Uint8Array(256))
-  return entry => {
-    const { id } = entry
-    const array = cache.ensureCapacity(id + 1)
-    const value = array[id]!
-    if (value !== 0) {
-      return value === 2
-    }
-    const result = func(entry)
-    array[id] = result ? 2 : 1
-    return result
+    const value = func(entry)
+    cache.set(entry, value)
+    return value
   }
 }
 

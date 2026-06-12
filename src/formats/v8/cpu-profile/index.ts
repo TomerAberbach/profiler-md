@@ -18,6 +18,7 @@ const matchesV8CpuProfile = (json: unknown): boolean => {
 export const v8CpuProfileConverter = {
   title: `V8 CPU profile`,
   kind: `json`,
+  shape: `profile`,
   matches: matchesV8CpuProfile,
   aggregate: aggregateV8CpuProfile,
 } satisfies JsonFormatConverter<V8CpuProfile>
