@@ -11,26 +11,13 @@ import {
 } from '../../../testing/markdown.ts'
 import { convertToMd } from '../../testing/convert.ts'
 import { v8HeapProfileConverter } from './index.ts'
-import type { V8HeapProfileNode } from './parse.ts'
-
-const root = (children: V8HeapProfileNode[]): V8HeapProfileNode => ({
-  callFrame: {
-    functionName: `(root)`,
-    scriptId: `0`,
-    url: ``,
-    lineNumber: -1,
-    columnNumber: -1,
-  },
-  selfSize: 0,
-  id: 1,
-  children,
-})
+import { makeV8HeapProfileRoot } from './testing.ts'
 
 // Shared profile for all diffing tests:
 //   root -> funcA (1 sample, 100 B direct) -> funcB -> funcC (2 samples, 200 B each)
 //   root -> readFileSync (node:fs) -> internalLoader (node:internal/, 1 sample, 100 B)
 const baseProfile = {
-  head: root([
+  head: makeV8HeapProfileRoot([
     {
       callFrame: {
         functionName: `funcA`,
@@ -145,7 +132,7 @@ describe(`convert`, () => {
     // `funcB` is called from both `funcA` and funcC`. With identical call
     // frames, they should be merged into one row with combined self size.
     const profile = {
-      head: root([
+      head: makeV8HeapProfileRoot([
         {
           callFrame: {
             functionName: `funcA`,
@@ -248,7 +235,7 @@ describe(`convert`, () => {
     // Two anonymous functions at different lines. They should stay separate
     // nodes and both be labeled `(anonymous)` in the output.
     const profile = {
-      head: root([
+      head: makeV8HeapProfileRoot([
         {
           callFrame: {
             functionName: ``,
@@ -317,7 +304,7 @@ describe(`convert`, () => {
     // `funcA` calls itself recursively (two nodes, same identity). Total size
     // should be counted once, not twice.
     const profile = {
-      head: root([
+      head: makeV8HeapProfileRoot([
         {
           callFrame: {
             functionName: `funcA`,
@@ -371,7 +358,7 @@ describe(`convert`, () => {
 
   test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
-      head: root([
+      head: makeV8HeapProfileRoot([
         {
           callFrame: {
             functionName: `ownFunc`,
@@ -439,7 +426,7 @@ describe(`convert`, () => {
     // Their category is their name without the surrounding parentheses.
     // Functions starting with `RegExp: ` are categorized as `regexp`.
     const profile = {
-      head: root([
+      head: makeV8HeapProfileRoot([
         {
           callFrame: {
             functionName: `(garbage collector)`,

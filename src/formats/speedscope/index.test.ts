@@ -11,54 +11,11 @@ import {
 } from '../../testing/markdown.ts'
 import { convertToMd } from '../testing/convert.ts'
 import { speedscopeConverter } from './index.ts'
-import type {
-  SpeedscopeEvent,
-  SpeedscopeEventedProfile,
-  SpeedscopeFrame,
-  SpeedscopeProfile,
-  SpeedscopeSampledProfile,
-  SpeedscopeValueUnit,
-} from './parse.ts'
-
-const makeSpeedscopeProfile = ({
-  profiles,
-  frames,
-}: {
-  profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
-  frames: SpeedscopeFrame[]
-}): SpeedscopeProfile => ({
-  $schema: `https://www.speedscope.app/file-format-schema.json`,
-  profiles,
-  shared: { frames },
-})
-
-const makeSampledProfile = ({
-  name = `Profile`,
-  unit = `milliseconds`,
-  samples,
-  weights,
-}: {
-  name?: string
-  unit?: SpeedscopeValueUnit
-  samples: number[][]
-  weights: number[]
-}): SpeedscopeSampledProfile => ({
-  type: `sampled`,
-  name,
-  unit,
-  samples,
-  weights,
-})
-
-const makeEventedProfile = ({
-  events,
-  name = `Profile`,
-  unit = `milliseconds`,
-}: {
-  events: SpeedscopeEvent[]
-  name?: string
-  unit?: SpeedscopeValueUnit
-}): SpeedscopeEventedProfile => ({ type: `evented`, name, unit, events })
+import {
+  makeEventedProfile,
+  makeSampledProfile,
+  makeSpeedscopeProfile,
+} from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid speedscope file`, () => {

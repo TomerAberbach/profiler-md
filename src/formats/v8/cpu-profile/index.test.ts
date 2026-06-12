@@ -12,20 +12,7 @@ import {
 } from '../../../testing/markdown.ts'
 import { convertToMd } from '../../testing/convert.ts'
 import { v8CpuProfileConverter } from './index.ts'
-import type { V8CpuProfileNode } from './parse.ts'
-
-const root = (children: number[]): V8CpuProfileNode => ({
-  id: 1,
-  hitCount: 0,
-  callFrame: {
-    functionName: `(root)`,
-    scriptId: 0,
-    url: ``,
-    lineNumber: -1,
-    columnNumber: -1,
-  },
-  children,
-})
+import { makeV8CpuProfileRoot } from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid profile`, () => {
@@ -57,7 +44,7 @@ describe(`convert`, () => {
     // frames, they should be merged into one row with combined times.
     const profile = {
       nodes: [
-        root([2, 3]),
+        makeV8CpuProfileRoot([2, 3]),
         {
           id: 2,
           hitCount: 0,
@@ -154,7 +141,7 @@ describe(`convert`, () => {
     // After merging, hottest line should be 8.
     const profile = {
       nodes: [
-        root([2, 3]),
+        makeV8CpuProfileRoot([2, 3]),
         {
           id: 2,
           hitCount: 0,
@@ -230,7 +217,7 @@ describe(`convert`, () => {
     // Line 5's ticks must be summed (1+1=2), making line 5 the hottest.
     const profile = {
       nodes: [
-        root([2, 3]),
+        makeV8CpuProfileRoot([2, 3]),
         {
           id: 2,
           hitCount: 0,
@@ -309,7 +296,7 @@ describe(`convert`, () => {
     // should be counted once per sample, not twice.
     const profile = {
       nodes: [
-        root([2]),
+        makeV8CpuProfileRoot([2]),
         {
           id: 2,
           hitCount: 0,
@@ -365,7 +352,7 @@ describe(`convert`, () => {
     // nodes and both be labeled `(anonymous)` in the output.
     const profile = {
       nodes: [
-        root([2]),
+        makeV8CpuProfileRoot([2]),
         {
           id: 2,
           hitCount: 0,
@@ -432,7 +419,7 @@ describe(`convert`, () => {
   test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
       nodes: [
-        root([2]),
+        makeV8CpuProfileRoot([2]),
         {
           id: 2,
           hitCount: 1,
@@ -495,7 +482,7 @@ describe(`convert`, () => {
     // Functions starting with `RegExp: ` are categorized as `regexp`.
     const profile = {
       nodes: [
-        root([2, 3, 4]),
+        makeV8CpuProfileRoot([2, 3, 4]),
         {
           id: 2,
           hitCount: 3,
@@ -562,7 +549,7 @@ describe(`options`, () => {
   // root -> readFileSync (node:fs) -> internalLoader (node:internal/, 1 sample)
   const baseProfile = {
     nodes: [
-      root([2, 5]),
+      makeV8CpuProfileRoot([2, 5]),
       {
         id: 2,
         hitCount: 1,

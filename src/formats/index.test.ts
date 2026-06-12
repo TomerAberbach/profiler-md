@@ -17,6 +17,10 @@ import {
 } from './index.ts'
 import type { Format } from './index.ts'
 import {
+  makeV8CallFrame,
+  makeV8CpuProfileRoot,
+} from './v8/cpu-profile/testing.ts'
+import {
   EDGE_TYPE_HIDDEN,
   makeV8Edge,
   makeV8Node,
@@ -152,32 +156,19 @@ describe(`profileToMdAsync`, () => {
   })
 })
 
-const callFrame = (functionName: string, url: string) => ({
-  functionName,
-  scriptId: url ? 1 : 0,
-  url,
-  lineNumber: url ? 0 : -1,
-  columnNumber: url ? 0 : -1,
-})
-
 // Root -> funcA (5 samples), funcB (3 samples), each sample 20µs.
 const baseCpuProfile = JSON.stringify({
   nodes: [
-    {
-      id: 1,
-      hitCount: 0,
-      callFrame: callFrame(`(root)`, ``),
-      children: [2, 3],
-    },
+    makeV8CpuProfileRoot([2, 3]),
     {
       id: 2,
       hitCount: 5,
-      callFrame: callFrame(`funcA`, `file:///project/src/a.ts`),
+      callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a.ts`),
     },
     {
       id: 3,
       hitCount: 3,
-      callFrame: callFrame(`funcB`, `file:///project/src/b.ts`),
+      callFrame: makeV8CallFrame(`funcB`, `file:///project/src/b.ts`),
     },
   ],
   samples: [2, 2, 2, 2, 2, 3, 3, 3],
@@ -187,21 +178,16 @@ const baseCpuProfile = JSON.stringify({
 // Root -> funcA (now 10 samples), funcC (new, 2 samples), each sample 20µs.
 const currentCpuProfile = JSON.stringify({
   nodes: [
-    {
-      id: 1,
-      hitCount: 0,
-      callFrame: callFrame(`(root)`, ``),
-      children: [2, 3],
-    },
+    makeV8CpuProfileRoot([2, 3]),
     {
       id: 2,
       hitCount: 10,
-      callFrame: callFrame(`funcA`, `file:///project/src/a.ts`),
+      callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a.ts`),
     },
     {
       id: 3,
       hitCount: 2,
-      callFrame: callFrame(`funcC`, `file:///project/src/c.ts`),
+      callFrame: makeV8CallFrame(`funcC`, `file:///project/src/c.ts`),
     },
   ],
   samples: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3],
