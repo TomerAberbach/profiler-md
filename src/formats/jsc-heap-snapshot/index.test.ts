@@ -8,62 +8,16 @@ import {
 } from '../../testing/markdown.ts'
 import { convertToMd } from '../testing/convert.ts'
 import { jscHeapSnapshotConverter } from './index.ts'
-import type { JSCHeapSnapshot } from './parse.ts'
-
-// Node flags
-const NODE_INTERNAL = 0b0001
-
-// Edge types
-const EDGE_INTERNAL = 0
-const EDGE_PROPERTY = 1
-const EDGE_INDEX = 2
-const EDGE_VARIABLE = 3
-
-const makeJSCNode = ({
-  id,
-  size,
-  nameIndex,
-  flags = 0b0000,
-}: {
-  id: number
-  size: number
-  nameIndex: number
-  flags?: number
-}): number[] => [id, size, nameIndex, flags]
-
-const makeJSCEdge = ({
-  from,
-  to,
-  type,
-  nameIndex,
-}: {
-  from: number
-  to: number
-  type: number
-  nameIndex: number
-}): number[] => [from, to, type, nameIndex]
-
-const makeJSCSnapshot = ({
-  nodes,
-  nodeClassNames,
-  edges,
-  edgeTypes = [`Internal`, `Property`, `Index`, `Variable`],
-  edgeNames,
-}: {
-  nodes: number[]
-  nodeClassNames: string[]
-  edges: number[]
-  edgeTypes?: string[]
-  edgeNames: string[]
-}): JSCHeapSnapshot => ({
-  version: 2,
-  type: `Inspector`,
-  nodes,
-  nodeClassNames,
-  edges,
-  edgeTypes,
-  edgeNames,
-})
+import {
+  EDGE_INDEX,
+  EDGE_INTERNAL,
+  EDGE_PROPERTY,
+  EDGE_VARIABLE,
+  makeJSCEdge,
+  makeJSCNode,
+  makeJSCSnapshot,
+  NODE_INTERNAL,
+} from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid snapshot`, () => {
