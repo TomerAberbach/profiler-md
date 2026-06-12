@@ -248,13 +248,13 @@ const formatAggregatedDiff = (
       const currentInput = current[index]!
       if (baseInput.type === `profile` && currentInput.type === `profile`) {
         return formatProfileDiff(
-          diffAggregatedProfiles(baseInput, currentInput),
+          diffAggregatedProfiles(baseInput, currentInput, options),
           options,
         )
       }
       if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
         return formatHeapSnapshotDiff(
-          diffAggregatedHeapSnapshots(baseInput, currentInput),
+          diffAggregatedHeapSnapshots(baseInput, currentInput, options),
           options,
         )
       }

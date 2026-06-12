@@ -46,7 +46,7 @@
 | [PHP](docs/languages/php.md)                                                            | [Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | [Python](docs/languages/python.md)                                                      | [pprof](docs/formats/pprof.md)<br>[Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | [Ruby](docs/languages/ruby.md)                                                          | [Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| [Rust](docs/languages/rust.md)                                                          | [pprof](docs/formats/pprof.md) ([example](examples/rust.pprof.md))<br>[Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| [Rust](docs/languages/rust.md)                                                          | [pprof](docs/formats/pprof.md) ([example](examples/rust.base.pprof.md))<br>[Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 <!-- LANGUAGE_MATRIX END -->
 
@@ -103,6 +103,7 @@ Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, 
 import { openAsBlob, readFileSync } from 'node:fs'
 import {
   defaultCategorizeEntry,
+  defaultMatchEntry,
   defaultShowEntry,
   diffProfiles,
   diffProfilesAsync,
@@ -159,6 +160,14 @@ const options = {
   topN: 10,
   // Make paths relative to a custom base URL or directory.
   baseURL: `/path/to/project`,
+  matchEntry: entry => {
+    if (entry.location?.url.pathname.includes(`/bundle.`)) {
+      // Match bundled entries when diffing by name only, ignoring
+      // content-hashed filenames.
+      return { name: entry.name }
+    }
+    return defaultMatchEntry(entry)
+  },
   categorizeEntry: entry => {
     if (entry.location?.url.pathname.includes(`/vendor/`)) {
       // Treat an additional vendor directory as third-party.
@@ -174,6 +183,16 @@ const options = {
 console.log(await profileToMdAsync(await openAsBlob(`example.pprof`), options))
 console.log(
   await profileToMdAsync(await openAsBlob(`example.cpuprofile`), options),
+)
+
+// The same options also apply to diffs. `matchEntry` only takes effect here,
+// where it controls which entries are considered the same across the two sides.
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.pprof`),
+    await openAsBlob(`current.pprof`),
+    options,
+  ),
 )
 ```
 

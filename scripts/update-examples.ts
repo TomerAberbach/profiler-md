@@ -27,7 +27,8 @@ if (check) {
 }
 
 const otherBaseURLs = new Map([
-  [`rust.pprof`, `/Users/mike/code/mikecluck`],
+  [`rust.base.pprof`, `/Users/mike/code/mikecluck`],
+  [`rust.current.pprof`, `/Users/mike/code/mikecluck`],
   [`webkit-timeline-recording.json`, `https://tomeraberba.ch`],
 ])
 

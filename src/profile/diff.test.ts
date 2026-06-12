@@ -6,6 +6,8 @@ import { diffAggregatedProfiles } from './diff.ts'
 import { BYTES, MICROSECONDS, MILLISECONDS } from './metric.ts'
 import type { Metric } from './metric.ts'
 
+const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+
 const makeProfile = (
   metrics: Metric[],
   functions: {
@@ -76,7 +78,7 @@ const simpleProfile = (
 describe(`diffAggregatedProfiles`, () => {
   test(`identical profiles produce zero deltas`, () => {
     const profile = simpleProfile(100, 10)
-    const diff = diffAggregatedProfiles(profile, profile)
+    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.functions).toHaveLength(1)
@@ -102,7 +104,7 @@ describe(`diffAggregatedProfiles`, () => {
     )
     const current = makeProfile([MICROSECONDS], [])
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const funcA = diff.functions.find(fn => fn.name === `funcA`)!
 
     expect(funcA.base?.selfSampleCount).toBe(5)
@@ -123,7 +125,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const funcB = diff.functions.find(fn => fn.name === `funcB`)!
 
     expect(funcB.base).toBeUndefined()
@@ -154,7 +156,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.metrics[0]!.metric.type).toBe(`time`)
@@ -184,7 +186,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    expect(() => diffAggregatedProfiles(base, current)).toThrow(
+    expect(() => diffAggregatedProfiles(base, current, defaultOptions)).toThrow(
       `no matching metrics`,
     )
   })
@@ -215,7 +217,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.base?.selfSampleCount).toBe(5)
@@ -244,7 +246,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.name).toBe(`(garbage collector)`)
@@ -276,7 +278,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
 
     expect(diff.categoryToMetrics.size).toBeGreaterThan(0)
     const ours = diff.categoryToMetrics.get(`ours`)
@@ -309,7 +311,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    expect(() => diffAggregatedProfiles(base, current)).toThrow(
+    expect(() => diffAggregatedProfiles(base, current, defaultOptions)).toThrow(
       `no matching metrics`,
     )
   })

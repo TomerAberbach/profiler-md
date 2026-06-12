@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
 import { languages } from '../cli/languages.ts'
+import { fileReferenceId } from '../location.ts'
 import { fixturePath } from '../testing/fixtures.ts'
 import {
   categoryTables,
@@ -61,7 +62,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`from Uint8Array`, () => {
-      const md = profileToMd(new Uint8Array(content), { baseURL: null })
+      const md = profileToMd(content, { baseURL: null })
 
       expect(md).toMatch(/^# /u)
     })
@@ -71,7 +72,7 @@ describe(`profileToMd`, () => {
     const content = readFileSync(fixturePath(filename))
 
     test(`from Uint8Array`, () => {
-      const md = profileToMd(new Uint8Array(content), { baseURL: null })
+      const md = profileToMd(content, { baseURL: null })
 
       expect(md).toMatch(/^# /u)
     })
@@ -126,7 +127,7 @@ describe(`profileToMdAsync`, () => {
     test(`from ReadableStream`, async () => {
       const stream = new ReadableStream<Uint8Array>({
         start(controller) {
-          controller.enqueue(new Uint8Array(content))
+          controller.enqueue(content)
           controller.close()
         },
       })
@@ -278,7 +279,7 @@ describe(`diffProfiles`, () => {
   test.each(allFixtures)(
     `auto-detects %s and produces zero deltas against itself`,
     filename => {
-      const content = new Uint8Array(readFileSync(fixturePath(filename)))
+      const content = readFileSync(fixturePath(filename))
 
       const md = diffProfiles(content, content, { baseURL: null })
 
@@ -411,15 +412,96 @@ describe(`diffProfiles`, () => {
     expect(progressionsTables(md, `Retained size`)).toEqual([[removed]])
   })
 
+  test(`matches functions whose locations contain build hashes`, () => {
+    // The Cargo build-script hash differs between the base and current
+    // profiles. The default `matchEntry` strips it from the match key so
+    // functions match as deltas instead of new/removed pairs, while displaying
+    // the current profile's real path.
+    const base = readFileSync(fixturePath(`rust.base.pprof`))
+    const current = readFileSync(fixturePath(`rust.current.pprof`))
+
+    const md = diffProfiles(base, current, { baseURL: null })
+
+    expect(progressionsTables(md, `Self time`)).toEqual([
+      expect.arrayContaining([
+        {
+          Change: `-28.6%`,
+          Delta: `-6.0ms`,
+          Base: `21.0ms`,
+          Current: `15.0ms`,
+          Function: `compiler::phases::frontend::parser::__parse__Module::__reduce40`,
+          Location: `/Users/mike/code/mikecluck/web-lang/compiler/target/profiling/build/web-compiler-274140d43750284c/out/parser.rs`,
+        },
+      ]),
+    ])
+  })
+
+  test(`matchEntry matches functions whose locations differ across profiles`, () => {
+    // `funcA`'s file carries a per-build suffix, so by default the two sides
+    // don't match. The `matchEntry` hook equates the locations; the matched
+    // row displays the current profile's real path.
+    const base = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 5,
+          callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a-111.ts`),
+        },
+      ],
+      samples: [2, 2, 2, 2, 2],
+      timeDeltas: Array.from({ length: 5 }, () => 20),
+    })
+    const current = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 10,
+          callFrame: makeV8CallFrame(`funcA`, `file:///project/src/a-222.ts`),
+        },
+      ],
+      samples: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+      timeDeltas: Array.from({ length: 10 }, () => 20),
+    })
+
+    const md = diffProfiles(
+      { data: base, format: `v8-cpu-profile` },
+      { data: current, format: `v8-cpu-profile` },
+      {
+        baseURL: `/project`,
+        matchEntry: entry =>
+          entry.location
+            ? {
+                location: fileReferenceId(entry.location).replace(
+                  /a-\d+\.ts$/u,
+                  `a.ts`,
+                ),
+              }
+            : undefined,
+      },
+    )
+
+    expect(regressionsTables(md, `Self time`)).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+0.1ms`,
+          Base: `0.1ms`,
+          Current: `0.2ms`,
+          Function: `funcA`,
+          Location: `src/a-222.ts:1:1`,
+        },
+      ],
+    ])
+    expect(progressionsTables(md, `Self time`)).toEqual([])
+  })
+
   test.each(snapshotFixtures)(
     `throws on diffing node.cpuprofile against %s`,
     snapshotFilename => {
-      const profileContent = new Uint8Array(
-        readFileSync(fixturePath(`node.cpuprofile`)),
-      )
-      const snapshotContent = new Uint8Array(
-        readFileSync(fixturePath(snapshotFilename)),
-      )
+      const profileContent = readFileSync(fixturePath(`node.cpuprofile`))
+      const snapshotContent = readFileSync(fixturePath(snapshotFilename))
 
       expect(() =>
         diffProfiles(profileContent, snapshotContent, { baseURL: null }),
