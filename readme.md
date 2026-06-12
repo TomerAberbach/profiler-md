@@ -131,11 +131,17 @@ console.log(
   profileToMd({ data: readFileSync(`example.pprof`), format: `pprof` }),
 )
 
-// Diff two profiles (async, auto-detect)
+// Diff two profiles or two heap snapshots (async, auto-detect)
 console.log(
   await diffProfilesAsync(
     await openAsBlob(`base.cpuprofile`),
     await openAsBlob(`current.cpuprofile`),
+  ),
+)
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.heapsnapshot`),
+    await openAsBlob(`current.heapsnapshot`),
   ),
 )
 

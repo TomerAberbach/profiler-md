@@ -28,7 +28,7 @@ export const formatPercentChange = (base: number, current: number): string => {
     return `removed`
   }
   const change = (current - base) / base
-  return formatDelta(change, formatPercent(change))
+  return formatDelta(change, formatPercent(Math.abs(change)))
 }
 
 export const formatDelta = (value: number, formatted: string): string => {

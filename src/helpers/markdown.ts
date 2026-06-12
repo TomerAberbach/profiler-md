@@ -1,6 +1,15 @@
 export const formatHeading = (level: number, content: string): string =>
   `${`#`.repeat(level)} ${content}`
 
+/**
+ * Prepends the given section header (a heading and any description) to
+ * {@link sections}, or returns no sections if there are none.
+ */
+export const formatSectionGroup = (
+  header: string[],
+  sections: string[],
+): string[] => (sections.length === 0 ? [] : [...header, ...sections])
+
 export type Header = string | { content: string; align: `left` | `right` }
 
 export const formatTable = (headers: Header[], rows: string[][]): string => {

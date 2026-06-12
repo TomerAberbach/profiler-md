@@ -9,117 +9,19 @@ import {
 } from '../../../testing/markdown.ts'
 import { convertToMd } from '../../testing/convert.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
-import type { V8HeapSnapshot } from './parse.ts'
-
-const NODE_TYPE_STRING = 2
-const NODE_TYPE_OBJECT = 3
-const NODE_TYPE_CODE = 4
-const NODE_TYPE_CLOSURE = 5
-const NODE_TYPE_SYNTHETIC = 9
-
-const EDGE_TYPE_INTERNAL = 3
-const EDGE_TYPE_HIDDEN = 4
-const EDGE_TYPE_WEAK = 6
-
-const makeV8Node = ({
-  type,
-  name,
-  id,
-  selfSize,
-  edgeCount,
-  detachedness = 0,
-}: {
-  type: number
-  name: number
-  id: number
-  selfSize: number
-  edgeCount: number
-  detachedness?: number
-}): number[] => [type, name, id, selfSize, edgeCount, detachedness]
-
-const makeV8Edge = ({
-  type,
-  nameOrIndex,
-  toNode,
-}: {
-  type: number
-  nameOrIndex: number
-  toNode: number
-}): number[] => [type, nameOrIndex, toNode]
-
-const makeV8Snapshot = ({
-  nodes,
-  edges,
-  strings,
-  locations = [],
-  nodeCount,
-  edgeCount,
-}: {
-  nodes: number[]
-  edges: number[]
-  strings: string[]
-  locations?: number[]
-  nodeCount: number
-  edgeCount: number
-}): V8HeapSnapshot => ({
-  snapshot: {
-    meta: {
-      node_fields: [
-        `type`,
-        `name`,
-        `id`,
-        `self_size`,
-        `edge_count`,
-        `detachedness`,
-      ],
-      node_types: [
-        [
-          `hidden`,
-          `array`,
-          `string`,
-          `object`,
-          `code`,
-          `closure`,
-          `regexp`,
-          `number`,
-          `native`,
-          `synthetic`,
-          `concatenated string`,
-          `sliced string`,
-          `symbol`,
-          `bigint`,
-          `object shape`,
-        ],
-        `string`,
-        `number`,
-        `number`,
-        `number`,
-        `number`,
-      ],
-      edge_fields: [`type`, `name_or_index`, `to_node`],
-      edge_types: [
-        [
-          `context`,
-          `element`,
-          `property`,
-          `internal`,
-          `hidden`,
-          `shortcut`,
-          `weak`,
-        ],
-        `string_or_number`,
-        `node`,
-      ],
-      location_fields: [`object_index`, `script_id`, `line`, `column`],
-    },
-    node_count: nodeCount,
-    edge_count: edgeCount,
-  },
-  nodes,
-  edges,
-  strings,
-  locations,
-})
+import {
+  EDGE_TYPE_HIDDEN,
+  EDGE_TYPE_INTERNAL,
+  EDGE_TYPE_WEAK,
+  makeV8Edge,
+  makeV8Node,
+  makeV8Snapshot,
+  NODE_TYPE_CLOSURE,
+  NODE_TYPE_CODE,
+  NODE_TYPE_OBJECT,
+  NODE_TYPE_STRING,
+  NODE_TYPE_SYNTHETIC,
+} from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid snapshot`, () => {

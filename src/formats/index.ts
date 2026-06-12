@@ -13,7 +13,11 @@ import type {
 } from '../options.ts'
 import { diffAggregatedProfiles } from '../profile/diff.ts'
 import { formatProfile, formatProfileDiff } from '../profile/format.ts'
-import { formatHeapSnapshot } from '../snapshot/format.ts'
+import { diffAggregatedHeapSnapshots } from '../snapshot/diff.ts'
+import {
+  formatHeapSnapshot,
+  formatHeapSnapshotDiff,
+} from '../snapshot/format.ts'
 import type {
   AggregatedInput,
   BinaryFormatConverter,
@@ -242,17 +246,20 @@ const formatAggregatedDiff = (
   return base
     .map((baseInput, index) => {
       const currentInput = current[index]!
-      if (baseInput.kind !== currentInput.kind) {
-        throw new Error(
-          `cannot diff a ${baseInput.kind} against a ${currentInput.kind}`,
+      if (baseInput.kind === `profile` && currentInput.kind === `profile`) {
+        return formatProfileDiff(
+          diffAggregatedProfiles(baseInput, currentInput),
+          options,
         )
       }
-      if (baseInput.kind === `snapshot` || currentInput.kind === `snapshot`) {
-        throw new Error(`heap snapshot diffing is not supported`)
+      if (baseInput.kind === `snapshot` && currentInput.kind === `snapshot`) {
+        return formatHeapSnapshotDiff(
+          diffAggregatedHeapSnapshots(baseInput, currentInput),
+          options,
+        )
       }
-      return formatProfileDiff(
-        diffAggregatedProfiles(baseInput, currentInput),
-        options,
+      throw new Error(
+        `cannot diff a ${baseInput.kind} against a ${currentInput.kind}`,
       )
     })
     .join(`\n\n`)

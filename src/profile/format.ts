@@ -9,8 +9,15 @@ import {
   formatPercentChange,
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
-import { formatHeading, formatTable, inlineCode } from '../helpers/markdown.ts'
+import {
+  formatHeading,
+  formatSectionGroup,
+  formatTable,
+  inlineCode,
+} from '../helpers/markdown.ts'
+import type { Header } from '../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
@@ -122,10 +129,7 @@ const formatCategoryTable = ({
       [
         `Category`,
         { content: `%`, align: `right` },
-        ...metrics.map(metric => ({
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right` as const,
-        })),
+        ...metrics.map(metric => metricColumn(metric)),
         { content: `Samples`, align: `right` },
       ],
       hottestCategories.map(([category, { values, sampleCount }]) => [
@@ -147,10 +151,13 @@ const formatHottestFunctions = (
     ...options,
     headingLevel: options.headingLevel + 1,
   }
-  return formatHottestFunctionsSections(options.headingLevel, [
-    ...formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
-    ...formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
-  ])
+  return formatSectionGroup(
+    [formatHeading(options.headingLevel, `Hottest functions`)],
+    [
+      ...formatHottestSelfFunctions(metricIndex, profile, subsectionOptions),
+      ...formatHottestTotalFunctions(metricIndex, profile, subsectionOptions),
+    ],
+  )
 }
 
 const formatHottestSelfFunctions = (
@@ -183,17 +190,14 @@ const formatHottestSelfFunctions = (
   )
 
   const metric = profile.metrics[metricIndex]!
-  const { title, description } = selfFunctionsPhrases(metric)
+  const { title, description } = selfFunctionsSection(metric)
   return [
     formatHeading(options.headingLevel, title),
     `Functions ranked by ${description}.`,
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
@@ -204,24 +208,23 @@ const formatHottestSelfFunctions = (
         ),
         formatValue(func.selfValues[metricIndex]!, metric),
         formatCount(func.selfSampleCount),
-        inlineCode(func.name),
-        formatSourceLocation(func.location, options),
+        ...formatFunctionCells(func, options),
       ]),
     ),
-    ...(hottestLinesSections.length > 0
-      ? [
-          formatHeading(options.headingLevel + 1, `Lines`),
-          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
-        ]
-      : []),
-    ...hottestLinesSections,
-    ...(hottestCallersSections.length > 0
-      ? [
-          formatHeading(options.headingLevel + 1, `Callers`),
-          `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Caller attribution may be imprecise due to inlining.`,
-        ]
-      : []),
-    ...hottestCallersSections,
+    ...formatSectionGroup(
+      [
+        formatHeading(options.headingLevel + 1, `Lines`),
+        `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
+      ],
+      hottestLinesSections,
+    ),
+    ...formatSectionGroup(
+      [
+        formatHeading(options.headingLevel + 1, `Callers`),
+        `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Caller attribution may be imprecise due to inlining.`,
+      ],
+      hottestCallersSections,
+    ),
   ]
 }
 
@@ -243,20 +246,11 @@ const formatHottestLines = (
 
   const metric = profile.metrics[metricIndex]!
   return [
-    formatHeading(
-      options.headingLevel,
-      `${inlineCode(func.name)} (${formatSourceLocation(
-        func.location,
-        options,
-      )})`,
-    ),
+    formatFunctionHeading(options.headingLevel, func, options),
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Location`,
       ],
@@ -296,20 +290,11 @@ const formatHottestCallers = (
 
   const metric = profile.metrics[metricIndex]!
   return [
-    formatHeading(
-      options.headingLevel,
-      `${inlineCode(func.name)} (${formatSourceLocation(
-        func.location,
-        options,
-      )})`,
-    ),
+    formatFunctionHeading(options.headingLevel, func, options),
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Caller`,
         `Location`,
@@ -318,8 +303,7 @@ const formatHottestCallers = (
         formatPercent(selfValues[metricIndex]! / selfValue),
         formatValue(selfValues[metricIndex]!, metric),
         formatCount(selfSampleCount),
-        inlineCode(caller.name),
-        formatSourceLocation(caller.location, options),
+        ...formatFunctionCells(caller, options),
       ]),
     ),
   ]
@@ -351,17 +335,14 @@ const formatHottestTotalFunctions = (
   )
 
   const metric = profile.metrics[metricIndex]!
-  const { title, description } = totalFunctionsPhrases(metric)
+  const { title, description } = totalFunctionsSection(metric)
   return [
     formatHeading(options.headingLevel, title),
     `Functions ranked by ${description}.`,
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Function`,
         `Location`,
@@ -370,17 +351,16 @@ const formatHottestTotalFunctions = (
         formatPercent(func.totalValues[metricIndex]! / totalValue),
         formatValue(func.totalValues[metricIndex]!, metric),
         formatCount(func.totalSampleCount),
-        inlineCode(func.name),
-        formatSourceLocation(func.location, options),
+        ...formatFunctionCells(func, options),
       ]),
     ),
-    ...(calleeSections.length > 0
-      ? [
-          formatHeading(options.headingLevel + 1, `Callees`),
-          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Callee attribution may be imprecise due to inlining.`,
-        ]
-      : []),
-    ...calleeSections,
+    ...formatSectionGroup(
+      [
+        formatHeading(options.headingLevel + 1, `Callees`),
+        `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Callee attribution may be imprecise due to inlining.`,
+      ],
+      calleeSections,
+    ),
   ]
 }
 
@@ -405,20 +385,11 @@ const formatHottestCallees = (
 
   const metric = profile.metrics[metricIndex]!
   return [
-    formatHeading(
-      options.headingLevel,
-      `${inlineCode(func.name)} (${formatSourceLocation(
-        func.location,
-        options,
-      )})`,
-    ),
+    formatFunctionHeading(options.headingLevel, func, options),
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Callee`,
         `Location`,
@@ -427,8 +398,7 @@ const formatHottestCallees = (
         formatPercent(totalValues[metricIndex]! / totalValue),
         formatValue(totalValues[metricIndex]!, metric),
         formatCount(totalSampleCount),
-        inlineCode(callee.name),
-        formatSourceLocation(callee.location, options),
+        ...formatFunctionCells(callee, options),
       ]),
     ),
   ]
@@ -466,10 +436,7 @@ const formatHottestCallStacks = (
     formatTable(
       [
         { content: `%`, align: `right` },
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        },
+        metricColumn(metric),
         { content: `Samples`, align: `right` },
         `Call stack`,
       ],
@@ -591,22 +558,18 @@ const formatDiffFunctions = (
   options: NormalizedProfileToMdOptions,
   headingLevel: number,
 ): string[] =>
-  formatHottestFunctionsSections(headingLevel, [
-    ...formatDiffDirectionSections(
-      diff,
-      metricIndex,
-      options,
-      headingLevel + 1,
-      `self`,
+  formatSectionGroup(
+    [formatHeading(headingLevel, `Hottest functions`)],
+    functionsSections.flatMap(section =>
+      formatDiffDirectionSections(
+        diff,
+        metricIndex,
+        options,
+        headingLevel + 1,
+        section,
+      ),
     ),
-    ...formatDiffDirectionSections(
-      diff,
-      metricIndex,
-      options,
-      headingLevel + 1,
-      `total`,
-    ),
-  ])
+  )
 
 /**
  * A {@link AggregatedProfileFunctionDiff} with its values resolved for a
@@ -623,19 +586,18 @@ const formatDiffDirectionSections = (
   metricIndex: number,
   options: NormalizedProfileToMdOptions,
   headingLevel: number,
-  kind: `self` | `total`,
+  section: (metric: Metric) => FunctionsSection,
 ): string[] => {
   const { metric, baseIndex, currentIndex } = diff.metrics[metricIndex]!
-  const { title, description } =
-    kind === `self`
-      ? selfFunctionsPhrases(metric)
-      : totalFunctionsPhrases(metric)
+  const { title, description, valuesOf } = section(metric)
 
   const active = diff.functions
     .map(func => ({
       func,
-      baseValue: functionValue(func.base, baseIndex, kind),
-      currentValue: functionValue(func.current, currentIndex, kind),
+      baseValue: func.base ? (valuesOf(func.base)[baseIndex] ?? 0) : 0,
+      currentValue: func.current
+        ? (valuesOf(func.current)[currentIndex] ?? 0)
+        : 0,
     }))
     .filter(
       ({ func, baseValue, currentValue }) =>
@@ -654,11 +616,7 @@ const formatDiffDirectionSections = (
     ({ baseValue, currentValue }) => baseValue - currentValue,
   )
 
-  if (regressions.length === 0 && progressions.length === 0) {
-    return []
-  }
-
-  const sections = [formatHeading(headingLevel, title)]
+  const sections: string[] = []
 
   if (regressions.length > 0) {
     sections.push(
@@ -676,19 +634,8 @@ const formatDiffDirectionSections = (
     )
   }
 
-  return sections
+  return formatSectionGroup([formatHeading(headingLevel, title)], sections)
 }
-
-/**
- * Returns the function's self or total value for the metric, or zero if the
- * function is absent from the profile.
- */
-const functionValue = (
-  func: AggregatedProfileFunction | undefined,
-  metricIndex: number,
-  kind: `self` | `total`,
-): number =>
-  (kind === `self` ? func?.selfValues : func?.totalValues)?.[metricIndex] ?? 0
 
 /** Returns whether either side of the diffed function should be shown. */
 const showDiffFunction = (
@@ -719,8 +666,7 @@ const formatDiffFunctionTable = (
         formatDelta(delta, formatValue(Math.abs(delta), metric)),
         formatValue(baseValue, metric),
         formatValue(currentValue, metric),
-        inlineCode(func.name),
-        formatSourceLocation(func.location, options),
+        ...formatFunctionCells(func, options),
       ]
     }),
   )
@@ -755,36 +701,69 @@ const formatMetricSections = (
   )
 
 /**
- * Wraps the given self and total function sections in a `Hottest functions`
- * heading, or returns no sections if there are none.
+ * The shared phrases and values accessor of a self or total function section.
  */
-const formatHottestFunctionsSections = (
-  headingLevel: number,
-  sections: string[],
-): string[] =>
-  sections.length === 0
-    ? []
-    : [formatHeading(headingLevel, `Hottest functions`), ...sections]
-
-/** The shared phrases of a self or total function section. */
-type FunctionsSectionPhrases = {
+type FunctionsSection = {
   /** The section's heading title. */
   title: string
 
   /** A phrase describing what the section's functions are measured by. */
   description: string
+
+  /** Returns the values the section's functions are measured by. */
+  valuesOf: (func: AggregatedProfileFunction) => Float64Array
 }
 
-/** Returns the phrases of a self function section for {@link metric}. */
-const selfFunctionsPhrases = (metric: Metric): FunctionsSectionPhrases => ({
+/** Returns the self function section for {@link metric}. */
+const selfFunctionsSection = (metric: Metric): FunctionsSection => ({
   title: `Self ${metric.phrases.columnNoun}`,
   description: `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
+  valuesOf: func => func.selfValues,
 })
 
-/** Returns the phrases of a total function section for {@link metric}. */
-const totalFunctionsPhrases = (metric: Metric): FunctionsSectionPhrases => ({
+/** Returns the total function section for {@link metric}. */
+const totalFunctionsSection = (metric: Metric): FunctionsSection => ({
   title: `Total ${metric.phrases.columnNoun}`,
   description: `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
+  valuesOf: func => func.totalValues,
+})
+
+/** The self and total function sections, in output order. */
+const functionsSections = [selfFunctionsSection, totalFunctionsSection]
+
+/** A function with a name and optional location, shown in tables and headings. */
+type NamedFunction = {
+  name: string
+  location?: SourceLocation
+}
+
+/** Returns a function's name and location cells for a table row. */
+const formatFunctionCells = (
+  func: NamedFunction,
+  options: NormalizedProfileToMdOptions,
+): string[] => [
+  inlineCode(func.name),
+  formatSourceLocation(func.location, options),
+]
+
+/** Formats a heading for a function with its location. */
+const formatFunctionHeading = (
+  headingLevel: number,
+  func: NamedFunction,
+  options: NormalizedProfileToMdOptions,
+): string =>
+  formatHeading(
+    headingLevel,
+    `${inlineCode(func.name)} (${formatSourceLocation(
+      func.location,
+      options,
+    )})`,
+  )
+
+/** Returns the right-aligned table column header for {@link metric}'s values. */
+const metricColumn = (metric: Metric): Header => ({
+  content: capitalizeFirst(metric.phrases.columnNoun),
+  align: `right`,
 })
 
 const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
