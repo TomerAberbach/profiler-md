@@ -1,11 +1,12 @@
 import { formatDocPage, getDocPage } from '@optique/core'
 import type { InferValue } from '@optique/core'
-import { object, or } from '@optique/core/constructs'
-import { message, text } from '@optique/core/message'
+import { object, or, tuple } from '@optique/core/constructs'
+import { message, text, value } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
 import { argument, flag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
 import { choice, integer, string } from '@optique/core/valueparser'
+import type { ValueParser } from '@optique/core/valueparser'
 import { path, run } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
@@ -16,6 +17,37 @@ const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
   ...(aliases?.map(alias => alias.id) ?? []),
 ])
 export const topics = [...formats, ...languageTopics]
+
+export type RegexReplacement = readonly [RegExp, string]
+
+const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
+  mode: `sync`,
+  metavar: `REGEX=REPLACEMENT`,
+  placeholder: [/(?:)/u, ``],
+  parse: input => {
+    const index = input.indexOf(`=`)
+    if (index === -1) {
+      return {
+        success: false,
+        error: message`Invalid --match ${value(input)}: expected REGEX=REPLACEMENT.`,
+      }
+    }
+
+    const pattern = input.slice(0, index)
+    try {
+      const regex = new RegExp(pattern, `gu`)
+      return { success: true, value: [regex, input.slice(index + 1)] }
+    } catch (error) {
+      return {
+        success: false,
+        error: message`Invalid --match regex ${value(pattern)}: ${text(
+          error instanceof Error ? error.message : String(error),
+        )}.`,
+      }
+    }
+  },
+  format: ([regex, replacement]) => `${regex.source}=${replacement}`,
+})
 
 const parser = object({
   help: optional(
@@ -52,6 +84,11 @@ const parser = object({
       description: message`Additional URLs or paths to consider third-party (repeatable)`,
     }),
   ),
+  match: multiple(
+    option(`--match`, regexReplacement(), {
+      description: message`Treat locations matching REGEX as REPLACEMENT when matching entries across diffed profiles (repeatable)`,
+    }),
+  ),
   sourceMaps: multiple(
     option(`--source-maps`, string({ metavar: `GLOB` }), {
       description: message`Source maps (JSON or inline) to apply to profile locations (repeatable)`,
@@ -71,10 +108,20 @@ const parser = object({
       map(flag(`--no-color`), () => false as const),
     ),
   ),
-  file: optional(
-    argument(path({ metavar: `FILE` }), {
-      description: message`Profile file to convert (reads from stdin if omitted)`,
-    }),
+  input: or(
+    optional(
+      argument(path({ metavar: `FILE` }), {
+        description: message`Profile to convert (reads from stdin if omitted)`,
+      }),
+    ),
+    tuple([
+      argument(path({ metavar: `BASE` }), {
+        description: message`Base profile to diff`,
+      }),
+      argument(path({ metavar: `CURRENT` }), {
+        description: message`Current profile to diff against the base`,
+      }),
+    ]),
   ),
 })
 

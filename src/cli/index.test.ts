@@ -169,6 +169,44 @@ test(`--source-maps applies inline source maps from files`, async () => {
   rmSync(dir, { recursive: true })
 })
 
+test(`--match changes how entries match across diffed profiles`, async () => {
+  // Collapsing every location to `x` must not break self-diff matching: every
+  // entry still matches its counterpart, so there are no deltas.
+  const { status, stdout } = await runCli([
+    fixturePath(`node.cpuprofile`),
+    fixturePath(`node.cpuprofile`),
+    `--match`,
+    `.+=x`,
+  ])
+
+  expect(status).toBe(0)
+  expect(stdout).not.toMatch(/Regressions|Progressions/u)
+})
+
+test.each([
+  {
+    scenario: `two profiles`,
+    baseFixture: `node.cpuprofile`,
+    currentFixture: `bun.cpuprofile`,
+  },
+  {
+    scenario: `two heap snapshots`,
+    baseFixture: `node.heapsnapshot`,
+    currentFixture: `node.heapsnapshot`,
+  },
+])(
+  `diffs $scenario passed as positional arguments`,
+  async ({ baseFixture, currentFixture }) => {
+    const { status, stdout } = await runCli([
+      fixturePath(baseFixture),
+      fixturePath(currentFixture),
+    ])
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(/^# .* diff\n/u)
+  },
+)
+
 test.each([
   {
     scenario: `stdin with unrecognizable content`,
@@ -193,6 +231,34 @@ test.each([
     scenario: `unknown flag`,
     args: [`--unknown-flag`],
     expectedStderr: `--unknown-flag`,
+    expectedStatus: 2,
+  },
+  {
+    scenario: `diffing a profile against a heap snapshot`,
+    args: [fixturePath(`node.cpuprofile`), fixturePath(`node.heapsnapshot`)],
+    expectedStderr: `cannot diff a profile against a snapshot`,
+    expectedStatus: 1,
+  },
+  {
+    scenario: `--match without an equals sign`,
+    args: [fixturePath(`node.cpuprofile`), `--match`, `no-equals-sign`],
+    expectedStderr: `expected REGEX=REPLACEMENT`,
+    expectedStatus: 2,
+  },
+  {
+    scenario: `--match with an invalid regex`,
+    args: [fixturePath(`node.cpuprofile`), `--match`, `[=x`],
+    expectedStderr: `Invalid --match regex`,
+    expectedStatus: 2,
+  },
+  {
+    scenario: `more than two positional arguments`,
+    args: [
+      fixturePath(`node.cpuprofile`),
+      fixturePath(`bun.cpuprofile`),
+      fixturePath(`deno.cpuprofile`),
+    ],
+    expectedStderr: `cannot be used together`,
     expectedStatus: 2,
   },
 ])(

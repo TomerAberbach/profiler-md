@@ -3,14 +3,20 @@ import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
-import { defaultCategorizeEntry } from '../index.ts'
+import { defaultCategorizeEntry, defaultMatchEntry } from '../index.ts'
 import type { ProfileToMdOptions, SourceMap } from '../index.ts'
-import { fileReferencePath, makeFileReference } from '../location.ts'
+import {
+  fileReferenceId,
+  fileReferencePath,
+  makeFileReference,
+} from '../location.ts'
+import type { RegexReplacement } from './cli.ts'
 
 export type BuildOptionsFlags = {
   topN?: number
   baseURL?: string
   thirdParty: readonly string[]
+  match: readonly RegexReplacement[]
   sourceMaps: readonly string[]
 }
 
@@ -18,6 +24,7 @@ export const buildOptions = async ({
   topN,
   baseURL,
   thirdParty,
+  match,
   sourceMaps,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
@@ -25,9 +32,31 @@ export const buildOptions = async ({
     baseURL !== undefined && !URL.canParse(baseURL)
       ? resolve(baseURL)
       : baseURL,
+  matchEntry: buildMatchEntry(match),
   categorizeEntry: buildCategorizeEntry(thirdParty),
   sourceMaps: await loadSourceMaps(sourceMaps),
 })
+
+const buildMatchEntry = (
+  matches: readonly RegexReplacement[],
+): ProfileToMdOptions[`matchEntry`] => {
+  if (matches.length === 0) {
+    return undefined
+  }
+
+  return entry => {
+    if (!entry.location) {
+      return defaultMatchEntry(entry)
+    }
+
+    let location =
+      defaultMatchEntry(entry)?.location ?? fileReferenceId(entry.location)
+    for (const [regex, replacement] of matches) {
+      location = location.replace(regex, replacement)
+    }
+    return { location }
+  }
+}
 
 const buildCategorizeEntry = (
   patterns: readonly string[],
