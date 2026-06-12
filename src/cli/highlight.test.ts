@@ -320,6 +320,125 @@ describe(`heat intensity`, () => {
   })
 })
 
+describe(`diff table intensity`, () => {
+  beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
+
+  const diffTable = (rows: string[]): string =>
+    [
+      `| Change  |   Delta | Base | Current |`,
+      `| ------- | ------: | ---- | ------- |`,
+      ...rows,
+    ].join(`\n`)
+
+  test(`header and separator rows are untinted`, async () => {
+    const highlighted = await highlight(
+      diffTable([`| +50.0%  |   +1ms  | 2ms  | 3ms     |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 0)).toBe(defaultRowRed)
+    expect(maxRed(highlighted, 1)).toBe(defaultRowRed)
+  })
+
+  test(`increase rows are red-tinted relative to the largest delta in the table`, async () => {
+    const highlighted = await highlight(
+      diffTable([
+        `| +100.0% |  +16ms  | 16ms | 32ms    |`,
+        `| +100.0% |   +4ms  |  4ms |  8ms    |`,
+      ]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 2)).toBe(244)
+    expect(maxRed(highlighted, 3)).toBe(228)
+  })
+
+  test(`decrease rows are green-tinted relative to the largest delta in the table`, async () => {
+    const highlighted = await highlight(
+      diffTable([
+        `| -50.0%  |  -16ms  | 32ms | 16ms    |`,
+        `| -50.0%  |   -4ms  |  8ms |  4ms    |`,
+      ]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxGreen(highlighted, 2)).toBe(241)
+    expect(maxGreen(highlighted, 3)).toBe(219)
+  })
+
+  test(`new and removed rows scale with their delta instead of always tinting at maximum`, async () => {
+    const highlighted = await highlight(
+      diffTable([
+        `| new     |   +4ms  |  0ms |  4ms    |`,
+        `| removed |  -16ms  | 16ms |  0ms    |`,
+      ]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 2)).toBe(228)
+    expect(maxGreen(highlighted, 3)).toBe(241)
+  })
+
+  test.each([
+    { larger: `+1s`, smaller: `+250ms` },
+    { larger: `+1m 5s`, smaller: `+16.25s` },
+    { larger: `+1.2 MB`, smaller: `+300 kB` },
+  ])(
+    `$larger and $smaller deltas are normalized before comparison`,
+    async ({ larger, smaller }) => {
+      const highlighted = await highlight(
+        diffTable([
+          `| +100.0% | ${larger} | 1 | 2 |`,
+          `| +100.0% | ${smaller} | 1 | 2 |`,
+        ]),
+        highlightMarkdownOptions,
+      )
+
+      expect(maxRed(highlighted, 2)).toBe(244)
+      expect(maxRed(highlighted, 3)).toBe(228)
+    },
+  )
+
+  test(`— unchanged row is untinted`, async () => {
+    const highlighted = await highlight(
+      diffTable([
+        `| +100.0% |  +16ms  | 16ms | 32ms    |`,
+        `| —       |   0ms   |  8ms |  8ms    |`,
+      ]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 3)).toBe(defaultRowRed)
+    expect(maxGreen(highlighted, 3)).toBe(defaultRowGreen)
+  })
+
+  test(`table with only unchanged rows is untinted`, async () => {
+    const highlighted = await highlight(
+      diffTable([`| —       |   0ms   |  8ms |  8ms    |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
+    expect(maxGreen(highlighted, 2)).toBe(defaultRowGreen)
+  })
+
+  test(`diff table rows don't propagate intensity to matching headings`, async () => {
+    const markdown = [
+      `### Regressions`,
+      ``,
+      `| Change | Delta | Base | Current | Function | Location |`,
+      `| ------ | ----- | ---- | ------- | -------- | -------- |`,
+      `| +50.0% | +1ms  | 2ms  | 3ms     | \`func\`   | a.ts     |`,
+      ``,
+      `##### \`func\` (a.ts)`,
+    ].join(`\n`)
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
+  })
+})
+
 const highlight = async (
   markdown: string,
   options: HighlightMarkdownOptions,
@@ -364,8 +483,12 @@ const getLineColors = (
 const maxRed = (output: string, lineIndex: number): number =>
   Math.max(0, ...getLineColors(output, lineIndex).map(([red]) => red))
 
+const maxGreen = (output: string, lineIndex: number): number =>
+  Math.max(0, ...getLineColors(output, lineIndex).map(([, green]) => green))
+
 // Warm sand (#d3c6aa = 211,198,170) is the default.
 const defaultRowRed = 211
+const defaultRowGreen = 198
 // Golden amber (#dbbc7f = 219,188,127) is the default.
 const defaultHeadingRed = 219
 
