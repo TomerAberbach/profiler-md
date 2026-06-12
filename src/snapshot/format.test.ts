@@ -201,7 +201,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Current: `300 B`,
           Instances: `1 → 2`,
           Name: `grewFn`,
-          Location: `src/a.ts:5:10`,
+          Location: `src/a.ts:7:10`,
         },
       ],
     ])

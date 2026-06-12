@@ -31,6 +31,9 @@ export type DiffMetric = {
  * A function matched across the base and current profiles by name and
  * location, ignoring line and column.
  *
+ * The name, location, and category come from the current profile when the
+ * function is present in it, and from the base profile otherwise.
+ *
  * Each side's values are indexed by that side's profile's
  * {@link AggregatedProfile.metrics}; read them using
  * {@link DiffMetric.baseIndex} and {@link DiffMetric.currentIndex}.
@@ -83,7 +86,7 @@ export const diffAggregatedProfiles = (
       current.functions.map(func => [functionKey(func), func] as const),
     ).values(),
     ({ base: baseFunc, current: currentFunc }) => {
-      const { name, location, category } = (baseFunc ?? currentFunc)!
+      const { name, location, category } = (currentFunc ?? baseFunc)!
       return { name, location, category, base: baseFunc, current: currentFunc }
     },
   )
