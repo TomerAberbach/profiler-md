@@ -23,6 +23,6 @@ export const convertToMd: {
   options: NormalizedProfileToMdOptions,
 ): string => {
   const parsed =
-    converter.kind === `binary` ? converter.parse(input as Uint8Array) : input
+    converter.type === `binary` ? converter.parse(input as Uint8Array) : input
   return formatAggregatedInputs(converter.aggregate(parsed, options), options)
 }

@@ -11,10 +11,10 @@ type Aggregate<Parsed> = (
 ) => AggregatedInput[]
 
 /** Whether a format aggregates to profiles or snapshots. */
-export type FormatShape = AggregatedInput[`kind`]
+export type FormatShape = AggregatedInput[`type`]
 
 export type JsonFormatConverter<Parsed = unknown> = {
-  kind: `json`
+  type: `json`
   shape: FormatShape
   title: string
   matches: (json: unknown) => boolean
@@ -22,7 +22,7 @@ export type JsonFormatConverter<Parsed = unknown> = {
 }
 
 export type BinaryFormatConverter<Parsed = unknown> = {
-  kind: `binary`
+  type: `binary`
   shape: FormatShape
   title: string
   parse: (bytes: Uint8Array) => Parsed

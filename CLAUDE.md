@@ -159,7 +159,7 @@ pnpm bench ./src/fixtures/node.cpuprofile
       formatting is centralized in `src/formats/index.ts`)
 - [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
       object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
-      `../converter.ts`) with `title`, `kind`, `shape`, `matches`, `aggregate`
+      `../converter.ts`) with `title`, `type`, `shape`, `matches`, `aggregate`
       (plus `parse` for binary formats)
 - [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
       and conversion via the `convertToMd` runner from `../testing/convert.ts`

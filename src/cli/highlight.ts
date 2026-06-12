@@ -62,7 +62,7 @@ const computeLineToIntensity = (
 
   for (const [lineIndex, lineTokens] of lines.entries()) {
     const line = parseLine(lineTokens)
-    switch (line.kind) {
+    switch (line.type) {
       case `heading`: {
         // Close all heading sections deeper than this current one. e.g. an H3
         // following an H6 closes the prior H6 through H3 headings.
@@ -137,7 +137,7 @@ type HeadingSection = {
 }
 
 type Heading = {
-  kind: `heading`
+  type: `heading`
 
   level: HeadingLevel
 
@@ -152,30 +152,30 @@ type Heading = {
 }
 
 type TableRow = {
-  kind: `table-row`
+  type: `table-row`
 
   /** The full Markdown of the table row. */
   text: string
 }
 
-type Line = Heading | TableRow | { kind: `other` }
+type Line = Heading | TableRow | { type: `other` }
 
 const parseLine = (tokens: ThemedToken[]): Line => {
   if (tokens.length === 0) {
-    return { kind: `other` }
+    return { type: `other` }
   }
 
   const headingLevel = determineHeadingLevel(tokens)
   if (headingLevel !== null) {
     const { inlineCode, afterInlineCode } = extractHeadingParts(tokens)
-    return { kind: `heading`, level: headingLevel, inlineCode, afterInlineCode }
+    return { type: `heading`, level: headingLevel, inlineCode, afterInlineCode }
   }
 
   if (tokens.some(token => tokenHasScope(token, `markup.table.markdown`))) {
-    return { kind: `table-row`, text: joinTokens(tokens) }
+    return { type: `table-row`, text: joinTokens(tokens) }
   }
 
-  return { kind: `other` }
+  return { type: `other` }
 }
 
 const determineHeadingLevel = (tokens: ThemedToken[]): HeadingLevel | null => {

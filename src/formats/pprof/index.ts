@@ -8,7 +8,7 @@ const matchesPprof = (profile: Profile): boolean =>
 
 export const pprofConverter = {
   title: `pprof`,
-  kind: `binary`,
+  type: `binary`,
   shape: `profile`,
   parse: bytes => Profile.decode(bytes),
   matches: matchesPprof,
