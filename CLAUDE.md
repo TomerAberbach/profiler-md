@@ -31,7 +31,8 @@ profiler-md
 │   │   └── **/<name>/
 │   │       ├── parse.ts      # Converts untyped profile data to typed data
 │   │       ├── aggregate.ts  # Aggregates profile data
-│   │       └── index.ts      # Exports the format's converter (matches/parse/aggregate)
+│   │       ├── index.ts      # Exports the format's converter (matches/parse/aggregate)
+│   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
@@ -43,14 +44,17 @@ profiler-md
 │   │   ├── graph.ts          # Node adjacency graph in CSR format
 │   │   ├── retained.ts       # Retained size computation
 │   │   ├── aggregate.ts      # Heap snapshot data aggregation
-│   │   ├── format.ts         # Heap snapshot to Markdown formatting
-│   │   └── index.ts          # Barrel file
+│   │   ├── diff.ts           # Aggregated heap snapshot diffing logic
+│   │   ├── format.ts         # Heap snapshot and diff to Markdown formatting
+│   │   ├── index.ts          # Barrel file
+│   │   └── testing.ts        # Test-only utilities specific to this module
 │   │
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
 │   ├── options.ts            # API option types and normalization logic
+│   ├── diff.ts               # Base/current diffing primitives
 │   │
-│   ├── helpers/              # Generic utility functions
+│   ├── helpers/              # Truly generic (non-profiling) utility functions
 │   │   ├── array.ts
 │   │   ├── bytes.ts
 │   │   ├── heap.ts
@@ -59,7 +63,7 @@ profiler-md
 │   │   └── types.ts
 │   │
 │   ├── fixtures/             # Profiles for testing and docs
-│   └── testing/              # Test-only utilities
+│   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
 │
 ├── docs/
 │   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
@@ -99,6 +103,11 @@ pnpm bench ./src/fixtures/node.cpuprofile
 - Uses `vitest` and `@fast-check/vitest`
 - `*.test.ts` files are colocated
 - Most tests run profile to Markdown conversion end-to-end
+  - Assert on the Markdown output, not on intermediate data structures, using
+    the helpers in `src/testing/markdown.ts`
+  - Fully assert on Markdown tables with `toEqual` and complete expected rows.
+    NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
+    individual cells, which would miss unexpected extra tables, rows, or cells
 
 ## Glossary
 
@@ -154,6 +163,8 @@ pnpm bench ./src/fixtures/node.cpuprofile
       (plus `parse` for binary formats)
 - [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
       and conversion via the `convertToMd` runner from `../testing/convert.ts`
+- [ ] If tests need format-specific utilities, put them in
+      `src/formats/<name>/testing.ts`
 
 ### CLI and programmatic API
 

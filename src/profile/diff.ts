@@ -1,3 +1,5 @@
+import type { Diff } from '../diff.ts'
+import { matchDiffedMaps } from '../diff.ts'
 import { fileReferenceId } from '../location.ts'
 import type {
   AggregatedProfile,
@@ -6,21 +8,6 @@ import type {
 } from './aggregate.ts'
 import type { Metric } from './metric.ts'
 import { metricsEqual } from './metric.ts'
-
-/**
- * A pairing of base and current profile data for an entity matched across the
- * two profiles. A side is absent if the entity only appears in the other
- * profile.
- */
-export type Diff<Value> = {
-  /** The base profile's data, if the entity appears in the base profile. */
-  base?: Value
-
-  /**
-   * The current profile's data, if the entity appears in the current profile.
-   */
-  current?: Value
-}
 
 /** A metric sampled in both the base and current profiles. */
 export type DiffMetric = {
@@ -146,26 +133,3 @@ const matchDiffedMetrics = (
 /** Returns a key that matches up the same function across both profiles. */
 const functionKey = (func: AggregatedProfileFunction): string =>
   func.location ? `${func.name}\0${fileReferenceId(func.location)}` : func.name
-
-/**
- * Joins two keyed collections into a map from key to the base and current
- * values for that key.
- */
-const matchDiffedMaps = <Key, Value>(
-  base: Iterable<readonly [Key, Value]>,
-  current: Iterable<readonly [Key, Value]>,
-): Map<Key, Diff<Value>> => {
-  const matchedMap = new Map<Key, Diff<Value>>()
-  for (const [key, value] of base) {
-    matchedMap.set(key, { base: value })
-  }
-  for (const [key, value] of current) {
-    const existing = matchedMap.get(key)
-    if (existing) {
-      existing.current = value
-    } else {
-      matchedMap.set(key, { current: value })
-    }
-  }
-  return matchedMap
-}

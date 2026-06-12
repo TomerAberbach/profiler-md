@@ -16,6 +16,14 @@ import {
   profileToMdAsync,
 } from './index.ts'
 import type { Format } from './index.ts'
+import {
+  EDGE_TYPE_HIDDEN,
+  makeV8Edge,
+  makeV8Node,
+  makeV8Snapshot,
+  NODE_TYPE_OBJECT,
+  NODE_TYPE_SYNTHETIC,
+} from './v8/heap-snapshot/testing.ts'
 
 const fixtureSets = {
   json: new Set<string>(),
@@ -36,7 +44,6 @@ for (const { examples } of languages.values()) {
 const jsonFixtures = [...fixtureSets.json]
 const binaryFixtures = [...fixtureSets.binary]
 const allFixtures = [...jsonFixtures, ...binaryFixtures]
-const profileFixtures = [...fixtureSets.profile]
 const snapshotFixtures = [...fixtureSets.snapshot]
 
 describe(`profileToMd`, () => {
@@ -201,8 +208,88 @@ const currentCpuProfile = JSON.stringify({
   timeDeltas: Array.from({ length: 12 }, () => 20),
 })
 
+// Root -> Grew (1 instance, 100 B), Removed (1 instance, 50 B).
+const baseHeapSnapshot = JSON.stringify(
+  makeV8Snapshot({
+    nodeCount: 3,
+    edgeCount: 2,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }), // Root
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 3,
+        selfSize: 100,
+        edgeCount: 0,
+      }), // `Grew`
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 2,
+        id: 5,
+        selfSize: 50,
+        edgeCount: 0,
+      }), // `Removed`
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> `Grew` (flat 6)
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }), // Root -> `Removed` (flat 12)
+    ],
+    strings: [``, `Grew`, `Removed`],
+  }),
+)
+
+// Root -> Grew (now 2 instances, 300 B total), Added (new, 1 instance, 30 B).
+const currentHeapSnapshot = JSON.stringify(
+  makeV8Snapshot({
+    nodeCount: 4,
+    edgeCount: 3,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 3,
+      }), // Root
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 3,
+        selfSize: 120,
+        edgeCount: 0,
+      }), // `Grew`
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 5,
+        selfSize: 180,
+        edgeCount: 0,
+      }), // `Grew`
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 2,
+        id: 7,
+        selfSize: 30,
+        edgeCount: 0,
+      }), // `Added`
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> `Grew` (flat 6)
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }), // Root -> `Grew` (flat 12)
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 18 }), // Root -> `Added` (flat 18)
+    ],
+    strings: [``, `Grew`, `Added`],
+  }),
+)
+
 describe(`diffProfiles`, () => {
-  test.each(profileFixtures)(
+  test.each(allFixtures)(
     `auto-detects %s and produces zero deltas against itself`,
     filename => {
       const content = new Uint8Array(readFileSync(fixturePath(filename)))
@@ -210,7 +297,7 @@ describe(`diffProfiles`, () => {
       const md = diffProfiles(content, content, { baseURL: null })
 
       expect(md).toMatch(/^# .*diff/iu)
-      // No regressions or progressions when diffing a profile against itself.
+      // No regressions or progressions when diffing an input against itself.
       expect(md).not.toMatch(/Regressions|Progressions/u)
     },
   )
@@ -279,17 +366,87 @@ describe(`diffProfiles`, () => {
     expect(progressionsTables(md, `Total time`)).toEqual([[funcB]])
   })
 
-  test.each(snapshotFixtures)(`throws on snapshot input %s`, filename => {
-    const content = readFileSync(fixturePath(filename), `utf8`)
-
-    expect(() => diffProfiles(content, content, { baseURL: null })).toThrow(
-      /not supported/u,
+  test(`diffs two heap snapshots end-to-end`, () => {
+    const md = diffProfiles(
+      { data: baseHeapSnapshot, format: `v8-heap-snapshot` },
+      { data: currentHeapSnapshot, format: `v8-heap-snapshot` },
+      { baseURL: null },
     )
+
+    expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `object`,
+          Change: `+120.0%`,
+          Delta: `+180 B`,
+          Base: `150 B`,
+          Current: `330 B`,
+          Nodes: `2 → 3`,
+        },
+        {
+          Category: `synthetic`,
+          Change: `—`,
+          Delta: `0 B`,
+          Base: `0 B`,
+          Current: `0 B`,
+          Nodes: `1 → 1`,
+        },
+      ],
+    ])
+    // `Grew` gained an instance, `Added` is new, `Removed` was removed.
+    const grew = {
+      Change: `+200.0%`,
+      Delta: `+200 B`,
+      Base: `100 B`,
+      Current: `300 B`,
+      Instances: `1 → 2`,
+      Constructor: `Grew`,
+    }
+    const added = {
+      Change: `new`,
+      Delta: `+30 B`,
+      Base: `0 B`,
+      Current: `30 B`,
+      Instances: `0 → 1`,
+      Constructor: `Added`,
+    }
+    const removed = {
+      Change: `removed`,
+      Delta: `-50 B`,
+      Base: `50 B`,
+      Current: `0 B`,
+      Instances: `1 → 0`,
+      Constructor: `Removed`,
+    }
+    expect(regressionsTables(md, `Self size`)).toEqual([[grew, added]])
+    expect(progressionsTables(md, `Self size`)).toEqual([[removed]])
+    expect(regressionsTables(md, `Retained size`)).toEqual([[grew, added]])
+    expect(progressionsTables(md, `Retained size`)).toEqual([[removed]])
   })
+
+  test.each(snapshotFixtures)(
+    `throws on diffing node.cpuprofile against %s`,
+    snapshotFilename => {
+      const profileContent = new Uint8Array(
+        readFileSync(fixturePath(`node.cpuprofile`)),
+      )
+      const snapshotContent = new Uint8Array(
+        readFileSync(fixturePath(snapshotFilename)),
+      )
+
+      expect(() =>
+        diffProfiles(profileContent, snapshotContent, { baseURL: null }),
+      ).toThrow(/cannot diff a profile against a snapshot/u)
+      expect(() =>
+        diffProfiles(snapshotContent, profileContent, { baseURL: null }),
+      ).toThrow(/cannot diff a snapshot against a profile/u)
+    },
+  )
 })
 
 describe(`diffProfilesAsync`, () => {
-  test.each(profileFixtures)(`diffs %s Blob inputs`, async filename => {
+  test.each(allFixtures)(`diffs %s Blob inputs`, async filename => {
     const content = readFileSync(fixturePath(filename))
 
     const md = await diffProfilesAsync(
@@ -299,15 +456,5 @@ describe(`diffProfilesAsync`, () => {
     )
 
     expect(md).toMatch(/^# .*diff/iu)
-  })
-
-  test.each(snapshotFixtures)(`throws on snapshot input %s`, async filename => {
-    const content = readFileSync(fixturePath(filename))
-
-    await expect(
-      diffProfilesAsync(new Blob([content]), new Blob([content]), {
-        baseURL: null,
-      }),
-    ).rejects.toThrow(/not supported/u)
   })
 })
