@@ -20,10 +20,10 @@
 
 > [!NOTE]
 >
-> This package is in a **beta** state and I'm excited for you to try it out!
+> This package is in **beta** and I'm excited for you to try it!
 >
-> I'd love your feedback! Share any suggestions, bug reports, feature requests,
-> or general thoughts by
+> I'd love your feedback! Share suggestions, bug reports, feature requests, or
+> other thoughts by
 > [filing an issue](https://github.com/TomerAberbach/profiler-md/issues/new).
 
 ## Features
@@ -31,7 +31,7 @@
 - **Polyglot:** supports many formats across many languages
 - **Configurable:** control the number of top entries shown, working directory
   for relative paths, third-party detection, and entry filtering
-- **CLI and API:** usable on the command-line or programmatically
+- **CLI and API:** use it from the command line or programmatically
 
 ## Languages and formats
 
@@ -198,7 +198,8 @@ $ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 
 ## Skills
 
-Use this `profiler-md` skill to have an agent profile and optimize your code:
+Use the [`profiler-md` skill](./skills/profile-optimize/SKILL.md) to have an
+agent profile and optimize your code:
 
 ```sh
 $ npx skills add TomerAberbach/profiler-md --skill profile-optimize
@@ -206,8 +207,7 @@ $ npx skills add TomerAberbach/profiler-md --skill profile-optimize
 
 See [skills.sh](https://skills.sh/docs) for more info.
 
-Fun fact: the skill has been used to profile and optimize `profiler-md` using
-itself!
+Fun fact: the skill has profiled and optimized `profiler-md` itself!
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 ---
 name: profile-optimize
-description: Generate performance profiles, identify hotspots, and optimize
+description: Generate performance profiles, identify hotspots, and optimize.
 argument-hint: '<what to profile and optimize>'
 allowed-tools: Bash(profiler-md *)
 ---
@@ -13,8 +13,8 @@ Optimize: `$ARGUMENTS`
 
 ## 1. Setup
 
-Decide what to profile (time or memory) and write an isolated script if
-necessary. Run `profiler-md --help <language>` for profiling instructions.
+Decide what to profile (time or memory) and write an isolated script if needed.
+Run `profiler-md --help <language>` for profiling instructions.
 
 ## 2. Baseline
 
@@ -26,23 +26,21 @@ profiler-md path/to/profile
 
 Read the full report and focus on:
 
-- **Hottest functions**: Self % identifies where time is actually being spent or
-  memory is actually being allocated, not just passing through
-- **Hottest call stacks**: Full call path leading to the hot functions
+- **Hottest functions**: Self % shows where time is spent or memory is
+  allocated, not just passed through
+- **Hottest call stacks**: The full call path to the hot functions
 
 ## 3. Identify the bottleneck
 
-From the report, identify the top 1-3 functions by self %. These are the real
-targets.
+Identify the top 1-3 functions by self %. These are the targets.
 
 Cross-reference with the source:
 
-- Native functions are often unavoidable, but may indicate unnecessary work
-  (e.g. parsing the same data multiple times, creating many intermediate arrays,
-  etc.)
+- Native functions are often unavoidable but may indicate unnecessary work (e.g.
+  parsing the same data twice, creating many intermediate arrays)
 - Functions in the project code are direct targets
 
-Read the relevant source files to understand what the hot function is doing.
+Read the source to learn what the hot function does.
 
 ## 4. Form a hypothesis
 
@@ -54,20 +52,19 @@ Before changing anything, state the hypothesis:
   two-pointer suffix scan", "cache the lookup result")
 - Why will this be faster?
 
-If the bottleneck is unclear, read the hot function and its callers more
-carefully.
+If the bottleneck is unclear, reread the hot function and its callers.
 
 ## 5. Implement the optimization
 
-Apply the minimal change that addresses the bottleneck. Do not refactor
-unrelated code. Do not apply more than one optimization at a time.
+Apply the minimal change that addresses the bottleneck. Leave unrelated code
+alone. Apply one optimization at a time.
 
 ## 6. Run tests
 
 Run the project's test suite to confirm nothing regressed:
 
 ```sh
-# Just examples, use whatever the project uses.
+# Examples; use whatever the project uses.
 pnpm test
 go test ./...
 cargo test
@@ -83,7 +80,7 @@ Compare self % for the targeted function(s) against the baseline.
 Report:
 
 - Before vs after for the hot function(s)
-- Whether any other functions moved significantly (regressions)
+- Any other functions that moved significantly (regressions)
 
 If the improvement is negligible or unclear, revert and reconsider the
 hypothesis. Do not iterate blindly.
