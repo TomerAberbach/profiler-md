@@ -1,4 +1,4 @@
-import { profileToMdAsync } from '../index.ts'
+import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
 import { parseArgs } from './cli.ts'
 import { reportError } from './error.ts'
 import { printHelpTopic } from './help.ts'
@@ -15,27 +15,50 @@ try {
     topN,
     baseURL,
     thirdParty,
+    match,
     sourceMaps,
     pager,
-    file: filePath,
+    input,
   } = parseArgs()
+  const [basePath, currentPath] =
+    typeof input === `string` || input === undefined
+      ? [input, undefined]
+      : input
 
   if (help !== undefined) {
     await printHelpTopic(typeof help === `string` ? help : undefined, { pager })
   }
 
-  if (!filePath && process.stdin.isTTY) {
+  if (basePath === undefined && process.stdin.isTTY) {
     await printHelpTopic(undefined, { pager })
   }
 
-  const [data, options] = await Promise.all([
-    openInputAsBlob(filePath),
-    buildOptions({ topN, baseURL, thirdParty, sourceMaps }),
-  ])
-  const markdown = await profileToMdAsync(
-    format ? { data, format } : data,
-    options,
-  )
+  const optionsPromise = buildOptions({
+    topN,
+    baseURL,
+    thirdParty,
+    match,
+    sourceMaps,
+  })
+  let markdown
+  if (currentPath === undefined) {
+    const [data, options] = await Promise.all([
+      openInputAsBlob(basePath),
+      optionsPromise,
+    ])
+    markdown = await profileToMdAsync(format ? { data, format } : data, options)
+  } else {
+    const [baseData, currentData, options] = await Promise.all([
+      openInputAsBlob(basePath),
+      openInputAsBlob(currentPath),
+      optionsPromise,
+    ])
+    markdown = await diffProfilesAsync(
+      format ? { data: baseData, format } : baseData,
+      format ? { data: currentData, format } : currentData,
+      options,
+    )
+  }
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
   await writeOutput(highlightedMarkdown, outputPath, { pager })

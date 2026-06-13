@@ -67,8 +67,9 @@ $ npm i -g profiler-md
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
-       [--top-n N] [--base-url STRING] [--third-party GLOB...] [--source-maps
-       GLOB...] [--no-pager] [(--color | --no-color)] [FILE]
+       [--top-n N] [--base-url STRING] [--third-party GLOB...] [--match
+       REGEX=REPLACEMENT...] [--source-maps GLOB...] [--no-pager] [(--color |
+       --no-color)] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -80,14 +81,18 @@ Converts performance profiles to human and LLM friendly Markdown.
                               (default: cwd)
   --third-party GLOB          Additional URLs or paths to consider third-party 
                               (repeatable)
+  --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
+                              when matching entries across diffed profiles 
+                              (repeatable)
   --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
                               locations (repeatable)
   --no-pager                  Disable stdout output paging (default: auto)
   --color                     Enable or disable ANSI syntax highlighting 
                               (default: auto)
   --no-color                
-  FILE                        Profile file to convert (reads from stdin if 
-                              omitted)
+  FILE                        Profile to convert (reads from stdin if omitted)
+  BASE                        Base profile to diff
+  CURRENT                     Current profile to diff against the base
 
 Formats: jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Languages: c, cpp, go, java, kotlin, javascript, typescript, php, python, ruby, rust
