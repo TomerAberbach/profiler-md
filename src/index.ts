@@ -7,6 +7,7 @@ export {
 export type { Format } from './formats/index.ts'
 export {
   defaultCategorizeEntry,
+  defaultMatchEntry,
   defaultShowEntry,
   isSyntheticEntry,
   isExternalPrivateEntry,
@@ -16,8 +17,11 @@ export type {
   AsyncProfileData,
   ProfileInput,
   EntryOrigin,
+  NormalizedEntry,
   ProfileEntry,
   AggregatedProfileEntry,
   ProfileToMdOptions,
 } from './options.ts'
+export { fileReferenceId } from './location.ts'
+export type { FileReference, SourceLocation } from './location.ts'
 export type { SourceMap } from './source-map.ts'

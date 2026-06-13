@@ -1,7 +1,7 @@
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
-import { fileReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -69,6 +69,7 @@ export type AggregatedHeapSnapshotDiff = {
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
+  options: NormalizedProfileToMdOptions,
 ): AggregatedHeapSnapshotDiff => ({
   base,
   current,
@@ -78,20 +79,20 @@ export const diffAggregatedHeapSnapshots = (
   ),
   constructors: entityDiffsFromMatches(
     matchDiffedMaps(
-      base.constructors.map(
-        constructor =>
-          [constructor.name, diffedConstructor(constructor)] as const,
-      ),
-      current.constructors.map(
-        constructor =>
-          [constructor.name, diffedConstructor(constructor)] as const,
-      ),
+      base.constructors.map(constructor => [
+        constructor.name,
+        diffedConstructor(constructor),
+      ]),
+      current.constructors.map(constructor => [
+        constructor.name,
+        diffedConstructor(constructor),
+      ]),
     ),
   ),
   closures: entityDiffsFromMatches(
     matchDiffedMaps(
-      mergeClosures(base.closures),
-      mergeClosures(current.closures),
+      mergeClosures(base.closures, options),
+      mergeClosures(current.closures, options),
     ),
   ),
   strings: entityDiffsFromMatches(
@@ -117,18 +118,16 @@ const diffedConstructor = ({
 })
 
 /**
- * Merges closures sharing the same name and file, ignoring line and column, so
- * the same closure matches across snapshots even when its definition shifted
- * between builds.
+ * Merges closures sharing the same match key so the same closure matches across
+ * snapshots even when its definition shifted between builds.
  */
 const mergeClosures = (
   closures: AggregatedClosure[],
+  options: NormalizedProfileToMdOptions,
 ): Map<string, DiffedSnapshotEntity> => {
   const keyToClosure = new Map<string, DiffedSnapshotEntity>()
   for (const closure of closures) {
-    const key = closure.location
-      ? `${closure.name}\0${fileReferenceId(closure.location)}`
-      : closure.name
+    const key = options.entryKey(closure)
     const merged = keyToClosure.get(key)
     if (merged) {
       merged.selfSize += closure.selfSize

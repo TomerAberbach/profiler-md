@@ -32,7 +32,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       edgeCount: 25,
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
@@ -54,7 +54,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       nodeCategoryToStats: new Map([[`object`, { size: 1500, nodeCount: 12 }]]),
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(categoryTables(md)).toEqual([
@@ -113,7 +113,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     const expectedRegressions = [
@@ -189,7 +189,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([
@@ -231,7 +231,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Largest strings`)).toEqual([
@@ -285,7 +285,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Self size`)).toEqual([
@@ -346,7 +346,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       showEntry: entry => entry.name !== `Hidden`,
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current)
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, options)
 
     expect(md).not.toContain(`Hidden`)
@@ -388,7 +388,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
     })
 
-    const diff = diffAggregatedHeapSnapshots(snapshot, snapshot)
+    const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(md).not.toMatch(/Regressions|Progressions/u)

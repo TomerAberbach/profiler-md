@@ -88,7 +88,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
     expect(profileTitles(md)).toEqual([`CPU profile diff`])
@@ -118,7 +118,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
     const lines = summaryLines(md)
@@ -151,7 +151,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
     const tables = categoryTables(md)
@@ -203,7 +203,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
@@ -290,7 +290,7 @@ describe(`formatProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const diff = diffAggregatedProfiles(base, current)
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, options)
 
     expect(md).not.toContain(`funcB`)
@@ -331,7 +331,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(profile, profile)
+    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
     expect(md).not.toMatch(/Hottest functions/u)

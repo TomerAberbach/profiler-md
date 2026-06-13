@@ -79,7 +79,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       name: `Rust`,
       formats: [`pprof`, `speedscope`],
       examples: {
-        pprof: [{ filename: `rust.pprof`, label: `example` }],
+        pprof: [{ filename: `rust.base.pprof`, label: `example` }],
       },
     },
   ],
@@ -88,6 +88,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
 export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(
   [...languages.entries()].flatMap(
     ([primaryId, { aliases }]) =>
-      aliases?.map(({ id }) => [id, primaryId] as const) ?? [],
+      aliases?.map(({ id }) => [id, primaryId]) ?? [],
   ),
 )

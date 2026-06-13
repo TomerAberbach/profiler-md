@@ -1,6 +1,10 @@
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
-import { fileReferencePath, makeFileReference } from './location.ts'
+import {
+  fileReferenceId,
+  fileReferencePath,
+  makeFileReference,
+} from './location.ts'
 import type { SourceLocation } from './location.ts'
 import type { AggregatedProfileFunction } from './profile/aggregate.ts'
 import type { AggregatedSnapshotNode } from './snapshot/aggregate.ts'
@@ -53,6 +57,23 @@ export type ProfileEntry = {
   location?: SourceLocation
 }
 
+/**
+ * Normalized entry fields used to match an entry across diffed profiles.
+ *
+ * Only affects matching; the entry's displayed name and location are
+ * unchanged.
+ */
+export type NormalizedEntry = {
+  /** The name to match by. Omit to match by the entry's name. */
+  name?: string
+
+  /**
+   * The location to match by, as a URL or file path string. Omit to match by
+   * the entry's location.
+   */
+  location?: string
+}
+
 /** A aggregated entry in a rendered profile. */
 export type AggregatedProfileEntry =
   | AggregatedProfileFunction
@@ -69,6 +90,25 @@ export type ProfileToMdOptions = {
    * Defaults to 20.
    */
   topN?: number
+
+  /**
+   * Returns a normalized name and location to match this entry by across
+   * diffed profiles, or `undefined` to match by the entry's own name and
+   * location.
+   *
+   * Only affects which entries are considered the same entity when diffing
+   * (profile functions and snapshot closures); displayed names and locations,
+   * categorization, and source map resolution always use the entry's real
+   * name and location. Matched entries display the current profile's name and
+   * location.
+   *
+   * Defaults to {@link defaultMatchEntry}, which strips known build hashes from
+   * locations so that the same function matches across profiles built from the
+   * same source.
+   */
+  matchEntry?: (
+    entry: DeepReadonly<ProfileEntry>,
+  ) => NormalizedEntry | undefined
 
   /**
    * Returns an arbitrary category string for this entry.
@@ -114,6 +154,7 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
+  entryKey: (entry: ProfileEntry) => string
   categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => string
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
   baseURL: URL | undefined
@@ -122,17 +163,32 @@ export type NormalizedProfileToMdOptions = {
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
+  matchEntry = defaultMatchEntry,
   categorizeEntry = defaultCategorizeEntry,
   showEntry = defaultShowEntry,
   baseURL,
   sourceMaps,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
+  entryKey: cacheEntryFunction(entry => entryKey(entry, matchEntry)),
   categorizeEntry: cacheEntryFunction(categorizeEntry),
   showEntry: cacheEntryFunction(showEntry),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
 })
+
+/** Returns an entry's full diff match key. */
+const entryKey = (
+  entry: ProfileEntry,
+  matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
+): string => {
+  const match = matchEntry(entry)
+  const name = match?.name ?? entry.name ?? ``
+  const location =
+    match?.location ??
+    (entry.location ? fileReferenceId(entry.location) : undefined)
+  return location === undefined ? name : `${name}\0${location}`
+}
 
 const cacheEntryFunction = <Entry extends object, Value>(
   func: (entry: Entry) => Value,
@@ -151,6 +207,37 @@ const cacheEntryFunction = <Entry extends object, Value>(
     return value
   }
 }
+
+/**
+ * Returns a location to match this entry by with known build hashes (Cargo
+ * build-script and rustc commit-hash directories) stripped, or `undefined` if
+ * the location contains no known hashes.
+ */
+export const defaultMatchEntry = (
+  entry: DeepReadonly<ProfileEntry>,
+): NormalizedEntry | undefined => {
+  const { location } = entry
+  if (!location) {
+    return undefined
+  }
+
+  const id = fileReferenceId(location)
+  const normalizedId = id
+    .replace(CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`)
+    .replace(RUSTC_HASH_REGEX, `$<prefix>rustc`)
+  return normalizedId === id ? undefined : { location: normalizedId }
+}
+
+// Cargo build-script output directories embed a per-build hash and always emit
+// into an `out/` directory, e.g. `build/web-compiler-274140d43750284c/out/parser.rs`.
+// The `out/` lookahead keeps this from stripping unrelated `build/<name>-<16 hex>/`
+// directories (e.g. some JS bundler outputs) that aren't Cargo build scripts.
+const CARGO_BUILD_HASH_REGEX =
+  /(?<prefix>^|\/)(?<dir>build\/[^/]+)-[0-9a-f]{16}(?=\/out\/)/u
+
+// Rust stdlib paths embed the rustc commit hash, e.g.
+// `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`.
+const RUSTC_HASH_REGEX = /(?<prefix>^|\/)rustc\/[0-9a-f]{40}(?=\/)/u
 
 /**
  * Returns an arbitrary category string for this entry.

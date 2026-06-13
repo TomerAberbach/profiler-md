@@ -12,7 +12,9 @@ export type SourceLocation = FileReference & {
   column?: number
 }
 
-export const fileReferenceId = (fileReference: FileReference): string =>
+export const fileReferenceId = (
+  fileReference: DeepReadonly<FileReference>,
+): string =>
   fileReference.type === `absolute`
     ? fileReference.url.href
     : fileReference.path

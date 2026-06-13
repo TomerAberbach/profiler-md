@@ -1,6 +1,6 @@
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
-import { fileReferenceId } from '../location.ts'
+import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,
@@ -74,16 +74,18 @@ export type AggregatedProfileDiff = {
 export const diffAggregatedProfiles = (
   base: AggregatedProfile,
   current: AggregatedProfile,
+  options: NormalizedProfileToMdOptions,
 ): AggregatedProfileDiff => {
   const metrics = matchDiffedMetrics(base.metrics, current.metrics)
   if (metrics.length === 0) {
     throw new Error(`no matching metrics between the base and current profiles`)
   }
 
+  const { entryKey } = options
   const functions = Array.from(
     matchDiffedMaps(
-      base.functions.map(func => [functionKey(func), func] as const),
-      current.functions.map(func => [functionKey(func), func] as const),
+      base.functions.map(func => [entryKey(func), func]),
+      current.functions.map(func => [entryKey(func), func]),
     ).values(),
     ({ base: baseFunc, current: currentFunc }) => {
       const { name, location, category } = (currentFunc ?? baseFunc)!
@@ -132,7 +134,3 @@ const matchDiffedMetrics = (
   }
   return matchedMetrics
 }
-
-/** Returns a key that matches up the same function across both profiles. */
-const functionKey = (func: AggregatedProfileFunction): string =>
-  func.location ? `${func.name}\0${fileReferenceId(func.location)}` : func.name
