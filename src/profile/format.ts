@@ -1,4 +1,5 @@
 import {
+  formatArrow,
   formatBytes,
   formatConjunction,
   formatCount,
@@ -492,14 +493,13 @@ const formatDiffSummary = (diff: AggregatedProfileDiff): string[] => [
 ]
 
 const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
-  const arrow = `→`
   const valueParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
     const baseValue = diff.base.totalValues[baseIndex]!
     const currentValue = diff.current.totalValues[currentIndex]!
     const delta = currentValue - baseValue
     const deltaStr = formatDelta(delta, formatValue(Math.abs(delta), metric))
     const changeStr = formatPercentChange(baseValue, currentValue)
-    return `${metric.phrases.pastTenseVerb} ${formatValue(baseValue, metric)} ${arrow} ${formatValue(currentValue, metric)} (${deltaStr}, ${changeStr})`
+    return `${metric.phrases.pastTenseVerb} ${formatArrow(formatValue(baseValue, metric), formatValue(currentValue, metric))} (${deltaStr}, ${changeStr})`
   })
   const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
     const baseRate = formatSamplingRate(
@@ -510,10 +510,10 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
       diff.current.samplingRates[currentIndex]!,
       metric,
     )
-    return `${baseRate} ${arrow} ${currentRate}`
+    return formatArrow(baseRate, currentRate)
   })
 
-  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatCount(diff.base.totalSampleCount, `sample`)} ${arrow} ${formatCount(diff.current.totalSampleCount, `sample`)} (${formatConjunction(rateParts)} per sample).`
+  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatArrow(formatCount(diff.base.totalSampleCount, `sample`), formatCount(diff.current.totalSampleCount, `sample`))} (${formatConjunction(rateParts)} per sample).`
 }
 
 const formatDiffCategoryTable = (diff: AggregatedProfileDiff): string[] => {

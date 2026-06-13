@@ -1,5 +1,6 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
 import {
+  formatArrow,
   formatBytes,
   formatCount,
   formatDelta,
@@ -375,8 +376,6 @@ export const formatHeapSnapshotDiff = (
   ].join(`\n\n`)}\n`
 }
 
-const arrow = `→`
-
 const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): string[] => [
   formatDiffSummaryLine(diff),
   ...formatDiffCategoryTable(diff),
@@ -387,15 +386,18 @@ const formatDiffSummaryLine = ({
   current,
 }: AggregatedHeapSnapshotDiff): string => {
   const delta = current.totalSize - base.totalSize
-  return `Allocated ${formatBytes(base.totalSize)} ${arrow} ${formatBytes(
-    current.totalSize,
+  return `Allocated ${formatArrow(
+    formatBytes(base.totalSize),
+    formatBytes(current.totalSize),
   )} (${formatDelta(delta, formatBytes(Math.abs(delta)))}, ${formatPercentChange(
     base.totalSize,
     current.totalSize,
-  )}) across ${formatCount(base.nodeCount)} ${arrow} ${formatCount(
-    current.nodeCount,
-  )} nodes and ${formatCount(base.edgeCount)} ${arrow} ${formatCount(
-    current.edgeCount,
+  )}) across ${formatArrow(
+    formatCount(base.nodeCount),
+    formatCount(current.nodeCount),
+  )} nodes and ${formatArrow(
+    formatCount(base.edgeCount),
+    formatCount(current.edgeCount),
   )} edges.`
 }
 
@@ -430,9 +432,10 @@ const formatDiffCategoryTable = ({
           formatDelta(delta, formatBytes(Math.abs(delta))),
           formatBytes(baseSize),
           formatBytes(currentSize),
-          `${formatCount(base?.nodeCount ?? 0)} ${arrow} ${formatCount(
-            current?.nodeCount ?? 0,
-          )}`,
+          formatArrow(
+            formatCount(base?.nodeCount ?? 0),
+            formatCount(current?.nodeCount ?? 0),
+          ),
         ]
       }),
     ),
@@ -599,9 +602,10 @@ const formatDiffEntityTable = (
         formatDelta(delta, formatBytes(Math.abs(delta))),
         formatBytes(baseValue),
         formatBytes(currentValue),
-        `${formatCount(entity.base?.instanceCount ?? 0)} ${arrow} ${formatCount(
-          entity.current?.instanceCount ?? 0,
-        )}`,
+        formatArrow(
+          formatCount(entity.base?.instanceCount ?? 0),
+          formatCount(entity.current?.instanceCount ?? 0),
+        ),
         ...formatEntityCells(entity),
       ]
     }),
