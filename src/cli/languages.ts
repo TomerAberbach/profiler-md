@@ -51,7 +51,8 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       ],
       examples: {
         'jsc-heap-snapshot': [
-          { filename: `jsc-heap-snapshot.json`, label: `Safari` },
+          { filename: `jsc-heap-snapshot.base.json`, label: `Safari` },
+          { filename: `jsc-heap-snapshot.diff.json`, label: `Safari diff` },
         ],
         pprof: [{ filename: `node.pprof`, label: `Node.js` }],
         speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
