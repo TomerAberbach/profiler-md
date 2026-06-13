@@ -92,6 +92,30 @@ export type ProfileToMdOptions = {
   topN?: number
 
   /**
+   * Base URL to show paths relative to in the Markdown output.
+   *
+   * Accepts an absolute file path string or URL. File paths are converted to
+   * `file://` URLs internally.
+   *
+   * A value of `null` indicates that URLs should be absolute.
+   *
+   * Defaults to `process.cwd()` when available. Otherwise leaves paths
+   * absolute.
+   */
+  baseURL?: string | URL | null
+
+  /**
+   * Source maps to apply when rendering profile locations.
+   *
+   * Accepts either a list of raw source map objects, or a record mapping
+   * generated file URLs or absolute/relative paths to raw source map objects.
+   *
+   * When a list is provided, the generated file is inferred from each source
+   * map's `file` field (and optionally `sourceRoot`).
+   */
+  sourceMaps?: SourceMap[] | Record<string, SourceMap>
+
+  /**
    * Returns a normalized name and location to match this entry by across
    * diffed profiles, or `undefined` to match by the entry's own name and
    * location.
@@ -125,56 +149,32 @@ export type ProfileToMdOptions = {
    * Not showing an entry does not exclude it from metric computations.
    */
   showEntry?: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
-
-  /**
-   * Base URL to show paths relative to in the Markdown output.
-   *
-   * Accepts an absolute file path string or URL. File paths are converted to
-   * `file://` URLs internally.
-   *
-   * A value of `null` indicates that URLs should be absolute.
-   *
-   * Defaults to `process.cwd()` when available. Otherwise leaves paths
-   * absolute.
-   */
-  baseURL?: string | URL | null
-
-  /**
-   * Source maps to apply when rendering profile locations.
-   *
-   * Accepts either a list of raw source map objects, or a record mapping
-   * generated file URLs or absolute/relative paths to raw source map objects.
-   *
-   * When a list is provided, the generated file is inferred from each source
-   * map's `file` field (and optionally `sourceRoot`).
-   */
-  sourceMaps?: SourceMap[] | Record<string, SourceMap>
 }
 
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
+  baseURL: URL | undefined
+  sourceMaps: NormalizedSourceMaps
   entryKey: (entry: ProfileEntry) => string
   categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => string
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
-  baseURL: URL | undefined
-  sourceMaps: NormalizedSourceMaps
 }
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
+  baseURL,
+  sourceMaps,
   matchEntry = defaultMatchEntry,
   categorizeEntry = defaultCategorizeEntry,
   showEntry = defaultShowEntry,
-  baseURL,
-  sourceMaps,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
+  baseURL: normalizeBaseURL(baseURL),
+  sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
   entryKey: cacheEntryFunction(entry => entryKey(entry, matchEntry)),
   categorizeEntry: cacheEntryFunction(categorizeEntry),
   showEntry: cacheEntryFunction(showEntry),
-  baseURL: normalizeBaseURL(baseURL),
-  sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
 })
 
 /** Returns an entry's full diff match key. */
