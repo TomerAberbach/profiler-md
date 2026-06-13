@@ -15,26 +15,26 @@ import type { RegexReplacement } from './cli.ts'
 export type BuildOptionsFlags = {
   topN?: number
   baseURL?: string
-  thirdParty: readonly string[]
-  match: readonly RegexReplacement[]
   sourceMaps: readonly string[]
+  match: readonly RegexReplacement[]
+  thirdParty: readonly string[]
 }
 
 export const buildOptions = async ({
   topN,
   baseURL,
-  thirdParty,
-  match,
   sourceMaps,
+  match,
+  thirdParty,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
   baseURL:
     baseURL !== undefined && !URL.canParse(baseURL)
       ? resolve(baseURL)
       : baseURL,
+  sourceMaps: await loadSourceMaps(sourceMaps),
   matchEntry: buildMatchEntry(match),
   categorizeEntry: buildCategorizeEntry(thirdParty),
-  sourceMaps: await loadSourceMaps(sourceMaps),
 })
 
 const buildMatchEntry = (

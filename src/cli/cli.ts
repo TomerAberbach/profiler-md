@@ -79,9 +79,9 @@ const parser = object({
       description: message`Base URL or path to show paths relative to (default: cwd)`,
     }),
   ),
-  thirdParty: multiple(
-    option(`--third-party`, string({ metavar: `GLOB` }), {
-      description: message`Additional URLs or paths to consider third-party (repeatable)`,
+  sourceMaps: multiple(
+    option(`--source-maps`, string({ metavar: `GLOB` }), {
+      description: message`Source maps (JSON or inline) to apply to profile locations (repeatable)`,
     }),
   ),
   match: multiple(
@@ -89,9 +89,9 @@ const parser = object({
       description: message`Treat locations matching REGEX as REPLACEMENT when matching entries across diffed profiles (repeatable)`,
     }),
   ),
-  sourceMaps: multiple(
-    option(`--source-maps`, string({ metavar: `GLOB` }), {
-      description: message`Source maps (JSON or inline) to apply to profile locations (repeatable)`,
+  thirdParty: multiple(
+    option(`--third-party`, string({ metavar: `GLOB` }), {
+      description: message`Additional URLs or paths to consider third-party (repeatable)`,
     }),
   ),
   pager: map(

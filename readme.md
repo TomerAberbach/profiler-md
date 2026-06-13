@@ -67,8 +67,8 @@ $ npm i -g profiler-md
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
-       [--top-n N] [--base-url STRING] [--third-party GLOB...] [--match
-       REGEX=REPLACEMENT...] [--source-maps GLOB...] [--no-pager] [(--color |
+       [--top-n N] [--base-url STRING] [--source-maps GLOB...] [--match
+       REGEX=REPLACEMENT...] [--third-party GLOB...] [--no-pager] [(--color |
        --no-color)] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
@@ -79,13 +79,13 @@ Converts performance profiles to human and LLM friendly Markdown.
   --top-n N                   Number of top entries to show (default: 20)
   --base-url STRING           Base URL or path to show paths relative to 
                               (default: cwd)
-  --third-party GLOB          Additional URLs or paths to consider third-party 
-                              (repeatable)
+  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
+                              locations (repeatable)
   --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
                               when matching entries across diffed profiles 
                               (repeatable)
-  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
-                              locations (repeatable)
+  --third-party GLOB          Additional URLs or paths to consider third-party 
+                              (repeatable)
   --no-pager                  Disable stdout output paging (default: auto)
   --color                     Enable or disable ANSI syntax highlighting 
                               (default: auto)
