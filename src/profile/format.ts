@@ -12,16 +12,19 @@ import {
 import { selectTopN } from '../helpers/heap.ts'
 import {
   formatHeading,
+  formatTable as formatMarkdownTable,
   formatSectionGroup,
-  formatTable,
   inlineCode,
 } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
+import { formatDiffTable, formatTable, percentColumn } from '../table.ts'
+import type { Column, DiffRow, NumericColumn } from '../table.ts'
 import type {
   AggregatedProfile,
+  AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
 import { findCommonCallStack } from './aggregate.ts'
@@ -125,21 +128,18 @@ const formatCategoryTable = ({
     return []
   }
 
+  const { columns } = profileCategoryColumns(metrics)
   return [
-    formatTable(
-      [
-        `Category`,
-        { content: `%`, align: `right` },
-        ...metrics.map(metric => metricColumn(metric)),
-        { content: `Samples`, align: `right` },
-      ],
-      hottestCategories.map(([category, { values, sampleCount }]) => [
-        category,
-        formatPercent(values[0]! / totalValues[0]!),
-        ...metrics.map((metric, index) => formatValue(values[index]!, metric)),
-        formatCount(sampleCount),
-      ]),
-    ),
+    formatTable({
+      columns,
+      rows: hottestCategories.map(([category, { values, sampleCount }]) => ({
+        present: true,
+        label: category,
+        total: totalValues[0]!,
+        values: metrics.map((_, index) => values[index]!),
+        sampleCount,
+      })),
+    }),
   ]
 }
 
@@ -195,23 +195,17 @@ const formatHottestSelfFunctions = (
   return [
     formatHeading(options.headingLevel, title),
     `Functions ranked by ${description}.`,
-    formatTable(
-      [
-        { content: `%`, align: `right` },
-        metricColumn(metric),
-        { content: `Samples`, align: `right` },
-        `Function`,
-        `Location`,
-      ],
-      hottestFunctions.map(func => [
-        formatPercent(
-          func.selfValues[metricIndex]! / profile.totalValues[metricIndex]!,
-        ),
-        formatValue(func.selfValues[metricIndex]!, metric),
-        formatCount(func.selfSampleCount),
-        ...formatFunctionCells(func, options),
-      ]),
-    ),
+    formatTable({
+      columns: profileFunctionColumns(metric, options).columns,
+      rows: hottestFunctions.map(func => ({
+        present: true,
+        label: func.name,
+        location: func.location,
+        total: profile.totalValues[metricIndex]!,
+        value: func.selfValues[metricIndex]!,
+        sampleCount: func.selfSampleCount,
+      })),
+    }),
     ...formatSectionGroup(
       [
         formatHeading(options.headingLevel + 1, `Lines`),
@@ -248,7 +242,7 @@ const formatHottestLines = (
   const metric = profile.metrics[metricIndex]!
   return [
     formatFunctionHeading(options.headingLevel, func, options),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         metricColumn(metric),
@@ -292,7 +286,7 @@ const formatHottestCallers = (
   const metric = profile.metrics[metricIndex]!
   return [
     formatFunctionHeading(options.headingLevel, func, options),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         metricColumn(metric),
@@ -340,21 +334,17 @@ const formatHottestTotalFunctions = (
   return [
     formatHeading(options.headingLevel, title),
     `Functions ranked by ${description}.`,
-    formatTable(
-      [
-        { content: `%`, align: `right` },
-        metricColumn(metric),
-        { content: `Samples`, align: `right` },
-        `Function`,
-        `Location`,
-      ],
-      hottestFunctions.map(func => [
-        formatPercent(func.totalValues[metricIndex]! / totalValue),
-        formatValue(func.totalValues[metricIndex]!, metric),
-        formatCount(func.totalSampleCount),
-        ...formatFunctionCells(func, options),
-      ]),
-    ),
+    formatTable({
+      columns: profileFunctionColumns(metric, options).columns,
+      rows: hottestFunctions.map(func => ({
+        present: true,
+        label: func.name,
+        location: func.location,
+        total: totalValue,
+        value: func.totalValues[metricIndex]!,
+        sampleCount: func.totalSampleCount,
+      })),
+    }),
     ...formatSectionGroup(
       [
         formatHeading(options.headingLevel + 1, `Callees`),
@@ -387,7 +377,7 @@ const formatHottestCallees = (
   const metric = profile.metrics[metricIndex]!
   return [
     formatFunctionHeading(options.headingLevel, func, options),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         metricColumn(metric),
@@ -434,7 +424,7 @@ const formatHottestCallStacks = (
     ...(commonCallStack.length > 0
       ? [`Common call stack: ${formatCallStack(commonCallStack, options)}`]
       : []),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         metricColumn(metric),
@@ -521,34 +511,37 @@ const formatDiffCategoryTable = (diff: AggregatedProfileDiff): string[] => {
     return []
   }
 
-  const { metric, baseIndex, currentIndex } = diff.metrics[0]!
+  const metrics = diff.metrics.map(({ metric }) => metric)
+  const baseIndices = diff.metrics.map(({ baseIndex }) => baseIndex)
+  const currentIndices = diff.metrics.map(({ currentIndex }) => currentIndex)
+  const { currentIndex } = diff.metrics[0]!
+  const { columns, primary, changeColumnIndex } =
+    profileCategoryColumns(metrics)
   const categories = [...diff.categoryToMetrics].sort(
     ([, left], [, right]) =>
       (right.current?.values[currentIndex] ?? 0) -
       (left.current?.values[currentIndex] ?? 0),
   )
   return [
-    formatTable(
-      [
-        `Category`,
-        { content: `Change`, align: `right` },
-        { content: `Delta`, align: `right` },
-        { content: `Base`, align: `right` },
-        { content: `Current`, align: `right` },
-      ],
-      categories.map(([category, { base, current }]) => {
-        const baseValue = base?.values[baseIndex] ?? 0
-        const currentValue = current?.values[currentIndex] ?? 0
-        const delta = currentValue - baseValue
-        return [
+    formatDiffTable({
+      columns,
+      primaryColumn: primary,
+      changeColumnIndex,
+      rows: categories.map(([category, { base, current }]) => ({
+        base: profileCategoryDiffSide(
           category,
-          formatPercentChange(baseValue, currentValue),
-          formatDelta(delta, formatValue(Math.abs(delta), metric)),
-          formatValue(baseValue, metric),
-          formatValue(currentValue, metric),
-        ]
-      }),
-    ),
+          base,
+          diff.base.totalValues,
+          baseIndices,
+        ),
+        current: profileCategoryDiffSide(
+          category,
+          current,
+          diff.current.totalValues,
+          currentIndices,
+        ),
+      })),
+    }),
   ]
 }
 
@@ -571,16 +564,6 @@ const formatDiffFunctions = (
     ),
   )
 
-/**
- * A {@link AggregatedProfileFunctionDiff} with its values resolved for a
- * specific metric.
- */
-type DiffFunctionValues = {
-  func: AggregatedProfileFunctionDiff
-  baseValue: number
-  currentValue: number
-}
-
 const formatDiffDirectionSections = (
   diff: AggregatedProfileDiff,
   metricIndex: number,
@@ -589,7 +572,10 @@ const formatDiffDirectionSections = (
   section: (metric: Metric) => FunctionsSection,
 ): string[] => {
   const { metric, baseIndex, currentIndex } = diff.metrics[metricIndex]!
-  const { title, description, valuesOf } = section(metric)
+  const { title, description, valuesOf, sampleCountOf } = section(metric)
+  const baseTotal = diff.base.totalValues[baseIndex]!
+  const currentTotal = diff.current.totalValues[currentIndex]!
+  const { columns, value } = profileFunctionColumns(metric, options)
 
   const active = diff.functions
     .map(func => ({
@@ -598,6 +584,8 @@ const formatDiffDirectionSections = (
       currentValue: func.current
         ? (valuesOf(func.current)[currentIndex] ?? 0)
         : 0,
+      baseSampleCount: func.base ? sampleCountOf(func.base) : 0,
+      currentSampleCount: func.current ? sampleCountOf(func.current) : 0,
     }))
     .filter(
       ({ func, baseValue, currentValue }) =>
@@ -616,13 +604,46 @@ const formatDiffDirectionSections = (
     ({ baseValue, currentValue }) => baseValue - currentValue,
   )
 
+  const toRow = ({
+    func,
+    baseValue,
+    currentValue,
+    baseSampleCount,
+    currentSampleCount,
+  }: {
+    func: AggregatedProfileFunctionDiff
+    baseValue: number
+    currentValue: number
+    baseSampleCount: number
+    currentSampleCount: number
+  }): DiffRow<FunctionSide> => ({
+    base: functionDiffSide(
+      func,
+      func.base,
+      baseTotal,
+      baseValue,
+      baseSampleCount,
+    ),
+    current: functionDiffSide(
+      func,
+      func.current,
+      currentTotal,
+      currentValue,
+      currentSampleCount,
+    ),
+  })
+
   const sections: string[] = []
 
   if (regressions.length > 0) {
     sections.push(
       formatHeading(headingLevel + 1, `Regressions`),
       `Functions with the largest increase in ${description}.`,
-      formatDiffFunctionTable(regressions, metric, options),
+      formatDiffTable({
+        primaryColumn: value,
+        columns,
+        rows: regressions.map(toRow),
+      }),
     )
   }
 
@@ -630,7 +651,11 @@ const formatDiffDirectionSections = (
     sections.push(
       formatHeading(headingLevel + 1, `Progressions`),
       `Functions with the largest decrease in ${description}.`,
-      formatDiffFunctionTable(progressions, metric, options),
+      formatDiffTable({
+        primaryColumn: value,
+        columns,
+        rows: progressions.map(toRow),
+      }),
     )
   }
 
@@ -644,32 +669,6 @@ const showDiffFunction = (
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
-
-const formatDiffFunctionTable = (
-  functions: DiffFunctionValues[],
-  metric: Metric,
-  options: NormalizedProfileToMdOptions,
-): string =>
-  formatTable(
-    [
-      { content: `Change`, align: `right` },
-      { content: `Delta`, align: `right` },
-      { content: `Base`, align: `right` },
-      { content: `Current`, align: `right` },
-      `Function`,
-      `Location`,
-    ],
-    functions.map(({ func, baseValue, currentValue }) => {
-      const delta = currentValue - baseValue
-      return [
-        formatPercentChange(baseValue, currentValue),
-        formatDelta(delta, formatValue(Math.abs(delta), metric)),
-        formatValue(baseValue, metric),
-        formatValue(currentValue, metric),
-        ...formatFunctionCells(func, options),
-      ]
-    }),
-  )
 
 const formatTitle = (metrics: Metric[]): string =>
   capitalizeFirst(
@@ -712,6 +711,9 @@ type FunctionsSection = {
 
   /** Returns the values the section's functions are measured by. */
   valuesOf: (func: AggregatedProfileFunction) => Float64Array
+
+  /** Returns the sample count the section's functions are measured by. */
+  sampleCountOf: (func: AggregatedProfileFunction) => number
 }
 
 /** Returns the self function section for {@link metric}. */
@@ -719,6 +721,7 @@ const selfFunctionsSection = (metric: Metric): FunctionsSection => ({
   title: `Self ${metric.phrases.columnNoun}`,
   description: `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
   valuesOf: func => func.selfValues,
+  sampleCountOf: func => func.selfSampleCount,
 })
 
 /** Returns the total function section for {@link metric}. */
@@ -726,10 +729,151 @@ const totalFunctionsSection = (metric: Metric): FunctionsSection => ({
   title: `Total ${metric.phrases.columnNoun}`,
   description: `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
   valuesOf: func => func.totalValues,
+  sampleCountOf: func => func.totalSampleCount,
 })
 
 /** The self and total function sections, in output order. */
 const functionsSections = [selfFunctionsSection, totalFunctionsSection]
+
+// ===========================================================================
+// Shared column definitions
+//
+// Each table declares a `Side` view of one row's data and a list of columns
+// over it. `formatColumnsTable` renders the non-diff table and
+// `formatDiffColumnsTable` the diff table from the same columns, so a column
+// added here appears in both.
+// ===========================================================================
+
+/** One category's view, shared by the non-diff and diff category tables. */
+type ProfileCategorySide = {
+  present: boolean
+  label: string
+
+  /** The primary metric's total, the `%` denominator. */
+  total: number
+
+  /** The metric values, indexed by the displayed metric list. */
+  values: number[]
+  sampleCount: number
+}
+
+const profileCategoryColumns = (
+  metrics: Metric[],
+): {
+  columns: Column<ProfileCategorySide>[]
+  primary: NumericColumn<ProfileCategorySide>
+
+  /** The index in `columns` at which `Change` and `Delta` are inserted. */
+  changeColumnIndex: number
+} => {
+  const valueColumns = metrics.map(
+    (metric, index): NumericColumn<ProfileCategorySide> => ({
+      type: `numeric`,
+      header: metricColumn(metric),
+      value: side => side.values[index]!,
+      format: value => formatValue(value, metric),
+    }),
+  )
+  const primary = valueColumns[0]!
+  return {
+    primary,
+    // `Change`/`Delta` are inserted after `Category` in the diff table.
+    changeColumnIndex: 1,
+    columns: [
+      { type: `label`, header: `Category`, format: side => side.label },
+      percentColumn(primary),
+      ...valueColumns,
+      {
+        type: `numeric`,
+        header: { content: `Samples`, align: `right` },
+        value: side => side.sampleCount,
+        format: formatCount,
+      },
+    ],
+  }
+}
+
+const profileCategoryDiffSide = (
+  label: string,
+  stats: AggregatedProfileCategoryMetrics | undefined,
+  totalValues: Float64Array,
+  metricIndices: number[],
+): ProfileCategorySide => ({
+  present: stats !== undefined,
+  label,
+  total: totalValues[metricIndices[0]!]!,
+  values: metricIndices.map(index => stats?.values[index] ?? 0),
+  sampleCount: stats?.sampleCount ?? 0,
+})
+
+/** One function's view, shared by the non-diff and diff function tables. */
+type FunctionSide = {
+  present: boolean
+  label: string
+  location?: SourceLocation
+
+  /** The metric's total, the `%` denominator. */
+  total: number
+
+  /** The metric value the section is measured by. */
+  value: number
+
+  /** The sample count the section is measured by. */
+  sampleCount: number
+}
+
+const profileFunctionColumns = (
+  metric: Metric,
+  options: NormalizedProfileToMdOptions,
+): {
+  columns: Column<FunctionSide>[]
+  value: NumericColumn<FunctionSide>
+} => {
+  const value: NumericColumn<FunctionSide> = {
+    type: `numeric`,
+    header: metricColumn(metric),
+    value: side => side.value,
+    format: fieldValue => formatValue(fieldValue, metric),
+  }
+  return {
+    value,
+    columns: [
+      percentColumn(value),
+      value,
+      {
+        type: `numeric`,
+        header: { content: `Samples`, align: `right` },
+        value: side => side.sampleCount,
+        format: formatCount,
+      },
+      {
+        type: `label`,
+        header: `Function`,
+        format: side => inlineCode(side.label),
+      },
+      {
+        type: `label`,
+        header: `Location`,
+        format: side => formatSourceLocation(side.location, options),
+      },
+    ],
+  }
+}
+
+const functionDiffSide = (
+  func: AggregatedProfileFunctionDiff,
+  side: AggregatedProfileFunction | undefined,
+  total: number,
+  value: number,
+  sampleCount: number,
+): FunctionSide => ({
+  present: side !== undefined,
+  label: func.name,
+  location: func.location,
+  total,
+  value,
+  sampleCount,
+})
 
 /** A function with a name and optional location, shown in tables and headings. */
 type NamedFunction = {

@@ -19,6 +19,12 @@ import type {
 export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
   /** The number of instances aggregated into this entity on this side. */
   instanceCount: number
+
+  /**
+   * Node ordinals of all instances on this side, for computing unique retainer
+   * path counts lazily at format time. Populated only for closures.
+   */
+  instanceIds?: number[]
 }
 
 /**
@@ -133,6 +139,7 @@ const mergeClosures = (
       merged.selfSize += closure.selfSize
       merged.retainedSize += closure.retainedSize
       merged.instanceCount += closure.instanceIds.length
+      merged.instanceIds!.push(...closure.instanceIds)
     } else {
       keyToClosure.set(key, {
         type: `node`,
@@ -142,6 +149,7 @@ const mergeClosures = (
         selfSize: closure.selfSize,
         retainedSize: closure.retainedSize,
         instanceCount: closure.instanceIds.length,
+        instanceIds: [...closure.instanceIds],
       })
     }
   }

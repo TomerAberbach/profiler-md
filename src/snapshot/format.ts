@@ -10,13 +10,16 @@ import {
 import { MaxHeap, selectTopN } from '../helpers/heap.ts'
 import {
   formatHeading,
+  formatTable as formatMarkdownTable,
   formatSectionGroup,
-  formatTable,
   inlineCode,
 } from '../helpers/markdown.ts'
+import type { Header } from '../helpers/markdown.ts'
 import { formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
+import { formatDiffTable, formatTable, percentColumn } from '../table.ts'
+import type { Column, DiffRow, LabelColumn, NumericColumn } from '../table.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -60,22 +63,18 @@ const formatOverallSummary = ({
     `Allocated ${formatBytes(totalSize)} across ${formatCount(
       nodeCount,
     )} nodes and ${formatCount(edgeCount)} edges.`,
-    formatTable(
-      [
-        `Category`,
-        { content: `%`, align: `right` },
-        { content: `Size`, align: `right` },
-        { content: `Nodes`, align: `right` },
-      ],
-      hottestObjectCategories.map(
-        ([category, { size, nodeCount: objectCount }]) => [
-          category,
-          formatPercent(size / totalSize),
-          formatBytes(size),
-          formatCount(objectCount),
-        ],
+    formatTable({
+      columns: categoryColumns,
+      rows: hottestObjectCategories.map(
+        ([category, { size, nodeCount: count }]) => ({
+          present: true,
+          label: category,
+          total: totalSize,
+          size,
+          nodeCount: count,
+        }),
       ),
-    ),
+    }),
   ]
 }
 
@@ -121,20 +120,12 @@ const formatLargestConstructorsBySize = (
   return [
     formatHeading(3, title),
     ranking,
-    formatTable(
-      [
-        { content: `%`, align: `right` },
-        { content: `Size`, align: `right` },
-        { content: `Instances`, align: `right` },
-        ...entityColumns(`Constructor`, hasLocation),
-      ],
-      largestConstructors.map(constructor => [
-        formatPercent(sizeOf(constructor) / totalSize),
-        formatBytes(sizeOf(constructor)),
-        formatCount(constructor.instances.length),
-        ...formatEntityCells(constructor, hasLocation, options),
-      ]),
-    ),
+    formatTable({
+      columns: constructorColumns(sizeOf, hasLocation, options).columns,
+      rows: largestConstructors.map(constructor =>
+        constructorSide(constructor, totalSize),
+      ),
+    }),
     ...formatSectionGroup(
       [
         formatHeading(4, `Instances`),
@@ -165,7 +156,7 @@ const formatLargestConstructorInstances = (
   const constructorSize = sizeOf(constructor)
   return [
     formatEntityHeading(5, constructor, hasLocation, options),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         { content: `Size`, align: `right` },
@@ -250,24 +241,12 @@ const formatLargestClosures = (
   return [
     formatHeading(2, `Largest closures`),
     closuresRanking,
-    formatTable(
-      [
-        { content: `%`, align: `right` },
-        { content: `Retained`, align: `right` },
-        { content: `Instances`, align: `right` },
-        { content: `Paths`, align: `right` },
-        ...entityColumns(`Name`, hasLocation),
-        `Example path`,
-      ],
-      largestClosures.map(closure => [
-        formatPercent(closure.retainedSize / totalSize),
-        formatBytes(closure.retainedSize),
-        formatCount(closure.instanceIds.length),
-        formatCount(new Set(closure.instanceIds.map(retainerPathOf)).size),
-        ...formatEntityCells(closure, hasLocation, options),
-        inlineCode(retainerPathOf(closure.largestInstanceId)),
-      ]),
-    ),
+    formatTable({
+      columns: closureColumns(hasLocation, options).columns,
+      rows: largestClosures.map(closure =>
+        closureSide(closure, totalSize, retainerPathOf),
+      ),
+    }),
     ...formatSectionGroup(
       [
         formatHeading(3, `Retained`),
@@ -310,7 +289,7 @@ const formatClosureRetainedObjects = (
 
   return [
     formatEntityHeading(4, closure, hasLocation, options),
-    formatTable(
+    formatMarkdownTable(
       [
         { content: `%`, align: `right` },
         { content: `Self`, align: `right` },
@@ -345,20 +324,16 @@ const formatLargestStrings = (
   return [
     formatHeading(2, `Largest strings`),
     stringsRanking,
-    formatTable(
-      [
-        { content: `%`, align: `right` },
-        { content: `Size`, align: `right` },
-        ...(hasValues ? [`Value`] : []),
-        `Path`,
-      ],
-      largestStrings.map(string => [
-        formatPercent(string.selfSize / totalSize),
-        formatBytes(string.selfSize),
-        ...(hasValues ? [inlineCode(string.name ?? `(unknown)`)] : []),
-        inlineCode(retainerPathOf(string.id)),
-      ]),
-    ),
+    formatTable({
+      columns: stringColumns(hasValues).columns,
+      rows: largestStrings.map(string => ({
+        present: true,
+        label: string.name ?? `(unknown)`,
+        total: totalSize,
+        selfSize: string.selfSize,
+        examplePath: retainerPathOf(string.id),
+      })),
+    }),
   ]
 }
 
@@ -402,6 +377,8 @@ const formatDiffSummaryLine = ({
 }
 
 const formatDiffCategoryTable = ({
+  base: baseSnapshot,
+  current: currentSnapshot,
   nodeCategoryToStats,
 }: AggregatedHeapSnapshotDiff): string[] => {
   if (nodeCategoryToStats.size === 0) {
@@ -413,32 +390,15 @@ const formatDiffCategoryTable = ({
       (right.current?.size ?? 0) - (left.current?.size ?? 0),
   )
   return [
-    formatTable(
-      [
-        `Category`,
-        { content: `Change`, align: `right` },
-        { content: `Delta`, align: `right` },
-        { content: `Base`, align: `right` },
-        { content: `Current`, align: `right` },
-        { content: `Nodes`, align: `right` },
-      ],
-      categories.map(([category, { base, current }]) => {
-        const baseSize = base?.size ?? 0
-        const currentSize = current?.size ?? 0
-        const delta = currentSize - baseSize
-        return [
-          category,
-          formatPercentChange(baseSize, currentSize),
-          formatDelta(delta, formatBytes(Math.abs(delta))),
-          formatBytes(baseSize),
-          formatBytes(currentSize),
-          formatArrow(
-            formatCount(base?.nodeCount ?? 0),
-            formatCount(current?.nodeCount ?? 0),
-          ),
-        ]
-      }),
-    ),
+    formatDiffTable({
+      columns: categoryColumns,
+      primaryColumn: categorySizeColumn,
+      changeColumnIndex: categoryChangeColumnIndex,
+      rows: categories.map(([category, { base, current }]) => ({
+        base: categoryDiffSide(category, base, baseSnapshot.totalSize),
+        current: categoryDiffSide(category, current, currentSnapshot.totalSize),
+      })),
+    }),
   ]
 }
 
@@ -449,8 +409,13 @@ const formatDiffConstructors = (
 ): string[] =>
   formatSectionGroup(
     [formatHeading(2, `Largest constructors`)],
-    constructorsSections.flatMap(({ title, ranking, measure, sizeOf }) =>
-      formatSectionGroup(
+    constructorsSections.flatMap(({ title, ranking, measure, sizeOf }) => {
+      const { columns, value } = constructorColumns(
+        sizeOf,
+        hasLocation,
+        options,
+      )
+      return formatSectionGroup(
         [formatHeading(3, title), ranking],
         formatDiffDirectionSections(
           diff.constructors,
@@ -458,19 +423,28 @@ const formatDiffConstructors = (
           options,
           4,
           { plural: `Constructors`, description: measure },
-          entityColumns(`Constructor`, hasLocation),
-          entity => formatEntityCells(entity, hasLocation, options),
+          value,
+          columns,
+          entity => ({
+            base: constructorDiffSide(entity, entity.base, diff.base.totalSize),
+            current: constructorDiffSide(
+              entity,
+              entity.current,
+              diff.current.totalSize,
+            ),
+          }),
         ),
-      ),
-    ),
+      )
+    }),
   )
 
 const formatDiffClosures = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] =>
-  formatSectionGroup(
+): string[] => {
+  const { columns, value } = closureColumns(hasLocation, options)
+  return formatSectionGroup(
     [formatHeading(2, `Largest closures`), closuresRanking],
     formatDiffDirectionSections(
       diff.closures,
@@ -478,16 +452,23 @@ const formatDiffClosures = (
       options,
       3,
       { plural: `Closures`, description: `retained size` },
-      entityColumns(`Name`, hasLocation),
-      entity => formatEntityCells(entity, hasLocation, options),
+      value,
+      columns,
+      entity => ({
+        base: closureDiffSide(entity, entity.base, diff.base),
+        current: closureDiffSide(entity, entity.current, diff.current),
+      }),
     ),
   )
+}
 
 const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
   options: NormalizedProfileToMdOptions,
-): string[] =>
-  formatSectionGroup(
+): string[] => {
+  // `mergeStrings` excludes nameless strings, so a value is always present.
+  const { columns, value } = stringColumns(true)
+  return formatSectionGroup(
     [formatHeading(2, `Largest strings`), stringsRanking],
     formatDiffDirectionSections(
       diff.strings,
@@ -495,22 +476,17 @@ const formatDiffStrings = (
       options,
       3,
       { plural: `Strings`, description: `size` },
-      [`Value`],
-      entity => [inlineCode(entity.name)],
+      value,
+      columns,
+      entity => ({
+        base: stringDiffSide(entity, entity.base, diff.base),
+        current: stringDiffSide(entity, entity.current, diff.current),
+      }),
     ),
   )
-
-/**
- * An {@link AggregatedSnapshotEntityDiff} with its sizes resolved for a
- * specific size kind.
- */
-type DiffEntityValues = {
-  entity: AggregatedSnapshotEntityDiff
-  baseValue: number
-  currentValue: number
 }
 
-const formatDiffDirectionSections = (
+const formatDiffDirectionSections = <Side extends { present: boolean }>(
   entities: AggregatedSnapshotEntityDiff[],
   sizeOf: (entity: DiffedSnapshotEntity) => number,
   options: NormalizedProfileToMdOptions,
@@ -522,8 +498,9 @@ const formatDiffDirectionSections = (
     /** A phrase describing what the entities are measured by. */
     description: string
   },
-  entityColumns: string[],
-  formatEntityCells: (entity: AggregatedSnapshotEntityDiff) => string[],
+  primary: NumericColumn<Side>,
+  columns: Column<Side>[],
+  toRow: (entity: AggregatedSnapshotEntityDiff) => DiffRow<Side>,
 ): string[] => {
   const active = entities
     .map(entity => ({
@@ -558,7 +535,11 @@ const formatDiffDirectionSections = (
     sections.push(
       formatHeading(headingLevel, `Regressions`),
       `${phrases.plural} with the largest increase in ${phrases.description}.`,
-      formatDiffEntityTable(regressions, entityColumns, formatEntityCells),
+      formatDiffTable({
+        primaryColumn: primary,
+        columns,
+        rows: regressions.map(({ entity }) => toRow(entity)),
+      }),
     )
   }
 
@@ -566,7 +547,11 @@ const formatDiffDirectionSections = (
     sections.push(
       formatHeading(headingLevel, `Progressions`),
       `${phrases.plural} with the largest decrease in ${phrases.description}.`,
-      formatDiffEntityTable(progressions, entityColumns, formatEntityCells),
+      formatDiffTable({
+        primaryColumn: primary,
+        columns,
+        rows: progressions.map(({ entity }) => toRow(entity)),
+      }),
     )
   }
 
@@ -581,35 +566,274 @@ const showDiffEntity = (
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
 
-const formatDiffEntityTable = (
-  entities: DiffEntityValues[],
-  entityColumns: string[],
-  formatEntityCells: (entity: AggregatedSnapshotEntityDiff) => string[],
-): string =>
-  formatTable(
-    [
-      { content: `Change`, align: `right` },
-      { content: `Delta`, align: `right` },
-      { content: `Base`, align: `right` },
-      { content: `Current`, align: `right` },
-      { content: `Instances`, align: `right` },
-      ...entityColumns,
+// ===========================================================================
+// Shared column definitions
+//
+// Each table declares a `Side` view of one row's data and a list of columns
+// over it. `formatColumnsTable` renders the non-diff table and
+// `formatDiffColumnsTable` the diff table from the same columns, so a column
+// added here appears in both. The generic column constructors below are
+// constrained by the `Side` fields they read, so reusing one on a `Side`
+// missing that field is a type error.
+// ===========================================================================
+
+const instancesColumn = <
+  Side extends { instanceCount: number },
+>(): NumericColumn<Side> => ({
+  type: `numeric`,
+  header: { content: `Instances`, align: `right` },
+  value: side => side.instanceCount,
+  format: formatCount,
+})
+
+const nameColumn = <Side extends { label: string }>(
+  header: Header,
+): LabelColumn<Side> => ({
+  type: `label`,
+  header,
+  format: side => inlineCode(side.label),
+})
+
+const locationColumn = <Side extends { location?: SourceLocation }>(
+  options: NormalizedProfileToMdOptions,
+): LabelColumn<Side> => ({
+  type: `label`,
+  header: `Location`,
+  format: side => formatSourceLocation(side.location, options),
+})
+
+const examplePathColumn = <Side extends { examplePath: string }>(
+  header: Header,
+): LabelColumn<Side> => ({
+  type: `label`,
+  header,
+  format: side => inlineCode(side.examplePath),
+})
+
+/** One category's view, shared by the non-diff and diff category tables. */
+type CategorySide = {
+  present: boolean
+  label: string
+  total: number
+  size: number
+  nodeCount: number
+}
+
+const categorySizeColumn: NumericColumn<CategorySide> = {
+  type: `numeric`,
+  header: { content: `Size`, align: `right` },
+  value: side => side.size,
+  format: formatBytes,
+}
+
+// `Change`/`Delta` are inserted after `Category` in the diff table.
+const categoryChangeColumnIndex = 1
+
+const categoryColumns: Column<CategorySide>[] = [
+  { type: `label`, header: `Category`, format: side => side.label },
+  percentColumn(categorySizeColumn),
+  categorySizeColumn,
+  {
+    type: `numeric`,
+    header: { content: `Nodes`, align: `right` },
+    value: side => side.nodeCount,
+    format: formatCount,
+  },
+]
+
+const categoryDiffSide = (
+  label: string,
+  stats: { size: number; nodeCount: number } | undefined,
+  total: number,
+): CategorySide => ({
+  present: stats !== undefined,
+  label,
+  total,
+  size: stats?.size ?? 0,
+  nodeCount: stats?.nodeCount ?? 0,
+})
+
+/** One constructor's view, shared by the non-diff and diff constructor tables. */
+type ConstructorSide = {
+  present: boolean
+  label: string
+  location?: SourceLocation
+  total: number
+  selfSize: number
+  retainedSize: number
+  instanceCount: number
+}
+
+const constructorColumns = (
+  sizeOf: (side: ConstructorSide) => number,
+  hasLocation: boolean,
+  options: NormalizedProfileToMdOptions,
+): {
+  columns: Column<ConstructorSide>[]
+  value: NumericColumn<ConstructorSide>
+} => {
+  const value: NumericColumn<ConstructorSide> = {
+    type: `numeric`,
+    header: { content: `Size`, align: `right` },
+    value: sizeOf,
+    format: formatBytes,
+  }
+  return {
+    value,
+    columns: [
+      percentColumn(value),
+      value,
+      instancesColumn(),
+      nameColumn(`Constructor`),
+      ...(hasLocation ? [locationColumn<ConstructorSide>(options)] : []),
     ],
-    entities.map(({ entity, baseValue, currentValue }) => {
-      const delta = currentValue - baseValue
-      return [
-        formatPercentChange(baseValue, currentValue),
-        formatDelta(delta, formatBytes(Math.abs(delta))),
-        formatBytes(baseValue),
-        formatBytes(currentValue),
-        formatArrow(
-          formatCount(entity.base?.instanceCount ?? 0),
-          formatCount(entity.current?.instanceCount ?? 0),
-        ),
-        ...formatEntityCells(entity),
-      ]
-    }),
-  )
+  }
+}
+
+const constructorSide = (
+  constructor: AggregatedConstructor,
+  total: number,
+): ConstructorSide => ({
+  present: true,
+  label: constructor.name,
+  location: constructor.location,
+  total,
+  selfSize: constructor.selfSize,
+  retainedSize: constructor.retainedSize,
+  instanceCount: constructor.instances.length,
+})
+
+const constructorDiffSide = (
+  entity: AggregatedSnapshotEntityDiff,
+  side: DiffedSnapshotEntity | undefined,
+  total: number,
+): ConstructorSide => ({
+  present: side !== undefined,
+  label: entity.name,
+  location: entity.location,
+  total,
+  selfSize: side?.selfSize ?? 0,
+  retainedSize: side?.retainedSize ?? 0,
+  instanceCount: side?.instanceCount ?? 0,
+})
+
+/** One closure's view, shared by the non-diff and diff closure tables. */
+type ClosureSide = {
+  present: boolean
+  label: string
+  location?: SourceLocation
+  total: number
+  retainedSize: number
+  instanceCount: number
+  pathCount: number
+  examplePath: string
+}
+
+const closureColumns = (
+  hasLocation: boolean,
+  options: NormalizedProfileToMdOptions,
+): {
+  columns: Column<ClosureSide>[]
+  value: NumericColumn<ClosureSide>
+} => {
+  const value: NumericColumn<ClosureSide> = {
+    type: `numeric`,
+    header: { content: `Retained`, align: `right` },
+    value: side => side.retainedSize,
+    format: formatBytes,
+  }
+  return {
+    value,
+    columns: [
+      percentColumn(value),
+      value,
+      instancesColumn(),
+      {
+        type: `numeric`,
+        header: { content: `Paths`, align: `right` },
+        value: side => side.pathCount,
+        format: formatCount,
+      },
+      nameColumn(`Name`),
+      ...(hasLocation ? [locationColumn<ClosureSide>(options)] : []),
+      examplePathColumn(`Example path`),
+    ],
+  }
+}
+
+const closureSide = (
+  closure: AggregatedClosure,
+  total: number,
+  retainerPathOf: (nodeOrdinal: number) => string,
+): ClosureSide => ({
+  present: true,
+  label: closure.name,
+  location: closure.location,
+  total,
+  retainedSize: closure.retainedSize,
+  instanceCount: closure.instanceIds.length,
+  pathCount: new Set(closure.instanceIds.map(retainerPathOf)).size,
+  examplePath: retainerPathOf(closure.largestInstanceId),
+})
+
+const closureDiffSide = (
+  entity: AggregatedSnapshotEntityDiff,
+  side: DiffedSnapshotEntity | undefined,
+  { totalSize, retainerPathOf }: AggregatedHeapSnapshot,
+): ClosureSide => ({
+  present: side !== undefined,
+  label: entity.name,
+  location: entity.location,
+  total: totalSize,
+  retainedSize: side?.retainedSize ?? 0,
+  instanceCount: side?.instanceCount ?? 0,
+  pathCount: side ? new Set(side.instanceIds!.map(retainerPathOf)).size : 0,
+  examplePath: side ? retainerPathOf(side.id) : ``,
+})
+
+/** One string's view, shared by the non-diff and diff string tables. */
+type StringSide = {
+  present: boolean
+  label: string
+  total: number
+  selfSize: number
+  examplePath: string
+}
+
+const stringColumns = (
+  hasValues: boolean,
+): {
+  columns: Column<StringSide>[]
+  value: NumericColumn<StringSide>
+} => {
+  const value: NumericColumn<StringSide> = {
+    type: `numeric`,
+    header: { content: `Size`, align: `right` },
+    value: side => side.selfSize,
+    format: formatBytes,
+  }
+  return {
+    value,
+    columns: [
+      percentColumn(value),
+      value,
+      ...(hasValues ? [nameColumn<StringSide>(`Value`)] : []),
+      examplePathColumn(`Path`),
+    ],
+  }
+}
+
+const stringDiffSide = (
+  entity: AggregatedSnapshotEntityDiff,
+  side: DiffedSnapshotEntity | undefined,
+  { totalSize, retainerPathOf }: AggregatedHeapSnapshot,
+): StringSide => ({
+  present: side !== undefined,
+  label: entity.name,
+  total: totalSize,
+  selfSize: side?.selfSize ?? 0,
+  examplePath: side ? retainerPathOf(side.id) : ``,
+})
 
 /**
  * Returns whether anything in the snapshot or diff has a location. If nothing
@@ -639,8 +863,8 @@ type ConstructorsSection = {
   /** A short phrase naming what the constructors are measured by. */
   measure: string
 
-  /** Returns the size a constructor or instance is measured by. */
-  sizeOf: (node: AggregatedSnapshotNode) => number
+  /** Returns the size a constructor, instance, or side is measured by. */
+  sizeOf: (node: { selfSize: number; retainedSize: number }) => number
 }
 
 /** The self and retained size constructors sections, in output order. */
@@ -663,30 +887,11 @@ const closuresRanking = `Closures ranked by bytes that would be freed if the clo
 
 const stringsRanking = `Strings ranked by bytes allocated for them.`
 
-/** An entity with a name and optional location, shown in tables and headings. */
+/** An entity with a name and optional location, shown in headings. */
 type NamedEntity = {
   name: string
   location?: SourceLocation
 }
-
-/**
- * Returns the columns labeling an entity, with a location column when
- * {@link hasLocation}.
- */
-const entityColumns = (nameColumn: string, hasLocation: boolean): string[] => [
-  nameColumn,
-  ...(hasLocation ? [`Location`] : []),
-]
-
-/** Returns an entity's cells for the columns from {@link entityColumns}. */
-const formatEntityCells = (
-  entity: NamedEntity,
-  hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
-): string[] => [
-  inlineCode(entity.name),
-  ...(hasLocation ? [formatSourceLocation(entity.location, options)] : []),
-]
 
 /** Formats a heading for an entity, with its location when {@link hasLocation}. */
 const formatEntityHeading = (

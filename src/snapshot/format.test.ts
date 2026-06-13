@@ -63,16 +63,16 @@ describe(`formatHeapSnapshotDiff`, () => {
           Category: `object`,
           Change: `+50.0%`,
           Delta: `+500 B`,
-          Base: `1 kB`,
-          Current: `1.5 kB`,
+          '%': `100.0%`,
+          Size: `1 kB → 1.5 kB`,
           Nodes: `10 → 12`,
         },
         {
           Category: `string`,
           Change: `removed`,
           Delta: `-100 B`,
-          Base: `100 B`,
-          Current: `0 B`,
+          '%': `10.0% → 0.0%`,
+          Size: `100 B → 0 B`,
           Nodes: `2 → 0`,
         },
       ],
@@ -81,6 +81,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`lists constructor regressions and progressions for self and retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Grew`,
@@ -97,6 +98,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Grew`,
@@ -120,16 +122,16 @@ describe(`formatHeapSnapshotDiff`, () => {
       {
         Change: `+100.0%`,
         Delta: `+100 B`,
-        Base: `100 B`,
-        Current: `200 B`,
+        '%': `10.0% → 20.0%`,
+        Size: `100 B → 200 B`,
         Instances: `1 → 2`,
         Constructor: `Grew`,
       },
       {
         Change: `new`,
         Delta: `+30 B`,
-        Base: `0 B`,
-        Current: `30 B`,
+        '%': `0.0% → 3.0%`,
+        Size: `0 B → 30 B`,
         Instances: `0 → 1`,
         Constructor: `Added`,
       },
@@ -138,8 +140,8 @@ describe(`formatHeapSnapshotDiff`, () => {
       {
         Change: `removed`,
         Delta: `-50 B`,
-        Base: `50 B`,
-        Current: `0 B`,
+        '%': `5.0% → 0.0%`,
+        Size: `50 B → 0 B`,
         Instances: `1 → 0`,
         Constructor: `Removed`,
       },
@@ -156,6 +158,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`lists closure regressions and progressions by retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `grewFn`,
@@ -172,6 +175,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `grewFn`,
@@ -197,11 +201,13 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `+200.0%`,
           Delta: `+200 B`,
-          Base: `100 B`,
-          Current: `300 B`,
+          '%': `10.0% → 30.0%`,
+          Retained: `100 B → 300 B`,
           Instances: `1 → 2`,
+          Paths: `1`,
           Name: `grewFn`,
           Location: `src/a.ts:7:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -210,11 +216,13 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `-75.0%`,
           Delta: `-150 B`,
-          Base: `200 B`,
-          Current: `50 B`,
+          '%': `20.0% → 5.0%`,
+          Retained: `200 B → 50 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `shrankFn`,
           Location: `src/b.ts:1:1`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -222,9 +230,11 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`lists string regressions and progressions by size`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       strings: [
         makeAggregatedString({ value: `hello`, selfSize: 80 }),
         makeAggregatedString({ value: `hello`, selfSize: 80 }),
@@ -239,10 +249,10 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `+220.0%`,
           Delta: `+110 B`,
-          Base: `50 B`,
-          Current: `160 B`,
-          Instances: `1 → 2`,
+          '%': `5.0% → 16.0%`,
+          Size: `50 B → 160 B`,
           Value: `hello`,
+          Path: `(GC root)`,
         },
       ],
     ])
@@ -251,6 +261,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`omits the location column when nothing has a location`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Grew`,
@@ -268,6 +279,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Grew`,
@@ -293,8 +305,8 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `10.0% → 20.0%`,
+          Size: `100 B → 200 B`,
           Instances: `1`,
           Constructor: `Grew`,
         },
@@ -305,10 +317,12 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `10.0% → 20.0%`,
+          Retained: `100 B → 200 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `myFn`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -316,6 +330,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`omits entities hidden by showEntry without hiding entities from the other snapshot`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Hidden`,
@@ -326,6 +341,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `Hidden`,
@@ -355,8 +371,8 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Change: `new`,
           Delta: `+50 B`,
-          Base: `0 B`,
-          Current: `50 B`,
+          '%': `0.0% → 5.0%`,
+          Size: `0 B → 50 B`,
           Instances: `0 → 1`,
           Constructor: `Shown`,
         },
@@ -401,8 +417,8 @@ describe(`formatHeapSnapshotDiff`, () => {
           Category: `object`,
           Change: `0.0%`,
           Delta: `0 B`,
-          Base: `200 B`,
-          Current: `200 B`,
+          '%': `66.7%`,
+          Size: `200 B`,
           Nodes: `2`,
         },
       ],

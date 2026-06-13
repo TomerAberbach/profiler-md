@@ -20,6 +20,7 @@ const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
 describe(`diffAggregatedHeapSnapshots`, () => {
   test(`reports a constructor only in base as removed`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `MyClass`,
@@ -29,7 +30,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         }),
       ],
     })
-    const current = makeAggregatedHeapSnapshot()
+    const current = makeAggregatedHeapSnapshot({ totalSize: 1000 })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
@@ -40,8 +41,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-200 B`,
-          Base: `200 B`,
-          Current: `0 B`,
+          '%': `20.0% → 0.0%`,
+          Size: `200 B → 0 B`,
           Instances: `2 → 0`,
           Constructor: `MyClass`,
         },
@@ -50,8 +51,9 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   })
 
   test(`reports a constructor only in current as new`, () => {
-    const base = makeAggregatedHeapSnapshot()
+    const base = makeAggregatedHeapSnapshot({ totalSize: 1000 })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `MyClass`,
@@ -70,8 +72,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `new`,
           Delta: `+200 B`,
-          Base: `0 B`,
-          Current: `200 B`,
+          '%': `0.0% → 20.0%`,
+          Size: `0 B → 200 B`,
           Instances: `0 → 2`,
           Constructor: `MyClass`,
         },
@@ -82,6 +84,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`matches constructors by name despite differing locations`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `MyClass`,
@@ -93,6 +96,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       constructors: [
         makeAggregatedConstructor({
           name: `MyClass`,
@@ -112,8 +116,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `10.0% → 20.0%`,
+          Size: `100 B → 200 B`,
           Instances: `1 → 2`,
           Constructor: `MyClass`,
           Location: `src/b.ts:9:9`,
@@ -125,6 +129,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`matches closures by name and file despite differing line and column`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -135,6 +140,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -153,11 +159,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+200.0%`,
           Delta: `+200 B`,
-          Base: `100 B`,
-          Current: `300 B`,
+          '%': `10.0% → 30.0%`,
+          Retained: `100 B → 300 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `myFn`,
           Location: `src/a.ts:25:3`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -166,6 +174,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`does not match closures with the same name in different files`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -176,6 +185,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -194,11 +204,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `new`,
           Delta: `+100 B`,
-          Base: `0 B`,
-          Current: `100 B`,
+          '%': `0.0% → 10.0%`,
+          Retained: `0 B → 100 B`,
           Instances: `0 → 1`,
+          Paths: `0 → 1`,
           Name: `myFn`,
           Location: `src/b.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -207,11 +219,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-100 B`,
-          Base: `100 B`,
-          Current: `0 B`,
+          '%': `10.0% → 0.0%`,
+          Retained: `100 B → 0 B`,
           Instances: `1 → 0`,
+          Paths: `1 → 0`,
           Name: `myFn`,
           Location: `src/a.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -219,6 +233,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`merges same-side closures sharing a name and file`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -236,7 +251,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         }),
       ],
     })
-    const current = makeAggregatedHeapSnapshot()
+    const current = makeAggregatedHeapSnapshot({ totalSize: 1000 })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
@@ -247,11 +262,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-150 B`,
-          Base: `150 B`,
-          Current: `0 B`,
+          '%': `15.0% → 0.0%`,
+          Retained: `150 B → 0 B`,
           Instances: `3 → 0`,
+          Paths: `1 → 0`,
           Name: `myFn`,
           Location: `src/a.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -259,6 +276,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`matches closures without locations by name`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -268,6 +286,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
@@ -285,10 +304,12 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `10.0% → 20.0%`,
+          Retained: `100 B → 200 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `myFn`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -297,6 +318,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       strings: [
         makeAggregatedString({ value: `hello`, selfSize: 50 }),
         makeAggregatedString({ value: `hello`, selfSize: 30 }),
@@ -304,6 +326,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
     })
 
@@ -316,10 +339,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `-37.5%`,
           Delta: `-30 B`,
-          Base: `80 B`,
-          Current: `50 B`,
-          Instances: `2 → 1`,
+          '%': `8.0% → 5.0%`,
+          Size: `80 B → 50 B`,
           Value: `hello`,
+          Path: `(GC root)`,
         },
       ],
     ])
@@ -327,9 +350,11 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`reports a category present on one side only as new or removed`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
       nodeCategoryToStats: new Map([[`string`, { size: 50, nodeCount: 1 }]]),
     })
 
@@ -342,16 +367,16 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Category: `string`,
           Change: `new`,
           Delta: `+50 B`,
-          Base: `0 B`,
-          Current: `50 B`,
+          '%': `0.0% → 5.0%`,
+          Size: `0 B → 50 B`,
           Nodes: `0 → 1`,
         },
         {
           Category: `object`,
           Change: `removed`,
           Delta: `-200 B`,
-          Base: `200 B`,
-          Current: `0 B`,
+          '%': `20.0% → 0.0%`,
+          Size: `200 B → 0 B`,
           Nodes: `2 → 0`,
         },
       ],
