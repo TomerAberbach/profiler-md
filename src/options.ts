@@ -295,7 +295,8 @@ export const defaultCategorizeEntry = (
  */
 export const defaultShowEntry = (
   entry: DeepReadonly<AggregatedProfileEntry>,
-): boolean => !isSyntheticEntry(entry) && !isExternalPrivateEntry(entry)
+): boolean =>
+  !isSyntheticEntry(entry) && !isExternalImplementationDetailEntry(entry)
 
 /**
  * Returns true if the entry is a synthetic artifacts.
@@ -315,10 +316,10 @@ export const isSyntheticEntry = ({
  *
  * These entries are typically implementation details of external code that your
  * own code cannot directly call. Excluding these entries from the Markdown
- * leaves only your code and the public API surface of stdlib and third-pary
- * code.
+ * leaves only your code and the public API surface of `stdlib` and
+ * `third-party` code.
  */
-export const isExternalPrivateEntry = (
+export const isExternalImplementationDetailEntry = (
   entry: DeepReadonly<AggregatedProfileEntry>,
 ): boolean => {
   if (entry.type !== `function`) {

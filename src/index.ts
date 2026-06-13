@@ -10,7 +10,7 @@ export {
   defaultMatchEntry,
   defaultShowEntry,
   isSyntheticEntry,
-  isExternalPrivateEntry,
+  isExternalImplementationDetailEntry,
 } from './options.ts'
 export type {
   ProfileData,
