@@ -383,7 +383,7 @@ describe(`diffProfiles`, () => {
           Delta: `0 B`,
           Base: `0 B`,
           Current: `0 B`,
-          Nodes: `1 → 1`,
+          Nodes: `1`,
         },
       ],
     ])

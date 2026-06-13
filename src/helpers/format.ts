@@ -45,6 +45,9 @@ export const formatDelta = (value: number, formatted: string): string => {
 export const formatPercent = (fraction: number): string =>
   `${(fraction * 100).toFixed(1)}%`
 
+export const formatArrow = (left: string, right: string): string =>
+  left === right ? left : `${left} → ${right}`
+
 export const formatConjunction = (strings: Iterable<string>): string =>
   (conjunctionFormatter ??= new Intl.ListFormat(`en`, {
     style: `long`,
