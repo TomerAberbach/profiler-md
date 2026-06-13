@@ -40,6 +40,9 @@ for (const { examples } of languages.values()) {
   for (const [format, formatExamples] of Object.entries(examples ?? {})) {
     const { type, shape } = formatConverters[format as Format]
     for (const { filename } of formatExamples) {
+      if (filename.includes(`.diff.`)) {
+        continue
+      }
       fixtureSets[type].add(filename)
       fixtureSets[shape].add(filename)
     }

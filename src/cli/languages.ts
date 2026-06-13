@@ -6,6 +6,7 @@ export type LanguageAlias = {
 }
 
 export type LanguageExample = {
+  /** The example's name in `examples/` without `.md`. */
   filename: string
   label: string
 }
@@ -79,7 +80,10 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       name: `Rust`,
       formats: [`pprof`, `speedscope`],
       examples: {
-        pprof: [{ filename: `rust.base.pprof`, label: `example` }],
+        pprof: [
+          { filename: `rust.base.pprof`, label: `base` },
+          { filename: `rust.diff.pprof`, label: `diff` },
+        ],
       },
     },
   ],
