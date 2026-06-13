@@ -93,7 +93,7 @@ describe(`profileToMd`, () => {
   })
 
   test(`forced format produces same output as auto-detect`, () => {
-    const content = readFileSync(fixturePath(`node.cpuprofile`))
+    const content = readFileSync(fixturePath(`node.base.cpuprofile`))
 
     const auto = profileToMd(content.toString(`utf8`), { baseURL: null })
     const forced = profileToMd(
@@ -142,7 +142,7 @@ describe(`profileToMdAsync`, () => {
   })
 
   test(`forced format works`, async () => {
-    const content = readFileSync(fixturePath(`node.cpuprofile`))
+    const content = readFileSync(fixturePath(`node.base.cpuprofile`))
     const blob = new Blob([content])
 
     const md = await profileToMdAsync(
@@ -293,7 +293,10 @@ describe(`diffProfiles`, () => {
   )
 
   test(`accepts an explicit { data, format }`, () => {
-    const nodeCpuProfile = readFileSync(fixturePath(`node.cpuprofile`), `utf8`)
+    const nodeCpuProfile = readFileSync(
+      fixturePath(`node.base.cpuprofile`),
+      `utf8`,
+    )
     const denoCpuProfile = readFileSync(fixturePath(`deno.cpuprofile`), `utf8`)
 
     const md = diffProfiles(
@@ -501,9 +504,9 @@ describe(`diffProfiles`, () => {
   })
 
   test.each(snapshotFixtures)(
-    `throws on diffing node.cpuprofile against %s`,
+    `throws on diffing node.base.cpuprofile against %s`,
     snapshotFilename => {
-      const profileContent = readFileSync(fixturePath(`node.cpuprofile`))
+      const profileContent = readFileSync(fixturePath(`node.base.cpuprofile`))
       const snapshotContent = readFileSync(fixturePath(snapshotFilename))
 
       expect(() =>

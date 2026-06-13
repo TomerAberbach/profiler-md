@@ -56,7 +56,8 @@ export const languages: ReadonlyMap<string, Language> = new Map([
         pprof: [{ filename: `node.pprof`, label: `Node.js` }],
         speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
         'v8-cpu-profile': [
-          { filename: `node.cpuprofile`, label: `Node.js` },
+          { filename: `node.base.cpuprofile`, label: `Node.js` },
+          { filename: `node.diff.cpuprofile`, label: `Node.js diff` },
           { filename: `deno.cpuprofile`, label: `Deno` },
           { filename: `bun.cpuprofile`, label: `Bun` },
         ],
