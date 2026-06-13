@@ -95,7 +95,7 @@ pnpm update-examples
 pnpm update-readme
 
 # Benchmark the CLI with the given args
-pnpm bench ./src/fixtures/node.cpuprofile
+pnpm bench ./src/fixtures/node.base.cpuprofile
 ```
 
 ## Testing

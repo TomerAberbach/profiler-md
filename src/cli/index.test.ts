@@ -80,13 +80,13 @@ describe.each([
   { compression: `gzip`, compress: gzipSync, ext: `.gz` },
   { compression: `brotli`, compress: brotliCompressSync, ext: `.br` },
 ])(`$compression decompression`, ({ compression, compress, ext }) => {
-  const raw = readFileSync(fixturePath(`node.cpuprofile`))
+  const raw = readFileSync(fixturePath(`node.base.cpuprofile`))
   const compressed = compress(raw)
   const expectedMarkdown = /^# CPU profile/u
 
   test(`auto-decompresses a ${compression} file`, async () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-    const path = join(dir, `node.cpuprofile${ext}`)
+    const path = join(dir, `node.base.cpuprofile${ext}`)
     writeFileSync(path, compressed)
 
     const { status, stdout } = await runCli([path])
@@ -113,7 +113,7 @@ test(`--source-maps applies source maps to profile locations`, async () => {
   const sourceMapPath = join(dir, `index.ts.map`)
   // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
   // /mapped/original.ts line 1 col 0.
-  const mappings = `${`;`.repeat(203)}yBAAA`
+  const mappings = `${`;`.repeat(204)}yBAAA`
   writeFileSync(
     sourceMapPath,
     JSON.stringify({
@@ -126,7 +126,7 @@ test(`--source-maps applies source maps to profile locations`, async () => {
   )
 
   const { status, stdout } = await runCli([
-    fixturePath(`node.cpuprofile`),
+    fixturePath(`node.base.cpuprofile`),
     `--source-maps`,
     `${dir}/*.map`,
   ])
@@ -142,7 +142,7 @@ test(`--source-maps applies inline source maps from files`, async () => {
   const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
   // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
   // /mapped/original.ts line 1 col 0.
-  const mappings = `${`;`.repeat(203)}yBAAA`
+  const mappings = `${`;`.repeat(204)}yBAAA`
   const sourceMap = JSON.stringify({
     version: 3,
     file: `file:///Users/tomer/Documents/work/code/uneval/src/index.ts`,
@@ -158,7 +158,7 @@ test(`--source-maps applies inline source maps from files`, async () => {
   )
 
   const { status, stdout } = await runCli([
-    fixturePath(`node.cpuprofile`),
+    fixturePath(`node.base.cpuprofile`),
     `--source-maps`,
     `${dir}/*.js`,
   ])
@@ -173,8 +173,8 @@ test(`--match changes how entries match across diffed profiles`, async () => {
   // Collapsing every location to `x` must not break self-diff matching: every
   // entry still matches its counterpart, so there are no deltas.
   const { status, stdout } = await runCli([
-    fixturePath(`node.cpuprofile`),
-    fixturePath(`node.cpuprofile`),
+    fixturePath(`node.base.cpuprofile`),
+    fixturePath(`node.base.cpuprofile`),
     `--match`,
     `.+=x`,
   ])
@@ -186,7 +186,7 @@ test(`--match changes how entries match across diffed profiles`, async () => {
 test.each([
   {
     scenario: `two profiles`,
-    baseFixture: `node.cpuprofile`,
+    baseFixture: `node.base.cpuprofile`,
     currentFixture: `bun.cpuprofile`,
   },
   {
@@ -235,26 +235,29 @@ test.each([
   },
   {
     scenario: `diffing a profile against a heap snapshot`,
-    args: [fixturePath(`node.cpuprofile`), fixturePath(`node.heapsnapshot`)],
+    args: [
+      fixturePath(`node.base.cpuprofile`),
+      fixturePath(`node.heapsnapshot`),
+    ],
     expectedStderr: `cannot diff a profile against a snapshot`,
     expectedStatus: 1,
   },
   {
     scenario: `--match without an equals sign`,
-    args: [fixturePath(`node.cpuprofile`), `--match`, `no-equals-sign`],
+    args: [fixturePath(`node.base.cpuprofile`), `--match`, `no-equals-sign`],
     expectedStderr: `expected REGEX=REPLACEMENT`,
     expectedStatus: 2,
   },
   {
     scenario: `--match with an invalid regex`,
-    args: [fixturePath(`node.cpuprofile`), `--match`, `[=x`],
+    args: [fixturePath(`node.base.cpuprofile`), `--match`, `[=x`],
     expectedStderr: `Invalid --match regex`,
     expectedStatus: 2,
   },
   {
     scenario: `more than two positional arguments`,
     args: [
-      fixturePath(`node.cpuprofile`),
+      fixturePath(`node.base.cpuprofile`),
       fixturePath(`bun.cpuprofile`),
       fixturePath(`deno.cpuprofile`),
     ],
