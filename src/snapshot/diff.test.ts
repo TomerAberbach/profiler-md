@@ -116,7 +116,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Current: `200 B`,
           Instances: `1 → 2`,
           Constructor: `MyClass`,
-          Location: `src/a.ts:1:1`,
+          Location: `src/b.ts:9:9`,
         },
       ],
     ])
@@ -157,7 +157,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Current: `300 B`,
           Instances: `1 → 1`,
           Name: `myFn`,
-          Location: `src/a.ts:5:10`,
+          Location: `src/a.ts:25:3`,
         },
       ],
     ])

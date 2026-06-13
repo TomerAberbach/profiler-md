@@ -21,7 +21,12 @@ export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
   instanceCount: number
 }
 
-/** An entity matched across the base and current snapshots. */
+/**
+ * An entity matched across the base and current snapshots.
+ *
+ * The name and location come from the current snapshot when the entity is
+ * present in it, and from the base snapshot otherwise.
+ */
 export type AggregatedSnapshotEntityDiff = {
   /** A human readable label for this entity. */
   name: string
@@ -180,6 +185,6 @@ const entityDiffsFromMatches = (
   diffs: Map<string, Diff<DiffedSnapshotEntity>>,
 ): AggregatedSnapshotEntityDiff[] =>
   Array.from(diffs.values(), ({ base, current }) => {
-    const { name, location } = (base ?? current)!
+    const { name, location } = (current ?? base)!
     return { name: name!, location, base, current }
   })
