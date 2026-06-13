@@ -7,83 +7,135 @@ metadata:
   internal: true
 ---
 
-# Arguments
+Profile a benchmark, identify hotspots, and optimize.
 
 `$ARGUMENTS` are the arguments to pass to the CLI. It's typically a path to a
 profile.
 
 # Workflow
 
-## 1. Baseline
+1. Capture a baseline: run `pnpm bench $ARGUMENTS 2>&1`, wait for it to
+   complete, and read the full self-profiled Markdown report printed to stdout,
+   focusing on:
+   - Hottest functions: self % shows where time is spent or memory is allocated,
+     not just passed through
+   - Hottest call stacks: the full call path to the hot functions
+2. Identify the hottest 1-3 functions by self % and read their source:
+   - Native functions are often unavoidable but may indicate unnecessary work
+     (e.g. parsing the same data twice, creating many intermediate arrays)
+   - Functions in `src/` are direct targets
+3. State a hypothesis (see "Hypotheses"). If the bottleneck is unclear, reread
+   the hot function and its callers
+4. Apply the minimal change that addresses the bottleneck, one optimization at a
+   time. Leave unrelated code alone. Optimize the general case, not the
+   benchmark: don't exploit quirks of the profiled input (its size, ordering,
+   value distribution, or hardcoded special cases for it) unless they're
+   guaranteed properties of real inputs
+5. Run the relevant tests: if any newly fail, fix the optimization or revert it
+6. Capture a new report as in step 1 and compare self % for the targeted
+   function(s) against the baseline: if the improvement is negligible or
+   unclear, revert and go back to step 3 instead of iterating blindly
+7. If the goal is unmet and a clear bottleneck remains, repeat from step 2 with
+   the new profile as the baseline
+8. Report:
+   - Before vs after for the hot function(s)
+   - Any other functions that moved significantly (regressions)
 
-Run the benchmark and capture its self-profiled output:
+# Hypotheses
 
-```sh
-pnpm bench $ARGUMENTS 2>&1
-```
-
-Wait for it to complete and read the Markdown report printed to stdout.
-
-Focus on:
-
-- **Hottest functions**: Self time % identifies where CPU is actually spending
-  time, not just passing through
-- **Hottest call stacks**: Full call path leading to the hot functions
-
-## 2. Identify the bottleneck
-
-From the report, identify the top 1-3 functions by self time %. These are the
-real targets.
-
-Cross-reference with the source:
-
-- Native functions (e.g. `JSON.parse`, `Array.prototype.*`) are often
-  unavoidable, but may indicate unnecessary work (e.g. parsing the same data
-  multiple times, creating many intermediate arrays, etc.)
-- Functions in `src/` are direct targets
-
-Read the relevant source files to understand what the hot function is doing.
-
-## 3. Form a hypothesis
-
-Before changing anything, state the hypothesis:
+Before changing anything, state:
 
 - What is the bottleneck? (e.g. "repeated object allocation in the hot loop",
-  "O(n²) suffix scan", "redundant `Map` lookups")
+  "O(n²) suffix scan", "redundant map lookups")
 - What is the expected fix? (e.g. "hoist allocation outside loop", "use a
   two-pointer suffix scan", "cache the lookup result")
-- Why will this be faster?
+- Why will it be faster?
 
-If the bottleneck is unclear, read the hot function and its callers more
-carefully.
+# Focus areas
 
-## 4. Implement the optimization
+Sub-bullets are examples, not exhaustive lists.
 
-Apply the minimal change that addresses the bottleneck. Do not refactor
-unrelated code. Do not apply more than one optimization at a time.
-
-## 5. Run tests
-
-```sh
-pnpm test
-```
-
-Confirm nothing regressed before moving onto the next step.
-
-## 6. Verify
-
-Rerun the benchmark:
-
-```sh
-pnpm bench $ARGUMENTS 2>&1
-```
-
-Compare self time % for the targeted function(s) against the baseline.
-
-Report:
-
-- Before vs after for the hot function(s)
-- Whether any other functions moved significantly (regressions)
-
-If the improvement is negligible or unclear, revert and reconsider the
-hypothesis. Do not iterate blindly.
+- Time complexity: reduce the asymptotic work per input element
+  - Replace `O(n²)` scans with single-pass or two-pointer algorithms
+  - Use heaps for top-N instead of fully sorting
+  - Sort once and binary search instead of repeated linear scans
+- Redundant work: compute each result once
+  - Avoid parsing or computing the same data twice; cache or memoize repeated
+    lookups
+  - Hoist loop-invariant computation out of loops
+  - Build lookup tables once instead of searching repeatedly; intern repeated
+    values
+  - Update incrementally instead of recomputing from scratch
+  - Persist expensive results between invocations, keyed by input so stale
+    entries are never served
+- Work avoidance: skip or defer computation whose result may never be used
+  - Exit early once the answer is known
+  - Filter before expensive transforms, not after
+  - Order checks cheapest-first so expensive predicates run last and rarely
+  - Add fast paths for the common input shape
+  - Defer initialization and large dependency loading until first use,
+    especially on the startup critical path
+  - Debounce or throttle work triggered by bursty events
+- Data structure selection: match the structure to the access pattern
+  - Use sets/maps for membership and lookup instead of linear scans
+  - Use bitsets for dense boolean membership
+  - Use a ring buffer for FIFO access instead of shifting an array
+- Cache locality: lay out data so hot loops read memory sequentially
+  - Compressed sparse row (CSR) format
+  - Data-oriented design (struct-of-arrays, packed primitive arrays)
+  - Sparse arrays indexed by sequential IDs instead of integer-keyed hash maps
+  - Iterate in storage order (e.g. row-major for nested arrays)
+- Allocation and copying: allocate and copy less in hot paths
+  - Hoist allocations out of hot loops; reuse buffers instead of reallocating
+  - Preallocate arrays and buffers to their known final size instead of growing
+    incrementally
+  - Avoid intermediate collections from chained transforms; fuse them into one
+    pass
+  - Use views/slices over underlying data instead of copying; defer cloning
+    until mutation is needed
+- Memory footprint: hold and retain only what the computation needs
+  - Stream or process incrementally instead of materializing intermediates
+  - Bound caches (e.g. LRU); use weak references for object-keyed caches
+  - Remove listeners, timers, and subscriptions when done
+  - Avoid closures capturing large outer scopes; drop references held by
+    long-lived structures once they're no longer needed
+- String handling: minimize the strings created and scanned in hot paths
+  - Avoid repeated concatenation in loops
+  - Work with indices or char codes into the original string instead of creating
+    substrings
+  - Minimize serialization/deserialization round-trips
+  - Avoid regex in hot paths
+- Runtime friendliness: stay on the JIT's optimized fast paths
+  - Keep object shapes consistent (same fields, same initialization order)
+  - Avoid polymorphic call sites and mixed-type arrays in hot paths
+  - Keep numbers in the runtime's fast representations; avoid deoptimization
+    triggers in hot loops
+- I/O and queries: make fewer round-trips and move fewer bytes
+  - Read or write in large chunks instead of many small operations
+  - Eliminate N+1 patterns by coalescing small queries or requests into one
+    batch
+  - Push filtering, aggregation, and pagination down to the data store; add
+    indexes matching the hot query's predicates
+  - Compress or use binary encodings for large transfers; send only the fields
+    the consumer reads
+- Concurrency: use idle hardware for independent work
+  - Run independent async operations concurrently, bounded to what the awaited
+    resource can absorb
+  - Overlap I/O waits with computation instead of strictly sequencing them
+  - Split CPU-bound work across threads or processes; use SIMD where the
+    platform supports it
+- Contention and backpressure: keep concurrent parts from waiting on or
+  overwhelming each other
+  - Minimize time spent holding locks; shrink critical sections
+  - Shard or partition shared state; prefer immutable or thread-local data over
+    shared mutable state
+  - Bound queues so producers can't outrun consumers; shed or coalesce load when
+    the system is saturated
+- Precision trade-offs: do cheaper work that's good enough, only when the
+  consumer tolerates the difference
+  - Use approximate algorithms (sampling, sketches, bloom filters)
+  - Lower resolution or cap iteration counts when the output tolerance allows
+- Observability overhead: keep instrumentation cheap enough that it doesn't
+  distort the hot path
+  - Keep logging, tracing, and assertions out of hot loops
+  - Sample or gate expensive instrumentation behind flags
