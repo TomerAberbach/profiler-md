@@ -260,20 +260,24 @@ describe(`convert`, () => {
     const newClosure = {
       Change: `new`,
       Delta: `+64 B`,
-      Base: `0 B`,
-      Current: `64 B`,
+      '%': `0.0% → 15.2%`,
+      Retained: `0 B → 64 B`,
       Instances: `0 → 1`,
+      Paths: `0 → 1`,
       Name: `myFn`,
       Location: `src/a-222.ts:6:11`,
+      'Example path': `(GC root)`,
     }
     const removedClosure = {
       Change: `removed`,
       Delta: `-64 B`,
-      Base: `64 B`,
-      Current: `0 B`,
+      '%': `15.2% → 0.0%`,
+      Retained: `64 B → 0 B`,
       Instances: `1 → 0`,
+      Paths: `1 → 0`,
       Name: `myFn`,
       Location: `src/a-111.ts:6:11`,
+      'Example path': `(GC root)`,
     }
     expect(regressionsTables(unmatchedMd, `Largest closures`)).toEqual([
       [newClosure],

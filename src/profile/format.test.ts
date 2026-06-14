@@ -154,13 +154,18 @@ describe(`formatProfileDiff`, () => {
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
-    const tables = categoryTables(md)
-    expect(tables).toHaveLength(1)
-    expect(tables[0]![0]).toHaveProperty(`Category`)
-    expect(tables[0]![0]).toHaveProperty(`Base`)
-    expect(tables[0]![0]).toHaveProperty(`Current`)
-    expect(tables[0]![0]).toHaveProperty(`Delta`)
-    expect(tables[0]![0]).toHaveProperty(`Change`)
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `ours`,
+          Change: `+100.0%`,
+          Delta: `+0.1ms`,
+          '%': `100.0%`,
+          Time: `0.1ms → 0.2ms`,
+          Samples: `5 → 10`,
+        },
+      ],
+    ])
   })
 
   test(`lists regressions and progressions per direction`, () => {
@@ -212,16 +217,18 @@ describe(`formatProfileDiff`, () => {
       {
         Change: `+100.0%`,
         Delta: `+0.1ms`,
-        Base: `0.1ms`,
-        Current: `0.2ms`,
+        '%': `62.5% → 83.3%`,
+        Time: `0.1ms → 0.2ms`,
+        Samples: `5 → 10`,
         Function: `funcA`,
         Location: `src/a.ts:10`,
       },
       {
         Change: `new`,
         Delta: `+0ms`,
-        Base: `0ms`,
-        Current: `0ms`,
+        '%': `0.0% → 16.7%`,
+        Time: `0ms`,
+        Samples: `0 → 2`,
         Function: `funcC`,
         Location: `src/c.ts:30`,
       },
@@ -230,8 +237,9 @@ describe(`formatProfileDiff`, () => {
       {
         Change: `removed`,
         Delta: `-0.1ms`,
-        Base: `0.1ms`,
-        Current: `0ms`,
+        '%': `37.5% → 0.0%`,
+        Time: `0.1ms → 0ms`,
+        Samples: `3 → 0`,
         Function: `funcB`,
         Location: `src/b.ts:20`,
       },
@@ -299,16 +307,18 @@ describe(`formatProfileDiff`, () => {
         {
           Change: `+100.0%`,
           Delta: `+0.1ms`,
-          Base: `0.1ms`,
-          Current: `0.2ms`,
+          '%': `62.5% → 83.3%`,
+          Time: `0.1ms → 0.2ms`,
+          Samples: `5 → 10`,
           Function: `funcA`,
           Location: `src/a.ts:10`,
         },
         {
           Change: `new`,
           Delta: `+0ms`,
-          Base: `0ms`,
-          Current: `0ms`,
+          '%': `0.0% → 16.7%`,
+          Time: `0ms`,
+          Samples: `0 → 2`,
           Function: `funcC`,
           Location: `src/c.ts:30`,
         },
@@ -345,8 +355,9 @@ describe(`formatProfileDiff`, () => {
           Category: `ours`,
           Change: `0.0%`,
           Delta: `0ms`,
-          Base: `0.1ms`,
-          Current: `0.1ms`,
+          '%': `100.0%`,
+          Time: `0.1ms`,
+          Samples: `5`,
         },
       ],
     ])

@@ -55,3 +55,6 @@ export const formatConjunction = (strings: Iterable<string>): string =>
   })).format(strings)
 
 let conjunctionFormatter: Intl.ListFormat | undefined
+
+export const capitalizeFirst = (string: string): string =>
+  string.length === 0 ? string : string[0]!.toUpperCase() + string.slice(1)
