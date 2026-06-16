@@ -62,9 +62,10 @@ describe(`parse`, () => {
 
   test(`accepts a stackless sample with an empty stack before the count`, () => {
     // A line that is only a count (with the empty stack preceding the space)
-    // is a stackless sample rather than a line missing its count.
+    // is a stackless sample rather than a line missing its count. It carries no
+    // frames so the aggregator attributes it to an anonymous function.
     expect(parseCollapsed(makeCollapsed([` 42`])).stacks).toEqual([
-      { frames: [``], count: 42 },
+      { frames: [], count: 42 },
     ])
   })
 })

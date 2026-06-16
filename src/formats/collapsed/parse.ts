@@ -71,7 +71,12 @@ const parseCollapsedLine = (
   // Trim any extra separator whitespace so a count padded with multiple
   // spaces doesn't leave a trailing space on the leaf frame.
   const stack = line.slice(0, lastSpace).trimEnd()
-  return { frames: stack.split(`;`), count: Number(countText) }
+  // An empty stack is a stackless sample; pass no frames so the aggregator
+  // attributes it to an anonymous function (rather than a lone empty frame).
+  return {
+    frames: stack === `` ? [] : stack.split(`;`),
+    count: Number(countText),
+  }
 }
 
 export const parseFrame = (frame: string): CollapsedNode => {
