@@ -18,6 +18,7 @@ export type BuildOptionsFlags = {
   sourceMaps: readonly string[]
   match: readonly RegexReplacement[]
   thirdParty: readonly string[]
+  redact: boolean
 }
 
 export const buildOptions = async ({
@@ -26,6 +27,7 @@ export const buildOptions = async ({
   sourceMaps,
   match,
   thirdParty,
+  redact,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
   baseURL:
@@ -35,6 +37,7 @@ export const buildOptions = async ({
   sourceMaps: await loadSourceMaps(sourceMaps),
   matchEntry: buildMatchEntry(match),
   categorizeEntry: buildCategorizeEntry(thirdParty),
+  redact,
 })
 
 const buildMatchEntry = (

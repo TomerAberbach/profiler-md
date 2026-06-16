@@ -119,6 +119,24 @@ export const retainedSizeInstancesTables = (
   return allTablesAfterHeadingContaining(instancesUnder, name)
 }
 
+export const byStatusTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `By status`)
+
+export const byHostTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `By host`)
+
+export const byTypeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `By type`)
+
+export const slowestRequestsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `Slowest requests`)
+
+export const largestRequestsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `Largest requests`)
+
+export const pagesTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `Pages`)
+
 export const closureTables = (md: string): Table[] =>
   allTablesAfterHeading(parseAst(md), `Largest closures`)
 

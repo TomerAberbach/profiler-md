@@ -35,6 +35,7 @@ const fixtureSets = {
   binary: new Set<string>(),
   profile: new Set<string>(),
   snapshot: new Set<string>(),
+  'http-archive': new Set<string>(),
 }
 for (const { examples } of languages.values()) {
   for (const [format, formatExamples] of Object.entries(examples ?? {})) {
@@ -53,6 +54,10 @@ const jsonFixtures = [...fixtureSets.json]
 const binaryFixtures = [...fixtureSets.binary]
 const allFixtures = [...jsonFixtures, ...binaryFixtures]
 const snapshotFixtures = [...fixtureSets.snapshot]
+// HTTP archives don't support diffing, so they're excluded from diff tests.
+const diffableFixtures = allFixtures.filter(
+  filename => !fixtureSets[`http-archive`].has(filename),
+)
 
 describe(`profileToMd`, () => {
   describe.each(jsonFixtures)(`auto-detects %s`, filename => {
@@ -279,7 +284,7 @@ const currentHeapSnapshot = JSON.stringify(
 )
 
 describe(`diffProfiles`, () => {
-  test.each(allFixtures)(
+  test.each(diffableFixtures)(
     `auto-detects %s and produces zero deltas against itself`,
     filename => {
       const content = readFileSync(fixturePath(filename))
@@ -509,6 +514,14 @@ describe(`diffProfiles`, () => {
     expect(progressionsTables(md, `Self time`)).toEqual([])
   })
 
+  test(`throws a friendly error when diffing two HTTP archives`, () => {
+    const har = JSON.stringify({ log: { version: `1.2`, entries: [] } })
+
+    expect(() => diffProfiles(har, har, { baseURL: null })).toThrow(
+      /diffing HTTP archives is not supported/u,
+    )
+  })
+
   test.each(snapshotFixtures)(
     `throws on diffing node.base.cpuprofile against %s`,
     snapshotFilename => {
@@ -526,7 +539,7 @@ describe(`diffProfiles`, () => {
 })
 
 describe(`diffProfilesAsync`, () => {
-  test.each(allFixtures)(`diffs %s Blob inputs`, async filename => {
+  test.each(diffableFixtures)(`diffs %s Blob inputs`, async filename => {
     const content = readFileSync(fixturePath(filename))
 
     const md = await diffProfilesAsync(

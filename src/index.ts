@@ -25,3 +25,4 @@ export type {
 export { fileReferenceId } from './location.ts'
 export type { FileReference, SourceLocation } from './location.ts'
 export type { SourceMap } from './source-map.ts'
+export type { Redact, RedactableField } from './http-archive/redact.ts'

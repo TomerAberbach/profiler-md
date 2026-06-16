@@ -1,5 +1,7 @@
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
+import { normalizeRedact } from './http-archive/redact.ts'
+import type { NormalizedRedact, Redact } from './http-archive/redact.ts'
 import {
   fileReferenceId,
   fileReferencePath,
@@ -149,6 +151,17 @@ export type ProfileToMdOptions = {
    * Not showing an entry does not exclude it from metric computations.
    */
   showEntry?: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
+
+  /**
+   * Redaction of sensitive HTTP data (headers, cookies, query params, bodies)
+   * in HTTP archive (HAR) output.
+   *
+   * `true` (the default) uses the built-in wordlist; `false` disables all
+   * redaction. A function fully controls each field: return a string to
+   * substitute a custom value, `true` to redact with the standard marker, or
+   * `false` to keep the value.
+   */
+  redact?: Redact
 }
 
 /** {@link ProfileToMdOptions} with defaults applied. */
@@ -159,6 +172,7 @@ export type NormalizedProfileToMdOptions = {
   entryKey: (entry: ProfileEntry) => string
   categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => string
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
+  redact: NormalizedRedact
 }
 
 export const normalizeProfileToMdOptions = ({
@@ -168,6 +182,7 @@ export const normalizeProfileToMdOptions = ({
   matchEntry = defaultMatchEntry,
   categorizeEntry = defaultCategorizeEntry,
   showEntry = defaultShowEntry,
+  redact,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
   baseURL: normalizeBaseURL(baseURL),
@@ -175,6 +190,7 @@ export const normalizeProfileToMdOptions = ({
   entryKey: cacheEntryFunction(entry => entryKey(entry, matchEntry)),
   categorizeEntry: cacheEntryFunction(categorizeEntry),
   showEntry: cacheEntryFunction(showEntry),
+  redact: normalizeRedact(redact),
 })
 
 /** Returns an entry's full diff match key. */

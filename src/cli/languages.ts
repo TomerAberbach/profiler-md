@@ -116,6 +116,16 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       },
     },
   ],
+  [
+    `web`,
+    {
+      name: `Web`,
+      formats: [`har`],
+      examples: {
+        har: [{ filename: `chrome.har`, label: `Chrome` }],
+      },
+    },
+  ],
 ])
 
 export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(

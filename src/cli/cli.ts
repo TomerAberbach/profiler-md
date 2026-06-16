@@ -100,6 +100,12 @@ const parser = object({
     }),
     value => !value,
   ),
+  redact: map(
+    option(`--no-redact`, {
+      description: message`Disable redaction of sensitive HTTP data in HAR output (default: on)`,
+    }),
+    value => !value,
+  ),
   color: optional(
     or(
       flag(`--color`, {

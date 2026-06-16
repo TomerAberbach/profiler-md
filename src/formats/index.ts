@@ -1,5 +1,6 @@
 import { JumboJSON } from 'jumbo-json'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
+import { formatHttpArchive } from '../http-archive/index.ts'
 import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
@@ -25,6 +26,7 @@ import type {
   FormatConverter,
   JsonFormatConverter,
 } from './converter.ts'
+import { harConverter } from './har/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { pprofConverter } from './pprof/index.ts'
 import { speedscopeConverter } from './speedscope/index.ts'
@@ -222,6 +224,8 @@ export const formatAggregatedInputs = (
           return formatProfile(input, options)
         case `snapshot`:
           return formatHeapSnapshot(input, options)
+        case `http-archive`:
+          return formatHttpArchive(input, options)
       }
     })
     .join(`\n\n`)
@@ -247,6 +251,12 @@ const formatAggregatedDiff = (
   return base
     .map((baseInput, index) => {
       const currentInput = current[index]!
+      if (
+        baseInput.type === `http-archive` ||
+        currentInput.type === `http-archive`
+      ) {
+        throw new Error(`diffing HTTP archives is not supported`)
+      }
       if (baseInput.type === `profile` && currentInput.type === `profile`) {
         return formatProfileDiff(
           diffAggregatedProfiles(baseInput, currentInput, options),
@@ -268,6 +278,7 @@ const formatAggregatedDiff = (
 
 export const formats = [
   `collapsed`,
+  `har`,
   `jsc-heap-snapshot`,
   `pprof`,
   `speedscope`,
@@ -282,6 +293,7 @@ export type Format = (typeof formats)[number]
 
 export const formatConverters: Record<Format, FormatConverter<any>> = {
   collapsed: collapsedConverter,
+  har: harConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,

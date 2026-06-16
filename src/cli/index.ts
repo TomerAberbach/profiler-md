@@ -18,6 +18,7 @@ try {
     match,
     sourceMaps,
     pager,
+    redact,
     input,
   } = parseArgs()
   const [basePath, currentPath] =
@@ -39,6 +40,7 @@ try {
     thirdParty,
     match,
     sourceMaps,
+    redact,
   })
   let markdown
   if (currentPath === undefined) {

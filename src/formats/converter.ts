@@ -1,9 +1,13 @@
+import type { AggregatedHttpArchive } from '../http-archive/index.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type { AggregatedProfile } from '../profile/index.ts'
 import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
 
-/** The aggregated form of a profile or snapshot. */
-export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
+/** The aggregated form of a profile, snapshot, or HTTP archive. */
+export type AggregatedInput =
+  | AggregatedProfile
+  | AggregatedHeapSnapshot
+  | AggregatedHttpArchive
 
 type Aggregate<Parsed> = (
   parsed: Parsed,

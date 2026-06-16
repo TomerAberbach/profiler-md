@@ -63,6 +63,7 @@ it. Third-party tools can often convert others, though.
 | [Python](docs/languages/python.md)                                                      | [Collapsed stacks](docs/formats/collapsed.md) ([Tachyon](examples/python.base.collapsed.md), [Tachyon diff](examples/python.diff.collapsed.md))<br>[pprof](docs/formats/pprof.md)<br>[Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | [Ruby](docs/languages/ruby.md)                                                          | [Speedscope](docs/formats/speedscope.md)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | [Rust](docs/languages/rust.md)                                                          | [pprof](docs/formats/pprof.md) ([base](examples/rust.base.pprof.md), [diff](examples/rust.diff.pprof.md))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| [Web](docs/languages/web.md)                                                            | [HTTP archive](docs/formats/har.md) ([Chrome](examples/chrome.har.md))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 
 <!-- LANGUAGE_MATRIX END -->
 
@@ -84,8 +85,8 @@ $ npm i -g profiler-md
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
        [--top-n N] [--base-url STRING] [--source-maps GLOB...] [--match
-       REGEX=REPLACEMENT...] [--third-party GLOB...] [--no-pager] [(--color |
-       --no-color)] ([FILE] | BASE CURRENT)
+       REGEX=REPLACEMENT...] [--third-party GLOB...] [--no-pager] [--no-redact]
+       [(--color | --no-color)] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -103,6 +104,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   --third-party GLOB          Additional URLs or paths to consider third-party 
                               (repeatable)
   --no-pager                  Disable stdout output paging (default: auto)
+  --no-redact                 Disable redaction of sensitive HTTP data in HAR 
+                              output (default: on)
   --color                     Enable or disable ANSI syntax highlighting 
                               (default: auto)
   --no-color                
@@ -110,8 +113,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
-Formats: collapsed, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Languages: c, cpp, csharp, fsharp, elixir, erlang, go, java, kotlin, javascript, typescript, julia, php, python, ruby, rust
+Formats: collapsed, har, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Languages: c, cpp, csharp, fsharp, elixir, erlang, go, java, kotlin, javascript, typescript, julia, php, python, ruby, rust, web
 ```
 
 <!-- CLI_HELP END -->
