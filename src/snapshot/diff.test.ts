@@ -40,8 +40,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-200 B`,
-          Base: `200 B`,
-          Current: `0 B`,
+          '%': `100.0% → 0.0%`,
+          Size: `200 B → 0 B`,
           Instances: `2 → 0`,
           Constructor: `MyClass`,
         },
@@ -70,8 +70,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `new`,
           Delta: `+200 B`,
-          Base: `0 B`,
-          Current: `200 B`,
+          '%': `0.0% → 100.0%`,
+          Size: `0 B → 200 B`,
           Instances: `0 → 2`,
           Constructor: `MyClass`,
         },
@@ -112,8 +112,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `100.0%`,
+          Size: `100 B → 200 B`,
           Instances: `1 → 2`,
           Constructor: `MyClass`,
           Location: `src/b.ts:9:9`,
@@ -153,11 +153,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+200.0%`,
           Delta: `+200 B`,
-          Base: `100 B`,
-          Current: `300 B`,
+          '%': `156.3% → 234.4%`,
+          Retained: `100 B → 300 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `myFn`,
           Location: `src/a.ts:25:3`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -194,11 +196,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `new`,
           Delta: `+100 B`,
-          Base: `0 B`,
-          Current: `100 B`,
+          '%': `0.0% → 156.3%`,
+          Retained: `0 B → 100 B`,
           Instances: `0 → 1`,
+          Paths: `0 → 1`,
           Name: `myFn`,
           Location: `src/b.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -207,11 +211,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-100 B`,
-          Base: `100 B`,
-          Current: `0 B`,
+          '%': `156.3% → 0.0%`,
+          Retained: `100 B → 0 B`,
           Instances: `1 → 0`,
+          Paths: `1 → 0`,
           Name: `myFn`,
           Location: `src/a.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -247,11 +253,13 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `removed`,
           Delta: `-150 B`,
-          Base: `150 B`,
-          Current: `0 B`,
+          '%': `150.0% → 0.0%`,
+          Retained: `150 B → 0 B`,
           Instances: `3 → 0`,
+          Paths: `1 → 0`,
           Name: `myFn`,
           Location: `src/a.ts:5:10`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -285,10 +293,12 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `+100.0%`,
           Delta: `+100 B`,
-          Base: `100 B`,
-          Current: `200 B`,
+          '%': `156.3%`,
+          Retained: `100 B → 200 B`,
           Instances: `1`,
+          Paths: `1`,
           Name: `myFn`,
+          'Example path': `(GC root)`,
         },
       ],
     ])
@@ -316,10 +326,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         {
           Change: `-37.5%`,
           Delta: `-30 B`,
-          Base: `80 B`,
-          Current: `50 B`,
-          Instances: `2 → 1`,
+          '%': `7.4% → 100.0%`,
+          Size: `80 B → 50 B`,
           Value: `hello`,
+          Path: `(GC root)`,
         },
       ],
     ])
@@ -327,9 +337,11 @@ describe(`diffAggregatedHeapSnapshots`, () => {
 
   test(`reports a category present on one side only as new or removed`, () => {
     const base = makeAggregatedHeapSnapshot({
+      totalSize: 200,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
     })
     const current = makeAggregatedHeapSnapshot({
+      totalSize: 50,
       nodeCategoryToStats: new Map([[`string`, { size: 50, nodeCount: 1 }]]),
     })
 
@@ -342,16 +354,16 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Category: `string`,
           Change: `new`,
           Delta: `+50 B`,
-          Base: `0 B`,
-          Current: `50 B`,
+          '%': `0.0% → 100.0%`,
+          Size: `0 B → 50 B`,
           Nodes: `0 → 1`,
         },
         {
           Category: `object`,
           Change: `removed`,
           Delta: `-200 B`,
-          Base: `200 B`,
-          Current: `0 B`,
+          '%': `100.0% → 0.0%`,
+          Size: `200 B → 0 B`,
           Nodes: `2 → 0`,
         },
       ],

@@ -9,13 +9,16 @@ import type {
 } from './aggregate.ts'
 
 export const makeAggregatedHeapSnapshot = ({
-  totalSize = 0,
   nodeCount = 0,
   edgeCount = 0,
   nodeCategoryToStats = new Map<string, NodeCategoryStats>(),
   constructors = [],
   closures = [],
   strings = [],
+  totalSize = [...constructors, ...closures, ...strings].reduce(
+    (totalSize, node) => totalSize + node.selfSize,
+    0,
+  ),
 }: {
   totalSize?: number
   nodeCount?: number

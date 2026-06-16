@@ -346,6 +346,64 @@ export type AggregatedProfileCategoryMetrics = {
   values: Float64Array
 }
 
+/** An aggregation of samples taken at a given line within a function's body. */
+export type AggregatedProfileLineMetrics = {
+  /**
+   * The number of samples taken directly within the function's body at this
+   * line.
+   */
+  sampleCount: number
+
+  /**
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
+   * samples taken directly within the function's body at this line.
+   */
+  values: Float64Array
+}
+
+/**
+ * An aggregation of samples taken directly within a function's body with a
+ * given direct caller.
+ */
+export type AggregatedProfileCallerMetrics = {
+  /** The caller corresponding to the ID. */
+  caller: AggregatedProfileFunction
+
+  /**
+   * The number of samples taken directly within the function's body with this
+   * caller.
+   */
+  selfSampleCount: number
+
+  /**
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
+   * samples taken directly within the function's body with this caller.
+   */
+  selfValues: Float64Array
+}
+
+/**
+ * An aggregation of samples taken within a function's body, _and_ all its
+ * callees, with a given direct callee.
+ */
+export type AggregatedProfileCalleeMetrics = {
+  /** The callee corresponding to the ordinal. */
+  callee: AggregatedProfileFunction
+
+  /**
+   * The number of samples taken directly within the function's, _and_ all
+   * its callees, with this callee.
+   */
+  totalSampleCount: number
+
+  /**
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
+   * samples taken directly within the function's body, _and_ all its
+   * callees. with this callee.
+   */
+  totalValues: Float64Array
+}
+
 /**
  * An aggregation of data from every sample involving a given function within a
  * profile.
@@ -390,71 +448,19 @@ export type AggregatedProfileFunction = {
   totalValues: Float64Array
 
   /** 1-based line number to values and sample count for that line. */
-  lineToMetrics: Map<
-    number,
-    {
-      /**
-       * The number of samples taken directly within the function's body at this
-       * line.
-       */
-      sampleCount: number
-
-      /**
-       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
-       * samples taken directly within the function's body at this line.
-       */
-      values: Float64Array
-    }
-  >
+  lineToMetrics: Map<number, AggregatedProfileLineMetrics>
 
   /**
    * Direct caller id to values and sample count with that caller's calls to
    * this function.
    */
-  callerIdToMetrics: Map<
-    number,
-    {
-      /** The caller corresponding to the ID. */
-      caller: AggregatedProfileFunction
-
-      /**
-       * The number of samples taken directly within the function's body with
-       * this caller.
-       */
-      selfSampleCount: number
-
-      /**
-       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
-       * samples taken directly within the function's body with this caller.
-       */
-      selfValues: Float64Array
-    }
-  >
+  callerIdToMetrics: Map<number, AggregatedProfileCallerMetrics>
 
   /**
    * Direct callee id to values and sample count for that callee's calls where
    * this function was a direct or transitive caller.
    */
-  calleeIdToMetrics: Map<
-    number,
-    {
-      /** The callee corresponding to the ordinal. */
-      callee: AggregatedProfileFunction
-
-      /**
-       * The number of samples taken directly within the function's, _and_ all
-       * its callees, with this callee.
-       */
-      totalSampleCount: number
-
-      /**
-       * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
-       * samples taken directly within the function's body, _and_ all its
-       * callees. with this callee.
-       */
-      totalValues: Float64Array
-    }
-  >
+  calleeIdToMetrics: Map<number, AggregatedProfileCalleeMetrics>
 }
 
 /**
