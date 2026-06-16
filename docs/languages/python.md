@@ -9,11 +9,17 @@ profiler that attaches to a running process or wraps a script, and
 Periodically samples the call stack. Useful for finding CPU hot spots.
 
 ```sh
-# pprof format (wrap a script)
-py-spy record -f pprof -o cpu.pprof -- python script.py
+# Collapsed format (python 3.15+)
+python -m profiling.sampling run --collapsed -o cpu.collapsed script.py
 
-# pprof format (attach to a running process)
-py-spy record -f pprof -o cpu.pprof --pid <pid>
+# Collapsed format (wrap a script)
+py-spy record -f raw -o cpu.collapsed -- python script.py
+
+# Collapsed format (attach to a running process)
+py-spy record -f raw -o cpu.collapsed --pid <pid>
+
+# pprof format
+py-spy record -f pprof -o cpu.pprof -- python script.py
 
 # Speedscope format
 py-spy record -f speedscope -o profile.speedscope -- python script.py

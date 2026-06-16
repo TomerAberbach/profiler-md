@@ -11,6 +11,9 @@ Periodically samples the call stack. Useful for finding CPU hot spots.
 ### CLI
 
 ```sh
+# Attach to a running process (collapsed format)
+asprof -d 30 -f cpu.collapsed -o collapsed <pid>
+
 # Attach to a running process (pprof format)
 asprof -d 30 -f cpu.pprof <pid>
 
@@ -108,10 +111,10 @@ profiler.execute("stop");
 
 ## CLI flags
 
-| Flag                | Default | Description                                      |
-| ------------------- | ------- | ------------------------------------------------ |
-| `-d` / `--duration` | —       | Duration in seconds                              |
-| `-e` / `--event`    | `cpu`   | Event to profile: `cpu`, `wall`, `alloc`, `lock` |
-| `-f` / `--file`     | —       | Output file path                                 |
-| `-o` / `--output`   | `jfr`   | Output format: `jfr`, `pprof`, `speedscope`      |
-| `-i` / `--interval` | `10ms`  | Sampling interval (e.g. `-i 1ms` for 1000 Hz)    |
+| Flag                | Default | Description                                              |
+| ------------------- | ------- | -------------------------------------------------------- |
+| `-d` / `--duration` | —       | Duration in seconds                                      |
+| `-e` / `--event`    | `cpu`   | Event to profile: `cpu`, `wall`, `alloc`, `lock`         |
+| `-f` / `--file`     | —       | Output file path                                         |
+| `-o` / `--output`   | `jfr`   | Output format: `collapsed`, `jfr`, `pprof`, `speedscope` |
+| `-i` / `--interval` | `10ms`  | Sampling interval (e.g. `-i 1ms` for 1000 Hz)            |

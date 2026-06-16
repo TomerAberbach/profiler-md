@@ -11,6 +11,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
   readonly #options: NormalizedProfileToMdOptions
 
   #totalSampleCount: number
+  #sampleEpoch: number
   readonly #totalValues: Float64Array
   readonly #categoryToMetrics: Map<
     string,
@@ -20,7 +21,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
   readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
   readonly #keyToFunction: Map<number | string, AggregatedProfileFunction>
   readonly #idToFunction: AggregatedProfileFunction[]
-  readonly #functionIdToLastSeenSampleCount: DynamicTypedArray<Uint32Array>
+  readonly #functionIdToLastSeenEpoch: DynamicTypedArray<Uint32Array>
   readonly #frameIndexToFramePairKey: DynamicTypedArray<Int32Array>
 
   public constructor(
@@ -49,21 +50,32 @@ export class ProfileAggregator<Node extends { id?: number }> {
     this.#options = options
 
     this.#totalSampleCount = 0
+    this.#sampleEpoch = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
     this.#categoryToMetrics = new Map()
 
     this.#keyToCallStack = new Map()
     this.#keyToFunction = new Map()
     this.#idToFunction = []
-    this.#functionIdToLastSeenSampleCount = new DynamicTypedArray(
-      new Uint32Array(1),
-    )
+    this.#functionIdToLastSeenEpoch = new DynamicTypedArray(new Uint32Array(1))
     this.#frameIndexToFramePairKey = new DynamicTypedArray(new Int32Array(64))
   }
 
-  /** Adds a single profile sample. */
-  public addSample({ values, nodes, line }: Sample<Node>): void {
-    if (nodes.length === 0) {
+  /**
+   * Adds {@link Sample.sampleCount} occurrences (default `1`) of a profile
+   * sample.
+   *
+   * Passing a count is equivalent to calling this once per occurrence, but runs
+   * in time independent of the count. Pre-aggregated formats use it to avoid a
+   * per-occurrence loop.
+   */
+  public addSample({
+    values,
+    nodes,
+    line,
+    sampleCount = 1,
+  }: Sample<Node>): void {
+    if (nodes.length === 0 || sampleCount <= 0) {
       return
     }
 
@@ -105,42 +117,46 @@ export class ProfileAggregator<Node extends { id?: number }> {
       }
     }
 
-    this.#totalSampleCount++
-    categoryMetrics.sampleCount++
-    callStack.selfSampleCount++
-    callee.selfSampleCount++
+    this.#totalSampleCount += sampleCount
+    categoryMetrics.sampleCount += sampleCount
+    callStack.selfSampleCount += sampleCount
+    callee.selfSampleCount += sampleCount
     if (callerMetrics) {
-      callerMetrics.selfSampleCount++
+      callerMetrics.selfSampleCount += sampleCount
     }
     if (lineMetrics) {
-      lineMetrics.sampleCount++
+      lineMetrics.sampleCount += sampleCount
     }
 
     for (let i = 0; i < values.length; i++) {
-      this.#totalValues[i]! += values[i]!
-      categoryMetrics.values[i]! += values[i]!
-      callStack.selfValues[i]! += values[i]!
-      callee.selfValues[i]! += values[i]!
+      const value = values[i]! * sampleCount
+      this.#totalValues[i]! += value
+      categoryMetrics.values[i]! += value
+      callStack.selfValues[i]! += value
+      callee.selfValues[i]! += value
       if (callerMetrics) {
-        callerMetrics.selfValues[i]! += values[i]!
+        callerMetrics.selfValues[i]! += value
       }
       if (lineMetrics) {
-        lineMetrics.values[i]! += values[i]!
+        lineMetrics.values[i]! += value
       }
     }
 
+    // A per-call epoch, decoupled from the sample count, deduplicates functions
+    // that recur within a single call stack so their totals count it just once.
+    const epoch = ++this.#sampleEpoch
     const funcCount = this.#keyToFunction.size
-    const functionIdToLastSeenSampleCount =
-      this.#functionIdToLastSeenSampleCount.ensureCapacity(funcCount)
+    const functionIdToLastSeenEpoch =
+      this.#functionIdToLastSeenEpoch.ensureCapacity(funcCount)
     for (const func of callStack.frames) {
-      if (functionIdToLastSeenSampleCount[func.id] === this.#totalSampleCount) {
+      if (functionIdToLastSeenEpoch[func.id] === epoch) {
         continue
       }
-      functionIdToLastSeenSampleCount[func.id] = this.#totalSampleCount
+      functionIdToLastSeenEpoch[func.id] = epoch
 
-      func.totalSampleCount++
+      func.totalSampleCount += sampleCount
       for (let i = 0; i < values.length; i++) {
-        func.totalValues[i]! += values[i]!
+        func.totalValues[i]! += values[i]! * sampleCount
       }
     }
 
@@ -174,9 +190,9 @@ export class ProfileAggregator<Node extends { id?: number }> {
         }
         caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
       }
-      calleeMetrics.totalSampleCount++
+      calleeMetrics.totalSampleCount += sampleCount
       for (let i = 0; i < values.length; i++) {
-        calleeMetrics.totalValues[i]! += values[i]!
+        calleeMetrics.totalValues[i]! += values[i]! * sampleCount
       }
     }
   }
@@ -329,6 +345,15 @@ export type Sample<Node extends { id?: number }> = {
 
   /** The 1-based line number where the sample was taken, if known. */
   line?: number
+
+  /**
+   * The number of identical occurrences of this sample, defaulting to `1`.
+   *
+   * Used by pre-aggregated formats to add a summed count in one call instead of
+   * looping. Metric {@link Sample.values} are scaled by it, so per-occurrence
+   * callers should leave it `1` and pass per-occurrence values.
+   */
+  sampleCount?: number
 }
 
 /**

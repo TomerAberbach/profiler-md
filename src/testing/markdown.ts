@@ -55,6 +55,12 @@ export const selfTimeTables = (md: string): Table[] =>
 export const totalTimeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseAst(md), `Total time`)
 
+export const selfSamplesTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `Self samples`)
+
+export const totalSamplesTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseAst(md), `Total samples`)
+
 export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseAst(md), `Hottest call stacks`)
 

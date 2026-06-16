@@ -66,7 +66,7 @@ profiler-md
 │   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
 │
 ├── docs/
-│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
+│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`). Some are aliases using symlinks
 │   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
 │
 ├── scripts/                  # Bash and TypeScript scripts
