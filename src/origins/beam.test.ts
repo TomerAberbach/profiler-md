@@ -16,14 +16,14 @@ const named = (name: string): ProfileEntry => ({ id: 1, name })
 describe(`normalizeFrame`, () => {
   test(`lifts an Elixir module out of the name as the location`, () => {
     expect(normalizeFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
-      name: `Elixir.Jason:encode!/1`,
+      name: `encode!/1`,
       location: { urlOrPath: `Elixir.Jason` },
     })
   })
 
   test(`lifts an Erlang module out of the name as the location`, () => {
     expect(normalizeFrame({ name: `lists:reverse/1` })).toEqual({
-      name: `lists:reverse/1`,
+      name: `reverse/1`,
       location: { urlOrPath: `lists` },
     })
   })
@@ -32,7 +32,7 @@ describe(`normalizeFrame`, () => {
     expect(
       normalizeFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
     ).toEqual({
-      name: `json:-do_encode_map/2-lc$^0/1-0-/2`,
+      name: `-do_encode_map/2-lc$^0/1-0-/2`,
       location: { urlOrPath: `json` },
     })
   })
