@@ -40,8 +40,8 @@ defer pprof.StopCPUProfile()
 
 Heap profiles come in two variants:
 
-- **heap** (`inuse_space` / `inuse_objects`): live allocations at the time of
-  the time of each sample; useful for finding memory leaks
+- **heap** (`inuse_space` / `inuse_objects`): live allocations at each sample;
+  useful for finding memory leaks
 - **allocs** (`alloc_space` / `alloc_objects`): all allocations since program
   start; useful for finding allocation hot spots
 
@@ -87,8 +87,8 @@ pprof.Lookup("allocs").WriteTo(f, 0)
 
 ## Goroutine profiling
 
-Captures the stack traces of all current goroutines. Useful for diagnosing
-goroutine leaks or deadlocks.
+Captures stack traces of all current goroutines. Useful for diagnosing goroutine
+leaks or deadlocks.
 
 ### CLI
 
@@ -170,8 +170,8 @@ pprof.Lookup("mutex").WriteTo(f, 0)
 
 ## Thread creation profiling
 
-Captures stack traces that led to the creation of new OS threads. Useful for
-diagnosing unexpected thread proliferation.
+Captures stack traces that create new OS threads. Useful for diagnosing
+unexpected thread proliferation.
 
 ### CLI
 
@@ -185,3 +185,8 @@ curl -o threadcreate.pprof 'http://localhost:6060/debug/pprof/threadcreate'
 f, _ := os.Create("threadcreate.pprof")
 pprof.Lookup("threadcreate").WriteTo(f, 0)
 ```
+
+## Tips
+
+Build with `-trimpath` (e.g. `go test -trimpath ...`) so locations are
+package-relative (`encoding/json/encode.go`) instead of absolute build paths.
