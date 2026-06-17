@@ -54,6 +54,13 @@ const binaryFixtures = [...fixtureSets.binary]
 const allFixtures = [...jsonFixtures, ...binaryFixtures]
 const snapshotFixtures = [...fixtureSets.snapshot]
 
+// A valid Speedscope file that carries no profiles, so it aggregates to nothing.
+const emptyProfile = JSON.stringify({
+  $schema: `https://www.speedscope.app/file-format-schema.json`,
+  shared: { frames: [] },
+  profiles: [],
+})
+
 describe(`profileToMd`, () => {
   describe.each(jsonFixtures)(`auto-detects %s`, filename => {
     const content = readFileSync(fixturePath(filename))
@@ -102,6 +109,12 @@ describe(`profileToMd`, () => {
     )
 
     expect(forced).toBe(auto)
+  })
+
+  test(`reports when there is no profiling data`, () => {
+    const md = profileToMd(emptyProfile, { baseURL: null })
+
+    expect(md).toBe(`No profiling data found.`)
   })
 
   test(`throws on unknown data`, () => {
@@ -528,6 +541,12 @@ describe(`diffProfiles`, () => {
       ],
     ])
     expect(progressionsTables(md, `Self time`)).toEqual([])
+  })
+
+  test(`reports when there is no profiling data`, () => {
+    const md = diffProfiles(emptyProfile, emptyProfile, { baseURL: null })
+
+    expect(md).toBe(`No profiling data found.`)
   })
 
   test.each(snapshotFixtures)(
