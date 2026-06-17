@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
+  selfObjectsTables,
   selfSamplesTables,
   selfTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
@@ -292,6 +293,54 @@ describe(`convert`, () => {
           Size: `3 KiB`,
           Objects: `2`,
           Function: `allocate`,
+          Location: `com.example.A`,
+        },
+      ],
+    ])
+  })
+
+  test(`live-object samples without a size rank by object count`, () => {
+    // `jdk.OldObjectSample` gained `objectSize` in JDK 21. An older recording
+    // records which objects were live but not their sizes, so its profile has
+    // no size column instead of a byte per object.
+    const bytes = makeJfr({
+      methods: [
+        { name: `allocate`, className: `com.example.A` },
+        { name: `run`, className: `com.example.A` },
+      ],
+      stackTraces: [
+        {
+          frames: [
+            { method: 0, line: 7 },
+            { method: 1, line: 3 },
+          ],
+        },
+        { frames: [{ method: 1, line: 3 }] },
+      ],
+      events: [
+        { type: `live`, stack: 0 },
+        { type: `live`, stack: 0 },
+        { type: `live`, stack: 1 },
+      ],
+      unweightedEventTypes: [`live`],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(profileTitles(md)).toEqual([`Object profile`])
+    expect(summaryLines(md)).toEqual([`Recorded 3 objects.`])
+    expect(selfObjectsTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Objects: `2`,
+          Function: `allocate`,
+          Location: `com.example.A`,
+        },
+        {
+          '%': `33.3%`,
+          Objects: `1`,
+          Function: `run`,
           Location: `com.example.A`,
         },
       ],

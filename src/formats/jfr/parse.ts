@@ -108,6 +108,14 @@ type Jfr = {
    * when the sampled stacks are pure Java frames.
    */
   isAsyncProfiler: boolean
+
+  /**
+   * The weighted kinds whose events lack their weight field in some chunk, so
+   * their profiles rank by count alone. Older JDKs write such layouts:
+   * `jdk.OldObjectSample` gained `objectSize` in JDK 21, so a JDK 17 recording
+   * records which objects were live but not how large they were.
+   */
+  unweightedKinds: Set<JfrSampleKind>
 }
 
 /**
@@ -217,6 +225,7 @@ const jfrToProfiles = ({
   stackTraces,
   events,
   isAsyncProfiler,
+  unweightedKinds,
 }: Jfr): CallStackProfile[] => {
   // Methods are a dense table whose index is the method id, shared across every
   // kind's profile as its distinct frames.
@@ -228,11 +237,12 @@ const jfrToProfiles = ({
   // profile per kind that's present (all sharing `frames`), like multi-metric
   // pprof.
   const profiles: CallStackProfile[] = []
-  for (const { kind, metric, countMetric } of KINDS) {
+  for (const { kind, metric: kindMetric, countMetric } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
     }
+    const metric = unweightedKinds.has(kind) ? undefined : kindMetric
     profiles.push({
       type: `call-stack-profile`,
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
@@ -498,6 +508,7 @@ class JfrParser {
   readonly #tlabEvents: JfrSampleEvent[] = []
 
   #hasSampledAlloc = false
+  readonly #unweightedKinds = new Set<JfrSampleKind>()
 
   /**
    * Parses one self-contained chunk, accumulating its methods, stacks, and
@@ -529,6 +540,7 @@ class JfrParser {
       stackTraces: this.#stackInterner.items,
       events: this.#finalizeEvents(),
       isAsyncProfiler: this.#isAsyncProfiler,
+      unweightedKinds: this.#unweightedKinds,
     }
   }
 
@@ -790,13 +802,26 @@ class JfrParser {
 
   // Events
 
-  /** Maps this chunk's type IDs to their supported event kinds, skipping absent event types. */
+  /**
+   * Maps this chunk's type IDs to their supported event kinds, skipping absent
+   * event types. An event type declared without its kind's weight field, as an
+   * older JDK writes it, marks the kind unweighted so its profile ranks by
+   * count instead of by a weight no event recorded.
+   */
   #eventKinds(): Map<number, EventKind> {
     const eventKinds = new Map<number, EventKind>()
     for (const [name, eventKind] of EVENT_KINDS_BY_NAME) {
       const id = this.#typeIdsByName.get(name)
-      if (id !== undefined) {
-        eventKinds.set(id, eventKind)
+      if (id === undefined) {
+        continue
+      }
+      eventKinds.set(id, eventKind)
+      const { kind, weightField } = eventKind
+      if (
+        weightField !== undefined &&
+        !this.#types.get(id)!.fields.some(field => field.name === weightField)
+      ) {
+        this.#unweightedKinds.add(kind)
       }
     }
     return eventKinds
