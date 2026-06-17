@@ -21,14 +21,14 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | 1.0% |     875 | `collectClusters(int[])`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 | 0.6% |     549 | `computeIfAbsent(Object, Function)`  | java.util.HashMap                                                                   |
 | 0.4% |     345 | `vectorSum()`                        | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-| 0.3% |     234 | `zero_blocks()`                      | `<unknown>`                                                                         |
+| 0.3% |     234 | `zero_blocks`                        | `<unknown>`                                                                         |
 | 0.0% |      18 | `lambda$merge$7(Map, Object, List)`  | org.renaissance.jdk.concurrent.JavaKMeans                                           |
 | 0.0% |      15 | `merge(Object, Object, BiFunction)`  | java.util.HashMap                                                                   |
 | 0.0% |       9 | `compute()`                          | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                                |
 | 0.0% |       9 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 | 0.0% |       6 | `apply(Object)`                      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38 |
 | 0.0% |       6 | `add(double[], double[])`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-| 0.0% |       6 | `vtable stub()`                      | `<unknown>`                                                                         |
+| 0.0% |       6 | `vtable stub`                        | `<unknown>`                                                                         |
 | 0.0% |       5 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 | 0.0% |       4 | `join()`                             | java.util.concurrent.ForkJoinTask                                                   |
 | 0.0% |       4 | `forkThreshold()`                    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
@@ -191,7 +191,7 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | -----: | ------: | ------------------- | ------------------------------------------------------- |
 | 100.0% |     345 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
-##### `zero_blocks()` (`<unknown>`)
+##### `zero_blocks` (`<unknown>`)
 
 |     % | Samples | Caller                              | Location                                                 |
 | ----: | ------: | ----------------------------------- | -------------------------------------------------------- |
@@ -228,7 +228,7 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | -----: | ------: | ------------------------------------ | ------------------------------------------------------- |
 | 100.0% |       6 | `combineResults(double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
-##### `vtable stub()` (`<unknown>`)
+##### `vtable stub` (`<unknown>`)
 
 |     % | Samples | Caller      | Location                                             |
 | ----: | ------: | ----------- | ---------------------------------------------------- |
@@ -284,15 +284,15 @@ Functions ranked by total samples taken in the function and all its callees.
 |  6.2% |   5,302 | `vectorSum()`                                                                                                          | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
 |  5.8% |   4,957 | `accumulate(Double[], double[])`                                                                                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
 |  4.8% |   4,098 | `findNearestCentroid()`                                                                                                | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  4.6% |   3,930 | `main()`                                                                                                               | java                                                                 |
+|  4.6% |   3,930 | `main`                                                                                                                 | java                                                                 |
 |  3.4% |   2,962 | `computeClusterAverages()`                                                                                             | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
 |  3.4% |   2,962 | `computeDirectly()`                                                                                                    | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
 |  3.4% |   2,955 | `average(List)`                                                                                                        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
 |  3.0% |   2,551 | `distance(Double[], Double[])`                                                                                         | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
 |  2.3% |   2,019 | `collectClusters(int[])`                                                                                               | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  2.3% |   1,965 | `__CFRunLoopServiceMachPort()`                                                                                         | CoreFoundation                                                       |
-|  2.3% |   1,965 | `__CFRunLoopRun()`                                                                                                     | CoreFoundation                                                       |
-|  2.3% |   1,965 | `CFRunLoopRunSpecific()`                                                                                               | CoreFoundation                                                       |
+|  2.3% |   1,965 | `__CFRunLoopServiceMachPort`                                                                                           | CoreFoundation                                                       |
+|  2.3% |   1,965 | `__CFRunLoopRun`                                                                                                       | CoreFoundation                                                       |
+|  2.3% |   1,965 | `CFRunLoopRunSpecific`                                                                                                 | CoreFoundation                                                       |
 |  2.3% |   1,964 | `executeOperation(int)`                                                                                                | org.renaissance.harness.ExecutionDriver                              |
 |  2.3% |   1,964 | `executeBenchmark()`                                                                                                   | org.renaissance.harness.ExecutionDriver                              |
 |  2.3% |   1,964 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$                            |
@@ -314,9 +314,9 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 ##### `join()` (java.util.concurrent.ForkJoinTask)
 
-|    % | Samples | Callee          | Location    |
-| ---: | ------: | --------------- | ----------- |
-| 0.0% |       2 | `vtable stub()` | `<unknown>` |
+|    % | Samples | Callee        | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 0.0% |       2 | `vtable stub` | `<unknown>` |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -344,7 +344,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |     % | Samples | Callee                         | Location                                                 |
 | ----: | ------: | ------------------------------ | -------------------------------------------------------- |
 | 62.2% |   2,551 | `distance(Double[], Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-|  0.5% |      19 | `zero_blocks()`                | `<unknown>`                                              |
+|  0.5% |      19 | `zero_blocks`                  | `<unknown>`                                              |
 
 ##### `computeClusterAverages()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
 
@@ -372,17 +372,17 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 | ----: | ------: | ----------------------------------- | ----------------- |
 | 27.9% |     563 | `computeIfAbsent(Object, Function)` | java.util.HashMap |
 
-##### `__CFRunLoopRun()` (CoreFoundation)
+##### `__CFRunLoopRun` (CoreFoundation)
 
-|      % | Samples | Callee                         | Location       |
-| -----: | ------: | ------------------------------ | -------------- |
-| 100.0% |   1,965 | `__CFRunLoopServiceMachPort()` | CoreFoundation |
+|      % | Samples | Callee                       | Location       |
+| -----: | ------: | ---------------------------- | -------------- |
+| 100.0% |   1,965 | `__CFRunLoopServiceMachPort` | CoreFoundation |
 
-##### `CFRunLoopRunSpecific()` (CoreFoundation)
+##### `CFRunLoopRunSpecific` (CoreFoundation)
 
-|      % | Samples | Callee             | Location       |
-| -----: | ------: | ------------------ | -------------- |
-| 100.0% |   1,965 | `__CFRunLoopRun()` | CoreFoundation |
+|      % | Samples | Callee           | Location       |
+| -----: | ------: | ---------------- | -------------- |
+| 100.0% |   1,965 | `__CFRunLoopRun` | CoreFoundation |
 
 ##### `executeOperation(int)` (org.renaissance.harness.ExecutionDriver)
 
@@ -416,7 +416,7 @@ Call stacks ranked by samples taken in their leaf frame.
 
 |    % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ---: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.3% |   1,965 | `__CFRunLoopServiceMachPort()` (CoreFoundation) ← `__CFRunLoopRun()` ← `CFRunLoopRunSpecific()` ← `main()` (java)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 2.3% |   1,965 | `__CFRunLoopServiceMachPort` (CoreFoundation) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `main` (java)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 2.2% |   1,938 | `run(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `$anonfun$2(int)` (org.renaissance.jdk.concurrent.FjKmeans) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000f8011a1de8) ← `map(Function1)` (scala.collection.immutable.Range) ← `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeOperation(int)` (org.renaissance.harness.ExecutionDriver) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000f80111ebb8) ← `apply(Object)` (scala.runtime.function.JProcedure1) ← `apply(Object)` ← `foreach(Function1)` (scala.collection.immutable.List) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` ← `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                       |
 | 2.0% |   1,746 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | 0.8% |     675 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |

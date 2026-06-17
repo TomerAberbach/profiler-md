@@ -1225,11 +1225,18 @@ const classNameToSource = (internalName: string): string =>
  * descriptor `(Ljava/lang/Object;[Ljava/lang/Object;I)V` becomes
  * `add(Object, Object[], int)`. Generics are erased in descriptors, so type
  * parameters surface as their erasure (`Object`). The bare name is returned
- * unchanged when the descriptor is absent or unparseable.
+ * unchanged when the descriptor is absent or unparseable, including
+ * async-profiler's `()L;` sentinel for non-Java frames (runtime stubs, native
+ * functions), whose names aren't method names to append `()` to.
  */
 const methodDisplayName = (name: string, descriptor: string): string => {
   const close = descriptor.indexOf(`)`)
-  if (name === `` || !descriptor.startsWith(`(`) || close === -1) {
+  if (
+    name === `` ||
+    !descriptor.startsWith(`(`) ||
+    close === -1 ||
+    descriptor === `()L;`
+  ) {
     return name
   }
   return `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
