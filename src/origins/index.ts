@@ -8,6 +8,7 @@ import type {
   UnresolvedProfileToMdContext,
 } from '../options.ts'
 import type { ProfileStackFrame } from '../profile/type.ts'
+import { beamOriginSpec } from './beam.ts'
 import { bunOriginSpec } from './bun.ts'
 import { denoOriginSpec } from './deno.ts'
 import { jvmOriginSpec } from './jvm.ts'
@@ -207,6 +208,7 @@ const originSpecs = [
   pySpyOriginSpec,
   tachyonOriginSpec,
   jvmOriginSpec,
+  beamOriginSpec,
   safariOriginSpec,
   unknownOriginSpec,
 ]
