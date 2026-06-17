@@ -27,6 +27,22 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       aliases: [{ id: `cpp`, name: `C++` }],
     },
   ],
+  [
+    `csharp`,
+    {
+      name: `C#`,
+      formats: [`speedscope`],
+      aliases: [{ id: `fsharp`, name: `F#` }],
+    },
+  ],
+  [
+    `elixir`,
+    {
+      name: `Elixir`,
+      formats: [`collapsed`],
+      aliases: [{ id: `erlang`, name: `Erlang` }],
+    },
+  ],
   [`go`, { name: `Go`, formats: [`pprof`] }],
   [
     `java`,
@@ -43,7 +59,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       formats: [
         `jsc-heap-snapshot`,
         `pprof`,
-        `speedscope`,
         `v8-cpu-profile`,
         `v8-heap-profile`,
         `v8-heap-snapshot`,
@@ -55,7 +70,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
           { filename: `jsc-heap-snapshot.diff.json`, label: `Safari diff` },
         ],
         pprof: [{ filename: `node.pprof`, label: `Node.js` }],
-        speedscope: [{ filename: `node.speedscope.json`, label: `Node.js` }],
         'v8-cpu-profile': [
           { filename: `node.base.cpuprofile`, label: `Node.js` },
           { filename: `node.diff.cpuprofile`, label: `Node.js diff` },
@@ -73,6 +87,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       aliases: [{ id: `typescript`, name: `TypeScript` }],
     },
   ],
+  [`julia`, { name: `Julia`, formats: [`pprof`] }],
   [`php`, { name: `PHP`, formats: [`speedscope`] }],
   [
     `python`,
@@ -92,7 +107,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `rust`,
     {
       name: `Rust`,
-      formats: [`pprof`, `speedscope`],
+      formats: [`pprof`],
       examples: {
         pprof: [
           { filename: `rust.base.pprof`, label: `base` },
