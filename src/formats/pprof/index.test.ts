@@ -24,8 +24,37 @@ describe(`parse and matches`, () => {
     expect(pprofConverter.matches(data)).toBe(true)
   })
 
+  test.each([
+    // `time_nanos` (field 9, varint) set to 1.
+    { field: `time_nanos`, fieldBytes: [0x48, 0x01] },
+    // Empty `period_type` (field 11, length-delimited).
+    { field: `period_type`, fieldBytes: [0x5a, 0x00] },
+  ])(
+    `accepts a pprof leading with $field instead of sample_type`,
+    ({ fieldBytes }) => {
+      // Encoders may emit fields in any order. Go's runtime/pprof leads with
+      // `time_nanos` or `period_type` rather than `sample_type`.
+      const data = makePprof({
+        functions: [
+          { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+        ],
+        locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+        samples: [{ locationIds: [1], values: [100_000] }],
+      })
+      const reordered = new Uint8Array([...fieldBytes, ...data])
+
+      expect(pprofConverter.matches(reordered)).toBe(true)
+    },
+  )
+
   test(`rejects empty data`, () => {
     expect(pprofConverter.matches(new Uint8Array())).toBe(false)
+  })
+
+  test(`rejects data not leading with a Profile field tag`, () => {
+    expect(pprofConverter.matches(new Uint8Array([0xff, 0xfe, 0xfd]))).toBe(
+      false,
+    )
   })
 
   test(`rejects invalid binary data`, () => {
