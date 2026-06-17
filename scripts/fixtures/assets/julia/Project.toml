@@ -1,0 +1,9 @@
+[deps]
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+PProf = "e4faabce-9ead-11e9-39d9-4379958e3056"
+Profile = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
+
+[compat]
+JSON3 = "=1.14.0"
+PProf = "=3.1.0"
+julia = "1.10"
