@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
+  callStackTables,
   categoryTables,
   profileTitles,
   progressionsTables,
@@ -9,8 +10,8 @@ import {
 } from '../testing/markdown.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
-import { formatProfileDiff } from './format.ts'
-import { MEGABYTES, MICROSECONDS } from './metric.ts'
+import { formatProfile, formatProfileDiff } from './format.ts'
+import { determineMetric, MEGABYTES, MICROSECONDS } from './metric.ts'
 import type { Metric } from './metric.ts'
 
 const makeProfile = (
@@ -21,6 +22,8 @@ const makeProfile = (
     line?: number
     sampleCount: number
     values: number[]
+    /** Leaf-to-caller frame indices of each sample; defaults to the function alone. */
+    stack?: number[]
   }[],
 ) => {
   const options = normalizeProfileToMdOptions({ baseURL: `/project` })
@@ -38,9 +41,11 @@ const makeProfile = (
   )
 
   for (const [index, func] of functions.entries()) {
-    const values = func.values.map(value => value / func.sampleCount)
     for (let i = 0; i < func.sampleCount; i++) {
-      aggregator.addSample({ values, frameIndices: [index] })
+      aggregator.addSample({
+        values: func.values.map(value => value / func.sampleCount),
+        frameIndices: func.stack ?? [index],
+      })
     }
   }
 
@@ -48,6 +53,96 @@ const makeProfile = (
 }
 
 const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+
+/** The gperftools in-use metric, all zeros when nothing was live at dump time. */
+const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
+
+describe(`formatProfile`, () => {
+  test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `hotLeaf`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [300],
+          stack: [0, 1],
+        },
+        {
+          name: `hotCaller`,
+          url: `file:///project/src/b.ts`,
+          sampleCount: 0,
+          values: [0],
+        },
+        {
+          name: `coldLeaf`,
+          url: `file:///project/src/c.ts`,
+          sampleCount: 5,
+          values: [0],
+          stack: [2, 3],
+        },
+        {
+          name: `coldCaller`,
+          url: `file:///project/src/d.ts`,
+          sampleCount: 0,
+          values: [0],
+        },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `hotLeaf (src/a.ts) ← hotCaller (src/b.ts)`,
+        },
+      ],
+    ])
+  })
+
+  test(`notes a metric with no recorded values in place of its sections`, () => {
+    const profile = makeProfile(
+      [MICROSECONDS, RETAINED_BYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [300, 0],
+        },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(md).toMatch(/^## CPU$/mu)
+    expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
+  })
+
+  test(`notes a single metric with no recorded values in place of all sections`, () => {
+    const profile = makeProfile(
+      [RETAINED_BYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [0],
+        },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(md).toContain(`No bytes retained in any sample.`)
+    expect(md).not.toContain(`Hottest`)
+  })
+})
 
 describe(`formatProfileDiff`, () => {
   test(`produces expected title`, () => {
@@ -429,5 +524,63 @@ describe(`formatProfileDiff`, () => {
     expect(md).toContain(
       `No function differed in total bytes allocated in the function and all its callees.`,
     )
+  })
+
+  test(`notes a metric with no recorded values on either side in place of its sections`, () => {
+    const base = makeProfile(
+      [MICROSECONDS, RETAINED_BYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [100, 0],
+        },
+      ],
+    )
+    const current = makeProfile(
+      [MICROSECONDS, RETAINED_BYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [200, 0],
+        },
+      ],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const md = formatProfileDiff(diff, defaultOptions)
+
+    expect(md).toMatch(/^## CPU$/mu)
+    expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
+    expect(md).not.toContain(`No function differed in bytes retained`)
+  })
+
+  test(`omits a metric's heading when hidden entries leave it without sections`, () => {
+    const profile = makeProfile(
+      [MICROSECONDS, MEGABYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          sampleCount: 5,
+          values: [100, 100],
+        },
+      ],
+    )
+    // Hiding the only function leaves nothing active for either metric, so
+    // neither metric heading should dangle without sections under it.
+    const options = normalizeProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `funcA`,
+    })
+
+    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
+    const md = formatProfileDiff(diff, options)
+
+    expect(md).not.toMatch(/^## CPU$/mu)
+    expect(md).not.toMatch(/^## Heap$/mu)
   })
 })
