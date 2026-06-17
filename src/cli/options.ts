@@ -106,8 +106,8 @@ const loadSourceMaps = async (
 }
 
 /**
- * Pre-resolves relative source paths against the map file's directory so that `source-map-js` returns
- * absolute URLs.
+ * Pre-resolves relative source paths against the map file's directory so that
+ * `source-map-js` returns absolute URLs.
  */
 const resolveSourceMapSources = (
   sourceMap: SourceMap,
@@ -120,7 +120,7 @@ const resolveSourceMapSources = (
   return {
     ...sourceMap,
     sources: sourceMap.sources.map(source =>
-      makeFileReference(source).type === `absolute`
+      makeFileReference(source)?.type === `absolute`
         ? source
         : new URL(source, pathToFileURL(resolve(dirname(path)))).href,
     ),

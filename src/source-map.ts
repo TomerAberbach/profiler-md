@@ -6,7 +6,7 @@ import type { NormalizedProfileToMdOptions } from './options.ts'
 
 export type NormalizedSourceMap = {
   consumer: SourceMapConsumer
-  location: FileReference
+  fileReference: FileReference
 }
 
 export type NormalizedSourceMaps = NormalizedSourceMap[]
@@ -22,10 +22,13 @@ export const normalizeSourceMaps = (
     )
   }
 
-  return Object.entries(sourceMaps).map(([urlOrPath, sourceMap]) => ({
-    consumer: new SourceMapConsumer(sourceMap),
-    location: makeFileReference(urlOrPath),
-  }))
+  return Object.entries(sourceMaps).flatMap(([urlOrPath, sourceMap]) => {
+    const fileReference = makeFileReference(urlOrPath)
+    if (!fileReference) {
+      return []
+    }
+    return { consumer: new SourceMapConsumer(sourceMap), fileReference }
+  })
 }
 
 export const sourceMapSourceLocation = (
@@ -41,13 +44,13 @@ export const sourceMapSourceLocation = (
   const sourceMap =
     sourceMaps.find(
       sourceMap =>
-        sourceMap.location.type === `absolute` &&
-        sourceMap.location.url.href === location.url.href,
+        sourceMap.fileReference.type === `absolute` &&
+        sourceMap.fileReference.url.href === location.url.href,
     ) ??
     sourceMaps.find(
       sourceMap =>
-        sourceMap.location.type === `relative` &&
-        location.url.pathname.endsWith(`/${sourceMap.location.path}`),
+        sourceMap.fileReference.type === `relative` &&
+        location.url.pathname.endsWith(`/${sourceMap.fileReference.path}`),
     )
   if (!sourceMap) {
     // No source map is applicable to this location.
@@ -70,11 +73,15 @@ export const sourceMapSourceLocation = (
     return location
   }
 
-  const mappedLocation = makeFileReference(mappedPosition.source)
-  if (mappedLocation.type === `absolute`) {
+  const mappedFileReference = makeFileReference(mappedPosition.source)
+  if (!mappedFileReference) {
+    return location
+  }
+
+  if (mappedFileReference.type === `absolute`) {
     return {
       type: `absolute`,
-      url: mappedLocation.url,
+      url: mappedFileReference.url,
       line: mappedPosition.line,
       // Source map columns are 0-based, but ours are 1-based.
       column: mappedPosition.column + 1,
@@ -87,7 +94,7 @@ export const sourceMapSourceLocation = (
 
   return {
     type: `absolute`,
-    url: new URL(mappedLocation.path, baseURL),
+    url: new URL(mappedFileReference.path, baseURL),
     line: mappedPosition.line,
     // Source map columns are 0-based, but ours are 1-based.
     column: mappedPosition.column + 1,

@@ -6,6 +6,7 @@ export const NODE_TYPE_CODE = 4
 export const NODE_TYPE_CLOSURE = 5
 export const NODE_TYPE_SYNTHETIC = 9
 
+export const EDGE_TYPE_PROPERTY = 2
 export const EDGE_TYPE_INTERNAL = 3
 export const EDGE_TYPE_HIDDEN = 4
 export const EDGE_TYPE_WEAK = 6

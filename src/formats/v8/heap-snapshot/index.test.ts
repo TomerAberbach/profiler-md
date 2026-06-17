@@ -15,6 +15,7 @@ import { v8HeapSnapshotConverter } from './index.ts'
 import {
   EDGE_TYPE_HIDDEN,
   EDGE_TYPE_INTERNAL,
+  EDGE_TYPE_PROPERTY,
   EDGE_TYPE_WEAK,
   makeV8Edge,
   makeV8Node,
@@ -337,6 +338,62 @@ describe(`convert`, () => {
       [
         expect.objectContaining({ Constructor: `parent` }),
         expect.objectContaining({ Constructor: `child` }),
+      ],
+    ])
+  })
+
+  test(`edge names that look like unknown locations are shown verbatim`, () => {
+    // Root -> parent (Object) via HIDDEN, parent -> child (Object) via a
+    // PROPERTY edge literally named `unknown`. The edge name is not a file URL,
+    // so it must be shown as-is in child's retainer path rather than collapsing
+    // to the `<unknown>` placeholder.
+    const snapshot = makeV8Snapshot({
+      nodeCount: 3,
+      edgeCount: 2,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }), // Root (1 edge)
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 3,
+          selfSize: 100,
+          edgeCount: 1,
+        }), // Parent (1 edge)
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 2,
+          id: 5,
+          selfSize: 50,
+          edgeCount: 0,
+        }), // Child
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> parent (flat 6)
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 3, toNode: 12 }), // Parent -[unknown]-> child (flat 12)
+      ],
+      strings: [``, `parent`, `child`, `unknown`],
+    })
+
+    const md = convertToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `50 B`,
+          Instances: `1`,
+          Path: `.unknown parent`,
+        },
       ],
     ])
   })

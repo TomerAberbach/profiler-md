@@ -25,7 +25,7 @@ Functions with the largest increase in time spent directly in the function body,
 |  +2.8% | +22.3ms |   7.0% → 7.3% | 808.2ms → 830.5ms | 642 → 661 | `unevalObjectInternal`   | uneval/src/internal/object.ts:69:30   |
 |  +2.8% |  +7.2ms |   2.2% → 2.3% | 257.7ms → 264.9ms | 205 → 211 | `traverse`               | uneval/src/index.ts:165:20            |
 |  +9.8% |  +6.0ms |   0.5% → 0.6% |   61.7ms → 67.7ms |   49 → 54 | `unevalWithoutCustom`    | uneval/src/internal/index.ts:14:37    |
-| +19.2% |  +3.8ms |          0.2% |   19.8ms → 23.6ms |   18 → 20 | `(anonymous)`            | uneval/scripts/profile.ts:0:0         |
+| +19.2% |  +3.8ms |          0.2% |   19.8ms → 23.6ms |   18 → 20 | `(anonymous)`            | uneval/scripts/profile.ts             |
 | +20.6% |  +2.6ms |          0.1% |   12.5ms → 15.1ms |   10 → 12 | `unevalBoolean`          | uneval/src/internal/primitive.ts:8:30 |
 |  +0.2% |  +0.7ms |          2.9% | 335.0ms → 335.7ms |       267 | `getType`                | uneval/src/internal/type.ts:4:24      |
 
@@ -70,7 +70,7 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -0.4% | -46.0ms | 96.1% → 96.2% |   11.02s → 10.97s | 8,773 → 8,736 | `uneval`               | uneval/src/index.ts:76:16               |
 |  -1.4% | -41.6ms | 26.6% → 26.4% |        3.05s → 3s | 2,428 → 2,396 | `createState`          | uneval/src/index.ts:145:21              |
 | -17.2% | -41.4ms |   2.1% → 1.7% | 241.0ms → 199.5ms |     192 → 159 | `unevalString`         | uneval/src/internal/primitive.ts:133:29 |
-|  -0.4% | -39.5ms | 96.5% → 96.7% |   11.06s → 11.02s | 8,791 → 8,754 | `(anonymous)`          | uneval/scripts/profile.ts:0:0           |
+|  -0.4% | -39.5ms | 96.5% → 96.7% |   11.06s → 11.02s | 8,791 → 8,754 | `(anonymous)`          | uneval/scripts/profile.ts               |
 | -10.4% | -21.4ms |   1.8% → 1.6% | 205.9ms → 184.5ms |     164 → 147 | `unevalLiteral`        | uneval/src/internal/primitive.ts:139:23 |
 |  -0.7% | -18.6ms |         23.9% |     2.74s → 2.72s | 2,183 → 2,169 | `traverseObject`       | uneval/src/index.ts:205:26              |
 |  -7.1% | -15.5ms |   1.9% → 1.8% | 219.8ms → 204.2ms |     175 → 163 | `unevalWithoutCustom`  | uneval/src/internal/index.ts:14:37      |

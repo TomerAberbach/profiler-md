@@ -33,6 +33,12 @@ test(`normalizeSourceMaps drops entries with no file field`, () => {
   expect(sourceMaps).toHaveLength(0)
 })
 
+test(`normalizeSourceMaps drops entries with an unknown file field`, () => {
+  const sourceMaps = normalizeSourceMaps([makeSourceMap({ file: `unknown` })])
+
+  expect(sourceMaps).toHaveLength(0)
+})
+
 test(`normalizeSourceMaps infers absolute location from absolute file path`, () => {
   const sourceMaps = normalizeSourceMaps([
     makeSourceMap({
@@ -42,7 +48,7 @@ test(`normalizeSourceMaps infers absolute location from absolute file path`, () 
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `absolute`,
         url: new URL(`file:///project/dist/app.js`),
       },
@@ -57,7 +63,7 @@ test(`normalizeSourceMaps infers absolute location from file URL`, () => {
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `absolute`,
         url: new URL(`file:///project/dist/app.js`),
       },
@@ -72,7 +78,7 @@ test(`normalizeSourceMaps infers relative location from relative file`, () => {
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `relative`,
         path: `dist/app.js`,
       },
@@ -91,7 +97,7 @@ test(`normalizeSourceMaps does not use sourceRoot to resolve the file field`, ()
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `relative`,
         path: `app.js`,
       },
@@ -106,7 +112,7 @@ test(`normalizeSourceMaps converts absolute path key to absolute location`, () =
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `absolute`,
         url: new URL(`file:///project/dist/app.js`),
       },
@@ -121,7 +127,7 @@ test(`normalizeSourceMaps converts URL key to absolute location`, () => {
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `absolute`,
         url: new URL(`file:///project/dist/app.js`),
       },
@@ -134,7 +140,7 @@ test(`normalizeSourceMaps converts relative path key to relative location`, () =
 
   expect(sourceMaps).toMatchObject([
     {
-      location: {
+      fileReference: {
         type: `relative`,
         path: `dist/app.js`,
       },
@@ -194,6 +200,29 @@ test(`sourceMapSourceLocation matches by relative location`, () => {
     line: 1,
     column: 1,
   })
+})
+
+test(`sourceMapSourceLocation returns input when mapped source is unknown`, () => {
+  const url = `file:///project/dist/app.js`
+  const location = {
+    type: `absolute` as const,
+    url: new URL(url),
+    line: 1,
+    column: 1,
+  }
+  const sourceMaps = {
+    [url]: makeSourceMap({
+      sources: [`unknown`],
+      mappings: L1_C0_TO_SOURCE_0_L1_C0,
+    }),
+  }
+
+  const mappedLocation = sourceMapSourceLocation(
+    location,
+    makeNormalizedOptions({ sourceMaps }),
+  )
+
+  expect(mappedLocation).toStrictEqual(location)
 })
 
 test(`sourceMapSourceLocation returns original location when no entry matches`, () => {

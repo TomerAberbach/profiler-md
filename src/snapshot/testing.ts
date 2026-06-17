@@ -44,7 +44,13 @@ export const makeSourceLocation = (
   url: string,
   line?: number,
   column?: number,
-): SourceLocation => ({ ...makeFileReference(url), line, column })
+): SourceLocation => {
+  const fileReference = makeFileReference(url)
+  if (!fileReference) {
+    throw new Error(`Expected a usable file reference, got: ${url}`)
+  }
+  return { ...fileReference, line, column }
+}
 
 export const makeAggregatedConstructor = ({
   name,

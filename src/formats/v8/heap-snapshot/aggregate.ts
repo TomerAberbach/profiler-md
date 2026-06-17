@@ -1,4 +1,8 @@
-import { formatSourceLocation, makeFileReference } from '../../../location.ts'
+import {
+  fileReferenceToSourceLocation,
+  formatSourceLocation,
+  makeFileReference,
+} from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
 import type { NormalizedProfileToMdOptions } from '../../../options.ts'
 import { SnapshotAggregator } from '../../../snapshot/index.ts'
@@ -286,7 +290,7 @@ const computeNodeOrdinalToLocation = (
     length: nodeCount,
   })
   // Cache `FileReference` per file path to avoid repeated construction.
-  const fileLocationToRef = new Map<string, FileReference>()
+  const fileLocationToRef = new Map<string, FileReference | null>()
   for (
     let locationIndex = 0;
     locationIndex < locations.length;
@@ -301,17 +305,20 @@ const computeNodeOrdinalToLocation = (
     let fileReference = fileLocationToRef.get(fileLocation)
     if (fileReference === undefined) {
       fileReference = makeFileReference(fileLocation)
-      fileLocationToRef.set(fileLocation, fileReference)
+      fileLocationToRef.set(fileLocation, fileReference ?? null)
+    }
+    if (!fileReference) {
+      continue
     }
 
     const nodeIndex = locations[locationIndex + locationObjectIndexOffset]!
     const line = locations[locationIndex + locationLineOffset]!
     const column = locations[locationIndex + locationColumnOffset]!
-    nodeOrdinalToLocation[nodeIndex / nodeFieldCount] = {
-      ...fileReference,
-      line: line + 1,
-      column: column + 1,
-    }
+    nodeOrdinalToLocation[nodeIndex / nodeFieldCount] =
+      fileReferenceToSourceLocation(fileReference, {
+        line: line + 1,
+        column: column + 1,
+      })
   }
 
   return nodeOrdinalToLocation
@@ -331,10 +338,11 @@ const formatEdgeLabel = (
   }
 
   const rawEdgeName = strings[edgeNameOrIndex]!
-  // Sometimes the edge name is a file URL. If it's not, then it's shown as-is
-  // (a relative-path reference formats back to the same string).
-  const edgeName = rawEdgeName
-    ? formatSourceLocation(makeFileReference(rawEdgeName), options)
+  // Sometimes the edge name is a file URL. If it's not (or it's an unknown
+  // location), then it's shown as-is.
+  const fileReference = rawEdgeName ? makeFileReference(rawEdgeName) : undefined
+  const edgeName = fileReference
+    ? formatSourceLocation(fileReference, options)
     : rawEdgeName
 
   return `.${edgeName}`
@@ -372,10 +380,13 @@ const formatNodeLabel = (
       const rawNodeName =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      // Sometimes the node name is a file URL. If it's not, then it's shown
-      // as-is (a relative-path reference formats back to the same string).
-      return rawNodeName
-        ? formatSourceLocation(makeFileReference(rawNodeName), options)
+      // Sometimes the node name is a file URL. If it's not (or it's an unknown
+      // location), then it's shown as-is.
+      const fileReference = rawNodeName
+        ? makeFileReference(rawNodeName)
+        : undefined
+      return fileReference
+        ? formatSourceLocation(fileReference, options)
         : rawNodeName
     }
   }
