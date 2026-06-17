@@ -20,10 +20,24 @@ import {
 } from './testing.ts'
 
 describe(`matches`, () => {
-  test(`accepts valid snapshot`, () => {
+  test(`accepts version 2 (Safari)`, () => {
     expect(
       jscHeapSnapshotConverter.matches({
         version: 2,
+        type: `Inspector`,
+        nodes: [],
+        nodeClassNames: [],
+        edges: [],
+        edgeTypes: [],
+        edgeNames: [],
+      }),
+    ).toBe(true)
+  })
+
+  test(`accepts version 3 (Bun)`, () => {
+    expect(
+      jscHeapSnapshotConverter.matches({
+        version: 3,
         type: `Inspector`,
         nodes: [],
         nodeClassNames: [],
@@ -42,10 +56,10 @@ describe(`matches`, () => {
     expect(jscHeapSnapshotConverter.matches(`string`)).toBe(false)
   })
 
-  test(`rejects wrong version`, () => {
+  test(`rejects bad version`, () => {
     expect(
       jscHeapSnapshotConverter.matches({
-        version: 1,
+        version: `hi`,
         type: `Inspector`,
         nodes: [],
       }),
