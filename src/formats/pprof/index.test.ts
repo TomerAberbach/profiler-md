@@ -289,6 +289,134 @@ describe(`convert`, () => {
       ],
     ])
   })
+
+  test(`resolves uint64 IDs that collide when narrowed to a Number`, () => {
+    // Pprof IDs are arbitrary uint64s. These two function and location IDs
+    // differ only in the lowest bit and both narrow to the same `Number`, so
+    // resolving them numerically would collapse the two functions into one.
+    const data = makePprof({
+      functions: [
+        {
+          id: 2n ** 53n,
+          name: `funcA`,
+          filename: `/project/src/a.ts`,
+          startLine: 1,
+        },
+        {
+          id: 2n ** 53n + 1n,
+          name: `funcB`,
+          filename: `/project/src/b.ts`,
+          startLine: 1,
+        },
+      ],
+      locations: [
+        { id: 2n ** 53n, lines: [{ functionId: 2n ** 53n, line: 5 }] },
+        {
+          id: 2n ** 53n + 1n,
+          lines: [{ functionId: 2n ** 53n + 1n, line: 10 }],
+        },
+      ],
+      samples: [
+        { locationIds: [2n ** 53n], values: [100_000] },
+        { locationIds: [2n ** 53n + 1n], values: [100_000] },
+      ],
+    })
+
+    const md = convertToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    // Both functions remain distinct rather than collapsing into one.
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+        {
+          '%': `50.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `funcB`,
+          Location: `src/b.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`drops location lines referencing absent functions`, () => {
+    // The first inlined line references a function missing from the table
+    // (e.g. an unsymbolized frame). That frame is dropped; the resolvable
+    // caller frame survives.
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 5 },
+      ],
+      locations: [
+        {
+          id: 1,
+          lines: [
+            { functionId: 99, line: 12 }, // Absent function (dropped)
+            { functionId: 1, line: 7 }, // FuncA (kept)
+          ],
+        },
+      ],
+      samples: [{ locationIds: [1], values: [100_000] }],
+    })
+
+    const md = convertToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `funcA`,
+          Location: `src/a.ts:5`,
+        },
+      ],
+    ])
+  })
+
+  test(`drops sample references to absent locations`, () => {
+    // The sample references a location missing from the table alongside a
+    // valid one. The dangling reference is dropped; the valid frame is kept.
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [99, 1], values: [100_000] }],
+    })
+
+    const md = convertToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+  })
 })
 
 describe(`options`, () => {

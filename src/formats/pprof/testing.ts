@@ -15,14 +15,17 @@ export const makePprof = ({
 }: {
   valueTypes?: { type: string; unit: string }[]
   functions: {
-    id: number
+    id: number | bigint
     name: string
     systemName?: string
     filename?: string
     startLine?: number
   }[]
-  locations: { id: number; lines: { functionId: number; line: number }[] }[]
-  samples: { locationIds: number[]; values: number[] }[]
+  locations: {
+    id: number | bigint
+    lines: { functionId: number | bigint; line: number }[]
+  }[]
+  samples: { locationIds: (number | bigint)[]; values: number[] }[]
 }): Uint8Array => {
   const stringTable = new StringTable()
   const stringIndex = (string: string) => BigInt(stringTable.dedup(string))
