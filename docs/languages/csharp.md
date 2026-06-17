@@ -11,6 +11,9 @@ Install it as a global tool:
 dotnet tool install --global dotnet-trace
 ```
 
+The latest `dotnet-trace` needs a matching .NET runtime; if yours is older,
+install a compatible version with `--version` (e.g. `--version 8.*`).
+
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
@@ -18,6 +21,25 @@ Periodically samples the call stack. Useful for finding CPU hot spots.
 With no `--profile` or `--providers`, `dotnet-trace collect` enables the
 `dotnet-common` and `dotnet-sampled-thread-time` profiles, sampling thread
 stacks at roughly 100 Hz.
+
+On macOS (and any non-Linux host) the `cpu-sampling` profile isn't available, so
+sampling is wall-clock thread time: idle runtime threads show up under an
+`UNMANAGED_CODE_TIME` frame. Keeping the workload busy across cores helps your
+own code dominate.
+
+For F#, `dotnet fsi script.fsx` runs the script in a child process, so tracing
+`dotnet fsi` captures only the launcher. Trace the compiler directly instead —
+e.g.
+`dotnet-trace collect --format speedscope -- dotnet <sdk>/FSharp/fsc.dll script.fs --target:library -o out.dll`.
+
+> **Launch mode deadlocks on `dotnet build`/`run`/`test`.**
+> `dotnet-trace collect -- <cmd>` starts the child suspended on a diagnostic
+> port and resumes only that first process; these commands spawn further .NET
+> processes that inherit the port and hang waiting for a connection that never
+> comes, so the collect stalls indefinitely after printing `Launching:` (no flag
+> — `--disable-build-servers`, `-m:1` — avoids it). Trace a single-process app
+> instead (`dotnet exec app.dll`), or attach to an already-running process with
+> `--process-id`.
 
 ### CLI
 

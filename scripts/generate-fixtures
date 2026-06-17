@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO="$(cd "$(dirname "$0")/.." && pwd)"
+export REPO
+
+FIXTURES_SCRIPTS="$REPO/scripts/fixtures"
+export FIXTURES_SCRIPTS
+
+FIXTURES="$REPO/src/fixtures"
+export FIXTURES
+mkdir -p "$REPO/src/fixtures"
+
+# Re-exec inside the nix dev shell so the full profiler toolchain is on PATH.
+if [[ -z "${PROFILER_MD_FIXTURES_SHELL:-}" ]]; then
+  export PROFILER_MD_FIXTURES_SHELL=1
+  exec nix develop "$FIXTURES_SCRIPTS" --command "$REPO/scripts/generate-fixtures" "$@"
+fi
+
+trap 'echo >&2; echo "Interrupted! Stopping." >&2; exit 130' INT TERM
+
+mode=missing
+langs=()
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --all) mode=all ;;
+    --missing) mode=missing ;;
+    -*) echo "unknown flag: $1" >&2; exit 1 ;;
+    *) langs+=("$1") ;;
+  esac
+  shift
+done
+
+# Resolve the selected workload scripts (all, or just the named langs).
+scripts=()
+if [[ ${#langs[@]} -eq 0 ]]; then
+  for s in "$FIXTURES_SCRIPTS"/*.sh; do
+    [[ "$(basename "$s")" == _* ]] && continue
+    scripts+=("$s")
+  done
+else
+  for lang in "${langs[@]}"; do
+    s="$FIXTURES_SCRIPTS/$lang.sh"
+    [[ -f "$s" ]] || { echo "no workload script for '$lang' ($s)" >&2; exit 1; }
+    scripts+=("$s")
+  done
+fi
+
+# --all: delete each selected language's fixtures first, so the subsequent run
+# regenerates them from scratch.
+if [[ "$mode" == all ]]; then
+  echo "Deleting target fixtures"
+  fixtures_dir="$REPO/src/fixtures"
+  for s in "${scripts[@]}"; do
+    lang="$(basename "$s" .sh)"
+    for f in "$fixtures_dir/$lang."*; do
+      [[ -e "$f" ]] || continue
+      echo "rm ${f#"$REPO"/}"
+      rm -f "$f"
+    done
+  done
+fi
+
+LOG_DIR="${TMPDIR:-/tmp}"
+LOG_DIR="${LOG_DIR%/}/profiler-md-fixtures-logs"
+rm -rf "$LOG_DIR"
+mkdir -p "$LOG_DIR"
+
+# Run each selected workload script.
+status=0
+for s in "${scripts[@]}"; do
+  name="$(basename "$s" .sh)"
+  log="$LOG_DIR/$name.log"
+
+  echo "Profling $name (log: $log)"
+  if ! bash "$s" >"$log" 2>&1; then
+    echo "Failed: $name ($log)" >&2
+    echo "   --- last 20 lines ---" >&2
+    tail -n 20 "$log" >&2
+    echo "   ---" >&2
+    status=1
+  fi
+done
+
+echo && echo "logs: $LOG_DIR"
+
+exit "$status"

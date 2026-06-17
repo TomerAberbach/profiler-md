@@ -12,6 +12,10 @@ CPU hot spots.
 eflambe's default `brendan_gregg` output format is collapsed stacks. Add
 `eflambe` to your dependencies, then profile a specific function.
 
+> **Keep the call small.** eflambe traces _every_ function call (it doesn't
+> sample), so output grows with the number of calls made — a single invocation
+> over a large input can produce hundreds of MB. Profile one small, short call.
+
 ### Elixir
 
 ```elixir

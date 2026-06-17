@@ -9,14 +9,23 @@ to the pprof format.
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
 
+Two things make the result far cleaner:
+
+- **Warm up first.** Run the function once before `@profile` so Julia's JIT
+  compilation (type inference, codegen) isn't captured as part of the profile.
+- **Run single-threaded** (`julia -t 1 --gcthreads=1`). Otherwise idle GC and
+  scheduler threads fill the profile with wait frames (`__psynch_cvwait`).
+
 ```julia
 using Profile, PProf
 
+my_function() # warm up the JIT
 Profile.clear()
 @profile my_function()
 
-# Write profile.pb.gz without launching the web UI
-pprof(out = "cpu.pb.gz", web = false)
+# `web = false` skips the UI; `from_c = false` drops C/runtime frames, leaving
+# just your Julia code.
+pprof(out = "cpu.pb.gz", web = false, from_c = false)
 ```
 
 ## Memory profiling

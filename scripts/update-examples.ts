@@ -7,13 +7,17 @@ const check = process.argv.includes(`--check`)
 const fixtureFilenames = readdirSync(`src/fixtures`)
 
 // Fixtures named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
-// as a pair into `examples/<name>.diff.<ext>.md`.
+// as a pair into `examples/<name>.diff.<ext>.md`. Keyed by `<name>.<ext>` since
+// a single `<name>` can have several extensions (e.g. `javascript.node` has
+// `.cpuprofile`, `.heapprofile`, and `.heapsnapshot`).
 const pairs = new Map<
   string,
-  { ext: string; base?: string; current?: string }
+  { name: string; ext: string; base?: string; current?: string }
 >()
 for (const filename of fixtureFilenames) {
-  const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>[^.]+)$/u.exec(
+  // `ext` allows dots so multi-segment extensions like `.speedscope.json` pair
+  // up (e.g. `ruby.base.speedscope.json` / `ruby.current.speedscope.json`).
+  const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>.+)$/u.exec(
     filename,
   )
   if (!match) {
@@ -21,14 +25,15 @@ for (const filename of fixtureFilenames) {
   }
 
   const { name, role, ext } = match.groups!
-  let pair = pairs.get(name!)
+  const key = `${name}.${ext}`
+  let pair = pairs.get(key)
   if (!pair) {
-    pair = { ext: ext! }
-    pairs.set(name!, pair)
+    pair = { name: name!, ext: ext! }
+    pairs.set(key, pair)
   }
   pair[role as `base` | `current`] = filename
 }
-for (const [name, { base, current }] of pairs) {
+for (const { name, base, current } of pairs.values()) {
   if (!base || !current) {
     process.stderr.write(
       `src/fixtures/${base ?? current} is missing its ${
@@ -41,7 +46,7 @@ for (const [name, { base, current }] of pairs) {
 
 const markdownFilenames = new Set([
   ...fixtureFilenames.map(filename => `${filename}.md`),
-  ...[...pairs].map(([name, { ext }]) => `${name}.diff.${ext}.md`),
+  ...[...pairs.values()].map(({ name, ext }) => `${name}.diff.${ext}.md`),
 ])
 
 if (check) {
@@ -61,11 +66,8 @@ if (check) {
   }
 }
 
-const otherBaseURLs = new Map([
-  [`rust.base.pprof`, `/Users/mike/code/mikecluck`],
-  [`rust.current.pprof`, `/Users/mike/code/mikecluck`],
-  [`webkit-timeline-recording.json`, `https://tomeraberba.ch`],
-])
+const total = fixtureFilenames.length + pairs.size
+let done = 0
 
 const updateExample = (
   key: string,
@@ -74,12 +76,15 @@ const updateExample = (
 ): void => {
   const examplePath = join(`examples`, `${exampleName}.md`)
 
-  const markdown = execSync(
-    `node src/cli/index.ts ${fixturePaths.join(` `)} --base-url ${
-      otherBaseURLs.get(key) ?? `/Users/tomer/Documents/work/code`
-    }`,
-    { encoding: `utf8` },
-  )
+  done++
+  process.stderr.write(`[${done}/${total}] ${exampleName} ... `)
+
+  const start = performance.now()
+  const markdown = execSync(`node src/cli/index.ts ${fixturePaths.join(` `)}`, {
+    encoding: `utf8`,
+  })
+  const elapsed = performance.now() - start
+  process.stderr.write(`${elapsed.toFixed(0)}ms\n`)
 
   if (check) {
     let existing
@@ -106,7 +111,7 @@ const updateExample = (
 for (const filename of fixtureFilenames) {
   updateExample(filename, filename, [join(`src/fixtures`, filename)])
 }
-for (const [name, { ext, base, current }] of pairs) {
+for (const { name, ext, base, current } of pairs.values()) {
   updateExample(name, `${name}.diff.${ext}`, [
     join(`src/fixtures`, base!),
     join(`src/fixtures`, current!),

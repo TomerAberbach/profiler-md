@@ -24,5 +24,8 @@
     // Runtime
     "lib": ["esnext"]
   },
-  "include": ["**/*"]
+  "include": ["**/*"],
+  // `scripts/fixtures/assets` holds fixture-generation workloads run under
+  // foreign runtimes (importing uninstalled, pinned deps); not package code.
+  "exclude": ["node_modules", "scripts/fixtures/assets"]
 }

@@ -1,72 +1,41 @@
 # Python
 
-Python profiling uses [py-spy](https://github.com/benford/py-spy), a sampling
-profiler that attaches to a running process or wraps a script, and
-[memray](https://github.com/bloomberg/memray) for memory profiling.
+Python profiling uses [py-spy](https://github.com/benfred/py-spy), a sampling
+profiler that attaches to a running process or wraps a script.
+
+py-spy natively writes **collapsed stacks** (its `raw` format) and
+**Speedscope**. It does not write pprof, so pprof isn't listed.
+
+On macOS py-spy needs to read another process's memory, which requires `sudo`
+(for `task_for_pid`). On Linux it needs `CAP_SYS_PTRACE` (run as root or add the
+capability); inside a container, run with `--cap-add=SYS_PTRACE`.
 
 ## CPU profiling
 
-Periodically samples the call stack. Useful for finding CPU hot spots.
+Periodically samples the call stack while threads are on CPU (idle threads are
+excluded by default). Useful for finding CPU hot spots.
 
 ```sh
-# Collapsed format (python 3.15+)
-python -m profiling.sampling run --collapsed -o cpu.collapsed script.py
-
 # Collapsed format (wrap a script)
-py-spy record -f raw -o cpu.collapsed -- python script.py
+sudo py-spy record -f raw -o cpu.collapsed -- python script.py
 
-# Collapsed format (attach to a running process)
-py-spy record -f raw -o cpu.collapsed --pid <pid>
+# Speedscope format (wrap a script)
+sudo py-spy record -f speedscope -o cpu.speedscope.json -- python script.py
 
-# pprof format
-py-spy record -f pprof -o cpu.pprof -- python script.py
-
-# Speedscope format
-py-spy record -f speedscope -o profile.speedscope -- python script.py
+# Attach to a running process
+sudo py-spy record -f raw -o cpu.collapsed --pid <pid>
 
 # Include native extensions written in Cython or C
-py-spy record -f pprof -o cpu.pprof --native -- python script.py
+sudo py-spy record -f raw -o cpu.collapsed --native -- python script.py
 ```
 
 ## Wall-clock profiling
 
-Samples wall-clock time rather than CPU time. Useful for I/O-bound code where
-threads spend time sleeping or waiting.
+Includes idle (sleeping or waiting) threads so samples reflect wall-clock time
+rather than CPU time. Useful for I/O-bound code.
 
 ```sh
-# Wrap a script
-py-spy record -f pprof -o profile.pprof --idle -- python script.py
-
-# Attach to a running process
-py-spy record -f pprof -o profile.pprof --idle --pid <pid>
-```
-
-## Memory profiling
-
-Tracks heap allocations. Useful for finding allocation hot spots and memory
-leaks.
-
-### CLI
-
-```sh
-# Record a memory profile (wrap a script)
-memray run -o mem.bin script.py
-
-# Attach to a running process
-memray attach -o mem.bin <pid>
-
-# Convert to pprof format
-memray pprof mem.bin
-```
-
-### Programmatic API
-
-```python
-import memray
-
-with memray.Tracker("mem.bin"):
-    # Code to profile...
-    pass
+sudo py-spy record -f raw -o wall.collapsed --idle -- python script.py
 ```
 
 ## Call stack dump
@@ -74,31 +43,19 @@ with memray.Tracker("mem.bin"):
 Captures the current call stacks of all threads in a running process. Useful for
 diagnosing hangs, deadlocks, or unexpected blocking.
 
-### CLI
-
 ```sh
 # Dump call stacks of a running process (text output)
-py-spy dump --pid <pid>
+sudo py-spy dump --pid <pid>
 
 # Include local variables in each frame
-py-spy dump --pid <pid> --locals
-```
-
-### Programmatic API
-
-```python
-import faulthandler
-
-faulthandler.dump_traceback()  # all threads to stderr
+sudo py-spy dump --pid <pid> --locals
 ```
 
 ## CLI flags
 
-### `py-spy`
-
 | Flag                | Default      | Description                                                |
 | ------------------- | ------------ | ---------------------------------------------------------- |
-| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`, `pprof`  |
+| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`           |
 | `-o` / `--output`   | —            | Output file path                                           |
 | `-d` / `--duration` | —            | Duration in seconds (default: until program exits)         |
 | `-r` / `--rate`     | `100`        | Sampling rate in Hz                                        |
@@ -106,13 +63,3 @@ faulthandler.dump_traceback()  # all threads to stderr
 | `--native`          | off          | Profile native extensions written in Cython or C           |
 | `--nonblocking`     | off          | Don't pause the process to collect samples (less accurate) |
 | `--subprocesses`    | off          | Also profile subprocesses of the target                    |
-
-### `memray`
-
-| Flag                        | Default | Description                                         |
-| --------------------------- | ------- | --------------------------------------------------- |
-| `-o` / `--output`           | —       | Output file path                                    |
-| `--native`                  | off     | Also capture native (C extension) stack frames      |
-| `--follow-fork`             | off     | Also profile child processes after `fork()`         |
-| `--aggregate`               | off     | Aggregate allocations to reduce output file size    |
-| `--trace-python-allocators` | off     | Trace Python allocator calls for finer-grained data |

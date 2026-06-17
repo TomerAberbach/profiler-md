@@ -224,6 +224,59 @@ describe(`diffAggregatedProfiles`, () => {
     expect(diff.functions[0]!.current?.selfSampleCount).toBe(10)
   })
 
+  test(`matches functions whose locations differ only by a build hash`, () => {
+    // The default `matchEntry` strips Cargo build-script and rustc commit hashes
+    // so the same function matches across builds even though its path embeds a
+    // per-build hash.
+    const cargo = (hash: string) =>
+      `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
+    const rustc = (hash: string) =>
+      `file:///rustc/${hash}/library/std/src/rt.rs`
+    const base = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `parse`,
+          url: cargo(`a`.repeat(16)),
+          selfValues: [100],
+          selfSampleCount: 5,
+        },
+        {
+          name: `rt`,
+          url: rustc(`a`.repeat(40)),
+          selfValues: [100],
+          selfSampleCount: 5,
+        },
+      ],
+    )
+    const current = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `parse`,
+          url: cargo(`b`.repeat(16)),
+          selfValues: [200],
+          selfSampleCount: 10,
+        },
+        {
+          name: `rt`,
+          url: rustc(`b`.repeat(40)),
+          selfValues: [200],
+          selfSampleCount: 10,
+        },
+      ],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+
+    expect(diff.functions).toHaveLength(2)
+    for (const name of [`parse`, `rt`]) {
+      const fn = diff.functions.find(func => func.name === name)!
+      expect(fn.base?.selfSampleCount).toBe(5)
+      expect(fn.current?.selfSampleCount).toBe(10)
+    }
+  })
+
   test(`matches functions without locations by name`, () => {
     const base = makeProfile(
       [MICROSECONDS],

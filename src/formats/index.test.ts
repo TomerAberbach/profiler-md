@@ -1,8 +1,8 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
-import { languages } from '../cli/languages.ts'
+import { parseExampleFilename } from '../cli/examples.ts'
 import { fileReferenceId } from '../location.ts'
-import { fixturePath } from '../testing/fixtures.ts'
+import { fixturePath, readFixture } from '../testing/fixtures.ts'
 import {
   categoryTables,
   profileTitles,
@@ -16,7 +16,6 @@ import {
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
-import type { Format } from './index.ts'
 import {
   makeV8CallFrame,
   makeV8CpuProfileRoot,
@@ -36,23 +35,34 @@ const fixtureSets = {
   profile: new Set<string>(),
   snapshot: new Set<string>(),
 }
-for (const { examples } of languages.values()) {
-  for (const [format, formatExamples] of Object.entries(examples ?? {})) {
-    const { type, shape } = formatConverters[format as Format]
-    for (const { filename } of formatExamples) {
-      if (filename.includes(`.diff.`)) {
-        continue
-      }
-      fixtureSets[type].add(filename)
-      fixtureSets[shape].add(filename)
-    }
+// Every committed fixture is exercised through the registry. Only the `base`
+// variant of each is taken since `current` is a near-identical re-run, keeping
+// the matrix of auto-detect/diff cases manageable.
+for (const filename of readdirSync(fixturePath())) {
+  const { variant, format } = parseExampleFilename(filename)
+  if (variant !== `base`) {
+    continue
   }
+  const { type, shape } = formatConverters[format]
+  fixtureSets[type].add(filename)
+  fixtureSets[shape].add(filename)
 }
 
 const jsonFixtures = [...fixtureSets.json]
 const binaryFixtures = [...fixtureSets.binary]
 const allFixtures = [...jsonFixtures, ...binaryFixtures]
 const snapshotFixtures = [...fixtureSets.snapshot]
+
+// Some real captures legitimately have no samples (e.g. a lock profile that saw
+// no contention), so the pipeline yields the no-data message instead of a
+// heading. Either outcome means the format was detected and conversion ran end
+// to end, which is what these per-fixture smoke checks assert.
+const expectConverted = (md: string): void => {
+  expect(md).toMatch(/^(?:# |No profiling data found\.)/u)
+}
+const expectDiffConverted = (md: string): void => {
+  expect(md).toMatch(/^(?:# .*diff|No profiling data found\.)/iu)
+}
 
 // A valid Speedscope file that carries no profiles, so it aggregates to nothing.
 const emptyProfile = JSON.stringify({
@@ -63,28 +73,28 @@ const emptyProfile = JSON.stringify({
 
 describe(`profileToMd`, () => {
   describe.each(jsonFixtures)(`auto-detects %s`, filename => {
-    const content = readFileSync(fixturePath(filename))
+    const content = readFixture(filename)
 
     test(`from string`, () => {
       const md = profileToMd(content.toString(`utf8`), { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
 
     test(`from Uint8Array`, () => {
       const md = profileToMd(content, { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
   })
 
   describe.each(binaryFixtures)(`auto-detects %s`, filename => {
-    const content = readFileSync(fixturePath(filename))
+    const content = readFixture(filename)
 
     test(`from Uint8Array`, () => {
       const md = profileToMd(content, { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
 
     test(`from one-shot Iterable<Uint8Array>`, () => {
@@ -95,12 +105,12 @@ describe(`profileToMd`, () => {
 
       const md = profileToMd(iterable, { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
   })
 
   test(`forced format produces same output as auto-detect`, () => {
-    const content = readFileSync(fixturePath(`node.base.cpuprofile`))
+    const content = readFileSync(fixturePath(`javascript.node.base.cpuprofile`))
 
     const auto = profileToMd(content.toString(`utf8`), { baseURL: null })
     const forced = profileToMd(
@@ -130,14 +140,14 @@ describe(`profileToMd`, () => {
 
 describe(`profileToMdAsync`, () => {
   describe.each(allFixtures)(`auto-detects %s`, filename => {
-    const content = readFileSync(fixturePath(filename))
+    const content = readFixture(filename)
 
     test(`from Blob`, async () => {
       const blob = new Blob([content])
 
       const md = await profileToMdAsync(blob, { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
 
     test(`from ReadableStream`, async () => {
@@ -150,12 +160,12 @@ describe(`profileToMdAsync`, () => {
 
       const md = await profileToMdAsync(stream, { baseURL: null })
 
-      expect(md).toMatch(/^# /u)
+      expectConverted(md)
     })
   })
 
   test(`forced format works`, async () => {
-    const content = readFileSync(fixturePath(`node.base.cpuprofile`))
+    const content = readFileSync(fixturePath(`javascript.node.base.cpuprofile`))
     const blob = new Blob([content])
 
     const md = await profileToMdAsync(
@@ -169,7 +179,9 @@ describe(`profileToMdAsync`, () => {
   test(`forced binary format streams a ReadableStream through parseAsync`, async () => {
     // Forcing the format routes into the streaming `parseAsync` path, which must
     // produce the same output as the sync conversion of the same bytes.
-    const content = readFileSync(fixturePath(`python.base.collapsed`))
+    const content = readFileSync(
+      fixturePath(`python.py-spy.cpu.base.collapsed`),
+    )
     const stream = new ReadableStream<Uint8Array>({
       start(controller) {
         controller.enqueue(content)
@@ -316,11 +328,11 @@ describe(`diffProfiles`, () => {
   test.each(allFixtures)(
     `auto-detects %s and produces zero deltas against itself`,
     filename => {
-      const content = readFileSync(fixturePath(filename))
+      const content = readFixture(filename)
 
       const md = diffProfiles(content, content, { baseURL: null })
 
-      expect(md).toMatch(/^# .*diff/iu)
+      expectDiffConverted(md)
       // No regressions or progressions when diffing an input against itself.
       expect(md).not.toMatch(/Regressions|Progressions/u)
     },
@@ -328,10 +340,13 @@ describe(`diffProfiles`, () => {
 
   test(`accepts an explicit { data, format }`, () => {
     const nodeCpuProfile = readFileSync(
-      fixturePath(`node.base.cpuprofile`),
+      fixturePath(`javascript.node.base.cpuprofile`),
       `utf8`,
     )
-    const denoCpuProfile = readFileSync(fixturePath(`deno.cpuprofile`), `utf8`)
+    const denoCpuProfile = readFileSync(
+      fixturePath(`javascript.deno.base.cpuprofile`),
+      `utf8`,
+    )
 
     const md = diffProfiles(
       { data: nodeCpuProfile, format: `v8-cpu-profile` },
@@ -456,30 +471,10 @@ describe(`diffProfiles`, () => {
     expect(progressionsTables(md, `Retained size`)).toEqual([[removed]])
   })
 
-  test(`matches functions whose locations contain build hashes`, () => {
-    // The Cargo build-script hash differs between the base and current
-    // profiles. The default `matchEntry` strips it from the match key so
-    // functions match as deltas instead of new/removed pairs, while displaying
-    // the current profile's real path.
-    const base = readFileSync(fixturePath(`rust.base.pprof`))
-    const current = readFileSync(fixturePath(`rust.current.pprof`))
-
-    const md = diffProfiles(base, current, { baseURL: null })
-
-    expect(progressionsTables(md, `Self time`)).toEqual([
-      expect.arrayContaining([
-        {
-          Change: `-28.6%`,
-          Delta: `-6.0ms`,
-          '%': `8.1% → 8.5%`,
-          Time: `21.0ms → 15.0ms`,
-          Samples: `1 → 2`,
-          Function: `compiler::phases::frontend::parser::__parse__Module::__reduce40`,
-          Location: `/Users/mike/code/mikecluck/web-lang/compiler/target/profiling/build/web-compiler-274140d43750284c/out/parser.rs`,
-        },
-      ]),
-    ])
-  })
+  // The default `matchEntry`'s build-hash stripping (so functions match across
+  // builds despite per-build Cargo/rustc hashes in their paths) is covered at a
+  // lower level by `src/profile/diff.test.ts` and `src/snapshot/diff.test.ts`,
+  // since no committed fixture pair exhibits a differing build hash.
 
   test(`matchEntry matches functions whose locations differ across profiles`, () => {
     // `funcA`'s file carries a per-build suffix, so by default the two sides
@@ -550,10 +545,12 @@ describe(`diffProfiles`, () => {
   })
 
   test.each(snapshotFixtures)(
-    `throws on diffing node.base.cpuprofile against %s`,
+    `throws on diffing javascript.node.base.cpuprofile against %s`,
     snapshotFilename => {
-      const profileContent = readFileSync(fixturePath(`node.base.cpuprofile`))
-      const snapshotContent = readFileSync(fixturePath(snapshotFilename))
+      const profileContent = readFileSync(
+        fixturePath(`javascript.node.base.cpuprofile`),
+      )
+      const snapshotContent = readFixture(snapshotFilename)
 
       expect(() =>
         diffProfiles(profileContent, snapshotContent, { baseURL: null }),
@@ -567,7 +564,7 @@ describe(`diffProfiles`, () => {
 
 describe(`diffProfilesAsync`, () => {
   test.each(allFixtures)(`diffs %s Blob inputs`, async filename => {
-    const content = readFileSync(fixturePath(filename))
+    const content = readFixture(filename)
 
     const md = await diffProfilesAsync(
       new Blob([content]),
@@ -575,6 +572,6 @@ describe(`diffProfilesAsync`, () => {
       { baseURL: null },
     )
 
-    expect(md).toMatch(/^# .*diff/iu)
+    expectDiffConverted(md)
   })
 })

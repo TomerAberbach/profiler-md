@@ -4,6 +4,10 @@ Go supports pprof natively via the
 [`runtime/pprof`](https://pkg.go.dev/runtime/pprof) package and the
 [`net/http/pprof`](https://pkg.go.dev/net/http/pprof) HTTP handler.
 
+> **Tip:** build with `-trimpath` (e.g. `go test -trimpath ...`) so locations
+> are package-relative (`encoding/json/encode.go`) instead of absolute build
+> paths.
+
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.

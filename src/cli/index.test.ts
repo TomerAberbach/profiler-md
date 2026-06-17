@@ -7,6 +7,10 @@ import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test } from 'vitest'
 import { fixturePath } from '../testing/fixtures.ts'
 
+// A fixture converts to a Markdown heading, or — for a valid capture with no
+// samples (e.g. a lock profile that saw no contention) — the no-data message.
+const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
+
 describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
   const path = fixturePath(filename)
   const fileContent = readFileSync(path)
@@ -15,14 +19,14 @@ describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
     const { status, stdout } = await runCli([path])
 
     expect(status).toBe(0)
-    expect(stdout).toMatch(/^# /u)
+    expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
   })
 
   test(`reads from stdin and auto-detects format`, async () => {
     const { status, stdout } = await runCli([], fileContent)
 
     expect(status).toBe(0)
-    expect(stdout).toMatch(/^# /u)
+    expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
   })
 
   test.each([`--output`, `-o`])(
@@ -37,23 +41,16 @@ describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
 
       expect(status).toBe(0)
       expect(stdout).toBe(``)
-      expect(readFileSync(tempPath, `utf8`)).toMatch(/^# /u)
+      expect(readFileSync(tempPath, `utf8`)).toMatch(MARKDOWN_OR_NO_DATA)
 
       rmSync(tempPath, { recursive: true })
     },
   )
 
-  test(`--top-n limits the number of entries shown`, async () => {
-    const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
-      runCli([path, `--top-n`, `1`]),
-      runCli([path, `--top-n`, `5`]),
-    ])
-
-    expect(top1.length).toBeLessThan(top5.length)
-  })
-
   test(`--base-url makes file paths relative to the given directory`, async () => {
-    const baseURL = `/Users/tomer/Documents/work/code`
+    // The fixtures were captured under random nix temp dirs, so their frame
+    // paths live under /private/tmp; relativizing to it should strip the prefix.
+    const baseURL = `/private/tmp`
 
     const { stdout } = await runCli([path, `--base-url`, baseURL])
 
@@ -68,6 +65,22 @@ describe.concurrent.each(await fs.readdir(fixturePath()))(`%s`, filename => {
 
     expect(relative).toBe(absolute)
   })
+})
+
+// These flag behaviors are format-agnostic, so they're checked once against a
+// representative profile that has plenty of located `ours` functions rather
+// than per fixture (some real fixtures are locationless or have few entries).
+describe(`CLI flag behavior`, () => {
+  const path = fixturePath(`javascript.node.base.cpuprofile`)
+
+  test(`--top-n limits the number of entries shown`, async () => {
+    const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
+      runCli([path, `--top-n`, `1`]),
+      runCli([path, `--top-n`, `5`]),
+    ])
+
+    expect(top1.length).toBeLessThan(top5.length)
+  })
 
   test(`--third-party changes which paths are considered third-party`, async () => {
     const { stdout } = await runCli([path, `--third-party`, `**`])
@@ -80,13 +93,13 @@ describe.each([
   { compression: `gzip`, compress: gzipSync, ext: `.gz` },
   { compression: `brotli`, compress: brotliCompressSync, ext: `.br` },
 ])(`$compression decompression`, ({ compression, compress, ext }) => {
-  const raw = readFileSync(fixturePath(`node.base.cpuprofile`))
+  const raw = readFileSync(fixturePath(`javascript.node.base.cpuprofile`))
   const compressed = compress(raw)
   const expectedMarkdown = /^# CPU profile/u
 
   test(`auto-decompresses a ${compression} file`, async () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-    const path = join(dir, `node.base.cpuprofile${ext}`)
+    const path = join(dir, `javascript.node.base.cpuprofile${ext}`)
     writeFileSync(path, compressed)
 
     const { status, stdout } = await runCli([path])
@@ -110,15 +123,16 @@ describe.each([
 
 test(`--source-maps applies source maps to profile locations`, async () => {
   const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-  const sourceMapPath = join(dir, `index.ts.map`)
-  // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
-  // /mapped/original.ts line 1 col 0.
-  const mappings = `${`;`.repeat(204)}yBAAA`
+  const sourceMapPath = join(dir, `tsc-workload.mjs.map`)
+  // Maps the `typeCheckProject` frame in the node CPU profile fixture
+  // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
+  // col 0.
+  const mappings = `${`;`.repeat(2)}gCAAA`
   writeFileSync(
     sourceMapPath,
     JSON.stringify({
       version: 3,
-      file: `file:///Users/tomer/Documents/work/code/uneval/src/index.ts`,
+      file: `file:///private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/tsc-workload.mjs`,
       sources: [`/mapped/original.ts`],
       names: [],
       mappings,
@@ -126,7 +140,7 @@ test(`--source-maps applies source maps to profile locations`, async () => {
   )
 
   const { status, stdout } = await runCli([
-    fixturePath(`node.base.cpuprofile`),
+    fixturePath(`javascript.node.base.cpuprofile`),
     `--source-maps`,
     `${dir}/*.map`,
   ])
@@ -140,12 +154,13 @@ test(`--source-maps applies source maps to profile locations`, async () => {
 
 test(`--source-maps applies inline source maps from files`, async () => {
   const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-  // Maps file:///.../uneval/src/index.ts line 204 col 25 (0-based) to
-  // /mapped/original.ts line 1 col 0.
-  const mappings = `${`;`.repeat(204)}yBAAA`
+  // Maps the `typeCheckProject` frame in the node CPU profile fixture
+  // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
+  // col 0.
+  const mappings = `${`;`.repeat(2)}gCAAA`
   const sourceMap = JSON.stringify({
     version: 3,
-    file: `file:///Users/tomer/Documents/work/code/uneval/src/index.ts`,
+    file: `file:///private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/tsc-workload.mjs`,
     sources: [`/mapped/original.ts`],
     names: [],
     mappings,
@@ -158,7 +173,7 @@ test(`--source-maps applies inline source maps from files`, async () => {
   )
 
   const { status, stdout } = await runCli([
-    fixturePath(`node.base.cpuprofile`),
+    fixturePath(`javascript.node.base.cpuprofile`),
     `--source-maps`,
     `${dir}/*.js`,
   ])
@@ -173,8 +188,8 @@ test(`--match changes how entries match across diffed profiles`, async () => {
   // Collapsing every location to `x` must not break self-diff matching: every
   // entry still matches its counterpart, so there are no deltas.
   const { status, stdout } = await runCli([
-    fixturePath(`node.base.cpuprofile`),
-    fixturePath(`node.base.cpuprofile`),
+    fixturePath(`javascript.node.base.cpuprofile`),
+    fixturePath(`javascript.node.base.cpuprofile`),
     `--match`,
     `.+=x`,
   ])
@@ -186,13 +201,13 @@ test(`--match changes how entries match across diffed profiles`, async () => {
 test.each([
   {
     scenario: `two profiles`,
-    baseFixture: `node.base.cpuprofile`,
-    currentFixture: `bun.cpuprofile`,
+    baseFixture: `javascript.node.base.cpuprofile`,
+    currentFixture: `javascript.bun.base.cpuprofile`,
   },
   {
     scenario: `two heap snapshots`,
-    baseFixture: `node.heapsnapshot`,
-    currentFixture: `node.heapsnapshot`,
+    baseFixture: `javascript.node.base.heapsnapshot`,
+    currentFixture: `javascript.node.base.heapsnapshot`,
   },
 ])(
   `diffs $scenario passed as positional arguments`,
@@ -236,30 +251,34 @@ test.each([
   {
     scenario: `diffing a profile against a heap snapshot`,
     args: [
-      fixturePath(`node.base.cpuprofile`),
-      fixturePath(`node.heapsnapshot`),
+      fixturePath(`javascript.node.base.cpuprofile`),
+      fixturePath(`javascript.node.base.heapsnapshot`),
     ],
     expectedStderr: `cannot diff a profile against a snapshot`,
     expectedStatus: 1,
   },
   {
     scenario: `--match without an equals sign`,
-    args: [fixturePath(`node.base.cpuprofile`), `--match`, `no-equals-sign`],
+    args: [
+      fixturePath(`javascript.node.base.cpuprofile`),
+      `--match`,
+      `no-equals-sign`,
+    ],
     expectedStderr: `expected REGEX=REPLACEMENT`,
     expectedStatus: 2,
   },
   {
     scenario: `--match with an invalid regex`,
-    args: [fixturePath(`node.base.cpuprofile`), `--match`, `[=x`],
+    args: [fixturePath(`javascript.node.base.cpuprofile`), `--match`, `[=x`],
     expectedStderr: `Invalid --match regex`,
     expectedStatus: 2,
   },
   {
     scenario: `more than two positional arguments`,
     args: [
-      fixturePath(`node.base.cpuprofile`),
-      fixturePath(`bun.cpuprofile`),
-      fixturePath(`deno.cpuprofile`),
+      fixturePath(`javascript.node.base.cpuprofile`),
+      fixturePath(`javascript.bun.base.cpuprofile`),
+      fixturePath(`javascript.deno.base.cpuprofile`),
     ],
     expectedStderr: `cannot be used together`,
     expectedStatus: 2,

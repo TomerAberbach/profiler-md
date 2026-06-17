@@ -1,3 +1,5 @@
 examples
 src/fixtures
 pnpm-lock.yaml
+# Fixture-generation workloads and pinned real inputs (kept verbatim).
+scripts/fixtures/assets

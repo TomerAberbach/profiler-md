@@ -54,8 +54,9 @@ writeFileSync(`cpu.cpuprofile`, JSON.stringify(profile))
 Samples heap allocations by stack trace. Useful for finding allocation hot spots
 and reducing GC pressure.
 
-`bun --heap-prof` generates a heap _snapshot_ on exit, not a heap _profile_.
-Deno has no equivalent.
+`bun --heap-prof` generates a heap _snapshot_ on exit, not a heap _profile_ (see
+[Heap snapshots](#heap-snapshots) for the format details). Deno has no
+equivalent.
 
 ### CLI
 
@@ -119,6 +120,10 @@ bun --heap-prof script.ts
 
 #### Bun flags
 
+`bun --heap-prof` writes a **V8-format** heap snapshot on exit — the same
+`.heapsnapshot` schema Node.js and Chrome produce, loadable in Chrome DevTools —
+not a JSC/WebKit snapshot.
+
 | Flag                      | Default | Description                                     |
 | ------------------------- | ------- | ----------------------------------------------- |
 | `--heap-prof`             | —       | Write a heap snapshot on exit; enabled when set |
@@ -127,11 +132,33 @@ bun --heap-prof script.ts
 
 ### Programmatic API
 
+`node:v8`'s `writeHeapSnapshot` writes a V8-format snapshot and works in
+Node.js, Deno, and Bun:
+
 ```js
 import { writeHeapSnapshot } from 'node:v8'
 
 // Code to capture...
 writeHeapSnapshot(`heap.heapsnapshot`)
+```
+
+Bun additionally offers
+[`generateHeapSnapshot()`](https://bun.com/docs/api/utils#generateheapsnapshot)
+(from the `bun` module), which can emit _both_ heap-snapshot formats, selectable
+by argument:
+
+```js
+import { generateHeapSnapshot } from 'bun'
+
+// JSC `Inspector` format — a JS object, the same flavor Safari's Web Inspector
+// exports. This is how you get the JSC/Safari snapshot format without Safari's
+// GUI.
+const jsc = generateHeapSnapshot() // Or generateHeapSnapshot('jsc')
+await Bun.write(`heap.json`, JSON.stringify(jsc))
+
+// V8 format — a string, the same as `--heap-prof`.
+const v8 = generateHeapSnapshot(`v8`)
+await Bun.write(`heap.heapsnapshot`, v8)
 ```
 
 ## pprof

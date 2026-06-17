@@ -95,8 +95,28 @@ pnpm update-examples
 pnpm update-readme
 
 # Benchmark the CLI with the given args
-pnpm bench ./src/fixtures/node.base.cpuprofile
+pnpm bench ./src/fixtures/javascript.node.base.cpuprofile
 ```
+
+## Reproducing fixtures
+
+`src/fixtures/` is generated reproducibly. `scripts/fixtures/flake.nix` pins the
+full profiler toolchain and the per-language workloads (real, popular projects
+driven over a small fixed input). Each `scripts/fixtures/<lang>.sh` fetches its
+pinned workload, runs it twice, captures with the relevant profiler, and writes
+the canonical `<lang>.<source>.<config?>.<base|current>.<ext>` filenames (see
+`scripts/fixtures/_common.sh`). The orchestrator re-execs itself inside the
+flake's dev shell, so just run it directly (it needs `nix` on PATH):
+
+```sh
+scripts/generate-fixtures               # --missing: skip fixtures that exist
+scripts/generate-fixtures --all         # delete targets first, regenerate all
+scripts/generate-fixtures go ruby       # limit to named workload scripts
+```
+
+Some captures need `sudo` (py-spy, rbspy) or Docker `linux/arm64` (gperftools)
+and print a notice. Every generated format, including `.jfr` (via the JFR
+converter), is verified through the repo CLI.
 
 ## Testing
 
