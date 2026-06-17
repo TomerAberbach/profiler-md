@@ -1,7 +1,7 @@
 # JavaScript
 
-Profiling JavaScript works across Node.js, Deno, Bun, and Chrome via V8 CPU
-profiles, V8 heap profiles, and V8 heap snapshots.
+Profile JavaScript across Node.js, Deno, Bun, Chrome, and Safari, capturing CPU
+profiles, heap profiles, and heap snapshots in V8 and JavaScriptCore formats.
 
 ## CPU profiling
 
@@ -54,7 +54,7 @@ writeFileSync(`cpu.cpuprofile`, JSON.stringify(profile))
 Samples heap allocations by stack trace. Useful for finding allocation hot spots
 and reducing GC pressure.
 
-`bun --heap-prof` generates a heap _snapshot_ on exit, not a heap _profile_.
+`bun --heap-prof` generates a V8 heap _snapshot_ on exit, not a heap _profile_.
 Deno has no equivalent.
 
 ### CLI
@@ -127,11 +127,28 @@ bun --heap-prof script.ts
 
 ### Programmatic API
 
+`node:v8`'s `writeHeapSnapshot` writes a V8-format snapshot and works in
+Node.js, Deno, and Bun:
+
 ```js
 import { writeHeapSnapshot } from 'node:v8'
 
 // Code to capture...
 writeHeapSnapshot(`heap.heapsnapshot`)
+```
+
+Bun also offers
+[`Bun.generateHeapSnapshot()`](https://bun.com/reference/bun/generateHeapSnapshot),
+which emits _both_ heap snapshot formats, selectable by argument:
+
+```js
+import { generateHeapSnapshot } from 'bun'
+
+const jsc = generateHeapSnapshot() // Or generateHeapSnapshot(`jsc`)
+await Bun.write(`heap.json`, JSON.stringify(jsc))
+
+const v8 = generateHeapSnapshot(`v8`)
+await Bun.write(`heap.heapsnapshot`, v8)
 ```
 
 ## pprof
@@ -172,19 +189,16 @@ await writeFile(`heap.pb.gz`, await encode(await heap.profile()))
 ## Chrome DevTools
 
 Chrome DevTools can profile JavaScript running in the browser or connected to
-Node.js, Deno, or Bun via `--inspect`. The panels and workflow are the same in
-both cases.
+Node.js or Deno via `--inspect`. The panels and workflow are identical.
 
 ### Connecting
 
 **In the browser:** open DevTools with ⌥⌘I (macOS) or Ctrl+Shift+I
 (Windows/Linux).
 
-**Via `--inspect` (Node.js, Deno, Bun):** start the process with the inspector
+**Via `--inspect` (Node.js, Deno):** start the process with the inspector
 enabled, then open `chrome://inspect` in Chrome and click **Open dedicated
-DevTools for Node**. For Bun, open the URL printed to stderr in
-[debug.bun.sh](https://debug.bun.sh) — Bun uses the WebKit Inspector Protocol
-rather than V8's.
+DevTools for Node**.
 
 ```sh
 # Node.js (default port 9229)
@@ -192,9 +206,6 @@ node --inspect script.js
 
 # Deno (default port 9229)
 deno run --inspect script.ts
-
-# Bun (auto-assigned port)
-bun --inspect script.ts
 ```
 
 #### Flags (all runtimes)
@@ -218,6 +229,17 @@ Stop when done to see allocation hot spots by call stack.
 
 Open the **Memory** panel, select **Heap snapshot**, and click **Take
 snapshot**.
+
+## debug.bun.sh
+
+Bun's inspector speaks the WebKit Inspector Protocol rather than V8's, so it
+connects through [debug.bun.sh](https://debug.bun.sh) instead of Chrome
+DevTools. Start the process with `--inspect` and open the URL printed to stderr.
+
+```sh
+# Bun (auto-assigned port)
+bun --inspect script.ts
+```
 
 ## Safari Web Inspector
 
