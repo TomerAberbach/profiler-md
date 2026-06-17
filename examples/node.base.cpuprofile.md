@@ -333,8 +333,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |   Time | Samples | Callee           | Location                           |
 | ----: | -----: | ------: | ---------------- | ---------------------------------- |
 | 99.5% | 11.01s |   8,770 | `uneval`         | uneval/src/index.ts:76:16          |
-|  0.0% |  1.3ms |       1 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
-|  0.0% |  1.3ms |       1 | `traverseObject` | uneval/src/index.ts:205:26         |
+| <0.1% |  1.3ms |       1 | `unevalInternal` | uneval/src/internal/index.ts:25:32 |
+| <0.1% |  1.3ms |       1 | `traverseObject` | uneval/src/index.ts:205:26         |
 
 ##### `uneval` (uneval/src/index.ts:76:16)
 
@@ -342,7 +342,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ----: | ------: | ---------------- | ----------------------------------- |
 | 70.2% | 7.74s |   6,163 | `unevalInternal` | uneval/src/internal/index.ts:25:32  |
 | 27.7% | 3.05s |   2,428 | `createState`    | uneval/src/index.ts:145:21          |
-|  0.0% | 1.3ms |       1 | `unevalObject`   | uneval/src/internal/object.ts:21:29 |
+| <0.1% | 1.3ms |       1 | `unevalObject`   | uneval/src/internal/object.ts:21:29 |
 
 ##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
 
@@ -352,7 +352,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 15.0% |   1.16s |     927 | `unevalNumber`  | uneval/src/internal/primitive.ts:12:29  |
 |  3.1% | 241.0ms |     192 | `unevalString`  | uneval/src/internal/primitive.ts:133:29 |
 |  0.2% |  12.5ms |      10 | `unevalBoolean` | uneval/src/internal/primitive.ts:8:30   |
-|  0.0% |   2.5ms |       2 | `unevalArray`   | uneval/src/internal/collection.ts:7:47  |
+| <0.1% |   2.5ms |       2 | `unevalArray`   | uneval/src/internal/collection.ts:7:47  |
 
 ##### `unevalObject` (uneval/src/internal/object.ts:21:29)
 
@@ -368,7 +368,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 45.3% | 3.42s |   2,726 | `unevalArray`            | uneval/src/internal/collection.ts:7:47 |
 |  0.1% | 6.3ms |       5 | `unevalInternal`         | uneval/src/internal/index.ts:25:32     |
 |  0.1% | 5.0ms |       4 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:386:32   |
-|  0.0% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29    |
+| <0.1% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29    |
 
 ##### `unevalObjectLike` (uneval/src/internal/object.ts:105:26)
 
@@ -376,7 +376,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ----: | ------: | ------------------------ | ------------------------------------ |
 | 52.0% | 3.04s |   2,425 | `unevalInternal`         | uneval/src/internal/index.ts:25:32   |
 | 23.5% | 1.37s |   1,097 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:386:32 |
-|  0.0% | 2.5ms |       2 | `unevalObject`           | uneval/src/internal/object.ts:21:29  |
+| <0.1% | 2.5ms |       2 | `unevalObject`           | uneval/src/internal/object.ts:21:29  |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 

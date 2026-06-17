@@ -18,28 +18,28 @@ Allocated 4.91 MB over 2,844 samples (1.73 kB per sample).
 
 Functions ranked by bytes allocated directly in the function body, excluding callees.
 
-|    % |    Size | Samples | Function                   | Location                               |
-| ---: | ------: | ------: | -------------------------- | -------------------------------------- |
-| 9.3% |  458 kB |      80 | `(IDLE)`                   | `<unknown>`                            |
-| 2.3% |  113 kB |      74 | `js-to-wasm:iii:`          | wasm://wasm/009f676a:1:2029168         |
-| 1.5% | 73.1 kB |      38 | `push`                     | `<unknown>`                            |
-| 1.3% | 65.6 kB |       1 | `unevalNumber`             | uneval/src/internal/primitive.ts:12:29 |
-| 1.1% | 56.5 kB |      13 | `set`                      | `<unknown>`                            |
-| 0.9% | 45.6 kB |      44 | `traverseObject`           | uneval/src/index.ts:204:26             |
-| 0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<unknown>`                            |
-| 0.3% | 15.8 kB |       9 | `Map`                      | `<unknown>`                            |
-| 0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<unknown>`                            |
-| 0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<unknown>`                            |
-| 0.1% | 7.14 kB |       6 | `unevalObjectInternal`     | uneval/src/internal/object.ts:68:30    |
-| 0.1% | 6.18 kB |       5 | `(anonymous)`              | uneval/src/internal/type.ts:1:1        |
-| 0.1% | 4.27 kB |       4 | `(V8 API)`                 | `<unknown>`                            |
-| 0.1% | 3.44 kB |       3 | `unevalArray`              | uneval/src/internal/collection.ts:7:47 |
-| 0.1% | 3.06 kB |       3 | `unevalInternal`           | uneval/src/internal/index.ts:25:32     |
-| 0.1% | 3.02 kB |       2 | `traverse`                 | uneval/src/index.ts:164:20             |
-| 0.1% | 2.73 kB |       2 | `unevalObjectLike`         | uneval/src/internal/object.ts:103:26   |
-| 0.1% | 2.54 kB |       2 | `(anonymous)`              | uneval/scripts/profile.ts:1:1          |
-| 0.0% | 2.29 kB |       2 | `test`                     | `<unknown>`                            |
-| 0.0% | 2.03 kB |       2 | `createState`              | uneval/src/index.ts:144:21             |
+|     % |    Size | Samples | Function                   | Location                               |
+| ----: | ------: | ------: | -------------------------- | -------------------------------------- |
+|  9.3% |  458 kB |      80 | `(IDLE)`                   | `<unknown>`                            |
+|  2.3% |  113 kB |      74 | `js-to-wasm:iii:`          | wasm://wasm/009f676a:1:2029168         |
+|  1.5% | 73.1 kB |      38 | `push`                     | `<unknown>`                            |
+|  1.3% | 65.6 kB |       1 | `unevalNumber`             | uneval/src/internal/primitive.ts:12:29 |
+|  1.1% | 56.5 kB |      13 | `set`                      | `<unknown>`                            |
+|  0.9% | 45.6 kB |      44 | `traverseObject`           | uneval/src/index.ts:204:26             |
+|  0.8% | 37.1 kB |      19 | `getOwnPropertyDescriptor` | `<unknown>`                            |
+|  0.3% | 15.8 kB |       9 | `Map`                      | `<unknown>`                            |
+|  0.2% | 12.2 kB |      11 | `(BYTECODE_COMPILER)`      | `<unknown>`                            |
+|  0.2% | 10.2 kB |      10 | `(PARSER)`                 | `<unknown>`                            |
+|  0.1% | 7.14 kB |       6 | `unevalObjectInternal`     | uneval/src/internal/object.ts:68:30    |
+|  0.1% | 6.18 kB |       5 | `(anonymous)`              | uneval/src/internal/type.ts:1:1        |
+|  0.1% | 4.27 kB |       4 | `(V8 API)`                 | `<unknown>`                            |
+|  0.1% | 3.44 kB |       3 | `unevalArray`              | uneval/src/internal/collection.ts:7:47 |
+|  0.1% | 3.06 kB |       3 | `unevalInternal`           | uneval/src/internal/index.ts:25:32     |
+|  0.1% | 3.02 kB |       2 | `traverse`                 | uneval/src/index.ts:164:20             |
+|  0.1% | 2.73 kB |       2 | `unevalObjectLike`         | uneval/src/internal/object.ts:103:26   |
+|  0.1% | 2.54 kB |       2 | `(anonymous)`              | uneval/scripts/profile.ts:1:1          |
+| <0.1% | 2.29 kB |       2 | `test`                     | `<unknown>`                            |
+| <0.1% | 2.03 kB |       2 | `createState`              | uneval/src/index.ts:144:21             |
 
 #### Callers
 

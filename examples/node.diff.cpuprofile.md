@@ -79,4 +79,4 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -0.2% | -12.7ms | 65.9% → 66.2% |     7.56s → 7.55s | 6,020 → 6,009 | `unevalObjectInternal` | uneval/src/internal/object.ts:69:30     |
 |  -5.5% | -10.5ms |   1.7% → 1.6% | 192.7ms → 182.2ms |     153 → 145 | `(garbage collector)`  | `<unknown>`                             |
 |  -0.1% |  -5.1ms | 66.4% → 66.7% |     7.61s → 7.60s | 6,059 → 6,054 | `unevalObject`         | uneval/src/internal/object.ts:21:29     |
-|  -0.0% |  -1.6ms | 29.9% → 30.0% |             3.42s | 2,727 → 2,724 | `unevalArray`          | uneval/src/internal/collection.ts:7:47  |
+|    ~0% |  -1.6ms | 29.9% → 30.0% |             3.42s | 2,727 → 2,724 | `unevalArray`          | uneval/src/internal/collection.ts:7:47  |

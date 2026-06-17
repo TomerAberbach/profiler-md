@@ -365,7 +365,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 45.3% | 3.42s |   2,723 | `unevalArray`            | uneval/src/internal/collection.ts:7:47 |
 |  0.1% | 8.5ms |       7 | `unevalInternal`         | uneval/src/internal/index.ts:25:32     |
 |  0.1% | 7.6ms |       6 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:386:32   |
-|  0.0% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29    |
+| <0.1% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29    |
 
 ##### `unevalObjectLike` (uneval/src/internal/object.ts:105:26)
 
@@ -373,8 +373,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ----: | ------: | ------------------------ | ------------------------------------ |
 | 52.5% | 3.10s |   2,473 | `unevalInternal`         | uneval/src/internal/index.ts:25:32   |
 | 23.9% | 1.41s |   1,125 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:386:32 |
-|  0.0% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29  |
-|  0.0% | 1.3ms |       1 | `unevalWithoutCustom`    | uneval/src/internal/index.ts:14:37   |
+| <0.1% | 1.3ms |       1 | `unevalObject`           | uneval/src/internal/object.ts:21:29  |
+| <0.1% | 1.3ms |       1 | `unevalWithoutCustom`    | uneval/src/internal/index.ts:14:37   |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 

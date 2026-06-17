@@ -13,10 +13,10 @@ Allocated 10.4 MB across 144,697 nodes and 437,047 edges.
 | built-in |  2.0% |  203 kB |  1,013 |
 | array    |  0.6% | 65.8 kB |  3,748 |
 | regexp   |  0.1% | 6.14 kB |    128 |
-| unknown  |  0.0% | 4.28 kB |    122 |
-| symbol   |  0.0% |  1.1 kB |     67 |
-| number   |  0.0% |   383 B |     11 |
-| bigint   |  0.0% |   238 B |     12 |
+| unknown  | <0.1% | 4.28 kB |    122 |
+| symbol   | <0.1% |  1.1 kB |     67 |
+| number   | <0.1% |   383 B |     11 |
+| bigint   | <0.1% |   238 B |     12 |
 
 ## Largest constructors
 
@@ -53,53 +53,53 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Structure`
 
-|    % |    Size | Instances | Path                                                                                                                                                                          |
-| ---: | ------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.6% | 16.5 kB |       147 | `(GC root)`                                                                                                                                                                   |
-| 0.0% |   112 B |         1 | `._cachedElementBoundingRect StructureRareData ← [66] StructureRareData ← ._elementsWithCachedBoundingRects FunctionExecutable ← .ReaderArticleFinderJS JSLexicalEnvironment` |
-| 0.0% |   112 B |         1 | `.image StructureRareData ← .Object <root>`                                                                                                                                   |
-| 0.0% |   112 B |         1 | `._dirtyProperties Structure ← .image StructureRareData ← .Object <root>`                                                                                                     |
-| 0.0% |   112 B |         1 | `[65] StructureRareData ← ._elementsWithCachedBoundingRects FunctionExecutable ← .ReaderArticleFinderJS JSLexicalEnvironment`                                                 |
+|     % |    Size | Instances | Path                                                                                                                                                                          |
+| ----: | ------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.6% | 16.5 kB |       147 | `(GC root)`                                                                                                                                                                   |
+| <0.1% |   112 B |         1 | `._cachedElementBoundingRect StructureRareData ← [66] StructureRareData ← ._elementsWithCachedBoundingRects FunctionExecutable ← .ReaderArticleFinderJS JSLexicalEnvironment` |
+| <0.1% |   112 B |         1 | `.image StructureRareData ← .Object <root>`                                                                                                                                   |
+| <0.1% |   112 B |         1 | `._dirtyProperties Structure ← .image StructureRareData ← .Object <root>`                                                                                                     |
+| <0.1% |   112 B |         1 | `[65] StructureRareData ← ._elementsWithCachedBoundingRects FunctionExecutable ← .ReaderArticleFinderJS JSLexicalEnvironment`                                                 |
 
 ##### `FunctionExecutable`
 
-|    % |    Size | Instances | Path                                                   |
-| ---: | ------: | --------: | ------------------------------------------------------ |
-| 0.2% |  3.2 kB |        25 | `(GC root)`                                            |
-| 0.1% | 1.41 kB |        11 | `.Object <root>`                                       |
-| 0.0% |   128 B |         1 | `.-apple-pay-button-style Function ← .Object Function` |
-| 0.0% |   128 B |         1 | `.-apple-pay-button-type Function ← .Object Function`  |
-| 0.0% |   128 B |         1 | `.-epub-caption-side Function ← .Object Function`      |
+|     % |    Size | Instances | Path                                                   |
+| ----: | ------: | --------: | ------------------------------------------------------ |
+|  0.2% |  3.2 kB |        25 | `(GC root)`                                            |
+|  0.1% | 1.41 kB |        11 | `.Object <root>`                                       |
+| <0.1% |   128 B |         1 | `.-apple-pay-button-style Function ← .Object Function` |
+| <0.1% |   128 B |         1 | `.-apple-pay-button-type Function ← .Object Function`  |
+| <0.1% |   128 B |         1 | `.-epub-caption-side Function ← .Object Function`      |
 
 ##### `DOMAttributeGetterSetter`
 
-|    % |    Size | Instances | Path                                                         |
-| ---: | ------: | --------: | ------------------------------------------------------------ |
-| 0.3% | 3.26 kB |        68 | `(GC root)`                                                  |
-| 0.0% |    48 B |         1 | `.name Function`                                             |
-| 0.0% |    48 B |         1 | `.Object CustomGetterSetter ← .Cy Intl.DurationFormat`       |
-| 0.0% |    48 B |         1 | `.Cy Intl.DurationFormat`                                    |
-| 0.0% |    48 B |         1 | `.Object DOMAttributeGetterSetter ← .Cy Intl.DurationFormat` |
+|     % |    Size | Instances | Path                                                         |
+| ----: | ------: | --------: | ------------------------------------------------------------ |
+|  0.3% | 3.26 kB |        68 | `(GC root)`                                                  |
+| <0.1% |    48 B |         1 | `.name Function`                                             |
+| <0.1% |    48 B |         1 | `.Object CustomGetterSetter ← .Cy Intl.DurationFormat`       |
+| <0.1% |    48 B |         1 | `.Cy Intl.DurationFormat`                                    |
+| <0.1% |    48 B |         1 | `.Object DOMAttributeGetterSetter ← .Cy Intl.DurationFormat` |
 
 ##### `StructureRareData`
 
-|    % |    Size | Instances | Path                                                                |
-| ---: | ------: | --------: | ------------------------------------------------------------------- |
-| 0.5% | 3.65 kB |        38 | `(GC root)`                                                         |
-| 0.0% |   192 B |         2 | `.Object StructureRareData ← .y string`                             |
-| 0.0% |   192 B |         2 | `.Object StructureRareData ← .Object StructureRareData ← .y string` |
-| 0.0% |    96 B |         1 | `.y string`                                                         |
-| 0.0% |    96 B |         1 | `.x string`                                                         |
+|     % |    Size | Instances | Path                                                                |
+| ----: | ------: | --------: | ------------------------------------------------------------------- |
+|  0.5% | 3.65 kB |        38 | `(GC root)`                                                         |
+| <0.1% |   192 B |         2 | `.Object StructureRareData ← .y string`                             |
+| <0.1% |   192 B |         2 | `.Object StructureRareData ← .Object StructureRareData ← .y string` |
+| <0.1% |    96 B |         1 | `.y string`                                                         |
+| <0.1% |    96 B |         1 | `.x string`                                                         |
 
 ##### `Function`
 
-|    % | Size | Instances | Path                          |
-| ---: | ---: | --------: | ----------------------------- |
-| 0.0% | 98 B |         1 | `.ariaOrientation Callee`     |
-| 0.0% | 98 B |         1 | `.ariaPressed Callee`         |
-| 0.0% | 97 B |         1 | `.ariaMultiSelectable Callee` |
-| 0.0% | 97 B |         1 | `.ariaPosInSet Callee`        |
-| 0.0% | 97 B |         1 | `.ariaReadOnly Callee`        |
+|     % | Size | Instances | Path                          |
+| ----: | ---: | --------: | ----------------------------- |
+| <0.1% | 98 B |         1 | `.ariaOrientation Callee`     |
+| <0.1% | 98 B |         1 | `.ariaPressed Callee`         |
+| <0.1% | 97 B |         1 | `.ariaMultiSelectable Callee` |
+| <0.1% | 97 B |         1 | `.ariaPosInSet Callee`        |
+| <0.1% | 97 B |         1 | `.ariaReadOnly Callee`        |
 
 ##### `FunctionCodeBlock`
 
@@ -130,23 +130,23 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `UnlinkedFunctionExecutable`
 
-|    % |    Size | Instances | Path                                                   |
-| ---: | ------: | --------: | ------------------------------------------------------ |
-| 1.3% | 3.84 kB |        40 | `(GC root)`                                            |
-| 0.0% |    96 B |         1 | `.webkitColumnCount Function ← .Object Function`       |
-| 0.0% |    96 B |         1 | `.webkitColumnFill Function ← .Object Function`        |
-| 0.0% |    96 B |         1 | `.webkitColumnGap Function ← .Object Function`         |
-| 0.0% |    96 B |         1 | `.webkitColumnProgression Function ← .Object Function` |
+|     % |    Size | Instances | Path                                                   |
+| ----: | ------: | --------: | ------------------------------------------------------ |
+|  1.3% | 3.84 kB |        40 | `(GC root)`                                            |
+| <0.1% |    96 B |         1 | `.webkitColumnCount Function ← .Object Function`       |
+| <0.1% |    96 B |         1 | `.webkitColumnFill Function ← .Object Function`        |
+| <0.1% |    96 B |         1 | `.webkitColumnGap Function ← .Object Function`         |
+| <0.1% |    96 B |         1 | `.webkitColumnProgression Function ← .Object Function` |
 
 ##### `PropertyTable`
 
-|    % |  Size | Instances | Path                                       |
-| ---: | ----: | --------: | ------------------------------------------ |
-| 0.4% | 912 B |        19 | `(GC root)`                                |
-| 0.0% |  48 B |         1 | `.Object string`                           |
-| 0.0% |  48 B |         1 | `.addChild string`                         |
-| 0.0% |  48 B |         1 | `.Object PropertyTable ← .addChild string` |
-| 0.0% |  48 B |         1 | `.parentOfType string`                     |
+|     % |  Size | Instances | Path                                       |
+| ----: | ----: | --------: | ------------------------------------------ |
+|  0.4% | 912 B |        19 | `(GC root)`                                |
+| <0.1% |  48 B |         1 | `.Object string`                           |
+| <0.1% |  48 B |         1 | `.addChild string`                         |
+| <0.1% |  48 B |         1 | `.Object PropertyTable ← .addChild string` |
+| <0.1% |  48 B |         1 | `.parentOfType string`                     |
 
 ##### `Set`
 
@@ -170,13 +170,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `CustomGetterSetter`
 
-|    % | Size | Instances | Path                                                                      |
-| ---: | ---: | --------: | ------------------------------------------------------------------------- |
-| 0.1% | 64 B |         2 | `(GC root)`                                                               |
-| 0.0% | 32 B |         1 | `.Object WebKitPlaybackTargetAvailabilityEvent ← .willRemoveChild string` |
-| 0.0% | 32 B |         1 | `.didChangeChildren string`                                               |
-| 0.0% | 32 B |         1 | `.localName Callee`                                                       |
-| 0.0% | 32 B |         1 | `.tagName Callee`                                                         |
+|     % | Size | Instances | Path                                                                      |
+| ----: | ---: | --------: | ------------------------------------------------------------------------- |
+|  0.1% | 64 B |         2 | `(GC root)`                                                               |
+| <0.1% | 32 B |         1 | `.Object WebKitPlaybackTargetAvailabilityEvent ← .willRemoveChild string` |
+| <0.1% | 32 B |         1 | `.didChangeChildren string`                                               |
+| <0.1% | 32 B |         1 | `.localName Callee`                                                       |
+| <0.1% | 32 B |         1 | `.tagName Callee`                                                         |
 
 ##### `HTMLDivElement`
 
@@ -431,10 +431,10 @@ Instances ranked by contribution to each constructor's retained size.
 |     % |   Size | Instances | Path                                      |
 | ----: | -----: | --------: | ----------------------------------------- |
 | 99.9% | 177 kB |         3 | `(GC root)`                               |
-|  0.0% |   36 B |         1 | `.Object FinalizationRegistry`            |
-|  0.0% |   18 B |         1 | `.alt BigInt`                             |
-|  0.0% |   18 B |         1 | `.onloadedmetadata HTMLAnchorElement`     |
-|  0.0% |   18 B |         1 | `.onanimationiteration HTMLAnchorElement` |
+| <0.1% |   36 B |         1 | `.Object FinalizationRegistry`            |
+| <0.1% |   18 B |         1 | `.alt BigInt`                             |
+| <0.1% |   18 B |         1 | `.onloadedmetadata HTMLAnchorElement`     |
+| <0.1% |   18 B |         1 | `.onanimationiteration HTMLAnchorElement` |
 
 ##### `CustomGetterSetter`
 
@@ -480,25 +480,25 @@ Instances ranked by contribution to each constructor's retained size.
 
 Strings ranked by bytes allocated for them.
 
-|    % |    Size | Path                                                                                                                                                                                                                                                                    |
-| ---: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.7% | 75.1 kB | `.includes Function`                                                                                                                                                                                                                                                    |
-| 0.6% | 59.6 kB | `._updateGestureRecognizers string ← .prototype string ← .IOSInlineMediaControls Function`                                                                                                                                                                              |
-| 0.0% |   902 B | `(GC root)`                                                                                                                                                                                                                                                             |
-| 0.0% |   902 B | `(GC root)`                                                                                                                                                                                                                                                             |
-| 0.0% |   869 B | `.Object string ← .Object string ← .Object string`                                                                                                                                                                                                                      |
-| 0.0% |   760 B | `[0] string ← .hrefToTags string ← [1] string ← [69] DOMAttributeGetterSetter ← .vertices string ← .graph string`                                                                                                                                                       |
-| 0.0% |   760 B | `(GC root)`                                                                                                                                                                                                                                                             |
-| 0.0% |   500 B | `.gestureEnded string`                                                                                                                                                                                                                                                  |
-| 0.0% |   498 B | `.touchesEnded string`                                                                                                                                                                                                                                                  |
-| 0.0% |   496 B | `(GC root)`                                                                                                                                                                                                                                                             |
-| 0.0% |   494 B | `.Object string ← .Object string ← .lr Object`                                                                                                                                                                                                                          |
-| 0.0% |   484 B | `.Object pe`                                                                                                                                                                                                                                                            |
-| 0.0% |   480 B | `.Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object MediaController` |
-| 0.0% |   468 B | `.Object string ← .Object pe`                                                                                                                                                                                                                                           |
-| 0.0% |   440 B | `[1] string ← [21] string ← .positions string ← .layout string ← .graph string`                                                                                                                                                                                         |
-| 0.0% |   418 B | `.Object string ← .Object string ← .Object string ← .Object string ← .prototype string ← .TapGestureRecognizer Function`                                                                                                                                                |
-| 0.0% |   418 B | `.Object string ← .Object string ← .Object SVGGElement`                                                                                                                                                                                                                 |
-| 0.0% |   394 B | `.Object string ← .preferredMuteButtonStyle string`                                                                                                                                                                                                                     |
-| 0.0% |   372 B | `.isPromiseRejectedWithNativeGetterTypeError Object ← .Object Object ← .Object Object ← .Object <root>`                                                                                                                                                                 |
-| 0.0% |   344 B | `.attribute string`                                                                                                                                                                                                                                                     |
+|     % |    Size | Path                                                                                                                                                                                                                                                                    |
+| ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|  0.7% | 75.1 kB | `.includes Function`                                                                                                                                                                                                                                                    |
+|  0.6% | 59.6 kB | `._updateGestureRecognizers string ← .prototype string ← .IOSInlineMediaControls Function`                                                                                                                                                                              |
+| <0.1% |   902 B | `(GC root)`                                                                                                                                                                                                                                                             |
+| <0.1% |   902 B | `(GC root)`                                                                                                                                                                                                                                                             |
+| <0.1% |   869 B | `.Object string ← .Object string ← .Object string`                                                                                                                                                                                                                      |
+| <0.1% |   760 B | `[0] string ← .hrefToTags string ← [1] string ← [69] DOMAttributeGetterSetter ← .vertices string ← .graph string`                                                                                                                                                       |
+| <0.1% |   760 B | `(GC root)`                                                                                                                                                                                                                                                             |
+| <0.1% |   500 B | `.gestureEnded string`                                                                                                                                                                                                                                                  |
+| <0.1% |   498 B | `.touchesEnded string`                                                                                                                                                                                                                                                  |
+| <0.1% |   496 B | `(GC root)`                                                                                                                                                                                                                                                             |
+| <0.1% |   494 B | `.Object string ← .Object string ← .lr Object`                                                                                                                                                                                                                          |
+| <0.1% |   484 B | `.Object pe`                                                                                                                                                                                                                                                            |
+| <0.1% |   480 B | `.Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object string ← .Object MediaController` |
+| <0.1% |   468 B | `.Object string ← .Object pe`                                                                                                                                                                                                                                           |
+| <0.1% |   440 B | `[1] string ← [21] string ← .positions string ← .layout string ← .graph string`                                                                                                                                                                                         |
+| <0.1% |   418 B | `.Object string ← .Object string ← .Object string ← .Object string ← .prototype string ← .TapGestureRecognizer Function`                                                                                                                                                |
+| <0.1% |   418 B | `.Object string ← .Object string ← .Object SVGGElement`                                                                                                                                                                                                                 |
+| <0.1% |   394 B | `.Object string ← .preferredMuteButtonStyle string`                                                                                                                                                                                                                     |
+| <0.1% |   372 B | `.isPromiseRejectedWithNativeGetterTypeError Object ← .Object Object ← .Object Object ← .Object <root>`                                                                                                                                                                 |
+| <0.1% |   344 B | `.attribute string`                                                                                                                                                                                                                                                     |

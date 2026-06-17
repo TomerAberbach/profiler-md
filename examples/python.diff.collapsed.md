@@ -17,7 +17,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  Change |  Delta |             % |        Samples | Function | Location  |
 | ------: | -----: | ------------: | -------------: | -------- | --------- |
 | +170.4% | +7,352 | 65.1% → 89.7% | 4,314 → 11,666 | `fib`    | script.py |
-|     new |     +1 |          0.0% |          0 → 1 | `work`   | script.py |
+|     new |     +1 |  0.0% → <0.1% |          0 → 1 | `work`   | script.py |
 
 #### Progressions
 

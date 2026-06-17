@@ -28,7 +28,11 @@ export const formatPercentChange = (base: number, current: number): string => {
     return `removed`
   }
   const change = (current - base) / base
-  return formatDelta(change, formatPercent(Math.abs(change)))
+  const magnitude = formatPercent(Math.abs(change))
+  return magnitude === `<0.1%`
+    ? // A signed below-resolution bound (i.e. `+<0.1%`) would read awkwardly.
+      `~0%`
+    : formatDelta(change, magnitude)
 }
 
 export const formatDelta = (value: number, formatted: string): string => {
@@ -63,8 +67,12 @@ export const formatChange = (
   )})`
 }
 
-export const formatPercent = (fraction: number): string =>
-  `${(fraction * 100).toFixed(1)}%`
+export const formatPercent = (fraction: number): string => {
+  const formatted = `${(fraction * 100).toFixed(1)}%`
+  // A nonzero value that rounds to `0.0%` would read as absent, so clamp it to
+  // the display resolution instead.
+  return fraction > 0 && formatted === `0.0%` ? `<0.1%` : formatted
+}
 
 export const formatArrow = (left: string, right: string): string =>
   left === right ? left : `${left} → ${right}`
