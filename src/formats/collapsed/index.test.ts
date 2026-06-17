@@ -28,6 +28,10 @@ describe(`matches`, () => {
     expect(() => parseCollapsed(makeCollapsed([`name,count`, `a,1`]))).toThrow()
   })
 
+  test(`parse rejects a line whose space-separated count is non-numeric`, () => {
+    expect(() => parseCollapsed(makeCollapsed([`main work`]))).toThrow()
+  })
+
   test(`rejects collapsed-shaped text containing a NUL byte`, () => {
     // Valid UTF-8, so it parses leniently (a user could force it), but a NUL
     // betrays binary input, so detection rejects it.
@@ -52,6 +56,14 @@ describe(`parse`, () => {
     // the leaf frame, which would split it into a distinct function.
     expect(parseCollapsed(makeCollapsed([`a;b  42`])).stacks).toEqual([
       { frames: [`a`, `b`], count: 42 },
+    ])
+  })
+
+  test(`accepts a stackless sample with an empty stack before the count`, () => {
+    // A line that is only a count (with the empty stack preceding the space)
+    // is a stackless sample rather than a line missing its count.
+    expect(parseCollapsed(makeCollapsed([` 42`])).stacks).toEqual([
+      { frames: [``], count: 42 },
     ])
   })
 })
@@ -154,6 +166,34 @@ describe(`convert`, () => {
     // verifying the summed sample count propagates through callee metrics.
     expect(calleesTables(md, `main`)).toEqual([
       [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py:20` }],
+    ])
+  })
+
+  test(`a stackless sample is counted and rendered as an anonymous function`, () => {
+    // A line with an empty stack before the count contributes to the total
+    // sample count and surfaces as an `(anonymous)` self function.
+    const md = convertToMd(
+      collapsedConverter,
+      makeCollapsed([`main;work 6`, ` 4`]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `work`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `(anonymous)`,
+          Location: `<unknown>`,
+        },
+      ],
     ])
   })
 
