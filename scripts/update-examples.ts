@@ -1,19 +1,28 @@
-import { execSync } from 'node:child_process'
+import { execFile } from 'node:child_process'
 import { readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
+import { promisify } from 'node:util'
+import limitConcur from 'limit-concur'
+
+const execFileAsync = promisify(execFile)
 
 const check = process.argv.includes(`--check`)
 
 const fixtureFilenames = readdirSync(`src/fixtures`)
 
 // Fixtures named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
-// as a pair into `examples/<name>.diff.<ext>.md`.
+// as a pair into `examples/<name>.diff.<ext>.md`. Keyed by `<name>.<ext>` since
+// a single `<name>` can have several extensions (e.g. `javascript.node` has
+// `.cpuprofile`, `.heapprofile`, and `.heapsnapshot`).
 const pairs = new Map<
   string,
-  { ext: string; base?: string; current?: string }
+  { name: string; ext: string; base?: string; current?: string }
 >()
 for (const filename of fixtureFilenames) {
-  const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>[^.]+)$/u.exec(
+  // `ext` allows dots so multi-segment extensions like `.speedscope.json` pair
+  // up (e.g. `ruby.base.speedscope.json` / `ruby.current.speedscope.json`).
+  const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>.+)$/u.exec(
     filename,
   )
   if (!match) {
@@ -21,14 +30,15 @@ for (const filename of fixtureFilenames) {
   }
 
   const { name, role, ext } = match.groups!
-  let pair = pairs.get(name!)
+  const key = `${name}.${ext}`
+  let pair = pairs.get(key)
   if (!pair) {
-    pair = { ext: ext! }
-    pairs.set(name!, pair)
+    pair = { name: name!, ext: ext! }
+    pairs.set(key, pair)
   }
   pair[role as `base` | `current`] = filename
 }
-for (const [name, { base, current }] of pairs) {
+for (const { name, base, current } of pairs.values()) {
   if (!base || !current) {
     process.stderr.write(
       `src/fixtures/${base ?? current} is missing its ${
@@ -41,7 +51,7 @@ for (const [name, { base, current }] of pairs) {
 
 const markdownFilenames = new Set([
   ...fixtureFilenames.map(filename => `${filename}.md`),
-  ...[...pairs].map(([name, { ext }]) => `${name}.diff.${ext}.md`),
+  ...[...pairs.values()].map(({ name, ext }) => `${name}.diff.${ext}.md`),
 ])
 
 if (check) {
@@ -61,54 +71,58 @@ if (check) {
   }
 }
 
-const otherBaseURLs = new Map([
-  [`rust.base.pprof`, `/Users/mike/code/mikecluck`],
-  [`rust.current.pprof`, `/Users/mike/code/mikecluck`],
-  [`webkit-timeline-recording.json`, `https://tomeraberba.ch`],
+const total = fixtureFilenames.length + pairs.size
+let done = 0
+
+const updateExample = limitConcur(
+  availableParallelism(),
+  async (exampleName: string, fixturePaths: string[]): Promise<void> => {
+    const examplePath = join(`examples`, `${exampleName}.md`)
+
+    const start = performance.now()
+    const { stdout: markdown } = await execFileAsync(
+      `node`,
+      [`src/cli/index.ts`, `--base-url`, `/`, ...fixturePaths],
+      { encoding: `utf8`, maxBuffer: 64 * 1024 * 1024 },
+    )
+    const elapsed = performance.now() - start
+
+    done++
+    process.stderr.write(
+      `[${done}/${total}] ${exampleName} ${elapsed.toFixed(0)}ms\n`,
+    )
+
+    if (check) {
+      let existing
+      try {
+        existing = readFileSync(examplePath, `utf8`)
+      } catch {
+        process.stderr.write(
+          `${examplePath} does not exist. Run \`pnpm update-examples\` to fix.\n`,
+        )
+        process.exit(1)
+      }
+
+      if (existing !== markdown) {
+        process.stderr.write(
+          `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.\n`,
+        )
+        process.exit(1)
+      }
+    } else {
+      writeFileSync(examplePath, markdown)
+    }
+  },
+)
+
+await Promise.all([
+  ...fixtureFilenames.map(filename =>
+    updateExample(filename, [join(`src/fixtures`, filename)]),
+  ),
+  ...[...pairs.values()].map(({ name, ext, base, current }) =>
+    updateExample(`${name}.diff.${ext}`, [
+      join(`src/fixtures`, base!),
+      join(`src/fixtures`, current!),
+    ]),
+  ),
 ])
-
-const updateExample = (
-  key: string,
-  exampleName: string,
-  fixturePaths: string[],
-): void => {
-  const examplePath = join(`examples`, `${exampleName}.md`)
-
-  const markdown = execSync(
-    `node src/cli/index.ts ${fixturePaths.join(` `)} --base-url ${
-      otherBaseURLs.get(key) ?? `/Users/tomer/Documents/work/code`
-    }`,
-    { encoding: `utf8` },
-  )
-
-  if (check) {
-    let existing
-    try {
-      existing = readFileSync(examplePath, `utf8`)
-    } catch {
-      process.stderr.write(
-        `${examplePath} does not exist. Run \`pnpm update-examples\` to fix.\n`,
-      )
-      process.exit(1)
-    }
-
-    if (existing !== markdown) {
-      process.stderr.write(
-        `${examplePath} is out of date. Run \`pnpm update-examples\` to fix.\n`,
-      )
-      process.exit(1)
-    }
-  } else {
-    writeFileSync(examplePath, markdown)
-  }
-}
-
-for (const filename of fixtureFilenames) {
-  updateExample(filename, filename, [join(`src/fixtures`, filename)])
-}
-for (const [name, { ext, base, current }] of pairs) {
-  updateExample(name, `${name}.diff.${ext}`, [
-    join(`src/fixtures`, base!),
-    join(`src/fixtures`, current!),
-  ])
-}
