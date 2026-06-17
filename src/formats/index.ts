@@ -18,6 +18,7 @@ import {
   formatHeapSnapshot,
   formatHeapSnapshotDiff,
 } from '../snapshot/format.ts'
+import { collapsedConverter } from './collapsed/index.ts'
 import type {
   AggregatedInput,
   BinaryFormatConverter,
@@ -266,6 +267,7 @@ const formatAggregatedDiff = (
 }
 
 export const formats = [
+  `collapsed`,
   `jsc-heap-snapshot`,
   `pprof`,
   `speedscope`,
@@ -279,6 +281,7 @@ export const formats = [
 export type Format = (typeof formats)[number]
 
 export const formatConverters: Record<Format, FormatConverter<any>> = {
+  collapsed: collapsedConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,

@@ -32,7 +32,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `java`,
     {
       name: `Java`,
-      formats: [`pprof`, `speedscope`],
+      formats: [`collapsed`, `pprof`, `speedscope`],
       aliases: [{ id: `kotlin`, name: `Kotlin` }],
     },
   ],
@@ -74,7 +74,19 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     },
   ],
   [`php`, { name: `PHP`, formats: [`speedscope`] }],
-  [`python`, { name: `Python`, formats: [`pprof`, `speedscope`] }],
+  [
+    `python`,
+    {
+      name: `Python`,
+      formats: [`collapsed`, `pprof`, `speedscope`],
+      examples: {
+        collapsed: [
+          { filename: `python.base.collapsed`, label: `Tachyon` },
+          { filename: `python.diff.collapsed`, label: `Tachyon diff` },
+        ],
+      },
+    },
+  ],
   [`ruby`, { name: `Ruby`, formats: [`speedscope`] }],
   [
     `rust`,

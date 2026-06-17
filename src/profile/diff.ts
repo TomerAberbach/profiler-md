@@ -77,7 +77,12 @@ export const diffAggregatedProfiles = (
   options: NormalizedProfileToMdOptions,
 ): AggregatedProfileDiff => {
   const metrics = matchDiffedMetrics(base.metrics, current.metrics)
-  if (metrics.length === 0) {
+  if (
+    metrics.length === 0 &&
+    (base.metrics.length > 0 || current.metrics.length > 0)
+  ) {
+    // Two metric-less profiles are comparable by sample count alone, so an
+    // empty match is only an error when a side has metrics.
     throw new Error(`no matching metrics between the base and current profiles`)
   }
 
