@@ -134,6 +134,41 @@ import { writeHeapSnapshot } from 'node:v8'
 writeHeapSnapshot(`heap.heapsnapshot`)
 ```
 
+## pprof
+
+Node.js can also emit [pprof](https://github.com/google/pprof) profiles via the
+[`@datadog/pprof`](https://www.npmjs.com/package/@datadog/pprof) package, which
+profiles a section of code rather than the whole process.
+
+### CPU profiling
+
+Samples wall-clock time across all threads. Useful for finding CPU hot spots and
+time spent waiting.
+
+```js
+import { writeFile } from 'node:fs/promises'
+import { encode, time } from '@datadog/pprof'
+
+const profile = await time.profile({ durationMillis: 10_000 })
+await writeFile(`cpu.pb.gz`, await encode(profile))
+```
+
+### Memory profiling
+
+Samples heap allocations by stack trace. Useful for finding allocation hot spots
+and reducing GC pressure.
+
+```js
+import { writeFile } from 'node:fs/promises'
+import { encode, heap } from '@datadog/pprof'
+
+heap.start(512 * 1024, 64) // Sampling interval in bytes, max stack depth
+
+// Code to profile...
+
+await writeFile(`heap.pb.gz`, await encode(await heap.profile()))
+```
+
 ## Chrome DevTools
 
 Chrome DevTools can profile JavaScript running in the browser or connected to
