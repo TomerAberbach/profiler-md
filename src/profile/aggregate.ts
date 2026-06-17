@@ -46,9 +46,11 @@ type ResolvedFrames = {
 
   /**
    * The frames, normalized by the origin; the input array itself when the
-   * origin has no `normalizeFrame`.
+   * origin has no `normalizeFrame`. A `null` slot is a frame the origin
+   * dropped (profiler scaffolding, not a function), elided from every call
+   * stack.
    */
-  frames: ProfileStackFrame[]
+  frames: (ProfileStackFrame | null)[]
 
   /**
    * Per frame index, a lazily-filled cache of the frame's parsed name and
@@ -126,8 +128,10 @@ export class ProfileAggregator {
   /**
    * The normalized distinct frames. {@link Sample.frameIndices} are indices
    * into them; a frame's function identity is its normalized name and location.
+   * A `null` slot is a frame the origin dropped (see
+   * {@link OriginSpec.normalizeFrame}).
    */
-  readonly #frames: ProfileStackFrame[]
+  readonly #frames: (ProfileStackFrame | null)[]
   readonly #options: NormalizedProfileToMdOptions
   readonly #context: ProfileToMdContext
 
@@ -171,7 +175,7 @@ export class ProfileAggregator {
   public constructor(
     /** @see {@link AggregatedProfile.metrics} */
     metrics: Metric[],
-    frames: ProfileStackFrame[],
+    frames: (ProfileStackFrame | null)[],
     options: NormalizedProfileToMdOptions,
     context: ProfileToMdContext,
     frameFunctions: (FrameFunction | undefined)[] = [],
@@ -325,6 +329,9 @@ export class ProfileAggregator {
 
   public addLineMetrics({ frame, lines }: SampleLineMetrics): void {
     const func = this.#getOrCreateFunction(frame)
+    if (!func) {
+      return
+    }
     for (const { line, sampleCount, values } of lines) {
       let lineMetrics = func.lineToMetrics.get(line)
       if (!lineMetrics) {
@@ -355,11 +362,18 @@ export class ProfileAggregator {
       }
     }
 
-    // A stackless sample has no frames; attribute it to a shared anonymous frame.
-    const frames =
-      frameIndices.length === 0
-        ? [this.#getOrCreateAnonymousFunction()]
-        : frameIndices.map(index => this.#getOrCreateFunction(index))
+    // A stackless sample has no frames (or only dropped ones); attribute it to
+    // a shared anonymous frame.
+    const frames: AggregatedProfileFunction[] = []
+    for (const index of frameIndices) {
+      const func = this.#getOrCreateFunction(index)
+      if (func) {
+        frames.push(func)
+      }
+    }
+    if (frames.length === 0) {
+      frames.push(this.#getOrCreateAnonymousFunction())
+    }
     const callStack = this.#internCallStack(frames)
 
     // Distinct IDs can resolve to the same logical stack, so memoize against
@@ -387,7 +401,8 @@ export class ProfileAggregator {
     return this.#callStackInterner.items[index]!
   }
 
-  #getOrCreateFunction(index: number): AggregatedProfileFunction {
+  /** Returns the frame's function, or `undefined` for a dropped frame. */
+  #getOrCreateFunction(index: number): AggregatedProfileFunction | undefined {
     const cached = this.#frameIndexToFunction[index]
     if (cached) {
       return cached
@@ -396,13 +411,16 @@ export class ProfileAggregator {
     // A function's identity is its normalized name and location, so frames that
     // normalize alike (e.g. one function sampled at several lines) merge into
     // one function; distinct frames sharing that identity merge too.
-    const normalized = this.#frames[index]!
-    const key = functionIdentityKey(normalized)
+    const frame = this.#frames[index]
+    if (!frame) {
+      return undefined
+    }
+    const key = functionIdentityKey(frame)
     let func = this.#keyToFunction.get(key)
     if (!func) {
       let frameFunction = this.#frameFunctions[index]
       if (!frameFunction) {
-        frameFunction = parseFrameFunction(normalized)
+        frameFunction = parseFrameFunction(frame)
         this.#frameFunctions[index] = frameFunction
       }
       func = this.#registerFunction(key, frameFunction)

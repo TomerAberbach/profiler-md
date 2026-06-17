@@ -11,6 +11,7 @@ import type { ProfileStackFrame } from '../profile/type.ts'
 import { beamOriginSpec } from './beam.ts'
 import { bunOriginSpec } from './bun.ts'
 import { denoOriginSpec } from './deno.ts'
+import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 import { jvmOriginSpec } from './jvm.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
@@ -187,7 +188,7 @@ export const parseFrameFunction = ({
  */
 export const originNormalizeFrame = (
   origin: Origin,
-): ((input: ProfileStackFrame) => ProfileStackFrame) | undefined => {
+): ((input: ProfileStackFrame) => ProfileStackFrame | null) | undefined => {
   const spec: OriginSpec = originSpecsById.get(origin)!
   return spec.normalizeFrame
 }
@@ -209,6 +210,7 @@ const originSpecs = [
   pySpyOriginSpec,
   tachyonOriginSpec,
   jvmOriginSpec,
+  dotnetTraceOriginSpec,
   beamOriginSpec,
   rbspyOriginSpec,
   safariOriginSpec,

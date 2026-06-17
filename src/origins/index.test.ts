@@ -233,6 +233,34 @@ describe(`determineOrigin`, () => {
     ).toBe(`beam`)
   })
 
+  test(`detects dotnet-trace by its assembly-bang frames and time buckets`, () => {
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [
+          relativeEntry(
+            `System.Private.CoreLib!System.AppContext.Setup(wchar**,wchar**,int32)`,
+          ),
+        ],
+      }),
+    ).toBe(`dotnet-trace`)
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`UNMANAGED_CODE_TIME`)],
+      }),
+    ).toBe(`dotnet-trace`)
+  })
+
+  test(`a bang-less speedscope frame doesn't trigger dotnet-trace`, () => {
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`main()`)],
+      }),
+    ).toBe(`unknown`)
+  })
+
   test(`detects the jvm origin from async-profiler's collapsed class frames`, () => {
     expect(
       determineOrigin({
