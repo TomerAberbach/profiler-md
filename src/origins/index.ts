@@ -17,6 +17,7 @@ import { nodeOriginSpec } from './node.ts'
 import type { OriginSpec } from './origin.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
+import { rbspyOriginSpec } from './rbspy.ts'
 import { safariOriginSpec } from './safari.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 import { unknownOriginSpec } from './unknown.ts'
@@ -209,6 +210,7 @@ const originSpecs = [
   tachyonOriginSpec,
   jvmOriginSpec,
   beamOriginSpec,
+  rbspyOriginSpec,
   safariOriginSpec,
   unknownOriginSpec,
 ]

@@ -197,6 +197,21 @@ describe(`determineOrigin`, () => {
     ).toBe(`unknown`)
   })
 
+  test(`detects rbspy by its " - file:line" and "[c function]" frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`parse - /app/lib/foo.rb:12`)],
+      }),
+    ).toBe(`rbspy`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`(unknown) [c function] - (unknown)`)],
+      }),
+    ).toBe(`rbspy`)
+  })
+
   test(`detects BEAM by its Elixir, Erlang, and process-id frames`, () => {
     expect(
       determineOrigin({

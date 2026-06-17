@@ -183,6 +183,43 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`rbspy "method - file:line" stacks: gems and stdlib categorization`, () => {
+    // Rbspy splits the method off the trailing `file:line`; gems are
+    // third-party and the interpreter's own library is stdlib.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `<main> - /usr/local/bin/app:3;run - /var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb:40 6`,
+        `<main> - /usr/local/bin/app:3;parse - /usr/lib/ruby/3.1.0/json.rb:12 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `third-party`, '%': `60.0%`, Samples: `6` },
+        { Category: `stdlib`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `run`,
+          Location: `var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `parse`,
+          Location: `usr/lib/ruby/3.1.0/json.rb`,
+        },
+      ],
+    ])
+  })
+
   test(`BEAM "module:function/arity" stacks: module as location`, () => {
     // Eflambe's frames carry no file; the module stands in for the location.
     // OTP and Elixir-core modules are stdlib while a hex dependency is ours.
