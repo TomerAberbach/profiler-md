@@ -12,12 +12,11 @@ import {
   capitalizeFirst,
   formatArrow,
   formatBytes,
+  formatChange,
   formatConjunction,
   formatCount,
-  formatDelta,
   formatMicroseconds,
   formatMilliseconds,
-  formatPercentChange,
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import {
@@ -527,23 +526,23 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
   if (diff.metrics.length === 0) {
     const baseSamples = diff.base.totalSampleCount
     const currentSamples = diff.current.totalSampleCount
-    const delta = currentSamples - baseSamples
     return `${formatArrow(
       formatCount(baseSamples, `sample`),
       formatCount(currentSamples, `sample`),
-    )} (${formatDelta(
-      delta,
-      formatCount(Math.abs(delta), `sample`),
-    )}, ${formatPercentChange(baseSamples, currentSamples)}).`
+    )}${formatChange(baseSamples, currentSamples, magnitude =>
+      formatCount(magnitude, `sample`),
+    )}.`
   }
 
   const valueParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
     const baseValue = diff.base.totalValues[baseIndex]!
     const currentValue = diff.current.totalValues[currentIndex]!
-    const delta = currentValue - baseValue
-    const deltaStr = formatDelta(delta, formatValue(Math.abs(delta), metric))
-    const changeStr = formatPercentChange(baseValue, currentValue)
-    return `${metric.phrases.pastTenseVerb} ${formatArrow(formatValue(baseValue, metric), formatValue(currentValue, metric))} (${deltaStr}, ${changeStr})`
+    return `${metric.phrases.pastTenseVerb} ${formatArrow(
+      formatValue(baseValue, metric),
+      formatValue(currentValue, metric),
+    )}${formatChange(baseValue, currentValue, magnitude =>
+      formatValue(magnitude, metric),
+    )}`
   })
   const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
     const baseRate = formatSamplingRate(
@@ -679,7 +678,7 @@ const formatDiffSelfFunctions = (
 ): string[] => {
   const metric = measureMetric(measure)
 
-  const { regressions, progressions } = selectDiffFunctions(
+  const { regressions, progressions, hasActive } = selectDiffFunctions(
     diff.functions.map(func => ({
       func,
       baseValue: diffSelfValue(measure, func.base, `base`),
@@ -718,6 +717,7 @@ const formatDiffSelfFunctions = (
     `Self ${measureColumnNoun(metric)}`,
     `${measureRankedByPhrase(metric)} directly in the function body, excluding callees`,
     metric,
+    hasActive,
     regressions.map(({ func }) => rowOf(func)),
     progressions.map(({ func }) => rowOf(func)),
   )
@@ -731,7 +731,7 @@ const formatDiffTotalFunctions = (
 ): string[] => {
   const metric = measureMetric(measure)
 
-  const { regressions, progressions } = selectDiffFunctions(
+  const { regressions, progressions, hasActive } = selectDiffFunctions(
     diff.functions.map(func => ({
       func,
       baseValue: diffTotalValue(measure, func.base, `base`),
@@ -770,6 +770,7 @@ const formatDiffTotalFunctions = (
     `Total ${measureColumnNoun(metric)}`,
     `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
     metric,
+    hasActive,
     regressions.map(({ func }) => rowOf(func)),
     progressions.map(({ func }) => rowOf(func)),
   )
@@ -849,6 +850,7 @@ const selectDiffFunctions = (
   candidates: ActiveDiffFunction[],
   options: NormalizedProfileToMdOptions,
 ): {
+  hasActive: boolean
   regressions: ActiveDiffFunction[]
   progressions: ActiveDiffFunction[]
 } => {
@@ -857,6 +859,7 @@ const selectDiffFunctions = (
       (baseValue > 0 || currentValue > 0) && showDiffFunction(func, options),
   )
   return {
+    hasActive: active.length > 0,
     regressions: selectTopN(
       active.filter(({ baseValue, currentValue }) => currentValue > baseValue),
       options.topN,
@@ -873,12 +876,17 @@ const selectDiffFunctions = (
 /**
  * Assembles the regressions and progressions subsections for one function
  * direction (self or total) under a {@link title} heading.
+ *
+ * When nothing differed but {@link hasActive} functions exist on either side,
+ * the section is kept with a "did not differ" note. When no functions are active
+ * at all — the section a non-diff profile would have omitted — it is omitted.
  */
 const formatDiffFunctionSections = (
   headingLevel: number,
   title: string,
   description: string,
   metric: Metric | null,
+  hasActive: boolean,
   regressions: Diff<Cell[]>[],
   progressions: Diff<Cell[]>[],
 ): string[] => {
@@ -902,6 +910,13 @@ const formatDiffFunctionSections = (
         primaryIndex: 1,
       }),
     )
+  }
+
+  if (sections.length === 0) {
+    if (!hasActive) {
+      return []
+    }
+    sections.push(`No function differed in ${description}.`)
   }
 
   return formatSectionGroup([formatHeading(headingLevel, title)], sections)

@@ -42,6 +42,27 @@ export const formatDelta = (value: number, formatted: string): string => {
   }
 }
 
+/**
+ * The ` (Δ, %)` suffix annotating a base-to-current change, or an empty string
+ * when the value is unchanged. A zero delta reads as a measurement rather than a
+ * change, so it's omitted alongside the arrow that has already collapsed to a
+ * single value.
+ */
+export const formatChange = (
+  base: number,
+  current: number,
+  format: (magnitude: number) => string,
+): string => {
+  if (base === current) {
+    return ``
+  }
+  const delta = current - base
+  return ` (${formatDelta(delta, format(Math.abs(delta)))}, ${formatPercentChange(
+    base,
+    current,
+  )})`
+}
+
 export const formatPercent = (fraction: number): string =>
   `${(fraction * 100).toFixed(1)}%`
 
