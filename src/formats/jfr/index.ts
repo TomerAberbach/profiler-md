@@ -12,8 +12,9 @@ export const jfrConverter = {
   // `parseJfr` reads chunk headers by absolute offset, so buffer the stream then
   // delegate to the sync parse rather than streaming.
   parseAsync: async stream => parseJfr(await streamToUint8Array(stream)),
-  // `parseJfr` already validated the magic, so confirm at least one supported
-  // event was found.
-  matches: jfr => jfr.events.length > 0,
+  // The magic uniquely identifies a JFR recording, so detecting it is enough; a
+  // recording can legitimately have no supported sample events (e.g. a capture
+  // with only metadata events), and that still converts (to an empty profile).
+  matches: jfr => jfr.hasMagic,
   aggregate: aggregateJfr,
 } satisfies BinaryFormatConverter<Jfr>

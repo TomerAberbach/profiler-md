@@ -26,20 +26,26 @@ describe(`parse and matches`, () => {
     expect(jfrConverter.matches(jfrConverter.parse(bytes))).toBe(true)
   })
 
-  test(`rejects a recording with no supported events`, () => {
+  test(`accepts a recording with the magic but no supported events`, () => {
+    // A valid recording can carry only metadata events; the magic identifies it
+    // as JFR regardless, so it's still matched (and converts to nothing).
     const bytes = makeJfr({ methods: [], stackTraces: [], events: [] })
 
-    expect(jfrConverter.matches(jfrConverter.parse(bytes))).toBe(false)
+    expect(jfrConverter.matches(jfrConverter.parse(bytes))).toBe(true)
   })
 
-  test(`rejects empty data`, () => {
-    expect(() => jfrConverter.parse(new Uint8Array())).toThrow()
+  test(`rejects empty data without throwing`, () => {
+    expect(jfrConverter.matches(jfrConverter.parse(new Uint8Array()))).toBe(
+      false,
+    )
   })
 
-  test(`rejects non-JFR binary data`, () => {
-    expect(() =>
-      jfrConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
-    ).toThrow()
+  test(`rejects non-JFR binary data without throwing`, () => {
+    expect(
+      jfrConverter.matches(
+        jfrConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
+      ),
+    ).toBe(false)
   })
 })
 
