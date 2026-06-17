@@ -93,7 +93,7 @@
     "jumbo-json": "^0.2.0",
     "picomatch": "^4.0.4",
     "plur": "^6.0.0",
-    "pprof-format": "^2.2.1",
+    "pprof-format": "^2.2.2",
     "pretty-bytes": "^7.1.0",
     "pretty-ms": "^9.3.0",
     "source-map-js": "^1.2.1"
