@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { determineMetric } from './metric.ts'
+import {
+  BYTES,
+  determineMetric,
+  metricsEqual,
+  NANOSECONDS,
+  SECONDS,
+} from './metric.ts'
 
 describe(`determineMetric`, () => {
   it(`returns named size metric for alloc_space`, () => {
@@ -78,5 +84,52 @@ describe(`determineMetric`, () => {
       unit: `count`,
       phrases: { titleNoun: `count`, columnNoun: `count` },
     })
+  })
+})
+
+describe(`metricsEqual`, () => {
+  it.each([
+    {
+      scenario: `identical metrics`,
+      left: NANOSECONDS,
+      right: NANOSECONDS,
+    },
+    {
+      scenario: `distinct objects with the same type, unit, and phrases`,
+      left: determineMetric({ name: `alloc_space`, unit: `bytes` }),
+      right: determineMetric({ name: `alloc_space`, unit: `bytes` }),
+    },
+    {
+      scenario: `custom metrics with the same unit and phrases`,
+      left: determineMetric({ name: `widgets`, unit: `widgets` }),
+      right: determineMetric({ name: `widgets`, unit: `widgets` }),
+    },
+  ])(`returns true for $scenario`, ({ left, right }) => {
+    expect(metricsEqual(left, right)).toBe(true)
+  })
+
+  it.each([
+    {
+      scenario: `different types`,
+      left: NANOSECONDS,
+      right: BYTES,
+    },
+    {
+      scenario: `the same type but a different unit scale`,
+      left: NANOSECONDS,
+      right: SECONDS,
+    },
+    {
+      scenario: `the same type and unit but different phrases`,
+      left: determineMetric({ name: `alloc_space`, unit: `bytes` }),
+      right: determineMetric({ name: `inuse_space`, unit: `bytes` }),
+    },
+    {
+      scenario: `custom metrics with different units`,
+      left: determineMetric({ name: `widgets`, unit: `widgets` }),
+      right: determineMetric({ name: `gadgets`, unit: `gadgets` }),
+    },
+  ])(`returns false for $scenario`, ({ left, right }) => {
+    expect(metricsEqual(left, right)).toBe(false)
   })
 })
