@@ -1,3 +1,5 @@
 allowBuilds:
   unrs-resolver: true
+minimumReleaseAgeExclude:
+  - pprof-format@2.2.2
 shellEmulator: true
