@@ -37,7 +37,7 @@ export const normalizeProfileInput = <Data>(
     : { data, format: undefined }
 
 /** The category of code an entry originated from. */
-export type EntryOrigin = `ours` | `stdlib` | `third-party`
+export type EntryCategory = `ours` | `stdlib` | `third-party` | (string & {})
 
 /** A single entry in a rendered profile. */
 export type ProfileEntry = {
@@ -139,9 +139,7 @@ export type ProfileToMdOptions = {
    *
    * Used to compute a category breakdown in the Markdown output.
    */
-  categorizeEntry?: (
-    entry: DeepReadonly<ProfileEntry>,
-  ) => EntryOrigin | (string & {})
+  categorizeEntry?: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
 
   /**
    * Whether to include the given entry in the Markdown output.
@@ -247,7 +245,7 @@ const RUSTC_HASH_REGEX = /(?<prefix>^|\/)rustc\/[0-9a-f]{40}(?=\/)/u
  */
 export const defaultCategorizeEntry = (
   entry: DeepReadonly<ProfileEntry>,
-): EntryOrigin | (string & {}) => {
+): EntryCategory => {
   const { name, location } = entry
 
   if (

@@ -16,7 +16,7 @@ export type {
   ProfileData,
   AsyncProfileData,
   ProfileInput,
-  EntryOrigin,
+  EntryCategory,
   NormalizedEntry,
   ProfileEntry,
   AggregatedProfileEntry,
