@@ -51,6 +51,18 @@ export type BinaryFormatConverter<Parsed = unknown> = {
   parse: (bytes: Uint8Array) => Parsed
 
   /**
+   * Parses a byte stream into this format's typed representation. Same contract
+   * as {@link parse} (lenient; only throws on genuinely unparseable input) and
+   * returns the same `Parsed`, so {@link matches}/{@link aggregate} are reused.
+   *
+   * Formats that can stream (e.g. line-based text) should consume the stream
+   * incrementally to avoid buffering the whole input; formats whose parser needs
+   * all bytes at once can buffer the stream and delegate to {@link parse}.
+   * Used on the async path with an explicitly-forced format.
+   */
+  parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Parsed>
+
+  /**
    * Returns whether a successfully {@link BinaryFormatConverter.parse}d value
    * actually appears to be this format, rather than something that parsed by
    * coincidence.

@@ -57,29 +57,76 @@ export function* decodeUtf8Lines(
   bytes: Uint8Array,
   chunkSize: number = DECODE_CHUNK_SIZE,
 ): Generator<string> {
-  // A streaming decoder must be exclusive to this call, since it buffers bytes
-  // across chunks; sharing one would corrupt interleaved iterations.
-  const decoder = new TextDecoder(`utf-8`, { fatal: true })
-
-  let pending = ``
+  const decoder = new Utf8LineDecoder()
   for (let offset = 0; offset < bytes.length; offset += chunkSize) {
-    pending += decoder.decode(bytes.subarray(offset, offset + chunkSize), {
-      stream: true,
-    })
+    yield* decoder.push(bytes.subarray(offset, offset + chunkSize))
+  }
+  yield* decoder.flush()
+}
 
-    const lines = pending.split(`\n`)
+/**
+ * Lazily decodes {@link stream} as UTF-8 and yields its lines, splitting on
+ * `\n` and stripping a trailing `\r`.
+ *
+ * Reads the stream chunk by chunk, decoding lines and discarding raw bytes as
+ * it goes, so peak memory is just the lines a caller retains rather than the
+ * whole input. Decoding is correct across multi-byte sequences split at a chunk
+ * boundary.
+ *
+ * Throws on invalid UTF-8, including a truncated trailing sequence, so a caller
+ * can treat a failure as "these bytes aren't this text format".
+ *
+ * Yields a trailing empty line when the input ends with a newline.
+ */
+export async function* decodeUtf8LinesAsync(
+  stream: ReadableStream<Uint8Array>,
+): AsyncGenerator<string> {
+  const decoder = new Utf8LineDecoder()
+  const reader = stream.getReader()
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+
+      yield* decoder.push(value)
+    }
+  } finally {
+    reader.releaseLock()
+  }
+
+  yield* decoder.flush()
+}
+
+/** A streaming UTF-8 and line-splitting decoder. */
+class Utf8LineDecoder {
+  // A streaming decoder must be exclusive to this instance, since it buffers
+  // bytes across chunks; sharing one would corrupt interleaved iterations.
+  readonly #decoder = new TextDecoder(`utf-8`, { fatal: true })
+  #pending = ``
+
+  public *push(bytes: Uint8Array): Generator<string> {
+    this.#pending += this.#decoder.decode(bytes, { stream: true })
+
+    const lines = this.#pending.split(`\n`)
     // The last element is an as-yet-unterminated line; carry it to the next
     // chunk (or the flush below).
-    pending = lines.pop()!
+    this.#pending = lines.pop()!
     for (const line of lines) {
       yield stripCarriageReturn(line)
     }
   }
 
-  // Flush buffered bytes; throws under `fatal` if a trailing sequence is
-  // truncated.
-  pending += decoder.decode()
-  yield stripCarriageReturn(pending)
+  /**
+   * Flush buffered bytes.
+   *
+   * @throws if a trailing sequence is truncated.
+   */
+  public *flush(): Generator<string> {
+    this.#pending += this.#decoder.decode()
+    yield stripCarriageReturn(this.#pending)
+  }
 }
 
 /**
