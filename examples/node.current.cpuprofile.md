@@ -33,7 +33,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  1.4% | 162.2ms |     129 | `(program)`              | `<unknown>`                             |
 |  1.3% | 149.4ms |     119 | `unevalObject`           | uneval/src/internal/object.ts:21:29     |
 |  0.6% |  67.7ms |      54 | `unevalWithoutCustom`    | uneval/src/internal/index.ts:14:37      |
-|  0.2% |  23.6ms |      20 | `(anonymous)`            | uneval/scripts/profile.ts:0:0           |
+|  0.2% |  23.6ms |      20 | `(anonymous)`            | uneval/scripts/profile.ts               |
 |  0.1% |  15.1ms |      12 | `unevalBoolean`          | uneval/src/internal/primitive.ts:8:30   |
 |  0.1% |  15.1ms |      12 | `unevalString`           | uneval/src/internal/primitive.ts:133:29 |
 
@@ -169,7 +169,7 @@ Lines ranked by contribution to each function's self time.
 | 11.0% |  7.5ms |       6 | uneval/src/internal/index.ts:147 |
 |  9.2% |  6.2ms |       5 | uneval/src/internal/index.ts:184 |
 
-##### `(anonymous)` (uneval/scripts/profile.ts:0:0)
+##### `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |   Time | Samples | Location                     |
 | ----: | -----: | ------: | ---------------------------- |
@@ -254,9 +254,9 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ##### `uneval` (uneval/src/index.ts:76:16)
 
-|     % |    Time | Samples | Caller        | Location                      |
-| ----: | ------: | ------: | ------------- | ----------------------------- |
-| 98.2% | 211.2ms |     168 | `(anonymous)` | uneval/scripts/profile.ts:0:0 |
+|     % |    Time | Samples | Caller        | Location                  |
+| ----: | ------: | ------: | ------------- | ------------------------- |
+| 98.2% | 211.2ms |     168 | `(anonymous)` | uneval/scripts/profile.ts |
 
 ##### `unevalLiteral` (uneval/src/internal/primitive.ts:139:23)
 
@@ -304,7 +304,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                 | Location                                |
 | ----: | ------: | ------: | ------------------------ | --------------------------------------- |
-| 96.7% |  11.02s |   8,754 | `(anonymous)`            | uneval/scripts/profile.ts:0:0           |
+| 96.7% |  11.02s |   8,754 | `(anonymous)`            | uneval/scripts/profile.ts               |
 | 96.2% |  10.97s |   8,736 | `uneval`                 | uneval/src/index.ts:76:16               |
 | 68.0% |   7.75s |   6,175 | `unevalInternal`         | uneval/src/internal/index.ts:25:32      |
 | 66.7% |   7.60s |   6,054 | `unevalObject`           | uneval/src/internal/object.ts:21:29     |
@@ -328,7 +328,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
-##### `(anonymous)` (uneval/scripts/profile.ts:0:0)
+##### `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |   Time | Samples | Callee   | Location                  |
 | ----: | -----: | ------: | -------- | ------------------------- |
@@ -423,7 +423,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `(anonymous)` (uneval/scripts/profile.ts:0:0)
+Common call stack: `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

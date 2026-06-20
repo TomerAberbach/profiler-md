@@ -352,7 +352,7 @@ const normalizeBaseURL = (
     }
   } else if (typeof baseURL === `string`) {
     const fileReference = makeFileReference(baseURL)
-    if (fileReference.type !== `absolute`) {
+    if (fileReference?.type !== `absolute`) {
       throw new Error(
         `baseURL must be an absolute path or URL, got: ${baseURL}`,
       )

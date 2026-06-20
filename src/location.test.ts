@@ -1,5 +1,10 @@
-import { expect, test } from 'vitest'
-import { formatSourceLocation } from './location.ts'
+import { describe, expect, test } from 'vitest'
+import {
+  fileReferenceToSourceLocation,
+  formatSourceLocation,
+  makeFileReference,
+  makeSourceLocation,
+} from './location.ts'
 import { normalizeProfileToMdOptions } from './options.ts'
 
 const format = ({
@@ -149,4 +154,111 @@ test(`formatSourceLocation with relative reference appends line and column`, () 
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`src/index.js:10:5`)
+})
+
+describe(`makeFileReference`, () => {
+  test(`absolute path becomes an absolute file URL reference`, () => {
+    expect(makeFileReference(`/project/file.ts`)).toStrictEqual({
+      type: `absolute`,
+      url: new URL(`file:///project/file.ts`),
+    })
+  })
+
+  test(`file URL becomes an absolute reference`, () => {
+    expect(makeFileReference(`file:///project/file.ts`)).toStrictEqual({
+      type: `absolute`,
+      url: new URL(`file:///project/file.ts`),
+    })
+  })
+
+  test(`bare path becomes a relative reference`, () => {
+    expect(makeFileReference(`src/file.ts`)).toStrictEqual({
+      type: `relative`,
+      path: `src/file.ts`,
+    })
+  })
+
+  test.each([
+    [`empty string`, ``],
+    [`unknown`, `unknown`],
+    [`uppercase UNKNOWN`, `UNKNOWN`],
+    [`mixed-case Unknown`, `Unknown`],
+    [`nothing`, `nothing`],
+    [`single question mark`, `?`],
+    [`multiple question marks`, `???`],
+  ])(`returns undefined for %s`, (_label, urlOrPath) => {
+    expect(makeFileReference(urlOrPath)).toBeUndefined()
+  })
+
+  test.each([[`unknown.ts`], [`/src/nothing.ts`], [`a?b`]])(
+    `does not treat %s as unknown`,
+    urlOrPath => {
+      expect(makeFileReference(urlOrPath)).toBeDefined()
+    },
+  )
+})
+
+describe(`makeSourceLocation`, () => {
+  test(`builds a source location from a reference with line and column`, () => {
+    expect(
+      makeSourceLocation({
+        urlOrPath: `/project/file.ts`,
+        line: 10,
+        column: 5,
+      }),
+    ).toStrictEqual({
+      type: `absolute`,
+      url: new URL(`file:///project/file.ts`),
+      line: 10,
+      column: 5,
+    })
+  })
+
+  test(`returns undefined for undefined input`, () => {
+    expect(makeSourceLocation(undefined)).toBeUndefined()
+  })
+
+  test(`returns undefined when the path is unknown`, () => {
+    expect(makeSourceLocation({ urlOrPath: `unknown` })).toBeUndefined()
+  })
+})
+
+describe(`source location line and column normalization`, () => {
+  test.each([
+    [`zero line`, { line: 0, column: 5 }, { line: undefined, column: 5 }],
+    [`negative line`, { line: -1, column: 5 }, { line: undefined, column: 5 }],
+    [`zero column`, { line: 10, column: 0 }, { line: 10, column: undefined }],
+    [
+      `negative column`,
+      { line: 10, column: -3 },
+      { line: 10, column: undefined },
+    ],
+    [
+      `zero line and column`,
+      { line: 0, column: 0 },
+      { line: undefined, column: undefined },
+    ],
+  ])(`drops %s`, (_label, { line, column }, expected) => {
+    expect(
+      makeSourceLocation({ urlOrPath: `/project/file.ts`, line, column }),
+    ).toStrictEqual({
+      type: `absolute`,
+      url: new URL(`file:///project/file.ts`),
+      ...expected,
+    })
+  })
+
+  test(`fileReferenceToSourceLocation preserves positive line and column`, () => {
+    expect(
+      fileReferenceToSourceLocation(
+        { type: `relative`, path: `src/file.ts` },
+        { line: 3, column: 7 },
+      ),
+    ).toStrictEqual({
+      type: `relative`,
+      path: `src/file.ts`,
+      line: 3,
+      column: 7,
+    })
+  })
 })

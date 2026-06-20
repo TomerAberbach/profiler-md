@@ -1,6 +1,6 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
-import { makeFileReference } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import { makeSourceLocation } from '../location.ts'
+import type { SourceLocation, SourceLocationInput } from '../location.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type { Metric } from './metric.ts'
 
@@ -266,15 +266,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
       id: this.#keyToFunction.size,
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       name: nameInput || `(anonymous)`,
-      location:
-        locationInput?.urlOrPath &&
-        locationInput.urlOrPath.toLowerCase() !== `unknown`
-          ? {
-              ...makeFileReference(locationInput.urlOrPath),
-              line: locationInput.line,
-              column: locationInput.column,
-            }
-          : undefined,
+      location: makeSourceLocation(locationInput),
     }
     func = {
       type: `function`,
@@ -323,16 +315,7 @@ export type ProfileFunctionInput = {
   name?: string
 
   /** Where the function was defined, if known. */
-  location?: {
-    /** A string parseable into a {@link URL} or file path. */
-    urlOrPath: string
-
-    /** The 1-based line number in the file at {@link urlOrPath}. */
-    line?: number
-
-    /** The 1-based column number in the file at {@link urlOrPath}. */
-    column?: number
-  }
+  location?: SourceLocationInput
 }
 
 /** A single sample within a profile. */

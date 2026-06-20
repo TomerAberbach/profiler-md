@@ -34,7 +34,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  1.1% | 125.7ms |     100 | `unevalObject`           | uneval/src/internal/object.ts:21:29     |
 |  0.5% |  61.7ms |      49 | `unevalWithoutCustom`    | uneval/src/internal/index.ts:14:37      |
 |  0.3% |  35.1ms |      28 | `unevalString`           | uneval/src/internal/primitive.ts:133:29 |
-|  0.2% |  19.8ms |      18 | `(anonymous)`            | uneval/scripts/profile.ts:0:0           |
+|  0.2% |  19.8ms |      18 | `(anonymous)`            | uneval/scripts/profile.ts               |
 |  0.1% |  12.5ms |      10 | `unevalBoolean`          | uneval/src/internal/primitive.ts:8:30   |
 
 #### Lines
@@ -174,7 +174,7 @@ Lines ranked by contribution to each function's self time.
 | -----: | -----: | ------: | ------------------------------------ |
 | 100.0% | 35.1ms |      28 | uneval/src/internal/primitive.ts:134 |
 
-##### `(anonymous)` (uneval/scripts/profile.ts:0:0)
+##### `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |   Time | Samples | Location                     |
 | ----: | -----: | ------: | ---------------------------- |
@@ -199,10 +199,10 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ##### `traverseObject` (uneval/src/index.ts:205:26)
 
-|     % |  Time | Samples | Caller        | Location                      |
-| ----: | ----: | ------: | ------------- | ----------------------------- |
-| 99.8% | 2.25s |   1,797 | `traverse`    | uneval/src/index.ts:165:20    |
-|  0.1% | 1.3ms |       1 | `(anonymous)` | uneval/scripts/profile.ts:0:0 |
+|     % |  Time | Samples | Caller        | Location                   |
+| ----: | ----: | ------: | ------------- | -------------------------- |
+| 99.8% | 2.25s |   1,797 | `traverse`    | uneval/src/index.ts:165:20 |
+|  0.1% | 1.3ms |       1 | `(anonymous)` | uneval/scripts/profile.ts  |
 
 ##### `unevalObjectLiteralKey` (uneval/src/internal/object.ts:386:32)
 
@@ -238,7 +238,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | 15.6% |  94.2ms |      75 | `unevalArray`          | uneval/src/internal/collection.ts:7:47 |
 | 13.8% |  83.0ms |      66 | `uneval`               | uneval/src/index.ts:76:16              |
 |  1.1% |   6.3ms |       5 | `unevalObjectInternal` | uneval/src/internal/object.ts:69:30    |
-|  0.2% |   1.3ms |       1 | `(anonymous)`          | uneval/scripts/profile.ts:0:0          |
+|  0.2% |   1.3ms |       1 | `(anonymous)`          | uneval/scripts/profile.ts              |
 
 ##### `getType` (uneval/src/internal/type.ts:4:24)
 
@@ -255,9 +255,9 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ##### `uneval` (uneval/src/index.ts:76:16)
 
-|     % |    Time | Samples | Caller        | Location                      |
-| ----: | ------: | ------: | ------------- | ----------------------------- |
-| 98.3% | 223.5ms |     178 | `(anonymous)` | uneval/scripts/profile.ts:0:0 |
+|     % |    Time | Samples | Caller        | Location                  |
+| ----: | ------: | ------: | ------------- | ------------------------- |
+| 98.3% | 223.5ms |     178 | `(anonymous)` | uneval/scripts/profile.ts |
 
 ##### `unevalLiteral` (uneval/src/internal/primitive.ts:139:23)
 
@@ -304,7 +304,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                 | Location                                |
 | ----: | ------: | ------: | ------------------------ | --------------------------------------- |
-| 96.5% |  11.06s |   8,791 | `(anonymous)`            | uneval/scripts/profile.ts:0:0           |
+| 96.5% |  11.06s |   8,791 | `(anonymous)`            | uneval/scripts/profile.ts               |
 | 96.1% |  11.02s |   8,773 | `uneval`                 | uneval/src/index.ts:76:16               |
 | 67.6% |   7.75s |   6,173 | `unevalInternal`         | uneval/src/internal/index.ts:25:32      |
 | 66.4% |   7.61s |   6,059 | `unevalObject`           | uneval/src/internal/object.ts:21:29     |
@@ -328,7 +328,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
 
-##### `(anonymous)` (uneval/scripts/profile.ts:0:0)
+##### `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |   Time | Samples | Callee           | Location                           |
 | ----: | -----: | ------: | ---------------- | ---------------------------------- |
@@ -425,7 +425,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `(anonymous)` (uneval/scripts/profile.ts:0:0)
+Common call stack: `(anonymous)` (uneval/scripts/profile.ts)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -30,7 +30,13 @@ export type FileReference =
   | { type: `absolute`; url: URL }
   | { type: `relative`; path: string }
 
-export const makeFileReference = (urlOrPath: string): FileReference => {
+export const makeFileReference = (
+  urlOrPath: string,
+): FileReference | undefined => {
+  if (!urlOrPath || UNKNOWN_URL_OR_PATH.test(urlOrPath)) {
+    return undefined
+  }
+
   if (urlOrPath.startsWith(`/`)) {
     try {
       return { type: `absolute`, url: new URL(`file://${urlOrPath}`) }
@@ -48,6 +54,63 @@ export const makeFileReference = (urlOrPath: string): FileReference => {
   } catch {
     return { type: `relative`, path: urlOrPath }
   }
+}
+
+// Profilers indicate unknown locations in many different ways.
+const UNKNOWN_URL_OR_PATH = /^(?:unknown|nothing|\?+)$/iu
+
+export type SourceLocationInput = {
+  /** A string parseable into a {@link URL} or file path. */
+  urlOrPath: string
+
+  /** The 1-based line number in the file at {@link urlOrPath}. */
+  line?: number
+
+  /** The 1-based column number in the file at {@link urlOrPath}. */
+  column?: number
+}
+
+/**
+ * Builds a {@link SourceLocation} from a raw file reference and optional
+ * line/column, returning `undefined` when there's no usable location.
+ */
+export const makeSourceLocation = (
+  location: SourceLocationInput | undefined,
+): SourceLocation | undefined => {
+  if (!location) {
+    return undefined
+  }
+
+  const fileReference = makeFileReference(location.urlOrPath)
+  if (!fileReference) {
+    return undefined
+  }
+
+  return fileReferenceToSourceLocation(fileReference, location)
+}
+
+export const fileReferenceToSourceLocation = (
+  fileReference: FileReference,
+  {
+    line,
+    column,
+  }: {
+    /** The 1-based line number in the file. */
+    line?: number
+
+    /** The 1-based column number in the file. */
+    column?: number
+  },
+): SourceLocation => {
+  // Some profilers indicate unknown lines or columns with non-positive values.
+  if (line !== undefined && line <= 0) {
+    line = undefined
+  }
+  if (column !== undefined && column <= 0) {
+    column = undefined
+  }
+
+  return { ...fileReference, line, column }
 }
 
 export const formatSourceLocation = (
