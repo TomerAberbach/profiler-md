@@ -9,8 +9,10 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileData,
   ProfileInput,
+  ProfileToMdContext,
   ProfileToMdOptions,
 } from '../options.ts'
+import type { Origin } from '../origins/index.ts'
 import { diffAggregatedProfiles } from '../profile/diff.ts'
 import { formatProfile, formatProfileDiff } from '../profile/format.ts'
 import { diffAggregatedHeapSnapshots } from '../snapshot/diff.ts'
@@ -110,11 +112,11 @@ export const diffProfilesAsync = async (
   )
 }
 
-const aggregateInput = (
+export const aggregateInput = (
   input: ProfileInput<ProfileData>,
   options: NormalizedProfileToMdOptions,
 ): AggregatedInput[] => {
-  const { data, format } = normalizeProfileInput(input)
+  const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
     const converter = formatConverters[format]
@@ -123,30 +125,31 @@ const aggregateInput = (
         ? JumboJSON.parse(data)
         : converter.parse(dataToBytes(data)),
       options,
+      makeContext(format, origin),
     )
   }
 
   // Materialize a one-shot `Iterable<Uint8Array>` up front so the JSON and
   // binary detection passes below don't both try to consume the iterator.
-  const source: string | Uint8Array =
+  const buffered: string | Uint8Array =
     typeof data === `string` || ArrayBuffer.isView(data)
       ? data
       : concatUint8Arrays(data)
 
   let json: unknown
   try {
-    json = JumboJSON.parse(source)
+    json = JumboJSON.parse(buffered)
   } catch {}
   if (json !== undefined) {
-    const result = detectFromJson(json, options)
-    if (result !== undefined) {
-      return result
+    const inputs = detectFromJson(json, options, origin)
+    if (inputs !== undefined) {
+      return inputs
     }
   }
 
-  const result = detectFromBytes(dataToBytes(source), options)
-  if (result !== undefined) {
-    return result
+  const inputs = detectFromBytes(dataToBytes(buffered), options, origin)
+  if (inputs !== undefined) {
+    return inputs
   }
 
   throw unknownFormatError()
@@ -156,7 +159,7 @@ const aggregateInputAsync = async (
   input: ProfileInput<AsyncProfileData>,
   options: NormalizedProfileToMdOptions,
 ): Promise<AggregatedInput[]> => {
-  const { data, format } = normalizeProfileInput(input)
+  const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
     const converter = formatConverters[format]
@@ -165,6 +168,7 @@ const aggregateInputAsync = async (
         ? JumboJSON.parseAsync(data)
         : converter.parseAsync(data instanceof Blob ? data.stream() : data)),
       options,
+      makeContext(format, origin),
     )
   }
 
@@ -172,27 +176,27 @@ const aggregateInputAsync = async (
   // buffered rather than streaming. A `Blob` can be read repeatedly, so let it
   // stream-parse without buffering. A `ReadableStream` is read-once, so buffer
   // it up front to allow reparsing across format attempts.
-  const source: Blob | Uint8Array =
+  const buffered: Blob | Uint8Array =
     data instanceof Blob ? data : await streamToUint8Array(data)
 
   let json: unknown
   try {
     json =
-      source instanceof Blob
-        ? await JumboJSON.parseAsync(source)
-        : JumboJSON.parse(source)
+      buffered instanceof Blob
+        ? await JumboJSON.parseAsync(buffered)
+        : JumboJSON.parse(buffered)
   } catch {}
   if (json !== undefined) {
-    const result = detectFromJson(json, options)
-    if (result !== undefined) {
-      return result
+    const inputs = detectFromJson(json, options, origin)
+    if (inputs !== undefined) {
+      return inputs
     }
   }
 
-  const bytes = source instanceof Blob ? await source.bytes() : source
-  const result = detectFromBytes(bytes, options)
-  if (result !== undefined) {
-    return result
+  const bytes = buffered instanceof Blob ? await buffered.bytes() : buffered
+  const inputs = detectFromBytes(bytes, options, origin)
+  if (inputs !== undefined) {
+    return inputs
   }
 
   throw unknownFormatError()
@@ -299,26 +303,28 @@ export const formatConverters: Record<Format, FormatConverter<any>> = {
 const detectFromJson = (
   json: unknown,
   options: NormalizedProfileToMdOptions,
+  origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
-  for (const converter of jsonFormatConverters) {
+  for (const [format, converter] of jsonFormatConverters) {
     if (converter.matches(json)) {
-      return converter.aggregate(json, options)
+      return converter.aggregate(json, options, makeContext(format, origin))
     }
   }
   return undefined
 }
 
-const jsonFormatConverters: JsonFormatConverter[] = Object.values(
+const jsonFormatConverters: [Format, JsonFormatConverter][] = Object.entries(
   formatConverters,
 ).filter(
-  (converter): converter is JsonFormatConverter => converter.type === `json`,
+  (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
 )
 
 const detectFromBytes = (
   bytes: Uint8Array,
   options: NormalizedProfileToMdOptions,
+  origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
-  for (const converter of binaryFormatConverters) {
+  for (const [format, converter] of binaryFormatConverters) {
     let parsed: unknown
     try {
       parsed = converter.parse(bytes)
@@ -326,18 +332,27 @@ const detectFromBytes = (
       continue
     }
     if (converter.matches(parsed)) {
-      return converter.aggregate(parsed, options)
+      return converter.aggregate(parsed, options, makeContext(format, origin))
     }
   }
   return undefined
 }
 
-const binaryFormatConverters: BinaryFormatConverter[] = Object.values(
-  formatConverters,
-).filter(
-  (converter): converter is BinaryFormatConverter =>
-    converter.type === `binary`,
-)
+/**
+ * Builds the conversion context, which carries the resolved format and the
+ * explicit origin (or `null` when none was given, so the aggregator detects it
+ * from the aggregated entries).
+ */
+const makeContext = (
+  format: Format,
+  origin: Origin | undefined,
+): ProfileToMdContext => ({ format, origin: origin ?? null })
+
+const binaryFormatConverters: [Format, BinaryFormatConverter][] =
+  Object.entries(formatConverters).filter(
+    (entry): entry is [Format, BinaryFormatConverter] =>
+      entry[1].type === `binary`,
+  )
 
 const unknownFormatError = (): Error =>
   new Error(

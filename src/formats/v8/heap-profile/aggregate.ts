@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../../options.ts'
 import { BYTES, ProfileAggregator } from '../../../profile/index.ts'
 import type { AggregatedProfile } from '../../../profile/index.ts'
 import { callFrameFunctionInput, callFrameKey } from '../common.ts'
@@ -7,6 +10,7 @@ import type { V8HeapProfile, V8HeapProfileNode } from './parse.ts'
 export const aggregateV8HeapProfile = (
   profile: V8HeapProfile,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<V8HeapProfileNode>(
     {
@@ -15,6 +19,7 @@ export const aggregateV8HeapProfile = (
       functionInput: node => callFrameFunctionInput(node.callFrame),
     },
     options,
+    context,
   )
 
   const flatNodes: V8HeapProfileNode[] = []

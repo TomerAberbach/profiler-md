@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../options.ts'
 import type { AggregatedProfile } from '../profile/index.ts'
 import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
 
@@ -8,6 +11,7 @@ export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
 type Aggregate<Parsed> = (
   parsed: Parsed,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ) => AggregatedInput[]
 
 /** Whether a format aggregates to profiles or snapshots. */

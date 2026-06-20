@@ -16,6 +16,6 @@ export const pprofConverter = {
   // to the sync decode rather than streaming.
   parseAsync: async stream => Profile.decode(await streamToUint8Array(stream)),
   matches: matchesPprof,
-  aggregate: (profile, options) =>
-    aggregatePprof(parsePprofInternal(profile), options),
+  aggregate: (profile, options, context) =>
+    aggregatePprof(parsePprofInternal(profile), options, context),
 } satisfies BinaryFormatConverter<Profile>

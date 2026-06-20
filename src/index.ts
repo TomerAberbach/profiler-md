@@ -6,7 +6,7 @@ export {
 } from './formats/index.ts'
 export type { Format } from './formats/index.ts'
 export {
-  defaultCategorizeEntry,
+  defaultCategorizeEntries,
   defaultMatchEntry,
   defaultShowEntry,
   isSyntheticEntry,
@@ -20,8 +20,11 @@ export type {
   NormalizedEntry,
   ProfileEntry,
   AggregatedProfileEntry,
+  ProfileToMdContext,
   ProfileToMdOptions,
 } from './options.ts'
 export { fileReferenceId } from './location.ts'
 export type { FileReference, SourceLocation } from './location.ts'
+export { determineOrigin, categorizeEntryForOrigin } from './origins/index.ts'
+export type { Origin } from './origins/index.ts'
 export type { SourceMap } from './source-map.ts'

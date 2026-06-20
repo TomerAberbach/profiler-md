@@ -36,6 +36,9 @@ const makeProfile = (
       }),
     },
     options,
+    // The forced origin is immaterial since these entries have no
+    // origin-specific signal.
+    { format: `v8-cpu-profile`, origin: `unknown` },
   )
 
   for (const [index, func] of functions.entries()) {

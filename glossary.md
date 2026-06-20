@@ -5,11 +5,12 @@ parsed representations of format-specific types), defer to their canonical
 naming. Prose can also use aliases for explanations that would otherwise be
 ambiguous.
 
-| Term         | Definition                                                                 | Aliases to avoid |
-| ------------ | -------------------------------------------------------------------------- | ---------------- |
-| **Format**   | A supported profile or snapshot file type                                  | —                |
-| **Profile**  | A file produced by sampling a program's call stack at regular intervals    | snapshot         |
-| **Snapshot** | A file produced by capturing the program's state at a single point in time | profile          |
+| Term         | Definition                                                                                   | Aliases to avoid      |
+| ------------ | -------------------------------------------------------------------------------------------- | --------------------- |
+| **Format**   | A supported profile or snapshot file type                                                    | —                     |
+| **Profile**  | A file produced by sampling a program's call stack at regular intervals                      | snapshot              |
+| **Snapshot** | A file produced by capturing the program's state at a single point in time                   | profile               |
+| **Origin**   | The thing that generated a profile or snapshot: a profiler paired with a runtime (e.g. node) | source, runtime, tool |
 
 ## Conversion pipeline
 

@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
-import { defaultCategorizeEntry, defaultMatchEntry } from '../index.ts'
+import { defaultCategorizeEntries, defaultMatchEntry } from '../index.ts'
 import type { ProfileToMdOptions, SourceMap } from '../index.ts'
 import {
   fileReferenceId,
@@ -34,7 +34,7 @@ export const buildOptions = async ({
       : baseURL,
   sourceMaps: await loadSourceMaps(sourceMaps),
   matchEntry: buildMatchEntry(match),
-  categorizeEntry: buildCategorizeEntry(thirdParty),
+  categorizeEntries: buildCategorizeEntries(thirdParty),
 })
 
 const buildMatchEntry = (
@@ -58,25 +58,21 @@ const buildMatchEntry = (
   }
 }
 
-const buildCategorizeEntry = (
-  patterns: readonly string[],
-): ProfileToMdOptions[`categorizeEntry`] => {
-  if (patterns.length === 0) {
+const buildCategorizeEntries = (
+  thirdPartyPatterns: readonly string[],
+): ProfileToMdOptions[`categorizeEntries`] => {
+  if (thirdPartyPatterns.length === 0) {
     return undefined
   }
 
-  const isMatch = picomatch([...patterns], { dot: true })
-  return entry => {
-    if (!entry.location) {
-      return defaultCategorizeEntry(entry)
-    }
-
-    const path = fileReferencePath(entry.location)
-    if (isMatch(path)) {
-      return `third-party`
-    }
-
-    return defaultCategorizeEntry(entry)
+  const isThirdParty = picomatch([...thirdPartyPatterns], { dot: true })
+  return (entries, context) => {
+    const categories = defaultCategorizeEntries(entries, context)
+    return entries.map((entry, index) =>
+      entry.location && isThirdParty(fileReferencePath(entry.location))
+        ? `third-party`
+        : categories[index]!,
+    )
   }
 }
 
@@ -97,8 +93,8 @@ const loadSourceMaps = async (
         return resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
       }
 
-      // Default `file` to the containing file so `normalizeSourceMaps` can associate the map with profile
-      // locations referencing this file.
+      // Default `file` to the containing file so `normalizeSourceMaps` can
+      // associate the map with profile locations referencing this file.
       inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
       return resolveSourceMapSources(inlineSourceMap, path)
     }),

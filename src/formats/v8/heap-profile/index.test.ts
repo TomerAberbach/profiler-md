@@ -574,14 +574,14 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntry groups entries by custom category`, () => {
+  test(`categorizeEntries groups entries by custom category`, () => {
     const md = convertToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
-        categorizeEntry: entry =>
-          entry.name === `funcA` ? `team-a` : `team-b`,
+        categorizeEntries: entries =>
+          entries.map(entry => (entry.name === `funcA` ? `team-a` : `team-b`)),
       }),
     )
 

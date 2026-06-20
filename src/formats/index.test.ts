@@ -126,6 +126,20 @@ describe(`profileToMd`, () => {
       /could not detect/iu,
     )
   })
+
+  test(`throws when categorizeEntries returns a misaligned array`, () => {
+    expect(() =>
+      profileToMd(
+        { data: baseCpuProfile, format: `v8-cpu-profile` },
+        {
+          baseURL: null,
+          // One fewer category than entries, so the result no longer aligns
+          // with the entries by index.
+          categorizeEntries: entries => entries.slice(1).map(() => `ours`),
+        },
+      ),
+    ).toThrow(/one category per entry/u)
+  })
 })
 
 describe(`profileToMdAsync`, () => {

@@ -49,6 +49,12 @@ profiler-md
 │   │   ├── index.ts          # Barrel file
 │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │
+│   ├── origins/              # Per-profiler detection and categorization
+│   │   ├── origin.ts         # OriginSpec type and match helpers
+│   │   ├── categorize.ts     # Shared categorization rule helpers
+│   │   ├── <name>.ts         # One file per origin (node, node-pprof, jvm, etc.)
+│   │   └── index.ts          # Origin registry; determineOrigin/categorizeEntryForOrigin
+│   │
 │   ├── cell.ts               # Table cell types + Markdown table/diff-table formatting
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
@@ -165,6 +171,8 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
   - [ ] Run `pnpm generate-fixtures <lang>` to produce it in `src/fixtures/`
 - [ ] Analyze the fixture to confirm it aligns with online research
 - [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
+- [ ] Identify the profiler that produced the fixture, and decide whether it
+      needs a new origin (see `OriginSpec`).
 
 ### Implementation
 
@@ -181,6 +189,14 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
       and conversion via the `convertToMd` runner from `../testing/convert.ts`
 - [ ] If tests need format-specific utilities, put them in
       `src/formats/<name>/testing.ts`
+- [ ] If the format introduces a new origin, then:
+  - [ ] Create `src/origins/<origin>.ts` exporting an `OriginSpec` with
+        `matches` (detecting from frame data) and `categorize` (composed from
+        `src/origins/categorize.ts` helpers plus its profiler-specific rules),
+        and register it in `src/origins/index.ts` (`originSpecs`, plus
+        `fallbackOrigins` if the format always comes from this origin)
+  - [ ] Add origin detection and categorization tests to
+        `src/origins/index.test.ts` and `src/origins/categorize.test.ts`
 
 ### CLI and programmatic API
 

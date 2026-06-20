@@ -1,11 +1,10 @@
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
-import {
-  fileReferenceId,
-  fileReferencePath,
-  makeFileReference,
-} from './location.ts'
+import { fileReferenceId, makeFileReference } from './location.ts'
 import type { SourceLocation } from './location.ts'
+import { categorizeEntryForOrigin, determineOrigin } from './origins/index.ts'
+import type { Origin } from './origins/index.ts'
+import { RUSTC_COMMIT_HASH_PATH } from './origins/pprof-rs.ts'
 import type { AggregatedProfileFunction } from './profile/aggregate.ts'
 import type { AggregatedSnapshotNode } from './snapshot/aggregate.ts'
 import { normalizeSourceMaps } from './source-map.ts'
@@ -18,23 +17,26 @@ export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
 export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
 
 /**
- * Profile data with or without an explicit format.
+ * Profile data with an optional explicit format and origin.
  *
- * The format is auto-detected if no format is specified.
+ * The format and origin are auto-detected if not specified.
  */
-export type ProfileInput<Data> = Data | { data: Data; format: Format }
+export type ProfileInput<Data> =
+  | Data
+  | { data: Data; format?: Format; origin?: Origin }
 
 export type NormalizedProfileInput<Data> = {
   data: Data
   format: Format | undefined
+  origin: Origin | undefined
 }
 
 export const normalizeProfileInput = <Data>(
-  data: ProfileInput<Data>,
+  input: ProfileInput<Data>,
 ): NormalizedProfileInput<Data> =>
-  typeof data === `object` && data !== null && `format` in data
-    ? data
-    : { data, format: undefined }
+  typeof input === `object` && input !== null && `data` in input
+    ? { data: input.data, format: input.format, origin: input.origin }
+    : { data: input, format: undefined, origin: undefined }
 
 /** The category of code an entry originated from. */
 export type EntryCategory = `ours` | `stdlib` | `third-party` | (string & {})
@@ -78,6 +80,21 @@ export type NormalizedEntry = {
 export type AggregatedProfileEntry =
   | AggregatedProfileFunction
   | AggregatedSnapshotNode
+
+/**
+ * The context in which a single profile or snapshot is being converted to
+ * Markdown.
+ */
+export type ProfileToMdContext = {
+  /** The format of the profile or snapshot being converted. */
+  format: Format
+
+  /**
+   * The explicit origin, or `null` when none was given and the origin should be
+   * determined from the entries (e.g. via {@link determineOrigin}).
+   */
+  origin: Origin | null
+}
 
 /** Options for profile to Markdown converters. */
 export type ProfileToMdOptions = {
@@ -135,11 +152,28 @@ export type ProfileToMdOptions = {
   ) => NormalizedEntry | undefined
 
   /**
-   * Returns an arbitrary category string for this entry.
+   * Returns a category string per entry of a single profile or snapshot, as an
+   * array aligned with {@link entries} (index `i` categorizes entry `i`).
    *
    * Used to compute a category breakdown in the Markdown output.
+   *
+   * Called once per profile or snapshot with all its {@link entries} and the
+   * conversion {@link ProfileToMdContext | context} (the resolved
+   * {@link Format | format} and the explicit {@link Origin | origin}, or `null`
+   * when none was given).
+   *
+   * Receiving every entry up front lets the categorizer determine the origin
+   * from the full set when none was specified (see {@link determineOrigin}),
+   * rather than deciding per entry in isolation.
+   *
+   * Defaults to {@link defaultCategorizeEntries}, which determines the origin
+   * (when not given) and applies the library's origin-aware categorization
+   * ({@link categorizeEntryForOrigin}).
    */
-  categorizeEntry?: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
+  categorizeEntries?: (
+    entries: readonly DeepReadonly<ProfileEntry>[],
+    context: ProfileToMdContext,
+  ) => readonly EntryCategory[]
 
   /**
    * Whether to include the given entry in the Markdown output.
@@ -155,7 +189,10 @@ export type NormalizedProfileToMdOptions = {
   baseURL: URL | undefined
   sourceMaps: NormalizedSourceMaps
   entryKey: (entry: ProfileEntry) => string
-  categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => string
+  categorizeEntries: (
+    entries: readonly ProfileEntry[],
+    context: ProfileToMdContext,
+  ) => readonly EntryCategory[]
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
 }
 
@@ -164,14 +201,24 @@ export const normalizeProfileToMdOptions = ({
   baseURL,
   sourceMaps,
   matchEntry = defaultMatchEntry,
-  categorizeEntry = defaultCategorizeEntry,
+  categorizeEntries = defaultCategorizeEntries,
   showEntry = defaultShowEntry,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
   entryKey: cacheEntryFunction(entry => entryKey(entry, matchEntry)),
-  categorizeEntry: cacheEntryFunction(categorizeEntry),
+  categorizeEntries: (entries, context) => {
+    const categories = categorizeEntries(entries, context)
+    if (categories.length !== entries.length) {
+      throw new Error(
+        `categorizeEntries returned ${categories.length} categories for ` +
+          `${entries.length} entries; it must return exactly one category per ` +
+          `entry, aligned by index.`,
+      )
+    }
+    return categories
+  },
   showEntry: cacheEntryFunction(showEntry),
 })
 
@@ -234,56 +281,29 @@ const CARGO_BUILD_HASH_REGEX =
   /(?<prefix>^|\/)(?<dir>build\/[^/]+)-[0-9a-f]{16}(?=\/out\/)/u
 
 // Rust stdlib paths embed the rustc commit hash, e.g.
-// `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`.
-const RUSTC_HASH_REGEX = /(?<prefix>^|\/)rustc\/[0-9a-f]{40}(?=\/)/u
+// `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`. The
+// hash segment is shared with `pprof-rs`'s stdlib detection.
+const RUSTC_HASH_REGEX = new RegExp(
+  `(?<prefix>^|/)${RUSTC_COMMIT_HASH_PATH}(?=/)`,
+  `u`,
+)
 
 /**
- * Returns an arbitrary category string for this entry.
+ * The default {@link ProfileToMdOptions.categorizeEntries}.
  *
- * Categorizes into `ours`, `stdlib`, `third-party`, and a few other categories
- * by default.
+ * Determines the origin from the entries when none was specified (see
+ * {@link determineOrigin}), then applies the library's origin-aware
+ * categorization to each entry (see {@link categorizeEntryForOrigin}).
+ *
+ * Exposed so a custom categorizer can reuse it as a base (e.g. override a few
+ * entries and delegate the rest).
  */
-export const defaultCategorizeEntry = (
-  entry: DeepReadonly<ProfileEntry>,
-): EntryCategory => {
-  const { name, location } = entry
-
-  if (
-    name?.startsWith(`(`) &&
-    name.endsWith(`)`) &&
-    !name.startsWith(`(anonymous`)
-  ) {
-    // This is a special sentinel function name like `(garbage collector)`,
-    // `(idle)`, etc.
-    return name.slice(1, -1)
-  }
-
-  if (name === `Garbage Collection`) {
-    return `garbage collector`
-  } else if (name?.startsWith(`RegExp: `)) {
-    return `regexp`
-  }
-
-  if (!location) {
-    // If the node has no location, then we assume stdlib.
-    return `stdlib`
-  }
-
-  if (location.type === `absolute` && location.url.protocol === `node:`) {
-    // `node:` URLs are Node.js's stdlib.
-    return `stdlib`
-  }
-
-  const path = fileReferencePath(location)
-  if (path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)) {
-    return `third-party`
-  }
-  if (path.startsWith(`__InjectedScript_`)) {
-    // This is a WebKit internal.
-    return `stdlib`
-  }
-
-  return `ours`
+export const defaultCategorizeEntries = (
+  entries: readonly DeepReadonly<ProfileEntry>[],
+  { format, origin }: ProfileToMdContext,
+): EntryCategory[] => {
+  const resolvedOrigin = origin ?? determineOrigin({ format, entries })
+  return entries.map(entry => categorizeEntryForOrigin(entry, resolvedOrigin))
 }
 
 /**

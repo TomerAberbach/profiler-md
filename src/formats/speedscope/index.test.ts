@@ -447,13 +447,14 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntry groups entries by custom category`, () => {
+  test(`categorizeEntries groups entries by custom category`, () => {
     const md = convertToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
-        categorizeEntry: entry => (entry.name === `main` ? `core` : `workers`),
+        categorizeEntries: entries =>
+          entries.map(entry => (entry.name === `main` ? `core` : `workers`)),
       }),
     )
 

@@ -44,15 +44,13 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|      % | Samples | Function              | Location           |
-| -----: | ------: | --------------------- | ------------------ |
-| 100.0% |  13,009 | `work`                | script.py:17       |
-| 100.0% |  13,009 | `main`                | script.py:23       |
-| 100.0% |  13,009 | `<module>`            | script.py:27       |
-| 100.0% |  13,009 | `_run_code`           | <frozen runpy>:87  |
-| 100.0% |  13,009 | `_run_module_as_main` | <frozen runpy>:201 |
-|  89.7% |  11,666 | `fib`                 | script.py:4        |
-|  10.3% |   1,342 | `crunch`              | script.py:10       |
+|      % | Samples | Function   | Location     |
+| -----: | ------: | ---------- | ------------ |
+| 100.0% |  13,009 | `work`     | script.py:17 |
+| 100.0% |  13,009 | `main`     | script.py:23 |
+| 100.0% |  13,009 | `<module>` | script.py:27 |
+|  89.7% |  11,666 | `fib`      | script.py:4  |
+|  10.3% |   1,342 | `crunch`   | script.py:10 |
 
 #### Callees
 
@@ -77,18 +75,6 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 | -----: | ------: | ------ | ------------ |
 | 100.0% |  13,009 | `main` | script.py:23 |
 
-##### `_run_code` (<frozen runpy>:87)
-
-|      % | Samples | Callee     | Location     |
-| -----: | ------: | ---------- | ------------ |
-| 100.0% |  13,009 | `<module>` | script.py:27 |
-
-##### `_run_module_as_main` (<frozen runpy>:201)
-
-|      % | Samples | Callee      | Location          |
-| -----: | ------: | ----------- | ----------------- |
-| 100.0% |  13,009 | `_run_code` | <frozen runpy>:87 |
-
 ##### `fib` (script.py:4)
 
 |      % | Samples | Callee | Location    |
@@ -99,7 +85,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 Call stacks ranked by samples taken in their leaf frame.
 
-Common call stack: `work` (script.py:17) ← `main` (23) ← `<module>` (27) ← `_run_code` (<frozen runpy>:87) ← `_run_module_as_main` (201)
+Common call stack: `work` (script.py:17) ← `main` (23) ← `<module>` (27)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                  |
 | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
