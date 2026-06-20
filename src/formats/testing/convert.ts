@@ -26,3 +26,17 @@ export const convertToMd: {
     converter.type === `binary` ? converter.parse(input as Uint8Array) : input
   return formatAggregatedInputs(converter.aggregate(parsed, options), options)
 }
+
+/**
+ * The streaming analogue of {@link convertToMd} for binary converters: parses a
+ * byte stream via {@link BinaryFormatConverter.parseAsync} before aggregating
+ * and formatting.
+ */
+export const convertToMdAsync = async <Parsed>(
+  converter: BinaryFormatConverter<Parsed>,
+  stream: ReadableStream<Uint8Array>,
+  options: NormalizedProfileToMdOptions,
+): Promise<string> => {
+  const parsed = await converter.parseAsync(stream)
+  return formatAggregatedInputs(converter.aggregate(parsed, options), options)
+}

@@ -1,12 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
+import { streamOf } from '../../testing/bytes.ts'
 import {
   callersTables,
   linesTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertToMd, convertToMdAsync } from '../testing/convert.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
 
@@ -93,6 +94,28 @@ describe(`convert`, () => {
         },
       ],
     ])
+  })
+
+  test(`buffer-then-parse parseAsync matches sync conversion`, async () => {
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+        { id: 2, name: `funcB`, filename: `/project/src/b.ts`, startLine: 1 },
+      ],
+      locations: [
+        { id: 1, lines: [{ functionId: 1, line: 5 }] },
+        { id: 2, lines: [{ functionId: 2, line: 10 }] },
+      ],
+      samples: [
+        { locationIds: [2, 1], values: [100_000] },
+        { locationIds: [2, 1], values: [100_000] },
+      ],
+    })
+    const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+
+    const md = await convertToMdAsync(pprofConverter, streamOf(data), options)
+
+    expect(md).toBe(convertToMd(pprofConverter, data, options))
   })
 
   test(`uses systemName when function name is empty`, () => {

@@ -1,4 +1,4 @@
-import { decodeUtf8Lines } from '../../helpers/bytes.ts'
+import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
 
 /**
  * A parsed collapsed (a.k.a. "folded") stack profile.
@@ -22,27 +22,56 @@ export type CollapsedNode = {
 export const parseCollapsed = (bytes: Uint8Array): CollapsedProfile => {
   const stacks: CollapsedProfile[`stacks`] = []
   for (const line of decodeUtf8Lines(bytes)) {
-    if (line.length === 0 || line.startsWith(`#`)) {
-      continue
+    const stack = parseCollapsedLine(line)
+    if (stack) {
+      stacks.push(stack)
     }
-
-    const lastSpace = line.lastIndexOf(` `)
-    if (lastSpace === -1) {
-      throw new Error(`Not a collapsed stack profile: missing sample count`)
-    }
-
-    const countText = line.slice(lastSpace + 1)
-    if (!/^\d+$/u.test(countText)) {
-      throw new Error(`Not a collapsed stack profile: invalid sample count`)
-    }
-
-    // Trim any extra separator whitespace so a count padded with multiple
-    // spaces doesn't leave a trailing space on the leaf frame.
-    const stack = line.slice(0, lastSpace).trimEnd()
-    stacks.push({ frames: stack.split(`;`), count: Number(countText) })
   }
 
   return { stacks }
+}
+
+export const parseCollapsedAsync = async (
+  stream: ReadableStream<Uint8Array>,
+): Promise<CollapsedProfile> => {
+  const stacks: CollapsedProfile[`stacks`] = []
+  for await (const line of decodeUtf8LinesAsync(stream)) {
+    const stack = parseCollapsedLine(line)
+    if (stack) {
+      stacks.push(stack)
+    }
+  }
+
+  return { stacks }
+}
+
+/**
+ * Parses one collapsed line into its frames and count, returning `undefined`
+ * for blank or `#` comment lines.
+ *
+ * @throws on a missing or non-numeric count.
+ */
+const parseCollapsedLine = (
+  line: string,
+): { frames: string[]; count: number } | undefined => {
+  if (line.length === 0 || line.startsWith(`#`)) {
+    return undefined
+  }
+
+  const lastSpace = line.lastIndexOf(` `)
+  if (lastSpace === -1) {
+    throw new Error(`Not a collapsed stack profile: missing sample count`)
+  }
+
+  const countText = line.slice(lastSpace + 1)
+  if (!/^\d+$/u.test(countText)) {
+    throw new Error(`Not a collapsed stack profile: invalid sample count`)
+  }
+
+  // Trim any extra separator whitespace so a count padded with multiple
+  // spaces doesn't leave a trailing space on the leaf frame.
+  const stack = line.slice(0, lastSpace).trimEnd()
+  return { frames: stack.split(`;`), count: Number(countText) }
 }
 
 export const parseFrame = (frame: string): CollapsedNode => {

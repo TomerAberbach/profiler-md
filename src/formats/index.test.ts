@@ -153,6 +153,27 @@ describe(`profileToMdAsync`, () => {
     expect(md).toMatch(/^# /u)
   })
 
+  test(`forced binary format streams a ReadableStream through parseAsync`, async () => {
+    // Forcing the format routes into the streaming `parseAsync` path, which must
+    // produce the same output as the sync conversion of the same bytes.
+    const content = readFileSync(fixturePath(`python.base.collapsed`))
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        controller.enqueue(content)
+        controller.close()
+      },
+    })
+
+    const md = await profileToMdAsync(
+      { data: stream, format: `collapsed` },
+      { baseURL: null },
+    )
+
+    expect(md).toBe(
+      profileToMd({ data: content, format: `collapsed` }, { baseURL: null }),
+    )
+  })
+
   test(`throws on unknown data`, async () => {
     const blob = new Blob([`{}`])
 

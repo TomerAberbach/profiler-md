@@ -160,16 +160,17 @@ const aggregateInputAsync = async (
   if (format) {
     const converter = formatConverters[format]
     return converter.aggregate(
-      converter.type === `json`
-        ? await JumboJSON.parseAsync(data)
-        : converter.parse(await asyncDataToBytes(data)),
+      await (converter.type === `json`
+        ? JumboJSON.parseAsync(data)
+        : converter.parseAsync(data instanceof Blob ? data.stream() : data)),
       options,
     )
   }
 
-  // A `Blob` can be read repeatedly, so let it stream-parse without buffering.
-  // A `ReadableStream` is read-once, so buffer it up front to allow reparsing
-  // across format attempts.
+  // Detection must retry multiple converters over the same input, so it stays
+  // buffered rather than streaming. A `Blob` can be read repeatedly, so let it
+  // stream-parse without buffering. A `ReadableStream` is read-once, so buffer
+  // it up front to allow reparsing across format attempts.
   const source: Blob | Uint8Array =
     data instanceof Blob ? data : await streamToUint8Array(data)
 
@@ -205,9 +206,6 @@ const dataToBytes = (data: ProfileData): Uint8Array => {
   }
   return concatUint8Arrays(data)
 }
-
-const asyncDataToBytes = async (data: AsyncProfileData): Promise<Uint8Array> =>
-  data instanceof Blob ? data.bytes() : streamToUint8Array(data)
 
 let textEncoder: InstanceType<typeof TextEncoder> | undefined
 

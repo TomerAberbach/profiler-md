@@ -1,6 +1,6 @@
 import type { BinaryFormatConverter } from '../converter.ts'
 import { aggregateCollapsed } from './aggregate.ts'
-import { parseCollapsed } from './parse.ts'
+import { parseCollapsed, parseCollapsedAsync } from './parse.ts'
 import type { CollapsedProfile } from './parse.ts'
 
 const matchesCollapsed = (profile: CollapsedProfile): boolean =>
@@ -19,6 +19,7 @@ export const collapsedConverter = {
   type: `binary`,
   shape: `profile`,
   parse: parseCollapsed,
+  parseAsync: parseCollapsedAsync,
   matches: matchesCollapsed,
   aggregate: aggregateCollapsed,
 } satisfies BinaryFormatConverter<CollapsedProfile>

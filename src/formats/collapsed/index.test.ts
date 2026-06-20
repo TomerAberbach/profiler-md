@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { normalizeProfileToMdOptions } from '../../options.ts'
+import { chunk, streamOf } from '../../testing/bytes.ts'
 import {
   calleesTables,
   profileTitles,
@@ -7,7 +8,7 @@ import {
   summaryLines,
   totalSamplesTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertToMd, convertToMdAsync } from '../testing/convert.ts'
 import { collapsedConverter } from './index.ts'
 import { parseCollapsed, parseFrame } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
@@ -214,5 +215,36 @@ describe(`convert`, () => {
         },
       ],
     ])
+  })
+})
+
+describe(`convertAsync`, () => {
+  const options = normalizeProfileToMdOptions({
+    baseURL: `/`,
+    showEntry: () => true,
+  })
+  const bytes = makeCollapsed([
+    `tid:7;app.py:main:10;app.py:work:20 6`,
+    `tid:7;app.py:main:10;app.py:work:20 4`,
+    `tid:7;app.py:main:10 5`,
+  ])
+  const expected = convertToMd(collapsedConverter, bytes, options)
+
+  test(`streaming parse matches sync conversion`, async () => {
+    expect(
+      await convertToMdAsync(collapsedConverter, streamOf(bytes), options),
+    ).toBe(expected)
+  })
+
+  test(`streaming parse matches sync conversion across a mid-line chunk boundary`, async () => {
+    // A 7-byte chunk size splits frames and counts across stream chunks,
+    // exercising the line carry buffer.
+    expect(
+      await convertToMdAsync(
+        collapsedConverter,
+        streamOf(...chunk(bytes, 7)),
+        options,
+      ),
+    ).toBe(expected)
   })
 })
