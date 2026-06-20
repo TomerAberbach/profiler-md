@@ -27,18 +27,18 @@ export const parseCollapsed = (bytes: Uint8Array): CollapsedProfile => {
     }
 
     const lastSpace = line.lastIndexOf(` `)
-    if (lastSpace <= 0) {
+    if (lastSpace === -1) {
       throw new Error(`Not a collapsed stack profile: missing sample count`)
     }
 
-    // Trim any extra separator whitespace so a count padded with multiple
-    // spaces doesn't leave a trailing space on the leaf frame.
-    const stack = line.slice(0, lastSpace).trimEnd()
     const countText = line.slice(lastSpace + 1)
     if (!/^\d+$/u.test(countText)) {
       throw new Error(`Not a collapsed stack profile: invalid sample count`)
     }
 
+    // Trim any extra separator whitespace so a count padded with multiple
+    // spaces doesn't leave a trailing space on the leaf frame.
+    const stack = line.slice(0, lastSpace).trimEnd()
     stacks.push({ frames: stack.split(`;`), count: Number(countText) })
   }
 
