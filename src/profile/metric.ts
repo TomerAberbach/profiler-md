@@ -205,6 +205,20 @@ const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
   ReadonlyMap<string, MetricPhrases>
 > = new Map([
   [
+    `time`,
+    new Map<string, MetricPhrases>([
+      [
+        `block_time`,
+        {
+          titleNoun: `lock contention`,
+          columnNoun: `time`,
+          pastTenseVerb: `blocked`,
+          pastParticipleVerbPhrase: `time blocked`,
+        },
+      ],
+    ]),
+  ],
+  [
     `size`,
     new Map<string, MetricPhrases>([
       [

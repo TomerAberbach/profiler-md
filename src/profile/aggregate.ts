@@ -19,7 +19,11 @@ export class ProfileAggregator<Node extends { id?: number }> {
   >
 
   readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
-  readonly #keyToFunction: Map<number | string, AggregatedProfileFunction>
+  readonly #keyToFunction: Map<
+    number | string | symbol,
+    AggregatedProfileFunction
+  >
+
   readonly #idToFunction: AggregatedProfileFunction[]
   readonly #functionIdToLastSeenEpoch: DynamicTypedArray<Uint32Array>
   readonly #frameIndexToFramePairKey: DynamicTypedArray<Int32Array>
@@ -63,7 +67,8 @@ export class ProfileAggregator<Node extends { id?: number }> {
 
   /**
    * Adds {@link Sample.sampleCount} occurrences (default `1`) of a profile
-   * sample.
+   * sample. An empty {@link Sample.nodes} is a stackless sample, attributed to a
+   * single shared anonymous function.
    *
    * Passing a count is equivalent to calling this once per occurrence, but runs
    * in time independent of the count. Pre-aggregated formats use it to avoid a
@@ -75,7 +80,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     line,
     sampleCount = 1,
   }: Sample<Node>): void {
-    if (nodes.length === 0 || sampleCount <= 0) {
+    if (sampleCount <= 0) {
       return
     }
 
@@ -226,7 +231,11 @@ export class ProfileAggregator<Node extends { id?: number }> {
   }
 
   #getOrCreateCallStack(nodes: Node[]): AggregatedProfileCallStack {
-    const frames = nodes.map(node => this.#getOrCreateFunction(node))
+    // A stackless sample has no nodes; attribute it to a shared anonymous frame.
+    const frames =
+      nodes.length === 0
+        ? [this.#getOrCreateAnonymousFunction()]
+        : nodes.map(node => this.#getOrCreateFunction(node))
     const key = frames.map(frame => frame.id).join(`,`)
     let callStack = this.#keyToCallStack.get(key)
     if (callStack) {
@@ -252,23 +261,37 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
 
     const key = this.#functionKey(node)
-    let func = this.#keyToFunction.get(key)
-    if (func) {
-      if (id !== undefined) {
-        this.#idToFunction[id] = func
-      }
-      return func
+    const func =
+      this.#keyToFunction.get(key) ??
+      this.#registerFunction(key, this.#functionInput(node))
+    if (id !== undefined) {
+      this.#idToFunction[id] = func
     }
+    return func
+  }
 
-    const { name: nameInput, location: locationInput } =
-      this.#functionInput(node)
+  /**
+   * The single shared anonymous function for stackless samples, keyed by a
+   * symbol so it can never collide with a caller's {@link functionKey}.
+   */
+  #getOrCreateAnonymousFunction(): AggregatedProfileFunction {
+    return (
+      this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
+      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, {})
+    )
+  }
+
+  #registerFunction(
+    key: number | string | symbol,
+    { name, location }: ProfileFunctionInput,
+  ): AggregatedProfileFunction {
     const entry = {
       id: this.#keyToFunction.size,
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      name: nameInput || `(anonymous)`,
-      location: makeSourceLocation(locationInput),
+      name: name || `(anonymous)`,
+      location: makeSourceLocation(location),
     }
-    func = {
+    const func: AggregatedProfileFunction = {
       type: `function`,
       ...entry,
       category: this.#options.categorizeEntry(entry),
@@ -279,9 +302,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
       lineToMetrics: new Map(),
       callerIdToMetrics: new Map(),
       calleeIdToMetrics: new Map(),
-    }
-    if (id !== undefined) {
-      this.#idToFunction[id] = func
     }
     this.#keyToFunction.set(key, func)
     return func
@@ -309,6 +329,14 @@ export class ProfileAggregator<Node extends { id?: number }> {
   }
 }
 
+/**
+ * Key for the single shared anonymous function that stackless samples (empty
+ * `nodes`) are attributed to. A symbol so it can never collide with a caller's
+ * {@link ProfileAggregator}'s `functionKey`. All stackless samples merge into
+ * one bucket because there's no information to tell them apart.
+ */
+const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
+
 /** Base information used for constructing a {@link AggregatedProfileFunction}. */
 export type ProfileFunctionInput = {
   /** The name of the function, if known. */
@@ -323,7 +351,10 @@ export type Sample<Node extends { id?: number }> = {
   /** The values recorded for each metric in {@link AggregatedProfile.metrics}. */
   values: number[]
 
-  /** The functions on the call stack in callee to caller order. */
+  /**
+   * The functions on the call stack in callee to caller order. Empty for a
+   * stackless sample, which is attributed to a shared anonymous function.
+   */
   nodes: Node[]
 
   /** The 1-based line number where the sample was taken, if known. */

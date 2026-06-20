@@ -25,6 +25,7 @@ import type {
   FormatConverter,
   JsonFormatConverter,
 } from './converter.ts'
+import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { pprofConverter } from './pprof/index.ts'
 import { speedscopeConverter } from './speedscope/index.ts'
@@ -266,6 +267,7 @@ const formatAggregatedDiff = (
 
 export const formats = [
   `collapsed`,
+  `jfr`,
   `jsc-heap-snapshot`,
   `pprof`,
   `speedscope`,
@@ -280,6 +282,7 @@ export type Format = (typeof formats)[number]
 
 export const formatConverters: Record<Format, FormatConverter<any>> = {
   collapsed: collapsedConverter,
+  jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,

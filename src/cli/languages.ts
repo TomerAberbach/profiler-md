@@ -48,7 +48,10 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `java`,
     {
       name: `Java`,
-      formats: [`collapsed`, `pprof`, `speedscope`],
+      formats: [`jfr`, `collapsed`],
+      examples: {
+        jfr: [{ filename: `java.jdk.jfr`, label: `Java` }],
+      },
       aliases: [{ id: `kotlin`, name: `Kotlin` }],
     },
   ],
