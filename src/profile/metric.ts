@@ -239,6 +239,15 @@ const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
           pastParticipleVerbPhrase: `bytes retained`,
         },
       ],
+      [
+        `nativemem_space`,
+        {
+          titleNoun: `allocated native memory`,
+          columnNoun: `size`,
+          pastTenseVerb: `allocated`,
+          pastParticipleVerbPhrase: `native bytes allocated`,
+        },
+      ],
     ]),
   ],
 ])

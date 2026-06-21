@@ -29,13 +29,24 @@ export type JfrTestEvent = {
    * - `wallclock`: async-profiler `profiler.WallClockSample` (coalesced)
    * - `alloc`: `jdk.ObjectAllocationSample` (the modern sampled event)
    * - `alloc-tlab`: `jdk.ObjectAllocationInNewTLAB` (legacy TLAB event)
+   * - `nativemem`: async-profiler `profiler.Malloc` (native memory allocation)
    * - `lock`: `jdk.JavaMonitorEnter`
    * - `nativelock`: async-profiler `profiler.NativeLock`
    */
-  type: `cpu` | `wallclock` | `alloc` | `alloc-tlab` | `lock` | `nativelock`
+  type:
+    | `cpu`
+    | `wallclock`
+    | `alloc`
+    | `alloc-tlab`
+    | `nativemem`
+    | `lock`
+    | `nativelock`
   stack: number
 
-  /** Allocated bytes (alloc) or blocked nanoseconds (lock); ignored for cpu. */
+  /**
+   * Allocated bytes (alloc, nativemem) or blocked nanoseconds (lock); ignored
+   * for cpu.
+   */
   weight?: number
 
   /** How many samples a `wallclock` event coalesces; defaults to `1`. */
@@ -59,6 +70,7 @@ const JAVA_MONITOR_ENTER = 22
 const WALL_CLOCK_SAMPLE = 23
 const OBJECT_ALLOCATION_IN_NEW_TLAB = 24
 const NATIVE_LOCK = 25
+const MALLOC = 26
 
 /** A class id used for a field whose type the metadata never declares. */
 const UNKNOWN_FIELD_CLASS = 901
@@ -209,6 +221,12 @@ export const makeJfr = ({
         body.varint(weight ?? 0)
         eventWriters.push(sizedEvent(OBJECT_ALLOCATION_IN_NEW_TLAB, body))
         break
+      case `nativemem`:
+        body.varint(stack + 1)
+        body.varint(0) // Allocation address, read generically and ignored
+        body.varint(weight ?? 0)
+        eventWriters.push(sizedEvent(MALLOC, body))
+        break
       case `lock`:
         body.varint(weight ?? 0)
         body.varint(stack + 1)
@@ -343,6 +361,11 @@ const makeMetadata = (unreadableEventTypes: string[]): ByteWriter => {
     type(NATIVE_LOCK, `profiler.NativeLock`, [
       field(`duration`, LONG),
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+    ]),
+    type(MALLOC, `profiler.Malloc`, [
+      field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+      field(`address`, LONG),
+      field(`size`, LONG),
     ]),
   ]
 

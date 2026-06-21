@@ -148,6 +148,59 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`native memory samples are measured by allocated bytes`, () => {
+    // `async-profiler`'s `profiler.Malloc` records off-heap allocations
+    // weighted by their `size`, surfacing as a distinct native memory profile.
+    const bytes = makeJfr({
+      methods: [
+        { name: `malloc`, className: `libc.so` },
+        { name: `run`, className: `com.example.N` },
+      ],
+      stackTraces: [
+        {
+          frames: [{ method: 0 }, { method: 1, line: 4 }],
+        },
+      ],
+      events: [
+        { type: `nativemem`, stack: 0, weight: 4096 },
+        { type: `nativemem`, stack: 0, weight: 2048 },
+      ],
+    })
+
+    const md = convertToMd(jfrConverter, bytes, options)
+
+    expect(profileTitles(md)).toEqual([`Allocated native memory profile`])
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `6.14 kB`,
+          Samples: `2`,
+          Function: `malloc`,
+          Location: `libc.so`,
+        },
+      ],
+    ])
+    expect(totalSizeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `6.14 kB`,
+          Samples: `2`,
+          Function: `malloc`,
+          Location: `libc.so`,
+        },
+        {
+          '%': `100.0%`,
+          Size: `6.14 kB`,
+          Samples: `2`,
+          Function: `run`,
+          Location: `com.example.N`,
+        },
+      ],
+    ])
+  })
+
   test(`lock samples are measured by blocked time`, () => {
     const bytes = makeJfr({
       methods: [
@@ -182,6 +235,7 @@ describe(`convert`, () => {
       events: [
         { type: `cpu`, stack: 0 },
         { type: `alloc`, stack: 0, weight: 64 },
+        { type: `nativemem`, stack: 0, weight: 128 },
         { type: `lock`, stack: 0, weight: 1000 },
       ],
     })
@@ -189,6 +243,7 @@ describe(`convert`, () => {
     expect(profileTitles(convertToMd(jfrConverter, bytes, options))).toEqual([
       `Sampling profile`,
       `Allocated heap profile`,
+      `Allocated native memory profile`,
       `Lock contention profile`,
     ])
   })

@@ -3,17 +3,22 @@
  *
  * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
  *   async-profiler's `profiler.WallClockSample`). Carries no weight; ranked by
- *   sample count, with each event contributing {@link JfrSampleEvent.sampleCount}
- *   samples. Wall-clock samples are ranked by count too: their `timeSpan` field
- *   is zero for the vast majority of (uncoalesced) samples, so weighting by it
- *   would understate where wall-clock time actually goes.
- * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the TLAB
- *   variants), weighted by allocated bytes.
+ *   sample count, each event contributing {@link JfrSampleEvent.sampleCount}
+ *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
+ *   most uncoalesced samples, so weighting by it would understate where
+ *   wall-clock time goes.
+ * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
+ *   TLAB variants), weighted by allocated bytes.
+ * - `nativemem`: off-heap native memory allocation (async-profiler's
+ *   `profiler.Malloc`), weighted by allocated bytes. The paired
+ *   `profiler.Free` events are ignored: like `alloc`, this profiles where
+ *   native memory is allocated, not the net live footprint, and frees usually
+ *   dominate the recording so netting them would erase most of the signal.
  * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
  *   async-profiler's `profiler.NativeLock`), weighted by blocked duration in
  *   nanoseconds.
  */
-export type JfrSampleKind = `cpu` | `alloc` | `lock`
+export type JfrSampleKind = `cpu` | `alloc` | `nativemem` | `lock`
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
 export type JfrMethod = {
@@ -51,8 +56,8 @@ export type JfrSampleEvent = {
   stackTraceId: number
 
   /**
-   * The sample's weight: `1` for CPU/wall samples, allocated bytes for
-   * allocation samples, and blocked nanoseconds for lock samples.
+   * The sample's weight: `1` for CPU/wall samples, allocated bytes for heap and
+   * native memory allocation samples, and blocked nanoseconds for lock samples.
    */
   weight: number
 
@@ -439,6 +444,7 @@ class JfrParser {
         `jdk.ObjectAllocationOutsideTLAB`,
         { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
       ],
+      [`profiler.Malloc`, { kind: `nativemem`, weightField: `size` }],
       [
         `jdk.JavaMonitorEnter`,
         { kind: `lock`, weightField: `duration`, weightInTicks: true },

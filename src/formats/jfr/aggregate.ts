@@ -81,8 +81,14 @@ export const aggregateJfr = (
 /** A stack trace's resolved nodes and the leaf frame's self line. */
 type ResolvedStack = { nodes: JfrMethod[]; line: number | undefined }
 
-/** Allocation samples are weighted by allocated bytes. */
+/** Heap allocation samples are weighted by allocated bytes. */
 const ALLOC_METRIC = determineMetric({ name: `alloc_space`, unit: `bytes` })
+
+/** Native memory allocation samples are weighted by allocated bytes. */
+const NATIVEMEM_METRIC = determineMetric({
+  name: `nativemem_space`,
+  unit: `bytes`,
+})
 
 /** Lock samples are weighted by blocked time in nanoseconds. */
 const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
@@ -95,5 +101,6 @@ const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
 const KINDS: { kind: JfrSampleKind; metric: Metric | undefined }[] = [
   { kind: `cpu`, metric: undefined },
   { kind: `alloc`, metric: ALLOC_METRIC },
+  { kind: `nativemem`, metric: NATIVEMEM_METRIC },
   { kind: `lock`, metric: LOCK_METRIC },
 ]
