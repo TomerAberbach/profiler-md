@@ -2,7 +2,7 @@
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp
  */
 export type JSCHeapSnapshot = {
-  /** Format version (2). */
+  /** Format version. */
   version: number
 
   /** Format identifier ("Inspector"). */

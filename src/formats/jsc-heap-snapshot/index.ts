@@ -8,7 +8,11 @@ const matchesJSCHeapSnapshot = (json: unknown): boolean => {
   }
 
   const { version, type, nodes } = json as Record<string, unknown>
-  if (version !== 2 || type !== `Inspector` || !Array.isArray(nodes)) {
+  if (
+    typeof version !== `number` ||
+    type !== `Inspector` ||
+    !Array.isArray(nodes)
+  ) {
     return false
   }
 
