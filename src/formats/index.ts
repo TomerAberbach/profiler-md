@@ -223,7 +223,7 @@ export const formatAggregatedInputs = (
           return formatHeapSnapshot(input, options)
       }
     })
-    .join(`\n\n`)
+    .join(`\n\n`) || NO_DATA_MESSAGE
 
 /**
  * Diffs the aggregated {@link base} and {@link current} inputs element by
@@ -243,27 +243,31 @@ const formatAggregatedDiff = (
     )
   }
 
-  return base
-    .map((baseInput, index) => {
-      const currentInput = current[index]!
-      if (baseInput.type === `profile` && currentInput.type === `profile`) {
-        return formatProfileDiff(
-          diffAggregatedProfiles(baseInput, currentInput, options),
-          options,
+  return (
+    base
+      .map((baseInput, index) => {
+        const currentInput = current[index]!
+        if (baseInput.type === `profile` && currentInput.type === `profile`) {
+          return formatProfileDiff(
+            diffAggregatedProfiles(baseInput, currentInput, options),
+            options,
+          )
+        }
+        if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
+          return formatHeapSnapshotDiff(
+            diffAggregatedHeapSnapshots(baseInput, currentInput, options),
+            options,
+          )
+        }
+        throw new Error(
+          `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
         )
-      }
-      if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
-        return formatHeapSnapshotDiff(
-          diffAggregatedHeapSnapshots(baseInput, currentInput, options),
-          options,
-        )
-      }
-      throw new Error(
-        `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
-      )
-    })
-    .join(`\n\n`)
+      })
+      .join(`\n\n`) || NO_DATA_MESSAGE
+  )
 }
+
+const NO_DATA_MESSAGE = `No profiling data found.`
 
 export const formats = [
   `collapsed`,
