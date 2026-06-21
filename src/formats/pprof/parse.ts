@@ -11,7 +11,7 @@ export type PprofValueType = {
 
 /** A function or method observed during pprof profiling. */
 export type PprofFunction = {
-  /** Unique function ID. */
+  /** Dense, sequential function ID (the function's index in the parsed table). */
   id: number
 
   /** Human-readable name, e.g. `main.myFunc`. */
@@ -29,9 +29,6 @@ export type PprofFunction = {
 
 /** An instruction address in the pprof. */
 export type PprofLocation = {
-  /** Unique location ID. */
-  id: number
-
   /**
    * The lines corresponding to the location. In most cases it's just an array
    * of length 1, but there can be multiple lines when inlined calls collapse
@@ -82,14 +79,17 @@ export const parsePprofInternal = (profile: Profile): Pprof => {
     unit: strings[Number(unit)] ?? ``,
   }))
 
-  const functionIdToIndex: number[] = []
+  // Pprof IDs are arbitrary uint64s. pprof-format surfaces them as `number`
+  // when they fit a safe integer and as `bigint` when they don't, so key the ID
+  // to index maps by the decimal string to resolve both representations exactly
+  // without precision loss. Each table index then doubles as the dense,
+  // sequential ID the aggregator expects.
+  const functionIdToIndex = new Map<string, number>()
   const functions: PprofFunction[] = []
   for (const func of profile.function) {
-    const id = Number(func.id)
-    const index = functions.length
-    functionIdToIndex[id] = index
+    functionIdToIndex.set(String(func.id), functions.length)
     functions.push({
-      id,
+      id: functions.length,
       name: strings[Number(func.name)] ?? ``,
       systemName: strings[Number(func.systemName)] ?? ``,
       filename: strings[Number(func.filename)] ?? ``,
@@ -97,23 +97,29 @@ export const parsePprofInternal = (profile: Profile): Pprof => {
     })
   }
 
-  const locationIdToIndex: number[] = []
+  const locationIdToIndex = new Map<string, number>()
   const locations: PprofLocation[] = []
   for (const location of profile.location) {
-    const id = Number(location.id)
-    const index = locations.length
-    locationIdToIndex[id] = index
+    locationIdToIndex.set(String(location.id), locations.length)
     locations.push({
-      id,
-      lines: location.line.map(({ functionId, line }) => ({
-        functionId: functionIdToIndex[Number(functionId)]!,
-        line: Number(line),
-      })),
+      // Some profilers emit lines whose function ID references a function
+      // absent from the function table (unsymbolized frames). Drop those frames
+      // rather than carry a dangling reference into aggregation.
+      lines: location.line.flatMap(({ functionId, line }) => {
+        const index = functionIdToIndex.get(String(functionId))
+        return index === undefined
+          ? []
+          : { functionId: index, line: Number(line) }
+      }),
     })
   }
 
   const samples = profile.sample.map(({ locationId, value }) => ({
-    locationIds: locationId.map(id => locationIdToIndex[Number(id)]!),
+    // Drop references to locations absent from the location table for the same
+    // reason as above.
+    locationIds: locationId.flatMap(
+      id => locationIdToIndex.get(String(id)) ?? [],
+    ),
     values: value.map(Number),
   }))
 
