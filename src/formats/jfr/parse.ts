@@ -71,6 +71,13 @@ export type JfrSampleEvent = {
 
 /** Parsed representation of a Java Flight Recorder recording. */
 export type Jfr = {
+  /**
+   * Whether the input began with the JFR chunk magic (`FLR\0`), i.e. whether it
+   * is a JFR recording at all. Drives format detection; a recording can have the
+   * magic yet still contain no supported sample {@link events}.
+   */
+  hasMagic: boolean
+
   /** All methods referenced by stack frames. */
   methods: JfrMethod[]
 
@@ -91,18 +98,18 @@ export type Jfr = {
  * rather than fixed offsets because field order is not guaranteed across JVM
  * versions.
  *
- * Throws if the magic doesn't match so format detection can move on.
+ * Lenient by design: it never throws on bytes that aren't a JFR recording, but
+ * reports whether the magic was present via {@link Jfr.hasMagic} so detection
+ * can move on. Input without the magic yields no chunks and so an empty
+ * recording.
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
-export const parseJfr = (bytes: Uint8Array): Jfr => {
-  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-  if (bytes.length < CHUNK_HEADER_SIZE || view.getUint32(0) !== MAGIC) {
-    throw new Error(`not a JFR recording`)
-  }
-
-  return new JfrParser(bytes, view).parse()
-}
+export const parseJfr = (bytes: Uint8Array): Jfr =>
+  new JfrParser(
+    bytes,
+    new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength),
+  ).parse()
 
 type Field = {
   name: string
@@ -199,6 +206,10 @@ class JfrParser {
   }
 
   public parse(): Jfr {
+    // The magic begins the first chunk header; the loop below reuses the same
+    // check per chunk, so input without it simply yields no chunks.
+    const hasMagic = this.#startsChunk(this.#position)
+
     while (this.#startsChunk(this.#position)) {
       const chunkStart = this.#position
       const chunkSize = this.#readInt64(chunkStart + CHUNK_SIZE_FIELD)
@@ -216,6 +227,7 @@ class JfrParser {
     }
 
     return {
+      hasMagic,
       methods: this.#methods,
       stackTraces: this.#stackTraces,
       events: this.#finalizeEvents(),
