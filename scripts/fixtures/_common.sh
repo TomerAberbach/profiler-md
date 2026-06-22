@@ -47,6 +47,23 @@ ensure_docker() {
   done
 }
 
+# A shared benchmark input parsed by several language workloads: simdjson's
+# twitter.json sample (a real Twitter API search response), pinned to a release
+# tag and checksum-verified. Our committed copy was reformatted, so the fetched
+# bytes differ from it but parse to the identical document. Fetched on demand
+# (guarded on the file already existing) so cached-fixture runs do no network I/O.
+TWITTER_JSON="$REPO/scripts/fixtures/assets/shared/twitter.json"
+TWITTER_JSON_URL="https://raw.githubusercontent.com/simdjson/simdjson/v3.10.1/jsonexamples/twitter.json"
+TWITTER_JSON_SHA256="30721e496a8d73cfc50658923c34eb2c0fbe15ee6835005e43ee624d8dedf200"
+
+fetch_twitter_json() {
+  [[ -f "$TWITTER_JSON" ]] && return 0
+  notice "Fetching simdjson twitter.json"
+  mkdir -p "$(dirname "$TWITTER_JSON")"
+  curl -fsSL "$TWITTER_JSON_URL" -o "$TWITTER_JSON"
+  echo "$TWITTER_JSON_SHA256  $TWITTER_JSON" | shasum -a 256 -c -
+}
+
 # The aarch64 Linux target for the container-based captures, kept in one place.
 DOCKER_IMAGE="debian:bookworm-slim"
 DOCKER_PLATFORM="linux/arm64"

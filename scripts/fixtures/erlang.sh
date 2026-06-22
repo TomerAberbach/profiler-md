@@ -6,7 +6,6 @@ source scripts/fixtures/_common.sh
 EFLAMBE_PIN="0.3.1"
 
 assets="$REPO/scripts/fixtures/assets/erlang"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 
 project_dir=""
 setup_project() {
@@ -38,6 +37,7 @@ EOF
 record_eflambe() {
   local out=$1 role=$2
   setup_project
+  fetch_twitter_json
   local dir="$project_dir"
 
   notice "Profiling json using eflambe ($role)"
@@ -50,7 +50,7 @@ record_eflambe() {
       -pa "$dir"/_build/default/lib/*/ebin \
       -eval '
         application:ensure_all_started(eflambe),
-        Doc = profile:doc("'"$json_input"'"),
+        Doc = profile:doc("'"$TWITTER_JSON"'"),
         eflambe:apply({profile, run, [Doc]}, [{output_format, brendan_gregg}])
       ' \
       -s init stop )

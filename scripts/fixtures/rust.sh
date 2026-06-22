@@ -7,7 +7,6 @@ export CARGO_TARGET_DIR="$WORKDIR/cargo-target"
 export CARGO_HOME="$WORKDIR/cargo-home"
 
 profile_dir="$REPO/scripts/fixtures/assets/rust/profile"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 bin="$CARGO_TARGET_DIR/release/json_bench"
 
 built=
@@ -22,8 +21,9 @@ build_profile() {
 run_rust_profile() {
   local out=$1 role=$2
   build_profile
+  fetch_twitter_json
   notice "Profiling serde_json using pprof-rs ($role)"
-  "$bin" "$out" "$json_input"
+  "$bin" "$out" "$TWITTER_JSON"
 }
 
 for role in base current; do

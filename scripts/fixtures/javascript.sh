@@ -14,7 +14,6 @@ ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
 
 assets="$REPO/scripts/fixtures/assets/javascript"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 
 # Keep the Chromium download inside WORKDIR so the EXIT trap cleans it up.
 export PUPPETEER_CACHE_DIR="$WORKDIR/.puppeteer"
@@ -62,8 +61,9 @@ capture_node_heap() {
 
 capture_node_heap_snapshot() {
   local out=$1 role=$2
+  fetch_twitter_json
   notice "Heap snapshotting parsed twitter.json using node ($role)"
-  node "$assets/heap-snapshot.mjs" "$json_input" "$out" >&2
+  node "$assets/heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_pprof_cpu() {
@@ -107,6 +107,7 @@ capture_bun_v8_heap_snapshot() {
   local profdir prof
   profdir="$WORKDIR/bun-v8-heap-snapshot-$role"
   mkdir -p "$profdir"
+  fetch_twitter_json
   notice "V8 heap snapshotting parsed twitter.json using bun ($role)"
   # `bun --heap-prof` writes a V8-format snapshot on exit (the same schema Node
   # and Chrome produce, matched by `v8-heap-snapshot`), so the workload just
@@ -114,7 +115,7 @@ capture_bun_v8_heap_snapshot() {
   # mishandles absolute paths (it strips the leading slash and resolves relative
   # to the cwd), so run from inside profdir and let it default to the cwd. The
   # asset and input paths are absolute, so the cd doesn't affect them.
-  ( cd "$profdir" && bun --heap-prof "$assets/bun-heap-snapshot.mjs" "$json_input" >&2 )
+  ( cd "$profdir" && bun --heap-prof "$assets/bun-heap-snapshot.mjs" "$TWITTER_JSON" >&2 )
   prof="$(find "$profdir" -name '*.heapsnapshot' | head -1)"
   [[ -n "$prof" ]] || { echo "  bun produced no .heapsnapshot" >&2; return 1; }
   mv "$prof" "$out"
@@ -122,31 +123,35 @@ capture_bun_v8_heap_snapshot() {
 
 capture_bun_jsc_heap_snapshot() {
   local out=$1 role=$2
+  fetch_twitter_json
   notice "JSC heap snapshotting parsed twitter.json using bun ($role)"
   # Bun's `generateHeapSnapshot("jsc")` returns a JSC `Inspector`-format snapshot
   # (matched by `jsc-heap-snapshot`) — the same flavor Safari exports, headless.
-  bun "$assets/bun-jsc-heap-snapshot.mjs" "$json_input" "$out" >&2
+  bun "$assets/bun-jsc-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_cpu() {
   local out=$1 role=$2
   setup_node
+  fetch_twitter_json
   notice "CPU profiling DOM build using headless Chrome ($role)"
-  node "$node_proj/chrome-cpu.mjs" "$json_input" "$out" >&2
+  node "$node_proj/chrome-cpu.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap() {
   local out=$1 role=$2
   setup_node
+  fetch_twitter_json
   notice "Heap allocation profiling DOM build using headless Chrome ($role)"
-  node "$node_proj/chrome-heap.mjs" "$json_input" "$out" >&2
+  node "$node_proj/chrome-heap.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap_snapshot() {
   local out=$1 role=$2
   setup_node
+  fetch_twitter_json
   notice "Heap snapshotting DOM build using headless Chrome ($role)"
-  node "$node_proj/chrome-heap-snapshot.mjs" "$json_input" "$out" >&2
+  node "$node_proj/chrome-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 for role in base current; do

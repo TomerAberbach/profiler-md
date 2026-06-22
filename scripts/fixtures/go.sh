@@ -10,7 +10,6 @@ declare -A CONFIG_TO_PROFILE=(
 )
 
 profile="$REPO/scripts/fixtures/assets/go/profile.go"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 
 declare -A rundir=()
 run_for_role() {
@@ -18,8 +17,9 @@ run_for_role() {
   if [[ -z "${rundir[$role]:-}" ]]; then
     local dir="$WORKDIR/go-$role"
     mkdir -p "$dir"
+    fetch_twitter_json
     notice "Profiling encoding/json using go ($role)"
-    GOCACHE="$WORKDIR/gocache" GOFLAGS=-mod=mod go run "$profile" "$dir" "$json_input"
+    GOCACHE="$WORKDIR/gocache" GOFLAGS=-mod=mod go run "$profile" "$dir" "$TWITTER_JSON"
     rundir[$role]=$dir
   fi
 }
