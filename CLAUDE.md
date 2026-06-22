@@ -49,6 +49,7 @@ profiler-md
 │   │   ├── index.ts          # Barrel file
 │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │
+│   ├── cell.ts               # Table cell types + Markdown table/diff-table formatting
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
 │   ├── options.ts            # API option types and normalization logic
@@ -71,6 +72,9 @@ profiler-md
 │
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
+│   ├── generate-fixtures     # Regenerate src/fixtures/ by running scripts/fixtures/ inside a nix dev shell
+│   ├── fixtures/             # Per-language workload scripts (<lang>.sh) + nix flake providing the profiler toolchain
+│   ├── check-publish         # Pre-publish sanity checks (runs in prepublishOnly)
 │   ├── publish               # Publish the package
 │   ├── update-examples.ts    # Update the examples/ directory based on src/fixtures/
 │   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
@@ -96,6 +100,11 @@ pnpm update-readme
 
 # Benchmark the CLI with the given args
 pnpm bench ./src/fixtures/node.base.cpuprofile
+
+# Generate fixtures
+pnpm generate-fixtures           # --missing: skip fixtures that exist
+pnpm generate-fixtures --all     # Delete targets first, regenerate all
+pnpm generate-fixtures go ruby   # Limit to named workload scripts
 ```
 
 ## Testing
@@ -146,7 +155,14 @@ pnpm bench ./src/fixtures/node.base.cpuprofile
 ### Research
 
 - [ ] Research the format structure online
-- [ ] Acquire an example profile and place it in `src/fixtures`
+- [ ] Generate a fixture
+  - [ ] Add or update a workload script in `scripts/fixtures/`
+    - If it needs a dependency not already available, then add it to the nix
+      flake in `scripts/fixtures/flake.nix`
+    - For a new language, profile a real, popular program written in that
+      language with realistic input. NEVER use a fake/toy workload or synthetic
+      input. The fixture must reflect a genuine program
+  - [ ] Run `pnpm generate-fixtures <lang>` to produce it in `src/fixtures/`
 - [ ] Analyze the fixture to confirm it aligns with online research
 - [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
 
@@ -160,7 +176,7 @@ pnpm bench ./src/fixtures/node.base.cpuprofile
 - [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
       object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
       `../converter.ts`) with `title`, `type`, `shape`, `matches`, `aggregate`
-      (plus `parse` for binary formats)
+      (plus `parse` and `parseAsync` for binary formats)
 - [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
       and conversion via the `convertToMd` runner from `../testing/convert.ts`
 - [ ] If tests need format-specific utilities, put them in
