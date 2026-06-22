@@ -9,8 +9,8 @@ Periodically samples the call stack. Useful for finding CPU hot spots.
 Link with `-lprofiler`:
 
 ```sh
-gcc -O2 -lprofiler -o program program.c    # C
-g++ -O2 -lprofiler -o program program.cpp  # C++
+gcc -O2 -Wl,--no-as-needed -lprofiler -o program program.c    # C
+g++ -O2 -Wl,--no-as-needed -lprofiler -o program program.cpp  # C++
 ```
 
 ### CLI
@@ -53,8 +53,8 @@ finding memory leaks and allocation hot spots.
 Link with `-ltcmalloc`:
 
 ```sh
-gcc -O2 -ltcmalloc -o program program.c    # C
-g++ -O2 -ltcmalloc -o program program.cpp  # C++
+gcc -O2 -Wl,--no-as-needed -ltcmalloc -o program program.c    # C
+g++ -O2 -Wl,--no-as-needed -ltcmalloc -o program program.cpp  # C++
 ```
 
 ### CLI
@@ -95,13 +95,13 @@ HeapProfilerStop();
 ## Heap checking
 
 Compares the heap state before and after a region of code to detect memory
-leaks. Useful for confirming that a code path frees everything it allocates.
+leaks. Useful for confirming a code path frees everything it allocates.
 
 Link with `-ltcmalloc`:
 
 ```sh
-gcc -O2 -ltcmalloc -o program program.c    # C
-g++ -O2 -ltcmalloc -o program program.cpp  # C++
+gcc -O2 -Wl,--no-as-needed -ltcmalloc -o program program.c    # C
+g++ -O2 -Wl,--no-as-needed -ltcmalloc -o program program.cpp  # C++
 ```
 
 ### CLI
@@ -134,3 +134,27 @@ HeapLeakChecker checker("my_check");
 
 if (!checker.NoLeaks()) abort(); // fails if any net allocations were not freed
 ```
+
+## Tips
+
+### Symbols
+
+gperftools symbolizes addresses from the binary's and its shared libraries'
+symbol tables, so build and link what you profile with symbols (`-g`, not
+stripped). If the hot code lives in a stripped shared library, statically link
+an unstripped build instead.
+
+### Linking
+
+Modern toolchains link with `--as-needed` by default, which drops
+`-lprofiler`/`-ltcmalloc` when your program references no symbol from them,
+exactly the case when you enable profiling through the environment variables
+instead of the programmatic API. Force the link with `-Wl,--no-as-needed`, or
+preload the library at runtime with `LD_PRELOAD`. The programmatic API
+(`ProfilerStart`, etc.) references the symbols, so plain
+`-lprofiler`/`-ltcmalloc` works there.
+
+### Converting
+
+`pprof --proto` requires the Go `pprof`. gperftools's bundled Perl
+`pprof`/`google-pprof` has no protobuf output.
