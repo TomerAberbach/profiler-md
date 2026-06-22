@@ -11,6 +11,9 @@ Install it as a global tool:
 dotnet tool install --global dotnet-trace
 ```
 
+The latest `dotnet-trace` needs a matching .NET runtime. If yours is older, then
+install a compatible version with `--version`.
+
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
