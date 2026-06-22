@@ -1,16 +1,20 @@
 # Elixir/Erlang
 
 Elixir and Erlang profiling uses
-[eflambe](https://github.com/Stratus3D/eflambe), a profiler for the BEAM that
-wraps the runtime's built-in tracing and writes flame graph output.
+[eflambe](https://github.com/Stratus3D/eflambe), a BEAM profiler that wraps the
+runtime's built-in tracing and writes flame graph output.
 
 ## CPU profiling
 
 Traces function calls and writes them as collapsed stacks. Useful for finding
 CPU hot spots.
 
-eflambe's default `brendan_gregg` output format is collapsed stacks. Add
-`eflambe` to your dependencies, then profile a specific function.
+eflambe's default `brendan_gregg` format is collapsed stacks. Add `eflambe` to
+your dependencies, then profile a specific function.
+
+**Keep the call small.** eflambe traces _every_ function call. It doesn't
+sample, so output grows with the number of calls. A single invocation over a
+large input can produce hundreds of MB.
 
 ### Elixir
 
