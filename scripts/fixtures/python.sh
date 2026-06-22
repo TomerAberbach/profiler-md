@@ -8,7 +8,21 @@ source scripts/fixtures/_common.sh
 
 PY_SPY_VERSION="0.4.0"
 BLACK_VERSION="24.8.0"
+
+# Black formats CPython's own _pydecimal.py as a real, sizeable workload. Fetch
+# it pinned to a CPython tag and verify its checksum.
+CPYTHON_VERSION="3.13.2"
 TARGET="$REPO/scripts/fixtures/assets/python/_pydecimal.py"
+TARGET_URL="https://raw.githubusercontent.com/python/cpython/v$CPYTHON_VERSION/Lib/_pydecimal.py"
+TARGET_SHA256="87a3372df4c4269adcdac5725e04675d306abcfa8d65e8dda59c1846e3d202ac"
+
+fetch_pydecimal() {
+  [[ -f "$TARGET" ]] && return 0
+  notice "Fetching CPython $CPYTHON_VERSION _pydecimal.py"
+  mkdir -p "$(dirname "$TARGET")"
+  curl -fsSL "$TARGET_URL" -o "$TARGET"
+  echo "$TARGET_SHA256  $TARGET" | shasum -a 256 -c -
+}
 
 # Run all three py-spy captures once per role inside the container, writing the
 # in-container output names into the mounted /out.
@@ -19,6 +33,7 @@ run_for_role() {
   local dir="$WORKDIR/python-$role"
   mkdir -p "$dir"
   # Stage the real CPython _pydecimal.py into the mount as the Black input.
+  fetch_pydecimal
   cp "$TARGET" "$dir/_pydecimal.py"
 
   notice "Profiling black with py-spy ($role)"
