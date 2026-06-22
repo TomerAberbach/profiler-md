@@ -2,5 +2,8 @@
 /coverage/
 /dist/
 .claude/worktrees
+
+# Large fixture assets we fetch.
 scripts/fixtures/assets/java
 scripts/fixtures/assets/python
+scripts/fixtures/assets/shared

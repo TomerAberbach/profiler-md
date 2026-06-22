@@ -10,7 +10,6 @@ JASON_PIN="1.4.4"
 EFLAMBE_PIN="0.3.1"
 
 assets="$REPO/scripts/fixtures/assets/elixir"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 
 # Run a network command bounded by a timeout and retried. hex.pm connections
 # occasionally stall on macOS. `</dev/null` keeps any prompt from blocking.
@@ -78,6 +77,7 @@ EOF
 record_eflambe() {
   local out=$1 role=$2
   setup_project
+  fetch_twitter_json
   local dir="$project_dir"
 
   notice "Profiling jason using eflambe ($role)"
@@ -88,7 +88,7 @@ record_eflambe() {
 
   ( cd "$dir" && MIX_ENV=prod mix run -e '
       :ok = :application.ensure_started(:eflambe)
-      doc = Profile.doc("'"$json_input"'")
+      doc = Profile.doc("'"$TWITTER_JSON"'")
       File.cd!("'"$profile"'", fn ->
         :eflambe.apply({Profile, :run, [doc]}, output_format: :brendan_gregg)
       end)

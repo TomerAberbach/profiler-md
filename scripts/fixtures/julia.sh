@@ -5,7 +5,6 @@ source scripts/fixtures/_common.sh
 
 assets="$REPO/scripts/fixtures/assets/julia"
 profile="$assets/profile.jl"
-json_input="$REPO/scripts/fixtures/assets/shared/twitter.json"
 
 depot="${PROFILER_MD_FIXTURES_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/profiler-md-fixtures}/julia-depot"
 export JULIA_DEPOT_PATH="$depot"
@@ -23,13 +22,14 @@ setup_depot() {
 record_julia() {
   local out=$1 role=$2 mode=$3
   setup_depot
+  fetch_twitter_json
 
   notice "Profiling JSON3 using PProf ($role, $mode)"
 
   local gz="$WORKDIR/julia-$mode-$RANDOM.pb.gz"
   # Run single-threaded so idle GC/scheduler threads don't fill the profile with
   # wait frames (see docs/languages/julia.md).
-  julia -t 1 --gcthreads=1 --project="$assets" "$profile" "$mode" "$gz" "$json_input" </dev/null
+  julia -t 1 --gcthreads=1 --project="$assets" "$profile" "$mode" "$gz" "$TWITTER_JSON" </dev/null
   gunzip -c "$gz" >"$out"
 }
 
