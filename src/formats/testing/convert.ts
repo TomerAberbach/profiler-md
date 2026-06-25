@@ -1,10 +1,14 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import type {
   BinaryFormatConverter,
   FormatConverter,
   JsonFormatConverter,
 } from '../converter.ts'
-import { formatAggregatedInputs } from '../index.ts'
+import { formatAggregatedInputs, formatConverters } from '../index.ts'
+import type { Format } from '../index.ts'
 
 export const convertToMd: {
   <Parsed>(
@@ -24,7 +28,10 @@ export const convertToMd: {
 ): string => {
   const parsed =
     converter.type === `binary` ? converter.parse(input as Uint8Array) : input
-  return formatAggregatedInputs(converter.aggregate(parsed, options), options)
+  return formatAggregatedInputs(
+    converter.aggregate(parsed, options, profileToMdContext(converter)),
+    options,
+  )
 }
 
 /**
@@ -38,5 +45,21 @@ export const convertToMdAsync = async <Parsed>(
   options: NormalizedProfileToMdOptions,
 ): Promise<string> => {
   const parsed = await converter.parseAsync(stream)
-  return formatAggregatedInputs(converter.aggregate(parsed, options), options)
+  return formatAggregatedInputs(
+    converter.aggregate(parsed, options, profileToMdContext(converter)),
+    options,
+  )
 }
+
+const profileToMdContext = (
+  converter: FormatConverter<any>,
+): ProfileToMdContext => ({
+  format: formatByConverter.get(converter)!,
+  origin: null,
+})
+
+const formatByConverter = new Map<FormatConverter, Format>(
+  (Object.entries(formatConverters) as [Format, FormatConverter][]).map(
+    ([format, converter]) => [converter, format],
+  ),
+)

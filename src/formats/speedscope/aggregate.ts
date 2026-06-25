@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
 import type { AggregatedProfile } from '../../profile/index.ts'
 import type {
@@ -13,6 +16,7 @@ type SpeedscopeNode = SpeedscopeFrame & { id: number }
 export const aggregateSpeedscopeProfile = (
   profile: SpeedscopeProfile,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile[] => {
   const nodes: SpeedscopeNode[] = profile.shared.frames.map((frame, id) => ({
     ...frame,
@@ -20,8 +24,8 @@ export const aggregateSpeedscopeProfile = (
   }))
   return profile.profiles.map(profile =>
     profile.type === `sampled`
-      ? aggregateSampled(profile, nodes, options)
-      : aggregateEvented(profile, nodes, options),
+      ? aggregateSampled(profile, nodes, options, context)
+      : aggregateEvented(profile, nodes, options, context),
   )
 }
 
@@ -29,8 +33,13 @@ const aggregateSampled = (
   profile: SpeedscopeSampledProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile => {
-  const profileAggregator = makeProfileAggregator(profile.unit, options)
+  const profileAggregator = makeProfileAggregator(
+    profile.unit,
+    options,
+    context,
+  )
 
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
@@ -57,8 +66,13 @@ const aggregateEvented = (
   profile: SpeedscopeEventedProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile => {
-  const profileAggregator = makeProfileAggregator(profile.unit, options)
+  const profileAggregator = makeProfileAggregator(
+    profile.unit,
+    options,
+    context,
+  )
 
   type StackEntry = { node: SpeedscopeNode; lastChildClosed: number }
   const stack: StackEntry[] = []
@@ -101,6 +115,7 @@ const aggregateEvented = (
 const makeProfileAggregator = (
   unit: string,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): ProfileAggregator<SpeedscopeNode> =>
   new ProfileAggregator<SpeedscopeNode>(
     {
@@ -118,4 +133,5 @@ const makeProfileAggregator = (
       }),
     },
     options,
+    context,
   )

@@ -392,12 +392,12 @@ describe(`convert`, () => {
       methods: [
         {
           name: `add`,
-          className: `java.util.ArrayList`,
+          className: `com.example.MyList`,
           descriptor: `(Ljava/lang/Object;)Z`,
         },
         {
           name: `add`,
-          className: `java.util.ArrayList`,
+          className: `com.example.MyList`,
           descriptor: `(Ljava/lang/Object;[Ljava/lang/Object;I)V`,
         },
       ],
@@ -420,13 +420,13 @@ describe(`convert`, () => {
           '%': `66.7%`,
           Samples: `2`,
           Function: `add(Object)`,
-          Location: `java.util.ArrayList`,
+          Location: `com.example.MyList`,
         },
         {
           '%': `33.3%`,
           Samples: `1`,
           Function: `add(Object, Object[], int)`,
-          Location: `java.util.ArrayList`,
+          Location: `com.example.MyList`,
         },
       ],
     ])

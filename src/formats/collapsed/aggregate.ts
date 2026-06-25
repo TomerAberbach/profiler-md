@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import { ProfileAggregator } from '../../profile/index.ts'
 import type { AggregatedProfile } from '../../profile/index.ts'
 import { parseFrame } from './parse.ts'
@@ -7,6 +10,7 @@ import type { CollapsedNode, CollapsedProfile } from './parse.ts'
 export const aggregateCollapsed = (
   profile: CollapsedProfile,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<
     CollapsedNode & { id?: never }
@@ -19,6 +23,7 @@ export const aggregateCollapsed = (
       functionInput: node => ({ name: node.name, location: node.location }),
     },
     options,
+    context,
   )
 
   // Intern frame strings so identical frames share a node (and thus a function

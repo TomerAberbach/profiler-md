@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
 import type { AggregatedProfile, Metric } from '../../profile/index.ts'
 import type { Jfr, JfrMethod, JfrSampleEvent, JfrSampleKind } from './parse.ts'
@@ -6,6 +9,7 @@ import type { Jfr, JfrMethod, JfrSampleEvent, JfrSampleKind } from './parse.ts'
 export const aggregateJfr = (
   { methods, stackTraces, events }: Jfr,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile[] => {
   // Resolve a stack's nodes and leaf line lazily, caching by id. Many events
   // share a stack and the same nodes are reused across every kind's profile, so
@@ -56,6 +60,7 @@ export const aggregateJfr = (
         }),
       },
       options,
+      context,
     )
 
     let hasSamples = false

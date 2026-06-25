@@ -1,4 +1,5 @@
 import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
+import type { ProfileInput } from '../index.ts'
 import { parseArgs } from './cli.ts'
 import { reportError } from './error.ts'
 import { printHelpTopic } from './help.ts'
@@ -12,6 +13,7 @@ try {
     help,
     output: outputPath,
     format,
+    origin,
     topN,
     baseURL,
     thirdParty,
@@ -33,6 +35,8 @@ try {
     await printHelpTopic(undefined, { pager })
   }
 
+  const toInput = <Data>(data: Data): ProfileInput<Data> =>
+    format || origin ? { data, format, origin } : data
   const optionsPromise = buildOptions({
     topN,
     baseURL,
@@ -46,7 +50,7 @@ try {
       openInputAsBlob(basePath),
       optionsPromise,
     ])
-    markdown = await profileToMdAsync(format ? { data, format } : data, options)
+    markdown = await profileToMdAsync(toInput(data), options)
   } else {
     const [baseData, currentData, options] = await Promise.all([
       openInputAsBlob(basePath),
@@ -54,8 +58,8 @@ try {
       optionsPromise,
     ])
     markdown = await diffProfilesAsync(
-      format ? { data: baseData, format } : baseData,
-      format ? { data: currentData, format } : currentData,
+      toInput(baseData),
+      toInput(currentData),
       options,
     )
   }

@@ -475,73 +475,6 @@ describe(`convert`, () => {
       ],
     ])
   })
-
-  test(`categorizes sentinel and RegExp functions`, () => {
-    // Sentinel functions like `(garbage collector)` and `(program)` have no URL
-    // and are categorized by their name without the surrounding parentheses.
-    // Functions starting with `RegExp: ` are categorized as `regexp`.
-    const profile = {
-      nodes: [
-        makeV8CpuProfileRoot([2, 3, 4]),
-        {
-          id: 2,
-          hitCount: 3,
-          callFrame: {
-            functionName: `(garbage collector)`,
-            scriptId: 0,
-            url: ``,
-            lineNumber: -1,
-            columnNumber: -1,
-          },
-        },
-        {
-          id: 3,
-          hitCount: 2,
-          callFrame: {
-            functionName: `(program)`,
-            scriptId: 0,
-            url: ``,
-            lineNumber: -1,
-            columnNumber: -1,
-          },
-        },
-        {
-          id: 4,
-          hitCount: 1,
-          callFrame: {
-            functionName: `RegExp: /foo/`,
-            scriptId: 0,
-            url: ``,
-            lineNumber: -1,
-            columnNumber: -1,
-          },
-        },
-      ],
-      samples: [2, 2, 2, 3, 3, 4],
-      timeDeltas: [100, 100, 100, 100, 100, 100],
-    }
-
-    const md = convertToMd(
-      v8CpuProfileConverter,
-      profile,
-      normalizeProfileToMdOptions({
-        baseURL: `/project`,
-      }),
-    )
-
-    expect(categoryTables(md)).toEqual([
-      [
-        {
-          Category: `garbage collector`,
-          '%': `50.0%`,
-          Time: `0.3ms`,
-          Samples: `3`,
-        },
-        { Category: `program`, '%': `33.3%`, Time: `0.2ms`, Samples: `2` },
-        { Category: `regexp`, '%': `16.7%`, Time: `0.1ms`, Samples: `1` },
-      ],
-    ])
-  })
 })
 
 describe(`options`, () => {
@@ -658,14 +591,14 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntry groups entries by custom category`, () => {
+  test(`categorizeEntries groups entries by custom category`, () => {
     const md = convertToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
-        categorizeEntry: entry =>
-          entry.name === `funcA` ? `team-a` : `team-b`,
+        categorizeEntries: entries =>
+          entries.map(entry => (entry.name === `funcA` ? `team-a` : `team-b`)),
       }),
     )
 

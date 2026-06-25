@@ -10,6 +10,7 @@ import type { ValueParser } from '@optique/core/valueparser'
 import { path, run } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
+import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
 
 const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
@@ -61,6 +62,11 @@ const parser = object({
   format: optional(
     option(`-f`, `--format`, choice(formats, { metavar: `FORMAT` }), {
       description: message`Input profile format (default: auto)`,
+    }),
+  ),
+  origin: optional(
+    option(`-r`, `--origin`, choice(origins, { metavar: `ORIGIN` }), {
+      description: message`Input profile origin (default: auto)`,
     }),
   ),
   output: withDefault(
@@ -145,6 +151,7 @@ export const getHelpText = (): string =>
       },
     ),
     `Formats: ${formats.join(`, `)}`,
+    `Origins: ${origins.join(`, `)}`,
     `Languages: ${languageTopics.join(`, `)}`,
   ].join(`\n`)}\n`
 

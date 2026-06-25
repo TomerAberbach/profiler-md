@@ -1,4 +1,7 @@
-import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../../options.ts'
 import { MICROSECONDS, ProfileAggregator } from '../../../profile/index.ts'
 import type { AggregatedProfile } from '../../../profile/index.ts'
 import { callFrameFunctionInput, callFrameKey } from '../common.ts'
@@ -7,6 +10,7 @@ import type { V8CpuProfile, V8CpuProfileNode } from './parse.ts'
 export const aggregateV8CpuProfile = (
   profile: V8CpuProfile,
   options: NormalizedProfileToMdOptions,
+  context: ProfileToMdContext,
 ): AggregatedProfile[] => {
   const profileAggregator = new ProfileAggregator<V8CpuProfileNode>(
     {
@@ -15,6 +19,7 @@ export const aggregateV8CpuProfile = (
       functionInput: node => callFrameFunctionInput(node.callFrame),
     },
     options,
+    context,
   )
 
   const idToIndex: number[] = []

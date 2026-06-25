@@ -82,15 +82,16 @@ $ npm i -g profiler-md
 
 ```sh
 $ profiler-md --help
-Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-o/--output FILE]
-       [--top-n N] [--base-url STRING] [--source-maps GLOB...] [--match
-       REGEX=REPLACEMENT...] [--third-party GLOB...] [--no-pager] [(--color |
-       --no-color)] ([FILE] | BASE CURRENT)
+Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
+       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
+       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
+       --no-pager] [(--color | --no-color)] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
   -h, --help [TOPIC]          Show this help message or topic docs
   -f, --format FORMAT         Input profile format (default: auto)
+  -r, --origin ORIGIN         Input profile origin (default: auto)
   -o, --output FILE           Output file (default: - for stdout)
   --top-n N                   Number of top entries to show (default: 20)
   --base-url STRING           Base URL or path to show paths relative to 
@@ -111,6 +112,7 @@ Converts performance profiles to human and LLM friendly Markdown.
   CURRENT                     Current profile to diff against the base
 
 Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: deno, bun, node, node-pprof, pprof-rs, py-spy, jvm, safari, unknown
 Languages: c, cpp, csharp, fsharp, elixir, erlang, go, java, kotlin, javascript, typescript, julia, php, python, ruby, rust
 ```
 
@@ -123,16 +125,17 @@ Languages: c, cpp, csharp, fsharp, elixir, erlang, go, java, kotlin, javascript,
 ```js
 import { openAsBlob, readFileSync } from 'node:fs'
 import {
-  defaultCategorizeEntry,
+  defaultCategorizeEntries,
   defaultMatchEntry,
   defaultShowEntry,
+  determineOrigin,
   diffProfiles,
   diffProfilesAsync,
   profileToMd,
   profileToMdAsync,
 } from 'profiler-md'
 
-// Auto-detect format (async)
+// Auto-detect format and origin (async)
 console.log(await profileToMdAsync(await openAsBlob(`example.cpuprofile`)))
 console.log(await profileToMdAsync(await openAsBlob(`example.pprof`)))
 
@@ -143,14 +146,25 @@ console.log(
     format: `pprof`,
   }),
 )
+// Explicit origin
+console.log(
+  await profileToMdAsync({
+    data: await openAsBlob(`example.cpuprofile`),
+    origin: `deno`,
+  }),
+)
 
 // Synchronous usage (auto-detect)
 console.log(profileToMd(readFileSync(`example.cpuprofile`, `utf8`)))
 console.log(profileToMd(readFileSync(`example.pprof`)))
 
-// Synchronous usage with explicit format
+// Synchronous usage with explicit format and origin
 console.log(
-  profileToMd({ data: readFileSync(`example.pprof`), format: `pprof` }),
+  profileToMd({
+    data: readFileSync(`example.pprof`),
+    format: `pprof`,
+    origin: `node-pprof`,
+  }),
 )
 
 // Diff two profiles or two heap snapshots (async, auto-detect)
@@ -189,12 +203,14 @@ const options = {
     }
     return defaultMatchEntry(entry)
   },
-  categorizeEntry: entry => {
-    if (entry.location?.url.pathname.includes(`/vendor/`)) {
+  categorizeEntries: (entries, context) => {
+    const categories = defaultCategorizeEntries(entries, context)
+    return entries.map((entry, index) =>
       // Treat an additional vendor directory as third-party.
-      return `third-party`
-    }
-    return defaultCategorizeEntry(entry)
+      entry.location?.url?.pathname.includes(`/vendor/`)
+        ? `third-party`
+        : categories[index],
+    )
   },
   showEntry: entry =>
     defaultShowEntry(entry) &&

@@ -1,7 +1,10 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
 import { makeSourceLocation } from '../location.ts'
 import type { SourceLocation, SourceLocationInput } from '../location.ts'
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type {
+  NormalizedProfileToMdOptions,
+  ProfileToMdContext,
+} from '../options.ts'
 import type { Metric } from './metric.ts'
 
 export class ProfileAggregator<Node extends { id?: number }> {
@@ -9,14 +12,11 @@ export class ProfileAggregator<Node extends { id?: number }> {
   readonly #functionKey: (node: Node) => number | string
   readonly #functionInput: (node: Node) => ProfileFunctionInput
   readonly #options: NormalizedProfileToMdOptions
+  readonly #context: ProfileToMdContext
 
   #totalSampleCount: number
   #sampleEpoch: number
   readonly #totalValues: Float64Array
-  readonly #categoryToMetrics: Map<
-    string,
-    { sampleCount: number; values: Float64Array }
-  >
 
   readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
   readonly #keyToFunction: Map<
@@ -47,16 +47,17 @@ export class ProfileAggregator<Node extends { id?: number }> {
       functionInput: (node: Node) => ProfileFunctionInput
     },
     options: NormalizedProfileToMdOptions,
+    context: ProfileToMdContext,
   ) {
     this.#metrics = metrics
     this.#functionKey = functionKey
     this.#functionInput = functionInput
     this.#options = options
+    this.#context = context
 
     this.#totalSampleCount = 0
     this.#sampleEpoch = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
-    this.#categoryToMetrics = new Map()
 
     this.#keyToCallStack = new Map()
     this.#keyToFunction = new Map()
@@ -88,15 +89,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
     const callee = callStack.frames[0]!
     const caller = callStack.frames[1]
 
-    let categoryMetrics = this.#categoryToMetrics.get(callee.category)
-    if (!categoryMetrics) {
-      categoryMetrics = {
-        sampleCount: 0,
-        values: new Float64Array(this.#metrics.length),
-      }
-      this.#categoryToMetrics.set(callee.category, categoryMetrics)
-    }
-
     let callerMetrics
     if (caller) {
       callerMetrics = callee.callerIdToMetrics.get(caller.id)
@@ -123,7 +115,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
 
     this.#totalSampleCount += sampleCount
-    categoryMetrics.sampleCount += sampleCount
     callStack.selfSampleCount += sampleCount
     callee.selfSampleCount += sampleCount
     if (callerMetrics) {
@@ -136,7 +127,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
     for (let i = 0; i < values.length; i++) {
       const value = values[i]! * sampleCount
       this.#totalValues[i]! += value
-      categoryMetrics.values[i]! += value
       callStack.selfValues[i]! += value
       callee.selfValues[i]! += value
       if (callerMetrics) {
@@ -294,7 +284,9 @@ export class ProfileAggregator<Node extends { id?: number }> {
     const func: AggregatedProfileFunction = {
       type: `function`,
       ...entry,
-      category: this.#options.categorizeEntry(entry),
+      // Categories are assigned at the end of `aggregate`, once the origin can
+      // be detected from the full set of functions.
+      category: ``,
       selfSampleCount: 0,
       totalSampleCount: 0,
       selfValues: new Float64Array(this.#metrics.length),
@@ -322,10 +314,63 @@ export class ProfileAggregator<Node extends { id?: number }> {
       totalSampleCount: this.#totalSampleCount,
       totalValues: this.#totalValues,
       samplingRates,
-      categoryToMetrics: this.#categoryToMetrics,
+      categoryToMetrics: this.#categorize(functions),
       functions,
       callStacks,
     }
+  }
+
+  /**
+   * Assigns each function's category and builds the profile's category metrics.
+   *
+   * Categorization runs here, at the end of aggregation, so it sees the full set
+   * of functions, from which {@link ProfileToMdOptions.categorizeEntries} can
+   * determine the origin (when the context's origin is `null`) before
+   * categorizing.
+   *
+   * The category metrics are built from each function's self metrics rather than
+   * accumulated per sample: a self-sample's leaf is exactly its function, so
+   * summing self values over the functions of a category reproduces the
+   * per-sample total losslessly, in time linear in the function count rather
+   * than the sample count.
+   */
+  #categorize(
+    functions: AggregatedProfileFunction[],
+  ): Map<string, AggregatedProfileCategoryMetrics> {
+    const categories = this.#options.categorizeEntries(functions, this.#context)
+    const categoryToMetrics = new Map<
+      string,
+      AggregatedProfileCategoryMetrics
+    >()
+
+    for (let i = 0; i < functions.length; i++) {
+      const func = functions[i]!
+      const category = categories[i]!
+      func.category = category
+
+      // Only leaf functions (those with self samples) contributed to the
+      // category metrics during aggregation, so skip functions that were never a
+      // leaf to avoid introducing empty categories that wouldn't otherwise
+      // appear.
+      if (func.selfSampleCount === 0) {
+        continue
+      }
+
+      let metric = categoryToMetrics.get(category)
+      if (!metric) {
+        metric = {
+          sampleCount: 0,
+          values: new Float64Array(this.#metrics.length),
+        }
+        categoryToMetrics.set(category, metric)
+      }
+      metric.sampleCount += func.selfSampleCount
+      for (let i = 0; i < func.selfValues.length; i++) {
+        metric.values[i]! += func.selfValues[i]!
+      }
+    }
+
+    return categoryToMetrics
   }
 }
 
