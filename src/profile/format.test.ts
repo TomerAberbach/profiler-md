@@ -10,7 +10,7 @@ import {
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfileDiff } from './format.ts'
-import { MICROSECONDS } from './metric.ts'
+import { MEGABYTES, MICROSECONDS } from './metric.ts'
 import type { Metric } from './metric.ts'
 
 const makeProfile = (
@@ -20,7 +20,7 @@ const makeProfile = (
     url?: string
     line?: number
     sampleCount: number
-    value: number
+    values: number[]
   }[],
 ) => {
   const options = normalizeProfileToMdOptions({ baseURL: `/project` })
@@ -53,11 +53,9 @@ const makeProfile = (
       url: func.url,
       line: func.line,
     }
+    const values = func.values.map(value => value / func.sampleCount)
     for (let i = 0; i < func.sampleCount; i++) {
-      aggregator.addSample({
-        values: [func.value / func.sampleCount],
-        nodes: [node],
-      })
+      aggregator.addSample({ values, nodes: [node] })
     }
   }
 
@@ -75,7 +73,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
       ],
     )
@@ -86,7 +84,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 10,
-          value: 200,
+          values: [200],
         },
       ],
     )
@@ -105,7 +103,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
       ],
     )
@@ -116,7 +114,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 10,
-          value: 200,
+          values: [200],
         },
       ],
     )
@@ -138,7 +136,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
       ],
     )
@@ -149,7 +147,7 @@ describe(`formatProfileDiff`, () => {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           sampleCount: 10,
-          value: 200,
+          values: [200],
         },
       ],
     )
@@ -180,14 +178,14 @@ describe(`formatProfileDiff`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
           sampleCount: 3,
-          value: 60,
+          values: [60],
         },
       ],
     )
@@ -199,14 +197,14 @@ describe(`formatProfileDiff`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           sampleCount: 10,
-          value: 200,
+          values: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
           sampleCount: 2,
-          value: 40,
+          values: [40],
         },
       ],
     )
@@ -266,14 +264,14 @@ describe(`formatProfileDiff`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
           sampleCount: 3,
-          value: 60,
+          values: [60],
         },
       ],
     )
@@ -285,14 +283,14 @@ describe(`formatProfileDiff`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           sampleCount: 10,
-          value: 200,
+          values: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
           sampleCount: 2,
-          value: 40,
+          values: [40],
         },
       ],
     )
@@ -330,7 +328,7 @@ describe(`formatProfileDiff`, () => {
     expect(progressionsTables(md, `Self time`)).toEqual([])
   })
 
-  test(`omits the function sections when nothing changed`, () => {
+  test(`notes that each function section is unchanged when nothing changed`, () => {
     const profile = makeProfile(
       [MICROSECONDS],
       [
@@ -339,7 +337,7 @@ describe(`formatProfileDiff`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           sampleCount: 5,
-          value: 100,
+          values: [100],
         },
       ],
     )
@@ -347,9 +345,23 @@ describe(`formatProfileDiff`, () => {
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
-    expect(md).not.toMatch(/Hottest functions/u)
+    // The unchanged total reads as a measurement, so it omits the change suffix
+    // a zero delta would otherwise produce.
+    expect(summaryLines(md)).toEqual([
+      `Took 0.1ms over 5 samples (20.0µs per sample).`,
+    ])
+
+    // The sections still render, with a note in place of empty tables so the
+    // output doesn't look broken.
+    expect(md).toMatch(/^## Hottest functions$/mu)
     expect(regressionsTables(md, `Self time`)).toEqual([])
     expect(progressionsTables(md, `Self time`)).toEqual([])
+    expect(md).toContain(
+      `No function differed in time spent directly in the function body, excluding callees.`,
+    )
+    expect(md).toContain(
+      `No function differed in total time spent in the function and all its callees.`,
+    )
 
     // The category table still renders with a zero delta.
     expect(categoryTables(md)).toEqual([
@@ -364,5 +376,73 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     ])
+  })
+
+  test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          sampleCount: 5,
+          values: [100],
+        },
+      ],
+    )
+    // Hiding the only function leaves nothing active, so a non-diff profile
+    // would omit the function sections entirely.
+    const options = normalizeProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `funcA`,
+    })
+
+    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
+    const md = formatProfileDiff(diff, options)
+
+    expect(md).not.toMatch(/^## Hottest functions$/mu)
+    expect(md).not.toContain(`No function differed`)
+  })
+
+  test(`notes the unchanged metric while detailing the changed one in a multi-metric diff`, () => {
+    const base = makeProfile(
+      [MICROSECONDS, MEGABYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          sampleCount: 5,
+          values: [100, 100],
+        },
+      ],
+    )
+    // Only the CPU metric changes; the heap metric is identical on both sides.
+    const current = makeProfile(
+      [MICROSECONDS, MEGABYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          sampleCount: 5,
+          values: [200, 100],
+        },
+      ],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const md = formatProfileDiff(diff, defaultOptions)
+
+    expect(md).toMatch(/^## CPU$/mu)
+    expect(md).toMatch(/^## Heap$/mu)
+    expect(regressionsTables(md, `Self time`)).not.toEqual([])
+    expect(md).toContain(
+      `No function differed in bytes allocated directly in the function body, excluding callees.`,
+    )
+    expect(md).toContain(
+      `No function differed in total bytes allocated in the function and all its callees.`,
+    )
   })
 })

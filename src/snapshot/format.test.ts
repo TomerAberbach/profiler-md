@@ -41,6 +41,21 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
+  test(`omits the change suffix when the total size is unchanged`, () => {
+    const snapshot = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
+      nodeCount: 10,
+      edgeCount: 20,
+    })
+
+    const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
+    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+
+    expect(summaryLines(md)).toEqual([
+      `Allocated 1\u00A0kB across 10 nodes and 20 edges.`,
+    ])
+  })
+
   test(`includes a category table with change, delta, and node counts`, () => {
     const base = makeAggregatedHeapSnapshot({
       totalSize: 1000,
@@ -370,7 +385,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`omits the entity sections when nothing changed`, () => {
+  test(`notes that each entity section is unchanged when nothing changed`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
       totalSize: 300,
       nodeCount: 3,
@@ -397,8 +412,24 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
+    // The sections still render, with a note in place of empty tables so the
+    // output doesn't look broken.
     expect(md).not.toMatch(/Regressions|Progressions/u)
-    expect(md).not.toMatch(/Largest/u)
+    expect(md).toMatch(/^## Largest constructors$/mu)
+
+    // The note drops the ranking sentence and merges the measure into a single
+    // sentence, mirroring the profile diff's "No function differed in …".
+    expect(md).not.toMatch(/ranked by/u)
+    expect(md).toContain(
+      `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
+    )
+    expect(md).toContain(
+      `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`,
+    )
+    expect(md).toContain(
+      `No closure differed in bytes that would be freed if the closure were garbage collected.`,
+    )
+    expect(md).toContain(`No string differed in bytes allocated for it.`)
 
     // The category table still renders with a zero delta.
     expect(categoryTables(md)).toEqual([
@@ -413,5 +444,37 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
+  })
+
+  test(`omits each entity section a non-diff snapshot would omit instead of noting it`, () => {
+    // Only constructors are present, so a non-diff snapshot would omit the
+    // closures and strings sections entirely.
+    const snapshot = makeAggregatedHeapSnapshot({
+      totalSize: 300,
+      nodeCount: 3,
+      edgeCount: 2,
+      nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
+      constructors: [
+        makeAggregatedConstructor({
+          name: `MyClass`,
+          selfSize: 200,
+          retainedSize: 250,
+          instanceCount: 2,
+        }),
+      ],
+    })
+
+    const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
+    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+
+    // The empty closures and strings sections are dropped rather than noted as
+    // unchanged, while the present constructors section keeps its note.
+    expect(md).not.toMatch(/^## Largest closures$/mu)
+    expect(md).not.toMatch(/^## Largest strings$/mu)
+    expect(md).not.toContain(`No closure differed`)
+    expect(md).not.toContain(`No string differed`)
+    expect(md).toContain(
+      `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
+    )
   })
 })

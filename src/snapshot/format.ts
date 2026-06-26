@@ -12,9 +12,8 @@ import { DynamicTypedArray } from '../helpers/array.ts'
 import {
   formatArrow,
   formatBytes,
+  formatChange,
   formatCount,
-  formatDelta,
-  formatPercentChange,
 } from '../helpers/format.ts'
 import { MaxHeap, selectTopN } from '../helpers/heap.ts'
 import {
@@ -120,7 +119,7 @@ const formatLargestSelfSizeConstructors = (
   )
 
   return [
-    ...formatSelfSizeConstructorsHeading(),
+    ...formatSelfSizeConstructorsHeading({ isEmptyDiff: false }),
     formatTable(
       constructorTableHeaders(hasLocation),
       largestConstructors.map(constructor =>
@@ -172,7 +171,7 @@ const formatLargestRetainedSizeConstructors = (
   )
 
   return [
-    ...formatRetainedSizeConstructorsHeading(),
+    ...formatRetainedSizeConstructorsHeading({ isEmptyDiff: false }),
     formatTable(
       constructorTableHeaders(hasLocation),
       largestConstructors.map(constructor =>
@@ -277,7 +276,7 @@ const formatLargestClosures = (
   )
 
   return [
-    ...formatLargestClosuresHeading(),
+    ...formatLargestClosuresHeading({ isEmptyDiff: false }),
     formatTable(
       closureTableHeaders(hasLocation),
       largestClosures.map(closure =>
@@ -369,7 +368,7 @@ const formatLargestStrings = (
 
   const hasValues = largestStrings.some(string => string.name !== undefined)
   return [
-    ...formatLargestStringsHeading(),
+    ...formatLargestStringsHeading({ isEmptyDiff: false }),
     formatTable(
       stringTableHeaders(hasValues),
       largestStrings.map(string =>
@@ -409,22 +408,21 @@ const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): string[] => [
 const formatDiffSummaryLine = ({
   base,
   current,
-}: AggregatedHeapSnapshotDiff): string => {
-  const delta = current.totalSize - base.totalSize
-  return `Allocated ${formatArrow(
+}: AggregatedHeapSnapshotDiff): string =>
+  `Allocated ${formatArrow(
     formatBytes(base.totalSize),
     formatBytes(current.totalSize),
-  )} (${formatDelta(delta, formatBytes(Math.abs(delta)))}, ${formatPercentChange(
+  )}${formatChange(
     base.totalSize,
     current.totalSize,
-  )}) across ${formatArrow(
+    formatBytes,
+  )} across ${formatArrow(
     formatCount(base.nodeCount),
     formatCount(current.nodeCount),
   )} nodes and ${formatArrow(
     formatCount(base.edgeCount),
     formatCount(current.edgeCount),
   )} edges.`
-}
 
 const formatDiffCategoryTable = (
   diff: AggregatedHeapSnapshotDiff,
@@ -491,7 +489,7 @@ const formatDiffSelfSizeConstructors = (
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
-  const { regressions, progressions } = selectDiffEntities(
+  const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.selfSize : 0,
@@ -522,16 +520,15 @@ const formatDiffSelfSizeConstructors = (
       ),
   })
 
-  return formatSectionGroup(
-    formatSelfSizeConstructorsHeading(),
-    formatDiffEntitySections(
-      4,
-      `Constructors`,
-      `self size`,
-      constructorTableHeaders(hasLocation),
-      regressions.map(({ entity }) => rowOf(entity)),
-      progressions.map(({ entity }) => rowOf(entity)),
-    ),
+  return formatDiffEntitySections(
+    formatSelfSizeConstructorsHeading,
+    4,
+    `Constructors`,
+    `self size`,
+    constructorTableHeaders(hasLocation),
+    hasActive,
+    regressions.map(({ entity }) => rowOf(entity)),
+    progressions.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -540,7 +537,7 @@ const formatDiffRetainedSizeConstructors = (
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
-  const { regressions, progressions } = selectDiffEntities(
+  const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -571,16 +568,15 @@ const formatDiffRetainedSizeConstructors = (
       ),
   })
 
-  return formatSectionGroup(
-    formatRetainedSizeConstructorsHeading(),
-    formatDiffEntitySections(
-      4,
-      `Constructors`,
-      `retained size`,
-      constructorTableHeaders(hasLocation),
-      regressions.map(({ entity }) => rowOf(entity)),
-      progressions.map(({ entity }) => rowOf(entity)),
-    ),
+  return formatDiffEntitySections(
+    formatRetainedSizeConstructorsHeading,
+    4,
+    `Constructors`,
+    `retained size`,
+    constructorTableHeaders(hasLocation),
+    hasActive,
+    regressions.map(({ entity }) => rowOf(entity)),
+    progressions.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -624,7 +620,7 @@ const formatDiffClosures = (
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
-  const { regressions, progressions } = selectDiffEntities(
+  const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -651,16 +647,15 @@ const formatDiffClosures = (
       ),
   })
 
-  return formatSectionGroup(
-    formatLargestClosuresHeading(),
-    formatDiffEntitySections(
-      3,
-      `Closures`,
-      `retained size`,
-      closureTableHeaders(hasLocation),
-      regressions.map(({ entity }) => rowOf(entity)),
-      progressions.map(({ entity }) => rowOf(entity)),
-    ),
+  return formatDiffEntitySections(
+    formatLargestClosuresHeading,
+    3,
+    `Closures`,
+    `retained size`,
+    closureTableHeaders(hasLocation),
+    hasActive,
+    regressions.map(({ entity }) => rowOf(entity)),
+    progressions.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -719,7 +714,7 @@ const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
   options: NormalizedProfileToMdOptions,
 ): string[] => {
-  const { regressions, progressions } = selectDiffEntities(
+  const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.strings.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.selfSize : 0,
@@ -740,17 +735,16 @@ const formatDiffStrings = (
       ),
   })
 
-  return formatSectionGroup(
-    formatLargestStringsHeading(),
-    formatDiffEntitySections(
-      3,
-      `Strings`,
-      `size`,
-      // Diffed strings are matched by value, so they always have a value.
-      stringTableHeaders(true),
-      regressions.map(({ entity }) => rowOf(entity)),
-      progressions.map(({ entity }) => rowOf(entity)),
-    ),
+  return formatDiffEntitySections(
+    formatLargestStringsHeading,
+    3,
+    `Strings`,
+    `size`,
+    // Diffed strings are matched by value, so they always have a value.
+    stringTableHeaders(true),
+    hasActive,
+    regressions.map(({ entity }) => rowOf(entity)),
+    progressions.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -796,12 +790,17 @@ type ActiveDiffEntity = {
 const selectDiffEntities = (
   candidates: ActiveDiffEntity[],
   options: NormalizedProfileToMdOptions,
-): { regressions: ActiveDiffEntity[]; progressions: ActiveDiffEntity[] } => {
+): {
+  hasActive: boolean
+  regressions: ActiveDiffEntity[]
+  progressions: ActiveDiffEntity[]
+} => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) && showDiffEntity(entity, options),
   )
   return {
+    hasActive: active.length > 0,
     regressions: selectTopN(
       active.filter(({ baseValue, currentValue }) => currentValue > baseValue),
       options.topN,
@@ -820,10 +819,12 @@ const selectDiffEntities = (
  * table from its pre-built rows.
  */
 const formatDiffEntitySections = (
+  formatHeader: (options: { isEmptyDiff: boolean }) => string[],
   headingLevel: number,
   plural: string,
   description: string,
   headers: Header[],
+  hasActive: boolean,
   regressions: Diff<Cell[]>[],
   progressions: Diff<Cell[]>[],
 ): string[] => {
@@ -845,7 +846,14 @@ const formatDiffEntitySections = (
     )
   }
 
-  return sections
+  // With active entities but no change, keep the section and let the header note
+  // it didn't differ. With nothing active — the section a non-diff snapshot
+  // would have omitted — omit it entirely.
+  if (sections.length === 0 && !hasActive) {
+    return []
+  }
+
+  return [...formatHeader({ isEmptyDiff: sections.length === 0 }), ...sections]
 }
 
 /** Returns whether either side of the diffed entity should be shown. */
@@ -870,28 +878,64 @@ const hasAnyLocation = ({
   constructors.some(constructor => constructor.location) ||
   closures.some(closure => closure.location)
 
-/** The heading and ranking sentence for the self size constructors section. */
-const formatSelfSizeConstructorsHeading = (): string[] => [
+/**
+ * The heading for the self size constructors section, with a ranking sentence
+ * or, for an unchanged diff, a merged "did not differ" note.
+ */
+const formatSelfSizeConstructorsHeading = ({
+  isEmptyDiff,
+}: {
+  isEmptyDiff: boolean
+}): string[] => [
   formatHeading(3, `Self size`),
-  `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
+  isEmptyDiff
+    ? `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`
+    : `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
 ]
 
-/** The heading and ranking sentence for the retained size constructors section. */
-const formatRetainedSizeConstructorsHeading = (): string[] => [
+/**
+ * The heading for the retained size constructors section, with a ranking
+ * sentence or, for an unchanged diff, a merged "did not differ" note.
+ */
+const formatRetainedSizeConstructorsHeading = ({
+  isEmptyDiff,
+}: {
+  isEmptyDiff: boolean
+}): string[] => [
   formatHeading(3, `Retained size`),
-  `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
+  isEmptyDiff
+    ? `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`
+    : `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
 ]
 
-/** The heading and ranking sentence for the largest closures section. */
-const formatLargestClosuresHeading = (): string[] => [
+/**
+ * The heading for the largest closures section, with a ranking sentence or, for
+ * an unchanged diff, a merged "did not differ" note.
+ */
+const formatLargestClosuresHeading = ({
+  isEmptyDiff,
+}: {
+  isEmptyDiff: boolean
+}): string[] => [
   formatHeading(2, `Largest closures`),
-  `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
+  isEmptyDiff
+    ? `No closure differed in bytes that would be freed if the closure were garbage collected.`
+    : `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
 ]
 
-/** The heading and ranking sentence for the largest strings section. */
-const formatLargestStringsHeading = (): string[] => [
+/**
+ * The heading for the largest strings section, with a ranking sentence or, for
+ * an unchanged diff, a merged "did not differ" note.
+ */
+const formatLargestStringsHeading = ({
+  isEmptyDiff,
+}: {
+  isEmptyDiff: boolean
+}): string[] => [
   formatHeading(2, `Largest strings`),
-  `Strings ranked by bytes allocated for them.`,
+  isEmptyDiff
+    ? `No string differed in bytes allocated for it.`
+    : `Strings ranked by bytes allocated for them.`,
 ]
 
 /** An entity with a name and optional location, shown in tables and headings. */
