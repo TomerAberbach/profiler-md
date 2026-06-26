@@ -26,7 +26,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
 
   readonly #idToFunction: AggregatedProfileFunction[]
   readonly #functionIdToLastSeenEpoch: DynamicTypedArray<Uint32Array>
-  readonly #frameIndexToFramePairKey: DynamicTypedArray<Int32Array>
 
   public constructor(
     {
@@ -63,7 +62,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
     this.#keyToFunction = new Map()
     this.#idToFunction = []
     this.#functionIdToLastSeenEpoch = new DynamicTypedArray(new Uint32Array(1))
-    this.#frameIndexToFramePairKey = new DynamicTypedArray(new Int32Array(64))
   }
 
   /**
@@ -155,26 +153,13 @@ export class ProfileAggregator<Node extends { id?: number }> {
       }
     }
 
+    // A frame pair (caller, callee) can recur within a single call stack
+    // (recursion), so a per-edge epoch deduplicates it to count the stack just
+    // once, the same way the function epoch above deduplicates functions.
     const maxFramePairCount = callStack.frames.length - 1
-    const frameIndexToFramePairKey =
-      this.#frameIndexToFramePairKey.ensureCapacity(maxFramePairCount)
-    let seenFramePairCount = 0
     for (let i = 0; i < maxFramePairCount; i++) {
       const callee = callStack.frames[i]!
       const caller = callStack.frames[i + 1]!
-      const pairKey = caller.id * funcCount + callee.id
-
-      let pairAlreadySeen = false
-      for (let j = 0; j < seenFramePairCount; j++) {
-        if (frameIndexToFramePairKey[j] === pairKey) {
-          pairAlreadySeen = true
-          break
-        }
-      }
-      if (pairAlreadySeen) {
-        continue
-      }
-      frameIndexToFramePairKey[seenFramePairCount++] = pairKey
 
       let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
       if (!calleeMetrics) {
@@ -182,9 +167,16 @@ export class ProfileAggregator<Node extends { id?: number }> {
           callee,
           totalSampleCount: 0,
           totalValues: new Float64Array(this.#metrics.length),
+          lastSeenEpoch: epoch,
         }
         caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
+      } else if (calleeMetrics.lastSeenEpoch === epoch) {
+        // This is a recursive call. Don't count this callee twice.
+        continue
+      } else {
+        calleeMetrics.lastSeenEpoch = epoch
       }
+
       calleeMetrics.totalSampleCount += sampleCount
       for (let i = 0; i < values.length; i++) {
         calleeMetrics.totalValues[i]! += values[i]! * sampleCount
@@ -486,6 +478,13 @@ export type AggregatedProfileCalleeMetrics = {
    * callees. with this callee.
    */
   totalValues: Float64Array
+
+  /**
+   * Internal aggregation bookkeeping: the epoch of the most recent call stack
+   * whose total this edge was counted into, so a frame pair that recurs within
+   * one call stack is counted just once.
+   */
+  lastSeenEpoch: number
 }
 
 /**
