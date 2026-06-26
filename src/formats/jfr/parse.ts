@@ -928,18 +928,21 @@ class JfrParser {
 
   #readVarint(): number {
     let result = 0
-    let shift = 0
+    // A running multiplier (×128 per byte) replaces `2 ** shift`: the
+    // exponentiation operator with a variable exponent compiles to a pow call,
+    // far costlier than a single float multiply on this per-byte hot path.
+    let multiplier = 1
     for (let i = 0; i < 9; i++) {
       const byte = this.#bytes[this.#position++]!
       if (i === 8) {
-        result += byte * 2 ** shift
+        result += byte * multiplier
         break
       }
-      result += (byte & 0x7f) * 2 ** shift
+      result += (byte & 0x7f) * multiplier
       if ((byte & 0x80) === 0) {
         break
       }
-      shift += 7
+      multiplier *= 128
     }
     return result
   }
