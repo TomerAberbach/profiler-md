@@ -2,6 +2,7 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileToMdContext,
 } from '../../../options.ts'
+import { originNormalizeFrame, resolveOrigin } from '../../../origins/index.ts'
 import { BYTES, ProfileAggregator } from '../../../profile/index.ts'
 import type { AggregatedProfile } from '../../../profile/index.ts'
 import { callFrameFunctionInput, callFrameKey } from '../common.ts'
@@ -12,16 +13,6 @@ export const aggregateV8HeapProfile = (
   options: NormalizedProfileToMdOptions,
   context: ProfileToMdContext,
 ): AggregatedProfile[] => {
-  const profileAggregator = new ProfileAggregator<V8HeapProfileNode>(
-    {
-      metrics: [BYTES],
-      functionKey: node => callFrameKey(node.callFrame),
-      functionInput: node => callFrameFunctionInput(node.callFrame),
-    },
-    options,
-    context,
-  )
-
   const flatNodes: V8HeapProfileNode[] = []
   const idToIndex: number[] = []
   const indexToParentIndex: number[] = []
@@ -42,6 +33,26 @@ export const aggregateV8HeapProfile = (
       stack.push({ node: child, parentIndex: index })
     }
   } while (stack.length > 0)
+
+  // The call tree is flattened, so the origin can be resolved from its frames
+  // before aggregation.
+  const origin = resolveOrigin(
+    context.format,
+    context,
+    flatNodes.map(node => callFrameFunctionInput(node.callFrame)),
+  )
+  const normalizeFrame = originNormalizeFrame(origin)
+
+  const profileAggregator = new ProfileAggregator<V8HeapProfileNode>(
+    {
+      metrics: [BYTES],
+      functionKey: node => callFrameKey(node.callFrame),
+      functionInput: node =>
+        normalizeFrame(callFrameFunctionInput(node.callFrame)),
+    },
+    options,
+    { ...context, origin },
+  )
 
   for (const { size, nodeId } of profile.samples) {
     const nodeIndex = idToIndex[nodeId]

@@ -2,6 +2,9 @@ import { describe, expect, test } from 'vitest'
 import type { ProfileEntry } from '../options.ts'
 import { categorizeEntryForOrigin, origins } from './index.ts'
 import type { Origin } from './index.ts'
+import { jvmOriginSpec } from './jvm.ts'
+import { pySpyOriginSpec } from './py-spy.ts'
+import { unknownOriginSpec } from './unknown.ts'
 
 const located = (url: string): ProfileEntry => ({
   id: 1,
@@ -342,5 +345,101 @@ describe(`unknown`, () => {
     expect(
       categorizeEntryForOrigin(located(`ext:core/01_core.js`), `unknown`),
     ).toBe(`ours`)
+  })
+})
+
+describe(`normalizeFrame`, () => {
+  describe(`unknown (plain folded "file:func:line")`, () => {
+    const { normalizeFrame } = unknownOriginSpec
+
+    test(`extracts a basename:func:line location`, () => {
+      expect(normalizeFrame({ name: `app.py:main:10` })).toEqual({
+        name: `main`,
+        location: { urlOrPath: `app.py`, line: 10 },
+      })
+    })
+
+    test(`keeps a Windows drive-letter path whole instead of splitting on the drive colon`, () => {
+      expect(normalizeFrame({ name: `C:\\proj\\app.py:run:10` })).toEqual({
+        name: `run`,
+        location: { urlOrPath: `C:\\proj\\app.py`, line: 10 },
+      })
+      expect(normalizeFrame({ name: `D:/proj/app.py:run:10` })).toEqual({
+        name: `run`,
+        location: { urlOrPath: `D:/proj/app.py`, line: 10 },
+      })
+    })
+
+    test(`keeps a C++ namespaced function name intact`, () => {
+      expect(normalizeFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
+        name: `Foo::bar`,
+        location: { urlOrPath: `file.cpp`, line: 42 },
+      })
+    })
+
+    test(`treats a single-colon frame as a plain name`, () => {
+      expect(normalizeFrame({ name: `tid:140234` })).toEqual({
+        name: `tid:140234`,
+      })
+    })
+
+    test(`leaves an already-located frame unchanged`, () => {
+      const input = { name: `app.py:main:10`, location: { urlOrPath: `a.py` } }
+      expect(normalizeFrame(input)).toBe(input)
+    })
+  })
+
+  describe(`py-spy ("func (file:line)")`, () => {
+    const { normalizeFrame } = pySpyOriginSpec
+
+    test(`splits the trailing (file:line) into a location and sampled line`, () => {
+      expect(normalizeFrame({ name: `parse (black/parsing.py:42)` })).toEqual({
+        name: `parse`,
+        location: { urlOrPath: `black/parsing.py` },
+        line: 42,
+      })
+    })
+
+    test(`keeps a frozen-module location intact`, () => {
+      expect(
+        normalizeFrame({
+          name: `<module> (<frozen importlib._bootstrap>:1080)`,
+        }),
+      ).toEqual({
+        name: `<module>`,
+        location: { urlOrPath: `<frozen importlib._bootstrap>` },
+        line: 1080,
+      })
+    })
+
+    test(`leaves a thread frame unchanged`, () => {
+      expect(normalizeFrame({ name: `tid:7` })).toEqual({ name: `tid:7` })
+    })
+  })
+
+  describe(`jvm (async-profiler "Class/path.method")`, () => {
+    const { normalizeFrame } = jvmOriginSpec
+
+    test(`turns the slashed class into a dotted location`, () => {
+      expect(normalizeFrame({ name: `java/util/HashMap.put` })).toEqual({
+        name: `put`,
+        location: { urlOrPath: `java.util.HashMap` },
+      })
+    })
+
+    test(`handles a nested class and an <init> method`, () => {
+      expect(
+        normalizeFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
+      ).toEqual({
+        name: `valueOf`,
+        location: { urlOrPath: `java.lang.System$Logger$Level` },
+      })
+    })
+
+    test(`leaves a native (no-slash) frame location-less`, () => {
+      expect(normalizeFrame({ name: `Parker::park` })).toEqual({
+        name: `Parker::park`,
+      })
+    })
   })
 })

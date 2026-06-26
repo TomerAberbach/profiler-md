@@ -8,15 +8,48 @@ import type { OriginSpec } from './origin.ts'
 export const jvmOriginSpec = {
   id: `jvm`,
   language: `java`,
-  formats: [`jfr`],
+  formats: [`jfr`, `collapsed`],
   matches: context =>
-    someEntry(context, entry => jvmStdlibCategory(entry) !== undefined),
+    someEntry(
+      context,
+      entry =>
+        // JFR carries the class as a location; async-profiler's collapsed stacks
+        // carry it in the name (`java/util/HashMap.put`) instead.
+        jvmStdlibCategory(entry) !== undefined ||
+        isJvmStdlibNameFrame(entry.name),
+    ),
   categorize: entry =>
     jvmStdlibCategory(entry) ??
     nativeLibraryCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
+  normalizeFrame: input => {
+    if (input.location) {
+      return input
+    }
+
+    // Async-profiler names a Java frame `package/path/Class.method`. Native
+    // (C++/JNI) frames have no `/` and stay location-less.
+    const name = input.name ?? ``
+    const lastDot = name.lastIndexOf(`.`)
+    if (lastDot === -1 || !name.includes(`/`)) {
+      return input
+    }
+
+    return {
+      ...input,
+      name: name.slice(lastDot + 1),
+      location: { urlOrPath: name.slice(0, lastDot).replaceAll(`/`, `.`) },
+    }
+  },
 } as const satisfies OriginSpec
+
+/**
+ * Whether a raw async-profiler frame name is in a JVM standard-library package
+ * (`java/`, `javax/`, `jdk/`, `sun/`), before its `/`s become `.`s.
+ */
+const isJvmStdlibNameFrame = (name: string | undefined): boolean =>
+  name !== undefined && /^(?:java|javax|jdk|sun)\//u.test(name)
 
 /** Categorizes Java standard-library and JDK-internal frames as `stdlib`. */
 const jvmStdlibCategory = ({

@@ -3,6 +3,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
+import type { ProfileFunctionInput } from '../profile/aggregate.ts'
 
 /** The context an {@link OriginSpec.matches} predicate inspects. */
 export type OriginMatchContext = {
@@ -101,6 +102,23 @@ export type OriginSpec = {
    * names, and so on.
    */
   categorize: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
+
+  /**
+   * Derives a frame's name, location, and optional sampled leaf line from its
+   * raw name, for profilers (chiefly the collapsed-stack dialects) that pack a
+   * function's location into its frame string rather than carrying it
+   * separately. Defaults to the identity when omitted.
+   *
+   * Runs before aggregation, so the derived location feeds both grouping and
+   * categorization.
+   *
+   * MUST be a no-op when {@link ProfileFunctionInput.location} is already set:
+   * an origin can span a location-carrying format (e.g. JFR) and a
+   * location-in-name format (e.g. collapsed), and only the latter needs
+   * splitting. Returning {@link input} unchanged when it already has a location
+   * keeps it safe to run on every format.
+   */
+  normalizeFrame?: (input: ProfileFunctionInput) => ProfileFunctionInput
 }
 
 /** Returns whether any entry satisfies {@link predicate}, early-exiting. */

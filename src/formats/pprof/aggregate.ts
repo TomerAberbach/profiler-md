@@ -2,8 +2,12 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
+import { originNormalizeFrame, resolveOrigin } from '../../origins/index.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
-import type { AggregatedProfile } from '../../profile/index.ts'
+import type {
+  AggregatedProfile,
+  ProfileFunctionInput,
+} from '../../profile/index.ts'
 import type { Pprof, PprofFunction } from './parse.ts'
 
 export const aggregatePprof = (
@@ -18,20 +22,29 @@ export const aggregatePprof = (
     determineMetric({ name: valueType.type, unit: valueType.unit }),
   )
 
+  const functionInput = (func: PprofFunction): ProfileFunctionInput => ({
+    name: func.name || func.systemName,
+    location: {
+      urlOrPath: func.filename,
+      line: func.startLine > 0 ? func.startLine : undefined,
+    },
+  })
+
+  const origin = resolveOrigin(
+    context.format,
+    context,
+    functions.map(functionInput),
+  )
+  const normalizeFrame = originNormalizeFrame(origin)
+
   const profileAggregator = new ProfileAggregator<PprofFunction>(
     {
       metrics,
       functionKey: func => func.id,
-      functionInput: func => ({
-        name: func.name || func.systemName,
-        location: {
-          urlOrPath: func.filename,
-          line: func.startLine > 0 ? func.startLine : undefined,
-        },
-      }),
+      functionInput: func => normalizeFrame(functionInput(func)),
     },
     options,
-    context,
+    { ...context, origin },
   )
 
   for (const sample of samples) {

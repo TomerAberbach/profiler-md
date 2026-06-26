@@ -2,15 +2,34 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
+import { originNormalizeFrame, resolveOrigin } from '../../origins/index.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
-import type { AggregatedProfile, Metric } from '../../profile/index.ts'
+import type {
+  AggregatedProfile,
+  Metric,
+  ProfileFunctionInput,
+} from '../../profile/index.ts'
 import type { Jfr, JfrMethod, JfrSampleEvent, JfrSampleKind } from './parse.ts'
+
+const methodInput = (method: JfrMethod): ProfileFunctionInput => ({
+  name: method.name,
+  location: method.className ? { urlOrPath: method.className } : undefined,
+})
 
 export const aggregateJfr = (
   { methods, stackTraces, events }: Jfr,
   options: NormalizedProfileToMdOptions,
   context: ProfileToMdContext,
 ): AggregatedProfile[] => {
+  // The methods are shared across every kind's profile, so resolve the origin
+  // once from them up front.
+  const origin = resolveOrigin(
+    context.format,
+    context,
+    methods.map(methodInput),
+  )
+  const normalizeFrame = originNormalizeFrame(origin)
+  const kindContext = { ...context, origin }
   // Resolve a stack's nodes and leaf line lazily, caching by id. Many events
   // share a stack and the same nodes are reused across every kind's profile, so
   // each referenced stack is resolved at most once; stacks no event references
@@ -52,15 +71,10 @@ export const aggregateJfr = (
       {
         metrics: metric ? [metric] : [],
         functionKey: method => method.id,
-        functionInput: method => ({
-          name: method.name,
-          location: method.className
-            ? { urlOrPath: method.className }
-            : undefined,
-        }),
+        functionInput: method => normalizeFrame(methodInput(method)),
       },
       options,
-      context,
+      kindContext,
     )
 
     let hasSamples = false

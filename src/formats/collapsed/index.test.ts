@@ -3,6 +3,8 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import { chunk, streamOf } from '../../testing/bytes.ts'
 import {
   calleesTables,
+  categoryTables,
+  linesTables,
   profileTitles,
   selfSamplesTables,
   summaryLines,
@@ -10,7 +12,7 @@ import {
 } from '../../testing/markdown.ts'
 import { convertToMd, convertToMdAsync } from '../testing/convert.ts'
 import { collapsedConverter } from './index.ts'
-import { parseCollapsed, parseFrame } from './parse.ts'
+import { parseCollapsed } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
 
 const matches = (bytes: Uint8Array): boolean =>
@@ -70,47 +72,17 @@ describe(`parse`, () => {
   })
 })
 
-describe(`parseFrame`, () => {
-  test(`extracts a basename:func:line location`, () => {
-    expect(parseFrame(`app.py:main:10`)).toEqual({
-      name: `main`,
-      location: { urlOrPath: `app.py`, line: 10 },
-    })
-  })
-
-  test(`keeps a Windows drive-letter path whole instead of splitting on the drive colon`, () => {
-    expect(parseFrame(`C:\\proj\\app.py:run:10`)).toEqual({
-      name: `run`,
-      location: { urlOrPath: `C:\\proj\\app.py`, line: 10 },
-    })
-    expect(parseFrame(`D:/proj/app.py:run:10`)).toEqual({
-      name: `run`,
-      location: { urlOrPath: `D:/proj/app.py`, line: 10 },
-    })
-  })
-
-  test(`keeps a C++ namespaced function name intact`, () => {
-    expect(parseFrame(`file.cpp:Foo::bar:42`)).toEqual({
-      name: `Foo::bar`,
-      location: { urlOrPath: `file.cpp`, line: 42 },
-    })
-  })
-
-  test(`treats a single-colon frame as a plain name`, () => {
-    expect(parseFrame(`tid:140234`)).toEqual({ name: `tid:140234` })
-  })
-})
-
 describe(`convert`, () => {
-  test(`Python-shaped stacks: reversal, locations, and plain frames`, () => {
-    // Root-to-leaf stacks with a leading synthetic `tid:N` frame and
-    // `basename:func:line` frames. The duplicate `work` stack sums to 10.
+  test(`plain folded "file:func:line" stacks: reversal and locations`, () => {
+    // A plain folded stack carries no profiler fingerprint, so it resolves to
+    // the `unknown` origin, whose `normalizeFrame` parses the `file:func:line`
+    // tachyon shape. The duplicate `work` stack sums to 10.
     const md = convertToMd(
       collapsedConverter,
       makeCollapsed([
-        `tid:7;app.py:main:10;app.py:work:20 6`,
-        `tid:7;app.py:main:10;app.py:work:20 4`,
-        `tid:7;app.py:main:10 5`,
+        `app.py:main:10;app.py:work:20 6`,
+        `app.py:main:10;app.py:work:20 4`,
+        `app.py:main:10 5`,
       ]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -121,7 +93,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
 
     // `work` is the hottest self (leaf of the reversed stack) with the summed
-    // count; `basename:func:line` frames yield a `Location`.
+    // count; the `file:func:line` definition line stays in the location.
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -139,8 +111,6 @@ describe(`convert`, () => {
       ],
     ])
 
-    // The leading `tid:7` frame is kept as an ordinary root frame with only a
-    // name (no location).
     expect(totalSamplesTables(md)).toEqual([
       [
         {
@@ -148,12 +118,6 @@ describe(`convert`, () => {
           Samples: `15`,
           Function: `main`,
           Location: `app.py:10`,
-        },
-        {
-          '%': `100.0%`,
-          Samples: `15`,
-          Function: `tid:7`,
-          Location: `<unknown>`,
         },
         {
           '%': `66.7%`,
@@ -168,6 +132,150 @@ describe(`convert`, () => {
     // verifying the summed sample count propagates through callee metrics.
     expect(calleesTables(md, `main`)).toEqual([
       [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py:20` }],
+    ])
+  })
+
+  test(`py-spy "func (file:line)" stacks: location split and per-line breakdown`, () => {
+    // Py-spy carries the sampled line separately from the function's file, so
+    // `work` sampled at lines 20 and 22 stays one function (file `app.py`) with
+    // a two-line breakdown rather than two functions.
+    const md = convertToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `main (app.py:10);work (app.py:20) 6`,
+        `main (app.py:10);work (app.py:22) 4`,
+        `main (app.py:10) 5`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `ours`, '%': `100.0%`, Samples: `15` }],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        { '%': `66.7%`, Samples: `10`, Function: `work`, Location: `app.py` },
+        { '%': `33.3%`, Samples: `5`, Function: `main`, Location: `app.py` },
+      ],
+    ])
+    expect(linesTables(md, `work`)).toEqual([
+      [
+        { '%': `60.0%`, Samples: `6`, Location: `app.py:20` },
+        { '%': `40.0%`, Samples: `4`, Location: `app.py:22` },
+      ],
+    ])
+  })
+
+  test(`rbspy "method - file:line" stacks: gems and stdlib categorization`, () => {
+    // Rbspy splits the method off the trailing `file:line`; gems are
+    // third-party and the interpreter's own library is stdlib.
+    const md = convertToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `<main> - /usr/local/bin/app:3;run - /var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb:40 6`,
+        `<main> - /usr/local/bin/app:3;parse - /usr/lib/ruby/3.1.0/json.rb:12 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `third-party`, '%': `60.0%`, Samples: `6` },
+        { Category: `stdlib`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `run`,
+          Location: `var/lib/gems/3.1.0/gems/rack-3.0.0/lib/rack.rb`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `parse`,
+          Location: `usr/lib/ruby/3.1.0/json.rb`,
+        },
+      ],
+    ])
+  })
+
+  test(`BEAM "module:function/arity" stacks: module as location`, () => {
+    // Eflambe's frames carry no file; the module stands in for the location.
+    // OTP and Elixir-core modules are stdlib while a hex dependency is ours.
+    const md = convertToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Enum:reduce/3 6`,
+        `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Jason:encode!/1 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
+        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `Elixir.Enum:reduce/3`,
+          Location: `Elixir.Enum`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `Elixir.Jason:encode!/1`,
+          Location: `Elixir.Jason`,
+        },
+      ],
+    ])
+  })
+
+  test(`async-profiler "Class/path.method" stacks: dotted class location`, () => {
+    // Async-profiler names a Java frame `package/Class.method`; the class
+    // becomes a dotted location and JVM packages are stdlib while app code is
+    // ours.
+    const md = convertToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `start_thread;java/lang/Thread.run;com/ex/App.work;java/util/HashMap.put 6`,
+        `start_thread;java/lang/Thread.run;com/ex/App.work 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
+        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `put`,
+          Location: `java.util.HashMap`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `work`,
+          Location: `com.ex.App`,
+        },
+      ],
     ])
   })
 
@@ -225,9 +333,9 @@ describe(`convertAsync`, () => {
     showEntry: () => true,
   })
   const bytes = makeCollapsed([
-    `tid:7;app.py:main:10;app.py:work:20 6`,
-    `tid:7;app.py:main:10;app.py:work:20 4`,
-    `tid:7;app.py:main:10 5`,
+    `app.py:main:10;app.py:work:20 6`,
+    `app.py:main:10;app.py:work:20 4`,
+    `app.py:main:10 5`,
   ])
   const expected = convertToMd(collapsedConverter, bytes, options)
 

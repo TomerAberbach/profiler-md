@@ -162,7 +162,7 @@ describe(`determineOrigin`, () => {
     ).toBe(`pprof-rs`)
   })
 
-  test(`detects py-spy by its thread and frozen-module frames`, () => {
+  test(`detects py-spy by its thread, frozen-module, and located frames`, () => {
     expect(
       determineOrigin({
         format: `collapsed`,
@@ -172,9 +172,60 @@ describe(`determineOrigin`, () => {
     expect(
       determineOrigin({
         format: `collapsed`,
-        entries: [relativeEntry(`_run_code`, `<frozen runpy>`)],
+        entries: [relativeEntry(`<module> (<frozen runpy>:5)`)],
       }),
     ).toBe(`py-spy`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`parse (black/parsing.py:42)`)],
+      }),
+    ).toBe(`py-spy`)
+  })
+
+  test(`detects rbspy by its " - file:line" and "[c function]" frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`parse - /app/lib/foo.rb:12`)],
+      }),
+    ).toBe(`rbspy`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`(unknown) [c function] - (unknown)`)],
+      }),
+    ).toBe(`rbspy`)
+  })
+
+  test(`detects BEAM by its Elixir, Erlang, and process-id frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`Elixir.Enum:reduce/3`)],
+      }),
+    ).toBe(`beam`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`lists:reverse/1`)],
+      }),
+    ).toBe(`beam`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`<0.94.0>`)],
+      }),
+    ).toBe(`beam`)
+  })
+
+  test(`detects the jvm origin from async-profiler's collapsed class frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`java/util/HashMap.put`)],
+      }),
+    ).toBe(`jvm`)
   })
 
   test(`resolves JFR to the jvm origin`, () => {

@@ -57,7 +57,8 @@ export class ProfileAggregator<Node extends { id?: number }> {
 
       /**
        * Returns the {@link ProfileFunctionInput} for the function corresponding
-       * to {@link node}.
+       * to {@link node}, already normalized (e.g. by an origin's
+       * `normalizeFrame`) into its final name, location, and sampled leaf line.
        */
       functionInput: (node: Node) => ProfileFunctionInput
     },
@@ -439,6 +440,18 @@ export type ProfileFunctionInput = {
 
   /** Where the function was defined, if known. */
   location?: SourceLocationInput
+
+  /**
+   * The 1-based line at which the function was sampled, if a dialect's
+   * `normalizeFrame` could derive it from the frame string.
+   *
+   * Distinct from {@link location}'s line (the definition line): this is the
+   * executing line of a leaf frame, which a converter forwards as
+   * {@link Sample.line} so it reaches
+   * {@link AggregatedProfileFunction.lineToMetrics}. Never a function identity
+   * component.
+   */
+  line?: number
 }
 
 /** A single sample within a profile. */

@@ -9,22 +9,45 @@ export const pySpyOriginSpec = {
   id: `py-spy`,
   language: `python`,
   formats: [`collapsed`],
-  matches: context =>
-    someEntry(
-      context,
-      entry =>
-        isThreadFrame(entry) || pythonStdlibCategory(entry) !== undefined,
-    ),
+  matches: context => someEntry(context, entry => isPySpyFrame(entry.name)),
   categorize: entry =>
     pythonThirdPartyCategory(entry) ??
     pythonStdlibCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
+  normalizeFrame: input => {
+    if (input.location) {
+      return input
+    }
+
+    const frame = FRAME.exec(input.name ?? ``)
+    if (!frame) {
+      return input
+    }
+
+    return {
+      ...input,
+      name: frame.groups!.func!,
+      location: { urlOrPath: frame.groups!.file! },
+      line: Number(frame.groups!.line),
+    }
+  },
 } as const satisfies OriginSpec
 
-/** Whether the entry is py-spy's synthetic per-thread `tid:<id>` frame. */
-const isThreadFrame = ({ name }: DeepReadonly<ProfileEntry>): boolean =>
-  name?.startsWith(`tid:`) === true
+/**
+ * Whether a raw frame name is py-spy-shaped: a `function (file:line)` frame, a
+ * `<frozen ...>` bootstrap module, or a synthetic per-thread `tid:<id>` frame.
+ */
+const isPySpyFrame = (name: string | undefined): boolean =>
+  name !== undefined &&
+  (FRAME.test(name) || name.includes(`<frozen `) || name.startsWith(`tid:`))
+
+/**
+ * A py-spy `function (file:line)` frame, e.g. `parse (black/parsing.py:42)`. The
+ * `func` and `file` are greedy so a name or path containing spaces or
+ * parentheses stays intact, anchored by the trailing `:line)`.
+ */
+const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
 
 /**
  * Categorizes CPython standard-library frames, frozen bootstrap modules

@@ -4,19 +4,12 @@ import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
  * A parsed collapsed (a.k.a. "folded") stack profile.
  *
  * Each stack is a unique call stack in root-to-leaf order with its summed sample
- * count.
+ * count. Frames are kept as raw strings; the originating profiler's dialect
+ * (py-spy, rbspy, eflambe, async-profiler, …) only becomes known after origin
+ * detection, which splits a location out of each frame name during aggregation.
  */
 export type CollapsedProfile = {
   stacks: { frames: string[]; count: number }[]
-}
-
-/** A single frame within a collapsed stack. */
-export type CollapsedNode = {
-  /** The function name. */
-  name: string
-
-  /** Where the function was defined, if extractable from the frame string. */
-  location?: { urlOrPath: string; line?: number }
 }
 
 export const parseCollapsed = (bytes: Uint8Array): CollapsedProfile => {
@@ -78,29 +71,3 @@ const parseCollapsedLine = (
     count: Number(countText),
   }
 }
-
-export const parseFrame = (frame: string): CollapsedNode => {
-  const match = FRAME_LOCATION.exec(frame)
-  if (!match) {
-    return { name: frame }
-  }
-
-  const { file, func, line } = match.groups!
-  return {
-    name: func!,
-    location: { urlOrPath: file!, line: Number(line) },
-  }
-}
-
-/**
- * Matches frame strings of the shape `file:func:line` (e.g. Python tachyon's
- * `script.py:main:10`), capturing a greedy `func` so C++ `Foo::bar` names stay
- * intact. The trailing `:<digits>` anchor keeps `tid:140234` (single colon) and
- * `func_[k]` suffixes as plain names.
- *
- * The optional leading drive-letter prefix (`C:\`, `D:/`) is consumed as part
- * of `file` so a Windows path isn't split at its drive colon, which would
- * otherwise leave `file` as the bare drive letter.
- */
-const FRAME_LOCATION =
-  /^(?<file>(?:[A-Za-z]:[\\/])?[^;]+?):(?<func>.+):(?<line>\d+)$/u

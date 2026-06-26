@@ -2,8 +2,12 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
+import { originNormalizeFrame, resolveOrigin } from '../../origins/index.ts'
 import { determineMetric, ProfileAggregator } from '../../profile/index.ts'
-import type { AggregatedProfile } from '../../profile/index.ts'
+import type {
+  AggregatedProfile,
+  ProfileFunctionInput,
+} from '../../profile/index.ts'
 import type {
   SpeedscopeEventedProfile,
   SpeedscopeFrame,
@@ -12,6 +16,19 @@ import type {
 } from './parse.ts'
 
 type SpeedscopeNode = SpeedscopeFrame & { id: number }
+
+/** A normalizer plus the origin-threaded context shared by every sub-profile. */
+type NormalizedContext = {
+  normalizeFrame: (input: ProfileFunctionInput) => ProfileFunctionInput
+  context: ProfileToMdContext
+}
+
+const nodeInput = (node: SpeedscopeNode): ProfileFunctionInput => ({
+  name: node.name,
+  location: node.file
+    ? { urlOrPath: node.file, line: node.line, column: node.col }
+    : undefined,
+})
 
 export const aggregateSpeedscopeProfile = (
   profile: SpeedscopeProfile,
@@ -22,10 +39,18 @@ export const aggregateSpeedscopeProfile = (
     ...frame,
     id,
   }))
+
+  // The frames are shared across every sub-profile, so resolve the origin once.
+  const origin = resolveOrigin(context.format, context, nodes.map(nodeInput))
+  const normalized: NormalizedContext = {
+    normalizeFrame: originNormalizeFrame(origin),
+    context: { ...context, origin },
+  }
+
   return profile.profiles.map(profile =>
     profile.type === `sampled`
-      ? aggregateSampled(profile, nodes, options, context)
-      : aggregateEvented(profile, nodes, options, context),
+      ? aggregateSampled(profile, nodes, options, normalized)
+      : aggregateEvented(profile, nodes, options, normalized),
   )
 }
 
@@ -33,12 +58,12 @@ const aggregateSampled = (
   profile: SpeedscopeSampledProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
-  context: ProfileToMdContext,
+  normalized: NormalizedContext,
 ): AggregatedProfile => {
   const profileAggregator = makeProfileAggregator(
     profile.unit,
     options,
-    context,
+    normalized,
   )
 
   for (let index = 0; index < profile.samples.length; index++) {
@@ -66,12 +91,12 @@ const aggregateEvented = (
   profile: SpeedscopeEventedProfile,
   nodes: SpeedscopeNode[],
   options: NormalizedProfileToMdOptions,
-  context: ProfileToMdContext,
+  normalized: NormalizedContext,
 ): AggregatedProfile => {
   const profileAggregator = makeProfileAggregator(
     profile.unit,
     options,
-    context,
+    normalized,
   )
 
   type StackEntry = { node: SpeedscopeNode; lastChildClosed: number }
@@ -115,22 +140,13 @@ const aggregateEvented = (
 const makeProfileAggregator = (
   unit: string,
   options: NormalizedProfileToMdOptions,
-  context: ProfileToMdContext,
+  { normalizeFrame, context }: NormalizedContext,
 ): ProfileAggregator<SpeedscopeNode> =>
   new ProfileAggregator<SpeedscopeNode>(
     {
       metrics: [determineMetric({ name: unit, unit })],
       functionKey: node => node.id,
-      functionInput: node => ({
-        name: node.name,
-        location: node.file
-          ? {
-              urlOrPath: node.file,
-              line: node.line,
-              column: node.col,
-            }
-          : undefined,
-      }),
+      functionInput: node => normalizeFrame(nodeInput(node)),
     },
     options,
     context,

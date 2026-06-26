@@ -1,14 +1,22 @@
 import type { Format } from '../formats/index.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
+import { makeSourceLocation } from '../location.ts'
+import type {
+  EntryCategory,
+  ProfileEntry,
+  ProfileToMdContext,
+} from '../options.ts'
+import type { ProfileFunctionInput } from '../profile/aggregate.ts'
+import { beamOriginSpec } from './beam.ts'
 import { bunOriginSpec } from './bun.ts'
 import { denoOriginSpec } from './deno.ts'
 import { jvmOriginSpec } from './jvm.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
-import type { OriginMatchContext } from './origin.ts'
+import type { OriginMatchContext, OriginSpec } from './origin.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
+import { rbspyOriginSpec } from './rbspy.ts'
 import { safariOriginSpec } from './safari.ts'
 import { unknownOriginSpec } from './unknown.ts'
 
@@ -72,6 +80,54 @@ export const determineOrigin = ({
 }
 
 /**
+ * Resolves the origin to use for a conversion: the explicit one from
+ * {@link context} when given, otherwise {@link determineOrigin} over the raw
+ * {@link functionInputs}.
+ *
+ * Every profile converter calls this up front, before aggregation, so the
+ * resolved origin can both drive frame normalization (see
+ * {@link originNormalizeFrame}) and be threaded into the aggregator rather than
+ * re-detected during categorization. Detecting from the raw, pre-normalization
+ * inputs is what lets a dialect be recognized from its frame names (e.g. a
+ * collapsed `Elixir.Enum:reduce/3`).
+ *
+ * The inputs are turned into entries exactly as the aggregator would (same name
+ * fallback and {@link makeSourceLocation}), so detection sees the same entries
+ * categorization later will.
+ */
+export const resolveOrigin = (
+  format: Format,
+  context: ProfileToMdContext,
+  functionInputs: Iterable<ProfileFunctionInput>,
+): Origin => {
+  if (context.origin !== null) {
+    return context.origin
+  }
+
+  const entries: ProfileEntry[] = []
+  for (const { name, location } of functionInputs) {
+    entries.push({
+      id: entries.length,
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      name: name || `(anonymous)`,
+      location: makeSourceLocation(location),
+    })
+  }
+  return determineOrigin({ format, entries })
+}
+
+/**
+ * Returns {@link origin}'s {@link OriginSpec.normalizeFrame}, or the identity
+ * when it has none, for a converter to wrap its frame inputs with.
+ */
+export const originNormalizeFrame = (
+  origin: Origin,
+): ((input: ProfileFunctionInput) => ProfileFunctionInput) => {
+  const spec: OriginSpec = originSpecsById.get(origin)!
+  return spec.normalizeFrame ?? (input => input)
+}
+
+/**
  * All origin specs in global detection-priority order.
  *
  * Within a format, candidates are tried in the order they appear here, so
@@ -86,6 +142,8 @@ const originSpecs = [
   pprofRsOriginSpec,
   pySpyOriginSpec,
   jvmOriginSpec,
+  beamOriginSpec,
+  rbspyOriginSpec,
   safariOriginSpec,
   unknownOriginSpec,
 ]
