@@ -9,7 +9,7 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertJsonToMd } from '../testing/convert.ts'
 import { speedscopeConverter } from './index.ts'
 import {
   makeEventedProfile,
@@ -79,7 +79,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -146,7 +146,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -187,7 +187,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -214,7 +214,7 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -244,7 +244,7 @@ describe(`convert`, () => {
       frames: [{ name: `factorial`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -278,7 +278,7 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -302,7 +302,7 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -317,13 +317,13 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`frame without file location renders as unknown`, () => {
+  test(`frame without file location is formatted as unknown`, () => {
     const profile = makeSpeedscopeProfile({
       profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
       frames: [{ name: `unknownFunc` }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -351,7 +351,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -374,7 +374,7 @@ describe(`convert`, () => {
       frames: [{ name: `main`, file: `/project/src/index.ts`, line: 1 }],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -404,7 +404,7 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -420,7 +420,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -434,7 +434,7 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -448,7 +448,7 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntries groups entries by custom category`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({

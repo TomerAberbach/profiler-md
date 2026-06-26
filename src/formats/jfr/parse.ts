@@ -1,4 +1,12 @@
+import { ByteQueue } from '../../helpers/bytes.ts'
 import { HashInterner } from '../../helpers/intern.ts'
+import { determineMetric } from '../../profile/index.ts'
+import type {
+  Metric,
+  Profile,
+  ProfileStackFrame,
+  Sample,
+} from '../../profile/index.ts'
 
 /**
  * The kind of profiling an event represents.
@@ -73,13 +81,6 @@ export type JfrSampleEvent = {
 
 /** Parsed representation of a Java Flight Recorder recording. */
 export type Jfr = {
-  /**
-   * Whether the input began with the JFR chunk magic (`FLR\0`), i.e. whether it
-   * is a JFR recording at all. Drives format detection; a recording can have the
-   * magic yet still contain no supported sample {@link events}.
-   */
-  hasMagic: boolean
-
   /** All methods referenced by stack frames. */
   methods: JfrMethod[]
 
@@ -91,7 +92,7 @@ export type Jfr = {
 }
 
 /**
- * Parses a Java Flight Recorder recording into typed data.
+ * Parses a Java Flight Recorder recording into one profile per sample kind.
  *
  * The recording is a sequence of self-contained chunks, each with a header, a
  * metadata event describing every event type's fields, constant pools (stack
@@ -100,18 +101,197 @@ export type Jfr = {
  * rather than fixed offsets because field order is not guaranteed across JVM
  * versions.
  *
- * Lenient by design: it never throws on bytes that aren't a JFR recording, but
- * reports whether the magic was present via {@link Jfr.hasMagic} so detection
- * can move on. Input without the magic yields no chunks and so an empty
- * recording.
+ * Lenient by design: it never throws on bytes that aren't a JFR recording.
+ * Input without the chunk magic simply yields no chunks, and so an empty
+ * recording (detection gates on the magic separately, in `./index.ts`).
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
-export const parseJfr = (bytes: Uint8Array): Jfr =>
-  new JfrParser(
-    bytes,
-    new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength),
-  ).parse()
+export const parseJfr = (bytes: Uint8Array): Profile[] => {
+  const parser = new JfrParser()
+  for (const chunk of jfrChunks(bytes)) {
+    parser.parseChunk(chunk)
+  }
+  return jfrToProfiles(parser.finish())
+}
+
+/**
+ * Like {@link parseJfr}, but consumes the recording from a stream, parsing each
+ * self-contained chunk as soon as its bytes arrive and dropping them before the
+ * next, so peak memory is one chunk rather than the whole recording.
+ */
+export const parseJfrAsync = async (
+  stream: ReadableStream<Uint8Array>,
+): Promise<Profile[]> => {
+  const parser = new JfrParser()
+  for await (const chunk of jfrChunksAsync(stream)) {
+    parser.parseChunk(chunk)
+  }
+  return jfrToProfiles(parser.finish())
+}
+
+/**
+ * Splits a recording into its self-contained chunks, each yielded as a view
+ * into {@link bytes}. Stops at the first byte that doesn't begin a valid chunk
+ * (a non-magic prefix, a declared size too small to hold the chunk header, or
+ * a truncated trailing chunk whose size runs past the buffer), keeping the
+ * chunks read so far.
+ */
+function* jfrChunks(bytes: Uint8Array): Generator<Uint8Array> {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+  let position = 0
+  while (
+    position + CHUNK_HEADER_SIZE <= bytes.length &&
+    view.getUint32(position) === MAGIC
+  ) {
+    const size = Number(view.getBigInt64(position + CHUNK_SIZE_FIELD))
+    const end = position + size
+    if (size < CHUNK_HEADER_SIZE || end > bytes.length) {
+      break
+    }
+    yield bytes.subarray(position, end)
+    position = end
+  }
+}
+
+/**
+ * Reads {@link stream} and yields each complete chunk as its bytes arrive,
+ * buffering only the chunk currently being assembled. Stops on the first input
+ * that doesn't begin a valid chunk, mirroring {@link jfrChunks}; a truncated
+ * trailing chunk is left unread.
+ */
+async function* jfrChunksAsync(
+  stream: ReadableStream<Uint8Array>,
+): AsyncGenerator<Uint8Array> {
+  const queue = new ByteQueue()
+  const reader = stream.getReader()
+  try {
+    reading: while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+      queue.push(value)
+
+      while (queue.length >= CHUNK_HEADER_SIZE) {
+        if (queue.uint32(0) !== MAGIC) {
+          break reading
+        }
+        const size = queue.int64(CHUNK_SIZE_FIELD)
+        if (size < CHUNK_HEADER_SIZE) {
+          break reading
+        }
+        if (queue.length < size) {
+          // The chunk's tail hasn't arrived yet; resume once more bytes do.
+          break
+        }
+        yield queue.take(size)
+      }
+    }
+  } finally {
+    reader.releaseLock()
+  }
+}
+
+const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
+  // Methods are a dense table whose index is the method id, shared across every
+  // kind's profile as its distinct frames.
+  const frames = methods.map(methodToStackFrame)
+
+  // Resolve a stack's frame indices and leaf line lazily, caching by id. Many
+  // events share a stack and the same stack is reused across every kind, so each
+  // referenced stack is resolved at most once; unreferenced stacks never are.
+  const resolvedStacks: ResolvedStack[] = []
+  const resolveStack = (id: number): ResolvedStack => {
+    let resolved = resolvedStacks[id]
+    if (!resolved) {
+      const { frames: stackFrames } = stackTraces[id]!
+      resolved = {
+        frames: stackFrames.map(frame => frame.methodId),
+        line: stackFrames[0]?.lineNumber,
+      }
+      resolvedStacks[id] = resolved
+    }
+    return resolved
+  }
+
+  const eventsByKind = new Map<JfrSampleKind, JfrSampleEvent[]>()
+  for (const event of events) {
+    let kindEvents = eventsByKind.get(event.kind)
+    if (!kindEvents) {
+      kindEvents = []
+      eventsByKind.set(event.kind, kindEvents)
+    }
+    kindEvents.push(event)
+  }
+
+  // A single recording can mix CPU, allocation, and lock events, so emit one
+  // profile per kind that's present (all sharing `frames`), like multi-metric
+  // pprof.
+  const profiles: Profile[] = []
+  for (const { kind, metric } of KINDS) {
+    const kindEvents = eventsByKind.get(kind)
+    if (!kindEvents) {
+      continue
+    }
+    profiles.push({
+      frames,
+      metrics: metric ? [metric] : [],
+      samples: kindSamples(kindEvents, metric, resolveStack),
+    })
+  }
+
+  return profiles
+}
+
+const methodToStackFrame = (method: JfrMethod): ProfileStackFrame => ({
+  name: method.name,
+  location: method.className ? { urlOrPath: method.className } : undefined,
+})
+
+function* kindSamples(
+  events: JfrSampleEvent[],
+  metric: Metric | undefined,
+  resolveStack: (id: number) => ResolvedStack,
+): Generator<Sample> {
+  for (const event of events) {
+    const { frames, line } = resolveStack(event.stackTraceId)
+    yield {
+      id: event.stackTraceId,
+      values: metric ? [event.weight] : [],
+      frameIndices: frames,
+      line,
+      sampleCount: event.sampleCount,
+    }
+  }
+}
+
+/** A stack trace's resolved frame indices and the leaf frame's self line. */
+type ResolvedStack = { frames: number[]; line: number | undefined }
+
+/** Heap allocation samples are weighted by allocated bytes. */
+const ALLOC_METRIC = determineMetric({ name: `alloc_space`, unit: `bytes` })
+
+/** Native memory allocation samples are weighted by allocated bytes. */
+const NATIVEMEM_METRIC = determineMetric({
+  name: `nativemem_space`,
+  unit: `bytes`,
+})
+
+/** Lock samples are weighted by blocked time in nanoseconds. */
+const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
+
+/**
+ * The metric for each sample kind, in the order profiles are emitted. CPU/wall
+ * samples carry no value in JFR, so that profile has no metric and is ranked
+ * purely by sample count.
+ */
+const KINDS: { kind: JfrSampleKind; metric: Metric | undefined }[] = [
+  { kind: `cpu`, metric: undefined },
+  { kind: `alloc`, metric: ALLOC_METRIC },
+  { kind: `nativemem`, metric: NATIVEMEM_METRIC },
+  { kind: `lock`, metric: LOCK_METRIC },
+]
 
 type Field = {
   name: string
@@ -151,7 +331,7 @@ type TypeDef = {
 /**
  * Among `alloc` events, the modern unified sampled event vs. the legacy TLAB
  * pair. They measure the same allocations differently, so only one family is
- * kept when both are present (see {@link JfrParser.parse}).
+ * kept when both are present (see {@link JfrParser.finish}).
  */
 type AllocFamily = `sampled` | `tlab`
 
@@ -198,12 +378,14 @@ type RawEvent = {
 }
 
 class JfrParser {
-  readonly #bytes: Uint8Array
-  readonly #view: DataView
+  // Set to the chunk currently being parsed; offsets within a chunk are read
+  // relative to its own buffer, so each chunk replaces these wholesale.
+  #bytes: Uint8Array = new Uint8Array()
+  #view: DataView = new DataView(new ArrayBuffer(0))
   readonly #decoder = new TextDecoder()
   #position = 0
 
-  // Per-chunk state, reset for each chunk by `#parseChunk`.
+  // Per-chunk state, reset for each chunk by `parseChunk`.
   #types = new Map<number, TypeDef>()
   #typeIdsByName = new Map<string, number>()
   #stringTypeId: number | undefined
@@ -244,34 +426,32 @@ class JfrParser {
 
   #hasSampledAlloc = false
 
-  public constructor(bytes: Uint8Array, view: DataView) {
-    this.#bytes = bytes
-    this.#view = view
+  /**
+   * Parses one self-contained chunk, accumulating its methods, stacks, and
+   * events into this parser; chunk-local pool keys are remapped to the global
+   * indices built across every chunk. The chunk owns its buffer, so its header
+   * offsets (metadata, constant pool) are read relative to its own start.
+   */
+  public parseChunk(chunkBytes: Uint8Array): void {
+    this.#bytes = chunkBytes
+    this.#view = new DataView(
+      chunkBytes.buffer,
+      chunkBytes.byteOffset,
+      chunkBytes.byteLength,
+    )
+    this.#position = 0
+
+    this.#frequency =
+      // A missing/zero frequency degrades to a nanosecond clock.
+      this.#readInt64(FREQUENCY_FIELD) || NANOSECONDS_PER_SECOND
+    this.#loadChunkTypes(0)
+    const { pools, rawEvents } = this.#readChunkBody(0, chunkBytes.length)
+    this.#resolve(pools, rawEvents)
   }
 
-  public parse(): Jfr {
-    // The magic begins the first chunk header; the loop below reuses the same
-    // check per chunk, so input without it simply yields no chunks.
-    const hasMagic = this.#startsChunk(this.#position)
-
-    while (this.#startsChunk(this.#position)) {
-      const chunkStart = this.#position
-      const chunkSize = this.#readInt64(chunkStart + CHUNK_SIZE_FIELD)
-      const chunkEnd = chunkStart + chunkSize
-
-      if (chunkSize <= 0 || chunkEnd > this.#bytes.length) {
-        // Stop at a truncated trailing chunk (a killed JVM or interrupted dump
-        // leaves a partial final chunk whose header offsets point past the
-        // buffer) rather than reading out of bounds; earlier chunks are kept.
-        break
-      }
-
-      this.#parseChunk(chunkStart, chunkEnd)
-      this.#position = chunkEnd
-    }
-
+  /** Returns the recording accumulated from every parsed chunk. */
+  public finish(): Jfr {
     return {
-      hasMagic,
       methods: this.#methods,
       stackTraces: this.#stackInterner.items,
       events: this.#finalizeEvents(),
@@ -287,23 +467,6 @@ class JfrParser {
     return this.#hasSampledAlloc
       ? this.#events
       : [...this.#events, ...this.#tlabEvents]
-  }
-
-  /** Whether a full chunk header with valid magic begins at `offset`. */
-  #startsChunk(offset: number): boolean {
-    return (
-      offset + CHUNK_HEADER_SIZE <= this.#bytes.length &&
-      this.#view.getUint32(offset) === MAGIC
-    )
-  }
-
-  #parseChunk(chunkStart: number, chunkEnd: number): void {
-    this.#frequency =
-      // A missing/zero frequency degrades to a nanosecond clock.
-      this.#readInt64(chunkStart + FREQUENCY_FIELD) || NANOSECONDS_PER_SECOND
-    this.#loadChunkTypes(chunkStart)
-    const { pools, rawEvents } = this.#readChunkBody(chunkStart, chunkEnd)
-    this.#resolve(pools, rawEvents)
   }
 
   /** Reads a signed 64-bit big-endian integer at `offset` as a number. */

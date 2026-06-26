@@ -51,7 +51,7 @@ const formatCell = (cell: Cell): string => {
 
 /** How a diff lays out its derived `Change` and `Delta` columns. */
 export type DiffColumns = {
-  /** The index of the column whose values drive `Change` and `Delta`. */
+  /** The index of the column whose values determine `Change` and `Delta`. */
   primaryIndex: number
 
   /**
@@ -66,7 +66,7 @@ export type DiffColumns = {
  * (derived from {@link DiffColumns.primaryIndex}) at
  * {@link DiffColumns.changeDeltaIndex}.
  *
- * The two sides' cells line up by position, so each numeric cell renders its
+ * The two sides' cells line up by position, so each numeric cell formats its
  * own `base → current` arrow and a missing side reads as `0`. Text cells take
  * the present side's text, with a preference for current.
  */

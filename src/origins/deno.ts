@@ -5,17 +5,14 @@ import {
   syntheticFrameCategory,
   v8RegExpCategory,
 } from './categorize.ts'
-import { hasProtocol, someEntry } from './origin.ts'
+import { hasProtocol } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const denoOriginSpec = {
   id: `deno`,
   language: `javascript`,
   formats: [`v8-cpu-profile`],
-  matches: context =>
-    someEntry(context, ({ location }) =>
-      hasProtocol(location, DENO_DETECT_PROTOCOLS),
-    ),
+  matchesEntry: ({ location }) => hasProtocol(location, DENO_DETECT_PROTOCOLS),
   categorize: entry =>
     syntheticFrameCategory(entry) ??
     v8RegExpCategory(entry) ??

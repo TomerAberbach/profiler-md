@@ -5,22 +5,18 @@ import {
   nodeModulesCategory,
   protocolCategory,
 } from './categorize.ts'
-import { hasNodeModulesPath, hasProtocol, someEntry } from './origin.ts'
+import { hasNodeModulesPath, hasProtocol } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const nodePprofOriginSpec = {
   id: `node-pprof`,
   language: `javascript`,
   formats: [`pprof`],
-  matches: context =>
-    someEntry(
-      context,
-      ({ name, location }) =>
-        name === `Node.js` ||
-        name === `Garbage Collection` ||
-        hasProtocol(location, NODE_PROTOCOLS) ||
-        hasNodeModulesPath(location),
-    ),
+  matchesEntry: ({ name, location }) =>
+    name === `Node.js` ||
+    name === `Garbage Collection` ||
+    hasProtocol(location, NODE_PROTOCOLS) ||
+    hasNodeModulesPath(location),
   categorize: entry =>
     garbageCollectionCategory(entry) ??
     locationlessStdlibCategory(entry) ??

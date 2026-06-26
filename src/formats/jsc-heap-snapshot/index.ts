@@ -24,5 +24,5 @@ export const jscHeapSnapshotConverter = {
   type: `json`,
   shape: `snapshot`,
   matches: matchesJSCHeapSnapshot,
-  aggregate: aggregateJSCHeapSnapshot,
-} satisfies JsonFormatConverter<JSCHeapSnapshot>
+  aggregate: json => aggregateJSCHeapSnapshot(json as JSCHeapSnapshot),
+} satisfies JsonFormatConverter

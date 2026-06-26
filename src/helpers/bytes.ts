@@ -138,3 +138,74 @@ const DECODE_CHUNK_SIZE = 64 * 1024 * 1024
 
 const stripCarriageReturn = (line: string): string =>
   line.endsWith(`\r`) ? line.slice(0, -1) : line
+
+/**
+ * A FIFO byte buffer that accumulates a stream's reads and hands back whole
+ * chunks. Header fields are read in place from the buffered prefix; taking a
+ * chunk copies it out and drops it, so only the bytes not yet formed into a
+ * chunk are retained.
+ */
+export class ByteQueue {
+  readonly #parts: Uint8Array[] = []
+  #length = 0
+
+  public get length(): number {
+    return this.#length
+  }
+
+  public push(part: Uint8Array): void {
+    if (part.length > 0) {
+      this.#parts.push(part)
+      this.#length += part.length
+    }
+  }
+
+  /** Reads a big-endian uint32 at `offset`. Requires `length >= offset + 4`. */
+  public uint32(offset: number): number {
+    return new DataView(this.#head(offset + 4).buffer).getUint32(offset)
+  }
+
+  /**
+   * Reads a big-endian signed 64-bit integer at `offset` as a number. Requires
+   * `length >= offset + 8`.
+   */
+  public int64(offset: number): number {
+    return Number(
+      new DataView(this.#head(offset + 8).buffer).getBigInt64(offset),
+    )
+  }
+
+  /** Removes and returns the first `size` bytes. Requires `length >= size`. */
+  public take(size: number): Uint8Array {
+    const chunk = new Uint8Array(size)
+    let written = 0
+    while (written < size) {
+      const part = this.#parts[0]!
+      const count = Math.min(part.length, size - written)
+      chunk.set(part.subarray(0, count), written)
+      if (count === part.length) {
+        this.#parts.shift()
+      } else {
+        this.#parts[0] = part.subarray(count)
+      }
+      written += count
+    }
+    this.#length -= size
+    return chunk
+  }
+
+  /** Copies the first `count` buffered bytes into a fresh contiguous array. */
+  #head(count: number): Uint8Array {
+    const head = new Uint8Array(count)
+    let written = 0
+    for (const part of this.#parts) {
+      if (written >= count) {
+        break
+      }
+      const slice = part.subarray(0, count - written)
+      head.set(slice, written)
+      written += slice.length
+    }
+    return head
+  }
+}

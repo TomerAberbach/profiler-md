@@ -10,7 +10,7 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../../testing/markdown.ts'
-import { convertToMd } from '../../testing/convert.ts'
+import { convertJsonToMd } from '../../testing/convert.ts'
 import { v8CpuProfileConverter } from './index.ts'
 import { makeV8CpuProfileRoot } from './testing.ts'
 
@@ -96,7 +96,7 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -195,7 +195,7 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -274,7 +274,7 @@ describe(`convert`, () => {
       timeDeltas: [100, 100, 100],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -325,7 +325,7 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -393,7 +393,7 @@ describe(`convert`, () => {
       timeDeltas: [100],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -460,7 +460,7 @@ describe(`convert`, () => {
       timeDeltas: [1000, 500, 250],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -550,7 +550,7 @@ describe(`options`, () => {
     // `funcB` is excluded via `showEntry`. Its hit count is zero, but it
     // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
     // its only direct caller (`funcB`) is excluded.
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -566,7 +566,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -580,7 +580,7 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({ baseURL: null }),
@@ -592,7 +592,7 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntries groups entries by custom category`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({

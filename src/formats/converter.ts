@@ -1,84 +1,81 @@
-import type {
-  NormalizedProfileToMdOptions,
-  ProfileToMdContext,
-} from '../options.ts'
-import type { AggregatedProfile } from '../profile/index.ts'
+import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { AggregatedProfile, Profile } from '../profile/index.ts'
 import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
 
 /** The aggregated form of a profile or snapshot. */
 export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
 
-type Aggregate<Parsed> = (
-  parsed: Parsed,
-  options: NormalizedProfileToMdOptions,
-  context: ProfileToMdContext,
-) => AggregatedInput[]
+/**
+ * Converts a profile format's input into the uniform {@link Profile} (one per
+ * profile the format yields).
+ *
+ * This is a format's only custom step: it both reads the format and produces
+ * the {@link Profile}, taking no options or context, since everything semantic
+ * (origin, normalization, categorization) is the framework's uniform job. JSON
+ * formats receive the generically-parsed JSON; binary formats receive the raw
+ * bytes.
+ *
+ * Authoritative: it runs both when a user forces the format and (after
+ * {@link Detect.matches} gates it) during auto-detection, so it should accept
+ * any genuine instance and throw on input that isn't really this format,
+ * including spec invariants only parsing can check (e.g. pprof's empty first
+ * string-table entry). A cheap {@link Detect.matches} may be a loose prefilter
+ * because `parse` is the real check.
+ */
+type ParseProfile<Input> = {
+  shape: `profile`
+  parse: (input: Input) => Profile[]
+}
 
-/** Whether a format aggregates to profiles or snapshots. */
-export type FormatShape = AggregatedInput[`type`]
+/**
+ * Aggregates a snapshot format's input directly into aggregated heap snapshots.
+ * Snapshots have no frames or samples and categorize their nodes themselves, so
+ * they skip the profile pipeline and take {@link NormalizedProfileToMdOptions}
+ * directly.
+ */
+type AggregateSnapshot<Input> = {
+  shape: `snapshot`
+  aggregate: (
+    input: Input,
+    options: NormalizedProfileToMdOptions,
+  ) => AggregatedHeapSnapshot[]
+}
 
-export type JsonFormatConverter<Parsed = unknown> = {
-  type: `json`
-  shape: FormatShape
+type Detect<Input> = {
   title: string
 
   /**
-   * Returns whether generically-parsed JSON appears to be this format, rather
-   * than JSON that resembles it by coincidence.
+   * Returns whether the input should be auto-detected as this format. Used only
+   * for auto-detection (skipped when the user forces the format), inspecting
+   * the same raw input the production member receives (the generically-parsed
+   * JSON, or the raw bytes).
    *
-   * This only drives format auto-detection and should be strict to avoid false
-   * positives. JSON has no per-format parse step (it's parsed generically), so
-   * when a user forces a JSON format this check is skipped and
-   * {@link aggregate} runs directly.
+   * Keep it **cheap**: it shouldn't redo the production member's work. Because
+   * it's detection-only, it does not need to agree exactly with what `parse`
+   * accepts. It may be a loose prefilter that admits a few non-instances when
+   * the authoritative check is expensive ({@link ParseProfile.parse}
+   * re-validates and throws, so detection moves on), or stricter than `parse`
+   * to keep ambiguous input (e.g. text a user could force) from being claimed
+   * automatically.
    */
-  matches: (json: unknown) => boolean
-
-  aggregate: Aggregate<Parsed>
+  matches: (input: Input) => boolean
 }
 
-export type BinaryFormatConverter<Parsed = unknown> = {
+export type JsonFormatConverter = Detect<unknown> & { type: `json` } & (
+    | ParseProfile<unknown>
+    | AggregateSnapshot<unknown>
+  )
+
+export type BinaryFormatConverter = Detect<Uint8Array> & {
   type: `binary`
-  shape: FormatShape
-  title: string
 
   /**
-   * Parses raw bytes into this format's typed representation.
-   *
-   * Lenient by design: it should succeed whenever the bytes are *generally*
-   * parseable as this format, throwing only when they genuinely cannot be (e.g.
-   * undecodable bytes, or input missing the structure needed to produce the
-   * typed value). This is what runs when a user explicitly forces this format,
-   * so it must not reject input that merely fails a detection heuristic. Those
-   * "does this really look like the format?" checks belong in
-   * {@link BinaryFormatConverter.matches}.
-   */
-  parse: (bytes: Uint8Array) => Parsed
-
-  /**
-   * Parses a byte stream into this format's typed representation. Same contract
-   * as {@link parse} (lenient; only throws on genuinely unparseable input) and
-   * returns the same `Parsed`, so {@link matches}/{@link aggregate} are reused.
-   *
+   * Parses a byte stream, the streaming analogue of {@link ParseProfile.parse}.
    * Formats that can stream (e.g. line-based text) should consume the stream
-   * incrementally to avoid buffering the whole input; formats whose parser needs
-   * all bytes at once can buffer the stream and delegate to {@link parse}.
-   * Used on the async path with an explicitly-forced format.
+   * incrementally; formats whose parser needs all bytes at once can buffer the
+   * stream and delegate.
    */
-  parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Parsed>
+  parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Profile[]>
+} & ParseProfile<Uint8Array>
 
-  /**
-   * Returns whether a successfully {@link BinaryFormatConverter.parse}d value
-   * actually appears to be this format, rather than something that parsed by
-   * coincidence.
-   *
-   * Only used for format auto-detection, and skipped when the user forces the
-   * format, so it should be strict to avoid false positives during detection.
-   */
-  matches: (parsed: Parsed) => boolean
-
-  aggregate: Aggregate<Parsed>
-}
-
-export type FormatConverter<Parsed = unknown> =
-  | JsonFormatConverter<Parsed>
-  | BinaryFormatConverter<Parsed>
+export type FormatConverter = JsonFormatConverter | BinaryFormatConverter

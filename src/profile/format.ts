@@ -164,7 +164,7 @@ const formatSummaryLine = ({
 
 const formatCategoryTable = (profile: AggregatedProfile): string[] => {
   const { metrics, categoryToMetrics } = profile
-  // The first metric, or raw sample count when metric-less, drives sorting and %.
+  // The first metric, or raw sample count when metric-less, determines sorting and %.
   const primaryMeasure = measuresOf(metrics)[0]!
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) =>
@@ -576,7 +576,7 @@ const formatDiffCategoryTable = (diff: AggregatedProfileDiff): string[] => {
   }
 
   const metrics = diff.metrics.map(({ metric }) => metric)
-  // The first metric, or raw sample count when metric-less, drives sorting and %.
+  // The first metric, or raw sample count when metric-less, determines sorting and %.
   const primaryMeasure = diffMeasuresOf(diff.metrics)[0]!
   const currentMeasure = measureForSide(primaryMeasure, `current`)
   const categoryValue = (
@@ -878,8 +878,9 @@ const selectDiffFunctions = (
  * direction (self or total) under a {@link title} heading.
  *
  * When nothing differed but {@link hasActive} functions exist on either side,
- * the section is kept with a "did not differ" note. When no functions are active
- * at all — the section a non-diff profile would have omitted — it is omitted.
+ * the section stays, with a "did not differ" note. When no functions are
+ * active at all (the section a non-diff profile would have omitted), it is
+ * omitted.
  */
 const formatDiffFunctionSections = (
   headingLevel: number,

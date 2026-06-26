@@ -127,6 +127,38 @@ describe(`profileToMd`, () => {
     )
   })
 
+  test(`detection moves on when a JSON format's parse rejects prefiltered input`, () => {
+    // Passes Speedscope's cheap `matches` prefilter but fails its `parse`
+    // (`shared.frames` is missing), so detection moves on and reports an
+    // unknown format instead of leaking the parse error.
+    const almostSpeedscope = JSON.stringify({
+      $schema: `https://www.speedscope.app/file-format-schema.json`,
+      shared: {},
+      profiles: [],
+    })
+
+    expect(() => profileToMd(almostSpeedscope)).toThrow(/could not detect/iu)
+  })
+
+  test.each([`node.base.cpuprofile`, `python.base.collapsed`])(
+    `auto-detection of %s propagates a throwing categorizeEntries`,
+    filename => {
+      // Errors raised after a format is detected (here from a user callback
+      // during aggregation) are real errors, not detection misses, so they must
+      // surface instead of being swallowed into an unknown-format error.
+      const content = readFileSync(fixturePath(filename))
+
+      expect(() =>
+        profileToMd(content, {
+          baseURL: null,
+          categorizeEntries: () => {
+            throw new Error(`categorize failed`)
+          },
+        }),
+      ).toThrow(`categorize failed`)
+    },
+  )
+
   test(`throws when categorizeEntries returns a misaligned array`, () => {
     expect(() =>
       profileToMd(

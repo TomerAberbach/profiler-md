@@ -14,18 +14,18 @@
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
-|  Change |  Delta |             % |        Samples | Function | Location     |
-| ------: | -----: | ------------: | -------------: | -------- | ------------ |
-| +170.4% | +7,352 | 65.1% → 89.7% | 4,314 → 11,666 | `fib`    | script.py:4  |
-|     new |     +1 |          0.0% |          0 → 1 | `work`   | script.py:17 |
+|  Change |  Delta |             % |        Samples | Function | Location  |
+| ------: | -----: | ------------: | -------------: | -------- | --------- |
+| +170.4% | +7,352 | 65.1% → 89.7% | 4,314 → 11,666 | `fib`    | script.py |
+|     new |     +1 |          0.0% |          0 → 1 | `work`   | script.py |
 
 #### Progressions
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-| Change | Delta |             % |       Samples | Function | Location     |
-| -----: | ----: | ------------: | ------------: | -------- | ------------ |
-| -42.0% |  -971 | 34.9% → 10.3% | 2,313 → 1,342 | `crunch` | script.py:10 |
+| Change | Delta |             % |       Samples | Function | Location  |
+| -----: | ----: | ------------: | ------------: | -------- | --------- |
+| -42.0% |  -971 | 34.9% → 10.3% | 2,313 → 1,342 | `crunch` | script.py |
 
 ### Total samples
 
@@ -33,17 +33,17 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
-|  Change |  Delta |             % |        Samples | Function   | Location     |
-| ------: | -----: | ------------: | -------------: | ---------- | ------------ |
-| +170.4% | +7,352 | 65.1% → 89.7% | 4,314 → 11,666 | `fib`      | script.py:4  |
-|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `work`     | script.py:17 |
-|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `main`     | script.py:23 |
-|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `<module>` | script.py:27 |
+|  Change |  Delta |             % |        Samples | Function   | Location  |
+| ------: | -----: | ------------: | -------------: | ---------- | --------- |
+| +170.4% | +7,352 | 65.1% → 89.7% | 4,314 → 11,666 | `fib`      | script.py |
+|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `work`     | script.py |
+|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `main`     | script.py |
+|  +96.3% | +6,382 |        100.0% | 6,627 → 13,009 | `<module>` | script.py |
 
 #### Progressions
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-| Change | Delta |             % |       Samples | Function | Location     |
-| -----: | ----: | ------------: | ------------: | -------- | ------------ |
-| -42.0% |  -971 | 34.9% → 10.3% | 2,313 → 1,342 | `crunch` | script.py:10 |
+| Change | Delta |             % |       Samples | Function | Location  |
+| -----: | ----: | ------------: | ------------: | -------- | --------- |
+| -42.0% |  -971 | 34.9% → 10.3% | 2,313 → 1,342 | `crunch` | script.py |

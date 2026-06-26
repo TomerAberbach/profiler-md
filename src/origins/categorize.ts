@@ -59,6 +59,50 @@ export const protocolCategory = (
   hasProtocol(location, protocols) ? category : undefined
 
 /**
+ * Categorizes CPython standard-library frames, frozen bootstrap modules
+ * (`<frozen ...>`) and the interpreter's `lib/pythonX.Y/` sources, as `stdlib`.
+ *
+ * Shared by the Python collapsed-stack origins (py-spy and tachyon), which carry
+ * the same interpreter conventions in differently-shaped frame strings.
+ */
+export const pythonStdlibCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+  if (!location) {
+    return undefined
+  }
+  const path = fileReferencePath(location)
+  return path.startsWith(`<frozen `) || /\/lib\/python\d/u.test(path)
+    ? `stdlib`
+    : undefined
+}
+
+/**
+ * The full categorization shared by the CPython collapsed-stack origins
+ * (py-spy and tachyon), which observe the same interpreter conventions.
+ */
+export const categorizeCPythonEntry = (
+  entry: DeepReadonly<ProfileEntry>,
+): EntryCategory =>
+  pythonThirdPartyCategory(entry) ??
+  pythonStdlibCategory(entry) ??
+  locationlessStdlibCategory(entry) ??
+  `ours`
+
+/** Categorizes Python frames from an installed-package directory as `third-party`. */
+export const pythonThirdPartyCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+  if (!location) {
+    return undefined
+  }
+  const path = fileReferencePath(location)
+  return path.includes(`/site-packages/`) || path.includes(`/dist-packages/`)
+    ? `third-party`
+    : undefined
+}
+
+/**
  * Generic primitive: categorizes an entry as {@link category} when its path
  * starts with one of {@link prefixes}, whether the location is an absolute URL
  * or a relative path.

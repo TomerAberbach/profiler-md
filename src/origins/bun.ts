@@ -4,24 +4,19 @@ import {
   protocolCategory,
   syntheticFrameCategory,
 } from './categorize.ts'
-import { someEntry } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const bunOriginSpec = {
   id: `bun`,
   language: `javascript`,
   formats: [`v8-cpu-profile`],
-  matches: context =>
-    someEntry(
-      context,
-      // The builtins are native, so they have no source location; a user
-      // function that happens to share one of these names would carry a
-      // location, so requiring none keeps the signal from misfiring on it.
-      ({ name, location }) =>
-        location === undefined &&
-        name !== undefined &&
-        JSC_MODULE_LOADER_BUILTINS.has(name),
-    ),
+  // The builtins are native, so they have no source location; a user function
+  // that happens to share one of these names would carry a location, so
+  // requiring none keeps the signal from misfiring on it.
+  matchesEntry: ({ name, location }) =>
+    location === undefined &&
+    name !== undefined &&
+    JSC_MODULE_LOADER_BUILTINS.has(name),
   categorize: entry =>
     syntheticFrameCategory(entry) ??
     locationlessStdlibCategory(entry) ??

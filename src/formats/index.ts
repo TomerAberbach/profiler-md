@@ -9,12 +9,14 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileData,
   ProfileInput,
-  ProfileToMdContext,
   ProfileToMdOptions,
+  UnresolvedProfileToMdContext,
 } from '../options.ts'
 import type { Origin } from '../origins/index.ts'
 import { diffAggregatedProfiles } from '../profile/diff.ts'
 import { formatProfile, formatProfileDiff } from '../profile/format.ts'
+import { aggregateProfiles } from '../profile/index.ts'
+import type { AggregatedProfile, Profile } from '../profile/index.ts'
 import { diffAggregatedHeapSnapshots } from '../snapshot/diff.ts'
 import {
   formatHeapSnapshot,
@@ -47,7 +49,7 @@ export const profileToMd = (
   options: ProfileToMdOptions = {},
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
-  const aggregatedInputs = aggregateInput(input, normalizedOptions)
+  const aggregatedInputs = aggregateInputs(input, normalizedOptions)
   return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
 }
 
@@ -82,8 +84,8 @@ export const diffProfiles = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    aggregateInput(base, normalizedOptions),
-    aggregateInput(current, normalizedOptions),
+    aggregateInputs(base, normalizedOptions),
+    aggregateInputs(current, normalizedOptions),
     normalizedOptions,
   )
 }
@@ -112,7 +114,7 @@ export const diffProfilesAsync = async (
   )
 }
 
-export const aggregateInput = (
+export const aggregateInputs = (
   input: ProfileInput<ProfileData>,
   options: NormalizedProfileToMdOptions,
 ): AggregatedInput[] => {
@@ -120,13 +122,10 @@ export const aggregateInput = (
 
   if (format) {
     const converter = formatConverters[format]
-    return converter.aggregate(
-      converter.type === `json`
-        ? JumboJSON.parse(data)
-        : converter.parse(dataToBytes(data)),
-      options,
-      makeContext(format, origin),
-    )
+    const context = makeContext(format, origin)
+    return converter.type === `json`
+      ? aggregateJsonInput(converter, JumboJSON.parse(data), options, context)
+      : aggregateBinaryInput(converter, dataToBytes(data), options, context)
   }
 
   // Materialize a one-shot `Iterable<Uint8Array>` up front so the JSON and
@@ -163,13 +162,22 @@ const aggregateInputAsync = async (
 
   if (format) {
     const converter = formatConverters[format]
-    return converter.aggregate(
-      await (converter.type === `json`
-        ? JumboJSON.parseAsync(data)
-        : converter.parseAsync(data instanceof Blob ? data.stream() : data)),
-      options,
-      makeContext(format, origin),
-    )
+    // Binary formats are always profiles and stream-parse straight to `Profile`s;
+    // JSON formats parse generically, then produce a profile or snapshot.
+    const context = makeContext(format, origin)
+    return converter.type === `binary`
+      ? aggregateBinaryInputAsync(
+          converter,
+          data instanceof Blob ? data.stream() : data,
+          options,
+          context,
+        )
+      : aggregateJsonInput(
+          converter,
+          await JumboJSON.parseAsync(data),
+          options,
+          context,
+        )
   }
 
   // Detection must retry multiple converters over the same input, so it stays
@@ -288,7 +296,7 @@ export const formats = [
 /** Supported profile format IDs. */
 export type Format = (typeof formats)[number]
 
-export const formatConverters: Record<Format, FormatConverter<any>> = {
+export const formatConverters: Record<Format, FormatConverter> = {
   collapsed: collapsedConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
@@ -306,9 +314,26 @@ const detectFromJson = (
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of jsonFormatConverters) {
-    if (converter.matches(json)) {
-      return converter.aggregate(json, options, makeContext(format, origin))
+    // `matches` may be a loose prefilter that admits a few non-instances;
+    // `parse` re-validates and throws on input that isn't really this format,
+    // so detection moves on (see `Detect.matches`). Aggregation runs outside
+    // the guard: its errors (e.g. a throwing user callback) are real errors,
+    // not detection misses.
+    let profiles: Profile[] | undefined
+    try {
+      if (!converter.matches(json)) {
+        continue
+      }
+      if (converter.shape === `profile`) {
+        profiles = converter.parse(json)
+      }
+    } catch {
+      continue
     }
+    const context = makeContext(format, origin)
+    return profiles
+      ? aggregateProfiles(profiles, options, context)
+      : aggregateJsonInput(converter, json, options, context)
   }
   return undefined
 }
@@ -325,18 +350,61 @@ const detectFromBytes = (
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of binaryFormatConverters) {
-    let parsed: unknown
+    // Same contract as `detectFromJson`: `matches` and `parse` throwing means
+    // the input isn't this format, so detection moves on, while aggregation
+    // errors are real errors that propagate.
+    let profiles: Profile[]
     try {
-      parsed = converter.parse(bytes)
+      if (!converter.matches(bytes)) {
+        continue
+      }
+      profiles = converter.parse(bytes)
     } catch {
       continue
     }
-    if (converter.matches(parsed)) {
-      return converter.aggregate(parsed, options, makeContext(format, origin))
-    }
+    return aggregateProfiles(profiles, options, makeContext(format, origin))
   }
   return undefined
 }
+
+/**
+ * Produces the aggregated profiles or snapshots for generically-parsed JSON
+ * using the given JSON {@link converter}.
+ */
+export const aggregateJsonInput = (
+  converter: JsonFormatConverter,
+  json: unknown,
+  options: NormalizedProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedInput[] =>
+  converter.shape === `snapshot`
+    ? converter.aggregate(json, options)
+    : aggregateProfiles(converter.parse(json), options, context)
+
+/**
+ * Produces the aggregated profiles for raw bytes using the given binary
+ * {@link converter}. Binary formats are always profiles, so there is no
+ * snapshot branch.
+ */
+export const aggregateBinaryInput = (
+  converter: BinaryFormatConverter,
+  bytes: Uint8Array,
+  options: NormalizedProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedProfile[] =>
+  aggregateProfiles(converter.parse(bytes), options, context)
+
+/**
+ * The streaming analogue of {@link aggregateBinaryInput}: parses a byte stream
+ * via {@link BinaryFormatConverter.parseAsync} before aggregating.
+ */
+export const aggregateBinaryInputAsync = async (
+  converter: BinaryFormatConverter,
+  stream: ReadableStream<Uint8Array>,
+  options: NormalizedProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): Promise<AggregatedProfile[]> =>
+  aggregateProfiles(await converter.parseAsync(stream), options, context)
 
 /**
  * Builds the conversion context, which carries the resolved format and the
@@ -346,7 +414,7 @@ const detectFromBytes = (
 const makeContext = (
   format: Format,
   origin: Origin | undefined,
-): ProfileToMdContext => ({ format, origin: origin ?? null })
+): UnresolvedProfileToMdContext => ({ format, origin: origin ?? null })
 
 const binaryFormatConverters: [Format, BinaryFormatConverter][] =
   Object.entries(formatConverters).filter(

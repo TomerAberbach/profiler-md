@@ -2,18 +2,14 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
 import { locationlessStdlibCategory } from './categorize.ts'
-import { someEntry } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const pprofRsOriginSpec = {
   id: `pprof-rs`,
   language: `rust`,
   formats: [`pprof`],
-  matches: context =>
-    someEntry(
-      context,
-      entry => rustStdlibCategory(entry) !== undefined || isRustName(entry),
-    ),
+  matchesEntry: entry =>
+    rustStdlibCategory(entry) !== undefined || isRustName(entry),
   categorize: entry =>
     rustStdlibCategory(entry) ??
     cargoRegistryCategory(entry) ??

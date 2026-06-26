@@ -6,7 +6,7 @@ import {
   selfSizeInstancesTables,
   selfSizeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertJsonToMd } from '../testing/convert.ts'
 import { jscHeapSnapshotConverter } from './index.ts'
 import {
   EDGE_INDEX,
@@ -83,7 +83,7 @@ describe(`matches`, () => {
 })
 
 describe(`convert`, () => {
-  test(`renders all sections`, () => {
+  test(`formats all sections`, () => {
     const snapshot = makeJSCSnapshot({
       nodes: [
         ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
@@ -102,7 +102,7 @@ describe(`convert`, () => {
       edgeNames: [`ref`, `ref2`, `str`, `fn`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       jscHeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),
@@ -155,7 +155,7 @@ describe(`convert`, () => {
       edgeNames: [`items`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       jscHeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),
@@ -178,7 +178,7 @@ describe(`convert`, () => {
     })
 
     expect(() =>
-      convertToMd(
+      convertJsonToMd(
         jscHeapSnapshotConverter,
         snapshot,
         normalizeProfileToMdOptions(),
@@ -186,7 +186,7 @@ describe(`convert`, () => {
     ).not.toThrow()
   })
 
-  test(`all four edge types render correct notation`, () => {
+  test(`all four edge types are formatted with correct notation`, () => {
     const snapshot = makeJSCSnapshot({
       nodes: [
         ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
@@ -205,7 +205,7 @@ describe(`convert`, () => {
       edgeNames: [`internalProp`, `propName`, `varName`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       jscHeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),

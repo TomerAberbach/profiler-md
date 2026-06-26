@@ -19,22 +19,13 @@ const makeProfile = (
   }[],
 ): AggregatedProfile => {
   const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+  const normalized = functions.map(func => ({
+    name: func.name,
+    location: func.url ? { urlOrPath: func.url, line: func.line } : undefined,
+  }))
   const aggregator = new ProfileAggregator(
-    {
-      metrics,
-      functionKey: (node: { id: number }) => node.id,
-      functionInput: (node: {
-        id: number
-        name: string
-        url?: string
-        line?: number
-      }) => ({
-        name: node.name,
-        location: node.url
-          ? { urlOrPath: node.url, line: node.line }
-          : undefined,
-      }),
-    },
+    metrics,
+    normalized,
     options,
     // The forced origin is immaterial since these entries have no
     // origin-specific signal.
@@ -42,18 +33,10 @@ const makeProfile = (
   )
 
   for (const [index, func] of functions.entries()) {
-    const nodes = [
-      {
-        id: index + 1,
-        name: func.name,
-        url: func.url,
-        line: func.line,
-      },
-    ]
     for (let i = 0; i < func.selfSampleCount; i++) {
       aggregator.addSample({
         values: func.selfValues.map(val => val / func.selfSampleCount),
-        nodes,
+        frameIndices: [index],
       })
     }
   }

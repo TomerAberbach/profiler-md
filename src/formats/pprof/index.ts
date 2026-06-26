@@ -1,21 +1,21 @@
-import { Profile } from 'pprof-format'
 import { streamToUint8Array } from '../../helpers/bytes.ts'
 import type { BinaryFormatConverter } from '../converter.ts'
-import { aggregatePprof } from './aggregate.ts'
-import { parsePprofInternal } from './parse.ts'
+import { parsePprof } from './parse.ts'
 
-const matchesPprof = (profile: Profile): boolean =>
-  profile.stringTable.strings[0] === `` && profile.sampleType.length > 0
+const matchesPprof = (bytes: Uint8Array): boolean =>
+  // A pprof leads with its `sample_type` field (field 1, length-delimited), so
+  // the first byte is its tag, `(1 << 3) | 2 === 0x0a`. A cheap prefilter to
+  // avoid attempting a full protobuf decode of input that obviously isn't
+  // pprof; `decodePprof` is the authoritative check.
+  bytes.length > 0 && bytes[0] === 0x0a
 
 export const pprofConverter = {
   title: `pprof`,
   type: `binary`,
   shape: `profile`,
-  parse: bytes => Profile.decode(bytes),
+  matches: matchesPprof,
+  parse: bytes => parsePprof(bytes),
   // `pprof-format` needs all bytes at once, so buffer the stream then delegate
   // to the sync decode rather than streaming.
-  parseAsync: async stream => Profile.decode(await streamToUint8Array(stream)),
-  matches: matchesPprof,
-  aggregate: (profile, options, context) =>
-    aggregatePprof(parsePprofInternal(profile), options, context),
-} satisfies BinaryFormatConverter<Profile>
+  parseAsync: async stream => parsePprof(await streamToUint8Array(stream)),
+} satisfies BinaryFormatConverter

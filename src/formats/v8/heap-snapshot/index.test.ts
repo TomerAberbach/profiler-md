@@ -10,7 +10,7 @@ import {
   selfSizeTables,
 } from '../../../testing/markdown.ts'
 import { diffProfiles } from '../../index.ts'
-import { convertToMd } from '../../testing/convert.ts'
+import { convertJsonToMd } from '../../testing/convert.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
 import {
   EDGE_TYPE_HIDDEN,
@@ -165,8 +165,8 @@ const makeClosureSnapshot = (scriptName = `file:///project/src/a.ts`) =>
   })
 
 describe(`convert`, () => {
-  test(`renders all sections`, () => {
-    const md = convertToMd(
+  test(`formats all sections`, () => {
+    const md = convertJsonToMd(
       v8HeapSnapshotConverter,
       makeClosureSnapshot(),
       normalizeProfileToMdOptions({
@@ -328,7 +328,7 @@ describe(`convert`, () => {
       strings: [``, `parent`, `child`, `weakRef`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),
@@ -380,7 +380,7 @@ describe(`convert`, () => {
       strings: [``, `parent`, `child`, `unknown`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),
@@ -424,7 +424,7 @@ describe(`convert`, () => {
       strings: [``, `hello`],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapSnapshotConverter,
       snapshot,
       normalizeProfileToMdOptions(),

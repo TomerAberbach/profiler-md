@@ -1,5 +1,5 @@
 import type { JsonFormatConverter } from '../converter.ts'
-import { aggregateSpeedscopeProfile } from './aggregate.ts'
+import { parseSpeedscope } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
 
 const matchesSpeedscopeProfile = (json: unknown): boolean => {
@@ -25,5 +25,5 @@ export const speedscopeConverter = {
   type: `json`,
   shape: `profile`,
   matches: matchesSpeedscopeProfile,
-  aggregate: aggregateSpeedscopeProfile,
-} satisfies JsonFormatConverter<SpeedscopeProfile>
+  parse: json => parseSpeedscope(json as SpeedscopeProfile),
+} satisfies JsonFormatConverter

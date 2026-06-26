@@ -5,19 +5,15 @@ import {
   syntheticFrameCategory,
   v8RegExpCategory,
 } from './categorize.ts'
-import { hasNodeModulesPath, hasProtocol, someEntry } from './origin.ts'
+import { hasNodeModulesPath, hasProtocol } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const nodeOriginSpec = {
   id: `node`,
   language: `javascript`,
   formats: [`v8-cpu-profile`, `v8-heap-snapshot`, `v8-heap-profile`],
-  matches: context =>
-    someEntry(
-      context,
-      ({ location }) =>
-        hasProtocol(location, NODE_PROTOCOLS) || hasNodeModulesPath(location),
-    ),
+  matchesEntry: ({ location }) =>
+    hasProtocol(location, NODE_PROTOCOLS) || hasNodeModulesPath(location),
   categorize: entry =>
     syntheticFrameCategory(entry) ??
     v8RegExpCategory(entry) ??
