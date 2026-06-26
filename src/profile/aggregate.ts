@@ -19,6 +19,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
   readonly #totalValues: Float64Array
 
   readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
+  readonly #idToCallStack: AggregatedProfileCallStack[]
   readonly #keyToFunction: Map<
     number | string | symbol,
     AggregatedProfileFunction
@@ -59,6 +60,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     this.#totalValues = new Float64Array(this.#metrics.length)
 
     this.#keyToCallStack = new Map()
+    this.#idToCallStack = []
     this.#keyToFunction = new Map()
     this.#idToFunction = []
     this.#functionIdToLastSeenEpoch = new DynamicTypedArray(new Uint32Array(1))
@@ -74,6 +76,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
    * per-occurrence loop.
    */
   public addSample({
+    id,
     values,
     nodes,
     line,
@@ -83,7 +86,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
       return
     }
 
-    const callStack = this.#getOrCreateCallStack(nodes)
+    const callStack = this.#getOrCreateCallStack(nodes, id)
     const callee = callStack.frames[0]!
     const caller = callStack.frames[1]
 
@@ -212,7 +215,20 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
   }
 
-  #getOrCreateCallStack(nodes: Node[]): AggregatedProfileCallStack {
+  #getOrCreateCallStack(
+    nodes: Node[],
+    id: number | undefined,
+  ): AggregatedProfileCallStack {
+    // A stable stack ID lets repeat stacks (the common case, since a profile
+    // has far fewer unique stacks than samples) skip resolving frames and the
+    // string-keyed lookup entirely, becoming a single sparse-array index.
+    if (id !== undefined) {
+      const cached = this.#idToCallStack[id]
+      if (cached) {
+        return cached
+      }
+    }
+
     // A stackless sample has no nodes; attribute it to a shared anonymous frame.
     const frames =
       nodes.length === 0
@@ -220,16 +236,20 @@ export class ProfileAggregator<Node extends { id?: number }> {
         : nodes.map(node => this.#getOrCreateFunction(node))
     const key = frames.map(frame => frame.id).join(`,`)
     let callStack = this.#keyToCallStack.get(key)
-    if (callStack) {
-      return callStack
+    if (!callStack) {
+      callStack = {
+        frames,
+        selfSampleCount: 0,
+        selfValues: new Float64Array(this.#metrics.length),
+      }
+      this.#keyToCallStack.set(key, callStack)
     }
 
-    callStack = {
-      frames,
-      selfSampleCount: 0,
-      selfValues: new Float64Array(this.#metrics.length),
+    // Distinct IDs can resolve to the same logical stack, so memoize against
+    // the canonical call stack the string key deduplicated to, not a fresh one.
+    if (id !== undefined) {
+      this.#idToCallStack[id] = callStack
     }
-    this.#keyToCallStack.set(key, callStack)
     return callStack
   }
 
@@ -385,6 +405,18 @@ export type ProfileFunctionInput = {
 
 /** A single sample within a profile. */
 export type Sample<Node extends { id?: number }> = {
+  /**
+   * A stable identifier for this sample's call stack, if the caller has one
+   * (e.g. a format that references stacks by a constant-pool index).
+   *
+   * When provided, the aggregator memoizes the resolved call stack by this ID
+   * so repeat stacks skip resolving frames and the string-keyed lookup. IDs
+   * must range over a bounded space (the distinct stacks), since one slot is
+   * retained per ID seen. Distinct IDs that resolve to the same logical stack
+   * are merged.
+   */
+  id?: number
+
   /** The values recorded for each metric in {@link AggregatedProfile.metrics}. */
   values: number[]
 
