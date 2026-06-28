@@ -207,6 +207,16 @@ class JfrParser {
   #stringTypeId: number | undefined
   #frequency = 1
 
+  // Stack traces dominate the constant pool, so they're read into a compact
+  // flat form (interleaved method, lineNumber) instead of arrays of per-frame
+  // objects. Populated from the chunk's metadata in `#resolveStackTraceLayout`;
+  // left undefined when the layout is unrecognized, falling back to generic
+  // parsing.
+  #stackTraceTypeId: number | undefined
+  #stackTraceFramesField: Field | undefined
+  #frameMethodIndex = -1
+  #frameLineIndex = -1
+
   // Accumulated across all chunks, with chunk-local IDs remapped to these
   // global sequential indices. Methods and stacks recur across chunks under
   // different chunk-local pool keys, so they're merged by stable identity.
@@ -301,6 +311,54 @@ class JfrParser {
     this.#typeIdsByName = indexTypeIdsByName(this.#types)
     this.#stringTypeId = this.#typeIdsByName.get(`java.lang.String`)
     this.#resolveFieldKinds()
+    this.#resolveStackTraceLayout()
+  }
+
+  /**
+   * Locates the `frames` array within `jdk.types.StackTrace` and the `method`
+   * and `lineNumber` fields within its frame type, so stack traces can be read
+   * into a compact flat array. Leaves `#stackTraceTypeId` undefined (disabling
+   * the fast path) when any piece is missing, keeping unfamiliar layouts
+   * correct.
+   */
+  #resolveStackTraceLayout(): void {
+    this.#stackTraceTypeId = undefined
+    this.#stackTraceFramesField = undefined
+    this.#frameMethodIndex = -1
+    this.#frameLineIndex = -1
+
+    const typeId = this.#typeIdsByName.get(`jdk.types.StackTrace`)
+    const type = typeId === undefined ? undefined : this.#types.get(typeId)
+    const framesField = type?.fields.find(
+      field => field.name === `frames` && field.array,
+    )
+    const frameType = framesField?.nested
+    if (frameType === undefined) {
+      return
+    }
+
+    const methodIndex = frameType.fields.findIndex(
+      field => field.name === `method`,
+    )
+    const lineIndex = frameType.fields.findIndex(
+      field => field.name === `lineNumber`,
+    )
+    // Every frame field must be a scalar so `#readFrames` can read each with
+    // `#readSingle` and trust that the `method` and `lineNumber` values are
+    // numbers; an array field anywhere disables the fast path, leaving the
+    // generic parse to handle the layout.
+    if (
+      methodIndex === -1 ||
+      lineIndex === -1 ||
+      frameType.fields.some(field => field.array)
+    ) {
+      return
+    }
+
+    this.#stackTraceTypeId = typeId
+    this.#stackTraceFramesField = framesField
+    this.#frameMethodIndex = methodIndex
+    this.#frameLineIndex = lineIndex
   }
 
   /**
@@ -438,13 +496,16 @@ class JfrParser {
       }
 
       const isStringPool = poolType === this.#stringTypeId
+      const isStackTracePool = poolType === this.#stackTraceTypeId
       for (let j = 0; j < count; j++) {
         const key = this.#readVarint()
         let value: unknown
         try {
           value = isStringPool
             ? this.#readBuiltinString()
-            : this.#readFields(type)
+            : isStackTracePool
+              ? this.#readStackTrace(type)
+              : this.#readFields(type)
         } catch (error) {
           // An unreadable field desyncs the rest of this pool's entries, so
           // abandon the remaining entries of the constant pool event.
@@ -590,17 +651,65 @@ class JfrParser {
 
   #readFields(type: TypeDef): Record<string, unknown> {
     const object: Record<string, unknown> = {}
+    // The single-value branch is inlined here rather than delegating to
+    // `#readValue` to skip a call per field on this hot path.
     for (const field of type.fields) {
-      object[field.name] = this.#readValue(field)
+      object[field.name] = field.array
+        ? this.#readArray(field)
+        : this.#readSingle(field)
     }
     return object
   }
 
-  #readValue(field: Field): unknown {
-    if (!field.array) {
-      return this.#readSingle(field)
+  /**
+   * Reads a stack trace into a flat array of interleaved `[method, lineNumber]`
+   * pairs, avoiding the wrapper object and a per-frame object that generic
+   * parsing would allocate for the most common pool type. Other fields (the
+   * trace's `truncated` flag, each frame's `bytecodeIndex` and `type`) are read
+   * only to advance the cursor.
+   */
+  #readStackTrace(type: TypeDef): number[] {
+    let frames: number[] = []
+    for (const field of type.fields) {
+      if (field === this.#stackTraceFramesField) {
+        frames = this.#readFrames()
+      } else {
+        this.#readValue(field)
+      }
     }
+    return frames
+  }
 
+  /** Reads the frame array of a stack trace as interleaved method/line pairs. */
+  #readFrames(): number[] {
+    const length = this.#readVarint()
+    const frameFields = this.#stackTraceFramesField!.nested!.fields
+    const methodIndex = this.#frameMethodIndex
+    const lineIndex = this.#frameLineIndex
+    const frames: number[] = []
+    for (let i = 0; i < length; i++) {
+      let method = 0
+      let lineNumber = 0
+      // Every frame field is a scalar (the layout resolver disables the fast
+      // path otherwise), so each reads with `#readSingle`.
+      for (let k = 0; k < frameFields.length; k++) {
+        const value = this.#readSingle(frameFields[k]!)
+        if (k === methodIndex) {
+          method = value as number
+        } else if (k === lineIndex) {
+          lineNumber = value as number
+        }
+      }
+      frames.push(method, lineNumber)
+    }
+    return frames
+  }
+
+  #readValue(field: Field): unknown {
+    return field.array ? this.#readArray(field) : this.#readSingle(field)
+  }
+
+  #readArray(field: Field): unknown[] {
     const length = this.#readVarint()
     const array: unknown[] = []
     for (let i = 0; i < length; i++) {
@@ -734,27 +843,39 @@ class JfrParser {
         return index
       }
 
-      const stack = stackPool.get(key) as { frames?: unknown } | undefined
-      if (!stack) {
+      const raw = stackPool.get(key)
+      if (raw === undefined) {
         return undefined
       }
 
-      const frames: JfrStackFrame[] = []
-      for (const rawFrame of (stack.frames ?? []) as Record<
-        string,
-        unknown
-      >[]) {
-        frames.push({
-          methodId: resolveMethod(rawFrame.method as number),
-          lineNumber: validLineNumber(rawFrame.lineNumber),
-        })
-      }
+      // Stack traces are stored as a flat array of interleaved
+      // `[method, lineNumber]` pairs by the fast path, or, when the layout was
+      // unrecognized, as a generic `{ frames: [{ method, lineNumber }, …] }`
+      // object by `#readFields`.
+      const flat = Array.isArray(raw) ? (raw as number[]) : undefined
+      const objectFrames = flat
+        ? undefined
+        : (((raw as { frames?: unknown }).frames ?? []) as Record<
+            string,
+            unknown
+          >[])
+      const frameCount = flat ? flat.length / 2 : objectFrames!.length
 
+      const frames: JfrStackFrame[] = []
       // Merge identical stacks that recur across chunks, keyed by their
-      // resolved (global) method indices and lines.
-      const identity = frames
-        .map(frame => `${frame.methodId}:${frame.lineNumber ?? ``}`)
-        .join(`,`)
+      // resolved (global) method indices and lines; built inline to avoid a
+      // second pass.
+      let identity = ``
+      for (let i = 0; i < frameCount; i++) {
+        const methodId = resolveMethod(
+          (flat ? flat[i * 2] : objectFrames![i]!.method) as number,
+        )
+        const lineNumber = validLineNumber(
+          flat ? flat[i * 2 + 1] : objectFrames![i]!.lineNumber,
+        )
+        frames.push({ methodId, lineNumber })
+        identity += `${i === 0 ? `` : `,`}${methodId}:${lineNumber ?? ``}`
+      }
       index = this.#stackIndexByIdentity.get(identity)
       if (index === undefined) {
         index = this.#stackTraces.length
