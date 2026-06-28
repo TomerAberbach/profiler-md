@@ -116,7 +116,30 @@ type Field = {
   classId: number
   array: boolean
   constantPool: boolean
+  /** Precomputed reader dispatch tag, resolved once the chunk's types load. */
+  kind: FieldKind
+  /** The nested type to read when `kind` is {@link FIELD_NESTED}. */
+  nested: TypeDef | undefined
 }
+
+// Reader dispatch tags for a field's resolved type, so `#readSingle` can switch
+// quickly on a number.
+const FIELD_UNKNOWN = 0
+const FIELD_VARINT = 1
+const FIELD_BYTE = 2
+const FIELD_FLOAT = 3
+const FIELD_DOUBLE = 4
+const FIELD_STRING = 5
+const FIELD_NESTED = 6
+
+type FieldKind =
+  | typeof FIELD_UNKNOWN
+  | typeof FIELD_VARINT
+  | typeof FIELD_BYTE
+  | typeof FIELD_FLOAT
+  | typeof FIELD_DOUBLE
+  | typeof FIELD_STRING
+  | typeof FIELD_NESTED
 
 type TypeDef = {
   name: string
@@ -181,7 +204,6 @@ class JfrParser {
   // Per-chunk state, reset for each chunk by `#parseChunk`.
   #types = new Map<number, TypeDef>()
   #typeIdsByName = new Map<string, number>()
-  #primitiveReaders = new Map<number, () => unknown>()
   #stringTypeId: number | undefined
   #frequency = 1
 
@@ -278,7 +300,7 @@ class JfrParser {
     this.#types = this.#parseMetadata()
     this.#typeIdsByName = indexTypeIdsByName(this.#types)
     this.#stringTypeId = this.#typeIdsByName.get(`java.lang.String`)
-    this.#primitiveReaders = this.#makePrimitiveReaders()
+    this.#resolveFieldKinds()
   }
 
   /**
@@ -517,38 +539,53 @@ class JfrParser {
 
   // Generic value reading
 
-  #makePrimitiveReaders(): Map<number, () => unknown> {
-    const readers = new Map<number, () => unknown>()
-    const varint = () => this.#readVarint()
-    const byte = () => this.#bytes[this.#position++]!
-    const set = (name: string, read: () => unknown) => {
+  /**
+   * Tags every field with a numeric reader dispatch {@link Field.kind} (and,
+   * for nested objects, the type to read), so the per-value hot path switches
+   * quickly on a number.
+   */
+  #resolveFieldKinds(): void {
+    const primitiveKinds = new Map<number, FieldKind>()
+    const set = (name: string, kind: FieldKind) => {
       const id = this.#typeIdsByName.get(name)
       if (id !== undefined) {
-        readers.set(id, read)
+        primitiveKinds.set(id, kind)
       }
     }
-
-    set(`long`, varint)
-    set(`int`, varint)
-    set(`short`, varint)
-    set(`char`, varint)
-    set(`boolean`, byte)
-    set(`byte`, byte)
-    set(`float`, () => {
-      const value = this.#view.getFloat32(this.#position)
-      this.#position += 4
-      return value
-    })
-    set(`double`, () => {
-      const value = this.#view.getFloat64(this.#position)
-      this.#position += 8
-      return value
-    })
+    set(`long`, FIELD_VARINT)
+    set(`int`, FIELD_VARINT)
+    set(`short`, FIELD_VARINT)
+    set(`char`, FIELD_VARINT)
+    set(`boolean`, FIELD_BYTE)
+    set(`byte`, FIELD_BYTE)
+    set(`float`, FIELD_FLOAT)
+    set(`double`, FIELD_DOUBLE)
     if (this.#stringTypeId !== undefined) {
-      readers.set(this.#stringTypeId, () => this.#readBuiltinString())
+      primitiveKinds.set(this.#stringTypeId, FIELD_STRING)
     }
 
-    return readers
+    for (const type of this.#types.values()) {
+      for (const field of type.fields) {
+        if (field.constantPool) {
+          // Constant-pool fields hold a varint reference key into the pool,
+          // regardless of the referenced type.
+          field.kind = FIELD_VARINT
+          continue
+        }
+        const primitive = primitiveKinds.get(field.classId)
+        if (primitive !== undefined) {
+          field.kind = primitive
+          continue
+        }
+        const nested = this.#types.get(field.classId)
+        if (nested) {
+          field.kind = FIELD_NESTED
+          field.nested = nested
+        } else {
+          field.kind = FIELD_UNKNOWN
+        }
+      }
+    }
   }
 
   #readFields(type: TypeDef): Record<string, unknown> {
@@ -573,21 +610,30 @@ class JfrParser {
   }
 
   #readSingle(field: Field): unknown {
-    if (field.constantPool) {
-      // Reference key into the field's type pool.
-      return this.#readVarint()
+    switch (field.kind) {
+      case FIELD_VARINT:
+        return this.#readVarint()
+      case FIELD_BYTE:
+        return this.#bytes[this.#position++]!
+      case FIELD_FLOAT: {
+        const value = this.#view.getFloat32(this.#position)
+        this.#position += 4
+        return value
+      }
+      case FIELD_DOUBLE: {
+        const value = this.#view.getFloat64(this.#position)
+        this.#position += 8
+        return value
+      }
+      case FIELD_STRING:
+        return this.#readBuiltinString()
+      case FIELD_NESTED:
+        return this.#readFields(field.nested!)
+      case FIELD_UNKNOWN:
+        // An unknown field type has no known size, so advancing past it is
+        // impossible; signal the caller to bail rather than silently desyncing.
+        throw new UnreadableFieldError()
     }
-    const primitive = this.#primitiveReaders.get(field.classId)
-    if (primitive) {
-      return primitive()
-    }
-    const nested = this.#types.get(field.classId)
-    if (nested) {
-      return this.#readFields(nested)
-    }
-    // An unknown field type has no known size, so advancing past it is
-    // impossible; signal the caller to bail rather than silently desyncing.
-    throw new UnreadableFieldError()
   }
 
   // Resolution
@@ -857,6 +903,9 @@ const fieldFromElement = (element: MetadataElement): Field => ({
   classId: Number(element.attributes.get(`class`)),
   array: element.attributes.get(`dimension`) === `1`,
   constantPool: element.attributes.get(`constantPool`) === `true`,
+  // Resolved once the chunk's types load, in `#resolveFieldKinds`.
+  kind: FIELD_UNKNOWN,
+  nested: undefined,
 })
 
 /** Indexes types by name for lookups by the well-known names JFR uses. */
