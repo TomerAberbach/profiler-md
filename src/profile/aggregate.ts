@@ -1,4 +1,5 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
+import { HashInterner } from '../helpers/intern.ts'
 import { makeSourceLocation } from '../location.ts'
 import type { SourceLocation, SourceLocationInput } from '../location.ts'
 import type {
@@ -18,7 +19,21 @@ export class ProfileAggregator<Node extends { id?: number }> {
   #sampleEpoch: number
   readonly #totalValues: Float64Array
 
-  readonly #keyToCallStack: Map<string, AggregatedProfileCallStack>
+  // Call stacks are deduplicated by a numeric hash of their frames' function
+  // IDs rather than a joined string key, whose building and hashing dominated
+  // stack creation. The interner owns the canonical call stack list.
+  readonly #callStackInterner = new HashInterner<
+    AggregatedProfileFunction[],
+    AggregatedProfileCallStack
+  >(
+    (frames, sink) => {
+      for (const frame of frames) {
+        sink.add(frame.id)
+      }
+    },
+    (callStack, frames) => sameFrameIds(callStack.frames, frames),
+  )
+
   readonly #idToCallStack: AggregatedProfileCallStack[]
   readonly #keyToFunction: Map<
     number | string | symbol,
@@ -59,7 +74,6 @@ export class ProfileAggregator<Node extends { id?: number }> {
     this.#sampleEpoch = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
 
-    this.#keyToCallStack = new Map()
     this.#idToCallStack = []
     this.#keyToFunction = new Map()
     this.#idToFunction = []
@@ -221,7 +235,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
   ): AggregatedProfileCallStack {
     // A stable stack ID lets repeat stacks (the common case, since a profile
     // has far fewer unique stacks than samples) skip resolving frames and the
-    // string-keyed lookup entirely, becoming a single sparse-array index.
+    // hash-keyed lookup entirely, becoming a single sparse-array index.
     if (id !== undefined) {
       const cached = this.#idToCallStack[id]
       if (cached) {
@@ -234,23 +248,31 @@ export class ProfileAggregator<Node extends { id?: number }> {
       nodes.length === 0
         ? [this.#getOrCreateAnonymousFunction()]
         : nodes.map(node => this.#getOrCreateFunction(node))
-    const key = frames.map(frame => frame.id).join(`,`)
-    let callStack = this.#keyToCallStack.get(key)
-    if (!callStack) {
-      callStack = {
-        frames,
-        selfSampleCount: 0,
-        selfValues: new Float64Array(this.#metrics.length),
-      }
-      this.#keyToCallStack.set(key, callStack)
-    }
+    const callStack = this.#internCallStack(frames)
 
     // Distinct IDs can resolve to the same logical stack, so memoize against
-    // the canonical call stack the string key deduplicated to, not a fresh one.
+    // the canonical call stack the hash deduplicated to, not a fresh one.
     if (id !== undefined) {
       this.#idToCallStack[id] = callStack
     }
     return callStack
+  }
+
+  /**
+   * Returns the canonical call stack for {@link frames}, creating it on first
+   * sight. Stacks are keyed by a numeric hash of their frames' function IDs; a
+   * hash collision falls back to comparing IDs, so distinct stacks that hash
+   * alike stay distinct.
+   */
+  #internCallStack(
+    frames: AggregatedProfileFunction[],
+  ): AggregatedProfileCallStack {
+    const index = this.#callStackInterner.intern(frames, () => ({
+      frames,
+      selfSampleCount: 0,
+      selfValues: new Float64Array(this.#metrics.length),
+    }))
+    return this.#callStackInterner.items[index]!
   }
 
   #getOrCreateFunction(node: Node): AggregatedProfileFunction {
@@ -318,7 +340,7 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
 
     const functions = [...this.#keyToFunction.values()]
-    const callStacks = [...this.#keyToCallStack.values()]
+    const callStacks = this.#callStackInterner.items
 
     return {
       type: `profile`,
@@ -393,6 +415,22 @@ export class ProfileAggregator<Node extends { id?: number }> {
  * one bucket because there's no information to tell them apart.
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
+
+/** Whether two frame lists reference the same functions in the same order. */
+const sameFrameIds = (
+  left: AggregatedProfileFunction[],
+  right: AggregatedProfileFunction[],
+): boolean => {
+  if (left.length !== right.length) {
+    return false
+  }
+  for (let i = 0; i < left.length; i++) {
+    if (left[i]!.id !== right[i]!.id) {
+      return false
+    }
+  }
+  return true
+}
 
 /** Base information used for constructing a {@link AggregatedProfileFunction}. */
 export type ProfileFunctionInput = {
