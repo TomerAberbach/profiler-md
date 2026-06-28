@@ -1,3 +1,5 @@
+import { HashInterner } from '../../helpers/intern.ts'
+
 /**
  * The kind of profiling an event represents.
  *
@@ -221,9 +223,19 @@ class JfrParser {
   // global sequential indices. Methods and stacks recur across chunks under
   // different chunk-local pool keys, so they're merged by stable identity.
   readonly #methods: JfrMethod[] = []
-  readonly #stackTraces: JfrStackTrace[] = []
   readonly #methodIndexByIdentity = new Map<string, number>()
-  readonly #stackIndexByIdentity = new Map<string, number>()
+  // Merges stacks that recur across chunks under different chunk-local pool
+  // keys, keyed by the resolved frames so the result is exact. Owns the stack
+  // list; events reference its entries by the index `intern` returns.
+  readonly #stackInterner = new HashInterner<JfrStackFrame[], JfrStackTrace>(
+    (frames, sink) => {
+      for (const { methodId, lineNumber } of frames) {
+        // A missing line uses a sentinel that no valid 1-based line can take.
+        sink.add(methodId).add(lineNumber ?? -1)
+      }
+    },
+    (stack, frames) => sameFrames(stack.frames, frames),
+  )
 
   // Sample events, with legacy TLAB allocation events kept apart so they can be
   // dropped when the modern unified sampled event is also present.
@@ -261,7 +273,7 @@ class JfrParser {
     return {
       hasMagic,
       methods: this.#methods,
-      stackTraces: this.#stackTraces,
+      stackTraces: this.#stackInterner.items,
       events: this.#finalizeEvents(),
     }
   }
@@ -861,11 +873,9 @@ class JfrParser {
           >[])
       const frameCount = flat ? flat.length / 2 : objectFrames!.length
 
+      // Merge identical stacks that recur across chunks by their resolved
+      // (global) method indices and lines.
       const frames: JfrStackFrame[] = []
-      // Merge identical stacks that recur across chunks, keyed by their
-      // resolved (global) method indices and lines; built inline to avoid a
-      // second pass.
-      let identity = ``
       for (let i = 0; i < frameCount; i++) {
         const methodId = resolveMethod(
           (flat ? flat[i * 2] : objectFrames![i]!.method) as number,
@@ -874,14 +884,8 @@ class JfrParser {
           flat ? flat[i * 2 + 1] : objectFrames![i]!.lineNumber,
         )
         frames.push({ methodId, lineNumber })
-        identity += `${i === 0 ? `` : `,`}${methodId}:${lineNumber ?? ``}`
       }
-      index = this.#stackIndexByIdentity.get(identity)
-      if (index === undefined) {
-        index = this.#stackTraces.length
-        this.#stackTraces.push({ frames })
-        this.#stackIndexByIdentity.set(identity, index)
-      }
+      index = this.#internStack(frames)
       stackKeyToIndex.set(key, index)
       return index
     }
@@ -892,14 +896,7 @@ class JfrParser {
     // anonymous frame.
     let emptyStackIndex: number | undefined
     const emptyStack = (): number => {
-      if (emptyStackIndex === undefined) {
-        emptyStackIndex = this.#stackIndexByIdentity.get(``)
-        if (emptyStackIndex === undefined) {
-          emptyStackIndex = this.#stackTraces.length
-          this.#stackTraces.push({ frames: [] })
-          this.#stackIndexByIdentity.set(``, emptyStackIndex)
-        }
-      }
+      emptyStackIndex ??= this.#internStack([])
       return emptyStackIndex
     }
 
@@ -922,6 +919,15 @@ class JfrParser {
         this.#events.push(event)
       }
     }
+  }
+
+  /**
+   * Deduplicates a resolved stack across chunks, returning its global index.
+   * Stacks are keyed by a numeric hash of their frames; a hash collision falls
+   * back to comparing frames, so distinct stacks that hash alike stay distinct.
+   */
+  #internStack(frames: JfrStackFrame[]): number {
+    return this.#stackInterner.intern(frames, () => ({ frames }))
   }
 
   // Primitive readers
@@ -1123,6 +1129,22 @@ const validLineNumber = (lineNumber: unknown): number | undefined =>
   typeof lineNumber === `number` && lineNumber > 0 && lineNumber < 0x80_00_00_00
     ? lineNumber
     : undefined
+
+/** Whether two resolved frame lists are identical in method index and line. */
+const sameFrames = (left: JfrStackFrame[], right: JfrStackFrame[]): boolean => {
+  if (left.length !== right.length) {
+    return false
+  }
+  for (let i = 0; i < left.length; i++) {
+    if (
+      left[i]!.methodId !== right[i]!.methodId ||
+      left[i]!.lineNumber !== right[i]!.lineNumber
+    ) {
+      return false
+    }
+  }
+  return true
+}
 
 /** Nanoseconds per second, for converting tick-based durations. */
 const NANOSECONDS_PER_SECOND = 1e9
