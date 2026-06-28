@@ -67,6 +67,7 @@ export const aggregateJfr = (
     for (const event of kindEvents) {
       const { nodes, line } = resolveStack(event.stackTraceId)
       profileAggregator.addSample({
+        id: event.stackTraceId,
         values: metric ? [event.weight] : [],
         nodes,
         line,
