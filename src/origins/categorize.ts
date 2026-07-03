@@ -36,6 +36,25 @@ export const locationlessStdlibCategory = ({
   location ? undefined : `stdlib`
 
 /**
+ * Categorizes frames whose sources live in OS system directories — toolchain
+ * headers (`/usr/include/`) and system libraries (`/usr/lib/`,
+ * `/usr/local/lib/`) — as `stdlib`.
+ *
+ * OS-level rather than runtime-specific: native profilers (e.g. gperftools)
+ * record libstdc++/libc sources by these installed paths regardless of the
+ * language or runtime being observed.
+ */
+export const systemDirectoryCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+  location && SYSTEM_DIRECTORY.test(fileReferencePath(location))
+    ? `stdlib`
+    : undefined
+
+/** An OS system source directory, e.g. `/usr/include/c++/12/` or `/usr/lib/`. */
+const SYSTEM_DIRECTORY = /^\/usr\/(?:local\/)?(?:include|lib|lib64|libexec)\//u
+
+/**
  * Categorizes a frame resolved from a `node_modules/` directory as
  * `third-party`.
  *

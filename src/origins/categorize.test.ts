@@ -482,6 +482,28 @@ describe(`unknown`, () => {
     expect(categorizeEntryForOrigin(named(`native`), `unknown`)).toBe(`stdlib`)
   })
 
+  test(`recognizes OS system directories as stdlib`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///usr/include/c++/12/bits/basic_string.tcc`),
+        `unknown`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///usr/lib/x86_64-linux-gnu/libc.so.6`),
+        `unknown`,
+      ),
+    ).toBe(`stdlib`)
+    // A project directory merely named like a system one stays ours.
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///home/u/app/usr/include/x.h`),
+        `unknown`,
+      ),
+    ).toBe(`ours`)
+  })
+
   test(`applies no runtime-specific knowledge`, () => {
     // V8 regexp labels, node_modules, and module schemes all need a known
     // runtime. A `RegExp:` frame is `stdlib` only because it has no location,
