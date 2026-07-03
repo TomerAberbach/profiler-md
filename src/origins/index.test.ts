@@ -197,6 +197,27 @@ describe(`determineOrigin`, () => {
     ).toBe(`unknown`)
   })
 
+  test(`detects BEAM by its Elixir, Erlang, and process-id frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`Elixir.Enum:reduce/3`)],
+      }),
+    ).toBe(`beam`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`lists:reverse/1`)],
+      }),
+    ).toBe(`beam`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`<0.94.0>`)],
+      }),
+    ).toBe(`beam`)
+  })
+
   test(`detects the jvm origin from async-profiler's collapsed class frames`, () => {
     expect(
       determineOrigin({

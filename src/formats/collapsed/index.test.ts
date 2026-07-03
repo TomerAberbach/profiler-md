@@ -183,6 +183,43 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`BEAM "module:function/arity" stacks: module as location`, () => {
+    // Eflambe's frames carry no file; the module stands in for the location.
+    // OTP and Elixir-core modules are stdlib while a hex dependency is ours.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Enum:reduce/3 6`,
+        `<0.94.0>;eflambe:apply/2;Elixir.Profile:run/1;Elixir.Jason:encode!/1 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
+        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `Elixir.Enum:reduce/3`,
+          Location: `Elixir.Enum`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `Elixir.Jason:encode!/1`,
+          Location: `Elixir.Jason`,
+        },
+      ],
+    ])
+  })
+
   test(`async-profiler "Class/path.method" stacks: dotted class location`, () => {
     // Async-profiler names a Java frame `package/Class.method`; the class
     // becomes a dotted location and JVM packages are stdlib while app code is
