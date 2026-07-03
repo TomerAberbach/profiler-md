@@ -4,8 +4,10 @@ Collected 86,147 samples.
 
 | Category |     % | Samples |
 | -------- | ----: | ------: |
-| stdlib   | 88.1% |  75,889 |
+| native   | 86.4% |  74,442 |
 | ours     | 11.9% |  10,258 |
+| stdlib   |  1.4% |   1,207 |
+| jit      |  0.3% |     240 |
 
 ## Hottest functions
 
@@ -13,28 +15,28 @@ Collected 86,147 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|     % | Samples | Function                             | Location                                                                            |
-| ----: | ------: | ------------------------------------ | ----------------------------------------------------------------------------------- |
-|  5.8% |   4,956 | `accumulate(Double[], double[])`     | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  2.9% |   2,522 | `distance(Double[], Double[])`       | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  1.7% |   1,486 | `findNearestCentroid()`              | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  1.0% |     875 | `collectClusters(int[])`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.6% |     549 | `computeIfAbsent(Object, Function)`  | java.util.HashMap                                                                   |
-|  0.4% |     345 | `vectorSum()`                        | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  0.3% |     234 | `zero_blocks`                        | `<unknown>`                                                                         |
-| <0.1% |      18 | `lambda$merge$7(Map, Object, List)`  | org.renaissance.jdk.concurrent.JavaKMeans                                           |
-| <0.1% |      15 | `merge(Object, Object, BiFunction)`  | java.util.HashMap                                                                   |
-| <0.1% |       9 | `compute()`                          | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                                |
-| <0.1% |       9 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| <0.1% |       6 | `apply(Object)`                      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38 |
-| <0.1% |       6 | `add(double[], double[])`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-| <0.1% |       6 | `vtable stub`                        | `<unknown>`                                                                         |
-| <0.1% |       5 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-| <0.1% |       4 | `join()`                             | java.util.concurrent.ForkJoinTask                                                   |
-| <0.1% |       4 | `forkThreshold()`                    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| <0.1% |       3 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| <0.1% |       2 | `computeDirectly()`                  | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-| <0.1% |       2 | `forEach(BiConsumer)`                | java.util.HashMap                                                                   |
+|     % | Samples | Function                            | Location                                                 |
+| ----: | ------: | ----------------------------------- | -------------------------------------------------------- |
+| 52.2% |  45,001 | `__psynch_cvwait`                   | libsystem_kernel.dylib                                   |
+| 25.0% |  21,575 | `semaphore_wait_trap`               | libsystem_kernel.dylib                                   |
+|  5.8% |   4,956 | `accumulate(Double[], double[])`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
+|  2.9% |   2,522 | `distance(Double[], Double[])`      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  2.3% |   1,965 | `__ulock_wait`                      | libsystem_kernel.dylib                                   |
+|  2.3% |   1,965 | `mach_msg2_trap`                    | libsystem_kernel.dylib                                   |
+|  2.3% |   1,964 | `accept`                            | libsystem_kernel.dylib                                   |
+|  1.7% |   1,486 | `findNearestCentroid()`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  1.0% |     875 | `collectClusters(int[])`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  0.8% |     656 | `forward_copy_longs`                | `<unknown>`                                              |
+|  0.6% |     549 | `computeIfAbsent(Object, Function)` | java.util.HashMap                                        |
+|  0.4% |     345 | `vectorSum()`                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
+|  0.3% |     234 | `zero_blocks`                       | `<unknown>`                                              |
+|  0.2% |     164 | `__psynch_mutexwait`                | libsystem_kernel.dylib                                   |
+|  0.2% |     154 | `__psynch_cvsignal`                 | libsystem_kernel.dylib                                   |
+|  0.1% |      87 | `pthread_jit_write_protect_np`      | libsystem_pthread.dylib                                  |
+|  0.1% |      71 | `arrayof_jint_disjoint_arraycopy`   | `<unknown>`                                              |
+|  0.1% |      70 | `_platform_bzero`                   | libsystem_platform.dylib                                 |
+|  0.1% |      47 | `RegisterMap::RegisterMap`          | libjvm.dylib                                             |
+| <0.1% |      37 | `_platform_memset`                  | libsystem_platform.dylib                                 |
 
 #### Lines
 
@@ -80,80 +82,28 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | ----------------------------------------------------------- |
 | 100.0% |     345 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:402 |
 
-##### `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans)
-
-|      % | Samples | Location                                      |
-| -----: | ------: | --------------------------------------------- |
-| 100.0% |      18 | org.renaissance.jdk.concurrent.JavaKMeans:112 |
-
-##### `merge(Object, Object, BiFunction)` (java.util.HashMap)
-
-|     % | Samples | Location               |
-| ----: | ------: | ---------------------- |
-| 60.0% |       9 | java.util.HashMap:1371 |
-| 33.3% |       5 | java.util.HashMap:1384 |
-|  6.7% |       1 | java.util.HashMap:1362 |
-
-##### `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)
-
-|     % | Samples | Location                                                 |
-| ----: | ------: | -------------------------------------------------------- |
-| 66.7% |       6 | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:151 |
-| 22.2% |       2 | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:145 |
-| 11.1% |       1 | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:146 |
-
-##### `createSubtask(int, int)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |       9 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:261 |
-
-##### `add(double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Location                                                    |
-| -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       6 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:432 |
-
-##### `createSubtask(int, int)` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Location                                                    |
-| -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       5 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:419 |
-
-##### `join()` (java.util.concurrent.ForkJoinTask)
-
-|     % | Samples | Location                              |
-| ----: | ------: | ------------------------------------- |
-| 75.0% |       3 | java.util.concurrent.ForkJoinTask:651 |
-| 25.0% |       1 | java.util.concurrent.ForkJoinTask:654 |
-
-##### `forkThreshold()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |       4 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:198 |
-
-##### `lambda$collectClusters$0(Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |       3 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:215 |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Location                                                    |
-| -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       2 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:367 |
-
-##### `forEach(BiConsumer)` (java.util.HashMap)
-
-|      % | Samples | Location               |
-| -----: | ------: | ---------------------- |
-| 100.0% |       2 | java.util.HashMap:1428 |
-
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Caller attribution may be imprecise due to inlining.
+
+##### `__psynch_cvwait` (libsystem_kernel.dylib)
+
+|     % | Samples | Caller                     | Location               |
+| ----: | ------: | -------------------------- | ---------------------- |
+| 48.0% |  21,604 | `PlatformMonitor::wait`    | libjvm.dylib           |
+| 43.3% |  19,470 | `Parker::park`             | libjvm.dylib           |
+|  4.4% |   1,965 | `PlatformEvent::park`      | libjvm.dylib           |
+|  4.4% |   1,962 | `WaitableMutex::waitUntil` | libasyncProfiler.dylib |
+
+##### `semaphore_wait_trap` (libsystem_kernel.dylib)
+
+|     % | Samples | Caller                           | Location     |
+| ----: | ------: | -------------------------------- | ------------ |
+| 89.9% |  19,398 | `WorkerThread::run`              | libjvm.dylib |
+|  9.1% |   1,965 | `os::signal_wait`                | libjvm.dylib |
+|  0.7% |     153 | `GenericWaitBarrier::Cell::wait` | libjvm.dylib |
+|  0.3% |      58 | `WorkerThreads::run_task`        | libjvm.dylib |
+| <0.1% |       1 | `SafepointSynchronize::begin`    | libjvm.dylib |
 
 ##### `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
 
@@ -167,6 +117,24 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | -----: | ------: | ----------------------- | -------------------------------------------------------- |
 | 100.0% |   2,522 | `findNearestCentroid()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
+##### `__ulock_wait` (libsystem_kernel.dylib)
+
+|      % | Samples | Caller                    | Location     |
+| -----: | ------: | ------------------------- | ------------ |
+| 100.0% |   1,965 | `CallJavaMainInNewThread` | libjli.dylib |
+
+##### `mach_msg2_trap` (libsystem_kernel.dylib)
+
+|      % | Samples | Caller               | Location               |
+| -----: | ------: | -------------------- | ---------------------- |
+| 100.0% |   1,965 | `mach_msg_overwrite` | libsystem_kernel.dylib |
+
+##### `accept` (libsystem_kernel.dylib)
+
+|      % | Samples | Caller                    | Location     |
+| -----: | ------: | ------------------------- | ------------ |
+| 100.0% |   1,964 | `AttachListener::dequeue` | libjvm.dylib |
+
 ##### `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
 |      % | Samples | Caller              | Location                                                 |
@@ -178,6 +146,13 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 |      % | Samples | Caller              | Location                                                 |
 | -----: | ------: | ------------------- | -------------------------------------------------------- |
 | 100.0% |     875 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+
+##### `forward_copy_longs` (`<unknown>`)
+
+|     % | Samples | Caller                            | Location    |
+| ----: | ------: | --------------------------------- | ----------- |
+| 80.6% |     529 | `arrayof_jint_disjoint_arraycopy` | `<unknown>` |
+| 19.4% |     127 | `arrayof_oop_disjoint_arraycopy`  | `<unknown>` |
 
 ##### `computeIfAbsent(Object, Function)` (java.util.HashMap)
 
@@ -198,109 +173,157 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | 60.7% |     142 | `merge(Object, Object, BiFunction)` | java.util.HashMap                                        |
 |  8.1% |      19 | `findNearestCentroid()`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
-##### `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans)
+##### `__psynch_mutexwait` (libsystem_kernel.dylib)
 
-|      % | Samples | Caller                   | Location                                                             |
-| -----: | ------: | ------------------------ | -------------------------------------------------------------------- |
-| 100.0% |      18 | `accept(Object, Object)` | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188 |
+|      % | Samples | Caller                              | Location                |
+| -----: | ------: | ----------------------------------- | ----------------------- |
+| 100.0% |     164 | `_pthread_mutex_firstfit_lock_slow` | libsystem_pthread.dylib |
 
-##### `merge(Object, Object, BiFunction)` (java.util.HashMap)
+##### `__psynch_cvsignal` (libsystem_kernel.dylib)
 
-|      % | Samples | Caller                              | Location                                  |
-| -----: | ------: | ----------------------------------- | ----------------------------------------- |
-| 100.0% |      15 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans |
+|      % | Samples | Caller          | Location     |
+| -----: | ------: | --------------- | ------------ |
+| 100.0% |     154 | `Unsafe_Unpark` | libjvm.dylib |
 
-##### `createSubtask(int, int)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
+##### `pthread_jit_write_protect_np` (libsystem_pthread.dylib)
 
-|      % | Samples | Caller      | Location                                             |
-| -----: | ------: | ----------- | ---------------------------------------------------- |
-| 100.0% |       9 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
+|     % | Samples | Caller                    | Location     |
+| ----: | ------: | ------------------------- | ------------ |
+| 20.7% |      18 | `jvmti_GetCurrentThread`  | libjvm.dylib |
+| 19.5% |      17 | `Unsafe_Park`             | libjvm.dylib |
+| 17.2% |      15 | `Unsafe_Unpark`           | libjvm.dylib |
+| 10.3% |       9 | `jvmti_GetClassSignature` | libjvm.dylib |
+|  9.2% |       8 | `jvmti_Deallocate`        | libjvm.dylib |
 
-##### `apply(Object)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38)
+##### `_platform_bzero` (libsystem_platform.dylib)
 
-|      % | Samples | Caller                              | Location          |
-| -----: | ------: | ----------------------------------- | ----------------- |
-| 100.0% |       6 | `computeIfAbsent(Object, Function)` | java.util.HashMap |
+|      % | Samples | Caller                   | Location     |
+| -----: | ------: | ------------------------ | ------------ |
+| 100.0% |      70 | `MemAllocator::allocate` | libjvm.dylib |
 
-##### `add(double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
+##### `RegisterMap::RegisterMap` (libjvm.dylib)
 
-|      % | Samples | Caller                               | Location                                                |
-| -----: | ------: | ------------------------------------ | ------------------------------------------------------- |
-| 100.0% |       6 | `combineResults(double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
+|     % | Samples | Caller                   | Location     |
+| ----: | ------: | ------------------------ | ------------ |
+| 93.6% |      44 | `vframe::vframe`         | libjvm.dylib |
+|  4.3% |       2 | `vframe::new_vframe`     | libjvm.dylib |
+|  2.1% |       1 | `compiledVFrame::sender` | libjvm.dylib |
 
-##### `vtable stub` (`<unknown>`)
+##### `_platform_memset` (libsystem_platform.dylib)
 
-|     % | Samples | Caller      | Location                                             |
-| ----: | ------: | ----------- | ---------------------------------------------------- |
-| 66.7% |       4 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
-| 33.3% |       2 | `join()`    | java.util.concurrent.ForkJoinTask                    |
-
-##### `createSubtask(int, int)` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Caller      | Location                                             |
-| -----: | ------: | ----------- | ---------------------------------------------------- |
-| 100.0% |       5 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
-
-##### `join()` (java.util.concurrent.ForkJoinTask)
-
-|      % | Samples | Caller      | Location                                             |
-| -----: | ------: | ----------- | ---------------------------------------------------- |
-| 100.0% |       4 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
-
-##### `forkThreshold()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|      % | Samples | Caller      | Location                                             |
-| -----: | ------: | ----------- | ---------------------------------------------------- |
-| 100.0% |       4 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
-
-##### `lambda$collectClusters$0(Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|      % | Samples | Caller          | Location                                                                            |
-| -----: | ------: | --------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |       3 | `apply(Object)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38 |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Caller      | Location                                             |
-| -----: | ------: | ----------- | ---------------------------------------------------- |
-| 100.0% |       2 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
-
-##### `forEach(BiConsumer)` (java.util.HashMap)
-
-|      % | Samples | Caller            | Location                                  |
-| -----: | ------: | ----------------- | ----------------------------------------- |
-| 100.0% |       2 | `merge(Map, Map)` | org.renaissance.jdk.concurrent.JavaKMeans |
+|     % | Samples | Caller                                        | Location               |
+| ----: | ------: | --------------------------------------------- | ---------------------- |
+| 83.8% |      31 | `MemAllocator::allocate`                      | libjvm.dylib           |
+|  8.1% |       3 | `MarkBitMap::do_clear`                        | libjvm.dylib           |
+|  5.4% |       2 | `MemAllocator::mem_allocate_inside_tlab_slow` | libjvm.dylib           |
+|  2.7% |       1 | `free_hook`                                   | libasyncProfiler.dylib |
 
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|     % | Samples | Function                                                                                                               | Location                                                             |
-| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| 21.3% |  18,335 | `compute()`                                                                                                            | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                 |
-| 20.6% |  17,789 | `join()`                                                                                                               | java.util.concurrent.ForkJoinTask                                    |
-|  7.1% |   6,118 | `computeDirectly()`                                                                                                    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  6.2% |   5,304 | `computeDirectly()`                                                                                                    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-|  6.2% |   5,302 | `vectorSum()`                                                                                                          | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-|  5.8% |   4,957 | `accumulate(Double[], double[])`                                                                                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-|  4.8% |   4,098 | `findNearestCentroid()`                                                                                                | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  4.6% |   3,930 | `main`                                                                                                                 | java                                                                 |
-|  3.4% |   2,962 | `computeClusterAverages()`                                                                                             | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-|  3.4% |   2,962 | `computeDirectly()`                                                                                                    | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-|  3.4% |   2,955 | `average(List)`                                                                                                        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-|  3.0% |   2,551 | `distance(Double[], Double[])`                                                                                         | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  2.3% |   2,019 | `collectClusters(int[])`                                                                                               | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  2.3% |   1,965 | `__CFRunLoopServiceMachPort`                                                                                           | CoreFoundation                                                       |
-|  2.3% |   1,965 | `__CFRunLoopRun`                                                                                                       | CoreFoundation                                                       |
-|  2.3% |   1,965 | `CFRunLoopRunSpecific`                                                                                                 | CoreFoundation                                                       |
-|  2.3% |   1,964 | `executeOperation(int)`                                                                                                | org.renaissance.harness.ExecutionDriver                              |
-|  2.3% |   1,964 | `executeBenchmark()`                                                                                                   | org.renaissance.harness.ExecutionDriver                              |
-|  2.3% |   1,964 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$                            |
-|  2.3% |   1,964 | `applyVoid(Object)`                                                                                                    | org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000f80111ebb8 |
+|     % | Samples | Function                                | Location                                                 |
+| ----: | ------: | --------------------------------------- | -------------------------------------------------------- |
+| 54.7% |  47,140 | `_pthread_start`                        | libsystem_pthread.dylib                                  |
+| 54.7% |  47,140 | `thread_start`                          | libsystem_pthread.dylib                                  |
+| 52.4% |  45,175 | `Thread::call_run`                      | libjvm.dylib                                             |
+| 52.4% |  45,175 | `thread_native_entry`                   | libjvm.dylib                                             |
+| 52.2% |  45,001 | `__psynch_cvwait`                       | libsystem_kernel.dylib                                   |
+| 25.1% |  21,606 | `PlatformMonitor::wait`                 | libjvm.dylib                                             |
+| 25.0% |  21,575 | `semaphore_wait_trap`                   | libsystem_kernel.dylib                                   |
+| 22.9% |  19,693 | `LockTracer::UnsafeParkHook`            | libasyncProfiler.dylib                                   |
+| 22.8% |  19,641 | `WorkerThread::run`                     | libjvm.dylib                                             |
+| 22.7% |  19,579 | `Unsafe_Park`                           | libjvm.dylib                                             |
+| 22.7% |  19,548 | `Parker::park`                          | libjvm.dylib                                             |
+| 21.3% |  18,335 | `compute()`                             | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask     |
+| 20.6% |  17,789 | `join()`                                | java.util.concurrent.ForkJoinTask                        |
+| 18.2% |  15,712 | `JavaThread::thread_main_inner`         | libjvm.dylib                                             |
+| 18.2% |  15,688 | `Monitor::wait_without_safepoint_check` | libjvm.dylib                                             |
+|  7.1% |   6,118 | `computeDirectly()`                     | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  6.9% |   5,922 | `Monitor::wait`                         | libjvm.dylib                                             |
+|  6.8% |   5,894 | `ConcurrentGCThread::run`               | libjvm.dylib                                             |
+|  6.2% |   5,304 | `computeDirectly()`                     | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
+|  6.2% |   5,302 | `vectorSum()`                           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
 
 #### Callees
 
 Callees ranked by contribution to each function's total samples. Callee attribution may be imprecise due to inlining.
+
+##### `_pthread_start` (libsystem_pthread.dylib)
+
+|     % | Samples | Callee                | Location     |
+| ----: | ------: | --------------------- | ------------ |
+| 95.8% |  45,175 | `thread_native_entry` | libjvm.dylib |
+|  4.2% |   1,965 | `apple_main`          | libjli.dylib |
+
+##### `thread_start` (libsystem_pthread.dylib)
+
+|      % | Samples | Callee           | Location                |
+| -----: | ------: | ---------------- | ----------------------- |
+| 100.0% |  47,140 | `_pthread_start` | libsystem_pthread.dylib |
+
+##### `Thread::call_run` (libjvm.dylib)
+
+|     % | Samples | Callee                          | Location     |
+| ----: | ------: | ------------------------------- | ------------ |
+| 43.5% |  19,641 | `WorkerThread::run`             | libjvm.dylib |
+| 34.8% |  15,712 | `JavaThread::thread_main_inner` | libjvm.dylib |
+| 13.0% |   5,894 | `ConcurrentGCThread::run`       | libjvm.dylib |
+|  4.3% |   1,964 | `VMThread::run`                 | libjvm.dylib |
+|  4.3% |   1,964 | `WatcherThread::run`            | libjvm.dylib |
+
+##### `thread_native_entry` (libjvm.dylib)
+
+|      % | Samples | Callee             | Location     |
+| -----: | ------: | ------------------ | ------------ |
+| 100.0% |  45,175 | `Thread::call_run` | libjvm.dylib |
+
+##### `PlatformMonitor::wait` (libjvm.dylib)
+
+|      % | Samples | Callee               | Location                |
+| -----: | ------: | -------------------- | ----------------------- |
+| 100.0% |  21,604 | `__psynch_cvwait`    | libsystem_kernel.dylib  |
+|  <0.1% |       2 | `_pthread_cond_wait` | libsystem_pthread.dylib |
+
+##### `LockTracer::UnsafeParkHook` (libasyncProfiler.dylib)
+
+|     % | Samples | Callee                    | Location     |
+| ----: | ------: | ------------------------- | ------------ |
+| 99.4% |  19,577 | `Unsafe_Park`             | libjvm.dylib |
+|  0.2% |      41 | `jvmti_GetClassSignature` | libjvm.dylib |
+|  0.1% |      28 | `jvmti_GetCurrentThread`  | libjvm.dylib |
+|  0.1% |      18 | `jvmti_Deallocate`        | libjvm.dylib |
+| <0.1% |       7 | `jni_GetObjectClass`      | libjvm.dylib |
+
+##### `WorkerThread::run` (libjvm.dylib)
+
+|     % | Samples | Callee                            | Location               |
+| ----: | ------: | --------------------------------- | ---------------------- |
+| 98.8% |  19,398 | `semaphore_wait_trap`             | libsystem_kernel.dylib |
+|  0.5% |      97 | `G1FullGCMarkTask::work`          | libjvm.dylib           |
+|  0.5% |      93 | `G1EvacuateRegionsBaseTask::work` | libjvm.dylib           |
+|  0.1% |      21 | `G1FullGCAdjustTask::work`        | libjvm.dylib           |
+|  0.1% |      21 | `G1FullGCResetMetadataTask::work` | libjvm.dylib           |
+
+##### `Unsafe_Park` (libjvm.dylib)
+
+|     % | Samples | Callee                                                                                                                                                     | Location                |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 99.8% |  19,546 | `Parker::park`                                                                                                                                             | libjvm.dylib            |
+|  0.1% |      17 | `pthread_jit_write_protect_np`                                                                                                                             | libsystem_pthread.dylib |
+| <0.1% |       1 | `AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier<286822ull, G1BarrierSet>, (AccessInternal::BarrierType)3, 286822ull>::oop_access_barrier` | libjvm.dylib            |
+| <0.1% |       1 | `JavaThread::threadObj`                                                                                                                                    | libjvm.dylib            |
+| <0.1% |       1 | `pthread_mutex_unlock`                                                                                                                                     | libsystem_pthread.dylib |
+
+##### `Parker::park` (libjvm.dylib)
+
+|     % | Samples | Callee                                                                                                                                                     | Location                |
+| ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 99.6% |  19,470 | `__psynch_cvwait`                                                                                                                                          | libsystem_kernel.dylib  |
+|  0.3% |      52 | `SafepointMechanism::process`                                                                                                                              | libjvm.dylib            |
+|  0.1% |      11 | `_pthread_cond_wait`                                                                                                                                       | libsystem_pthread.dylib |
+| <0.1% |       2 | `AccessInternal::PostRuntimeDispatch<G1BarrierSet::AccessBarrier<544868ull, G1BarrierSet>, (AccessInternal::BarrierType)2, 544868ull>::oop_access_barrier` | libjvm.dylib            |
+| <0.1% |       1 | `pthread_dependency_wait_np.cold.3`                                                                                                                        | libsystem_pthread.dylib |
 
 ##### `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)
 
@@ -314,9 +337,26 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 ##### `join()` (java.util.concurrent.ForkJoinTask)
 
-|     % | Samples | Callee        | Location    |
-| ----: | ------: | ------------- | ----------- |
-| <0.1% |       2 | `vtable stub` | `<unknown>` |
+|     % | Samples | Callee          | Location    |
+| ----: | ------: | --------------- | ----------- |
+| <0.1% |       2 | `vtable stub`   | `<unknown>` |
+| <0.1% |       1 | `SafepointBlob` | `<unknown>` |
+
+##### `JavaThread::thread_main_inner` (libjvm.dylib)
+
+|     % | Samples | Callee                                          | Location     |
+| ----: | ------: | ----------------------------------------------- | ------------ |
+| 25.0% |   3,927 | `CompileBroker::compiler_thread_loop`           | libjvm.dylib |
+| 12.5% |   1,965 | `NotificationThread::notification_thread_entry` | libjvm.dylib |
+| 12.5% |   1,965 | `attach_listener_thread_entry`                  | libjvm.dylib |
+| 12.5% |   1,965 | `signal_thread_entry`                           | libjvm.dylib |
+| 12.5% |   1,964 | `ServiceThread::service_thread_entry`           | libjvm.dylib |
+
+##### `Monitor::wait_without_safepoint_check` (libjvm.dylib)
+
+|      % | Samples | Callee                  | Location     |
+| -----: | ------: | ----------------------- | ------------ |
+| 100.0% |  15,688 | `PlatformMonitor::wait` | libjvm.dylib |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -325,6 +365,21 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 | 100.0% |   6,117 | `computeDirectly()`      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |  67.0% |   4,098 | `findNearestCentroid()`  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |  33.0% |   2,019 | `collectClusters(int[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+
+##### `Monitor::wait` (libjvm.dylib)
+
+|     % | Samples | Callee                                                                        | Location     |
+| ----: | ------: | ----------------------------------------------------------------------------- | ------------ |
+| 99.9% |   5,918 | `PlatformMonitor::wait`                                                       | libjvm.dylib |
+|  0.1% |       4 | `ThreadBlockInVMPreprocess<InFlightMutexRelease>::~ThreadBlockInVMPreprocess` | libjvm.dylib |
+
+##### `ConcurrentGCThread::run` (libjvm.dylib)
+
+|     % | Samples | Callee                                  | Location     |
+| ----: | ------: | --------------------------------------- | ------------ |
+| 33.3% |   1,965 | `G1ConcurrentMarkThread::run_service`   | libjvm.dylib |
+| 33.3% |   1,965 | `G1ConcurrentRefineThread::run_service` | libjvm.dylib |
+| 33.3% |   1,964 | `G1ServiceThread::run_service`          | libjvm.dylib |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
 
@@ -339,103 +394,32 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 | ----: | ------: | -------------------------------- | ------------------------------------------------------- |
 | 93.5% |   4,957 | `accumulate(Double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
-##### `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|     % | Samples | Callee                         | Location                                                 |
-| ----: | ------: | ------------------------------ | -------------------------------------------------------- |
-| 62.2% |   2,551 | `distance(Double[], Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-|  0.5% |      19 | `zero_blocks`                  | `<unknown>`                                              |
-
-##### `computeClusterAverages()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|     % | Samples | Callee            | Location                                             |
-| ----: | ------: | ----------------- | ---------------------------------------------------- |
-| 99.8% |   2,955 | `average(List)`   | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-|  0.1% |       4 | `boxed(double[])` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|      % | Samples | Callee                     | Location                                             |
-| -----: | ------: | -------------------------- | ---------------------------------------------------- |
-| 100.0% |   2,962 | `computeClusterAverages()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-| 100.0% |   2,962 | `computeDirectly()`        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-
-##### `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|    % | Samples | Callee               | Location                                             |
-| ---: | ------: | -------------------- | ---------------------------------------------------- |
-| 0.1% |       2 | `div(double[], int)` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-
-##### `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|     % | Samples | Callee                              | Location          |
-| ----: | ------: | ----------------------------------- | ----------------- |
-| 27.9% |     563 | `computeIfAbsent(Object, Function)` | java.util.HashMap |
-
-##### `__CFRunLoopRun` (CoreFoundation)
-
-|      % | Samples | Callee                       | Location       |
-| -----: | ------: | ---------------------------- | -------------- |
-| 100.0% |   1,965 | `__CFRunLoopServiceMachPort` | CoreFoundation |
-
-##### `CFRunLoopRunSpecific` (CoreFoundation)
-
-|      % | Samples | Callee           | Location       |
-| -----: | ------: | ---------------- | -------------- |
-| 100.0% |   1,965 | `__CFRunLoopRun` | CoreFoundation |
-
-##### `executeOperation(int)` (org.renaissance.harness.ExecutionDriver)
-
-|     % | Samples | Callee                                            | Location                                                           |
-| ----: | ------: | ------------------------------------------------- | ------------------------------------------------------------------ |
-| 98.7% |   1,939 | `run(BenchmarkContext)`                           | org.renaissance.jdk.concurrent.FjKmeans                            |
-|  1.2% |      24 | `notifyAfterOperationSetUp(String, int, boolean)` | org.renaissance.harness.EventDispatcher                            |
-|  0.1% |       1 | `validate()`                                      | org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000f8011a3d90 |
-
-##### `executeBenchmark()` (org.renaissance.harness.ExecutionDriver)
-
-|      % | Samples | Callee                  | Location                                |
-| -----: | ------: | ----------------------- | --------------------------------------- |
-| 100.0% |   1,964 | `executeOperation(int)` | org.renaissance.harness.ExecutionDriver |
-
-##### `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$)
-
-|      % | Samples | Callee               | Location                                |
-| -----: | ------: | -------------------- | --------------------------------------- |
-| 100.0% |   1,964 | `executeBenchmark()` | org.renaissance.harness.ExecutionDriver |
-
-##### `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000f80111ebb8)
-
-|      % | Samples | Callee                                                                                                                 | Location                                  |
-| -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 100.0% |   1,964 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$ |
-
 ## Hottest call stacks
 
 Call stacks ranked by samples taken in their leaf frame.
 
-|    % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| ---: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.3% |   1,965 | `__CFRunLoopServiceMachPort` (CoreFoundation) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `main` (java)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 2.2% |   1,938 | `run(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `$anonfun$2(int)` (org.renaissance.jdk.concurrent.FjKmeans) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000f8011a1de8) ← `map(Function1)` (scala.collection.immutable.Range) ← `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeOperation(int)` (org.renaissance.harness.ExecutionDriver) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000f80111ebb8) ← `apply(Object)` (scala.runtime.function.JProcedure1) ← `apply(Object)` ← `foreach(Function1)` (scala.collection.immutable.List) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` ← `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                       |
-| 2.0% |   1,746 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| 0.8% |     675 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 0.7% |     598 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 0.6% |     535 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| 0.5% |     450 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 0.5% |     414 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 0.4% |     318 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| 0.3% |     289 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 0.3% |     285 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                        |
-| 0.3% |     283 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 0.3% |     262 | `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 0.3% |     239 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                          |
-| 0.3% |     237 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `call()` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a21c8) |
-| 0.3% |     229 | `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 0.3% |     221 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 0.3% |     219 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| 0.2% |     214 | `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| 0.2% |     180 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                              |
+|     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 22.5% |  19,398 | `semaphore_wait_trap` (libsystem_kernel.dylib) ← `WorkerThread::run` (libjvm.dylib) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 11.9% |  10,240 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `Parker::park` (libjvm.dylib) ← `Unsafe_Park` ← `LockTracer::UnsafeParkHook` (libasyncProfiler.dylib)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  4.5% |   3,905 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  2.3% |   1,965 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  2.3% |   1,965 | `__ulock_wait` (libsystem_kernel.dylib) ← `CallJavaMainInNewThread` (libjli.dylib) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (java) ← `apple_main` (libjli.dylib) ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  2.3% |   1,965 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|  2.3% |   1,965 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|  2.3% |   1,965 | `semaphore_wait_trap` (libsystem_kernel.dylib) ← `os::signal_wait` (libjvm.dylib) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|  2.3% |   1,965 | `mach_msg2_trap` (libsystem_kernel.dylib) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (CoreFoundation) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (libjli.dylib) ← `JLI_Launch` ← `main` (java) ← `unknown`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  2.3% |   1,965 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformEvent::park` (libjvm.dylib) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  2.3% |   1,964 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  2.3% |   1,964 | `accept` (libsystem_kernel.dylib) ← `AttachListener::dequeue` (libjvm.dylib) ← `attach_listener_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|  2.3% |   1,964 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` ← `G1ConcurrentRefineThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  2.3% |   1,964 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  2.3% |   1,962 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `Parker::park` (libjvm.dylib) ← `Unsafe_Park` ← `LockTracer::UnsafeParkHook` (libasyncProfiler.dylib)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  2.3% |   1,962 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `WaitableMutex::waitUntil` (libasyncProfiler.dylib) ← `Profiler::timerLoop` ← `JvmtiAgentThread::start_function_wrapper` (libjvm.dylib) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  2.3% |   1,960 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|  2.3% |   1,940 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|  2.2% |   1,938 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `Parker::park` (libjvm.dylib) ← `Unsafe_Park` ← `LockTracer::UnsafeParkHook` (libasyncProfiler.dylib) ← `run(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `$anonfun$2(int)` (org.renaissance.jdk.concurrent.FjKmeans) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000f8011a1de8) ← `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeOperation(int)` (org.renaissance.harness.ExecutionDriver) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000f80111ebb8) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` ← `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+|  2.2% |   1,884 | `__psynch_cvwait` (libsystem_kernel.dylib) ← `PlatformMonitor::wait` (libjvm.dylib) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
 
 # Allocated heap profile
@@ -800,25 +784,200 @@ Allocated 141 MB over 97 samples (1.45 MB per sample).
 
 | Category |      % |   Size | Samples |
 | -------- | -----: | -----: | ------: |
-| stdlib   | 100.0% | 141 MB |      97 |
+| native   | 100.0% | 141 MB |      97 |
 
 ## Hottest functions
+
+### Self size
+
+Functions ranked by native bytes allocated directly in the function body, excluding callees.
+
+|      % |   Size | Samples | Function      | Location               |
+| -----: | -----: | ------: | ------------- | ---------------------- |
+| 100.0% | 141 MB |      97 | `malloc_hook` | libasyncProfiler.dylib |
+
+#### Callers
+
+Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+
+##### `malloc_hook` (libasyncProfiler.dylib)
+
+|      % |   Size | Samples | Caller       | Location     |
+| -----: | -----: | ------: | ------------ | ------------ |
+| 100.0% | 141 MB |      97 | `os::malloc` | libjvm.dylib |
 
 ### Total size
 
 Functions ranked by total native bytes allocated in the function and all its callees.
 
-|     % | Size | Samples | Function    | Location                                             |
-| ----: | ---: | ------: | ----------- | ---------------------------------------------------- |
-| <0.1% | 59 B |       1 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
+|      % |   Size | Samples | Function                                   | Location                |
+| -----: | -----: | ------: | ------------------------------------------ | ----------------------- |
+| 100.0% | 141 MB |      97 | `malloc_hook`                              | libasyncProfiler.dylib  |
+| 100.0% | 141 MB |      97 | `os::malloc`                               | libjvm.dylib            |
+| 100.0% | 141 MB |      96 | `Thread::call_run`                         | libjvm.dylib            |
+| 100.0% | 141 MB |      96 | `thread_native_entry`                      | libjvm.dylib            |
+| 100.0% | 141 MB |      96 | `_pthread_start`                           | libsystem_pthread.dylib |
+| 100.0% | 141 MB |      96 | `thread_start`                             | libsystem_pthread.dylib |
+|  99.7% | 141 MB |      90 | `AllocateHeap`                             | libjvm.dylib            |
+|  99.7% | 141 MB |      86 | `VM_Operation::evaluate`                   | libjvm.dylib            |
+|  99.7% | 141 MB |      86 | `VMThread::evaluate_operation`             | libjvm.dylib            |
+|  99.7% | 141 MB |      86 | `VMThread::inner_execute`                  | libjvm.dylib            |
+|  99.7% | 141 MB |      86 | `VMThread::run`                            | libjvm.dylib            |
+|  99.6% | 141 MB |      81 | `G1FullGCMarker::G1FullGCMarker`           | libjvm.dylib            |
+|  99.6% | 141 MB |      81 | `G1FullCollector::G1FullCollector`         | libjvm.dylib            |
+|  99.6% | 141 MB |      81 | `G1CollectedHeap::do_full_collection`      | libjvm.dylib            |
+|  99.6% | 141 MB |      81 | `VM_G1CollectFull::doit`                   | libjvm.dylib            |
+|   0.3% | 489 kB |       6 | `Chunk::operator new`                      | libjvm.dylib            |
+|   0.3% | 489 kB |       6 | `Arena::grow`                              | libjvm.dylib            |
+|   0.3% | 489 kB |       6 | `Compile::Compile`                         | libjvm.dylib            |
+|   0.3% | 489 kB |       6 | `C2Compiler::compile_method`               | libjvm.dylib            |
+|   0.3% | 489 kB |       6 | `CompileBroker::invoke_compiler_on_method` | libjvm.dylib            |
+
+#### Callees
+
+Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+
+##### `os::malloc` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee        | Location               |
+| -----: | -----: | ------: | ------------- | ---------------------- |
+| 100.0% | 141 MB |      97 | `malloc_hook` | libasyncProfiler.dylib |
+|  <0.1% |   59 B |       1 | `os::malloc`  | libjvm.dylib           |
+
+##### `Thread::call_run` (libjvm.dylib)
+
+|     % |    Size | Samples | Callee                          | Location     |
+| ----: | ------: | ------: | ------------------------------- | ------------ |
+| 99.7% |  141 MB |      86 | `VMThread::run`                 | libjvm.dylib |
+|  0.3% |  489 kB |       6 | `JavaThread::thread_main_inner` | libjvm.dylib |
+| <0.1% | 4.24 kB |       3 | `WorkerThread::run`             | libjvm.dylib |
+| <0.1% |    40 B |       1 | `ConcurrentGCThread::run`       | libjvm.dylib |
+
+##### `thread_native_entry` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee             | Location     |
+| -----: | -----: | ------: | ------------------ | ------------ |
+| 100.0% | 141 MB |      96 | `Thread::call_run` | libjvm.dylib |
+
+##### `_pthread_start` (libsystem_pthread.dylib)
+
+|      % |   Size | Samples | Callee                | Location     |
+| -----: | -----: | ------: | --------------------- | ------------ |
+| 100.0% | 141 MB |      96 | `thread_native_entry` | libjvm.dylib |
+
+##### `thread_start` (libsystem_pthread.dylib)
+
+|      % |   Size | Samples | Callee           | Location                |
+| -----: | -----: | ------: | ---------------- | ----------------------- |
+| 100.0% | 141 MB |      96 | `_pthread_start` | libsystem_pthread.dylib |
+
+##### `AllocateHeap` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee       | Location     |
+| -----: | -----: | ------: | ------------ | ------------ |
+| 100.0% | 141 MB |      90 | `os::malloc` | libjvm.dylib |
+
+##### `VM_Operation::evaluate` (libjvm.dylib)
+
+|      % |    Size | Samples | Callee                            | Location     |
+| -----: | ------: | ------: | --------------------------------- | ------------ |
+| 100.0% |  141 MB |      81 | `VM_G1CollectFull::doit`          | libjvm.dylib |
+|  <0.1% | 33.4 kB |       5 | `VM_G1CollectForAllocation::doit` | libjvm.dylib |
+
+##### `VMThread::evaluate_operation` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                   | Location     |
+| -----: | -----: | ------: | ------------------------ | ------------ |
+| 100.0% | 141 MB |      86 | `VM_Operation::evaluate` | libjvm.dylib |
+
+##### `VMThread::inner_execute` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                         | Location     |
+| -----: | -----: | ------: | ------------------------------ | ------------ |
+| 100.0% | 141 MB |      86 | `VMThread::evaluate_operation` | libjvm.dylib |
+
+##### `VMThread::run` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                    | Location     |
+| -----: | -----: | ------: | ------------------------- | ------------ |
+| 100.0% | 141 MB |      86 | `VMThread::inner_execute` | libjvm.dylib |
+
+##### `G1FullGCMarker::G1FullGCMarker` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee         | Location     |
+| -----: | -----: | ------: | -------------- | ------------ |
+| 100.0% | 141 MB |      81 | `AllocateHeap` | libjvm.dylib |
+
+##### `G1FullCollector::G1FullCollector` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                           | Location     |
+| -----: | -----: | ------: | -------------------------------- | ------------ |
+| 100.0% | 141 MB |      81 | `G1FullGCMarker::G1FullGCMarker` | libjvm.dylib |
+
+##### `G1CollectedHeap::do_full_collection` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                             | Location     |
+| -----: | -----: | ------: | ---------------------------------- | ------------ |
+| 100.0% | 141 MB |      81 | `G1FullCollector::G1FullCollector` | libjvm.dylib |
+
+##### `VM_G1CollectFull::doit` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                                | Location     |
+| -----: | -----: | ------: | ------------------------------------- | ------------ |
+| 100.0% | 141 MB |      81 | `G1CollectedHeap::do_full_collection` | libjvm.dylib |
+
+##### `Chunk::operator new` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee       | Location     |
+| -----: | -----: | ------: | ------------ | ------------ |
+| 100.0% | 489 kB |       6 | `os::malloc` | libjvm.dylib |
+
+##### `Arena::grow` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                | Location     |
+| -----: | -----: | ------: | --------------------- | ------------ |
+| 100.0% | 489 kB |       6 | `Chunk::operator new` | libjvm.dylib |
+
+##### `Compile::Compile` (libjvm.dylib)
+
+|     % |   Size | Samples | Callee              | Location     |
+| ----: | -----: | ------: | ------------------- | ------------ |
+| 65.5% | 320 kB |       2 | `Compile::Code_Gen` | libjvm.dylib |
+| 34.5% | 169 kB |       4 | `Compile::Optimize` | libjvm.dylib |
+
+##### `C2Compiler::compile_method` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee             | Location     |
+| -----: | -----: | ------: | ------------------ | ------------ |
+| 100.0% | 489 kB |       6 | `Compile::Compile` | libjvm.dylib |
+
+##### `CompileBroker::invoke_compiler_on_method` (libjvm.dylib)
+
+|      % |   Size | Samples | Callee                       | Location     |
+| -----: | -----: | ------: | ---------------------------- | ------------ |
+| 100.0% | 489 kB |       6 | `C2Compiler::compile_method` | libjvm.dylib |
 
 ## Hottest call stacks
 
 Call stacks ranked by native bytes allocated in their leaf frame.
 
-|     % | Size | Samples | Call stack                                                                       |
-| ----: | ---: | ------: | -------------------------------------------------------------------------------- |
-| <0.1% | 59 B |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` |
+|     % |    Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 99.6% |  141 MB |      81 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `G1FullGCMarker::G1FullGCMarker` ← `G1FullCollector::G1FullCollector` ← `G1CollectedHeap::do_full_collection` ← `VM_G1CollectFull::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+|  0.2% |  287 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <0.1% | 65.6 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                      |
+| <0.1% | 37.7 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% | 32.8 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| <0.1% | 32.8 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| <0.1% | 32.8 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `PhaseIdealLoop::set_idom` ← `PhaseIdealLoop::fix_body_edges` ← `PhaseIdealLoop::clone_loop` ← `PhaseIdealLoop::do_unroll` ← `IdealLoopTree::iteration_split_impl` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `IdealLoopTree::iteration_split` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start` |
+| <0.1% | 16.4 kB |       2 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `G1RemSetScanState::prepare` ← `G1YoungCollector::pre_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| <0.1% | 16.4 kB |       2 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `HeapRegionClaimer::HeapRegionClaimer` ← `G1YoungCollector::pre_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% | 4.09 kB |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `G1FullGCMarker::mark_object` ← `G1MarkAndPushClosure::do_oop` ← `ClassLoaderData::oops_do` ← `G1FullGCMarker::publish_and_drain_oop_tasks` ← `G1FullGCMarker::follow_marking_stacks` ← `G1FullGCMarker::complete_marking` ← `G1FullGCMarkTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| <0.1% |   648 B |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `HeapRegionManager::rebuild_free_list` ← `G1CollectedHeap::rebuild_free_region_list` ← `G1YoungCollector::post_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                 |
+| <0.1% |   128 B |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `G1PLABAllocator::G1PLABAllocator` ← `G1ParScanThreadState::G1ParScanThreadState` ← `G1ParScanThreadStateSet::state_for_worker` ← `G1EvacuateRegionsBaseTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| <0.1% |    59 B |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `os::malloc` ← `JvmtiEnv::GetClassSignature` ← `jvmti_GetClassSignature` ← `LockTracer::UnsafeParkHook` (libasyncProfiler.dylib) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% |    40 B |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `G1MonotonicArenaFreeMemoryTask::calculate_return_infos` ← `G1MonotonicArenaFreeMemoryTask::free_excess_arena_memory` ← `G1MonotonicArenaFreeMemoryTask::execute` ← `G1ServiceThread::run_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| <0.1% |    24 B |       1 | `malloc_hook` (libasyncProfiler.dylib) ← `os::malloc` (libjvm.dylib) ← `AllocateHeap` ← `AddDerivedOop::do_derived_oop` ← `void OopMapDo<OopClosure, DerivedOopClosure, SkipNullValue>::iterate_oops_do<RegisterMap>` ← `ImmutableOopMap::oops_do` ← `frame::oops_code_blob_do` ← `JavaThread::oops_do_frames` ← `Thread::oops_do` ← `Threads::possibly_parallel_threads_do` ← `Threads::possibly_parallel_oops_do` ← `G1RootProcessor::process_java_roots` ← `G1RootProcessor::evacuate_roots` ← `G1EvacuateRegionsTask::scan_roots` ← `G1EvacuateRegionsBaseTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                |
 
 
 # Lock contention profile
@@ -827,36 +986,57 @@ Blocked 1.74s over 7,280 samples (239.0µs per sample).
 
 | Category |      % |  Time | Samples |
 | -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 1.74s |   7,280 |
+| native   | 100.0% | 1.74s |   7,280 |
 
 ## Hottest functions
+
+### Self time
+
+Functions ranked by time blocked directly in the function body, excluding callees.
+
+|      % |  Time | Samples | Function                  | Location               |
+| -----: | ----: | ------: | ------------------------- | ---------------------- |
+| 100.0% | 1.74s |   7,280 | `pthread_mutex_lock_hook` | libasyncProfiler.dylib |
+
+#### Callers
+
+Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+
+##### `pthread_mutex_lock_hook` (libasyncProfiler.dylib)
+
+|     % |    Time | Samples | Caller                                | Location     |
+| ----: | ------: | ------: | ------------------------------------- | ------------ |
+| 67.5% |   1.17s |   2,046 | `Mutex::lock`                         | libjvm.dylib |
+| 16.8% | 293.0ms |   1,355 | `ThreadCritical::ThreadCritical`      | libjvm.dylib |
+| 15.5% | 270.4ms |   3,753 | `Mutex::lock_without_safepoint_check` | libjvm.dylib |
+|  0.1% |   1.9ms |     126 | `Parker::unpark`                      | libjvm.dylib |
 
 ### Total time
 
 Functions ranked by total time blocked in the function and all its callees.
 
-|     % |    Time | Samples | Function                             | Location                                                                            |
-| ----: | ------: | ------: | ------------------------------------ | ----------------------------------------------------------------------------------- |
-| 86.4% |   1.50s |   3,873 | `compute()`                          | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                                |
-| 57.1% | 993.5ms |   2,747 | `merge(Map, Map)`                    | org.renaissance.jdk.concurrent.JavaKMeans                                           |
-| 57.1% | 993.5ms |   2,747 | `combineResults(Map, Map)`           | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| 57.1% | 993.5ms |   2,747 | `combineResults(Object, Object)`     | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| 56.5% | 983.4ms |   2,706 | `lambda$merge$6(List, List)`         | org.renaissance.jdk.concurrent.JavaKMeans                                           |
-| 56.5% | 983.4ms |   2,706 | `apply(Object, Object)`              | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0                |
-| 56.5% | 983.4ms |   2,706 | `lambda$merge$7(Map, Object, List)`  | org.renaissance.jdk.concurrent.JavaKMeans                                           |
-| 56.5% | 983.4ms |   2,706 | `accept(Object, Object)`             | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188                |
-| 27.5% | 477.7ms |     960 | `computeDirectly()`                  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-| 23.0% | 399.4ms |     777 | `collectClusters(int[])`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  7.4% | 129.1ms |     418 | `lambda$run$0(int, List, int)`       | org.renaissance.jdk.concurrent.JavaKMeans                                           |
-|  7.4% | 129.1ms |     418 | `call()`                             | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a21c8                |
-|  4.5% |  78.3ms |     183 | `findNearestCentroid()`              | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  1.1% |  18.4ms |      54 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.4% |   7.3ms |      11 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  0.4% |   7.3ms |       9 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.4% |   7.3ms |       9 | `apply(Object)`                      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38 |
-|  0.3% |   4.7ms |      29 | `computeClusterAverages()`           | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
-|  0.3% |   4.7ms |      29 | `computeDirectly()`                  | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
-|  0.2% |   3.5ms |      28 | `average(List)`                      | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
+|      % |    Time | Samples | Function                                                    | Location                                                             |
+| -----: | ------: | ------: | ----------------------------------------------------------- | -------------------------------------------------------------------- |
+| 100.0% |   1.74s |   7,280 | `pthread_mutex_lock_hook`                                   | libasyncProfiler.dylib                                               |
+|  86.4% |   1.50s |   3,873 | `compute()`                                                 | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                 |
+|  86.3% |   1.50s |   3,777 | `MemAllocator::allocate`                                    | libjvm.dylib                                                         |
+|  80.2% |   1.39s |   3,538 | `CollectedHeap::array_allocate`                             | libjvm.dylib                                                         |
+|  80.2% |   1.39s |   3,538 | `OptoRuntime::new_array_C`                                  | libjvm.dylib                                                         |
+|  80.2% |   1.39s |   3,538 | `_new_array_Java`                                           | `<unknown>`                                                          |
+|  75.5% |   1.31s |   3,352 | `InstanceKlass::allocate_objArray`                          | libjvm.dylib                                                         |
+|  67.5% |   1.17s |   2,046 | `Mutex::lock`                                               | libjvm.dylib                                                         |
+|  60.6% |   1.05s |   1,457 | `G1CollectedHeap::attempt_allocation_slow`                  | libjvm.dylib                                                         |
+|  57.1% | 993.5ms |   2,747 | `merge(Map, Map)`                                           | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  57.1% | 993.5ms |   2,747 | `combineResults(Map, Map)`                                  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  57.1% | 993.5ms |   2,747 | `combineResults(Object, Object)`                            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  56.5% | 983.4ms |   2,706 | `lambda$merge$6(List, List)`                                | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  56.5% | 983.4ms |   2,706 | `apply(Object, Object)`                                     | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0 |
+|  56.5% | 983.4ms |   2,706 | `lambda$merge$7(Map, Object, List)`                         | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  56.5% | 983.4ms |   2,706 | `accept(Object, Object)`                                    | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188 |
+|  49.8% | 865.8ms |   1,041 | `G1CollectedHeap::attempt_allocation`                       | libjvm.dylib                                                         |
+|  49.8% | 865.8ms |   1,041 | `MemAllocator::mem_allocate_inside_tlab_slow`               | libjvm.dylib                                                         |
+|  27.5% | 477.7ms |     960 | `computeDirectly()`                                         | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  25.7% | 446.9ms |   2,320 | `MemAllocator::Allocation::notify_allocation_jvmti_sampler` | libjvm.dylib                                                         |
 
 #### Callees
 
@@ -872,6 +1052,58 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |  0.5% |   7.3ms |      11 | `createSubtask(int, int)`        | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
 |  0.3% |   4.7ms |      29 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 
+##### `MemAllocator::allocate` (libjvm.dylib)
+
+|     % |    Time | Samples | Callee                                                      | Location     |
+| ----: | ------: | ------: | ----------------------------------------------------------- | ------------ |
+| 57.7% | 865.8ms |   1,041 | `MemAllocator::mem_allocate_inside_tlab_slow`               | libjvm.dylib |
+| 29.8% | 446.9ms |   2,320 | `MemAllocator::Allocation::notify_allocation_jvmti_sampler` | libjvm.dylib |
+| 12.6% | 188.7ms |     416 | `G1CollectedHeap::mem_allocate`                             | libjvm.dylib |
+
+##### `CollectedHeap::array_allocate` (libjvm.dylib)
+
+|      % |  Time | Samples | Callee                   | Location     |
+| -----: | ----: | ------: | ------------------------ | ------------ |
+| 100.0% | 1.39s |   3,538 | `MemAllocator::allocate` | libjvm.dylib |
+
+##### `OptoRuntime::new_array_C` (libjvm.dylib)
+
+|     % |   Time | Samples | Callee                             | Location     |
+| ----: | -----: | ------: | ---------------------------------- | ------------ |
+| 94.2% |  1.31s |   3,352 | `InstanceKlass::allocate_objArray` | libjvm.dylib |
+|  5.8% | 81.5ms |     186 | `CollectedHeap::array_allocate`    | libjvm.dylib |
+
+##### `_new_array_Java` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                     | Location     |
+| -----: | ----: | ------: | -------------------------- | ------------ |
+| 100.0% | 1.39s |   3,538 | `OptoRuntime::new_array_C` | libjvm.dylib |
+
+##### `InstanceKlass::allocate_objArray` (libjvm.dylib)
+
+|      % |  Time | Samples | Callee                          | Location     |
+| -----: | ----: | ------: | ------------------------------- | ------------ |
+| 100.0% | 1.31s |   3,352 | `CollectedHeap::array_allocate` | libjvm.dylib |
+
+##### `Mutex::lock` (libjvm.dylib)
+
+|      % |  Time | Samples | Callee                    | Location               |
+| -----: | ----: | ------: | ------------------------- | ---------------------- |
+| 100.0% | 1.17s |   2,046 | `pthread_mutex_lock_hook` | libasyncProfiler.dylib |
+
+##### `G1CollectedHeap::attempt_allocation_slow` (libjvm.dylib)
+
+|     % |  Time | Samples | Callee              | Location     |
+| ----: | ----: | ------: | ------------------- | ------------ |
+| 99.2% | 1.04s |   1,451 | `Mutex::lock`       | libjvm.dylib |
+|  0.8% | 8.5ms |       6 | `VMThread::execute` | libjvm.dylib |
+
+##### `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans)
+
+|    % |  Time | Samples | Callee               | Location    |
+| ---: | ----: | ------: | -------------------- | ----------- |
+| 0.6% | 5.9ms |      25 | `_new_instance_Java` | `<unknown>` |
+
 ##### `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
 |      % |    Time | Samples | Callee            | Location                                  |
@@ -883,6 +1115,12 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |      % |    Time | Samples | Callee                     | Location                                                 |
 | -----: | ------: | ------: | -------------------------- | -------------------------------------------------------- |
 | 100.0% | 993.5ms |   2,747 | `combineResults(Map, Map)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+
+##### `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans)
+
+|    % |  Time | Samples | Callee               | Location    |
+| ---: | ----: | ------: | -------------------- | ----------- |
+| 0.9% | 8.6ms |      17 | `_new_instance_Java` | `<unknown>` |
 
 ##### `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0)
 
@@ -896,6 +1134,18 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | -----: | ------: | ------: | ----------------------------------- | ----------------------------------------- |
 | 100.0% | 983.4ms |   2,706 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans |
 
+##### `G1CollectedHeap::attempt_allocation` (libjvm.dylib)
+
+|      % |    Time | Samples | Callee                                     | Location     |
+| -----: | ------: | ------: | ------------------------------------------ | ------------ |
+| 100.0% | 865.8ms |   1,041 | `G1CollectedHeap::attempt_allocation_slow` | libjvm.dylib |
+
+##### `MemAllocator::mem_allocate_inside_tlab_slow` (libjvm.dylib)
+
+|      % |    Time | Samples | Callee                                | Location     |
+| -----: | ------: | ------: | ------------------------------------- | ------------ |
+| 100.0% | 865.8ms |   1,041 | `G1CollectedHeap::attempt_allocation` | libjvm.dylib |
+
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
 |      % |    Time | Samples | Callee                   | Location                                                 |
@@ -904,62 +1154,36 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |  83.6% | 399.4ms |     777 | `collectClusters(int[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |  16.4% |  78.3ms |     183 | `findNearestCentroid()`  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
-##### `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans)
+##### `MemAllocator::Allocation::notify_allocation_jvmti_sampler` (libjvm.dylib)
 
-|     % |   Time | Samples | Callee                            | Location                                  |
-| ----: | -----: | ------: | --------------------------------- | ----------------------------------------- |
-| <0.1% | 19.6µs |       1 | `randomSample(int, List, Random)` | org.renaissance.jdk.concurrent.JavaKMeans |
-
-##### `call()` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a21c8)
-
-|      % |    Time | Samples | Callee                         | Location                                  |
-| -----: | ------: | ------: | ------------------------------ | ----------------------------------------- |
-| 100.0% | 129.1ms |     418 | `lambda$run$0(int, List, int)` | org.renaissance.jdk.concurrent.JavaKMeans |
-
-##### `apply(Object)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a2f38)
-
-|      % |  Time | Samples | Callee                               | Location                                                 |
-| -----: | ----: | ------: | ------------------------------------ | -------------------------------------------------------- |
-| 100.0% | 7.3ms |       9 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-
-##### `computeClusterAverages()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|     % |  Time | Samples | Callee          | Location                                             |
-| ----: | ----: | ------: | --------------- | ---------------------------------------------------- |
-| 75.1% | 3.5ms |      28 | `average(List)` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|      % |  Time | Samples | Callee                     | Location                                             |
-| -----: | ----: | ------: | -------------------------- | ---------------------------------------------------- |
-| 100.0% | 4.7ms |      29 | `computeClusterAverages()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-| 100.0% | 4.7ms |      29 | `computeDirectly()`        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
+|     % |    Time | Samples | Callee                                                                          | Location     |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------- | ------------ |
+| 95.7% | 427.5ms |   2,160 | `JvmtiSampledObjectAllocEventCollector::~JvmtiSampledObjectAllocEventCollector` | libjvm.dylib |
+|  4.3% |  19.4ms |     160 | `ThreadHeapSampler::check_for_sampling`                                         | libjvm.dylib |
 
 ## Hottest call stacks
 
 Call stacks ranked by time blocked in their leaf frame.
 
-Common call stack: `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)
-
-|    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---: | -----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2.3% | 39.4ms |      30 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                           |
-| 2.0% | 34.3ms |      98 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)`                                                                                                                                            |
-| 1.9% | 33.0ms |      43 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()`                             |
-| 1.9% | 32.7ms |      36 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()`               |
-| 1.8% | 31.7ms |      30 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                       |
-| 1.7% | 30.1ms |      37 | `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                            |
-| 1.6% | 27.7ms |      18 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()`               |
-| 1.6% | 27.1ms |      51 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                       |
-| 1.5% | 26.1ms |      33 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                         |
-| 1.5% | 25.7ms |      24 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                         |
-| 1.5% | 25.6ms |      34 | `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                              |
-| 1.4% | 23.7ms |      11 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                         |
-| 1.4% | 23.5ms |      18 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` |
-| 1.2% | 21.0ms |      23 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)`                                                                                                                                            |
-| 1.2% | 20.4ms |      14 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                           |
-| 1.1% | 18.9ms |      27 | `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| 1.1% | 18.3ms |      25 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                       |
-| 1.0% | 17.3ms |       6 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()`                             |
-| 1.0% | 16.6ms |      16 | `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| 0.9% | 16.0ms |      16 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()`                             |
+|    % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ---: | ------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.8% | 136.6ms |   1,999 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock_without_safepoint_check` (libjvm.dylib) ← `TaskTerminator::offer_termination` ← `G1ParEvacuateFollowersClosure::offer_termination` ← `G1ParEvacuateFollowersClosure::do_void` ← `G1EvacuateRegionsTask::evacuate_live_objects` ← `G1EvacuateRegionsBaseTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 5.2% |  91.3ms |   1,189 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock_without_safepoint_check` (libjvm.dylib) ← `TaskTerminator::offer_termination` ← `G1FullGCMarker::complete_marking` ← `G1FullGCMarkTask::work` ← `WorkerThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (libsystem_pthread.dylib) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 2.3% |  39.4ms |      30 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()`                                           |
+| 2.0% |  34.3ms |      98 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::mem_allocate` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                           |
+| 1.9% |  33.0ms |      43 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()`                             |
+| 1.9% |  32.7ms |      36 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`               |
+| 1.8% |  31.7ms |      30 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                       |
+| 1.7% |  30.1ms |      37 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                            |
+| 1.6% |  27.7ms |      18 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`               |
+| 1.6% |  27.1ms |      51 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::mem_allocate` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                             |
+| 1.5% |  26.1ms |      33 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                                         |
+| 1.5% |  25.7ms |      24 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::mem_allocate` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                                                                                               |
+| 1.5% |  25.6ms |      34 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                              |
+| 1.4% |  23.7ms |      11 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                                         |
+| 1.4% |  23.5ms |      18 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` |
+| 1.2% |  21.0ms |      23 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                     |
+| 1.2% |  20.4ms |      14 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()`                                           |
+| 1.1% |  18.9ms |      27 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| 1.1% |  18.3ms |      25 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::attempt_allocation` ← `MemAllocator::mem_allocate_inside_tlab_slow` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                       |
+| 1.0% |  17.3ms |       6 | `pthread_mutex_lock_hook` (libasyncProfiler.dylib) ← `Mutex::lock` (libjvm.dylib) ← `G1CollectedHeap::attempt_allocation_slow` ← `G1CollectedHeap::mem_allocate` ← `MemAllocator::allocate` ← `CollectedHeap::array_allocate` ← `InstanceKlass::allocate_objArray` ← `OptoRuntime::new_array_C` ← `_new_array_Java` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a33d0) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3188) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                   |
