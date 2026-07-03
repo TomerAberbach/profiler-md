@@ -56,6 +56,7 @@ Functions with the largest increase in total time spent in the function and all 
 | -----: | ------: | ------------: | ----------------: | ------------: | ------------------------ | ------------------------------------- |
 |  +0.8% | +49.7ms | 51.1% → 51.8% |     5.86s → 5.91s | 4,668 → 4,707 | `unevalObjectLike`       | uneval/src/internal/object.ts:105:26  |
 |  +3.0% | +42.0ms | 12.1% → 12.5% |     1.38s → 1.42s | 1,104 → 1,138 | `unevalObjectLiteralKey` | uneval/src/internal/object.ts:386:32  |
+| +18.1% |  +5.3ms |          0.3% |   29.1ms → 34.3ms |             1 | `fn`                     | node:internal/util:498:14             |
 |  +0.1% |  +4.2ms | 67.6% → 68.0% |             7.75s | 6,173 → 6,175 | `unevalInternal`         | uneval/src/internal/index.ts:25:32    |
 | +20.6% |  +2.6ms |          0.1% |   12.5ms → 15.1ms |       10 → 12 | `unevalBoolean`          | uneval/src/internal/primitive.ts:8:30 |
 |  +0.2% |  +0.7ms |          2.9% | 335.0ms → 335.7ms |           267 | `getType`                | uneval/src/internal/type.ts:4:24      |

@@ -313,6 +313,18 @@ export class ProfileAggregator {
           lastSeenEpoch: epoch,
         }
         caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
+
+        // Mirror the new edge on the callee, so its set of direct callers is
+        // complete even when it never appears as a leaf (its self metrics stay
+        // zero). The default entry filter reads that set to decide whether
+        // `ours` code calls the function directly.
+        if (!callee.callerIdToMetrics.has(caller.id)) {
+          callee.callerIdToMetrics.set(caller.id, {
+            caller,
+            selfSampleCount: 0,
+            selfValues: new Float64Array(this.#metrics.length),
+          })
+        }
       } else if (calleeMetrics.lastSeenEpoch === epoch) {
         // This is a recursive call. Don't count this callee twice.
         continue
