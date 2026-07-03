@@ -1,5 +1,8 @@
 import { categorizeCPythonEntry, pythonStdlibCategory } from './categorize.ts'
-import { packedLocationNormalizer } from './origin.ts'
+import {
+  normalizeSpeedscopeExecutingLine,
+  packedLocationNormalizer,
+} from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 /**
@@ -8,6 +11,8 @@ import type { OriginSpec } from './origin.ts'
  * parentheses stays intact, anchored by the trailing `:line)`.
  */
 const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
+
+const normalizePackedFrame = packedLocationNormalizer(FRAME)
 
 export const pySpyOriginSpec = {
   id: `py-spy`,
@@ -23,5 +28,9 @@ export const pySpyOriginSpec = {
   matchesEntry: entry =>
     FRAME.test(entry.name ?? ``) || pythonStdlibCategory(entry) !== undefined,
   categorize: categorizeCPythonEntry,
-  normalizeFrame: packedLocationNormalizer(FRAME),
+  // Py-spy emits one frame per sampled line in both shapes: packed into a
+  // collapsed name, or as a located speedscope frame whose `line` needs
+  // reinterpreting as the executing line.
+  normalizeFrame: (input, format) =>
+    normalizePackedFrame(normalizeSpeedscopeExecutingLine(input, format)),
 } as const satisfies OriginSpec

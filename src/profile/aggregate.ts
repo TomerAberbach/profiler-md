@@ -86,11 +86,10 @@ const resolveFrames = (
   }
   return {
     origin,
-    // An already-located frame needs no normalization (an origin can span a
-    // location-carrying format like JFR and a location-in-name one like
-    // collapsed), so the pipeline, not each origin, skips it (see
+    // Every frame passes through, located or not: the origin decides what a
+    // frame needs from how the format produced it (see
     // {@link OriginSpec.normalizeFrame}).
-    frames: frames.map(frame => (frame.location ? frame : normalize(frame))),
+    frames: frames.map(frame => normalize(frame, context.format)),
     frameFunctions: [],
   }
 }

@@ -3,6 +3,7 @@ import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
   categoryTables,
+  linesTables,
   profileTitles,
   selfSizeTables,
   selfTimeTables,
@@ -201,6 +202,109 @@ describe(`convert`, () => {
     ).toEqual([[`funcA`], [`funcB`]])
     // Two separate profile sections.
     expect(profileTitles(md)).toEqual([`Sampling profile`, `Sampling profile`])
+  })
+
+  test(`per-sampled-line frames merge into one function with a line breakdown under a py-spy origin`, () => {
+    // Py-spy emits one frame per *sampled* line; once its origin is detected
+    // (here by the CPython stdlib location), the line must feed the function's
+    // line breakdown rather than fragment its identity into a row per line.
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [[0], [1], [2]],
+          weights: [10, 20, 10],
+        }),
+      ],
+      frames: [
+        { name: `_addtoken`, file: `/project/src/parse.py`, line: 297 },
+        { name: `_addtoken`, file: `/project/src/parse.py`, line: 314 },
+        { name: `loads`, file: `/usr/lib/python3.11/json/decoder.py`, line: 5 },
+      ],
+    })
+
+    const md = convertJsonToMd(
+      speedscopeConverter,
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
+
+    // The stdlib marker frame is hidden by the default entry filter (stdlib
+    // never called by `ours` code), but still counts toward the totals.
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `75.0%`,
+          Time: `30.0ms`,
+          Samples: `2`,
+          Function: `_addtoken`,
+          Location: `src/parse.py`,
+        },
+      ],
+    ])
+    expect(linesTables(md, `_addtoken`)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `20.0ms`,
+          Samples: `1`,
+          Location: `src/parse.py:314`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `10.0ms`,
+          Samples: `1`,
+          Location: `src/parse.py:297`,
+        },
+      ],
+    ])
+  })
+
+  test(`per-line frames stay distinct functions under an unknown origin`, () => {
+    // Without an origin marker the file is read faithfully: the frame line is
+    // the function's definition line and part of its identity, matching
+    // speedscope's own importer.
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [[0], [1]],
+          weights: [10, 20],
+        }),
+      ],
+      frames: [
+        { name: `_addtoken`, file: `/project/src/parse.py`, line: 297 },
+        { name: `_addtoken`, file: `/project/src/parse.py`, line: 314 },
+      ],
+    })
+
+    const md = convertJsonToMd(
+      speedscopeConverter,
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project/`,
+      }),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `20.0ms`,
+          Samples: `1`,
+          Function: `_addtoken`,
+          Location: `src/parse.py:314`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `10.0ms`,
+          Samples: `1`,
+          Function: `_addtoken`,
+          Location: `src/parse.py:297`,
+        },
+      ],
+    ])
+    expect(linesTables(md, `_addtoken`)).toEqual([])
   })
 
   test(`zero-weight samples are skipped`, () => {
