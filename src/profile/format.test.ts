@@ -7,6 +7,7 @@ import {
   progressionsTables,
   regressionsTables,
   summaryLines,
+  totalTimeTables,
 } from '../testing/markdown.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
@@ -100,6 +101,81 @@ describe(`formatProfile`, () => {
           Time: `0.3ms`,
           Samples: `5`,
           'Call stack': `hotLeaf (src/a.ts) ← hotCaller (src/b.ts)`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows an external function directly called by ours even when it has no self samples`, () => {
+    // Main (ours) → extMid (stdlib, never a leaf) → extLeaf (stdlib). The
+    // default filter hides external implementation details (extLeaf, called
+    // only by stdlib) but must keep extMid: it's the external API surface ours
+    // code calls directly, even though it has zero self samples.
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        { name: `extLeaf`, sampleCount: 5, values: [300], stack: [0, 1, 2] },
+        { name: `extMid`, sampleCount: 0, values: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          sampleCount: 0,
+          values: [0],
+        },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(totalTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          Function: `extMid`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+      ],
+    ])
+    expect(md).not.toContain(`extLeaf`)
+  })
+
+  test(`merges call stacks that differ only in hidden frames into one row`, () => {
+    // Two stacks share the visible suffix extApi ← main but end in different
+    // hidden stdlib leaves. Without merging they'd render as two identical
+    // rows, each carrying only its own slice of the value.
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        { name: `extLeafA`, sampleCount: 3, values: [180], stack: [0, 2, 3] },
+        { name: `extLeafB`, sampleCount: 2, values: [120], stack: [1, 2, 3] },
+        { name: `extApi`, sampleCount: 0, values: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          sampleCount: 0,
+          values: [0],
+        },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `extApi ← main (src/main.ts)`,
         },
       ],
     ])

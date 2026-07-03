@@ -459,20 +459,11 @@ const formatHottestCallStacks = (
 ): string[] => {
   const total = measureTotal(measure, profile)
   const hottestCallStacks = selectTopN(
-    profile.callStacks
-      .map(callStack => ({
-        ...callStack,
-        frames: callStack.frames.filter(options.showEntry),
-      }))
-      .filter(
-        callStack =>
-          callStack.frames.length > 1 &&
-          measureValue(
-            measure,
-            callStack.selfValues,
-            callStack.selfSampleCount,
-          ) > 0,
-      ),
+    mergeShownCallStacks(profile.callStacks, options).filter(
+      callStack =>
+        measureValue(measure, callStack.selfValues, callStack.selfSampleCount) >
+        0,
+    ),
     options.topN,
     callStack =>
       measureValue(measure, callStack.selfValues, callStack.selfSampleCount),
@@ -497,6 +488,46 @@ const formatHottestCallStacks = (
       ),
     ),
   ]
+}
+
+/**
+ * Projects each call stack onto its shown frames and merges the stacks that
+ * become identical, summing their self metrics.
+ *
+ * Without merging, stacks distinct only in hidden frames would render as
+ * duplicate rows, and each row would carry only its own slice of the value.
+ * The merged row attributes hidden frames' (chiefly elided leaves') values to
+ * the nearest shown frame. Projections with fewer than two shown frames are
+ * dropped: a single-frame "stack" carries no call structure.
+ */
+const mergeShownCallStacks = (
+  callStacks: AggregatedProfileCallStack[],
+  options: NormalizedProfileToMdOptions,
+): AggregatedProfileCallStack[] => {
+  const merged = new Map<string, AggregatedProfileCallStack>()
+  for (const callStack of callStacks) {
+    const frames = callStack.frames.filter(options.showEntry)
+    if (frames.length <= 1) {
+      continue
+    }
+
+    const key = frames.map(frame => frame.id).join(`,`)
+    const existing = merged.get(key)
+    if (!existing) {
+      merged.set(key, {
+        frames,
+        selfSampleCount: callStack.selfSampleCount,
+        selfValues: new Float64Array(callStack.selfValues),
+      })
+      continue
+    }
+
+    existing.selfSampleCount += callStack.selfSampleCount
+    for (let i = 0; i < existing.selfValues.length; i++) {
+      existing.selfValues[i]! += callStack.selfValues[i]!
+    }
+  }
+  return [...merged.values()]
 }
 
 /** The headers of the hottest call stacks table. */
