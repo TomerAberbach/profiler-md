@@ -23,7 +23,10 @@ const named = (name: string): ProfileEntry => ({ id: 1, name })
 describe(`every origin`, () => {
   test.each(origins)(`%s`, origin => {
     // A frame with no location is a runtime internal.
-    expect(categorizeEntryForOrigin(named(`native`), origin)).toBe(`stdlib`)
+    expect(categorizeEntryForOrigin(named(`native`), origin)).toBeOneOf([
+      `native`,
+      `stdlib`,
+    ])
     // A located project file is ours.
     expect(
       categorizeEntryForOrigin(located(`file:///app/src/index.ts`), origin),
@@ -319,16 +322,72 @@ describe(`jvm`, () => {
     ).toBe(`stdlib`)
   })
 
-  test(`native runtime libraries are stdlib`, () => {
+  test(`native shared libraries and bare modules are native`, () => {
     expect(categorizeEntryForOrigin(relative(`libjvm.dylib`), `jvm`)).toBe(
-      `stdlib`,
+      `native`,
     )
     expect(
       categorizeEntryForOrigin(relative(`libsystem_kernel.dylib`), `jvm`),
-    ).toBe(`stdlib`)
+    ).toBe(`native`)
     // A version suffix on the shared object is still a native library.
     expect(categorizeEntryForOrigin(relative(`libc.so.6`), `jvm`)).toBe(
-      `stdlib`,
+      `native`,
+    )
+    // A wall profile's extension-less native module, distinguished from a
+    // default-package class by the missing method signature.
+    expect(
+      categorizeEntryForOrigin(
+        {
+          id: 1,
+          name: `__CFRunLoopRun`,
+          location: { type: `relative`, path: `CoreFoundation` },
+        },
+        `jvm`,
+      ),
+    ).toBe(`native`)
+    expect(
+      categorizeEntryForOrigin(
+        {
+          id: 1,
+          name: `main(String[])`,
+          location: { type: `relative`, path: `Main` },
+        },
+        `jvm`,
+      ),
+    ).toBe(`ours`)
+  })
+
+  test(`Kotlin and Scala language runtimes are stdlib`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        relative(`kotlin.jvm.internal.Intrinsics`),
+        `jvm`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        relative(`kotlinx.collections.immutable.PersistentList`),
+        `jvm`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(relative(`scala.collection.SeqOps`), `jvm`),
+    ).toBe(`stdlib`)
+    // A class prefixed by but not inside a runtime package stays ours.
+    expect(categorizeEntryForOrigin(relative(`kotlinfoo.Bar`), `jvm`)).toBe(
+      `ours`,
+    )
+  })
+
+  test(`HotSpot code stubs are jit and garbage collector`, () => {
+    expect(categorizeEntryForOrigin(named(`vtable stub`), `jvm`)).toBe(`jit`)
+    expect(categorizeEntryForOrigin(named(`itable stub`), `jvm`)).toBe(`jit`)
+    expect(
+      categorizeEntryForOrigin(named(`I2C/C2I adapters(0xba)`), `jvm`),
+    ).toBe(`jit`)
+    expect(categorizeEntryForOrigin(named(`zero_blocks`), `jvm`)).toBe(`jit`)
+    expect(categorizeEntryForOrigin(named(`g1_post_barrier_slow`), `jvm`)).toBe(
+      `garbage collector`,
     )
   })
 

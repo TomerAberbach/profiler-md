@@ -443,8 +443,9 @@ Allocated 204 GB over 8,622 samples (23.6 MB per sample).
 
 | Category |     % |    Size | Samples |
 | -------- | ----: | ------: | ------: |
-| stdlib   | 95.2% |  194 GB |   8,181 |
-| ours     |  4.8% | 9.85 GB |     441 |
+| stdlib   | 95.2% |  194 GB |   8,182 |
+| ours     |  4.8% | 9.81 GB |     439 |
+| native   | <0.1% |  1.6 kB |       1 |
 
 ## Hottest functions
 
@@ -465,11 +466,9 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% | 93.2 MB |      31 | `valueOf(double)`                    | java.lang.Double                                         |
 | <0.1% | 87.5 MB |      12 | `lambda$merge$6(List, List)`         | org.renaissance.jdk.concurrent.JavaKMeans                |
 | <0.1% | 48.5 MB |       3 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
-| <0.1% | 46.3 MB |       1 | `result()`                           | scala.collection.immutable.VectorBuilder                 |
 | <0.1% | 7.16 MB |       8 | `lambda$generateData$4(int)`         | org.renaissance.jdk.concurrent.JavaKMeans                |
 | <0.1% | 6.26 MB |       5 | `computeClusterAverages()`           | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 | <0.1% | 5.29 MB |       7 | `range(int, int)`                    | java.util.stream.IntStream                               |
-| <0.1% |  446 kB |       1 | `<clinit>()`                         | scala.collection.immutable.Vector$                       |
 
 #### Lines
 
@@ -541,12 +540,6 @@ Lines ranked by contribution to each function's self size.
 | -----: | ------: | ------: | -------------------------------------------------------- |
 | 100.0% | 48.5 MB |       3 | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask:352 |
 
-##### `result()` (scala.collection.immutable.VectorBuilder)
-
-|      % |    Size | Samples | Location                                      |
-| -----: | ------: | ------: | --------------------------------------------- |
-| 100.0% | 46.3 MB |       1 | scala.collection.immutable.VectorBuilder:1898 |
-
 ##### `lambda$generateData$4(int)` (org.renaissance.jdk.concurrent.JavaKMeans)
 
 |      % |    Size | Samples | Location                                     |
@@ -564,12 +557,6 @@ Lines ranked by contribution to each function's self size.
 |      % |    Size | Samples | Location                        |
 | -----: | ------: | ------: | ------------------------------- |
 | 100.0% | 5.29 MB |       7 | java.util.stream.IntStream:1083 |
-
-##### `<clinit>()` (scala.collection.immutable.Vector$)
-
-|      % |   Size | Samples | Location                              |
-| -----: | -----: | ------: | ------------------------------------- |
-| 100.0% | 446 kB |       1 | scala.collection.immutable.Vector$:91 |
 
 #### Callers
 
@@ -641,12 +628,6 @@ Callers ranked by contribution to each function's self size. Caller attribution 
 | -----: | ------: | ------: | ----------- | ---------------------------------------------------- |
 | 100.0% | 48.5 MB |       3 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
 
-##### `result()` (scala.collection.immutable.VectorBuilder)
-
-|      % |    Size | Samples | Caller     | Location                                 |
-| -----: | ------: | ------: | ---------- | ---------------------------------------- |
-| 100.0% | 46.3 MB |       1 | `result()` | scala.collection.immutable.VectorBuilder |
-
 ##### `lambda$generateData$4(int)` (org.renaissance.jdk.concurrent.JavaKMeans)
 
 |      % |    Size | Samples | Caller       | Location                                                             |
@@ -664,12 +645,6 @@ Callers ranked by contribution to each function's self size. Caller attribution 
 |      % |    Size | Samples | Caller                                           | Location                                  |
 | -----: | ------: | ------: | ------------------------------------------------ | ----------------------------------------- |
 | 100.0% | 5.29 MB |       7 | `lambda$generateData$5(int, int, Random[], int)` | org.renaissance.jdk.concurrent.JavaKMeans |
-
-##### `<clinit>()` (scala.collection.immutable.Vector$)
-
-|      % |   Size | Samples | Caller     | Location                               |
-| -----: | -----: | ------: | ---------- | -------------------------------------- |
-| 100.0% | 446 kB |       1 | `<init>()` | scala.collection.immutable.IndexedSeq$ |
 
 ### Total size
 
@@ -817,14 +792,11 @@ Functions ranked by total time blocked in the function and all its callees.
 | 79.5% | 28.72s |      80 | `$anonfun$2(int)`                                                                                                      | org.renaissance.jdk.concurrent.FjKmeans                              |
 | 79.5% | 28.72s |      80 | `$anonfun$adapted$1(Object)`                                                                                           | org.renaissance.jdk.concurrent.FjKmeans                              |
 | 79.5% | 28.72s |      80 | `apply(Object)`                                                                                                        | org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000088011faa08   |
-| 79.5% | 28.72s |      80 | `map(Function1)`                                                                                                       | scala.collection.immutable.Range                                     |
 | 79.5% | 28.72s |      80 | `run(BenchmarkContext)`                                                                                                | org.renaissance.jdk.concurrent.FjKmeans                              |
 | 79.5% | 28.72s |      80 | `executeOperation(int)`                                                                                                | org.renaissance.harness.ExecutionDriver                              |
 | 79.5% | 28.72s |      80 | `executeBenchmark()`                                                                                                   | org.renaissance.harness.ExecutionDriver                              |
 | 79.5% | 28.72s |      80 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$                            |
 | 79.5% | 28.72s |      80 | `applyVoid(Object)`                                                                                                    | org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8 |
-| 79.5% | 28.72s |      80 | `apply(Object)`                                                                                                        | scala.runtime.function.JProcedure1                                   |
-| 79.5% | 28.72s |      80 | `foreach(Function1)`                                                                                                   | scala.collection.immutable.List                                      |
 | 79.5% | 28.72s |      80 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | org.renaissance.harness.RenaissanceSuite$                            |
 | 79.5% | 28.72s |      80 | `main(String[])`                                                                                                       | org.renaissance.harness.RenaissanceSuite$                            |
 | 79.5% | 28.72s |      80 | `main(String[])`                                                                                                       | org.renaissance.harness.RenaissanceSuite                             |
@@ -833,6 +805,9 @@ Functions ranked by total time blocked in the function and all its callees.
 | 79.5% | 28.72s |      80 | `main(String[])`                                                                                                       | org.renaissance.core.Launcher                                        |
 |  0.2% | 65.4ms |       5 | `compute()`                                                                                                            | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                 |
 |  0.1% | 23.8ms |       2 | `average(List)`                                                                                                        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+|  0.1% | 23.8ms |       2 | `computeClusterAverages()`                                                                                             | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+|  0.1% | 23.8ms |       2 | `computeDirectly()`                                                                                                    | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+| <0.1% | 11.9ms |       1 | `lambda$run$0(int, List, int)`                                                                                         | org.renaissance.jdk.concurrent.JavaKMeans                            |
 
 #### Callees
 
@@ -855,18 +830,6 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |      % |   Time | Samples | Callee                       | Location                                |
 | -----: | -----: | ------: | ---------------------------- | --------------------------------------- |
 | 100.0% | 28.72s |      80 | `$anonfun$adapted$1(Object)` | org.renaissance.jdk.concurrent.FjKmeans |
-
-##### `map(Function1)` (scala.collection.immutable.Range)
-
-|      % |   Time | Samples | Callee          | Location                                                           |
-| -----: | -----: | ------: | --------------- | ------------------------------------------------------------------ |
-| 100.0% | 28.72s |      80 | `apply(Object)` | org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000088011faa08 |
-
-##### `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans)
-
-|      % |   Time | Samples | Callee           | Location                         |
-| -----: | -----: | ------: | ---------------- | -------------------------------- |
-| 100.0% | 28.72s |      80 | `map(Function1)` | scala.collection.immutable.Range |
 
 ##### `executeOperation(int)` (org.renaissance.harness.ExecutionDriver)
 
@@ -891,25 +854,6 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |      % |   Time | Samples | Callee                                                                                                                 | Location                                  |
 | -----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
 | 100.0% | 28.72s |      80 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$ |
-
-##### `apply(Object)` (scala.runtime.function.JProcedure1)
-
-|      % |   Time | Samples | Callee              | Location                                                             |
-| -----: | -----: | ------: | ------------------- | -------------------------------------------------------------------- |
-| 100.0% | 28.72s |      80 | `applyVoid(Object)` | org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8 |
-| 100.0% | 28.72s |      80 | `apply(Object)`     | scala.runtime.function.JProcedure1                                   |
-
-##### `foreach(Function1)` (scala.collection.immutable.List)
-
-|      % |   Time | Samples | Callee          | Location                           |
-| -----: | -----: | ------: | --------------- | ---------------------------------- |
-| 100.0% | 28.72s |      80 | `apply(Object)` | scala.runtime.function.JProcedure1 |
-
-##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$)
-
-|      % |   Time | Samples | Callee               | Location                        |
-| -----: | -----: | ------: | -------------------- | ------------------------------- |
-| 100.0% | 28.72s |      80 | `foreach(Function1)` | scala.collection.immutable.List |
 
 ##### `main(String[])` (org.renaissance.harness.RenaissanceSuite$)
 
@@ -941,15 +885,28 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | -----: | ------: | ------------------- | ---------------------------------------------------- |
 | 36.4% | 23.8ms |       2 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
 
+##### `computeClusterAverages()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
+
+|      % |   Time | Samples | Callee          | Location                                             |
+| -----: | -----: | ------: | --------------- | ---------------------------------------------------- |
+| 100.0% | 23.8ms |       2 | `average(List)` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
+
+##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
+
+|      % |   Time | Samples | Callee                     | Location                                             |
+| -----: | -----: | ------: | -------------------------- | ---------------------------------------------------- |
+| 100.0% | 23.8ms |       2 | `computeClusterAverages()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
+| 100.0% | 23.8ms |       2 | `computeDirectly()`        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
+
 ## Hottest call stacks
 
 Call stacks ranked by time blocked in their leaf frame.
 
-|     % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 79.5% | 28.72s |      80 | `run(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `$anonfun$2(int)` (org.renaissance.jdk.concurrent.FjKmeans) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000088011faa08) ← `map(Function1)` (scala.collection.immutable.Range) ← `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeOperation(int)` (org.renaissance.harness.ExecutionDriver) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8) ← `apply(Object)` (scala.runtime.function.JProcedure1) ← `apply(Object)` ← `foreach(Function1)` (scala.collection.immutable.List) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` ← `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-| <0.1% | 14.0ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| <0.1% | 13.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| <0.1% | 13.6ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| <0.1% | 11.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| <0.1% | 11.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `call()` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fade8)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|     % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 79.5% | 28.72s |      80 | `run(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `$anonfun$2(int)` (org.renaissance.jdk.concurrent.FjKmeans) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000088011faa08) ← `run(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeOperation(int)` (org.renaissance.harness.ExecutionDriver) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` ← `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+| <0.1% | 14.0ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% | 13.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| <0.1% | 13.6ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| <0.1% | 11.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| <0.1% | 11.9ms |       1 | `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `call()` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fade8)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |

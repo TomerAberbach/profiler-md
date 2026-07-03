@@ -39,7 +39,12 @@ export const normalizeProfileInput = <Data>(
     : { data: input, format: undefined, origin: undefined }
 
 /** The category of code an entry originated from. */
-export type EntryCategory = `ours` | `stdlib` | `third-party` | (string & {})
+export type EntryCategory =
+  | `ours`
+  | `native`
+  | `stdlib`
+  | `third-party`
+  | (string & {})
 
 /** A single entry in a formatted profile. */
 export type ProfileEntry = {
@@ -330,8 +335,8 @@ export const isSyntheticEntry = ({
   name === `(root)` || name === `<root>` || name === `(module)`
 
 /**
- * Returns true if the entry corresponds to an external function (`stdlib` or
- * `third-party`) that's never directly called by `ours` code.
+ * Returns true if the entry corresponds to an external function (`native`,
+ * `stdlib`, or `third-party`) that's never directly called by `ours` code.
  *
  * These entries are typically implementation details of external code that your
  * own code cannot directly call. Excluding these entries from the Markdown
@@ -345,7 +350,11 @@ export const isExternalImplementationDetailEntry = (
     return false
   }
 
-  if (entry.category !== `stdlib` && entry.category !== `third-party`) {
+  if (
+    entry.category !== `native` &&
+    entry.category !== `stdlib` &&
+    entry.category !== `third-party`
+  ) {
     return false
   }
   for (const { caller } of entry.callerIdToMetrics.values()) {

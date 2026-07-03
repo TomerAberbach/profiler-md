@@ -587,7 +587,7 @@ describe(`malformed recordings`, () => {
     // A lock event with a field the parser can't size is skipped, but the cpu
     // events surrounding it still parse rather than desyncing.
     const bytes = makeJfr({
-      methods: [{ name: `a`, className: `C` }],
+      methods: [{ name: `a`, className: `com.example.C` }],
       stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
       events: [
         { type: `cpu`, stack: 0 },
@@ -603,7 +603,14 @@ describe(`malformed recordings`, () => {
     // cpu samples are still counted.
     expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
-      [{ '%': `100.0%`, Samples: `2`, Function: `a`, Location: `C` }],
+      [
+        {
+          '%': `100.0%`,
+          Samples: `2`,
+          Function: `a`,
+          Location: `com.example.C`,
+        },
+      ],
     ])
   })
 })
