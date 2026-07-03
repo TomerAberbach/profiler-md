@@ -30,6 +30,8 @@ export type JfrTestEvent = {
    * - `alloc`: `jdk.ObjectAllocationSample` (the modern sampled event)
    * - `alloc-tlab`: `jdk.ObjectAllocationInNewTLAB` (legacy TLAB event)
    * - `nativemem`: async-profiler `profiler.Malloc` (native memory allocation)
+   * - `live`: `jdk.OldObjectSample` (live-object sampling)
+   * - `liveobject`: async-profiler `profiler.LiveObject`
    * - `lock`: `jdk.JavaMonitorEnter`
    * - `nativelock`: async-profiler `profiler.NativeLock`
    */
@@ -39,6 +41,8 @@ export type JfrTestEvent = {
     | `alloc`
     | `alloc-tlab`
     | `nativemem`
+    | `live`
+    | `liveobject`
     | `lock`
     | `nativelock`
   stack: number
@@ -71,6 +75,8 @@ const WALL_CLOCK_SAMPLE = 23
 const OBJECT_ALLOCATION_IN_NEW_TLAB = 24
 const NATIVE_LOCK = 25
 const MALLOC = 26
+const OLD_OBJECT_SAMPLE = 27
+const LIVE_OBJECT = 28
 
 /** A class id used for a field whose type the metadata never declares. */
 const UNKNOWN_FIELD_CLASS = 901
@@ -227,6 +233,16 @@ export const makeJfr = ({
         body.varint(weight ?? 0)
         eventWriters.push(sizedEvent(MALLOC, body))
         break
+      case `live`:
+        body.varint(stack + 1)
+        body.varint(weight ?? 0)
+        eventWriters.push(sizedEvent(OLD_OBJECT_SAMPLE, body))
+        break
+      case `liveobject`:
+        body.varint(stack + 1)
+        body.varint(weight ?? 0)
+        eventWriters.push(sizedEvent(LIVE_OBJECT, body))
+        break
       case `lock`:
         body.varint(weight ?? 0)
         body.varint(stack + 1)
@@ -366,6 +382,14 @@ const makeMetadata = (unreadableEventTypes: string[]): ByteWriter => {
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
       field(`address`, LONG),
       field(`size`, LONG),
+    ]),
+    type(OLD_OBJECT_SAMPLE, `jdk.OldObjectSample`, [
+      field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+      field(`objectSize`, LONG),
+    ]),
+    type(LIVE_OBJECT, `profiler.LiveObject`, [
+      field(`stackTrace`, STACK_TRACE, { constantPool: true }),
+      field(`allocationSize`, LONG),
     ]),
   ]
 

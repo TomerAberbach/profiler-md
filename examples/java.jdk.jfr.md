@@ -772,6 +772,162 @@ Call stacks ranked by bytes allocated in their leaf frame.
 |  1.2% | 2.48 GB |     131 | `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011ff488) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011ff000) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `compute()` ← `compute()` ← `compute()` ← `compute()` ← `compute()`                                                                                                        |
 
 
+# Retained heap profile
+
+Retained 2.17 MB over 9 samples (241 kB per sample).
+
+| Category |      % |    Size | Samples |
+| -------- | -----: | ------: | ------: |
+| stdlib   | 100.0% | 2.17 MB |       9 |
+
+## Hottest functions
+
+### Self size
+
+Functions ranked by bytes retained directly in the function body, excluding callees.
+
+|     % | Size | Samples | Function          | Location         |
+| ----: | ---: | ------: | ----------------- | ---------------- |
+| <0.1% | 96 B |       4 | `valueOf(double)` | java.lang.Double |
+
+#### Lines
+
+Lines ranked by contribution to each function's self size.
+
+##### `valueOf(double)` (java.lang.Double)
+
+|      % | Size | Samples | Location             |
+| -----: | ---: | ------: | -------------------- |
+| 100.0% | 96 B |       4 | java.lang.Double:773 |
+
+#### Callers
+
+Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+
+##### `valueOf(double)` (java.lang.Double)
+
+|      % | Size | Samples | Caller                                           | Location                                  |
+| -----: | ---: | ------: | ------------------------------------------------ | ----------------------------------------- |
+| 100.0% | 96 B |       4 | `lambda$generateData$3(int, int, Random[], int)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+### Total size
+
+Functions ranked by total bytes retained in the function and all its callees.
+
+|      % |    Size | Samples | Function                                                                                                               | Location                                                             |
+| -----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 100.0% | 2.17 MB |       9 | `main(String[])`                                                                                                       | org.renaissance.harness.RenaissanceSuite$                            |
+| 100.0% | 2.17 MB |       9 | `main(String[])`                                                                                                       | org.renaissance.harness.RenaissanceSuite                             |
+| 100.0% | 2.17 MB |       9 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | org.renaissance.core.Launcher                                        |
+| 100.0% | 2.17 MB |       9 | `launchHarnessClass(String, String[])`                                                                                 | org.renaissance.core.Launcher                                        |
+| 100.0% | 2.17 MB |       9 | `main(String[])`                                                                                                       | org.renaissance.core.Launcher                                        |
+|  99.8% | 2.16 MB |       7 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | org.renaissance.harness.RenaissanceSuite$                            |
+|  99.8% | 2.16 MB |       6 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$                            |
+|  99.8% | 2.16 MB |       6 | `applyVoid(Object)`                                                                                                    | org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8 |
+|  99.8% | 2.16 MB |       5 | `generateData(int, int, int)`                                                                                          | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  99.8% | 2.16 MB |       5 | `setUpBeforeAll(BenchmarkContext)`                                                                                     | org.renaissance.jdk.concurrent.FjKmeans                              |
+|  99.8% | 2.16 MB |       5 | `executeBenchmark()`                                                                                                   | org.renaissance.harness.ExecutionDriver                              |
+|  <0.1% |    96 B |       4 | `valueOf(double)`                                                                                                      | java.lang.Double                                                     |
+|  <0.1% |    96 B |       4 | `lambda$generateData$3(int, int, Random[], int)`                                                                       | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  <0.1% |    96 B |       4 | `apply(int)`                                                                                                           | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa5a0 |
+|  <0.1% |    96 B |       4 | `lambda$generateData$5(int, int, Random[], int)`                                                                       | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  <0.1% |    96 B |       4 | `apply(int)`                                                                                                           | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa368 |
+|  <0.1% |    64 B |       1 | `createBenchmark(BenchmarkDescriptor)`                                                                                 | org.renaissance.core.BenchmarkSuite                                  |
+|  <0.1% |    64 B |       1 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)`                           | org.renaissance.harness.ExecutionDriver                              |
+
+#### Callees
+
+Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+
+##### `main(String[])` (org.renaissance.harness.RenaissanceSuite$)
+
+|     % |    Size | Samples | Callee                                                                        | Location                                  |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------- | ----------------------------------------- |
+| 99.8% | 2.16 MB |       7 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | org.renaissance.harness.RenaissanceSuite$ |
+
+##### `main(String[])` (org.renaissance.harness.RenaissanceSuite)
+
+|      % |    Size | Samples | Callee           | Location                                  |
+| -----: | ------: | ------: | ---------------- | ----------------------------------------- |
+| 100.0% | 2.17 MB |       9 | `main(String[])` | org.renaissance.harness.RenaissanceSuite$ |
+
+##### `launchHarnessClass(String, String[])` (org.renaissance.core.Launcher)
+
+|      % |    Size | Samples | Callee                                                      | Location                      |
+| -----: | ------: | ------: | ----------------------------------------------------------- | ----------------------------- |
+| 100.0% | 2.17 MB |       9 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | org.renaissance.core.Launcher |
+
+##### `main(String[])` (org.renaissance.core.Launcher)
+
+|      % |    Size | Samples | Callee                                 | Location                      |
+| -----: | ------: | ------: | -------------------------------------- | ----------------------------- |
+| 100.0% | 2.17 MB |       9 | `launchHarnessClass(String, String[])` | org.renaissance.core.Launcher |
+
+##### `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$)
+
+|      % |    Size | Samples | Callee                                                                                       | Location                                |
+| -----: | ------: | ------: | -------------------------------------------------------------------------------------------- | --------------------------------------- |
+| 100.0% | 2.16 MB |       5 | `executeBenchmark()`                                                                         | org.renaissance.harness.ExecutionDriver |
+|  <0.1% |    64 B |       1 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | org.renaissance.harness.ExecutionDriver |
+
+##### `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8)
+
+|      % |    Size | Samples | Callee                                                                                                                 | Location                                  |
+| -----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 100.0% | 2.16 MB |       6 | `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` | org.renaissance.harness.RenaissanceSuite$ |
+
+##### `setUpBeforeAll(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans)
+
+|      % |    Size | Samples | Callee                        | Location                                  |
+| -----: | ------: | ------: | ----------------------------- | ----------------------------------------- |
+| 100.0% | 2.16 MB |       5 | `generateData(int, int, int)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+##### `executeBenchmark()` (org.renaissance.harness.ExecutionDriver)
+
+|      % |    Size | Samples | Callee                             | Location                                |
+| -----: | ------: | ------: | ---------------------------------- | --------------------------------------- |
+| 100.0% | 2.16 MB |       5 | `setUpBeforeAll(BenchmarkContext)` | org.renaissance.jdk.concurrent.FjKmeans |
+
+##### `lambda$generateData$3(int, int, Random[], int)` (org.renaissance.jdk.concurrent.JavaKMeans)
+
+|      % | Size | Samples | Callee            | Location         |
+| -----: | ---: | ------: | ----------------- | ---------------- |
+| 100.0% | 96 B |       4 | `valueOf(double)` | java.lang.Double |
+
+##### `apply(int)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa5a0)
+
+|      % | Size | Samples | Callee                                           | Location                                  |
+| -----: | ---: | ------: | ------------------------------------------------ | ----------------------------------------- |
+| 100.0% | 96 B |       4 | `lambda$generateData$3(int, int, Random[], int)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+##### `apply(int)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa368)
+
+|      % | Size | Samples | Callee                                           | Location                                  |
+| -----: | ---: | ------: | ------------------------------------------------ | ----------------------------------------- |
+| 100.0% | 96 B |       4 | `lambda$generateData$5(int, int, Random[], int)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+##### `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (org.renaissance.harness.ExecutionDriver)
+
+|      % | Size | Samples | Callee                                 | Location                            |
+| -----: | ---: | ------: | -------------------------------------- | ----------------------------------- |
+| 100.0% | 64 B |       1 | `createBenchmark(BenchmarkDescriptor)` | org.renaissance.core.BenchmarkSuite |
+
+## Hottest call stacks
+
+Call stacks ranked by bytes retained in their leaf frame.
+
+Common call stack: `main(String[])` (org.renaissance.harness.RenaissanceSuite) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (org.renaissance.core.Launcher) ← `launchHarnessClass(String, String[])` ← `main(String[])`
+
+|     % |    Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 99.8% | 2.16 MB |       1 | `generateData(int, int, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `setUpBeforeAll(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeBenchmark()` (org.renaissance.harness.ExecutionDriver) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|  0.2% | 4.11 kB |       1 | `main(String[])` (org.renaissance.harness.RenaissanceSuite$)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% |    96 B |       4 | `valueOf(double)` (java.lang.Double) ← `lambda$generateData$3(int, int, Random[], int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(int)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa5a0) ← `lambda$generateData$5(int, int, Random[], int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(int)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000088011fa368) ← `generateData(int, int, int)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `setUpBeforeAll(BenchmarkContext)` (org.renaissance.jdk.concurrent.FjKmeans) ← `executeBenchmark()` (org.renaissance.harness.ExecutionDriver) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])` |
+| <0.1% |    64 B |       1 | `createBenchmark(BenchmarkDescriptor)` (org.renaissance.core.BenchmarkSuite) ← `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` (org.renaissance.harness.ExecutionDriver) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, EventDispatcher, Plugin$ExecutionPolicy, long, Buffer, BenchmarkDescriptor)` (org.renaissance.harness.RenaissanceSuite$) ← `applyVoid(Object)` (org.renaissance.harness.RenaissanceSuite$$$Lambda.0x00000088011739d8) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| <0.1% |    40 B |       1 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (org.renaissance.harness.RenaissanceSuite$) ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% |    24 B |       1 | `main(String[])` (org.renaissance.harness.RenaissanceSuite$)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+
+
 # Lock contention profile
 
 Blocked 36.12s over 433 samples (83.4ms per sample).

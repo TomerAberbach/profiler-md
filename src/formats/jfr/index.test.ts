@@ -230,6 +230,45 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`live-object samples are measured by retained bytes`, () => {
+    // The JDK's `jdk.OldObjectSample` and async-profiler's
+    // `profiler.LiveObject` both record objects still live when the recording
+    // was captured, weighted by object size.
+    const bytes = makeJfr({
+      methods: [
+        { name: `allocate`, className: `com.example.A` },
+        { name: `run`, className: `com.example.A` },
+      ],
+      stackTraces: [
+        {
+          frames: [
+            { method: 0, line: 7 },
+            { method: 1, line: 3 },
+          ],
+        },
+      ],
+      events: [
+        { type: `live`, stack: 0, weight: 2048 },
+        { type: `liveobject`, stack: 0, weight: 1024 },
+      ],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(profileTitles(md)).toEqual([`Retained heap profile`])
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `3.07 kB`,
+          Samples: `2`,
+          Function: `allocate`,
+          Location: `com.example.A`,
+        },
+      ],
+    ])
+  })
+
   test(`emits one profile per distinct event kind`, () => {
     const bytes = makeJfr({
       methods: [{ name: `m`, className: `C` }],
@@ -237,6 +276,7 @@ describe(`convert`, () => {
       events: [
         { type: `cpu`, stack: 0 },
         { type: `alloc`, stack: 0, weight: 64 },
+        { type: `live`, stack: 0, weight: 32 },
         { type: `nativemem`, stack: 0, weight: 128 },
         { type: `lock`, stack: 0, weight: 1000 },
       ],
@@ -247,6 +287,7 @@ describe(`convert`, () => {
     ).toEqual([
       `Sampling profile`,
       `Allocated heap profile`,
+      `Retained heap profile`,
       `Allocated native memory profile`,
       `Lock contention profile`,
     ])
