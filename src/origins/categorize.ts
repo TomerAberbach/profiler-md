@@ -6,13 +6,22 @@ import { hasNodeModulesPath, hasProtocol } from './origin.ts'
 /**
  * Categorizes an engine's synthetic profiler frames, named like `(program)`,
  * `(idle)`, or `(garbage collector)`, by the label inside the parentheses.
+ *
+ * Only a plain word label counts: languages whose closure names are themselves
+ * parenthesized (Julia's `(::JSON3.var"#f##2#f##3")(::Pair{Symbol, Any})`)
+ * must not have arbitrary name fragments promoted to categories.
  */
 export const syntheticFrameCategory = ({
   name,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
-  name?.startsWith(`(`) && name.endsWith(`)`) && !name.startsWith(`(anonymous`)
-    ? name.slice(1, -1)
+}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+  const label = name && SYNTHETIC_FRAME_LABEL.exec(name)?.groups!.label
+  return label && label !== `anonymous` && !label.startsWith(`anonymous `)
+    ? label
     : undefined
+}
+
+/** A whole-name `(label)` of plain words, e.g. `(garbage collector)`. */
+const SYNTHETIC_FRAME_LABEL = /^\((?<label>[A-Za-z][A-Za-z0-9 -_]*)\)$/u
 
 /**
  * Categorizes V8's regular-expression frames, labelled `RegExp: <source>`, as
