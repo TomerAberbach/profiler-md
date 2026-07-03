@@ -473,6 +473,38 @@ describe(`jvm`, () => {
   })
 })
 
+describe(`pprof-jl`, () => {
+  test(`categorizes by Julia install, depot, and native runtime paths`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///nix/store/x-julia-bin-1.12.6/share/julia/base/int.jl`),
+        `pprof-jl`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///depot/packages/JSON3/abc12/src/write.jl`),
+        `pprof-jl`,
+      ),
+    ).toBe(`third-party`)
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///build/julia/src/interpreter.c`),
+        `pprof-jl`,
+      ),
+    ).toBe(`native`)
+    expect(categorizeEntryForOrigin(relative(`sys.dylib`), `pprof-jl`)).toBe(
+      `native`,
+    )
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///work/scripts/profile.jl`),
+        `pprof-jl`,
+      ),
+    ).toBe(`ours`)
+  })
+})
+
 describe(`safari`, () => {
   test(`bundled accessory scripts are stdlib`, () => {
     // Safari's own scripts (autofill metadata etc.) run in the page as a bare

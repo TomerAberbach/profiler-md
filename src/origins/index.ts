@@ -17,6 +17,7 @@ import { jvmOriginSpec } from './jvm.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
 import type { OriginSpec } from './origin.ts'
+import { pprofJlOriginSpec } from './pprof-jl.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
@@ -211,6 +212,7 @@ const originSpecs = [
   nodePprofOriginSpec,
   pprofRsOriginSpec,
   goOriginSpec,
+  pprofJlOriginSpec,
   pySpyOriginSpec,
   tachyonOriginSpec,
   jvmOriginSpec,
