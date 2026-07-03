@@ -263,6 +263,52 @@ describe(`diffAggregatedProfiles`, () => {
     }
   })
 
+  test(`matches JVM lambda and JIT-adapter frames across runs`, () => {
+    // Hidden lambda classes and HotSpot transition stubs embed a per-run
+    // runtime address; the default `matchEntry` strips it so the same frame
+    // matches across runs instead of diffing as a removed+new pair.
+    const base = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `apply(Object, Object)`,
+          url: `JavaKMeans$$Lambda.0x000000b801205218`,
+          selfValues: [100],
+          selfSampleCount: 5,
+        },
+        {
+          name: `I2C/C2I adapters(0xba)`,
+          selfValues: [100],
+          selfSampleCount: 5,
+        },
+      ],
+    )
+    const current = makeProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `apply(Object, Object)`,
+          url: `JavaKMeans$$Lambda.0x000000c001204fd0`,
+          selfValues: [200],
+          selfSampleCount: 10,
+        },
+        {
+          name: `I2C/C2I adapters(0xaabb)`,
+          selfValues: [200],
+          selfSampleCount: 10,
+        },
+      ],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+
+    expect(diff.functions).toHaveLength(2)
+    for (const func of diff.functions) {
+      expect(func.base?.selfSampleCount).toBe(5)
+      expect(func.current?.selfSampleCount).toBe(10)
+    }
+  })
+
   test(`matches functions without locations by name`, () => {
     const base = makeProfile(
       [MICROSECONDS],

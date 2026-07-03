@@ -263,24 +263,47 @@ const cacheEntryFunction = <Entry extends object, Value>(
 }
 
 /**
- * Returns a location to match this entry by with known build hashes (Cargo
- * build-script and rustc commit-hash directories) stripped, or `undefined` if
- * the location contains no known hashes.
+ * Returns a name and location to match this entry by with known
+ * run-varying identifiers stripped — build hashes (Cargo build-script and
+ * rustc commit-hash directories) and JVM runtime addresses (`$$Lambda.0x…`
+ * classes, `I2C/C2I adapters(0x…)` stubs) — or `undefined` if the entry
+ * contains none.
  */
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,
 ): NormalizedEntry | undefined => {
-  const { location } = entry
-  if (!location) {
-    return undefined
+  const name = entry.name?.replaceAll(JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`)
+
+  let location
+  if (entry.location) {
+    const id = fileReferenceId(entry.location)
+    const normalizedId = id
+      .replaceAll(JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`)
+      .replace(CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`)
+      .replace(RUSTC_HASH_REGEX, `$<prefix>rustc`)
+    if (normalizedId !== id) {
+      location = normalizedId
+    }
   }
 
-  const id = fileReferenceId(location)
-  const normalizedId = id
-    .replace(CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`)
-    .replace(RUSTC_HASH_REGEX, `$<prefix>rustc`)
-  return normalizedId === id ? undefined : { location: normalizedId }
+  const nameChanged = name !== undefined && name !== entry.name
+  if (!nameChanged && location === undefined) {
+    return undefined
+  }
+  return {
+    ...(nameChanged ? { name } : {}),
+    ...(location === undefined ? {} : { location }),
+  }
 }
+
+/**
+ * A JVM runtime address baked into a frame's identity, differing per JVM run:
+ * a hidden lambda class (`Foo$$Lambda.0x00000070011868b8`) or HotSpot's
+ * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
+ * prefix alone still identifies the function across runs.
+ */
+const JVM_RUNTIME_ADDRESS_REGEX =
+  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:\.0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
 
 // Cargo build-script output directories embed a per-build hash and always emit
 // into an `out/` directory, e.g. `build/web-compiler-274140d43750284c/out/parser.rs`.
