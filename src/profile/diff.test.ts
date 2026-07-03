@@ -263,6 +263,82 @@ describe(`diffAggregatedProfiles`, () => {
     }
   })
 
+  test(`pairs same-key functions across sides instead of dropping them`, () => {
+    // Julia methods of one function live at different lines of the same file.
+    // The match key ignores line/column, so both methods share one key; each
+    // side's nth method must pair with the other side's nth, not collapse
+    // into a single slot that drops one method and diffs the survivor as
+    // new/removed.
+    const methods = (counts: [number, number]) => [
+      {
+        name: `+`,
+        url: `file:///julia/base/int.jl`,
+        line: 87,
+        selfValues: [counts[0]],
+        selfSampleCount: counts[0],
+      },
+      {
+        name: `+`,
+        url: `file:///julia/base/int.jl`,
+        line: 1013,
+        selfValues: [counts[1]],
+        selfSampleCount: counts[1],
+      },
+    ]
+    const base = makeProfile([MICROSECONDS], methods([322, 50]))
+    const current = makeProfile([MICROSECONDS], methods([333, 60]))
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+
+    expect(diff.functions).toHaveLength(2)
+    expect(
+      diff.functions.map(func => ({
+        line: func.location?.line,
+        base: func.base?.selfSampleCount,
+        current: func.current?.selfSampleCount,
+      })),
+    ).toEqual(
+      expect.arrayContaining([
+        { line: 87, base: 322, current: 333 },
+        { line: 1013, base: 50, current: 60 },
+      ]),
+    )
+  })
+
+  test(`pairs exact-line matches first when same-key groups are asymmetric`, () => {
+    // Base saw one method (line 36); current saw two (36 and 35). Line 36 must
+    // pair with line 36, leaving line 35 as genuinely new — not pair 36 with
+    // 35 by order and report 36 as removed.
+    const method = (line: number, sampleCount: number) => ({
+      name: `mapfoldl_impl`,
+      url: `file:///julia/base/reduce.jl`,
+      line,
+      selfValues: [sampleCount],
+      selfSampleCount: sampleCount,
+    })
+    const base = makeProfile([MICROSECONDS], [method(36, 5514)])
+    const current = makeProfile(
+      [MICROSECONDS],
+      [method(36, 5680), method(35, 12)],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+
+    expect(
+      diff.functions.map(func => ({
+        line: func.location?.line,
+        base: func.base?.selfSampleCount,
+        current: func.current?.selfSampleCount,
+      })),
+    ).toEqual(
+      expect.arrayContaining([
+        { line: 36, base: 5514, current: 5680 },
+        { line: 35, base: undefined, current: 12 },
+      ]),
+    )
+    expect(diff.functions).toHaveLength(2)
+  })
+
   test(`matches JVM lambda and JIT-adapter frames across runs`, () => {
     // Hidden lambda classes and HotSpot transition stubs embed a per-run
     // runtime address; the default `matchEntry` strips it so the same frame
