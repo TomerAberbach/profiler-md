@@ -1,4 +1,4 @@
-import { categorizeCPythonEntry } from './categorize.ts'
+import { categorizeCPythonEntry, pythonStdlibCategory } from './categorize.ts'
 import { packedLocationNormalizer } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
@@ -12,8 +12,16 @@ const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
 export const pySpyOriginSpec = {
   id: `py-spy`,
   language: `python`,
-  formats: [`collapsed`],
-  matchesEntry: entry => FRAME.test(entry.name ?? ``),
+  formats: [`collapsed`, `speedscope`],
+  // Collapsed frames pack the location into the name; speedscope renderings of
+  // the same profiles carry the location separately, so the marker there is a
+  // CPython install-layout location (`<frozen ...>` bootstrap modules, the
+  // interpreter's `lib/pythonX.Y/` sources). Tachyon observes the same
+  // interpreter with the same categorization, so resolving those frames here
+  // categorizes them correctly regardless of which CPython profiler sampled
+  // them.
+  matchesEntry: entry =>
+    FRAME.test(entry.name ?? ``) || pythonStdlibCategory(entry) !== undefined,
   categorize: categorizeCPythonEntry,
   normalizeFrame: packedLocationNormalizer(FRAME),
 } as const satisfies OriginSpec

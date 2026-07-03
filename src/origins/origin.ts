@@ -76,6 +76,12 @@ export type OriginSpec = {
    * profiler's markers. The format only narrows which origins are tried,
    * and is the fallback when no data signal matches.
    *
+   * The marker must be **origin-level, not language-level**: evidence of this
+   * profiler or runtime's own conventions (a synthetic frame name it invents,
+   * a runtime's install-layout path, its packed-name shape), never a signal
+   * any profiler observing the same language would produce (a `.rb`/`.py`
+   * file extension, idiomatic function names).
+   *
    * Used only for origin auto-detection (skipped when the user forces an
    * origin), so be strict to avoid false positives.
    */
