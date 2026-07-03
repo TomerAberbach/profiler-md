@@ -15,11 +15,14 @@ export const aggregateJSCHeapSnapshot = (
 
   const stringClassNameIndex = nodeClassNames.indexOf(`string`)
   const indexEdgeType = edgeTypes.indexOf(`Index`)
+  const internalEdgeType = edgeTypes.indexOf(`Internal`)
 
   const classNameIndexToCategoryOrdinal =
     computeClassNameIndexToCategoryOrdinal(nodeClassNames)
+  const idToOrdinal = computeIdToOrdinal(nodes, nodeCount)
   const { nodeAdjacencyGraph, edgeCount } = computeNodeAdjacencyGraph(
     edges,
+    idToOrdinal,
     nodeCount,
     rawEdgeCount,
   )
@@ -32,15 +35,21 @@ export const aggregateJSCHeapSnapshot = (
     nodeFieldCount: NODE_FIELD_COUNT,
     nodeSelfSizeOffset: NODE_SIZE_OFFSET,
     formatEdgeLabel: (retainerOrdinal, edgeIndex) => {
+      // The edge's fourth field is type-dependent data: an `edgeNames` index
+      // for `Property`/`Variable` edges, the array index for `Index` edges,
+      // and unused for `Internal` edges (which carry no name).
       const edgeType = edges[edgeIndex + EDGE_TYPE_OFFSET]!
+      const edgeData = edges[edgeIndex + EDGE_DATA_OFFSET]!
       const edgeName =
-        edgeType === indexEdgeType
-          ? `[${edges[edgeIndex + EDGE_NAME_OFFSET]!}]`
-          : `.${edgeNames[edges[edgeIndex + EDGE_NAME_OFFSET]!]!}`
+        edgeType === internalEdgeType
+          ? ``
+          : edgeType === indexEdgeType
+            ? `[${edgeData}]`
+            : `.${edgeNames[edgeData]!}`
       const classNameIndex =
         nodes[retainerOrdinal * NODE_FIELD_COUNT + NODE_CLASS_OFFSET]!
       const retainerLabel = nodeClassNames[classNameIndex]!
-      return `${edgeName} ${retainerLabel}`
+      return edgeName ? `${edgeName} ${retainerLabel}` : retainerLabel
     },
     formatNodeLabel: nodeOrdinal => {
       const classNameIndex =
@@ -228,19 +237,48 @@ const CATEGORY_ORDINAL_TO_NAME = [
   `native`, // 13
 ]
 
+/**
+ * Maps node identifiers to node ordinals. Edges reference nodes by identifier,
+ * and identifiers are not ordinals: nodes appear in traversal order while
+ * identifiers reflect allocation order.
+ */
+const computeIdToOrdinal = (nodes: number[], nodeCount: number): Int32Array => {
+  let maxId = 0
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const id = nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_ID_OFFSET]!
+    if (id > maxId) {
+      maxId = id
+    }
+  }
+  const idToOrdinal = new Int32Array(maxId + 1).fill(-1)
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    idToOrdinal[nodes[nodeOrdinal * NODE_FIELD_COUNT + NODE_ID_OFFSET]!] =
+      nodeOrdinal
+  }
+  return idToOrdinal
+}
+
 const computeNodeAdjacencyGraph = (
   edges: number[],
+  idToOrdinal: Int32Array,
   nodeCount: number,
   rawEdgeCount: number,
 ): { nodeAdjacencyGraph: NodeAdjacencyGraph; edgeCount: number } => {
+  // Resolve each edge's endpoint identifiers to ordinals once, shared by both
+  // passes below.
+  const resolveIdToOrdinal = (id: number): number =>
+    id < idToOrdinal.length ? idToOrdinal[id]! : -1
+
   // Pass 1: Count valid edges per source and per target node.
   const ordinalToSuccessorCount = new Int32Array(nodeCount)
   const ordinalToPredecessorCount = new Int32Array(nodeCount)
   for (let edgeOrdinal = 0; edgeOrdinal < rawEdgeCount; edgeOrdinal++) {
     const edgeIndex = edgeOrdinal * EDGE_FIELD_COUNT
-    const fromNodeOrdinal = edges[edgeIndex + EDGE_FROM_OFFSET]!
-    const toNodeOrdinal = edges[edgeIndex + EDGE_TO_OFFSET]!
-    if (fromNodeOrdinal >= nodeCount || toNodeOrdinal >= nodeCount) {
+    const fromNodeOrdinal = resolveIdToOrdinal(
+      edges[edgeIndex + EDGE_FROM_OFFSET]!,
+    )
+    const toNodeOrdinal = resolveIdToOrdinal(edges[edgeIndex + EDGE_TO_OFFSET]!)
+    if (fromNodeOrdinal === -1 || toNodeOrdinal === -1) {
       // JSC's `HeapSnapshotBuilder` sometimes outputs edges between nodes that
       // don't exist.
       continue
@@ -271,9 +309,11 @@ const computeNodeAdjacencyGraph = (
   ordinalToPredecessorCount.fill(0)
   for (let edgeOrdinal = 0; edgeOrdinal < rawEdgeCount; edgeOrdinal++) {
     const edgeIndex = edgeOrdinal * EDGE_FIELD_COUNT
-    const fromNodeOrdinal = edges[edgeIndex + EDGE_FROM_OFFSET]!
-    const toNodeOrdinal = edges[edgeIndex + EDGE_TO_OFFSET]!
-    if (fromNodeOrdinal >= nodeCount || toNodeOrdinal >= nodeCount) {
+    const fromNodeOrdinal = resolveIdToOrdinal(
+      edges[edgeIndex + EDGE_FROM_OFFSET]!,
+    )
+    const toNodeOrdinal = resolveIdToOrdinal(edges[edgeIndex + EDGE_TO_OFFSET]!)
+    if (fromNodeOrdinal === -1 || toNodeOrdinal === -1) {
       // JSC's `HeapSnapshotBuilder` sometimes outputs edges between nodes that
       // don't exist.
       continue
@@ -307,6 +347,7 @@ const computeNodeAdjacencyGraph = (
   }
 }
 
+const NODE_ID_OFFSET = 0
 const NODE_SIZE_OFFSET = 1
 const NODE_CLASS_OFFSET = 2
 const NODE_FLAGS_OFFSET = 3
@@ -315,7 +356,7 @@ const NODE_FIELD_COUNT = 4
 const EDGE_FROM_OFFSET = 0
 const EDGE_TO_OFFSET = 1
 const EDGE_TYPE_OFFSET = 2
-const EDGE_NAME_OFFSET = 3
+const EDGE_DATA_OFFSET = 3
 const EDGE_FIELD_COUNT = 4
 
 const NODE_INTERNAL_FLAG = 0b0001
