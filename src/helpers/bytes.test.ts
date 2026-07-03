@@ -1,7 +1,7 @@
 import { fc, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
 import { chunk, streamOf } from '../testing/bytes.ts'
-import { decodeUtf8Lines, decodeUtf8LinesAsync } from './bytes.ts'
+import { ByteQueue, decodeUtf8Lines, decodeUtf8LinesAsync } from './bytes.ts'
 
 const lines = (text: string, chunkSize?: number): string[] => [
   ...decodeUtf8Lines(new TextEncoder().encode(text), chunkSize),
@@ -116,4 +116,81 @@ describe(`decodeUtf8LinesAsync`, () => {
     // The first two bytes of `→` with the third missing.
     await expect(asyncLines([new Uint8Array([0xe2, 0x86])])).rejects.toThrow()
   })
+})
+
+const bytes = (...values: number[]): Uint8Array => new Uint8Array(values)
+
+const queueOf = (...parts: Uint8Array[]): ByteQueue => {
+  const queue = new ByteQueue()
+  for (const part of parts) {
+    queue.push(part)
+  }
+  return queue
+}
+
+describe(`ByteQueue`, () => {
+  test(`length sums the pushed parts`, () => {
+    expect(queueOf(bytes(1, 2), bytes(3)).length).toBe(3)
+  })
+
+  test(`push ignores empty parts`, () => {
+    expect(queueOf(bytes(), bytes(1), bytes()).length).toBe(1)
+  })
+
+  test(`uint32 reads a big-endian uint32 spanning part boundaries`, () => {
+    expect(queueOf(bytes(0x12, 0x34), bytes(0x56, 0x78)).uint32(0)).toBe(
+      0x12345678,
+    )
+  })
+
+  test(`uint32 reads at an offset`, () => {
+    expect(queueOf(bytes(0xff), bytes(0x00, 0x00, 0x00, 0x01)).uint32(1)).toBe(
+      1,
+    )
+  })
+
+  test(`int64 reads a big-endian signed int64 spanning part boundaries`, () => {
+    expect(
+      queueOf(
+        bytes(0xff, 0xff, 0xff, 0xff),
+        bytes(0xff, 0xff, 0xff, 0xff),
+      ).int64(0),
+    ).toBe(-1)
+  })
+
+  test(`take removes and returns the first bytes, splitting a part`, () => {
+    const queue = queueOf(bytes(1, 2, 3, 4))
+    expect([...queue.take(2)]).toEqual([1, 2])
+    expect(queue.length).toBe(2)
+    expect([...queue.take(2)]).toEqual([3, 4])
+    expect(queue.length).toBe(0)
+  })
+
+  test(`take drains across multiple parts`, () => {
+    const queue = queueOf(bytes(1), bytes(2, 3), bytes(4))
+    expect([...queue.take(4)]).toEqual([1, 2, 3, 4])
+    expect(queue.length).toBe(0)
+  })
+
+  test.prop([fc.uint8Array({ minLength: 1 }), fc.integer({ min: 1 })])(
+    `take reconstructs the pushed bytes for any part and take sizes`,
+    (data, partSize) => {
+      const queue = queueOf(...chunk(data, partSize))
+      const taken: number[] = []
+      while (queue.length > 0) {
+        taken.push(...queue.take(Math.min(partSize, queue.length)))
+      }
+      expect(taken).toEqual([...data])
+    },
+  )
+
+  test.prop([fc.uint8Array({ minLength: 8 }), fc.integer({ min: 1 })])(
+    `uint32 and int64 match a DataView regardless of part sizes`,
+    (data, partSize) => {
+      const view = new DataView(data.buffer, data.byteOffset, data.byteLength)
+      const queue = queueOf(...chunk(data, partSize))
+      expect(queue.uint32(0)).toBe(view.getUint32(0))
+      expect(queue.int64(0)).toBe(Number(view.getBigInt64(0)))
+    },
+  )
 })

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
-import { aggregateInput } from '../formats/index.ts'
+import { aggregateInputs } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { fixturePath } from '../testing/fixtures.ts'
@@ -20,17 +20,13 @@ const absoluteEntry = (name: string, url: string): ProfileEntry => ({
 })
 
 /**
- * Echoes each input's resolved origin (explicit, else detected from its
- * entries) as the category of every function, so a profile's origin is
- * observable through its function categories, which is otherwise the only trace
- * of it the profile retains.
+ * Echoes each input's resolved origin as the category of every function, so a
+ * profile's origin is observable through its function categories, which is
+ * otherwise the only trace of it the profile retains.
  */
 const echoOriginOptions = (): NormalizedProfileToMdOptions =>
   normalizeProfileToMdOptions({
-    categorizeEntries: (entries, { format, origin }) => {
-      const resolved = origin ?? determineOrigin({ format, entries })
-      return entries.map(() => resolved)
-    },
+    categorizeEntries: (entries, { origin }) => entries.map(() => origin),
   })
 
 describe(`determineOrigin`, () => {
@@ -162,19 +158,60 @@ describe(`determineOrigin`, () => {
     ).toBe(`pprof-rs`)
   })
 
-  test(`detects py-spy by its thread and frozen-module frames`, () => {
+  test(`detects py-spy by its "func (file:line)" frames`, () => {
     expect(
       determineOrigin({
         format: `collapsed`,
-        entries: [relativeEntry(`tid:42`)],
+        entries: [relativeEntry(`<module> (<frozen runpy>:5)`)],
       }),
     ).toBe(`py-spy`)
     expect(
       determineOrigin({
         format: `collapsed`,
-        entries: [relativeEntry(`_run_code`, `<frozen runpy>`)],
+        entries: [relativeEntry(`parse (black/parsing.py:42)`)],
       }),
     ).toBe(`py-spy`)
+  })
+
+  test(`detects tachyon by its thread and frozen-bootstrap frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`tid:15522692`)],
+      }),
+    ).toBe(`tachyon`)
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`<frozen runpy>:_run_module_as_main:201`)],
+      }),
+    ).toBe(`tachyon`)
+  })
+
+  test(`a marker-free folded "file:func:line" stack stays unknown`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`app.py:work:20`)],
+      }),
+    ).toBe(`unknown`)
+  })
+
+  test(`detects the jvm origin from async-profiler's collapsed class frames`, () => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`java/util/HashMap.put`)],
+      }),
+    ).toBe(`jvm`)
+    // Detection matches raw slash-form names against the same package roots
+    // categorization matches dot-form classes against, including `com/sun`.
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(`com/sun/crypto/provider/AESCrypt.encrypt`)],
+      }),
+    ).toBe(`jvm`)
   })
 
   test(`resolves JFR to the jvm origin`, () => {
@@ -208,8 +245,8 @@ const FIXTURE_ORIGINS: [filename: string, origin: Origin][] = [
   [`node.heapprofile`, `node`],
   [`node.pprof`, `node-pprof`],
   [`webkit-timeline-recording.json`, `safari`],
-  [`python.base.collapsed`, `py-spy`],
-  [`python.current.collapsed`, `py-spy`],
+  [`python.base.collapsed`, `tachyon`],
+  [`python.current.collapsed`, `tachyon`],
   [`rust.base.pprof`, `pprof-rs`],
   [`rust.current.pprof`, `pprof-rs`],
   [`java.jdk.jfr`, `jvm`],
@@ -218,7 +255,7 @@ const FIXTURE_ORIGINS: [filename: string, origin: Origin][] = [
 
 describe(`detected fixture origins`, () => {
   test.each(FIXTURE_ORIGINS)(`%s is detected as %s`, (filename, origin) => {
-    const inputs = aggregateInput(
+    const inputs = aggregateInputs(
       readFileSync(fixturePath(filename)),
       echoOriginOptions(),
     )
@@ -241,8 +278,8 @@ describe(`origin threading`, () => {
   test(`an explicit origin overrides detection and reaches categorizeEntries`, () => {
     const options = echoOriginOptions()
 
-    const [detected] = aggregateInput(nodeFixture(), options)
-    const [forced] = aggregateInput(
+    const [detected] = aggregateInputs(nodeFixture(), options)
+    const [forced] = aggregateInputs(
       { data: nodeFixture(), origin: `deno` },
       options,
     )

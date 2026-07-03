@@ -847,8 +847,8 @@ const formatDiffEntitySections = (
   }
 
   // With active entities but no change, keep the section and let the header note
-  // it didn't differ. With nothing active — the section a non-diff snapshot
-  // would have omitted — omit it entirely.
+  // it didn't differ. With nothing active (the section a non-diff snapshot
+  // would have omitted), omit it.
   if (sections.length === 0 && !hasActive) {
     return []
   }
@@ -866,7 +866,7 @@ const showDiffEntity = (
 
 /**
  * Returns whether anything in the snapshot or diff has a location. If nothing
- * does, then location columns would be noisy and shouldn't be output.
+ * does, location columns would be noisy and shouldn't be output.
  */
 const hasAnyLocation = ({
   constructors,

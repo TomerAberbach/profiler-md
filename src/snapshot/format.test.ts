@@ -412,8 +412,8 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
-    // The sections still render, with a note in place of empty tables so the
-    // output doesn't look broken.
+    // The sections are still formatted, with a note in place of empty tables so
+    // the output doesn't look broken.
     expect(md).not.toMatch(/Regressions|Progressions/u)
     expect(md).toMatch(/^## Largest constructors$/mu)
 
@@ -431,7 +431,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     )
     expect(md).toContain(`No string differed in bytes allocated for it.`)
 
-    // The category table still renders with a zero delta.
+    // The category table is still formatted with a zero delta.
     expect(categoryTables(md)).toEqual([
       [
         {

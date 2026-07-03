@@ -27,16 +27,17 @@ profiler-md
 │   │   ├── index.ts          # Format registry; profileToMd(Async)/diffProfiles(Async)
 │   │   ├── converter.ts      # Format converter types
 │   │   ├── testing/
-│   │   │   └── convert.ts    # Test-only convertToMd runner for a single converter
-│   │   └── **/<name>/
-│   │       ├── parse.ts      # Converts untyped profile data to typed data
-│   │       ├── aggregate.ts  # Aggregates profile data
-│   │       ├── index.ts      # Exports the format's converter (matches/parse/aggregate)
+│   │   │   └── convert.ts    # Test-only convertJsonToMd/convertBytesToMd runners for a single converter
+│   │   └── **/<name>/        # One per format; v8/ nests cpu-profile/heap-profile/heap-snapshot + shared common.ts
+│   │       ├── parse.ts      # Parses input to typed data, then to the uniform `Profile` (profile formats)
+│   │       ├── aggregate.ts  # Aggregates to a heap snapshot (snapshot formats only)
+│   │       ├── index.ts      # Exports the format's converter (matches + parse/aggregate)
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── metric.ts         # Sampled metric types and inference logic
-│   │   ├── aggregate.ts      # Sampling profile data aggregation builder
+│   │   ├── type.ts           # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
+│   │   ├── aggregate.ts      # Uniform pipeline (origin detection → frame normalization → aggregation) + aggregation builder
 │   │   ├── diff.ts           # Aggregated profile diffing logic
 │   │   ├── format.ts         # Sampling profile and diff to Markdown formatting
 │   │   └── index.ts          # Barrel file
@@ -50,7 +51,7 @@ profiler-md
 │   │   └── testing.ts        # Test-only utilities specific to this module
 │   │
 │   ├── origins/              # Per-profiler detection and categorization
-│   │   ├── origin.ts         # OriginSpec type and match helpers
+│   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers
 │   │   ├── categorize.ts     # Shared categorization rule helpers
 │   │   ├── <name>.ts         # One file per origin (node, node-pprof, jvm, etc.)
 │   │   └── index.ts          # Origin registry; determineOrigin/categorizeEntryForOrigin
@@ -66,6 +67,7 @@ profiler-md
 │   │   ├── bytes.ts
 │   │   ├── heap.ts
 │   │   ├── format.ts
+│   │   ├── intern.ts
 │   │   ├── markdown.ts
 │   │   └── types.ts
 │   │
@@ -73,7 +75,7 @@ profiler-md
 │   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
 │
 ├── docs/
-│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`). Some are aliases using symlinks
+│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`). Some are symlink aliases
 │   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
 │
 ├── scripts/                  # Bash and TypeScript scripts
@@ -82,7 +84,7 @@ profiler-md
 │   ├── fixtures/             # Per-language workload scripts (<lang>.sh) + nix flake providing the profiler toolchain
 │   ├── check-publish         # Pre-publish sanity checks (runs in prepublishOnly)
 │   ├── publish               # Publish the package
-│   ├── update-examples.ts    # Update the examples/ directory based on src/fixtures/
+│   ├── update-examples.ts    # Update the examples/ directory from src/fixtures/
 │   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
 │
 ├── examples/                 # Markdown generated from src/fixtures/* using `pnpm update-examples`
@@ -122,7 +124,7 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
     the helpers in `src/testing/markdown.ts`
   - Fully assert on Markdown tables with `toEqual` and complete expected rows.
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
-    individual cells, which would miss unexpected extra tables, rows, or cells
+    individual cells, which would miss extra tables, rows, or cells
 
 ## Glossary
 
@@ -132,25 +134,24 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
 
 ### Performance
 
-- Prioritize runtime performance so that large profiles and snapshots are
-  processed quickly
+- Prioritize runtime performance so large profiles and snapshots process quickly
 - Use low overhead abstractions
 - NEVER use more than `O(n)` memory for a profile or snapshot of size `n`
 
 ### Parsing
 
-- Simply cast untyped profile data to typed data for performance. Only validate
-  when it's necessary to make progress
+- Cast untyped profile data to typed data for performance. Validate only when
+  necessary to make progress
 
 ### Aggregating
 
 - NEVER sort, filter by `topN`, or perform any other formatting related logic
-- Use sequential IDs, `TypedArray`s, and compressed sparse row format when it
+- Use sequential IDs, `TypedArray`s, and compressed sparse row format when they
   would improve performance
-- Use sparse arrays over `Map<number, T>` for performance for dense or
-  moderately sparse data, which is often the case for sequential IDs
-- NEVER assume parsed profile data contains sequential IDs unless it's mandated
-  by the profile format's spec
+- Use sparse arrays over `Map<number, T>` for dense or moderately sparse data,
+  common with sequential IDs
+- NEVER assume parsed profile data contains sequential IDs unless the format's
+  spec mandates them
 
 ### Formatting
 
@@ -163,38 +164,47 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
 - [ ] Research the format structure online
 - [ ] Generate a fixture
   - [ ] Add or update a workload script in `scripts/fixtures/`
-    - If it needs a dependency not already available, then add it to the nix
-      flake in `scripts/fixtures/flake.nix`
+    - If it needs a dependency not already available, add it to the nix flake in
+      `scripts/fixtures/flake.nix`
     - For a new language, profile a real, popular program written in that
       language with realistic input. NEVER use a fake/toy workload or synthetic
       input. The fixture must reflect a genuine program
   - [ ] Run `pnpm generate-fixtures <lang>` to produce it in `src/fixtures/`
 - [ ] Analyze the fixture to confirm it aligns with online research
 - [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
-- [ ] Identify the profiler that produced the fixture, and decide whether it
-      needs a new origin (see `OriginSpec`).
+- [ ] Identify the profiler that produced the fixture and decide whether it
+      needs a new origin (see `OriginSpec`)
 
 ### Implementation
 
-- [ ] Create `src/formats/<name>/parse.ts`: typed data types (and a `parse*`
-      helper for binary formats; JSON formats just declare types)
-- [ ] Create `src/formats/<name>/aggregate.ts`: aggregation logic (returns an
-      `AggregatedProfile`/`AggregatedProfile[]`/`AggregatedHeapSnapshot`;
-      formatting is centralized in `src/formats/index.ts`)
+- [ ] Create `src/formats/<name>/parse.ts`: typed data types, a `parse*` helper
+      for binary formats (JSON formats receive generically-parsed JSON), and,
+      for a **profile** format, a `parse*`/`*ToProfile` helper that turns the
+      typed data into one or more `Profile`s (`Profile[]`, each with `frames`
+      and `samples`; defined in `src/profile/type.ts`); origin detection,
+      normalization, and aggregation then run uniformly in
+      `src/profile/aggregate.ts`
+- [ ] For a **snapshot** format only, create `src/formats/<name>/aggregate.ts`
+      returning `AggregatedHeapSnapshot[]` (snapshots skip the profile pipeline)
 - [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
       object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
-      `../converter.ts`) with `title`, `type`, `shape`, `matches`, `aggregate`
-      (plus `parse` and `parseAsync` for binary formats)
+      `../converter.ts`) with `title`, `type`, `shape`, `matches`, and `parse`
+      (a profile format; plus `parseAsync` for binary) or `aggregate` (a
+      snapshot format)
 - [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
-      and conversion via the `convertToMd` runner from `../testing/convert.ts`
+      and conversion via the `convertJsonToMd`/`convertBytesToMd` runner from
+      `../testing/convert.ts`
 - [ ] If tests need format-specific utilities, put them in
       `src/formats/<name>/testing.ts`
-- [ ] If the format introduces a new origin, then:
+- [ ] If the format introduces a new origin:
   - [ ] Create `src/origins/<origin>.ts` exporting an `OriginSpec` with
-        `matches` (detecting from frame data) and `categorize` (composed from
+        `matchesEntry` (detecting from frame data), `categorize` (composed from
         `src/origins/categorize.ts` helpers plus its profiler-specific rules),
-        and register it in `src/origins/index.ts` (`originSpecs`, plus
-        `fallbackOrigins` if the format always comes from this origin)
+        and, when the profiler packs a frame's location into its name,
+        `normalizeFrame` (see `packedLocationNormalizer` in
+        `src/origins/origin.ts`), and register it in `src/origins/index.ts`
+        (`originSpecs`, plus `fallbackOriginSpecs` if the format always comes
+        from this origin)
   - [ ] Add origin detection and categorization tests to
         `src/origins/index.test.ts` and `src/origins/categorize.test.ts`
 

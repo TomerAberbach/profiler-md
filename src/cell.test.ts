@@ -30,7 +30,7 @@ const cellsOf = (row: Row, total: number): Cell[] => [
   textCell(row.name),
 ]
 
-test(`formatCellRows renders numeric cells formatted and text cells verbatim`, () => {
+test(`formatCellRows formats numeric cells and leaves text cells verbatim`, () => {
   const markdown = formatTable(headers, [
     cellsOf({ name: `a`, size: 30, count: 2 }, 100),
   ])

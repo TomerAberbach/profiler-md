@@ -1,5 +1,5 @@
 import type { JsonFormatConverter } from '../../converter.ts'
-import { aggregateV8CpuProfile } from './aggregate.ts'
+import { parseV8CpuProfile } from './parse.ts'
 import type { V8CpuProfile } from './parse.ts'
 
 const matchesV8CpuProfile = (json: unknown): boolean => {
@@ -20,5 +20,5 @@ export const v8CpuProfileConverter = {
   type: `json`,
   shape: `profile`,
   matches: matchesV8CpuProfile,
-  aggregate: aggregateV8CpuProfile,
-} satisfies JsonFormatConverter<V8CpuProfile>
+  parse: json => parseV8CpuProfile(json as V8CpuProfile),
+} satisfies JsonFormatConverter

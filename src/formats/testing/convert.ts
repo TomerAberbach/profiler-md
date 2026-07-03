@@ -1,59 +1,63 @@
-import type {
-  NormalizedProfileToMdOptions,
-  ProfileToMdContext,
-} from '../../options.ts'
+import type { NormalizedProfileToMdOptions } from '../../options.ts'
 import type {
   BinaryFormatConverter,
   FormatConverter,
   JsonFormatConverter,
 } from '../converter.ts'
-import { formatAggregatedInputs, formatConverters } from '../index.ts'
+import {
+  aggregateBinaryInput,
+  aggregateBinaryInputAsync,
+  aggregateJsonInput,
+  formatAggregatedInputs,
+  formatConverters,
+} from '../index.ts'
 import type { Format } from '../index.ts'
 
-export const convertToMd: {
-  <Parsed>(
-    converter: BinaryFormatConverter<Parsed>,
-    bytes: Uint8Array,
-    options: NormalizedProfileToMdOptions,
-  ): string
-  <Parsed>(
-    converter: JsonFormatConverter<Parsed>,
-    parsed: Parsed,
-    options: NormalizedProfileToMdOptions,
-  ): string
-} = (
-  converter: FormatConverter,
-  input: unknown,
+export const convertJsonToMd = (
+  converter: JsonFormatConverter,
+  json: unknown,
   options: NormalizedProfileToMdOptions,
-): string => {
-  const parsed =
-    converter.type === `binary` ? converter.parse(input as Uint8Array) : input
-  return formatAggregatedInputs(
-    converter.aggregate(parsed, options, profileToMdContext(converter)),
+): string =>
+  formatAggregatedInputs(
+    aggregateJsonInput(converter, json, options, profileToMdContext(converter)),
     options,
   )
-}
+
+export const convertBytesToMd = (
+  converter: BinaryFormatConverter,
+  bytes: Uint8Array,
+  options: NormalizedProfileToMdOptions,
+): string =>
+  formatAggregatedInputs(
+    aggregateBinaryInput(
+      converter,
+      bytes,
+      options,
+      profileToMdContext(converter),
+    ),
+    options,
+  )
 
 /**
- * The streaming analogue of {@link convertToMd} for binary converters: parses a
- * byte stream via {@link BinaryFormatConverter.parseAsync} before aggregating
- * and formatting.
+ * The streaming analogue of {@link convertBytesToMd}: parses a byte stream via
+ * {@link BinaryFormatConverter.parseAsync} before aggregating and formatting.
  */
-export const convertToMdAsync = async <Parsed>(
-  converter: BinaryFormatConverter<Parsed>,
+export const convertToMdAsync = async (
+  converter: BinaryFormatConverter,
   stream: ReadableStream<Uint8Array>,
   options: NormalizedProfileToMdOptions,
-): Promise<string> => {
-  const parsed = await converter.parseAsync(stream)
-  return formatAggregatedInputs(
-    converter.aggregate(parsed, options, profileToMdContext(converter)),
+): Promise<string> =>
+  formatAggregatedInputs(
+    await aggregateBinaryInputAsync(
+      converter,
+      stream,
+      options,
+      profileToMdContext(converter),
+    ),
     options,
   )
-}
 
-const profileToMdContext = (
-  converter: FormatConverter<any>,
-): ProfileToMdContext => ({
+const profileToMdContext = (converter: FormatConverter) => ({
   format: formatByConverter.get(converter)!,
   origin: null,
 })

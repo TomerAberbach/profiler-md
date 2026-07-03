@@ -1,3 +1,9 @@
+import { BYTES } from '../../../profile/index.ts'
+import type { Profile, Sample } from '../../../profile/index.ts'
+import {
+  callFrameToStackFrame,
+  makeStackFrameIndicesResolver,
+} from '../common.ts'
 import type { V8CallFrame } from '../common.ts'
 
 /**
@@ -34,4 +40,61 @@ export type V8HeapProfileSample = {
 
   /** Time-ordered sequence number. */
   ordinal: number
+}
+
+export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
+  // Flatten the call tree, reindexing each node's id to its flattened position,
+  // which doubles as its frame-universe index.
+  const flatNodes: V8HeapProfileNode[] = []
+  const idToIndex: number[] = []
+  const indexToParentIndex: number[] = []
+
+  const stack: { node: V8HeapProfileNode; parentIndex: number }[] = [
+    { node: profile.head, parentIndex: -1 },
+  ]
+  do {
+    const { node, parentIndex } = stack.pop()!
+
+    const index = flatNodes.length
+    idToIndex[node.id] = index
+    node.id = index
+    flatNodes.push(node)
+    indexToParentIndex.push(parentIndex)
+
+    for (const child of node.children) {
+      stack.push({ node: child, parentIndex: index })
+    }
+  } while (stack.length > 0)
+
+  const frames = flatNodes.map(node => callFrameToStackFrame(node.callFrame))
+
+  return [
+    {
+      frames,
+      metrics: [BYTES],
+      samples: heapSamples(profile, idToIndex, indexToParentIndex),
+    },
+  ]
+}
+
+function* heapSamples(
+  profile: V8HeapProfile,
+  idToIndex: number[],
+  indexToParentIndex: number[],
+): Generator<Sample> {
+  const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
+  for (const { size, nodeId } of profile.samples) {
+    const nodeIndex = idToIndex[nodeId]
+    if (nodeIndex === undefined) {
+      continue
+    }
+
+    // The node index is a stable stack ID (a node always denotes the same
+    // stack), so the aggregator memoizes repeat stacks by it.
+    yield {
+      id: nodeIndex,
+      values: [size],
+      frameIndices: resolveFrameIndices(nodeIndex),
+    }
+  }
 }

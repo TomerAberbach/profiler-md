@@ -12,7 +12,7 @@ export const unknownOriginSpec = {
   id: `unknown`,
   language: null,
   formats: [],
-  matches: () => false,
+  matchesEntry: () => false,
   categorize: entry =>
     syntheticFrameCategory(entry) ??
     locationlessStdlibCategory(entry) ??

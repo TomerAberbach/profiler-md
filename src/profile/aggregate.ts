@@ -1,17 +1,133 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
 import { HashInterner } from '../helpers/intern.ts'
-import { makeSourceLocation } from '../location.ts'
-import type { SourceLocation, SourceLocationInput } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import type {
   NormalizedProfileToMdOptions,
   ProfileToMdContext,
+  UnresolvedProfileToMdContext,
 } from '../options.ts'
+import {
+  OriginDetector,
+  originNormalizeFrame,
+  parseFrameFunction,
+} from '../origins/index.ts'
+import type { FrameFunction, Origin } from '../origins/index.ts'
 import type { Metric } from './metric.ts'
+import type {
+  Profile,
+  ProfileStackFrame,
+  Sample,
+  SampleLineMetrics,
+} from './type.ts'
 
-export class ProfileAggregator<Node extends { id?: number }> {
+/** Aggregates each {@link Profile} through the uniform pipeline. */
+export const aggregateProfiles = (
+  profiles: Profile[],
+  options: NormalizedProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedProfile[] => {
+  // Multi-profile formats typically share one frames array reference (see
+  // {@link Profile.frames}), so resolve the origin and normalize once per
+  // distinct array rather than once per profile.
+  const resolutions = new Map<ProfileStackFrame[], ResolvedFrames>()
+  return profiles.map(profile => {
+    let resolution = resolutions.get(profile.frames)
+    if (!resolution) {
+      resolution = resolveFrames(profile.frames, context)
+      resolutions.set(profile.frames, resolution)
+    }
+    return aggregateProfile(profile, resolution, options, context)
+  })
+}
+
+/** A profile's distinct frames after origin resolution. */
+type ResolvedFrames = {
+  origin: Origin
+
+  /**
+   * The frames, normalized by the origin; the input array itself when the
+   * origin has no `normalizeFrame`.
+   */
+  frames: ProfileStackFrame[]
+
+  /**
+   * Per frame index, a lazily-filled cache of the frame's parsed name and
+   * location, shared across the profiles referencing these frames so each
+   * distinct frame's location is parsed once, not once per profile. Seeded by
+   * origin detection when the frames needed no normalization (normalization
+   * changes a frame's name and location).
+   */
+  frameFunctions: (FrameFunction | undefined)[]
+}
+
+/**
+ * Resolves the origin from the raw frames (a variant's marker lives in the
+ * unsplit name, which normalization would destroy), early-exiting once decided,
+ * then normalizes the distinct frames with it.
+ */
+const resolveFrames = (
+  frames: ProfileStackFrame[],
+  context: UnresolvedProfileToMdContext,
+): ResolvedFrames => {
+  const detector = new OriginDetector(context)
+  const frameFunctions: (FrameFunction | undefined)[] = []
+  for (let index = 0; !detector.decided && index < frames.length; index++) {
+    const frameFunction = parseFrameFunction(frames[index]!)
+    frameFunctions[index] = frameFunction
+    detector.add({ id: index, ...frameFunction })
+  }
+  const origin = detector.resolve()
+
+  const normalize = originNormalizeFrame(origin)
+  if (!normalize) {
+    return { origin, frames, frameFunctions }
+  }
+  return {
+    origin,
+    // An already-located frame needs no normalization (an origin can span a
+    // location-carrying format like JFR and a location-in-name one like
+    // collapsed), so the pipeline, not each origin, skips it (see
+    // {@link OriginSpec.normalizeFrame}).
+    frames: frames.map(frame => (frame.location ? frame : normalize(frame))),
+    frameFunctions: [],
+  }
+}
+
+/**
+ * Aggregates one {@link Profile}'s samples over its resolved distinct frames.
+ */
+const aggregateProfile = (
+  { metrics, samples, lineMetrics }: Profile,
+  { origin, frames, frameFunctions }: ResolvedFrames,
+  options: NormalizedProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedProfile => {
+  const resolvedContext: ProfileToMdContext = { ...context, origin }
+
+  const aggregator = new ProfileAggregator(
+    metrics,
+    frames,
+    options,
+    resolvedContext,
+    frameFunctions,
+  )
+  for (const sample of samples) {
+    aggregator.addSample(sample)
+  }
+  for (const lineMetric of lineMetrics ?? []) {
+    aggregator.addLineMetrics(lineMetric)
+  }
+  return aggregator.aggregate()
+}
+
+export class ProfileAggregator {
   readonly #metrics: Metric[]
-  readonly #functionKey: (node: Node) => number | string
-  readonly #functionInput: (node: Node) => ProfileFunctionInput
+
+  /**
+   * The normalized distinct frames. {@link Sample.frameIndices} are indices
+   * into them; a frame's function identity is its normalized name and location.
+   */
+  readonly #frames: ProfileStackFrame[]
   readonly #options: NormalizedProfileToMdOptions
   readonly #context: ProfileToMdContext
 
@@ -40,35 +156,31 @@ export class ProfileAggregator<Node extends { id?: number }> {
     AggregatedProfileFunction
   >
 
-  readonly #idToFunction: AggregatedProfileFunction[]
+  /** Per frame index, its registered function, a frame-index fast path. */
+  readonly #frameIndexToFunction: AggregatedProfileFunction[]
   readonly #functionIdToLastSeenEpoch: DynamicTypedArray<Uint32Array>
 
+  /**
+   * Per frame index, a cache of the frame's parsed name and location, filled
+   * lazily by {@link ProfileAggregator.#getOrCreateFunction} and shared with
+   * every other aggregator over the same frames, so each frame's location is
+   * parsed once, not once per profile.
+   */
+  readonly #frameFunctions: (FrameFunction | undefined)[]
+
   public constructor(
-    {
-      metrics,
-      functionKey,
-      functionInput,
-    }: {
-      /** @see {@link AggregatedProfile.metrics} */
-      metrics: Metric[]
-
-      /** Returns a unique key for the function corresponding to {@link node}. */
-      functionKey: (node: Node) => number | string
-
-      /**
-       * Returns the {@link ProfileFunctionInput} for the function corresponding
-       * to {@link node}.
-       */
-      functionInput: (node: Node) => ProfileFunctionInput
-    },
+    /** @see {@link AggregatedProfile.metrics} */
+    metrics: Metric[],
+    frames: ProfileStackFrame[],
     options: NormalizedProfileToMdOptions,
     context: ProfileToMdContext,
+    frameFunctions: (FrameFunction | undefined)[] = [],
   ) {
     this.#metrics = metrics
-    this.#functionKey = functionKey
-    this.#functionInput = functionInput
+    this.#frames = frames
     this.#options = options
     this.#context = context
+    this.#frameFunctions = frameFunctions
 
     this.#totalSampleCount = 0
     this.#sampleEpoch = 0
@@ -76,14 +188,14 @@ export class ProfileAggregator<Node extends { id?: number }> {
 
     this.#idToCallStack = []
     this.#keyToFunction = new Map()
-    this.#idToFunction = []
+    this.#frameIndexToFunction = []
     this.#functionIdToLastSeenEpoch = new DynamicTypedArray(new Uint32Array(1))
   }
 
   /**
    * Adds {@link Sample.sampleCount} occurrences (default `1`) of a profile
-   * sample. An empty {@link Sample.nodes} is a stackless sample, attributed to a
-   * single shared anonymous function.
+   * sample. An empty {@link Sample.frameIndices} is a stackless sample,
+   * attributed to a single shared anonymous function.
    *
    * Passing a count is equivalent to calling this once per occurrence, but runs
    * in time independent of the count. Pre-aggregated formats use it to avoid a
@@ -92,15 +204,15 @@ export class ProfileAggregator<Node extends { id?: number }> {
   public addSample({
     id,
     values,
-    nodes,
+    frameIndices,
     line,
     sampleCount = 1,
-  }: Sample<Node>): void {
+  }: Sample): void {
     if (sampleCount <= 0) {
       return
     }
 
-    const callStack = this.#getOrCreateCallStack(nodes, id)
+    const callStack = this.#getOrCreateCallStack(frameIndices, id)
     const callee = callStack.frames[0]!
     const caller = callStack.frames[1]
 
@@ -117,15 +229,25 @@ export class ProfileAggregator<Node extends { id?: number }> {
       }
     }
 
+    // When the sample has no explicit line, fall back to the leaf frame's
+    // sampled line, the one its origin's `normalizeFrame` derived
+    // (py-spy/rbspy), so it surfaces in the function's line breakdown.
+    let leafLine = line
+    if (leafLine === undefined) {
+      const leafIndex = frameIndices[0]
+      leafLine =
+        leafIndex === undefined ? undefined : this.#frames[leafIndex]?.line
+    }
+
     let lineMetrics
-    if (line !== undefined) {
-      lineMetrics = callee.lineToMetrics.get(line)
+    if (leafLine !== undefined) {
+      lineMetrics = callee.lineToMetrics.get(leafLine)
       if (!lineMetrics) {
         lineMetrics = {
           sampleCount: 0,
           values: new Float64Array(this.#metrics.length),
         }
-        callee.lineToMetrics.set(line, lineMetrics)
+        callee.lineToMetrics.set(leafLine, lineMetrics)
       }
     }
 
@@ -201,18 +323,8 @@ export class ProfileAggregator<Node extends { id?: number }> {
     }
   }
 
-  public addLineMetrics({
-    node,
-    lines,
-  }: {
-    node: Node
-    lines: {
-      line: number
-      sampleCount: number
-      values: number[]
-    }[]
-  }): void {
-    const func = this.#getOrCreateFunction(node)
+  public addLineMetrics({ frame, lines }: SampleLineMetrics): void {
+    const func = this.#getOrCreateFunction(frame)
     for (const { line, sampleCount, values } of lines) {
       let lineMetrics = func.lineToMetrics.get(line)
       if (!lineMetrics) {
@@ -230,12 +342,12 @@ export class ProfileAggregator<Node extends { id?: number }> {
   }
 
   #getOrCreateCallStack(
-    nodes: Node[],
+    frameIndices: number[],
     id: number | undefined,
   ): AggregatedProfileCallStack {
     // A stable stack ID lets repeat stacks (the common case, since a profile
     // has far fewer unique stacks than samples) skip resolving frames and the
-    // hash-keyed lookup entirely, becoming a single sparse-array index.
+    // hash-keyed lookup, becoming a single sparse-array index.
     if (id !== undefined) {
       const cached = this.#idToCallStack[id]
       if (cached) {
@@ -243,11 +355,11 @@ export class ProfileAggregator<Node extends { id?: number }> {
       }
     }
 
-    // A stackless sample has no nodes; attribute it to a shared anonymous frame.
+    // A stackless sample has no frames; attribute it to a shared anonymous frame.
     const frames =
-      nodes.length === 0
+      frameIndices.length === 0
         ? [this.#getOrCreateAnonymousFunction()]
-        : nodes.map(node => this.#getOrCreateFunction(node))
+        : frameIndices.map(index => this.#getOrCreateFunction(index))
     const callStack = this.#internCallStack(frames)
 
     // Distinct IDs can resolve to the same logical stack, so memoize against
@@ -275,51 +387,52 @@ export class ProfileAggregator<Node extends { id?: number }> {
     return this.#callStackInterner.items[index]!
   }
 
-  #getOrCreateFunction(node: Node): AggregatedProfileFunction {
-    const { id } = node
-    if (id !== undefined) {
-      const func = this.#idToFunction[id]
-      if (func) {
-        return func
-      }
+  #getOrCreateFunction(index: number): AggregatedProfileFunction {
+    const cached = this.#frameIndexToFunction[index]
+    if (cached) {
+      return cached
     }
 
-    const key = this.#functionKey(node)
-    const func =
-      this.#keyToFunction.get(key) ??
-      this.#registerFunction(key, this.#functionInput(node))
-    if (id !== undefined) {
-      this.#idToFunction[id] = func
+    // A function's identity is its normalized name and location, so frames that
+    // normalize alike (e.g. one function sampled at several lines) merge into
+    // one function; distinct frames sharing that identity merge too.
+    const normalized = this.#frames[index]!
+    const key = functionIdentityKey(normalized)
+    let func = this.#keyToFunction.get(key)
+    if (!func) {
+      let frameFunction = this.#frameFunctions[index]
+      if (!frameFunction) {
+        frameFunction = parseFrameFunction(normalized)
+        this.#frameFunctions[index] = frameFunction
+      }
+      func = this.#registerFunction(key, frameFunction)
     }
+    this.#frameIndexToFunction[index] = func
     return func
   }
 
   /**
    * The single shared anonymous function for stackless samples, keyed by a
-   * symbol so it can never collide with a caller's {@link functionKey}.
+   * symbol so it can never collide with a {@link functionIdentityKey}.
    */
   #getOrCreateAnonymousFunction(): AggregatedProfileFunction {
     return (
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
-      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, {})
+      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, parseFrameFunction({}))
     )
   }
 
   #registerFunction(
     key: number | string | symbol,
-    { name, location }: ProfileFunctionInput,
+    { name, location }: FrameFunction,
   ): AggregatedProfileFunction {
-    const entry = {
-      id: this.#keyToFunction.size,
-      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      name: name || `(anonymous)`,
-      location: makeSourceLocation(location),
-    }
     const func: AggregatedProfileFunction = {
       type: `function`,
-      ...entry,
-      // Categories are assigned at the end of `aggregate`, once the origin can
-      // be detected from the full set of functions.
+      id: this.#keyToFunction.size,
+      name,
+      location,
+      // Categories are assigned at the end of `aggregate`, in one pass over the
+      // full set of functions.
       category: ``,
       selfSampleCount: 0,
       totalSampleCount: 0,
@@ -410,11 +523,28 @@ export class ProfileAggregator<Node extends { id?: number }> {
 
 /**
  * Key for the single shared anonymous function that stackless samples (empty
- * `nodes`) are attributed to. A symbol so it can never collide with a caller's
- * {@link ProfileAggregator}'s `functionKey`. All stackless samples merge into
- * one bucket because there's no information to tell them apart.
+ * {@link Sample.frameIndices}) are attributed to. A symbol so it can never collide
+ * with a {@link functionIdentityKey}. All stackless samples merge into one
+ * bucket because nothing distinguishes them.
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
+
+/**
+ * A function's identity key: its normalized name and location (URL/path, plus
+ * definition line and column). Two frames that normalize to the same name and
+ * location are the same function.
+ *
+ * The location's own line/column are part of the identity, but a frame's
+ * executing line ({@link ProfileStackFrame.line}) is not; that flows to the
+ * line breakdown instead.
+ */
+const functionIdentityKey = ({
+  name = ``,
+  location,
+}: ProfileStackFrame): string =>
+  location === undefined
+    ? name
+    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
 
 /** Whether two frame lists reference the same functions in the same order. */
 const sameFrameIds = (
@@ -430,51 +560,6 @@ const sameFrameIds = (
     }
   }
   return true
-}
-
-/** Base information used for constructing a {@link AggregatedProfileFunction}. */
-export type ProfileFunctionInput = {
-  /** The name of the function, if known. */
-  name?: string
-
-  /** Where the function was defined, if known. */
-  location?: SourceLocationInput
-}
-
-/** A single sample within a profile. */
-export type Sample<Node extends { id?: number }> = {
-  /**
-   * A stable identifier for this sample's call stack, if the caller has one
-   * (e.g. a format that references stacks by a constant-pool index).
-   *
-   * When provided, the aggregator memoizes the resolved call stack by this ID
-   * so repeat stacks skip resolving frames and the string-keyed lookup. IDs
-   * must range over a bounded space (the distinct stacks), since one slot is
-   * retained per ID seen. Distinct IDs that resolve to the same logical stack
-   * are merged.
-   */
-  id?: number
-
-  /** The values recorded for each metric in {@link AggregatedProfile.metrics}. */
-  values: number[]
-
-  /**
-   * The functions on the call stack in callee to caller order. Empty for a
-   * stackless sample, which is attributed to a shared anonymous function.
-   */
-  nodes: Node[]
-
-  /** The 1-based line number where the sample was taken, if known. */
-  line?: number
-
-  /**
-   * The number of identical occurrences of this sample, defaulting to `1`.
-   *
-   * Used by pre-aggregated formats to add a summed count in one call instead of
-   * looping. Metric {@link Sample.values} are scaled by it, so per-occurrence
-   * callers should leave it `1` and pass per-occurrence values.
-   */
-  sampleCount?: number
 }
 
 /**
@@ -533,19 +618,19 @@ export type AggregatedProfileCallerMetrics = {
  * callees, with a given direct callee.
  */
 export type AggregatedProfileCalleeMetrics = {
-  /** The callee corresponding to the ordinal. */
+  /** The callee corresponding to the ID. */
   callee: AggregatedProfileFunction
 
   /**
-   * The number of samples taken directly within the function's, _and_ all
-   * its callees, with this callee.
+   * The number of samples taken directly within the function's body, _and_
+   * all its callees, with this callee.
    */
   totalSampleCount: number
 
   /**
    * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
    * samples taken directly within the function's body, _and_ all its
-   * callees. with this callee.
+   * callees, with this callee.
    */
   totalValues: Float64Array
 
@@ -573,7 +658,7 @@ export type AggregatedProfileFunction = {
   /** Where the function was defined, if known. */
   location?: SourceLocation
 
-  /** A string describing the category of functions this function belongs to.*/
+  /** The category of functions this function belongs to. */
   category: string
 
   /**
@@ -674,8 +759,8 @@ export type AggregatedProfile = {
  * suffix of their frames, except it never returns a call stack as long as one
  * of the input call stacks.
  *
- * This behavior is so that it's safe to remove that suffix from any of the call
- * stacks and end up with a non-empty call stack to format.
+ * That cap makes it safe to remove the suffix from any call stack and still
+ * have a non-empty call stack to format.
  */
 export const findCommonCallStack = (
   callStacks: { frames: AggregatedProfileFunction[] }[],

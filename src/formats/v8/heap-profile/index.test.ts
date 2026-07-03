@@ -9,7 +9,7 @@ import {
   selfSizeTables,
   totalSizeTables,
 } from '../../../testing/markdown.ts'
-import { convertToMd } from '../../testing/convert.ts'
+import { convertJsonToMd } from '../../testing/convert.ts'
 import { v8HeapProfileConverter } from './index.ts'
 import { makeV8HeapProfileRoot } from './testing.ts'
 
@@ -191,7 +191,7 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -278,7 +278,7 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 4, ordinal: 1 }],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -334,7 +334,7 @@ describe(`convert`, () => {
       samples: [{ size: 100, nodeId: 3, ordinal: 1 }],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -405,7 +405,7 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -471,7 +471,7 @@ describe(`convert`, () => {
       ],
     }
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       profile,
       normalizeProfileToMdOptions({
@@ -497,7 +497,7 @@ describe(`convert`, () => {
     // `node:internal/` frames are excluded from display by default. Their
     // allocations still count toward the category summary. The `node:fs` frame
     // (non-internal Node built-in) is NOT filtered.
-    const defaultOutput = convertToMd(
+    const defaultOutput = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -531,7 +531,7 @@ describe(`options`, () => {
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcB` is excluded via `showEntry`. `funcC`'s callers section is omitted
     // because its only direct caller (`funcB`) is excluded.
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -547,7 +547,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -561,7 +561,7 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
@@ -575,7 +575,7 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntries groups entries by custom category`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({

@@ -24,22 +24,13 @@ const makeProfile = (
   }[],
 ) => {
   const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+  const normalized = functions.map(func => ({
+    name: func.name,
+    location: func.url ? { urlOrPath: func.url, line: func.line } : undefined,
+  }))
   const aggregator = new ProfileAggregator(
-    {
-      metrics,
-      functionKey: (node: { id: number }) => node.id,
-      functionInput: (node: {
-        id: number
-        name: string
-        url?: string
-        line?: number
-      }) => ({
-        name: node.name,
-        location: node.url
-          ? { urlOrPath: node.url, line: node.line }
-          : undefined,
-      }),
-    },
+    metrics,
+    normalized,
     options,
     // The forced origin is immaterial since these entries have no
     // origin-specific signal.
@@ -47,15 +38,9 @@ const makeProfile = (
   )
 
   for (const [index, func] of functions.entries()) {
-    const node = {
-      id: index + 1,
-      name: func.name,
-      url: func.url,
-      line: func.line,
-    }
     const values = func.values.map(value => value / func.sampleCount)
     for (let i = 0; i < func.sampleCount; i++) {
-      aggregator.addSample({ values, nodes: [node] })
+      aggregator.addSample({ values, frameIndices: [index] })
     }
   }
 
@@ -351,8 +336,8 @@ describe(`formatProfileDiff`, () => {
       `Took 0.1ms over 5 samples (20.0µs per sample).`,
     ])
 
-    // The sections still render, with a note in place of empty tables so the
-    // output doesn't look broken.
+    // The sections are still formatted, with a note in place of empty tables so
+    // the output doesn't look broken.
     expect(md).toMatch(/^## Hottest functions$/mu)
     expect(regressionsTables(md, `Self time`)).toEqual([])
     expect(progressionsTables(md, `Self time`)).toEqual([])
@@ -363,7 +348,7 @@ describe(`formatProfileDiff`, () => {
       `No function differed in total time spent in the function and all its callees.`,
     )
 
-    // The category table still renders with a zero delta.
+    // The category table is still formatted with a zero delta.
     expect(categoryTables(md)).toEqual([
       [
         {

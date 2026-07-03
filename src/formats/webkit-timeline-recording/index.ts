@@ -1,5 +1,5 @@
 import type { JsonFormatConverter } from '../converter.ts'
-import { aggregateWebKitTimelineRecording } from './aggregate.ts'
+import { parseWebKitTimelineRecording } from './parse.ts'
 import type { WebKitTimelineRecording } from './parse.ts'
 
 const matchesWebKitTimelineRecording = (json: unknown): boolean => {
@@ -32,5 +32,5 @@ export const webkitTimelineRecordingConverter = {
   type: `json`,
   shape: `profile`,
   matches: matchesWebKitTimelineRecording,
-  aggregate: aggregateWebKitTimelineRecording,
-} satisfies JsonFormatConverter<WebKitTimelineRecording>
+  parse: json => parseWebKitTimelineRecording(json as WebKitTimelineRecording),
+} satisfies JsonFormatConverter

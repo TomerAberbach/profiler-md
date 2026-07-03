@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
+import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
+import { chunk, streamOf } from '../../testing/bytes.ts'
 import {
   callersTables,
   linesTables,
@@ -9,7 +11,7 @@ import {
   selfTimeTables,
   totalSizeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
 import { jfrConverter } from './index.ts'
 import { makeJfr } from './testing.ts'
 
@@ -23,7 +25,7 @@ describe(`parse and matches`, () => {
       events: [{ type: `cpu`, stack: 0 }],
     })
 
-    expect(jfrConverter.matches(jfrConverter.parse(bytes))).toBe(true)
+    expect(jfrConverter.matches(bytes)).toBe(true)
   })
 
   test(`accepts a recording with the magic but no supported events`, () => {
@@ -31,21 +33,15 @@ describe(`parse and matches`, () => {
     // as JFR regardless, so it's still matched (and converts to nothing).
     const bytes = makeJfr({ methods: [], stackTraces: [], events: [] })
 
-    expect(jfrConverter.matches(jfrConverter.parse(bytes))).toBe(true)
+    expect(jfrConverter.matches(bytes)).toBe(true)
   })
 
   test(`rejects empty data without throwing`, () => {
-    expect(jfrConverter.matches(jfrConverter.parse(new Uint8Array()))).toBe(
-      false,
-    )
+    expect(jfrConverter.matches(new Uint8Array())).toBe(false)
   })
 
   test(`rejects non-JFR binary data without throwing`, () => {
-    expect(
-      jfrConverter.matches(
-        jfrConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
-      ),
-    ).toBe(false)
+    expect(jfrConverter.matches(new Uint8Array([0xff, 0xfe, 0xfd]))).toBe(false)
   })
 })
 
@@ -72,7 +68,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
@@ -120,7 +116,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Allocated heap profile`])
     expect(selfSizeTables(md)).toEqual([
@@ -173,7 +169,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Allocated native memory profile`])
     expect(selfSizeTables(md)).toEqual([
@@ -218,7 +214,7 @@ describe(`convert`, () => {
       events: [{ type: `lock`, stack: 0, weight: 3_000_000 }],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Lock contention profile`])
     expect(selfTimeTables(md)).toEqual([
@@ -246,7 +242,9 @@ describe(`convert`, () => {
       ],
     })
 
-    expect(profileTitles(convertToMd(jfrConverter, bytes, options))).toEqual([
+    expect(
+      profileTitles(convertBytesToMd(jfrConverter, bytes, options)),
+    ).toEqual([
       `Sampling profile`,
       `Allocated heap profile`,
       `Allocated native memory profile`,
@@ -267,7 +265,7 @@ describe(`convert`, () => {
 
     // `showEntry` is forced on to surface the anonymous frame, which the default
     // filter hides.
-    const md = convertToMd(
+    const md = convertBytesToMd(
       jfrConverter,
       bytes,
       normalizeProfileToMdOptions({
@@ -303,7 +301,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       jfrConverter,
       bytes,
       normalizeProfileToMdOptions({
@@ -346,7 +344,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
@@ -369,7 +367,7 @@ describe(`convert`, () => {
       events: [{ type: `nativelock`, stack: 0, weight: 5_000_000 }],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(profileTitles(md)).toEqual([`Lock contention profile`])
     expect(selfTimeTables(md)).toEqual([
@@ -412,7 +410,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(selfSamplesTables(md)).toEqual([
       [
@@ -445,7 +443,7 @@ describe(`convert`, () => {
       events: [{ type: `cpu`, stack: 0 }],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(linesTables(md, `funcB`)).toEqual([])
   })
@@ -476,7 +474,7 @@ describe(`allocation event families`, () => {
       ],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(selfSizeTables(md)).toEqual([
       [
@@ -498,7 +496,7 @@ describe(`allocation event families`, () => {
       events: [{ type: `alloc-tlab`, stack: 0, weight: 2048 }],
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(selfSizeTables(md)).toEqual([
       [
@@ -525,7 +523,7 @@ describe(`malformed recordings`, () => {
       malformations: { emptyUnknownPools: [900] },
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     expect(selfSamplesTables(md)).toEqual([
       [
@@ -537,6 +535,25 @@ describe(`malformed recordings`, () => {
         },
       ],
     ])
+  })
+
+  test(`a chunk whose declared size is smaller than its header is dropped`, async () => {
+    const bytes = makeJfr({
+      methods: [{ name: `a`, className: `C` }],
+      stackTraces: [{ frames: [{ method: 0, line: 1 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+    // Corrupt the chunk header's size field (a big-endian int64 at offset 8) to
+    // declare a size smaller than the 68-byte header itself; reading the
+    // header's fields from a chunk that short would run past its bounds.
+    new DataView(bytes.buffer, bytes.byteOffset).setBigInt64(8, 20n)
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(md).toBe(`No profiling data found.`)
+    expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
+      md,
+    )
   })
 
   test(`abandons an event with an unreadable field without dropping others`, () => {
@@ -553,7 +570,7 @@ describe(`malformed recordings`, () => {
       malformations: { unreadableEventTypes: [`jdk.JavaMonitorEnter`] },
     })
 
-    const md = convertToMd(jfrConverter, bytes, options)
+    const md = convertBytesToMd(jfrConverter, bytes, options)
 
     // The malformed lock event produces no lock-contention profile, and both
     // cpu samples are still counted.
@@ -582,12 +599,68 @@ describe(`options`, () => {
       events: [{ type: `alloc`, stack: 0, weight: 2048 }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       jfrConverter,
       bytes,
       normalizeProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
     )
 
     expect(totalSizeTables(md).map(table => table.length)).toEqual([1])
+  })
+})
+
+describe(`streaming parse`, () => {
+  const bytes = makeJfr({
+    methods: [
+      { name: `funcB`, className: `com.example.B` },
+      { name: `funcA`, className: `com.example.A` },
+    ],
+    stackTraces: [
+      {
+        frames: [
+          { method: 0, line: 10 },
+          { method: 1, line: 5 },
+        ],
+      },
+      { frames: [{ method: 1, line: 5 }] },
+    ],
+    events: [
+      { type: `cpu`, stack: 0 },
+      { type: `cpu`, stack: 1 },
+      { type: `alloc`, stack: 0, weight: 4096 },
+    ],
+  })
+  const expected = convertBytesToMd(jfrConverter, bytes, options)
+
+  test(`matches sync conversion`, async () => {
+    expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
+      expected,
+    )
+  })
+
+  test(`matches sync conversion across mid-chunk stream boundaries`, async () => {
+    // Tiny stream reads split the chunk header and body across boundaries,
+    // exercising the queue's header peeks and chunk assembly.
+    expect(
+      await convertToMdAsync(
+        jfrConverter,
+        streamOf(...chunk(bytes, 13)),
+        options,
+      ),
+    ).toBe(expected)
+  })
+
+  test(`merges methods and stacks across chunks`, async () => {
+    // A recording is a sequence of self-contained chunks, so concatenating two
+    // single-chunk recordings feeds the parser two chunks from the stream.
+    const recording = concatUint8Arrays([bytes, bytes])
+
+    expect(
+      await convertToMdAsync(
+        jfrConverter,
+        streamOf(...chunk(recording, 13)),
+        options,
+      ),
+    ).toBe(convertBytesToMd(jfrConverter, recording, options))
   })
 })

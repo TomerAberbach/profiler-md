@@ -1,3 +1,6 @@
+import { determineMetric } from '../../profile/index.ts'
+import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
+
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
   /** The name of the function. */
@@ -83,5 +86,96 @@ export type SpeedscopeProfile = {
   shared: {
     /** A list of unique function frames. */
     frames: SpeedscopeFrame[]
+  }
+}
+
+export const parseSpeedscope = (profile: SpeedscopeProfile): Profile[] => {
+  // Speedscope samples reference frames by their index in the shared table, so
+  // it doubles as the distinct frames, shared across the file's profiles.
+  const frames = profile.shared.frames.map(frameToStackFrame)
+  return profile.profiles.map(subProfile =>
+    subProfile.type === `sampled`
+      ? sampledProfile(frames, subProfile)
+      : eventedProfile(frames, subProfile),
+  )
+}
+
+const frameToStackFrame = (frame: SpeedscopeFrame): ProfileStackFrame => ({
+  name: frame.name,
+  location: frame.file
+    ? { urlOrPath: frame.file, line: frame.line, column: frame.col }
+    : undefined,
+})
+
+const sampledProfile = (
+  frames: ProfileStackFrame[],
+  profile: SpeedscopeSampledProfile,
+): Profile => ({
+  frames,
+  metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  samples: sampledSamples(profile),
+})
+
+function* sampledSamples(profile: SpeedscopeSampledProfile): Generator<Sample> {
+  for (let index = 0; index < profile.samples.length; index++) {
+    const weight = profile.weights[index]!
+    if (weight <= 0) {
+      continue
+    }
+    const frameIndices = profile.samples[index]!
+    if (frameIndices.length === 0) {
+      continue
+    }
+    // Speedscope uses caller-to-callee order, but we use callee-to-caller.
+    // The parsed JSON is the converter's own, read exactly once here, so
+    // reverse in place rather than copying every sample's stack.
+    yield { values: [weight], frameIndices: frameIndices.reverse() }
+  }
+}
+
+const eventedProfile = (
+  frames: ProfileStackFrame[],
+  profile: SpeedscopeEventedProfile,
+): Profile => ({
+  frames,
+  metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  samples: eventedSamples(profile),
+})
+
+/**
+ * Reconstructs samples from open/close events: each frame's self time (the gap
+ * since its last child closed) becomes one sample of the current stack.
+ */
+function* eventedSamples(profile: SpeedscopeEventedProfile): Generator<Sample> {
+  const stack: { frame: number; lastChildClosed: number }[] = []
+
+  function* emitTopSelfTime(at: number): Generator<Sample> {
+    if (stack.length === 0) {
+      return
+    }
+    const top = stack.at(-1)!
+    const selfTime = at - top.lastChildClosed
+    if (selfTime <= 0) {
+      return
+    }
+    // Stack is in caller-to-callee order. Reverse for callee-to-caller.
+    yield {
+      values: [selfTime],
+      frameIndices: stack.map(entry => entry.frame).reverse(),
+    }
+    top.lastChildClosed = at
+  }
+
+  for (const event of profile.events) {
+    if (event.type === `O`) {
+      yield* emitTopSelfTime(event.at)
+      stack.push({ frame: event.frame, lastChildClosed: event.at })
+    } else {
+      yield* emitTopSelfTime(event.at)
+      stack.pop()
+      if (stack.length > 0) {
+        stack.at(-1)!.lastChildClosed = event.at
+      }
+    }
   }
 }

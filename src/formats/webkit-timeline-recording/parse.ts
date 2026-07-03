@@ -1,3 +1,6 @@
+import { SECONDS } from '../../profile/index.ts'
+import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
+
 /** A function observed in a WebKit timeline recording call stack. */
 export type WebKitStackFrame = {
   /**
@@ -55,3 +58,57 @@ export type WebKitTimelineRecording = {
     sampleDurations: number[]
   }
 }
+
+export const parseWebKitTimelineRecording = ({
+  recording: { sampleStackTraces, sampleDurations },
+}: WebKitTimelineRecording): Profile[] => {
+  // Frames are inlined per sample rather than in a shared table, so dedup them
+  // into the distinct frames by identity; a frame's index is its position.
+  const indexByFrame = new Map<string, number>()
+  const frames: ProfileStackFrame[] = []
+  const intern = (frame: WebKitStackFrame): number => {
+    const key = frameKey(frame)
+    let index = indexByFrame.get(key)
+    if (index === undefined) {
+      index = frames.length
+      indexByFrame.set(key, index)
+      frames.push(frameToStackFrame(frame))
+    }
+    return index
+  }
+
+  const samples: Sample[] = []
+  for (let index = 0; index < sampleStackTraces.length; index++) {
+    const { stackFrames } = sampleStackTraces[index]!
+    if (stackFrames.length === 0) {
+      continue
+    }
+
+    // WebKit's stack frames are already in callee-to-caller order.
+    const expressionLine = stackFrames[0]!.expressionLocation?.line
+    samples.push({
+      values: [sampleDurations[index]!],
+      frameIndices: stackFrames.map(intern),
+      line:
+        expressionLine !== undefined && expressionLine !== -1
+          ? expressionLine
+          : undefined,
+    })
+  }
+
+  return [{ frames, metrics: [SECONDS], samples }]
+}
+
+const frameKey = (node: WebKitStackFrame): string =>
+  `${node.name}|${node.url}|${node.line}|${node.column}`
+
+const frameToStackFrame = (node: WebKitStackFrame): ProfileStackFrame => ({
+  name: node.name,
+  location: node.url
+    ? {
+        urlOrPath: node.url,
+        line: node.line === -1 ? undefined : node.line,
+        column: node.column === -1 ? undefined : node.column,
+      }
+    : undefined,
+})

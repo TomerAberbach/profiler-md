@@ -3,22 +3,23 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import { chunk, streamOf } from '../../testing/bytes.ts'
 import {
   calleesTables,
+  categoryTables,
+  linesTables,
   profileTitles,
   selfSamplesTables,
   summaryLines,
   totalSamplesTables,
 } from '../../testing/markdown.ts'
-import { convertToMd, convertToMdAsync } from '../testing/convert.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
 import { collapsedConverter } from './index.ts'
-import { parseCollapsed, parseFrame } from './parse.ts'
+import { parseCollapsed } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
-
-const matches = (bytes: Uint8Array): boolean =>
-  collapsedConverter.matches(collapsedConverter.parse(bytes))
 
 describe(`matches`, () => {
   test(`accepts a valid collapsed buffer`, () => {
-    expect(matches(makeCollapsed([`main;work 1`]))).toBe(true)
+    expect(collapsedConverter.matches(makeCollapsed([`main;work 1`]))).toBe(
+      true,
+    )
   })
 
   test(`parse rejects non-UTF-8 bytes`, () => {
@@ -35,82 +36,35 @@ describe(`matches`, () => {
 
   test(`rejects collapsed-shaped text containing a NUL byte`, () => {
     // Valid UTF-8, so it parses leniently (a user could force it), but a NUL
-    // betrays binary input, so detection rejects it.
+    // reveals binary input, so detection rejects it.
     const bytes = makeCollapsed([`main;wo\u0000rk 1`])
 
     expect(() => parseCollapsed(bytes)).not.toThrow()
-    expect(matches(bytes)).toBe(false)
+    expect(collapsedConverter.matches(bytes)).toBe(false)
   })
 
   test(`rejects empty input rather than claiming it as an empty profile`, () => {
-    expect(matches(new Uint8Array(0))).toBe(false)
+    expect(collapsedConverter.matches(new Uint8Array(0))).toBe(false)
   })
 
   test(`rejects comment-only and blank input`, () => {
-    expect(matches(makeCollapsed([`# a comment`, ``]))).toBe(false)
-  })
-})
-
-describe(`parse`, () => {
-  test(`strips extra separator whitespace before the count`, () => {
-    // A count padded with multiple spaces must not leave a trailing space on
-    // the leaf frame, which would split it into a distinct function.
-    expect(parseCollapsed(makeCollapsed([`a;b  42`])).stacks).toEqual([
-      { frames: [`a`, `b`], count: 42 },
-    ])
-  })
-
-  test(`accepts a stackless sample with an empty stack before the count`, () => {
-    // A line that is only a count (with the empty stack preceding the space)
-    // is a stackless sample rather than a line missing its count. It carries no
-    // frames so the aggregator attributes it to an anonymous function.
-    expect(parseCollapsed(makeCollapsed([` 42`])).stacks).toEqual([
-      { frames: [], count: 42 },
-    ])
-  })
-})
-
-describe(`parseFrame`, () => {
-  test(`extracts a basename:func:line location`, () => {
-    expect(parseFrame(`app.py:main:10`)).toEqual({
-      name: `main`,
-      location: { urlOrPath: `app.py`, line: 10 },
-    })
-  })
-
-  test(`keeps a Windows drive-letter path whole instead of splitting on the drive colon`, () => {
-    expect(parseFrame(`C:\\proj\\app.py:run:10`)).toEqual({
-      name: `run`,
-      location: { urlOrPath: `C:\\proj\\app.py`, line: 10 },
-    })
-    expect(parseFrame(`D:/proj/app.py:run:10`)).toEqual({
-      name: `run`,
-      location: { urlOrPath: `D:/proj/app.py`, line: 10 },
-    })
-  })
-
-  test(`keeps a C++ namespaced function name intact`, () => {
-    expect(parseFrame(`file.cpp:Foo::bar:42`)).toEqual({
-      name: `Foo::bar`,
-      location: { urlOrPath: `file.cpp`, line: 42 },
-    })
-  })
-
-  test(`treats a single-colon frame as a plain name`, () => {
-    expect(parseFrame(`tid:140234`)).toEqual({ name: `tid:140234` })
+    expect(collapsedConverter.matches(makeCollapsed([`# a comment`, ``]))).toBe(
+      false,
+    )
   })
 })
 
 describe(`convert`, () => {
-  test(`Python-shaped stacks: reversal, locations, and plain frames`, () => {
-    // Root-to-leaf stacks with a leading synthetic `tid:N` frame and
-    // `basename:func:line` frames. The duplicate `work` stack sums to 10.
-    const md = convertToMd(
+  test(`tachyon "file:func:line" stacks: reversal and locations`, () => {
+    // The `tid:` root frame marks the profile as tachyon, whose
+    // `normalizeFrame` splits the `file:func:line` shape, keeping the packed
+    // line as the executing line. The duplicate `work` stack sums to 10.
+    const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([
-        `tid:7;app.py:main:10;app.py:work:20 6`,
-        `tid:7;app.py:main:10;app.py:work:20 4`,
-        `tid:7;app.py:main:10 5`,
+        `tid:1;app.py:main:10;app.py:work:20 6`,
+        `tid:1;app.py:main:10;app.py:work:20 4`,
+        `tid:1;app.py:main:10 5`,
       ]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
@@ -121,45 +75,44 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
 
     // `work` is the hottest self (leaf of the reversed stack) with the summed
-    // count; `basename:func:line` frames yield a `Location`.
+    // count; the packed line is the executing line, so it stays out of the
+    // location and feeds the per-line breakdown instead.
     expect(selfSamplesTables(md)).toEqual([
       [
         {
           '%': `66.7%`,
           Samples: `10`,
           Function: `work`,
-          Location: `app.py:20`,
+          Location: `app.py`,
         },
         {
           '%': `33.3%`,
           Samples: `5`,
           Function: `main`,
-          Location: `app.py:10`,
+          Location: `app.py`,
         },
       ],
     ])
 
-    // The leading `tid:7` frame is kept as an ordinary root frame with only a
-    // name (no location).
     expect(totalSamplesTables(md)).toEqual([
       [
         {
           '%': `100.0%`,
           Samples: `15`,
           Function: `main`,
-          Location: `app.py:10`,
+          Location: `app.py`,
         },
         {
           '%': `100.0%`,
           Samples: `15`,
-          Function: `tid:7`,
+          Function: `tid:1`,
           Location: `<unknown>`,
         },
         {
           '%': `66.7%`,
           Samples: `10`,
           Function: `work`,
-          Location: `app.py:20`,
+          Location: `app.py`,
         },
       ],
     ])
@@ -167,14 +120,111 @@ describe(`convert`, () => {
     // The callee count sums occurrences across both `work` stacks (6 + 4),
     // verifying the summed sample count propagates through callee metrics.
     expect(calleesTables(md, `main`)).toEqual([
-      [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py:20` }],
+      [{ '%': `66.7%`, Samples: `10`, Callee: `work`, Location: `app.py` }],
     ])
   })
 
-  test(`a stackless sample is counted and rendered as an anonymous function`, () => {
+  test(`marker-free "file:func:line" stacks stay raw under the unknown origin`, () => {
+    // Without a tachyon marker the generic `file:func:line` shape isn't
+    // trusted, so frame names stay whole and location-less.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([`app.py:main:10;app.py:work:20 6`, `app.py:main:10 4`]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `app.py:work:20`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `app.py:main:10`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
+  test(`py-spy "func (file:line)" stacks: location split and per-line breakdown`, () => {
+    // Py-spy carries the sampled line separately from the function's file, so
+    // `work` sampled at lines 20 and 22 stays one function (file `app.py`) with
+    // a two-line breakdown rather than two functions.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `main (app.py:10);work (app.py:20) 6`,
+        `main (app.py:10);work (app.py:22) 4`,
+        `main (app.py:10) 5`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `ours`, '%': `100.0%`, Samples: `15` }],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        { '%': `66.7%`, Samples: `10`, Function: `work`, Location: `app.py` },
+        { '%': `33.3%`, Samples: `5`, Function: `main`, Location: `app.py` },
+      ],
+    ])
+    expect(linesTables(md, `work`)).toEqual([
+      [
+        { '%': `60.0%`, Samples: `6`, Location: `app.py:20` },
+        { '%': `40.0%`, Samples: `4`, Location: `app.py:22` },
+      ],
+    ])
+  })
+
+  test(`async-profiler "Class/path.method" stacks: dotted class location`, () => {
+    // Async-profiler names a Java frame `package/Class.method`; the class
+    // becomes a dotted location and JVM packages are stdlib while app code is
+    // ours.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `start_thread;java/lang/Thread.run;com/ex/App.work;java/util/HashMap.put 6`,
+        `start_thread;java/lang/Thread.run;com/ex/App.work 4`,
+      ]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
+        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+      ],
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `put`,
+          Location: `java.util.HashMap`,
+        },
+        {
+          '%': `40.0%`,
+          Samples: `4`,
+          Function: `work`,
+          Location: `com.ex.App`,
+        },
+      ],
+    ])
+  })
+
+  test(`a stackless sample is counted and formatted as an anonymous function`, () => {
     // A line with an empty stack before the count contributes to the total
     // sample count and surfaces as an `(anonymous)` self function.
-    const md = convertToMd(
+    const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([`main;work 6`, ` 4`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
@@ -199,8 +249,8 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`bare frames without a location render as a name only`, () => {
-    const md = convertToMd(
+  test(`bare frames without a location are formatted as a name only`, () => {
+    const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([`outer;inner 3`]),
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
@@ -217,6 +267,27 @@ describe(`convert`, () => {
       ],
     ])
   })
+
+  test(`strips extra separator whitespace before the count`, () => {
+    // A count padded with multiple spaces must not leave a trailing space on
+    // the leaf frame `b`, which would format it as a distinct `b ` function.
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([`a;b  42`]),
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `42`,
+          Function: `b`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
 })
 
 describe(`convertAsync`, () => {
@@ -225,11 +296,11 @@ describe(`convertAsync`, () => {
     showEntry: () => true,
   })
   const bytes = makeCollapsed([
-    `tid:7;app.py:main:10;app.py:work:20 6`,
-    `tid:7;app.py:main:10;app.py:work:20 4`,
-    `tid:7;app.py:main:10 5`,
+    `tid:1;app.py:main:10;app.py:work:20 6`,
+    `tid:1;app.py:main:10;app.py:work:20 4`,
+    `tid:1;app.py:main:10 5`,
   ])
-  const expected = convertToMd(collapsedConverter, bytes, options)
+  const expected = convertBytesToMd(collapsedConverter, bytes, options)
 
   test(`streaming parse matches sync conversion`, async () => {
     expect(

@@ -8,7 +8,7 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd } from '../testing/convert.ts'
+import { convertJsonToMd } from '../testing/convert.ts'
 import { webkitTimelineRecordingConverter } from './index.ts'
 import { makeWebKitFrame, makeWebKitRecording } from './testing.ts'
 
@@ -106,7 +106,7 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02, 0.005],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -170,7 +170,7 @@ describe(`convert`, () => {
       sampleDurations: [0.1, 0.05, 0.1],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -183,7 +183,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`frame with empty URL renders as unknown`, () => {
+  test(`frame with empty URL is formatted as unknown`, () => {
     const recording = makeWebKitRecording({
       sampleStackTraces: [
         {
@@ -201,7 +201,7 @@ describe(`convert`, () => {
       sampleDurations: [0.01],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -242,7 +242,7 @@ describe(`convert`, () => {
       sampleDurations: [0.005, 0.01],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -297,7 +297,7 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -349,7 +349,7 @@ describe(`convert`, () => {
       sampleDurations: [0.01, 0.02],
     })
 
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       recording,
       normalizeProfileToMdOptions({
@@ -421,7 +421,7 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `work` is excluded; `main`'s total still includes `work`'s time
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
@@ -437,7 +437,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
@@ -451,7 +451,7 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({
@@ -465,7 +465,7 @@ describe(`options`, () => {
   })
 
   test(`categorizeEntries groups entries by custom category`, () => {
-    const md = convertToMd(
+    const md = convertJsonToMd(
       webkitTimelineRecordingConverter,
       structuredClone(baseRecording),
       normalizeProfileToMdOptions({

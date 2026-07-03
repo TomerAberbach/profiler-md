@@ -22,7 +22,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  3.4% |     579 | `computeIfAbsent(Object, Function)` | java.util.HashMap                                                                   |
 |  2.4% |     400 | `vectorSum()`                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |  1.0% |     166 | `zero_blocks()`                     | `<unknown>`                                                                         |
-|  0.7% |     123 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
+|  0.7% |     124 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 |  0.4% |      63 | `arrayof_jint_disjoint_arraycopy()` | `<unknown>`                                                                         |
 |  0.1% |      22 | `merge(Object, Object, BiFunction)` | java.util.HashMap                                                                   |
 |  0.1% |      17 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans                                           |
@@ -84,9 +84,10 @@ Lines ranked by contribution to each function's self samples.
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |     123 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:204 |
+|     % | Samples | Location                                                     |
+| ----: | ------: | ------------------------------------------------------------ |
+| 99.2% |     123 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:204 |
+|  0.8% |       1 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:171 |
 
 ##### `merge(Object, Object, BiFunction)` (java.util.HashMap)
 
@@ -199,9 +200,10 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
-|      % | Samples | Caller              | Location                                                 |
-| -----: | ------: | ------------------- | -------------------------------------------------------- |
-| 100.0% |     123 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|     % | Samples | Caller              | Location                                                 |
+| ----: | ------: | ------------------- | -------------------------------------------------------- |
+| 99.2% |     123 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  0.8% |       1 | `compute()`         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask     |
 
 ##### `arrayof_jint_disjoint_arraycopy()` (`<unknown>`)
 
@@ -274,28 +276,28 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|     % | Samples | Function                         | Location                                                             |
-| ----: | ------: | -------------------------------- | -------------------------------------------------------------------- |
-| 86.7% |  14,646 | `compute()`                      | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                 |
-| 83.1% |  14,029 | `join()`                         | java.util.concurrent.ForkJoinTask                                    |
-| 35.0% |   5,910 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-| 35.0% |   5,909 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-| 30.5% |   5,147 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-| 30.5% |   5,145 | `vectorSum()`                    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-| 30.5% |   5,145 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-| 28.1% |   4,742 | `accumulate(Double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
-| 24.0% |   4,058 | `findNearestCentroid()`          | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-| 15.8% |   2,667 | `distance(Double[], Double[])`   | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-| 13.8% |   2,330 | `computeClusterAverages()`       | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-| 13.8% |   2,330 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-| 13.8% |   2,330 | `computeDirectly()`              | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-| 13.7% |   2,319 | `average(List)`                  | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
-| 10.2% |   1,728 | `collectClusters(int[])`         | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  9.2% |   1,553 | `lambda$run$0(int, List, int)`   | org.renaissance.jdk.concurrent.JavaKMeans                            |
-|  9.2% |   1,553 | `call()`                         | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a2798 |
-|  7.8% |   1,319 | `merge(Map, Map)`                | org.renaissance.jdk.concurrent.JavaKMeans                            |
-|  7.8% |   1,319 | `combineResults(Object, Object)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
-|  7.8% |   1,314 | `combineResults(Map, Map)`       | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|     % | Samples | Function                            | Location                                                             |
+| ----: | ------: | ----------------------------------- | -------------------------------------------------------------------- |
+| 86.7% |  14,646 | `compute()`                         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                 |
+| 83.1% |  14,029 | `join()`                            | java.util.concurrent.ForkJoinTask                                    |
+| 35.0% |   5,910 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+| 30.5% |   5,147 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
+| 30.5% |   5,145 | `vectorSum()`                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
+| 28.1% |   4,742 | `accumulate(Double[], double[])`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask              |
+| 24.0% |   4,058 | `findNearestCentroid()`             | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+| 15.8% |   2,667 | `distance(Double[], Double[])`      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+| 13.8% |   2,330 | `computeClusterAverages()`          | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+| 13.8% |   2,330 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+| 13.7% |   2,319 | `average(List)`                     | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                 |
+| 10.2% |   1,728 | `collectClusters(int[])`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  9.2% |   1,553 | `lambda$run$0(int, List, int)`      | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  9.2% |   1,553 | `call()`                            | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a2798 |
+|  7.8% |   1,319 | `merge(Map, Map)`                   | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  7.8% |   1,319 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  7.8% |   1,314 | `combineResults(Map, Map)`          | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
+|  7.5% |   1,271 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans                            |
+|  7.5% |   1,271 | `accept(Object, Object)`            | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3bf8 |
+|  7.4% |   1,254 | `merge(Object, Object, BiFunction)` | java.util.HashMap                                                    |
 
 #### Callees
 
@@ -319,21 +321,17 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
-|      % | Samples | Callee              | Location                                                 |
-| -----: | ------: | ------------------- | -------------------------------------------------------- |
-| 100.0% |   5,909 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
-
-|     % | Samples | Callee                   | Location                                                 |
-| ----: | ------: | ------------------------ | -------------------------------------------------------- |
-| 68.7% |   4,058 | `findNearestCentroid()`  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-| 29.2% |   1,728 | `collectClusters(int[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|      % | Samples | Callee                   | Location                                                 |
+| -----: | ------: | ------------------------ | -------------------------------------------------------- |
+| 100.0% |   5,909 | `computeDirectly()`      | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  68.7% |   4,058 | `findNearestCentroid()`  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
+|  29.2% |   1,728 | `collectClusters(int[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
 
 |      % | Samples | Callee              | Location                                                |
 | -----: | ------: | ------------------- | ------------------------------------------------------- |
+| 100.0% |   5,145 | `vectorSum()`       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 | 100.0% |   5,145 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
 ##### `vectorSum()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
@@ -341,12 +339,6 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |     % | Samples | Callee                           | Location                                                |
 | ----: | ------: | -------------------------------- | ------------------------------------------------------- |
 | 92.2% |   4,742 | `accumulate(Double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask)
-
-|      % | Samples | Callee        | Location                                                |
-| -----: | ------: | ------------- | ------------------------------------------------------- |
-| 100.0% |   5,145 | `vectorSum()` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
 ##### `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -368,12 +360,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |      % | Samples | Callee                     | Location                                             |
 | -----: | ------: | -------------------------- | ---------------------------------------------------- |
 | 100.0% |   2,330 | `computeClusterAverages()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
-
-##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
-
-|      % | Samples | Callee              | Location                                             |
-| -----: | ------: | ------------------- | ---------------------------------------------------- |
-| 100.0% |   2,330 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
+| 100.0% |   2,330 | `computeDirectly()`        | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask |
 
 ##### `collectClusters(int[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -406,6 +393,25 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |      % | Samples | Callee            | Location                                  |
 | -----: | ------: | ----------------- | ----------------------------------------- |
 | 100.0% |   1,314 | `merge(Map, Map)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+##### `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans)
+
+|     % | Samples | Callee                              | Location          |
+| ----: | ------: | ----------------------------------- | ----------------- |
+| 98.7% |   1,254 | `merge(Object, Object, BiFunction)` | java.util.HashMap |
+
+##### `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3bf8)
+
+|      % | Samples | Callee                              | Location                                  |
+| -----: | ------: | ----------------------------------- | ----------------------------------------- |
+| 100.0% |   1,271 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans |
+
+##### `merge(Object, Object, BiFunction)` (java.util.HashMap)
+
+|     % | Samples | Callee                  | Location                                                             |
+| ----: | ------: | ----------------------- | -------------------------------------------------------------------- |
+| 89.1% |   1,117 | `apply(Object, Object)` | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a7248 |
+|  9.2% |     115 | `zero_blocks()`         | `<unknown>`                                                          |
 
 ## Hottest call stacks
 

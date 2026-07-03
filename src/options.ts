@@ -2,7 +2,7 @@ import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import { fileReferenceId, makeFileReference } from './location.ts'
 import type { SourceLocation } from './location.ts'
-import { categorizeEntryForOrigin, determineOrigin } from './origins/index.ts'
+import { categorizeEntryForOrigin } from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
 import { RUSTC_COMMIT_HASH_PATH } from './origins/pprof-rs.ts'
 import type { AggregatedProfileFunction } from './profile/aggregate.ts'
@@ -41,7 +41,7 @@ export const normalizeProfileInput = <Data>(
 /** The category of code an entry originated from. */
 export type EntryCategory = `ours` | `stdlib` | `third-party` | (string & {})
 
-/** A single entry in a rendered profile. */
+/** A single entry in a formatted profile. */
 export type ProfileEntry = {
   /** An index that uniquely identifies this entry. */
   id: number
@@ -76,7 +76,7 @@ export type NormalizedEntry = {
   location?: string
 }
 
-/** A aggregated entry in a rendered profile. */
+/** A aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
   | AggregatedProfileFunction
   | AggregatedSnapshotNode
@@ -89,10 +89,17 @@ export type ProfileToMdContext = {
   /** The format of the profile or snapshot being converted. */
   format: Format
 
-  /**
-   * The explicit origin, or `null` when none was given and the origin should be
-   * determined from the entries (e.g. via {@link determineOrigin}).
-   */
+  /** The origin, given explicitly or detected up front from the frames. */
+  origin: Origin
+}
+
+/**
+ * A {@link ProfileToMdContext} whose origin has not been resolved yet: `null`
+ * when none was given explicitly and the origin has yet to be detected from
+ * the frames.
+ */
+export type UnresolvedProfileToMdContext = {
+  format: Format
   origin: Origin | null
 }
 
@@ -122,7 +129,7 @@ export type ProfileToMdOptions = {
   baseURL?: string | URL | null
 
   /**
-   * Source maps to apply when rendering profile locations.
+   * Source maps to apply when formatting profile locations.
    *
    * Accepts either a list of raw source map objects, or a record mapping
    * generated file URLs or absolute/relative paths to raw source map objects.
@@ -158,17 +165,14 @@ export type ProfileToMdOptions = {
    * Used to compute a category breakdown in the Markdown output.
    *
    * Called once per profile or snapshot with all its {@link entries} and the
-   * conversion {@link ProfileToMdContext | context} (the resolved
-   * {@link Format | format} and the explicit {@link Origin | origin}, or `null`
-   * when none was given).
+   * conversion {@link ProfileToMdContext | context} (the {@link Format | format}
+   * and the resolved {@link Origin | origin}).
    *
-   * Receiving every entry up front lets the categorizer determine the origin
-   * from the full set when none was specified (see {@link determineOrigin}),
-   * rather than deciding per entry in isolation.
+   * Receiving every entry up front lets the categorizer decide from the full
+   * set rather than per entry in isolation.
    *
-   * Defaults to {@link defaultCategorizeEntries}, which determines the origin
-   * (when not given) and applies the library's origin-aware categorization
-   * ({@link categorizeEntryForOrigin}).
+   * Defaults to {@link defaultCategorizeEntries}, which applies the library's
+   * origin-aware categorization ({@link categorizeEntryForOrigin}).
    */
   categorizeEntries?: (
     entries: readonly DeepReadonly<ProfileEntry>[],
@@ -291,20 +295,17 @@ const RUSTC_HASH_REGEX = new RegExp(
 /**
  * The default {@link ProfileToMdOptions.categorizeEntries}.
  *
- * Determines the origin from the entries when none was specified (see
- * {@link determineOrigin}), then applies the library's origin-aware
- * categorization to each entry (see {@link categorizeEntryForOrigin}).
+ * Applies the library's origin-aware categorization to each entry (see
+ * {@link categorizeEntryForOrigin}).
  *
  * Exposed so a custom categorizer can reuse it as a base (e.g. override a few
  * entries and delegate the rest).
  */
 export const defaultCategorizeEntries = (
   entries: readonly DeepReadonly<ProfileEntry>[],
-  { format, origin }: ProfileToMdContext,
-): EntryCategory[] => {
-  const resolvedOrigin = origin ?? determineOrigin({ format, entries })
-  return entries.map(entry => categorizeEntryForOrigin(entry, resolvedOrigin))
-}
+  { origin }: ProfileToMdContext,
+): EntryCategory[] =>
+  entries.map(entry => categorizeEntryForOrigin(entry, origin))
 
 /**
  * Returns whether to include the given entry in the Markdown output.

@@ -7,7 +7,7 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../../testing/markdown.ts'
-import { convertToMd, convertToMdAsync } from '../testing/convert.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
 
@@ -21,13 +21,11 @@ describe(`parse and matches`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    expect(pprofConverter.matches(pprofConverter.parse(data))).toBe(true)
+    expect(pprofConverter.matches(data)).toBe(true)
   })
 
   test(`rejects empty data`, () => {
-    expect(pprofConverter.matches(pprofConverter.parse(new Uint8Array()))).toBe(
-      false,
-    )
+    expect(pprofConverter.matches(new Uint8Array())).toBe(false)
   })
 
   test(`rejects invalid binary data`, () => {
@@ -63,7 +61,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -115,7 +113,7 @@ describe(`convert`, () => {
 
     const md = await convertToMdAsync(pprofConverter, streamOf(data), options)
 
-    expect(md).toBe(convertToMd(pprofConverter, data, options))
+    expect(md).toBe(convertBytesToMd(pprofConverter, data, options))
   })
 
   test(`uses systemName when function name is empty`, () => {
@@ -134,7 +132,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -158,7 +156,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -189,7 +187,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -225,7 +223,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -271,7 +269,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000, 1] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -322,7 +320,7 @@ describe(`convert`, () => {
       ],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -369,7 +367,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [1], values: [100_000] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -399,7 +397,7 @@ describe(`convert`, () => {
       samples: [{ locationIds: [99, 1], values: [100_000] }],
     })
 
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       data,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
@@ -436,7 +434,7 @@ describe(`options`, () => {
   })
 
   test(`topN limits functions shown`, () => {
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       basePprof,
       normalizeProfileToMdOptions({
@@ -450,7 +448,7 @@ describe(`options`, () => {
 
   test(`showEntry hides entries while preserving metrics`, () => {
     // `funcA` is excluded; `funcB`'s total still shows
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       basePprof,
       normalizeProfileToMdOptions({
@@ -466,7 +464,7 @@ describe(`options`, () => {
   })
 
   test(`baseURL: null shows absolute paths`, () => {
-    const md = convertToMd(
+    const md = convertBytesToMd(
       pprofConverter,
       basePprof,
       normalizeProfileToMdOptions({ baseURL: null }),

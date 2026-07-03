@@ -2,6 +2,9 @@ import { describe, expect, test } from 'vitest'
 import type { ProfileEntry } from '../options.ts'
 import { categorizeEntryForOrigin, origins } from './index.ts'
 import type { Origin } from './index.ts'
+import { jvmOriginSpec } from './jvm.ts'
+import { pySpyOriginSpec } from './py-spy.ts'
+import { tachyonOriginSpec } from './tachyon.ts'
 
 const located = (url: string): ProfileEntry => ({
   id: 1,
@@ -267,6 +270,29 @@ describe(`py-spy`, () => {
   })
 })
 
+describe(`tachyon`, () => {
+  test(`shares py-spy's CPython categorization`, () => {
+    expect(
+      categorizeEntryForOrigin(relative(`<frozen runpy>`), `tachyon`),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///usr/lib/python3.12/asyncio/base_events.py`),
+        `tachyon`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///app/.venv/lib/python3.12/site-packages/flask/app.py`),
+        `tachyon`,
+      ),
+    ).toBe(`third-party`)
+    expect(categorizeEntryForOrigin(relative(`script.py`), `tachyon`)).toBe(
+      `ours`,
+    )
+  })
+})
+
 describe(`jvm`, () => {
   test(`standard-library and JDK-internal classes are stdlib`, () => {
     // The class is carried as the location.
@@ -284,6 +310,12 @@ describe(`jvm`, () => {
     ).toBe(`stdlib`)
     expect(
       categorizeEntryForOrigin(relative(`sun.nio.ch.FileChannelImpl`), `jvm`),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        relative(`com.sun.crypto.provider.AESCrypt`),
+        `jvm`,
+      ),
     ).toBe(`stdlib`)
   })
 
@@ -342,5 +374,102 @@ describe(`unknown`, () => {
     expect(
       categorizeEntryForOrigin(located(`ext:core/01_core.js`), `unknown`),
     ).toBe(`ours`)
+  })
+})
+
+describe(`normalizeFrame`, () => {
+  describe(`py-spy ("func (file:line)")`, () => {
+    const { normalizeFrame } = pySpyOriginSpec
+
+    test(`splits the trailing (file:line) into a location and sampled line`, () => {
+      expect(normalizeFrame({ name: `parse (black/parsing.py:42)` })).toEqual({
+        name: `parse`,
+        location: { urlOrPath: `black/parsing.py` },
+        line: 42,
+      })
+    })
+
+    test(`keeps a frozen-module location intact`, () => {
+      expect(
+        normalizeFrame({
+          name: `<module> (<frozen importlib._bootstrap>:1080)`,
+        }),
+      ).toEqual({
+        name: `<module>`,
+        location: { urlOrPath: `<frozen importlib._bootstrap>` },
+        line: 1080,
+      })
+    })
+
+    test(`leaves a thread frame unchanged`, () => {
+      expect(normalizeFrame({ name: `tid:7` })).toEqual({ name: `tid:7` })
+    })
+  })
+
+  describe(`tachyon ("file:func:line")`, () => {
+    const { normalizeFrame } = tachyonOriginSpec
+
+    test(`splits a file:func:line frame, keeping the line as the executing line`, () => {
+      // The line stays out of the location so a function sampled at several
+      // lines aggregates as one, with the lines feeding the per-line breakdown.
+      expect(normalizeFrame({ name: `script.py:fib:4` })).toEqual({
+        name: `fib`,
+        location: { urlOrPath: `script.py` },
+        line: 4,
+      })
+    })
+
+    test(`keeps a Windows drive-letter path whole instead of splitting on the drive colon`, () => {
+      expect(normalizeFrame({ name: `C:\\proj\\app.py:run:10` })).toEqual({
+        name: `run`,
+        location: { urlOrPath: `C:\\proj\\app.py` },
+        line: 10,
+      })
+      expect(normalizeFrame({ name: `D:/proj/app.py:run:10` })).toEqual({
+        name: `run`,
+        location: { urlOrPath: `D:/proj/app.py` },
+        line: 10,
+      })
+    })
+
+    test(`keeps a C++ namespaced function name intact`, () => {
+      expect(normalizeFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
+        name: `Foo::bar`,
+        location: { urlOrPath: `file.cpp` },
+        line: 42,
+      })
+    })
+
+    test(`leaves a single-colon thread frame as a plain name`, () => {
+      expect(normalizeFrame({ name: `tid:15522692` })).toEqual({
+        name: `tid:15522692`,
+      })
+    })
+  })
+
+  describe(`jvm (async-profiler "Class/path.method")`, () => {
+    const { normalizeFrame } = jvmOriginSpec
+
+    test(`turns the slashed class into a dotted location`, () => {
+      expect(normalizeFrame({ name: `java/util/HashMap.put` })).toEqual({
+        name: `put`,
+        location: { urlOrPath: `java.util.HashMap` },
+      })
+    })
+
+    test(`handles a nested class and an <init> method`, () => {
+      expect(
+        normalizeFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
+      ).toEqual({
+        name: `valueOf`,
+        location: { urlOrPath: `java.lang.System$Logger$Level` },
+      })
+    })
+
+    test(`leaves a native (no-slash) frame location-less`, () => {
+      expect(normalizeFrame({ name: `Parker::park` })).toEqual({
+        name: `Parker::park`,
+      })
+    })
   })
 })
