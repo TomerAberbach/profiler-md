@@ -200,7 +200,7 @@ describe(`convert`, () => {
       selfTimeTables(md).map(table => table.map(row => row.Function)),
     ).toEqual([[`funcA`], [`funcB`]])
     // Two separate profile sections.
-    expect(profileTitles(md)).toEqual([`CPU profile`, `CPU profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`, `Sampling profile`])
   })
 
   test(`zero-weight samples are skipped`, () => {

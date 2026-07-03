@@ -61,6 +61,46 @@ describe(`determineMetric`, () => {
     })
   })
 
+  it(`returns contention phrases for pprof block/mutex delay`, () => {
+    const metric = determineMetric({ name: `delay`, unit: `nanoseconds` })
+
+    expect(metric).toMatchObject({
+      type: `time`,
+      milliseconds: 1e-6,
+      phrases: { titleNoun: `contention`, pastTenseVerb: `blocked` },
+    })
+  })
+
+  it(`returns wall time phrases for wall value type`, () => {
+    const metric = determineMetric({ name: `wall`, unit: `nanoseconds` })
+
+    expect(metric).toMatchObject({
+      type: `time`,
+      milliseconds: 1e-6,
+      phrases: { titleNoun: `wall time`, pastTenseVerb: `took` },
+    })
+  })
+
+  it(`returns generic sampling phrases when the name is just a time unit`, () => {
+    const metric = determineMetric({ name: `nanoseconds`, unit: `nanoseconds` })
+
+    expect(metric).toMatchObject({
+      type: `time`,
+      milliseconds: 1e-6,
+      phrases: { titleNoun: `sampling`, pastTenseVerb: `took` },
+    })
+  })
+
+  it(`keeps CPU phrases for the cpu value type`, () => {
+    const metric = determineMetric({ name: `cpu`, unit: `nanoseconds` })
+
+    expect(metric).toMatchObject({
+      type: `time`,
+      milliseconds: 1e-6,
+      phrases: { titleNoun: `CPU`, pastTenseVerb: `took` },
+    })
+  })
+
   it(`returns custom metric for unknown name and unit`, () => {
     const metric = determineMetric({ name: `my_metric`, unit: `widgets` })
 

@@ -1,4 +1,4 @@
-# CPU profile
+# Wall time profile
 
 Took 1.19s over 254 samples (4.7ms per sample).
 
@@ -12,7 +12,7 @@ Took 1.19s over 254 samples (4.7ms per sample).
 
 ### Self time
 
-Functions ranked by time spent directly in the function body, excluding callees.
+Functions ranked by wall time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                  | Location                          |
 | ----: | ------: | ------: | ------------------------- | --------------------------------- |
@@ -285,7 +285,7 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 
 ### Total time
 
-Functions ranked by total time spent in the function and all its callees.
+Functions ranked by total wall time spent in the function and all its callees.
 
 |     % |    Time | Samples | Function                  | Location                          |
 | ----: | ------: | ------: | ------------------------- | --------------------------------- |
@@ -413,7 +413,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks ranked by wall time spent in their leaf frame.
 
 Common call stack: `uneval` (uneval/src/index.ts) ← `(anonymous)` (uneval/scripts/profile-pprof.ts)
 
