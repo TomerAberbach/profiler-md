@@ -296,6 +296,72 @@ describe(`tachyon`, () => {
   })
 })
 
+describe(`go`, () => {
+  const goEntry = (name: string, path?: string): ProfileEntry => ({
+    id: 1,
+    name,
+    ...(path ? { location: { type: `relative` as const, path } } : {}),
+  })
+
+  test(`standard-library packages are stdlib`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        goEntry(
+          `runtime.usleep`,
+          `../../nix/store/abc-go-1.26.3/share/go/src/runtime/sys_darwin.go`,
+        ),
+        `go`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        goEntry(
+          `encoding/json.(*decodeState).value`,
+          `../../nix/store/abc-go-1.26.3/share/go/src/encoding/json/decode.go`,
+        ),
+        `go`,
+      ),
+    ).toBe(`stdlib`)
+    // An unlocated runtime internal and a bare linker symbol are runtime
+    // assembly.
+    expect(categorizeEntryForOrigin(goEntry(`runtime.goexit`), `go`)).toBe(
+      `stdlib`,
+    )
+    expect(
+      categorizeEntryForOrigin(goEntry(`gosave_systemstack_switch`), `go`),
+    ).toBe(`stdlib`)
+  })
+
+  test(`domain-prefixed modules are third-party`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        goEntry(
+          `github.com/goccy/go-json.Marshal`,
+          `/home/u/go/pkg/mod/github.com/goccy/go-json@v0.10.2/json.go`,
+        ),
+        `go`,
+      ),
+    ).toBe(`third-party`)
+  })
+
+  test(`the main package and local domain-less packages are ours`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        goEntry(`main.parseWorkload`, `/work/profile.go`),
+        `go`,
+      ),
+    ).toBe(`ours`)
+    // A domain-less package located outside GOROOT is the user's module, not
+    // a standard-library package.
+    expect(
+      categorizeEntryForOrigin(
+        goEntry(`mypkg.Work`, `/work/mypkg/work.go`),
+        `go`,
+      ),
+    ).toBe(`ours`)
+  })
+})
+
 describe(`jvm`, () => {
   test(`standard-library and JDK-internal classes are stdlib`, () => {
     // The class is carried as the location.
