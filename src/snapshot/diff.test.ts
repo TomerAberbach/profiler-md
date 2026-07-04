@@ -166,6 +166,39 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(progressionsTables(md, `Largest closures`)).toEqual([])
   })
 
+  test(`matches closures whose locations differ only by a build hash`, () => {
+    // Closures are keyed via the default `matchEntry`, so a per-build Cargo hash
+    // in the path is stripped and the closure matches across snapshots.
+    const cargo = (hash: string) =>
+      `file:///app/target/release/build/web-compiler-${hash}/out/lib.rs`
+    const base = makeAggregatedHeapSnapshot({
+      closures: [
+        makeAggregatedClosure({
+          name: `myFn`,
+          location: makeSourceLocation(cargo(`a`.repeat(16)), 5, 10),
+          selfSize: 64,
+          retainedSize: 100,
+        }),
+      ],
+    })
+    const current = makeAggregatedHeapSnapshot({
+      closures: [
+        makeAggregatedClosure({
+          name: `myFn`,
+          location: makeSourceLocation(cargo(`b`.repeat(16)), 5, 10),
+          selfSize: 128,
+          retainedSize: 300,
+        }),
+      ],
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+
+    expect(diff.closures).toHaveLength(1)
+    expect(diff.closures[0]!.base?.selfSize).toBe(64)
+    expect(diff.closures[0]!.current?.selfSize).toBe(128)
+  })
+
   test(`does not match closures with the same name in different files`, () => {
     const base = makeAggregatedHeapSnapshot({
       closures: [
