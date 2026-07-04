@@ -8,6 +8,5 @@ export default defineConfig({
       include: [`src`],
       exclude: [`src/fixtures`, `src/testing`, `*.bench.ts`],
     },
-    testTimeout: 40_000,
   },
 })

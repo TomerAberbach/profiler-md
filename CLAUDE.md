@@ -107,7 +107,7 @@ pnpm update-examples
 pnpm update-readme
 
 # Benchmark the CLI with the given args
-pnpm bench ./src/fixtures/node.base.cpuprofile
+pnpm bench ./src/fixtures/javascript.node.base.cpuprofile
 
 # Generate fixtures
 pnpm generate-fixtures           # --missing: skip fixtures that exist

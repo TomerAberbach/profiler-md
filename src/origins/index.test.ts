@@ -1,9 +1,8 @@
-import { readFileSync } from 'node:fs'
 import { describe, expect, test } from 'vitest'
 import { aggregateInputs } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
-import { fixturePath } from '../testing/fixtures.ts'
+import { readFixture } from '../testing/fixtures.ts'
 import type { Origin } from './index.ts'
 import { determineOrigin } from './index.ts'
 
@@ -380,27 +379,28 @@ describe(`determineOrigin`, () => {
 // categories. Snapshots don't categorize by origin, so they're excluded;
 // `determineOrigin` is unit-tested directly above instead.
 const FIXTURE_ORIGINS: [filename: string, origin: Origin][] = [
-  [`bun.cpuprofile`, `bun`],
-  [`deno.cpuprofile`, `deno`],
-  [`node.base.cpuprofile`, `node`],
-  [`node.current.cpuprofile`, `node`],
-  [`node.heapprofile`, `node`],
-  [`node.pprof`, `node-pprof`],
-  [`webkit-timeline-recording.json`, `safari`],
-  [`python.base.collapsed`, `tachyon`],
-  [`python.current.collapsed`, `tachyon`],
-  [`rust.base.pprof`, `pprof-rs`],
-  [`rust.current.pprof`, `pprof-rs`],
-  [`java.jdk.jfr`, `jvm`],
-  [`java.cpu.jfr`, `jvm`],
+  [`javascript.bun.base.cpuprofile`, `bun`],
+  [`javascript.deno.base.cpuprofile`, `deno`],
+  [`javascript.node.base.cpuprofile`, `node`],
+  [`javascript.node.current.cpuprofile`, `node`],
+  [`javascript.node.base.heapprofile`, `node`],
+  [`javascript.pprof.cpu.base.pprof`, `node-pprof`],
+  [`javascript.safari.base.webkit-timeline-recording.json`, `safari`],
+  [`python.py-spy.cpu.base.collapsed`, `py-spy`],
+  [`python.py-spy.cpu.current.collapsed`, `py-spy`],
+  [`rust.pprof-rs.cpu.base.pprof`, `pprof-rs`],
+  [`rust.pprof-rs.cpu.current.pprof`, `pprof-rs`],
+  [`java.jdk.cpu.base.jfr`, `jvm`],
+  [`java.async-profiler.cpu.base.jfr`, `jvm`],
+  [`csharp.dotnet-trace.base.speedscope.json`, `dotnet-trace`],
+  [`csharp.dotnet-trace.current.speedscope.json`, `dotnet-trace`],
+  [`fsharp.dotnet-trace.base.speedscope.json`, `dotnet-trace`],
+  [`fsharp.dotnet-trace.current.speedscope.json`, `dotnet-trace`],
 ]
 
 describe(`detected fixture origins`, () => {
   test.each(FIXTURE_ORIGINS)(`%s is detected as %s`, (filename, origin) => {
-    const inputs = aggregateInputs(
-      readFileSync(fixturePath(filename)),
-      echoOriginOptions(),
-    )
+    const inputs = aggregateInputs(readFixture(filename), echoOriginOptions())
 
     for (const input of inputs) {
       if (input.type !== `profile`) {
@@ -415,7 +415,7 @@ describe(`detected fixture origins`, () => {
 
 describe(`origin threading`, () => {
   const nodeFixture = (): Uint8Array =>
-    readFileSync(fixturePath(`node.base.cpuprofile`))
+    readFixture(`javascript.node.base.cpuprofile`)
 
   test(`an explicit origin overrides detection and reaches categorizeEntries`, () => {
     const options = echoOriginOptions()

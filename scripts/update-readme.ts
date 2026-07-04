@@ -1,37 +1,140 @@
 import { execSync } from 'node:child_process'
-import { readFileSync, writeFileSync } from 'node:fs'
-import { languages } from '../src/cli/languages.ts'
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { exampleComboLabel, parseExampleFilename } from '../src/cli/examples.ts'
+import type { ExampleVariant } from '../src/cli/examples.ts'
+import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
 import { formatConverters } from '../src/formats/index.ts'
-import { formatTable } from '../src/helpers/markdown.ts'
+import type { Format } from '../src/formats/index.ts'
 
 const check = process.argv.includes(`--check`)
 
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
-const matrix = formatTable(
-  [`Language`, `Formats`],
-  Array.from(
-    languages.entries(),
-    ([id, { name, aliases, formats: langFormats, examples }]) => [
-      [{ id, name }, ...(aliases ?? [])]
-        .map(language => `[${language.name}](docs/languages/${language.id}.md)`)
-        .join(`\u2060/\u2060`),
-      langFormats
-        .map(format => {
-          const link = `[${formatConverters[format].title}](docs/formats/${format}.md)`
-          const formatExamples = examples?.[format]
-          if (!formatExamples?.length) {
-            return link
-          }
-          const exampleLinks = formatExamples
-            .map(({ filename, label }) => `[${label}](examples/${filename}.md)`)
-            .join(`, `)
-          return `${link} (${exampleLinks})`.replaceAll(` `, `\u00A0`)
-        })
-        .join(`<br>`),
-    ],
-  ),
-)
+// Discover every `examples/*.md` and group it by primary language, then format,
+// then source/config combo, so the matrix links them all without hand
+// maintenance. Variants are kept per combo and linked in base → current → diff
+// order.
+type Combo = {
+  lang: string
+  source: string
+  config: string
+  variants: Map<ExampleVariant, string>
+}
+const variantOrder: ExampleVariant[] = [`base`, `current`, `diff`]
+
+const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
+for (const filename of readdirSync(`examples`)) {
+  const { lang, source, config, variant, format } =
+    parseExampleFilename(filename)
+  const primary = languageAliasToPrimary.get(lang) ?? lang
+
+  const language = languages.get(primary)
+  if (!language) {
+    throw new Error(
+      `examples/${filename} maps to unknown language "${primary}"`,
+    )
+  }
+  if (!language.formats.includes(format)) {
+    throw new Error(
+      `examples/${filename}: format "${format}" is not declared for "${primary}"`,
+    )
+  }
+
+  let byFormat = examplesByLanguage.get(primary)
+  if (!byFormat) {
+    byFormat = new Map()
+    examplesByLanguage.set(primary, byFormat)
+  }
+  let byCombo = byFormat.get(format)
+  if (!byCombo) {
+    byCombo = new Map()
+    byFormat.set(format, byCombo)
+  }
+  const comboKey = `${lang}.${source}.${config}`
+  let combo = byCombo.get(comboKey)
+  if (!combo) {
+    combo = { lang, source, config, variants: new Map() }
+    byCombo.set(comboKey, combo)
+  }
+  combo.variants.set(variant, filename)
+}
+
+// The matrix is emitted as raw HTML (and `prettier-ignore`d in the readme) so a
+// format with multiple combos can list them as a bulleted sublist. Markdown
+// links aren't parsed inside HTML tables, so links are `<a>` tags.
+const escapeHtml = (text: string): string =>
+  text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)
+
+const anchor = (text: string, href: string): string =>
+  `<a href="${href}">${escapeHtml(text)}</a>`
+
+const variantLinks = (combo: Combo): string =>
+  variantOrder
+    .filter(variant => combo.variants.has(variant))
+    .map(variant => anchor(variant, `examples/${combo.variants.get(variant)!}`))
+    .join(`, `)
+
+const renderFormatCell = (id: string, format: Format): string => {
+  const link = anchor(
+    formatConverters[format].title,
+    `docs/formats/${format}.md`,
+  )
+  const combos = [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])]
+  if (combos.length === 0) {
+    return `<div>${link}</div>`
+  }
+
+  combos.sort(
+    (first, second) =>
+      first.lang.localeCompare(second.lang) ||
+      first.source.localeCompare(second.source) ||
+      first.config.localeCompare(second.config),
+  )
+
+  // A single combo has no distinguishing label, so its links sit inline after
+  // the format. Multiple combos become a bulleted sublist, each labelled by the
+  // dimensions (language → source → config) that vary across the cell.
+  if (combos.length === 1) {
+    return `<div>${link}: ${variantLinks(combos[0]!)}</div>`
+  }
+
+  const vary = {
+    lang: new Set(combos.map(combo => combo.lang)).size > 1,
+    source: new Set(combos.map(combo => combo.source)).size > 1,
+    config: new Set(combos.map(combo => combo.config)).size > 1,
+  }
+  const items = combos
+    .map(
+      combo =>
+        `<li>${escapeHtml(exampleComboLabel(combo, vary))} (${variantLinks(combo)})</li>`,
+    )
+    .join(``)
+  return `<div>${link}:<ul>${items}</ul></div>`
+}
+
+const rows = Array.from(
+  languages.entries(),
+  ([id, { name, aliases, formats: langFormats }]) => {
+    const languageCell = [{ id, name }, ...(aliases ?? [])]
+      .map(language =>
+        anchor(language.name, `docs/languages/${language.id}.md`),
+      )
+      .join(`⁠/⁠`)
+    const formatsCell = langFormats
+      .map(format => renderFormatCell(id, format))
+      .join(`\n`)
+    return `<tr>\n<td>${languageCell}</td>\n<td>\n${formatsCell}\n</td>\n</tr>`
+  },
+).join(`\n`)
+
+const matrix = `<table>
+<thead>
+<tr><th>Language</th><th>Formats</th></tr>
+</thead>
+<tbody>
+${rows}
+</tbody>
+</table>`
 
 let readme = readFileSync(`readme.md`, `utf8`)
 

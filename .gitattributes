@@ -1,1 +1,4 @@
 * text=auto eol=lf
+
+src/fixtures/** linguist-generated -diff
+examples/** linguist-generated

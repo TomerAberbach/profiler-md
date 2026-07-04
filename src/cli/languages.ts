@@ -5,16 +5,9 @@ export type LanguageAlias = {
   name: string
 }
 
-export type LanguageExample = {
-  /** The example's name in `examples/` without `.md`. */
-  filename: string
-  label: string
-}
-
 export type Language = {
   name: string
   formats: Format[]
-  examples?: Partial<Record<Format, LanguageExample[]>>
   aliases?: LanguageAlias[]
 }
 
@@ -43,15 +36,18 @@ export const languages: ReadonlyMap<string, Language> = new Map([
       aliases: [{ id: `erlang`, name: `Erlang` }],
     },
   ],
-  [`go`, { name: `Go`, formats: [`pprof`] }],
+  [
+    `go`,
+    {
+      name: `Go`,
+      formats: [`pprof`],
+    },
+  ],
   [
     `java`,
     {
       name: `Java`,
       formats: [`jfr`, `collapsed`],
-      examples: {
-        jfr: [{ filename: `java.jdk.jfr`, label: `Java` }],
-      },
       aliases: [{ id: `kotlin`, name: `Kotlin` }],
     },
   ],
@@ -67,56 +63,42 @@ export const languages: ReadonlyMap<string, Language> = new Map([
         `v8-heap-snapshot`,
         `webkit-timeline-recording`,
       ],
-      examples: {
-        'jsc-heap-snapshot': [
-          { filename: `jsc-heap-snapshot.base.json`, label: `Safari` },
-          { filename: `jsc-heap-snapshot.diff.json`, label: `Safari diff` },
-        ],
-        pprof: [{ filename: `node.pprof`, label: `Node.js` }],
-        'v8-cpu-profile': [
-          { filename: `node.base.cpuprofile`, label: `Node.js` },
-          { filename: `node.diff.cpuprofile`, label: `Node.js diff` },
-          { filename: `deno.cpuprofile`, label: `Deno` },
-          { filename: `bun.cpuprofile`, label: `Bun` },
-        ],
-        'v8-heap-profile': [{ filename: `node.heapprofile`, label: `Node.js` }],
-        'v8-heap-snapshot': [
-          { filename: `node.heapsnapshot`, label: `Node.js` },
-        ],
-        'webkit-timeline-recording': [
-          { filename: `webkit-timeline-recording.json`, label: `example` },
-        ],
-      },
       aliases: [{ id: `typescript`, name: `TypeScript` }],
     },
   ],
-  [`julia`, { name: `Julia`, formats: [`pprof`] }],
-  [`php`, { name: `PHP`, formats: [`speedscope`] }],
+  [
+    `julia`,
+    {
+      name: `Julia`,
+      formats: [`pprof`],
+    },
+  ],
+  [
+    `php`,
+    {
+      name: `PHP`,
+      formats: [`speedscope`],
+    },
+  ],
   [
     `python`,
     {
       name: `Python`,
-      formats: [`collapsed`, `pprof`, `speedscope`],
-      examples: {
-        collapsed: [
-          { filename: `python.base.collapsed`, label: `Tachyon` },
-          { filename: `python.diff.collapsed`, label: `Tachyon diff` },
-        ],
-      },
+      formats: [`collapsed`, `speedscope`],
     },
   ],
-  [`ruby`, { name: `Ruby`, formats: [`speedscope`] }],
+  [
+    `ruby`,
+    {
+      name: `Ruby`,
+      formats: [`collapsed`, `pprof`, `speedscope`],
+    },
+  ],
   [
     `rust`,
     {
       name: `Rust`,
       formats: [`pprof`],
-      examples: {
-        pprof: [
-          { filename: `rust.base.pprof`, label: `base` },
-          { filename: `rust.diff.pprof`, label: `diff` },
-        ],
-      },
     },
   ],
 ])

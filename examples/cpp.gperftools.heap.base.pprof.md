@@ -1,0 +1,67 @@
+# Allocated heap and retained heap profile
+
+Allocated 126 MB and retained 0 B over 12 samples (10.5 MB and 0 B per sample).
+
+| Category |      % |   Size | Size | Samples |
+| -------- | -----: | -----: | ---: | ------: |
+| stdlib   | 100.0% | 126 MB |  0 B |      12 |
+
+## Allocated heap
+
+### Hottest functions
+
+#### Total size
+
+Functions ranked by total bytes allocated in the function and all its callees.
+
+|      % |    Size | Samples | Function                                   | Location                               |
+| -----: | ------: | ------: | ------------------------------------------ | -------------------------------------- |
+| 100.0% |  126 MB |      12 | `main`                                     | out/profile.cpp                        |
+| 100.0% |  126 MB |      11 | `std::__cxx11::basic_string::basic_string` | usr/include/c++/12/bits/basic_string.h |
+| 100.0% |  126 MB |      11 | `fmt::v11::to_string`                      | src/fmt/include/fmt/format.h           |
+| 100.0% |  126 MB |      11 | `fmt::v11::vformat[abi:cxx11]`             | src/fmt/include/fmt/format-inl.h       |
+| 100.0% |  126 MB |      11 | `fmt::v11::format`                         | src/fmt/include/fmt/format.h           |
+|  <0.1% | 8.19 kB |       1 | `std::vector::reserve`                     | usr/include/c++/12/bits/vector.tcc     |
+
+##### Callees
+
+Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+
+###### `main` (out/profile.cpp)
+
+|      % |    Size | Samples | Callee                 | Location                           |
+| -----: | ------: | ------: | ---------------------- | ---------------------------------- |
+| 100.0% |  126 MB |      11 | `fmt::v11::format`     | src/fmt/include/fmt/format.h       |
+|  <0.1% | 8.19 kB |       1 | `std::vector::reserve` | usr/include/c++/12/bits/vector.tcc |
+
+###### `fmt::v11::to_string` (src/fmt/include/fmt/format.h)
+
+|      % |   Size | Samples | Callee                                     | Location                               |
+| -----: | -----: | ------: | ------------------------------------------ | -------------------------------------- |
+| 100.0% | 126 MB |      11 | `std::__cxx11::basic_string::basic_string` | usr/include/c++/12/bits/basic_string.h |
+
+###### `fmt::v11::vformat[abi:cxx11]` (src/fmt/include/fmt/format-inl.h)
+
+|      % |   Size | Samples | Callee                | Location                     |
+| -----: | -----: | ------: | --------------------- | ---------------------------- |
+| 100.0% | 126 MB |      11 | `fmt::v11::to_string` | src/fmt/include/fmt/format.h |
+
+###### `fmt::v11::format` (src/fmt/include/fmt/format.h)
+
+|      % |   Size | Samples | Callee                         | Location                         |
+| -----: | -----: | ------: | ------------------------------ | -------------------------------- |
+| 100.0% | 126 MB |      11 | `fmt::v11::vformat[abi:cxx11]` | src/fmt/include/fmt/format-inl.h |
+
+### Hottest call stacks
+
+Call stacks ranked by bytes allocated in their leaf frame.
+
+|     % |    Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 99.2% |  125 MB |       9 | `std::__cxx11::basic_string::basic_string` (usr/include/c++/12/bits/basic_string.h) ← `fmt::v11::to_string` (src/fmt/include/fmt/format.h) ← `fmt::v11::vformat[abi:cxx11]` (src/fmt/include/fmt/format-inl.h) ← `fmt::v11::format` (src/fmt/include/fmt/format.h) ← `main` (out/profile.cpp)                                                                                                                                                                                                                  |
+|  0.8% | 1.04 MB |       2 | `std::__cxx11::basic_string::basic_string` (usr/include/c++/12/bits/basic_string.h) ← `fmt::v11::to_string` (src/fmt/include/fmt/format.h) ← `fmt::v11::vformat[abi:cxx11]` (src/fmt/include/fmt/format-inl.h) ← `fmt::v11::format` (src/fmt/include/fmt/format.h) ← `main` (out/profile.cpp) ← `std::__cxx11::basic_string::basic_string` (usr/include/c++/12/bits/basic_string.h) ← `fmt::v11::to_string` (src/fmt/include/fmt/format.h) ← `fmt::v11::vformat[abi:cxx11]` (src/fmt/include/fmt/format-inl.h) |
+| <0.1% | 8.19 kB |       1 | `std::vector::reserve` (usr/include/c++/12/bits/vector.tcc) ← `main` (out/profile.cpp)                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+## Retained heap
+
+No bytes retained in any sample.
