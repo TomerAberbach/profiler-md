@@ -482,6 +482,19 @@ describe(`unknown`, () => {
     expect(categorizeEntryForOrigin(named(`native`), `unknown`)).toBe(`stdlib`)
   })
 
+  test(`parenthesized closure names are not synthetic frame labels`, () => {
+    // Julia closure frames are fully parenthesized; their fragments must not
+    // be promoted to category names.
+    expect(
+      categorizeEntryForOrigin(
+        named(
+          `(::JSON3.var"#defaultminimum##2#defaultminimum##3")(::Pair{Symbol, Any})`,
+        ),
+        `unknown`,
+      ),
+    ).toBe(`stdlib`)
+  })
+
   test(`recognizes OS system directories as stdlib`, () => {
     expect(
       categorizeEntryForOrigin(
