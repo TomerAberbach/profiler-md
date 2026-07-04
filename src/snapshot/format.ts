@@ -27,9 +27,9 @@ import {
   phrasing,
 } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
-import { formatSourceLocation } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import { formatSourceLocation, formatSourceLocationPath } from '../location.ts'
+import type { FileReference, SourceLocation } from '../location.ts'
+import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -45,7 +45,7 @@ import type {
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(snapshot)
   const showsAnyEntry =
@@ -104,7 +104,7 @@ const formatOverallSummary = ({
 const formatLargestConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] =>
   formatSectionGroup(
     [heading(2, `Largest constructors`)],
@@ -117,7 +117,7 @@ const formatLargestConstructors = (
 const formatLargestSelfSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.selfSize
@@ -171,7 +171,7 @@ const formatLargestSelfSizeConstructors = (
 const formatLargestRetainedSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.retainedSize
@@ -227,12 +227,12 @@ const formatLargestConstructorInstances = (
   { retainerPathOf }: AggregatedHeapSnapshot,
   sizeOf: (node: AggregatedSnapshotNode) => number,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath(
     constructor.instances,
     sizeOf,
-    retainerPathOf,
+    nodeOrdinal => retainerPathOf(nodeOrdinal, options),
     Math.ceil(options.topN / 4),
   ).sort((group1, group2) => group2.size - group1.size)
   if (largestInstanceGroups.length === 0) {
@@ -283,7 +283,7 @@ const selectLargestInstancesByRetainerPath = (
 const formatLargestClosures = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, closures, retainerPathOf } = snapshot
 
@@ -313,8 +313,12 @@ const formatLargestClosures = (
             location: closure.location,
             retainedSize: closure.retainedSize,
             instanceCount: closure.instanceIds.length,
-            pathCount: new Set(closure.instanceIds.map(retainerPathOf)).size,
-            examplePath: retainerPathOf(closure.largestInstanceId),
+            pathCount: new Set(
+              closure.instanceIds.map(nodeOrdinal =>
+                retainerPathOf(nodeOrdinal, options),
+              ),
+            ).size,
+            examplePath: retainerPathOf(closure.largestInstanceId, options),
           },
           totalSize,
           hasLocation,
@@ -338,12 +342,12 @@ const formatClosureRetainedObjects = (
   closure: AggregatedClosure,
   { retainedNodesOf, retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
   const allRetainedNodes: AggregatedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
-    for (const node of retainedNodesOf(instanceId)) {
+    for (const node of retainedNodesOf(instanceId, options)) {
       const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
       if (seen[node.id]) {
         continue
@@ -373,7 +377,7 @@ const formatClosureRetainedObjects = (
           {
             name: node.name,
             selfSize: node.selfSize,
-            path: retainerPathOf(node.id),
+            path: retainerPathOf(node.id, options),
           },
           closure.retainedSize,
         ),
@@ -384,7 +388,7 @@ const formatClosureRetainedObjects = (
 
 const formatLargestStrings = (
   { totalSize, strings, retainerPathOf }: AggregatedHeapSnapshot,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const largestStrings = selectTopN(
     strings,
@@ -405,7 +409,7 @@ const formatLargestStrings = (
           {
             name: string.name,
             selfSize: string.selfSize,
-            path: retainerPathOf(string.id),
+            path: retainerPathOf(string.id, options),
           },
           totalSize,
           hasValues,
@@ -417,7 +421,7 @@ const formatLargestStrings = (
 
 export const formatHeapSnapshotDiff = (
   diff: AggregatedHeapSnapshotDiff,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(diff)
   const showsAnyEntry =
@@ -510,7 +514,7 @@ const categoryRow = (
 const formatDiffConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] =>
   formatSectionGroup(
     [heading(2, `Largest constructors`)],
@@ -523,7 +527,7 @@ const formatDiffConstructors = (
 const formatDiffSelfSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
@@ -571,7 +575,7 @@ const formatDiffSelfSizeConstructors = (
 const formatDiffRetainedSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
@@ -630,7 +634,7 @@ const constructorRow = (
   instanceCount: number,
   totalSize: number,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Cell[] => [
   ...sizeCells(size, totalSize),
   countCell(instanceCount),
@@ -654,7 +658,7 @@ const instanceRow = (group: InstanceGroup, totalSize: number): Cell[] => [
 const formatDiffClosures = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
@@ -668,7 +672,7 @@ const formatDiffClosures = (
     base:
       entity.base &&
       closureRow(
-        closureRowOf(entity.base, diff.base),
+        closureRowOf(entity.base, diff.base, options),
         diff.base.totalSize,
         hasLocation,
         options,
@@ -676,7 +680,7 @@ const formatDiffClosures = (
     current:
       entity.current &&
       closureRow(
-        closureRowOf(entity.current, diff.current),
+        closureRowOf(entity.current, diff.current, options),
         diff.current.totalSize,
         hasLocation,
         options,
@@ -709,7 +713,7 @@ const closureRow = (
   row: ClosureRow,
   totalSize: number,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Cell[] => [
   ...sizeCells(row.retainedSize, totalSize),
   countCell(row.instanceCount),
@@ -737,18 +741,22 @@ const retainedRow = (row: NodeRow, totalSize: number): Cell[] => [
 const closureRowOf = (
   entity: DiffedSnapshotEntity,
   { retainerPathOf }: AggregatedHeapSnapshot,
+  options: ResolvedProfileToMdOptions,
 ): ClosureRow => ({
   name: entity.name,
+  nameLocation: entity.nameLocation,
   location: entity.location,
   retainedSize: entity.retainedSize,
   instanceCount: entity.instanceCount,
-  pathCount: new Set(entity.instanceIds.map(retainerPathOf)).size,
-  examplePath: retainerPathOf(entity.id),
+  pathCount: new Set(
+    entity.instanceIds.map(nodeOrdinal => retainerPathOf(nodeOrdinal, options)),
+  ).size,
+  examplePath: retainerPathOf(entity.id, options),
 })
 
 const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.strings.map(entity => ({
@@ -761,11 +769,15 @@ const formatDiffStrings = (
   const rowOf = (entity: AggregatedSnapshotEntityDiff) => ({
     base:
       entity.base &&
-      stringRow(nodeRowOf(entity.base, diff.base), diff.base.totalSize, true),
+      stringRow(
+        nodeRowOf(entity.base, diff.base, options),
+        diff.base.totalSize,
+        true,
+      ),
     current:
       entity.current &&
       stringRow(
-        nodeRowOf(entity.current, diff.current),
+        nodeRowOf(entity.current, diff.current, options),
         diff.current.totalSize,
         true,
       ),
@@ -806,10 +818,11 @@ const stringRow = (
 const nodeRowOf = (
   entity: DiffedSnapshotEntity,
   { retainerPathOf }: AggregatedHeapSnapshot,
+  options: ResolvedProfileToMdOptions,
 ): NodeRow => ({
   name: entity.name,
   selfSize: entity.selfSize,
-  path: retainerPathOf(entity.id),
+  path: retainerPathOf(entity.id, options),
 })
 
 /** A diffed entity paired with its base and current values. */
@@ -825,7 +838,7 @@ type ActiveDiffEntity = {
  */
 const selectDiffEntities = (
   candidates: ActiveDiffEntity[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): {
   hasActive: boolean
   regressions: ActiveDiffEntity[]
@@ -895,7 +908,7 @@ const formatDiffEntitySections = (
 /** Returns whether either side of the diffed entity should be shown. */
 const showDiffEntity = (
   { base, current }: AggregatedSnapshotEntityDiff,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
@@ -985,21 +998,34 @@ const formatLargestStringsHeading = ({
 /** An entity with a name and optional location, shown in tables and headings. */
 type NamedEntity = {
   name: string
+  nameLocation?: FileReference
   location?: SourceLocation
 }
+
+/**
+ * An entity's displayed name: its URL-shaped name rendered relative to the
+ * base URL when it has one, and its raw name otherwise.
+ */
+const displayName = (
+  entity: { name?: string; nameLocation?: FileReference },
+  options: ResolvedProfileToMdOptions,
+): string | undefined =>
+  entity.nameLocation
+    ? formatSourceLocationPath(entity.nameLocation, options)
+    : entity.name
 
 /** Formats a heading for an entity, with its location when {@link hasLocation}. */
 const formatEntityHeading = (
   headingLevel: number,
   entity: NamedEntity,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Heading =>
   heading(
     headingLevel,
     hasLocation
-      ? phrasing`${inlineCode(entity.name)} (${formatSourceLocation(entity.location, options)})`
-      : [inlineCode(entity.name)],
+      ? phrasing`${inlineCode(displayName(entity, options)!)} (${formatSourceLocation(entity.location, options)})`
+      : [inlineCode(displayName(entity, options)!)],
   )
 
 /** A group of instances with the same retainer path. */
@@ -1015,7 +1041,11 @@ type InstanceGroup = {
 }
 
 /** An entity labeled by a name and optional location in a table. */
-type LabeledEntity = { name?: string; location?: SourceLocation }
+type LabeledEntity = {
+  name?: string
+  nameLocation?: FileReference
+  location?: SourceLocation
+}
 
 /** A closure's row data, with its example path and path count resolved. */
 type ClosureRow = LabeledEntity & {
@@ -1052,10 +1082,10 @@ const entityHeaders = (nameLabel: string, hasLocation: boolean): Header[] =>
 const entityCells = (
   entity: LabeledEntity,
   hasLocation: boolean,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Cell[] => [
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  codeCell(entity.name || `(unknown)`),
+  codeCell(displayName(entity, options) || `(unknown)`),
   ...(hasLocation
     ? [textCell([formatSourceLocation(entity.location, options)])]
     : []),

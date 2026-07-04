@@ -54,12 +54,14 @@ export const makeSourceLocation = (
 
 export const makeAggregatedConstructor = ({
   name,
+  category = `ours`,
   location,
   selfSize,
   retainedSize,
   instanceCount,
 }: {
   name: string
+  category?: string
   location?: SourceLocation
   selfSize: number
   retainedSize: number
@@ -68,6 +70,7 @@ export const makeAggregatedConstructor = ({
   type: `node`,
   id: 0,
   name,
+  category,
   location,
   selfSize,
   retainedSize,
@@ -82,12 +85,14 @@ export const makeAggregatedConstructor = ({
 
 export const makeAggregatedClosure = ({
   name,
+  category = `ours`,
   location,
   selfSize,
   retainedSize,
   instanceCount = 1,
 }: {
   name: string
+  category?: string
   location?: SourceLocation
   selfSize: number
   retainedSize: number
@@ -96,6 +101,7 @@ export const makeAggregatedClosure = ({
   type: `node`,
   id: 0,
   name,
+  category,
   location,
   selfSize,
   retainedSize,

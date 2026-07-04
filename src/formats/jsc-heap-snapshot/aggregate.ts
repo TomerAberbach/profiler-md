@@ -75,7 +75,10 @@ export const aggregateJSCHeapSnapshot = (
     if (classNameIndex === stringClassNameIndex) {
       snapshotAggregator.addStringNode(nodeOrdinal)
     } else {
-      snapshotAggregator.addConstructorNode(nodeOrdinal)
+      snapshotAggregator.addConstructorNode(
+        nodeOrdinal,
+        nodeClassNames[classNameIndex]!,
+      )
     }
   }
 

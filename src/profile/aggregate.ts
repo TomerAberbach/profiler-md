@@ -2,7 +2,7 @@ import { DynamicTypedArray } from '../helpers/array.ts'
 import { HashInterner } from '../helpers/intern.ts'
 import type { SourceLocation } from '../location.ts'
 import type {
-  NormalizedProfileToMdOptions,
+  AggregateProfileToMdOptions,
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
@@ -23,7 +23,7 @@ import type {
 /** Aggregates each {@link Profile} through the uniform pipeline. */
 export const aggregateProfiles = (
   profiles: Profile[],
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedProfile[] => {
   // Multi-profile formats typically share one frames array reference (see
@@ -122,7 +122,7 @@ const dropNameMatchingOwnPath = (
 const aggregateProfile = (
   { metrics, samples, lineMetrics }: Profile,
   { origin, frames, frameFunctions }: ResolvedFrames,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedProfile => {
   const resolvedContext: ProfileToMdContext = { ...context, origin }
@@ -153,7 +153,7 @@ export class ProfileAggregator {
    * {@link OriginSpec.normalizeFrame}).
    */
   readonly #frames: (ProfileStackFrame | null)[]
-  readonly #options: NormalizedProfileToMdOptions
+  readonly #options: AggregateProfileToMdOptions
   readonly #context: ProfileToMdContext
 
   #totalSampleCount: number
@@ -197,7 +197,7 @@ export class ProfileAggregator {
     /** @see {@link AggregatedProfile.metrics} */
     metrics: Metric[],
     frames: (ProfileStackFrame | null)[],
-    options: NormalizedProfileToMdOptions,
+    options: AggregateProfileToMdOptions,
     context: ProfileToMdContext,
     frameFunctions: (FrameFunction | undefined)[] = [],
   ) {

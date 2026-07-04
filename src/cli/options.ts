@@ -28,8 +28,9 @@ export const buildOptions = async ({
   thirdParty,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
+  // A directory literally named `auto` is still reachable via `./auto`.
   baseURL:
-    baseURL !== undefined && !URL.canParse(baseURL)
+    baseURL !== undefined && baseURL !== `auto` && !URL.canParse(baseURL)
       ? resolve(baseURL)
       : baseURL,
   sourceMaps: await loadSourceMaps(sourceMaps),

@@ -2,16 +2,20 @@ import { JumboJSON } from 'jumbo-json'
 import type { RootContent } from 'mdast'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
+import { commonAncestorDirectoryURL } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
 import type {
+  AggregateProfileToMdOptions,
   AsyncProfileData,
   NormalizedProfileToMdOptions,
   ProfileData,
   ProfileInput,
   ProfileToMdOptions,
+  ResolvedProfileToMdOptions,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
 import type { Origin } from '../origins/index.ts'
@@ -19,11 +23,16 @@ import { diffAggregatedProfiles } from '../profile/diff.ts'
 import { formatProfile, formatProfileDiff } from '../profile/format.ts'
 import { aggregateProfiles } from '../profile/index.ts'
 import type { AggregatedProfile, Profile } from '../profile/index.ts'
+import {
+  categorizeAggregatedHeapSnapshot,
+  entityLocation,
+} from '../snapshot/aggregate.ts'
 import { diffAggregatedHeapSnapshots } from '../snapshot/diff.ts'
 import {
   formatHeapSnapshot,
   formatHeapSnapshotDiff,
 } from '../snapshot/format.ts'
+import { sourceMapSourceLocation } from '../source-map.ts'
 import { collapsedConverter } from './collapsed/index.ts'
 import type {
   AggregatedInput,
@@ -118,7 +127,7 @@ export const diffProfilesAsync = async (
 
 export const aggregateInputs = (
   input: ProfileInput<ProfileData>,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
 ): AggregatedInput[] => {
   const { data, format, origin } = normalizeProfileInput(input)
 
@@ -158,7 +167,7 @@ export const aggregateInputs = (
 
 const aggregateInputAsync = async (
   input: ProfileInput<AsyncProfileData>,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
 ): Promise<AggregatedInput[]> => {
   const { data, format, origin } = normalizeProfileInput(input)
 
@@ -228,12 +237,15 @@ export const formatAggregatedInputs = (
   inputs: AggregatedInput[],
   options: NormalizedProfileToMdOptions,
 ): string => {
+  // Resolve over all inputs at once so a multi-profile file's sub-profiles
+  // share a single inferred base URL.
+  const resolvedOptions = resolveProfileToMdOptions(options, inputs)
   const children = inputs.flatMap(input => {
     switch (input.type) {
       case `profile`:
-        return formatProfile(input, options)
+        return formatProfile(input, resolvedOptions)
       case `snapshot`:
-        return formatHeapSnapshot(input, options)
+        return formatHeapSnapshot(input, resolvedOptions)
     }
   })
   return mdastToMarkdownOrNoData(children)
@@ -257,18 +269,24 @@ const formatAggregatedDiff = (
     )
   }
 
+  // Resolve over both sides at once so they share a single inferred base URL
+  // and render consistently.
+  const resolvedOptions = resolveProfileToMdOptions(options, [
+    ...base,
+    ...current,
+  ])
   const children = base.flatMap((baseInput, index) => {
     const currentInput = current[index]!
     if (baseInput.type === `profile` && currentInput.type === `profile`) {
       return formatProfileDiff(
-        diffAggregatedProfiles(baseInput, currentInput, options),
-        options,
+        diffAggregatedProfiles(baseInput, currentInput, resolvedOptions),
+        resolvedOptions,
       )
     }
     if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
       return formatHeapSnapshotDiff(
-        diffAggregatedHeapSnapshots(baseInput, currentInput, options),
-        options,
+        diffAggregatedHeapSnapshots(baseInput, currentInput, resolvedOptions),
+        resolvedOptions,
       )
     }
     throw new Error(
@@ -282,6 +300,82 @@ const mdastToMarkdownOrNoData = (children: RootContent[]): string =>
   mdastToMarkdown(children.length > 0 ? children : [paragraph(NO_DATA_MESSAGE)])
 
 const NO_DATA_MESSAGE = `No profiling data found.`
+
+/**
+ * Resolves a `baseURL` of `'auto'` to the common ancestor directory of the
+ * aggregated {@link inputs}' `ours` absolute `file:` locations (`undefined`,
+ * i.e. absolute paths, when nothing qualifies). Any other `baseURL` passes
+ * through unchanged.
+ */
+const resolveProfileToMdOptions = (
+  options: NormalizedProfileToMdOptions,
+  inputs: AggregatedInput[],
+): ResolvedProfileToMdOptions => {
+  const { baseURL } = options
+  return baseURL === `auto`
+    ? {
+        ...options,
+        baseURL: commonAncestorDirectoryURL(
+          collectOursFileURLs(inputs, { ...options, baseURL: undefined }),
+        ),
+      }
+    : { ...options, baseURL }
+}
+
+/**
+ * Collects the absolute `file:` URLs of {@link inputs}' `ours`-categorized
+ * entries, the locations that qualify for base URL inference. Excludes
+ * dependency and system paths (`native`, `stdlib`, `third-party`) and
+ * non-`file:` or relative locations so they can't move the common ancestor
+ * up towards `/`.
+ *
+ * Applies source maps first so the base is inferred from the locations
+ * formatting will actually render: a bundle's mapped sources, not the bundle
+ * itself. A mapped source that is a relative path can't resolve yet (there's
+ * no base) and contributes its raw location instead; it renders relative to
+ * whatever base is inferred, so it doesn't constrain the choice.
+ *
+ * Aggregation categorized both profile functions and snapshot entities. A
+ * snapshot entity's location falls back to its URL-shaped name (e.g. a V8
+ * module namespace object), so those contribute too, matching their
+ * categorization.
+ */
+const collectOursFileURLs = (
+  inputs: AggregatedInput[],
+  options: ResolvedProfileToMdOptions,
+): URL[] => {
+  const urls: URL[] = []
+  const collect = (category: string, location: SourceLocation | undefined) => {
+    if (category !== `ours` || !location) {
+      return
+    }
+    const mappedLocation = sourceMapSourceLocation(location, options)
+    if (isAbsoluteFileLocation(mappedLocation)) {
+      urls.push(mappedLocation.url)
+    }
+  }
+
+  for (const input of inputs) {
+    switch (input.type) {
+      case `profile`:
+        for (const func of input.functions) {
+          collect(func.category, func.location)
+        }
+        break
+      case `snapshot`:
+        for (const entity of [...input.constructors, ...input.closures]) {
+          collect(entity.category, entityLocation(entity))
+        }
+        break
+    }
+  }
+  return urls
+}
+
+const isAbsoluteFileLocation = (
+  location: SourceLocation | undefined,
+): location is SourceLocation & { type: `absolute` } =>
+  location?.type === `absolute` && location.url.protocol === `file:`
 
 export const formats = [
   `collapsed`,
@@ -312,7 +406,7 @@ export const formatConverters: Record<Format, FormatConverter> = {
 
 const detectFromJson = (
   json: unknown,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of jsonFormatConverters) {
@@ -348,7 +442,7 @@ const jsonFormatConverters: [Format, JsonFormatConverter][] = Object.entries(
 
 const detectFromBytes = (
   bytes: Uint8Array,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of binaryFormatConverters) {
@@ -376,11 +470,15 @@ const detectFromBytes = (
 export const aggregateJsonInput = (
   converter: JsonFormatConverter,
   json: unknown,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] =>
   converter.shape === `snapshot`
-    ? converter.aggregate(json, options)
+    ? converter
+        .aggregate(json)
+        .map(snapshot =>
+          categorizeAggregatedHeapSnapshot(snapshot, options, context),
+        )
     : aggregateProfiles(converter.parse(json), options, context)
 
 /**
@@ -391,7 +489,7 @@ export const aggregateJsonInput = (
 export const aggregateBinaryInput = (
   converter: BinaryFormatConverter,
   bytes: Uint8Array,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedProfile[] =>
   aggregateProfiles(converter.parse(bytes), options, context)
@@ -403,7 +501,7 @@ export const aggregateBinaryInput = (
 export const aggregateBinaryInputAsync = async (
   converter: BinaryFormatConverter,
   stream: ReadableStream<Uint8Array>,
-  options: NormalizedProfileToMdOptions,
+  options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): Promise<AggregatedProfile[]> =>
   aggregateProfiles(await converter.parseAsync(stream), options, context)

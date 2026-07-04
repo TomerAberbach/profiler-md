@@ -1,6 +1,6 @@
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,
@@ -74,7 +74,7 @@ export type AggregatedProfileDiff = {
 export const diffAggregatedProfiles = (
   base: AggregatedProfile,
   current: AggregatedProfile,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): AggregatedProfileDiff => {
   const metrics = matchDiffedMetrics(base.metrics, current.metrics)
   if (
@@ -121,7 +121,7 @@ export const diffAggregatedProfiles = (
 const matchDiffedFunctions = (
   baseFunctions: AggregatedProfileFunction[],
   currentFunctions: AggregatedProfileFunction[],
-  entryKey: NormalizedProfileToMdOptions[`entryKey`],
+  entryKey: ResolvedProfileToMdOptions[`entryKey`],
 ): Diff<AggregatedProfileFunction>[] => {
   const baseByKey = groupByEntryKey(baseFunctions, entryKey)
   const currentByKey = groupByEntryKey(currentFunctions, entryKey)
@@ -144,7 +144,7 @@ const matchDiffedFunctions = (
 
 const groupByEntryKey = (
   functions: AggregatedProfileFunction[],
-  entryKey: NormalizedProfileToMdOptions[`entryKey`],
+  entryKey: ResolvedProfileToMdOptions[`entryKey`],
 ): Map<string, AggregatedProfileFunction[]> => {
   const byKey = new Map<string, AggregatedProfileFunction[]>()
   for (const func of functions) {

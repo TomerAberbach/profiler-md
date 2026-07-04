@@ -1,7 +1,7 @@
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
-import type { SourceLocation } from '../location.ts'
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { FileReference, SourceLocation } from '../location.ts'
+import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -37,6 +37,9 @@ export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
 export type AggregatedSnapshotEntityDiff = {
   /** A human readable label for this entity. */
   name: string
+
+  /** The file reference the {@link name} parses as, when it is URL-shaped. */
+  nameLocation?: FileReference
 
   /** The exact location where the entity was defined. */
   location?: SourceLocation
@@ -76,7 +79,7 @@ export type AggregatedHeapSnapshotDiff = {
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): AggregatedHeapSnapshotDiff => ({
   base,
   current,
@@ -110,6 +113,7 @@ export const diffAggregatedHeapSnapshots = (
 const diffedConstructor = ({
   id,
   name,
+  nameLocation,
   location,
   selfSize,
   retainedSize,
@@ -118,6 +122,7 @@ const diffedConstructor = ({
   type: `node`,
   id,
   name,
+  nameLocation,
   location,
   selfSize,
   retainedSize,
@@ -131,7 +136,7 @@ const diffedConstructor = ({
  */
 const mergeClosures = (
   closures: AggregatedClosure[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Map<string, DiffedSnapshotEntity> => {
   const keyToClosure = new Map<string, DiffedSnapshotEntity>()
   for (const closure of closures) {
@@ -195,6 +200,6 @@ const entityDiffsFromMatches = (
   diffs: Map<string, Diff<DiffedSnapshotEntity>>,
 ): AggregatedSnapshotEntityDiff[] =>
   Array.from(diffs.values(), ({ base, current }) => {
-    const { name, location } = (current ?? base)!
-    return { name: name!, location, base, current }
+    const { name, nameLocation, location } = (current ?? base)!
+    return { name: name!, nameLocation, location, base, current }
   })

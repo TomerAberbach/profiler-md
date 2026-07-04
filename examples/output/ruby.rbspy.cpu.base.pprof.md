@@ -32,13 +32,13 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total wall time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function                 | Location                               |
-| -----: | ------: | ------: | ------------------------ | -------------------------------------- |
-| 100.0% |   1.33s |     133 | `(unknown) [c function]` | `(unknown)`                            |
-|  99.0% |   1.32s |     131 | `<main>`                 | `usr/local/bin/rubocop`                |
-|  14.6% | 194.2ms |      19 | `do_parse`               | `(eval)`                               |
-|   2.1% |  28.1ms |       3 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
-|   1.0% |  13.2ms |       2 | `(anonymous)`            | `<internal:gem_prelude>`               |
+|      % |    Time | Samples | Function                 | Location                                 |
+| -----: | ------: | ------: | ------------------------ | ---------------------------------------- |
+| 100.0% |   1.33s |     133 | `(unknown) [c function]` | `(unknown)`                              |
+|  99.0% |   1.32s |     131 | `<main>`                 | `rubocop`                                |
+|  14.6% | 194.2ms |      19 | `do_parse`               | `(eval)`                                 |
+|   2.1% |  28.1ms |       3 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
+|   1.0% |  13.2ms |       2 | `(anonymous)`            | `<internal:gem_prelude>`                 |
 
 #### Callees
 
@@ -50,12 +50,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | ------: | ------: | ------------------------ | ----------- |
 | 57.5% | 767.9ms |      76 | `(unknown) [c function]` | `(unknown)` |
 
-##### `<main>` (`usr/local/bin/rubocop`)
+##### `<main>` (`rubocop`)
 
-|     % |   Time | Samples | Callee                   | Location                               |
-| ----: | -----: | ------: | ------------------------ | -------------------------------------- |
-| 97.9% |  1.29s |     128 | `(unknown) [c function]` | `(unknown)`                            |
-|  2.1% | 28.1ms |       3 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
+|     % |   Time | Samples | Callee                   | Location                                 |
+| ----: | -----: | ------: | ------------------------ | ---------------------------------------- |
+| 97.9% |  1.29s |     128 | `(unknown) [c function]` | `(unknown)`                              |
+|  2.1% | 28.1ms |       3 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 
 ##### `do_parse` (`(eval)`)
 
@@ -63,7 +63,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ------: | ------: | ------------------------ | ----------- |
 | 100.0% | 194.2ms |      19 | `(unknown) [c function]` | `(unknown)` |
 
-##### `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)
+##### `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
 
 |     % |   Time | Samples | Callee                   | Location    |
 | ----: | -----: | ------: | ------------------------ | ----------- |
@@ -79,7 +79,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by wall time spent in their leaf frame.
 
-Common call stack: `(unknown) [c function]` (`(unknown)`) ← `<main>` (`usr/local/bin/rubocop`)
+Common call stack: `(unknown) [c function]` (`(unknown)`) ← `<main>` (`rubocop`)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

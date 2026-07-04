@@ -1,4 +1,3 @@
-import type { NormalizedProfileToMdOptions } from '../options.ts'
 import type { AggregatedProfile, Profile } from '../profile/index.ts'
 import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
 
@@ -29,16 +28,16 @@ type ParseProfile<Input> = {
 
 /**
  * Aggregates a snapshot format's input directly into aggregated heap snapshots.
- * Snapshots have no frames or samples and categorize their nodes themselves, so
- * they skip the profile pipeline and take {@link NormalizedProfileToMdOptions}
- * directly.
+ * Snapshots have no frames or samples, so they skip the profile pipeline. Like
+ * {@link ParseProfile.parse}, aggregation takes no options or context: origin
+ * detection and categorization run uniformly in the framework afterwards (see
+ * {@link categorizeAggregatedHeapSnapshot}), and the framework resolves
+ * anything that only affects the Markdown output (labels, base URLs) at
+ * formatting time.
  */
 type AggregateSnapshot<Input> = {
   shape: `snapshot`
-  aggregate: (
-    input: Input,
-    options: NormalizedProfileToMdOptions,
-  ) => AggregatedHeapSnapshot[]
+  aggregate: (input: Input) => AggregatedHeapSnapshot[]
 }
 
 type Detect<Input> = {

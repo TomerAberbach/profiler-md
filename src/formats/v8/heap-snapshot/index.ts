@@ -33,6 +33,5 @@ export const v8HeapSnapshotConverter = {
   type: `json`,
   shape: `snapshot`,
   matches: matchesV8HeapSnapshot,
-  aggregate: (json, options) =>
-    aggregateV8HeapSnapshot(json as V8HeapSnapshot, options),
+  aggregate: json => aggregateV8HeapSnapshot(json as V8HeapSnapshot),
 } satisfies JsonFormatConverter

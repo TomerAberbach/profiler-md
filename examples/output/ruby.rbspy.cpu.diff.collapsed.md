@@ -25,8 +25,8 @@ Functions with the largest increase in samples taken directly in the function bo
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
-| Change | Delta |           % |   Samples | Function                 | Location                               |
-| -----: | ----: | ----------: | --------: | ------------------------ | -------------------------------------- |
-|  -1.5% |    -2 |      100.0% | 133 → 131 | `(unknown) [c function]` | `<unknown>`                            |
-|  -1.5% |    -2 |       98.5% | 131 → 129 | `<main>`                 | `usr/local/bin/rubocop`                |
-| -33.3% |    -1 | 2.3% → 1.5% |     3 → 2 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
+| Change | Delta |           % |   Samples | Function                 | Location                                 |
+| -----: | ----: | ----------: | --------: | ------------------------ | ---------------------------------------- |
+|  -1.5% |    -2 |      100.0% | 133 → 131 | `(unknown) [c function]` | `<unknown>`                              |
+|  -1.5% |    -2 |       98.5% | 131 → 129 | `<main>`                 | `rubocop`                                |
+| -33.3% |    -1 | 2.3% → 1.5% |     3 → 2 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |

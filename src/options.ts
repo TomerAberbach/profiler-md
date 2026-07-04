@@ -126,12 +126,17 @@ export type ProfileToMdOptions = {
    * Accepts an absolute file path string or URL. File paths are converted to
    * `file://` URLs internally.
    *
+   * A value of `'auto'` infers the base URL as the common ancestor directory
+   * of the input's `ours`-categorized entries with absolute `file:` locations,
+   * across all sub-profiles of a file and across both sides of a diff. Falls
+   * back to absolute paths when no entry qualifies.
+   *
    * A value of `null` indicates that URLs should be absolute.
    *
    * Defaults to `process.cwd()` when available. Otherwise leaves paths
    * absolute.
    */
-  baseURL?: string | URL | null
+  baseURL?: `auto` | (string & {}) | URL | null
 
   /**
    * Source maps to apply when formatting profile locations.
@@ -171,10 +176,15 @@ export type ProfileToMdOptions = {
    *
    * Called once per profile or snapshot with all its {@link entries} and the
    * conversion {@link ProfileToMdContext | context} (the {@link Format | format}
-   * and the resolved {@link Origin | origin}).
+   * and the resolved {@link Origin | origin}). A profile's entries are its
+   * functions; a snapshot's are its constructors and closures (each entry's
+   * location falling back to its URL-shaped name, when it has one).
    *
    * Receiving every entry up front lets the categorizer decide from the full
    * set rather than per entry in isolation.
+   *
+   * The categories also decide which locations qualify for base URL inference
+   * when {@link baseURL} is `'auto'` (only `ours` entries contribute).
    *
    * Defaults to {@link defaultCategorizeEntries}, which applies the library's
    * origin-aware categorization ({@link categorizeEntryForOrigin}).
@@ -195,7 +205,7 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
-  baseURL: URL | undefined
+  baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
   entryKey: (entry: ProfileEntry) => string
   categorizeEntries: (
@@ -203,6 +213,26 @@ export type NormalizedProfileToMdOptions = {
     context: ProfileToMdContext,
   ) => readonly EntryCategory[]
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
+}
+
+/**
+ * The options aggregation code receives: everything except `baseURL`, which
+ * only affects formatting and, for `'auto'`, is resolvable only after
+ * aggregation (from the aggregated entries). The omission keeps
+ * parse/aggregate logic from depending on it.
+ */
+export type AggregateProfileToMdOptions = Omit<
+  NormalizedProfileToMdOptions,
+  `baseURL`
+>
+
+/**
+ * The options formatting code receives: {@link NormalizedProfileToMdOptions}
+ * with `'auto'` resolved to a concrete base URL (or `undefined` when nothing
+ * qualified for inference).
+ */
+export type ResolvedProfileToMdOptions = AggregateProfileToMdOptions & {
+  baseURL: URL | undefined
 }
 
 export const normalizeProfileToMdOptions = ({
@@ -390,10 +420,13 @@ export const isExternalImplementationDetailEntry = (
 }
 
 const normalizeBaseURL = (
-  baseURL: string | URL | null | undefined,
-): URL | undefined => {
+  baseURL: `auto` | (string & {}) | URL | null | undefined,
+): URL | `auto` | undefined => {
   if (baseURL === null) {
     return undefined
+  }
+  if (baseURL === `auto`) {
+    return `auto`
   }
 
   let url: URL | undefined

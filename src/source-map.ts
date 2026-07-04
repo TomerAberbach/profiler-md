@@ -2,7 +2,7 @@ import { SourceMapConsumer } from 'source-map-js'
 import type { MappedPosition, RawSourceMap as SourceMap } from 'source-map-js'
 import { makeFileReference } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
-import type { NormalizedProfileToMdOptions } from './options.ts'
+import type { ResolvedProfileToMdOptions } from './options.ts'
 
 export type NormalizedSourceMap = {
   consumer: SourceMapConsumer
@@ -31,9 +31,16 @@ export const normalizeSourceMaps = (
   })
 }
 
+/**
+ * Applies the matching source map, if any, to {@link location}.
+ *
+ * A mapped source that is a relative path resolves against the resolved
+ * `baseURL`, including one inferred by `baseURL: 'auto'`; the resolved source
+ * may then fall outside the inferred directory and render with `../` segments.
+ */
 export const sourceMapSourceLocation = (
   location: SourceLocation,
-  { baseURL, sourceMaps }: NormalizedProfileToMdOptions,
+  { baseURL, sourceMaps }: ResolvedProfileToMdOptions,
 ): SourceLocation => {
   if (location.type === `relative`) {
     // We never apply source maps to relative paths because we don't know where

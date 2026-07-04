@@ -32,16 +32,16 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function                   | Location                                                             |
-| -----: | ------: | ------: | -------------------------- | -------------------------------------------------------------------- |
-| 100.0% |   1.31s |     131 | `(unknown) [c function]`   | `(unknown)`                                                          |
-|  99.1% |   1.30s |     129 | `<main>`                   | `usr/local/bin/rubocop`                                              |
-|  13.9% | 182.9ms |      18 | `do_parse`                 | `(eval)`                                                             |
-|   1.6% |  20.8ms |       2 | `activate_bin_path`        | `usr/lib/ruby/vendor_ruby/rubygems.rb`                               |
-|   1.5% |  20.1ms |       2 | `tap`                      | `<internal:kernel>`                                                  |
-|   0.9% |  11.6ms |       2 | `(anonymous)`              | `<internal:gem_prelude>`                                             |
-|   0.8% |  10.3ms |       1 | `block in dir`             | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
-|   0.7% |   9.7ms |       1 | `block in execute_runners` | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
+|      % |    Time | Samples | Function                   | Location                                                              |
+| -----: | ------: | ------: | -------------------------- | --------------------------------------------------------------------- |
+| 100.0% |   1.31s |     131 | `(unknown) [c function]`   | `(unknown)`                                                           |
+|  99.1% |   1.30s |     129 | `<main>`                   | `rubocop`                                                             |
+|  13.9% | 182.9ms |      18 | `do_parse`                 | `(eval)`                                                              |
+|   1.6% |  20.8ms |       2 | `activate_bin_path`        | `../../lib/ruby/vendor_ruby/rubygems.rb`                              |
+|   1.5% |  20.1ms |       2 | `tap`                      | `<internal:kernel>`                                                   |
+|   0.9% |  11.6ms |       2 | `(anonymous)`              | `<internal:gem_prelude>`                                              |
+|   0.8% |  10.3ms |       1 | `block in dir`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
+|   0.7% |   9.7ms |       1 | `block in execute_runners` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
 
 #### Callees
 
@@ -53,12 +53,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | ------: | ------: | ------------------------ | ----------- |
 | 60.4% | 794.1ms |      78 | `(unknown) [c function]` | `(unknown)` |
 
-##### `<main>` (`usr/local/bin/rubocop`)
+##### `<main>` (`rubocop`)
 
-|     % |   Time | Samples | Callee                   | Location                               |
-| ----: | -----: | ------: | ------------------------ | -------------------------------------- |
-| 98.4% |  1.28s |     127 | `(unknown) [c function]` | `(unknown)`                            |
-|  1.6% | 20.8ms |       2 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
+|     % |   Time | Samples | Callee                   | Location                                 |
+| ----: | -----: | ------: | ------------------------ | ---------------------------------------- |
+| 98.4% |  1.28s |     127 | `(unknown) [c function]` | `(unknown)`                              |
+|  1.6% | 20.8ms |       2 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 
 ##### `do_parse` (`(eval)`)
 
@@ -66,7 +66,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ------: | ------: | ------------------------ | ----------- |
 | 100.0% | 182.9ms |      18 | `(unknown) [c function]` | `(unknown)` |
 
-##### `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)
+##### `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
 
 |      % |   Time | Samples | Callee                   | Location    |
 | -----: | -----: | ------: | ------------------------ | ----------- |
@@ -74,10 +74,10 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `tap` (`<internal:kernel>`)
 
-|     % |   Time | Samples | Callee                     | Location                                                             |
-| ----: | -----: | ------: | -------------------------- | -------------------------------------------------------------------- |
-| 51.6% | 10.3ms |       1 | `block in dir`             | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
-| 48.4% |  9.7ms |       1 | `block in execute_runners` | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
+|     % |   Time | Samples | Callee                     | Location                                                              |
+| ----: | -----: | ------: | -------------------------- | --------------------------------------------------------------------- |
+| 51.6% | 10.3ms |       1 | `block in dir`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
+| 48.4% |  9.7ms |       1 | `block in execute_runners` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
 
 ##### `(anonymous)` (`<internal:gem_prelude>`)
 
@@ -89,7 +89,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `(unknown) [c function]` (`(unknown)`) ← `<main>` (`usr/local/bin/rubocop`)
+Common call stack: `(unknown) [c function]` (`(unknown)`) ← `<main>` (`rubocop`)
 
 |     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

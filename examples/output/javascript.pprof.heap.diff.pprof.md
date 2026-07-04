@@ -15,9 +15,9 @@ Allocated 972 MB → 768 MB (-204.69 MB, -21.1%) over 10,093,789 samples → 
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-|  Change |       Delta |           % |         Size |   Samples | Function        | Location                                                                                                 |
-| ------: | ----------: | ----------: | -----------: | --------: | --------------- | -------------------------------------------------------------------------------------------------------- |
-| removed | -524.304 kB | 0.1% → 0.0% | 524 kB → 0 B | 5,958 → 0 | `createProgram` | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/node_modules/typescript/lib/typescript.js` |
+|  Change |       Delta |           % |         Size |   Samples | Function        | Location                                    |
+| ------: | ----------: | ----------: | -----------: | --------: | --------------- | ------------------------------------------- |
+| removed | -524.304 kB | 0.1% → 0.0% | 524 kB → 0 B | 5,958 → 0 | `createProgram` | `node_modules/typescript/lib/typescript.js` |
 
 ### Total size
 
@@ -33,10 +33,10 @@ Functions with the largest increase in total bytes allocated in the function and
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
-| Change |       Delta |             % |            Size |               Samples | Function                           | Location                                                                                                 |
-| -----: | ----------: | ------------: | --------------: | --------------------: | ---------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| -21.5% | -162.717 MB | 77.9% → 77.5% | 758 MB → 595 MB | 7,813,936 → 5,868,039 | `typeCheckProject`                 | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/tsc-workload.mjs`                          |
-| -21.5% | -162.194 MB | 77.5% → 77.0% | 753 MB → 591 MB | 7,728,122 → 5,802,917 | `(anonymous)`                      | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/datadog-pprof-heap.mjs:1:1`                |
-| -22.5% | -105.771 MB | 48.4% → 47.5% | 470 MB → 365 MB | 4,946,952 → 3,593,223 | `getSemanticDiagnostics`           | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/node_modules/typescript/lib/typescript.js` |
-| -20.8% |  -58.691 MB | 29.1% → 29.2% | 283 MB → 224 MB | 2,922,784 → 2,243,751 | `createProgram`                    | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/node_modules/typescript/lib/typescript.js` |
-|  -0.5% |   -2.496 kB |          0.1% | 527 kB → 524 kB |          163 → 16,385 | `getParsedCommandLineOfConfigFile` | `private/tmp/nix-shell.s3uqql/profiler-md-fixtures.pYM2jp/zod/node_modules/typescript/lib/typescript.js` |
+| Change |       Delta |             % |            Size |               Samples | Function                           | Location                                    |
+| -----: | ----------: | ------------: | --------------: | --------------------: | ---------------------------------- | ------------------------------------------- |
+| -21.5% | -162.717 MB | 77.9% → 77.5% | 758 MB → 595 MB | 7,813,936 → 5,868,039 | `typeCheckProject`                 | `tsc-workload.mjs`                          |
+| -21.5% | -162.194 MB | 77.5% → 77.0% | 753 MB → 591 MB | 7,728,122 → 5,802,917 | `(anonymous)`                      | `datadog-pprof-heap.mjs:1:1`                |
+| -22.5% | -105.771 MB | 48.4% → 47.5% | 470 MB → 365 MB | 4,946,952 → 3,593,223 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js` |
+| -20.8% |  -58.691 MB | 29.1% → 29.2% | 283 MB → 224 MB | 2,922,784 → 2,243,751 | `createProgram`                    | `node_modules/typescript/lib/typescript.js` |
+|  -0.5% |   -2.496 kB |          0.1% | 527 kB → 524 kB |          163 → 16,385 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js` |

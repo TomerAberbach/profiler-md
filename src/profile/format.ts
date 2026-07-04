@@ -34,7 +34,7 @@ import {
 import type { Header } from '../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
-import type { NormalizedProfileToMdOptions } from '../options.ts'
+import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,
@@ -49,14 +49,14 @@ import type {
 } from './diff.ts'
 import type { Metric } from './metric.ts'
 
-type FormatProfileOptions = NormalizedProfileToMdOptions & {
+type FormatProfileOptions = ResolvedProfileToMdOptions & {
   /** The Markdown heading level to use. */
   headingLevel: number
 }
 
 export const formatProfile = (
   profile: AggregatedProfile,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
   return [
@@ -98,7 +98,7 @@ const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled functio
 
 export const formatProfileDiff = (
   diff: AggregatedProfileDiff,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
   const metrics = diff.metrics.map(({ metric }) => metric)
@@ -561,7 +561,7 @@ const formatHottestCallStacks = (
  */
 const mergeShownCallStacks = (
   callStacks: AggregatedProfileCallStack[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): AggregatedProfileCallStack[] => {
   const merged = new Map<string, AggregatedProfileCallStack>()
   for (const callStack of callStacks) {
@@ -604,7 +604,7 @@ const callStackRow = (
   measure: Measure,
   total: number,
   commonCallStack: AggregatedProfileFunction[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Cell[] => [
   ...measureCells(
     measureMetric(measure),
@@ -782,7 +782,7 @@ const categoryRow = (
 const formatDiffFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] =>
   formatSectionGroup(
@@ -796,7 +796,7 @@ const formatDiffFunctions = (
 const formatDiffSelfFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
   const metric = measureMetric(measure)
@@ -849,7 +849,7 @@ const formatDiffSelfFunctions = (
 const formatDiffTotalFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
   const metric = measureMetric(measure)
@@ -971,7 +971,7 @@ type ActiveDiffFunction = {
  */
 const selectDiffFunctions = (
   candidates: ActiveDiffFunction[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): {
   hasActive: boolean
   regressions: ActiveDiffFunction[]
@@ -1053,7 +1053,7 @@ const functionTableHeaders = (metric: Metric | null): Header[] =>
 /** Returns whether either side of the diffed function should be shown. */
 const showDiffFunction = (
   { base, current }: AggregatedProfileFunctionDiff,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
@@ -1113,7 +1113,7 @@ type NamedFunction = {
 const formatFunctionHeading = (
   headingLevel: number,
   func: NamedFunction,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Heading =>
   heading(
     headingLevel,
@@ -1134,7 +1134,7 @@ const functionMeasureRow = (
   value: number,
   sampleCount: number,
   total: number,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): Cell[] => [
   ...measureCells(metric, value, sampleCount, total),
   codeCell(func.name),
@@ -1229,7 +1229,7 @@ const formatValueDelta = (value: number, metric: Metric): string => {
 /** Formats a call stack as a chain of functions, leaf to root. */
 const formatCallStack = (
   frames: AggregatedProfileFunction[],
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): PhrasingContent[] =>
   frames.flatMap((frame, index) => {
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]

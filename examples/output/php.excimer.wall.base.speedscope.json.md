@@ -12,14 +12,14 @@ Took 151.0ms over 1 sample (151.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|      % |    Time | Samples | Function      | Location                                                                              |
-| -----: | ------: | ------: | ------------- | ------------------------------------------------------------------------------------- |
-| 100.0% | 151.0ms |       1 | `(anonymous)` | `Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/php/profile.php` |
+|      % |    Time | Samples | Function      | Location      |
+| -----: | ------: | ------: | ------------- | ------------- |
+| 100.0% | 151.0ms |       1 | `(anonymous)` | `profile.php` |
 
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function      | Location                                                                              |
-| -----: | ------: | ------: | ------------- | ------------------------------------------------------------------------------------- |
-| 100.0% | 151.0ms |       1 | `(anonymous)` | `Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/php/profile.php` |
+|      % |    Time | Samples | Function      | Location      |
+| -----: | ------: | ------: | ------------- | ------------- |
+| 100.0% | 151.0ms |       1 | `(anonymous)` | `profile.php` |

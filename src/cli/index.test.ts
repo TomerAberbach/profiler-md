@@ -72,6 +72,25 @@ test.concurrent(
   },
 )
 
+test.concurrent(
+  `--base-url auto makes file paths relative to their inferred common ancestor`,
+  async () => {
+    // The fixture's own code lives under this directory (captured on the
+    // machine that produced it), so auto inference strips it.
+    const profiledProjectDirectory = `/Users/tomer/Documents/work/code`
+
+    const { status, stdout } = await runCli([
+      cpuProfilePath,
+      `--base-url`,
+      `auto`,
+    ])
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(/^# /u)
+    expect(stdout).not.toContain(profiledProjectDirectory)
+  },
+)
+
 test.concurrent(`--base-url resolves relative paths`, async () => {
   const [{ stdout: absolute }, { stdout: relative }] = await Promise.all([
     runCli([cpuProfilePath, `--base-url`, process.cwd()]),
