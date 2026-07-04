@@ -244,13 +244,13 @@ describe(`convert`, () => {
         {
           '%': `60.0%`,
           Samples: `6`,
-          Function: `Elixir.Enum:reduce/3`,
+          Function: `reduce/3`,
           Location: `Elixir.Enum`,
         },
         {
           '%': `40.0%`,
           Samples: `4`,
-          Function: `Elixir.Jason:encode!/1`,
+          Function: `encode!/1`,
           Location: `Elixir.Jason`,
         },
       ],

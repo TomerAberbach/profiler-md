@@ -36,9 +36,11 @@ export const beamOriginSpec = {
       return input
     }
 
-    // The module stands in for a location; keep the full `module:function/arity`
-    // as the displayed name.
-    return { ...input, location: { urlOrPath: name.slice(0, colon) } }
+    return {
+      ...input,
+      name: name.slice(colon + 1),
+      location: { urlOrPath: name.slice(0, colon) },
+    }
   },
 } as const satisfies OriginSpec
 
