@@ -336,6 +336,91 @@ describe(`convert`, () => {
     ).toEqual([[`<unknown>`]])
   })
 
+  test(`dotnet-trace scaffolding is dropped; self time lands on the sampled methods`, () => {
+    // A dotnet-trace export wraps every stack in scaffolding nodes and ends it
+    // with a CPU_TIME bucket; none of those are functions, so only the managed
+    // methods (and the unmanaged-time bucket) should surface.
+    const profile = makeSpeedscopeProfile({
+      profiles: [
+        makeSampledProfile({
+          samples: [
+            [0, 1, 2, 3, 4, 5, 6],
+            [0, 1, 2, 3, 4, 6],
+            [0, 1, 2, 3, 4, 5, 7],
+          ],
+          weights: [30, 10, 20],
+        }),
+      ],
+      frames: [
+        { name: `Process64 Process(123) (123) Args: ` },
+        { name: `(Non-Activities)` },
+        { name: `Threads` },
+        { name: `Thread (456)` },
+        { name: `Profile!Profile.Program.Main()` },
+        { name: `Profile!Profile.Program.Work()` },
+        { name: `CPU_TIME` },
+        { name: `UNMANAGED_CODE_TIME` },
+      ],
+    })
+
+    const md = convertJsonToMd(
+      speedscopeConverter,
+      profile,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Time: `30.0ms`,
+          Samples: `1`,
+          Function: `Work()`,
+          Location: `Profile.Program`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `20.0ms`,
+          Samples: `1`,
+          Function: `UNMANAGED_CODE_TIME`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `16.7%`,
+          Time: `10.0ms`,
+          Samples: `1`,
+          Function: `Main()`,
+          Location: `Profile.Program`,
+        },
+      ],
+    ])
+    expect(totalTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `60.0ms`,
+          Samples: `3`,
+          Function: `Main()`,
+          Location: `Profile.Program`,
+        },
+        {
+          '%': `83.3%`,
+          Time: `50.0ms`,
+          Samples: `2`,
+          Function: `Work()`,
+          Location: `Profile.Program`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `20.0ms`,
+          Samples: `1`,
+          Function: `UNMANAGED_CODE_TIME`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
   test(`bytes unit produces heap profile`, () => {
     const profile = makeSpeedscopeProfile({
       profiles: [
