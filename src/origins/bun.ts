@@ -25,8 +25,12 @@ export const bunOriginSpec = {
     `ours`,
 } as const satisfies OriginSpec
 
-/** The module specifiers Bun resolves to runtime builtins. */
-const BUN_STDLIB_PROTOCOLS = [`node:`, `bun:`]
+/**
+ * The module specifiers Bun resolves to runtime builtins. `internal:` is the
+ * scheme of Bun's own bundled JS modules (`internal:primordials`,
+ * `internal:fs/streams`), which back the `node:`/`bun:` builtins.
+ */
+const BUN_STDLIB_PROTOCOLS = [`node:`, `bun:`, `internal:`]
 
 /**
  * JavaScriptCore module-loader builtins. These appear in Bun profiles (Bun runs
