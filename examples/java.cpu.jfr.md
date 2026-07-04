@@ -21,16 +21,16 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  4.7% |     791 | `collectClusters(int[])`            | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 |  3.4% |     579 | `computeIfAbsent(Object, Function)` | java.util.HashMap                                                                   |
 |  2.4% |     400 | `vectorSum()`                       | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  1.0% |     166 | `zero_blocks()`                     | `<unknown>`                                                                         |
+|  1.0% |     166 | `zero_blocks`                       | `<unknown>`                                                                         |
 |  0.7% |     124 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.4% |      63 | `arrayof_jint_disjoint_arraycopy()` | `<unknown>`                                                                         |
+|  0.4% |      63 | `arrayof_jint_disjoint_arraycopy`   | `<unknown>`                                                                         |
 |  0.1% |      22 | `merge(Object, Object, BiFunction)` | java.util.HashMap                                                                   |
 |  0.1% |      17 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans                                           |
 |  0.1% |      14 | `compute()`                         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                                |
 |  0.1% |       9 | `createSubtask(int, int)`           | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 |  0.0% |       8 | `join()`                            | java.util.concurrent.ForkJoinTask                                                   |
 |  0.0% |       8 | `add(double[], double[])`           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  0.0% |       6 | `vtable stub()`                     | `<unknown>`                                                                         |
+|  0.0% |       6 | `vtable stub`                       | `<unknown>`                                                                         |
 |  0.0% |       5 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 |  0.0% |       4 | `apply(Object)`                     | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a3508 |
 |  0.0% |       3 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
@@ -191,7 +191,7 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | -----: | ------: | ------------------- | ------------------------------------------------------- |
 | 100.0% |     400 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
-##### `zero_blocks()` (`<unknown>`)
+##### `zero_blocks` (`<unknown>`)
 
 |     % | Samples | Caller                              | Location                                                 |
 | ----: | ------: | ----------------------------------- | -------------------------------------------------------- |
@@ -205,7 +205,7 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | 99.2% |     123 | `computeDirectly()` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |  0.8% |       1 | `compute()`         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask     |
 
-##### `arrayof_jint_disjoint_arraycopy()` (`<unknown>`)
+##### `arrayof_jint_disjoint_arraycopy` (`<unknown>`)
 
 |     % | Samples | Caller                   | Location                                                 |
 | ----: | ------: | ------------------------ | -------------------------------------------------------- |
@@ -241,7 +241,7 @@ Callers ranked by contribution to each function's self samples. Caller attributi
 | -----: | ------: | ------------------------------------ | ------------------------------------------------------- |
 | 100.0% |       8 | `combineResults(double[], double[])` | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 
-##### `vtable stub()` (`<unknown>`)
+##### `vtable stub` (`<unknown>`)
 
 |     % | Samples | Caller      | Location                                             |
 | ----: | ------: | ----------- | ---------------------------------------------------- |
@@ -315,9 +315,9 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 ##### `join()` (java.util.concurrent.ForkJoinTask)
 
-|    % | Samples | Callee          | Location    |
-| ---: | ------: | --------------- | ----------- |
-| 0.0% |       4 | `vtable stub()` | `<unknown>` |
+|    % | Samples | Callee        | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 0.0% |       4 | `vtable stub` | `<unknown>` |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -345,7 +345,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |     % | Samples | Callee                         | Location                                                 |
 | ----: | ------: | ------------------------------ | -------------------------------------------------------- |
 | 65.7% |   2,667 | `distance(Double[], Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
-|  0.2% |      10 | `zero_blocks()`                | `<unknown>`                                              |
+|  0.2% |      10 | `zero_blocks`                  | `<unknown>`                                              |
 
 ##### `computeClusterAverages()` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask)
 
@@ -367,7 +367,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |     % | Samples | Callee                              | Location          |
 | ----: | ------: | ----------------------------------- | ----------------- |
 | 34.2% |     591 | `computeIfAbsent(Object, Function)` | java.util.HashMap |
-|  1.2% |      21 | `arrayof_jint_disjoint_arraycopy()` | `<unknown>`       |
+|  1.2% |      21 | `arrayof_jint_disjoint_arraycopy`   | `<unknown>`       |
 
 ##### `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans)
 
@@ -411,7 +411,7 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 |     % | Samples | Callee                  | Location                                                             |
 | ----: | ------: | ----------------------- | -------------------------------------------------------------------- |
 | 89.1% |   1,117 | `apply(Object, Object)` | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a7248 |
-|  9.2% |     115 | `zero_blocks()`         | `<unknown>`                                                          |
+|  9.2% |     115 | `zero_blocks`           | `<unknown>`                                                          |
 
 ## Hottest call stacks
 
@@ -438,4 +438,4 @@ Call stacks ranked by samples taken in their leaf frame.
 | 1.1% |     185 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                          |
 | 1.0% |     177 | `distance(Double[], Double[])` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `findNearestCentroid()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                    |
 | 1.0% |     171 | `accumulate(Double[], double[])` (org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask) ← `vectorSum()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `average(List)` (org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask) ← `join()` (java.util.concurrent.ForkJoinTask) ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                              |
-| 1.0% |     170 | `arrayof_jint_disjoint_arraycopy()` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a7248) ← `merge(Object, Object, BiFunction)` (java.util.HashMap) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3bf8) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 1.0% |     170 | `arrayof_jint_disjoint_arraycopy` ← `lambda$merge$6(List, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `apply(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a7248) ← `merge(Object, Object, BiFunction)` (java.util.HashMap) ← `lambda$merge$7(Map, Object, List)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `accept(Object, Object)` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a3bf8) ← `merge(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans) ← `combineResults(Map, Map)` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask) ← `combineResults(Object, Object)` ← `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |

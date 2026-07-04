@@ -430,6 +430,33 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`async-profiler's dummy descriptor for non-Java frames does not append a parameter list`, () => {
+    // Async-profiler writes the sentinel descriptor `()L;` for runtime stubs
+    // and native functions. Their names (e.g. HotSpot's adapter blob names)
+    // aren't method names, so no `()` must be appended.
+    const bytes = makeJfr({
+      methods: [
+        { name: `I2C/C2I adapters(0xbb)`, className: ``, descriptor: `()L;` },
+        { name: `main`, className: `com.example.Main` },
+      ],
+      stackTraces: [{ frames: [{ method: 0 }, { method: 1, line: 3 }] }],
+      events: [{ type: `cpu`, stack: 0 }],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          Function: `I2C/C2I adapters(0xbb)`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
   test(`a leaf frame without a line does not borrow a caller's line`, () => {
     // `funcA` (line 5) calls `funcB`, whose leaf frame has no line (as native
     // frames don't). The sample's self line must stay empty rather than
