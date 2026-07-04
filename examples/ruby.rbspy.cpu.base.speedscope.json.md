@@ -1,10 +1,10 @@
 # Sampling profile
 
-Took 1.33s over 132 samples (10.1ms per sample).
+Took 1.33s over 133 samples (10.0ms per sample).
 
 | Category    |     % |    Time | Samples |
 | ----------- | ----: | ------: | ------: |
-| stdlib      | 66.4% | 885.6ms |      88 |
+| stdlib      | 66.4% | 885.6ms |      89 |
 | third-party | 33.6% | 448.9ms |      44 |
 
 ## Hottest functions
@@ -15,7 +15,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                 | Location  |
 | ----: | ------: | ------: | ------------------------ | --------- |
-| 63.5% | 847.6ms |      84 | `(unknown) [c function]` | (unknown) |
+| 63.5% | 847.6ms |      85 | `(unknown) [c function]` | (unknown) |
 
 #### Lines
 
@@ -25,7 +25,7 @@ Lines ranked by contribution to each function's self time.
 
 |      % |    Time | Samples | Location       |
 | -----: | ------: | ------: | -------------- |
-| 100.0% | 847.6ms |      84 | (unknown):null |
+| 100.0% | 847.6ms |      85 | (unknown):null |
 
 #### Callers
 
@@ -44,11 +44,11 @@ Functions ranked by total time spent in the function and all its callees.
 
 |      % |    Time | Samples | Function                 | Location                             |
 | -----: | ------: | ------: | ------------------------ | ------------------------------------ |
-| 100.0% |   1.33s |     132 | `(unknown) [c function]` | (unknown)                            |
+| 100.0% |   1.33s |     133 | `(unknown) [c function]` | (unknown)                            |
 |  99.0% |   1.32s |     131 | `<main>`                 | usr/local/bin/rubocop                |
 |  14.6% | 194.2ms |      19 | `do_parse`               | (eval)                               |
 |   2.1% |  28.1ms |       3 | `activate_bin_path`      | usr/lib/ruby/vendor_ruby/rubygems.rb |
-|   1.0% |  13.2ms |       1 | `<internal:gem_prelude>` | <internal:gem_prelude>               |
+|   1.0% |  13.2ms |       2 | `<internal:gem_prelude>` | <internal:gem_prelude>               |
 
 #### Callees
 
@@ -83,7 +83,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 |      % |   Time | Samples | Callee                   | Location  |
 | -----: | -----: | ------: | ------------------------ | --------- |
-| 100.0% | 13.2ms |       1 | `(unknown) [c function]` | (unknown) |
+| 100.0% | 13.2ms |       2 | `(unknown) [c function]` | (unknown) |
 
 ## Hottest call stacks
 

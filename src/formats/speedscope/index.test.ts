@@ -307,7 +307,7 @@ describe(`convert`, () => {
     expect(linesTables(md, `_addtoken`)).toEqual([])
   })
 
-  test(`zero-weight samples are skipped`, () => {
+  test(`zero-weight samples still count as samples`, () => {
     const profile = makeSpeedscopeProfile({
       profiles: [
         makeSampledProfile({
@@ -326,9 +326,10 @@ describe(`convert`, () => {
       }),
     )
 
-    // Total should be 30ms from 2 non-zero samples
+    // All 3 samples count, including the zero-weight one, so the count agrees
+    // with other renderings of the same recording; the total stays 30ms.
     expect(summaryLines(md)).toEqual([
-      expect.stringContaining(`30.0ms over 2 samples`),
+      expect.stringContaining(`30.0ms over 3 samples`),
     ])
   })
 
@@ -395,7 +396,7 @@ describe(`convert`, () => {
     )
   })
 
-  test(`empty-stack samples are skipped`, () => {
+  test(`empty-stack samples keep their weight`, () => {
     const profile = makeSpeedscopeProfile({
       profiles: [
         makeSampledProfile({
@@ -414,10 +415,10 @@ describe(`convert`, () => {
       }),
     )
 
-    // Only the non-empty sample (50ms) is counted, not the empty-stack ones
-    // (100ms + 100ms).
+    // Empty-stack samples keep their time (100ms + 100ms), attributed to the
+    // shared anonymous function, so the total matches the recording.
     expect(summaryLines(md)).toEqual([
-      expect.stringContaining(`50.0ms over 1 sample`),
+      expect.stringContaining(`250.0ms over 3 samples`),
     ])
   })
 

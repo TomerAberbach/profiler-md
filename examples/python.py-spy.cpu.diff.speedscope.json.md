@@ -1,12 +1,12 @@
 # Sampling profile diff
 
-Took 1.75s → 1.83s (+80.0ms, +4.6%) over 175 samples → 183 samples (10.0ms per sample).
+Took 1.79s → 1.90s (+110.0ms, +6.1%) over 179 samples → 190 samples (10.0ms per sample).
 
-| Category    |  Change |   Delta |             % |            Time |   Samples |
-| ----------- | ------: | ------: | ------------: | --------------: | --------: |
-| third-party |   +3.0% | +50.0ms | 94.3% → 92.9% |   1.65s → 1.70s | 165 → 170 |
-| stdlib      |  -11.1% | -10.0ms |   5.1% → 4.4% | 90.0ms → 80.0ms |     9 → 8 |
-| ours        | +400.0% | +40.0ms |   0.6% → 2.7% | 10.0ms → 50.0ms |     1 → 5 |
+| Category    |  Change |   Delta |             % |              Time |   Samples |
+| ----------- | ------: | ------: | ------------: | ----------------: | --------: |
+| third-party |   +3.0% | +50.0ms | 92.2% → 89.5% |     1.65s → 1.70s | 165 → 170 |
+| stdlib      |  +15.4% | +20.0ms |   7.3% → 7.9% | 130.0ms → 150.0ms |   13 → 15 |
+| ours        | +400.0% | +40.0ms |   0.6% → 2.6% |   10.0ms → 50.0ms |     1 → 5 |
 
 ## Hottest functions
 
@@ -18,7 +18,7 @@ Functions with the largest increase in time spent directly in the function body,
 
 |  Change |   Delta |           % |            Time | Samples | Function   | Location |
 | ------: | ------: | ----------: | --------------: | ------: | ---------- | -------- |
-| +400.0% | +40.0ms | 0.6% → 2.7% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
+| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
 
 ### Total time
 
@@ -28,4 +28,4 @@ Functions with the largest increase in total time spent in the function and all 
 
 |  Change |   Delta |           % |            Time | Samples | Function   | Location |
 | ------: | ------: | ----------: | --------------: | ------: | ---------- | -------- |
-| +400.0% | +40.0ms | 0.6% → 2.7% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
+| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
