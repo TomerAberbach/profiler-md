@@ -59,6 +59,10 @@ export const formatProfile = (
       measuresOf(profile.metrics),
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
+        if (measureTotal(measure, profile) === 0) {
+          return [formatZeroTotalNote(measure)]
+        }
+
         const sectionOptions = {
           ...options,
           headingLevel: sectionHeadingLevel,
@@ -85,7 +89,10 @@ export const formatProfileDiff = (
       diffMeasuresOf(diff.metrics),
       headingLevel + 1,
       (measure, sectionHeadingLevel) =>
-        formatDiffFunctions(diff, measure, options, sectionHeadingLevel),
+        diffTotal(measure, diff.base, `base`) === 0 &&
+        diffTotal(measure, diff.current, `current`) === 0
+          ? [formatZeroTotalNote(measure)]
+          : formatDiffFunctions(diff, measure, options, sectionHeadingLevel),
     ),
   ].join(`\n\n`)}\n`
 }
@@ -457,7 +464,15 @@ const formatHottestCallStacks = (
         ...callStack,
         frames: callStack.frames.filter(options.showEntry),
       }))
-      .filter(callStack => callStack.frames.length > 1),
+      .filter(
+        callStack =>
+          callStack.frames.length > 1 &&
+          measureValue(
+            measure,
+            callStack.selfValues,
+            callStack.selfSampleCount,
+          ) > 0,
+      ),
     options.topN,
     callStack =>
       measureValue(measure, callStack.selfValues, callStack.selfSampleCount),
@@ -957,14 +972,27 @@ const formatMeasureSections = <M extends Measure | DiffMeasure>(
   measures.flatMap(measure =>
     measures.length === 1
       ? formatSections(measure, headingLevel)
-      : [
-          formatHeading(
-            headingLevel,
-            capitalizeFirst(measureMetric(measure)!.phrases.titleNoun),
-          ),
-          ...formatSections(measure, headingLevel + 1),
-        ],
+      : formatSectionGroup(
+          [
+            formatHeading(
+              headingLevel,
+              capitalizeFirst(measureMetric(measure)!.phrases.titleNoun),
+            ),
+          ],
+          formatSections(measure, headingLevel + 1),
+        ),
   )
+
+/**
+ * The note shown in place of a measure's sections when the profile recorded
+ * no value for it, e.g. a heap profile dumped when nothing was retained.
+ */
+const formatZeroTotalNote = (measure: Measure | DiffMeasure): string => {
+  const metric = measureMetric(measure)
+  return metric === null
+    ? `No samples were collected.`
+    : `No ${metric.phrases.pastParticipleVerbPhrase} in any sample.`
+}
 
 type NamedFunction = {
   name: string
