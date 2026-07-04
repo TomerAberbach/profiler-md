@@ -166,6 +166,63 @@ describe(`convert`, () => {
     ).toEqual([[`[0] Array`]])
   })
 
+  test(`edges reference nodes by identifier, not ordinal`, () => {
+    // Node identifiers reflect allocation order and are not the nodes'
+    // positions in the flat array; reading them as ordinals connects the
+    // wrong nodes (or drops edges whose id exceeds the node count).
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 7, size: 100, nameIndex: 1 }),
+        ...makeJSCNode({ id: 5, size: 50, nameIndex: 2 }),
+      ],
+      nodeClassNames: [`<root>`, `Holder`, `string`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 7, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 7, to: 5, type: EDGE_PROPERTY, nameIndex: 1 }),
+      ],
+      edgeNames: [`holder`, `data`],
+    })
+
+    const md = convertJsonToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(
+      largestStringsTables(md).map(table => table.map(row => row.Path)),
+    ).toEqual([[`.data Holder`]])
+  })
+
+  test(`Internal edges carry no name`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 100, nameIndex: 1 }),
+        ...makeJSCNode({ id: 2, size: 50, nameIndex: 2 }),
+      ],
+      nodeClassNames: [`<root>`, `Structure`, `string`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 1, type: EDGE_PROPERTY, nameIndex: 0 }),
+        // An Internal edge's fourth field is unused; it must not be read as
+        // an index into `edgeNames`.
+        ...makeJSCEdge({ from: 1, to: 2, type: EDGE_INTERNAL, nameIndex: 0 }),
+      ],
+      edgeNames: [`structure`],
+    })
+
+    const md = convertJsonToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(
+      largestStringsTables(md).map(table => table.map(row => row.Path)),
+    ).toEqual([[`Structure`]])
+  })
+
   test(`out-of-bounds edge ordinal does not crash`, () => {
     const snapshot = makeJSCSnapshot({
       nodes: [

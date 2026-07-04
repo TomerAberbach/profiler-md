@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 9.77 MB → 10.4 MB (+631 kB, +6.5%) across 142,769 → 144,697 nodes and 431,399 → 437,047 edges.
+Allocated 9.77 MB → 10.4 MB (+631 kB, +6.5%) across 142,769 → 144,697 nodes and 431,899 → 438,955 edges.
 
 | Category | Change |    Delta |             % |              Size |           Nodes |
 | -------- | -----: | -------: | ------------: | ----------------: | --------------: |
@@ -68,52 +68,52 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 Constructors with the largest increase in retained size.
 
-|   Change |    Delta |             % |              Size |       Instances | Constructor                 |
-| -------: | -------: | ------------: | ----------------: | --------------: | --------------------------- |
-|  +586.9% |  +386 kB |   0.7% → 4.3% |  65.8 kB → 452 kB |           1,549 | `GetterSetter`              |
-|  +129.8% |  +358 kB |   2.8% → 6.1% |   276 kB → 634 kB |   1,228 → 1,236 | `JSLexicalEnvironment`      |
-|      new |  +320 kB |   0.0% → 3.1% |      0 B → 320 kB |         0 → 297 | `UnlinkedFunctionCodeBlock` |
-|      new |  +292 kB |   0.0% → 2.8% |      0 B → 292 kB |         0 → 122 | `FunctionCodeBlock`         |
-| +7785.7% |  +175 kB |  <0.1% → 1.7% |  2.25 kB → 177 kB |              11 | `Intl.DurationFormat`       |
-|  +817.5% |  +135 kB |   0.2% → 1.5% |  16.6 kB → 152 kB |             128 | `RegExp`                    |
-|   +21.1% |  +128 kB |   6.2% → 7.1% |   607 kB → 735 kB |   3,427 → 4,615 | `PropertyTable`             |
-|  +420.4% |  +125 kB |   0.3% → 1.5% |  29.8 kB → 155 kB |             554 | `HTMLSpanElement`           |
-|    +9.8% |  +123 kB | 12.9% → 13.3% | 1.26 MB → 1.38 MB | 19,091 → 19,126 | `Function`                  |
-| +1306.1% |  +123 kB |   0.1% → 1.3% |   9.4 kB → 132 kB |             137 | `SVGGElement`               |
-|   +94.0% |  +104 kB |   1.1% → 2.1% |   111 kB → 215 kB |           3,618 | `Array`                     |
-|  +242.5% | +56.3 kB |   0.2% → 0.8% | 23.2 kB → 79.6 kB |             521 | `DOMRect`                   |
-|  +610.8% | +52.8 kB |   0.1% → 0.6% | 8.64 kB → 61.4 kB |              42 | `HTMLUListElement`          |
-|   +68.2% |   +48 kB |   0.7% → 1.1% |  70.3 kB → 118 kB |             729 | `pe`                        |
-|   +35.6% | +35.2 kB |   1.0% → 1.3% |    99 kB → 134 kB |             863 | `NativeExecutable`          |
-|   +34.6% | +34.8 kB |   1.0% → 1.3% |   101 kB → 135 kB |           1,009 | `FunctionRareData`          |
-|    +0.9% | +23.8 kB | 27.6% → 26.1% | 2.69 MB → 2.72 MB | 24,070 → 24,020 | `Structure`                 |
-|  +951.4% | +19.5 kB |  <0.1% → 0.2% | 2.05 kB → 21.5 kB |              22 | `Callee`                    |
-|   +57.3% | +14.8 kB |   0.3% → 0.4% | 25.9 kB → 40.7 kB |             420 | `HTMLAnchorElement`         |
-|  +630.1% | +14.8 kB |  <0.1% → 0.2% | 2.35 kB → 17.2 kB |              32 | `MutationObserver`          |
+| Change |    Delta |             % |              Size |       Instances | Constructor                  |
+| -----: | -------: | ------------: | ----------------: | --------------: | ---------------------------- |
+|    new |  +441 kB |   0.0% → 4.2% |      0 B → 441 kB |         0 → 122 | `FunctionCodeBlock`          |
+| +15.2% |  +256 kB | 17.2% → 18.6% | 1.68 MB → 1.94 MB | 11,598 → 11,626 | `FunctionExecutable`         |
+|    new |  +138 kB |   0.0% → 1.3% |      0 B → 138 kB |         0 → 297 | `UnlinkedFunctionCodeBlock`  |
+| +32.7% | +97.2 kB |   3.0% → 3.8% |   297 kB → 394 kB |   3,093 → 3,123 | `UnlinkedFunctionExecutable` |
+|  +2.6% | +84.6 kB | 33.5% → 32.3% | 3.27 MB → 3.36 MB | 19,091 → 19,126 | `Function`                   |
+| +35.2% |   +57 kB |   1.7% → 2.1% |   162 kB → 219 kB |   3,427 → 4,615 | `PropertyTable`              |
+|  +0.8% | +38.1 kB | 47.5% → 45.0% | 4.64 MB → 4.68 MB | 24,070 → 24,020 | `Structure`                  |
+|  +1.4% | +35.1 kB | 25.5% → 24.3% |  2.5 MB → 2.53 MB |           5,787 | `Object`                     |
+|  +1.0% | +16.7 kB | 16.4% → 15.6% |  1.6 MB → 1.62 MB |              22 | `Window`                     |
+|  +3.8% | +13.5 kB |   3.6% → 3.5% |   350 kB → 364 kB |           1,549 | `GetterSetter`               |
+|  +1.6% |  +7.9 kB |   5.2% → 5.0% |   507 kB → 515 kB |              11 | `InjectedScript`             |
+|  +0.7% | +4.36 kB |   6.2% → 5.9% |   608 kB → 613 kB |              11 | `JSGlobalLexicalEnvironment` |
+|  +1.0% | +4.13 kB |   4.3% → 4.1% |   421 kB → 425 kB |               9 | `JSModuleEnvironment`        |
+| +46.4% | +3.15 kB |          0.1% | 6.79 kB → 9.95 kB |              11 | `Set Iterator`               |
+|  +9.4% | +2.75 kB |          0.3% | 29.4 kB → 32.2 kB |              11 | `String`                     |
+|  +1.0% |  +2.5 kB |   2.6% → 2.4% |   251 kB → 254 kB |             761 | `Set`                        |
+|  +0.1% | +1.54 kB | 12.2% → 11.5% |           1.19 MB | 24,843 → 24,875 | `DOMAttributeGetterSetter`   |
+|  +5.5% | +1.28 kB |          0.2% | 23.4 kB → 24.6 kB |       367 → 387 | `SymbolTable`                |
+| +68.1% | +1.24 kB |         <0.1% | 1.82 kB → 3.06 kB |           2 → 4 | `MouseEvent`                 |
+| +14.8% |   +848 B |          0.1% | 5.71 kB → 6.56 kB |        92 → 109 | `Immutable Butterfly`        |
 
 #### Progressions
 
 Constructors with the largest decrease in retained size.
 
-| Change |    Delta |             % |              Size |       Instances | Constructor                  |
-| -----: | -------: | ------------: | ----------------: | --------------: | ---------------------------- |
-| -21.4% |  -546 kB | 26.1% → 19.2% |    2.55 MB → 2 MB | 11,598 → 11,626 | `FunctionExecutable`         |
-| -18.4% |  -403 kB | 22.5% → 17.2% | 2.19 MB → 1.79 MB | 24,843 → 24,875 | `DOMAttributeGetterSetter`   |
-| -61.3% |  -163 kB |   2.7% → 1.0% |   265 kB → 103 kB |   1,596 → 1,598 | `HashMapBucket`              |
-| -89.1% |  -118 kB |   1.4% → 0.1% |  133 kB → 14.5 kB |       202 → 203 | `HTMLImageElement`           |
-| -41.2% |  -115 kB |   2.9% → 1.6% |   279 kB → 164 kB |   3,559 → 3,563 | `CustomGetterSetter`         |
-| -99.6% |  -107 kB |  1.1% → <0.1% |    108 kB → 421 B |               9 | `JSSourceCode`               |
-| -46.5% | -99.5 kB |   2.2% → 1.1% |   214 kB → 115 kB |           1,697 | `HTMLDivElement`             |
-| -65.3% |   -97 kB |   1.5% → 0.5% |  148 kB → 51.5 kB |           1,130 | `Text`                       |
-| -97.6% | -76.6 kB |  0.8% → <0.1% | 78.5 kB → 1.91 kB |         10 → 11 | `DocumentFragment`           |
-| -96.2% | -76.6 kB |  0.8% → <0.1% | 79.6 kB → 3.06 kB |              18 | `HTMLLinkElement`            |
-| -85.4% | -75.5 kB |   0.9% → 0.1% | 88.3 kB → 12.9 kB |              54 | `DOMPoint`                   |
-|  -8.6% | -49.1 kB |   5.8% → 5.0% |   569 kB → 520 kB |           5,787 | `Object`                     |
-| -92.6% | -15.5 kB |  0.2% → <0.1% | 16.7 kB → 1.24 kB |              22 | `InjectedScriptHost`         |
-| -48.4% | -14.1 kB |   0.3% → 0.1% |   29.2 kB → 15 kB |             271 | `SVGLineElement`             |
-| -90.6% | -13.5 kB |  0.2% → <0.1% | 14.9 kB → 1.41 kB |              21 | `HTMLHtmlElement`            |
-| -95.8% | -13.3 kB |  0.1% → <0.1% |   13.9 kB → 576 B |               9 | `ScrubbingSupport`           |
-|  -2.6% | -12.4 kB |   4.9% → 4.5% |   480 kB → 467 kB |   3,093 → 3,123 | `UnlinkedFunctionExecutable` |
-| -86.1% | -11.6 kB |  0.1% → <0.1% | 13.5 kB → 1.87 kB |               9 | `SeekForwardSupport`         |
-| -86.6% | -11.4 kB |  0.1% → <0.1% | 13.1 kB → 1.76 kB |               9 | `StatusSupport`              |
-| -83.7% | -10.8 kB |  0.1% → <0.1% |  12.9 kB → 2.1 kB |               9 | `SkipForwardSupport`         |
+| Change |    Delta |             % |              Size |     Instances | Constructor                |
+| -----: | -------: | ------------: | ----------------: | ------------: | -------------------------- |
+|  -6.5% | -36.4 kB |   5.7% → 5.0% |   557 kB → 521 kB | 1,228 → 1,236 | `JSLexicalEnvironment`     |
+|  -1.0% |   -20 kB | 21.4% → 19.9% | 2.09 MB → 2.07 MB | 8,506 → 8,397 | `StructureRareData`        |
+| -10.6% | -13.4 kB |   1.3% → 1.1% |   126 kB → 113 kB |             9 | `SkipForwardButton`        |
+| -10.4% | -13.3 kB |   1.3% → 1.1% |   128 kB → 115 kB |             9 | `MuteButton`               |
+| -10.6% |   -13 kB |   1.3% → 1.1% |   123 kB → 110 kB |             9 | `OverflowButton`           |
+| -10.6% |   -13 kB |   1.3% → 1.1% |   123 kB → 110 kB |             9 | `SkipBackButton`           |
+| -10.4% | -12.5 kB |   1.2% → 1.0% |   121 kB → 108 kB |             9 | `AirplayButton`            |
+|  -7.2% | -12.2 kB |   1.7% → 1.5% |   170 kB → 158 kB |             9 | `MacOSInlineMediaControls` |
+|  -9.5% | -9.47 kB |   1.0% → 0.9% |   99.5 kB → 90 kB |             9 | `TimeControl`              |
+| -89.6% | -6.51 kB |  0.1% → <0.1% |   7.26 kB → 752 B |             1 | `qd`                       |
+|  -9.3% |    -4 kB |          0.4% | 43.2 kB → 39.2 kB |             9 | `PlayPauseButton`          |
+|  -3.6% | -3.12 kB |   0.9% → 0.8% |   87.1 kB → 84 kB |            18 | `Slider`                   |
+|  -1.1% |  -2.6 kB |   2.3% → 2.2% |   228 kB → 225 kB |         1,009 | `FunctionRareData`         |
+|  -5.7% | -2.14 kB |   0.4% → 0.3% | 37.9 kB → 35.8 kB |            27 | `MediaController`          |
+|  -3.8% | -1.71 kB |   0.5% → 0.4% | 44.9 kB → 43.2 kB |            36 | `ControlsBar`              |
+|  -4.7% |   -751 B |   0.2% → 0.1% | 15.8 kB → 15.1 kB |             9 | `AutoHideController`       |
+| -15.2% |   -320 B |         <0.1% | 2.11 kB → 1.79 kB |            11 | `JSWindowProxy`            |
+|  -9.9% |   -272 B |         <0.1% | 2.74 kB → 2.46 kB |             9 | `MacOSLayoutTraits`        |
+|  -1.1% |   -256 B |          0.2% |   23 kB → 22.8 kB |            11 | `Math`                     |
+|  -6.6% |   -224 B |         <0.1% | 3.37 kB → 3.15 kB |            22 | `HTMLDocument`             |
