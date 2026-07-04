@@ -1285,3 +1285,108 @@ Blocked 491.4ms over 3 samples (163.8ms per sample).
 | Category |      % |    Time | Samples |
 | -------- | -----: | ------: | ------: |
 | stdlib   | 100.0% | 491.4ms |       3 |
+
+The entry filter hides every sampled function, so all functions are shown.
+
+## Hottest functions
+
+### Self time
+
+Functions ranked by time blocked directly in the function body, excluding callees.
+
+|      % |    Time | Samples | Function              | Location                 |
+| -----: | ------: | ------: | --------------------- | ------------------------ |
+| 100.0% | 491.4ms |       3 | `park(boolean, long)` | jdk.internal.misc.Unsafe |
+
+#### Callers
+
+Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+
+##### `park(boolean, long)` (jdk.internal.misc.Unsafe)
+
+|      % |    Time | Samples | Caller                    | Location                               |
+| -----: | ------: | ------: | ------------------------- | -------------------------------------- |
+| 100.0% | 491.4ms |       3 | `parkNanos(Object, long)` | java.util.concurrent.locks.LockSupport |
+
+### Total time
+
+Functions ranked by total time blocked in the function and all its callees.
+
+|      % |    Time | Samples | Function                    | Location                                                              |
+| -----: | ------: | ------: | --------------------------- | --------------------------------------------------------------------- |
+| 100.0% | 491.4ms |       3 | `park(boolean, long)`       | jdk.internal.misc.Unsafe                                              |
+| 100.0% | 491.4ms |       3 | `parkNanos(Object, long)`   | java.util.concurrent.locks.LockSupport                                |
+| 100.0% | 491.4ms |       3 | `await(long, TimeUnit)`     | java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject |
+| 100.0% | 491.4ms |       3 | `await(long)`               | java.lang.ref.ReferenceQueue                                          |
+| 100.0% | 491.4ms |       3 | `remove0(long)`             | java.lang.ref.ReferenceQueue                                          |
+| 100.0% | 491.4ms |       3 | `remove(long)`              | java.lang.ref.ReferenceQueue                                          |
+| 100.0% | 491.4ms |       3 | `run()`                     | jdk.internal.ref.CleanerImpl                                          |
+| 100.0% | 491.4ms |       3 | `runWith(Object, Runnable)` | java.lang.Thread                                                      |
+| 100.0% | 491.4ms |       3 | `run()`                     | java.lang.Thread                                                      |
+| 100.0% | 491.4ms |       3 | `run()`                     | jdk.internal.misc.InnocuousThread                                     |
+
+#### Callees
+
+Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+
+##### `parkNanos(Object, long)` (java.util.concurrent.locks.LockSupport)
+
+|      % |    Time | Samples | Callee                | Location                 |
+| -----: | ------: | ------: | --------------------- | ------------------------ |
+| 100.0% | 491.4ms |       3 | `park(boolean, long)` | jdk.internal.misc.Unsafe |
+
+##### `await(long, TimeUnit)` (java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+
+|      % |    Time | Samples | Callee                    | Location                               |
+| -----: | ------: | ------: | ------------------------- | -------------------------------------- |
+| 100.0% | 491.4ms |       3 | `parkNanos(Object, long)` | java.util.concurrent.locks.LockSupport |
+
+##### `await(long)` (java.lang.ref.ReferenceQueue)
+
+|      % |    Time | Samples | Callee                  | Location                                                              |
+| -----: | ------: | ------: | ----------------------- | --------------------------------------------------------------------- |
+| 100.0% | 491.4ms |       3 | `await(long, TimeUnit)` | java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject |
+
+##### `remove0(long)` (java.lang.ref.ReferenceQueue)
+
+|      % |    Time | Samples | Callee        | Location                     |
+| -----: | ------: | ------: | ------------- | ---------------------------- |
+| 100.0% | 491.4ms |       3 | `await(long)` | java.lang.ref.ReferenceQueue |
+
+##### `remove(long)` (java.lang.ref.ReferenceQueue)
+
+|      % |    Time | Samples | Callee          | Location                     |
+| -----: | ------: | ------: | --------------- | ---------------------------- |
+| 100.0% | 491.4ms |       3 | `remove0(long)` | java.lang.ref.ReferenceQueue |
+
+##### `run()` (jdk.internal.ref.CleanerImpl)
+
+|      % |    Time | Samples | Callee         | Location                     |
+| -----: | ------: | ------: | -------------- | ---------------------------- |
+| 100.0% | 491.4ms |       3 | `remove(long)` | java.lang.ref.ReferenceQueue |
+
+##### `runWith(Object, Runnable)` (java.lang.Thread)
+
+|      % |    Time | Samples | Callee  | Location                     |
+| -----: | ------: | ------: | ------- | ---------------------------- |
+| 100.0% | 491.4ms |       3 | `run()` | jdk.internal.ref.CleanerImpl |
+
+##### `run()` (java.lang.Thread)
+
+|      % |    Time | Samples | Callee                      | Location         |
+| -----: | ------: | ------: | --------------------------- | ---------------- |
+| 100.0% | 491.4ms |       3 | `runWith(Object, Runnable)` | java.lang.Thread |
+
+##### `run()` (jdk.internal.misc.InnocuousThread)
+
+|      % |    Time | Samples | Callee  | Location         |
+| -----: | ------: | ------: | ------- | ---------------- |
+| 100.0% | 491.4ms |       3 | `run()` | java.lang.Thread |
+
+## Hottest call stacks
+
+Call stacks ranked by time blocked in their leaf frame.
+
+|      % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| -----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 491.4ms |       3 | `park(boolean, long)` (jdk.internal.misc.Unsafe) ← `parkNanos(Object, long)` (java.util.concurrent.locks.LockSupport) ← `await(long, TimeUnit)` (java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject) ← `await(long)` (java.lang.ref.ReferenceQueue) ← `remove0(long)` ← `remove(long)` ← `run()` (jdk.internal.ref.CleanerImpl) ← `runWith(Object, Runnable)` (java.lang.Thread) ← `run()` ← `run()` (jdk.internal.misc.InnocuousThread) |

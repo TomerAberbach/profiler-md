@@ -5,10 +5,12 @@ import {
   profileTitles,
   progressionsTables,
   regressionsTables,
+  retainedSizeTables,
+  selfSizeTables,
   summaryLines,
 } from '../testing/markdown.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
-import { formatHeapSnapshotDiff } from './format.ts'
+import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
   makeAggregatedClosure,
   makeAggregatedConstructor,
@@ -18,6 +20,51 @@ import {
 } from './testing.ts'
 
 const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+
+describe(`formatHeapSnapshot`, () => {
+  test(`shows all nodes when a custom showEntry would hide every one`, () => {
+    const snapshot = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Widget`,
+          selfSize: 100,
+          retainedSize: 150,
+          instanceCount: 1,
+        }),
+      ],
+    })
+    const options = normalizeProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: () => false,
+    })
+
+    const md = formatHeapSnapshot(snapshot, options)
+
+    expect(md).toContain(
+      `The entry filter hides every node, so all nodes are shown.`,
+    )
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `100 B`,
+          Instances: `1`,
+          Constructor: `Widget`,
+        },
+      ],
+    ])
+    expect(retainedSizeTables(md)).toEqual([
+      [
+        {
+          '%': `150.0%`,
+          Size: `150 B`,
+          Instances: `1`,
+          Constructor: `Widget`,
+        },
+      ],
+    ])
+  })
+})
 
 describe(`formatHeapSnapshotDiff`, () => {
   test(`produces expected title and summary line`, () => {
@@ -380,6 +427,52 @@ describe(`formatHeapSnapshotDiff`, () => {
           Size: `0 B → 50 B`,
           Instances: `0 → 1`,
           Constructor: `Shown`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows all nodes when a custom showEntry would hide every one`, () => {
+    const base = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Widget`,
+          selfSize: 100,
+          retainedSize: 100,
+          instanceCount: 1,
+        }),
+      ],
+    })
+    const current = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Widget`,
+          selfSize: 200,
+          retainedSize: 200,
+          instanceCount: 1,
+        }),
+      ],
+    })
+    const options = normalizeProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: () => false,
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+    const md = formatHeapSnapshotDiff(diff, options)
+
+    expect(md).toContain(
+      `The entry filter hides every node, so all nodes are shown.`,
+    )
+    expect(regressionsTables(md, `Self size`)).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+100 B`,
+          '%': `100.0%`,
+          Size: `100 B → 200 B`,
+          Instances: `1`,
+          Constructor: `Widget`,
         },
       ],
     ])

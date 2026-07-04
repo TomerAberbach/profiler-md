@@ -354,3 +354,36 @@ Blocked 517.1ms → 515.6ms (-1.5ms, -0.3%) over 3 samples → 2 samples (172.4m
 | Category | Change |  Delta |      % |              Time | Samples |
 | -------- | -----: | -----: | -----: | ----------------: | ------: |
 | stdlib   |  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 |
+
+The entry filter hides every sampled function, so all functions are shown.
+
+## Hottest functions
+
+### Self time
+
+#### Progressions
+
+Functions with the largest decrease in time blocked directly in the function body, excluding callees.
+
+| Change |  Delta |      % |              Time | Samples | Function              | Location                 |
+| -----: | -----: | -----: | ----------------: | ------: | --------------------- | ------------------------ |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `park(boolean, long)` | jdk.internal.misc.Unsafe |
+
+### Total time
+
+#### Progressions
+
+Functions with the largest decrease in total time blocked in the function and all its callees.
+
+| Change |  Delta |      % |              Time | Samples | Function                    | Location                                                              |
+| -----: | -----: | -----: | ----------------: | ------: | --------------------------- | --------------------------------------------------------------------- |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `park(boolean, long)`       | jdk.internal.misc.Unsafe                                              |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `parkNanos(Object, long)`   | java.util.concurrent.locks.LockSupport                                |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `await(long, TimeUnit)`     | java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `await(long)`               | java.lang.ref.ReferenceQueue                                          |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `remove0(long)`             | java.lang.ref.ReferenceQueue                                          |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `remove(long)`              | java.lang.ref.ReferenceQueue                                          |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `run()`                     | jdk.internal.ref.CleanerImpl                                          |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `runWith(Object, Runnable)` | java.lang.Thread                                                      |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `run()`                     | java.lang.Thread                                                      |
+|  -0.3% | -1.5ms | 100.0% | 517.1ms → 515.6ms |   3 → 2 | `run()`                     | jdk.internal.misc.InnocuousThread                                     |
