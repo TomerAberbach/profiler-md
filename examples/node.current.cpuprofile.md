@@ -322,6 +322,7 @@ Functions ranked by total time spent in the function and all its callees.
 |  1.6% | 184.5ms |     147 | `unevalLiteral`          | uneval/src/internal/primitive.ts:139:23 |
 |  1.6% | 182.2ms |     145 | `(garbage collector)`    | `<unknown>`                             |
 |  1.4% | 162.2ms |     129 | `(program)`              | `<unknown>`                             |
+|  0.3% |  34.3ms |       1 | `fn`                     | node:internal/util:498:14               |
 |  0.1% |  15.1ms |      12 | `unevalBoolean`          | uneval/src/internal/primitive.ts:8:30   |
 
 #### Callees
@@ -333,6 +334,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |   Time | Samples | Callee   | Location                  |
 | ----: | -----: | ------: | -------- | ------------------------- |
 | 99.5% | 10.97s |   8,733 | `uneval` | uneval/src/index.ts:76:16 |
+|  0.3% | 34.3ms |       1 | `fn`     | node:internal/util:498:14 |
 
 ##### `uneval` (uneval/src/index.ts:76:16)
 
