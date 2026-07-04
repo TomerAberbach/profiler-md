@@ -12,6 +12,7 @@ import { beamOriginSpec } from './beam.ts'
 import { bunOriginSpec } from './bun.ts'
 import { denoOriginSpec } from './deno.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
+import { goOriginSpec } from './go.ts'
 import { jvmOriginSpec } from './jvm.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
@@ -207,6 +208,7 @@ const originSpecs = [
   nodeOriginSpec,
   nodePprofOriginSpec,
   pprofRsOriginSpec,
+  goOriginSpec,
   pySpyOriginSpec,
   tachyonOriginSpec,
   jvmOriginSpec,

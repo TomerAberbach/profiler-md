@@ -158,6 +158,27 @@ describe(`determineOrigin`, () => {
     ).toBe(`pprof-rs`)
   })
 
+  test(`detects go by runtime frames located in a GOROOT source tree`, () => {
+    expect(
+      determineOrigin({
+        format: `pprof`,
+        entries: [
+          relativeEntry(
+            `runtime.usleep`,
+            `../../nix/store/abc-go-1.26.3/share/go/src/runtime/sys_darwin.go`,
+          ),
+        ],
+      }),
+    ).toBe(`go`)
+    // A runtime-prefixed name outside a GOROOT tree is not a Go marker.
+    expect(
+      determineOrigin({
+        format: `pprof`,
+        entries: [relativeEntry(`runtime.foo`, `src/runtime.ts`)],
+      }),
+    ).toBe(`unknown`)
+  })
+
   test(`detects py-spy by its "func (file:line)" frames`, () => {
     expect(
       determineOrigin({
