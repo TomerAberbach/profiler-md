@@ -21,7 +21,7 @@ Functions with the largest increase in samples taken directly in the function bo
 
 ### Total samples
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

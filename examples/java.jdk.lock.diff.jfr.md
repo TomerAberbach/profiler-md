@@ -25,7 +25,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `createSubtask(int, int)`           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |    new |    +1 | 0.0% → 0.1% |   0 → 1 | `add(double[], double[])`           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -70,7 +70,7 @@ Functions with the largest increase in total samples taken in the function and a
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `combineResults(double[], double[])`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `combineResults(Object, Object)`        | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -100,7 +100,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 40.5 GB → 40.6 GB (+136 MB, +0.3%) over 1,972 samples → 2,040 samples (20.5 MB → 19.9 MB per sample).
+Allocated 40.5 GB → 40.6 GB (+0.1 GB, +0.3%) over 1,972 samples → 2,040 samples (20.5 MB → 19.9 MB per sample).
 
 | Category | Change |   Delta |             % |              Size |       Samples |
 | -------- | -----: | ------: | ------------: | ----------------: | ------------: |
@@ -130,7 +130,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |      new |  +326 kB | 0.0% → <0.1% |      0 B → 326 kB |   0 → 1 | `range(int, int)`                       | java.util.stream.IntStream                               |
 |    +2.7% | +41.3 kB |        <0.1% |  1.55 MB → 1.6 MB |   4 → 5 | `lambda$generateData$4(int)`            | org.renaissance.jdk.concurrent.JavaKMeans                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -173,7 +173,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |      new | +5.81 MB |  0.0% → <0.1% |     0 B → 5.81 MB |         0 → 2 | `combineResults(Map, Map)`                       | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
 |      new | +5.81 MB |  0.0% → <0.1% |     0 B → 5.81 MB |         0 → 2 | `combineResults(Object, Object)`                 | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -203,7 +203,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 2.7 MB → 2.88 MB (+188 kB, +7.0%) over 13 samples → 10 samples (207 kB → 288 kB per sample).
+Retained 2.7 MB → 2.88 MB (+0.18 MB, +7.0%) over 13 samples → 10 samples (207 kB → 288 kB per sample).
 
 | Category | Change |   Delta |      % |             Size | Samples |
 | -------- | -----: | ------: | -----: | ---------------: | ------: |
@@ -222,7 +222,7 @@ Functions with the largest increase in bytes retained directly in the function b
 | -----: | ----: | -----------: | ---------: | ------: | ---------------------------- | ----------------------------------------- |
 |    new | +40 B | 0.0% → <0.1% | 0 B → 40 B |   0 → 1 | `lambda$generateData$4(int)` | org.renaissance.jdk.concurrent.JavaKMeans |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -260,7 +260,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |    new |   +24 B |  0.0% → <0.1% |   0 B → 24 B |   0 → 1 | `apply(Object)`                         | org.renaissance.core.ModuleLoader$$Lambda.0x000000700100ad50         |
 |    new |   +24 B |  0.0% → <0.1% |   0 B → 24 B |   0 → 1 | `collectModuleJars(Map)`                | org.renaissance.core.ModuleLoader                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
@@ -290,7 +290,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 # Lock contention profile diff
 
-Blocked 7.03s → 7.44s (+416.7ms, +5.9%) over 54 samples → 58 samples (130.2ms → 128.4ms per sample).
+Blocked 7.03s → 7.44s (+0.41s, +5.9%) over 54 samples → 58 samples (130.2ms → 128.4ms per sample).
 
 | Category | Change |    Delta |      % |          Time | Samples |
 | -------- | -----: | -------: | -----: | ------------: | ------: |
@@ -326,7 +326,7 @@ Functions with the largest increase in total time blocked in the function and al
 |  +0.3% | +19.3ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `launchHarnessClass(String, String[])`                                                                                 | org.renaissance.core.Launcher                                        |
 |  +0.3% | +19.3ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `main(String[])`                                                                                                       | org.renaissance.core.Launcher                                        |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

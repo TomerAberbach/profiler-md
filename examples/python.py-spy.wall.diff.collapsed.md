@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +20.0% |    +1 |   2.9% → 3.3% |   5 → 6 | `append`                                           | black/lines.py             |
 |  +33.3% |    +1 |   1.7% → 2.2% |   3 → 4 | `__init__`                                         | blib2to3/pytree.py         |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 |   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `__call__`                                         | click/core.py              |
 |   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `patched_main`                                     | black/__init__.py          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

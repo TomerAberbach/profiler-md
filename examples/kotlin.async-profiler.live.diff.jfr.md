@@ -1,6 +1,6 @@
 # Allocated heap profile diff
 
-Allocated 27.2 MB → 23.4 MB (-3.84 MB, -14.1%) over 1,345 samples → 1,235 samples (20.2 kB → 18.9 kB per sample).
+Allocated 27.2 MB → 23.4 MB (-3.8 MB, -14.1%) over 1,345 samples → 1,235 samples (20.2 kB → 18.9 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |     Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | ----------: |
@@ -38,7 +38,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |    +88 B | 0.0% → <0.1% |        0 B → 88 B |   0 → 1 | `addInitialEqualityConstraint(ConstraintInjector$Context, KotlinTypeMarker, KotlinTypeMarker, ConstraintPosition)`          | org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintInjector             |
 |     new |    +88 B | 0.0% → <0.1% |        0 B → 88 B |   0 → 1 | `check(CheckerSink, ResolutionContext, Candidate, Continuation)`                                                            | org.jetbrains.kotlin.fir.resolve.calls.stages.CheckIncompatibleTypeVariableUpperBounds |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |   +24043.9% | +127 kB | <0.1% → 0.5% |    528 B → 127 kB |     7 → 9 | `enhanceMethod(FirFunction, CallableId, Name, boolean, List)`                                              | org.jetbrains.kotlin.fir.java.enhancement.FirSignatureEnhancement                                                |
 |   +24043.9% | +127 kB | <0.1% → 0.5% |    528 B → 127 kB |     7 → 9 | `enhance$org_jetbrains_kotlin_fir_jvm(FirFunctionSymbol, Name, List)`                                      | org.jetbrains.kotlin.fir.java.enhancement.FirSignatureEnhancement                                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 10.4 MB → 7.95 MB (-2.44 MB, -23.5%) over 384 samples → 336 samples (27.1 kB → 23.7 kB per sample).
+Retained 10.4 MB → 7.95 MB (-2.45 MB, -23.5%) over 384 samples → 336 samples (27.1 kB → 23.7 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -162,7 +162,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |     new |    +40 B | 0.0% → <0.1% |    0 B → 40 B |   0 → 1 | `<init>(IrDeclaration)`                                                                                                          | org.jetbrains.kotlin.ir.descriptors.IrBasedDeclarationDescriptor         |
 |     new |    +40 B | 0.0% → <0.1% |    0 B → 40 B |   0 → 1 | `buildPartial()`                                                                                                                 | org.jetbrains.kotlin.metadata.jvm.JvmProtoBuf$JvmMethodSignature$Builder |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -218,7 +218,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |         new | +1.04 kB | 0.0% → <0.1% | 0 B → 1.04 kB |   0 → 1 | `<clinit>()`                                                                                          | org.jetbrains.kotlin.fir.analysis.diagnostics.FirDiagnosticRenderers                                                    |
 |    +3933.3% |   +944 B |        <0.1% |  24 B → 968 B |  1 → 25 | `invoke()`                                                                                            | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer$$Lambda.0x00000070016566d0 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 

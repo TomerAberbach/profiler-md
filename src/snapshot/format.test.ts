@@ -2,8 +2,8 @@ import { describe, expect, test } from 'vitest'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
+  improvementsTables,
   profileTitles,
-  progressionsTables,
   regressionsTables,
   retainedSizeTables,
   selfSizeTables,
@@ -84,7 +84,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
     expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
     expect(summaryLines(md)).toEqual([
-      `Allocated 1\u00A0kB → 1.5\u00A0kB (+500\u00A0B, +50.0%) across 10 → 12 nodes and 20 → 25 edges.`,
+      `Allocated 1\u00A0kB → 1.5\u00A0kB (+0.5\u00A0kB, +50.0%) across 10 → 12 nodes and 20 → 25 edges.`,
     ])
   })
 
@@ -196,7 +196,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         Constructor: `Added`,
       },
     ]
-    const expectedProgressions = [
+    const expectedImprovements = [
       {
         Change: `removed`,
         Delta: `-50 B`,
@@ -207,12 +207,12 @@ describe(`formatHeapSnapshotDiff`, () => {
       },
     ]
     expect(regressionsTables(md, `Self size`)).toEqual([expectedRegressions])
-    expect(progressionsTables(md, `Self size`)).toEqual([expectedProgressions])
+    expect(improvementsTables(md, `Self size`)).toEqual([expectedImprovements])
     expect(regressionsTables(md, `Retained size`)).toEqual([
       expectedRegressions,
     ])
-    expect(progressionsTables(md, `Retained size`)).toEqual([
-      expectedProgressions,
+    expect(improvementsTables(md, `Retained size`)).toEqual([
+      expectedImprovements,
     ])
   })
 
@@ -269,7 +269,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Largest closures`)).toEqual([
+    expect(improvementsTables(md, `Largest closures`)).toEqual([
       [
         {
           Change: `-75.0%`,
@@ -312,7 +312,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Largest strings`)).toEqual([])
+    expect(improvementsTables(md, `Largest strings`)).toEqual([])
   })
 
   test(`omits the location column when nothing has a location`, () => {
@@ -507,7 +507,7 @@ describe(`formatHeapSnapshotDiff`, () => {
 
     // The sections are still formatted, with a note in place of empty tables so
     // the output doesn't look broken.
-    expect(md).not.toMatch(/Regressions|Progressions/u)
+    expect(md).not.toMatch(/Regressions|Improvements/u)
     expect(md).toMatch(/^## Largest constructors$/mu)
 
     // The note drops the ranking sentence and merges the measure into a single

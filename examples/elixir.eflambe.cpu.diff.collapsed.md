@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +11.1% |     +2 |          0.1% |       18 → 20 | `number_zero/6`                      | Elixir.Jason.Decoder |
 |   +9.1% |     +1 |         <0.1% |       11 → 12 | `-run/1-fun-0-/2`                    | Elixir.Profile       |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -77,7 +77,7 @@ Functions with the largest increase in total samples taken in the function and a
 |   +2.2% |    +12 |   2.1% → 2.0% |       536 → 548 | `call/1`                             | code_server          |
 |   +4.5% |     +8 |          0.7% |       177 → 185 | `read_file/1`                        | erl_prim_loader      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

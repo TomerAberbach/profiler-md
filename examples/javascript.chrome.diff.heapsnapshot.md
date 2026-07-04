@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 940 kB (+496 B, +0.1%) across 30,859 → 32,693 nodes and 137,199 → 142,162 edges.
+Allocated 940 kB across 30,859 → 32,693 nodes and 137,199 → 142,162 edges.
 
 | Category            | Change |  Delta |     % |              Size |       Nodes |
 | ------------------- | -----: | -----: | ----: | ----------------: | ----------: |
@@ -53,7 +53,7 @@ Constructors with the largest increase in retained size.
 |    new | +136 B | 0.0% → <0.1% |       0 B → 136 B |       0 → 1 | `TaskAttributionTiming`        | `<unknown>` |
 |    new |  +40 B | 0.0% → <0.1% |        0 B → 40 B |       0 → 1 | `IntersectionObserverDelegate` | `<unknown>` |
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.9% |   0 → 1 | `getEmptyRoot()`                                                                                                                                                                       | org.jetbrains.kotlin.fir.resolve.calls.tower.TowerGroup$Companion               |
 |     new |    +1 | 0.0% → 0.9% |   0 → 1 | `safeSubstitute(TypeSubstitutorMarker, KotlinTypeMarker)`                                                                                                                              | org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +150.0% |    +3 |  1.5% → 4.7% |   2 → 5 | `visitJump(FirJump, Object)`                                                          | org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor                                                    |
 | +150.0% |    +3 |  1.5% → 4.7% |   2 → 5 | `visitReturnExpression(FirReturnExpression, Object)`                                  | org.jetbrains.kotlin.fir.visitors.FirDefaultVisitor                                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 717 MB (+179 kB, ~0%) over 867 samples → 865 samples (827 kB → 829 kB per sample).
+Allocated 717 MB over 867 samples → 865 samples (827 kB → 829 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -163,7 +163,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |    +66.7% | +1.05 MB |  0.2% → 0.4% | 1.57 MB → 2.62 MB |   3 → 5 | `<init>(String)`                                                                                                                                                                                                 | org.jetbrains.kotlin.name.FqName                                                                                 |
 |    +50.0% | +1.05 MB |  0.3% → 0.4% | 2.09 MB → 3.14 MB |   4 → 6 | `toString()`                                                                                                                                                                                                     | java.lang.StringBuilder                                                                                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -219,7 +219,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |    +16.6% | +7.63 MB |   6.4% → 7.5% | 46.1 MB → 53.7 MB |  86 → 100 | `collectCandidates(FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext)`                                       | org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver                                                                  |
 |    +16.6% | +7.63 MB |   6.4% → 7.5% | 46.1 MB → 53.7 MB |  86 → 100 | `collectCandidates$default(FirCallResolver, FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)` | org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver                                                                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -249,7 +249,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 19.3 MB → 19.5 MB (+157 kB, +0.8%) over 194 samples → 203 samples (99.6 kB → 95.9 kB per sample).
+Retained 19.3 MB → 19.5 MB (+0.2 MB, +0.8%) over 194 samples → 203 samples (99.6 kB → 95.9 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -274,7 +274,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |    +88 B | 0.0% → <0.1% |        0 B → 88 B |   0 → 1 | `build()`                                                                                              | org.jetbrains.kotlin.fir.java.declarations.FirJavaMethodBuilder  |
 |    new |    +80 B | 0.0% → <0.1% |        0 B → 80 B |   0 → 1 | `copy(CallKind, List, FirArgumentList, FirExpression, Name, ImplicitInvokeMode, Candidate, Candidate)` | org.jetbrains.kotlin.fir.resolve.calls.candidate.CallInfo        |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -316,7 +316,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |    new | +59.1 kB | 0.0% → 0.3% | 0 B → 59.1 kB |   0 → 1 | `parseFunction(boolean)`                                                                              | org.jetbrains.kotlin.parsing.KotlinParsing         |
 |    new | +59.1 kB | 0.0% → 0.3% | 0 B → 59.1 kB |   0 → 1 | `parseFunction()`                                                                                     | org.jetbrains.kotlin.parsing.KotlinParsing         |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
@@ -358,7 +358,7 @@ The entry filter hides every sampled function, so all functions are shown.
 
 ### Self time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time blocked directly in the function body, excluding callees.
 
@@ -368,7 +368,7 @@ Functions with the largest decrease in time blocked directly in the function bod
 
 ### Total time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

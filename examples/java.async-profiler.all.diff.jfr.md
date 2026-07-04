@@ -40,7 +40,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |  0.0% → <0.1% |       0 → 1 | `forkThreshold()`                          | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |     new |    +1 |  0.0% → <0.1% |       0 → 1 | `<init>(JavaKMeans, List, List, int, int)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -92,7 +92,7 @@ Functions with the largest increase in total samples taken in the function and a
 |     new |    +2 |  0.0% → <0.1% |         0 → 2 | `createSubtask(int, int)`                                     | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |   +0.1% |    +1 | 15.0% → 15.3% |     779 → 780 | `computeClusterAverages()`                                    | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -122,7 +122,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 3.29 GB → 3.25 GB (-43.3 MB, -1.3%) over 75,095 samples → 74,967 samples (43.9 kB → 43.4 kB per sample).
+Allocated 3.29 GB → 3.25 GB (-0.04 GB, -1.3%) over 75,095 samples → 74,967 samples (43.9 kB → 43.4 kB per sample).
 
 | Category | Change |    Delta |     % |              Size |         Samples |
 | -------- | -----: | -------: | ----: | ----------------: | --------------: |
@@ -147,7 +147,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 | +100.0% |    +40 B | <0.1% |       40 B → 80 B |         1 → 2 | `lambda$boxed$0(int)`                | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 |  +50.0% |    +24 B | <0.1% |       48 B → 72 B |         2 → 3 | `<init>(JavaKMeans, Map)`            | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -195,7 +195,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |     new | +3.09 kB |  0.0% → <0.1% |     0 B → 3.09 kB |           0 → 1 | `apply$$anonfun$1(String)`                                                                                                                                  | scopt.OptionDef                                               |
 |     new | +3.09 kB |  0.0% → <0.1% |     0 B → 3.09 kB |           0 → 1 | `apply(Object)`                                                                                                                                             | scopt.OptionDef$$Lambda.0x000000c8010f3b48                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -246,7 +246,7 @@ Functions with the largest increase in total time blocked in the function and al
 | +173.3% | +0.2ms | 4.9% → 22.9% | 0.1ms → 0.4ms |   3 → 1 | `call()`                          | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68 |
 |  +75.4% | +0.1ms |  2.7% → 8.0% |         0.1ms |   5 → 4 | `walkFileTree(Path, FileVisitor)` | java.nio.file.Files                                                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

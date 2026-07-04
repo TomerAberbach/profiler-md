@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |    new |    +1 | 0.0% → 0.9% |   0 → 1 | `<init>()`                                                                                                        | org.jetbrains.kotlin.fir.resolve.calls.ConeResolutionAtom                                                 |
 |    new |    +1 | 0.0% → 0.9% |   0 → 1 | `transformPackageDirective(FirPackageDirective, Object)`                                                          | org.jetbrains.kotlin.fir.visitors.FirTransformer                                                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +30.0% |    +3 | 8.2% → 11.5% | 10 → 13 | `visitAnnotationContainer(FirAnnotationContainer, Void)`                                                    | org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor                               |
 |  +30.0% |    +3 | 8.2% → 11.5% | 10 → 13 | `visitAnnotationContainer(FirAnnotationContainer, Object)`                                                  | org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor                               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 717 MB (-250 kB, ~0%) over 874 samples → 869 samples (820 kB → 825 kB per sample).
+Allocated 717 MB over 874 samples → 869 samples (820 kB → 825 kB per sample).
 
 | Category | Change |    Delta |             % |            Size |   Samples |
 | -------- | -----: | -------: | ------------: | --------------: | --------: |
@@ -163,7 +163,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new | +1.05 MB | 0.0% → 0.1% |     0 B → 1.05 MB |   0 → 2 | `getSuperConeTypes(FirClass)`                                                              | org.jetbrains.kotlin.fir.declarations.utils.FirDeclarationUtilKt                                 |
 |     new | +1.05 MB | 0.0% → 0.1% |     0 B → 1.05 MB |   0 → 1 | `_get_boundsNullability_$lambda$0$2(List, AbstractSignatureParts)`                         | org.jetbrains.kotlin.load.java.typeEnhancement.AbstractSignatureParts                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -219,7 +219,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |    +6.5% | +9.76 MB | 21.1% → 22.4% |   151 MB → 161 MB | 291 → 307 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                           | org.jetbrains.kotlin.config.phaser.NamedCompilerPhase                 |
 |    +6.5% | +9.66 MB | 20.6% → 22.0% |   148 MB → 158 MB | 285 → 301 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                           | org.jetbrains.kotlin.backend.common.phaser.CompositePhase             |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -249,7 +249,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 20.2 MB → 19.6 MB (-561 kB, -2.8%) over 198 samples → 203 samples (102 kB → 96.5 kB per sample).
+Retained 20.2 MB → 19.6 MB (-0.6 MB, -2.8%) over 198 samples → 203 samples (102 kB → 96.5 kB per sample).
 
 | Category | Change |   Delta |             % |              Size |   Samples |
 | -------- | -----: | ------: | ------------: | ----------------: | --------: |
@@ -272,7 +272,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |   +224 B | 0.0% → <0.1% |   0 B → 224 B |   0 → 1 | `check(CheckerContext, DiagnosticReporter, FirBlock)`                                                     | org.jetbrains.kotlin.fir.analysis.checkers.expression.FirConflictsExpressionChecker     |
 |    new |    +48 B | 0.0% → <0.1% |    0 B → 48 B |   0 → 1 | `create(String, int, String, String, JavaClass, ClassifierResolutionContext, BinaryClassSignatureParser)` | org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaMethodBase$Companion |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -313,7 +313,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |      +66.3% | +41.3 kB |  0.3% → 0.5% | 62.3 kB → 104 kB |      15 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | org.jetbrains.kotlin.backend.common.phaser.CompositePhase                                  |
 |         new | +37.4 kB |  0.0% → 0.2% |    0 B → 37.4 kB |   0 → 1 | `forName(String, boolean, ClassLoader)`                                                                                                       | java.lang.Class                                                                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
@@ -355,7 +355,7 @@ The entry filter hides every sampled function, so all functions are shown.
 
 ### Self time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time blocked directly in the function body, excluding callees.
 
@@ -365,7 +365,7 @@ Functions with the largest decrease in time blocked directly in the function bod
 
 ### Total time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

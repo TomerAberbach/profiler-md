@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 3.32s → 2.31s (-1s, -30.2%) over 3,926 samples → 3,159 samples (845.9µs → 734.2µs per sample).
+Took 3.32s → 2.31s (-1.01s, -30.2%) over 3,926 samples → 3,159 samples (845.9µs → 734.2µs per sample).
 
 | Category          |  Change |    Delta |             % |              Time |       Samples |
 | ----------------- | ------: | -------: | ------------: | ----------------: | ------------: |
@@ -24,7 +24,7 @@ Functions with the largest increase in time spent directly in the function body,
 | +14.7% | +17.2ms | 3.5% → 5.8% | 117.0ms → 134.3ms | 96 → 110 | `(garbage collector)` | `<unknown>`                                                                                                                                          |
 |    new |  +1.2ms | 0.0% → 0.1% |       0ms → 1.2ms |    0 → 1 | `createProgram`       | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -50,7 +50,7 @@ Functions with the largest increase in total time spent in the function and all 
 |  +2.3% |  +0.6ms | 0.8% → 1.2% |   28.2ms → 28.9ms |    1 → 2 | `post`                             | tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/cpuprofile-run.mjs:15:14                                                                       |
 |  +0.2% | +20.0µs | 0.3% → 0.4% |            10.0ms |        9 | `getParsedCommandLineOfConfigFile` | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

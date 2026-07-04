@@ -3,8 +3,8 @@ import { normalizeProfileToMdOptions } from '../../../options.ts'
 import {
   categoryTables,
   closureTables,
+  improvementsTables,
   largestStringsTables,
-  progressionsTables,
   regressionsTables,
   selfSizeInstancesTables,
   selfSizeTables,
@@ -283,12 +283,12 @@ describe(`convert`, () => {
     expect(regressionsTables(unmatchedMd, `Largest closures`)).toEqual([
       [newClosure],
     ])
-    expect(progressionsTables(unmatchedMd, `Largest closures`)).toEqual([
+    expect(improvementsTables(unmatchedMd, `Largest closures`)).toEqual([
       [removedClosure],
     ])
     // With the hook the closure matches across the snapshots and has no delta.
     expect(regressionsTables(matchedMd, `Largest closures`)).toEqual([])
-    expect(progressionsTables(matchedMd, `Largest closures`)).toEqual([])
+    expect(improvementsTables(matchedMd, `Largest closures`)).toEqual([])
   })
 
   test(`weak edges are not followed for retainer paths`, () => {

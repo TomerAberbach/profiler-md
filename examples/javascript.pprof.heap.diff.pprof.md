@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 972 MB → 768 MB (-205 MB, -21.1%) over 1,419 samples → 1,102 samples (685 kB → 697 kB per sample).
+Allocated 972 MB → 768 MB (-204 MB, -21.1%) over 1,419 samples → 1,102 samples (685 kB → 697 kB per sample).
 
 | Category    | Change |    Delta |             % |            Size |     Samples |
 | ----------- | -----: | -------: | ------------: | --------------: | ----------: |
@@ -11,7 +11,7 @@ Allocated 972 MB → 768 MB (-205 MB, -21.1%) over 1,419 samples → 1,102 sa
 
 ### Self size
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -29,7 +29,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | -----: | -------: | ----------: | ----------------: | ------: | --------- | ----------------------------- |
 | +12.6% | +1.75 MB | 1.4% → 2.0% | 13.9 MB → 15.6 MB | 10 → 12 | `require` | node:internal/modules/helpers |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-1,322 samples.
+1,322 samples (unchanged).
 
 | Category | Change | Delta |             % |       Samples |
 | -------- | -----: | ----: | ------------: | ------------: |
@@ -40,7 +40,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `completeIsSubTypeOf(TypeCheckerState, TypeSystemContext, KotlinTypeMarker, KotlinTypeMarker, boolean)`                                                                                                                                     | org.jetbrains.kotlin.types.AbstractTypeChecker                                                         |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `reversedFilteredLocalScopes_delegate$lambda$0(FirTowerDataContext, Name)`                                                                                                                                                                  | org.jetbrains.kotlin.fir.resolve.calls.tower.TowerDataElementsForName                                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -96,7 +96,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +200.0% |    +6 | 0.2% → 0.7% |   3 → 9 | `mergeIncomingFlow(CFGNode, Function2)`                                                                                                              | org.jetbrains.kotlin.fir.resolve.dfa.FirDataFlowAnalyzer                                     |
 | +100.0% |    +6 | 0.5% → 0.9% |  6 → 12 | `processSymbolsByName$lambda$0(Ref$BooleanRef, Function1, FirCallableSymbol)`                                                                        | org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -126,7 +126,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 26.8 MB → 25.2 MB (-1.53 MB, -5.7%) over 1,362 samples → 1,351 samples (19.7 kB → 18.7 kB per sample).
+Allocated 26.8 MB → 25.2 MB (-1.6 MB, -5.7%) over 1,362 samples → 1,351 samples (19.7 kB → 18.7 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |       Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | ------------: |
@@ -164,7 +164,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 | +150.0% |   +168 B |        <0.1% |     112 B → 280 B |   2 → 5 | `getLabel()`                                                | org.jetbrains.org.objectweb.asm.tree.LabelNode                               |
 |     new |   +144 B | 0.0% → <0.1% |       0 B → 144 B |   0 → 2 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | org.jetbrains.kotlin.metadata.ProtoBuf$ValueParameter$1                      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -220,7 +220,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | +195.4% | +268 kB |   0.5% → 1.6% |   137 kB → 405 kB | 203 → 185 | `transformChildren(FirTransformer, Object)`                                                                                                        | org.jetbrains.kotlin.fir.declarations.impl.FirFileImpl                                                 |
 | +195.9% | +268 kB |   0.5% → 1.6% |   137 kB → 404 kB | 193 → 176 | `transformDeclarationContent(FirDeclaration, ResolutionMode)`                                                                                      | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

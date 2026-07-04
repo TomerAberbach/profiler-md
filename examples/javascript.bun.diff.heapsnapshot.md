@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 1.55 MB (-3.01 kB, -0.2%) across 16,629 → 16,601 nodes and 44,433 → 44,305 edges.
+Allocated 1.55 MB across 16,629 → 16,601 nodes and 44,433 → 44,305 edges.
 
 | Category     | Change |    Delta |             % |              Size |         Nodes |
 | ------------ | -----: | -------: | ------------: | ----------------: | ------------: |
@@ -27,7 +27,7 @@ No constructor differed in bytes allocated for its instances, excluding nodes ke
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

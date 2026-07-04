@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Took 4.44s → 4.73s (+291.5ms, +6.6%) over 4,849 samples → 4,961 samples (917.1µs → 955.1µs per sample).
+Took 4.44s → 4.73s (+0.29s, +6.6%) over 4,849 samples → 4,961 samples (917.1µs → 955.1µs per sample).
 
 | Category | Change |    Delta |             % |          Time |       Samples |
 | -------- | -----: | -------: | ------------: | ------------: | ------------: |
@@ -38,7 +38,7 @@ Functions with the largest increase in time spent directly in the function body,
 |     new |   +2.7ms |   0.0% → 0.1% |       0ms → 2.7ms |     0 → 2 | `.ctor(JsonSerializer)`                                                                                          | Newtonsoft.Json.Serialization.JsonSerializerInternalReader                          |
 | +101.2% |   +2.7ms |          0.1% |     2.7ms → 5.4ms |     2 → 4 | `ValidateEnd(JsonToken)`                                                                                         | Newtonsoft.Json.JsonReader                                                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total time spent in the function and all 
 |  +31.6% |   +8.9ms |   0.6% → 0.8% |   28.2ms → 37.2ms |       20 → 27 | `Memmove(unsigned int8&, unsigned int8&, unsigned int)`                                                          | System.Buffer                                                                    |
 |  +62.3% |   +8.4ms |   0.3% → 0.5% |   13.4ms → 21.8ms |       10 → 16 | `IndexOf(!!0[], !!0, int32, int32)`                                                                              | System.Array                                                                     |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

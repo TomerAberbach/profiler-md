@@ -1,6 +1,6 @@
 # Heap profile diff
 
-Allocated 34.6 MB → 33.1 MB (-1.47 MB, -4.3%) over 49 samples → 26 samples (706 kB → 1.27 MB per sample).
+Allocated 34.6 MB → 33.1 MB (-1.5 MB, -4.3%) over 49 samples → 26 samples (706 kB → 1.27 MB per sample).
 
 | Category    | Change |    Delta |             % |              Size | Samples |
 | ----------- | -----: | -------: | ------------: | ----------------: | ------: |
@@ -21,7 +21,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | +25.6% | +4.83 MB | 54.4% → 71.5% | 18.8 MB → 23.7 MB |  19 → 8 | `require`                | node:internal/modules/helpers:146:19                                                                                                                 |
 |    new | +2.62 MB |   0.0% → 7.9% |     0 B → 2.62 MB |   0 → 5 | `createProgram`          | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

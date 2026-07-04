@@ -1,6 +1,6 @@
 # Allocated heap and retained heap profile diff
 
-Allocated 1.8 GB (-2.23 MB, -0.1%) and retained 2.19 MB → 1.66 MB (-529 kB, -24.1%) over 491 samples → 461 samples (3.66 MB → 3.9 MB and 4.47 kB → 3.61 kB per sample).
+Allocated 1.8 GB and retained 2.19 MB → 1.66 MB (-0.53 MB, -24.1%) over 491 samples → 461 samples (3.66 MB → 3.9 MB and 4.47 kB → 3.61 kB per sample).
 
 | Category | Change |    Delta |      % |             Size |              Size |   Samples |
 | -------- | -----: | -------: | -----: | ---------------: | ----------------: | --------: |
@@ -21,7 +21,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 | -----: | -------: | ----: | ----------------: | ------: | ------------------------- | --------------------------------------------------------------------------------------------- |
 | +18.8% | +12.5 kB | <0.1% | 66.7 kB → 79.2 kB |       1 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
 
-##### Progressions
+##### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -39,7 +39,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | -----: | ------: | ------------: | --------------: | -------: | ----------------------- | --------------------------------------------------------------------------------------------- |
 |  +0.1% | +541 kB | 53.5% → 53.6% | 961 MB → 962 MB | 132 → 99 | `encoding/json.Marshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205 |
 
-##### Progressions
+##### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -56,7 +56,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 #### Total size
 
-##### Progressions
+##### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 

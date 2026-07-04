@@ -18,7 +18,7 @@ Functions with the largest increase in total time blocked in the function and al
 | -----: | -----: | ----------: | ------------: | --------: | ------------------------- | --------------------------------------------------------------------------------------------- |
 |  +3.9% | +0.1ms | 1.3% → 1.4% | 2.1ms → 2.2ms | 106 → 116 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

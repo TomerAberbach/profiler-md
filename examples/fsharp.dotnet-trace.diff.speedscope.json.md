@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Took 10.81s → 11.24s (+427.4ms, +4.0%) over 9,201 samples → 9,569 samples (1.2ms per sample).
+Took 10.81s → 11.24s (+0.43s, +4.0%) over 9,201 samples → 9,569 samples (1.2ms per sample).
 
 | Category | Change |    Delta |      % |            Time |       Samples |
 | -------- | -----: | -------: | -----: | --------------: | ------------: |
@@ -35,7 +35,7 @@ Functions with the largest increase in time spent directly in the function body,
 |        new |  +<0.1µs |  0.0% → <0.1% |    0ms → <0.1µs |         0 → 1 | `Invoke(UnionCaseInfo)`                                                                                                          | Argu.PreCompute+caseInfo@576-2                            |
 |        new |  +<0.1µs |  0.0% → <0.1% |    0ms → <0.1µs |         0 → 1 | `tryExtractUnionParameterLabel(PropertyInfo)`                                                                                    | Argu.PreCompute                                           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -91,7 +91,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +15.8% |   +1.9ms |          0.1% |   12.0ms → 13.8ms |       15 → 16 | `preComputeUnionArgInfo()`                                                                                                      | Argu.PreCompute                                                |
 |  +6.3% |   +1.8ms |          0.3% |   29.2ms → 31.0ms |       32 → 34 | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                       | Argu.KeyValueParser                                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

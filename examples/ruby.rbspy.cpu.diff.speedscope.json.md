@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-Took 1.33s → 1.31s (-20.0ms, -1.5%) over 133 samples → 131 samples (10.0ms per sample).
+Took 1.33s → 1.31s (-0.02s, -1.5%) over 133 samples → 131 samples (10.0ms per sample).
 
 | Category    | Change |   Delta |             % |              Time | Samples |
 | ----------- | -----: | ------: | ------------: | ----------------: | ------: |
@@ -31,7 +31,7 @@ Functions with the largest increase in total time spent in the function and all 
 |    new | +10.3ms | 0.0% → 0.8% | 0ms → 10.3ms |   0 → 1 | `block in dir`             | var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb |
 |    new |  +9.7ms | 0.0% → 0.7% |  0ms → 9.7ms |   0 → 1 | `block in execute_runners` | var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

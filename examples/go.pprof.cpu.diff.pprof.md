@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 5.39s → 5.63s (+240.0ms, +4.5%) over 152 samples → 157 samples (35.5ms → 35.9ms per sample).
+Took 5.39s → 5.63s (+0.24s, +4.5%) over 152 samples → 157 samples (35.5ms → 35.9ms per sample).
 
 | Category | Change |    Delta |             % |            Time |   Samples |
 | -------- | -----: | -------: | ------------: | --------------: | --------: |
@@ -19,7 +19,7 @@ Functions with the largest increase in time spent directly in the function body,
 | -----: | ------: | ----------: | -----------: | ------: | --------------------------- | ------------------------------------------------------------------------------------------ |
 |    new | +10.0ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -38,7 +38,7 @@ Functions with the largest increase in total time spent in the function and all 
 | -----: | ------: | ----------: | -----------: | ------: | --------------------------- | ------------------------------------------------------------------------------------------ |
 |    new | +10.0ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

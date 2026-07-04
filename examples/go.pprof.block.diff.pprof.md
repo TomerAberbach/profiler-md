@@ -1,6 +1,6 @@
 # Contention profile diff
 
-Blocked 1.41s → 1.40s (-3.9ms, -0.3%) over 5 samples → 3 samples (282.7ms → 470.0ms per sample).
+Blocked 1.41s → 1.40s (-0.01s, -0.3%) over 5 samples → 3 samples (282.7ms → 470.0ms per sample).
 
 | Category | Change |  Delta |      % |          Time | Samples |
 | -------- | -----: | -----: | -----: | ------------: | ------: |
@@ -30,7 +30,7 @@ Functions with the largest increase in total time blocked in the function and al
 |   +2.7% | +34.6ms | 89.7% → 92.4% |  1.26s → 1.30s |       1 | `main.workload`           | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:16          |
 | +117.6% |  +7.8µs |         <0.1% | 6.6µs → 14.4µs |       1 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

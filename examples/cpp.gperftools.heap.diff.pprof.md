@@ -1,6 +1,6 @@
 # Allocated heap and retained heap profile diff
 
-Allocated 126 MB and retained 0 B over 12 samples (10.5 MB and 0 B per sample).
+Allocated 126 MB and retained 0 B over 12 samples (10.5 MB and 0 B per sample) (unchanged).
 
 | Category | Change | Delta |      % |   Size | Size | Samples |
 | -------- | -----: | ----: | -----: | -----: | ---: | ------: |

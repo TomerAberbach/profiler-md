@@ -20,7 +20,7 @@ Functions with the largest increase in total time blocked in the function and al
 | +578.8% | +23.9µs | 0.2% → 1.8% | 4.1µs → 28.0µs |       1 | `visitFile(Object, BasicFileAttributes)` | org.renaissance.core.DirUtils$1 |
 |   +2.4% |  +3.2µs | 7.2% → 8.7% |          0.1ms |   7 → 5 | `walkFileTree(Path, FileVisitor)`        | java.nio.file.Files             |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

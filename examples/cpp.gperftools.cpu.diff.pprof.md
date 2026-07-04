@@ -38,7 +38,7 @@ Functions with the largest increase in time spent directly in the function body,
 |  +33.3% |  +1.0ms | 0.6% → 0.8% |   3.0ms → 4.0ms |   3 → 4 | `fmt::v11::basic_format_args::get`                                                     | src/fmt/include/fmt/base.h       |
 |  +20.0% |  +1.0ms | 1.0% → 1.2% |   5.0ms → 6.0ms |   4 → 5 | `fmt::v11::detail::buffer::data`                                                       | src/fmt/include/fmt/base.h       |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +100.0% |  +4.0ms |   0.8% → 1.5% |     4.0ms → 8.0ms |     2 → 5 | `fmt::v11::detail::write()::{lambda(fmt::v11::basic_appender)#1}::operator()`          | src/fmt/include/fmt/format.h     |
 | +400.0% |  +4.0ms |   0.2% → 1.0% |     1.0ms → 5.0ms |     1 → 3 | `fmt::v11::detail::parse_align`                                                        | src/fmt/include/fmt/base.h       |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

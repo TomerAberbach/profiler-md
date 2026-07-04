@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |    new |    +1 | 0.0% → 0.9% |   0 → 1 | `freshTypeConstructor(TypeVariableMarker)`                                | org.jetbrains.kotlin.fir.types.ConeInferenceContext                                     |
 |    new |    +1 | 0.0% → 0.9% |   0 → 1 | `transformAnnotationCall(FirAnnotationCall, ExpectedArgumentType)`        | org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +100.0% |    +3 |   2.7% → 5.6% |   3 → 6 | `transformFile(FirFile, ResolutionMode)`                                                                                                                                                                                                                                      | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirDeclarationsResolveTransformer                            |
 | +100.0% |    +3 |   2.7% → 5.6% |   3 → 6 | `transformFile(FirFile, ResolutionMode)`                                                                                                                                                                                                                                      | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 716 MB (-268 kB, ~0%) over 861 samples → 863 samples (832 kB → 830 kB per sample).
+Allocated 716 MB over 861 samples → 863 samples (832 kB → 830 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -163,7 +163,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new | +1.05 MB | 0.0% → 0.1% |     0 B → 1.05 MB |   0 → 2 | `enqueueResolveTasksForNoReceiver(CallInfo)`                                                          | org.jetbrains.kotlin.fir.resolve.calls.tower.FirInvokeResolveTowerExtension |
 |     new | +1.05 MB | 0.0% → 0.1% |     0 B → 1.05 MB |   0 → 2 | `<init>(ConstraintInjector, TypeSystemInferenceExtensionContext, LanguageVersionSettings, Function2)` | org.jetbrains.kotlin.resolve.calls.inference.model.NewConstraintSystemImpl  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -219,7 +219,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | +18.1% | +7.92 MB |   6.1% → 7.2% | 43.8 MB → 51.7 MB |   84 → 96 | `collectCandidates$default(FirCallResolver, FirQualifiedAccessExpression, Name, CallKind, boolean, FirFunctionCallOrigin, List, ResolutionContext, CandidateCollector, FirElement, ResolutionMode, CollectionLiteralOuterCandidateContext, int, Object)` | org.jetbrains.kotlin.fir.resolve.calls.FirCallResolver                                                 |
 | +44.6% |  +7.8 MB |   2.4% → 3.5% | 17.5 MB → 25.3 MB |   34 → 48 | `transformElement(FirElement, Object)`                                                                                                                                                                                                                   | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -249,7 +249,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 20.4 MB → 20.6 MB (+159 kB, +0.8%) over 207 samples → 203 samples (98.7 kB → 101 kB per sample).
+Retained 20.4 MB → 20.6 MB (+0.2 MB, +0.8%) over 207 samples → 203 samples (98.7 kB → 101 kB per sample).
 
 | Category | Change |   Delta |             % |              Size |   Samples |
 | -------- | -----: | ------: | ------------: | ----------------: | --------: |
@@ -273,7 +273,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |    +80 B | 0.0% → <0.1% |    0 B → 80 B |   0 → 1 | `<init>(int)`                                                                                                               | java.util.ArrayList                                                   |
 |    new |    +24 B | 0.0% → <0.1% |    0 B → 24 B |   0 → 1 | `toString()`                                                                                                                | java.lang.StringBuilder                                               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -325,7 +325,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |    new | +7.38 kB |  0.0% → <0.1% |     0 B → 7.38 kB |     0 → 1 | `registerExtensionsFromPlugins(CompilerConfiguration)`                                                                 | org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment                  |
 |    new | +7.38 kB |  0.0% → <0.1% |     0 B → 7.38 kB |     0 → 1 | `configureProjectEnvironment(KotlinCoreEnvironment$ProjectEnvironment, CompilerConfiguration, EnvironmentConfigFiles)` | org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$Companion                           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
@@ -355,7 +355,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 # Lock contention profile diff
 
-Blocked 486.7ms → 538.7ms (+52.1ms, +10.7%) over 2 samples → 3 samples (243.3ms → 179.6ms per sample).
+Blocked 486.7ms → 538.7ms (+52.0ms, +10.7%) over 2 samples → 3 samples (243.3ms → 179.6ms per sample).
 
 | Category | Change |   Delta |      % |              Time | Samples |
 | -------- | -----: | ------: | -----: | ----------------: | ------: |

@@ -603,6 +603,11 @@ const formatDiffSummary = (diff: AggregatedProfileDiff): string[] => [
 ]
 
 const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
+  // With every total equal, the arrows collapse and the line would read as a
+  // single measurement rather than a comparison, so say the totals didn't
+  // change. Per-function churn can still hide behind unchanged totals.
+  const unchangedSuffix = diffTotalsUnchanged(diff) ? ` (unchanged)` : ``
+
   if (diff.metrics.length === 0) {
     const baseSamples = diff.base.totalSampleCount
     const currentSamples = diff.current.totalSampleCount
@@ -611,7 +616,7 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
       formatCount(currentSamples, `sample`),
     )}${formatChange(baseSamples, currentSamples, magnitude =>
       formatCount(magnitude, `sample`),
-    )}.`
+    )}${unchangedSuffix}.`
   }
 
   const valueParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
@@ -636,8 +641,17 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
     return formatArrow(baseRate, currentRate)
   })
 
-  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatArrow(formatCount(diff.base.totalSampleCount, `sample`), formatCount(diff.current.totalSampleCount, `sample`))} (${formatConjunction(rateParts)} per sample).`
+  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatArrow(formatCount(diff.base.totalSampleCount, `sample`), formatCount(diff.current.totalSampleCount, `sample`))} (${formatConjunction(rateParts)} per sample)${unchangedSuffix}.`
 }
+
+/** Whether every metric total and the sample count are equal on both sides. */
+const diffTotalsUnchanged = (diff: AggregatedProfileDiff): boolean =>
+  diff.base.totalSampleCount === diff.current.totalSampleCount &&
+  diff.metrics.every(
+    ({ baseIndex, currentIndex }) =>
+      diff.base.totalValues[baseIndex] ===
+      diff.current.totalValues[currentIndex],
+  )
 
 const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
   switch (metric.type) {
@@ -985,7 +999,7 @@ const formatDiffFunctionSections = (
 
   if (progressions.length > 0) {
     sections.push(
-      formatHeading(headingLevel + 1, `Progressions`),
+      formatHeading(headingLevel + 1, `Improvements`),
       `Functions with the largest decrease in ${description}.`,
       formatDiffTable(functionTableHeaders(metric), progressions, {
         primaryIndex: 1,

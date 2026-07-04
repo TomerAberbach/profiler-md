@@ -60,6 +60,10 @@ export const formatDelta = (value: number, formatted: string): string => {
  * when the value is unchanged. A zero delta reads as a measurement rather than a
  * change, so it's omitted alongside the arrow that has already collapsed to a
  * single value.
+ *
+ * The delta is computed from the endpoints as displayed (when both format to a
+ * single shared unit), not from the raw values: `101.6ms → 102.2ms (+0.5ms)`
+ * would read as an arithmetic error even though the raw delta rounds to 0.5.
  */
 export const formatChange = (
   base: number,
@@ -69,11 +73,54 @@ export const formatChange = (
   if (base === current) {
     return ``
   }
+
   const delta = current - base
-  return ` (${formatDelta(delta, format(Math.abs(delta)))}, ${formatPercentChange(
+  let magnitude = format(Math.abs(delta))
+
+  const displayedBase = parseSingleUnit(format(base))
+  const displayedCurrent = parseSingleUnit(format(current))
+  if (displayedBase && displayedBase.unit === displayedCurrent?.unit) {
+    const decimals = Math.max(displayedBase.decimals, displayedCurrent.decimals)
+    const displayedDelta = Number(
+      (displayedCurrent.value - displayedBase.value).toFixed(decimals),
+    )
+    if (displayedDelta === 0) {
+      return ``
+    }
+    magnitude = `${Math.abs(displayedDelta).toLocaleString(`en-US`, {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    })}${displayedBase.unit}`
+  }
+
+  return ` (${formatDelta(delta, magnitude)}, ${formatPercentChange(
     base,
     current,
   )})`
+}
+
+/**
+ * Parses a single-unit formatted value like `101.6ms`, `3.29 GB`, or `1,650`
+ * into its numeric part, displayed decimal places, and unit suffix. Returns
+ * `undefined` for multi-unit (`1m 5s`) or clamped (`<0.1µs`) renderings, whose
+ * displayed arithmetic can't be reconstructed.
+ */
+const parseSingleUnit = (
+  formatted: string,
+): { value: number; decimals: number; unit: string } | undefined => {
+  const match =
+    /^(?<integer>\d{1,3}(?:,\d{3})*)(?:\.(?<fraction>\d+))?(?<unit>[\s ]?[a-zA-Zµ%]*)$/u.exec(
+      formatted,
+    )
+  if (!match) {
+    return undefined
+  }
+  const { integer, fraction, unit } = match.groups!
+  return {
+    value: Number(`${integer!.replaceAll(`,`, ``)}.${fraction ?? `0`}`),
+    decimals: fraction?.length ?? 0,
+    unit: unit!,
+  }
 }
 
 export const formatPercent = (fraction: number): string => {

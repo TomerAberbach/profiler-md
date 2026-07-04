@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-118 samples.
+118 samples (unchanged).
 
 | Category | Change | Delta |             % | Samples |
 | -------- | -----: | ----: | ------------: | ------: |
@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.8% |   0 → 1 | `extractProjectionsForAllCapturedTypesInternal(TypeSystemInferenceExtensionContext, KotlinTypeMarker, Set)`         | org.jetbrains.kotlin.resolve.calls.inference.components.VariableFixationFinderKt            |
 |     new |    +1 | 0.0% → 0.8% |   0 → 1 | `hasAnnotation(List, ClassId, FirSession)`                                                                          | org.jetbrains.kotlin.fir.declarations.FirAnnotationUtilsKt                                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 |     new |    +3 |   0.0% → 2.5% |   0 → 3 | `createIrFunction(FirFunction, IrDeclarationParent, IrSimpleFunctionSymbol, IrDeclarationOrigin, boolean, ConeClassLikeLookupTag, boolean)` | org.jetbrains.kotlin.fir.backend.generators.Fir2IrCallableDeclarationsGenerator                                         |
 |  +66.7% |    +2 |   2.5% → 4.2% |   3 → 5 | `buildLightTree(CharSequence, KtSourceFile, KotlinLightParser$LightTreeParsingErrorListener)`                                               | org.jetbrains.kotlin.parsing.KotlinLightParser                                                                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 # Allocated heap profile diff
 
-Allocated 717 MB (+15.3 kB, ~0%) over 865 samples → 864 samples (829 kB → 830 kB per sample).
+Allocated 717 MB over 865 samples → 864 samples (829 kB → 830 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -163,7 +163,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |      new | +1.05 MB |  0.0% → 0.1% |     0 B → 1.05 MB |     0 → 2 | `visitMethodInsn(int, String, String, String, boolean)`                                                     | org.jetbrains.org.objectweb.asm.tree.MethodNode                                   |
 |      new | +1.05 MB |  0.0% → 0.1% |     0 B → 1.05 MB |     0 → 2 | `parseCentralDirectory$lambda$0(Ref$LongRef, List, long, LargeDynamicMappedBuffer$Mapping)`                 | org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt                   |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -219,7 +219,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |   +14.1% | +6.61 MB |  6.6% → 7.5% |   47 MB → 53.6 MB |  89 → 100 | `transform(FirTransformer, Object)`                                                                                                    | org.jetbrains.kotlin.fir.expressions.FirBlock                                                                           |
 |   +13.0% | +6.61 MB |  7.1% → 8.0% | 50.7 MB → 57.3 MB |  96 → 107 | `transformStatementsIndexed(FirBlock, FirTransformer, Function1)`                                                                      | org.jetbrains.kotlin.fir.expressions.FirExpressionUtilKt                                                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -249,7 +249,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 20.7 MB → 18.9 MB (-1.72 MB, -8.3%) over 203 samples → 196 samples (102 kB → 96.6 kB per sample).
+Retained 20.7 MB → 18.9 MB (-1.8 MB, -8.3%) over 203 samples → 196 samples (102 kB → 96.6 kB per sample).
 
 | Category | Change |    Delta |             % |              Size |   Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------: |
@@ -272,7 +272,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |  +32 B | 0.0% → <0.1% |  0 B → 32 B |   0 → 1 | `copy(FirDeclarationStatus, Visibility, Modality, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, boolean, ReturnValueStatus)` | org.jetbrains.kotlin.fir.UtilsKt                                                        |
 |    new |  +32 B | 0.0% → <0.1% |  0 B → 32 B |   0 → 1 | `create(String, int, String, String, JavaClass, ClassifierResolutionContext, BinaryClassSignatureParser)`                                                                                                                                                 | org.jetbrains.kotlin.load.java.structure.impl.classFiles.BinaryJavaMethodBase$Companion |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -319,7 +319,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |    +3.0% | +4.13 kB |         0.7% | 138 kB → 142 kB |   5 → 7 | `accept(ClassVisitor, Attribute[], int)`                                                                                            | org.jetbrains.org.objectweb.asm.ClassReader                                                                      |
 |    +3.0% | +4.13 kB |         0.7% | 138 kB → 142 kB |   5 → 7 | `accept(ClassVisitor, int)`                                                                                                         | org.jetbrains.org.objectweb.asm.ClassReader                                                                      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
@@ -361,7 +361,7 @@ The entry filter hides every sampled function, so all functions are shown.
 
 ### Self time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time blocked directly in the function body, excluding callees.
 
@@ -371,7 +371,7 @@ Functions with the largest decrease in time blocked directly in the function bod
 
 ### Total time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

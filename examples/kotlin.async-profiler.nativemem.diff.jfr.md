@@ -1,6 +1,6 @@
 # Allocated native memory profile diff
 
-Allocated 1.69 GB → 1.67 GB (-20.4 MB, -1.2%) over 625,321 samples → 617,888 samples (2.7 kB per sample).
+Allocated 1.69 GB → 1.67 GB (-0.02 GB, -1.2%) over 625,321 samples → 617,888 samples (2.7 kB per sample).
 
 | Category | Change |    Delta |      % |              Size |           Samples |
 | -------- | -----: | -------: | -----: | ----------------: | ----------------: |
@@ -37,7 +37,7 @@ Functions with the largest increase in total native bytes allocated in the funct
 |  +6.9% | +761 kB | 0.6% → 0.7% |   11 MB → 11.7 MB | 33,438 → 33,391 | `transformNamedFunction(FirNamedFunction, ResolutionMode)`                                                                                         | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher |
 |  +6.9% | +761 kB | 0.6% → 0.7% |   11 MB → 11.7 MB | 33,438 → 33,391 | `transformNamedFunction(FirNamedFunction, Object)`                                                                                                 | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total native bytes allocated in the function and all its callees.
 

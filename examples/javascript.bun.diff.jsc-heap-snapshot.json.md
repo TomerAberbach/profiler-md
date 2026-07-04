@@ -1,6 +1,6 @@
 # Heap snapshot diff
 
-Allocated 1.53 MB (+1.5 kB, +0.1%) across 16,635 → 16,649 nodes and 45,015 → 45,184 edges.
+Allocated 1.53 MB across 16,635 → 16,649 nodes and 45,015 → 45,184 edges.
 
 | Category | Change |   Delta |             % |            Size |         Nodes |
 | -------- | -----: | ------: | ------------: | --------------: | ------------: |
@@ -51,7 +51,7 @@ Constructors with the largest increase in retained size.
 |   +0.3% |    +48 B |          1.2% |         18.6 kB |     390 → 391 | `PropertyTable`       |
 |     ~0% |     +3 B |          1.3% |         19.2 kB |             1 | `Process`             |
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

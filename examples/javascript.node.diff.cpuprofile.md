@@ -1,6 +1,6 @@
 # CPU profile diff
 
-Took 2.49s → 2.69s (+191.2ms, +7.6%) over 2,659 samples → 3,134 samples (939.9µs → 858.4µs per sample).
+Took 2.49s → 2.69s (+0.20s, +7.6%) over 2,659 samples → 3,134 samples (939.9µs → 858.4µs per sample).
 
 | Category          |  Change |    Delta |             % |              Time |       Samples |
 | ----------------- | ------: | -------: | ------------: | ----------------: | ------------: |
@@ -24,7 +24,7 @@ Functions with the largest increase in time spent directly in the function body,
 | +160.0% | +2.0ms |         0.1% | 1.3ms → 3.3ms |   1 → 3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                                                                                          |
 |     new | +1.3ms | 0.0% → <0.1% |   0ms → 1.3ms |   0 → 1 | `createProgram`                             | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -55,7 +55,7 @@ Functions with the largest increase in total time spent in the function and all 
 |   +1.6% |   +0.2ms |          0.4% | 10.1ms → 10.3ms |         1 → 2 | `(anonymous)`                               | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/cpuprofile-run.mjs:16:15                                                                |
 |   +1.6% |   +0.2ms |          0.4% | 10.1ms → 10.3ms |         1 → 2 | `post`                                      | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/cpuprofile-run.mjs:15:14                                                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

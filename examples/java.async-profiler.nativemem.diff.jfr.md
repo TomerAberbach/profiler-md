@@ -1,6 +1,6 @@
 # Allocated native memory profile diff
 
-Allocated 255 MB → 258 MB (+2.48 MB, +1.0%) over 84,474 samples → 82,688 samples (3.02 kB → 3.12 kB per sample).
+Allocated 255 MB → 258 MB (+3 MB, +1.0%) over 84,474 samples → 82,688 samples (3.02 kB → 3.12 kB per sample).
 
 | Category | Change |    Delta |      % |            Size |         Samples |
 | -------- | -----: | -------: | -----: | --------------: | --------------: |
@@ -37,7 +37,7 @@ Functions with the largest increase in total native bytes allocated in the funct
 | +67.1% | +35.9 kB |        <0.1% | 53.5 kB → 89.4 kB |       155 → 164 | `notifyAfterOperationSetUp(String, int, boolean)`                                                                      | org.renaissance.harness.EventDispatcher                              |
 | +73.1% | +35.9 kB |        <0.1% |   49.1 kB → 85 kB |       108 → 117 | `runFinalization()`                                                                                                    | java.lang.Runtime                                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total native bytes allocated in the function and all its callees.
 
