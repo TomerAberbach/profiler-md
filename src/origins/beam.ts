@@ -36,10 +36,19 @@ export const beamOriginSpec = {
       return input
     }
 
+    // `Elixir.Jason.Encode` is the VM-level atom for what Elixir code writes
+    // as `Jason.Encode`, so drop the prefix for the idiomatic reading. A
+    // capitalized module remains unambiguously Elixir (Erlang atoms are
+    // lowercase).
+    let module = name.slice(0, colon)
+    if (module.startsWith(ELIXIR_MODULE_PREFIX)) {
+      module = module.slice(ELIXIR_MODULE_PREFIX.length)
+    }
+
     return {
       ...input,
       name: name.slice(colon + 1),
-      location: { urlOrPath: name.slice(0, colon) },
+      location: { urlOrPath: module },
     }
   },
 } as const satisfies OriginSpec
@@ -82,11 +91,16 @@ const beamModuleCategory = ({
   return isBeamStdlibModule(module) ? `stdlib` : `ours`
 }
 
+/** The atom prefix the Elixir compiler adds to every Elixir module. */
+const ELIXIR_MODULE_PREFIX = `Elixir.`
+
 const isBeamStdlibModule = (module: string): boolean => {
   if (module.startsWith(`eflambe`)) {
     return true
   }
-  return module.startsWith(`Elixir.`)
+  // `normalizeFrame` strips the `Elixir.` prefix, so an Elixir module is
+  // recognized by its capitalized first letter (Erlang atoms are lowercase).
+  return /^[A-Z]/u.test(module)
     ? ELIXIR_CORE_MODULES.has(module)
     : OTP_STDLIB_MODULES.has(module)
 }
@@ -122,21 +136,21 @@ const OTP_STDLIB_MODULES = new Set([
   `json`,
 ])
 
-/** Elixir standard-library (core) modules. */
+/** Elixir standard-library (core) modules, without the `Elixir.` atom prefix. */
 const ELIXIR_CORE_MODULES = new Set([
-  `Elixir.Enum`,
-  `Elixir.Map`,
-  `Elixir.String`,
-  `Elixir.Kernel`,
-  `Elixir.Keyword`,
-  `Elixir.Stream`,
-  `Elixir.GenServer`,
-  `Elixir.Process`,
-  `Elixir.Task`,
-  `Elixir.List`,
-  `Elixir.IO`,
-  `Elixir.Agent`,
-  `Elixir.Supervisor`,
-  `Elixir.Range`,
-  `Elixir.Integer`,
+  `Enum`,
+  `Map`,
+  `String`,
+  `Kernel`,
+  `Keyword`,
+  `Stream`,
+  `GenServer`,
+  `Process`,
+  `Task`,
+  `List`,
+  `IO`,
+  `Agent`,
+  `Supervisor`,
+  `Range`,
+  `Integer`,
 ])
