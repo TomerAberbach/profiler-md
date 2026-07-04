@@ -13,10 +13,16 @@ export type V8CallFrame = {
   /** The URL of the script this frame belongs to. */
   url: string
 
-  /** The 0-based line number of the code corresponding to this frame. */
+  /**
+   * The 0-based line number of the code corresponding to this frame, or `-1`
+   * if unknown.
+   */
   lineNumber: number
 
-  /** The 0-based column number of the code corresponding to this frame. */
+  /**
+   * The 0-based column number of the code corresponding to this frame, or `-1`
+   * if unknown.
+   */
   columnNumber: number
 }
 
@@ -27,7 +33,11 @@ export const callFrameToStackFrame = (
   return {
     name: functionName,
     location: url
-      ? { urlOrPath: url, line: lineNumber + 1, column: columnNumber + 1 }
+      ? {
+          urlOrPath: url,
+          line: lineNumber < 0 ? undefined : lineNumber + 1,
+          column: columnNumber < 0 ? undefined : columnNumber + 1,
+        }
       : undefined,
   }
 }

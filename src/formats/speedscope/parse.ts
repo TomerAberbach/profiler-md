@@ -9,11 +9,17 @@ export type SpeedscopeFrame = {
   /** The path to the file where the function was defined, if known. */
   file?: string
 
-  /** The 1-based line in the function, if known. */
-  line?: number
+  /**
+   * The 1-based line in the function, if known. The spec only allows omission,
+   * but some emitters (py-spy, rbspy) write `null` for unknown.
+   */
+  line?: number | null
 
-  /** The 1-based column in the line in the function, if known. */
-  col?: number
+  /**
+   * The 1-based column in the line in the function, if known. `null` as in
+   * {@link line}.
+   */
+  col?: number | null
 }
 
 /** Possible units for values observed in a speedscope profile. */
@@ -108,7 +114,12 @@ export const parseSpeedscope = (profile: SpeedscopeProfile): Profile[] => {
 const frameToStackFrame = (frame: SpeedscopeFrame): ProfileStackFrame => ({
   name: frame.name,
   location: frame.file
-    ? { urlOrPath: frame.file, line: frame.line, column: frame.col }
+    ? {
+        urlOrPath: frame.file,
+        // `null` means unknown (see {@link SpeedscopeFrame.line}).
+        line: frame.line ?? undefined,
+        column: frame.col ?? undefined,
+      }
     : undefined,
 })
 

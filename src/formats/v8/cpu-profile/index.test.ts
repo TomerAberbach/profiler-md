@@ -416,6 +416,39 @@ describe(`convert`, () => {
     ).toEqual([2])
   })
 
+  test(`unknown (-1) line and column are dropped from a located frame`, () => {
+    const profile = {
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 1,
+          callFrame: {
+            functionName: `evaluate`,
+            scriptId: 1,
+            url: `file:///project/src/a.ts`,
+            lineNumber: -1,
+            columnNumber: -1,
+          },
+        },
+      ],
+      samples: [2],
+      timeDeltas: [100],
+    }
+
+    const md = convertJsonToMd(
+      v8CpuProfileConverter,
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
+
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Location)),
+    ).toEqual([[`src/a.ts`]])
+  })
+
   test(`categorizes ours, third-party, and stdlib code`, () => {
     const profile = {
       nodes: [

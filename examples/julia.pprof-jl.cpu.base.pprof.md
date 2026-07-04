@@ -34,12 +34,6 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | --------------------------------------------------------------------------------------- |
 | 100.0% |     123 | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/julia/profile.jl:13 |
 
-##### `length_continued` (nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl)
-
-|      % | Samples | Location                                                                                         |
-| -----: | ------: | ------------------------------------------------------------------------------------------------ |
-| 100.0% |     115 | nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:0 |
-
 ##### `length_continued` (nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:533)
 
 |      % | Samples | Location                                                                                           |

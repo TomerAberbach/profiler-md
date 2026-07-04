@@ -441,6 +441,30 @@ describe(`convert`, () => {
     ).toEqual([[`<unknown>`]])
   })
 
+  test(`null line and column are dropped from a located frame`, () => {
+    // Some emitters (rbspy) write `null` instead of omitting an unknown line
+    // or column.
+    const profile = makeSpeedscopeProfile({
+      profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],
+      frames: [
+        { name: `main`, file: `/app/lib/foo.rb`, line: null, col: null },
+      ],
+    })
+
+    const md = convertJsonToMd(
+      speedscopeConverter,
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: null,
+        showEntry: () => true,
+      }),
+    )
+
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Location)),
+    ).toEqual([[`/app/lib/foo.rb`]])
+  })
+
   test(`dotnet-trace scaffolding is dropped; self time lands on the sampled methods`, () => {
     // A dotnet-trace export wraps every stack in scaffolding nodes and ends it
     // with a CPU_TIME bucket; none of those are functions, so only the managed

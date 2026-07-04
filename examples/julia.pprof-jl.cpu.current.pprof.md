@@ -28,12 +28,6 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 Lines ranked by contribution to each function's self samples.
 
-##### `length_continued` (nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl)
-
-|      % | Samples | Location                                                                                         |
-| -----: | ------: | ------------------------------------------------------------------------------------------------ |
-| 100.0% |     128 | nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:0 |
-
 ##### `parse_workload` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/julia/profile.jl:13)
 
 |      % | Samples | Location                                                                                |

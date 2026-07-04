@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import {
-  fileReferenceToSourceLocation,
   formatSourceLocation,
   makeFileReference,
   makeSourceLocation,
@@ -220,45 +219,5 @@ describe(`makeSourceLocation`, () => {
 
   test(`returns undefined when the path is unknown`, () => {
     expect(makeSourceLocation({ urlOrPath: `unknown` })).toBeUndefined()
-  })
-})
-
-describe(`source location line and column normalization`, () => {
-  test.each([
-    [`zero line`, { line: 0, column: 5 }, { line: undefined, column: 5 }],
-    [`negative line`, { line: -1, column: 5 }, { line: undefined, column: 5 }],
-    [`zero column`, { line: 10, column: 0 }, { line: 10, column: undefined }],
-    [
-      `negative column`,
-      { line: 10, column: -3 },
-      { line: 10, column: undefined },
-    ],
-    [
-      `zero line and column`,
-      { line: 0, column: 0 },
-      { line: undefined, column: undefined },
-    ],
-  ])(`drops %s`, (_label, { line, column }, expected) => {
-    expect(
-      makeSourceLocation({ urlOrPath: `/project/file.ts`, line, column }),
-    ).toStrictEqual({
-      type: `absolute`,
-      url: new URL(`file:///project/file.ts`),
-      ...expected,
-    })
-  })
-
-  test(`fileReferenceToSourceLocation preserves positive line and column`, () => {
-    expect(
-      fileReferenceToSourceLocation(
-        { type: `relative`, path: `src/file.ts` },
-        { line: 3, column: 7 },
-      ),
-    ).toStrictEqual({
-      type: `relative`,
-      path: `src/file.ts`,
-      line: 3,
-      column: 7,
-    })
   })
 })
