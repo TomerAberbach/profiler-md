@@ -906,9 +906,9 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 ##### `lambda$run$0(int, List, int)` (org.renaissance.jdk.concurrent.JavaKMeans)
 
-|     % | Time | Samples | Callee                            | Location                                  |
-| ----: | ---: | ------: | --------------------------------- | ----------------------------------------- |
-| <0.1% |  0ms |       1 | `randomSample(int, List, Random)` | org.renaissance.jdk.concurrent.JavaKMeans |
+|     % |   Time | Samples | Callee                            | Location                                  |
+| ----: | -----: | ------: | --------------------------------- | ----------------------------------------- |
+| <0.1% | 19.6µs |       1 | `randomSample(int, List, Random)` | org.renaissance.jdk.concurrent.JavaKMeans |
 
 ##### `call()` (org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000f8011a21c8)
 

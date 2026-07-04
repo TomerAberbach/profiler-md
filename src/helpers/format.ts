@@ -5,17 +5,26 @@ import prettyMilliseconds from 'pretty-ms'
 export const formatCount = (count: number, unit?: string): string =>
   count.toLocaleString(`en-US`) + (unit ? ` ${plur(unit, count)}` : ``)
 
-export const formatMicroseconds = (microseconds: number): string =>
-  microseconds >= 1000
-    ? formatMilliseconds(microseconds / 1000)
-    : `${microseconds.toFixed(1)}µs`
+export const formatMicroseconds = (microseconds: number): string => {
+  if (microseconds >= 1000) {
+    return formatMilliseconds(microseconds / 1000)
+  }
+  const formatted = `${microseconds.toFixed(1)}µs`
+  // A nonzero time that rounds to `0.0µs` would read as absent, so clamp it to
+  // the display resolution instead.
+  return microseconds > 0 && formatted === `0.0µs` ? `<0.1µs` : formatted
+}
 
 export const formatMilliseconds = (milliseconds: number): string =>
-  prettyMilliseconds(milliseconds, {
-    secondsDecimalDigits: 2,
-    millisecondsDecimalDigits: 1,
-    unitCount: 2,
-  })
+  // A nonzero time that pretty-ms would round to `0ms` reads as absent, so
+  // drop down to microseconds instead.
+  milliseconds > 0 && milliseconds < 0.05
+    ? formatMicroseconds(milliseconds * 1000)
+    : prettyMilliseconds(milliseconds, {
+        secondsDecimalDigits: 2,
+        millisecondsDecimalDigits: 1,
+        unitCount: 2,
+      })
 
 export const formatBytes = (bytes: number): string =>
   prettyBytes(bytes, { nonBreakingSpace: true })

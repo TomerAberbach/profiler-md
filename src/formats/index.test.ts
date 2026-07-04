@@ -421,9 +421,9 @@ describe(`diffProfiles`, () => {
     }
     const funcC = {
       Change: `new`,
-      Delta: `+0ms`,
+      Delta: `+40.0µs`,
       '%': `0.0% → 16.7%`,
-      Time: `0ms`,
+      Time: `0ms → 40.0µs`,
       Samples: `0 → 2`,
       Function: `funcC`,
       Location: `src/c.ts:1:1`,

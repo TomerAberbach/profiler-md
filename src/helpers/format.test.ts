@@ -1,5 +1,33 @@
 import { expect, test } from 'vitest'
-import { formatPercent, formatPercentChange } from './format.ts'
+import {
+  formatMicroseconds,
+  formatMilliseconds,
+  formatPercent,
+  formatPercentChange,
+} from './format.ts'
+
+test.each([
+  [0, `0ms`],
+  [0.000_01, `<0.1µs`],
+  [0.0004, `0.4µs`],
+  [0.028, `28.0µs`],
+  [0.049, `49.0µs`],
+  [0.09, `0.1ms`],
+  [0.55, `0.6ms`],
+  [1.4, `1.4ms`],
+  [1500, `1.50s`],
+])(`formatMilliseconds formats %f as %s`, (milliseconds, expected) => {
+  expect(formatMilliseconds(milliseconds)).toBe(expected)
+})
+
+test.each([
+  [0, `0.0µs`],
+  [0.01, `<0.1µs`],
+  [28, `28.0µs`],
+  [1000, `1.0ms`],
+])(`formatMicroseconds formats %f as %s`, (microseconds, expected) => {
+  expect(formatMicroseconds(microseconds)).toBe(expected)
+})
 
 test.each([
   [0, `0.0%`],
