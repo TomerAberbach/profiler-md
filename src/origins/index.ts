@@ -227,7 +227,9 @@ const originSpecs = [
 type SpecificOriginSpec = (typeof originSpecs)[number]
 
 /** Every supported origin ID. */
-export const origins: Origin[] = originSpecs.map(originSpec => originSpec.id)
+export const origins: Origin[] = originSpecs
+  .map(originSpec => originSpec.id)
+  .sort()
 
 const originSpecsById = new Map<Origin, SpecificOriginSpec>(
   originSpecs.map(originSpec => [originSpec.id, originSpec]),
