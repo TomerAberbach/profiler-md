@@ -142,6 +142,9 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
 
 - Cast untyped profile data to typed data for performance. Validate only when
   necessary to make progress
+- NEVER index into a plain object with profile-derived strings (frame names,
+  etc.): keys like `toString` or `constructor` hit `Object.prototype` members.
+  Use a `Map`
 
 ### Aggregating
 

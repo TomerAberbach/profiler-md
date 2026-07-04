@@ -66,7 +66,11 @@ export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
     }
   } while (stack.length > 0)
 
-  const frames = flatNodes.map(node => callFrameToStackFrame(node.callFrame))
+  const frames = flatNodes.map(node => {
+    const frame = callFrameToStackFrame(node.callFrame)
+    const name = VM_STATE_FRAME_NAMES.get(frame.name ?? ``)
+    return name === undefined ? frame : { ...frame, name }
+  })
 
   return [
     {
@@ -76,6 +80,22 @@ export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
     },
   ]
 }
+
+/**
+ * V8's sampling heap profiler labels an allocation made outside JS execution
+ * with the raw `VMState` tag (see v8's `sampling-heap-profiler.cc`). Mapped to
+ * the lowercase labels the V8 CPU profiler uses (`(garbage collector)`) so both
+ * profile kinds render and categorize consistently.
+ */
+const VM_STATE_FRAME_NAMES: ReadonlyMap<string, string> = new Map([
+  [`(GC)`, `(garbage collector)`],
+  [`(PARSER)`, `(parser)`],
+  [`(COMPILER)`, `(compiler)`],
+  [`(BYTECODE_COMPILER)`, `(bytecode compiler)`],
+  [`(ATOMICS_WAIT)`, `(atomics wait)`],
+  [`(IDLE)`, `(idle)`],
+  [`(V8 API)`, `(v8 api)`],
+])
 
 function* heapSamples(
   profile: V8HeapProfile,
