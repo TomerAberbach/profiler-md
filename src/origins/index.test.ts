@@ -158,6 +158,20 @@ describe(`determineOrigin`, () => {
     ).toBe(`pprof-rs`)
   })
 
+  test(`detects pprof-jl by Base frames in the Julia install layout`, () => {
+    expect(
+      determineOrigin({
+        format: `pprof`,
+        entries: [
+          relativeEntry(
+            `+`,
+            `/nix/store/x-julia-bin-1.12.6/share/julia/base/int.jl`,
+          ),
+        ],
+      }),
+    ).toBe(`pprof-jl`)
+  })
+
   test(`detects go by runtime frames located in a GOROOT source tree`, () => {
     expect(
       determineOrigin({
