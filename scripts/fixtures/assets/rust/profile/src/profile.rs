@@ -38,7 +38,7 @@ fn main() {
     workload(&sample);
 
     // Build the report once the workload is done. `guard.report().build()`
-    // returns `Result<Report>` on pprof 0.13.
+    // returns `Result<Report>`.
     let report = guard.report().build().expect("build report");
 
     // Convert to the pprof protobuf message and encode it to bytes. With the
