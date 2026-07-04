@@ -1,6 +1,7 @@
 import {
   locationlessStdlibCategory,
   syntheticFrameCategory,
+  systemDirectoryCategory,
 } from './categorize.ts'
 import type { OriginSpec } from './origin.ts'
 
@@ -15,6 +16,7 @@ export const unknownOriginSpec = {
   matchesEntry: () => false,
   categorize: entry =>
     syntheticFrameCategory(entry) ??
+    systemDirectoryCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
 } as const satisfies OriginSpec
