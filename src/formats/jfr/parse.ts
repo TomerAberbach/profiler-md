@@ -24,11 +24,14 @@ import type {
  *   `profiler.Free` events are ignored: like `alloc`, this profiles where
  *   native memory is allocated, not the net live footprint, and frees usually
  *   dominate the recording so netting them would erase most of the signal.
+ * - `live`: live-object sampling (`jdk.OldObjectSample` and async-profiler's
+ *   `profiler.LiveObject`), objects sampled at allocation that were still
+ *   live when captured, weighted by object size in bytes.
  * - `lock`: lock contention (`jdk.JavaMonitorEnter`, `jdk.ThreadPark`,
  *   async-profiler's `profiler.NativeLock`), weighted by blocked duration in
  *   nanoseconds.
  */
-export type JfrSampleKind = `cpu` | `alloc` | `nativemem` | `lock`
+export type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
 export type JfrMethod = {
@@ -278,6 +281,12 @@ const NATIVEMEM_METRIC = determineMetric({
   unit: `bytes`,
 })
 
+/**
+ * Live-object samples are weighted by the sampled object's size in bytes;
+ * they measure heap still retained when the recording was captured.
+ */
+const LIVE_METRIC = determineMetric({ name: `inuse_space`, unit: `bytes` })
+
 /** Lock samples are weighted by blocked time in nanoseconds. */
 const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
 
@@ -289,6 +298,7 @@ const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
 const KINDS: { kind: JfrSampleKind; metric: Metric | undefined }[] = [
   { kind: `cpu`, metric: undefined },
   { kind: `alloc`, metric: ALLOC_METRIC },
+  { kind: `live`, metric: LIVE_METRIC },
   { kind: `nativemem`, metric: NATIVEMEM_METRIC },
   { kind: `lock`, metric: LOCK_METRIC },
 ]
@@ -714,6 +724,8 @@ class JfrParser {
         `jdk.ObjectAllocationOutsideTLAB`,
         { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
       ],
+      [`jdk.OldObjectSample`, { kind: `live`, weightField: `objectSize` }],
+      [`profiler.LiveObject`, { kind: `live`, weightField: `allocationSize` }],
       [`profiler.Malloc`, { kind: `nativemem`, weightField: `size` }],
       [
         `jdk.JavaMonitorEnter`,
