@@ -473,6 +473,22 @@ describe(`jvm`, () => {
   })
 })
 
+describe(`safari`, () => {
+  test(`bundled accessory scripts are stdlib`, () => {
+    // Safari's own scripts (autofill metadata etc.) run in the page as a bare
+    // filename; page code always carries a full URL.
+    expect(
+      categorizeEntryForOrigin(relative(`FormMetadata.js`), `safari`),
+    ).toBe(`stdlib`)
+    expect(categorizeEntryForOrigin(relative(`assets/app.js`), `safari`)).toBe(
+      `ours`,
+    )
+    expect(
+      categorizeEntryForOrigin(located(`https://example.com/app.js`), `safari`),
+    ).toBe(`ours`)
+  })
+})
+
 describe(`unknown`, () => {
   test(`recognizes only synthetic frames and locationless internals`, () => {
     // The only conventions recognizable without identifying the runtime.

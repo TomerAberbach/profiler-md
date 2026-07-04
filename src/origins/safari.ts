@@ -33,6 +33,25 @@ export const safariOriginSpec = {
     syntheticFrameCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     nodeModulesCategory(entry) ??
-    (isInjectedScript(entry) ? `stdlib` : undefined) ??
+    (isInjectedScript(entry) || isBundledAccessoryScript(entry)
+      ? `stdlib`
+      : undefined) ??
     `ours`,
 } as const satisfies OriginSpec
+
+/**
+ * Whether the entry comes from a script Safari bundles and runs in the page
+ * (e.g. `FormMetadata.js`, its autofill/password metadata classifier). Those
+ * scripts surface as a bare filename with no directory or scheme, while page
+ * code always carries a full URL, so a bare `*.js` name marks browser work
+ * that shouldn't be attributed to the page.
+ */
+const isBundledAccessoryScript = ({
+  location,
+}: DeepReadonly<ProfileEntry>): boolean => {
+  if (location?.type !== `relative`) {
+    return false
+  }
+  const { path } = location
+  return path.endsWith(`.js`) && !path.includes(`/`)
+}
