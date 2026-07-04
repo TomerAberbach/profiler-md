@@ -2,6 +2,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
 import { locationlessStdlibCategory } from './categorize.ts'
+import { normalizeSpeedscopeExecutingLine } from './origin.ts'
 import type { OriginSpec } from './origin.ts'
 
 /**
@@ -25,9 +26,11 @@ export const rbspyOriginSpec = {
     rubyStdlibCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
-  normalizeFrame: input => {
+  normalizeFrame: (input, format) => {
     if (input.location) {
-      return input
+      // Rbspy's speedscope export also emits one frame per sampled line, with
+      // the line carried in the location rather than packed into the name.
+      return normalizeSpeedscopeExecutingLine(input, format)
     }
 
     const name = input.name ?? ``

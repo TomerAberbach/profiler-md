@@ -189,7 +189,9 @@ export const parseFrameFunction = ({
  */
 export const originNormalizeFrame = (
   origin: Origin,
-): ((input: ProfileStackFrame) => ProfileStackFrame | null) | undefined => {
+):
+  | ((input: ProfileStackFrame, format: Format) => ProfileStackFrame | null)
+  | undefined => {
   const spec: OriginSpec = originSpecsById.get(origin)!
   return spec.normalizeFrame
 }

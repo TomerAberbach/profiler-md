@@ -102,11 +102,14 @@ export type OriginSpec = {
    * its frame string rather than carrying it separately. Defaults to the
    * identity when omitted.
    *
-   * The aggregator applies this to each location-less frame before keying and
-   * categorizing, so the derived location feeds both. Already-located frames
-   * are skipped by the pipeline itself (an origin can span a location-carrying
-   * format like JFR and a location-in-name one like collapsed), so an
-   * implementation never sees one.
+   * The aggregator applies this to every frame before keying and categorizing,
+   * so the derived location feeds both, passing the profile's {@link Format}
+   * so an origin spanning several formats can tell how a frame's fields were
+   * produced. An already-located frame usually needs nothing and MUST pass
+   * through unchanged (an origin can span a location-carrying format like JFR
+   * and a location-in-name one like collapsed), with one exception: a format
+   * can carry a field only the origin can interpret, like speedscope's
+   * ambiguous frame line (see {@link normalizeSpeedscopeExecutingLine}).
    *
    * Returning `null` drops the frame: the aggregator elides it from every call
    * stack, attributing its metrics to the surrounding real frames. For a
@@ -117,7 +120,10 @@ export type OriginSpec = {
    * MUST return {@link input} unchanged for a frame lacking the variant's
    * marker. That keeps it safe to run on every format.
    */
-  normalizeFrame?: (input: ProfileStackFrame) => ProfileStackFrame | null
+  normalizeFrame?: (
+    input: ProfileStackFrame,
+    format: Format,
+  ) => ProfileStackFrame | null
 }
 
 /**
@@ -133,6 +139,12 @@ export type OriginSpec = {
 export const packedLocationNormalizer =
   (regex: RegExp) =>
   (input: ProfileStackFrame): ProfileStackFrame => {
+    // A located frame carries its location separately, so its name can't be
+    // packed; matching it anyway could corrupt a coincidentally-shaped name.
+    if (input.location) {
+      return input
+    }
+
     const frame = regex.exec(input.name ?? ``)
     if (!frame) {
       return input
@@ -145,6 +157,36 @@ export const packedLocationNormalizer =
       line: Number(line),
     }
   }
+
+/**
+ * Reinterprets a located speedscope frame's `location.line` as its executing
+ * line, for an origin (py-spy, rbspy) that emits one speedscope frame per
+ * *sampled* line rather than per function.
+ *
+ * The speedscope format leaves the field's semantics undefined, so only the
+ * origin knows the line is where the frame was sampling, not where the
+ * function is defined. Keeping it in the location would fragment one function
+ * into an identity per line and break diff matching across runs, so it moves
+ * to {@link ProfileStackFrame.line} (feeding the per-line breakdown) and the
+ * name and file alone identify the function.
+ *
+ * A located frame from any other format passes through unchanged: its
+ * location's line is a genuine definition line (e.g. pprof's
+ * `Function.start_line`).
+ */
+export const normalizeSpeedscopeExecutingLine = (
+  input: ProfileStackFrame,
+  format: Format,
+): ProfileStackFrame => {
+  if (format !== `speedscope` || input.location?.line === undefined) {
+    return input
+  }
+  return {
+    name: input.name,
+    location: { urlOrPath: input.location.urlOrPath },
+    line: input.location.line,
+  }
+}
 
 /**
  * Returns whether {@link location} is an absolute URL with one of

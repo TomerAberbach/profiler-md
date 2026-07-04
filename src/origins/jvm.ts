@@ -21,6 +21,12 @@ export const jvmOriginSpec = {
     // C++ internals, malloc, unresolved native code) rather than Java code.
     (entry.location ? `ours` : `native`),
   normalizeFrame: input => {
+    // A located (JFR) frame already carries its declaring class; only
+    // async-profiler's collapsed names need splitting.
+    if (input.location) {
+      return input
+    }
+
     // Async-profiler names a Java frame `package/path/Class.method`. Native
     // (C++/JNI) frames have no `/` and stay location-less.
     const name = input.name ?? ``

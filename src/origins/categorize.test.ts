@@ -542,7 +542,9 @@ describe(`normalizeFrame`, () => {
     const { normalizeFrame } = pySpyOriginSpec
 
     test(`splits the trailing (file:line) into a location and sampled line`, () => {
-      expect(normalizeFrame({ name: `parse (black/parsing.py:42)` })).toEqual({
+      expect(
+        normalizeFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
+      ).toEqual({
         name: `parse`,
         location: { urlOrPath: `black/parsing.py` },
         line: 42,
@@ -551,9 +553,10 @@ describe(`normalizeFrame`, () => {
 
     test(`keeps a frozen-module location intact`, () => {
       expect(
-        normalizeFrame({
-          name: `<module> (<frozen importlib._bootstrap>:1080)`,
-        }),
+        normalizeFrame(
+          { name: `<module> (<frozen importlib._bootstrap>:1080)` },
+          `collapsed`,
+        ),
       ).toEqual({
         name: `<module>`,
         location: { urlOrPath: `<frozen importlib._bootstrap>` },
@@ -562,7 +565,27 @@ describe(`normalizeFrame`, () => {
     })
 
     test(`leaves a thread frame unchanged`, () => {
-      expect(normalizeFrame({ name: `tid:7` })).toEqual({ name: `tid:7` })
+      expect(normalizeFrame({ name: `tid:7` }, `collapsed`)).toEqual({
+        name: `tid:7`,
+      })
+    })
+
+    test(`reinterprets a located speedscope frame's line as the executing line`, () => {
+      // Py-spy's speedscope export emits one frame per sampled line; the line
+      // must feed the line breakdown rather than the function's identity.
+      expect(
+        normalizeFrame(
+          {
+            name: `parse`,
+            location: { urlOrPath: `black/parsing.py`, line: 42 },
+          },
+          `speedscope`,
+        ),
+      ).toEqual({
+        name: `parse`,
+        location: { urlOrPath: `black/parsing.py` },
+        line: 42,
+      })
     })
   })
 
