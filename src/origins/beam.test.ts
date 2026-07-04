@@ -14,10 +14,10 @@ const moduleEntry = (name: string, module: string): ProfileEntry => ({
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`normalizeFrame`, () => {
-  test(`lifts an Elixir module out of the name as the location`, () => {
+  test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
     expect(normalizeFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
       name: `encode!/1`,
-      location: { urlOrPath: `Elixir.Jason` },
+      location: { urlOrPath: `Jason` },
     })
   })
 
@@ -63,12 +63,14 @@ describe(`categorize`, () => {
   })
 
   test(`Elixir-core modules are stdlib`, () => {
-    expect(categorize(moduleEntry(`Elixir.Enum:reduce/3`, `Elixir.Enum`))).toBe(
+    // The module location arrives with the `Elixir.` prefix already stripped
+    // by `normalizeFrame`.
+    expect(categorize(moduleEntry(`Elixir.Enum:reduce/3`, `Enum`))).toBe(
       `stdlib`,
     )
-    expect(
-      categorize(moduleEntry(`Elixir.String:split/2`, `Elixir.String`)),
-    ).toBe(`stdlib`)
+    expect(categorize(moduleEntry(`Elixir.String:split/2`, `String`))).toBe(
+      `stdlib`,
+    )
   })
 
   test(`the eflambe profiler's own frames are stdlib`, () => {
@@ -80,16 +82,14 @@ describe(`categorize`, () => {
 
   test(`application modules are ours`, () => {
     expect(
-      categorize(
-        moduleEntry(`Elixir.Profile:-run/1-fun-0-/2`, `Elixir.Profile`),
-      ),
+      categorize(moduleEntry(`Elixir.Profile:-run/1-fun-0-/2`, `Profile`)),
     ).toBe(`ours`)
   })
 
   test(`hex dependencies fall to ours (no marker distinguishes them)`, () => {
-    expect(
-      categorize(moduleEntry(`Elixir.Jason:encode!/1`, `Elixir.Jason`)),
-    ).toBe(`ours`)
+    expect(categorize(moduleEntry(`Elixir.Jason:encode!/1`, `Jason`))).toBe(
+      `ours`,
+    )
   })
 
   test(`a process id or other location-less frame is stdlib`, () => {
