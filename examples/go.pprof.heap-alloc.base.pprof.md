@@ -52,7 +52,7 @@ Lines ranked by contribution to each function's self size.
 
 ##### Callers
 
-Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ###### `encoding/json.Marshal` (nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205)
 
@@ -88,7 +88,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ###### `main.workload.func1` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25)
 
@@ -133,7 +133,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ###### `main.workload.func1` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25)
 

@@ -156,7 +156,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `getRelativePath()` (org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipEntryDescription)
 
@@ -307,7 +307,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `run(String[])` (org.jetbrains.kotlin.preloading.Preloader)
 
@@ -631,7 +631,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `<init>(int)` (java.io.ByteArrayOutputStream)
 
@@ -810,7 +810,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `run(String[])` (org.jetbrains.kotlin.preloading.Preloader)
 
@@ -1066,7 +1066,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)` (org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt)
 
@@ -1175,7 +1175,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `run(String[])` (org.jetbrains.kotlin.preloading.Preloader)
 
@@ -1338,7 +1338,7 @@ Functions ranked by time blocked directly in the function body, excluding callee
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `park(boolean, long)` (jdk.internal.misc.Unsafe)
 
@@ -1365,7 +1365,7 @@ Functions ranked by total time blocked in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `parkNanos(Object, long)` (java.util.concurrent.locks.LockSupport)
 

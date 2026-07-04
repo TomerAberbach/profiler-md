@@ -71,7 +71,7 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `(anonymous)` (chrome-workload.mjs:1:2)
 
@@ -121,7 +121,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `(anonymous)` (chrome-workload.mjs:1:1)
 

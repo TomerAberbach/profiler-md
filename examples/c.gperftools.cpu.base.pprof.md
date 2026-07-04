@@ -37,7 +37,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (zstd_opt.c)
 
@@ -186,7 +186,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `ZSTDMT_compressionJob` (zstdmt_compress.c)
 

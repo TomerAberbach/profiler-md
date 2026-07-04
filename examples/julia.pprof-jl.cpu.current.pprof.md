@@ -66,7 +66,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `length_continued` (nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl)
 
@@ -133,7 +133,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `parse_workload` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/julia/profile.jl:13)
 

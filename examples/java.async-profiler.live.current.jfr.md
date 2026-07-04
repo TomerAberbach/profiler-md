@@ -142,7 +142,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `findNearestCentroid()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
@@ -276,7 +276,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)
 
@@ -472,7 +472,7 @@ Lines ranked by contribution to each function's self size.
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
 
 ##### `valueOf(double)` (java.lang.Double)
 
@@ -545,7 +545,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `compute()` (org.renaissance.jdk.concurrent.JavaKMeans$RangedTask)
 
