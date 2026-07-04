@@ -17,7 +17,7 @@ import type { OriginSpec } from './origin.ts'
 export const rbspyOriginSpec = {
   id: `rbspy`,
   language: `ruby`,
-  formats: [`collapsed`],
+  formats: [`collapsed`, `pprof`, `speedscope`],
   matchesEntry: entry => isRbspyFrame(entry.name),
   categorize: entry =>
     cFunctionCategory(entry) ??
@@ -51,11 +51,18 @@ export const rbspyOriginSpec = {
   },
 } as const satisfies OriginSpec
 
-/** Whether a raw frame name is rbspy-shaped. */
+/**
+ * Whether a raw frame name is rbspy-shaped. Collapsed frames pack the location
+ * into the name (` - file:line`); pprof and speedscope renderings of the same
+ * profiles carry the location separately, leaving rbspy's `[c function]`
+ * marker and the Ruby VM's `<main>`/`<top (required)>` toplevel frames bare.
+ */
 const isRbspyFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (METHOD_FILE_LINE.test(name) ||
     name.includes(C_FUNCTION) ||
+    name === `<main>` ||
+    name === `<top (required)>` ||
     name.startsWith(`<main> ${SEPARATOR}`) ||
     name.startsWith(`<top (required)> ${SEPARATOR}`))
 

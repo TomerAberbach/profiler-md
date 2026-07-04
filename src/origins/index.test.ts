@@ -173,6 +173,28 @@ describe(`determineOrigin`, () => {
     ).toBe(`py-spy`)
   })
 
+  test(`detects py-spy by a CPython install-layout location in speedscope`, () => {
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`parse`, `/usr/lib/python3.11/ast.py`)],
+      }),
+    ).toBe(`py-spy`)
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`_run_code`, `<frozen runpy>`)],
+      }),
+    ).toBe(`py-spy`)
+    // A plain Python source file is not a CPython marker.
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`work`, `app.py`)],
+      }),
+    ).toBe(`unknown`)
+  })
+
   test(`detects tachyon by its thread and frozen-bootstrap frames`, () => {
     expect(
       determineOrigin({
@@ -208,6 +230,27 @@ describe(`determineOrigin`, () => {
       determineOrigin({
         format: `collapsed`,
         entries: [relativeEntry(`(unknown) [c function] - (unknown)`)],
+      }),
+    ).toBe(`rbspy`)
+  })
+
+  test(`detects rbspy by its bare marker frames in pprof and speedscope`, () => {
+    expect(
+      determineOrigin({
+        format: `pprof`,
+        entries: [relativeEntry(`(unknown) [c function]`)],
+      }),
+    ).toBe(`rbspy`)
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`<top (required)>`)],
+      }),
+    ).toBe(`rbspy`)
+    expect(
+      determineOrigin({
+        format: `pprof`,
+        entries: [relativeEntry(`<main>`)],
       }),
     ).toBe(`rbspy`)
   })
