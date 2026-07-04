@@ -69,6 +69,12 @@ const TIME_PHRASES: MetricPhrases = {
   pastTenseVerb: `took`,
   pastParticipleVerbPhrase: `time spent`,
 }
+const SAMPLING_TIME_PHRASES: MetricPhrases = {
+  titleNoun: `sampling`,
+  columnNoun: `time`,
+  pastTenseVerb: `took`,
+  pastParticipleVerbPhrase: `time spent`,
+}
 const SIZE_PHRASES: MetricPhrases = {
   titleNoun: `heap`,
   columnNoun: `size`,
@@ -207,6 +213,11 @@ const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
   [
     `time`,
     new Map<string, MetricPhrases>([
+      // A name that is just a time unit says nothing about what was measured,
+      // so just call it a "sampling" profile.
+      ...[...UNIT_TO_METRIC]
+        .filter(([, metric]) => metric.type === `time`)
+        .map(([alias]) => [alias, SAMPLING_TIME_PHRASES] as const),
       [
         `block_time`,
         {
@@ -214,6 +225,24 @@ const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
           columnNoun: `time`,
           pastTenseVerb: `blocked`,
           pastParticipleVerbPhrase: `time blocked`,
+        },
+      ],
+      [
+        `delay`,
+        {
+          titleNoun: `contention`,
+          columnNoun: `time`,
+          pastTenseVerb: `blocked`,
+          pastParticipleVerbPhrase: `time blocked`,
+        },
+      ],
+      [
+        `wall`,
+        {
+          titleNoun: `wall time`,
+          columnNoun: `time`,
+          pastTenseVerb: `took`,
+          pastParticipleVerbPhrase: `wall time spent`,
         },
       ],
     ]),
