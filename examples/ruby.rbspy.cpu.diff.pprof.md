@@ -41,4 +41,4 @@ Functions with the largest decrease in total wall time spent in the function and
 |  -1.4% | -18.50ms | 99.0% → 99.1% |     1.32s → 1.30s | 131 → 129 | `<main>`                 | `usr/local/bin/rubocop`                |
 |  -5.9% | -11.37ms | 14.6% → 13.9% | 194.2ms → 182.9ms |   19 → 18 | `do_parse`               | `(eval)`                               |
 | -25.9% |  -7.28ms |   2.1% → 1.6% |   28.1ms → 20.8ms |     3 → 2 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
-| -11.7% |  -1.54ms |   1.0% → 0.9% |   13.2ms → 11.6ms |         2 | `<internal:gem_prelude>` | `<internal:gem_prelude>`               |
+| -11.7% |  -1.54ms |   1.0% → 0.9% |   13.2ms → 11.6ms |         2 | `(anonymous)`            | `<internal:gem_prelude>`               |
