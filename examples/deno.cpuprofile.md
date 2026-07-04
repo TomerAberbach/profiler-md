@@ -10,7 +10,7 @@ Took 6.08s over 46,255 samples (131.6µs per sample).
 | program           |  1.7% | 106.1ms |     817 |
 | third-party       |  1.2% |  71.1ms |     536 |
 | idle              |  0.8% |  50.1ms |      38 |
-| stdlib            |  0.0% |   0.3ms |       2 |
+| stdlib            | <0.1% |   0.3ms |       2 |
 
 ## Hottest functions
 
@@ -203,8 +203,8 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 |     % |    Time | Samples | Caller                 | Location                            |
 | ----: | ------: | ------: | ---------------------- | ----------------------------------- |
 | 99.9% | 935.2ms |   7,163 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30 |
-|  0.0% |   0.5ms |       3 | `unevalObject`         | uneval/src/internal/object.ts:20:29 |
-|  0.0% |   0.3ms |       2 | `unevalInternal`       | uneval/src/internal/index.ts:25:32  |
+| <0.1% |   0.5ms |       3 | `unevalObject`         | uneval/src/internal/object.ts:20:29 |
+| <0.1% |   0.3ms |       2 | `unevalInternal`       | uneval/src/internal/index.ts:25:32  |
 
 ##### `traverseObject` (uneval/src/index.ts:204:26)
 
@@ -246,8 +246,8 @@ Callers ranked by contribution to each function's self time. Caller attribution 
 | ----: | ------: | ------: | ---------------- | -------------------------- |
 | 73.7% | 277.3ms |   2,128 | `traverseObject` | uneval/src/index.ts:204:26 |
 | 26.3% |  98.8ms |     757 | `createState`    | uneval/src/index.ts:144:21 |
-|  0.0% |   0.1ms |       1 | `uneval`         | uneval/src/index.ts:75:16  |
-|  0.0% |   0.1ms |       1 | `traverse`       | uneval/src/index.ts:164:20 |
+| <0.1% |   0.1ms |       1 | `uneval`         | uneval/src/index.ts:75:16  |
+| <0.1% |   0.1ms |       1 | `traverse`       | uneval/src/index.ts:164:20 |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 
@@ -352,9 +352,9 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | -----: | ------: | ---------------- | -------------------------------------------------------------------------------------------- |
 | 98.5% |  5.68s |  43,574 | `uneval`         | uneval/src/index.ts:75:16                                                                    |
 |  1.2% | 68.4ms |     515 | `sample`         | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:2551:16 |
-|  0.0% |  2.2ms |      17 | `unevalInternal` | uneval/src/internal/index.ts:25:32                                                           |
-|  0.0% |  1.9ms |      15 | `anything`       | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:8168:18 |
-|  0.0% |  0.8ms |       6 | `traverseObject` | uneval/src/index.ts:204:26                                                                   |
+| <0.1% |  2.2ms |      17 | `unevalInternal` | uneval/src/internal/index.ts:25:32                                                           |
+| <0.1% |  1.9ms |      15 | `anything`       | uneval/node_modules/.pnpm/fast-check@4.6.0/node_modules/fast-check/lib/fast-check.js:8168:18 |
+| <0.1% |  0.8ms |       6 | `traverseObject` | uneval/src/index.ts:204:26                                                                   |
 
 ##### `uneval` (uneval/src/index.ts:75:16)
 
@@ -362,8 +362,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ----: | ------: | ---------------------- | ----------------------------------- |
 | 70.6% | 4.01s |  30,789 | `unevalInternal`       | uneval/src/internal/index.ts:25:32  |
 | 28.7% | 1.63s |  12,493 | `createState`          | uneval/src/index.ts:144:21          |
-|  0.0% | 0.9ms |       7 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30 |
-|  0.0% | 0.1ms |       1 | `traverse`             | uneval/src/index.ts:164:20          |
+| <0.1% | 0.9ms |       7 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30 |
+| <0.1% | 0.1ms |       1 | `traverse`             | uneval/src/index.ts:164:20          |
 
 ##### `unevalInternal` (uneval/src/internal/index.ts:25:32)
 
@@ -380,8 +380,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |  Time | Samples | Callee                 | Location                               |
 | ----: | ----: | ------: | ---------------------- | -------------------------------------- |
 | 99.5% | 3.94s |  30,223 | `unevalObjectInternal` | uneval/src/internal/object.ts:68:30    |
-|  0.0% | 0.8ms |       6 | `unevalArray`          | uneval/src/internal/collection.ts:7:47 |
-|  0.0% | 0.5ms |       3 | `unevalObjectLike`     | uneval/src/internal/object.ts:103:26   |
+| <0.1% | 0.8ms |       6 | `unevalArray`          | uneval/src/internal/collection.ts:7:47 |
+| <0.1% | 0.5ms |       3 | `unevalObjectLike`     | uneval/src/internal/object.ts:103:26   |
 
 ##### `unevalObjectInternal` (uneval/src/internal/object.ts:68:30)
 
@@ -390,7 +390,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 77.0% |  3.04s |  23,291 | `unevalObjectLike` | uneval/src/internal/object.ts:103:26   |
 | 44.4% |  1.75s |  13,438 | `unevalArray`      | uneval/src/internal/collection.ts:7:47 |
 |  0.4% | 17.7ms |     135 | `unevalInternal`   | uneval/src/internal/index.ts:25:32     |
-|  0.0% |  0.1ms |       1 | `unevalObject`     | uneval/src/internal/object.ts:20:29    |
+| <0.1% |  0.1ms |       1 | `unevalObject`     | uneval/src/internal/object.ts:20:29    |
 
 ##### `unevalObjectLike` (uneval/src/internal/object.ts:103:26)
 
@@ -399,8 +399,8 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | 49.8% |  1.51s |  11,590 | `unevalInternal`           | uneval/src/internal/index.ts:25:32   |
 | 40.3% |  1.22s |   9,393 | `unevalObjectLiteralKey`   | uneval/src/internal/object.ts:384:32 |
 |  0.3% | 10.6ms |      82 | `isRegularDataDescriptor`  | uneval/src/internal/object.ts:287:33 |
-|  0.0% |  1.3ms |      10 | `(anonymous)`              | uneval/src/internal/object.ts:201:30 |
-|  0.0% |  0.8ms |       6 | `isDefaultObjectPrototype` | uneval/src/internal/object.ts:429:41 |
+| <0.1% |  1.3ms |      10 | `(anonymous)`              | uneval/src/internal/object.ts:201:30 |
+| <0.1% |  0.8ms |       6 | `isDefaultObjectPrototype` | uneval/src/internal/object.ts:429:41 |
 
 ##### `unevalArray` (uneval/src/internal/collection.ts:7:47)
 
@@ -420,7 +420,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 |     % |  Time | Samples | Callee           | Location                   |
 | ----: | ----: | ------: | ---------------- | -------------------------- |
 | 93.3% | 1.38s |  10,585 | `traverseObject` | uneval/src/index.ts:204:26 |
-|  0.0% | 0.1ms |       1 | `traverse`       | uneval/src/index.ts:164:20 |
+| <0.1% | 0.1ms |       1 | `traverse`       | uneval/src/index.ts:164:20 |
 
 ##### `traverseObject` (uneval/src/index.ts:204:26)
 
@@ -437,7 +437,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 | ----: | ------: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 75.2% | 921.4ms |   7,064 | `unevalWithoutCustom`                            | uneval/src/internal/index.ts:14:37 |
 | 10.5% | 128.6ms |     983 | `RegExp: ^[$_\p{ID_Start}][$_\p{ID_Continue}]*$` | `<unknown>`                        |
-|  0.0% |   0.1ms |       1 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32 |
+| <0.1% |   0.1ms |       1 | `unevalInternal`                                 | uneval/src/internal/index.ts:25:32 |
 
 ##### `unevalWithoutCustom` (uneval/src/internal/index.ts:14:37)
 

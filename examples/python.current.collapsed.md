@@ -16,7 +16,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | ----: | ------: | -------- | --------- |
 | 89.7% |  11,666 | `fib`    | script.py |
 | 10.3% |   1,342 | `crunch` | script.py |
-|  0.0% |       1 | `work`   | script.py |
+| <0.1% |       1 | `work`   | script.py |
 
 #### Lines
 
@@ -132,6 +132,6 @@ Common call stack: `work` (script.py) ← `main` ← `<module>`
 |  0.2% |      22 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                         |
 |  0.1% |      16 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                                 |
 |  0.1% |      13 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` |
-|  0.0% |       6 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`         |
-|  0.0% |       3 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                                                                                 |
-|  0.0% |       2 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                                                                 |
+| <0.1% |       6 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`         |
+| <0.1% |       3 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                                                                                 |
+| <0.1% |       2 | `fib` (script.py) ← `fib` ← `fib` ← `fib` ← `fib` ← `fib` ← `fib`                                                                                                                                                                 |

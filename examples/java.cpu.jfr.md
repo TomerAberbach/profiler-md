@@ -28,13 +28,13 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.1% |      17 | `lambda$merge$7(Map, Object, List)` | org.renaissance.jdk.concurrent.JavaKMeans                                           |
 |  0.1% |      14 | `compute()`                         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask                                |
 |  0.1% |       9 | `createSubtask(int, int)`           | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.0% |       8 | `join()`                            | java.util.concurrent.ForkJoinTask                                                   |
-|  0.0% |       8 | `add(double[], double[])`           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  0.0% |       6 | `vtable stub`                       | `<unknown>`                                                                         |
-|  0.0% |       5 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
-|  0.0% |       4 | `apply(Object)`                     | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a3508 |
-|  0.0% |       3 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
-|  0.0% |       2 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
+| <0.1% |       8 | `join()`                            | java.util.concurrent.ForkJoinTask                                                   |
+| <0.1% |       8 | `add(double[], double[])`           | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
+| <0.1% |       6 | `vtable stub`                       | `<unknown>`                                                                         |
+| <0.1% |       5 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
+| <0.1% |       4 | `apply(Object)`                     | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000f8011a3508 |
+| <0.1% |       3 | `combineResults(Object, Object)`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
+| <0.1% |       2 | `computeDirectly()`                 | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 
 #### Lines
 
@@ -315,9 +315,9 @@ Callees ranked by contribution to each function's total samples. Callee attribut
 
 ##### `join()` (java.util.concurrent.ForkJoinTask)
 
-|    % | Samples | Callee        | Location    |
-| ---: | ------: | ------------- | ----------- |
-| 0.0% |       4 | `vtable stub` | `<unknown>` |
+|     % | Samples | Callee        | Location    |
+| ----: | ------: | ------------- | ----------- |
+| <0.1% |       4 | `vtable stub` | `<unknown>` |
 
 ##### `computeDirectly()` (org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask)
 
