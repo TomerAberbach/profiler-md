@@ -14,8 +14,9 @@ export type Header = string | { content: string; align: `left` | `right` }
 
 export const formatTable = (headers: Header[], rows: string[][]): string => {
   const headerContents = headers.map(header =>
-    typeof header === `string` ? header : header.content,
+    escapePipes(typeof header === `string` ? header : header.content),
   )
+  rows = rows.map(row => row.map(escapePipes))
   const allRows = [headerContents, ...rows]
   const widths = headerContents.map((_, columnIndex) =>
     Math.max(...allRows.map(row => row[columnIndex]?.length ?? 0)),
@@ -38,6 +39,10 @@ export const formatTable = (headers: Header[], rows: string[][]): string => {
     `\n`,
   )
 }
+
+// In GFM tables a `|` splits cells even inside a code span unless escaped.
+const escapePipes = (text: string): string => text.replaceAll(`|`, `\\|`)
+
 export const inlineCode = (text: string): string => {
   const longestBacktickRun = Math.max(
     0,
