@@ -1,10 +1,10 @@
 # Contention profile
 
-Blocked 1.40s over 3 samples (470.0ms per sample).
+Blocked 1.40s over 12 samples (117.5ms per sample).
 
 | Category |      % |  Time | Samples |
 | -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 1.40s |       3 |
+| stdlib   | 100.0% | 1.40s |      12 |
 
 ## Hottest functions
 
@@ -46,8 +46,8 @@ Functions ranked by total time blocked in the function and all its callees.
 |  92.4% |   1.30s |       1 | `sync.(*WaitGroup).Wait`       | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160       |
 |  92.4% |   1.30s |       1 | `main.workload`                | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:16          |
 |   7.6% | 106.7ms |       1 | `runtime/pprof.StopCPUProfile` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950  |
-|  <0.1% |  14.4µs |       1 | `encoding/json.Unmarshal`      | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
-|  <0.1% |  14.4µs |       1 | `main.workload.func1`          | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25          |
+|  <0.1% |  14.4µs |      10 | `encoding/json.Unmarshal`      | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
+|  <0.1% |  14.4µs |      10 | `main.workload.func1`          | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25          |
 
 #### Callees
 
@@ -70,7 +70,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 |      % |   Time | Samples | Callee                    | Location                                                                                      |
 | -----: | -----: | ------: | ------------------------- | --------------------------------------------------------------------------------------------- |
-| 100.0% | 14.4µs |       1 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
+| 100.0% | 14.4µs |      10 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102 |
 
 ## Hottest call stacks
 
@@ -80,4 +80,4 @@ Call stacks ranked by time blocked in their leaf frame.
 | ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 92.4% |   1.30s |       1 | `sync.(*WaitGroup).Wait` (nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160) ← `main.workload` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:16) ← `main.main` (61) |
 |  7.6% | 106.7ms |       1 | `runtime/pprof.StopCPUProfile` (nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950) ← `main.main` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:61)             |
-| <0.1% |  14.4µs |       1 | `encoding/json.Unmarshal` (nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102) ← `main.workload.func1` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25)       |
+| <0.1% |  14.4µs |      10 | `encoding/json.Unmarshal` (nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102) ← `main.workload.func1` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25)       |

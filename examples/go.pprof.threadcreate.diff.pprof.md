@@ -1,10 +1,10 @@
 # Sampling profile diff
 
-1 sample.
+13 samples.
 
 | Category | Change | Delta |      % | Samples |
 | -------- | -----: | ----: | -----: | ------: |
-| stdlib   |   0.0% |     0 | 100.0% |       1 |
+| stdlib   |   0.0% |     0 | 100.0% |      13 |
 
 The entry filter hides every sampled function, so all functions are shown.
 

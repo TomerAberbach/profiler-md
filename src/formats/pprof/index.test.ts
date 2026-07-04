@@ -5,6 +5,7 @@ import {
   callersTables,
   linesTables,
   selfTimeTables,
+  summaryLines,
   totalTimeTables,
 } from '../../testing/markdown.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
@@ -310,6 +311,44 @@ describe(`convert`, () => {
           '%': `100.0%`,
           Time: `0.1ms`,
           Samples: `1`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`uses the count value type as the sample count`, () => {
+    // Pprof merges identical stacks into one record whose count value says how
+    // many sampled occurrences it aggregates; the Samples column must reflect
+    // that count, not the number of records.
+    const data = makePprof({
+      valueTypes: [
+        { type: `samples`, unit: `count` },
+        { type: `cpu`, unit: `nanoseconds` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [5, 50_000_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 50.0ms over 5 samples (10.0ms per sample).`,
+    ])
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `50.0ms`,
+          Samples: `5`,
           Function: `funcA`,
           Location: `src/a.ts:1`,
         },
