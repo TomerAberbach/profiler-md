@@ -112,7 +112,7 @@ Converts performance profiles to human and LLM friendly Markdown.
   CURRENT                     Current profile to diff against the base
 
 Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: deno, bun, node, node-pprof, pprof-rs, go, py-spy, tachyon, jvm, dotnet-trace, beam, rbspy, safari, unknown
+Origins: beam, bun, deno, dotnet-trace, go, jvm, node, node-pprof, pprof-jl, pprof-rs, py-spy, rbspy, safari, tachyon, unknown
 Languages: c, cpp, csharp, fsharp, elixir, erlang, go, java, kotlin, javascript, typescript, julia, php, python, ruby, rust
 ```
 
