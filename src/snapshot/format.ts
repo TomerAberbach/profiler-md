@@ -43,14 +43,30 @@ export const formatHeapSnapshot = (
   options: NormalizedProfileToMdOptions,
 ): string => {
   const hasLocation = hasAnyLocation(snapshot)
+  const showsAnyEntry =
+    snapshot.constructors.some(options.showEntry) ||
+    snapshot.closures.some(closure =>
+      options.showEntry({ ...closure, id: closure.largestInstanceId }),
+    )
+  const sectionOptions = showsAnyEntry
+    ? options
+    : { ...options, showEntry: () => true }
   return `${[
     formatHeading(1, `Heap snapshot`),
     ...formatOverallSummary(snapshot),
-    ...formatLargestConstructors(snapshot, hasLocation, options),
-    ...formatLargestClosures(snapshot, hasLocation, options),
-    ...formatLargestStrings(snapshot, options),
+    ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
+    ...formatLargestConstructors(snapshot, hasLocation, sectionOptions),
+    ...formatLargestClosures(snapshot, hasLocation, sectionOptions),
+    ...formatLargestStrings(snapshot, sectionOptions),
   ].join(`\n\n`)}\n`
 }
+
+/**
+ * The note shown when the entry filter would hide every constructor and
+ * closure, in which case the filter is disabled so the snapshot's body renders
+ * rather than vanishes.
+ */
+const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
 
 const formatOverallSummary = ({
   totalSize,
@@ -391,12 +407,19 @@ export const formatHeapSnapshotDiff = (
   options: NormalizedProfileToMdOptions,
 ): string => {
   const hasLocation = hasAnyLocation(diff)
+  const showsAnyEntry =
+    diff.constructors.some(entity => showDiffEntity(entity, options)) ||
+    diff.closures.some(entity => showDiffEntity(entity, options))
+  const sectionOptions = showsAnyEntry
+    ? options
+    : { ...options, showEntry: () => true }
   return `${[
     formatHeading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
-    ...formatDiffConstructors(diff, hasLocation, options),
-    ...formatDiffClosures(diff, hasLocation, options),
-    ...formatDiffStrings(diff, options),
+    ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
+    ...formatDiffConstructors(diff, hasLocation, sectionOptions),
+    ...formatDiffClosures(diff, hasLocation, sectionOptions),
+    ...formatDiffStrings(diff, sectionOptions),
   ].join(`\n\n`)}\n`
 }
 

@@ -63,11 +63,16 @@ export const formatProfile = (
           return [formatZeroTotalNote(measure)]
         }
 
+        const showsAnyEntry = profile.functions.some(func =>
+          options.showEntry(func),
+        )
         const sectionOptions = {
           ...options,
+          ...(showsAnyEntry ? {} : { showEntry: () => true }),
           headingLevel: sectionHeadingLevel,
         }
         return [
+          ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
           ...formatHottestFunctions(measure, profile, sectionOptions),
           ...formatHottestCallStacks(measure, profile, sectionOptions),
         ]
@@ -75,6 +80,14 @@ export const formatProfile = (
     ),
   ].join(`\n\n`)}\n`
 }
+
+/**
+ * The note shown when the entry filter would hide every function — e.g. a
+ * profile sampled entirely inside external code with no frame of ours anywhere
+ * (a runtime dump, a lock profile parked in the JDK) — in which case the
+ * filter is disabled so the profile's body renders rather than vanishes.
+ */
+const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
 
 export const formatProfileDiff = (
   diff: AggregatedProfileDiff,
@@ -88,11 +101,32 @@ export const formatProfileDiff = (
     ...formatMeasureSections(
       diffMeasuresOf(diff.metrics),
       headingLevel + 1,
-      (measure, sectionHeadingLevel) =>
-        diffTotal(measure, diff.base, `base`) === 0 &&
-        diffTotal(measure, diff.current, `current`) === 0
-          ? [formatZeroTotalNote(measure)]
-          : formatDiffFunctions(diff, measure, options, sectionHeadingLevel),
+      (measure, sectionHeadingLevel) => {
+        if (
+          diffTotal(measure, diff.base, `base`) === 0 &&
+          diffTotal(measure, diff.current, `current`) === 0
+        ) {
+          return [formatZeroTotalNote(measure)]
+        }
+
+        const showsAnyEntry = diff.functions.some(
+          ({ base, current }) =>
+            (base !== undefined && options.showEntry(base)) ||
+            (current !== undefined && options.showEntry(current)),
+        )
+        const sectionOptions = showsAnyEntry
+          ? options
+          : { ...options, showEntry: () => true }
+        return [
+          ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
+          ...formatDiffFunctions(
+            diff,
+            measure,
+            sectionOptions,
+            sectionHeadingLevel,
+          ),
+        ]
+      },
     ),
   ].join(`\n\n`)}\n`
 }

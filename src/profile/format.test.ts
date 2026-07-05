@@ -181,6 +181,66 @@ describe(`formatProfile`, () => {
     ])
   })
 
+  test(`shows all functions when the default filter would hide every one`, () => {
+    // A profile sampled entirely inside external code, with no frame of ours
+    // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
+    // default filter would hide everything, emptying the body, so it is
+    // disabled with a note instead.
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        { name: `extLeaf`, sampleCount: 5, values: [300], stack: [0, 1] },
+        { name: `extRoot`, sampleCount: 0, values: [0] },
+      ],
+    )
+
+    const md = formatProfile(profile, defaultOptions)
+
+    expect(md).toContain(
+      `The entry filter hides every sampled function, so all functions are shown.`,
+    )
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `extLeaf ← extRoot`,
+        },
+      ],
+    ])
+  })
+
+  test(`shows all functions when a custom showEntry would hide every one`, () => {
+    const profile = makeProfile(
+      [MICROSECONDS],
+      [
+        { name: `funcA`, sampleCount: 5, values: [300], stack: [0, 1] },
+        { name: `funcB`, sampleCount: 0, values: [0] },
+      ],
+    )
+    const options = normalizeProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: () => false,
+    })
+
+    const md = formatProfile(profile, options)
+
+    expect(md).toContain(
+      `The entry filter hides every sampled function, so all functions are shown.`,
+    )
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `funcA ← funcB`,
+        },
+      ],
+    ])
+  })
+
   test(`notes a metric with no recorded values in place of its sections`, () => {
     const profile = makeProfile(
       [MICROSECONDS, RETAINED_BYTES],
@@ -545,9 +605,17 @@ describe(`formatProfileDiff`, () => {
           sampleCount: 5,
           values: [100],
         },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          line: 10,
+          sampleCount: 5,
+          values: [0],
+        },
       ],
     )
-    // Hiding the only function leaves nothing active, so a non-diff profile
+    // Hiding the only active function leaves nothing to rank while funcB
+    // keeps the filter from emptying the whole profile, so a non-diff profile
     // would omit the function sections entirely.
     const options = normalizeProfileToMdOptions({
       baseURL: `/project`,
@@ -644,10 +712,17 @@ describe(`formatProfileDiff`, () => {
           sampleCount: 5,
           values: [100, 100],
         },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          sampleCount: 5,
+          values: [0, 100],
+        },
       ],
     )
-    // Hiding the only function leaves nothing active for either metric, so
-    // neither metric heading should dangle without sections under it.
+    // Hiding funcA leaves the CPU metric with no active shown function, so
+    // its heading should not dangle without sections, while the heap metric
+    // still renders via funcB.
     const options = normalizeProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
@@ -657,6 +732,6 @@ describe(`formatProfileDiff`, () => {
     const md = formatProfileDiff(diff, options)
 
     expect(md).not.toMatch(/^## CPU$/mu)
-    expect(md).not.toMatch(/^## Heap$/mu)
+    expect(md).toMatch(/^## Heap$/mu)
   })
 })
