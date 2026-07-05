@@ -1,6 +1,6 @@
 # Sampling profile diff
 
-1 sample.
+1 sample (unchanged).
 
 | Category | Change | Delta |      % | Samples |
 | -------- | -----: | ----: | -----: | ------: |

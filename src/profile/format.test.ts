@@ -561,10 +561,10 @@ describe(`formatProfileDiff`, () => {
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
     const md = formatProfileDiff(diff, defaultOptions)
 
-    // The unchanged total reads as a measurement, so it omits the change suffix
-    // a zero delta would otherwise produce.
+    // The unchanged total would read as a single measurement rather than a
+    // comparison, so it's marked explicitly.
     expect(summaryLines(md)).toEqual([
-      `Took 0.1ms over 5 samples (20.0µs per sample).`,
+      `Took 0.1ms over 5 samples (20.0µs per sample) (unchanged).`,
     ])
 
     // The sections are still formatted, with a note in place of empty tables so
