@@ -493,6 +493,82 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`maps raw VMState frame tags to the CPU profiler's lowercase labels`, () => {
+    // V8's sampling heap profiler labels allocations made outside JS execution
+    // with the raw `VMState` tag, e.g. `(V8 API)` or `(BYTECODE_COMPILER)`.
+    const profile = {
+      head: makeV8HeapProfileRoot([
+        {
+          callFrame: {
+            functionName: `(V8 API)`,
+            scriptId: `0`,
+            url: ``,
+            lineNumber: -1,
+            columnNumber: -1,
+          },
+          selfSize: 0,
+          id: 2,
+          children: [],
+        },
+        {
+          callFrame: {
+            functionName: `(BYTECODE_COMPILER)`,
+            scriptId: `0`,
+            url: ``,
+            lineNumber: -1,
+            columnNumber: -1,
+          },
+          selfSize: 0,
+          id: 3,
+          children: [],
+        },
+        {
+          callFrame: {
+            functionName: `(GC)`,
+            scriptId: `0`,
+            url: ``,
+            lineNumber: -1,
+            columnNumber: -1,
+          },
+          selfSize: 0,
+          id: 4,
+          children: [],
+        },
+      ]),
+      samples: [
+        { size: 300, nodeId: 2, ordinal: 1 },
+        { size: 200, nodeId: 3, ordinal: 2 },
+        { size: 100, nodeId: 4, ordinal: 3 },
+      ],
+    }
+
+    const md = convertJsonToMd(
+      v8HeapProfileConverter,
+      profile,
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+      }),
+    )
+
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `v8 api`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
+        {
+          Category: `bytecode compiler`,
+          '%': `33.3%`,
+          Size: `200 B`,
+          Samples: `1`,
+        },
+        {
+          Category: `garbage collector`,
+          '%': `16.7%`,
+          Size: `100 B`,
+          Samples: `1`,
+        },
+      ],
+    ])
+  })
+
   test(`node:internal/ frames filtered by default`, () => {
     // `node:internal/` frames are excluded from display by default. Their
     // allocations still count toward the category summary. The `node:fs` frame
