@@ -690,17 +690,33 @@ const formatDiffCategoryTable = (diff: AggregatedProfileDiff): string[] => {
 }
 
 /** The headers of the overall hottest function categories table. */
-const categoryTableHeaders = (metrics: Metric[]): Header[] => [
-  `Category`,
-  { content: `%`, align: `right` },
-  ...metrics.map(
-    (metric): Header => ({
-      content: capitalizeFirst(metric.phrases.columnNoun),
-      align: `right`,
-    }),
-  ),
-  samplesHeader,
-]
+const categoryTableHeaders = (metrics: Metric[]): Header[] => {
+  // Two metrics sharing a noun (allocated and retained heap are both "Size")
+  // would render indistinguishable columns, so fall back to each metric's verb
+  // ("Allocated", "Retained").
+  const nounCounts = new Map<string, number>()
+  for (const { phrases } of metrics) {
+    nounCounts.set(
+      phrases.columnNoun,
+      (nounCounts.get(phrases.columnNoun) ?? 0) + 1,
+    )
+  }
+  return [
+    `Category`,
+    { content: `%`, align: `right` },
+    ...metrics.map(
+      (metric): Header => ({
+        content: capitalizeFirst(
+          nounCounts.get(metric.phrases.columnNoun)! > 1
+            ? metric.phrases.pastTenseVerb
+            : metric.phrases.columnNoun,
+        ),
+        align: `right`,
+      }),
+    ),
+    samplesHeader,
+  ]
+}
 
 /** The index of the primary metric value column in the categories table. */
 const categoryPrimaryIndex = 2

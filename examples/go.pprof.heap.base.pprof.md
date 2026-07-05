@@ -2,10 +2,10 @@
 
 Allocated 1.8 GB and retained 2.19 MB over 21,825,387 samples (82.4 B and 0.10052522780008437 B per sample).
 
-| Category |      % |    Size |    Size |    Samples |
-| -------- | -----: | ------: | ------: | ---------: |
-| stdlib   | 100.0% |  1.8 GB | 2.19 MB | 21,824,618 |
-| ours     |  <0.1% | 12.3 kB |     0 B |        769 |
+| Category |      % | Allocated | Retained |    Samples |
+| -------- | -----: | --------: | -------: | ---------: |
+| stdlib   | 100.0% |    1.8 GB |  2.19 MB | 21,824,618 |
+| ours     |  <0.1% |   12.3 kB |      0 B |        769 |
 
 ## Allocated heap
 
