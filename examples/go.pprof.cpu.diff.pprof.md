@@ -1,10 +1,10 @@
 # CPU profile diff
 
-Took 5.39s → 5.63s (+240.0ms, +4.5%) over 152 samples → 157 samples (35.5ms → 35.9ms per sample).
+Took 5.39s → 5.63s (+240.0ms, +4.5%) over 539 samples → 563 samples (10.0ms per sample).
 
 | Category | Change |    Delta |             % |            Time |   Samples |
 | -------- | -----: | -------: | ------------: | --------------: | --------: |
-| stdlib   |  +4.7% | +250.0ms | 99.6% → 99.8% |   5.37s → 5.62s | 150 → 156 |
+| stdlib   |  +4.7% | +250.0ms | 99.6% → 99.8% |   5.37s → 5.62s | 537 → 562 |
 | ours     | -50.0% |  -10.0ms |   0.4% → 0.2% | 20.0ms → 10.0ms |     2 → 1 |
 
 ## Hottest functions
@@ -44,9 +44,9 @@ Functions with the largest decrease in total time spent in the function and all 
 
 |  Change |   Delta |             % |              Time | Samples | Function                  | Location                                                                                              |
 | ------: | ------: | ------------: | ----------------: | ------: | ------------------------- | ----------------------------------------------------------------------------------------------------- |
-|   -8.1% | -70.0ms | 16.0% → 14.0% | 860.0ms → 790.0ms | 74 → 69 | `main.workload.func1`     | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25                  |
-|   -7.7% | -50.0ms | 12.1% → 10.7% | 650.0ms → 600.0ms |      53 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102         |
+|   -8.1% | -70.0ms | 16.0% → 14.0% | 860.0ms → 790.0ms | 86 → 79 | `main.workload.func1`     | Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25                  |
+|   -7.7% | -50.0ms | 12.1% → 10.7% | 650.0ms → 600.0ms | 65 → 60 | `encoding/json.Unmarshal` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102         |
 |  -50.0% | -30.0ms |   1.1% → 0.5% |   60.0ms → 30.0ms |   6 → 3 | `runtime.wbBufFlush`      | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mwbbuf.go:166               |
-|   -9.5% | -20.0ms |   3.9% → 3.4% | 210.0ms → 190.0ms | 21 → 16 | `encoding/json.Marshal`   | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205         |
+|   -9.5% | -20.0ms |   3.9% → 3.4% | 210.0ms → 190.0ms | 21 → 19 | `encoding/json.Marshal`   | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205         |
 | removed | -10.0ms |   0.2% → 0.0% |      10.0ms → 0ms |   1 → 0 | `cmpbody`                 | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35 |
 | removed | -10.0ms |   0.2% → 0.0% |      10.0ms → 0ms |   1 → 0 | `aeshashbody`             | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:762             |
