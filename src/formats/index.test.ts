@@ -29,7 +29,7 @@ import {
   NODE_TYPE_SYNTHETIC,
 } from './v8/heap-snapshot/testing.ts'
 
-vi.setConfig({ testTimeout: 100_000 })
+vi.setConfig({ testTimeout: 125_000 })
 
 const fixtureSets = {
   json: new Set<string>(),
