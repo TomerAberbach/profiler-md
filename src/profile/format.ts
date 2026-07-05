@@ -985,7 +985,7 @@ const formatDiffFunctionSections = (
 
   if (progressions.length > 0) {
     sections.push(
-      formatHeading(headingLevel + 1, `Progressions`),
+      formatHeading(headingLevel + 1, `Improvements`),
       `Functions with the largest decrease in ${description}.`,
       formatDiffTable(functionTableHeaders(metric), progressions, {
         primaryIndex: 1,

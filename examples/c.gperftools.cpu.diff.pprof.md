@@ -27,7 +27,7 @@ Functions with the largest increase in time spent directly in the function body,
 |     new | +1.0ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_compress_usingCTable_generic`       | fse_compress.c    |
 |     new | +1.0ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_normalizeCount`                     | `<unknown>`       |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -70,7 +70,7 @@ Functions with the largest increase in total time spent in the function and all 
 |     new | +1.0ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTD_NCountCost`                                    | zstd_compress_sequences.c |
 |     new | +1.0ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTD_selectEncodingType`                            | `<unknown>`               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

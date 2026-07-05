@@ -6,10 +6,10 @@ import {
   callStackTables,
   categoryTables,
   closureTables,
+  improvementsTables,
   largestStringsTables,
   linesTables,
   profileTitles,
-  progressionsTables,
   regressionsTables,
   retainedSizeInstancesTables,
   retainedSizeTables,
@@ -316,7 +316,7 @@ describe(`regressionsTables`, () => {
       dedent`
         ### Self time
 
-        #### Progressions
+        #### Improvements
 
         | Function | Delta |
         | --- | --- |
@@ -373,9 +373,9 @@ describe(`regressionsTables`, () => {
   })
 })
 
-describe(`progressionsTables`, () => {
-  test(`returns [] when the section has no Progressions sub-heading`, () => {
-    const tables = progressionsTables(
+describe(`improvementsTables`, () => {
+  test(`returns [] when the section has no Improvements sub-heading`, () => {
+    const tables = improvementsTables(
       dedent`
         ### Self time
 
@@ -391,12 +391,12 @@ describe(`progressionsTables`, () => {
     expect(tables).toStrictEqual([])
   })
 
-  test(`returns parsed rows from the Progressions table within the section`, () => {
-    const tables = progressionsTables(
+  test(`returns parsed rows from the Improvements table within the section`, () => {
+    const tables = improvementsTables(
       dedent`
         ### Total time
 
-        #### Progressions
+        #### Improvements
 
         Some description.
 

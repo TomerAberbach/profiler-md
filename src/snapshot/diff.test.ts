@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
-  progressionsTables,
+  improvementsTables,
   regressionsTables,
 } from '../testing/markdown.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
@@ -35,7 +35,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Self size`)).toEqual([])
-    expect(progressionsTables(md, `Self size`)).toEqual([
+    expect(improvementsTables(md, `Self size`)).toEqual([
       [
         {
           Change: `removed`,
@@ -77,7 +77,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Self size`)).toEqual([])
+    expect(improvementsTables(md, `Self size`)).toEqual([])
   })
 
   test(`matches constructors by name despite differing locations`, () => {
@@ -120,7 +120,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Self size`)).toEqual([])
+    expect(improvementsTables(md, `Self size`)).toEqual([])
   })
 
   test(`matches closures by name and file despite differing line and column`, () => {
@@ -163,7 +163,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Largest closures`)).toEqual([])
+    expect(improvementsTables(md, `Largest closures`)).toEqual([])
   })
 
   test(`matches closures whose locations differ only by a build hash`, () => {
@@ -239,7 +239,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Largest closures`)).toEqual([
+    expect(improvementsTables(md, `Largest closures`)).toEqual([
       [
         {
           Change: `removed`,
@@ -281,7 +281,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([])
-    expect(progressionsTables(md, `Largest closures`)).toEqual([
+    expect(improvementsTables(md, `Largest closures`)).toEqual([
       [
         {
           Change: `removed`,
@@ -335,7 +335,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Largest closures`)).toEqual([])
+    expect(improvementsTables(md, `Largest closures`)).toEqual([])
   })
 
   test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
@@ -354,7 +354,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const md = formatHeapSnapshotDiff(diff, defaultOptions)
 
     expect(regressionsTables(md, `Largest strings`)).toEqual([])
-    expect(progressionsTables(md, `Largest strings`)).toEqual([
+    expect(improvementsTables(md, `Largest strings`)).toEqual([
       [
         {
           Change: `-37.5%`,

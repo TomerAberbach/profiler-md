@@ -21,7 +21,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 | -----: | -------: | ------------: | --------------: | ------: | ---------- | ----------- |
 |  +2.1% | +17.1 kB | 14.3% → 15.3% | 811 kB → 828 kB |   1 → 2 | `(v8 api)` | `<unknown>` |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -40,7 +40,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | -----: | -------: | ------------: | --------------: | ------: | ---------- | ----------- |
 |  +2.1% | +17.1 kB | 14.3% → 15.3% | 811 kB → 828 kB |   1 → 2 | `(v8 api)` | `<unknown>` |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

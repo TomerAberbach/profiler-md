@@ -19,7 +19,7 @@ Functions with the largest increase in time spent directly in the function body,
 | -----: | ------: | ----------: | -----------: | ------: | --------------------------- | ------------------------------------------------------------------------------------------ |
 |    new | +10.0ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -38,7 +38,7 @@ Functions with the largest increase in total time spent in the function and all 
 | -----: | ------: | ----------: | -----------: | ------: | --------------------------- | ------------------------------------------------------------------------------------------ |
 |    new | +10.0ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

@@ -27,7 +27,7 @@ No constructor differed in bytes allocated for its instances, excluding nodes ke
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

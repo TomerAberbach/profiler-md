@@ -33,7 +33,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |  0.0% → <0.1% |     0 → 1 | `<init>`                | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
 |     new |    +1 |  0.0% → <0.1% |     0 → 1 | `valueOf`               | java.lang.Double                                         |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -89,7 +89,7 @@ Functions with the largest increase in total samples taken in the function and a
 |   +5.4% |    +2 |          0.8% |       37 → 39 | `main`                                           | org.renaissance.core.Launcher                                        |
 |   +0.9% |    +2 |   4.5% → 4.7% |     219 → 221 | `lambda$merge$6`                                 | org.renaissance.jdk.concurrent.JavaKMeans                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

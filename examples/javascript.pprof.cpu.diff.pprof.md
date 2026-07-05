@@ -22,7 +22,7 @@ Functions with the largest increase in wall time spent directly in the function 
 |    new | +2.5ms | 0.0% → <0.1% | 0ms → 2.5ms |   0 → 1 | `createProgram`    | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js |
 |    new | +1.3ms | 0.0% → <0.1% | 0ms → 1.3ms |   0 → 1 | `typeCheckProject` | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/tsc-workload.mjs                                                              |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in wall time spent directly in the function body, excluding callees.
 
@@ -48,7 +48,7 @@ Functions with the largest increase in total wall time spent in the function and
 |    new |  +1.3ms |  0.0% → <0.1% |     0ms → 1.3ms |          0 → 1 | `getSyntacticDiagnostics`          | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js |
 |    new |  +1.3ms |  0.0% → <0.1% |     0ms → 1.3ms |          0 → 1 | `findConfigFile`                   | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total wall time spent in the function and all its callees.
 

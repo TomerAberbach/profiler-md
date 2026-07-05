@@ -69,9 +69,9 @@ export const regressionsTables = (md: string, section: string): Table[] => {
   return allTablesAfterHeadingContaining(under, `Regressions`)
 }
 
-export const progressionsTables = (md: string, section: string): Table[] => {
+export const improvementsTables = (md: string, section: string): Table[] => {
   const under = nodesUnderHeading(parseAst(md), section)
-  return allTablesAfterHeadingContaining(under, `Progressions`)
+  return allTablesAfterHeadingContaining(under, `Improvements`)
 }
 
 export const callersTables = (md: string, fn: string): Table[] => {

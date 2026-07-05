@@ -28,7 +28,7 @@ Functions with the largest increase in time spent directly in the function body,
 | +93.5% |  +1.2ms |   0.3% → 0.6% |   1.3ms → 2.5ms |     1 → 2 | `scoreStatus`         | chrome-workload.mjs:7:23 |
 |    ~0% |  +0.1ms | 46.7% → 47.4% |         199.8ms | 159 → 160 | `(anonymous)`         | chrome-workload.mjs:1:2  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -51,7 +51,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +27.3% |  +2.5ms |   2.1% → 2.7% |  9.0ms → 11.5ms |   7 → 9 | `(idle)`              | `<unknown>` |
 |  +7.4% |  +1.4ms |   4.4% → 4.8% | 19.0ms → 20.4ms | 15 → 16 | `(garbage collector)` | `<unknown>` |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
