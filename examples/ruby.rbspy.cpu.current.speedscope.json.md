@@ -1,10 +1,10 @@
 # Sampling profile
 
-Took 1.31s over 130 samples (10.1ms per sample).
+Took 1.31s over 131 samples (10.0ms per sample).
 
 | Category    |     % |    Time | Samples |
 | ----------- | ----: | ------: | ------: |
-| stdlib      | 69.8% | 917.7ms |      91 |
+| stdlib      | 69.8% | 917.7ms |      92 |
 | third-party | 30.2% | 396.7ms |      39 |
 
 ## Hottest functions
@@ -15,7 +15,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |    Time | Samples | Function                 | Location  |
 | ----: | ------: | ------: | ------------------------ | --------- |
-| 67.5% | 887.6ms |      88 | `(unknown) [c function]` | (unknown) |
+| 67.5% | 887.6ms |      89 | `(unknown) [c function]` | (unknown) |
 
 #### Lines
 
@@ -25,7 +25,7 @@ Lines ranked by contribution to each function's self time.
 
 |      % |    Time | Samples | Location       |
 | -----: | ------: | ------: | -------------- |
-| 100.0% | 887.6ms |      88 | (unknown):null |
+| 100.0% | 887.6ms |      89 | (unknown):null |
 
 #### Callers
 
@@ -44,12 +44,12 @@ Functions ranked by total time spent in the function and all its callees.
 
 |      % |    Time | Samples | Function                   | Location                                                           |
 | -----: | ------: | ------: | -------------------------- | ------------------------------------------------------------------ |
-| 100.0% |   1.31s |     130 | `(unknown) [c function]`   | (unknown)                                                          |
+| 100.0% |   1.31s |     131 | `(unknown) [c function]`   | (unknown)                                                          |
 |  99.1% |   1.30s |     129 | `<main>`                   | usr/local/bin/rubocop                                              |
 |  13.9% | 182.9ms |      18 | `do_parse`                 | (eval)                                                             |
 |   1.6% |  20.8ms |       2 | `activate_bin_path`        | usr/lib/ruby/vendor_ruby/rubygems.rb                               |
 |   1.5% |  20.1ms |       2 | `tap`                      | <internal:kernel>                                                  |
-|   0.9% |  11.6ms |       1 | `<internal:gem_prelude>`   | <internal:gem_prelude>                                             |
+|   0.9% |  11.6ms |       2 | `<internal:gem_prelude>`   | <internal:gem_prelude>                                             |
 |   0.8% |  10.3ms |       1 | `block in dir`             | var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb |
 |   0.7% |   9.7ms |       1 | `block in execute_runners` | var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb          |
 
@@ -93,7 +93,7 @@ Callees ranked by contribution to each function's total time. Callee attribution
 
 |      % |   Time | Samples | Callee                   | Location  |
 | -----: | -----: | ------: | ------------------------ | --------- |
-| 100.0% | 11.6ms |       1 | `(unknown) [c function]` | (unknown) |
+| 100.0% | 11.6ms |       2 | `(unknown) [c function]` | (unknown) |
 
 ## Hottest call stacks
 

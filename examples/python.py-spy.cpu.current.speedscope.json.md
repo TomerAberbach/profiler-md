@@ -1,12 +1,12 @@
 # Sampling profile
 
-Took 1.83s over 183 samples (10.0ms per sample).
+Took 1.90s over 190 samples (10.0ms per sample).
 
-| Category    |     % |   Time | Samples |
-| ----------- | ----: | -----: | ------: |
-| third-party | 92.9% |  1.70s |     170 |
-| stdlib      |  4.4% | 80.0ms |       8 |
-| ours        |  2.7% | 50.0ms |       5 |
+| Category    |     % |    Time | Samples |
+| ----------- | ----: | ------: | ------: |
+| third-party | 89.5% |   1.70s |     170 |
+| stdlib      |  7.9% | 150.0ms |      15 |
+| ours        |  2.6% |  50.0ms |       5 |
 
 ## Hottest functions
 
@@ -16,7 +16,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |    % |   Time | Samples | Function   | Location |
 | ---: | -----: | ------: | ---------- | -------- |
-| 2.7% | 50.0ms |       5 | `__init__` | <string> |
+| 2.6% | 50.0ms |       5 | `__init__` | <string> |
 
 #### Lines
 
@@ -34,4 +34,4 @@ Functions ranked by total time spent in the function and all its callees.
 
 |    % |   Time | Samples | Function   | Location |
 | ---: | -----: | ------: | ---------- | -------- |
-| 2.7% | 50.0ms |       5 | `__init__` | <string> |
+| 2.6% | 50.0ms |       5 | `__init__` | <string> |

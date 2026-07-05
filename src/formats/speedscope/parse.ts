@@ -124,13 +124,14 @@ const sampledProfile = (
 function* sampledSamples(profile: SpeedscopeSampledProfile): Generator<Sample> {
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
-    if (weight <= 0) {
+    if (weight < 0) {
       continue
     }
+    // A zero-weight or empty-stack sample still counts as a sample: dropping
+    // it would make the sample count (and, for an empty stack, the total
+    // value) disagree with other renderings of the same recording. The
+    // aggregator attributes an empty stack to a shared anonymous function.
     const frameIndices = profile.samples[index]!
-    if (frameIndices.length === 0) {
-      continue
-    }
     // Speedscope uses caller-to-callee order, but we use callee-to-caller.
     // The parsed JSON is the converter's own, read exactly once here, so
     // reverse in place rather than copying every sample's stack.
