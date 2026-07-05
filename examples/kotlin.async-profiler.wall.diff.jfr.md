@@ -41,7 +41,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `check(CheckerContext, DiagnosticReporter, FirDeclaration)`                                                                                                  | org.jetbrains.kotlin.fir.analysis.jvm.checkers.declaration.FirJvmRedundantRepeatableChecker           |
 |     new |    +1 | 0.0% → <0.1% |   0 → 1 | `check(CheckerContext, DiagnosticReporter, FirDeclaration)`                                                                                                  | org.jetbrains.kotlin.fir.analysis.jvm.checkers.declaration.FirJvmNameChecker                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -97,7 +97,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +50.0% |    +2 |  0.1% → 0.2% |   4 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                                         | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer            |
 |  +50.0% |    +2 |  0.1% → 0.2% |   4 → 6 | `transformWhenBranch(FirWhenBranch, ResolutionMode)`                                                                                                         | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

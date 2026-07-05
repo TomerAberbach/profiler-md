@@ -30,7 +30,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |    new |    +1 | 0.0% → <0.1% |     0 → 1 | `lambda$run$0(int, List, int)`             | org.renaissance.jdk.concurrent.JavaKMeans                |
 |    new |    +1 | 0.0% → <0.1% |     0 → 1 | `<init>(JavaKMeans, List, List, int, int)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -66,7 +66,7 @@ Functions with the largest increase in total samples taken in the function and a
 |    new |    +1 | 0.0% → <0.1% |     0 → 1 | `<init>(JavaKMeans, List, List, int, int)` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |    new |    +1 | 0.0% → <0.1% |     0 → 1 | `createSubtask(int, int)`                  | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

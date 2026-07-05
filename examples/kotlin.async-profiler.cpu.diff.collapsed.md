@@ -40,7 +40,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `InterpreterRuntime::anewarray`                              | `<unknown>`                                                                                 |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `mayHaveTopLevelClassifier`                                  | org.jetbrains.kotlin.fir.resolve.providers.FirSymbolNamesProvider                           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -96,7 +96,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +42.9% |    +9 | 1.6% → 2.2% | 21 → 30 | `transform`                                                  | org.jetbrains.kotlin.fir.expressions.FirWhenExpression                                                 |
 |  +42.9% |    +9 | 1.6% → 2.2% | 21 → 30 | `transformWhenExpression$lambda$1`                           | org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirControlFlowStatementsResolveTransformer  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

@@ -30,7 +30,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |      new |    +1 |   0.0% → 0.1% |     0 → 1 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask                             |
 |      new |    +1 |   0.0% → 0.1% |     0 → 1 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -74,7 +74,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +100.0% |    +3 |   0.2% → 0.3% |         3 → 6 | `collect(Collector)`                                        | java.util.stream.ReferencePipeline                                                  |
 |  +100.0% |    +3 |   0.2% → 0.3% |         3 → 6 | `generateData(int, int, int)`                               | org.renaissance.jdk.concurrent.JavaKMeans                                           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -132,7 +132,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |  +770 kB | 0.0% → <0.1% |      0 B → 770 kB |   0 → 1 | `lambda$boxed$0(int)`                | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 |   +8.4% |  +302 kB |        <0.1% | 3.58 MB → 3.88 MB | 10 → 12 | `lambda$generateData$4(int)`         | org.renaissance.jdk.concurrent.JavaKMeans                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -173,7 +173,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |     new | +1.31 MB |  0.0% → <0.1% |     0 B → 1.31 MB |         0 → 1 | `map(Function1)`                                 | scala.collection.immutable.Range                                                    |
 |   +0.5% |  +852 kB |          0.4% |   172 MB → 173 MB |             4 | `run(BenchmarkContext)`                          | org.renaissance.jdk.concurrent.FjKmeans                                             |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -227,7 +227,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |    new | +24 B | 0.0% → <0.1% | 0 B → 24 B |   0 → 1 | `parse(Seq, Object)`                         | scopt.OptionParser                   |
 |    new | +24 B | 0.0% → <0.1% | 0 B → 24 B |   0 → 1 | `parse(String[])`                            | org.renaissance.harness.ConfigParser |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 

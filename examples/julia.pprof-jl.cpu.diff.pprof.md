@@ -24,7 +24,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |  +50.0% |    +2 |       <0.1% |     4 → 6 | `#write#57`        | Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:40           |
 |  +12.5% |    +2 |        0.1% |   16 → 18 | `length_continued` | nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:539 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -48,7 +48,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +5.9% |    +1 |          0.1% |         17 → 18 | `length_continued` | nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:539 |
 |    new |    +1 |  0.0% → <0.1% |           0 → 1 | `length_continued` | nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:542 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

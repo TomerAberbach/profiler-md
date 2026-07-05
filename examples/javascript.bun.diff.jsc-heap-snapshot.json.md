@@ -51,7 +51,7 @@ Constructors with the largest increase in retained size.
 |   +0.3% |    +48 B |          1.2% |         18.6 kB |     390 → 391 | `PropertyTable`       |
 |     ~0% |     +3 B |          1.3% |         19.2 kB |             1 | `Process`             |
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

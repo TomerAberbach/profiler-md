@@ -28,7 +28,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |    new |    +80 B | 0.0% → <0.1% |        0 B → 80 B |         0 → 2 | `lambda$boxed$0(int)`                | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 | +87.5% |    +56 B |        <0.1% |      64 B → 120 B |         2 → 3 | `lambda$run$0(int, List, int)`       | org.renaissance.jdk.concurrent.JavaKMeans                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -72,7 +72,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |   +2.8% |  +138 kB | 0.1% → 0.2% | 4.95 MB → 5.09 MB | 13,278 → 13,559 | `collectClusters(int[])`                                                                                               | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask             |
 | +117.3% | +76.5 kB |       <0.1% |  65.2 kB → 142 kB |           3 → 5 | `apply(Seq)`                                                                                                           | scala.collection.immutable.Map$                                      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -124,7 +124,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |  +56 B | 0.0% → <0.1% |       0 B → 56 B |   0 → 1 | `add(double[], double[])`    | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask |
 |    new |  +48 B | 0.0% → <0.1% |       0 B → 48 B |   0 → 1 | `merge(Map, Map)`            | org.renaissance.jdk.concurrent.JavaKMeans               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -164,7 +164,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |     new |   +32 B |  0.0% → <0.1% |        0 B → 32 B |   0 → 1 | `parse(String[])`                                             | org.renaissance.harness.ConfigParser                                 |
 |     new |   +32 B |  0.0% → <0.1% |        0 B → 32 B |   0 → 1 | `createTempDirectory(Path, String, FileAttribute[])`          | java.nio.file.Files                                                  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 

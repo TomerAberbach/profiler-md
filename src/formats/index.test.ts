@@ -5,8 +5,8 @@ import { fileReferenceId } from '../location.ts'
 import { fixturePath, readFixture } from '../testing/fixtures.ts'
 import {
   categoryTables,
+  improvementsTables,
   profileTitles,
-  progressionsTables,
   regressionsTables,
 } from '../testing/markdown.ts'
 import {
@@ -385,7 +385,7 @@ describe(`diffProfiles`, () => {
 
       expectDiffConverted(md)
       // No regressions or progressions when diffing an input against itself.
-      expect(md).not.toMatch(/Regressions|Progressions/u)
+      expect(md).not.toMatch(/Regressions|Improvements/u)
     },
   )
 
@@ -458,9 +458,9 @@ describe(`diffProfiles`, () => {
       Location: `src/b.ts:1:1`,
     }
     expect(regressionsTables(md, `Self time`)).toEqual([[funcA, funcC]])
-    expect(progressionsTables(md, `Self time`)).toEqual([[funcB]])
+    expect(improvementsTables(md, `Self time`)).toEqual([[funcB]])
     expect(regressionsTables(md, `Total time`)).toEqual([[funcA, funcC]])
-    expect(progressionsTables(md, `Total time`)).toEqual([[funcB]])
+    expect(improvementsTables(md, `Total time`)).toEqual([[funcB]])
   })
 
   test(`diffs two heap snapshots end-to-end`, () => {
@@ -517,9 +517,9 @@ describe(`diffProfiles`, () => {
       Constructor: `Removed`,
     }
     expect(regressionsTables(md, `Self size`)).toEqual([[grew, added]])
-    expect(progressionsTables(md, `Self size`)).toEqual([[removed]])
+    expect(improvementsTables(md, `Self size`)).toEqual([[removed]])
     expect(regressionsTables(md, `Retained size`)).toEqual([[grew, added]])
-    expect(progressionsTables(md, `Retained size`)).toEqual([[removed]])
+    expect(improvementsTables(md, `Retained size`)).toEqual([[removed]])
   })
 
   // The default `matchEntry`'s build-hash stripping (so functions match across
@@ -586,7 +586,7 @@ describe(`diffProfiles`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Self time`)).toEqual([])
+    expect(improvementsTables(md, `Self time`)).toEqual([])
   })
 
   test(`reports when there is no profiling data`, () => {

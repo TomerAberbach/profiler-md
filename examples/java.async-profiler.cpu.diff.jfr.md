@@ -39,7 +39,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |  0.0% → <0.1% |     0 → 1 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 |     new |    +1 |  0.0% → <0.1% |     0 → 1 | `vtable stub`                        | `<unknown>`                                              |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -90,7 +90,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +11.4% |    +4 |   0.7% → 0.8% |       35 → 39 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | org.renaissance.core.Launcher                            |
 | +28.6% |    +4 |   0.3% → 0.4% |       14 → 18 | `loadClass(String)`                                         | java.lang.ClassLoader                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

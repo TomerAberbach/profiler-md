@@ -38,7 +38,7 @@ Functions with the largest increase in time spent directly in the function body,
 |    new | +1.0ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `updateTooltipOnElement` | https://en.wikipedia.org/w/load.php?lang=en&modules=mediawiki.util&skin=vector-2022&version=1vbcg:15:1080                          |
 |    new | +1.0ms | 0.0% → 1.0% |   0ms → 1.0ms |   0 → 1 | `isXMLDoc`               | https://en.wikipedia.org/w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:915                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total time spent in the function and all 
 |     new | +1.0ms |   0.0% → 1.0% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | https://en.wikipedia.org/w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:54:529     |
 |     new | +1.0ms |   0.0% → 1.0% |     0ms → 1.0ms |   0 → 1 | `(anonymous)`                       | https://en.wikipedia.org/w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:56:287     |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

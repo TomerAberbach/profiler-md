@@ -38,7 +38,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |   +66.7% |   +112 B |         <0.1% |     168 B → 280 B |     3 → 5 | `ensureCapacity()`                                                                                                                                                            | com.intellij.lang.impl.PsiBuilderImpl$MyTreeStructure                          |
 |      new |    +96 B |  0.0% → <0.1% |        0 B → 96 B |     0 → 1 | `loadFunction(ProtoBuf$Function, ProtoBuf$Class, FirClassSymbol, FirDeclarationOrigin)`                                                                                       | org.jetbrains.kotlin.fir.deserialization.FirMemberDeserializer                 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total bytes allocated in the function and
 | +72.7% | +702 kB | 4.0% → 7.2% |  966 kB → 1.67 MB | 306 → 279 | `runResolution(FirSession, List)`                                                                                                                         | org.jetbrains.kotlin.fir.pipeline.AnalyseKt                                                            |
 | +73.2% | +683 kB | 3.9% → 7.0% |  933 kB → 1.62 MB | 125 → 117 | `processSymbolsByName(Name, Function3, Function1)`                                                                                                        | org.jetbrains.kotlin.fir.scopes.impl.FirDefaultStarImportingScope                                      |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

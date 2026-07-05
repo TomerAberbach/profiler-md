@@ -199,7 +199,7 @@ test.concurrent(
     ])
 
     expect(status).toBe(0)
-    expect(stdout).not.toMatch(/Regressions|Progressions/u)
+    expect(stdout).not.toMatch(/Regressions|Improvements/u)
   },
 )
 

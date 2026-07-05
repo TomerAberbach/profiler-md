@@ -27,7 +27,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |   +0.3% |    +48 B |        <0.1% | 16.8 kB → 16.9 kB | 351 → 352 | `createSubtask(int, int)`            | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
 |   +0.5% |    +24 B |        <0.1% | 5.23 kB → 5.26 kB | 218 → 219 | `lambda$collectClusters$0(Double[])` | org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -71,7 +71,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |     ~0% |  +460 kB | 62.4% → 62.3% |           2.06 GB | 14,949 → 15,001 | `lambda$run$0(int, List, int)`                              | org.renaissance.jdk.concurrent.JavaKMeans                            |
 |     ~0% |  +460 kB | 62.4% → 62.3% |           2.06 GB | 14,949 → 15,001 | `call()`                                                    | org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000501183d68 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 

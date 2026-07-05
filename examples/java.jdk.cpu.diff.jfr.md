@@ -26,7 +26,7 @@ Functions with the largest increase in samples taken directly in the function bo
 | +100.0% |    +1 |          0.1% |     1 → 2 | `compute()`                         | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask     |
 |     new |    +1 |   0.0% → 0.1% |     0 → 1 | `forkThreshold()`                   | org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -70,7 +70,7 @@ Functions with the largest increase in total samples taken in the function and a
 |  +30.0% |    +3 |   0.6% → 0.8% |   10 → 13 | `main(String[])`                                            | org.renaissance.core.Launcher                                        |
 | +300.0% |    +3 |   0.1% → 0.2% |     1 → 4 | `loadClass(String)`                                         | java.lang.ClassLoader                                                |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -128,7 +128,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |  +467 kB | 0.0% → <0.1% |      0 B → 467 kB |   0 → 2 | `computeClusterAverages()`           | org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask     |
 |     new |  +397 kB | 0.0% → <0.1% |      0 B → 397 kB |   0 → 1 | `range(int, int)`                    | java.util.stream.IntStream                               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -169,7 +169,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |  +22.9% | +2.05 MB |         <0.1% |   8.95 MB → 11 MB |       22 → 27 | `lambda$generateData$3(int, int, Random[], int)` | org.renaissance.jdk.concurrent.JavaKMeans                                           |
 |     new | +1.27 MB |  0.0% → <0.1% |     0 B → 1.27 MB |         0 → 1 | `linkToTargetMethod(Object, Object)`             | java.lang.invoke.Invokers$Holder                                                    |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -261,7 +261,7 @@ Functions with the largest increase in total time blocked in the function and al
 |    new | +36.8ms | 0.0% → 0.5% | 0ms → 36.8ms |   0 → 1 | `join()`    | java.util.concurrent.ForkJoinTask                    |
 |    new | +36.8ms | 0.0% → 0.5% | 0ms → 36.8ms |   0 → 1 | `compute()` | org.renaissance.jdk.concurrent.JavaKMeans$RangedTask |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 

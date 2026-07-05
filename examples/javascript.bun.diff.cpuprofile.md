@@ -21,7 +21,7 @@ Functions with the largest increase in time spent directly in the function body,
 |    new | +1.2ms | 0.0% → <0.1% | 0ms → 1.2ms |   0 → 1 | `(unknown)`     | `<unknown>`                                                                                                                                          |
 |    new | +1.1ms | 0.0% → <0.1% | 0ms → 1.1ms |   0 → 1 | `createProgram` | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -44,7 +44,7 @@ Functions with the largest increase in total time spent in the function and all 
 |   +1.0% | +0.7ms |          1.4% |   76.5ms → 77.3ms |        59 | `bound require`                    | `<unknown>`                                                                                                                                          |
 |   +1.9% | +0.7ms |          0.7% |   37.9ms → 38.6ms |   30 → 31 | `parseJsonConfigFileContentWorker` | private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

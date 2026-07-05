@@ -10,7 +10,7 @@ Took 151.0ms → 141.0ms (-10.0ms, -6.6%) over 1 sample (151.0ms → 141.0ms per
 
 ### Self time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
@@ -20,7 +20,7 @@ Functions with the largest decrease in time spent directly in the function body,
 
 ### Total time
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 

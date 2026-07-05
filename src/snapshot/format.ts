@@ -863,7 +863,7 @@ const formatDiffEntitySections = (
 
   if (progressions.length > 0) {
     sections.push(
-      formatHeading(headingLevel, `Progressions`),
+      formatHeading(headingLevel, `Improvements`),
       `${plural} with the largest decrease in ${description}.`,
       formatDiffTable(headers, progressions, { primaryIndex: 1 }),
     )

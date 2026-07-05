@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |   0.0% → 0.5% |   0 → 1 | `visit_suite`                                      | black/linegen.py           |
 |     new |    +1 |   0.0% → 0.5% |   0 → 1 | `_format_str_once`                                 | black/__init__.py          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +150.0% |    +9 |   3.2% → 7.7% |    6 → 15 | `__str__`                         | black/lines.py           |
 | +800.0% |    +8 |   0.5% → 4.6% |     1 → 9 | `push`                            | blib2to3/pgen2/parse.py  |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 

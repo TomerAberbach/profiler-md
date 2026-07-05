@@ -53,7 +53,7 @@ Constructors with the largest increase in retained size.
 |    new | +136 B | 0.0% → <0.1% |       0 B → 136 B |       0 → 1 | `TaskAttributionTiming`        | `<unknown>` |
 |    new |  +40 B | 0.0% → <0.1% |        0 B → 40 B |       0 → 1 | `IntersectionObserverDelegate` | `<unknown>` |
 
-#### Progressions
+#### Improvements
 
 Constructors with the largest decrease in retained size.
 

@@ -3,8 +3,8 @@ import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   callStackTables,
   categoryTables,
+  improvementsTables,
   profileTitles,
-  progressionsTables,
   regressionsTables,
   summaryLines,
   totalTimeTables,
@@ -450,7 +450,7 @@ describe(`formatProfileDiff`, () => {
         Location: `src/c.ts:30`,
       },
     ]
-    const expectedProgressions = [
+    const expectedImprovements = [
       {
         Change: `removed`,
         Delta: `-0.1ms`,
@@ -463,9 +463,9 @@ describe(`formatProfileDiff`, () => {
     ]
 
     expect(regressionsTables(md, `Self time`)).toEqual([expectedRegressions])
-    expect(progressionsTables(md, `Self time`)).toEqual([expectedProgressions])
+    expect(improvementsTables(md, `Self time`)).toEqual([expectedImprovements])
     expect(regressionsTables(md, `Total time`)).toEqual([expectedRegressions])
-    expect(progressionsTables(md, `Total time`)).toEqual([expectedProgressions])
+    expect(improvementsTables(md, `Total time`)).toEqual([expectedImprovements])
   })
 
   test(`omits functions hidden by showEntry without hiding functions from the other profile`, () => {
@@ -541,7 +541,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     ])
-    expect(progressionsTables(md, `Self time`)).toEqual([])
+    expect(improvementsTables(md, `Self time`)).toEqual([])
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
@@ -571,7 +571,7 @@ describe(`formatProfileDiff`, () => {
     // the output doesn't look broken.
     expect(md).toMatch(/^## Hottest functions$/mu)
     expect(regressionsTables(md, `Self time`)).toEqual([])
-    expect(progressionsTables(md, `Self time`)).toEqual([])
+    expect(improvementsTables(md, `Self time`)).toEqual([])
     expect(md).toContain(
       `No function differed in time spent directly in the function body, excluding callees.`,
     )

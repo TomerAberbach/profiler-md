@@ -38,7 +38,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.8% |   0 → 1 | `fullyExpandedType$default(ConeClassLikeType, FirSession, Function1, int, Object)`                                                                           | org.jetbrains.kotlin.fir.resolve.TypeExpansionUtilsKt                               |
 |     new |    +1 | 0.0% → 0.8% |   0 → 1 | `isExplicitReceiverExpression(FirExpression)`                                                                                                                | org.jetbrains.kotlin.fir.resolve.calls.VisibilityUtilsKt                            |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -94,7 +94,7 @@ Functions with the largest increase in total samples taken in the function and a
 | +25.0% |    +8 | 27.4% → 33.3% | 32 → 40 | `exec(MessageCollector, Services, CommonCompilerArguments)`                                                                                   | org.jetbrains.kotlin.cli.common.CLICompiler               |
 | +20.5% |    +8 | 33.3% → 39.2% | 39 → 47 | `phaseBody(PipelineContext, PipelineArtifact)`                                                                                                | org.jetbrains.kotlin.cli.pipeline.PipelinePhase           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
@@ -163,7 +163,7 @@ Functions with the largest increase in bytes allocated directly in the function 
 |  +193.5% | +1.05 MB |  0.1% → 0.2% |  541 kB → 1.59 MB |   1 → 3 | `allocateStartMarker()`                                                                    | com.intellij.lang.impl.MarkerPool                                                           |
 |      new | +1.05 MB |  0.0% → 0.1% |     0 B → 1.05 MB |   0 → 1 | `toString()`                                                                               | org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ByteArrayCharSequence                           |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
@@ -219,7 +219,7 @@ Functions with the largest increase in total bytes allocated in the function and
 |     +5.3% | +7.67 MB | 20.0% → 21.1% |   144 MB → 151 MB | 275 → 287 | `execute(CommonCompilerArguments, Services, MessageCollector)`                                                                                | org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline                                                                   |
 |     +5.2% | +7.63 MB | 20.3% → 21.4% |   146 MB → 153 MB | 279 → 291 | `executeAndReturnPipeLineArtifact$default(AbstractCliPipeline, CommonCompilerArguments, Services, MessageCollector, Disposable, int, Object)` | org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline                                                                   |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
@@ -270,7 +270,7 @@ Functions with the largest increase in bytes retained directly in the function b
 |    new |   +88 B | 0.0% → <0.1% |        0 B → 88 B |   0 → 1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)`                           | org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$Argument$Value$1      |
 |    new |   +64 B | 0.0% → <0.1% |        0 B → 64 B |   0 → 1 | `build()`                                                                             | org.jetbrains.kotlin.fir.java.declarations.FirJavaValueParameterBuilder |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
@@ -314,7 +314,7 @@ Functions with the largest increase in total bytes retained in the function and 
 |      +15.3% |  +174 kB |  5.7% → 6.5% | 1.14 MB → 1.31 MB |   5 → 9 | `invoke(Object, Void)`                                                                                                                                    | org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2 |
 |      +15.3% |  +174 kB |  5.7% → 6.5% | 1.14 MB → 1.31 MB |   5 → 9 | `invoke(Object, Object)`                                                                                                                                  | org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2 |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 

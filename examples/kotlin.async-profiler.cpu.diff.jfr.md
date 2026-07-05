@@ -41,7 +41,7 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `findPostponedArgumentWithFixedInputTypes(List)`                                                                                                                             | org.jetbrains.kotlin.resolve.calls.inference.components.ConstraintSystemCompletionContext                     |
 |     new |    +1 | 0.0% → 0.1% |   0 → 1 | `runCompletion(ConstraintSystemCompletionContext, ConstraintSystemCompletionMode, List, ConeKotlinType, ResolutionContext, ConstraintSystemCompleter$PostponedAtomAnalyzer)` | org.jetbrains.kotlin.fir.resolve.inference.ConstraintSystemCompleter                                          |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
@@ -97,7 +97,7 @@ Functions with the largest increase in total samples taken in the function and a
 |    +5.3% |   +17 | 24.6% → 25.4% | 321 → 338 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | org.jetbrains.kotlin.config.phaser.NamedCompilerPhase                                                                   |
 |    +5.3% |   +17 | 24.6% → 25.4% | 321 → 338 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                                                                                    | org.jetbrains.kotlin.backend.common.phaser.CompositePhase                                                               |
 
-#### Progressions
+#### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
 
