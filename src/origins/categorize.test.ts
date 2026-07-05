@@ -167,6 +167,15 @@ describe(`Bun`, () => {
     expect(categorizeEntryForOrigin(located(`bun:ffi`), `bun`)).toBe(`stdlib`)
   })
 
+  test(`internal: bundled runtime modules are stdlib`, () => {
+    expect(
+      categorizeEntryForOrigin(located(`internal:primordials`), `bun`),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(located(`internal:fs/streams`), `bun`),
+    ).toBe(`stdlib`)
+  })
+
   test(`node_modules/ is third-party`, () => {
     expect(
       categorizeEntryForOrigin(
