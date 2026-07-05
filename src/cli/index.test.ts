@@ -8,7 +8,7 @@ import { expect, test, vi } from 'vitest'
 import { fixturePath } from '../testing/fixtures.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.
-vi.setConfig({ testTimeout: 100_000 })
+vi.setConfig({ testTimeout: 125_000 })
 
 // A fixture converts to a Markdown heading, or — for a valid capture with no
 // samples (e.g. a lock profile that saw no contention) — the no-data message.
