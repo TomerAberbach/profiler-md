@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { mdastToMarkdown } from '../helpers/markdown.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
@@ -32,7 +33,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const current = makeAggregatedHeapSnapshot()
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Self size`)).toEqual([])
     expect(improvementsTables(md, `Self size`)).toEqual([
@@ -63,7 +64,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Self size`)).toEqual([
       [
@@ -105,7 +106,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Self size`)).toEqual([
       [
@@ -146,7 +147,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([
       [
@@ -222,7 +223,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([
       [
@@ -278,7 +279,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const current = makeAggregatedHeapSnapshot()
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([])
     expect(improvementsTables(md, `Largest closures`)).toEqual([
@@ -319,7 +320,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([
       [
@@ -351,7 +352,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest strings`)).toEqual([])
     expect(improvementsTables(md, `Largest strings`)).toEqual([
@@ -379,7 +380,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toEqual([
       [

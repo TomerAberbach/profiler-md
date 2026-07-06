@@ -31,11 +31,11 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|      % | Samples | Function                 | Location                             |
-| -----: | ------: | ------------------------ | ------------------------------------ |
-| 100.0% |     131 | `(unknown) [c function]` | `<unknown>`                          |
-|  98.5% |     129 | `<main>`                 | usr/local/bin/rubocop                |
-|   1.5% |       2 | `activate_bin_path`      | usr/lib/ruby/vendor_ruby/rubygems.rb |
+|      % | Samples | Function                 | Location                               |
+| -----: | ------: | ------------------------ | -------------------------------------- |
+| 100.0% |     131 | `(unknown) [c function]` | `<unknown>`                            |
+|  98.5% |     129 | `<main>`                 | `usr/local/bin/rubocop`                |
+|   1.5% |       2 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
 
 #### Callees
 
@@ -47,14 +47,14 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ----: | ------: | ------------------------ | ----------- |
 | 59.5% |      78 | `(unknown) [c function]` | `<unknown>` |
 
-##### `<main>` (usr/local/bin/rubocop)
+##### `<main>` (`usr/local/bin/rubocop`)
 
-|     % | Samples | Callee                   | Location                             |
-| ----: | ------: | ------------------------ | ------------------------------------ |
-| 98.4% |     127 | `(unknown) [c function]` | `<unknown>`                          |
-|  1.6% |       2 | `activate_bin_path`      | usr/lib/ruby/vendor_ruby/rubygems.rb |
+|     % | Samples | Callee                   | Location                               |
+| ----: | ------: | ------------------------ | -------------------------------------- |
+| 98.4% |     127 | `(unknown) [c function]` | `<unknown>`                            |
+|  1.6% |       2 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
 
-##### `activate_bin_path` (usr/lib/ruby/vendor_ruby/rubygems.rb)
+##### `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)
 
 |      % | Samples | Callee                   | Location    |
 | -----: | ------: | ------------------------ | ----------- |
@@ -64,7 +64,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 Call stacks ranked by samples taken in their leaf frame.
 
-Common call stack: `(unknown) [c function]` ← `<main>` (usr/local/bin/rubocop)
+Common call stack: `(unknown) [c function]` ← `<main>` (`usr/local/bin/rubocop`)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { mdastToMarkdown } from '../helpers/markdown.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   callStackTables,
@@ -92,7 +93,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -125,7 +126,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(totalTimeTables(md)).toEqual([
       [
@@ -167,7 +168,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -194,7 +195,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -224,7 +225,7 @@ describe(`formatProfile`, () => {
       showEntry: () => false,
     })
 
-    const md = formatProfile(profile, options)
+    const md = mdastToMarkdown(formatProfile(profile, options))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -254,7 +255,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
@@ -273,7 +274,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = formatProfile(profile, defaultOptions)
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(md).toContain(`No bytes retained in any sample.`)
     expect(md).not.toContain(`Hottest`)
@@ -306,7 +307,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     expect(profileTitles(md)).toEqual([`CPU profile diff`])
   })
@@ -336,7 +337,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     const lines = summaryLines(md)
     expect(lines).toHaveLength(1)
@@ -369,7 +370,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toEqual([
       [
@@ -426,7 +427,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
     // (progression). funcA and funcB are leaves, so self and total match.
@@ -516,7 +517,7 @@ describe(`formatProfileDiff`, () => {
     })
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, options)
+    const md = mdastToMarkdown(formatProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
     expect(regressionsTables(md, `Self time`)).toEqual([
@@ -559,7 +560,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     // The unchanged total reads as a measurement, so it omits the change suffix
     // a zero delta would otherwise produce.
@@ -623,7 +624,7 @@ describe(`formatProfileDiff`, () => {
     })
 
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = formatProfileDiff(diff, options)
+    const md = mdastToMarkdown(formatProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## Hottest functions$/mu)
     expect(md).not.toContain(`No function differed`)
@@ -657,7 +658,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
@@ -695,7 +696,7 @@ describe(`formatProfileDiff`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = formatProfileDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
@@ -729,7 +730,7 @@ describe(`formatProfileDiff`, () => {
     })
 
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = formatProfileDiff(diff, options)
+    const md = mdastToMarkdown(formatProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)

@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import {
-  formatSourceLocation,
+  formatSourceLocationPath,
   makeFileReference,
   makeSourceLocation,
 } from './location.ts'
@@ -17,7 +17,7 @@ const format = ({
   column?: number
   baseURL?: string | null
 }) =>
-  formatSourceLocation(
+  formatSourceLocationPath(
     { type: `absolute`, url: new URL(url), line, column },
     normalizeProfileToMdOptions({ baseURL }),
   )
@@ -130,25 +130,25 @@ test(`wasm: URL shows full href when baseURL is file`, () => {
 
 test(`undefined location returns <unknown>`, () => {
   expect(
-    formatSourceLocation(
+    formatSourceLocationPath(
       undefined,
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),
-  ).toBe(`\`<unknown>\``)
+  ).toBe(`<unknown>`)
 })
 
-test(`formatSourceLocation with relative reference displays the path`, () => {
+test(`formatSourceLocationPath with relative reference displays the path`, () => {
   expect(
-    formatSourceLocation(
+    formatSourceLocationPath(
       { type: `relative`, path: `src/index.js` },
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`src/index.js`)
 })
 
-test(`formatSourceLocation with relative reference appends line and column`, () => {
+test(`formatSourceLocationPath with relative reference appends line and column`, () => {
   expect(
-    formatSourceLocation(
+    formatSourceLocationPath(
       { type: `relative`, path: `src/index.js`, line: 10, column: 5 },
       normalizeProfileToMdOptions({ baseURL: `/project` }),
     ),

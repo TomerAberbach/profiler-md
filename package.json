@@ -92,6 +92,8 @@
     "convert-source-map": "^2.0.0",
     "globals": "^17.6.0",
     "jumbo-json": "^0.2.0",
+    "mdast-util-gfm-table": "^2.0.0",
+    "mdast-util-to-markdown": "^2.1.2",
     "picomatch": "^4.0.4",
     "plur": "^6.0.0",
     "pprof-format": "^2.2.2",

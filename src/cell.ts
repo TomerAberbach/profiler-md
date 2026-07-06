@@ -1,3 +1,4 @@
+import type { PhrasingContent, Table } from 'mdast'
 import type { Diff } from './diff.ts'
 import {
   formatArrow,
@@ -7,13 +8,13 @@ import {
   formatPercent,
   formatPercentChange,
 } from './helpers/format.ts'
-import { formatTable as formatMarkdownTable } from './helpers/markdown.ts'
+import { inlineCode, table, text } from './helpers/markdown.ts'
 import type { Header } from './helpers/markdown.ts'
 
 /** A single table cell, already resolved to a value and a formatter. */
 export type Cell =
   | { kind: `number`; value: number; format: (value: number) => string }
-  | { kind: `text`; text: string }
+  | { kind: `text`; children: PhrasingContent[] }
 
 /** A right-aligned numeric cell formatted via {@link format}. */
 export const numberCell = (
@@ -32,20 +33,26 @@ export const countCell = (count: number): Cell => numberCell(count, formatCount)
 export const bytesCell = (bytes: number): Cell => numberCell(bytes, formatBytes)
 
 /** A left-aligned text cell. */
-export const textCell = (text: string): Cell => ({ kind: `text`, text })
+export const textCell = (children: PhrasingContent[] | string): Cell => ({
+  kind: `text`,
+  children: typeof children === `string` ? [text(children)] : children,
+})
 
-export const formatTable = (headers: Header[], rows: Cell[][]): string =>
-  formatMarkdownTable(
+/** A left-aligned cell holding a single code span. */
+export const codeCell = (value: string): Cell => textCell([inlineCode(value)])
+
+export const formatTable = (headers: Header[], rows: Cell[][]): Table =>
+  table(
     headers,
     rows.map(cells => cells.map(formatCell)),
   )
 
-const formatCell = (cell: Cell): string => {
+const formatCell = (cell: Cell): PhrasingContent[] => {
   switch (cell.kind) {
     case `number`:
-      return cell.format(cell.value)
+      return [text(cell.format(cell.value))]
     case `text`:
-      return cell.text
+      return cell.children
   }
 }
 
@@ -68,14 +75,14 @@ export type DiffColumns = {
  *
  * The two sides' cells line up by position, so each numeric cell formats its
  * own `base → current` arrow and a missing side reads as `0`. Text cells take
- * the present side's text, with a preference for current.
+ * the present side's content, with a preference for current.
  */
 export const formatDiffTable = (
   headers: Header[],
   rows: Diff<Cell[]>[],
   { primaryIndex, changeDeltaIndex = 0 }: DiffColumns,
-): string =>
-  formatMarkdownTable(
+): Table =>
+  table(
     [
       ...headers.slice(0, changeDeltaIndex),
       { content: `Change`, align: `right` },
@@ -96,8 +103,8 @@ export const formatDiffTable = (
 
       return [
         ...cells.slice(0, changeDeltaIndex),
-        formatPercentChange(baseValue, currentValue),
-        formatDelta(delta, formatPrimary(Math.abs(delta))),
+        [text(formatPercentChange(baseValue, currentValue))],
+        [text(formatDelta(delta, formatPrimary(Math.abs(delta))))],
         ...cells.slice(changeDeltaIndex),
       ]
     }),
@@ -107,15 +114,19 @@ const formatDiffCell = (
   present: Cell,
   base: Cell | undefined,
   current: Cell | undefined,
-): string => {
+): PhrasingContent[] => {
   switch (present.kind) {
     case `number`:
-      return formatArrow(
-        present.format(numericValue(base)),
-        present.format(numericValue(current)),
-      )
+      return [
+        text(
+          formatArrow(
+            present.format(numericValue(base)),
+            present.format(numericValue(current)),
+          ),
+        ),
+      ]
     case `text`:
-      return present.text
+      return present.children
   }
 }
 

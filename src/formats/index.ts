@@ -1,5 +1,7 @@
 import { JumboJSON } from 'jumbo-json'
+import type { RootContent } from 'mdast'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
+import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
 import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
@@ -225,17 +227,17 @@ let textEncoder: InstanceType<typeof TextEncoder> | undefined
 export const formatAggregatedInputs = (
   inputs: AggregatedInput[],
   options: NormalizedProfileToMdOptions,
-): string =>
-  inputs
-    .map(input => {
-      switch (input.type) {
-        case `profile`:
-          return formatProfile(input, options)
-        case `snapshot`:
-          return formatHeapSnapshot(input, options)
-      }
-    })
-    .join(`\n\n`) || NO_DATA_MESSAGE
+): string => {
+  const children = inputs.flatMap(input => {
+    switch (input.type) {
+      case `profile`:
+        return formatProfile(input, options)
+      case `snapshot`:
+        return formatHeapSnapshot(input, options)
+    }
+  })
+  return mdastToMarkdownOrNoData(children)
+}
 
 /**
  * Diffs the aggregated {@link base} and {@link current} inputs element by
@@ -255,29 +257,29 @@ const formatAggregatedDiff = (
     )
   }
 
-  return (
-    base
-      .map((baseInput, index) => {
-        const currentInput = current[index]!
-        if (baseInput.type === `profile` && currentInput.type === `profile`) {
-          return formatProfileDiff(
-            diffAggregatedProfiles(baseInput, currentInput, options),
-            options,
-          )
-        }
-        if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
-          return formatHeapSnapshotDiff(
-            diffAggregatedHeapSnapshots(baseInput, currentInput, options),
-            options,
-          )
-        }
-        throw new Error(
-          `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
-        )
-      })
-      .join(`\n\n`) || NO_DATA_MESSAGE
-  )
+  const children = base.flatMap((baseInput, index) => {
+    const currentInput = current[index]!
+    if (baseInput.type === `profile` && currentInput.type === `profile`) {
+      return formatProfileDiff(
+        diffAggregatedProfiles(baseInput, currentInput, options),
+        options,
+      )
+    }
+    if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
+      return formatHeapSnapshotDiff(
+        diffAggregatedHeapSnapshots(baseInput, currentInput, options),
+        options,
+      )
+    }
+    throw new Error(
+      `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
+    )
+  })
+  return mdastToMarkdownOrNoData(children)
 }
+
+const mdastToMarkdownOrNoData = (children: RootContent[]): string =>
+  mdastToMarkdown(children.length > 0 ? children : [paragraph(NO_DATA_MESSAGE)])
 
 const NO_DATA_MESSAGE = `No profiling data found.`
 

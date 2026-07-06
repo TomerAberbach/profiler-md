@@ -1,6 +1,6 @@
 import {
   fileReferenceToSourceLocation,
-  formatSourceLocation,
+  formatSourceLocationPath,
   makeFileReference,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
@@ -53,7 +53,7 @@ export const aggregateV8HeapSnapshot = (
       const retainerLocation = nodeOrdinalToLocation[retainerOrdinal]
       return `${edgeLabel} ${retainerLabel}${
         retainerLocation
-          ? ` (${formatSourceLocation(retainerLocation, options)})`
+          ? ` (${formatSourceLocationPath(retainerLocation, options)})`
           : ``
       }`
     },
@@ -342,7 +342,7 @@ const formatEdgeLabel = (
   // location), then it's shown as-is.
   const fileReference = rawEdgeName ? makeFileReference(rawEdgeName) : undefined
   const edgeName = fileReference
-    ? formatSourceLocation(fileReference, options)
+    ? formatSourceLocationPath(fileReference, options)
     : rawEdgeName
 
   return `.${edgeName}`
@@ -386,7 +386,7 @@ const formatNodeLabel = (
         ? makeFileReference(rawNodeName)
         : undefined
       return fileReference
-        ? formatSourceLocation(fileReference, options)
+        ? formatSourceLocationPath(fileReference, options)
         : rawNodeName
     }
   }

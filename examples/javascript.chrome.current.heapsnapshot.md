@@ -392,34 +392,34 @@ Instances ranked by contribution to each constructor's retained size.
 
 Closures ranked by bytes that would be freed if the closure were garbage collected.
 
-|    % | Retained | Instances | Paths | Name                   | Location                       | Example path                                                                                                      |
-| ---: | -------: | --------: | ----: | ---------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| 0.9% |  8.05 kB |        14 |    14 | `safe`                 | extensions::SafeBuiltins:26:22 | `.<symbol extensions::SafeBuiltins::Array> Window / ://`                                                          |
-| 0.8% |   7.5 kB |         3 |     1 | `Date`                 | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.6% |  5.68 kB |         3 |     1 | `RegExp`               | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.5% |  5.16 kB |         3 |     1 | `Locale`               | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.4% |  4.12 kB |        76 |    76 | `(anonymous)`          | extensions::SafeBuiltins:10:36 | `.hasOwnProperty safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::Object> Window / ://` |
-| 0.4% |  3.77 kB |        30 |     6 | `(anonymous)`          | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.4% |  3.52 kB |         3 |     1 | `CallSite`             | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.3% |  3.09 kB |         3 |     1 | `Object`               | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.3% |  2.99 kB |         3 |     1 | `DisposableStack`      | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.3% |  2.99 kB |         3 |     1 | `AsyncDisposableStack` | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.3% |   2.7 kB |         3 |     1 | `Number`               | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.3% |  2.52 kB |         3 |     1 | `Symbol`               | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |     2 kB |         3 |     3 | `v8BreakIterator`      | `<unknown>`                    | `.v8BreakIterator Intl ← .Intl Window / ://`                                                                      |
-| 0.2% |  1.88 kB |         3 |     1 | `SharedArrayBuffer`    | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |  1.85 kB |         3 |     1 | `SuppressedError`      | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |  1.85 kB |         3 |     1 | `SuspendError`         | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |  1.84 kB |         3 |     1 | `DateTimeFormat`       | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |  1.84 kB |         3 |     1 | `NumberFormat`         | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |   1.7 kB |         3 |     1 | `EvalError`            | `<unknown>`                    | `(GC root)`                                                                                                       |
-| 0.2% |   1.7 kB |         3 |     1 | `AggregateError`       | `<unknown>`                    | `(GC root)`                                                                                                       |
+|    % | Retained | Instances | Paths | Name                   | Location                         | Example path                                                                                                      |
+| ---: | -------: | --------: | ----: | ---------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| 0.9% |  8.05 kB |        14 |    14 | `safe`                 | `extensions::SafeBuiltins:26:22` | `.<symbol extensions::SafeBuiltins::Array> Window / ://`                                                          |
+| 0.8% |   7.5 kB |         3 |     1 | `Date`                 | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.6% |  5.68 kB |         3 |     1 | `RegExp`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.5% |  5.16 kB |         3 |     1 | `Locale`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.4% |  4.12 kB |        76 |    76 | `(anonymous)`          | `extensions::SafeBuiltins:10:36` | `.hasOwnProperty safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::Object> Window / ://` |
+| 0.4% |  3.77 kB |        30 |     6 | `(anonymous)`          | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.4% |  3.52 kB |         3 |     1 | `CallSite`             | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% |  3.09 kB |         3 |     1 | `Object`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% |  2.99 kB |         3 |     1 | `DisposableStack`      | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% |  2.99 kB |         3 |     1 | `AsyncDisposableStack` | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% |   2.7 kB |         3 |     1 | `Number`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% |  2.52 kB |         3 |     1 | `Symbol`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |     2 kB |         3 |     3 | `v8BreakIterator`      | `<unknown>`                      | `.v8BreakIterator Intl ← .Intl Window / ://`                                                                      |
+| 0.2% |  1.88 kB |         3 |     1 | `SharedArrayBuffer`    | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.85 kB |         3 |     1 | `SuppressedError`      | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.85 kB |         3 |     1 | `SuspendError`         | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.84 kB |         3 |     1 | `DateTimeFormat`       | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.84 kB |         3 |     1 | `NumberFormat`         | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |   1.7 kB |         3 |     1 | `EvalError`            | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |   1.7 kB |         3 |     1 | `AggregateError`       | `<unknown>`                      | `(GC root)`                                                                                                       |
 
 ### Retained
 
 Nodes ranked by contribution to each closure's retained size.
 
-#### `safe` (extensions::SafeBuiltins:26:22)
+#### `safe` (`extensions::SafeBuiltins:26:22`)
 
 |    % |  Self | Name                       | Path                                                                                                                               |
 | ---: | ----: | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
@@ -459,7 +459,7 @@ Nodes ranked by contribution to each closure's retained size.
 | 1.3% |  68 B | `system / DescriptorArray` | `.descriptors system / Map ← .map Locale`                          |
 | 1.3% |  68 B | `system / DescriptorArray` | `.descriptors system / Map ← .map Locale`                          |
 
-#### `(anonymous)` (extensions::SafeBuiltins:10:36)
+#### `(anonymous)` (`extensions::SafeBuiltins:10:36`)
 
 |    % | Self | Name               | Path                                                                                                                                                                                                     |
 | ---: | ---: | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -634,7 +634,7 @@ Strings ranked by bytes allocated for them.
 | <0.1% |   312 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `(GC root)` |
 | <0.1% |   304 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `(GC root)` |
 | <0.1% |   300 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `(GC root)` |
-| <0.1% |   296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。\n9/13（土）「九州杯」今年も宜しくお願…`    | `(GC root)` |
+| <0.1% |   296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `(GC root)` |
 | <0.1% |   292 B | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印…` | `(GC root)` |
 | <0.1% |   292 B | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか…`    | `(GC root)` |
 | <0.1% |   292 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `(GC root)` |
