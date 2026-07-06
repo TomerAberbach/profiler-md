@@ -23,7 +23,32 @@ export const nodePprofOriginSpec = {
     nodeModulesCategory(entry) ??
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
+  normalizeFrame: input => {
+    // `dd-trace` heap profiles pack an anonymous function's definition
+    // position into its name as `(anonymous:L#122135:C#9)`; move it into the
+    // location (which carries the file but no line) so the name renders as
+    // plain `(anonymous)` while the position still distinguishes functions.
+    const packed =
+      input.name === undefined ? null : PACKED_ANONYMOUS.exec(input.name)
+    if (!packed) {
+      return input
+    }
+
+    const { line, column } = packed.groups!
+    return {
+      ...input,
+      name: `(anonymous)`,
+      location: input.location && {
+        ...input.location,
+        line: input.location.line ?? Number(line),
+        column: input.location.column ?? Number(column),
+      },
+    }
+  },
 } as const satisfies OriginSpec
+
+/** `dd-trace` packed anonymous frame name, e.g. `(anonymous:L#122135:C#9)`. */
+const PACKED_ANONYMOUS = /^\(anonymous:L#(?<line>\d+):C#(?<column>\d+)\)$/u
 
 /** The module specifiers Node resolves to runtime builtins. */
 const NODE_PROTOCOLS = [`node:`]
