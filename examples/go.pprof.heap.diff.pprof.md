@@ -2,7 +2,7 @@
 
 Allocated 1.8 GB (-2.23 MB, -0.1%) and retained 2.19 MB → 1.66 MB (-529 kB, -24.1%) over 21,825,387 samples → 21,882,356 samples (82.4 B → 82.1 B and 0.10052522780008437 B → 0.07608851624569128 B per sample).
 
-| Category | Change |    Delta |      % |             Size |              Size |                 Samples |
+| Category | Change |    Delta |      % |        Allocated |          Retained |                 Samples |
 | -------- | -----: | -------: | -----: | ---------------: | ----------------: | ----------------------: |
 | stdlib   |  -0.1% | -2.22 MB | 100.0% |           1.8 GB | 2.19 MB → 1.66 MB | 21,824,618 → 21,882,100 |
 | ours     | -66.7% | -8.21 kB |  <0.1% | 12.3 kB → 4.1 kB |               0 B |               769 → 256 |
