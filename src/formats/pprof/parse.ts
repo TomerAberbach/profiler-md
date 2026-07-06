@@ -40,12 +40,11 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
   const frames: ProfileStackFrame[] = []
   for (const func of profile.function) {
     frameIndexByFunctionId.set(func.id, frames.length)
-    const startLine = Number(func.startLine)
     frames.push({
       name: string(func.name) || string(func.systemName),
       location: {
         urlOrPath: string(func.filename),
-        line: startLine > 0 ? startLine : undefined,
+        line: knownPprofLine(Number(func.startLine)),
       },
     })
   }
@@ -91,10 +90,19 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
         index => Number(value[index]!) / sampleCount,
       ),
       frameIndices,
-      line: calleeLine,
+      // The leaf's line 0 means unknown, not a fallback to deeper lines.
+      line: knownPprofLine(calleeLine),
       sampleCount,
     })
   }
 
   return [{ frames, metrics, samples }]
 }
+
+/**
+ * Normalizes a pprof line to `undefined` when unknown: proto3 has no field
+ * presence for scalars, so an unset `Function.start_line` or `Line.line`
+ * decodes to `0`.
+ */
+const knownPprofLine = (line: number | undefined): number | undefined =>
+  line !== undefined && line > 0 ? line : undefined

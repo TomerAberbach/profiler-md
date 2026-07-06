@@ -17,16 +17,6 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 | ----: | ------: | ------: | ------------------------ | --------- |
 | 63.5% | 847.6ms |      85 | `(unknown) [c function]` | (unknown) |
 
-#### Lines
-
-Lines ranked by contribution to each function's self time.
-
-##### `(unknown) [c function]` ((unknown))
-
-|      % |    Time | Samples | Location    |
-| -----: | ------: | ------: | ----------- |
-| 100.0% | 847.6ms |      85 | (unknown):0 |
-
 #### Callers
 
 Callers ranked by contribution to each function's self time. Caller attribution may be imprecise due to inlining.

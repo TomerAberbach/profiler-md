@@ -101,17 +101,7 @@ export const fileReferenceToSourceLocation = (
     /** The 1-based column number in the file. */
     column?: number
   },
-): SourceLocation => {
-  // Some profilers indicate unknown lines or columns with non-positive values.
-  if (line !== undefined && line <= 0) {
-    line = undefined
-  }
-  if (column !== undefined && column <= 0) {
-    column = undefined
-  }
-
-  return { ...fileReference, line, column }
-}
+): SourceLocation => ({ ...fileReference, line, column })
 
 export const formatSourceLocation = (
   location: SourceLocation | undefined,

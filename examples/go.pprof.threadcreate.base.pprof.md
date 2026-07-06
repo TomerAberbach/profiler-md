@@ -18,16 +18,6 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | -----: | ------: | ------------- | ----------- |
 | 100.0% |      13 | `(anonymous)` | `<unknown>` |
 
-#### Lines
-
-Lines ranked by contribution to each function's self samples.
-
-##### `(anonymous)` (`<unknown>`)
-
-|      % | Samples | Location |
-| -----: | ------: | -------- |
-| 100.0% |      13 | 0        |
-
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Caller attribution may be imprecise due to inlining.
