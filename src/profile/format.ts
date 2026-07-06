@@ -309,7 +309,7 @@ const formatHottestSelfFunctions = (
     ...formatSectionGroup(
       [
         formatHeading(options.headingLevel + 1, `Callers`),
-        `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Caller attribution may be imprecise due to inlining.`,
+        `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Inlining can make caller attribution imprecise.`,
       ],
       hottestCallersSections,
     ),
@@ -441,7 +441,7 @@ const formatHottestTotalFunctions = (
     ...formatSectionGroup(
       [
         formatHeading(options.headingLevel + 1, `Callees`),
-        `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Callee attribution may be imprecise due to inlining.`,
+        `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
       ],
       calleeSections,
     ),

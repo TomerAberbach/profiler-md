@@ -50,7 +50,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `main.workload.func1` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25)
 

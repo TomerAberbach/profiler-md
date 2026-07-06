@@ -20,7 +20,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `main.writeProfile` (Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:46)
 

@@ -37,7 +37,7 @@ Functions ranked by total native bytes allocated in the function and all its cal
 
 #### Callees
 
-Callees ranked by contribution to each function's total size. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `main(String[])` (org.jetbrains.kotlin.preloading.Preloader)
 

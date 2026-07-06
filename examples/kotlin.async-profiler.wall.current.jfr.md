@@ -147,7 +147,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Caller attribution may be imprecise due to inlining.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
 
 ##### `I2C/C2I adapters(0xbb)` (`<unknown>`)
 
@@ -302,7 +302,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Callee attribution may be imprecise due to inlining.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `run(String[])` (org.jetbrains.kotlin.preloading.Preloader)
 
