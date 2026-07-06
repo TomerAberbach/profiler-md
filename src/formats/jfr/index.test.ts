@@ -618,7 +618,7 @@ describe(`malformed recordings`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    expect(md).toBe(`No profiling data found.`)
+    expect(md).toBe(`No profiling data found.\n`)
     expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
       md,
     )

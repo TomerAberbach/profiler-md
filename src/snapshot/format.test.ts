@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { mdastToMarkdown } from '../helpers/markdown.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
@@ -38,7 +39,7 @@ describe(`formatHeapSnapshot`, () => {
       showEntry: () => false,
     })
 
-    const md = formatHeapSnapshot(snapshot, options)
+    const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
 
     expect(md).toContain(
       `The entry filter hides every node, so all nodes are shown.`,
@@ -80,7 +81,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
     expect(summaryLines(md)).toEqual([
@@ -96,7 +97,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(summaryLines(md)).toEqual([
       `Allocated 1\u00A0kB across 10 nodes and 20 edges.`,
@@ -117,7 +118,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toEqual([
       [
@@ -176,7 +177,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     const expectedRegressions = [
       {
@@ -252,7 +253,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest closures`)).toEqual([
       [
@@ -298,7 +299,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Largest strings`)).toEqual([
       [
@@ -352,7 +353,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(regressionsTables(md, `Self size`)).toEqual([
       [
@@ -415,7 +416,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, options)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
     expect(md).not.toContain(`Hidden`)
     expect(regressionsTables(md, `Self size`)).toEqual([
@@ -459,7 +460,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, options)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
     expect(md).toContain(
       `The entry filter hides every node, so all nodes are shown.`,
@@ -503,7 +504,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     // The sections are still formatted, with a note in place of empty tables so
     // the output doesn't look broken.
@@ -558,7 +559,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
 
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
-    const md = formatHeapSnapshotDiff(diff, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     // The empty closures and strings sections are dropped rather than noted as
     // unchanged, while the present constructors section keeps its note.

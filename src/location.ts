@@ -1,3 +1,4 @@
+import type { PhrasingContent } from 'mdast'
 import { inlineCode } from './helpers/markdown.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import type { NormalizedProfileToMdOptions } from './options.ts'
@@ -103,12 +104,22 @@ export const fileReferenceToSourceLocation = (
   },
 ): SourceLocation => ({ ...fileReference, line, column })
 
+/** Formats a location as a code span, falling back to `<unknown>`. */
 export const formatSourceLocation = (
+  location: SourceLocation | undefined,
+  options: NormalizedProfileToMdOptions,
+): PhrasingContent => inlineCode(formatSourceLocationPath(location, options))
+
+/**
+ * Formats a location as a bare path string, for embedding in larger strings
+ * (e.g. retainer paths) that render inside a single code span.
+ */
+export const formatSourceLocationPath = (
   location: SourceLocation | undefined,
   options: NormalizedProfileToMdOptions,
 ): string => {
   if (!location) {
-    return inlineCode(`<unknown>`)
+    return `<unknown>`
   }
 
   location = sourceMapSourceLocation(location, options)
@@ -137,7 +148,7 @@ export const formatSourceLocation = (
     }
   }
 
-  return path || inlineCode(`<unknown>`)
+  return path || `<unknown>`
 }
 
 const isSameOrigin = (url1: URL, url2: URL): boolean => {

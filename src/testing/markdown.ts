@@ -7,12 +7,12 @@ export type Row = Record<string, string>
 export type Table = Row[]
 
 export const profileTitles = (md: string): string[] =>
-  parseAst(md)
+  parseMd(md)
     .children.filter(node => node.type === `heading` && node.depth === 1)
     .map(node => nodeText(node))
 
 export const summaryLines = (md: string): string[] => {
-  const { children } = parseAst(md)
+  const { children } = parseMd(md)
   const lines: string[] = []
   for (let i = 0; i < children.length; i++) {
     const node = children[i]!
@@ -35,7 +35,7 @@ export const summaryLines = (md: string): string[] => {
 }
 
 export const categoryTables = (md: string): Table[] => {
-  const nodes = parseAst(md).children
+  const nodes = parseMd(md).children
   const results: Table[] = []
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]!
@@ -50,56 +50,56 @@ export const categoryTables = (md: string): Table[] => {
 }
 
 export const selfTimeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Self time`)
+  allTablesAfterHeading(parseMd(md), `Self time`)
 
 export const totalTimeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Total time`)
+  allTablesAfterHeading(parseMd(md), `Total time`)
 
 export const selfSamplesTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Self samples`)
+  allTablesAfterHeading(parseMd(md), `Self samples`)
 
 export const totalSamplesTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Total samples`)
+  allTablesAfterHeading(parseMd(md), `Total samples`)
 
 export const callStackTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Hottest call stacks`)
+  allTablesAfterHeading(parseMd(md), `Hottest call stacks`)
 
 export const regressionsTables = (md: string, section: string): Table[] => {
-  const under = nodesUnderHeading(parseAst(md), section)
+  const under = nodesUnderHeading(parseMd(md), section)
   return allTablesAfterHeadingContaining(under, `Regressions`)
 }
 
 export const improvementsTables = (md: string, section: string): Table[] => {
-  const under = nodesUnderHeading(parseAst(md), section)
+  const under = nodesUnderHeading(parseMd(md), section)
   return allTablesAfterHeadingContaining(under, `Improvements`)
 }
 
 export const callersTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseAst(md), `Callers`)
+  const under = nodesUnderHeading(parseMd(md), `Callers`)
   return allTablesAfterHeadingContaining(under, fn)
 }
 
 export const calleesTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseAst(md), `Callees`)
+  const under = nodesUnderHeading(parseMd(md), `Callees`)
   return allTablesAfterHeadingContaining(under, fn)
 }
 
 export const linesTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseAst(md), `Lines`)
+  const under = nodesUnderHeading(parseMd(md), `Lines`)
   return allTablesAfterHeadingContaining(under, fn)
 }
 
 export const selfSizeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Self size`)
+  allTablesAfterHeading(parseMd(md), `Self size`)
 
 export const totalSizeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Total size`)
+  allTablesAfterHeading(parseMd(md), `Total size`)
 
 export const retainedSizeTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Retained size`)
+  allTablesAfterHeading(parseMd(md), `Retained size`)
 
 export const selfSizeInstancesTables = (md: string, name: string): Table[] => {
-  const selfUnder = nodesUnderHeading(parseAst(md), `Self size`)
+  const selfUnder = nodesUnderHeading(parseMd(md), `Self size`)
   const instUnder = nodesUnderHeading(
     { type: `root`, children: selfUnder } as Root,
     `Instances`,
@@ -111,7 +111,7 @@ export const retainedSizeInstancesTables = (
   md: string,
   name: string,
 ): Table[] => {
-  const retainedUnder = nodesUnderHeading(parseAst(md), `Retained size`)
+  const retainedUnder = nodesUnderHeading(parseMd(md), `Retained size`)
   const instancesUnder = nodesUnderHeading(
     { type: `root`, children: retainedUnder } as Root,
     `Instances`,
@@ -120,10 +120,10 @@ export const retainedSizeInstancesTables = (
 }
 
 export const closureTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Largest closures`)
+  allTablesAfterHeading(parseMd(md), `Largest closures`)
 
 export const largestStringsTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseAst(md), `Largest strings`)
+  allTablesAfterHeading(parseMd(md), `Largest strings`)
 
 const allTablesAfterHeading = (root: Root, heading: string): Table[] => {
   const nodes = root.children
@@ -213,7 +213,7 @@ const rowsFromTable = (table: MdastTable): Row[] => {
   })
 }
 
-const nodeText = (node: Node): string => {
+export const nodeText = (node: Node): string => {
   if (`value` in node && typeof node.value === `string`) {
     return node.value
   }
@@ -223,7 +223,7 @@ const nodeText = (node: Node): string => {
   return ``
 }
 
-const parseAst = (markdown: string): Root =>
+export const parseMd = (markdown: string): Root =>
   fromMarkdown(markdown, {
     extensions: [gfm()],
     mdastExtensions: [gfmFromMarkdown()],

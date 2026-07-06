@@ -16,9 +16,9 @@ Took 1.79s → 1.90s (+110.0ms, +6.1%) over 179 samples → 190 samples (10.0ms 
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |   Delta |           % |            Time | Samples | Function   | Location |
-| ------: | ------: | ----------: | --------------: | ------: | ---------- | -------- |
-| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
+|  Change |   Delta |           % |            Time | Samples | Function   | Location   |
+| ------: | ------: | ----------: | --------------: | ------: | ---------- | ---------- |
+| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | `<string>` |
 
 ### Total time
 
@@ -26,6 +26,6 @@ Functions with the largest increase in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-|  Change |   Delta |           % |            Time | Samples | Function   | Location |
-| ------: | ------: | ----------: | --------------: | ------: | ---------- | -------- |
-| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | <string> |
+|  Change |   Delta |           % |            Time | Samples | Function   | Location   |
+| ------: | ------: | ----------: | --------------: | ------: | ---------- | ---------- |
+| +400.0% | +40.0ms | 0.6% → 2.6% | 10.0ms → 50.0ms |   1 → 5 | `__init__` | `<string>` |

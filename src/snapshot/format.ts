@@ -1,5 +1,7 @@
+import type { Heading, RootContent } from 'mdast'
 import {
   bytesCell,
+  codeCell,
   countCell,
   formatDiffTable,
   formatTable,
@@ -17,9 +19,11 @@ import {
 } from '../helpers/format.ts'
 import { MaxHeap, selectTopN } from '../helpers/heap.ts'
 import {
-  formatHeading,
   formatSectionGroup,
+  heading,
   inlineCode,
+  paragraph,
+  phrasing,
 } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
 import { formatSourceLocation } from '../location.ts'
@@ -41,7 +45,7 @@ import type {
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
-): string => {
+): RootContent[] => {
   const hasLocation = hasAnyLocation(snapshot)
   const showsAnyEntry =
     snapshot.constructors.some(options.showEntry) ||
@@ -51,14 +55,14 @@ export const formatHeapSnapshot = (
   const sectionOptions = showsAnyEntry
     ? options
     : { ...options, showEntry: () => true }
-  return `${[
-    formatHeading(1, `Heap snapshot`),
+  return [
+    heading(1, `Heap snapshot`),
     ...formatOverallSummary(snapshot),
-    ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
+    ...(showsAnyEntry ? [] : [paragraph(ENTRY_FILTER_DISABLED_NOTE)]),
     ...formatLargestConstructors(snapshot, hasLocation, sectionOptions),
     ...formatLargestClosures(snapshot, hasLocation, sectionOptions),
     ...formatLargestStrings(snapshot, sectionOptions),
-  ].join(`\n\n`)}\n`
+  ]
 }
 
 /**
@@ -73,7 +77,7 @@ const formatOverallSummary = ({
   nodeCount,
   edgeCount,
   nodeCategoryToStats,
-}: AggregatedHeapSnapshot): string[] => {
+}: AggregatedHeapSnapshot): RootContent[] => {
   const hottestObjectCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
@@ -82,9 +86,11 @@ const formatOverallSummary = ({
   }
 
   return [
-    `Allocated ${formatBytes(totalSize)} across ${formatCount(
-      nodeCount,
-    )} nodes and ${formatCount(edgeCount)} edges.`,
+    paragraph(
+      `Allocated ${formatBytes(totalSize)} across ${formatCount(
+        nodeCount,
+      )} nodes and ${formatCount(edgeCount)} edges.`,
+    ),
     formatTable(
       categoryTableHeaders(),
       hottestObjectCategories.map(([category, stats]) =>
@@ -98,9 +104,9 @@ const formatLargestConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] =>
+): RootContent[] =>
   formatSectionGroup(
-    [formatHeading(2, `Largest constructors`)],
+    [heading(2, `Largest constructors`)],
     [
       ...formatLargestSelfSizeConstructors(snapshot, hasLocation, options),
       ...formatLargestRetainedSizeConstructors(snapshot, hasLocation, options),
@@ -111,7 +117,7 @@ const formatLargestSelfSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.selfSize
 
@@ -151,8 +157,10 @@ const formatLargestSelfSizeConstructors = (
     ),
     ...formatSectionGroup(
       [
-        formatHeading(4, `Instances`),
-        `Instances ranked by contribution to each constructor's self size.`,
+        heading(4, `Instances`),
+        paragraph(
+          `Instances ranked by contribution to each constructor's self size.`,
+        ),
       ],
       largestInstanceSections,
     ),
@@ -163,7 +171,7 @@ const formatLargestRetainedSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.retainedSize
 
@@ -203,8 +211,10 @@ const formatLargestRetainedSizeConstructors = (
     ),
     ...formatSectionGroup(
       [
-        formatHeading(4, `Instances`),
-        `Instances ranked by contribution to each constructor's retained size.`,
+        heading(4, `Instances`),
+        paragraph(
+          `Instances ranked by contribution to each constructor's retained size.`,
+        ),
       ],
       largestInstanceSections,
     ),
@@ -217,7 +227,7 @@ const formatLargestConstructorInstances = (
   sizeOf: (node: AggregatedSnapshotNode) => number,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath(
     constructor.instances,
     sizeOf,
@@ -273,7 +283,7 @@ const formatLargestClosures = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { totalSize, closures, retainerPathOf } = snapshot
 
   const largestClosures = selectTopN(
@@ -313,8 +323,10 @@ const formatLargestClosures = (
     ),
     ...formatSectionGroup(
       [
-        formatHeading(3, `Retained`),
-        `Nodes ranked by contribution to each closure's retained size.`,
+        heading(3, `Retained`),
+        paragraph(
+          `Nodes ranked by contribution to each closure's retained size.`,
+        ),
       ],
       retainedSections,
     ),
@@ -326,7 +338,7 @@ const formatClosureRetainedObjects = (
   { retainedNodesOf, retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
   const allRetainedNodes: AggregatedSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
@@ -372,7 +384,7 @@ const formatClosureRetainedObjects = (
 const formatLargestStrings = (
   { totalSize, strings, retainerPathOf }: AggregatedHeapSnapshot,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const largestStrings = selectTopN(
     strings,
     options.topN,
@@ -405,7 +417,7 @@ const formatLargestStrings = (
 export const formatHeapSnapshotDiff = (
   diff: AggregatedHeapSnapshotDiff,
   options: NormalizedProfileToMdOptions,
-): string => {
+): RootContent[] => {
   const hasLocation = hasAnyLocation(diff)
   const showsAnyEntry =
     diff.constructors.some(entity => showDiffEntity(entity, options)) ||
@@ -413,18 +425,18 @@ export const formatHeapSnapshotDiff = (
   const sectionOptions = showsAnyEntry
     ? options
     : { ...options, showEntry: () => true }
-  return `${[
-    formatHeading(1, `Heap snapshot diff`),
+  return [
+    heading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
-    ...(showsAnyEntry ? [] : [ENTRY_FILTER_DISABLED_NOTE]),
+    ...(showsAnyEntry ? [] : [paragraph(ENTRY_FILTER_DISABLED_NOTE)]),
     ...formatDiffConstructors(diff, hasLocation, sectionOptions),
     ...formatDiffClosures(diff, hasLocation, sectionOptions),
     ...formatDiffStrings(diff, sectionOptions),
-  ].join(`\n\n`)}\n`
+  ]
 }
 
-const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): string[] => [
-  formatDiffSummaryLine(diff),
+const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): RootContent[] => [
+  paragraph(formatDiffSummaryLine(diff)),
   ...formatDiffCategoryTable(diff),
 ]
 
@@ -449,7 +461,7 @@ const formatDiffSummaryLine = ({
 
 const formatDiffCategoryTable = (
   diff: AggregatedHeapSnapshotDiff,
-): string[] => {
+): RootContent[] => {
   const { nodeCategoryToStats, base, current } = diff
   if (nodeCategoryToStats.size === 0) {
     return []
@@ -498,9 +510,9 @@ const formatDiffConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] =>
+): RootContent[] =>
   formatSectionGroup(
-    [formatHeading(2, `Largest constructors`)],
+    [heading(2, `Largest constructors`)],
     [
       ...formatDiffSelfSizeConstructors(diff, hasLocation, options),
       ...formatDiffRetainedSizeConstructors(diff, hasLocation, options),
@@ -511,7 +523,7 @@ const formatDiffSelfSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
@@ -559,7 +571,7 @@ const formatDiffRetainedSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
@@ -635,14 +647,14 @@ const instanceTableHeaders = (): Header[] => [
 const instanceRow = (group: InstanceGroup, totalSize: number): Cell[] => [
   ...sizeCells(group.size, totalSize),
   countCell(group.instanceCount),
-  textCell(inlineCode(group.retainerPath)),
+  codeCell(group.retainerPath),
 ]
 
 const formatDiffClosures = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
       entity,
@@ -702,7 +714,7 @@ const closureRow = (
   countCell(row.instanceCount),
   countCell(row.pathCount),
   ...entityCells(row, hasLocation, options),
-  textCell(inlineCode(row.examplePath)),
+  codeCell(row.examplePath),
 ]
 
 /** The headers of the largest retained nodes table. */
@@ -716,8 +728,8 @@ const retainedTableHeaders = (): Header[] => [
 const retainedRow = (row: NodeRow, totalSize: number): Cell[] => [
   ...sizeCells(row.selfSize, totalSize),
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  textCell(inlineCode(row.name || `(unknown)`)),
-  textCell(inlineCode(row.path)),
+  codeCell(row.name || `(unknown)`),
+  codeCell(row.path),
 ]
 
 /** Resolves a diffed closure entity's row using one side's snapshot. */
@@ -736,7 +748,7 @@ const closureRowOf = (
 const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
   options: NormalizedProfileToMdOptions,
-): string[] => {
+): RootContent[] => {
   const { regressions, progressions, hasActive } = selectDiffEntities(
     diff.strings.map(entity => ({
       entity,
@@ -785,8 +797,8 @@ const stringRow = (
   hasValues: boolean,
 ): Cell[] => [
   ...sizeCells(row.selfSize, totalSize),
-  ...(hasValues ? [textCell(inlineCode(row.name ?? `(unknown)`))] : []),
-  textCell(inlineCode(row.path)),
+  ...(hasValues ? [codeCell(row.name ?? `(unknown)`)] : []),
+  codeCell(row.path),
 ]
 
 /** Resolves a diffed node entity's row using one side's snapshot. */
@@ -842,7 +854,7 @@ const selectDiffEntities = (
  * table from its pre-built rows.
  */
 const formatDiffEntitySections = (
-  formatHeader: (options: { isEmptyDiff: boolean }) => string[],
+  formatHeader: (options: { isEmptyDiff: boolean }) => RootContent[],
   headingLevel: number,
   plural: string,
   description: string,
@@ -850,21 +862,21 @@ const formatDiffEntitySections = (
   hasActive: boolean,
   regressions: Diff<Cell[]>[],
   progressions: Diff<Cell[]>[],
-): string[] => {
-  const sections: string[] = []
+): RootContent[] => {
+  const sections: RootContent[] = []
 
   if (regressions.length > 0) {
     sections.push(
-      formatHeading(headingLevel, `Regressions`),
-      `${plural} with the largest increase in ${description}.`,
+      heading(headingLevel, `Regressions`),
+      paragraph(`${plural} with the largest increase in ${description}.`),
       formatDiffTable(headers, regressions, { primaryIndex: 1 }),
     )
   }
 
   if (progressions.length > 0) {
     sections.push(
-      formatHeading(headingLevel, `Improvements`),
-      `${plural} with the largest decrease in ${description}.`,
+      heading(headingLevel, `Improvements`),
+      paragraph(`${plural} with the largest decrease in ${description}.`),
       formatDiffTable(headers, progressions, { primaryIndex: 1 }),
     )
   }
@@ -909,11 +921,13 @@ const formatSelfSizeConstructorsHeading = ({
   isEmptyDiff,
 }: {
   isEmptyDiff: boolean
-}): string[] => [
-  formatHeading(3, `Self size`),
-  isEmptyDiff
-    ? `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`
-    : `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
+}): RootContent[] => [
+  heading(3, `Self size`),
+  paragraph(
+    isEmptyDiff
+      ? `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`
+      : `Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.`,
+  ),
 ]
 
 /**
@@ -924,11 +938,13 @@ const formatRetainedSizeConstructorsHeading = ({
   isEmptyDiff,
 }: {
   isEmptyDiff: boolean
-}): string[] => [
-  formatHeading(3, `Retained size`),
-  isEmptyDiff
-    ? `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`
-    : `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
+}): RootContent[] => [
+  heading(3, `Retained size`),
+  paragraph(
+    isEmptyDiff
+      ? `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`
+      : `Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.`,
+  ),
 ]
 
 /**
@@ -939,11 +955,13 @@ const formatLargestClosuresHeading = ({
   isEmptyDiff,
 }: {
   isEmptyDiff: boolean
-}): string[] => [
-  formatHeading(2, `Largest closures`),
-  isEmptyDiff
-    ? `No closure differed in bytes that would be freed if the closure were garbage collected.`
-    : `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
+}): RootContent[] => [
+  heading(2, `Largest closures`),
+  paragraph(
+    isEmptyDiff
+      ? `No closure differed in bytes that would be freed if the closure were garbage collected.`
+      : `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
+  ),
 ]
 
 /**
@@ -954,11 +972,13 @@ const formatLargestStringsHeading = ({
   isEmptyDiff,
 }: {
   isEmptyDiff: boolean
-}): string[] => [
-  formatHeading(2, `Largest strings`),
-  isEmptyDiff
-    ? `No string differed in bytes allocated for it.`
-    : `Strings ranked by bytes allocated for them.`,
+}): RootContent[] => [
+  heading(2, `Largest strings`),
+  paragraph(
+    isEmptyDiff
+      ? `No string differed in bytes allocated for it.`
+      : `Strings ranked by bytes allocated for them.`,
+  ),
 ]
 
 /** An entity with a name and optional location, shown in tables and headings. */
@@ -973,12 +993,12 @@ const formatEntityHeading = (
   entity: NamedEntity,
   hasLocation: boolean,
   options: NormalizedProfileToMdOptions,
-): string =>
-  formatHeading(
+): Heading =>
+  heading(
     headingLevel,
-    `${inlineCode(entity.name)}${
-      hasLocation ? ` (${formatSourceLocation(entity.location, options)})` : ``
-    }`,
+    hasLocation
+      ? phrasing`${inlineCode(entity.name)} (${formatSourceLocation(entity.location, options)})`
+      : [inlineCode(entity.name)],
   )
 
 /** A group of instances with the same retainer path. */
@@ -1034,8 +1054,8 @@ const entityCells = (
   options: NormalizedProfileToMdOptions,
 ): Cell[] => [
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  textCell(inlineCode(entity.name || `(unknown)`)),
+  codeCell(entity.name || `(unknown)`),
   ...(hasLocation
-    ? [textCell(formatSourceLocation(entity.location, options))]
+    ? [textCell([formatSourceLocation(entity.location, options)])]
     : []),
 ]

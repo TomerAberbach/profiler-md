@@ -126,7 +126,7 @@ describe(`profileToMd`, () => {
   test(`reports when there is no profiling data`, () => {
     const md = profileToMd(emptyProfile, { baseURL: null })
 
-    expect(md).toBe(`No profiling data found.`)
+    expect(md).toBe(`No profiling data found.\n`)
   })
 
   test(`throws on unknown data`, () => {
@@ -592,7 +592,7 @@ describe(`diffProfiles`, () => {
   test(`reports when there is no profiling data`, () => {
     const md = diffProfiles(emptyProfile, emptyProfile, { baseURL: null })
 
-    expect(md).toBe(`No profiling data found.`)
+    expect(md).toBe(`No profiling data found.\n`)
   })
 
   test.each(snapshotFixtures)(
