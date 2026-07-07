@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 TYPESCRIPT_VERSION=5.4.5
 DATADOG_PPROF_VERSION=5.3.0
@@ -13,7 +13,7 @@ PUPPETEER_VERSION=24.15.0
 ZOD_REPO=https://github.com/colinhacks/zod
 ZOD_TAG=v3.23.8
 
-assets="$REPO/scripts/fixtures/assets/javascript"
+assets="$REPO/scripts/inputs/assets/javascript"
 
 # Keep the Chromium download inside WORKDIR so the EXIT trap cleans it up.
 export PUPPETEER_CACHE_DIR="$WORKDIR/.puppeteer"
@@ -114,7 +114,7 @@ capture_bun_v8_heap_snapshot() {
   # builds and retains a representative heap and exits. Its `--heap-prof-dir`
   # mishandles absolute paths (it strips the leading slash and resolves relative
   # to the cwd), so run from inside profdir and let it default to the cwd. The
-  # asset and input paths are absolute, so the cd doesn't affect them.
+  # asset and generated-input paths are absolute, so the cd doesn't affect them.
   ( cd "$profdir" && bun --heap-prof "$assets/bun-heap-snapshot.mjs" "$TWITTER_JSON" >&2 )
   prof="$(find "$profdir" -name '*.heapsnapshot' | head -1)"
   [[ -n "$prof" ]] || { echo "  bun produced no .heapsnapshot" >&2; return 1; }
@@ -155,29 +155,29 @@ capture_chrome_heap_snapshot() {
 }
 
 for role in base current; do
-  try emit "$FIXTURES/javascript.node.$role.cpuprofile" \
+  try emit "$GENERATED_INPUTS/javascript.node.$role.cpuprofile" \
     capture_node_cpu "$role"
-  try emit "$FIXTURES/javascript.node.$role.heapprofile" \
+  try emit "$GENERATED_INPUTS/javascript.node.$role.heapprofile" \
     capture_node_heap "$role"
-  try emit "$FIXTURES/javascript.node.$role.heapsnapshot" \
+  try emit "$GENERATED_INPUTS/javascript.node.$role.heapsnapshot" \
     capture_node_heap_snapshot "$role"
-  try emit "$FIXTURES/javascript.pprof.cpu.$role.pprof" \
+  try emit "$GENERATED_INPUTS/javascript.pprof.cpu.$role.pprof" \
     capture_pprof_cpu "$role"
-  try emit "$FIXTURES/javascript.pprof.heap.$role.pprof" \
+  try emit "$GENERATED_INPUTS/javascript.pprof.heap.$role.pprof" \
     capture_pprof_heap "$role"
-  try emit "$FIXTURES/javascript.deno.$role.cpuprofile" \
+  try emit "$GENERATED_INPUTS/javascript.deno.$role.cpuprofile" \
     capture_deno_cpu "$role"
-  try emit "$FIXTURES/javascript.bun.$role.cpuprofile" \
+  try emit "$GENERATED_INPUTS/javascript.bun.$role.cpuprofile" \
     capture_bun_cpu "$role"
-  try emit "$FIXTURES/javascript.bun.$role.heapsnapshot" \
+  try emit "$GENERATED_INPUTS/javascript.bun.$role.heapsnapshot" \
     capture_bun_v8_heap_snapshot "$role"
-  try emit "$FIXTURES/javascript.bun.$role.jsc-heap-snapshot.json" \
+  try emit "$GENERATED_INPUTS/javascript.bun.$role.jsc-heap-snapshot.json" \
     capture_bun_jsc_heap_snapshot "$role"
-  try emit "$FIXTURES/javascript.chrome.$role.cpuprofile" \
+  try emit "$GENERATED_INPUTS/javascript.chrome.$role.cpuprofile" \
     capture_chrome_cpu "$role"
-  try emit "$FIXTURES/javascript.chrome.$role.heapprofile" \
+  try emit "$GENERATED_INPUTS/javascript.chrome.$role.heapprofile" \
     capture_chrome_heap "$role"
-  try emit "$FIXTURES/javascript.chrome.$role.heapsnapshot" \
+  try emit "$GENERATED_INPUTS/javascript.chrome.$role.heapsnapshot" \
     capture_chrome_heap_snapshot "$role"
 done
 

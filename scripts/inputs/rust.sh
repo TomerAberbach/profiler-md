@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 export CARGO_TARGET_DIR="$WORKDIR/cargo-target"
 export CARGO_HOME="$WORKDIR/cargo-home"
 
-profile_dir="$REPO/scripts/fixtures/assets/rust/profile"
+profile_dir="$REPO/scripts/inputs/assets/rust/profile"
 bin="$CARGO_TARGET_DIR/release/json_bench"
 
 built=
@@ -27,7 +27,7 @@ run_rust_profile() {
 }
 
 for role in base current; do
-  out="$FIXTURES/rust.pprof-rs.cpu.$role.pprof"
+  out="$GENERATED_INPUTS/rust.pprof-rs.cpu.$role.pprof"
   try emit "$out" run_rust_profile "$role"
 done
 

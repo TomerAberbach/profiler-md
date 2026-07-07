@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
-assets="$REPO/scripts/fixtures/assets/julia"
+assets="$REPO/scripts/inputs/assets/julia"
 profile="$assets/profile.jl"
 
-depot="${PROFILER_MD_FIXTURES_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/profiler-md-fixtures}/julia-depot"
+depot="${PROFILER_MD_INPUT_GENERATION_CACHE:-${XDG_CACHE_HOME:-$HOME/.cache}/profiler-md-input-generation}/julia-depot"
 export JULIA_DEPOT_PATH="$depot"
 
 setup_done=
@@ -34,8 +34,8 @@ record_julia() {
 }
 
 for role in base current; do
-  try emit "$FIXTURES/julia.pprof-jl.cpu.$role.pprof" record_julia "$role" cpu
-  try emit "$FIXTURES/julia.pprof-jl.alloc.$role.pprof" record_julia "$role" alloc
+  try emit "$GENERATED_INPUTS/julia.pprof-jl.cpu.$role.pprof" record_julia "$role" cpu
+  try emit "$GENERATED_INPUTS/julia.pprof-jl.alloc.$role.pprof" record_julia "$role" alloc
 done
 
 verify_pairs

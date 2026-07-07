@@ -51,8 +51,8 @@ ensure_docker() {
 # twitter.json sample (a real Twitter API search response), pinned to a release
 # tag and checksum-verified. Our committed copy was reformatted, so the fetched
 # bytes differ from it but parse to the identical document. Fetched on demand
-# (guarded on the file already existing) so cached-fixture runs do no network I/O.
-TWITTER_JSON="$REPO/scripts/fixtures/assets/shared/twitter.json"
+# (guarded on the file already existing) so re-runs do no network I/O.
+TWITTER_JSON="$REPO/scripts/inputs/assets/shared/twitter.json"
 TWITTER_JSON_URL="https://raw.githubusercontent.com/simdjson/simdjson/v3.10.1/jsonexamples/twitter.json"
 TWITTER_JSON_SHA256="30721e496a8d73cfc50658923c34eb2c0fbe15ee6835005e43ee624d8dedf200"
 
@@ -93,13 +93,13 @@ should_generate() {
   return 0
 }
 
-# Runs the repo CLI against a fixture.
+# Runs the repo CLI against a generated input.
 cli() { node "$REPO/src/cli/index.ts" "$@"; }
 
-# Verifies a single fixture converts to Markdown. Returns non-zero if it doesn't
+# Verifies a single generated input converts to Markdown. Returns non-zero if it doesn't
 # (the `|| return 1` matters: under `try`, set -e is off, so an unchecked failing
 # `cli` would otherwise fall through to the "Verified" echo and report success).
-verify_fixture() {
+verify_generated_input() {
   local out=$1
   [[ -f "$out" ]] || { echo "  MISSING after capture: $(rel "$out")" >&2; return 1; }
   cli "$out" >/dev/null || { echo "  FAILED to convert: $(rel "$out")" >&2; return 1; }
@@ -115,7 +115,7 @@ verify_pair() {
   echo "Verified diff $(rel "$base") <> $(rel "$current")"
 }
 
-# Records each fixture emit handled, generated or already present, so
+# Records each generated-input emit handled, captured anew or already present, so
 # `verify_pairs` can diff every base/current pair without callers re-listing
 # paths. Only the base side is recorded, giving one entry per pair.
 _emitted_bases=()
@@ -133,7 +133,7 @@ emit() {
   shift 2
   if should_generate "$out"; then
     "$fn" "$out" "$@" || return 1
-    verify_fixture "$out" || return 1
+    verify_generated_input "$out" || return 1
   fi
   case "$out" in *.base.*) _emitted_bases+=("$out") ;; esac
 }
@@ -144,8 +144,8 @@ emit() {
 status=0
 try() { "$@" || status=1; }
 
-# Diffs every emitted base/current fixture pair, deriving each current path from
-# the recorded base path so callers never re-list fixtures (a stale or forgotten
+# Diffs every emitted base/current generated-input pair, deriving each current
+# path from the recorded base path so callers never re-list generated inputs (a stale or forgotten
 # entry can't silently skip a diff). verify_pair no-ops when a half is missing.
 verify_pairs() {
   local base
@@ -155,7 +155,7 @@ verify_pairs() {
 }
 
 # A scratch directory for clones and builds, cleaned up on exit.
-WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/profiler-md-fixtures.XXXXXX")"
+WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/profiler-md-input-generation.XXXXXX")"
 cleanup_workdir() { rm -rf "$WORKDIR"; }
 trap cleanup_workdir EXIT
 

@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { aggregateInputs } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
-import { readFixture } from '../testing/fixtures.ts'
+import { readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
 import { determineOrigin } from './index.ts'
 
@@ -375,10 +375,10 @@ describe(`determineOrigin`, () => {
   })
 })
 
-// Each profile fixture's expected detected origin, observed through its function
+// Each profile input's expected detected origin, observed through its function
 // categories. Snapshots don't categorize by origin, so they're excluded;
 // `determineOrigin` is unit-tested directly above instead.
-const FIXTURE_ORIGINS: [filename: string, origin: Origin][] = [
+const INPUT_ORIGINS: [filename: string, origin: Origin][] = [
   [`javascript.bun.base.cpuprofile`, `bun`],
   [`javascript.deno.base.cpuprofile`, `deno`],
   [`javascript.node.base.cpuprofile`, `node`],
@@ -398,13 +398,13 @@ const FIXTURE_ORIGINS: [filename: string, origin: Origin][] = [
   [`fsharp.dotnet-trace.current.speedscope.json`, `dotnet-trace`],
 ]
 
-describe(`detected fixture origins`, () => {
-  test.each(FIXTURE_ORIGINS)(`%s is detected as %s`, (filename, origin) => {
-    const inputs = aggregateInputs(readFixture(filename), echoOriginOptions())
+describe(`detected input origins`, () => {
+  test.each(INPUT_ORIGINS)(`%s is detected as %s`, (filename, origin) => {
+    const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
 
     for (const input of inputs) {
       if (input.type !== `profile`) {
-        throw new Error(`expected only profile fixtures`)
+        throw new Error(`expected only profile inputs`)
       }
       expect(new Set(input.functions.map(func => func.category))).toEqual(
         new Set([origin]),
@@ -414,15 +414,15 @@ describe(`detected fixture origins`, () => {
 })
 
 describe(`origin threading`, () => {
-  const nodeFixture = (): Uint8Array =>
-    readFixture(`javascript.node.base.cpuprofile`)
+  const nodeInput = (): Uint8Array =>
+    readInput(`javascript.node.base.cpuprofile`)
 
   test(`an explicit origin overrides detection and reaches categorizeEntries`, () => {
     const options = echoOriginOptions()
 
-    const [detected] = aggregateInputs(nodeFixture(), options)
+    const [detected] = aggregateInputs(nodeInput(), options)
     const [forced] = aggregateInputs(
-      { data: nodeFixture(), origin: `deno` },
+      { data: nodeInput(), origin: `deno` },
       options,
     )
     if (detected?.type !== `profile` || forced?.type !== `profile`) {

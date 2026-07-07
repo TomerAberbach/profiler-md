@@ -25,5 +25,5 @@
     "lib": ["esnext"]
   },
   "include": ["**/*"],
-  "exclude": ["node_modules", "scripts/fixtures/assets"]
+  "exclude": ["node_modules", "scripts/inputs/assets"]
 }

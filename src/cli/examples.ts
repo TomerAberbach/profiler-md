@@ -4,7 +4,7 @@ import { languages } from './languages.ts'
 
 export type ExampleVariant = `base` | `current` | `diff`
 
-/** A `examples/`/`src/fixtures/` filename parsed into its canonical parts. */
+/** A `examples/output/`/`examples/input/` filename parsed into its canonical parts. */
 export type ParsedExample = {
   /** Language or alias id (the first filename segment, e.g. `cpp`, `kotlin`). */
   lang: string
@@ -45,7 +45,7 @@ for (const format of formats) {
 
 /**
  * Parses a canonical `<lang>.<source>.<config?>.<base|current|diff>.<ext...>`
- * example or fixture filename (with or without a trailing `.md`) into its parts.
+ * example or input filename (with or without a trailing `.md`) into its parts.
  */
 export const parseExampleFilename = (filename: string): ParsedExample => {
   const name = filename.endsWith(`.md`) ? filename.slice(0, -3) : filename

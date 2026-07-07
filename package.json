@@ -43,7 +43,7 @@
   },
   "license": "MIT",
   "files": [
-    "examples",
+    "examples/output",
     "dist",
     "docs"
   ],
@@ -72,7 +72,7 @@
     "coverage": "vitest --coverage",
     "bench": "./scripts/bench",
     "build": "tsdown",
-    "generate-fixtures": "./scripts/generate-fixtures",
+    "generate-inputs": "./scripts/generate-inputs",
     "update-readme": "node scripts/update-readme.ts",
     "check-readme": "node scripts/update-readme.ts --check",
     "update-examples": "node scripts/update-examples.ts",

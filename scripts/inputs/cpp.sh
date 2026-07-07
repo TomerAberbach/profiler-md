@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 FMT_REPO="https://github.com/fmtlib/fmt"
 FMT_TAG="11.2.0"
 
-profile="$REPO/scripts/fixtures/assets/cpp/profile.cpp"
+profile="$REPO/scripts/inputs/assets/cpp/profile.cpp"
 
 declare -A rundir=()
 run_for_role() {
@@ -78,8 +78,8 @@ copy_cpp_profile() {
 ensure_docker
 
 for role in base current; do
-  try emit "$FIXTURES/cpp.gperftools.cpu.$role.pprof"  copy_cpp_profile "$role" cpu
-  try emit "$FIXTURES/cpp.gperftools.heap.$role.pprof" copy_cpp_profile "$role" heap
+  try emit "$GENERATED_INPUTS/cpp.gperftools.cpu.$role.pprof"  copy_cpp_profile "$role" cpu
+  try emit "$GENERATED_INPUTS/cpp.gperftools.heap.$role.pprof" copy_cpp_profile "$role" heap
 done
 
 verify_pairs

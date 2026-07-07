@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 CONFIGS=(cpu heap heap-alloc goroutine block mutex threadcreate)
 declare -A CONFIG_TO_PROFILE=(
@@ -9,7 +9,7 @@ declare -A CONFIG_TO_PROFILE=(
   [block]=block [mutex]=mutex [threadcreate]=threadcreate
 )
 
-profile="$REPO/scripts/fixtures/assets/go/profile.go"
+profile="$REPO/scripts/inputs/assets/go/profile.go"
 
 declare -A rundir=()
 run_for_role() {
@@ -33,7 +33,7 @@ copy_go_profile() {
 
 for role in base current; do
   for cfg in "${CONFIGS[@]}"; do
-    out="$FIXTURES/go.pprof.$cfg.$role.pprof"
+    out="$GENERATED_INPUTS/go.pprof.$cfg.$role.pprof"
     try emit "$out" copy_go_profile "$role" "${CONFIG_TO_PROFILE[$cfg]}"
   done
 done

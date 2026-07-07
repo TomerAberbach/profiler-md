@@ -1,5 +1,5 @@
 * text=auto eol=lf
 
 docs/** linguist-documentation
-src/fixtures/** linguist-generated -diff
 examples/** linguist-generated
+examples/input/** -diff

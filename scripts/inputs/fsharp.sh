@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
-assets="$REPO/scripts/fixtures/assets/fsharp"
+assets="$REPO/scripts/inputs/assets/fsharp"
 
 app_dll=""
 setup_once() {
@@ -39,7 +39,7 @@ capture_dotnet_trace() {
 }
 
 for role in base current; do
-  out="$FIXTURES/fsharp.dotnet-trace.$role.speedscope.json"
+  out="$GENERATED_INPUTS/fsharp.dotnet-trace.$role.speedscope.json"
   try emit "$out" capture_dotnet_trace "$role"
 done
 

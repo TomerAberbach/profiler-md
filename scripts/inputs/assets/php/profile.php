@@ -21,7 +21,7 @@ $eventType = $eventArg === 'wall' ? EXCIMER_REAL : EXCIMER_CPU;
 $profiler->setEventType($eventType);
 
 // Keep the period small so a short workload still yields a handful of samples,
-// but not so small that the fixture balloons. 1ms is Excimer's common default.
+// but not so small that the generated input balloons. 1ms is Excimer's common default.
 $profiler->setPeriod(0.001);
 
 $profiler->start();

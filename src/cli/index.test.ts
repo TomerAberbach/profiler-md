@@ -5,27 +5,27 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
-import { fixturePath } from '../testing/fixtures.ts'
+import { inputPath } from '../testing/inputs.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.
 vi.setConfig({ testTimeout: 125_000 })
 
-// A fixture converts to a Markdown heading, or — for a valid capture with no
+// An input converts to a Markdown heading, or — for a valid capture with no
 // samples (e.g. a lock profile that saw no contention) — the no-data message.
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
 
-test.concurrent.each(await fs.readdir(fixturePath()))(
+test.concurrent.each(await fs.readdir(inputPath()))(
   `outputs markdown from a %s file`,
   async filename => {
-    const { status, stdout } = await runCli([fixturePath(filename)])
+    const { status, stdout } = await runCli([inputPath(filename)])
 
     expect(status).toBe(0)
     expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
   },
 )
 
-// A sample fixture is enough to exercise these general flags.
-const cpuProfilePath = fixturePath(`javascript.node.base.cpuprofile`)
+// One input is enough to exercise these general flags.
+const cpuProfilePath = inputPath(`javascript.node.base.cpuprofile`)
 const cpuProfileContent = readFileSync(cpuProfilePath)
 
 test.concurrent(`reads from stdin and auto-detects format`, async () => {
@@ -62,7 +62,7 @@ test.concurrent(`--top-n limits the number of entries shown`, async () => {
 test.concurrent(
   `--base-url makes file paths relative to the given directory`,
   async () => {
-    // The fixtures were captured under random nix temp dirs, so their frame
+    // The inputs were captured under random nix temp dirs, so their frame
     // paths live under /private/tmp; relativizing to it should strip the prefix.
     const baseURL = `/private/tmp`
 
@@ -122,7 +122,7 @@ test.concurrent(
   async () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
     const sourceMapPath = join(dir, `tsc-workload.mjs.map`)
-    // Maps the `typeCheckProject` frame in the node CPU profile fixture
+    // Maps the `typeCheckProject` frame in the node CPU profile input
     // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
     // col 0.
     const mappings = `${`;`.repeat(2)}gCAAA`
@@ -155,7 +155,7 @@ test.concurrent(
   `--source-maps applies inline source maps from files`,
   async () => {
     const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
-    // Maps the `typeCheckProject` frame in the node CPU profile fixture
+    // Maps the `typeCheckProject` frame in the node CPU profile input
     // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
     // col 0.
     const mappings = `${`;`.repeat(2)}gCAAA`
@@ -206,20 +206,20 @@ test.concurrent(
 test.concurrent.each([
   {
     scenario: `two profiles`,
-    baseFixture: `javascript.node.base.cpuprofile`,
-    currentFixture: `javascript.bun.base.cpuprofile`,
+    baseInput: `javascript.node.base.cpuprofile`,
+    currentInput: `javascript.bun.base.cpuprofile`,
   },
   {
     scenario: `two heap snapshots`,
-    baseFixture: `javascript.node.base.heapsnapshot`,
-    currentFixture: `javascript.node.base.heapsnapshot`,
+    baseInput: `javascript.node.base.heapsnapshot`,
+    currentInput: `javascript.node.base.heapsnapshot`,
   },
 ])(
   `diffs $scenario passed as positional arguments`,
-  async ({ baseFixture, currentFixture }) => {
+  async ({ baseInput, currentInput }) => {
     const { status, stdout } = await runCli([
-      fixturePath(baseFixture),
-      fixturePath(currentFixture),
+      inputPath(baseInput),
+      inputPath(currentInput),
     ])
 
     expect(status).toBe(0)
@@ -256,8 +256,8 @@ test.concurrent.each([
   {
     scenario: `diffing a profile against a heap snapshot`,
     args: [
-      fixturePath(`javascript.node.base.cpuprofile`),
-      fixturePath(`javascript.node.base.heapsnapshot`),
+      inputPath(`javascript.node.base.cpuprofile`),
+      inputPath(`javascript.node.base.heapsnapshot`),
     ],
     expectedStderr: `cannot diff a profile against a snapshot`,
     expectedStatus: 1,
@@ -265,7 +265,7 @@ test.concurrent.each([
   {
     scenario: `--match without an equals sign`,
     args: [
-      fixturePath(`javascript.node.base.cpuprofile`),
+      inputPath(`javascript.node.base.cpuprofile`),
       `--match`,
       `no-equals-sign`,
     ],
@@ -274,16 +274,16 @@ test.concurrent.each([
   },
   {
     scenario: `--match with an invalid regex`,
-    args: [fixturePath(`javascript.node.base.cpuprofile`), `--match`, `[=x`],
+    args: [inputPath(`javascript.node.base.cpuprofile`), `--match`, `[=x`],
     expectedStderr: `Invalid --match regex`,
     expectedStatus: 2,
   },
   {
     scenario: `more than two positional arguments`,
     args: [
-      fixturePath(`javascript.node.base.cpuprofile`),
-      fixturePath(`javascript.bun.base.cpuprofile`),
-      fixturePath(`javascript.deno.base.cpuprofile`),
+      inputPath(`javascript.node.base.cpuprofile`),
+      inputPath(`javascript.bun.base.cpuprofile`),
+      inputPath(`javascript.deno.base.cpuprofile`),
     ],
     expectedStderr: `cannot be used together`,
     expectedStatus: 2,

@@ -3,7 +3,7 @@
 /dist/
 .claude/worktrees
 
-# Large fixture assets we fetch.
-scripts/fixtures/assets/java
-scripts/fixtures/assets/python
-scripts/fixtures/assets/shared
+# Large input assets we fetch.
+scripts/inputs/assets/java
+scripts/inputs/assets/python
+scripts/inputs/assets/shared

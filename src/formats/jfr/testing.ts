@@ -3,7 +3,7 @@
  *
  * It emits a single uncompressed chunk with just the types, constant pools, and
  * events that {@link parseJfr} reads, which is enough to exercise the parser and
- * aggregator without depending on the binary fixture.
+ * aggregator without depending on the binary input.
  */
 
 /** A method to place in the constant pools, referenced by index. */

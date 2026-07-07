@@ -6,7 +6,7 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, `.claude/worktrees/**`],
     coverage: {
       include: [`src`],
-      exclude: [`src/fixtures`, `src/testing`, `*.bench.ts`],
+      exclude: [`src/testing`, `*.bench.ts`],
     },
   },
 })

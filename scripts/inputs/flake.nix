@@ -79,10 +79,10 @@
             ASYNC_PROFILER_HOME = "${pkgs.async-profiler}";
             DOTNET_ROOT = "${pkgs.dotnet-sdk}/share/dotnet";
 
-            # Mark the shell so `scripts/generate-fixtures` knows it's already
+            # Mark the shell so `scripts/generate-inputs` knows it's already
             # inside it and skips re-bootstrapping.
             shellHook = ''
-              export PROFILER_MD_FIXTURES_SHELL=1
+              export PROFILER_MD_INPUT_GENERATION_SHELL=1
             '';
           };
         }

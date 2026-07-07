@@ -4,7 +4,7 @@
 # py-spy is rock-solid with SYS_PTRACE — no sudo, no flaky aborts.
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 PY_SPY_VERSION="0.4.0"
 BLACK_VERSION="24.8.0"
@@ -12,7 +12,7 @@ BLACK_VERSION="24.8.0"
 # Black formats CPython's own _pydecimal.py as a real, sizeable workload. Fetch
 # it pinned to a CPython tag and verify its checksum.
 CPYTHON_VERSION="3.13.2"
-TARGET="$REPO/scripts/fixtures/assets/python/_pydecimal.py"
+TARGET="$REPO/scripts/inputs/assets/python/_pydecimal.py"
 TARGET_URL="https://raw.githubusercontent.com/python/cpython/v$CPYTHON_VERSION/Lib/_pydecimal.py"
 TARGET_SHA256="87a3372df4c4269adcdac5725e04675d306abcfa8d65e8dda59c1846e3d202ac"
 
@@ -82,11 +82,11 @@ copy_python_profile() {
 ensure_docker
 
 for role in base current; do
-  try emit "$FIXTURES/python.py-spy.cpu.$role.collapsed" \
+  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$role.collapsed" \
     copy_python_profile "$role" cpu.collapsed
-  try emit "$FIXTURES/python.py-spy.cpu.$role.speedscope.json" \
+  try emit "$GENERATED_INPUTS/python.py-spy.cpu.$role.speedscope.json" \
     copy_python_profile "$role" cpu.speedscope.json
-  try emit "$FIXTURES/python.py-spy.wall.$role.collapsed" \
+  try emit "$GENERATED_INPUTS/python.py-spy.wall.$role.collapsed" \
     copy_python_profile "$role" wall.collapsed
 done
 

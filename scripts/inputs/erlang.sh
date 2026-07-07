@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 EFLAMBE_PIN="0.3.1"
 
-assets="$REPO/scripts/fixtures/assets/erlang"
+assets="$REPO/scripts/inputs/assets/erlang"
 
 project_dir=""
 setup_project() {
@@ -65,7 +65,7 @@ record_eflambe() {
 }
 
 for role in base current; do
-  try emit "$FIXTURES/erlang.eflambe.cpu.$role.collapsed" record_eflambe "$role"
+  try emit "$GENERATED_INPUTS/erlang.eflambe.cpu.$role.collapsed" record_eflambe "$role"
 done
 
 verify_pairs
