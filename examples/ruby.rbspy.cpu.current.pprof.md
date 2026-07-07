@@ -39,7 +39,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 |  13.9% | 182.9ms |      18 | `do_parse`                 | `(eval)`                                                             |
 |   1.6% |  20.8ms |       2 | `activate_bin_path`        | `usr/lib/ruby/vendor_ruby/rubygems.rb`                               |
 |   1.5% |  20.1ms |       2 | `tap`                      | `<internal:kernel>`                                                  |
-|   0.9% |  11.6ms |       2 | `<internal:gem_prelude>`   | `<internal:gem_prelude>`                                             |
+|   0.9% |  11.6ms |       2 | `(anonymous)`              | `<internal:gem_prelude>`                                             |
 |   0.8% |  10.3ms |       1 | `block in dir`             | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
 |   0.7% |   9.7ms |       1 | `block in execute_runners` | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
 
@@ -79,7 +79,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 51.6% | 10.3ms |       1 | `block in dir`             | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
 | 48.4% |  9.7ms |       1 | `block in execute_runners` | `var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
 
-##### `<internal:gem_prelude>` (`<internal:gem_prelude>`)
+##### `(anonymous)` (`<internal:gem_prelude>`)
 
 |      % |   Time | Samples | Callee                   | Location    |
 | -----: | -----: | ------: | ------------------------ | ----------- |

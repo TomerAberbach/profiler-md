@@ -81,7 +81,7 @@ const resolveFrames = (
   const origin = detector.resolve()
 
   const normalize = originNormalizeFrame(origin)
-  if (!normalize) {
+  if (!normalize && !frames.some(isNamedByOwnPath)) {
     return { origin, frames, frameFunctions }
   }
   return {
@@ -89,10 +89,32 @@ const resolveFrames = (
     // Every frame passes through, located or not: the origin decides what a
     // frame needs from how the format produced it (see
     // {@link OriginSpec.normalizeFrame}).
-    frames: frames.map(frame => normalize(frame, context.format)),
+    frames: frames.map(frame => {
+      const normalized = normalize ? normalize(frame, context.format) : frame
+      return normalized && dropNameMatchingOwnPath(normalized)
+    }),
     frameFunctions: [],
   }
 }
+
+/**
+ * A frame named by its own file path carries no function name: unrelated
+ * profilers independently converge on this idiom for a file's top-level code
+ * (Excimer names a PHP script's top-level scope this way in speedscope output;
+ * rbspy does the same for Ruby's `<internal:gem_prelude>` in both speedscope
+ * and pprof output). No profiler names a real function by its own file path,
+ * so drop the name for any origin and format — the top-level code renders as
+ * `(anonymous)` with the path in the Location column, relativized like any
+ * other path. Runs after origin normalization so it sees the frame's final
+ * name and location (e.g. after a packed location is split out of the name).
+ */
+const isNamedByOwnPath = (frame: ProfileStackFrame): boolean =>
+  frame.name !== undefined && frame.name === frame.location?.urlOrPath
+
+const dropNameMatchingOwnPath = (
+  frame: ProfileStackFrame,
+): ProfileStackFrame =>
+  isNamedByOwnPath(frame) ? { ...frame, name: undefined } : frame
 
 /**
  * Aggregates one {@link Profile}'s samples over its resolved distinct frames.

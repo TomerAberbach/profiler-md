@@ -38,7 +38,7 @@ Functions ranked by total wall time spent in the function and all its callees.
 |  99.0% |   1.32s |     131 | `<main>`                 | `usr/local/bin/rubocop`                |
 |  14.6% | 194.2ms |      19 | `do_parse`               | `(eval)`                               |
 |   2.1% |  28.1ms |       3 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
-|   1.0% |  13.2ms |       2 | `<internal:gem_prelude>` | `<internal:gem_prelude>`               |
+|   1.0% |  13.2ms |       2 | `(anonymous)`            | `<internal:gem_prelude>`               |
 
 #### Callees
 
@@ -69,7 +69,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | -----: | ------: | ------------------------ | ----------- |
 | 69.8% | 19.6ms |       2 | `(unknown) [c function]` | `(unknown)` |
 
-##### `<internal:gem_prelude>` (`<internal:gem_prelude>`)
+##### `(anonymous)` (`<internal:gem_prelude>`)
 
 |      % |   Time | Samples | Callee                   | Location    |
 | -----: | -----: | ------: | ------------------------ | ----------- |
