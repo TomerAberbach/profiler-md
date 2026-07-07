@@ -9,17 +9,17 @@ const execFileAsync = promisify(execFile)
 
 const check = process.argv.includes(`--check`)
 
-const fixtureFilenames = readdirSync(`src/fixtures`)
+const inputFilenames = readdirSync(`examples/input`)
 
-// Fixtures named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
-// as a pair into `examples/<name>.diff.<ext>.md`. Keyed by `<name>.<ext>` since
-// a single `<name>` can have several extensions (e.g. `javascript.node` has
+// Inputs named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
+// as a pair into `examples/output/<name>.diff.<ext>.md`. Keyed by `<name>.<ext>`
+// since a single `<name>` can have several extensions (e.g. `javascript.node` has
 // `.cpuprofile`, `.heapprofile`, and `.heapsnapshot`).
 const pairs = new Map<
   string,
   { name: string; ext: string; base?: string; current?: string }
 >()
-for (const filename of fixtureFilenames) {
+for (const filename of inputFilenames) {
   // `ext` allows dots so multi-segment extensions like `.speedscope.json` pair
   // up (e.g. `ruby.base.speedscope.json` / `ruby.current.speedscope.json`).
   const match = /^(?<name>.+)\.(?<role>base|current)\.(?<ext>.+)$/u.exec(
@@ -41,7 +41,7 @@ for (const filename of fixtureFilenames) {
 for (const { name, base, current } of pairs.values()) {
   if (!base || !current) {
     process.stderr.write(
-      `src/fixtures/${base ?? current} is missing its ${
+      `examples/input/${base ?? current} is missing its ${
         base ? `current` : `base`
       } counterpart for the "${name}" diff pair.\n`,
     )
@@ -50,39 +50,39 @@ for (const { name, base, current } of pairs.values()) {
 }
 
 const markdownFilenames = new Set([
-  ...fixtureFilenames.map(filename => `${filename}.md`),
+  ...inputFilenames.map(filename => `${filename}.md`),
   ...[...pairs.values()].map(({ name, ext }) => `${name}.diff.${ext}.md`),
 ])
 
 if (check) {
-  for (const filename of readdirSync(`examples`)) {
+  for (const filename of readdirSync(`examples/output`)) {
     if (!markdownFilenames.has(filename)) {
       process.stderr.write(
-        `examples/${filename} has no corresponding fixture. Run \`pnpm update-examples\` to fix.\n`,
+        `examples/output/${filename} has no corresponding input. Run \`pnpm update-examples\` to fix.\n`,
       )
       process.exit(1)
     }
   }
 } else {
-  for (const filename of readdirSync(`examples`)) {
+  for (const filename of readdirSync(`examples/output`)) {
     if (!markdownFilenames.has(filename)) {
-      rmSync(join(`examples`, filename))
+      rmSync(join(`examples/output`, filename))
     }
   }
 }
 
-const total = fixtureFilenames.length + pairs.size
+const total = inputFilenames.length + pairs.size
 let done = 0
 
 const updateExample = limitConcur(
   availableParallelism(),
-  async (exampleName: string, fixturePaths: string[]): Promise<void> => {
-    const examplePath = join(`examples`, `${exampleName}.md`)
+  async (exampleName: string, inputPaths: string[]): Promise<void> => {
+    const examplePath = join(`examples/output`, `${exampleName}.md`)
 
     const start = performance.now()
     const { stdout: markdown } = await execFileAsync(
       `node`,
-      [`src/cli/index.ts`, `--base-url`, `/`, ...fixturePaths],
+      [`src/cli/index.ts`, `--base-url`, `/`, ...inputPaths],
       { encoding: `utf8`, maxBuffer: 64 * 1024 * 1024 },
     )
     const elapsed = performance.now() - start
@@ -116,13 +116,13 @@ const updateExample = limitConcur(
 )
 
 await Promise.all([
-  ...fixtureFilenames.map(filename =>
-    updateExample(filename, [join(`src/fixtures`, filename)]),
+  ...inputFilenames.map(filename =>
+    updateExample(filename, [join(`examples/input`, filename)]),
   ),
   ...[...pairs.values()].map(({ name, ext, base, current }) =>
     updateExample(`${name}.diff.${ext}`, [
-      join(`src/fixtures`, base!),
-      join(`src/fixtures`, current!),
+      join(`examples/input`, base!),
+      join(`examples/input`, current!),
     ]),
   ),
 ])

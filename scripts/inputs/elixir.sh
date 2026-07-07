@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 export MIX_HOME="$WORKDIR/mix"
 export HEX_HOME="$WORKDIR/hex"
@@ -9,7 +9,7 @@ export HEX_HOME="$WORKDIR/hex"
 JASON_PIN="1.4.4"
 EFLAMBE_PIN="0.3.1"
 
-assets="$REPO/scripts/fixtures/assets/elixir"
+assets="$REPO/scripts/inputs/assets/elixir"
 
 # Run a network command bounded by a timeout and retried. hex.pm connections
 # occasionally stall on macOS. `</dev/null` keeps any prompt from blocking.
@@ -104,7 +104,7 @@ record_eflambe() {
 }
 
 for role in base current; do
-  try emit "$FIXTURES/elixir.eflambe.cpu.$role.collapsed" record_eflambe "$role"
+  try emit "$GENERATED_INPUTS/elixir.eflambe.cpu.$role.collapsed" record_eflambe "$role"
 done
 
 verify_pairs

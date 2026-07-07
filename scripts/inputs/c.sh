@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 ZSTD_REPO="https://github.com/facebook/zstd"
 ZSTD_TAG="v1.5.6"
@@ -91,8 +91,8 @@ copy_c_profile() {
 ensure_docker
 
 for role in base current; do
-  try emit "$FIXTURES/c.gperftools.cpu.$role.pprof"  copy_c_profile "$role" cpu
-  try emit "$FIXTURES/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
+  try emit "$GENERATED_INPUTS/c.gperftools.cpu.$role.pprof"  copy_c_profile "$role" cpu
+  try emit "$GENERATED_INPUTS/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
 done
 
 verify_pairs

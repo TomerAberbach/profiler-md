@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
-assets="$REPO/scripts/fixtures/assets/java"
+assets="$REPO/scripts/inputs/assets/java"
 mkdir -p "$assets"
 
 RENAISSANCE_VERSION="0.15.0"
@@ -82,16 +82,16 @@ JDK_JFR_CONFIGS=(cpu alloc live lock all)
 for role in base current; do
   # async-profiler -> JFR
   for cfg in "${AP_JFR_CONFIGS[@]}"; do
-    out="$FIXTURES/java.async-profiler.$cfg.$role.jfr"
+    out="$GENERATED_INPUTS/java.async-profiler.$cfg.$role.jfr"
     try emit "$out" capture_ap_jfr "$role" "${AP_JFR_EVENT[$cfg]}"
   done
 
   # async-profiler -> collapsed
-  try emit "$FIXTURES/java.async-profiler.cpu.$role.collapsed" capture_ap_collapsed "$role"
+  try emit "$GENERATED_INPUTS/java.async-profiler.cpu.$role.collapsed" capture_ap_collapsed "$role"
 
   # JDK Flight Recorder -> JFR
   for cfg in "${JDK_JFR_CONFIGS[@]}"; do
-    out="$FIXTURES/java.jdk.$cfg.$role.jfr"
+    out="$GENERATED_INPUTS/java.jdk.$cfg.$role.jfr"
     try emit "$out" capture_jdk_jfr "$role" "${JDK_JFR_OPTS[$cfg]}"
   done
 done

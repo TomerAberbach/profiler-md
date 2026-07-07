@@ -71,7 +71,6 @@ profiler-md
 │   │   ├── markdown.ts
 │   │   └── types.ts
 │   │
-│   ├── fixtures/             # Profiles for testing and docs
 │   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
 │
 ├── docs/
@@ -80,14 +79,16 @@ profiler-md
 │
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
-│   ├── generate-fixtures     # Regenerate src/fixtures/ by running scripts/fixtures/ inside a nix dev shell
-│   ├── fixtures/             # Per-language workload scripts (<lang>.sh) + nix flake providing the profiler toolchain
+│   ├── generate-inputs       # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
+│   ├── inputs/               # Per-language workload scripts (<lang>.sh) + nix flake providing the profiler toolchain
 │   ├── check-publish         # Pre-publish sanity checks (runs in prepublishOnly)
 │   ├── publish               # Publish the package
-│   ├── update-examples.ts    # Update the examples/ directory from src/fixtures/
+│   ├── update-examples.ts    # Update examples/output/ from examples/input/
 │   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
 │
-├── examples/                 # Markdown generated from src/fixtures/* using `pnpm update-examples`
+├── examples/
+│   ├── input/                # Profile and snapshot inputs for testing and docs
+│   └── output/               # Markdown generated from examples/input/* using `pnpm update-examples`
 └── readme.md                 # CLI and matrix sections generated using `pnpm update-readme`
 ```
 
@@ -101,18 +102,18 @@ pnpm test
 pnpm test -u   # Update snapshots
 pnpm coverage
 
-# Update `examples/` from `src/fixtures/`
+# Update `examples/output/` from `examples/input/`
 pnpm update-examples
 # Update readme (CLI help + language matrix) from src/cli/languages.ts and `--help`
 pnpm update-readme
 
 # Benchmark the CLI with the given args
-pnpm bench ./src/fixtures/javascript.node.base.cpuprofile
+pnpm bench ./examples/input/javascript.node.base.cpuprofile
 
-# Generate fixtures
-pnpm generate-fixtures           # --missing: skip fixtures that exist
-pnpm generate-fixtures --all     # Delete targets first, regenerate all
-pnpm generate-fixtures go ruby   # Limit to named workload scripts
+# Generate inputs
+pnpm generate-inputs           # --missing: skip already-generated inputs
+pnpm generate-inputs --all     # Delete targets first, regenerate all
+pnpm generate-inputs go ruby   # Limit to named workload scripts
 ```
 
 ## Testing
@@ -134,13 +135,13 @@ pnpm generate-fixtures go ruby   # Limit to named workload scripts
 
 ### Format vs. origin logic
 
-A behavior observed in a fixture may be a quirk of the _origin_ (profiler) that
+A behavior observed in an input may be a quirk of the _origin_ (profiler) that
 emitted it, of the _format_, of their combination, or of profiles generally.
 Before writing code for it:
 
 1. Enumerate the (origin, format) pairs the logic must apply to. Check every
    format each candidate origin emits and every origin that emits each candidate
-   format — not just the fixture at hand
+   format — not just the input at hand
 2. From the shape of that set, decide what the behavior is a quirk of, and place
    the logic there:
    - The **origin(s)**, across their formats → the origin's code (e.g.
@@ -159,8 +160,8 @@ formats together. Considerations that inform the call:
 - **Independent convergence suggests an idiom.** When unrelated origins (or
   formats) exhibit the same behavior without any shared lineage, that is
   evidence of a convention emitters naturally converge on — expect more
-  occurrences from origins not yet fixtured, and prefer the broader placement so
-  each new one is already handled rather than rediscovered
+  occurrences from origins without committed inputs, and prefer the broader
+  placement so each new one is already handled rather than rediscovered
 - **Does the logic's correctness depend on knowing the origin or format?** If
   the same bytes mean different things per emitter (e.g. a speedscope `line` as
   definition vs. executing line), the logic is origin/format knowledge and
@@ -204,18 +205,18 @@ formats together. Considerations that inform the call:
 ### Research
 
 - [ ] Research the format structure online
-- [ ] Generate a fixture
-  - [ ] Add or update a workload script in `scripts/fixtures/`
+- [ ] Generate an input
+  - [ ] Add or update a workload script in `scripts/inputs/`
     - If it needs a dependency not already available, add it to the nix flake in
-      `scripts/fixtures/flake.nix`
+      `scripts/inputs/flake.nix`
     - For a new language, profile a real, popular program written in that
       language with realistic input. NEVER use a fake/toy workload or synthetic
-      input. The fixture must reflect a genuine program
-  - [ ] Run `pnpm generate-fixtures <lang>` to produce it in `src/fixtures/`
-- [ ] Analyze the fixture to confirm it aligns with online research
+      input. The generated input must reflect a genuine program
+  - [ ] Run `pnpm generate-inputs <lang>` to produce it in `examples/input/`
+- [ ] Analyze the input to confirm it aligns with online research
 - [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
-- [ ] Identify the profiler that produced the fixture and decide whether it
-      needs a new origin (see `OriginSpec`)
+- [ ] Identify the profiler that produced the input and decide whether it needs
+      a new origin (see `OriginSpec`)
 
 ### Implementation
 
@@ -258,12 +259,12 @@ formats together. Considerations that inform the call:
   - Add format ID to the `formats` tuple
 - [ ] Register in `src/cli/languages.ts`:
   - Add format ID to the relevant language entries in `languages` map
-  - Add example entries (with fixture filenames and labels) if fixtures exist
+  - Add example entries (with input filenames and labels) if inputs exist
 
 ### Documentation
 
 - [ ] Create `docs/formats/<name>.md`: format description for `--help <format>`
 - [ ] Add how to generate the format in relevant `docs/languages/<languages>.md`
       files for `--help <language>`
-- [ ] Run `pnpm update-examples` to generate `examples/<fixture>.md`
+- [ ] Run `pnpm update-examples` to generate `examples/output/<input>.md`
 - [ ] Run `pnpm update-readme` to update the CLI help and language/format matrix

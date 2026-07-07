@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 KOTLIN_RESULT_REPO=https://github.com/michaelbull/kotlin-result
 KOTLIN_RESULT_TAG=2.3.1
@@ -110,16 +110,16 @@ JDK_JFR_CONFIGS=(cpu alloc live lock all)
 for role in base current; do
   # async-profiler -> JFR
   for cfg in "${AP_JFR_CONFIGS[@]}"; do
-    out="$FIXTURES/kotlin.async-profiler.$cfg.$role.jfr"
+    out="$GENERATED_INPUTS/kotlin.async-profiler.$cfg.$role.jfr"
     try emit "$out" capture_ap_jfr "$role" "${AP_JFR_EVENT[$cfg]}"
   done
 
   # async-profiler -> collapsed
-  try emit "$FIXTURES/kotlin.async-profiler.cpu.$role.collapsed" capture_ap_collapsed "$role"
+  try emit "$GENERATED_INPUTS/kotlin.async-profiler.cpu.$role.collapsed" capture_ap_collapsed "$role"
 
   # JDK Flight Recorder -> JFR
   for cfg in "${JDK_JFR_CONFIGS[@]}"; do
-    out="$FIXTURES/kotlin.jdk.$cfg.$role.jfr"
+    out="$GENERATED_INPUTS/kotlin.jdk.$cfg.$role.jfr"
     try emit "$out" capture_jdk_jfr "$role" "${JDK_JFR_OPTS[$cfg]}"
   done
 done

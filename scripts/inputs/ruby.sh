@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 SINATRA_REPO="https://github.com/sinatra/sinatra"
 SINATRA_TAG="v4.1.1"
@@ -70,7 +70,7 @@ ensure_docker
 
 for role in base current; do
   for ext in "${EXTS[@]}"; do
-    try emit "$FIXTURES/ruby.rbspy.cpu.$role.$ext" copy_ruby_profile "$role" "$ext"
+    try emit "$GENERATED_INPUTS/ruby.rbspy.cpu.$role.$ext" copy_ruby_profile "$role" "$ext"
   done
 done
 

@@ -10,7 +10,7 @@ const check = process.argv.includes(`--check`)
 
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
-// Discover every `examples/*.md` and group it by primary language, then format,
+// Discover every `examples/output/*.md` and group it by primary language, then format,
 // then source/config combo, so the matrix links them all without hand
 // maintenance. Variants are kept per combo and linked in base → current → diff
 // order.
@@ -23,7 +23,7 @@ type Combo = {
 const variantOrder: ExampleVariant[] = [`base`, `current`, `diff`]
 
 const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
-for (const filename of readdirSync(`examples`)) {
+for (const filename of readdirSync(`examples/output`)) {
   const { lang, source, config, variant, format } =
     parseExampleFilename(filename)
   const primary = languageAliasToPrimary.get(lang) ?? lang
@@ -31,12 +31,12 @@ for (const filename of readdirSync(`examples`)) {
   const language = languages.get(primary)
   if (!language) {
     throw new Error(
-      `examples/${filename} maps to unknown language "${primary}"`,
+      `examples/output/${filename} maps to unknown language "${primary}"`,
     )
   }
   if (!language.formats.includes(format)) {
     throw new Error(
-      `examples/${filename}: format "${format}" is not declared for "${primary}"`,
+      `examples/output/${filename}: format "${format}" is not declared for "${primary}"`,
     )
   }
 
@@ -71,7 +71,9 @@ const anchor = (text: string, href: string): string =>
 const variantLinks = (combo: Combo): string =>
   variantOrder
     .filter(variant => combo.variants.has(variant))
-    .map(variant => anchor(variant, `examples/${combo.variants.get(variant)!}`))
+    .map(variant =>
+      anchor(variant, `examples/output/${combo.variants.get(variant)!}`),
+    )
     .join(`, `)
 
 const renderFormatCell = (id: string, format: Format): string => {

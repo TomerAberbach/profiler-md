@@ -5,17 +5,17 @@ set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 export REPO
 
-FIXTURES_SCRIPTS="$REPO/scripts/fixtures"
-export FIXTURES_SCRIPTS
+INPUT_GENERATION_SCRIPTS="$REPO/scripts/inputs"
+export INPUT_GENERATION_SCRIPTS
 
-FIXTURES="$REPO/src/fixtures"
-export FIXTURES
-mkdir -p "$REPO/src/fixtures"
+GENERATED_INPUTS="$REPO/examples/input"
+export GENERATED_INPUTS
+mkdir -p "$REPO/examples/input"
 
 # Re-exec inside the nix dev shell so the full profiler toolchain is on PATH.
-if [[ -z "${PROFILER_MD_FIXTURES_SHELL:-}" ]]; then
-  export PROFILER_MD_FIXTURES_SHELL=1
-  exec nix develop "$FIXTURES_SCRIPTS" --command "$REPO/scripts/generate-fixtures" "$@"
+if [[ -z "${PROFILER_MD_INPUT_GENERATION_SHELL:-}" ]]; then
+  export PROFILER_MD_INPUT_GENERATION_SHELL=1
+  exec nix develop "$INPUT_GENERATION_SCRIPTS" --command "$REPO/scripts/generate-inputs" "$@"
 fi
 
 trap 'echo >&2; echo "Interrupted! Stopping." >&2; exit 130' INT TERM
@@ -36,26 +36,26 @@ done
 # Resolve the selected workload scripts (all, or just the named langs).
 scripts=()
 if [[ ${#langs[@]} -eq 0 ]]; then
-  for s in "$FIXTURES_SCRIPTS"/*.sh; do
+  for s in "$INPUT_GENERATION_SCRIPTS"/*.sh; do
     [[ "$(basename "$s")" == _* ]] && continue
     scripts+=("$s")
   done
 else
   for lang in "${langs[@]}"; do
-    s="$FIXTURES_SCRIPTS/$lang.sh"
+    s="$INPUT_GENERATION_SCRIPTS/$lang.sh"
     [[ -f "$s" ]] || { echo "no workload script for '$lang' ($s)" >&2; exit 1; }
     scripts+=("$s")
   done
 fi
 
-# --all: delete each selected language's fixtures first, so the subsequent run
+# --all: delete each selected language's generated inputs first, so the subsequent run
 # regenerates them from scratch.
 if [[ "$mode" == all ]]; then
-  echo "Deleting target fixtures"
-  fixtures_dir="$REPO/src/fixtures"
+  echo "Deleting target generated inputs"
+  generated_inputs_dir="$REPO/examples/input"
   for s in "${scripts[@]}"; do
     lang="$(basename "$s" .sh)"
-    for f in "$fixtures_dir/$lang."*; do
+    for f in "$generated_inputs_dir/$lang."*; do
       [[ -e "$f" ]] || continue
       echo "rm ${f#"$REPO"/}"
       rm -f "$f"
@@ -64,7 +64,7 @@ if [[ "$mode" == all ]]; then
 fi
 
 LOG_DIR="${TMPDIR:-/tmp}"
-LOG_DIR="${LOG_DIR%/}/profiler-md-fixtures-logs"
+LOG_DIR="${LOG_DIR%/}/profiler-md-input-generation-logs"
 rm -rf "$LOG_DIR"
 mkdir -p "$LOG_DIR"
 

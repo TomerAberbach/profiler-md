@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cd "$(dirname "$0")/../.." || exit 1
-source scripts/fixtures/_common.sh
+source scripts/inputs/_common.sh
 
 COMPOSER_VERSION="2.7.7"
 COMPOSER_URL="https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar"
@@ -16,7 +16,7 @@ if ! php -r 'exit(defined("EXCIMER_CPU") ? 0 : 1);' >/dev/null 2>&1; then
   CONFIGS=(wall)
 fi
 
-profile="$REPO/scripts/fixtures/assets/php/profile.php"
+profile="$REPO/scripts/inputs/assets/php/profile.php"
 
 composer_phar=""
 fetch_composer() {
@@ -57,7 +57,7 @@ capture_excimer() {
 
 for role in base current; do
   for cfg in "${CONFIGS[@]}"; do
-    out="$FIXTURES/php.excimer.$cfg.$role.speedscope.json"
+    out="$GENERATED_INPUTS/php.excimer.$cfg.$role.speedscope.json"
     try emit "$out" capture_excimer "$role" "$cfg"
   done
 done
