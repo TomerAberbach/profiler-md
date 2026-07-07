@@ -136,6 +136,16 @@ export const formatSourceLocationPath = (
           : location.url.href
     } else if (isSameOrigin(baseURL, location.url)) {
       path = relativeURLPath(baseURL.pathname, location.url.pathname)
+      // A path that goes up more than two levels above the base URL is a
+      // system or toolchain file, not code near the project; `/nix/store/...`
+      // reads better than a long `../` prefix that only reflects how deep the
+      // base URL is.
+      if (TOO_MANY_UPS.test(path)) {
+        path =
+          location.url.protocol === `file:`
+            ? location.url.pathname
+            : location.url.href
+      }
     } else {
       path = location.url.href
     }
@@ -164,6 +174,13 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
 
   return url1.origin === url2.origin
 }
+
+/**
+ * A relative path that goes up more than two levels. Up to two keep sibling
+ * projects readable (`../../lib/src/util.ts` in a monorepo); beyond that the
+ * prefix only says how deep the base URL is, not where the file is.
+ */
+const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
 
 const relativeURLPath = (from: string, to: string): string => {
   // Drop the last segment of `from` (the filename or trailing empty string
