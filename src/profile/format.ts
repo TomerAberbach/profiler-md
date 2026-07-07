@@ -14,11 +14,13 @@ import {
   capitalizeFirst,
   formatArrow,
   formatBytes,
+  formatBytesDelta,
   formatChange,
   formatConjunction,
   formatCount,
   formatMicroseconds,
   formatMilliseconds,
+  formatMillisecondsDelta,
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import {
@@ -644,7 +646,7 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
       formatValue(baseValue, metric),
       formatValue(currentValue, metric),
     )}${formatChange(baseValue, currentValue, magnitude =>
-      formatValue(magnitude, metric),
+      formatValueDelta(magnitude, metric),
     )}`
   })
   const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
@@ -1194,7 +1196,11 @@ const measureCells = (
 ]
 
 const metricCell = (value: number, metric: Metric): Cell =>
-  numberCell(value, value => formatValue(value, metric))
+  numberCell(
+    value,
+    value => formatValue(value, metric),
+    value => formatValueDelta(value, metric),
+  )
 
 /** Formats a single metric value (e.g. as milliseconds, bytes, or a count). */
 const formatValue = (value: number, metric: Metric): string => {
@@ -1203,6 +1209,18 @@ const formatValue = (value: number, metric: Metric): string => {
       return formatMilliseconds(value * metric.milliseconds)
     case `size`:
       return formatBytes(value * metric.bytes)
+    case `custom`:
+      return formatCount(value, metric.unit)
+  }
+}
+
+/** Formats a single metric delta magnitude, at delta precision. */
+const formatValueDelta = (value: number, metric: Metric): string => {
+  switch (metric.type) {
+    case `time`:
+      return formatMillisecondsDelta(value * metric.milliseconds)
+    case `size`:
+      return formatBytesDelta(value * metric.bytes)
     case `custom`:
       return formatCount(value, metric.unit)
   }

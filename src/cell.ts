@@ -3,24 +3,35 @@ import type { Diff } from './diff.ts'
 import {
   formatArrow,
   formatBytes,
+  formatBytesDelta,
   formatCount,
-  formatDelta,
   formatPercent,
   formatPercentChange,
+  formatSigned,
 } from './helpers/format.ts'
 import { inlineCode, table, text } from './helpers/markdown.ts'
 import type { Header } from './helpers/markdown.ts'
 
 /** A single table cell, already resolved to a value and a formatter. */
 export type Cell =
-  | { kind: `number`; value: number; format: (value: number) => string }
+  | {
+      kind: `number`
+      value: number
+      format: (value: number) => string
+      /** Formats a delta magnitude of this value, at delta precision. */
+      formatDelta: (value: number) => string
+    }
   | { kind: `text`; children: PhrasingContent[] }
 
-/** A right-aligned numeric cell formatted via {@link format}. */
+/**
+ * A right-aligned numeric cell formatted via {@link format}, with deltas
+ * formatted via {@link formatDelta} (defaults to {@link format}).
+ */
 export const numberCell = (
   value: number,
   format: (value: number) => string,
-): Cell => ({ kind: `number`, value, format })
+  formatDelta: (value: number) => string = format,
+): Cell => ({ kind: `number`, value, format, formatDelta })
 
 /** A right-aligned numeric cell formatted as a percent. */
 export const percentCell = (fraction: number): Cell =>
@@ -30,7 +41,8 @@ export const percentCell = (fraction: number): Cell =>
 export const countCell = (count: number): Cell => numberCell(count, formatCount)
 
 /** A right-aligned numeric cell formatted as bytes. */
-export const bytesCell = (bytes: number): Cell => numberCell(bytes, formatBytes)
+export const bytesCell = (bytes: number): Cell =>
+  numberCell(bytes, formatBytes, formatBytesDelta)
 
 /** A left-aligned text cell. */
 export const textCell = (children: PhrasingContent[] | string): Cell => ({
@@ -99,12 +111,13 @@ export const formatDiffTable = (
       const currentValue = numericValue(current?.[primaryIndex])
       const delta = currentValue - baseValue
       const primary = present[primaryIndex]!
-      const formatPrimary = primary.kind === `number` ? primary.format : String
+      const formatPrimaryDelta =
+        primary.kind === `number` ? primary.formatDelta : String
 
       return [
         ...cells.slice(0, changeDeltaIndex),
         [text(formatPercentChange(baseValue, currentValue))],
-        [text(formatDelta(delta, formatPrimary(Math.abs(delta))))],
+        [text(formatSigned(delta, formatPrimaryDelta(Math.abs(delta))))],
         ...cells.slice(changeDeltaIndex),
       ]
     }),

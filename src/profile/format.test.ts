@@ -377,7 +377,7 @@ describe(`formatProfileDiff`, () => {
         {
           Category: `ours`,
           Change: `+100.0%`,
-          Delta: `+0.1ms`,
+          Delta: `+0.10ms`,
           '%': `100.0%`,
           Time: `0.1ms → 0.2ms`,
           Samples: `5 → 10`,
@@ -434,7 +434,7 @@ describe(`formatProfileDiff`, () => {
     const expectedRegressions = [
       {
         Change: `+100.0%`,
-        Delta: `+0.1ms`,
+        Delta: `+0.10ms`,
         '%': `62.5% → 83.3%`,
         Time: `0.1ms → 0.2ms`,
         Samples: `5 → 10`,
@@ -443,7 +443,7 @@ describe(`formatProfileDiff`, () => {
       },
       {
         Change: `new`,
-        Delta: `+40.0µs`,
+        Delta: `+0.04ms`,
         '%': `0.0% → 16.7%`,
         Time: `0ms → 40.0µs`,
         Samples: `0 → 2`,
@@ -454,7 +454,7 @@ describe(`formatProfileDiff`, () => {
     const expectedImprovements = [
       {
         Change: `removed`,
-        Delta: `-0.1ms`,
+        Delta: `-0.06ms`,
         '%': `37.5% → 0.0%`,
         Time: `0.1ms → 0ms`,
         Samples: `3 → 0`,
@@ -524,7 +524,7 @@ describe(`formatProfileDiff`, () => {
       [
         {
           Change: `+100.0%`,
-          Delta: `+0.1ms`,
+          Delta: `+0.10ms`,
           '%': `62.5% → 83.3%`,
           Time: `0.1ms → 0.2ms`,
           Samples: `5 → 10`,
@@ -533,7 +533,7 @@ describe(`formatProfileDiff`, () => {
         },
         {
           Change: `new`,
-          Delta: `+40.0µs`,
+          Delta: `+0.04ms`,
           '%': `0.0% → 16.7%`,
           Time: `0ms → 40.0µs`,
           Samples: `0 → 2`,

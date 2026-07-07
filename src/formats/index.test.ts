@@ -421,7 +421,7 @@ describe(`diffProfiles`, () => {
         {
           Category: `ours`,
           Change: `+50.0%`,
-          Delta: `+0.1ms`,
+          Delta: `+0.08ms`,
           '%': `100.0%`,
           Time: `0.2ms`,
           Samples: `8 → 12`,
@@ -432,7 +432,7 @@ describe(`diffProfiles`, () => {
     // common ancestor is hidden by the default `showEntry`.
     const funcA = {
       Change: `+100.0%`,
-      Delta: `+0.1ms`,
+      Delta: `+0.10ms`,
       '%': `62.5% → 83.3%`,
       Time: `0.1ms → 0.2ms`,
       Samples: `5 → 10`,
@@ -441,7 +441,7 @@ describe(`diffProfiles`, () => {
     }
     const funcC = {
       Change: `new`,
-      Delta: `+40.0µs`,
+      Delta: `+0.04ms`,
       '%': `0.0% → 16.7%`,
       Time: `0ms → 40.0µs`,
       Samples: `0 → 2`,
@@ -450,7 +450,7 @@ describe(`diffProfiles`, () => {
     }
     const funcB = {
       Change: `removed`,
-      Delta: `-0.1ms`,
+      Delta: `-0.06ms`,
       '%': `37.5% → 0.0%`,
       Time: `0.1ms → 0ms`,
       Samples: `3 → 0`,
@@ -577,7 +577,7 @@ describe(`diffProfiles`, () => {
       [
         {
           Change: `+100.0%`,
-          Delta: `+0.1ms`,
+          Delta: `+0.10ms`,
           '%': `100.0%`,
           Time: `0.1ms → 0.2ms`,
           Samples: `5 → 10`,
