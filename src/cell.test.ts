@@ -63,6 +63,27 @@ test(`formatDiffTable prepends Change and Delta and arrows value cells`, () => {
 `)
 })
 
+test(`formatDiffTable formats the Delta column at delta precision`, () => {
+  const markdown = mdastToMarkdown([
+    formatDiffTable(
+      headers,
+      [
+        {
+          base: cellsOf({ name: `a`, size: 3670, count: 1 }, 10_000),
+          current: cellsOf({ name: `a`, size: 5230, count: 1 }, 10_000),
+        },
+      ],
+      { primaryIndex: 1 },
+    ),
+  ])
+
+  expect(markdown)
+    .toBe(`| Change |    Delta |             % |              Size | Count | Name |
+| -----: | -------: | ------------: | ----------------: | ----: | ---- |
+| +42.5% | +1.56\u00A0kB | 36.7% → 52.3% | 3.67\u00A0kB → 5.23\u00A0kB |     1 | a    |
+`)
+})
+
 test(`formatDiffTable treats an absent base side as zero and shows current text`, () => {
   const markdown = mdastToMarkdown([
     formatDiffTable(

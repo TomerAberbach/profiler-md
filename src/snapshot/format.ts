@@ -14,6 +14,7 @@ import { DynamicTypedArray } from '../helpers/array.ts'
 import {
   formatArrow,
   formatBytes,
+  formatBytesDelta,
   formatChange,
   formatCount,
 } from '../helpers/format.ts'
@@ -450,7 +451,7 @@ const formatDiffSummaryLine = ({
   )}${formatChange(
     base.totalSize,
     current.totalSize,
-    formatBytes,
+    formatBytesDelta,
   )} across ${formatArrow(
     formatCount(base.nodeCount),
     formatCount(current.nodeCount),
