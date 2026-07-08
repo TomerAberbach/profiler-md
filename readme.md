@@ -271,6 +271,7 @@ third-party tools can often convert others.
 <tr>
 <td><a href="docs/languages/ruby.md">Ruby</a></td>
 <td>
+<details><summary><a href="docs/formats/callgrind.md">Callgrind</a></summary><ul><li>Ruby rbspy CPU (<a href="examples/output/ruby.rbspy.cpu.base.callgrind.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.callgrind.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.callgrind.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Ruby rbspy CPU (<a href="examples/output/ruby.rbspy.cpu.base.collapsed.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.collapsed.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.collapsed.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Ruby rbspy CPU (<a href="examples/output/ruby.rbspy.cpu.base.pprof.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.pprof.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.pprof.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/speedscope.md">Speedscope</a></summary><ul><li>Ruby rbspy CPU (<a href="examples/output/ruby.rbspy.cpu.base.speedscope.json.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.speedscope.json.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.speedscope.json.md">diff</a>)</li></ul></details>

@@ -17,7 +17,7 @@ import type { OriginSpec } from '../origin.ts'
  */
 export const rbspyOriginSpec = {
   id: `rbspy`,
-  formats: [`collapsed`, `pprof`, `speedscope`],
+  formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
   isMarkerEntry: entry => isRbspyStackFrame(entry.name),
   categorizeEntry: entry =>
     cFunctionCategory(entry) ??

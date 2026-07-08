@@ -5,7 +5,7 @@ import { parseCallgrind, parseCallgrindAsync } from './parse.ts'
 export const callgrindConverter = {
   title: `Callgrind`,
   extension: `callgrind`,
-  languages: [`c`],
+  languages: [`c`, `ruby`],
   // Valgrind's callgrind tool defines the format; other profilers (e.g. rbspy)
   // export it to match. The parser detects specific emitters from the file's
   // `creator:` header and sets an origin hint.

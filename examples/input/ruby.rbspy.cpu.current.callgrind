@@ -1,0 +1,5004 @@
+# callgrind format
+version: 1
+creator: rbspy
+events: Samples
+
+fl=/usr/lib/ruby/3.1.0/benchmark.rb
+fn=realtime
+313 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop
+cfn=block in <top (required)>
+calls=1 19
+313 76
+
+fl=/usr/lib/ruby/3.1.0/bundler.rb
+fn=<top (required)>
+36 0
+cfl=/usr/lib/ruby/3.1.0/bundler/vendored_fileutils.rb
+cfn=<top (required)>
+calls=1 4
+36 1
+
+fl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+fn=<module:DryRun>
+1762 0
+cfl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+cfn=block in <module:DryRun>
+calls=1 1756
+1762 1
+
+fl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+fn=<module:FileUtils>
+1764 0
+cfl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+cfn=<module:DryRun>
+calls=1 1762
+1764 1
+
+fl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+fn=<top (required)>
+104 0
+cfl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+cfn=<module:FileUtils>
+calls=1 1764
+104 1
+
+fl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+fn=block in <module:DryRun>
+1756 1
+
+fl=/usr/lib/ruby/3.1.0/bundler/vendored_fileutils.rb
+fn=<top (required)>
+4 0
+cfl=/usr/lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb
+cfn=<top (required)>
+calls=1 104
+4 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=<class:Compiler>
+741 0
+cfl=unknown
+cfn=require
+calls=1 170
+741 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=<class:ERB>
+742 0
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=<class:Compiler>
+calls=1 741
+742 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=<top (required)>
+1034 0
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=<class:ERB>
+calls=1 742
+1034 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=compile
+605 0
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=scan
+calls=1 513
+605 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=initialize
+831 0
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=compile
+calls=1 605
+831 1
+
+fl=/usr/lib/ruby/3.1.0/erb.rb
+fn=scan
+513 1
+
+fl=/usr/lib/ruby/3.1.0/fileutils.rb
+fn=<module:FileUtils>
+1753 0
+cfl=/usr/lib/ruby/3.1.0/fileutils.rb
+cfn=<module:NoWrite>
+calls=1 1727
+1753 1
+
+fl=/usr/lib/ruby/3.1.0/fileutils.rb
+fn=<module:NoWrite>
+1727 0
+cfl=/usr/lib/ruby/3.1.0/fileutils.rb
+cfn=block in <module:NoWrite>
+calls=1 1721
+1727 1
+
+fl=/usr/lib/ruby/3.1.0/fileutils.rb
+fn=<top (required)>
+104 0
+cfl=/usr/lib/ruby/3.1.0/fileutils.rb
+cfn=<module:FileUtils>
+calls=1 1753
+104 1
+
+fl=/usr/lib/ruby/3.1.0/fileutils.rb
+fn=block in <module:NoWrite>
+1721 1
+
+fl=/usr/lib/ruby/3.1.0/json.rb
+fn=<top (required)>
+575 0
+cfl=unknown
+cfn=require
+calls=1 170
+575 1
+
+fl=/usr/lib/ruby/3.1.0/net/http.rb
+fn=<top (required)>
+1724 0
+cfl=unknown
+cfn=require
+calls=1 170
+1724 1
+
+fl=/usr/lib/ruby/3.1.0/optparse.rb
+fn=block in make_switch
+1434 1
+
+fl=/usr/lib/ruby/3.1.0/optparse.rb
+fn=define
+1466 0
+cfl=/usr/lib/ruby/3.1.0/optparse.rb
+cfn=make_switch
+calls=1 1456
+1466 1
+
+fl=/usr/lib/ruby/3.1.0/optparse.rb
+fn=initialize
+1103 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=block in define_options
+calls=1 69
+1103 1
+
+fl=/usr/lib/ruby/3.1.0/optparse.rb
+fn=make_switch
+1456 0
+cfl=/usr/lib/ruby/3.1.0/optparse.rb
+cfn=block in make_switch
+calls=1 1434
+1456 1
+
+fl=/usr/lib/ruby/3.1.0/optparse.rb
+fn=on
+1476 0
+cfl=/usr/lib/ruby/3.1.0/optparse.rb
+cfn=define
+calls=1 1466
+1476 1
+
+fl=/usr/lib/ruby/3.1.0/pathname.rb
+fn=mkpath
+587 0
+cfl=unknown
+cfn=require
+calls=1 170
+587 1
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=<module:Psych>
+741 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=singleton class
+calls=1 736
+741 1
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=<top (required)>
+234 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=<module:Psych>
+calls=1 741
+234 1
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=parse
+404 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=parse_stream
+calls=3 461
+404 3
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=parse_stream
+461 0
+cfl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+cfn=scalar
+calls=3 101
+461 3
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=safe_load
+337 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=parse
+calls=2 404
+337 2
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=accept
+calls=1 49
+337 1
+
+fl=/usr/lib/ruby/3.1.0/psych.rb
+fn=singleton class
+736 0
+cfl=unknown
+cfn=require
+calls=1 170
+736 1
+
+fl=/usr/lib/ruby/3.1.0/psych/nodes/scalar.rb
+fn=initialize
+65 1
+
+fl=/usr/lib/ruby/3.1.0/psych/scalar_scanner.rb
+fn=tokenize
+98 1
+
+fl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+fn=scalar
+101 1
+cfl=/usr/lib/ruby/3.1.0/psych/nodes/scalar.rb
+cfn=initialize
+calls=1 65
+101 1
+cfl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+cfn=set_location
+calls=1 125
+101 1
+
+fl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+fn=set_location
+125 0
+cfl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+cfn=set_start_location
+calls=1 130
+125 1
+
+fl=/usr/lib/ruby/3.1.0/psych/tree_builder.rb
+fn=set_start_location
+130 1
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=accept
+49 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb
+cfn=accept
+calls=4 7
+49 4
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=block in revive_hash
+378 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=accept
+calls=2 49
+378 2
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=deserialize
+124 0
+cfl=/usr/lib/ruby/3.1.0/psych/scalar_scanner.rb
+cfn=tokenize
+calls=1 98
+124 1
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=revive_hash
+380 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=block in revive_hash
+calls=2 378
+380 2
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=visit_Psych_Nodes_Document
+319 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=accept
+calls=1 49
+319 1
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=visit_Psych_Nodes_Mapping
+315 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=revive_hash
+calls=2 380
+315 2
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+fn=visit_Psych_Nodes_Scalar
+129 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=deserialize
+calls=1 124
+129 1
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb
+fn=accept
+7 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb
+cfn=visit
+calls=4 31
+7 4
+
+fl=/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb
+fn=visit
+31 0
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=visit_Psych_Nodes_Document
+calls=1 319
+31 1
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=visit_Psych_Nodes_Mapping
+calls=2 315
+31 2
+cfl=/usr/lib/ruby/3.1.0/psych/visitors/to_ruby.rb
+cfn=visit_Psych_Nodes_Scalar
+calls=1 129
+31 1
+
+fl=/usr/lib/ruby/3.1.0/set.rb
+fn=include?
+405 1
+
+fl=/usr/lib/ruby/3.1.0/uri.rb
+fn=<top (required)>
+103 0
+cfl=/usr/lib/ruby/3.1.0/uri/common.rb
+cfn=<top (required)>
+calls=1 683
+103 1
+
+fl=/usr/lib/ruby/3.1.0/uri/common.rb
+fn=<top (required)>
+683 1
+
+fl=/usr/lib/ruby/3.1.0/yaml.rb
+fn=<top (required)>
+60 0
+cfl=unknown
+cfn=require
+calls=1 170
+60 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb
+fn=<top (required)>
+16 1
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/element.rb
+cfn=<top (required)>
+calls=1 9
+16 1
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+cfn=<top (required)>
+calls=1 8
+16 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/element.rb
+fn=<top (required)>
+9 0
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/xpath.rb
+cfn=<top (required)>
+calls=1 5
+9 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+fn=<class:BaseParser>
+672 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+fn=<module:Parsers>
+673 0
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+cfn=<class:BaseParser>
+calls=1 672
+673 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+fn=<module:REXML>
+674 0
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+cfn=<module:Parsers>
+calls=1 673
+674 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+fn=<top (required)>
+8 0
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb
+cfn=<module:REXML>
+calls=1 674
+8 1
+
+fl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/xpath.rb
+fn=<top (required)>
+5 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+fn=<top (required)>
+1349 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=<top (required)>
+calls=1 37
+1349 1
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=load_defaults
+calls=1 884
+1349 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+fn=activate_bin_path
+290 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+cfn=block in activate_bin_path
+calls=1 288
+290 2
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+fn=block in activate_bin_path
+288 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+cfn=finish_resolve
+calls=1 233
+288 1
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=activate
+calls=1 1389
+288 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+fn=finish_resolve
+233 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/request_set.rb
+cfn=resolve_current
+calls=1 424
+233 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+fn=open_file
+800 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/dependency.rb
+fn=matching_specs
+289 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/stub_specification.rb
+cfn=to_spec
+calls=1 193
+289 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/dependency.rb
+fn=to_specs
+320 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/dependency.rb
+cfn=matching_specs
+calls=1 289
+320 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/request_set.rb
+fn=resolve_current
+424 0
+cfl=unknown
+cfn=require
+calls=1 170
+424 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/resolver.rb
+fn=<top (required)>
+347 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=<top (required)>
+37 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=activate
+1389 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=activate_dependencies
+calls=1 1425
+1389 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=activate_dependencies
+1425 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=block in activate_dependencies
+calls=1 1422
+1425 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=block (2 levels) in each_gemspec
+782 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=block in each_spec
+calls=1 811
+782 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=block in activate_dependencies
+1422 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/dependency.rb
+cfn=to_specs
+calls=1 320
+1422 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=block in each_gemspec
+783 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=block (2 levels) in each_gemspec
+calls=1 782
+783 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=block in each_spec
+811 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=load
+calls=1 1156
+811 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=each_gemspec
+784 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=block in each_gemspec
+calls=1 783
+784 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=each_spec
+812 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=each_gemspec
+calls=1 784
+812 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=initialize
+2009 0
+cfl=unknown
+cfn=block in load
+calls=1 38
+2009 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=load
+1156 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+cfn=open_file
+calls=1 800
+1156 1
+cfl=unknown
+cfn=load
+calls=1 4
+1156 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+fn=load_defaults
+884 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=each_spec
+calls=1 812
+884 1
+
+fl=/usr/lib/ruby/vendor_ruby/rubygems/stub_specification.rb
+fn=to_spec
+193 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=load
+calls=1 1156
+193 1
+
+fl=/usr/local/bin/rubocop
+fn=<main>
+28 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+cfn=activate_bin_path
+calls=1 290
+28 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop
+cfn=<top (required)>
+calls=1 23
+28 122
+
+fl=/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb
+fn=initialize
+80 3
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server-protocol.rb
+fn=<top (required)>
+1 0
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol.rb
+cfn=<top (required)>
+calls=1 4
+1 3
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol.rb
+fn=<top (required)>
+4 0
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+cfn=<top (required)>
+calls=1 1
+4 2
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/transport.rb
+cfn=<top (required)>
+calls=1 2
+4 1
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+fn=<module:Interface>
+657 2
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+fn=<module:LanguageServer>
+659 0
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+cfn=<module:Protocol>
+calls=1 658
+659 2
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+fn=<module:Protocol>
+658 0
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+cfn=<module:Interface>
+calls=1 657
+658 2
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+fn=<top (required)>
+1 0
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb
+cfn=<module:LanguageServer>
+calls=1 659
+1 2
+
+fl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/transport.rb
+fn=<top (required)>
+2 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+fn=<module:Builders>
+80 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+fn=<module:Parser>
+91 3
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+cfn=<module:Builders>
+calls=1 80
+91 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+fn=<top (required)>
+19 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+cfn=<module:Parser>
+calls=1 91
+19 4
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+fn=next_token
+258 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=advance
+calls=4 14654
+258 10
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+fn=parse
+198 0
+cfl=unknown
+cfn=do_parse
+calls=1 4
+198 16
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+fn=tokenize
+250 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+cfn=parse
+calls=1 198
+250 16
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+fn=accessible
+684 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+fn=binary_op
+1233 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=version
+calls=1 19
+1233 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+fn=def_method
+843 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder.rb
+cfn=n
+calls=1 103
+843 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+fn=pair_keyword
+511 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+fn=string_internal
+327 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder.rb
+cfn=n
+calls=1 103
+327 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=advance
+14654 3
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=emit_table
+calls=3 14689
+14654 3
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=on_newline
+calls=1 14761
+14654 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=tok
+calls=2 14669
+14654 2
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-strings.rb
+cfn=advance
+calls=1 4997
+14654 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=emit
+14683 2
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=range
+calls=1 14673
+14683 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=emit_table
+14689 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=emit
+calls=2 14683
+14689 2
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=tok
+calls=1 14669
+14689 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=on_newline
+14761 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=range
+14673 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+fn=tok
+14669 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=slice
+calls=3 214
+14669 3
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-strings.rb
+fn=advance
+4997 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+cfn=nest_and_try_closing
+calls=1 166
+4997 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-strings.rb
+fn=emit
+5130 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb
+cfn=emit
+calls=1 14683
+5130 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+fn=emit
+281 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-strings.rb
+cfn=emit
+calls=1 5130
+281 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+fn=flush_string
+216 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+cfn=emit
+calls=1 281
+216 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+fn=nest_and_try_closing
+166 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer/literal.rb
+cfn=flush_string
+calls=1 216
+166 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=_reduce_230
+9036 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+cfn=binary_op
+calls=1 1233
+9036 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=_reduce_335
+9694 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+cfn=def_method
+calls=1 843
+9694 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=_reduce_570
+11130 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+cfn=string_internal
+calls=1 327
+11130 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=_reduce_600
+11313 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+cfn=accessible
+calls=1 684
+11313 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=_reduce_684
+11843 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb
+cfn=pair_keyword
+calls=1 511
+11843 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+fn=version
+19 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=column_for_position
+250 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=line_begins
+calls=1 341
+250 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=line_begins
+341 4
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=line_for_position
+238 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=line_index_for_position
+calls=2 350
+238 4
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=line_index_for_position
+350 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=line_begins
+calls=1 341
+350 3
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=slice
+214 6
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=source_line
+280 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+fn=source_range
+305 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/map.rb
+fn=line
+101 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=line
+calls=1 85
+101 3
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+fn=column
+94 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=column_for_position
+calls=1 250
+94 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+fn=is?
+143 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=source
+calls=2 134
+143 2
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+fn=line
+85 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=line_for_position
+calls=2 238
+85 4
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+fn=source
+134 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=slice
+calls=3 214
+134 3
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+fn=source_line
+127 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=source_line
+calls=1 280
+127 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+fn=combine
+402 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+cfn=combine
+calls=1 32
+402 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+fn=initialize
+118 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb
+cfn=source_range
+calls=1 305
+118 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+fn=remove
+219 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+cfn=replace
+calls=1 195
+219 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+fn=replace
+195 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+cfn=combine
+calls=1 402
+195 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+fn=combine
+32 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+cfn=do_combine
+calls=1 109
+32 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+fn=do_combine
+109 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+cfn=place_in_hierarchy
+calls=1 127
+109 1
+
+fl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter/action.rb
+fn=place_in_hierarchy
+127 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism.rb
+fn=<top (required)>
+97 1
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+cfn=<top (required)>
+calls=1 12
+97 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+fn=<class:ClassVariableReadNode>
+4706 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+fn=<module:Prism>
+19966 0
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+cfn=<class:ClassVariableReadNode>
+calls=1 4706
+19966 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+fn=<top (required)>
+12 0
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/node.rb
+cfn=<module:Prism>
+calls=1 19966
+12 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+fn=<class:Parser>
+374 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+fn=<module:Prism>
+376 0
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+cfn=<module:Translation>
+calls=1 375
+376 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+fn=<module:Translation>
+375 0
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+cfn=<class:Parser>
+calls=1 374
+375 1
+
+fl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+fn=<top (required)>
+16 0
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+cfn=<module:Prism>
+calls=1 376
+16 1
+
+fl=/var/lib/gems/3.1.0/gems/regexp_parser-2.12.0/lib/regexp_parser.rb
+fn=<top (required)>
+8 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop
+fn=<top (required)>
+23 0
+cfl=/usr/lib/ruby/3.1.0/benchmark.rb
+cfn=realtime
+calls=1 313
+23 76
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server.rb
+cfn=running?
+calls=1 37
+23 4
+cfl=unknown
+cfn=require
+calls=1 170
+23 42
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop
+fn=block in <top (required)>
+19 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=run
+calls=1 74
+19 76
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb
+fn=<top (required)>
+780 11
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/lsp.rb
+cfn=<top (required)>
+calls=1 5
+780 3
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/cop.rb
+cfn=<top (required)>
+calls=1 6
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/ip_addresses.rb
+cfn=<top (required)>
+calls=1 5
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+cfn=<top (required)>
+calls=1 3
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+cfn=<top (required)>
+calls=1 3
+780 4
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/lockfile.rb
+cfn=<top (required)>
+calls=1 11
+780 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/remote_config.rb
+cfn=<top (required)>
+calls=1 6
+780 1
+cfl=unknown
+cfn=require
+calls=1 170
+780 10
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cache_config.rb
+fn=root_dir
+27 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=block in cache_root_dir_from_config
+calls=1 95
+27 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=act_on_options
+172 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_store.rb
+cfn=force_default_config!
+calls=1 35
+172 5
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=block in run
+53 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=act_on_options
+calls=1 172
+53 5
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=execute_runners
+calls=1 131
+53 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=execute_runners
+131 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=run_command
+calls=1 123
+131 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=profile_if_needed
+110 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=block in run
+calls=1 53
+110 75
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=run
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+cfn=profile_if_needed
+calls=1 110
+74 75
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=parse
+calls=1 48
+74 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb
+fn=run_command
+123 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb
+cfn=run
+calls=1 19
+123 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb
+fn=run
+12 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+cfn=run
+calls=1 18
+12 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+fn=block in execute_runner
+29 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=run
+calls=1 85
+29 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+fn=execute_runner
+40 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+cfn=with_redirect
+calls=1 54
+40 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+fn=run
+18 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+cfn=execute_runner
+calls=1 40
+18 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+fn=with_redirect
+54 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb
+cfn=block in execute_runner
+calls=1 29
+54 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/lsp.rb
+fn=<top (required)>
+5 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/lsp/server.rb
+cfn=<top (required)>
+calls=1 18
+5 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb
+fn=run
+19 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb
+cfn=run
+calls=1 12
+19 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/comment_config.rb
+fn=extra_enabled_comments
+61 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+cfn=disabled
+calls=1 195
+61 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=block in load_yaml_configuration
+69 0
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=initialize
+calls=1 831
+69 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=check_duplication
+227 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=check
+calls=1 19
+227 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=default_configuration
+152 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=load_file
+calls=1 65
+152 5
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=load_file
+65 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=load_yaml_configuration
+calls=1 78
+65 5
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=load_yaml_configuration
+78 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=block in load_yaml_configuration
+calls=1 69
+78 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=check_duplication
+calls=1 227
+78 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=yaml_safe_load
+calls=1 246
+78 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=yaml_safe_load
+246 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=yaml_safe_load!
+calls=1 252
+246 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+fn=yaml_safe_load!
+252 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=safe_load
+calls=1 337
+252 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_store.rb
+fn=force_default_config!
+35 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb
+cfn=default_configuration
+calls=1 152
+35 5
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=add_offense
+217 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=correct
+calls=2 421
+217 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=badge
+95 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=callbacks_needed
+316 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=callbacks_needed
+calls=1 324
+316 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=callbacks_needed
+324 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=cop_name
+99 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=badge
+calls=1 95
+99 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=correct
+421 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/corrector.rb
+cfn=initialize
+calls=1 43
+421 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/slicing_with_range.rb
+cfn=block in on_send
+calls=1 88
+421 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+fn=initialize
+160 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+fn=<class:OrderedGems>
+67 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_search
+calls=1 50
+67 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+fn=<module:Bundler>
+68 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+cfn=<class:OrderedGems>
+calls=1 67
+68 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+fn=<module:Cop>
+69 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+cfn=<module:Bundler>
+calls=1 68
+69 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+fn=<module:RuboCop>
+70 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+cfn=<module:Cop>
+calls=1 69
+70 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/bundler/ordered_gems.rb
+cfn=<module:RuboCop>
+calls=1 70
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block (2 levels) in invoke
+160 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+cfn=on_new_investigation
+calls=1 57
+160 3
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/empty_lines.rb
+cfn=on_new_investigation
+calls=1 41
+160 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=on_new_investigation
+calls=1 48
+160 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+cfn=on_investigation_end
+calls=1 98
+160 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_cop_enable_directive.rb
+cfn=on_new_investigation
+calls=1 51
+160 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+cfn=on_new_investigation
+calls=1 16
+160 3
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+cfn=on_new_investigation
+calls=1 18
+160 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+cfn=on_new_investigation
+calls=1 43
+160 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block (2 levels) in invoke_with_argument
+164 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=investigate
+calls=1 86
+164 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block (2 levels) in trigger_responding_cops
+108 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/def_end_alignment.rb
+cfn=on_def
+calls=1 45
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/empty_lines_around_arguments.rb
+cfn=on_send
+calls=1 56
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+cfn=on_send
+calls=1 164
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/hash_alignment.rb
+cfn=on_send
+calls=1 204
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+cfn=on_begin
+calls=1 130
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_keyword.rb
+cfn=on_or
+calls=1 102
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=on_assignment
+calls=2 123
+108 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=on_if
+calls=1 97
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_block_braces.rb
+cfn=on_block
+calls=1 77
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_first_arg.rb
+cfn=on_send
+calls=2 46
+108 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_block_braces.rb
+cfn=on_block
+calls=1 99
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_percent_literal_delimiters.rb
+cfn=on_array
+calls=1 47
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+cfn=on_send
+calls=2 82
+108 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+cfn=on_if
+calls=1 42
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/require_parentheses.rb
+cfn=on_send
+calls=1 39
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/module_length.rb
+cfn=on_module
+calls=2 42
+108 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/method_complexity.rb
+cfn=on_def
+calls=2 21
+108 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb
+cfn=on_send
+calls=3 22
+108 3
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/binary_operator_parameter_name.rb
+cfn=on_def
+calls=1 41
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+cfn=on_block
+calls=1 202
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/combinable_loops.rb
+cfn=on_block
+calls=1 73
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/conditional_assignment.rb
+cfn=on_send
+calls=1 248
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/special_global_vars.rb
+cfn=on_gvar
+calls=1 165
+108 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/while_until_modifier.rb
+cfn=on_while
+calls=1 47
+108 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block (2 levels) in trigger_restricted_cops
+144 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/slicing_with_range.rb
+cfn=on_send
+calls=1 89
+144 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block in build_callbacks
+127 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=callbacks_needed
+calls=1 316
+127 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block in invoke
+160 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=with_cop_error_handling
+calls=2 179
+160 13
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block in invoke_with_argument
+164 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=with_cop_error_handling
+calls=1 179
+164 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block in trigger_responding_cops
+109 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=with_cop_error_handling
+calls=31 179
+109 31
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=block in trigger_restricted_cops
+145 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=with_cop_error_handling
+calls=1 179
+145 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=build_callbacks
+129 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block in build_callbacks
+calls=1 127
+129 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=initialize
+51 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=initialize_callbacks
+calls=1 119
+51 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=initialize_callbacks
+119 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=build_callbacks
+calls=1 129
+119 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=investigate
+94 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=invoke
+calls=2 161
+94 13
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=invoke_with_argument
+calls=1 165
+94 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/traversal.rb
+cfn=walk
+calls=1 22
+94 34
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=invoke
+161 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block in invoke
+calls=2 160
+161 13
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=invoke_with_argument
+165 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block in invoke_with_argument
+calls=1 164
+165 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=trigger_responding_cops
+110 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block in trigger_responding_cops
+calls=32 109
+110 32
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=trigger_restricted_cops
+146 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block in trigger_restricted_cops
+calls=1 145
+146 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+fn=with_cop_error_handling
+179 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block (2 levels) in invoke
+calls=2 160
+179 13
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block (2 levels) in invoke_with_argument
+calls=1 164
+179 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block (2 levels) in trigger_responding_cops
+calls=31 108
+179 31
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=block (2 levels) in trigger_restricted_cops
+calls=1 144
+179 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/cop.rb
+fn=<top (required)>
+6 0
+cfl=unknown
+cfn=require
+calls=1 170
+6 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/corrector.rb
+fn=initialize
+43 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+cfn=initialize
+calls=1 118
+43 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+fn=block in on_new_investigation
+56 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+cfn=check
+calls=1 115
+56 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+fn=check
+115 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+cfn=own_line_comment?
+calls=1 138
+115 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+fn=on_new_investigation
+57 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+cfn=block in on_new_investigation
+calls=1 56
+57 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/comment_indentation.rb
+fn=own_line_comment?
+138 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/map.rb
+cfn=line
+calls=1 101
+138 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/def_end_alignment.rb
+fn=on_def
+45 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+cfn=check_end_kw_in_node
+calls=1 17
+45 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/empty_lines.rb
+fn=on_new_investigation
+41 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=tokens
+calls=1 251
+41 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/empty_lines_around_arguments.rb
+fn=on_send
+56 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=single_line?
+calls=1 433
+56 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=block in check_other
+88 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=ignored_range?
+calls=1 113
+88 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=block in on_new_investigation
+47 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=check_tokens
+calls=1 70
+47 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=check_other
+89 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=extra_space_range
+calls=1 101
+89 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=check_tokens
+70 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=check_other
+calls=1 89
+70 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=extra_space_range
+101 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=block in check_other
+calls=1 88
+101 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=ignored_range?
+113 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=ignored_ranges
+calls=1 131
+113 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=ignored_ranges
+131 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=on_node
+calls=1 98
+131 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+fn=on_new_investigation
+48 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/extra_spacing.rb
+cfn=block in on_new_investigation
+calls=1 47
+48 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+fn=bare_operator?
+180 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+fn=on_send
+164 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+cfn=should_check?
+calls=1 172
+164 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+fn=should_check?
+172 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/first_argument_indentation.rb
+cfn=bare_operator?
+calls=1 180
+172 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/hash_alignment.rb
+fn=on_send
+204 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/parameterized_node.rb
+cfn=last_argument
+calls=1 115
+204 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+fn=check
+178 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+cfn=check_normal_style
+calls=1 185
+178 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+fn=check_normal_style
+185 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+cfn=check_alignment
+calls=1 42
+185 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+fn=on_begin
+130 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_consistency.rb
+cfn=check
+calls=1 178
+130 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+fn=block in on_investigation_end
+97 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+cfn=check_line
+calls=1 181
+97 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+fn=check_line
+181 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+cfn=line_length
+calls=1 34
+181 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+fn=on_investigation_end
+98 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb
+cfn=block in on_investigation_end
+calls=1 97
+98 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/multiline_method_call_indentation.rb
+fn=right_hand_side
+85 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=dot?
+calls=1 121
+85 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/multiline_operation_indentation.rb
+fn=relevant_node?
+76 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=unary_operation?
+calls=1 238
+76 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb
+fn=before_semicolon?
+36 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb
+fn=kind
+28 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb
+cfn=before_semicolon?
+calls=1 36
+28 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_keyword.rb
+fn=on_or
+102 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=keyword?
+calls=1 517
+102 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=check_operator
+191 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=offense
+calls=1 196
+191 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=range_with_surrounding_space
+calls=2 71
+191 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=excess_leading_space?
+252 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_preceding_assignment
+calls=1 26
+252 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=offense
+196 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=offense_message
+calls=1 237
+196 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=offense_message
+237 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=excess_leading_space?
+calls=1 252
+237 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=on_assignment
+123 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=check_operator
+calls=2 191
+123 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+fn=on_if
+97 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb
+cfn=check_operator
+calls=1 191
+97 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_block_braces.rb
+fn=on_block
+77 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=range_with_surrounding_space
+calls=1 71
+77 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_comma.rb
+fn=kind
+25 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_first_arg.rb
+fn=expect_params_after_method_name?
+62 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_something?
+calls=1 16
+62 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_first_arg.rb
+fn=on_send
+46 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_first_arg.rb
+cfn=expect_params_after_method_name?
+calls=1 62
+46 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=range_with_surrounding_space
+calls=1 71
+46 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_block_braces.rb
+fn=check_inside
+120 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=source
+calls=1 134
+120 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_block_braces.rb
+fn=on_block
+99 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_block_braces.rb
+cfn=check_inside
+calls=1 120
+99 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_inside_percent_literal_delimiters.rb
+fn=on_array
+47 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/percent_literal.rb
+cfn=process
+calls=1 21
+47 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+fn=assumed_argument?
+142 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+fn=assumed_usage_context?
+125 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+cfn=assumed_argument?
+calls=1 142
+125 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=each_ancestor
+calls=1 328
+125 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+fn=on_send
+82 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb
+cfn=assumed_usage_context?
+calls=2 125
+82 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+fn=check_for_literal
+106 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+cfn=check_node
+calls=1 128
+106 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+fn=check_node
+128 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=operator_keyword?
+calls=1 525
+128 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+fn=on_if
+42 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/literal_as_condition.rb
+cfn=check_for_literal
+calls=1 106
+42 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_cop_enable_directive.rb
+fn=on_new_investigation
+51 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/comment_config.rb
+cfn=extra_enabled_comments
+calls=1 61
+51 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+fn=<class:RedundantRequireStatement>
+96 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+96 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+fn=<module:Cop>
+98 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+cfn=<module:Lint>
+calls=1 97
+98 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+fn=<module:Lint>
+97 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+cfn=<class:RedundantRequireStatement>
+calls=1 96
+97 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+fn=<module:RuboCop>
+99 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+cfn=<module:Cop>
+calls=1 98
+99 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/redundant_require_statement.rb
+cfn=<module:RuboCop>
+calls=1 99
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/require_parentheses.rb
+fn=on_send
+39 0
+cfl=unknown
+cfn=if_type?
+calls=1 200
+39 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+fn=<class:UnmodifiedReduceAccumulator>
+202 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+fn=<module:Cop>
+204 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+cfn=<module:Lint>
+calls=1 203
+204 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+fn=<module:Lint>
+203 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+cfn=<class:UnmodifiedReduceAccumulator>
+calls=1 202
+203 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+fn=<module:RuboCop>
+205 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+cfn=<module:Cop>
+calls=1 204
+205 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/unmodified_reduce_accumulator.rb
+cfn=<module:RuboCop>
+calls=1 205
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/abc_size.rb
+fn=complexity
+52 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=calculate
+calls=2 32
+52 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/module_length.rb
+fn=on_module
+42 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/code_length.rb
+cfn=check_code_length
+calls=2 42
+42 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=block in calculate
+43 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/repeated_attribute_discount.rb
+cfn=calculate_node
+calls=2 56
+43 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=block in visit_depth_last
+72 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=visit_depth_last
+calls=2 74
+72 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=calculate
+32 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=calculate
+calls=2 49
+32 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=calculate
+49 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=visit_depth_last
+calls=2 74
+49 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=calculate_node
+84 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=evaluate_condition_node
+calls=1 63
+84 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=else_branch?
+67 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/if_node.rb
+cfn=else?
+calls=1 51
+67 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=evaluate_condition_node
+63 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=else_branch?
+calls=1 67
+63 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+fn=visit_depth_last
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=block in calculate
+calls=2 43
+74 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=each_child_node
+calls=2 32
+74 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+fn=calculate
+38 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+cfn=code_length
+calls=2 84
+38 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+fn=classlike_code_length
+104 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+cfn=line_numbers_of_inner_nodes
+calls=2 119
+104 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+fn=code_length
+84 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+cfn=classlike_code_length
+calls=2 104
+84 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+fn=line_numbers_of_inner_nodes
+119 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=each_descendant
+calls=2 66
+119 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/repeated_attribute_discount.rb
+fn=calculate_node
+56 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=calculate_node
+calls=2 84
+56 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+fn=block in each_bad_alignment
+54 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=begins_its_line?
+calls=1 114
+54 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+fn=check_alignment
+42 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+cfn=each_bad_alignment
+calls=1 55
+42 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+fn=configured_indentation_width
+16 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+fn=each_bad_alignment
+55 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+cfn=block in each_bad_alignment
+calls=1 54
+55 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/code_length.rb
+fn=check_code_length
+42 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/code_length_calculator.rb
+cfn=calculate
+calls=2 38
+42 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+fn=block in matching_ranges
+38 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=column_offset_between
+calls=1 84
+38 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+fn=check_end_kw_alignment
+33 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+cfn=matching_ranges
+calls=1 39
+33 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+fn=check_end_kw_in_node
+17 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+cfn=check_end_kw_alignment
+calls=1 33
+17 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+fn=matching_ranges
+39 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/end_keyword_alignment.rb
+cfn=block in matching_ranges
+calls=1 38
+39 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+fn=indentation_difference
+70 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+cfn=tab_indentation_width
+calls=1 91
+70 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+fn=line_length
+34 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+cfn=indentation_difference
+calls=1 70
+34 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/line_length_help.rb
+fn=tab_indentation_width
+91 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/alignment.rb
+cfn=configured_indentation_width
+calls=1 16
+91 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/method_complexity.rb
+fn=check_complexity
+59 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/abc_size.rb
+cfn=complexity
+calls=2 52
+59 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/method_complexity.rb
+fn=on_def
+21 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/method_complexity.rb
+cfn=check_complexity
+calls=2 59
+21 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb
+fn=left_hand_side
+37 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb
+fn=on_send
+22 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/multiline_method_call_indentation.rb
+cfn=right_hand_side
+calls=1 85
+22 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/multiline_operation_indentation.rb
+cfn=relevant_node?
+calls=1 76
+22 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb
+cfn=left_hand_side
+calls=1 37
+22 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/percent_literal.rb
+fn=percent_literal?
+15 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/percent_literal.rb
+fn=process
+21 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/percent_literal.rb
+cfn=percent_literal?
+calls=1 15
+21 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_comment_lines
+75 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=block in aligned_comment_lines
+calls=1 74
+75 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_adjacent_line?
+40 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_any_line_range?
+calls=1 50
+40 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_any_line?
+54 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=block in aligned_with_any_line?
+calls=1 53
+54 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_any_line_range?
+50 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_any_line?
+calls=1 54
+50 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_assignment
+125 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=relevant_assignment_lines
+calls=1 170
+125 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_line?
+68 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=block in aligned_with_line?
+calls=1 66
+68 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_preceding_assignment
+26 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_assignment
+calls=1 125
+26 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=aligned_with_something?
+16 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_adjacent_line?
+calls=1 40
+16 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=assignment_lines
+129 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=assignment_tokens
+calls=1 143
+129 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=assignment_tokens
+143 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+cfn=equal_sign?
+calls=1 124
+143 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=block in aligned_comment_lines
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=begins_its_line?
+calls=1 114
+74 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=block in aligned_with_any_line?
+53 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_with_line?
+calls=1 68
+53 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=block in aligned_with_line?
+66 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=aligned_comment_lines
+calls=1 75
+66 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=block in relevant_assignment_lines
+167 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=assignment_lines
+calls=1 129
+167 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+fn=relevant_assignment_lines
+170 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/preceding_following_alignment.rb
+cfn=block in relevant_assignment_lines
+calls=1 167
+170 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+fn=column_offset_between
+84 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=effective_column
+calls=1 98
+84 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+fn=effective_column
+98 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=line
+calls=1 85
+98 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+fn=final_pos
+114 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=move_pos
+calls=3 121
+114 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+fn=move_pos
+121 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+fn=range_with_surrounding_space
+71 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb
+cfn=final_pos
+calls=3 114
+71 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+fn=block in each_missing_space
+27 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb
+cfn=kind
+calls=1 28
+27 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+fn=each_missing_space
+28 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+cfn=block in each_missing_space
+calls=1 27
+28 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+fn=on_new_investigation
+16 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_after_punctuation.rb
+cfn=each_missing_space
+calls=1 28
+16 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+fn=block in each_missing_space
+31 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_before_comma.rb
+cfn=kind
+calls=1 25
+31 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+fn=each_missing_space
+32 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+cfn=block in each_missing_space
+calls=1 31
+32 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+fn=on_new_investigation
+18 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/space_before_punctuation.rb
+cfn=each_missing_space
+calls=1 32
+18 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+fn=block in first_line_comment
+72 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=same_line?
+calls=1 183
+72 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+fn=first_line_comment
+77 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+cfn=block in first_line_comment
+calls=1 72
+77 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+fn=non_eligible_node?
+25 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+cfn=first_line_comment
+calls=1 77
+25 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+fn=single_line_as_modifier?
+18 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+cfn=non_eligible_node?
+calls=1 25
+18 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/binary_operator_parameter_name.rb
+fn=on_def
+41 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+fn=<class:MemoizedInstanceVariableName>
+292 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+292 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+fn=<module:Cop>
+294 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+cfn=<module:Naming>
+calls=1 293
+294 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+fn=<module:Naming>
+293 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+cfn=<class:MemoizedInstanceVariableName>
+calls=1 292
+293 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+fn=<module:RuboCop>
+295 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+cfn=<module:Cop>
+calls=1 294
+295 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/naming/memoized_instance_variable_name.rb
+cfn=<module:RuboCop>
+calls=1 295
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+fn=block in disabled
+194 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+cfn=enabled?
+calls=1 211
+194 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+fn=disabled
+195 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+cfn=each
+calls=1 249
+195 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+fn=each
+249 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+cfn=block in disabled
+calls=1 194
+249 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=block in mobilize_cops
+calls=1 33
+249 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+fn=enabled?
+211 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=cop_name
+calls=1 99
+211 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+fn=on_block
+202 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+cfn=proper_block_style?
+calls=1 354
+202 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+fn=proper_block_style?
+354 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+cfn=require_braces?
+calls=1 362
+354 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/block_delimiters.rb
+fn=require_braces?
+362 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/block_node.rb
+cfn=braces?
+calls=1 98
+362 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+fn=<class:CaseEquality>
+105 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+105 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+fn=<module:Cop>
+107 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+cfn=<module:Style>
+calls=1 106
+107 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+fn=<module:RuboCop>
+108 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+cfn=<module:Cop>
+calls=1 107
+108 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+fn=<module:Style>
+106 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+cfn=<class:CaseEquality>
+calls=1 105
+106 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/case_equality.rb
+cfn=<module:RuboCop>
+calls=1 108
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/combinable_loops.rb
+fn=on_block
+73 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/combinable_loops.rb
+cfn=same_collection_looping_block?
+calls=1 99
+73 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/combinable_loops.rb
+fn=same_collection_looping_block?
+99 0
+cfl=unknown
+cfn=numblock_type?
+calls=1 200
+99 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/conditional_assignment.rb
+fn=on_send
+248 0
+cfl=unknown
+cfn=assignment_type?
+calls=1 238
+248 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+fn=<class:FileEmpty>
+68 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+68 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+fn=<module:Cop>
+70 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+cfn=<module:Style>
+calls=1 69
+70 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+fn=<module:RuboCop>
+71 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+cfn=<module:Cop>
+calls=1 70
+71 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+fn=<module:Style>
+69 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+cfn=<class:FileEmpty>
+calls=1 68
+69 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/file_empty.rb
+cfn=<module:RuboCop>
+calls=1 71
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+fn=<class:IfWithBooleanLiteralBranches>
+161 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+161 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+fn=<module:Cop>
+163 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+cfn=<module:Style>
+calls=1 162
+163 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+fn=<module:RuboCop>
+164 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+cfn=<module:Cop>
+calls=1 163
+164 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+fn=<module:Style>
+162 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+cfn=<class:IfWithBooleanLiteralBranches>
+calls=1 161
+162 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_with_boolean_literal_branches.rb
+cfn=<module:RuboCop>
+calls=1 164
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/ip_addresses.rb
+fn=<top (required)>
+5 0
+cfl=unknown
+cfn=require
+calls=1 170
+5 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+fn=<class:MutableConstant>
+244 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+244 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+fn=<module:Cop>
+246 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+cfn=<module:Style>
+calls=1 245
+246 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+fn=<module:RuboCop>
+247 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+cfn=<module:Cop>
+calls=1 246
+247 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+fn=<module:Style>
+245 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+cfn=<class:MutableConstant>
+calls=1 244
+245 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/mutable_constant.rb
+cfn=<module:RuboCop>
+calls=1 247
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+fn=<class:ParenthesesAroundCondition>
+133 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+133 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+fn=<module:Cop>
+135 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+cfn=<module:Style>
+calls=1 134
+135 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+fn=<module:RuboCop>
+136 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+cfn=<module:Cop>
+calls=1 135
+136 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+fn=<module:Style>
+134 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+cfn=<class:ParenthesesAroundCondition>
+calls=1 133
+134 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/parentheses_around_condition.rb
+cfn=<module:RuboCop>
+calls=1 136
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+fn=check_for_line_terminator_or_opener
+68 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+cfn=each_semicolon
+calls=1 77
+68 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+fn=each_semicolon
+77 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+cfn=tokens_for_lines
+calls=1 81
+77 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+fn=on_new_investigation
+43 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+cfn=check_for_line_terminator_or_opener
+calls=1 68
+43 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/semicolon.rb
+fn=tokens_for_lines
+81 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+cfn=line
+calls=1 27
+81 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/slicing_with_range.rb
+fn=block in on_send
+88 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/tree_rewriter.rb
+cfn=remove
+calls=1 219
+88 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/slicing_with_range.rb
+fn=on_send
+89 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=add_offense
+calls=1 217
+89 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/special_global_vars.rb
+fn=on_gvar
+165 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=add_offense
+calls=1 217
+165 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+fn=<class:StringHashKeys>
+55 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+55 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+fn=<module:Cop>
+57 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+cfn=<module:Style>
+calls=1 56
+57 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+fn=<module:RuboCop>
+58 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+cfn=<module:Cop>
+calls=1 57
+58 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+fn=<module:Style>
+56 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+cfn=<class:StringHashKeys>
+calls=1 55
+56 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/string_hash_keys.rb
+cfn=<module:RuboCop>
+calls=1 58
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/while_until_modifier.rb
+fn=on_while
+47 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/statement_modifier.rb
+cfn=single_line_as_modifier?
+calls=1 18
+47 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=block in mobilize_cops
+33 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb
+cfn=initialize
+calls=1 160
+33 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=block in validate_config
+239 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=initialize
+64 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=validate_config
+calls=1 240
+64 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=investigate
+111 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=investigate_partial
+calls=1 165
+111 50
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=investigate_partial
+165 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=initialize
+calls=1 51
+165 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=investigate
+calls=1 94
+165 49
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=mobilize
+25 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=mobilize_cops
+calls=1 34
+25 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=new
+calls=1 19
+25 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=mobilize_cops
+34 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/registry.rb
+cfn=each
+calls=1 249
+34 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=new
+19 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=initialize
+calls=1 64
+19 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+fn=validate_config
+240 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=block in validate_config
+calls=1 239
+240 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+fn=begins_its_line?
+114 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=column
+calls=1 94
+114 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=source_line
+calls=1 127
+114 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+fn=block in on_node
+97 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=on_node
+calls=11 98
+97 11
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+fn=line
+175 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+fn=on_node
+98 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=each_child_node
+calls=12 32
+98 12
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+fn=same_line?
+183 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=line
+calls=1 175
+183 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=block in process_children
+108 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_node
+calls=10 92
+108 15
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=inspect_variables_in_scope
+101 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_children
+calls=5 109
+101 8
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=investigate
+86 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_node
+calls=1 92
+86 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=process_children
+109 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=each_child_node
+calls=10 32
+109 16
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=process_node
+92 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_children
+calls=5 109
+92 8
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_scope
+calls=5 288
+92 8
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=process_variable_declaration
+calls=1 144
+92 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=process_scope
+288 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=inspect_variables_in_scope
+calls=5 101
+288 8
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+fn=process_variable_declaration
+144 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force/variable_table.rb
+cfn=declare_variable
+calls=1 54
+144 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force/variable_table.rb
+fn=declare_variable
+54 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+fn=<module:Formatter>
+33 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter/json_formatter.rb
+cfn=<top (required)>
+calls=1 5
+33 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter/junit_formatter.rb
+cfn=<top (required)>
+calls=1 14
+33 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+fn=<module:RuboCop>
+34 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+cfn=<module:Formatter>
+calls=1 33
+34 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter.rb
+cfn=<module:RuboCop>
+calls=1 34
+3 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter/json_formatter.rb
+fn=<top (required)>
+5 0
+cfl=unknown
+cfn=require
+calls=1 170
+5 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter/junit_formatter.rb
+fn=<top (required)>
+14 0
+cfl=unknown
+cfn=require
+calls=1 170
+14 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/lockfile.rb
+fn=<top (required)>
+11 0
+cfl=unknown
+cfn=require
+calls=1 170
+11 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/lsp/server.rb
+fn=<top (required)>
+18 0
+cfl=unknown
+cfn=require
+calls=1 170
+18 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=add_output_options
+131 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=section
+calls=1 282
+131 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=block in add_output_options
+130 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=option
+calls=1 293
+130 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=block in define_options
+69 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=add_output_options
+calls=1 131
+69 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=define_options
+70 0
+cfl=/usr/lib/ruby/3.1.0/optparse.rb
+cfn=initialize
+calls=1 1103
+70 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=option
+293 0
+cfl=/usr/lib/ruby/3.1.0/optparse.rb
+cfn=on
+calls=1 1476
+293 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=parse
+48 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=define_options
+calls=1 70
+48 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+fn=section
+282 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb
+cfn=block in add_output_options
+calls=1 130
+282 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/remote_config.rb
+fn=<top (required)>
+6 0
+cfl=unknown
+cfn=require
+calls=1 170
+6 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=block in do_inspection_loop
+300 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=inspect_file
+calls=1 359
+300 51
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=block in each_inspected_file
+149 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=process_file
+calls=1 164
+149 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=block in file_offenses
+171 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=do_inspection_loop
+calls=1 305
+171 69
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=block in inspect_file
+357 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=investigate
+calls=1 111
+357 50
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=block in iterate_until_no_changes
+327 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=block in do_inspection_loop
+calls=1 300
+327 51
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=do_inspection_loop
+305 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=get_processed_source
+calls=1 496
+305 18
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=iterate_until_no_changes
+calls=1 328
+305 51
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=each_inspected_file
+150 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=block in each_inspected_file
+calls=1 149
+150 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=file_offense_cache
+198 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=block in file_offenses
+calls=1 171
+198 69
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=standby_team
+calls=1 507
+198 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=file_offenses
+172 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=file_offense_cache
+calls=1 198
+172 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=get_processed_source
+496 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=from_file
+calls=1 85
+496 18
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=inspect_file
+359 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=block in inspect_file
+calls=1 357
+359 50
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=mobilize_team
+calls=1 371
+359 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=inspect_files
+135 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=each_inspected_file
+calls=1 150
+135 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=iterate_until_no_changes
+328 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=block in iterate_until_no_changes
+calls=1 327
+328 51
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=mobilize_team
+371 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=mobilize
+calls=1 25
+371 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=process_file
+164 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=file_offenses
+calls=1 172
+164 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=run
+85 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+cfn=inspect_files
+calls=1 135
+85 70
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb
+fn=standby_team
+507 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb
+cfn=mobilize
+calls=1 25
+507 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server.rb
+fn=running?
+37 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=pid_running?
+calls=1 131
+37 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=block in cache_root_dir_from_config
+95 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=safe_load
+calls=1 337
+95 1
+cfl=unknown
+cfn=require
+calls=1 170
+95 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=block in dir
+57 0
+cfl=/usr/lib/ruby/3.1.0/pathname.rb
+cfn=mkpath
+calls=1 587
+57 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=cache_path
+68 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=cache_root_dir_from_config
+calls=1 96
+68 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=cache_root_dir_from_config
+96 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cache_config.rb
+cfn=root_dir
+calls=1 27
+96 3
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=dir
+58 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=cache_path
+calls=1 68
+58 3
+cfl=unknown
+cfn=tap
+calls=1 92
+58 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=pid_path
+109 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=dir
+calls=1 58
+109 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+fn=pid_running?
+131 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=pid_path
+calls=1 109
+131 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+fn=block in traverse
+29 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=traverse
+calls=1 36
+29 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+fn=block in traverse
+34 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=traverse
+calls=1 36
+34 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+fn=check
+19 0
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=parse
+calls=1 404
+19 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=traverse
+calls=1 36
+19 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+fn=traverse
+36 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=block in traverse
+calls=2 29
+36 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb
+cfn=block in traverse
+calls=1 34
+36 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop-ast.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast.rb
+cfn=<top (required)>
+calls=1 105
+3 9
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast.rb
+fn=<top (required)>
+105 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+cfn=<top (required)>
+calls=1 3
+105 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=<top (required)>
+calls=1 3
+105 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=<top (required)>
+calls=1 3
+105 1
+cfl=unknown
+cfn=require
+calls=1 170
+105 6
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder.rb
+fn=n
+103 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=initialize
+calls=2 176
+103 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+fn=<module:AST>
+10 0
+cfl=unknown
+cfn=require
+calls=1 170
+10 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+fn=<module:RuboCop>
+11 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+cfn=<module:AST>
+calls=1 10
+11 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder_prism.rb
+cfn=<module:RuboCop>
+calls=1 11
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=<class:Node>
+791 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=def_recursive_literal_predicate
+calls=1 159
+791 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=<module:AST>
+792 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=<class:Node>
+calls=1 791
+792 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=<module:RuboCop>
+793 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=<module:AST>
+calls=1 792
+793 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=<module:RuboCop>
+calls=1 793
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=def_recursive_literal_predicate
+159 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=each_ancestor
+328 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=initialize
+176 0
+cfl=/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb
+cfn=initialize
+calls=1 80
+176 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=each_child_node
+calls=1 32
+176 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=keyword?
+517 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=is?
+calls=1 143
+517 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=line_count
+360 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=source_range
+calls=1 346
+360 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=loc?
+593 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=loc_is?
+601 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=operator_keyword?
+525 0
+cfl=/usr/lib/ruby/3.1.0/set.rb
+cfn=include?
+calls=1 405
+525 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=single_line?
+433 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=line_count
+calls=1 360
+433 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=source_range
+346 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+fn=type_in?
+193 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/block_node.rb
+fn=braces?
+98 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=is?
+calls=1 143
+98 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/if_node.rb
+fn=else?
+51 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=loc?
+calls=1 593
+51 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=block in each_child_node
+29 3
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/metrics/utils/abc_size_calculator.rb
+cfn=block in visit_depth_last
+calls=2 72
+29 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/util.rb
+cfn=block in on_node
+calls=11 97
+29 11
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb
+cfn=block in process_children
+calls=10 108
+29 15
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=block in visit_descendants_of_types
+130 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=type_in?
+calls=1 193
+130 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=visit_descendants_of_types
+calls=11 131
+130 11
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=each_child_node
+32 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=block in each_child_node
+calls=25 29
+32 31
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=each_descendant
+66 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=visit_descendants
+calls=2 113
+66 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=visit_descendants
+113 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=visit_descendants_of_types
+calls=2 131
+113 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+fn=visit_descendants_of_types
+131 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb
+cfn=block in visit_descendants_of_types
+calls=13 130
+131 13
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=<module:AST>
+286 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=<module:MethodDispatchNode>
+calls=1 285
+286 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=<module:MethodDispatchNode>
+285 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=def_node_matcher
+calls=1 40
+285 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=<module:RuboCop>
+287 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=<module:AST>
+calls=1 286
+287 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=<top (required)>
+3 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=<module:RuboCop>
+calls=1 287
+3 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=dot?
+121 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=loc_is?
+calls=1 601
+121 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=selector
+40 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb
+cfn=loc?
+calls=1 593
+40 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+fn=unary_operation?
+238 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/method_dispatch_node.rb
+cfn=selector
+calls=1 40
+238 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/parameterized_node.rb
+fn=last_argument
+115 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+fn=def_node_matcher
+40 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=initialize
+calls=5 84
+40 5
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb
+cfn=def_node_matcher
+calls=4 19
+40 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+fn=def_node_search
+50 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+cfn=initialize
+calls=1 84
+50 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb
+fn=initialize
+84 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+cfn=compile_as_node_pattern
+calls=2 49
+84 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.rb
+cfn=parse
+calls=4 38
+84 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+fn=emit_call
+32 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+cfn=n
+calls=1 55
+32 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+fn=emit_capture
+15 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+cfn=emit_unary_op
+calls=1 23
+15 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+fn=emit_unary_op
+23 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+cfn=n
+calls=1 55
+23 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+fn=n
+55 0
+cfl=/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb
+cfn=initialize
+calls=2 80
+55 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+fn=compile_as_node_pattern
+49 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/subcompiler.rb
+cfn=compile
+calls=2 26
+49 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+fn=compile_sequence
+53 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=compile_sequence
+calls=2 55
+53 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+fn=with_temp_variables
+69 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=block in compile_sequence
+calls=2 53
+69 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+fn=block in visit_sequence
+96 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+cfn=compile_sequence
+calls=2 53
+96 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+fn=multiple_access
+141 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+cfn=block in visit_sequence
+calls=2 96
+141 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+fn=visit_sequence
+97 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+cfn=multiple_access
+calls=2 141
+97 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=block (2 levels) in compile_terms
+241 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/subcompiler.rb
+cfn=compile
+calls=1 26
+241 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=block in compile_sequence
+53 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=compile_terms
+calls=2 244
+53 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=block in compile_terms
+242 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=handle_prev
+calls=1 229
+242 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=compile_sequence
+55 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb
+cfn=with_temp_variables
+calls=2 69
+55 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=compile_terms
+244 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=block in compile_terms
+calls=1 242
+244 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=remaining_arities
+calls=1 272
+244 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=handle_prev
+229 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+cfn=block (2 levels) in compile_terms
+calls=1 241
+229 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/sequence_subcompiler.rb
+fn=remaining_arities
+272 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/subcompiler.rb
+fn=compile
+26 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/subcompiler.rb
+cfn=do_compile
+calls=2 36
+26 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/subcompiler.rb
+fn=do_compile
+36 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb
+cfn=visit_sequence
+calls=2 97
+36 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/lexer.rex.rb
+fn=next_token
+183 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb
+fn=def_helper
+61 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb
+fn=def_node_matcher
+19 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb
+cfn=def_helper
+calls=4 61
+19 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb
+fn=_reduce_11
+341 0
+cfl=unknown
+cfn=emit_call
+calls=1 21
+341 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb
+fn=_reduce_8
+329 0
+cfl=unknown
+cfn=emit_capture
+calls=1 21
+329 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.rb
+fn=parse
+38 0
+cfl=unknown
+cfn=do_parse
+calls=4 4
+38 4
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=block in tokens
+245 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+cfn=from_parser_token
+calls=1 16
+245 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=create_parser
+476 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=parser_class
+calls=1 434
+476 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=from_file
+85 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=initialize
+calls=1 112
+85 18
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=initialize
+112 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=parse
+calls=1 324
+112 18
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=parse
+324 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=create_parser
+calls=1 476
+324 2
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=tokenize
+calls=1 349
+324 16
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=parse_and_lex
+357 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+cfn=tokenize
+calls=1 250
+357 16
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=parser_class
+434 0
+cfl=unknown
+cfn=require
+calls=1 170
+434 2
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=tokenize
+349 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=parse_and_lex
+calls=1 357
+349 16
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+fn=tokens
+251 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb
+cfn=block in tokens
+calls=1 245
+251 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+fn=equal_sign?
+124 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+fn=from_parser_token
+16 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/token.rb
+fn=line
+27 0
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/range.rb
+cfn=line
+calls=1 85
+27 1
+
+fl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/traversal.rb
+fn=walk
+22 0
+cfl=unknown
+cfn=on_begin
+calls=1 74
+22 34
+
+fl=unknown
+fn=<internal:gem_prelude>
+16 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems.rb
+cfn=<top (required)>
+calls=1 1349
+16 2
+
+fl=unknown
+fn=assignment_type?
+238 1
+
+fl=unknown
+fn=block in load
+38 1
+
+fl=unknown
+fn=block in on_case
+150 0
+cfl=unknown
+cfn=on_begin
+calls=3 74
+150 4
+cfl=unknown
+cfn=on_block
+calls=1 74
+150 1
+cfl=unknown
+cfn=on_rescue
+calls=1 74
+150 2
+cfl=unknown
+cfn=on_when
+calls=1 74
+150 1
+
+fl=unknown
+fn=block in on_dstr
+147 0
+cfl=unknown
+cfn=on_block
+calls=5 74
+147 6
+cfl=unknown
+cfn=on_case
+calls=1 74
+147 1
+cfl=unknown
+cfn=on_class
+calls=3 74
+147 25
+cfl=unknown
+cfn=on_def
+calls=5 74
+147 27
+cfl=unknown
+cfn=on_defs
+calls=1 74
+147 1
+cfl=unknown
+cfn=on_if
+calls=7 74
+147 10
+cfl=unknown
+cfn=on_ivasgn
+calls=1 74
+147 1
+cfl=unknown
+cfn=on_lvasgn
+calls=5 74
+147 5
+cfl=unknown
+cfn=on_module
+calls=3 74
+147 45
+cfl=unknown
+cfn=on_or
+calls=1 74
+147 1
+cfl=unknown
+cfn=on_sclass
+calls=1 74
+147 10
+cfl=unknown
+cfn=on_send
+calls=10 74
+147 11
+
+fl=unknown
+fn=block in on_send
+171 0
+cfl=unknown
+cfn=on_begin
+calls=1 74
+171 1
+cfl=unknown
+cfn=on_block
+calls=1 74
+171 2
+cfl=unknown
+cfn=on_gvar
+calls=1 74
+171 1
+cfl=unknown
+cfn=on_send
+calls=8 74
+171 8
+
+fl=unknown
+fn=do_parse
+4 2
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb
+cfn=next_token
+calls=4 258
+4 10
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=_reduce_230
+calls=1 9036
+4 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=_reduce_335
+calls=1 9694
+4 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=_reduce_570
+calls=1 11130
+4 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=_reduce_600
+calls=1 11313
+4 1
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb
+cfn=_reduce_684
+calls=1 11843
+4 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb
+cfn=_reduce_11
+calls=1 341
+4 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb
+cfn=_reduce_8
+calls=1 329
+4 1
+cfl=unknown
+cfn=next_token
+calls=1 21
+4 1
+
+fl=unknown
+fn=emit_call
+21 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+cfn=emit_call
+calls=1 32
+21 1
+
+fl=unknown
+fn=emit_capture
+21 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb
+cfn=emit_capture
+calls=1 15
+21 1
+
+fl=unknown
+fn=if_type?
+200 1
+
+fl=unknown
+fn=load
+4 0
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/specification.rb
+cfn=initialize
+calls=1 2009
+4 1
+
+fl=unknown
+fn=next_token
+21 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/lexer.rex.rb
+cfn=next_token
+calls=1 183
+21 1
+
+fl=unknown
+fn=numblock_type?
+200 1
+
+fl=unknown
+fn=on_args
+74 1
+
+fl=unknown
+fn=on_array
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+
+fl=unknown
+fn=on_begin
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+cfl=unknown
+cfn=on_dstr
+calls=27 150
+74 137
+
+fl=unknown
+fn=on_block
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=4 110
+74 4
+cfl=unknown
+cfn=on_block
+calls=8 171
+74 9
+
+fl=unknown
+fn=on_block
+171 0
+cfl=unknown
+cfn=on_begin
+calls=2 74
+171 3
+cfl=unknown
+cfn=on_if
+calls=3 74
+171 3
+cfl=unknown
+cfn=on_send
+calls=2 74
+171 2
+cfl=unknown
+cfn=on_until
+calls=1 74
+171 1
+
+fl=unknown
+fn=on_case
+74 0
+cfl=unknown
+cfn=on_case
+calls=1 153
+74 1
+
+fl=unknown
+fn=on_case
+153 0
+cfl=unknown
+cfn=block in on_case
+calls=6 150
+153 8
+
+fl=unknown
+fn=on_class
+74 0
+cfl=unknown
+cfn=on_class
+calls=3 167
+74 25
+
+fl=unknown
+fn=on_class
+167 0
+cfl=unknown
+cfn=on_begin
+calls=3 74
+167 25
+
+fl=unknown
+fn=on_def
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=4 110
+74 4
+cfl=unknown
+cfn=on_def
+calls=6 167
+74 23
+
+fl=unknown
+fn=on_def
+167 0
+cfl=unknown
+cfn=on_args
+calls=1 74
+167 1
+cfl=unknown
+cfn=on_begin
+calls=9 74
+167 14
+cfl=unknown
+cfn=on_block
+calls=2 74
+167 2
+cfl=unknown
+cfn=on_ensure
+calls=1 74
+167 2
+cfl=unknown
+cfn=on_if
+calls=1 74
+167 1
+cfl=unknown
+cfn=on_or
+calls=1 74
+167 1
+cfl=unknown
+cfn=on_rescue
+calls=2 74
+167 2
+
+fl=unknown
+fn=on_defs
+74 0
+cfl=unknown
+cfn=on_defs
+calls=1 175
+74 1
+
+fl=unknown
+fn=on_defs
+175 0
+cfl=unknown
+cfn=on_block
+calls=1 74
+175 1
+
+fl=unknown
+fn=on_dstr
+150 0
+cfl=unknown
+cfn=block in on_dstr
+calls=33 147
+150 143
+
+fl=unknown
+fn=on_ensure
+74 0
+cfl=unknown
+cfn=on_case
+calls=1 153
+74 2
+
+fl=unknown
+fn=on_gvar
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+
+fl=unknown
+fn=on_if
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=2 110
+74 2
+cfl=unknown
+cfn=on_if
+calls=12 170
+74 15
+
+fl=unknown
+fn=on_if
+170 0
+cfl=unknown
+cfn=on_array
+calls=1 74
+170 1
+cfl=unknown
+cfn=on_begin
+calls=3 74
+170 3
+cfl=unknown
+cfn=on_block
+calls=1 74
+170 1
+cfl=unknown
+cfn=on_if
+calls=2 74
+170 2
+cfl=unknown
+cfn=on_lvasgn
+calls=1 74
+170 1
+cfl=unknown
+cfn=on_or
+calls=3 74
+170 3
+cfl=unknown
+cfn=on_return
+calls=1 74
+170 1
+cfl=unknown
+cfn=on_send
+calls=3 74
+170 3
+
+fl=unknown
+fn=on_ivasgn
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+
+fl=unknown
+fn=on_lvasgn
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+cfl=unknown
+cfn=on_lvasgn
+calls=5 148
+74 5
+
+fl=unknown
+fn=on_lvasgn
+148 0
+cfl=unknown
+cfn=on_begin
+calls=1 74
+148 1
+cfl=unknown
+cfn=on_if
+calls=1 74
+148 1
+cfl=unknown
+cfn=on_or
+calls=1 74
+148 1
+cfl=unknown
+cfn=on_send
+calls=2 74
+148 2
+
+fl=unknown
+fn=on_module
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=2 110
+74 2
+cfl=unknown
+cfn=on_while
+calls=3 151
+74 43
+
+fl=unknown
+fn=on_or
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+cfl=unknown
+cfn=on_dstr
+calls=5 150
+74 5
+
+fl=unknown
+fn=on_rescue
+74 0
+cfl=unknown
+cfn=on_case
+calls=3 153
+74 4
+
+fl=unknown
+fn=on_return
+74 0
+cfl=unknown
+cfn=on_dstr
+calls=1 150
+74 1
+
+fl=unknown
+fn=on_sclass
+74 0
+cfl=unknown
+cfn=on_while
+calls=1 151
+74 10
+
+fl=unknown
+fn=on_send
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=13 110
+74 13
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_restricted_cops
+calls=1 146
+74 1
+cfl=unknown
+cfn=on_send
+calls=11 174
+74 12
+
+fl=unknown
+fn=on_send
+174 0
+cfl=unknown
+cfn=block in on_send
+calls=11 171
+174 12
+
+fl=unknown
+fn=on_until
+74 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb
+cfn=trigger_responding_cops
+calls=1 110
+74 1
+
+fl=unknown
+fn=on_when
+74 0
+cfl=unknown
+cfn=on_case
+calls=1 153
+74 1
+
+fl=unknown
+fn=on_while
+151 0
+cfl=unknown
+cfn=on_begin
+calls=4 74
+151 53
+
+fl=unknown
+fn=require
+170 7
+cfl=/usr/lib/ruby/3.1.0/bundler.rb
+cfn=<top (required)>
+calls=1 36
+170 1
+cfl=/usr/lib/ruby/3.1.0/erb.rb
+cfn=<top (required)>
+calls=1 1034
+170 1
+cfl=/usr/lib/ruby/3.1.0/fileutils.rb
+cfn=<top (required)>
+calls=1 104
+170 1
+cfl=/usr/lib/ruby/3.1.0/json.rb
+cfn=<top (required)>
+calls=1 575
+170 1
+cfl=/usr/lib/ruby/3.1.0/net/http.rb
+cfn=<top (required)>
+calls=1 1724
+170 1
+cfl=/usr/lib/ruby/3.1.0/psych.rb
+cfn=<top (required)>
+calls=1 234
+170 1
+cfl=/usr/lib/ruby/3.1.0/uri.rb
+cfn=<top (required)>
+calls=1 103
+170 1
+cfl=/usr/lib/ruby/3.1.0/yaml.rb
+cfn=<top (required)>
+calls=1 60
+170 1
+cfl=/usr/lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb
+cfn=<top (required)>
+calls=1 16
+170 3
+cfl=/usr/lib/ruby/vendor_ruby/rubygems/resolver.rb
+cfn=<top (required)>
+calls=1 347
+170 1
+cfl=/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server-protocol.rb
+cfn=<top (required)>
+calls=1 1
+170 3
+cfl=/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb
+cfn=<top (required)>
+calls=1 19
+170 4
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism.rb
+cfn=<top (required)>
+calls=1 97
+170 2
+cfl=/var/lib/gems/3.1.0/gems/prism-1.9.0/lib/prism/translation/parser.rb
+cfn=<top (required)>
+calls=1 16
+170 1
+cfl=/var/lib/gems/3.1.0/gems/regexp_parser-2.12.0/lib/regexp_parser.rb
+cfn=<top (required)>
+calls=1 8
+170 1
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb
+cfn=<top (required)>
+calls=1 780
+170 42
+cfl=/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop-ast.rb
+cfn=<top (required)>
+calls=1 3
+170 9
+
+fl=unknown
+fn=tap
+92 0
+cfl=/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb
+cfn=block in dir
+calls=1 57
+92 1

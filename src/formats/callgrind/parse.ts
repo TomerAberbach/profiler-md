@@ -518,10 +518,11 @@ const mapValues = <K>(map: Map<K, number[]>, key: K): number[] => {
 
 /**
  * Maps the file's `creator:` header to a registered origin: Valgrind's
- * callgrind tool writes `callgrind-<version>`. The writers' entries lack
- * reliable origin-level markers, because Valgrind's native frames are ones any
- * native profiler could emit, so the header's self-identification becomes an
- * origin hint.
+ * callgrind tool writes `callgrind-<version>` and rbspy writes `rbspy`. The
+ * writers' entries lack reliable origin-level markers, so the header's
+ * self-identification becomes an origin hint. A pure-Ruby rbspy capture has no
+ * `[c function]` frame, and Valgrind's native frames are ones any native
+ * profiler could emit.
  */
 const creatorOriginHint = (creator: string | undefined): string | undefined => {
   if (creator === undefined) {
@@ -529,6 +530,9 @@ const creatorOriginHint = (creator: string | undefined): string | undefined => {
   }
   if (creator.startsWith(`callgrind`)) {
     return `valgrind`
+  }
+  if (creator === `rbspy`) {
+    return `rbspy`
   }
   return undefined
 }
