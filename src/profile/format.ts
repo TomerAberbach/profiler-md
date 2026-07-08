@@ -35,6 +35,7 @@ import {
 import type { Header } from '../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { Metric } from '../metric.ts'
 import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
@@ -48,7 +49,6 @@ import type {
   AggregatedProfileFunctionDiff,
   DiffMetric,
 } from './diff.ts'
-import type { Metric } from './metric.ts'
 
 type FormatProfileOptions = ResolvedProfileToMdOptions & {
   /** The Markdown heading level to use. */

@@ -1,13 +1,13 @@
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
+import type { Metric } from '../metric.ts'
+import { metricsEqual } from '../metric.ts'
 import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
-import type { Metric } from './metric.ts'
-import { metricsEqual } from './metric.ts'
 
 /** A metric sampled in both the base and current profiles. */
 export type DiffMetric = {

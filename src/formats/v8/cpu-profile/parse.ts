@@ -1,4 +1,4 @@
-import { MICROSECONDS } from '../../../profile/index.ts'
+import { MICROSECONDS } from '../../../metric.ts'
 import type {
   Profile,
   Sample,

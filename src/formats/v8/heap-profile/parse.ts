@@ -1,4 +1,4 @@
-import { BYTES } from '../../../profile/index.ts'
+import { BYTES } from '../../../metric.ts'
 import type { Profile, Sample } from '../../../profile/index.ts'
 import {
   callFrameToStackFrame,

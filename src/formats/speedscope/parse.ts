@@ -1,4 +1,4 @@
-import { determineMetric } from '../../profile/index.ts'
+import { determineMetric } from '../../metric.ts'
 import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
 
 /** A unique location within a function. */
