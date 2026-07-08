@@ -118,7 +118,7 @@ export const categorizeCPythonEntry = (
   `ours`
 
 /** Categorizes Python frames from an installed-package directory as `third-party`. */
-export const pythonThirdPartyCategory = ({
+const pythonThirdPartyCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
   if (!location) {
@@ -128,21 +128,4 @@ export const pythonThirdPartyCategory = ({
   return path.includes(`/site-packages/`) || path.includes(`/dist-packages/`)
     ? `third-party`
     : undefined
-}
-
-/**
- * Generic primitive: categorizes an entry as {@link category} when its path
- * starts with one of {@link prefixes}, whether the location is an absolute URL
- * or a relative path.
- */
-export const pathPrefixCategory = (
-  { location }: DeepReadonly<ProfileEntry>,
-  category: EntryCategory,
-  ...prefixes: string[]
-): EntryCategory | undefined => {
-  if (!location) {
-    return undefined
-  }
-  const path = fileReferencePath(location)
-  return prefixes.some(prefix => path.startsWith(prefix)) ? category : undefined
 }

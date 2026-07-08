@@ -28,8 +28,6 @@ import type { OriginSpec } from './origin.ts'
  */
 export const dotnetTraceOriginSpec = {
   id: `dotnet-trace`,
-  // Dotnet-trace spans C# and F#, which categorize identically here.
-  language: null,
   formats: [`speedscope`],
   matchesEntry: entry => isDotnetTraceFrame(entry.name),
   categorize: entry =>

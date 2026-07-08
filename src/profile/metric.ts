@@ -1,5 +1,5 @@
 /** Phrases that can be used in prose related to a metric. */
-export type MetricPhrases = {
+type MetricPhrases = {
   /** A noun to use in headings, like "CPU", "heap", etc. */
   titleNoun: string
 
@@ -108,7 +108,7 @@ export const BYTES: Metric = {
   bytes: 1,
   phrases: SIZE_PHRASES,
 }
-export const KILOBYTES: Metric = {
+const KILOBYTES: Metric = {
   type: `size`,
   bytes: 1 << 10,
   phrases: SIZE_PHRASES,
@@ -118,7 +118,7 @@ export const MEGABYTES: Metric = {
   bytes: 1 << 20,
   phrases: SIZE_PHRASES,
 }
-export const GIGABYTES: Metric = {
+const GIGABYTES: Metric = {
   type: `size`,
   bytes: 1 << 30,
   phrases: SIZE_PHRASES,

@@ -56,13 +56,6 @@ export type OriginSpec = {
   /** A unique ID for this origin. */
   id: string
 
-  /**
-   * The language ID (a key of the `languages` map in `../cli/languages.ts`)
-   * this origin's profiles are written in, or `null` for format-generic origins
-   * that span languages.
-   */
-  language: string | null
-
   /** The formats this origin can emit, used to narrow detection candidates. */
   formats: Format[]
 

@@ -16,7 +16,7 @@ export type JfrTestMethod = {
 }
 
 /** A frame referencing a {@link JfrTestMethod} by index. */
-export type JfrTestFrame = { method: number; line?: number }
+type JfrTestFrame = { method: number; line?: number }
 
 /** A call stack referenced by events by index. */
 export type JfrTestStack = { frames: JfrTestFrame[] }

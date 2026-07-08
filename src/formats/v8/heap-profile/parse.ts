@@ -31,7 +31,7 @@ export type V8HeapProfileNode = {
   children: V8HeapProfileNode[]
 }
 
-export type V8HeapProfileSample = {
+type V8HeapProfileSample = {
   /** Total bytes for this allocation (size * count). */
   size: number
 

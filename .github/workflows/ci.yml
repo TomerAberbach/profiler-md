@@ -47,6 +47,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      - name: Knip
+        run: pnpm knip
+
       - name: Test
         run: pnpm coverage
 

@@ -99,6 +99,7 @@ profiler-md
 pnpm format
 pnpm lint
 pnpm typecheck
+pnpm knip     # Find unused files, dependencies, and exports
 pnpm test
 pnpm test -u   # Update snapshots
 pnpm coverage

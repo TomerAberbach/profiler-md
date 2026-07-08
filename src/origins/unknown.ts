@@ -11,7 +11,6 @@ import type { OriginSpec } from './origin.ts'
  */
 export const unknownOriginSpec = {
   id: `unknown`,
-  language: null,
   formats: [],
   matchesEntry: () => false,
   categorize: entry =>

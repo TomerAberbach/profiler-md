@@ -1,6 +1,6 @@
 import type { Format } from '../index.ts'
 
-export type LanguageAlias = {
+type LanguageAlias = {
   id: string
   name: string
 }
