@@ -282,7 +282,13 @@ test.concurrent.each([
   {
     scenario: `nonexistent file`,
     args: [`nonexistent.cpuprofile`],
-    expectedStderr: `Unable to open file as blob`,
+    expectedStderr: `no such file: nonexistent.cpuprofile`,
+    expectedStatus: 1,
+  },
+  {
+    scenario: `directory instead of a file`,
+    args: [inputPath()],
+    expectedStderr: `is a directory, expected a file`,
     expectedStatus: 1,
   },
   {

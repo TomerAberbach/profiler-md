@@ -1,4 +1,5 @@
 import { openAsBlob } from 'node:fs'
+import { stat } from 'node:fs/promises'
 import type { Transform } from 'node:stream'
 import { blob } from 'node:stream/consumers'
 import { pipeline } from 'node:stream/promises'
@@ -14,6 +15,22 @@ const openRawInputAsBlob = async (
 ): Promise<Blob> => {
   if (!filePath) {
     return blob(process.stdin)
+  }
+
+  // `openAsBlob` reports every failure as `Unable to open file as blob`, so
+  // diagnose the common failures upfront for a useful error message.
+  let stats
+  try {
+    stats = await stat(filePath)
+  } catch (error) {
+    if (error instanceof Error && `code` in error && error.code === `ENOENT`) {
+      throw new CliError(`no such file: ${filePath}`, 1)
+    }
+    const message = error instanceof Error ? error.message : String(error)
+    throw new CliError(`cannot read ${filePath}: ${message}`, 1)
+  }
+  if (stats.isDirectory()) {
+    throw new CliError(`${filePath} is a directory, expected a file`, 1)
   }
 
   try {
