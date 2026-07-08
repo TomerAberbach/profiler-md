@@ -440,11 +440,11 @@ Common call stack: `unknown (libc.so.6)`
 
 # Uninterruptible sleep profile
 
-Slept 69 sleeps over 69 samples (1 sleep per sample).
+Slept 69 times over 69 samples (1 time per sample).
 
-| Category |      % |    Sleeps | Samples |
-| -------- | -----: | --------: | ------: |
-| kernel   | 100.0% | 69 sleeps |      69 |
+| Category |      % | Sleeps | Samples |
+| -------- | -----: | -----: | ------: |
+| kernel   | 100.0% |     69 |      69 |
 
 ## Hottest functions
 
@@ -452,9 +452,9 @@ Slept 69 sleeps over 69 samples (1 sleep per sample).
 
 Functions ranked by uninterruptible sleeps entered directly in the function body, excluding callees.
 
-|      % |    Sleeps | Samples | Function                    | Location    |
-| -----: | --------: | ------: | --------------------------- | ----------- |
-| 100.0% | 69 sleeps |      69 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Function                    | Location    |
+| -----: | -----: | ------: | --------------------------- | ----------- |
+| 100.0% |     69 |      69 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 #### Callers
 
@@ -462,36 +462,36 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 ##### `bpf_trace_run4 ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Caller                  | Location    |
-| -----: | --------: | ------: | ----------------------- | ----------- |
-| 100.0% | 69 sleeps |      69 | `__schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Caller                  | Location    |
+| -----: | -----: | ------: | ----------------------- | ----------- |
+| 100.0% |     69 |      69 | `__schedule ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
 Functions ranked by total uninterruptible sleeps entered in the function and all its callees.
 
-|      % |    Sleeps | Samples | Function                                       | Location    |
-| -----: | --------: | ------: | ---------------------------------------------- | ----------- |
-| 100.0% | 69 sleeps |      69 | `bpf_trace_run4 ([kernel])`                    | `<unknown>` |
-| 100.0% | 69 sleeps |      69 | `__schedule ([kernel])`                        | `<unknown>` |
-| 100.0% | 69 sleeps |      69 | `schedule ([kernel])`                          | `<unknown>` |
-|  88.4% | 61 sleeps |      61 | `do_syscall_64 ([kernel])`                     | `<unknown>` |
-|  88.4% | 61 sleeps |      61 | `entry_SYSCALL_64_after_hwframe ([kernel])`    | `<unknown>` |
-|  82.6% | 57 sleeps |      57 | `p9_client_rpc ([kernel])`                     | `<unknown>` |
-|  62.3% | 43 sleeps |      43 | `path_openat ([kernel])`                       | `<unknown>` |
-|  62.3% | 43 sleeps |      43 | `do_filp_open ([kernel])`                      | `<unknown>` |
-|  43.5% | 30 sleeps |      30 | `do_sys_openat2 ([kernel])`                    | `<unknown>` |
-|  43.5% | 30 sleeps |      30 | `__x64_sys_openat ([kernel])`                  | `<unknown>` |
-|  27.5% | 19 sleeps |      19 | `v9fs_vfs_lookup ([kernel])`                   | `<unknown>` |
-|  26.1% | 18 sleeps |      18 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `p9_client_walk ([kernel])`                    | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `walk_component ([kernel])`                    | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `load_elf_binary ([kernel])`                   | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `bprm_execve ([kernel])`                       | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `do_execveat_common ([kernel])`                | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `__x64_sys_execve ([kernel])`                  | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `p9_client_read_once ([kernel])`               | `<unknown>` |
-|  21.7% | 15 sleeps |      15 | `p9_client_read ([kernel])`                    | `<unknown>` |
+|      % | Sleeps | Samples | Function                                       | Location    |
+| -----: | -----: | ------: | ---------------------------------------------- | ----------- |
+| 100.0% |     69 |      69 | `bpf_trace_run4 ([kernel])`                    | `<unknown>` |
+| 100.0% |     69 |      69 | `__schedule ([kernel])`                        | `<unknown>` |
+| 100.0% |     69 |      69 | `schedule ([kernel])`                          | `<unknown>` |
+|  88.4% |     61 |      61 | `do_syscall_64 ([kernel])`                     | `<unknown>` |
+|  88.4% |     61 |      61 | `entry_SYSCALL_64_after_hwframe ([kernel])`    | `<unknown>` |
+|  82.6% |     57 |      57 | `p9_client_rpc ([kernel])`                     | `<unknown>` |
+|  62.3% |     43 |      43 | `path_openat ([kernel])`                       | `<unknown>` |
+|  62.3% |     43 |      43 | `do_filp_open ([kernel])`                      | `<unknown>` |
+|  43.5% |     30 |      30 | `do_sys_openat2 ([kernel])`                    | `<unknown>` |
+|  43.5% |     30 |      30 | `__x64_sys_openat ([kernel])`                  | `<unknown>` |
+|  27.5% |     19 |      19 | `v9fs_vfs_lookup ([kernel])`                   | `<unknown>` |
+|  26.1% |     18 |      18 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
+|  21.7% |     15 |      15 | `p9_client_walk ([kernel])`                    | `<unknown>` |
+|  21.7% |     15 |      15 | `walk_component ([kernel])`                    | `<unknown>` |
+|  21.7% |     15 |      15 | `load_elf_binary ([kernel])`                   | `<unknown>` |
+|  21.7% |     15 |      15 | `bprm_execve ([kernel])`                       | `<unknown>` |
+|  21.7% |     15 |      15 | `do_execveat_common ([kernel])`                | `<unknown>` |
+|  21.7% |     15 |      15 | `__x64_sys_execve ([kernel])`                  | `<unknown>` |
+|  21.7% |     15 |      15 | `p9_client_read_once ([kernel])`               | `<unknown>` |
+|  21.7% |     15 |      15 | `p9_client_read ([kernel])`                    | `<unknown>` |
 
 #### Callees
 
@@ -499,166 +499,166 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 ##### `__schedule ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                      | Location    |
-| -----: | --------: | ------: | --------------------------- | ----------- |
-| 100.0% | 69 sleeps |      69 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                      | Location    |
+| -----: | -----: | ------: | --------------------------- | ----------- |
+| 100.0% |     69 |      69 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ##### `schedule ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                  | Location    |
-| -----: | --------: | ------: | ----------------------- | ----------- |
-| 100.0% | 69 sleeps |      69 | `__schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                  | Location    |
+| -----: | -----: | ------: | ----------------------- | ----------- |
+| 100.0% |     69 |      69 | `__schedule ([kernel])` | `<unknown>` |
 
 ##### `do_syscall_64 ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                         | Location    |
-| ----: | --------: | ------: | ------------------------------ | ----------- |
-| 49.2% | 30 sleeps |      30 | `__x64_sys_openat ([kernel])`  | `<unknown>` |
-| 24.6% | 15 sleeps |      15 | `__x64_sys_execve ([kernel])`  | `<unknown>` |
-|  9.8% |  6 sleeps |       6 | `ksys_read ([kernel])`         | `<unknown>` |
-|  6.6% |  4 sleeps |       4 | `__do_sys_newfstat ([kernel])` | `<unknown>` |
-|  3.3% |  2 sleeps |       2 | `__x64_sys_pread64 ([kernel])` | `<unknown>` |
+|     % | Sleeps | Samples | Callee                         | Location    |
+| ----: | -----: | ------: | ------------------------------ | ----------- |
+| 49.2% |     30 |      30 | `__x64_sys_openat ([kernel])`  | `<unknown>` |
+| 24.6% |     15 |      15 | `__x64_sys_execve ([kernel])`  | `<unknown>` |
+|  9.8% |      6 |       6 | `ksys_read ([kernel])`         | `<unknown>` |
+|  6.6% |      4 |       4 | `__do_sys_newfstat ([kernel])` | `<unknown>` |
+|  3.3% |      2 |       2 | `__x64_sys_pread64 ([kernel])` | `<unknown>` |
 
 ##### `entry_SYSCALL_64_after_hwframe ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                     | Location    |
-| -----: | --------: | ------: | -------------------------- | ----------- |
-| 100.0% | 61 sleeps |      61 | `do_syscall_64 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                     | Location    |
+| -----: | -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     61 |      61 | `do_syscall_64 ([kernel])` | `<unknown>` |
 
 ##### `p9_client_rpc ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                | Location    |
-| -----: | --------: | ------: | --------------------- | ----------- |
-| 100.0% | 57 sleeps |      57 | `schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% |     57 |      57 | `schedule ([kernel])` | `<unknown>` |
 
 ##### `path_openat ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                                         | Location    |
-| ----: | --------: | ------: | ---------------------------------------------- | ----------- |
-| 41.9% | 18 sleeps |      18 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
-| 23.3% | 10 sleeps |      10 | `vfs_open ([kernel])`                          | `<unknown>` |
-| 18.6% |  8 sleeps |       8 | `lookup_open.isra.0 ([kernel])`                | `<unknown>` |
-|  9.3% |  4 sleeps |       4 | `dput.part.0 ([kernel])`                       | `<unknown>` |
-|  7.0% |  3 sleeps |       3 | `step_into ([kernel])`                         | `<unknown>` |
+|     % | Sleeps | Samples | Callee                                         | Location    |
+| ----: | -----: | ------: | ---------------------------------------------- | ----------- |
+| 41.9% |     18 |      18 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
+| 23.3% |     10 |      10 | `vfs_open ([kernel])`                          | `<unknown>` |
+| 18.6% |      8 |       8 | `lookup_open.isra.0 ([kernel])`                | `<unknown>` |
+|  9.3% |      4 |       4 | `dput.part.0 ([kernel])`                       | `<unknown>` |
+|  7.0% |      3 |       3 | `step_into ([kernel])`                         | `<unknown>` |
 
 ##### `do_filp_open ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                   | Location    |
-| -----: | --------: | ------: | ------------------------ | ----------- |
-| 100.0% | 43 sleeps |      43 | `path_openat ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                   | Location    |
+| -----: | -----: | ------: | ------------------------ | ----------- |
+| 100.0% |     43 |      43 | `path_openat ([kernel])` | `<unknown>` |
 
 ##### `do_sys_openat2 ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                    | Location    |
-| -----: | --------: | ------: | ------------------------- | ----------- |
-| 100.0% | 30 sleeps |      30 | `do_filp_open ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                    | Location    |
+| -----: | -----: | ------: | ------------------------- | ----------- |
+| 100.0% |     30 |      30 | `do_filp_open ([kernel])` | `<unknown>` |
 
 ##### `__x64_sys_openat ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                      | Location    |
-| -----: | --------: | ------: | --------------------------- | ----------- |
-| 100.0% | 30 sleeps |      30 | `do_sys_openat2 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                      | Location    |
+| -----: | -----: | ------: | --------------------------- | ----------- |
+| 100.0% |     30 |      30 | `do_sys_openat2 ([kernel])` | `<unknown>` |
 
 ##### `v9fs_vfs_lookup ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                                | Location    |
-| ----: | --------: | ------: | ------------------------------------- | ----------- |
-| 52.6% | 10 sleeps |      10 | `p9_client_walk ([kernel])`           | `<unknown>` |
-| 47.4% |  9 sleeps |       9 | `v9fs_inode_from_fid_dotl ([kernel])` | `<unknown>` |
+|     % | Sleeps | Samples | Callee                                | Location    |
+| ----: | -----: | ------: | ------------------------------------- | ----------- |
+| 52.6% |     10 |      10 | `p9_client_walk ([kernel])`           | `<unknown>` |
+| 47.4% |      9 |       9 | `v9fs_inode_from_fid_dotl ([kernel])` | `<unknown>` |
 
 ##### `link_path_walk.part.0.constprop.0 ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                      | Location    |
-| ----: | --------: | ------: | --------------------------- | ----------- |
-| 77.8% | 14 sleeps |      14 | `walk_component ([kernel])` | `<unknown>` |
-| 22.2% |  4 sleeps |       4 | `step_into ([kernel])`      | `<unknown>` |
+|     % | Sleeps | Samples | Callee                      | Location    |
+| ----: | -----: | ------: | --------------------------- | ----------- |
+| 77.8% |     14 |      14 | `walk_component ([kernel])` | `<unknown>` |
+| 22.2% |      4 |       4 | `step_into ([kernel])`      | `<unknown>` |
 
 ##### `p9_client_walk ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                     | Location    |
-| -----: | --------: | ------: | -------------------------- | ----------- |
-| 100.0% | 15 sleeps |      15 | `p9_client_rpc ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                     | Location    |
+| -----: | -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     15 |      15 | `p9_client_rpc ([kernel])` | `<unknown>` |
 
 ##### `walk_component ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                     | Location    |
-| ----: | --------: | ------: | -------------------------- | ----------- |
-| 73.3% | 11 sleeps |      11 | `__lookup_slow ([kernel])` | `<unknown>` |
-| 26.7% |  4 sleeps |       4 | `dput.part.0 ([kernel])`   | `<unknown>` |
+|     % | Sleeps | Samples | Callee                     | Location    |
+| ----: | -----: | ------: | -------------------------- | ----------- |
+| 73.3% |     11 |      11 | `__lookup_slow ([kernel])` | `<unknown>` |
+| 26.7% |      4 |       4 | `dput.part.0 ([kernel])`   | `<unknown>` |
 
 ##### `load_elf_binary ([kernel])` (`<unknown>`)
 
-|     % |    Sleeps | Samples | Callee                      | Location    |
-| ----: | --------: | ------: | --------------------------- | ----------- |
-| 86.7% | 13 sleeps |      13 | `open_exec ([kernel])`      | `<unknown>` |
-|  6.7% |   1 sleep |       1 | `__kernel_read ([kernel])`  | `<unknown>` |
-|  6.7% |   1 sleep |       1 | `load_elf_phdrs ([kernel])` | `<unknown>` |
+|     % | Sleeps | Samples | Callee                      | Location    |
+| ----: | -----: | ------: | --------------------------- | ----------- |
+| 86.7% |     13 |      13 | `open_exec ([kernel])`      | `<unknown>` |
+|  6.7% |      1 |       1 | `__kernel_read ([kernel])`  | `<unknown>` |
+|  6.7% |      1 |       1 | `load_elf_phdrs ([kernel])` | `<unknown>` |
 
 ##### `bprm_execve ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                       | Location    |
-| -----: | --------: | ------: | ---------------------------- | ----------- |
-| 100.0% | 15 sleeps |      15 | `load_elf_binary ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                       | Location    |
+| -----: | -----: | ------: | ---------------------------- | ----------- |
+| 100.0% |     15 |      15 | `load_elf_binary ([kernel])` | `<unknown>` |
 
 ##### `do_execveat_common ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                   | Location    |
-| -----: | --------: | ------: | ------------------------ | ----------- |
-| 100.0% | 15 sleeps |      15 | `bprm_execve ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                   | Location    |
+| -----: | -----: | ------: | ------------------------ | ----------- |
+| 100.0% |     15 |      15 | `bprm_execve ([kernel])` | `<unknown>` |
 
 ##### `__x64_sys_execve ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                          | Location    |
-| -----: | --------: | ------: | ------------------------------- | ----------- |
-| 100.0% | 15 sleeps |      15 | `do_execveat_common ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                          | Location    |
+| -----: | -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |     15 |      15 | `do_execveat_common ([kernel])` | `<unknown>` |
 
 ##### `p9_client_read_once ([kernel])` (`<unknown>`)
 
-|     % |   Sleeps | Samples | Callee                                    | Location    |
-| ----: | -------: | ------: | ----------------------------------------- | ----------- |
-| 53.3% | 8 sleeps |       8 | `p9_client_zc_rpc.constprop.0 ([kernel])` | `<unknown>` |
-| 46.7% | 7 sleeps |       7 | `p9_client_rpc ([kernel])`                | `<unknown>` |
+|     % | Sleeps | Samples | Callee                                    | Location    |
+| ----: | -----: | ------: | ----------------------------------------- | ----------- |
+| 53.3% |      8 |       8 | `p9_client_zc_rpc.constprop.0 ([kernel])` | `<unknown>` |
+| 46.7% |      7 |       7 | `p9_client_rpc ([kernel])`                | `<unknown>` |
 
 ##### `p9_client_read ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                           | Location    |
-| -----: | --------: | ------: | -------------------------------- | ----------- |
-| 100.0% | 15 sleeps |      15 | `p9_client_read_once ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                           | Location    |
+| -----: | -----: | ------: | -------------------------------- | ----------- |
+| 100.0% |     15 |      15 | `p9_client_read_once ([kernel])` | `<unknown>` |
 
 ## Hottest call stacks
 
 Call stacks ranked by uninterruptible sleeps entered in their leaf frame.
 
-|     % |   Sleeps | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 11.6% | 8 sleeps |       8 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_virtio_zc_request ([kernel])` ← `p9_client_zc_rpc.constprop.0 ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_read_to_pagecache ([kernel])` ← `netfs_read_folio ([kernel])` ← `filemap_read_folio ([kernel])` ← `filemap_fault ([kernel])` ← `__do_fault ([kernel])` ← `do_fault ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])`                                                    |
-|  5.8% | 4 sleeps |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                               |
-|  5.8% | 4 sleeps |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_open ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                               |
-|  5.8% | 4 sleeps |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_vfs_getattr_dotl ([kernel])` ← `vfs_fstat ([kernel])` ← `__do_sys_newfstat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                                                                                                 |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                         |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                         |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                        |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                        |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                               |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                        |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                          |
-|  4.3% | 3 sleeps |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `_copy_to_iter ([kernel])` ← `copy_page_to_iter ([kernel])` ← `shmem_file_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                   |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                   |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                  |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                       |
-|  2.9% | 2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `__x64_sys_pread64 ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                  |
-|  1.4% |  1 sleep |       1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                          |
-|  1.4% |  1 sleep |       1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                   |
+|     % | Sleeps | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 11.6% |      8 |       8 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_virtio_zc_request ([kernel])` ← `p9_client_zc_rpc.constprop.0 ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_read_to_pagecache ([kernel])` ← `netfs_read_folio ([kernel])` ← `filemap_read_folio ([kernel])` ← `filemap_fault ([kernel])` ← `__do_fault ([kernel])` ← `do_fault ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])`                                                    |
+|  5.8% |      4 |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                               |
+|  5.8% |      4 |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_open ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                               |
+|  5.8% |      4 |       4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_vfs_getattr_dotl ([kernel])` ← `vfs_fstat ([kernel])` ← `__do_sys_newfstat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                                                                                                 |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                         |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                         |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                        |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                        |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                               |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                        |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                          |
+|  4.3% |      3 |       3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `_copy_to_iter ([kernel])` ← `copy_page_to_iter ([kernel])` ← `shmem_file_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                   |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                   |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                  |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                       |
+|  2.9% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `__x64_sys_pread64 ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                  |
+|  1.4% |      1 |       1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                          |
+|  1.4% |      1 |       1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                   |
 
 # Interruptible sleep profile
 
-Slept 84 sleeps over 84 samples (1 sleep per sample).
+Slept 84 times over 84 samples (1 time per sample).
 
-| Category |      % |    Sleeps | Samples |
-| -------- | -----: | --------: | ------: |
-| kernel   | 100.0% | 84 sleeps |      84 |
+| Category |      % | Sleeps | Samples |
+| -------- | -----: | -----: | ------: |
+| kernel   | 100.0% |     84 |      84 |
 
 ## Hottest functions
 
@@ -666,9 +666,9 @@ Slept 84 sleeps over 84 samples (1 sleep per sample).
 
 Functions ranked by interruptible sleeps entered directly in the function body, excluding callees.
 
-|      % |    Sleeps | Samples | Function                    | Location    |
-| -----: | --------: | ------: | --------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Function                    | Location    |
+| -----: | -----: | ------: | --------------------------- | ----------- |
+| 100.0% |     84 |      84 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 #### Callers
 
@@ -676,35 +676,35 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 
 ##### `bpf_trace_run4 ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Caller                  | Location    |
-| -----: | --------: | ------: | ----------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `__schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Caller                  | Location    |
+| -----: | -----: | ------: | ----------------------- | ----------- |
+| 100.0% |     84 |      84 | `__schedule ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
 Functions ranked by total interruptible sleeps entered in the function and all its callees.
 
-|      % |    Sleeps | Samples | Function                                    | Location            |
-| -----: | --------: | ------: | ------------------------------------------- | ------------------- |
-| 100.0% | 84 sleeps |      84 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `__schedule ([kernel])`                     | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `schedule ([kernel])`                       | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `futex_wait_queue ([kernel])`               | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `__futex_wait ([kernel])`                   | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `futex_wait ([kernel])`                     | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `do_futex ([kernel])`                       | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
-| 100.0% | 84 sleeps |      84 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
-|  90.5% | 76 sleeps |      76 | `POOL_thread`                               | `pool.c`            |
-|   9.5% |  8 sleeps |       8 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
-|   9.5% |  8 sleeps |       8 | `FIO_compressFilename`                      | `fileio.c`          |
-|   9.5% |  8 sleeps |       8 | `main`                                      | `zstdcli.c`         |
-|   7.1% |  6 sleeps |       6 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
-|   7.1% |  6 sleeps |       6 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
-|   2.4% |  2 sleeps |       2 | `POOL_add`                                  | `pool.c`            |
-|   2.4% |  2 sleeps |       2 | `AIO_ReadPool_setFile`                      | `fileio_asyncio.c`  |
+|      % | Sleeps | Samples | Function                                    | Location            |
+| -----: | -----: | ------: | ------------------------------------------- | ------------------- |
+| 100.0% |     84 |      84 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
+| 100.0% |     84 |      84 | `__schedule ([kernel])`                     | `<unknown>`         |
+| 100.0% |     84 |      84 | `schedule ([kernel])`                       | `<unknown>`         |
+| 100.0% |     84 |      84 | `futex_wait_queue ([kernel])`               | `<unknown>`         |
+| 100.0% |     84 |      84 | `__futex_wait ([kernel])`                   | `<unknown>`         |
+| 100.0% |     84 |      84 | `futex_wait ([kernel])`                     | `<unknown>`         |
+| 100.0% |     84 |      84 | `do_futex ([kernel])`                       | `<unknown>`         |
+| 100.0% |     84 |      84 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
+| 100.0% |     84 |      84 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
+| 100.0% |     84 |      84 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
+| 100.0% |     84 |      84 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
+|  90.5% |     76 |      76 | `POOL_thread`                               | `pool.c`            |
+|   9.5% |      8 |       8 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
+|   9.5% |      8 |       8 | `FIO_compressFilename`                      | `fileio.c`          |
+|   9.5% |      8 |       8 | `main`                                      | `zstdcli.c`         |
+|   7.1% |      6 |       6 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
+|   7.1% |      6 |       6 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
+|   2.4% |      2 |       2 | `POOL_add`                                  | `pool.c`            |
+|   2.4% |      2 |       2 | `AIO_ReadPool_setFile`                      | `fileio_asyncio.c`  |
 
 #### Callees
 
@@ -712,113 +712,113 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 ##### `__schedule ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                      | Location    |
-| -----: | --------: | ------: | --------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                      | Location    |
+| -----: | -----: | ------: | --------------------------- | ----------- |
+| 100.0% |     84 |      84 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ##### `schedule ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                  | Location    |
-| -----: | --------: | ------: | ----------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `__schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                  | Location    |
+| -----: | -----: | ------: | ----------------------- | ----------- |
+| 100.0% |     84 |      84 | `__schedule ([kernel])` | `<unknown>` |
 
 ##### `futex_wait_queue ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                | Location    |
-| -----: | --------: | ------: | --------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `schedule ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% |     84 |      84 | `schedule ([kernel])` | `<unknown>` |
 
 ##### `__futex_wait ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                        | Location    |
-| -----: | --------: | ------: | ----------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `futex_wait_queue ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                        | Location    |
+| -----: | -----: | ------: | ----------------------------- | ----------- |
+| 100.0% |     84 |      84 | `futex_wait_queue ([kernel])` | `<unknown>` |
 
 ##### `futex_wait ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                    | Location    |
-| -----: | --------: | ------: | ------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `__futex_wait ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                    | Location    |
+| -----: | -----: | ------: | ------------------------- | ----------- |
+| 100.0% |     84 |      84 | `__futex_wait ([kernel])` | `<unknown>` |
 
 ##### `do_futex ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                  | Location    |
-| -----: | --------: | ------: | ----------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `futex_wait ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                  | Location    |
+| -----: | -----: | ------: | ----------------------- | ----------- |
+| 100.0% |     84 |      84 | `futex_wait ([kernel])` | `<unknown>` |
 
 ##### `__x64_sys_futex ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                | Location    |
-| -----: | --------: | ------: | --------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `do_futex ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% |     84 |      84 | `do_futex ([kernel])` | `<unknown>` |
 
 ##### `do_syscall_64 ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                       | Location    |
-| -----: | --------: | ------: | ---------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `__x64_sys_futex ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                       | Location    |
+| -----: | -----: | ------: | ---------------------------- | ----------- |
+| 100.0% |     84 |      84 | `__x64_sys_futex ([kernel])` | `<unknown>` |
 
 ##### `entry_SYSCALL_64_after_hwframe ([kernel])` (`<unknown>`)
 
-|      % |    Sleeps | Samples | Callee                     | Location    |
-| -----: | --------: | ------: | -------------------------- | ----------- |
-| 100.0% | 84 sleeps |      84 | `do_syscall_64 ([kernel])` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                     | Location    |
+| -----: | -----: | ------: | -------------------------- | ----------- |
+| 100.0% |     84 |      84 | `do_syscall_64 ([kernel])` | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 
-|      % |    Sleeps | Samples | Callee                          | Location    |
-| -----: | --------: | ------: | ------------------------------- | ----------- |
-| 100.0% | 76 sleeps |      76 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                          | Location    |
+| -----: | -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |     76 |      76 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
 
 ##### `FIO_compressFilename_srcFile` (`fileio.c`)
 
-|     % |   Sleeps | Samples | Callee                 | Location           |
-| ----: | -------: | ------: | ---------------------- | ------------------ |
-| 75.0% | 6 sleeps |       6 | `ZSTD_compressStream2` | `zstd_compress.c`  |
-| 25.0% | 2 sleeps |       2 | `AIO_ReadPool_setFile` | `fileio_asyncio.c` |
+|     % | Sleeps | Samples | Callee                 | Location           |
+| ----: | -----: | ------: | ---------------------- | ------------------ |
+| 75.0% |      6 |       6 | `ZSTD_compressStream2` | `zstd_compress.c`  |
+| 25.0% |      2 |       2 | `AIO_ReadPool_setFile` | `fileio_asyncio.c` |
 
 ##### `FIO_compressFilename` (`fileio.c`)
 
-|      % |   Sleeps | Samples | Callee                         | Location   |
-| -----: | -------: | ------: | ------------------------------ | ---------- |
-| 100.0% | 8 sleeps |       8 | `FIO_compressFilename_srcFile` | `fileio.c` |
+|      % | Sleeps | Samples | Callee                         | Location   |
+| -----: | -----: | ------: | ------------------------------ | ---------- |
+| 100.0% |      8 |       8 | `FIO_compressFilename_srcFile` | `fileio.c` |
 
 ##### `main` (`zstdcli.c`)
 
-|      % |   Sleeps | Samples | Callee                 | Location   |
-| -----: | -------: | ------: | ---------------------- | ---------- |
-| 100.0% | 8 sleeps |       8 | `FIO_compressFilename` | `fileio.c` |
+|      % | Sleeps | Samples | Callee                 | Location   |
+| -----: | -----: | ------: | ---------------------- | ---------- |
+| 100.0% |      8 |       8 | `FIO_compressFilename` | `fileio.c` |
 
 ##### `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`)
 
-|      % |   Sleeps | Samples | Callee                          | Location    |
-| -----: | -------: | ------: | ------------------------------- | ----------- |
-| 100.0% | 6 sleeps |       6 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                          | Location    |
+| -----: | -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |      6 |       6 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
 
 ##### `ZSTD_compressStream2` (`zstd_compress.c`)
 
-|      % |   Sleeps | Samples | Callee                          | Location            |
-| -----: | -------: | ------: | ------------------------------- | ------------------- |
-| 100.0% | 6 sleeps |       6 | `ZSTDMT_compressStream_generic` | `zstdmt_compress.c` |
+|      % | Sleeps | Samples | Callee                          | Location            |
+| -----: | -----: | ------: | ------------------------------- | ------------------- |
+| 100.0% |      6 |       6 | `ZSTDMT_compressStream_generic` | `zstdmt_compress.c` |
 
 ##### `POOL_add` (`pool.c`)
 
-|      % |   Sleeps | Samples | Callee                          | Location    |
-| -----: | -------: | ------: | ------------------------------- | ----------- |
-| 100.0% | 2 sleeps |       2 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
+|      % | Sleeps | Samples | Callee                          | Location    |
+| -----: | -----: | ------: | ------------------------------- | ----------- |
+| 100.0% |      2 |       2 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
 
 ##### `AIO_ReadPool_setFile` (`fileio_asyncio.c`)
 
-|      % |   Sleeps | Samples | Callee     | Location |
-| -----: | -------: | ------: | ---------- | -------- |
-| 100.0% | 2 sleeps |       2 | `POOL_add` | `pool.c` |
+|      % | Sleeps | Samples | Callee     | Location |
+| -----: | -----: | ------: | ---------- | -------- |
+| 100.0% |      2 |       2 | `POOL_add` | `pool.c` |
 
 ## Hottest call stacks
 
 Call stacks ranked by interruptible sleeps entered in their leaf frame.
 
-|     % |    Sleeps | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ----: | --------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 90.5% | 76 sleeps |      76 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`)                                                                                                                                                                         |
-|  7.1% |  6 sleeps |       6 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) |
-|  2.4% |  2 sleeps |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_setFile` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                                |
+|     % | Sleeps | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 90.5% |     76 |      76 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`)                                                                                                                                                                         |
+|  7.1% |      6 |       6 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) |
+|  2.4% |      2 |       2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_setFile` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                                |

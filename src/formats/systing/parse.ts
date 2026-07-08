@@ -256,7 +256,7 @@ const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
     `uninterruptible_sleep`,
     {
       type: `custom`,
-      unit: `sleep`,
+      proseUnit: `time`,
       phrases: {
         titleNoun: `uninterruptible sleep`,
         columnNoun: `sleeps`,
@@ -269,7 +269,7 @@ const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
     `interruptible_sleep`,
     {
       type: `custom`,
-      unit: `sleep`,
+      proseUnit: `time`,
       phrases: {
         titleNoun: `interruptible sleep`,
         columnNoun: `sleeps`,

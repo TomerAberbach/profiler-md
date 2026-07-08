@@ -28,10 +28,19 @@ export type Metric = (
       bytes: number
     }
   | {
+      /**
+       * A metric in a unit with no known scale, formatted as a bare count.
+       * {@link MetricPhrases.columnNoun} (a plural noun, e.g. `instructions`)
+       * names the unit in table headers.
+       */
       type: `custom`
 
-      /** The unit of measurement for the metric. */
-      unit: string
+      /**
+       * The singular noun following a count in prose, pluralized by the count
+       * (e.g. `cycle` → "84 cycles"). For a metric counting occurrences of the
+       * event its verb already names, use `time` → "slept 84 times".
+       */
+      proseUnit: string
     }
 ) & { phrases: MetricPhrases }
 
@@ -44,7 +53,7 @@ export const determineMetric = ({
 }): Metric => {
   const metric = UNIT_TO_METRIC.get(unit.toLowerCase()) ?? {
     type: `custom`,
-    unit,
+    proseUnit: unit,
     phrases: {
       titleNoun: name,
       columnNoun: name,
@@ -136,7 +145,7 @@ export const metricsEqual = (left: Metric, right: Metric): boolean => {
     case `size`:
       return left.bytes === (right as typeof left).bytes
     case `custom`:
-      return left.unit === (right as typeof left).unit
+      return left.proseUnit === (right as typeof left).proseUnit
   }
 }
 
@@ -237,10 +246,10 @@ const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
     `none`,
     {
       type: `custom`,
-      unit: `count`,
+      proseUnit: `time`,
       phrases: {
         titleNoun: `count`,
-        columnNoun: `count`,
+        columnNoun: `counts`,
         pastTenseVerb: `recorded`,
         pastParticipleVerbPhrase: `count recorded`,
       },
