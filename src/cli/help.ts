@@ -19,7 +19,8 @@ export const printHelpTopic = async (
     process.exit(0)
   }
 
-  const language = languages.get(languageAliasToPrimary.get(topic) ?? topic)
+  const primaryTopic = languageAliasToPrimary.get(topic) ?? topic
+  const language = languages.get(primaryTopic)
   const formatConverter = (
     formatConverters as Partial<typeof formatConverters>
   )[topic as Format]
@@ -31,7 +32,7 @@ export const printHelpTopic = async (
   }
 
   const docURL = new URL(
-    `../../docs/${formatConverter ? `formats` : `languages`}/${topic}.md`,
+    `../../docs/${formatConverter ? `formats` : `languages`}/${primaryTopic}.md`,
     import.meta.url,
   )
   const doc = await readFile(docURL, `utf8`)

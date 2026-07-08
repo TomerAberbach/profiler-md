@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-if [[ "${PROFILER_MD_PUBLISH:-}" != 1 ]]; then
-  echo "Use ./scripts/publish (or pnpm pub), not pnpm publish directly." >&2
-  exit 1
-fi
