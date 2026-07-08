@@ -1,6 +1,7 @@
 # C/C++
 
-C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools).
+C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools)
+or [Valgrind's Callgrind](https://valgrind.org/docs/manual/cl-manual.html).
 
 ## CPU profiling
 
@@ -91,6 +92,41 @@ HeapProfilerStart("heap.prof");
 HeapProfilerDump("checkpoint"); // optional mid-run profile dump
 HeapProfilerStop();
 ```
+
+## Callgrind profiling
+
+Runs the program under Valgrind's Callgrind tool, which counts every executed
+instruction and records the call graph. Exact (no sampling), at the cost of
+running the program ~20–100× slower. Linux and other Valgrind platforms only.
+
+Build with debug info so functions resolve to source files and lines:
+
+```sh
+gcc -O2 -g -o program program.c    # C
+g++ -O2 -g -o program program.cpp  # C++
+```
+
+### CLI
+
+```sh
+# Profile; writes the callgrind format directly
+valgrind --tool=callgrind --callgrind-out-file=program.callgrind ./program
+
+# Optional: also simulate CPU caches and branch prediction
+valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes \
+  --callgrind-out-file=program.callgrind ./program
+```
+
+#### Flags
+
+| Flag                   | Default            | Description                                                        |
+| ---------------------- | ------------------ | ------------------------------------------------------------------ |
+| `--callgrind-out-file` | `callgrind.out.%p` | Output filename (`%p` expands to the PID)                          |
+| `--cache-sim`          | `no`               | Also count simulated cache hits/misses                             |
+| `--branch-sim`         | `no`               | Also count branch mispredictions                                   |
+| `--dump-instr`         | `no`               | Record costs per instruction instead of per line                   |
+| `--separate-threads`   | `no`               | Write one profile per thread                                       |
+| `--instr-atstart`      | `yes`              | Set to `no` to skip startup; toggle with `callgrind_control -i on` |
 
 ## Heap checking
 

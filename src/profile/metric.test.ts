@@ -106,7 +106,6 @@ describe(`determineMetric`, () => {
 
     expect(metric).toMatchObject({
       type: `custom`,
-      unit: `widgets`,
       phrases: {
         titleNoun: `my_metric`,
         columnNoun: `my_metric`,
@@ -121,8 +120,7 @@ describe(`determineMetric`, () => {
 
     expect(metric).toMatchObject({
       type: `custom`,
-      unit: `count`,
-      phrases: { titleNoun: `count`, columnNoun: `count` },
+      phrases: { titleNoun: `count`, columnNoun: `counts` },
     })
   })
 })

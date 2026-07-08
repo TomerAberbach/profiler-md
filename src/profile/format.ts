@@ -191,7 +191,7 @@ const formatSummaryLine = ({
     formatConjunction(
       metrics.map(
         (metric, index) =>
-          `${metric.phrases.pastTenseVerb} ${formatValue(
+          `${metric.phrases.pastTenseVerb} ${formatProseValue(
             totalValues[index]!,
             metric,
           )}`,
@@ -643,10 +643,10 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
     const baseValue = diff.base.totalValues[baseIndex]!
     const currentValue = diff.current.totalValues[currentIndex]!
     return `${metric.phrases.pastTenseVerb} ${formatArrow(
-      formatValue(baseValue, metric),
-      formatValue(currentValue, metric),
+      formatProseValue(baseValue, metric),
+      formatProseValue(currentValue, metric),
     )}${formatChange(baseValue, currentValue, magnitude =>
-      formatValueDelta(magnitude, metric),
+      formatProseValueDelta(magnitude, metric),
     )}`
   })
   const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
@@ -671,7 +671,7 @@ const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
     case `size`:
       return formatBytes(samplingRate * metric.bytes)
     case `custom`:
-      return formatCount(samplingRate, metric.unit)
+      return `${formatCount(samplingRate)} ${metric.phrases.columnNoun}`
   }
 }
 
@@ -1202,7 +1202,13 @@ const metricCell = (value: number, metric: Metric): Cell =>
     value => formatValueDelta(value, metric),
   )
 
-/** Formats a single metric value (e.g. as milliseconds, bytes, or a count). */
+/**
+ * Formats a single metric value (e.g. as milliseconds, bytes, or a count).
+ *
+ * A custom metric formats as a bare count: it renders in table cells whose
+ * column header already names the unit, so repeating it per cell would be
+ * redundant. Prose uses {@link formatProseValue} instead.
+ */
 const formatValue = (value: number, metric: Metric): string => {
   switch (metric.type) {
     case `time`:
@@ -1210,7 +1216,7 @@ const formatValue = (value: number, metric: Metric): string => {
     case `size`:
       return formatBytes(value * metric.bytes)
     case `custom`:
-      return formatCount(value, metric.unit)
+      return formatCount(value)
   }
 }
 
@@ -1222,9 +1228,24 @@ const formatValueDelta = (value: number, metric: Metric): string => {
     case `size`:
       return formatBytesDelta(value * metric.bytes)
     case `custom`:
-      return formatCount(value, metric.unit)
+      return formatCount(value)
   }
 }
+
+/**
+ * Formats a metric value for prose, where no column header names a custom
+ * metric's unit, so the unit noun follows the count.
+ */
+const formatProseValue = (value: number, metric: Metric): string =>
+  metric.type === `custom`
+    ? `${formatCount(value)} ${metric.phrases.columnNoun}`
+    : formatValue(value, metric)
+
+/** The delta-precision counterpart to {@link formatProseValue}. */
+const formatProseValueDelta = (value: number, metric: Metric): string =>
+  metric.type === `custom`
+    ? `${formatCount(value)} ${metric.phrases.columnNoun}`
+    : formatValueDelta(value, metric)
 
 /** Formats a call stack as a chain of functions, leaf to root. */
 const formatCallStack = (

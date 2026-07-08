@@ -268,6 +268,30 @@ describe(`determineOrigin`, () => {
     ).toBe(`rbspy`)
   })
 
+  test(`valgrind-style callgrind frames fall back to the unknown origin`, () => {
+    // Valgrind needs no origin of its own: its native frames categorize
+    // correctly under the unknown origin's universal rules.
+    expect(
+      determineOrigin({
+        format: `callgrind`,
+        entries: [
+          relativeEntry(`main`, `/src/main.c`),
+          absoluteEntry(`memcpy`, `file:///usr/lib/libc.so.6`),
+          relativeEntry(`(below main)`),
+        ],
+      }),
+    ).toBe(`unknown`)
+  })
+
+  test(`detects rbspy in callgrind output by its marker frames`, () => {
+    expect(
+      determineOrigin({
+        format: `callgrind`,
+        entries: [relativeEntry(`(unknown) [c function]`)],
+      }),
+    ).toBe(`rbspy`)
+  })
+
   test(`detects rbspy by its bare marker frames in pprof and speedscope`, () => {
     expect(
       determineOrigin({

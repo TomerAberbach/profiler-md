@@ -23,6 +23,7 @@ const variants = new Set<string>([`base`, `current`, `diff`])
 // are matched in full, so the format is always recoverable from the extension
 // alone and never from the optional config segment.
 const extFormats: Record<string, Format> = {
+  callgrind: `callgrind`,
   pprof: `pprof`,
   collapsed: `collapsed`,
   jfr: `jfr`,

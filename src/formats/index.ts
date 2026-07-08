@@ -33,6 +33,7 @@ import {
   formatHeapSnapshotDiff,
 } from '../snapshot/format.ts'
 import { sourceMapSourceLocation } from '../source-map.ts'
+import { callgrindConverter } from './callgrind/index.ts'
 import { collapsedConverter } from './collapsed/index.ts'
 import type {
   AggregatedInput,
@@ -378,6 +379,7 @@ const isAbsoluteFileLocation = (
   location?.type === `absolute` && location.url.protocol === `file:`
 
 export const formats = [
+  `callgrind`,
   `collapsed`,
   `jfr`,
   `jsc-heap-snapshot`,
@@ -393,6 +395,7 @@ export const formats = [
 export type Format = (typeof formats)[number]
 
 export const formatConverters: Record<Format, FormatConverter> = {
+  callgrind: callgrindConverter,
   collapsed: collapsedConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,

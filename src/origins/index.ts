@@ -259,6 +259,11 @@ const formatToOriginSpecs = indexOriginSpecsByFormat()
  * formats fall back to their runtime origin, which always emits them.
  */
 const fallbackOriginSpecs: Record<Format, SpecificOriginSpec> = {
+  // Callgrind's canonical emitter is Valgrind, whose native frames (system
+  // library paths, locationless symbols, `(below main)`) the unknown origin's
+  // universal rules already categorize correctly, so Valgrind needs no origin
+  // of its own; other emitters (e.g. rbspy) are detected from their frames.
+  callgrind: unknownOriginSpec,
   collapsed: unknownOriginSpec,
   jfr: jvmOriginSpec,
   pprof: unknownOriginSpec,

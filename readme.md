@@ -60,6 +60,7 @@ it. Third-party tools can often convert others, though.
 <tr>
 <td><a href="docs/languages/c.md">C⁠/⁠C++</a></td>
 <td>
+<div><a href="docs/formats/callgrind.md">Callgrind</a>: <a href="examples/output/c.valgrind.base.callgrind.md">base</a>, <a href="examples/output/c.valgrind.current.callgrind.md">current</a>, <a href="examples/output/c.valgrind.diff.callgrind.md">diff</a></div>
 <div><a href="docs/formats/pprof.md">pprof</a>:<ul><li>C CPU (<a href="examples/output/c.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C Heap (<a href="examples/output/c.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.heap.diff.pprof.md">diff</a>)</li><li>C++ CPU (<a href="examples/output/cpp.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C++ Heap (<a href="examples/output/cpp.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></div>
 </td>
 </tr>
@@ -121,6 +122,7 @@ it. Third-party tools can often convert others, though.
 <tr>
 <td><a href="docs/languages/ruby.md">Ruby</a></td>
 <td>
+<div><a href="docs/formats/callgrind.md">Callgrind</a>: <a href="examples/output/ruby.rbspy.cpu.base.callgrind.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.callgrind.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.callgrind.md">diff</a></div>
 <div><a href="docs/formats/collapsed.md">Collapsed stacks</a>: <a href="examples/output/ruby.rbspy.cpu.base.collapsed.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.collapsed.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.collapsed.md">diff</a></div>
 <div><a href="docs/formats/pprof.md">pprof</a>: <a href="examples/output/ruby.rbspy.cpu.base.pprof.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.pprof.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.pprof.md">diff</a></div>
 <div><a href="docs/formats/speedscope.md">Speedscope</a>: <a href="examples/output/ruby.rbspy.cpu.base.speedscope.json.md">base</a>, <a href="examples/output/ruby.rbspy.cpu.current.speedscope.json.md">current</a>, <a href="examples/output/ruby.rbspy.cpu.diff.speedscope.json.md">diff</a></div>
@@ -185,7 +187,7 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
-Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: beam, bun, deno, dotnet-trace, go, jvm, node, node-pprof, pprof-jl, pprof-rs, py-spy, rbspy, safari, tachyon, unknown
 Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin, javascript/typescript, julia, php, python, ruby, rust
 ```

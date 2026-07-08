@@ -55,6 +55,12 @@ export const selfTimeTables = (md: string): Table[] =>
 export const totalTimeTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Total time`)
 
+export const selfValuesTables = (md: string, columnNoun: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self ${columnNoun}`)
+
+export const totalValuesTables = (md: string, columnNoun: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Total ${columnNoun}`)
+
 export const selfSamplesTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Self samples`)
 

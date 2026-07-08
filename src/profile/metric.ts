@@ -28,10 +28,12 @@ export type Metric = (
       bytes: number
     }
   | {
+      /**
+       * A metric in a unit with no known scale, formatted as a bare count.
+       * {@link MetricPhrases.columnNoun} (a plural noun, e.g. `instructions`)
+       * names the unit where no column header does.
+       */
       type: `custom`
-
-      /** The unit of measurement for the metric. */
-      unit: string
     }
 ) & { phrases: MetricPhrases }
 
@@ -44,7 +46,6 @@ export const determineMetric = ({
 }): Metric => {
   const metric = UNIT_TO_METRIC.get(unit.toLowerCase()) ?? {
     type: `custom`,
-    unit,
     phrases: {
       titleNoun: name,
       columnNoun: name,
@@ -136,7 +137,8 @@ export const metricsEqual = (left: Metric, right: Metric): boolean => {
     case `size`:
       return left.bytes === (right as typeof left).bytes
     case `custom`:
-      return left.unit === (right as typeof left).unit
+      // The phrases (already compared above) carry a custom metric's unit noun.
+      return true
   }
 }
 
@@ -195,12 +197,11 @@ const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
     `none`,
     {
       type: `custom`,
-      unit: `count`,
       phrases: {
         titleNoun: `count`,
-        columnNoun: `count`,
+        columnNoun: `counts`,
         pastTenseVerb: `recorded`,
-        pastParticipleVerbPhrase: `count recorded`,
+        pastParticipleVerbPhrase: `counts recorded`,
       },
     },
   ],

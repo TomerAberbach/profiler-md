@@ -9,10 +9,10 @@ RUBOCOP_VERSION="1.65.1"
 RBSPY_VERSION="0.48.0"
 RBSPY_URL="https://github.com/rbspy/rbspy/releases/download/v$RBSPY_VERSION/rbspy-aarch64-unknown-linux-musl.tar.gz"
 
-EXTS=(speedscope.json collapsed pprof)
+EXTS=(speedscope.json collapsed pprof callgrind)
 
 # Run the rbspy capture once per role in the container: record RuboCop linting a
-# real Sinatra file, then re-render that one recording into all three formats
+# real Sinatra file, then re-render that one recording into all the formats
 # (so they're consistent) into the mounted /out.
 declare -A rundir=()
 run_for_role() {
@@ -53,12 +53,13 @@ run_for_role() {
 
       rbspy report --input /out/ruby.raw.gz --format speedscope --output /out/ruby.speedscope.json
       rbspy report --input /out/ruby.raw.gz --format pprof --output /out/ruby.pprof
+      rbspy report --input /out/ruby.raw.gz --format callgrind --output /out/ruby.callgrind
     ' --cap-add SYS_PTRACE
 
   rundir[$role]=$dir
 }
 
-# capture_fn for emit: $1=out  $2=role  $3=ext (speedscope.json|collapsed|pprof)
+# capture_fn for emit: $1=out  $2=role  $3=ext (speedscope.json|collapsed|pprof|callgrind)
 copy_ruby_profile() {
   local out=$1 role=$2 ext=$3
   run_for_role "$role"

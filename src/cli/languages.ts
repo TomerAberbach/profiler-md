@@ -21,7 +21,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `c`,
     {
       name: `C`,
-      formats: [`pprof`],
+      formats: [`callgrind`, `pprof`],
       aliases: [{ id: `cpp`, name: `C++` }],
       extensions: [`h`, `cc`, `cxx`, `hpp`],
     },
@@ -103,7 +103,7 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `ruby`,
     {
       name: `Ruby`,
-      formats: [`collapsed`, `pprof`, `speedscope`],
+      formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
       extensions: [`rb`],
     },
   ],
