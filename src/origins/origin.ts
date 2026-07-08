@@ -94,6 +94,20 @@ export type OriginSpec = {
   categorizeHeapSnapshotConstructor?: (name: string) => string | undefined
 
   /**
+   * Returns whether this origin's runtime makes {@link entry}'s outgoing call
+   * graph arcs rather than the profiled program, so the cycle analysis skips
+   * them and the functions they intersperse cannot form one cycle through
+   * {@link entry}.
+   *
+   * The arcs record real calls, so they still count toward totals and appear
+   * in the caller/callee metrics. Dropping the frame instead would lose its
+   * self cost too.
+   *
+   * Defaults to walking every arc when omitted.
+   */
+  hasRuntimeInsertedArcs?: (entry: DeepReadonly<ProfileEntry>) => boolean
+
+  /**
    * Returns a normalized name and location to match {@link entry} by across
    * diffed profiles, with this origin's run-varying identifiers (build hashes,
    * runtime addresses embedded in names or paths) stripped so the same entity

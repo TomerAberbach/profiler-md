@@ -1,5 +1,9 @@
 import type { LanguageId } from '../cli/languages.ts'
 import type {
+  AggregatedCallGraph,
+  CallGraph,
+} from '../modalities/call-graph/index.ts'
+import type {
   AggregatedHeapSnapshot,
   HeapSnapshot,
 } from '../modalities/heap-snapshot/index.ts'
@@ -8,9 +12,10 @@ import type {
   SamplingProfile,
 } from '../modalities/sampling-profile/index.ts'
 
-export type ParsedInput = SamplingProfile | HeapSnapshot
+export type ParsedInput = SamplingProfile | CallGraph | HeapSnapshot
 
-export type AggregatedInput = AggregatedSamplingProfile | AggregatedHeapSnapshot
+export type AggregatedInput =
+  AggregatedSamplingProfile | AggregatedCallGraph | AggregatedHeapSnapshot
 
 type FormatMeta = {
   /** The format's display name. */
