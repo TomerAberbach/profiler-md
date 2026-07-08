@@ -1,11 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../helpers/markdown.ts'
-import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
   improvementsTables,
   regressionsTables,
 } from '../testing/markdown.ts'
+import { resolveProfileToMdOptions } from '../testing/options.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -16,7 +16,7 @@ import {
   makeSourceLocation,
 } from './testing.ts'
 
-const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
 describe(`diffAggregatedHeapSnapshots`, () => {
   test(`reports a constructor only in base as removed`, () => {

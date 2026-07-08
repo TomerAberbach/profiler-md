@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest'
-import { normalizeProfileToMdOptions } from './options.ts'
 import type {
-  NormalizedProfileToMdOptions,
   ProfileToMdOptions,
+  ResolvedProfileToMdOptions,
 } from './options.ts'
 import { normalizeSourceMaps, sourceMapSourceLocation } from './source-map.ts'
 import type { SourceMap } from './source-map.ts'
+import { resolveProfileToMdOptions } from './testing/options.ts'
 
 // Maps generated line 1 col 0 -> sources[0] line 1 col 0 (0-based).
 const L1_C0_TO_SOURCE_0_L1_C0 = `AAAA`
@@ -24,8 +24,8 @@ const makeNormalizedOptions = ({
 }: Pick<
   ProfileToMdOptions,
   `sourceMaps` | `baseURL`
->): NormalizedProfileToMdOptions =>
-  normalizeProfileToMdOptions({ baseURL, sourceMaps })
+>): ResolvedProfileToMdOptions =>
+  resolveProfileToMdOptions({ baseURL, sourceMaps })
 
 test(`normalizeSourceMaps drops entries with no file field`, () => {
   const sourceMaps = normalizeSourceMaps([makeSourceMap()])

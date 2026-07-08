@@ -8,6 +8,7 @@ import {
   improvementsTables,
   profileTitles,
   regressionsTables,
+  selfTimeTables,
 } from '../testing/markdown.ts'
 import {
   diffProfiles,
@@ -121,6 +122,184 @@ describe(`profileToMd`, () => {
     )
 
     expect(forced).toBe(auto)
+  })
+
+  test(`baseURL: 'auto' infers the common ancestor of ours locations`, () => {
+    // FuncA and funcB span the project; the dependency and builtin frames are
+    // not `ours`, so they don't move the inferred base up towards the root.
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2, 3]),
+        {
+          id: 2,
+          hitCount: 5,
+          callFrame: makeV8CallFrame(
+            `funcA`,
+            `file:///home/user/project/src/a.ts`,
+          ),
+          children: [4, 5],
+        },
+        {
+          id: 3,
+          hitCount: 3,
+          callFrame: makeV8CallFrame(
+            `funcB`,
+            `file:///home/user/project/lib/b.ts`,
+          ),
+        },
+        {
+          id: 4,
+          hitCount: 2,
+          callFrame: makeV8CallFrame(
+            `depFn`,
+            `file:///opt/homebrew/lib/node_modules/dep/index.js`,
+          ),
+        },
+        {
+          id: 5,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(`readFileSync`, `node:fs`),
+        },
+      ],
+      samples: [2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5],
+      timeDeltas: Array.from({ length: 11 }, () => 20),
+    })
+
+    const md = profileToMd(
+      { data: cpuProfile, format: `v8-cpu-profile` },
+      { baseURL: `auto` },
+    )
+
+    // `ours` paths are relative to the inferred `/home/user/project/`; the
+    // dependency path goes up more than two levels from it, so it renders
+    // absolute, and the builtin location renders unchanged.
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `45.5%`,
+          Time: `0.1ms`,
+          Samples: `5`,
+          Function: `funcA`,
+          Location: `src/a.ts:1:1`,
+        },
+        {
+          '%': `27.3%`,
+          Time: `0.1ms`,
+          Samples: `3`,
+          Function: `funcB`,
+          Location: `lib/b.ts:1:1`,
+        },
+        {
+          '%': `18.2%`,
+          Time: `40.0µs`,
+          Samples: `2`,
+          Function: `depFn`,
+          Location: `/opt/homebrew/lib/node_modules/dep/index.js:1:1`,
+        },
+        {
+          '%': `9.1%`,
+          Time: `20.0µs`,
+          Samples: `1`,
+          Function: `readFileSync`,
+          Location: `node:fs:1:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`baseURL: 'auto' falls back to absolute paths when no location qualifies`, () => {
+    // The only `ours` location is an HTTP URL and the builtin is stdlib, so
+    // nothing qualifies for inference.
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 3,
+          callFrame: makeV8CallFrame(`handler`, `https://example.com/app.js`),
+          children: [3],
+        },
+        {
+          id: 3,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(`readFileSync`, `node:fs`),
+        },
+      ],
+      samples: [2, 2, 2, 3],
+      timeDeltas: Array.from({ length: 4 }, () => 20),
+    })
+
+    const md = profileToMd(
+      { data: cpuProfile, format: `v8-cpu-profile` },
+      { baseURL: `auto` },
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `75.0%`,
+          Time: `0.1ms`,
+          Samples: `3`,
+          Function: `handler`,
+          Location: `https://example.com/app.js:1:1`,
+        },
+        {
+          '%': `25.0%`,
+          Time: `20.0µs`,
+          Samples: `1`,
+          Function: `readFileSync`,
+          Location: `node:fs:1:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`baseURL: 'auto' infers the common ancestor from source-mapped locations`, () => {
+    // The only `ours` location is a generated bundle whose source map points
+    // into src/. Inference must follow the map like rendering does: a base
+    // inferred from the raw dist/ path would render the mapped source as
+    // `../src/foo.ts`.
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 5,
+          callFrame: makeV8CallFrame(
+            `funcA`,
+            `file:///home/user/project/dist/bundle.js`,
+          ),
+        },
+      ],
+      samples: [2, 2, 2, 2, 2],
+      timeDeltas: Array.from({ length: 5 }, () => 20),
+    })
+    const sourceMaps = {
+      'file:///home/user/project/dist/bundle.js': {
+        version: `3`,
+        sources: [`/home/user/project/src/foo.ts`],
+        names: [],
+        // Maps generated line 1 col 0 -> sources[0] line 1 col 0 (0-based).
+        mappings: `AAAA`,
+      },
+    }
+
+    const md = profileToMd(
+      { data: cpuProfile, format: `v8-cpu-profile` },
+      { baseURL: `auto`, sourceMaps },
+    )
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.1ms`,
+          Samples: `5`,
+          Function: `funcA`,
+          Location: `foo.ts:1:1`,
+        },
+      ],
+    ])
   })
 
   test(`reports when there is no profiling data`, () => {
@@ -459,6 +638,60 @@ describe(`diffProfiles`, () => {
     expect(improvementsTables(md, `Self time`)).toEqual([[funcB]])
     expect(regressionsTables(md, `Total time`)).toEqual([[funcA, funcC]])
     expect(improvementsTables(md, `Total time`)).toEqual([[funcB]])
+  })
+
+  test(`baseURL: 'auto' infers one common ancestor across both diff sides`, () => {
+    // The function moved from src/ to lib/ between the two profiles. A
+    // per-side base would render both as a bare `a.ts`; the shared base keeps
+    // the two locations distinguishable.
+    const makeSide = (url: string) =>
+      JSON.stringify({
+        nodes: [
+          makeV8CpuProfileRoot([2]),
+          { id: 2, hitCount: 5, callFrame: makeV8CallFrame(`funcA`, url) },
+        ],
+        samples: [2, 2, 2, 2, 2],
+        timeDeltas: Array.from({ length: 5 }, () => 20),
+      })
+
+    const md = diffProfiles(
+      {
+        data: makeSide(`file:///home/user/project/src/a.ts`),
+        format: `v8-cpu-profile`,
+      },
+      {
+        data: makeSide(`file:///home/user/project/lib/a.ts`),
+        format: `v8-cpu-profile`,
+      },
+      { baseURL: `auto` },
+    )
+
+    expect(regressionsTables(md, `Self time`)).toEqual([
+      [
+        {
+          Change: `new`,
+          Delta: `+0.10ms`,
+          '%': `0.0% → 100.0%`,
+          Time: `0ms → 0.1ms`,
+          Samples: `0 → 5`,
+          Function: `funcA`,
+          Location: `lib/a.ts:1:1`,
+        },
+      ],
+    ])
+    expect(improvementsTables(md, `Self time`)).toEqual([
+      [
+        {
+          Change: `removed`,
+          Delta: `-0.10ms`,
+          '%': `100.0% → 0.0%`,
+          Time: `0.1ms → 0ms`,
+          Samples: `5 → 0`,
+          Function: `funcA`,
+          Location: `src/a.ts:1:1`,
+        },
+      ],
+    ])
   })
 
   test(`diffs two heap snapshots end-to-end`, () => {

@@ -636,25 +636,25 @@ Nodes ranked by contribution to each closure's retained size.
 
 Strings ranked by bytes allocated for them.
 
-|     % |    Size | Value                                                    | Path                                                                                                                                        |
-| ----: | ------: | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 1.95 kB | `import { readFileSync } from 'node:fs'\nimport { a…`    | `.source Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/javascript/heap-snapshot.mjs ← .script (shared function info)` |
-| <0.1% | 1.48 kB | `^(?:(?:(?:[0-9a-fA-F]{1,4}):){7}(?:(?:[0-9a-fA-F]…`     | `(GC root)`                                                                                                                                 |
-| <0.1% |   432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `(GC root)`                                                                                                                                 |
-| <0.1% |   432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `.--tls-cipher-list Object ← .optionsDict system / Context`                                                                                 |
-| <0.1% |   336 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   336 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   336 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `.description Object ← .user Object ← .retweeted_status Object`                                                                             |
-| <0.1% |   336 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `.description Object ← .user Object ← .retweeted_status Object`                                                                             |
-| <0.1% |   336 B | `define unhandled rejections behavior. Options are…`     | `.helpText Object ← .345 array ← .table Map`                                                                                                |
-| <0.1% |   328 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   320 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   312 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   304 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `.text Object`                                                                                                                              |
-| <0.1% |   304 B | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印…`  | `.text Object`                                                                                                                              |
-| <0.1% |   304 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   304 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `.description Object ← .user Object`                                                                                                        |
-| <0.1% |   296 B | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1…`     | `.text Object`                                                                                                                              |
-| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                                                                                              |
-| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                                                                                              |
-| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                                                                                              |
+|     % |    Size | Value                                                    | Path                                                            |
+| ----: | ------: | -------------------------------------------------------- | --------------------------------------------------------------- |
+| <0.1% | 1.95 kB | `import { readFileSync } from 'node:fs'\nimport { a…`    | `.source heap-snapshot.mjs ← .script (shared function info)`    |
+| <0.1% | 1.48 kB | `^(?:(?:(?:[0-9a-fA-F]{1,4}):){7}(?:(?:[0-9a-fA-F]…`     | `(GC root)`                                                     |
+| <0.1% |   432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `(GC root)`                                                     |
+| <0.1% |   432 B | `TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA2…`     | `.--tls-cipher-list Object ← .optionsDict system / Context`     |
+| <0.1% |   336 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `.description Object ← .user Object`                            |
+| <0.1% |   336 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `.description Object ← .user Object`                            |
+| <0.1% |   336 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `.description Object ← .user Object ← .retweeted_status Object` |
+| <0.1% |   336 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `.description Object ← .user Object ← .retweeted_status Object` |
+| <0.1% |   336 B | `define unhandled rejections behavior. Options are…`     | `.helpText Object ← .345 array ← .table Map`                    |
+| <0.1% |   328 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `.description Object ← .user Object`                            |
+| <0.1% |   320 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `.description Object ← .user Object`                            |
+| <0.1% |   312 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `.description Object ← .user Object`                            |
+| <0.1% |   304 B | `@aym0566x \n\n名前:前田あゆみ\n第一印象:なんか怖っ！\n今の印象:とりあえずキモい。噛み…` | `.text Object`                                                  |
+| <0.1% |   304 B | `RT @AFmbsk: @samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印…`  | `.text Object`                                                  |
+| <0.1% |   304 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `.description Object ← .user Object`                            |
+| <0.1% |   304 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `.description Object ← .user Object`                            |
+| <0.1% |   296 B | `RT @omo_kko: ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1…`     | `.text Object`                                                  |
+| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                  |
+| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                  |
+| <0.1% |   296 B | `RT @shiawaseomamori: 一に止まると書いて、正しいという意味だなんて、この年にな…`     | `.text Object`                                                  |

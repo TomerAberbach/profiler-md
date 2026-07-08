@@ -1,5 +1,12 @@
 import { fileReferenceId } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import type { FileReference, SourceLocation } from '../location.ts'
+import type {
+  AggregateProfileToMdOptions,
+  ProfileEntry,
+  ResolvedProfileToMdOptions,
+  UnresolvedProfileToMdContext,
+} from '../options.ts'
+import { determineOrigin } from '../origins/index.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
@@ -14,8 +21,28 @@ export type SnapshotAggregatorOptions = {
   nodeFieldCount: number
   nodeSelfSizeOffset: number
   nodeAdjacencyGraph: NodeAdjacencyGraph
-  formatEdgeLabel: (retainerOrdinal: number, edgeIndex: number) => string
-  formatNodeLabel: (nodeOrdinal: number) => string
+
+  /**
+   * Formats an edge label for retainer paths, which are computed lazily at
+   * formatting time, so it receives the resolved formatting options.
+   */
+  formatEdgeLabel: (
+    retainerOrdinal: number,
+    edgeIndex: number,
+    options: ResolvedProfileToMdOptions,
+  ) => string
+
+  /**
+   * Formats a node label for retained-node lists, which are computed lazily
+   * at formatting time, so it receives the resolved formatting options. Eagerly
+   * aggregated entities ({@link SnapshotAggregator.addConstructorNode} etc.)
+   * take a raw, options-independent name instead.
+   */
+  formatNodeLabel: (
+    nodeOrdinal: number,
+    options: ResolvedProfileToMdOptions,
+  ) => string
+
   isInternalNode: (nodeOrdinal: number) => boolean
 }
 
@@ -29,9 +56,14 @@ export class SnapshotAggregator {
   readonly #formatEdgeLabel: (
     retainerOrdinal: number,
     edgeIndex: number,
+    options: ResolvedProfileToMdOptions,
   ) => string
 
-  readonly #formatNodeLabel: (nodeOrdinal: number) => string
+  readonly #formatNodeLabel: (
+    nodeOrdinal: number,
+    options: ResolvedProfileToMdOptions,
+  ) => string
+
   readonly #isInternalNode: (nodeOrdinal: number) => boolean
 
   #totalSize = 0
@@ -99,9 +131,10 @@ export class SnapshotAggregator {
 
   public addConstructorNode(
     nodeOrdinal: number,
+    name: string,
     location?: SourceLocation,
+    nameLocation?: FileReference,
   ): void {
-    const name = this.#formatNodeLabel(nodeOrdinal)
     const selfSize = this.#selfSize(nodeOrdinal)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let constructorIndex = this.#nameToConstructorIndex.get(name)
@@ -112,7 +145,11 @@ export class SnapshotAggregator {
         type: `node`,
         id: nodeOrdinal,
         name,
+        nameLocation,
         location,
+        // Categories are assigned after aggregation, in one pass over the full
+        // set of entities (see {@link categorizeAggregatedHeapSnapshot}).
+        category: ``,
         selfSize: 0,
         retainedSize: 0,
         instances: [],
@@ -138,9 +175,9 @@ export class SnapshotAggregator {
 
   public addClosureNode(
     nodeOrdinal: number,
-    location: SourceLocation | undefined,
+    name: string,
+    location?: SourceLocation,
   ): void {
-    const name = this.#formatNodeLabel(nodeOrdinal)
     const key = location
       ? `${name}|${fileReferenceId(location)}:${location.line}:${location.column}`
       : name
@@ -153,6 +190,9 @@ export class SnapshotAggregator {
         id: nodeOrdinal,
         name,
         location,
+        // Categories are assigned after aggregation, in one pass over the full
+        // set of entities (see {@link categorizeAggregatedHeapSnapshot}).
+        category: ``,
         selfSize: 0,
         retainedSize: 0,
         largestInstanceId: nodeOrdinal,
@@ -212,15 +252,16 @@ export class SnapshotAggregator {
       constructors: this.#constructors,
       closures: this.#closures,
       strings: this.#strings,
-      retainerPathOf: nodeOrdinal =>
+      retainerPathOf: (nodeOrdinal, options) =>
         computeRetainerPath(
           nodeOrdinal,
           this.#nodeAdjacencyGraph,
           this.#immediateDominatorGraph,
-          this.#formatEdgeLabel,
+          (retainerOrdinal, edgeIndex) =>
+            this.#formatEdgeLabel(retainerOrdinal, edgeIndex, options),
           this.#isInternalNode,
         ),
-      retainedNodesOf: nodeOrdinal =>
+      retainedNodesOf: (nodeOrdinal, options) =>
         computeRetainedNodes(
           nodeOrdinal,
           this.#immediateDominatorGraph,
@@ -228,12 +269,56 @@ export class SnapshotAggregator {
           this.#nodes,
           this.#nodeFieldCount,
           this.#nodeSelfSizeOffset,
-          this.#formatNodeLabel,
+          ordinal => this.#formatNodeLabel(ordinal, options),
           this.#isInternalNode,
         ),
     }
   }
 }
+
+/**
+ * Assigns a category to each of the snapshot's constructors and closures.
+ *
+ * The snapshot analog of the profile pipeline's categorization (see
+ * {@link ProfileAggregator}): it runs after aggregation so it sees the full set
+ * of entities, from which it detects the origin (when the context's origin is
+ * `null`) before categorizing. Each entry's location falls back to its
+ * URL-shaped name (e.g. a V8 module namespace object) so those categorize by
+ * location too.
+ */
+export const categorizeAggregatedHeapSnapshot = (
+  snapshot: AggregatedHeapSnapshot,
+  options: AggregateProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedHeapSnapshot => {
+  const entities = [...snapshot.constructors, ...snapshot.closures]
+  const entries: ProfileEntry[] = entities.map(entity => ({
+    id: entity.id,
+    name: entity.name,
+    location: entityLocation(entity),
+  }))
+  const { format } = context
+  const origin = context.origin ?? determineOrigin({ format, entries })
+  const categories = options.categorizeEntries(entries, { format, origin })
+  for (let i = 0; i < entities.length; i++) {
+    entities[i]!.category = categories[i]!
+  }
+  return snapshot
+}
+
+/**
+ * An entity's effective location: its explicit location, falling back to its
+ * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
+ *
+ * Categorization ({@link categorizeAggregatedHeapSnapshot}) and base URL
+ * inference agree on an entity's location through this rule.
+ */
+export const entityLocation = ({
+  location,
+  nameLocation,
+}: Pick<AggregatedSnapshotNode, `location` | `nameLocation`>):
+  | SourceLocation
+  | undefined => location ?? nameLocation
 
 const computeRetainerPath = (
   nodeOrdinal: number,
@@ -362,6 +447,13 @@ export type AggregatedSnapshotNode = {
   /** A human readable label for this node. */
   name?: string
 
+  /**
+   * The file reference the {@link name} parses as, when it is URL-shaped
+   * (e.g. a V8 module namespace object named by its file URL). Formatting
+   * renders it relative to the base URL in place of the raw name.
+   */
+  nameLocation?: FileReference
+
   /** Bytes allocated directly for this node. */
   selfSize: number
 
@@ -379,6 +471,9 @@ export type AggregatedConstructor = AggregatedSnapshotNode & {
   /** A human readable label for this constructor. */
   name: string
 
+  /** The category of code this constructor belongs to. */
+  category: string
+
   /** Instances of this constructor and their sizes. */
   instances: AggregatedSnapshotNode[]
 }
@@ -386,6 +481,9 @@ export type AggregatedConstructor = AggregatedSnapshotNode & {
 export type AggregatedClosure = AggregatedSnapshotNode & {
   /** A human readable label for this closure. */
   name: string
+
+  /** The category of code this closure belongs to. */
+  category: string
 
   /** Node ordinal of the instance with the largest individual retained size. */
   largestInstanceId: number
@@ -413,6 +511,12 @@ export type AggregatedHeapSnapshot = {
   closures: AggregatedClosure[]
   strings: AggregatedSnapshotNode[]
 
-  retainerPathOf: (nodeOrdinal: number) => string
-  retainedNodesOf: (nodeOrdinal: number) => AggregatedSnapshotNode[]
+  retainerPathOf: (
+    nodeOrdinal: number,
+    options: ResolvedProfileToMdOptions,
+  ) => string
+  retainedNodesOf: (
+    nodeOrdinal: number,
+    options: ResolvedProfileToMdOptions,
+  ) => AggregatedSnapshotNode[]
 }

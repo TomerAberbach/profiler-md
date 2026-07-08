@@ -83,7 +83,10 @@ describe(`matches`, () => {
 //
 // Script name resolution path for the closure:
 //   node2 -[internal "shared"]-> node4 -[internal "script"]-> node5 -[internal "name"]-> node6
-const makeClosureSnapshot = (scriptName = `file:///project/src/a.ts`) =>
+const makeClosureSnapshot = (
+  scriptName = `file:///project/src/a.ts`,
+  objectName = `MyClass`,
+) =>
   makeV8Snapshot({
     nodeCount: 7,
     edgeCount: 9,
@@ -151,7 +154,7 @@ const makeClosureSnapshot = (scriptName = `file:///project/src/a.ts`) =>
     ],
     strings: [
       ``, // 0: root name / filler
-      `MyClass`, // 1
+      objectName, // 1
       `myFn`, // 2
       `hello world`, // 3
       `(Script)`, // 4
@@ -231,6 +234,64 @@ describe(`convert`, () => {
           '%': `0.0%`,
           Size: `0 B`,
           Value: `file:///project/src/a.ts`,
+          Path: `(GC root)`,
+        },
+      ],
+    ])
+  })
+
+  test(`baseURL: 'auto' infers the base from ours locations and relativizes URL-shaped constructor names`, () => {
+    const snapshot = makeClosureSnapshot(
+      `file:///home/user/project/lib/a.ts`,
+      `file:///home/user/project/src/mod.js`,
+    )
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions({ baseURL: `auto` }),
+    )
+
+    // The base is the common ancestor of the closure's location and the
+    // constructor's URL-shaped name, so both render relative to it.
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `47.4%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Constructor: `src/mod.js`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    expect(closureTables(md)).toEqual([
+      [
+        {
+          '%': `15.2%`,
+          Retained: `64 B`,
+          Instances: `1`,
+          Paths: `1`,
+          Name: `myFn`,
+          Location: `lib/a.ts:6:11`,
+          'Example path': `(GC root)`,
+        },
+      ],
+    ])
+    // String values are never locations, so the script name's raw value stays
+    // absolute.
+    expect(largestStringsTables(md)).toEqual([
+      [
+        {
+          '%': `26.1%`,
+          Size: `110 B`,
+          Value: `hello world`,
+          Path: `(GC root)`,
+        },
+        {
+          '%': `0.0%`,
+          Size: `0 B`,
+          Value: `file:///home/user/project/lib/a.ts`,
           Path: `(GC root)`,
         },
       ],

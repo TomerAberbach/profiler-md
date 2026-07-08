@@ -82,7 +82,7 @@ const updateExample = limitConcur(
     const start = performance.now()
     const { stdout: markdown } = await execFileAsync(
       `node`,
-      [`src/cli/index.ts`, `--base-url`, `/`, ...inputPaths],
+      [`src/cli/index.ts`, `--base-url`, `auto`, ...inputPaths],
       { encoding: `utf8`, maxBuffer: 64 * 1024 * 1024 },
     )
     const elapsed = performance.now() - start

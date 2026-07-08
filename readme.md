@@ -167,8 +167,9 @@ Converts performance profiles to human and LLM friendly Markdown.
   -r, --origin ORIGIN         Input profile origin (default: auto)
   -o, --output FILE           Output file (default: - for stdout)
   --top-n N                   Number of top entries to show (default: 20)
-  --base-url STRING           Base URL or path to show paths relative to 
-                              (default: cwd)
+  --base-url STRING           Base URL or path to show paths relative to, or 
+                              "auto" to infer the profiled files' common 
+                              ancestor directory (default: cwd)
   --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
                               locations (repeatable)
   --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
@@ -265,7 +266,8 @@ console.log(
 const options = {
   // Show top 10 functions instead of the default 20.
   topN: 10,
-  // Make paths relative to a custom base URL or directory.
+  // Make paths relative to a custom base URL or directory, or pass `auto` to
+  // infer the profiled files' common ancestor directory.
   baseURL: `/path/to/project`,
   matchEntry: entry => {
     if (entry.location?.url.pathname.includes(`/bundle.`)) {

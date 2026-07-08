@@ -31,11 +31,11 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|      % | Samples | Function                 | Location                               |
-| -----: | ------: | ------------------------ | -------------------------------------- |
-| 100.0% |     133 | `(unknown) [c function]` | `<unknown>`                            |
-|  98.5% |     131 | `<main>`                 | `usr/local/bin/rubocop`                |
-|   2.3% |       3 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
+|      % | Samples | Function                 | Location                                 |
+| -----: | ------: | ------------------------ | ---------------------------------------- |
+| 100.0% |     133 | `(unknown) [c function]` | `<unknown>`                              |
+|  98.5% |     131 | `<main>`                 | `rubocop`                                |
+|   2.3% |       3 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 
 #### Callees
 
@@ -47,14 +47,14 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ----: | ------: | ------------------------ | ----------- |
 | 57.1% |      76 | `(unknown) [c function]` | `<unknown>` |
 
-##### `<main>` (`usr/local/bin/rubocop`)
+##### `<main>` (`rubocop`)
 
-|     % | Samples | Callee                   | Location                               |
-| ----: | ------: | ------------------------ | -------------------------------------- |
-| 97.7% |     128 | `(unknown) [c function]` | `<unknown>`                            |
-|  2.3% |       3 | `activate_bin_path`      | `usr/lib/ruby/vendor_ruby/rubygems.rb` |
+|     % | Samples | Callee                   | Location                                 |
+| ----: | ------: | ------------------------ | ---------------------------------------- |
+| 97.7% |     128 | `(unknown) [c function]` | `<unknown>`                              |
+|  2.3% |       3 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 
-##### `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)
+##### `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
 
 |     % | Samples | Callee                   | Location    |
 | ----: | ------: | ------------------------ | ----------- |
@@ -64,7 +64,7 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 Call stacks ranked by samples taken in their leaf frame.
 
-Common call stack: `<main>` (`usr/local/bin/rubocop`)
+Common call stack: `<main>` (`rubocop`)
 
 |     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -83,8 +83,8 @@ Common call stack: `<main>` (`usr/local/bin/rubocop`)
 |  2.3% |       3 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]`                                                       |
 |  2.3% |       3 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]`                                                                                                                                                                                                                                                                               |
 |  2.3% |       3 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]`                                                                                                                                                                                                                                                                                                                                     |
-|  1.5% |       2 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|  1.5% |       2 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |  1.5% |       2 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]`                                                                                                                                        |
 |  1.5% |       2 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]`                                                                                  |
-|  0.8% |       1 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `activate_bin_path` (`usr/lib/ruby/vendor_ruby/rubygems.rb`)                                                                                                                                                                                                                                                                                                                            |
+|  0.8% |       1 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)                                                                                                                                                                                                                                                                                                                          |
 |  0.8% |       1 | `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` ← `(unknown) [c function]` |

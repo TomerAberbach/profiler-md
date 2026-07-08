@@ -1,10 +1,11 @@
 import { describe, expect, test } from 'vitest'
 import {
+  commonAncestorDirectoryURL,
   formatSourceLocationPath,
   makeFileReference,
   makeSourceLocation,
 } from './location.ts'
-import { normalizeProfileToMdOptions } from './options.ts'
+import { resolveProfileToMdOptions } from './testing/options.ts'
 
 const format = ({
   url,
@@ -19,7 +20,7 @@ const format = ({
 }) =>
   formatSourceLocationPath(
     { type: `absolute`, url: new URL(url), line, column },
-    normalizeProfileToMdOptions({ baseURL }),
+    resolveProfileToMdOptions({ baseURL }),
   )
 
 test(`file URL relative to baseURL in same directory`, () => {
@@ -140,7 +141,7 @@ test(`undefined location returns <unknown>`, () => {
   expect(
     formatSourceLocationPath(
       undefined,
-      normalizeProfileToMdOptions({ baseURL: `/project` }),
+      resolveProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`<unknown>`)
 })
@@ -149,7 +150,7 @@ test(`formatSourceLocationPath with relative reference displays the path`, () =>
   expect(
     formatSourceLocationPath(
       { type: `relative`, path: `src/index.js` },
-      normalizeProfileToMdOptions({ baseURL: `/project` }),
+      resolveProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`src/index.js`)
 })
@@ -158,7 +159,7 @@ test(`formatSourceLocationPath with relative reference appends line and column`,
   expect(
     formatSourceLocationPath(
       { type: `relative`, path: `src/index.js`, line: 10, column: 5 },
-      normalizeProfileToMdOptions({ baseURL: `/project` }),
+      resolveProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`src/index.js:10:5`)
 })
@@ -227,5 +228,62 @@ describe(`makeSourceLocation`, () => {
 
   test(`returns undefined when the path is unknown`, () => {
     expect(makeSourceLocation({ urlOrPath: `unknown` })).toBeUndefined()
+  })
+})
+
+describe(`commonAncestorDirectoryURL`, () => {
+  test(`returns undefined for no URLs`, () => {
+    expect(commonAncestorDirectoryURL([])).toBeUndefined()
+  })
+
+  test.each([
+    [
+      `a single URL's containing directory`,
+      [`file:///project/src/file.ts`],
+      `file:///project/src/`,
+    ],
+    [
+      `identical URLs' containing directory`,
+      [`file:///project/src/file.ts`, `file:///project/src/file.ts`],
+      `file:///project/src/`,
+    ],
+    [
+      `the deepest shared directory of divergent URLs`,
+      [`file:///a/b/x.ts`, `file:///a/c/y.ts`],
+      `file:///a/`,
+    ],
+    [
+      `the parent directory when one path is a directory prefix of another`,
+      [`file:///a/b/c.js`, `file:///a/b.js`],
+      `file:///a/`,
+    ],
+    [
+      `the root directory when URLs diverge at the root`,
+      [`file:///a/x.ts`, `file:///b/y.ts`],
+      `file:///`,
+    ],
+    [
+      `encoded segments intact`,
+      [`file:///my%20project/src/a.ts`, `file:///my%20project/lib/b.ts`],
+      `file:///my%20project/`,
+    ],
+    [
+      `same-origin HTTP URLs' deepest shared directory`,
+      [`https://example.com/app/src/a.js`, `https://example.com/app/lib/b.js`],
+      `https://example.com/app/`,
+    ],
+  ])(`returns %s`, (_label, urls, expected) => {
+    expect(
+      commonAncestorDirectoryURL(urls.map(url => new URL(url))),
+    ).toStrictEqual(new URL(expected))
+  })
+
+  test.each([
+    [`protocols`, [`file:///project/a.ts`, `https://example.com/project/b.ts`]],
+    [`hosts`, [`https://example.com/a.js`, `https://other.com/b.js`]],
+  ])(`returns undefined for URLs with differing %s`, (_label, urls) => {
+    expect(
+      commonAncestorDirectoryURL(urls.map(url => new URL(url))),
+    ).toBeUndefined()
   })
 })

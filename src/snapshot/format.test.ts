@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../helpers/markdown.ts'
-import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
   improvementsTables,
@@ -10,6 +9,7 @@ import {
   selfSizeTables,
   summaryLines,
 } from '../testing/markdown.ts'
+import { resolveProfileToMdOptions } from '../testing/options.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -20,7 +20,7 @@ import {
   makeSourceLocation,
 } from './testing.ts'
 
-const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
 describe(`formatHeapSnapshot`, () => {
   test(`shows all nodes when a custom showEntry would hide every one`, () => {
@@ -34,7 +34,7 @@ describe(`formatHeapSnapshot`, () => {
         }),
       ],
     })
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: () => false,
     })
@@ -410,7 +410,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         }),
       ],
     })
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `Hidden`,
     })
@@ -454,7 +454,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         }),
       ],
     })
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: () => false,
     })

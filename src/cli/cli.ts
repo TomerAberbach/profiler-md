@@ -82,7 +82,7 @@ const parser = object({
   ),
   baseURL: optional(
     option(`--base-url`, string(), {
-      description: message`Base URL or path to show paths relative to (default: cwd)`,
+      description: message`Base URL or path to show paths relative to, or "auto" to infer the profiled files' common ancestor directory (default: cwd)`,
     }),
   ),
   sourceMaps: multiple(

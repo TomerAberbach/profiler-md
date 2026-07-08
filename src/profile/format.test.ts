@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../helpers/markdown.ts'
-import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   callStackTables,
   categoryTables,
@@ -10,6 +9,7 @@ import {
   summaryLines,
   totalTimeTables,
 } from '../testing/markdown.ts'
+import { resolveProfileToMdOptions } from '../testing/options.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
@@ -28,7 +28,7 @@ const makeProfile = (
     stack?: number[]
   }[],
 ) => {
-  const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+  const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const normalized = functions.map(func => ({
     name: func.name,
     location: func.url ? { urlOrPath: func.url, line: func.line } : undefined,
@@ -54,7 +54,7 @@ const makeProfile = (
   return aggregator.aggregate()
 }
 
-const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
 /** The gperftools in-use metric, all zeros when nothing was live at dump time. */
 const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
@@ -220,7 +220,7 @@ describe(`formatProfile`, () => {
         { name: `funcB`, sampleCount: 0, values: [0] },
       ],
     )
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: () => false,
     })
@@ -511,7 +511,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcB`,
     })
@@ -618,7 +618,7 @@ describe(`formatProfileDiff`, () => {
     // Hiding the only active function leaves nothing to rank while funcB
     // keeps the filter from emptying the whole profile, so a non-diff profile
     // would omit the function sections entirely.
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
     })
@@ -724,7 +724,7 @@ describe(`formatProfileDiff`, () => {
     // Hiding funcA leaves the CPU metric with no active shown function, so
     // its heading should not dangle without sections, while the heap metric
     // still renders via funcB.
-    const options = normalizeProfileToMdOptions({
+    const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
     })

@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { normalizeProfileToMdOptions } from '../options.ts'
+import { resolveProfileToMdOptions } from '../testing/options.ts'
 import type { AggregatedProfile } from './aggregate.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { BYTES, MICROSECONDS, MILLISECONDS } from './metric.ts'
 import type { Metric } from './metric.ts'
 
-const defaultOptions = normalizeProfileToMdOptions({ baseURL: `/project` })
+const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
 const makeProfile = (
   metrics: Metric[],
@@ -18,7 +18,7 @@ const makeProfile = (
     selfSampleCount: number
   }[],
 ): AggregatedProfile => {
-  const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+  const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const normalized = functions.map(func => ({
     name: func.name,
     location: func.url ? { urlOrPath: func.url, line: func.line } : undefined,

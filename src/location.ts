@@ -1,7 +1,7 @@
 import type { PhrasingContent } from 'mdast'
 import { inlineCode } from './helpers/markdown.ts'
 import type { DeepReadonly } from './helpers/types.ts'
-import type { NormalizedProfileToMdOptions } from './options.ts'
+import type { ResolvedProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
 
 /** A file reference, potentially with line and column information. */
@@ -107,7 +107,7 @@ export const fileReferenceToSourceLocation = (
 /** Formats a location as a code span, falling back to `<unknown>`. */
 export const formatSourceLocation = (
   location: SourceLocation | undefined,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): PhrasingContent => inlineCode(formatSourceLocationPath(location, options))
 
 /**
@@ -116,7 +116,7 @@ export const formatSourceLocation = (
  */
 export const formatSourceLocationPath = (
   location: SourceLocation | undefined,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ): string => {
   if (!location) {
     return `<unknown>`
@@ -182,22 +182,67 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
  */
 const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
 
+/**
+ * Returns the deepest directory URL containing every URL in {@link urls}, or
+ * `undefined` when there are no URLs or they disagree on protocol or host.
+ *
+ * Excludes each URL's last path segment (the filename), so a single URL
+ * yields its containing directory. The result always ends with a `/` and
+ * carries no search or hash.
+ */
+export const commonAncestorDirectoryURL = (
+  urls: Iterable<URL>,
+): URL | undefined => {
+  let protocol: string | undefined
+  let host: string | undefined
+  let commonSegments: string[] | undefined
+
+  for (const url of urls) {
+    if (commonSegments === undefined) {
+      ;({ protocol, host } = url)
+      // Drop the last segment (the filename) so the prefix is a directory.
+      commonSegments = url.pathname.split(`/`).slice(0, -1)
+      continue
+    }
+
+    if (url.protocol !== protocol || url.host !== host) {
+      return undefined
+    }
+
+    // The filename slot never counts towards the common prefix, so a path
+    // that is a directory prefix of another truncates to that directory's
+    // parent.
+    const segments = url.pathname.split(`/`).slice(0, -1)
+    commonSegments.length = commonSegmentPrefixLength(commonSegments, segments)
+  }
+
+  if (commonSegments === undefined) {
+    return undefined
+  }
+
+  return new URL(`${protocol}//${host}${commonSegments.join(`/`)}/`)
+}
+
 const relativeURLPath = (from: string, to: string): string => {
   // Drop the last segment of `from` (the filename or trailing empty string
   // after a `/`) so we compute relative to the directory.
   const fromParts = from.split(`/`).slice(0, -1)
   const toParts = to.split(`/`)
 
-  let common = 0
-  while (
-    common < fromParts.length &&
-    common < toParts.length &&
-    fromParts[common] === toParts[common]
-  ) {
-    common++
-  }
-
+  const common = commonSegmentPrefixLength(fromParts, toParts)
   const ups = fromParts.length - common
   const remaining = toParts.slice(common)
   return [...Array.from({ length: ups }, () => `..`), ...remaining].join(`/`)
+}
+
+const commonSegmentPrefixLength = (
+  segments1: string[],
+  segments2: string[],
+): number => {
+  const maxLength = Math.min(segments1.length, segments2.length)
+  let common = 0
+  while (common < maxLength && segments1[common] === segments2[common]) {
+    common++
+  }
+  return common
 }

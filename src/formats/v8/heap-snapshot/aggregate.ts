@@ -4,7 +4,7 @@ import {
   makeFileReference,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
-import type { NormalizedProfileToMdOptions } from '../../../options.ts'
+import type { ResolvedProfileToMdOptions } from '../../../options.ts'
 import { SnapshotAggregator } from '../../../snapshot/index.ts'
 import type {
   AggregatedHeapSnapshot,
@@ -14,7 +14,6 @@ import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 
 export const aggregateV8HeapSnapshot = (
   snapshot: V8HeapSnapshot,
-  options: NormalizedProfileToMdOptions,
 ): AggregatedHeapSnapshot[] => {
   const {
     snapshot: { meta, node_count: nodeCount, edge_count: edgeCount },
@@ -37,7 +36,7 @@ export const aggregateV8HeapSnapshot = (
     nodes,
     nodeFieldCount: fieldLayout.nodeFieldCount,
     nodeSelfSizeOffset: fieldLayout.nodeSelfSizeOffset,
-    formatEdgeLabel: (retainerOrdinal, edgeIndex) => {
+    formatEdgeLabel: (retainerOrdinal, edgeIndex, options) => {
       const edgeLabel = formatEdgeLabel(
         edgeIndex,
         snapshot,
@@ -57,7 +56,7 @@ export const aggregateV8HeapSnapshot = (
           : ``
       }`
     },
-    formatNodeLabel: nodeOrdinal =>
+    formatNodeLabel: (nodeOrdinal, options) =>
       formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
     isInternalNode: nodeOrdinal => {
       const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
@@ -78,15 +77,24 @@ export const aggregateV8HeapSnapshot = (
 
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
-      case fieldLayout.nodeTypeNative:
+      case fieldLayout.nodeTypeNative: {
+        const { name, nameLocation } = nodeName(
+          nodeOrdinal,
+          snapshot,
+          fieldLayout,
+        )
         snapshotAggregator.addConstructorNode(
           nodeOrdinal,
+          name,
           nodeOrdinalToLocation[nodeOrdinal],
+          nameLocation,
         )
         break
+      }
       case fieldLayout.nodeTypeClosure:
         snapshotAggregator.addClosureNode(
           nodeOrdinal,
+          nodeName(nodeOrdinal, snapshot, fieldLayout).name,
           nodeOrdinalToLocation[nodeOrdinal],
         )
         break
@@ -95,7 +103,7 @@ export const aggregateV8HeapSnapshot = (
       case fieldLayout.nodeTypeConcatenatedString:
         snapshotAggregator.addStringNode(
           nodeOrdinal,
-          formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
+          nodeName(nodeOrdinal, snapshot, fieldLayout).name,
         )
         break
     }
@@ -328,7 +336,7 @@ const formatEdgeLabel = (
   edgeIndex: number,
   { edges, strings }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: NormalizedProfileToMdOptions,
+  options: ResolvedProfileToMdOptions,
 ) => {
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
@@ -348,7 +356,19 @@ const formatEdgeLabel = (
   return `.${edgeName}`
 }
 
-const formatNodeLabel = (
+/**
+ * The node's raw, options-independent display name — the (truncated) string
+ * value for strings, the function name for closures, and the raw node name
+ * otherwise — plus the file reference the name parses as, when it can be one.
+ * Sometimes the node name is a file URL (e.g. a module namespace object), and
+ * formatting renders it relative to the base URL. A string's value or a
+ * closure's name is never a location, even when it happens to be URL-shaped,
+ * so those never carry a `nameLocation`. Neither does a bare constructor name
+ * (`Object`, `system / Context`), which would otherwise parse as a relative
+ * path and pass off a genuinely locationless node as located to
+ * categorization.
+ */
+const nodeName = (
   nodeOrdinal: number,
   {
     snapshot: {
@@ -360,8 +380,7 @@ const formatNodeLabel = (
     strings,
   }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: NormalizedProfileToMdOptions,
-): string => {
+): { name: string; nameLocation?: FileReference } => {
   const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
   const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
   switch (nodeType) {
@@ -369,27 +388,36 @@ const formatNodeLabel = (
     case fieldLayout.nodeTypeSlicedString:
     case fieldLayout.nodeTypeConcatenatedString: {
       const string = strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]!
-      return formatString(string)
+      return { name: formatString(string) }
     }
     case fieldLayout.nodeTypeClosure:
-      return (
-        strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
-        `(anonymous)`
-      )
+      return {
+        name:
+          strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
+          `(anonymous)`,
+      }
     default: {
-      const rawNodeName =
+      const name =
         strings[nodes[nodeIndex + fieldLayout.nodeNameOffset]!]! ||
         nodeTypes[nodeType]!
-      // Sometimes the node name is a file URL. If it's not (or it's an unknown
-      // location), then it's shown as-is.
-      const fileReference = rawNodeName
-        ? makeFileReference(rawNodeName)
-        : undefined
-      return fileReference
-        ? formatSourceLocationPath(fileReference, options)
-        : rawNodeName
+      const fileReference = makeFileReference(name)
+      return {
+        name,
+        nameLocation:
+          fileReference?.type === `absolute` ? fileReference : undefined,
+      }
     }
   }
+}
+
+const formatNodeLabel = (
+  nodeOrdinal: number,
+  snapshot: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+  options: ResolvedProfileToMdOptions,
+): string => {
+  const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
+  return nameLocation ? formatSourceLocationPath(nameLocation, options) : name
 }
 
 const formatString = (string: string): string => {
