@@ -1,9 +1,13 @@
 import { readFile } from 'node:fs/promises'
 import { formatConverters } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
-import { getHelpText, topics } from './cli.ts'
+import { getHelpText, helpTopics } from './cli.ts'
 import { highlightMarkdown } from './highlight.ts'
-import { languageAliasToPrimary, languages } from './languages.ts'
+import {
+  languageAliasToPrimary,
+  languageExtensionToPrimary,
+  languages,
+} from './languages.ts'
 import { writeOutput } from './output.ts'
 
 export type PrintHelpTopicOptions = {
@@ -19,14 +23,17 @@ export const printHelpTopic = async (
     process.exit(0)
   }
 
-  const primaryTopic = languageAliasToPrimary.get(topic) ?? topic
+  const primaryTopic =
+    languageAliasToPrimary.get(topic) ??
+    languageExtensionToPrimary.get(topic) ??
+    topic
   const language = languages.get(primaryTopic)
   const formatConverter = (
     formatConverters as Partial<typeof formatConverters>
   )[topic as Format]
   if (!language && !formatConverter) {
     process.stderr.write(
-      `error: unknown topic "${topic}"\nAvailable topics: ${topics.join(`, `)}\n`,
+      `error: unknown topic "${topic}"\nAvailable topics: ${helpTopics.join(`, `)}\n`,
     )
     process.exit(2)
   }

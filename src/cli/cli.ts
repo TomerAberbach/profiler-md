@@ -13,11 +13,14 @@ import { formats } from '../formats/index.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
 
-const languageTopics = [...languages.entries()].flatMap(([id, { aliases }]) => [
-  id,
-  ...(aliases?.map(alias => alias.id) ?? []),
-])
-export const topics = [...formats, ...languageTopics]
+const languageTopics = [...languages.entries()].flatMap(
+  ([id, { aliases, extensions }]) => [
+    id,
+    ...(aliases?.map(alias => alias.id) ?? []),
+    ...(extensions ?? []),
+  ],
+)
+export const helpTopics = [...formats, ...languageTopics]
 
 export type RegexReplacement = readonly [RegExp, string]
 
@@ -53,7 +56,7 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
 const parser = object({
   help: optional(
     or(
-      option(`-h`, `--help`, choice(topics, { metavar: `[TOPIC]` }), {
+      option(`-h`, `--help`, choice(helpTopics, { metavar: `[TOPIC]` }), {
         description: message`Show this help message or topic docs`,
       }),
       flag(`-h`, `--help`, { hidden: `help` }),
