@@ -5,14 +5,18 @@ import type { Metric } from '../../metric.ts'
 import type {
   AggregateProfileToMdOptions,
   ProfileToMdContext,
-  UnresolvedProfileToMdContext,
 } from '../../options.ts'
 import {
   functionIdentityKey,
+  normalizeFrames,
   parseFrameFunction,
-  resolveFrames,
 } from '../../origins/index.ts'
-import type { FrameFunction, ResolvedFrames } from '../../origins/index.ts'
+import type {
+  FrameFunction,
+  NormalizedFrames,
+  OriginDetector,
+} from '../../origins/index.ts'
+import type { InputAggregator } from '../aggregator.ts'
 import type {
   Profile,
   ProfileStackFrame,
@@ -21,55 +25,91 @@ import type {
 } from './type.ts'
 
 /**
- * Creates the function that aggregates one {@link Profile} through the uniform
- * pipeline. A single instance should aggregate all of an input's profiles:
- * multi-profile formats typically share one frames array reference (see
- * {@link Profile.frames}), so it resolves the origin and normalizes once per
- * distinct array rather than once per profile.
+ * Aggregates one {@link Profile} through the uniform pipeline: origin
+ * detection over the raw frames, then sample aggregation over the
+ * origin-normalized frames.
  */
-export const makeAggregateProfile = (
-  options: AggregateProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): ((profile: Profile) => AggregatedProfile) => {
-  const resolutions = new Map<ProfileStackFrame[], ResolvedFrames>()
-  return profile => {
-    let resolution = resolutions.get(profile.frames)
-    if (!resolution) {
-      resolution = resolveFrames(profile.frames, context)
-      resolutions.set(profile.frames, resolution)
+export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
+  readonly #profile: Profile
+
+  public constructor(profile: Profile) {
+    this.#profile = profile
+  }
+
+  public detectOrigin(detector: OriginDetector): void {
+    const { frames } = this.#profile
+    detector.addFrames(frames, frameResolutionOf(frames).frameFunctions)
+  }
+
+  public aggregate(
+    options: AggregateProfileToMdOptions,
+    context: ProfileToMdContext,
+  ): AggregatedProfile {
+    const { metrics, frames, samples, lineMetrics } = this.#profile
+
+    const resolution = frameResolutionOf(frames)
+    resolution.normalized ??= normalizeFrames(
+      frames,
+      resolution.frameFunctions,
+      context,
+    )
+    const { normalized } = resolution
+
+    const aggregator = new SamplesAggregator(
+      metrics,
+      normalized.frames,
+      options,
+      context,
+      normalized.frameFunctions,
+    )
+    for (const sample of samples) {
+      aggregator.addSample(sample)
     }
-    return aggregateProfile(profile, resolution, options, context)
+    for (const lineMetric of lineMetrics ?? []) {
+      aggregator.addLineMetrics(lineMetric)
+    }
+    return aggregator.aggregate()
   }
 }
 
 /**
- * Aggregates one {@link Profile}'s samples over its resolved distinct frames.
+ * Per frames-array state shared by the profiles referencing that array:
+ * multi-profile formats typically share one frames array reference (see
+ * {@link Profile.frames}), so its frames are parsed and normalized once, not
+ * once per profile.
  */
-const aggregateProfile = (
-  { metrics, samples, lineMetrics }: Profile,
-  { origin, frames, frameFunctions }: ResolvedFrames,
-  options: AggregateProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedProfile => {
-  const resolvedContext: ProfileToMdContext = { ...context, origin }
+type FrameResolution = {
+  /**
+   * The parse cache origin detection seeds (see
+   * {@link OriginDetector.addFrames}).
+   */
+  frameFunctions: (FrameFunction | undefined)[]
 
-  const aggregator = new ProfileAggregator(
-    metrics,
-    frames,
-    options,
-    resolvedContext,
-    frameFunctions,
-  )
-  for (const sample of samples) {
-    aggregator.addSample(sample)
-  }
-  for (const lineMetric of lineMetrics ?? []) {
-    aggregator.addLineMetrics(lineMetric)
-  }
-  return aggregator.aggregate()
+  /**
+   * The frames normalized under the file's one resolved context. A frames
+   * array belongs to one file and is parsed fresh each conversion, so it never
+   * sees another context.
+   */
+  normalized?: NormalizedFrames
 }
 
-export class ProfileAggregator {
+/**
+ * A `WeakMap` rather than per-file state so sharing needs no plumbing through
+ * the pipeline: each entry is reclaimed with its frames array.
+ */
+const frameResolutions = new WeakMap<ProfileStackFrame[], FrameResolution>()
+
+const frameResolutionOf = (frames: ProfileStackFrame[]): FrameResolution => {
+  let resolution = frameResolutions.get(frames)
+  if (!resolution) {
+    resolution = { frameFunctions: [] }
+    frameResolutions.set(frames, resolution)
+  }
+  return resolution
+}
+
+/** Aggregates a profile's samples over its normalized distinct frames. */
+class SamplesAggregator {
   readonly #metrics: Metric[]
 
   /**
@@ -434,6 +474,7 @@ export class ProfileAggregator {
 
     return {
       type: `profile`,
+      context: this.#context,
       metrics: this.#metrics,
       totalSampleCount: this.#totalSampleCount,
       totalValues: this.#totalValues,
@@ -682,6 +723,14 @@ export type AggregatedProfileCallStack = {
 /** An aggregation of all samples within a sampling profile. */
 export type AggregatedProfile = {
   type: `profile`
+
+  /**
+   * The context (format and resolved origin) this profile was aggregated
+   * under, carried so downstream consumers (e.g. diff matching) can apply
+   * origin-aware logic per side. Diffed sides that resolved different origins
+   * can normalize match keys differently and miss matches.
+   */
+  context: ProfileToMdContext
 
   /** Metrics sampled in this profile. */
   metrics: Metric[]

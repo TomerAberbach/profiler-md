@@ -45,13 +45,14 @@ const buildMatchEntry = (
     return undefined
   }
 
-  return entry => {
+  return (entry, context) => {
     if (!entry.location) {
-      return defaultMatchEntry(entry)
+      return defaultMatchEntry(entry, context)
     }
 
     let location =
-      defaultMatchEntry(entry)?.location ?? fileReferenceId(entry.location)
+      defaultMatchEntry(entry, context)?.location ??
+      fileReferenceId(entry.location)
     for (const [regex, replacement] of matches) {
       location = location.replace(regex, replacement)
     }

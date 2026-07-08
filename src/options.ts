@@ -4,9 +4,11 @@ import { fileReferenceId, makeFileReference } from './location.ts'
 import type { SourceLocation } from './location.ts'
 import type { AggregatedProfileFunction } from './modalities/profile/aggregate.ts'
 import type { AggregatedSnapshotNode } from './modalities/snapshot/aggregate.ts'
-import { categorizeEntryForOrigin } from './origins/index.ts'
+import {
+  categorizeEntryForOrigin,
+  normalizeEntryMatchForOrigin,
+} from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
-import { RUSTC_COMMIT_HASH_PATH } from './origins/pprof-rs.ts'
 import { normalizeSourceMaps } from './source-map.ts'
 import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
 
@@ -160,12 +162,22 @@ export type ProfileToMdOptions = {
    * name and location. Matched entries display the current profile's name and
    * location.
    *
-   * Defaults to {@link defaultMatchEntry}, which strips known build hashes from
-   * locations so that the same function matches across profiles built from the
-   * same source.
+   * Called per entry with the conversion {@link ProfileToMdContext | context}
+   * (the {@link Format | format} and the resolved {@link Origin | origin}) of
+   * the profile or snapshot the entry belongs to. On a diff, each side's
+   * entries are keyed under **that side's own** context, so sides resolving
+   * different origins can normalize differently and miss matches; realistic
+   * diffs resolve the same origin on both sides.
+   *
+   * Defaults to {@link defaultMatchEntry}, which applies the library's
+   * origin-aware match normalization
+   * ({@link normalizeEntryMatchForOrigin}), stripping the origin's known
+   * run-varying identifiers (build hashes, runtime addresses) so the same
+   * function matches across profiles built from the same source.
    */
   matchEntry?: (
     entry: DeepReadonly<ProfileEntry>,
+    context: ProfileToMdContext,
   ) => NormalizedEntry | undefined
 
   /**
@@ -207,7 +219,7 @@ export type NormalizedProfileToMdOptions = {
   topN: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
-  entryKey: (entry: ProfileEntry) => string
+  entryKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
   categorizeEntries: (
     entries: readonly ProfileEntry[],
     context: ProfileToMdContext,
@@ -246,7 +258,9 @@ export const normalizeProfileToMdOptions = ({
   topN,
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
-  entryKey: cacheEntryFunction(entry => entryKey(entry, matchEntry)),
+  entryKey: cacheEntryFunction((entry, context) =>
+    entryKey(entry, context, matchEntry),
+  ),
   categorizeEntries: (entries, context) => {
     const categories = categorizeEntries(entries, context)
     if (categories.length !== entries.length) {
@@ -264,9 +278,10 @@ export const normalizeProfileToMdOptions = ({
 /** Returns an entry's full diff match key. */
 const entryKey = (
   entry: ProfileEntry,
+  context: ProfileToMdContext,
   matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
 ): string => {
-  const match = matchEntry(entry)
+  const match = matchEntry(entry, context)
   const name = match?.name ?? entry.name ?? ``
   const location =
     match?.location ??
@@ -274,81 +289,42 @@ const entryKey = (
   return location === undefined ? name : `${name}\0${location}`
 }
 
-const cacheEntryFunction = <Entry extends object, Value>(
-  func: (entry: Entry) => Value,
-): ((entry: Entry) => Value) => {
+const cacheEntryFunction = <Entry extends object, Context, Value>(
+  func: (entry: Entry, context: Context) => Value,
+): ((entry: Entry, context?: Context) => Value) => {
   // Cache by entry identity rather than entry ID because IDs are only unique
   // within a single profile, and the same options are used for multiple
   // profiles when converting a multi-profile file or diffing two profiles.
+  // Keying by the entry alone stays valid despite the context because an
+  // entry belongs to exactly one aggregated profile or snapshot, so it is only
+  // ever called with that one's context.
   const cache = new WeakMap<Entry, Value>()
-  return entry => {
+  return (entry, context) => {
     const cached = cache.get(entry)
     if (cached !== undefined) {
       return cached
     }
-    const value = func(entry)
+    const value = func(entry, context!)
     cache.set(entry, value)
     return value
   }
 }
 
 /**
- * Returns a name and location to match this entry by with known
- * run-varying identifiers stripped — build hashes (Cargo build-script and
- * rustc commit-hash directories) and JVM runtime addresses (`$$Lambda.0x…`
- * classes, `I2C/C2I adapters(0x…)` stubs) — or `undefined` if the entry
- * contains none.
+ * The default {@link ProfileToMdOptions.matchEntry}.
+ *
+ * Applies the origin's match normalization to the entry (see
+ * {@link normalizeEntryMatchForOrigin}), stripping the origin's known
+ * run-varying identifiers — e.g. Rust build hashes for `pprof-rs`, JVM runtime
+ * addresses for `jvm` — or `undefined` if the entry contains none.
+ *
+ * Exposed so a custom `matchEntry` can reuse it as a base (e.g. override a few
+ * entries and delegate the rest).
  */
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,
-): NormalizedEntry | undefined => {
-  const name = entry.name?.replaceAll(JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`)
-
-  let location
-  if (entry.location) {
-    const id = fileReferenceId(entry.location)
-    const normalizedId = id
-      .replaceAll(JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`)
-      .replace(CARGO_BUILD_HASH_REGEX, `$<prefix>$<dir>`)
-      .replace(RUSTC_HASH_REGEX, `$<prefix>rustc`)
-    if (normalizedId !== id) {
-      location = normalizedId
-    }
-  }
-
-  const nameChanged = name !== undefined && name !== entry.name
-  if (!nameChanged && location === undefined) {
-    return undefined
-  }
-  return {
-    ...(nameChanged ? { name } : {}),
-    ...(location === undefined ? {} : { location }),
-  }
-}
-
-/**
- * A JVM runtime address baked into a frame's identity, differing per JVM run:
- * a hidden lambda class (`Foo$$Lambda.0x00000070011868b8`) or HotSpot's
- * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
- * prefix alone still identifies the function across runs.
- */
-const JVM_RUNTIME_ADDRESS_REGEX =
-  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:\.0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
-
-// Cargo build-script output directories embed a per-build hash and always emit
-// into an `out/` directory, e.g. `build/web-compiler-274140d43750284c/out/parser.rs`.
-// The `out/` lookahead keeps this from stripping unrelated `build/<name>-<16 hex>/`
-// directories (e.g. some JS bundler outputs) that aren't Cargo build scripts.
-const CARGO_BUILD_HASH_REGEX =
-  /(?<prefix>^|\/)(?<dir>build\/[^/]+)-[0-9a-f]{16}(?=\/out\/)/u
-
-// Rust stdlib paths embed the rustc commit hash, e.g.
-// `/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/std/src/rt.rs`. The
-// hash segment is shared with `pprof-rs`'s stdlib detection.
-const RUSTC_HASH_REGEX = new RegExp(
-  `(?<prefix>^|/)${RUSTC_COMMIT_HASH_PATH}(?=/)`,
-  `u`,
-)
+  { origin }: ProfileToMdContext,
+): NormalizedEntry | undefined => normalizeEntryMatchForOrigin(entry, origin)
 
 /**
  * The default {@link ProfileToMdOptions.categorizeEntries}.

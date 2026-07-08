@@ -1,5 +1,6 @@
 import { makeFileReference } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
+import type { ProfileToMdContext } from '../../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -9,6 +10,7 @@ import type {
 } from './aggregate.ts'
 
 export const makeAggregatedHeapSnapshot = ({
+  context = { format: `v8-heap-snapshot`, origin: `node` },
   nodeCount = 0,
   edgeCount = 0,
   nodeCategoryToStats = new Map<string, NodeCategoryStats>(),
@@ -20,6 +22,7 @@ export const makeAggregatedHeapSnapshot = ({
     0,
   ),
 }: {
+  context?: ProfileToMdContext
   totalSize?: number
   nodeCount?: number
   edgeCount?: number
@@ -29,6 +32,7 @@ export const makeAggregatedHeapSnapshot = ({
   strings?: AggregatedSnapshotNode[]
 } = {}): AggregatedHeapSnapshot => ({
   type: `snapshot`,
+  context,
   totalSize,
   nodeCount,
   edgeCount,

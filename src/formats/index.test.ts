@@ -2,14 +2,18 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { fileReferenceId } from '../location.ts'
+import type { Profile } from '../modalities/profile/index.ts'
+import { normalizeProfileToMdOptions } from '../options.ts'
 import { inputPath, readInput } from '../testing/inputs.ts'
 import {
   categoryTables,
   improvementsTables,
   profileTitles,
   regressionsTables,
+  selfSamplesTables,
   selfTimeTables,
 } from '../testing/markdown.ts'
+import type { JsonFormatConverter } from './converter.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
@@ -17,6 +21,7 @@ import {
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
+import { convertJsonToMd } from './testing/convert.ts'
 import {
   makeV8CallFrame,
   makeV8CpuProfileRoot,
@@ -547,6 +552,62 @@ const currentHeapSnapshot = JSON.stringify(
   }),
 )
 
+describe(`origin detection`, () => {
+  test(`resolves one origin for all sub-profiles from any sub-profile's signal`, () => {
+    // Only the first sub-profile carries a JVM marker (a `java.*` stdlib
+    // frame); the second's frames live in a separate array with no signal of
+    // their own. The origin is detected once for the whole file, so the second
+    // sub-profile's collapsed name still splits into method and declaring
+    // class under the `jvm` origin detected from the first.
+    const signalProfile: Profile = {
+      type: `profile`,
+      frames: [
+        { name: `java/util/HashMap.put` },
+        { name: `com/example/Main.main` },
+      ],
+      metrics: [],
+      samples: [{ values: [], frameIndices: [0, 1] }],
+    }
+    const signallessProfile: Profile = {
+      type: `profile`,
+      frames: [{ name: `com/example/Widget.render` }],
+      metrics: [],
+      samples: [{ values: [], frameIndices: [0] }],
+    }
+    const converter: JsonFormatConverter = {
+      title: `Multi-profile test format`,
+      extension: `multi.json`,
+      languages: [],
+      fallbackOrigin: `unknown`,
+      type: `json`,
+      matches: () => true,
+      parse: () => [signalProfile, signallessProfile],
+    }
+    const options = normalizeProfileToMdOptions({ baseURL: null })
+
+    const md = convertJsonToMd(converter, {}, options, `collapsed`)
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          Function: `put`,
+          Location: `java.util.HashMap`,
+        },
+      ],
+      [
+        {
+          '%': `100.0%`,
+          Samples: `1`,
+          Function: `render`,
+          Location: `com.example.Widget`,
+        },
+      ],
+    ])
+  })
+})
+
 describe(`diffProfiles`, () => {
   test.each(allInputs)(
     `auto-detects %s and produces zero deltas against itself`,
@@ -748,10 +809,11 @@ describe(`diffProfiles`, () => {
     expect(improvementsTables(md, `Retained size`)).toEqual([[removed]])
   })
 
-  // The default `matchEntry`'s build-hash stripping (so functions match across
-  // builds despite per-build Cargo/rustc hashes in their paths) is covered at a
-  // lower level by `src/profile/diff.test.ts` and `src/snapshot/diff.test.ts`,
-  // since no committed input pair exhibits a differing build hash.
+  // The default `matchEntry`'s origin-aware normalization (stripping an
+  // origin's run-varying identifiers so functions match across builds) is
+  // covered at a lower level by `src/origins/index.test.ts` and
+  // `src/modalities/profile/diff.test.ts`, since no committed input pair exhibits a
+  // differing build hash.
 
   test(`matchEntry matches functions whose locations differ across profiles`, () => {
     // `funcA`'s file carries a per-build suffix, so by default the two sides

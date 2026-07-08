@@ -26,6 +26,9 @@ $ARGUMENTS
      profiler-specific rules
    - `normalizeFrame` when the profiler packs a frame's location into its name
      (see `packedLocationNormalizer`)
+   - `normalizeEntryMatch` when the profiler bakes run-varying identifiers
+     (build hashes, runtime addresses) into names or paths (see
+     `entryMatchNormalizer`)
 
    Register it in `originSpecs` and add tests to `src/origins/index.test.ts` and
    `src/origins/categorize.test.ts`

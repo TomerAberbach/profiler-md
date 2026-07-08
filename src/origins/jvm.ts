@@ -1,7 +1,25 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
-import type { OriginSpec } from './origin.ts'
+import { entryMatchNormalizer } from './origin.ts'
+import type { EntryMatchRule, OriginSpec } from './origin.ts'
+
+/**
+ * A JVM runtime address baked into a frame's identity, differing per JVM run:
+ * a hidden lambda class (`Foo$$Lambda.0x00000070011868b8`) or HotSpot's
+ * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
+ * prefix alone still identifies the function across runs.
+ */
+const JVM_RUNTIME_ADDRESS_REGEX =
+  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:\.0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
+
+/**
+ * Match-normalization rules stripping {@link JVM_RUNTIME_ADDRESS_REGEX} from a
+ * name or location.
+ */
+const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
+  [JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`],
+]
 
 export const jvmOriginSpec = {
   id: `jvm`,
@@ -19,6 +37,12 @@ export const jvmOriginSpec = {
     // location, so a frame with no location at all is a native symbol (JVM
     // C++ internals, malloc, unresolved native code) rather than Java code.
     (entry.location ? `ours` : `native`),
+  normalizeEntryMatch: entryMatchNormalizer({
+    // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`) or in
+    // the location (a hidden lambda class reported as the declaring class).
+    name: JVM_ENTRY_MATCH_RULES,
+    location: JVM_ENTRY_MATCH_RULES,
+  }),
   normalizeFrame: input => {
     // A located (JFR) frame already carries its declaring class; only
     // async-profiler's collapsed names need splitting.

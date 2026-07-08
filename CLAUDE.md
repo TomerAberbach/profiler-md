@@ -36,6 +36,7 @@ profiler-md
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
 │   ├── modalities/           # Per-modality conversion logic; each parsed input's `type` selects its modality
+│   │   ├── aggregator.ts     # Uniform per-input aggregator contract both modalities implement
 │   │   ├── profile/          # Common sampling profile conversion logic
 │   │   │   ├── type.ts       # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
 │   │   │   ├── aggregate.ts  # Sample aggregation over origin-resolved frames

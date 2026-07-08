@@ -48,14 +48,22 @@ $ARGUMENTS
    - The diff semantics for base/current pairs
    - How categorization works: what an entry (name + location) is for this
      modality, so origin detection and `showEntry` filtering apply uniformly
+   - What `detectOrigin` feeds the file's shared `OriginDetector`: raw
+     pre-normalization data when normalization would destroy origin markers
+     (like the profile modality's frames), else the aggregated entries (like the
+     snapshot modality's entities)
 
 ## Implement the modality module
 
 3. Create `src/modalities/<name>/` mirroring `profile/` and `snapshot/`:
    - `type.ts` for the uniform parsed type
    - `aggregate.ts`: the aggregated form, with a `type: '<name>'` literal
-     discriminating it within `AggregatedInput`, plus aggregation and
-     categorization (following the CLAUDE.md aggregating principles)
+     discriminating it within `AggregatedInput` and a `context` member, plus a
+     `<Name>Aggregator` class implementing `InputAggregator` from
+     `src/modalities/aggregator.ts` — `detectOrigin(detector)` feeds the input's
+     origin-detection entries and `aggregate(options, context)` aggregates and
+     categorizes under the file's resolved context (following the CLAUDE.md
+     aggregating principles)
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, reusing `src/cell.ts`
      and `src/measure.ts` where tables match the other modalities
@@ -72,10 +80,11 @@ $ARGUMENTS
    modality alongside others
 
 5. Run `pnpm typecheck` and extend every dispatch site it reports in
-   `src/formats/index.ts` — the `type` switches over aggregation, base-URL
-   collection, formatting, and diffing are exhaustiveness-checked. Then audit
-   that file for branches typecheck can't catch: runtime throws like
-   `formatAggregatedDiff`'s modality-mismatch error
+   `src/formats/index.ts` — the aggregator construction in
+   `aggregateParsedInputs` (the only per-modality aggregation dispatch) and the
+   `type` switches over base-URL collection, formatting, and diffing are
+   exhaustiveness-checked. Then audit that file for branches typecheck can't
+   catch: runtime throws like `formatAggregatedDiff`'s modality-mismatch error
 
 6. Extend the option types in `src/options.ts` if the modality has filterable
    entries (see `AggregatedProfileEntry` and `showEntry`)

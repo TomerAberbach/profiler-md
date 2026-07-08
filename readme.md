@@ -289,13 +289,13 @@ const options = {
   // Make paths relative to a custom base URL or directory, or pass `auto` to
   // infer the profiled files' common ancestor directory.
   baseURL: `/path/to/project`,
-  matchEntry: entry => {
+  matchEntry: (entry, context) => {
     if (entry.location?.url.pathname.includes(`/bundle.`)) {
       // Match bundled entries when diffing by name only, ignoring
       // content-hashed filenames.
       return { name: entry.name }
     }
-    return defaultMatchEntry(entry)
+    return defaultMatchEntry(entry, context)
   },
   categorizeEntries: (entries, context) => {
     const categories = defaultCategorizeEntries(entries, context)

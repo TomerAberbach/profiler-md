@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import { determineMetric, MEGABYTES, MICROSECONDS } from '../../metric.ts'
-import type { Metric } from '../../metric.ts'
 import {
   callStackTables,
   categoryTables,
@@ -12,47 +11,9 @@ import {
   totalTimeTables,
 } from '../../testing/markdown.ts'
 import { resolveProfileToMdOptions } from '../../testing/options.ts'
-import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
-
-const makeProfile = (
-  metrics: Metric[],
-  functions: {
-    name: string
-    url?: string
-    line?: number
-    sampleCount: number
-    values: number[]
-    /** Leaf-to-caller frame indices of each sample; defaults to the function alone. */
-    stack?: number[]
-  }[],
-) => {
-  const options = resolveProfileToMdOptions({ baseURL: `/project` })
-  const normalized = functions.map(func => ({
-    name: func.name,
-    location: func.url ? { urlOrPath: func.url, line: func.line } : undefined,
-  }))
-  const aggregator = new ProfileAggregator(
-    metrics,
-    normalized,
-    options,
-    // The forced origin is immaterial since these entries have no
-    // origin-specific signal.
-    { format: `v8-cpu-profile`, origin: `unknown` },
-  )
-
-  for (const [index, func] of functions.entries()) {
-    for (let i = 0; i < func.sampleCount; i++) {
-      aggregator.addSample({
-        values: func.values.map(value => value / func.sampleCount),
-        frameIndices: func.stack ?? [index],
-      })
-    }
-  }
-
-  return aggregator.aggregate()
-}
+import { makeAggregatedProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
@@ -61,34 +22,34 @@ const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
 
 describe(`formatProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `hotLeaf`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [300],
+          selfSampleCount: 5,
+          selfValues: [300],
           stack: [0, 1],
         },
         {
           name: `hotCaller`,
           url: `file:///project/src/b.ts`,
-          sampleCount: 0,
-          values: [0],
+          selfSampleCount: 0,
+          selfValues: [0],
         },
         {
           name: `coldLeaf`,
           url: `file:///project/src/c.ts`,
-          sampleCount: 5,
-          values: [0],
+          selfSampleCount: 5,
+          selfValues: [0],
           stack: [2, 3],
         },
         {
           name: `coldCaller`,
           url: `file:///project/src/d.ts`,
-          sampleCount: 0,
-          values: [0],
+          selfSampleCount: 0,
+          selfValues: [0],
         },
       ],
     )
@@ -112,16 +73,21 @@ describe(`formatProfile`, () => {
     // default filter hides external implementation details (extLeaf, called
     // only by stdlib) but must keep extMid: it's the external API surface ours
     // code calls directly, even though it has zero self samples.
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
-        { name: `extLeaf`, sampleCount: 5, values: [300], stack: [0, 1, 2] },
-        { name: `extMid`, sampleCount: 0, values: [0] },
+        {
+          name: `extLeaf`,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1, 2],
+        },
+        { name: `extMid`, selfSampleCount: 0, selfValues: [0] },
         {
           name: `main`,
           url: `file:///project/src/main.ts`,
-          sampleCount: 0,
-          values: [0],
+          selfSampleCount: 0,
+          selfValues: [0],
         },
       ],
     )
@@ -153,17 +119,27 @@ describe(`formatProfile`, () => {
     // Two stacks share the visible suffix extApi ← main but end in different
     // hidden stdlib leaves. Without merging they'd render as two identical
     // rows, each carrying only its own slice of the value.
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
-        { name: `extLeafA`, sampleCount: 3, values: [180], stack: [0, 2, 3] },
-        { name: `extLeafB`, sampleCount: 2, values: [120], stack: [1, 2, 3] },
-        { name: `extApi`, sampleCount: 0, values: [0] },
+        {
+          name: `extLeafA`,
+          selfSampleCount: 3,
+          selfValues: [180],
+          stack: [0, 2, 3],
+        },
+        {
+          name: `extLeafB`,
+          selfSampleCount: 2,
+          selfValues: [120],
+          stack: [1, 2, 3],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
         {
           name: `main`,
           url: `file:///project/src/main.ts`,
-          sampleCount: 0,
-          values: [0],
+          selfSampleCount: 0,
+          selfValues: [0],
         },
       ],
     )
@@ -187,11 +163,16 @@ describe(`formatProfile`, () => {
     // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
     // default filter would hide everything, emptying the body, so it is
     // disabled with a note instead.
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
-        { name: `extLeaf`, sampleCount: 5, values: [300], stack: [0, 1] },
-        { name: `extRoot`, sampleCount: 0, values: [0] },
+        {
+          name: `extLeaf`,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1],
+        },
+        { name: `extRoot`, selfSampleCount: 0, selfValues: [0] },
       ],
     )
 
@@ -213,11 +194,11 @@ describe(`formatProfile`, () => {
   })
 
   test(`shows all functions when a custom showEntry would hide every one`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
-        { name: `funcA`, sampleCount: 5, values: [300], stack: [0, 1] },
-        { name: `funcB`, sampleCount: 0, values: [0] },
+        { name: `funcA`, selfSampleCount: 5, selfValues: [300], stack: [0, 1] },
+        { name: `funcB`, selfSampleCount: 0, selfValues: [0] },
       ],
     )
     const options = resolveProfileToMdOptions({
@@ -243,14 +224,14 @@ describe(`formatProfile`, () => {
   })
 
   test(`notes a metric with no recorded values in place of its sections`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [300, 0],
+          selfSampleCount: 5,
+          selfValues: [300, 0],
         },
       ],
     )
@@ -262,14 +243,14 @@ describe(`formatProfile`, () => {
   })
 
   test(`notes a single metric with no recorded values in place of all sections`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [0],
+          selfSampleCount: 5,
+          selfValues: [0],
         },
       ],
     )
@@ -283,25 +264,25 @@ describe(`formatProfile`, () => {
 
 describe(`formatProfileDiff`, () => {
   test(`produces expected title`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 10,
-          values: [200],
+          selfSampleCount: 10,
+          selfValues: [200],
         },
       ],
     )
@@ -313,25 +294,25 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`includes base and current summary lines`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 10,
-          values: [200],
+          selfSampleCount: 10,
+          selfValues: [200],
         },
       ],
     )
@@ -346,25 +327,25 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`includes category table with delta and change`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 10,
-          values: [200],
+          selfSampleCount: 10,
+          selfValues: [200],
         },
       ],
     )
@@ -387,41 +368,41 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`lists regressions and improvements per direction`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
-          sampleCount: 3,
-          values: [60],
+          selfSampleCount: 3,
+          selfValues: [60],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 10,
-          values: [200],
+          selfSampleCount: 10,
+          selfValues: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
-          sampleCount: 2,
-          values: [40],
+          selfSampleCount: 2,
+          selfValues: [40],
         },
       ],
     )
@@ -473,41 +454,41 @@ describe(`formatProfileDiff`, () => {
     // FuncB exists only in the base profile and funcC only in the current
     // profile, so they have the same profile-local function ID; hiding funcB
     // must not hide funcC.
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
-          sampleCount: 3,
-          values: [60],
+          selfSampleCount: 3,
+          selfValues: [60],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 10,
-          values: [200],
+          selfSampleCount: 10,
+          selfValues: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
-          sampleCount: 2,
-          values: [40],
+          selfSampleCount: 2,
+          selfValues: [40],
         },
       ],
     )
@@ -546,15 +527,15 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
       ],
     )
@@ -596,22 +577,22 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [100],
+          selfSampleCount: 5,
+          selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [0],
+          selfSampleCount: 5,
+          selfValues: [0],
         },
       ],
     )
@@ -631,28 +612,28 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`notes the unchanged metric while detailing the changed one in a multi-metric diff`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [100, 100],
+          selfSampleCount: 5,
+          selfValues: [100, 100],
         },
       ],
     )
     // Only the CPU metric changes; the heap metric is identical on both sides.
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          sampleCount: 5,
-          values: [200, 100],
+          selfSampleCount: 5,
+          selfValues: [200, 100],
         },
       ],
     )
@@ -672,25 +653,25 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {
-    const base = makeProfile(
+    const base = makeAggregatedProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [100, 0],
+          selfSampleCount: 5,
+          selfValues: [100, 0],
         },
       ],
     )
-    const current = makeProfile(
+    const current = makeAggregatedProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [200, 0],
+          selfSampleCount: 5,
+          selfValues: [200, 0],
         },
       ],
     )
@@ -704,20 +685,20 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`omits a metric's heading when hidden entries leave it without sections`, () => {
-    const profile = makeProfile(
+    const profile = makeAggregatedProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          sampleCount: 5,
-          values: [100, 100],
+          selfSampleCount: 5,
+          selfValues: [100, 100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          sampleCount: 5,
-          values: [0, 100],
+          selfSampleCount: 5,
+          selfValues: [0, 100],
         },
       ],
     )

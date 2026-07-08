@@ -17,9 +17,16 @@ export const convertJsonToMd = (
   converter: JsonFormatConverter,
   json: unknown,
   options: NormalizedProfileToMdOptions,
+  // For ad-hoc converters not in the registry, whose format can't be derived.
+  format?: Format,
 ): string =>
   formatAggregatedInputs(
-    aggregateJsonInput(converter, json, options, profileToMdContext(converter)),
+    aggregateJsonInput(
+      converter,
+      json,
+      options,
+      format ? { format, origin: null } : profileToMdContext(converter),
+    ),
     options,
   )
 
