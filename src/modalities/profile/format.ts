@@ -1,4 +1,4 @@
-import type { Heading, RootContent } from 'mdast'
+import type { RootContent } from 'mdast'
 import {
   capitalizeFirst,
   formatArrow,
@@ -12,21 +12,29 @@ import { selectTopN } from '../../helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
-  inlineCode,
-  nameLocationPhrasing,
   paragraph,
   phrasing,
 } from '../../helpers/markdown.ts'
-import { formatSourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import type { Diff } from '../diff.ts'
 import {
+  ENTRY_FILTER_DISABLED_NOTE,
+  formatDiffFunctionSections,
+  formatFunctionHeading,
+  formatMeasureSections,
+  formatTitle,
+  formatZeroTotalNote,
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import {
+  formatProseValue,
+  formatProseValueDelta,
+  measureColumnNoun,
+  measureRankedByPhrase,
+} from '../measure.ts'
+import type { Metric } from '../metric.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
-import type { Table } from '../table.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,
@@ -39,16 +47,11 @@ import type {
 } from './diff.ts'
 import {
   diffMeasuresOf,
-  formatProseValue,
-  formatProseValueDelta,
-  measureColumnNoun,
-  measureRankedByPhrase,
   measuresOf,
   selfValueOf,
   totalValueOf,
 } from './measure.ts'
 import type { DiffMeasure, Measure } from './measure.ts'
-import type { Metric } from './metric.ts'
 import {
   callStackColumns,
   categoryColumns,
@@ -56,7 +59,6 @@ import {
   functionColumns,
   lineColumns,
 } from './table.ts'
-import type { FunctionMeasureRow, NamedFunction } from './table.ts'
 
 export const formatProfile = (
   profile: AggregatedProfile,
@@ -71,7 +73,7 @@ export const formatProfile = (
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
         if (measure.total === 0) {
-          return [formatZeroTotalNote(measure.metric)]
+          return [formatZeroTotalNote(measure.metric, ` in any sample`)]
         }
 
         const { sectionOptions, notes } = resolveEntryFilter({
@@ -115,7 +117,7 @@ export const formatProfileDiff = (
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
         if (measure.base.total === 0 && measure.current.total === 0) {
-          return [formatZeroTotalNote(measure.metric)]
+          return [formatZeroTotalNote(measure.metric, ` in any sample`)]
         }
 
         const { sectionOptions, notes } = resolveEntryFilter({
@@ -138,71 +140,6 @@ export const formatProfileDiff = (
     ),
   ]
 }
-
-/**
- * The note shown when the entry filter would hide every function, e.g. a
- * profile sampled entirely inside external code with no frame of ours (a
- * runtime dump, a lock profile parked in the JDK).
- */
-const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
-
-/** The document title for a profile with the given metrics. */
-const formatTitle = (metrics: Metric[]): string =>
-  metrics.length === 0
-    ? `Sampling profile`
-    : capitalizeFirst(
-        `${formatConjunction(
-          metrics.map(metric => metric.phrases.titleNoun),
-        )} profile`,
-      )
-
-/**
- * Formats a Markdown section per measure in {@link measures} via
- * {@link formatSections}, wrapping each measure's sections in a heading with
- * the metric's name when there are multiple measures.
- */
-const formatMeasureSections = <M extends { metric: Metric | null }>(
-  measures: M[],
-  headingLevel: number,
-  formatSections: (measure: M, headingLevel: number) => RootContent[],
-): RootContent[] =>
-  measures.flatMap(measure =>
-    measures.length === 1
-      ? formatSections(measure, headingLevel)
-      : formatSectionGroup(
-          [
-            heading(
-              headingLevel,
-              capitalizeFirst(measure.metric!.phrases.titleNoun),
-            ),
-          ],
-          formatSections(measure, headingLevel + 1),
-        ),
-  )
-
-/**
- * The note shown in place of a measure's sections when the profile recorded no
- * value for it, e.g. a heap profile dumped when nothing was retained.
- */
-const formatZeroTotalNote = (metric: Metric | null): RootContent =>
-  paragraph(
-    metric === null
-      ? `No samples were collected.`
-      : `No ${metric.phrases.pastParticipleVerbPhrase} in any sample.`,
-  )
-
-const formatFunctionHeading = (
-  headingLevel: number,
-  func: NamedFunction,
-  options: FormattingProfileToMdOptions,
-): Heading =>
-  heading(
-    headingLevel,
-    nameLocationPhrasing(
-      func.name,
-      inlineCode(formatSourceLocation(func.location, options)),
-    ),
-  )
 
 const formatOverallSummary = (profile: AggregatedProfile): RootContent[] => [
   paragraph(formatSummaryLine(profile)),
@@ -875,58 +812,4 @@ const formatDiffDirectionFunctions = ({
     regressions: regressions.map(({ entity }) => rowOf(entity)),
     improvements: improvements.map(({ entity }) => rowOf(entity)),
   })
-}
-
-/**
- * Assembles the regressions and improvements subsections for one function
- * direction (self or total) under a {@link title} heading, with rows under the
- * given table {@link columns}.
- *
- * When nothing differed but {@link hasActive} functions exist on either side,
- * the section stays, with a "did not differ" note. When no functions are
- * active (the section a non-diff profile would have omitted), it is omitted.
- */
-const formatDiffFunctionSections = ({
-  headingLevel,
-  title,
-  description,
-  columns,
-  hasActive,
-  regressions,
-  improvements,
-}: {
-  headingLevel: number
-  title: string
-  description: string
-  columns: Table<FunctionMeasureRow>
-  hasActive: boolean
-  regressions: Diff<FunctionMeasureRow>[]
-  improvements: Diff<FunctionMeasureRow>[]
-}): RootContent[] => {
-  const sections: RootContent[] = []
-
-  if (regressions.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Regressions`),
-      paragraph(`Functions with the largest increase in ${description}.`),
-      formatDiffTable(columns, regressions),
-    )
-  }
-
-  if (improvements.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Improvements`),
-      paragraph(`Functions with the largest decrease in ${description}.`),
-      formatDiffTable(columns, improvements),
-    )
-  }
-
-  if (sections.length === 0) {
-    if (!hasActive) {
-      return []
-    }
-    sections.push(paragraph(`No function differed in ${description}.`))
-  }
-
-  return formatSectionGroup([heading(headingLevel, title)], sections)
 }

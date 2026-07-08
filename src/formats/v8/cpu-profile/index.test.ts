@@ -1,7 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import {
-  callersTables,
-  linesTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../../modalities/profile/testing.ts'
@@ -9,7 +7,7 @@ import {
   defaultShowEntry,
   normalizeProfileToMdOptions,
 } from '../../../options.ts'
-import { categoryTables } from '../../../testing.ts'
+import { callersTables, categoryTables, linesTables } from '../../../testing.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8CpuProfileConverter } from './index.ts'
 import { makeV8CpuProfileRoot } from './testing.ts'

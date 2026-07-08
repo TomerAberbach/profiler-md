@@ -1,13 +1,17 @@
 import { describe, expect, test } from 'vitest'
 import {
-  callersTables,
-  linesTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../modalities/profile/testing.ts'
 import { selfSizeTables } from '../../modalities/snapshot/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables, profileTitles, summaryLines } from '../../testing.ts'
+import {
+  callersTables,
+  categoryTables,
+  linesTables,
+  profileTitles,
+  summaryLines,
+} from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
 import { speedscopeConverter } from './index.ts'
 import {

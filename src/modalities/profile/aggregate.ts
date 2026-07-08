@@ -1,20 +1,18 @@
 import { HashInterner } from '../../helpers/intern.ts'
-import { makeSourceLocation } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
 import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import { normalizeStackFrameForContext } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
-import type { Metric } from './metric.ts'
+import type { Metric } from '../metric.ts'
+import { parseStackFrameFunction, StackFrameTable } from '../stack-frame.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
-  Sample,
-  SampleLineMetrics,
-} from './type.ts'
+  StackFrameFunction,
+  StackFrameFunctionTable,
+} from '../stack-frame.ts'
+import type { Profile, Sample, SampleLineMetrics } from './type.ts'
 
 export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   readonly #profile: Profile
@@ -31,7 +29,7 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
     if (this.#profile.originHint !== undefined) {
       detector.hint(this.#profile.originHint)
     }
-    ProfileStackFrameTable.for(this.#profile.frames).addToDetector(detector)
+    StackFrameTable.for(this.#profile.frames).addToDetector(detector)
   }
 
   public aggregate(
@@ -40,7 +38,7 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   ): AggregatedProfile {
     const { metrics, frames, samples, lineMetrics } = this.#profile
 
-    const functions = ProfileStackFrameTable.for(frames).resolve(context)
+    const functions = StackFrameTable.for(frames).resolve(context)
     const aggregator = new SamplesAggregator(
       metrics,
       functions,
@@ -57,147 +55,6 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   }
 }
 
-/**
- * A profile's distinct {@link ProfileStackFrame}s, owning everything derived
- * from them: origin detection over the raw frames and, once the context is
- * resolved, the {@link ProfileFunctionTable} the frames resolve to.
- *
- * One table exists per frames array. Formats that yield multiple profiles
- * sometimes share the frames; the table shares the derived data
- * so each computation runs once, not once per profile.
- */
-class ProfileStackFrameTable {
-  /**
-   * A `WeakMap` rather than per-file state so sharing needs no extra
-   * parameter passed through the pipeline: each table is reclaimed with its
-   * frames array.
-   */
-  static readonly #tables = new WeakMap<
-    ProfileStackFrame[],
-    ProfileStackFrameTable
-  >()
-
-  public static for(frames: ProfileStackFrame[]): ProfileStackFrameTable {
-    let table = ProfileStackFrameTable.#tables.get(frames)
-    if (!table) {
-      table = new ProfileStackFrameTable(frames)
-      ProfileStackFrameTable.#tables.set(frames, table)
-    }
-    return table
-  }
-
-  readonly #frames: ProfileStackFrame[]
-
-  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
-  readonly #functions: ProfileFunction[] = []
-
-  #detected = false
-  #functionTable: ProfileFunctionTable | undefined
-
-  private constructor(frames: ProfileStackFrame[]) {
-    this.#frames = frames
-  }
-
-  /** Adds the raw frames to {@link detector}, once, until decided. */
-  public addToDetector(detector: OriginDetector): void {
-    if (this.#detected) {
-      return
-    }
-    this.#detected = true
-
-    const { length } = this.#frames
-    for (let index = 0; !detector.decided && index < length; index++) {
-      const { name, location } = this.#getOrCreateFunction(index)
-      detector.add({ id: index, name, location })
-    }
-  }
-
-  #getOrCreateFunction(index: number): ProfileFunction {
-    let func = this.#functions[index]
-    if (!func) {
-      func = parseProfileFunction(this.#frames[index]!)
-      this.#functions[index] = func
-    }
-    return func
-  }
-
-  /**
-   * Returns the {@link ProfileFunctionTable} the frames resolve to under
-   * {@link context}, normalizing them with the resolved origin on first call.
-   *
-   * Memoized without keying on the context: a frames array belongs to one file
-   * and is parsed fresh each conversion, so it never sees another context.
-   */
-  public resolve(context: ProfileToMdContext): ProfileFunctionTable {
-    this.#functionTable ??= this.#normalize(context)
-    return this.#functionTable
-  }
-
-  #normalize(context: ProfileToMdContext): ProfileFunctionTable {
-    return new ProfileFunctionTable(
-      this.#frames.map(frame => normalizeStackFrameForContext(frame, context)),
-    )
-  }
-}
-
-/**
- * A profile's distinct frames normalized by the resolved origin, resolving a
- * frame index to its {@link ProfileFunction}.
- */
-class ProfileFunctionTable {
-  /**
-   * A `null` slot is a frame the origin dropped (a pseudo-frame, not a
-   * function), removed from every call stack.
-   */
-  readonly #frames: (ProfileStackFrame | null)[]
-
-  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
-  readonly #functions: ProfileFunction[] = []
-
-  public constructor(frames: (ProfileStackFrame | null)[]) {
-    this.#frames = frames
-  }
-
-  /** Returns the frame's function, or `undefined` for a dropped frame. */
-  public function(index: number): ProfileFunction | undefined {
-    let func = this.#functions[index]
-    if (!func) {
-      const frame = this.#frames[index]
-      if (!frame) {
-        return undefined
-      }
-      func = parseProfileFunction(frame)
-      this.#functions[index] = func
-    }
-    return func
-  }
-
-  /** Returns the line the frame was sampled at, if known. */
-  public executingLine(index: number): number | undefined {
-    return this.#frames[index]?.line
-  }
-}
-
-/** A frame's parsed name and location, the unit functions aggregate by. */
-type ProfileFunction = {
-  /** @see {@link ProfileStackFrame.name} */
-  name: string
-
-  /** @see {@link ProfileStackFrame.location} */
-  location: SourceLocation | undefined
-
-  /**
-   * The function's identity key: its normalized name and location (URL/path,
-   * plus definition line and column). Two frames that parse to the same key
-   * are the same function.
-   *
-   * The location's own line/column are part of the identity, but a frame's
-   * executing line ({@link ProfileStackFrame.line}) is not; that contributes
-   * to the line breakdown instead.
-   */
-  key: string
-}
-
 /** Aggregates a profile's samples over its normalized distinct frames. */
 class SamplesAggregator {
   readonly #metrics: Metric[]
@@ -206,7 +63,7 @@ class SamplesAggregator {
    * The normalized distinct frames' functions. {@link Sample.frameIndices} are
    * indices into the table.
    */
-  readonly #functions: ProfileFunctionTable
+  readonly #functions: StackFrameFunctionTable
   readonly #options: AggregationProfileToMdOptions
   readonly #context: ProfileToMdContext
 
@@ -225,7 +82,7 @@ class SamplesAggregator {
         sink.add(frame.id)
       }
     },
-    (callStack, frames) => sameFrameIds(callStack.frames, frames),
+    (callStack, frames) => sameStackFrameIds(callStack.frames, frames),
   )
 
   readonly #idToCallStack: AggregatedProfileCallStack[]
@@ -240,7 +97,7 @@ class SamplesAggregator {
   public constructor(
     /** @see {@link AggregatedProfile.metrics} */
     metrics: Metric[],
-    functions: ProfileFunctionTable,
+    functions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ) {
@@ -521,18 +378,21 @@ class SamplesAggregator {
 
   /**
    * The single shared anonymous function for stackless samples, keyed by a
-   * symbol so it can never collide with a {@link ProfileFunction.key}.
+   * symbol so it can never collide with a {@link StackFrameFunction.key}.
    */
   #getOrCreateAnonymousFunction(): AggregatedProfileFunction {
     return (
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
-      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, parseProfileFunction({}))
+      this.#registerFunction(
+        ANONYMOUS_FUNCTION_KEY,
+        parseStackFrameFunction({}),
+      )
     )
   }
 
   #registerFunction(
     key: number | string | symbol,
-    { name, location }: ProfileFunction,
+    { name, location }: StackFrameFunction,
   ): AggregatedProfileFunction {
     const func: AggregatedProfileFunction = {
       type: `function`,
@@ -632,32 +492,16 @@ class SamplesAggregator {
   }
 }
 
-const parseProfileFunction = (frame: ProfileStackFrame): ProfileFunction => ({
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  name: frame.name || `(anonymous)`,
-  location: makeSourceLocation(frame.location),
-  key: functionIdentityKey(frame),
-})
-
-/** Builds {@link ProfileFunction.key} from a frame's name and location. */
-const functionIdentityKey = ({
-  name = ``,
-  location,
-}: ProfileStackFrame): string =>
-  location === undefined
-    ? name
-    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
-
 /**
  * Key for the single shared anonymous function that stackless samples (empty
  * {@link Sample.frameIndices}) are attributed to. A symbol so it can never
- * collide with a {@link ProfileFunction.key}. All stackless samples merge into
+ * collide with a {@link StackFrameFunction.key}. All stackless samples merge into
  * one bucket because nothing distinguishes them.
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
 
 /** Whether two frame lists reference the same functions in the same order. */
-const sameFrameIds = (
+const sameStackFrameIds = (
   left: AggregatedProfileFunction[],
   right: AggregatedProfileFunction[],
 ): boolean => {

@@ -1,15 +1,10 @@
-import {
-  allTablesAfterHeading,
-  allTablesAfterHeadingContaining,
-  nodesUnderHeading,
-  parseMd,
-} from '../../helpers/testing.ts'
+import { allTablesAfterHeading, parseMd } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
+import type { Metric } from '../metric.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import type { AggregatedProfile } from './aggregate.ts'
-import type { Metric } from './metric.ts'
 
 export const makeAggregatedProfile = (
   metrics: Metric[],
@@ -70,18 +65,3 @@ export const totalSleepsTables = (md: string): Table[] =>
 
 export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Hottest call stacks`)
-
-export const callersTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), `Callers`)
-  return allTablesAfterHeadingContaining(under, fn)
-}
-
-export const calleesTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), `Callees`)
-  return allTablesAfterHeadingContaining(under, fn)
-}
-
-export const linesTables = (md: string, fn: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), `Lines`)
-  return allTablesAfterHeadingContaining(under, fn)
-}

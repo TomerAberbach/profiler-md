@@ -1,13 +1,7 @@
 import dedent from 'dedent'
 import { describe, expect, test } from 'vitest'
-import {
-  calleesTables,
-  callersTables,
-  callStackTables,
-  linesTables,
-  selfTimeTables,
-  totalTimeTables,
-} from './testing.ts'
+import { calleesTables, callersTables, linesTables } from '../../testing.ts'
+import { callStackTables, selfTimeTables, totalTimeTables } from './testing.ts'
 
 describe(`selfTimeTables`, () => {
   test(`returns [] when heading is absent`, () => {

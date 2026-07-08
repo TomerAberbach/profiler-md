@@ -82,3 +82,18 @@ export const improvementsTables = (md: string, section: string): Table[] => {
   const under = nodesUnderHeading(parseMd(md), section)
   return allTablesAfterHeadingContaining(under, `Improvements`)
 }
+
+export const callersTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Callers`)
+  return allTablesAfterHeadingContaining(under, fn)
+}
+
+export const calleesTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Callees`)
+  return allTablesAfterHeadingContaining(under, fn)
+}
+
+export const linesTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Lines`)
+  return allTablesAfterHeadingContaining(under, fn)
+}

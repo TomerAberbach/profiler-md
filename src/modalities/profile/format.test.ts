@@ -8,9 +8,9 @@ import {
   resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
+import { determineMetric, MEGABYTES, MICROSECONDS } from '../metric.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
-import { determineMetric, MEGABYTES, MICROSECONDS } from './metric.ts'
 import {
   callStackTables,
   makeAggregatedProfile,
