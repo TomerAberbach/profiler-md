@@ -12,7 +12,7 @@ import type { OriginSpec } from '../origin.ts'
  */
 const FRAME = /^(?<func>.+) \((?<file>.+):(?<line>\d+)\)$/u
 
-const normalizePackedFrame = packedLocationNormalizer(FRAME)
+const normalizePackedStackFrame = packedLocationNormalizer(FRAME)
 
 export const pySpyOriginSpec = {
   id: `py-spy`,
@@ -30,6 +30,6 @@ export const pySpyOriginSpec = {
   // Py-spy emits one frame per sampled line in both shapes: packed into a
   // collapsed name, or as a located speedscope frame whose `line` needs
   // reinterpreting as the executing line.
-  normalizeFrame: (input, format) =>
-    normalizePackedFrame(normalizeSpeedscopeExecutingLine(input, format)),
+  normalizeStackFrame: (input, format) =>
+    normalizePackedStackFrame(normalizeSpeedscopeExecutingLine(input, format)),
 } as const satisfies OriginSpec

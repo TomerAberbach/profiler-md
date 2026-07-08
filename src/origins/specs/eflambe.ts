@@ -11,16 +11,16 @@ import type { OriginSpec } from '../origin.ts'
  * BEAM collapsed frames are `module:function/arity` (e.g. `lists:reverse/1`,
  * `Elixir.Enum:reduce/3`) with the module standing in for a source location,
  * rooted at a process id like `<0.94.0>`. Neither Erlang nor Elixir carries a
- * file path, so its `normalizeFrame` lifts the module out of the name to act as
+ * file path, so its `normalizeStackFrame` lifts the module out of the name to act as
  * the location, JFR-style.
  */
 export const eflambeOriginSpec = {
   id: `eflambe`,
   formats: [`collapsed`],
-  isMarkerEntry: entry => isBeamFrame(entry.name),
+  isMarkerEntry: entry => isBeamStackFrame(entry.name),
   categorizeEntry: entry =>
     beamModuleCategory(entry) ?? locationlessStdlibCategory(entry) ?? `ours`,
-  normalizeFrame: input => {
+  normalizeStackFrame: input => {
     // A located frame (e.g. from a structured format) already has everything it
     // needs; only a bare `module:function/arity` name needs splitting.
     if (input.location) {
@@ -55,7 +55,7 @@ export const eflambeOriginSpec = {
  * Whether a raw frame name is BEAM-shaped: an Elixir module, a process id, or an
  * Erlang `module:function/arity`.
  */
-const isBeamFrame = (name: string | undefined): boolean =>
+const isBeamStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (name.startsWith(`Elixir.`) ||
     BEAM_PROCESS_ID.test(name) ||
@@ -73,7 +73,7 @@ const ERLANG_MFA = /^[a-z]\w*:.+\/\d+$/u
 
 /**
  * Categorizes a frame by its BEAM module (the location lifted out by
- * `normalizeFrame`): OTP and Elixir-core modules, plus the `eflambe` profiler's
+ * `normalizeStackFrame`): OTP and Elixir-core modules, plus the `eflambe` profiler's
  * own frames, are `stdlib`; any other module is `ours`.
  *
  * Hex dependencies (e.g. `Elixir.Jason`) carry no marker distinguishing them
@@ -96,7 +96,7 @@ const isBeamStdlibModule = (module: string): boolean => {
   if (module.startsWith(`eflambe`)) {
     return true
   }
-  // `normalizeFrame` strips the `Elixir.` prefix, so an Elixir module is
+  // `normalizeStackFrame` strips the `Elixir.` prefix, so an Elixir module is
   // recognized by its capitalized first letter (Erlang atoms are lowercase).
   return /^[A-Z]/u.test(module)
     ? ELIXIR_CORE_MODULES.has(module)

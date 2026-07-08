@@ -24,9 +24,9 @@ const TACHYON_FRAME =
 export const tachyonOriginSpec = {
   id: `tachyon`,
   formats: [`collapsed`],
-  isMarkerEntry: entry => isTachyonFrame(entry.name),
+  isMarkerEntry: entry => isTachyonStackFrame(entry.name),
   categorizeEntry: categorizeCPythonEntry,
-  normalizeFrame: packedLocationNormalizer(TACHYON_FRAME),
+  normalizeStackFrame: packedLocationNormalizer(TACHYON_FRAME),
 } as const satisfies OriginSpec
 
 /**
@@ -35,7 +35,7 @@ export const tachyonOriginSpec = {
  * `file:func:line` shape. A plain `file:func:line` frame is *not* a marker;
  * that shape is generic, so a marker-free folded stack stays `unknown`.
  */
-const isTachyonFrame = (name: string | undefined): boolean =>
+const isTachyonStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (/^tid:\d+$/u.test(name) ||
     (name.startsWith(`<frozen `) && TACHYON_FRAME.test(name)))

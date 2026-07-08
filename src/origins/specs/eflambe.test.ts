@@ -28,18 +28,18 @@ describe(`detection`, () => {
   )
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = eflambeOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = eflambeOriginSpec
 
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
-    expect(normalizeFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
+    expect(normalizeStackFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
       name: `encode!/1`,
       location: { urlOrPath: `Jason` },
     })
   })
 
   test(`lifts an Erlang module out of the name as the location`, () => {
-    expect(normalizeFrame({ name: `lists:reverse/1` })).toEqual({
+    expect(normalizeStackFrame({ name: `lists:reverse/1` })).toEqual({
       name: `reverse/1`,
       location: { urlOrPath: `lists` },
     })
@@ -47,7 +47,7 @@ describe(`normalizeFrame`, () => {
 
   test(`splits on the first colon, keeping the rest of the name intact`, () => {
     expect(
-      normalizeFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
+      normalizeStackFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
     ).toEqual({
       name: `-do_encode_map/2-lc$^0/1-0-/2`,
       location: { urlOrPath: `json` },
@@ -55,7 +55,9 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves a colon-less process id frame unchanged`, () => {
-    expect(normalizeFrame({ name: `<0.94.0>` })).toEqual({ name: `<0.94.0>` })
+    expect(normalizeStackFrame({ name: `<0.94.0>` })).toEqual({
+      name: `<0.94.0>`,
+    })
   })
 
   test(`leaves an already-located frame unchanged`, () => {
@@ -63,7 +65,7 @@ describe(`normalizeFrame`, () => {
       name: `lists:reverse/1`,
       location: { urlOrPath: `lists.erl` },
     }
-    expect(normalizeFrame(input)).toBe(input)
+    expect(normalizeStackFrame(input)).toBe(input)
   })
 })
 
@@ -80,7 +82,7 @@ describe(`categorizeEntry`, () => {
   })
 
   // The module location arrives with the `Elixir.` prefix already stripped
-  // by `normalizeFrame`.
+  // by `normalizeStackFrame`.
   test.each([
     [`Enum`, `Elixir.Enum:reduce/3`],
     [`String`, `Elixir.String:split/2`],

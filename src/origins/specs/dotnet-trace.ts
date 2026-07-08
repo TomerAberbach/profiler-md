@@ -9,7 +9,7 @@ import type { OriginSpec } from '../origin.ts'
  * (produced by the TraceEvent library) packs a managed frame's whole identity
  * into its name as `Assembly!Namespace.Type.Method(signature)`.
  *
- * Its `normalizeFrame` splits that JFR-style: the namespace-qualified declaring
+ * Its `normalizeStackFrame` splits that JFR-style: the namespace-qualified declaring
  * type becomes the location and the method name with a simplified parameter
  * list the display name, keeping overloads distinguishable the way JFR's
  * `add(Object, Object[], int)` does. The assembly is dropped: TraceEvent emits
@@ -20,7 +20,7 @@ import type { OriginSpec } from '../origin.ts'
  * The export also wraps every call stack in pseudo-frames
  * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`)
  * and buckets each sample's leaf time under a `CPU_TIME` marker, so
- * `normalizeFrame` drops those: they aren't functions, and dropping `CPU_TIME`
+ * `normalizeStackFrame` drops those: they aren't functions, and dropping `CPU_TIME`
  * returns each sample's self time to the method that was executing.
  * `UNMANAGED_CODE_TIME` stays: it's genuine native execution outside the
  * managed stack, kept as a location-less (`stdlib`) frame the way rbspy keeps
@@ -29,12 +29,12 @@ import type { OriginSpec } from '../origin.ts'
 export const dotnetTraceOriginSpec = {
   id: `dotnet-trace`,
   formats: [`speedscope`],
-  isMarkerEntry: entry => isDotnetTraceFrame(entry.name),
+  isMarkerEntry: entry => isDotnetTraceStackFrame(entry.name),
   categorizeEntry: entry =>
     dotnetNamespaceCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
-  normalizeFrame: input => {
+  normalizeStackFrame: input => {
     if (input.location) {
       return input
     }
@@ -98,7 +98,7 @@ const simplifySignature = (signature: string): string =>
  * `Assembly!Method(signature)` managed frame or one of TraceEvent's time-bucket
  * markers.
  */
-const isDotnetTraceFrame = (name: string | undefined): boolean =>
+const isDotnetTraceStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (ASSEMBLY_BANG_METHOD.test(name) ||
     name === `CPU_TIME` ||
@@ -131,7 +131,7 @@ const THREAD_FRAME = /^Thread \(\d+\)$/u
 
 /**
  * Categorizes a frame by its declaring type (the location lifted out by
- * `normalizeFrame`): .NET runtime and framework namespaces are `stdlib`; any
+ * `normalizeStackFrame`): .NET runtime and framework namespaces are `stdlib`; any
  * other namespace is `ours`.
  *
  * NuGet dependencies (e.g. `Newtonsoft.Json`) carry no marker distinguishing

@@ -5,7 +5,7 @@ import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import { normalizeFrameForContext } from '../../origins/index.ts'
+import { normalizeStackFrameForContext } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from './metric.ts'
@@ -135,7 +135,7 @@ class ProfileStackFrameTable {
 
   #normalize(context: ProfileToMdContext): ProfileFunctionTable {
     return new ProfileFunctionTable(
-      this.#frames.map(frame => normalizeFrameForContext(frame, context)),
+      this.#frames.map(frame => normalizeStackFrameForContext(frame, context)),
     )
   }
 }
@@ -285,7 +285,7 @@ class SamplesAggregator {
     // intern to the same call stack while sampling different executing lines.
     //
     // When the sample has no explicit line, fall back to the leaf frame's
-    // sampled line, the one its origin's `normalizeFrame` derived so it
+    // sampled line, the one its origin's `normalizeStackFrame` derived so it
     // appears in the function's line breakdown.
     let leafLine = line
     if (leafLine === undefined) {

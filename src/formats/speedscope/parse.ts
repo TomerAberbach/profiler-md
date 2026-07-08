@@ -134,7 +134,7 @@ const exporterOriginHint = (
 // The `line`/`col` are read as the function's definition position, matching
 // speedscope's own importer, which keys each frames-array entry as a distinct
 // frame. Some profilers (py-spy, rbspy) instead emit one frame per *sampled*
-// line; their origins' `normalizeFrame` reinterprets the line as the executing
+// line; their origins' `normalizeStackFrame` reinterprets the line as the executing
 // line (see `normalizeSpeedscopeExecutingLine` in `src/origins/origin.ts`).
 const frameToStackFrame = (frame: SpeedscopeFrame): ProfileStackFrame => ({
   name: frame.name,

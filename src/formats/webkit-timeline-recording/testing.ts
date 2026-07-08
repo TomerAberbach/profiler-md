@@ -11,7 +11,7 @@ export const makeWebKitRecording = ({
   recording: { sampleStackTraces, sampleDurations },
 })
 
-export const makeWebKitFrame = ({
+export const makeWebKitStackFrame = ({
   name,
   url,
   line = 1,

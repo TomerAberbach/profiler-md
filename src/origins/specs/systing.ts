@@ -23,9 +23,9 @@ export const systingOriginSpec = {
     // stripped binary as much as a system library) symbolizes without a
     // source location. `native` states exactly that.
     (entry.location ? `ours` : `native`),
-  normalizeFrame: input => {
+  normalizeStackFrame: input => {
     // A located frame can't be packed (systing always packs); guard anyway
-    // per the normalizeFrame contract.
+    // per the normalizeStackFrame contract.
     if (input.location) {
       return input
     }

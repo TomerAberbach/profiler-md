@@ -19,17 +19,17 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = pprofJlOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = pprofJlOriginSpec
 
   test(`drops the allocation profiler's Alloc: pseudo-frame`, () => {
-    expect(normalizeFrame({ name: `Alloc: Vector{UInt8}` })).toBeNull()
+    expect(normalizeStackFrame({ name: `Alloc: Vector{UInt8}` })).toBeNull()
   })
 
   test(`leaves a regular frame unchanged`, () => {
     const input = { name: `+`, location: { urlOrPath: `int.jl` } }
 
-    expect(normalizeFrame(input)).toBe(input)
+    expect(normalizeStackFrame(input)).toBe(input)
   })
 })
 

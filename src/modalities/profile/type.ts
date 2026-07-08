@@ -52,7 +52,7 @@ export type Profile = {
  * {@link line} is the *executing* line and is used for the per-line breakdown,
  * not identity.
  *
- * A converter produces these raw; the resolved origin's `normalizeFrame` then
+ * A converter produces these raw; the resolved origin's `normalizeStackFrame` then
  * splits out the location and line for variants that pack them into the frame
  * string.
  */

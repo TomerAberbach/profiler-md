@@ -164,7 +164,7 @@ class SystingProfileBuilder {
     switch (record[0]) {
       case `f`: {
         const [, id, name] = record as [string, number, string]
-        this.#addFrame(id, name)
+        this.#addStackFrame(id, name)
         break
       }
       case `s`: {
@@ -188,7 +188,7 @@ class SystingProfileBuilder {
     }
   }
 
-  #addFrame(id: number, name: string): void {
+  #addStackFrame(id: number, name: string): void {
     const index = this.#frames.length
     this.#frames.push({ name })
     this.#frameIndices.set(id, index)

@@ -41,8 +41,8 @@ $ARGUMENTS
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
      plus profiler-specific rules
    - `categorizeSnapshotConstructor` when the origin writes heap snapshots
-   - `normalizeFrame` when the profiler packs a frame's location into its name
-     (see `packedLocationNormalizer`)
+   - `normalizeStackFrame` when the profiler packs a frame's location into its
+     name (see `packedLocationNormalizer`)
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
 
@@ -52,11 +52,11 @@ $ARGUMENTS
    satisfy (e.g. Deno before Node, since Deno supports `node:` specifiers)
 
    Add a colocated `src/origins/specs/<origin>.test.ts` for the origin's own
-   logic: detection, `categorizeEntry`, and any `normalizeFrame` or `matchEntry`
-   rules. Build entries with the `absoluteEntry`/`relativeEntry` helpers from
-   `src/origins/testing.ts`, drive detection through its `determineOrigin`, and
-   test categorization against its exported `OriginSpec` (e.g.
-   `nodeOriginSpec.categorizeEntry`).
+   logic: detection, `categorizeEntry`, and any `normalizeStackFrame` or
+   `matchEntry` rules. Build entries with the `absoluteEntry`/`relativeEntry`
+   helpers from `src/origins/testing.ts`, drive detection through its
+   `determineOrigin`, and test categorization against its exported `OriginSpec`
+   (e.g. `nodeOriginSpec.categorizeEntry`).
 
    `src/origins/categorize.test.ts` holds only cross-origin invariants every
    origin must satisfy (looping over `origins`); touch it only if the new origin

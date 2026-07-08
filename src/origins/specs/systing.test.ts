@@ -32,12 +32,12 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = systingOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = systingOriginSpec
 
   test(`splits a located frame, dropping the module and address`, () => {
     expect(
-      normalizeFrame({
+      normalizeStackFrame({
         name: `gamma_spin (nested [nested.c:9]) <0x56475007017d>`,
       }),
     ).toEqual({
@@ -49,7 +49,7 @@ describe(`normalizeFrame`, () => {
 
   test(`splits a line-less located frame`, () => {
     expect(
-      normalizeFrame({ name: `read_config (app [config.c]) <0x1234>` }),
+      normalizeStackFrame({ name: `read_config (app [config.c]) <0x1234>` }),
     ).toEqual({
       name: `read_config`,
       location: { urlOrPath: `config.c` },
@@ -61,7 +61,7 @@ describe(`normalizeFrame`, () => {
     // The label is the category signal, so it survives even when kernel
     // debuginfo gives the frame a source location.
     expect(
-      normalizeFrame({
+      normalizeStackFrame({
         name: `handle_mm_fault ([kernel] [memory.c:5432]) <0xffffffff96e00123>`,
       }),
     ).toEqual({
@@ -83,13 +83,13 @@ describe(`normalizeFrame`, () => {
   ])(
     `keeps the module, minus the address, for the source-less %s frame`,
     (name, expected) => {
-      expect(normalizeFrame({ name })).toEqual({ name: expected })
+      expect(normalizeStackFrame({ name })).toEqual({ name: expected })
     },
   )
 
   test(`keeps function names containing parentheses intact`, () => {
     expect(
-      normalizeFrame({
+      normalizeStackFrame({
         name: `std::vector<int>::push_back(int&&) (app [vector.h:123]) <0x1>`,
       }),
     ).toEqual({
@@ -101,7 +101,7 @@ describe(`normalizeFrame`, () => {
 
   test(`splits a Python frame's location`, () => {
     expect(
-      normalizeFrame({ name: `handle_request (python) [server.py:88]` }),
+      normalizeStackFrame({ name: `handle_request (python) [server.py:88]` }),
     ).toEqual({
       name: `handle_request`,
       location: { urlOrPath: `server.py` },
@@ -110,14 +110,14 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves an unpacked frame untouched`, () => {
-    expect(normalizeFrame({ name: `0x7f95bfdb6e12` })).toEqual({
+    expect(normalizeStackFrame({ name: `0x7f95bfdb6e12` })).toEqual({
       name: `0x7f95bfdb6e12`,
     })
   })
 
   test(`leaves an already-located frame untouched`, () => {
     expect(
-      normalizeFrame({ name: `located`, location: { urlOrPath: `a.c` } }),
+      normalizeStackFrame({ name: `located`, location: { urlOrPath: `a.c` } }),
     ).toEqual({ name: `located`, location: { urlOrPath: `a.c` } })
   })
 })

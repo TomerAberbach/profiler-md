@@ -10,7 +10,7 @@ import type { OriginSpec } from '../origin.ts'
  *
  * Its collapsed frames are `method - file:line` (e.g.
  * `parse - /app/lib/foo.rb:12`), with a `[c function]` marker for native
- * methods. Its `normalizeFrame` splits the trailing `file:line` off the method
+ * methods. Its `normalizeStackFrame` splits the trailing `file:line` off the method
  * name. Splitting on the *last* ` - ` keeps a
  * `<module:Foo>`-style method name (which contains its own colon) intact rather
  * than mistaking its colon for the file/line separator.
@@ -18,14 +18,14 @@ import type { OriginSpec } from '../origin.ts'
 export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`collapsed`, `pprof`, `speedscope`],
-  isMarkerEntry: entry => isRbspyFrame(entry.name),
+  isMarkerEntry: entry => isRbspyStackFrame(entry.name),
   categorizeEntry: entry =>
     cFunctionCategory(entry) ??
     rubyGemCategory(entry) ??
     rubyStdlibCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
-  normalizeFrame: (input, format) => {
+  normalizeStackFrame: (input, format) => {
     if (input.location) {
       // Rbspy's speedscope export also emits one frame per sampled line, with
       // the line carried in the location rather than packed into the name.
@@ -59,7 +59,7 @@ export const rbspyOriginSpec = {
  * profiles carry the location separately, leaving rbspy's `[c function]`
  * marker and the Ruby VM's `<main>`/`<top (required)>` toplevel frames bare.
  */
-const isRbspyFrame = (name: string | undefined): boolean =>
+const isRbspyStackFrame = (name: string | undefined): boolean =>
   name !== undefined &&
   (METHOD_FILE_LINE.test(name) ||
     name.includes(C_FUNCTION) ||

@@ -28,13 +28,13 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = tachyonOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = tachyonOriginSpec
 
   test(`splits a file:func:line frame, keeping the line as the executing line`, () => {
     // The line stays out of the location so a function sampled at several
     // lines aggregates as one, with the lines feeding the per-line breakdown.
-    expect(normalizeFrame({ name: `script.py:fib:4` })).toEqual({
+    expect(normalizeStackFrame({ name: `script.py:fib:4` })).toEqual({
       name: `fib`,
       location: { urlOrPath: `script.py` },
       line: 4,
@@ -44,7 +44,7 @@ describe(`normalizeFrame`, () => {
   test.each([`C:\\proj\\app.py`, `D:/proj/app.py`])(
     `keeps the Windows drive-letter path %s whole instead of splitting on the drive colon`,
     path => {
-      expect(normalizeFrame({ name: `${path}:run:10` })).toEqual({
+      expect(normalizeStackFrame({ name: `${path}:run:10` })).toEqual({
         name: `run`,
         location: { urlOrPath: path },
         line: 10,
@@ -53,7 +53,7 @@ describe(`normalizeFrame`, () => {
   )
 
   test(`keeps a C++ namespaced function name intact`, () => {
-    expect(normalizeFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
+    expect(normalizeStackFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
       name: `Foo::bar`,
       location: { urlOrPath: `file.cpp` },
       line: 42,
@@ -61,7 +61,7 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves a single-colon thread frame as a plain name`, () => {
-    expect(normalizeFrame({ name: `tid:15522692` })).toEqual({
+    expect(normalizeStackFrame({ name: `tid:15522692` })).toEqual({
       name: `tid:15522692`,
     })
   })

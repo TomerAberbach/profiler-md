@@ -18,12 +18,12 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = nodePprofOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = nodePprofOriginSpec
 
   test(`moves a dd-trace packed anonymous frame's position into the location`, () => {
     expect(
-      normalizeFrame({
+      normalizeStackFrame({
         name: `(anonymous:L#122135:C#9)`,
         location: { urlOrPath: `file:///app/src/index.js` },
       }),
@@ -43,7 +43,7 @@ describe(`normalizeFrame`, () => {
       location: { urlOrPath: `file:///app/src/index.js` },
     }
 
-    expect(normalizeFrame(input)).toBe(input)
+    expect(normalizeStackFrame(input)).toBe(input)
   })
 })
 

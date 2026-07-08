@@ -65,7 +65,7 @@ export type WebKitTimelineRecording = {
 export const parseWebKitTimelineRecording = ({
   recording: { sampleStackTraces, sampleDurations },
 }: WebKitTimelineRecording): Profile[] => {
-  const { frames, intern } = createFrameInterner()
+  const { frames, intern } = createStackFrameInterner()
   const samples: Sample[] = []
   for (let index = 0; index < sampleStackTraces.length; index++) {
     const { stackFrames } = sampleStackTraces[index]!
@@ -88,7 +88,7 @@ export const parseWebKitTimelineRecording = ({
  * Frames are inlined per sample rather than in a shared table, so dedup them
  * by identity; a frame's index is its position in `frames`.
  */
-const createFrameInterner = (): {
+const createStackFrameInterner = (): {
   frames: ProfileStackFrame[]
   intern: (frame: WebKitStackFrame) => number
 } => {
