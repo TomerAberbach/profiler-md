@@ -117,11 +117,10 @@ const renderFormatCell = (id: string, format: Format): string => {
 const rows = Array.from(
   languages.entries(),
   ([id, { name, aliases, formats: langFormats }]) => {
-    const languageCell = [{ id, name }, ...(aliases ?? [])]
-      .map(language =>
-        anchor(language.name, `docs/languages/${language.id}.md`),
-      )
-      .join(`⁠/⁠`)
+    const languageCell = anchor(
+      [name, ...(aliases ?? []).map(alias => alias.name)].join(`⁠/⁠`),
+      `docs/languages/${id}.md`,
+    )
     const formatsCell = langFormats
       .map(format => renderFormatCell(id, format))
       .join(`\n`)

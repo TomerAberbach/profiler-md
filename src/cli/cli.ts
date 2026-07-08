@@ -152,7 +152,11 @@ export const getHelpText = (): string =>
     ),
     `Formats: ${formats.join(`, `)}`,
     `Origins: ${origins.join(`, `)}`,
-    `Languages: ${languageTopics.join(`, `)}`,
+    `Languages: ${[...languages.entries()]
+      .map(([id, { aliases }]) =>
+        [id, ...(aliases?.map(alias => alias.id) ?? [])].join(`/`),
+      )
+      .join(`, `)}`,
   ].join(`\n`)}\n`
 
 export type CLIArgs = InferValue<typeof program.parser>

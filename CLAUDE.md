@@ -75,15 +75,13 @@ profiler-md
 │   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
 │
 ├── docs/
-│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`). Some are symlink aliases
+│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
 │   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
 │
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
 │   ├── generate-inputs       # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
 │   ├── inputs/               # Per-language workload scripts (<lang>.sh), assets/ workload inputs, + nix flake providing the profiler toolchain
-│   ├── check-publish         # Pre-publish sanity checks (runs in prepublishOnly)
-│   ├── publish               # Publish the package
 │   ├── update-examples.ts    # Update examples/output/ from examples/input/
 │   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
 │
