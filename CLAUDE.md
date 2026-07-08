@@ -12,6 +12,7 @@ profiler-md
 │   │   ├── ansis.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── cli.ts            # Optique flag/usage/topic definitions
 │   │   ├── error.ts          # CliError class and top-level error reporting
+│   │   ├── examples.ts       # Parses examples/ filenames into lang/source/config/variant/format
 │   │   ├── help.ts           # Prints CLI help and per-topic docs
 │   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
 │   │   ├── index.ts          # CLI entry point that orchestrates the run
@@ -29,7 +30,7 @@ profiler-md
 │   │   ├── testing/
 │   │   │   └── convert.ts    # Test-only convertJsonToMd/convertBytesToMd runners for a single converter
 │   │   └── **/<name>/        # One per format; v8/ nests cpu-profile/heap-profile/heap-snapshot + shared common.ts
-│   │       ├── parse.ts      # Parses input to typed data, then to the uniform `Profile` (profile formats)
+│   │       ├── parse.ts      # Parses input to typed data; profile formats also produce the uniform `Profile`
 │   │       ├── aggregate.ts  # Aggregates to a heap snapshot (snapshot formats only)
 │   │       ├── index.ts      # Exports the format's converter (matches + parse/aggregate)
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
@@ -80,7 +81,7 @@ profiler-md
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
 │   ├── generate-inputs       # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
-│   ├── inputs/               # Per-language workload scripts (<lang>.sh) + nix flake providing the profiler toolchain
+│   ├── inputs/               # Per-language workload scripts (<lang>.sh), assets/ workload inputs, + nix flake providing the profiler toolchain
 │   ├── check-publish         # Pre-publish sanity checks (runs in prepublishOnly)
 │   ├── publish               # Publish the package
 │   ├── update-examples.ts    # Update examples/output/ from examples/input/
@@ -141,7 +142,7 @@ Before writing code for it:
 
 1. Enumerate the (origin, format) pairs the logic must apply to. Check every
    format each candidate origin emits and every origin that emits each candidate
-   format — not just the input at hand
+   format, not just the input at hand
 2. From the shape of that set, decide what the behavior is a quirk of, and place
    the logic there:
    - The **origin(s)**, across their formats → the origin's code (e.g.
@@ -153,15 +154,15 @@ Before writing code for it:
      `src/profile/aggregate.ts`)
 
 The classification is subjective and explicitly NOT about minimizing the number
-of places the logic lives. The goals are to not apply logic to scenarios where
-it is unnecessary or potentially harmful, and to not couple unrelated origins or
-formats together. Considerations that inform the call:
+of places the logic lives. The goals: avoid applying logic where it is
+unnecessary or potentially harmful, and avoid coupling unrelated origins or
+formats. Considerations that inform the call:
 
 - **Independent convergence suggests an idiom.** When unrelated origins (or
-  formats) exhibit the same behavior without any shared lineage, that is
-  evidence of a convention emitters naturally converge on — expect more
-  occurrences from origins without committed inputs, and prefer the broader
-  placement so each new one is already handled rather than rediscovered
+  formats) exhibit the same behavior without shared lineage, that is evidence of
+  a convention emitters naturally converge on. Expect more occurrences from
+  origins without committed inputs, and prefer the broader placement so each new
+  one is already handled rather than rediscovered
 - **Does the logic's correctness depend on knowing the origin or format?** If
   the same bytes mean different things per emitter (e.g. a speedscope `line` as
   definition vs. executing line), the logic is origin/format knowledge and
