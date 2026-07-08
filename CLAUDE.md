@@ -17,7 +17,7 @@ profiler-md
 │   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
 │   │   ├── index.ts          # CLI entry point that orchestrates the run
 │   │   ├── input.ts          # Reads stdin or file, decompresses gzip/brotli
-│   │   ├── languages.ts      # Language display metadata, formats, and examples
+│   │   ├── languages.ts      # Language display metadata; per-language formats derive from the converters
 │   │   ├── options.ts        # Builds API options from CLI flags
 │   │   ├── output.ts         # Writes Markdown to file or stdout (optionally paged)
 │   │   ├── pager.ts          # Spawns $PAGER or `less` for stdout output
@@ -25,8 +25,9 @@ profiler-md
 │   ├── index.ts              # API entry point
 │   │
 │   ├── formats/              # Individual profile format implementations
-│   │   ├── index.ts          # Format registry; profileToMd(Async)/diffProfiles(Async)
-│   │   ├── converter.ts      # Format converter types
+│   │   ├── registry.ts       # Format converter registry; the Format union and all format metadata derive from it
+│   │   ├── index.ts          # profileToMd(Async)/diffProfiles(Async) and format auto-detection
+│   │   ├── converter.ts      # Format converter types, including per-format registration metadata
 │   │   ├── testing/
 │   │   │   └── convert.ts    # Test-only convertJsonToMd/convertBytesToMd runners for a single converter
 │   │   └── **/<name>/        # One per format; v8/ nests cpu-profile/heap-profile/heap-snapshot + shared common.ts
@@ -37,7 +38,7 @@ profiler-md
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
 │   │   ├── type.ts           # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
-│   │   ├── aggregate.ts      # Uniform pipeline (origin detection → frame normalization → aggregation) + aggregation builder
+│   │   ├── aggregate.ts      # Sample aggregation over origin-resolved frames
 │   │   ├── diff.ts           # Aggregated profile diffing logic
 │   │   ├── format.ts         # Sampling profile and diff to Markdown formatting
 │   │   └── index.ts          # Barrel file
@@ -134,44 +135,22 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 ## Principles
 
-### Format vs. origin logic
+### Format vs origin
 
-A behavior observed in an input may be a quirk of the _origin_ (profiler) that
-emitted it, of the _format_, of their combination, or of profiles generally.
-Before writing code for it:
+@.claude/format-vs-origin.md
 
-1. Enumerate the (origin, format) pairs the logic must apply to. Check every
-   format each candidate origin emits and every origin that emits each candidate
-   format, not just the input at hand
-2. From the shape of that set, decide what the behavior is a quirk of, and place
-   the logic there:
-   - The **origin(s)**, across their formats → the origin's code (e.g.
-     `OriginSpec.normalizeFrame`)
-   - The **format(s)**, across origins → the format's code (e.g. `parse.ts`)
-   - Specific **origin-format pairs** → the origin's code, checking the `format`
-     param (e.g. in `normalizeFrame`)
-   - **Profiles generally** → the shared pipeline (e.g.
-     `src/profile/aggregate.ts`)
+### Registration
 
-The classification is subjective and explicitly NOT about minimizing the number
-of places the logic lives. The goals: avoid applying logic where it is
-unnecessary or potentially harmful, and avoid coupling unrelated origins or
-formats. Considerations that inform the call:
-
-- **Independent convergence suggests an idiom.** When unrelated origins (or
-  formats) exhibit the same behavior without shared lineage, that is evidence of
-  a convention emitters naturally converge on. Expect more occurrences from
-  origins without committed inputs, and prefer the broader placement so each new
-  one is already handled rather than rediscovered
-- **Does the logic's correctness depend on knowing the origin or format?** If
-  the same bytes mean different things per emitter (e.g. a speedscope `line` as
-  definition vs. executing line), the logic is origin/format knowledge and
-  belongs there. If the rule is decidable and correct without knowing who
-  emitted the profile, encoding it in an origin or format overstates its
-  specificity
-- **Harm from over-applying.** Broad placement is only acceptable when firing in
-  an unanticipated scenario is harmless (e.g. the rule only removes pure
-  redundancy, or guards on a condition that cannot occur legitimately)
+- A format registers in exactly one place (its converter in
+  `src/formats/registry.ts`) and an origin in exactly one place (its
+  `OriginSpec` in `originSpecs` in `src/origins/index.ts`)
+- NEVER add logic that requires editing another file when a new format or origin
+  is added. Express per-format or per-origin behavior as data or functions on
+  the converter or `OriginSpec` and derive from the registries everywhere else
+- When a derivation can't be type-enforced, guard it with a test that sweeps the
+  registry or the committed inputs (e.g. `src/cli/help.test.ts`, the
+  detected-input-origins sweep in `src/origins/index.test.ts`) so an omission
+  fails loudly
 
 ### Performance
 
@@ -200,72 +179,3 @@ formats. Considerations that inform the call:
 ### Formatting
 
 - Use heaps to avoid fully sorting data when possible
-
-## New format checklist
-
-### Research
-
-- [ ] Research the format structure online
-- [ ] Generate an input
-  - [ ] Add or update a workload script in `scripts/inputs/`
-    - If it needs a dependency not already available, add it to the nix flake in
-      `scripts/inputs/flake.nix`
-    - For a new language, profile a real, popular program written in that
-      language with realistic input. NEVER use a fake/toy workload or synthetic
-      input. The generated input must reflect a genuine program
-  - [ ] Run `pnpm generate-inputs <lang>` to produce it in `examples/input/`
-- [ ] Analyze the input to confirm it aligns with online research
-- [ ] Compare existing formats in `src/formats/**/*` and identify shared logic
-- [ ] Identify the profiler that produced the input and decide whether it needs
-      a new origin (see `OriginSpec`)
-
-### Implementation
-
-- [ ] Create `src/formats/<name>/parse.ts`: typed data types, a `parse*` helper
-      for binary formats (JSON formats receive generically-parsed JSON), and,
-      for a **profile** format, a `parse*`/`*ToProfile` helper that turns the
-      typed data into one or more `Profile`s (`Profile[]`, each with `frames`
-      and `samples`; defined in `src/profile/type.ts`); origin detection,
-      normalization, and aggregation then run uniformly in
-      `src/profile/aggregate.ts`
-- [ ] For a **snapshot** format only, create `src/formats/<name>/aggregate.ts`
-      returning `AggregatedHeapSnapshot[]` (snapshots skip the profile pipeline)
-- [ ] Create `src/formats/<name>/index.ts`: exports a single `<name>Converter`
-      object `satisfies JsonFormatConverter`/`BinaryFormatConverter` (from
-      `../converter.ts`) with `title`, `type`, `shape`, `matches`, and `parse`
-      (a profile format; plus `parseAsync` for binary) or `aggregate` (a
-      snapshot format)
-- [ ] Create `src/formats/<name>/index.test.ts`: tests `<name>Converter.matches`
-      and conversion via the `convertJsonToMd`/`convertBytesToMd` runner from
-      `../testing/convert.ts`
-- [ ] If tests need format-specific utilities, put them in
-      `src/formats/<name>/testing.ts`
-- [ ] If the format introduces a new origin:
-  - [ ] Create `src/origins/<origin>.ts` exporting an `OriginSpec` with
-        `matchesEntry` (detecting from frame data), `categorize` (composed from
-        `src/origins/categorize.ts` helpers plus its profiler-specific rules),
-        and, when the profiler packs a frame's location into its name,
-        `normalizeFrame` (see `packedLocationNormalizer` in
-        `src/origins/origin.ts`), and register it in `src/origins/index.ts`
-        (`originSpecs`, plus `fallbackOriginSpecs` if the format always comes
-        from this origin)
-  - [ ] Add origin detection and categorization tests to
-        `src/origins/index.test.ts` and `src/origins/categorize.test.ts`
-
-### CLI and programmatic API
-
-- [ ] Register in `src/formats/index.ts`:
-  - Import `<name>Converter` at the top
-  - Add it to `formatConverters` keyed by format ID
-  - Add format ID to the `formats` tuple
-- [ ] Register in `src/cli/languages.ts`:
-  - Add format ID to the relevant language entries in `languages` map
-  - Add example entries (with input filenames and labels) if inputs exist
-
-### Documentation
-
-- [ ] Create `docs/formats/<name>.md`: format description for `--help <format>`
-- [ ] Add how to generate the format in relevant `docs/languages/<languages>.md`
-      files for `--help <language>`
-- [ ] Run `pnpm update-examples` to generate `examples/output/<input>.md`
-- [ ] Run `pnpm update-readme` to update the CLI help and language/format matrix

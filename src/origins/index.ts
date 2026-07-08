@@ -1,4 +1,5 @@
-import type { Format } from '../formats/index.ts'
+import { formatConverters } from '../formats/registry.ts'
+import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { makeSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
@@ -74,7 +75,9 @@ class OriginDetector {
   #decided: Origin | undefined
 
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
-    this.#fallback = fallbackOriginSpecs[format]
+    this.#fallback = originSpecsById.get(
+      formatConverters[format].fallbackOrigin,
+    )!
     if (origin !== null) {
       // A forced origin skips detection; fed entries are ignored.
       this.#candidates = []
@@ -253,26 +256,6 @@ const indexOriginSpecsByFormat = (): Map<Format, SpecificOriginSpec[]> => {
 }
 
 const formatToOriginSpecs = indexOriginSpecsByFormat()
-
-/**
- * The origin to resolve to when no specific origin matches.
- *
- * Multi-origin formats fall back to the `unknown` sentinel. Single-runtime
- * formats fall back to their runtime origin, which always emits them.
- */
-const fallbackOriginSpecs: Record<Format, SpecificOriginSpec> = {
-  collapsed: unknownOriginSpec,
-  jfr: jvmOriginSpec,
-  pprof: unknownOriginSpec,
-  speedscope: unknownOriginSpec,
-  // The systing profile export format has exactly one emitter.
-  systing: systingOriginSpec,
-  'v8-cpu-profile': unknownOriginSpec,
-  'v8-heap-snapshot': nodeOriginSpec,
-  'v8-heap-profile': nodeOriginSpec,
-  'jsc-heap-snapshot': safariOriginSpec,
-  'webkit-timeline-recording': safariOriginSpec,
-}
 
 /** A profile's distinct frames after origin resolution. */
 export type ResolvedFrames = {

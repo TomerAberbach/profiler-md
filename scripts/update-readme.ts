@@ -15,7 +15,7 @@ const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 // maintenance. Variants are kept per combo and linked in base → current → diff
 // order.
 type Combo = {
-  lang: string
+  language: string
   source: string
   config: string
   variants: Map<ExampleVariant, string>
@@ -24,9 +24,14 @@ const variantOrder: ExampleVariant[] = [`base`, `current`, `diff`]
 
 const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
 for (const filename of readdirSync(`examples/output`)) {
-  const { lang, source, config, variant, format } =
-    parseExampleFilename(filename)
-  const primary = languageAliasToPrimary.get(lang) ?? lang
+  const {
+    language: languageId,
+    source,
+    config,
+    variant,
+    format,
+  } = parseExampleFilename(filename)
+  const primary = languageAliasToPrimary.get(languageId) ?? languageId
 
   const language = languages.get(primary)
   if (!language) {
@@ -50,10 +55,10 @@ for (const filename of readdirSync(`examples/output`)) {
     byCombo = new Map()
     byFormat.set(format, byCombo)
   }
-  const comboKey = `${lang}.${source}.${config}`
+  const comboKey = `${languageId}.${source}.${config}`
   let combo = byCombo.get(comboKey)
   if (!combo) {
-    combo = { lang, source, config, variants: new Map() }
+    combo = { language: languageId, source, config, variants: new Map() }
     byCombo.set(comboKey, combo)
   }
   combo.variants.set(variant, filename)
@@ -88,7 +93,7 @@ const renderFormatCell = (id: string, format: Format): string => {
 
   combos.sort(
     (first, second) =>
-      first.lang.localeCompare(second.lang) ||
+      first.language.localeCompare(second.language) ||
       first.source.localeCompare(second.source) ||
       first.config.localeCompare(second.config),
   )
@@ -101,7 +106,7 @@ const renderFormatCell = (id: string, format: Format): string => {
   }
 
   const vary = {
-    lang: new Set(combos.map(combo => combo.lang)).size > 1,
+    lang: new Set(combos.map(combo => combo.language)).size > 1,
     source: new Set(combos.map(combo => combo.source)).size > 1,
     config: new Set(combos.map(combo => combo.config)).size > 1,
   }

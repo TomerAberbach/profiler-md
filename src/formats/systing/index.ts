@@ -27,9 +27,12 @@ let textDecoder: InstanceType<typeof TextDecoder> | undefined
 
 export const systingConverter = {
   title: `systing profile export`,
+  extension: `systing`,
+  languages: [`c`, `python`, `rust`],
+  fallbackOrigin: `systing`,
   type: `binary`,
   shape: `profile`,
   matches: matchesSysting,
   parse: parseSysting,
   parseAsync: parseSystingAsync,
-} satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatConverter

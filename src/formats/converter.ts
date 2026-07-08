@@ -1,8 +1,31 @@
+import type { LanguageId } from '../cli/languages.ts'
 import type { AggregatedProfile, Profile } from '../profile/index.ts'
 import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
 
 /** The aggregated form of a profile or snapshot. */
 export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
+
+type FormatMeta = {
+  /** The format's display name in the readme matrix and `--help`. */
+  title: string
+
+  /**
+   * The filename extension of the format's `examples/input/` files.
+   *
+   * Multi-segment extensions (e.g. `speedscope.json`) are allowed. Must be
+   * unique across formats.
+   */
+  extension: string
+
+  /** The languages whose profilers emit this format. */
+  languages: readonly LanguageId[]
+
+  /**
+   * The origin to resolve to when no specific origin matches any of the input's
+   * entries: the runtime origin for a single-runtime format, else `unknown`.
+   */
+  fallbackOrigin: string
+}
 
 /**
  * Converts a profile format's input into the uniform {@link Profile} (one per
@@ -41,8 +64,6 @@ type AggregateSnapshot<Input> = {
 }
 
 type Detect<Input> = {
-  title: string
-
   /**
    * Returns whether the input should be auto-detected as this format. Used only
    * for auto-detection (skipped when the user forces the format), inspecting
@@ -60,21 +81,23 @@ type Detect<Input> = {
   matches: (input: Input) => boolean
 }
 
-export type JsonFormatConverter = Detect<unknown> & { type: `json` } & (
+export type JsonFormatConverter = FormatMeta &
+  Detect<unknown> & { type: `json` } & (
     | ParseProfile<unknown>
     | AggregateSnapshot<unknown>
   )
 
-export type BinaryFormatConverter = Detect<Uint8Array> & {
-  type: `binary`
+export type BinaryFormatConverter = FormatMeta &
+  Detect<Uint8Array> & {
+    type: `binary`
 
-  /**
-   * Parses a byte stream, the streaming analogue of {@link ParseProfile.parse}.
-   * Formats that can stream (e.g. line-based text) should consume the stream
-   * incrementally; formats whose parser needs all bytes at once can buffer the
-   * stream and delegate.
-   */
-  parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Profile[]>
-} & ParseProfile<Uint8Array>
+    /**
+     * Parses a byte stream, the streaming analogue of
+     * {@link ParseProfile.parse}. Formats that can stream (e.g. line-based
+     * text) should consume the stream incrementally; formats whose parser needs
+     * all bytes at once can buffer the stream and delegate.
+     */
+    parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Profile[]>
+  } & ParseProfile<Uint8Array>
 
 export type FormatConverter = JsonFormatConverter | BinaryFormatConverter

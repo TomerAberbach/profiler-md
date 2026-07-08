@@ -22,8 +22,11 @@ const matchesSpeedscopeProfile = (json: unknown): boolean => {
 
 export const speedscopeConverter = {
   title: `Speedscope`,
+  extension: `speedscope.json`,
+  languages: [`csharp`, `php`, `python`, `ruby`],
+  fallbackOrigin: `unknown`,
   type: `json`,
   shape: `profile`,
   matches: matchesSpeedscopeProfile,
   parse: json => parseSpeedscope(json as SpeedscopeProfile),
-} satisfies JsonFormatConverter
+} as const satisfies JsonFormatConverter

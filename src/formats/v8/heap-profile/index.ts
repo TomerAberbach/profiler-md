@@ -21,8 +21,11 @@ const matchesV8HeapProfile = (json: unknown): boolean => {
 
 export const v8HeapProfileConverter = {
   title: `V8 heap profile`,
+  extension: `heapprofile`,
+  languages: [`javascript`],
+  fallbackOrigin: `node`,
   type: `json`,
   shape: `profile`,
   matches: matchesV8HeapProfile,
   parse: json => parseV8HeapProfile(json as V8HeapProfile),
-} satisfies JsonFormatConverter
+} as const satisfies JsonFormatConverter

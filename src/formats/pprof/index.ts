@@ -25,6 +25,9 @@ const matchesPprof = (bytes: Uint8Array): boolean =>
 
 export const pprofConverter = {
   title: `pprof`,
+  extension: `pprof`,
+  languages: [`c`, `go`, `javascript`, `julia`, `ruby`, `rust`],
+  fallbackOrigin: `unknown`,
   type: `binary`,
   shape: `profile`,
   matches: matchesPprof,
@@ -32,4 +35,4 @@ export const pprofConverter = {
   // `pprof-format` needs all bytes at once, so buffer the stream then delegate
   // to the sync decode rather than streaming.
   parseAsync: async stream => parsePprof(await streamToUint8Array(stream)),
-} satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatConverter
