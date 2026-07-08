@@ -23,8 +23,8 @@ import {
   formatSectionGroup,
   heading,
   inlineCode,
+  nameLocationPhrasing,
   paragraph,
-  phrasing,
 } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
 import { formatSourceLocation, formatSourceLocationPath } from '../location.ts'
@@ -1024,7 +1024,10 @@ const formatEntityHeading = (
   heading(
     headingLevel,
     hasLocation
-      ? phrasing`${inlineCode(displayName(entity, options)!)} (${formatSourceLocation(entity.location, options)})`
+      ? nameLocationPhrasing(
+          displayName(entity, options)!,
+          formatSourceLocation(entity.location, options),
+        )
       : [inlineCode(displayName(entity, options)!)],
   )
 

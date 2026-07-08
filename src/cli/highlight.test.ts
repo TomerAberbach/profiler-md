@@ -1,12 +1,14 @@
+import { fc, test } from '@fast-check/vitest'
+import { afterEach, beforeAll, beforeEach, describe, expect, vi } from 'vitest'
 import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  test,
-  vi,
-} from 'vitest'
+  heading,
+  inlineCode,
+  mdastToMarkdown,
+  nameLocationPhrasing,
+  paragraph,
+  table,
+  text,
+} from '../helpers/markdown.ts'
 import { highlightMarkdown } from './highlight.ts'
 import type { HighlightMarkdownOptions } from './highlight.ts'
 
@@ -323,16 +325,17 @@ describe(`heat intensity`, () => {
 describe(`diff table intensity`, () => {
   beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
 
+  // Diff tables always have a `%` column alongside `Delta`, like real output.
   const diffTable = (rows: string[]): string =>
     [
-      `| Change  |   Delta | Base | Current |`,
-      `| ------- | ------: | ---- | ------- |`,
+      `| Change  |   Delta | %           | Base | Current |`,
+      `| ------- | ------: | ----------- | ---- | ------- |`,
       ...rows,
     ].join(`\n`)
 
   test(`header and separator rows are untinted`, async () => {
     const highlighted = await highlight(
-      diffTable([`| +50.0%  |   +1ms  | 2ms  | 3ms     |`]),
+      diffTable([`| +50.0%  |   +1ms  | 0.2% → 0.3% | 2ms  | 3ms     |`]),
       highlightMarkdownOptions,
     )
 
@@ -343,8 +346,8 @@ describe(`diff table intensity`, () => {
   test(`increase rows are red-tinted relative to the largest delta in the table`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| +100.0% |  +16ms  | 16ms | 32ms    |`,
-        `| +100.0% |   +4ms  |  4ms |  8ms    |`,
+        `| +100.0% |  +16ms  | 1.6% → 3.2% | 16ms | 32ms    |`,
+        `| +100.0% |   +4ms  | 0.4% → 0.8% |  4ms |  8ms    |`,
       ]),
       highlightMarkdownOptions,
     )
@@ -356,8 +359,8 @@ describe(`diff table intensity`, () => {
   test(`decrease rows are green-tinted relative to the largest delta in the table`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| -50.0%  |  -16ms  | 32ms | 16ms    |`,
-        `| -50.0%  |   -4ms  |  8ms |  4ms    |`,
+        `| -50.0%  |  -16ms  | 3.2% → 1.6% | 32ms | 16ms    |`,
+        `| -50.0%  |   -4ms  | 0.8% → 0.4% |  8ms |  4ms    |`,
       ]),
       highlightMarkdownOptions,
     )
@@ -369,8 +372,8 @@ describe(`diff table intensity`, () => {
   test(`new and removed rows scale with their delta instead of always tinting at maximum`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| new     |   +4ms  |  0ms |  4ms    |`,
-        `| removed |  -16ms  | 16ms |  0ms    |`,
+        `| new     |   +4ms  | 0.0% → 0.4% |  0ms |  4ms    |`,
+        `| removed |  -16ms  | 1.6% → 0.0% | 16ms |  0ms    |`,
       ]),
       highlightMarkdownOptions,
     )
@@ -388,8 +391,8 @@ describe(`diff table intensity`, () => {
     async ({ larger, smaller }) => {
       const highlighted = await highlight(
         diffTable([
-          `| +100.0% | ${larger} | 1 | 2 |`,
-          `| +100.0% | ${smaller} | 1 | 2 |`,
+          `| +100.0% | ${larger} | 0.1% → 0.2% | 1 | 2 |`,
+          `| +100.0% | ${smaller} | 0.1% → 0.2% | 1 | 2 |`,
         ]),
         highlightMarkdownOptions,
       )
@@ -402,8 +405,8 @@ describe(`diff table intensity`, () => {
   test(`— unchanged row is untinted`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| +100.0% |  +16ms  | 16ms | 32ms    |`,
-        `| —       |   0ms   |  8ms |  8ms    |`,
+        `| +100.0% |  +16ms  | 1.6% → 3.2% | 16ms | 32ms    |`,
+        `| —       |   0ms   | 0.8% → 0.8% |  8ms |  8ms    |`,
       ]),
       highlightMarkdownOptions,
     )
@@ -414,7 +417,7 @@ describe(`diff table intensity`, () => {
 
   test(`table with only unchanged rows is untinted`, async () => {
     const highlighted = await highlight(
-      diffTable([`| —       |   0ms   |  8ms |  8ms    |`]),
+      diffTable([`| —       |   0ms   | 0.8% → 0.8% |  8ms |  8ms    |`]),
       highlightMarkdownOptions,
     )
 
@@ -426,9 +429,9 @@ describe(`diff table intensity`, () => {
     const markdown = [
       `### Regressions`,
       ``,
-      `| Change | Delta | Base | Current | Function | Location |`,
-      `| ------ | ----- | ---- | ------- | -------- | -------- |`,
-      `| +50.0% | +1ms  | 2ms  | 3ms     | \`func\`   | a.ts     |`,
+      `| Change | Delta | %           | Base | Current | Function | Location |`,
+      `| ------ | ----- | ----------- | ---- | ------- | -------- | -------- |`,
+      `| +50.0% | +1ms  | 0.2% → 0.3% | 2ms  | 3ms     | \`func\`   | a.ts     |`,
       ``,
       `##### \`func\` (a.ts)`,
     ].join(`\n`)
@@ -438,6 +441,128 @@ describe(`diff table intensity`, () => {
     expect(maxRed(highlighted, 6)).toBe(defaultHeadingRed)
   })
 })
+
+describe(`Markdown escaping resilience`, () => {
+  beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
+
+  test(`escaped pipe in a name cell doesn't shift the % column`, async () => {
+    const markdown = [
+      `### Functions`,
+      ``,
+      `| Name    | %    | Location |`,
+      `| ------- | ---- | -------- |`,
+      `| \`a\\|b\` | 100% | \`x.ts\` |`,
+    ].join(`\n`)
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    expect(maxRed(highlighted, 4)).toBe(246)
+  })
+
+  test(`H5 with raw pipe matches a table name cell with an escaped pipe`, async () => {
+    const markdown = functionDocument(`a|b`, `x.ts`)
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
+  })
+
+  test(`H5 with a code span location matches a code span Location cell`, async () => {
+    const markdown = functionDocument(`f`, `a.ts`)
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
+  })
+
+  test(`a carriage return in paragraph text doesn't shift heat lines`, async () => {
+    const markdown = mdastToMarkdown([
+      heading(3, `Functions`),
+      paragraph(`Functions ranked by\rself time`),
+      table(
+        [`Function`, `%`, `Location`],
+        [[[inlineCode(`f`)], [text(`100%`)], [inlineCode(`a.ts`)]]],
+      ),
+    ])
+
+    const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+    const rowIndex = markdown
+      .split(`\n`)
+      .findIndex(line => line.startsWith(`| \`f\``))
+    expect(maxRed(highlighted, rowIndex)).toBe(246)
+  })
+
+  test.each([
+    { description: `a longer code fence`, name: `a\`b` },
+    { description: `a padded code fence`, name: `\`x\`` },
+  ])(
+    `H5 lookup works for a name serialized with $description`,
+    async ({ name }) => {
+      const markdown = functionDocument(name, `x.ts`)
+
+      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+      expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
+    },
+  )
+
+  /**
+   * Name and location strings biased toward Markdown syntax the serializer
+   * escapes context-sensitively. Blank-after-trim values never appear in real
+   * output (mirroring the `frameName` arbitrary in
+   * `src/formats/escaping.test.ts`).
+   */
+  const adversarialValue = fc
+    .string({
+      unit: fc.constantFrom(
+        `|`,
+        `\\`,
+        `\``,
+        `_`,
+        `*`,
+        `(`,
+        `)`,
+        ` `,
+        `a`,
+        `1`,
+        `.`,
+      ),
+      minLength: 1,
+      maxLength: 12,
+    })
+    .filter(value => value.trim().length > 0)
+
+  // Modest run count since each case runs Shiki tokenization.
+  test.prop([adversarialValue, adversarialValue], { numRuns: 40 })(
+    `heading ↔ table key lookup survives serialization escaping`,
+    async (name, location) => {
+      const markdown = functionDocument(name, location)
+
+      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+      expect(maxRed(highlighted, h5LineIndex(markdown))).toBe(246)
+    },
+  )
+})
+
+/**
+ * A document with the real-output shape: an H3 section with a single-function
+ * 100% table followed by that function's H5 heading, built with the same
+ * serializers as production output.
+ */
+const functionDocument = (name: string, location: string): string =>
+  mdastToMarkdown([
+    heading(3, `Functions`),
+    table(
+      [`Function`, `%`, `Location`],
+      [[[inlineCode(name)], [text(`100%`)], [inlineCode(location)]]],
+    ),
+    heading(5, nameLocationPhrasing(name, inlineCode(location))),
+  ])
+
+const h5LineIndex = (markdown: string): number =>
+  markdown.split(`\n`).findIndex(line => line.startsWith(`#####`))
 
 const highlight = async (
   markdown: string,

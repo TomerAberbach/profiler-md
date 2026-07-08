@@ -2,6 +2,7 @@ import type { Table as MdastTable, Node, Root, RootContent } from 'mdast'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
 import { gfm } from 'micromark-extension-gfm'
+import { nodeText } from '../helpers/markdown.ts'
 
 export type Row = Record<string, string>
 export type Table = Row[]
@@ -211,16 +212,6 @@ const rowsFromTable = (table: MdastTable): Row[] => {
     }
     return record
   })
-}
-
-export const nodeText = (node: Node): string => {
-  if (`value` in node && typeof node.value === `string`) {
-    return node.value
-  }
-  if (`children` in node && Array.isArray(node.children)) {
-    return (node.children as Node[]).map(nodeText).join(``)
-  }
-  return ``
 }
 
 export const parseMd = (markdown: string): Root =>

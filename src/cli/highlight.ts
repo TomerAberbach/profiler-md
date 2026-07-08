@@ -1,5 +1,11 @@
 import type { HighlighterCore, ThemedToken } from '@shikijs/core'
 import type { Ansis } from 'ansis'
+import type { Heading, Table } from 'mdast'
+import {
+  headingNameLocationKey,
+  nameLocationKey,
+  nodeText,
+} from '../helpers/markdown.ts'
 import { makeAnsis } from './ansis.ts'
 import kindlingTheme from './theme-kindling.ts'
 
@@ -16,13 +22,14 @@ export const highlightMarkdown = async (
     return markdown
   }
 
-  const highlighter = await getHighlighter()
+  const [highlighter, lineToIntensity] = await Promise.all([
+    getHighlighter(),
+    computeLineToIntensity(markdown),
+  ])
   const { tokens, fg } = highlighter.codeToTokens(markdown, {
     lang: `markdown`,
     theme: `kindling`,
-    includeExplanation: `scopeName`,
   })
-  const lineToIntensity = computeLineToIntensity(tokens)
   return renderTokens(tokens, fg!, lineToIntensity, ansis)
 }
 
@@ -53,90 +60,50 @@ const createHighlighterCore = async (): Promise<HighlighterCore> => {
   })
 }
 
-const computeLineToIntensity = (
-  lines: ThemedToken[][],
-): Map<number, number> => {
+/**
+ * Recovers heat intensities by re-parsing the Markdown (which this tool itself
+ * serialized) with the inverse of the serializer, so escaped content (`\|`,
+ * variable-length code fences, etc.) decodes back to the original name and
+ * location strings and heading ↔ table keys agree by construction.
+ *
+ * mdast positions are 1-based lines counted over the same `\n` separators as
+ * Shiki's token lines, so `position.start.line - 1` is the Shiki line index.
+ */
+const computeLineToIntensity = async (
+  markdown: string,
+): Promise<Map<number, number>> => {
+  // Load the parser lazily (like Shiki above) so runs that don't highlight
+  // (file output, piped stdout, NO_COLOR), which return before this is
+  // called, never pay for loading it.
+  const [{ fromMarkdown }, { gfmTableFromMarkdown }, { gfmTable }] =
+    await Promise.all([
+      import(`mdast-util-from-markdown`),
+      import(`mdast-util-gfm-table`),
+      import(`micromark-extension-gfm-table`),
+    ])
+  const root = fromMarkdown(markdown, {
+    extensions: [gfmTable()],
+    mdastExtensions: [gfmTableFromMarkdown()],
+  })
+
   const lineToIntensity = new Map<number, number>()
   const sections: HeadingSection[] = []
-  let currentTable: TableState | null = null
-
-  const endTable = (): void => {
-    if (currentTable !== null) {
-      flushDiffTable(currentTable, lineToIntensity)
-      currentTable = null
+  for (const node of root.children) {
+    if (node.type === `heading`) {
+      visitHeading(node, sections, lineToIntensity)
+    } else if (node.type === `table`) {
+      // Tables cannot cross heading boundaries, so the innermost section is
+      // still current when the table is reached.
+      visitTable(node, sections.at(-1), lineToIntensity)
     }
   }
-
-  for (const [lineIndex, lineTokens] of lines.entries()) {
-    const line = parseLine(lineTokens)
-    switch (line.type) {
-      case `heading`: {
-        // Close all heading sections deeper than this current one. e.g. an H3
-        // following an H6 closes the prior H6 through H3 headings.
-        while (sections.length > 0 && sections.at(-1)!.level >= line.level) {
-          sections.pop()
-        }
-        // Tables cannot cross heading boundaries, so any current table has now
-        // ended.
-        endTable()
-
-        const intensity = lookupAncestorIntensity(
-          sections,
-          line.inlineCode,
-          line.afterInlineCode,
-        )
-        sections.push({
-          level: line.level,
-          intensity,
-          nameLocationToIntensity: new Map(),
-        })
-        if (intensity !== null) {
-          lineToIntensity.set(lineIndex, intensity)
-        }
-        break
-      }
-      case `table-row`:
-        if (currentTable === null) {
-          // This is the first row of the table, so it must be the header.
-          currentTable = parseTableHeader(line.text)
-          break
-        }
-        if (currentTable.percentColumnIndex !== -1) {
-          const intensity = tableRowIntensity(
-            line.text,
-            currentTable,
-            sections.at(-1),
-          )
-          if (intensity !== null) {
-            lineToIntensity.set(lineIndex, intensity)
-          }
-        } else if (currentTable.deltaColumnIndex !== -1) {
-          // Intensities for diff rows are relative to the largest delta in the
-          // table, which isn't known until the table ends, so buffer them.
-          const delta = diffRowDelta(line.text, currentTable)
-          if (delta !== null) {
-            currentTable.pendingDiffRows.push({ lineIndex, delta })
-          }
-        }
-        break
-
-      case `other`:
-        // This line is not a table row so if there's a current table, then it
-        // ended.
-        endTable()
-        break
-    }
-  }
-  endTable()
 
   return lineToIntensity
 }
 
-type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6
-
 type HeadingSection = {
   /** Heading level (1–6) that opened this scope. */
-  level: HeadingLevel
+  level: Heading[`depth`]
 
   /**
    * Heat intensity inherited by this scope from an ancestor heading lookup, or
@@ -148,206 +115,116 @@ type HeadingSection = {
   nameLocationToIntensity: Map<string, number>
 }
 
-type Heading = {
-  type: `heading`
+const visitHeading = (
+  heading: Heading,
+  sections: HeadingSection[],
+  lineToIntensity: Map<number, number>,
+): void => {
+  // Close all heading sections deeper than this current one. e.g. an H3
+  // following an H6 closes the prior H6 through H3 headings.
+  while (sections.length > 0 && sections.at(-1)!.level >= heading.depth) {
+    sections.pop()
+  }
 
-  level: HeadingLevel
-
-  /** The first backtick-quoted span on this line, including the backticks. */
-  inlineCode: string | null
-
-  /**
-   * The text following {@link Heading.inlineCode} or the empty string if
-   * {@link Heading.inlineCode} is null.
-   */
-  afterInlineCode: string
+  const key = headingNameLocationKey(heading)
+  const intensity = key === null ? null : lookupAncestorIntensity(sections, key)
+  sections.push({
+    level: heading.depth,
+    intensity,
+    nameLocationToIntensity: new Map(),
+  })
+  if (intensity !== null) {
+    // ATX headings, the only kind the serializer emits, are single-line.
+    lineToIntensity.set(heading.position!.start.line - 1, intensity)
+  }
 }
-
-type TableRow = {
-  type: `table-row`
-
-  /** The full Markdown of the table row. */
-  text: string
-}
-
-type Line = Heading | TableRow | { type: `other` }
-
-const parseLine = (tokens: ThemedToken[]): Line => {
-  if (tokens.length === 0) {
-    return { type: `other` }
-  }
-
-  const headingLevel = determineHeadingLevel(tokens)
-  if (headingLevel !== null) {
-    const { inlineCode, afterInlineCode } = extractHeadingParts(tokens)
-    return { type: `heading`, level: headingLevel, inlineCode, afterInlineCode }
-  }
-
-  if (tokens.some(token => tokenHasScope(token, `markup.table.markdown`))) {
-    return { type: `table-row`, text: joinTokens(tokens) }
-  }
-
-  return { type: `other` }
-}
-
-const determineHeadingLevel = (tokens: ThemedToken[]): HeadingLevel | null => {
-  for (const token of tokens) {
-    for (const { scopeName } of token.explanation?.[0]?.scopes ?? []) {
-      if (scopeName.startsWith(`heading.`) && scopeName.endsWith(`.markdown`)) {
-        const level = Number.parseInt(
-          scopeName.slice(`heading.`.length, -`.markdown`.length),
-          10,
-        )
-        if (level >= 1 && level <= 6) {
-          return level as HeadingLevel
-        }
-      }
-    }
-  }
-  return null
-}
-
-const extractHeadingParts = (
-  line: ThemedToken[],
-): Pick<Heading, `inlineCode` | `afterInlineCode`> => {
-  const inlineCodeRange = findInlineCodeRange(line)
-  if (inlineCodeRange === null) {
-    return { inlineCode: null, afterInlineCode: `` }
-  }
-
-  const [start, endExclusive] = inlineCodeRange
-  const inlineCode = joinTokens(line.slice(start, endExclusive))
-  const afterInlineCode = joinTokens(line.slice(endExclusive))
-  return { inlineCode, afterInlineCode }
-}
-
-const findInlineCodeRange = (line: ThemedToken[]): [number, number] | null => {
-  const start = line.findIndex(token =>
-    tokenHasScope(token, `markup.inline.raw.string.markdown`),
-  )
-  if (start === -1) {
-    return null
-  }
-
-  let endExclusive = start + 1
-  while (
-    endExclusive < line.length &&
-    tokenHasScope(line[endExclusive]!, `markup.inline.raw.string.markdown`)
-  ) {
-    endExclusive++
-  }
-
-  return [start, endExclusive]
-}
-
-const tokenHasScope = (token: ThemedToken, scope: string): boolean =>
-  !!token.explanation?.[0]?.scopes.some(({ scopeName }) => scopeName === scope)
-
-const joinTokens = (tokens: ThemedToken[]): string =>
-  tokens.map(token => token.content).join(``)
 
 const lookupAncestorIntensity = (
   sections: HeadingSection[],
-  inlineCode: string | null,
-  afterInlineCode: string,
+  key: string,
 ): number | null => {
-  if (inlineCode === null) {
-    return null
-  }
-
-  const trimmed = afterInlineCode.trim()
-  if (!trimmed.startsWith(`(`) || !trimmed.endsWith(`)`)) {
-    return null
-  }
-
-  const location = trimmed.slice(1, -1)
-  const key = `${inlineCode} (${location})`
   for (let i = sections.length - 1; i >= 0; i--) {
     const intensity = sections[i]!.nameLocationToIntensity.get(key)
     if (intensity !== undefined) {
       return intensity
     }
   }
-
   return null
 }
 
-type TableState = {
-  /** Column index of the `%` cell, or -1 if absent. */
-  percentColumnIndex: number
-
-  /** Column index of the `Delta` cell in a diff table, or -1 if absent. */
-  deltaColumnIndex: number
-
-  /**
-   * Column index of the backtick-quoted name cell, or -1 until lazily detected
-   * from a data row.
-   */
-  nameColumnIndex: number
-
-  /** Column index of the `Location` cell, or -1 if absent. */
-  locationColumnIndex: number
-
-  /** Diff rows buffered until the table ends. See {@link flushDiffTable}. */
-  pendingDiffRows: { lineIndex: number; delta: number }[]
-}
-
-const parseTableHeader = (line: string): TableState => {
-  const cells = parseTableCells(line)
-  return {
-    percentColumnIndex: cells.indexOf(`%`),
-    deltaColumnIndex: cells.indexOf(`Delta`),
-    locationColumnIndex: cells.indexOf(`Location`),
-    nameColumnIndex: -1,
-    pendingDiffRows: [],
-  }
-}
-
-const tableRowIntensity = (
-  row: string,
-  table: TableState,
+const visitTable = (
+  table: Table,
   headingSection: HeadingSection | undefined,
-): number | null => {
-  const cells = parseTableCells(row)
-  const percentageCell = cells[table.percentColumnIndex]
-  if (percentageCell === undefined) {
-    return null
-  }
+  lineToIntensity: Map<number, number>,
+): void => {
+  const [headerRow, ...dataRows] = table.children
+  const headerCells = headerRow!.children.map(nodeText)
+  const percentColumnIndex = headerCells.indexOf(`%`)
+  const deltaColumnIndex = headerCells.indexOf(`Delta`)
+  const locationColumnIndex = headerCells.indexOf(`Location`)
 
-  const percentage = parsePercent(percentageCell)
-  if (percentage === null) {
-    return null
-  }
-
-  if (table.locationColumnIndex !== -1 && headingSection !== undefined) {
-    if (table.nameColumnIndex === -1) {
-      table.nameColumnIndex = cells.findIndex(
-        cell => cell.startsWith(`\``) && cell.endsWith(`\``),
-      )
+  // A `Delta` column marks a diff table. Diff tables also have a `%` column
+  // (with `base% → current%` cells), so check `Delta` first: tinting diff
+  // rows by percent would tint improvements red by their base share instead
+  // of green by their delta.
+  if (deltaColumnIndex !== -1) {
+    // Intensities for diff rows are relative to the largest delta in the
+    // table, which isn't known until the table ends, so buffer them.
+    const pendingDiffRows: PendingDiffRow[] = []
+    for (const row of dataRows) {
+      const deltaCell = row.children[deltaColumnIndex]
+      if (deltaCell === undefined) {
+        continue
+      }
+      const delta = parseDelta(nodeText(deltaCell))
+      if (delta !== null) {
+        pendingDiffRows.push({
+          lineIndex: row.position!.start.line - 1,
+          delta,
+        })
+      }
     }
-    if (table.nameColumnIndex !== -1) {
-      const nameCell = cells[table.nameColumnIndex]!
-      const locationCell = cells[table.locationColumnIndex]!
-      const intensity = (headingSection.intensity ?? 1) * percentage
-      headingSection.nameLocationToIntensity.set(
-        `${nameCell} (${locationCell})`,
-        intensity,
-      )
-      return intensity
+    flushDiffTable(pendingDiffRows, lineToIntensity)
+  } else if (percentColumnIndex !== -1) {
+    // Column index of the backtick-quoted name cell, lazily detected from the
+    // first data row that has one.
+    let nameColumnIndex = -1
+
+    for (const row of dataRows) {
+      const cells = row.children
+      const percentageCell = cells[percentColumnIndex]
+      if (percentageCell === undefined) {
+        continue
+      }
+      const percentage = parsePercent(nodeText(percentageCell))
+      if (percentage === null) {
+        continue
+      }
+
+      const intensity = (headingSection?.intensity ?? 1) * percentage
+      if (locationColumnIndex !== -1 && headingSection !== undefined) {
+        if (nameColumnIndex === -1) {
+          nameColumnIndex = cells.findIndex(
+            cell =>
+              cell.children.length === 1 &&
+              cell.children[0]!.type === `inlineCode`,
+          )
+        }
+        const nameCell = cells[nameColumnIndex]
+        const locationCell = cells[locationColumnIndex]
+        if (nameCell !== undefined && locationCell !== undefined) {
+          headingSection.nameLocationToIntensity.set(
+            nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
+            intensity,
+          )
+        }
+      }
+      lineToIntensity.set(row.position!.start.line - 1, intensity)
     }
   }
-
-  return (headingSection?.intensity ?? 1) * percentage
 }
 
-const diffRowDelta = (row: string, table: TableState): number | null => {
-  const cells = parseTableCells(row)
-  const deltaCell = cells[table.deltaColumnIndex]
-  if (deltaCell === undefined) {
-    return null
-  }
-  return parseDelta(deltaCell)
-}
+type PendingDiffRow = { lineIndex: number; delta: number }
 
 /**
  * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MB`) into a signed
@@ -395,33 +272,22 @@ const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
  * (which saturates for `new`, `removed`, and changes of 100% or more).
  */
 const flushDiffTable = (
-  table: TableState,
+  pendingDiffRows: PendingDiffRow[],
   lineToIntensity: Map<number, number>,
 ): void => {
   let maxAbsDelta = 0
-  for (const { delta } of table.pendingDiffRows) {
+  for (const { delta } of pendingDiffRows) {
     maxAbsDelta = Math.max(maxAbsDelta, Math.abs(delta))
   }
   if (maxAbsDelta === 0) {
     return
   }
 
-  for (const { lineIndex, delta } of table.pendingDiffRows) {
+  for (const { lineIndex, delta } of pendingDiffRows) {
     if (delta !== 0) {
       lineToIntensity.set(lineIndex, delta / maxAbsDelta)
     }
   }
-}
-
-const parseTableCells = (line: string): string[] => {
-  let inner = line.trim()
-  if (inner.startsWith(`|`)) {
-    inner = inner.slice(1)
-  }
-  if (inner.endsWith(`|`)) {
-    inner = inner.slice(0, -1)
-  }
-  return inner.split(`|`).map(cell => cell.trim())
 }
 
 const parsePercent = (cell: string): number | null => {
