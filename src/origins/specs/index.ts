@@ -26,7 +26,10 @@ import { valgrindOriginSpec } from './valgrind.ts'
  *
  * Within a format, the detector tries candidates in this order, so origins that
  * share a format and whose marker entries overlap must be ordered carefully
- * (e.g. Deno before Node, since Deno supports `node:` specifiers).
+ * (e.g. Deno before Node, since Deno supports `node:` specifiers). A parser
+ * origin hint loses to a marker entry of a higher-priority origin, so a
+ * markerless origin detected by a hint must also precede the origins whose
+ * markers it should outrank.
  */
 export const originSpecs = [
   denoOriginSpec,
@@ -46,6 +49,10 @@ export const originSpecs = [
   jdkOriginSpec,
   dotnetTraceOriginSpec,
   eflambeOriginSpec,
+  // Before rbspy: a Valgrind-written callgrind file is identified only by its
+  // `creator:` origin hint, which a native symbol shaped like an rbspy frame
+  // would otherwise outrank.
+  valgrindOriginSpec,
   rbspyOriginSpec,
   safariOriginSpec,
   systingOriginSpec,
@@ -53,6 +60,5 @@ export const originSpecs = [
   // hint, or an explicit origin; their position has no effect.
   gperftoolsOriginSpec,
   excimerOriginSpec,
-  valgrindOriginSpec,
   unknownOriginSpec,
 ]

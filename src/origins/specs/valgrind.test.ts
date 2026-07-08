@@ -27,6 +27,21 @@ describe(`detection`, () => {
       }),
     ).toBe(`valgrind`)
   })
+
+  test(`the creator origin hint outranks an rbspy-shaped frame`, () => {
+    // `<main>` is one of rbspy's markers, and a native symbol could be named
+    // anything, so Valgrind's self-identification decides.
+    expect(
+      determineOrigin({
+        format: `callgrind`,
+        entries: [
+          relativeEntry(`main`, `/src/main.c`),
+          relativeEntry(`<main>`),
+        ],
+        hint: `valgrind`,
+      }),
+    ).toBe(`valgrind`)
+  })
 })
 
 describe(`categorizeEntry`, () => {

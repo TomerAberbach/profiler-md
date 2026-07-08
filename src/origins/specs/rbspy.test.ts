@@ -30,10 +30,23 @@ describe(`detection`, () => {
     [`pprof`, `(unknown) [c function]`],
     [`speedscope`, `<top (required)>`],
     [`pprof`, `<main>`],
+    [`callgrind`, `(unknown) [c function]`],
   ])(`detects rbspy in %s by its bare %s marker frame`, (format, name) => {
     expect(determineOrigin({ format, entries: [relativeEntry(name)] })).toBe(
       `rbspy`,
     )
+  })
+
+  test(`detected in a markerless callgrind export via the creator hint`, () => {
+    // A pure-Ruby capture has no `[c function]` frame, so the callgrind
+    // parser's `creator: rbspy` origin hint is the evidence.
+    expect(
+      determineOrigin({
+        format: `callgrind`,
+        entries: [relativeEntry(`realtime`)],
+        hint: `rbspy`,
+      }),
+    ).toBe(`rbspy`)
   })
 })
 
