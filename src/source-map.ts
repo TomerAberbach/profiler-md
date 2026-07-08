@@ -4,7 +4,7 @@ import { makeFileReference } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
 import type { ResolvedProfileToMdOptions } from './options.ts'
 
-export type NormalizedSourceMap = {
+type NormalizedSourceMap = {
   consumer: SourceMapConsumer
   fileReference: FileReference
 }

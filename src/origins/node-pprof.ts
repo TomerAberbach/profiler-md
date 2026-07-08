@@ -10,7 +10,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const nodePprofOriginSpec = {
   id: `node-pprof`,
-  language: `javascript`,
   formats: [`pprof`],
   matchesEntry: ({ name, location }) =>
     name === `Node.js` ||

@@ -13,7 +13,6 @@ import type { OriginSpec } from './origin.ts'
  */
 export const pprofJlOriginSpec = {
   id: `pprof-jl`,
-  language: `julia`,
   formats: [`pprof`],
   // Only a Julia install lays out its runtime sources under `share/julia/`,
   // and every Julia profile touches `Base` or standard-library code from

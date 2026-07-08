@@ -26,7 +26,6 @@ const isInjectedScript = ({
 
 export const safariOriginSpec = {
   id: `safari`,
-  language: `javascript`,
   formats: [`jsc-heap-snapshot`, `webkit-timeline-recording`],
   matchesEntry: isInjectedScript,
   categorize: entry =>

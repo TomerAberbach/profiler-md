@@ -23,7 +23,6 @@ const TACHYON_FRAME =
  */
 export const tachyonOriginSpec = {
   id: `tachyon`,
-  language: `python`,
   formats: [`collapsed`],
   matchesEntry: entry => isTachyonFrame(entry.name),
   categorize: categorizeCPythonEntry,

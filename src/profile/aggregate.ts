@@ -629,7 +629,7 @@ export type AggregatedProfileCategoryMetrics = {
 }
 
 /** An aggregation of samples taken at a given line within a function's body. */
-export type AggregatedProfileLineMetrics = {
+type AggregatedProfileLineMetrics = {
   /**
    * The number of samples taken directly within the function's body at this
    * line.
@@ -647,7 +647,7 @@ export type AggregatedProfileLineMetrics = {
  * An aggregation of samples taken directly within a function's body with a
  * given direct caller.
  */
-export type AggregatedProfileCallerMetrics = {
+type AggregatedProfileCallerMetrics = {
   /** The caller corresponding to the ID. */
   caller: AggregatedProfileFunction
 
@@ -668,7 +668,7 @@ export type AggregatedProfileCallerMetrics = {
  * An aggregation of samples taken within a function's body, _and_ all its
  * callees, with a given direct callee.
  */
-export type AggregatedProfileCalleeMetrics = {
+type AggregatedProfileCalleeMetrics = {
   /** The callee corresponding to the ID. */
   callee: AggregatedProfileFunction
 

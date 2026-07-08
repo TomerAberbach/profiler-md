@@ -6,7 +6,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const pprofRsOriginSpec = {
   id: `pprof-rs`,
-  language: `rust`,
   formats: [`pprof`],
   matchesEntry: entry =>
     rustStdlibCategory(entry) !== undefined || isRustName(entry),

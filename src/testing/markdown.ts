@@ -3,7 +3,7 @@ import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
 import { gfm } from 'micromark-extension-gfm'
 
-export type Row = Record<string, string>
+type Row = Record<string, string>
 export type Table = Row[]
 
 export const profileTitles = (md: string): string[] =>

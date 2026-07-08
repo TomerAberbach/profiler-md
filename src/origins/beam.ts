@@ -16,8 +16,6 @@ import type { OriginSpec } from './origin.ts'
  */
 export const beamOriginSpec = {
   id: `beam`,
-  // BEAM spans Erlang and Elixir, which categorize identically here.
-  language: null,
   formats: [`collapsed`],
   matchesEntry: entry => isBeamFrame(entry.name),
   categorize: entry =>

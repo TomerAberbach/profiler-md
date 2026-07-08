@@ -5,7 +5,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const jvmOriginSpec = {
   id: `jvm`,
-  language: `java`,
   formats: [`jfr`, `collapsed`],
   matchesEntry: entry =>
     // JFR carries the class as a location; async-profiler's collapsed stacks

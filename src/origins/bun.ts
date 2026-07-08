@@ -8,7 +8,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const bunOriginSpec = {
   id: `bun`,
-  language: `javascript`,
   formats: [`v8-cpu-profile`],
   // The builtins are native, so they have no source location; a user function
   // that happens to share one of these names would carry a location, so

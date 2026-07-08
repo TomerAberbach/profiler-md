@@ -111,11 +111,11 @@ const titleCase = (token: string): string => {
   return words.charAt(0).toUpperCase() + words.slice(1)
 }
 
-export const exampleLanguageName = (lang: string): string =>
+const exampleLanguageName = (lang: string): string =>
   languageNames.get(lang) ?? lang
-export const exampleSourceName = (source: string): string =>
+const exampleSourceName = (source: string): string =>
   sourceNames[source] ?? source
-export const exampleConfigName = (config: string): string =>
+const exampleConfigName = (config: string): string =>
   configNames[config] ?? titleCase(config)
 
 /**

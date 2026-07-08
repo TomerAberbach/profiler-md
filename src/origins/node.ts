@@ -10,7 +10,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const nodeOriginSpec = {
   id: `node`,
-  language: `javascript`,
   formats: [`v8-cpu-profile`, `v8-heap-snapshot`, `v8-heap-profile`],
   matchesEntry: ({ location }) =>
     hasProtocol(location, NODE_PROTOCOLS) || hasNodeModulesPath(location),

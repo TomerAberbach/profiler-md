@@ -10,7 +10,6 @@ import type { OriginSpec } from './origin.ts'
 
 export const denoOriginSpec = {
   id: `deno`,
-  language: `javascript`,
   formats: [`v8-cpu-profile`],
   matchesEntry: ({ location }) => hasProtocol(location, DENO_DETECT_PROTOCOLS),
   categorize: entry =>

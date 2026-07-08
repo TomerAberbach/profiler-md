@@ -16,7 +16,6 @@ const normalizePackedFrame = packedLocationNormalizer(FRAME)
 
 export const pySpyOriginSpec = {
   id: `py-spy`,
-  language: `python`,
   formats: [`collapsed`, `speedscope`],
   // Collapsed frames pack the location into the name; speedscope renderings of
   // the same profiles carry the location separately, so the marker there is a

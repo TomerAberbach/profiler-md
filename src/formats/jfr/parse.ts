@@ -31,10 +31,10 @@ import type {
  *   async-profiler's `profiler.NativeLock`), weighted by blocked duration in
  *   nanoseconds.
  */
-export type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
+type JfrSampleKind = `cpu` | `alloc` | `live` | `nativemem` | `lock`
 
 /** A Java method observed in a stack frame, resolved via the constant pools. */
-export type JfrMethod = {
+type JfrMethod = {
   /** A unique sequential index identifying this method. */
   id: number
 
@@ -46,7 +46,7 @@ export type JfrMethod = {
 }
 
 /** A single frame within a {@link JfrStackTrace}. */
-export type JfrStackFrame = {
+type JfrStackFrame = {
   /** The index of the {@link JfrMethod} executing in this frame. */
   methodId: number
 
@@ -55,13 +55,13 @@ export type JfrStackFrame = {
 }
 
 /** A unique call stack referenced by sample events. */
-export type JfrStackTrace = {
+type JfrStackTrace = {
   /** The frames in callee-to-caller order. */
   frames: JfrStackFrame[]
 }
 
 /** A single profiling sample event. */
-export type JfrSampleEvent = {
+type JfrSampleEvent = {
   /** What kind of profiling this sample represents. */
   kind: JfrSampleKind
 
@@ -83,7 +83,7 @@ export type JfrSampleEvent = {
 }
 
 /** Parsed representation of a Java Flight Recorder recording. */
-export type Jfr = {
+type Jfr = {
   /** All methods referenced by stack frames. */
   methods: JfrMethod[]
 
