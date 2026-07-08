@@ -45,7 +45,8 @@
   "files": [
     "examples/output",
     "dist",
-    "docs"
+    "docs",
+    "skills"
   ],
   "type": "module",
   "sideEffects": false,
