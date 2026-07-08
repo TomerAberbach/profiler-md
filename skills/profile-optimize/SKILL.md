@@ -33,12 +33,32 @@ $ARGUMENTS
 6. Run the relevant tests: if any newly fail, fix the optimization or revert it
 7. Capture a new report as in step 2 and compare self % for the targeted
    function(s) against the baseline: if the improvement is negligible or
-   unclear, revert and go back to step 4 instead of iterating blindly
+   unclear, revert and go back to step 4 instead of iterating blindly. If the
+   comparison is too noisy to call, collect more samples (see "Measurement");
+   don't fall back to manual timing
 8. If the goal is unmet and a clear bottleneck remains, repeat from step 3 with
    the new profile as the baseline
 9. Report:
    - Before vs after for the hot function(s)
    - Any other functions that moved significantly (regressions)
+
+# Measurement
+
+profiler-md reports are the ONLY measurements in this workflow. NEVER time
+manually (e.g. `time` or `performance.now()`).
+
+Manual timing yields one noisy end-to-end number that can improve for reasons
+unrelated to the change (machine load, caches, GC timing), and its
+instrumentation distorts the hot path. A profile attributes work to functions,
+so a before/after comparison proves the optimization removed the targeted work,
+not merely that one run was faster.
+
+If a profile has too few samples to trust, collect more:
+
+- Run the workload longer or loop it more times
+- Raise the sampling frequency if the profiler supports it (see
+  `profiler-md --help <language>`)
+- Regenerate the profile and compare again
 
 # Hypotheses
 
@@ -97,7 +117,7 @@ Sub-bullets are examples, not exhaustive lists.
   - Bound caches (e.g. LRU); use weak references for object-keyed caches
   - Remove listeners, timers, and subscriptions when done
   - Avoid closures capturing large outer scopes; drop references held by
-    long-lived structures once they're no longer needed
+    long-lived structures once no longer needed
 - String handling: minimize the strings created and scanned in hot paths
   - Avoid repeated concatenation in loops
   - Work with indices or char codes into the original string instead of creating
