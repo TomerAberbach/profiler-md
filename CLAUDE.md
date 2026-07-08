@@ -198,6 +198,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   Origins sharing runtime conventions share logic through helper modules (e.g.
   `src/origins/jvm.ts`), never a merged spec: a later behavioral split must not
   break published origin IDs
+- A format's `fallbackOrigin` is its canonical origin, the tool or runtime whose
+  definition of the format the other emitters write to match. It is `unknown`
+  when no emitting origin is canonical, because the format is defined by
+  something that profiles nothing itself (e.g. the speedscope viewer). When
+  adding an origin, revisit the fallback of every format it emits
 - NEVER add logic that requires editing another file when a new format or origin
   is added. Express per-format or per-origin behavior as data or functions in
   the registry to derive from everywhere else

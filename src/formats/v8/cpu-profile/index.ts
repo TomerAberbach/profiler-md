@@ -7,7 +7,9 @@ export const v8CpuProfileConverter = {
   title: `V8 CPU profile`,
   extension: `cpuprofile`,
   languages: [`javascript`],
-  fallbackOrigin: `unknown`,
+  // Chrome DevTools defines the format, and the other V8 runtimes write it to
+  // be openable there.
+  fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8CpuProfile,
   parse: json => parseV8CpuProfile(json as V8CpuProfile),

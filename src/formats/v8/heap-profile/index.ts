@@ -7,7 +7,9 @@ export const v8HeapProfileConverter = {
   title: `V8 heap profile`,
   extension: `heapprofile`,
   languages: [`javascript`],
-  fallbackOrigin: `node`,
+  // Chrome DevTools defines the format, and Node writes it to be openable
+  // there.
+  fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8HeapProfile,
   parse: json => parseV8HeapProfile(json as V8HeapProfile),

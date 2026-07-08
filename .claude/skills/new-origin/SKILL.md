@@ -70,6 +70,16 @@ $ARGUMENTS
    elsewhere: give the origin a marker or a parser origin hint, or make the
    workload realistic enough to carry the origin's evidence
 
-4. Run the origin tests (`pnpm test src/origins/specs/<origin>.test.ts`,
+4. Revisit the `fallbackOrigin` of every format the new origin emits, in each
+   format's converter (in `src/formats/`). A format's fallback is its canonical
+   origin, the tool or runtime whose definition of the format the other emitters
+   write to match. It is `unknown` only when no emitting origin is canonical.
+   The fallback changes when the new origin is the format's canonical origin and
+   the format resolved to `unknown` because none was. It also changes when the
+   new origin is a second emitter of a format whose current fallback was never
+   the canonical origin. Update the comment above the field with the reasoning
+   either way
+
+5. Run the origin tests (`pnpm test src/origins/specs/<origin>.test.ts`,
    `pnpm test src/origins/categorize.test.ts`, and
    `pnpm test src/origins/index.test.ts`, one at a time) and fix failures

@@ -12,7 +12,6 @@ describe(`detection`, () => {
     [`collapsed`, relativeEntry(`frame`)],
     [`collapsed`, relativeEntry(`frame`, `app.rb`)],
     [`speedscope`, relativeEntry(`frame`)],
-    [`v8-cpu-profile`, relativeEntry(`frame`)],
   ])(`a marker-free %s input falls back to unknown`, (format, entry) => {
     expect(determineOrigin({ format, entries: [entry] })).toBe(`unknown`)
   })
@@ -58,10 +57,10 @@ describe(`categorizeEntry`, () => {
   })
 
   test(`applies no runtime-specific knowledge`, () => {
-    // V8 regexp labels and node_modules both need a known runtime, yet appear
-    // in undetected profiles (e.g. Chrome profiles resolve to unknown). A
-    // `RegExp:` frame is `stdlib` only because it has no location, not because
-    // the label is recognized.
+    // V8 regexp labels and node_modules need a known runtime, yet appear in
+    // undetected profiles. A marker-free pprof profile from a JavaScript
+    // runtime, for example, resolves to unknown. A `RegExp:` frame is `stdlib`
+    // only because it has no location, not because the label is recognized.
     expect(categorizeEntry(relativeEntry(`RegExp: /a/`))).toBe(`stdlib`)
     expect(
       categorizeEntry(

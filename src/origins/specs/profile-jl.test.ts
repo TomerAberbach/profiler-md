@@ -21,7 +21,7 @@ describe(`detection`, () => {
         format: `v8-heap-snapshot`,
         entries: [relativeEntry(`sum`, `/home/user/app/main.jl`)],
       }),
-    ).toBe(`node`)
+    ).toBe(`chrome`)
   })
 })
 

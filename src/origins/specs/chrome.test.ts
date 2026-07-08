@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { Format } from '../../formats/registry.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { chromeOriginSpec } from './chrome.ts'
 
@@ -60,6 +61,7 @@ describe(`detection`, () => {
         format: `v8-heap-snapshot`,
         entries: [
           absoluteEntry(`StyleEngine`, `file:///app/src/style-engine.ts`),
+          absoluteEntry(`Socket`, `file:///app/node_modules/ws/lib/socket.js`),
         ],
       }),
     ).toBe(`node`)
@@ -76,6 +78,13 @@ describe(`detection`, () => {
       }),
     ).toBe(`node`)
   })
+
+  test.each<Format>([`v8-cpu-profile`, `v8-heap-profile`, `v8-heap-snapshot`])(
+    `resolves %s to chrome when no entries match any origin`,
+    format => {
+      expect(determineOrigin({ format, entries: [] })).toBe(`chrome`)
+    },
+  )
 })
 
 describe(`categorizeEntry`, () => {

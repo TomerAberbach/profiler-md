@@ -11,7 +11,9 @@ export const v8HeapSnapshotConverter = {
     // Julia's `Profile` stdlib writes heap snapshots in this format natively.
     `julia`,
   ],
-  fallbackOrigin: `node`,
+  // Chrome DevTools defines the format, and the other emitters write it to be
+  // openable there.
+  fallbackOrigin: `chrome`,
   type: `json`,
   matches: matchesV8HeapSnapshot,
   parse: json => parseV8HeapSnapshot(json as V8HeapSnapshot),

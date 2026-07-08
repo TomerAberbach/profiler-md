@@ -7,6 +7,8 @@ export const jscHeapSnapshotConverter = {
   title: `JSC heap snapshot`,
   extension: `jsc-heap-snapshot.json`,
   languages: [`javascript`],
+  // WebKit's Web Inspector defines the format, and Bun writes it to be openable
+  // there.
   fallbackOrigin: `safari`,
   type: `json`,
   matches: matchesJSCHeapSnapshot,
