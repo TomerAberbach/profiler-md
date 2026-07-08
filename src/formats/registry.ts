@@ -1,3 +1,4 @@
+import { callgrindConverter } from './callgrind/index.ts'
 import { collapsedConverter } from './collapsed/index.ts'
 import type { FormatConverter } from './converter.ts'
 import { jfrConverter } from './jfr/index.ts'
@@ -12,6 +13,7 @@ import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/in
 
 /** Every supported format's converter, keyed by format ID. */
 export const formatConverters = {
+  callgrind: callgrindConverter,
   collapsed: collapsedConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,

@@ -19,6 +19,7 @@ import { safariOriginSpec } from './safari.ts'
 import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 import { unknownOriginSpec } from './unknown.ts'
+import { valgrindOriginSpec } from './valgrind.ts'
 
 /**
  * All origin specs in global detection-priority order.
@@ -52,5 +53,6 @@ export const originSpecs = [
   // hint, or an explicit origin; their position has no effect.
   gperftoolsOriginSpec,
   excimerOriginSpec,
+  valgrindOriginSpec,
   unknownOriginSpec,
 ]

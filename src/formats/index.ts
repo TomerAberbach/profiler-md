@@ -9,6 +9,12 @@ import {
 } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import {
+  CallGraphAggregator,
+  diffAggregatedCallGraphs,
+  formatCallGraph,
+  formatCallGraphDiff,
+} from '../modalities/call-graph/index.ts'
+import {
   entityLocation,
   HeapSnapshotAggregator,
 } from '../modalities/heap-snapshot/aggregate.ts'
@@ -332,6 +338,8 @@ const aggregateParsedInputs = (
     switch (input.type) {
       case `sampling-profile`:
         return new SamplingProfileAggregator(input)
+      case `call-graph`:
+        return new CallGraphAggregator(input)
       case `heap-snapshot`:
         return new HeapSnapshotAggregator(input)
     }
@@ -380,6 +388,8 @@ export const formatAggregatedInputs = (
     switch (input.type) {
       case `sampling-profile`:
         return formatSamplingProfile(input, formattingOptions)
+      case `call-graph`:
+        return formatCallGraph(input, formattingOptions)
       case `heap-snapshot`:
         return formatHeapSnapshot(input, formattingOptions)
     }
@@ -423,6 +433,12 @@ const formatAggregatedDiff = (
           currentInput,
           formattingOptions,
         ),
+        formattingOptions,
+      )
+    }
+    if (baseInput.type === `call-graph` && currentInput.type === `call-graph`) {
+      return formatCallGraphDiff(
+        diffAggregatedCallGraphs(baseInput, currentInput, formattingOptions),
         formattingOptions,
       )
     }
@@ -495,6 +511,7 @@ const collectInferableURLs = (
   for (const input of inputs) {
     switch (input.type) {
       case `sampling-profile`:
+      case `call-graph`:
         for (const func of input.functions) {
           // Onky `ours`-categorized functions contribute, because a
           // dependency's install path can be far outside the source tree and

@@ -94,6 +94,19 @@ export type OriginSpec = {
   categorizeHeapSnapshotConstructor?: (name: string) => string | undefined
 
   /**
+   * Returns whether {@link entry}'s outgoing call graph arcs are an artifact of
+   * this origin's runtime rather than calls the profiled program makes, so
+   * aggregation drops them and the function becomes a leaf. Its self cost and
+   * its inbound arcs stay.
+   *
+   * Applies to arcs alone: the function is real and its own cost is real, so
+   * dropping the frame instead would lose both.
+   *
+   * Defaults to keeping every arc when omitted.
+   */
+  dropsCallGraphArcs?: (entry: DeepReadonly<ProfileEntry>) => boolean
+
+  /**
    * Returns a normalized name and location to match {@link entry} by across
    * diffed profiles, with this origin's run-varying identifiers (build hashes,
    * runtime addresses embedded in names or paths) stripped so the same entity

@@ -12,6 +12,7 @@ ambiguous.
 | **Converter**        | A format's registered logic: detection plus parsing of its input to the uniform parsed form | parser, plugin         |
 | **Modality**         | A data structure a format captures (e.g. heap snapshot)                                     | shape, kind            |
 | **Sampling profile** | The modality produced by sampling a program's call stack at regular intervals               | profile, snapshot      |
+| **Call graph**       | The modality produced by recording per-function costs and caller→callee arcs                | profile                |
 | **Heap snapshot**    | The modality produced by capturing the program's state at a single point in time            | snapshot, profile      |
 | **Origin**           | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)           | source, emitter, tool  |
 | **Language**         | A programming language whose profilers emit a format                                        | runtime                |
@@ -74,6 +75,18 @@ ambiguous.
 | **Root frame**   | The last frame in a call stack (callee-to-caller order); the outermost caller                     | top frame, bottom frame |
 | **Frame pair**   | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution      | edge, call edge         |
 
+## Call graph
+
+The modality some formats (callgrind) capture instead of sampled call stacks:
+per-function recorded costs plus weighted caller→callee arcs. Self and total
+keep their sampling profile meanings: self is the cost recorded directly in a
+function's body, and total is a function's self cost plus its outgoing arcs'
+inclusive costs, excluding arcs within a recursion cycle.
+
+| Term    | Definition                                                             | Aliases to avoid |
+| ------- | ---------------------------------------------------------------------- | ---------------- |
+| **Arc** | A directed caller→callee record of the calls' count and inclusive cost | edge, call       |
+
 ## Heap snapshot
 
 | Term              | Definition                                                                                        | Aliases to avoid            |
@@ -130,6 +143,8 @@ ambiguous.
   appears anywhere in the **call stack**
 - A **sampling profile** with no **metrics** still has one **measure**: its
   sample count
+- A **call graph** contains **functions** connected by **arcs**. It has at least
+  one **metric** because it has no sample count to fall back on
 - A **heap snapshot** contains **nodes** connected by **edges**
 - A **node**'s **retained size** is computed via the **dominator** graph
 - An **entity** aggregates one or more **nodes**; a constructor **entity**'s

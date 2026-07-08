@@ -146,8 +146,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
-Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown
+Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown, valgrind
 Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
 ```
 
@@ -206,6 +206,7 @@ third-party tools can often convert others.
 <tr>
 <td><a href="docs/languages/c.md">C⁠/⁠C++</a></td>
 <td>
+<details><summary><a href="docs/formats/callgrind.md">Callgrind</a></summary><ul><li>C Valgrind (<a href="examples/output/c.valgrind.base.callgrind.md">base</a>, <a href="examples/output/c.valgrind.current.callgrind.md">current</a>, <a href="examples/output/c.valgrind.diff.callgrind.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>C gperftools CPU (<a href="examples/output/c.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C gperftools heap (<a href="examples/output/c.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.heap.diff.pprof.md">diff</a>)</li><li>C++ gperftools CPU (<a href="examples/output/cpp.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C++ gperftools heap (<a href="examples/output/cpp.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/systing.md">systing</a></summary><ul><li>C systing CPU (<a href="examples/output/c.systing.cpu.base.systing.md">base</a>, <a href="examples/output/c.systing.cpu.current.systing.md">current</a>, <a href="examples/output/c.systing.cpu.diff.systing.md">diff</a>)</li></ul></details>
 </td>

@@ -35,6 +35,14 @@ export const categorizeHeapSnapshotConstructorForOrigin = (
   return spec.categorizeHeapSnapshotConstructor?.(name)
 }
 
+export const dropsCallGraphArcsForOrigin = (
+  entry: DeepReadonly<ProfileEntry>,
+  origin: Origin,
+): boolean => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.dropsCallGraphArcs?.(entry) ?? false
+}
+
 export const matchEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
   origin: Origin,

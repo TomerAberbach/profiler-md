@@ -67,6 +67,14 @@ profiler-md
 │   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
 │   │   │   ├── index.ts      # Barrel file
 │   │   │   └── testing.ts    # Test-only utilities specific to this module
+│   │   ├── call-graph/       # Common weighted call graph conversion logic
+│   │   │   ├── type.ts       # Parsed call graph types
+│   │   │   ├── aggregate.ts  # Function-node merging, cycle-safe totals, and categorization
+│   │   │   ├── diff.ts       # Aggregated call graph diffing logic
+│   │   │   ├── table.ts      # The call graph formatter's table columns
+│   │   │   ├── format.ts     # Call graph and diff to Markdown formatting
+│   │   │   ├── index.ts      # Barrel file
+│   │   │   └── testing.ts    # Test-only utilities specific to this module
 │   │   └── heap-snapshot/    # Common heap snapshot conversion logic
 │   │       ├── type.ts       # Parsed heap snapshot types
 │   │       ├── graph.ts      # Node adjacency graph in CSR format

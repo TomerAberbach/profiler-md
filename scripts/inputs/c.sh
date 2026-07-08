@@ -157,6 +157,50 @@ copy_systing_profile() {
   cp "$systing_rundir/cpu.$role.systing" "$out"
 }
 
+# capture_fn for emit: $1=out  $2=role
+#   Instruments the same zstd compression under Valgrind's Callgrind tool,
+#   which writes the callgrind text format directly. Runs in its own container
+#   so regenerating it skips the gperftools captures.
+capture_callgrind() {
+  local out=$1 role=$2
+  local dir="$WORKDIR/c-callgrind-$role"
+  mkdir -p "$dir"
+
+  notice "Profiling zstd with callgrind ($role)"
+
+  docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        valgrind build-essential git ca-certificates curl unzip
+
+      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+
+      # Build with debug info so callgrind resolves function names and source
+      # files/lines rather than raw addresses.
+      make -C /src/zstd -j"$(nproc)" zstd MOREFLAGS="-g"
+      ZSTD=/src/zstd/zstd
+      [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+
+      # The same real compression input as the gperftools captures (see the
+      # extraction notes there), truncated further and compressed at the
+      # default level because callgrind instruments every instruction, ~50x
+      # slower than native.
+      mkdir -p /work
+      INPUT=/work/input.bin
+      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      unzip -p /work/dickens.zip dickens >/work/dickens.full
+      head -c 1048576 /work/dickens.full >"$INPUT"
+      rm -f /work/dickens.full
+
+      valgrind --tool=callgrind --callgrind-out-file=/out/callgrind.out \
+        "$ZSTD" -3 -f -q "$INPUT" -o /dev/null
+    ' -e ROLE="$role"
+
+  cp "$dir/callgrind.out" "$out"
+}
+
 # These captures need a running Docker daemon.
 ensure_docker
 
@@ -164,6 +208,7 @@ for role in base current; do
   try emit "$GENERATED_INPUTS/c.gperftools.cpu.$role.pprof"  copy_c_profile "$role" cpu
   try emit "$GENERATED_INPUTS/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
   try emit "$GENERATED_INPUTS/c.systing.cpu.$role.systing"   copy_systing_profile "$role"
+  try emit "$GENERATED_INPUTS/c.valgrind.$role.callgrind"    capture_callgrind "$role"
 done
 
 verify_pairs
