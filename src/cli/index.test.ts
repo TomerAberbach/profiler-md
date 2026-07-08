@@ -6,6 +6,7 @@ import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
 import { inputPath } from '../testing/inputs.ts'
+import { languageExtensionToPrimary } from './languages.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.
 vi.setConfig({ testTimeout: 125_000 })
@@ -106,6 +107,24 @@ test.concurrent(
     const { stdout } = await runCli([cpuProfilePath, `--third-party`, `**`])
 
     expect(stdout).not.toContain(`ours`)
+  },
+)
+
+test.concurrent.each(
+  [...languageExtensionToPrimary].map(([extension, language]) => ({
+    extension,
+    language,
+  })),
+)(
+  `--help $extension prints the $language docs`,
+  async ({ extension, language }) => {
+    const [extensionHelp, languageHelp] = await Promise.all([
+      runCli([`--help`, extension]),
+      runCli([`--help`, language]),
+    ])
+
+    expect(extensionHelp.status).toBe(0)
+    expect(extensionHelp.stdout).toBe(languageHelp.stdout)
   },
 )
 
