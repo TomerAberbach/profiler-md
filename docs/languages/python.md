@@ -55,3 +55,18 @@ py-spy dump --pid <pid> --locals
 | `--native`          | off          | Profile native extensions written in Cython or C           |
 | `--nonblocking`     | off          | Don't pause the process to collect samples (less accurate) |
 | `--subprocesses`    | off          | Also profile subprocesses of the target                    |
+
+## System profiling (systing)
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
+samples on-CPU stacks and records a stack each time a thread sleeps. With
+`--collect-pystacks` it walks CPython interpreter frames and blends them with
+the native stack, so profiles show Python functions alongside the C and kernel
+frames beneath them. It needs root (BPF) and a kernel with BTF
+(`/sys/kernel/btf/vmlinux`).
+
+```sh
+# Record a Python program with blended Python + native stacks
+sudo systing --duration 30 --collect-pystacks \
+  --output profile.systing -- python3 script.py
+```

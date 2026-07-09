@@ -61,6 +61,7 @@ it. Third-party tools can often convert others, though.
 <td><a href="docs/languages/c.md">C⁠/⁠C++</a></td>
 <td>
 <div><a href="docs/formats/pprof.md">pprof</a>:<ul><li>C CPU (<a href="examples/output/c.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C Heap (<a href="examples/output/c.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/c.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/c.gperftools.heap.diff.pprof.md">diff</a>)</li><li>C++ CPU (<a href="examples/output/cpp.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>C++ Heap (<a href="examples/output/cpp.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/cpp.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/cpp.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></div>
+<div><a href="docs/formats/systing.md">systing profile export</a>: <a href="examples/output/c.systing.cpu.base.systing.md">base</a>, <a href="examples/output/c.systing.cpu.current.systing.md">current</a>, <a href="examples/output/c.systing.cpu.diff.systing.md">diff</a></div>
 </td>
 </tr>
 <tr>
@@ -116,6 +117,7 @@ it. Third-party tools can often convert others, though.
 <td>
 <div><a href="docs/formats/collapsed.md">Collapsed stacks</a>:<ul><li>CPU (<a href="examples/output/python.py-spy.cpu.base.collapsed.md">base</a>, <a href="examples/output/python.py-spy.cpu.current.collapsed.md">current</a>, <a href="examples/output/python.py-spy.cpu.diff.collapsed.md">diff</a>)</li><li>Wall (<a href="examples/output/python.py-spy.wall.base.collapsed.md">base</a>, <a href="examples/output/python.py-spy.wall.current.collapsed.md">current</a>, <a href="examples/output/python.py-spy.wall.diff.collapsed.md">diff</a>)</li></ul></div>
 <div><a href="docs/formats/speedscope.md">Speedscope</a>: <a href="examples/output/python.py-spy.cpu.base.speedscope.json.md">base</a>, <a href="examples/output/python.py-spy.cpu.current.speedscope.json.md">current</a>, <a href="examples/output/python.py-spy.cpu.diff.speedscope.json.md">diff</a></div>
+<div><a href="docs/formats/systing.md">systing profile export</a></div>
 </td>
 </tr>
 <tr>
@@ -130,6 +132,7 @@ it. Third-party tools can often convert others, though.
 <td><a href="docs/languages/rust.md">Rust</a></td>
 <td>
 <div><a href="docs/formats/pprof.md">pprof</a>: <a href="examples/output/rust.pprof-rs.cpu.base.pprof.md">base</a>, <a href="examples/output/rust.pprof-rs.cpu.current.pprof.md">current</a>, <a href="examples/output/rust.pprof-rs.cpu.diff.pprof.md">diff</a></div>
+<div><a href="docs/formats/systing.md">systing profile export</a></div>
 </td>
 </tr>
 </tbody>
@@ -185,8 +188,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
-Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: beam, bun, deno, dotnet-trace, go, jvm, node, node-pprof, pprof-jl, pprof-rs, py-spy, rbspy, safari, tachyon, unknown
+Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: beam, bun, deno, dotnet-trace, go, jvm, node, node-pprof, pprof-jl, pprof-rs, py-spy, rbspy, safari, systing, tachyon, unknown
 Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin, javascript/typescript, julia, php, python, ruby, rust
 ```
 

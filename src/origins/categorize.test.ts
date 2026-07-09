@@ -4,6 +4,7 @@ import { categorizeEntryForOrigin, origins } from './index.ts'
 import type { Origin } from './index.ts'
 import { jvmOriginSpec } from './jvm.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
+import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 
 const located = (url: string): ProfileEntry => ({
@@ -530,6 +531,57 @@ describe(`safari`, () => {
   })
 })
 
+describe(`systing`, () => {
+  test(`bracketed label modules categorize by what they mark`, () => {
+    // Normalization keeps systing's `name (module)` rendering for
+    // source-less frames, so the label module is the category signal.
+    expect(
+      categorizeEntryForOrigin(named(`do_syscall_64 ([kernel])`), `systing`),
+    ).toBe(`kernel`)
+    expect(
+      categorizeEntryForOrigin(
+        named(`__vdso_clock_gettime ([vdso])`),
+        `systing`,
+      ),
+    ).toBe(`kernel`)
+    expect(
+      categorizeEntryForOrigin(named(`unknown ([gvisor:runtime])`), `systing`),
+    ).toBe(`sandbox`)
+    expect(
+      categorizeEntryForOrigin(named(`unknown ([gvisor:guest])`), `systing`),
+    ).toBe(`sandbox`)
+    expect(
+      categorizeEntryForOrigin(named(`unknown ([jit:node])`), `systing`),
+    ).toBe(`jit`)
+  })
+
+  test(`unresolved and library frames without sources are native, not stdlib`, () => {
+    // A system profiler samples plenty of app code with no debug info, so a
+    // missing source location doesn't imply a runtime internal.
+    expect(
+      categorizeEntryForOrigin(named(`unknown ([exited])`), `systing`),
+    ).toBe(`native`)
+    expect(
+      categorizeEntryForOrigin(named(`memcpy (libc.so.6)`), `systing`),
+    ).toBe(`native`)
+    expect(categorizeEntryForOrigin(named(`0x7f95bfdb6e12`), `systing`)).toBe(
+      `native`,
+    )
+  })
+
+  test(`located frames follow the shared source rules`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        located(`file:///usr/include/c++/12/bits/basic_string.tcc`),
+        `systing`,
+      ),
+    ).toBe(`stdlib`)
+    expect(categorizeEntryForOrigin(relative(`nested.c`), `systing`)).toBe(
+      `ours`,
+    )
+  })
+})
+
 describe(`unknown`, () => {
   test(`recognizes only synthetic frames and locationless internals`, () => {
     // The only conventions recognizable without identifying the runtime.
@@ -710,6 +762,74 @@ describe(`normalizeFrame`, () => {
       expect(normalizeFrame({ name: `Parker::park` })).toEqual({
         name: `Parker::park`,
       })
+    })
+  })
+
+  describe(`systing ("name (module [file:line]) <0xaddr>")`, () => {
+    const { normalizeFrame } = systingOriginSpec
+
+    test(`splits a located frame, dropping the module and address`, () => {
+      expect(
+        normalizeFrame({
+          name: `gamma_spin (nested [nested.c:9]) <0x56475007017d>`,
+        }),
+      ).toEqual({
+        name: `gamma_spin`,
+        location: { urlOrPath: `nested.c` },
+        line: 9,
+      })
+      expect(
+        normalizeFrame({ name: `read_config (app [config.c]) <0x1234>` }),
+      ).toEqual({
+        name: `read_config`,
+        location: { urlOrPath: `config.c` },
+        line: undefined,
+      })
+    })
+
+    test(`keeps the module, minus the address, for source-less frames`, () => {
+      // The address would fragment one function into an entry per sampled
+      // address; the module distinguishes same-named symbols across binaries
+      // and carries the label category signal.
+      expect(
+        normalizeFrame({ name: `memcpy (libc.so.6) <0x7f89613aa28b>` }),
+      ).toEqual({ name: `memcpy (libc.so.6)` })
+      expect(
+        normalizeFrame({
+          name: `do_syscall_64 ([kernel]) <0xffffffff9fca7238>`,
+        }),
+      ).toEqual({ name: `do_syscall_64 ([kernel])` })
+    })
+
+    test(`keeps function names containing parentheses intact`, () => {
+      expect(
+        normalizeFrame({
+          name: `std::vector<int>::push_back(int&&) (app [vector.h:123]) <0x1>`,
+        }),
+      ).toEqual({
+        name: `std::vector<int>::push_back(int&&)`,
+        location: { urlOrPath: `vector.h` },
+        line: 123,
+      })
+    })
+
+    test(`splits a Python frame's location`, () => {
+      expect(
+        normalizeFrame({ name: `handle_request (python) [server.py:88]` }),
+      ).toEqual({
+        name: `handle_request`,
+        location: { urlOrPath: `server.py` },
+        line: 88,
+      })
+    })
+
+    test(`leaves unpacked frames untouched`, () => {
+      expect(normalizeFrame({ name: `0x7f95bfdb6e12` })).toEqual({
+        name: `0x7f95bfdb6e12`,
+      })
+      expect(
+        normalizeFrame({ name: `located`, location: { urlOrPath: `a.c` } }),
+      ).toEqual({ name: `located`, location: { urlOrPath: `a.c` } })
     })
   })
 })

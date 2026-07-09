@@ -87,12 +87,83 @@ copy_c_profile() {
   cp "${rundir[$role]}/$name.pprof" "$out"
 }
 
+# systing records through eBPF against the running kernel, which constrains
+# this capture more than the others: the container must be `--privileged`,
+# the kernel must expose BTF (`/sys/kernel/btf/vmlinux` — Docker Desktop's
+# and any modern distro's kernels do), and the platform cannot be emulated
+# (BPF programs run on the real kernel), so it uses the host's native
+# architecture instead of the pinned DOCKER_PLATFORM. systing is installed
+# from crates.io, which builds it from source — expect the first run to take
+# a while.
+systing_rundir=
+run_systing() {
+  if [[ -n "$systing_rundir" ]]; then
+    return 0
+  fi
+  local dir="$WORKDIR/c-systing"
+  mkdir -p "$dir"
+
+  notice "Profiling zstd with systing (base + current; builds systing from source)"
+
+  docker run --rm --privileged \
+    -v "$dir:/out" \
+    "$DOCKER_IMAGE" \
+    bash -euo pipefail -c '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        build-essential git ca-certificates curl unzip \
+        clang libelf-dev pkg-config bpftool
+
+      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal -q
+      . "$HOME/.cargo/env"
+      cargo install --locked -q systing
+
+      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+
+      # Frame pointers so systing'"'"'s unwinder can walk the stack, and debug
+      # info so frames carry source locations.
+      make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
+      ZSTD=/src/zstd/zstd
+      [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+
+      # Real compression input: the full Silesia `dickens` corpus. At -19 it
+      # outlasts the recording window, so symbolization runs while zstd is
+      # still alive (systing then stops the traced command, hence `|| true`).
+      mkdir -p /work
+      INPUT=/work/input.bin
+      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      unzip -p /work/dickens.zip dickens >"$INPUT"
+
+      mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
+
+      for role in base current; do
+        systing --duration 12 \
+          --output "/out/cpu.$role.systing" \
+          --output-dir "/work/traces-$role" \
+          -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null || true
+        [ -s "/out/cpu.$role.systing" ]
+      done
+    '
+
+  systing_rundir=$dir
+}
+
+# capture_fn for emit: $1=out  $2=role
+copy_systing_profile() {
+  local out=$1 role=$2
+  run_systing
+  cp "$systing_rundir/cpu.$role.systing" "$out"
+}
+
 # These captures need a running Docker daemon.
 ensure_docker
 
 for role in base current; do
   try emit "$GENERATED_INPUTS/c.gperftools.cpu.$role.pprof"  copy_c_profile "$role" cpu
   try emit "$GENERATED_INPUTS/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
+  try emit "$GENERATED_INPUTS/c.systing.cpu.$role.systing"   copy_systing_profile "$role"
 done
 
 verify_pairs

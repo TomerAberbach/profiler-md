@@ -1,6 +1,8 @@
 # C/C++
 
-C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools).
+C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools),
+or [systing](https://github.com/josefbacik/systing) for whole-system profiles
+(see [System profiling](#system-profiling-systing)).
 
 ## CPU profiling
 
@@ -134,6 +136,38 @@ HeapLeakChecker checker("my_check");
 
 if (!checker.NoLeaks()) abort(); // fails if any net allocations were not freed
 ```
+
+## System profiling (systing)
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
+samples on-CPU stacks and records a stack each time a thread sleeps, across user
+and kernel code. It needs root (BPF) and a kernel with BTF
+(`/sys/kernel/btf/vmlinux`).
+
+```sh
+# Record a command (and its children) for 30 seconds
+sudo systing --duration 30 --output profile.systing -- ./program args
+
+# Or attach to a running process
+sudo systing --duration 30 --output profile.systing --pid <pid>
+```
+
+Build what you profile with frame pointers so systing's unwinder can walk the
+stack, and with symbols for readable frames:
+
+```sh
+gcc -O2 -g -fno-omit-frame-pointer -o program program.c
+```
+
+### CLI flags
+
+| Flag                              | Default    | Description                                                        |
+| --------------------------------- | ---------- | ------------------------------------------------------------------ |
+| `--duration`                      | —          | Recording duration in seconds                                      |
+| `--output`                        | `trace.pb` | Output path; `.systing` selects the profile export this tool reads |
+| `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                      |
+| `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                  |
+| `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                    |
 
 ## Tips
 

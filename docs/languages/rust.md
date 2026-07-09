@@ -42,3 +42,29 @@ std::fs::write("cpu.pprof", &buf)?;
 | -------------------- | ------- | ---------------------------------------- |
 | `.frequency(hz)`     | `100`   | Samples per second                       |
 | `.blocklist(frames)` | `[]`    | Stack frames to exclude from the profile |
+
+## System profiling (systing)
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
+samples on-CPU stacks and records a stack each time a thread sleeps, across user
+and kernel code — useful when the question spans more than the process (off-CPU
+waits, syscall time, whole-node contention). It needs root (BPF) and a kernel
+with BTF (`/sys/kernel/btf/vmlinux`).
+
+```sh
+# Record a command (and its children) for 30 seconds
+sudo systing --duration 30 --output profile.systing -- ./target/release/program
+```
+
+Keep frame pointers on so systing's unwinder can walk the stack (Cargo release
+builds omit them by default):
+
+```toml
+# Cargo.toml
+[profile.release]
+debug = true
+```
+
+```sh
+RUSTFLAGS="-C force-frame-pointers=yes" cargo build --release
+```
