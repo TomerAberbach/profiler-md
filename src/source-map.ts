@@ -42,9 +42,9 @@ export const sourceMapSourceLocation = (
   location: SourceLocation,
   { baseURL, sourceMaps }: FormattingProfileToMdOptions,
 ): SourceLocation => {
-  if (location.type === `relative`) {
-    // We never apply source maps to relative paths because we don't know where
-    // those paths actually point to.
+  if (location.type !== `absolute`) {
+    // A source map never applies to a relative path, whose target is unknown,
+    // or to a logical location, which is not a file.
     return location
   }
 

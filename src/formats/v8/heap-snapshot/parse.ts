@@ -1,7 +1,7 @@
 import {
-  fileReferenceToSourceLocation,
   formatSourceLocation,
   makeFileReference,
+  sourceReferenceToSourceLocation,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
 import { computeStartOffsets } from '../../../modalities/heap-snapshot/index.ts'
@@ -410,7 +410,7 @@ const computeNodeOrdinalToLocation = (
     const line = locations[locationIndex + locationLineOffset]!
     const column = locations[locationIndex + locationColumnOffset]!
     nodeOrdinalToLocation[nodeIndex / nodeFieldCount] =
-      fileReferenceToSourceLocation(fileReference, {
+      sourceReferenceToSourceLocation(fileReference, {
         line: line + 1,
         column: column + 1,
       })

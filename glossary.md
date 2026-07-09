@@ -42,11 +42,13 @@ ambiguous.
 
 ## Code location
 
-| Term               | Definition                                                                             | Aliases to avoid |
-| ------------------ | -------------------------------------------------------------------------------------- | ---------------- |
-| **Location**       | A URL to the source file defining a function, with an optional 1-based line and column | position, path   |
-| **File reference** | An absolute URL or a relative file path, before resolution to a `URL`                  | path             |
-| **Source map**     | A mapping from generated-file positions to original source positions                   | —                |
+| Term                  | Definition                                                                               | Aliases to avoid |
+| --------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
+| **Location**          | A source reference where a function is defined, with an optional 1-based line and column | position, path   |
+| **Source reference**  | A file reference or a logical reference                                                  | path             |
+| **File reference**    | An absolute URL or a relative file path, before resolution to a `URL`                    | path             |
+| **Logical reference** | A named class, module, namespace, assembly, or library                                   | path, file       |
+| **Source map**        | A mapping from generated-file positions to original source positions                     | —                |
 
 ## Costs and functions
 

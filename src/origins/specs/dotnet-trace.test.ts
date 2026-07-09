@@ -1,13 +1,14 @@
 import { describe, expect, test } from 'vitest'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 
-/** A frame as it looks after normalization: a relative declaring-type location. */
+/** A frame as it looks after normalization: a logical declaring-type location. */
 const typeEntry = (name: string, type: string): ProfileEntry => ({
   id: 1,
   name,
-  location: { type: `relative`, path: type },
+  location: { type: `logical`, name: type },
 })
 
 const named = (name: string): ProfileEntry => ({ id: 1, name })
@@ -46,7 +47,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Setup(wchar**, wchar**, int32)`,
-      location: { urlOrPath: `System.AppContext` },
+      location: { type: `logical`, name: `System.AppContext` },
     })
   })
 
@@ -57,7 +58,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Setup(wchar**, wchar**, int32)`,
-      location: { urlOrPath: `System.AppContext` },
+      location: { type: `logical`, name: `System.AppContext` },
     })
   })
 
@@ -68,7 +69,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Concat(String, String)`,
-      location: { urlOrPath: `System.String` },
+      location: { type: `logical`, name: `System.String` },
     })
   })
 
@@ -79,7 +80,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `Wait(int32, CancellationToken)`,
-      location: { urlOrPath: `System.Threading.Tasks.Task` },
+      location: { type: `logical`, name: `System.Threading.Tasks.Task` },
     })
   })
 
@@ -91,7 +92,8 @@ describe(`normalizeStackFrame`, () => {
     ).toEqual({
       name: `FindValue(!0)`,
       location: {
-        urlOrPath: `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
+        type: `logical`,
+        name: `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
       },
     })
   })
@@ -104,7 +106,8 @@ describe(`normalizeStackFrame`, () => {
     ).toEqual({
       name: `.ctor()`,
       location: {
-        urlOrPath: `System.Diagnostics.Tracing.NativeRuntimeEventSource`,
+        type: `logical`,
+        name: `System.Diagnostics.Tracing.NativeRuntimeEventSource`,
       },
     })
   })
@@ -116,7 +119,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `<get_Out>g__EnsureInitialized|26_0()`,
-      location: { urlOrPath: `System.Console` },
+      location: { type: `logical`, name: `System.Console` },
     })
   })
 
@@ -131,13 +134,13 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`keeps the unmanaged-time bucket as a location-less frame`, () => {
-    const input = { name: `UNMANAGED_CODE_TIME` }
+    const input: StackFrame = { name: `UNMANAGED_CODE_TIME` }
 
     expect(normalizeStackFrame(input)).toBe(input)
   })
 
   test(`leaves an unknown-assembly frame location-less`, () => {
-    const input = { name: `?!?` }
+    const input: StackFrame = { name: `?!?` }
 
     expect(normalizeStackFrame(input)).toBe(input)
   })
@@ -145,14 +148,14 @@ describe(`normalizeStackFrame`, () => {
   test(`falls back to the lowercased assembly for a type-less function`, () => {
     expect(normalizeStackFrame({ name: `Profile!main()` })).toEqual({
       name: `main()`,
-      location: { urlOrPath: `profile` },
+      location: { type: `logical`, name: `profile` },
     })
   })
 
   test(`leaves an already-located frame unchanged`, () => {
-    const input = {
+    const input: StackFrame = {
       name: `Profile!Profile.Program.Main()`,
-      location: { urlOrPath: `Program.cs` },
+      location: { type: `file`, urlOrPath: `Program.cs` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

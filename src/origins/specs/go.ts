@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -24,7 +24,7 @@ export const goOriginSpec = {
   isMarkerEntry: entry =>
     (entry.name?.startsWith(`runtime.`) ?? false) &&
     entry.location !== undefined &&
-    fileReferencePath(entry.location).includes(`/go/src/`),
+    sourceReferencePathOrName(entry.location).includes(`/go/src/`),
   categorizeEntry: entry =>
     goCollectorCategory(entry) ??
     goModuleCacheCategory(entry) ??
@@ -54,7 +54,8 @@ const goCollectorCategory = ({
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   name !== undefined &&
   GO_COLLECTOR.test(name) &&
-  (location === undefined || fileReferencePath(location).includes(`/go/src/`))
+  (location === undefined ||
+    sourceReferencePathOrName(location).includes(`/go/src/`))
     ? `garbage collector`
     : undefined
 
@@ -69,7 +70,7 @@ const GO_COLLECTOR =
 const goModuleCacheCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && fileReferencePath(location).includes(`/pkg/mod/`)
+  location && sourceReferencePathOrName(location).includes(`/pkg/mod/`)
     ? `third-party`
     : undefined
 
@@ -107,7 +108,7 @@ const goPackageCategory = ({
   // trust it for frames located in GOROOT: a local domain-less module
   // (`mypkg.Func`) is the user's code.
   return location !== undefined &&
-    fileReferencePath(location).includes(`/go/src/`)
+    sourceReferencePathOrName(location).includes(`/go/src/`)
     ? `stdlib`
     : `ours`
 }

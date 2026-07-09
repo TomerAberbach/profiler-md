@@ -141,8 +141,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
                               when matching entries across diffed profiles 
                               (repeatable)
-  --third-party GLOB          Additional URLs or paths to consider third-party 
-                              (repeatable)
+  --third-party GLOB          Additional URLs, paths, or names (e.g. a JVM 
+                              class) to consider third-party (repeatable)
   --no-pager                  Disable stdout paging (default: auto)
   --color, --no-color         Enable or disable ANSI syntax highlighting 
                               (default: auto)

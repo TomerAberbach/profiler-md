@@ -36,7 +36,7 @@ describe(`normalizeStackFrame`, () => {
     // lines aggregates as one, with the lines feeding the per-line breakdown.
     expect(normalizeStackFrame({ name: `script.py:fib:4` })).toEqual({
       name: `fib`,
-      location: { urlOrPath: `script.py` },
+      location: { type: `file`, urlOrPath: `script.py` },
       line: 4,
     })
   })
@@ -46,7 +46,7 @@ describe(`normalizeStackFrame`, () => {
     path => {
       expect(normalizeStackFrame({ name: `${path}:run:10` })).toEqual({
         name: `run`,
-        location: { urlOrPath: path },
+        location: { type: `file`, urlOrPath: path },
         line: 10,
       })
     },
@@ -55,7 +55,7 @@ describe(`normalizeStackFrame`, () => {
   test(`keeps a C++ namespaced function name intact`, () => {
     expect(normalizeStackFrame({ name: `file.cpp:Foo::bar:42` })).toEqual({
       name: `Foo::bar`,
-      location: { urlOrPath: `file.cpp` },
+      location: { type: `file`, urlOrPath: `file.cpp` },
       line: 42,
     })
   })

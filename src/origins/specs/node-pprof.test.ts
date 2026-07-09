@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
@@ -25,11 +26,12 @@ describe(`normalizeStackFrame`, () => {
     expect(
       normalizeStackFrame({
         name: `(anonymous:L#122135:C#9)`,
-        location: { urlOrPath: `file:///app/src/index.js` },
+        location: { type: `file`, urlOrPath: `file:///app/src/index.js` },
       }),
     ).toEqual({
       name: `(anonymous)`,
       location: {
+        type: `file`,
         urlOrPath: `file:///app/src/index.js`,
         line: 122_135,
         column: 9,
@@ -38,9 +40,9 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`leaves an unpacked frame unchanged`, () => {
-    const input = {
+    const input: StackFrame = {
       name: `parse`,
-      location: { urlOrPath: `file:///app/src/index.js` },
+      location: { type: `file`, urlOrPath: `file:///app/src/index.js` },
     }
 
     expect(normalizeStackFrame(input)).toBe(input)

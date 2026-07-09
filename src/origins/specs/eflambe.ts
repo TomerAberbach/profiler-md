@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { logicalReferenceName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -49,7 +49,7 @@ export const eflambeOriginSpec = {
     return {
       ...input,
       name: name.slice(colon + 1),
-      location: { urlOrPath: module },
+      location: { type: `logical`, name: module },
     }
   },
 } as const satisfies OriginSpec
@@ -93,7 +93,9 @@ const SCHEDULED_OUT_FRAME = `sleep`
 /**
  * Categorizes a frame by its BEAM module (the location lifted out by
  * `normalizeStackFrame`): OTP and Elixir-core modules, plus the `eflambe` profiler's
- * own frames, are `stdlib`; any other module is `ours`.
+ * own frames, are `stdlib`; any other module is `ours`. A frame located in a
+ * file instead carries a path, which says nothing about a module, so it falls
+ * through.
  *
  * Hex dependencies (e.g. `Elixir.Jason`) carry no marker distinguishing them
  * from application modules, so they fall to `ours`.
@@ -101,10 +103,10 @@ const SCHEDULED_OUT_FRAME = `sleep`
 const beamModuleCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
-  if (!location) {
+  const module = location && logicalReferenceName(location)
+  if (module === undefined) {
     return undefined
   }
-  const module = fileReferencePath(location)
   return isBeamStdlibModule(module) ? `stdlib` : `ours`
 }
 

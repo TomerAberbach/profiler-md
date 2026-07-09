@@ -101,7 +101,7 @@ const parser = object({
   ),
   thirdParty: multiple(
     option(`--third-party`, string({ metavar: `GLOB` }), {
-      description: message`Additional URLs or paths to consider third-party (repeatable)`,
+      description: message`Additional URLs, paths, or names (e.g. a JVM class) to consider third-party (repeatable)`,
     }),
   ),
   pager: map(

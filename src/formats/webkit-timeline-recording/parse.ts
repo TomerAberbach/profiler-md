@@ -116,6 +116,7 @@ const frameToStackFrame = (node: WebKitStackFrame): StackFrame => ({
   name: node.name,
   location: node.url
     ? {
+        type: `file`,
         urlOrPath: node.url,
         line: node.line === -1 ? undefined : node.line,
         column: node.column === -1 ? undefined : node.column,

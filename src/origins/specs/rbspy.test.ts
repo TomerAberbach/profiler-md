@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { Format } from '../../formats/registry.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
@@ -58,7 +59,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
     ).toEqual({
       name: `parse`,
-      location: { urlOrPath: `/app/lib/foo.rb` },
+      location: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
       line: 12,
     })
   })
@@ -76,6 +77,7 @@ describe(`normalizeStackFrame`, () => {
     ).toEqual({
       name: `<module:AST>`,
       location: {
+        type: `file`,
         urlOrPath: `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`,
       },
       line: 28,
@@ -102,27 +104,33 @@ describe(`normalizeStackFrame`, () => {
     // must feed the line breakdown rather than the function's identity.
     expect(
       normalizeStackFrame(
-        { name: `parse`, location: { urlOrPath: `/app/lib/foo.rb`, line: 12 } },
+        {
+          name: `parse`,
+          location: { type: `file`, urlOrPath: `/app/lib/foo.rb`, line: 12 },
+        },
         `speedscope`,
       ),
     ).toEqual({
       name: `parse`,
-      location: { urlOrPath: `/app/lib/foo.rb` },
+      location: { type: `file`, urlOrPath: `/app/lib/foo.rb` },
       line: 12,
     })
   })
 
   test(`leaves a located pprof frame's definition line in place`, () => {
     // Pprof's `Function.start_line` is a genuine definition line.
-    const input = {
+    const input: StackFrame = {
       name: `parse`,
-      location: { urlOrPath: `/app/lib/foo.rb`, line: 12 },
+      location: { type: `file`, urlOrPath: `/app/lib/foo.rb`, line: 12 },
     }
     expect(normalizeStackFrame(input, `pprof`)).toBe(input)
   })
 
   test(`leaves a located speedscope frame without a line unchanged`, () => {
-    const input = { name: `parse - x`, location: { urlOrPath: `x.rb` } }
+    const input: StackFrame = {
+      name: `parse - x`,
+      location: { type: `file`, urlOrPath: `x.rb` },
+    }
     expect(normalizeStackFrame(input, `speedscope`)).toBe(input)
   })
 })

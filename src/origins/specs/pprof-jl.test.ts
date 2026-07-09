@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { pprofJlOriginSpec } from './pprof-jl.ts'
@@ -27,7 +28,10 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`leaves a regular frame unchanged`, () => {
-    const input = { name: `+`, location: { urlOrPath: `int.jl` } }
+    const input: StackFrame = {
+      name: `+`,
+      location: { type: `file`, urlOrPath: `int.jl` },
+    }
 
     expect(normalizeStackFrame(input)).toBe(input)
   })

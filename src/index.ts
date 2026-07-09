@@ -24,6 +24,11 @@ export type {
   ProfileToMdContext,
   ProfileToMdOptions,
 } from './options.ts'
-export type { FileReference, SourceLocation } from './location.ts'
+export type {
+  FileReference,
+  LogicalReference,
+  SourceLocation,
+  SourceReference,
+} from './location.ts'
 export type { Origin } from './origins/index.ts'
 export type { SourceMap } from './source-map.ts'

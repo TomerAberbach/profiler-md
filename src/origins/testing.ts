@@ -27,6 +27,15 @@ export const relativeEntry = (name: string, path?: string): ProfileEntry => ({
   ...(path ? { location: { type: `relative`, path } } : {}),
 })
 
+export const logicalEntry = (
+  name: string,
+  logicalName?: string,
+): ProfileEntry => ({
+  id: 1,
+  name,
+  ...(logicalName ? { location: { type: `logical`, name: logicalName } } : {}),
+})
+
 export const absoluteEntry = (name: string, url: string): ProfileEntry => ({
   id: 1,
   name,

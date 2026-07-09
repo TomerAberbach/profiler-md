@@ -191,6 +191,30 @@ test(`formatSourceLocation with relative reference appends line and column`, () 
   ).toBe(`src/index.js:10:5`)
 })
 
+test(`formatSourceLocation with logical reference displays the name verbatim regardless of baseURL`, () => {
+  expect(
+    formatSourceLocation(
+      { type: `logical`, name: `java.util.HashMap` },
+      resolveProfileToMdOptions({ baseURL: `/project` }),
+    ),
+  ).toBe(`java.util.HashMap`)
+  expect(
+    formatSourceLocation(
+      { type: `logical`, name: `java.util.HashMap` },
+      resolveProfileToMdOptions({ baseURL: null }),
+    ),
+  ).toBe(`java.util.HashMap`)
+})
+
+test(`formatSourceLocation with logical reference appends line and column`, () => {
+  expect(
+    formatSourceLocation(
+      { type: `logical`, name: `Enum`, line: 10, column: 5 },
+      resolveProfileToMdOptions({ baseURL: `/project` }),
+    ),
+  ).toBe(`Enum:10:5`)
+})
+
 describe(`makeFileReference`, () => {
   test(`absolute path becomes an absolute file URL reference`, () => {
     expect(makeFileReference(`/project/file.ts`)).toStrictEqual({
@@ -237,6 +261,7 @@ describe(`makeSourceLocation`, () => {
   test(`builds a source location from a reference with line and column`, () => {
     expect(
       makeSourceLocation({
+        type: `file`,
         urlOrPath: `/project/file.ts`,
         line: 10,
         column: 5,
@@ -249,13 +274,55 @@ describe(`makeSourceLocation`, () => {
     })
   })
 
+  test(`builds a logical source location from a logical name`, () => {
+    expect(
+      makeSourceLocation({
+        type: `logical`,
+        name: `java.util.HashMap`,
+        line: 3,
+      }),
+    ).toStrictEqual({
+      type: `logical`,
+      name: `java.util.HashMap`,
+      line: 3,
+      column: undefined,
+    })
+  })
+
   test(`returns undefined for undefined input`, () => {
     expect(makeSourceLocation(undefined)).toBeUndefined()
   })
 
   test(`returns undefined when the path is unknown`, () => {
-    expect(makeSourceLocation({ urlOrPath: `unknown` })).toBeUndefined()
+    expect(
+      makeSourceLocation({ type: `file`, urlOrPath: `unknown` }),
+    ).toBeUndefined()
   })
+
+  test.each([[``], [`?`], [`???`]])(
+    `returns undefined when the logical name is %j`,
+    logicalName => {
+      expect(
+        makeSourceLocation({ type: `logical`, name: logicalName }),
+      ).toBeUndefined()
+    },
+  )
+
+  test.each([[`unknown`], [`Unknown`], [`nothing`]])(
+    `keeps the file-path unknown sentinel %j as a logical name`,
+    logicalName => {
+      // A class or module can have these names (a default-package class, an
+      // Erlang module), unlike a file path.
+      expect(
+        makeSourceLocation({ type: `logical`, name: logicalName }),
+      ).toStrictEqual({
+        type: `logical`,
+        name: logicalName,
+        line: undefined,
+        column: undefined,
+      })
+    },
+  )
 })
 
 describe(`commonAncestorDirectoryURL`, () => {

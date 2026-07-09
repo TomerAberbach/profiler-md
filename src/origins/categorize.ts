@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferencePath } from '../location.ts'
+import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { hasProtocol } from './origin.ts'
 
@@ -93,11 +93,11 @@ export const systemDirectoryCategory = ({
   if (!location) {
     return undefined
   }
-  const path = fileReferencePath(location)
-  if (SYSTEM_INCLUDE_DIRECTORY.test(path)) {
+  const pathOrName = sourceReferencePathOrName(location)
+  if (SYSTEM_INCLUDE_DIRECTORY.test(pathOrName)) {
     return `stdlib`
   }
-  return SYSTEM_LIBRARY_DIRECTORY.test(path) ? `native` : undefined
+  return SYSTEM_LIBRARY_DIRECTORY.test(pathOrName) ? `native` : undefined
 }
 
 /** An OS toolchain header directory, e.g. `/usr/include/c++/12/`. */

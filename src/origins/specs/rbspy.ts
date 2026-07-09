@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { normalizeSpeedscopeExecutingLine } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -46,7 +46,7 @@ export const rbspyOriginSpec = {
 
     return {
       name: method,
-      location: { urlOrPath: fileLine.groups!.file! },
+      location: { type: `file`, urlOrPath: fileLine.groups!.file! },
       line: Number(fileLine.groups!.line),
     }
   },
@@ -109,7 +109,7 @@ const unattributedRubyCategory = ({
 const rubyGemCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && fileReferencePath(location).includes(`/gems/`)
+  location && sourceReferencePathOrName(location).includes(`/gems/`)
     ? `third-party`
     : undefined
 
@@ -120,7 +120,7 @@ const rubyStdlibCategory = ({
   if (!location) {
     return undefined
   }
-  const path = fileReferencePath(location)
+  const path = sourceReferencePathOrName(location)
   return path.includes(`/usr/lib/ruby/`) ||
     path.includes(`vendor_ruby`) ||
     RUBY_VERSIONED_LIB.test(path)

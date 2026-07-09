@@ -142,6 +142,7 @@ const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => ({
   name: frame.name,
   location: frame.file
     ? {
+        type: `file`,
         urlOrPath: frame.file,
         // `null` means unknown (see {@link SpeedscopeFrame.line}).
         line: frame.line ?? undefined,

@@ -73,11 +73,15 @@ export const normalizeStackFrameForContext = (
   }
 
   const nameIsLocation =
-    frame.name !== undefined && frame.name === frame.location?.urlOrPath
+    frame.name !== undefined &&
+    frame.location?.type === `file` &&
+    frame.name === frame.location.urlOrPath
   if (nameIsLocation) {
-    // A frame named with its own location carries no function name. Unrelated
+    // A frame named with its own location has no function name. Unrelated
     // profilers independently converged on this idiom (e.g. Excimer, rbspy), so
-    // we drop the name for every origin and format.
+    // normalization drops the name for every origin and format. Only a file
+    // reference qualifies, because a function can share its logical reference's
+    // name, like a method named after its class or module.
     return { ...normalizedFrame, name: undefined }
   }
 

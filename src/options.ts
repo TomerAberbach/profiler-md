@@ -1,7 +1,11 @@
 import { ProfilerMdError } from './error.ts'
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
-import { fileReferenceId, makeFileReference } from './location.ts'
+import {
+  makeFileReference,
+  sourceReferenceId,
+  sourceReferenceKind,
+} from './location.ts'
 import type { SourceLocation } from './location.ts'
 import type { AggregatedCallGraphFunction } from './modalities/call-graph/aggregate.ts'
 import type { AggregatedHeapSnapshotNode } from './modalities/heap-snapshot/aggregate.ts'
@@ -94,8 +98,9 @@ export type ProfileEntry = {
   name?: string
 
   /**
-   * The location where the entity corresponding to this entry was defined, or
-   * undefined if unknown.
+   * The location where the entity corresponding to this entry was defined: a
+   * file, or a logical name such as a JVM class or a BEAM module when the
+   * runtime reports no file. Undefined if unknown.
    */
   location?: SourceLocation
 }
@@ -111,8 +116,8 @@ export type EntryMatch = {
   name?: string
 
   /**
-   * The location to match by, as a URL or file path string. Omit to match by
-   * the entry's location.
+   * The location to match by, as a URL, file path, or logical name string.
+   * Omit to match by the entry's location.
    */
   location?: string
 }
@@ -352,8 +357,15 @@ const entryMatchKey = (
   const name = match?.name ?? entry.name ?? ``
   const location =
     match?.location ??
-    (entry.location ? fileReferenceId(entry.location) : undefined)
-  return location === undefined ? name : `${name}\0${location}`
+    (entry.location ? sourceReferenceId(entry.location) : undefined)
+  if (location === undefined) {
+    return name
+  }
+
+  // `EntryMatch.location` is a bare string, so the kind comes from the entry's
+  // own location, which a match normalizes rather than replaces.
+  const kind = entry.location ? sourceReferenceKind(entry.location) : ``
+  return `${name}\0${kind}\0${location}`
 }
 
 const cacheEntryFunction = <Entry extends object, Context, Value>(

@@ -42,7 +42,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `gamma_spin`,
-      location: { urlOrPath: `nested.c` },
+      location: { type: `file`, urlOrPath: `nested.c` },
       line: 9,
     })
   })
@@ -52,7 +52,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `read_config (app [config.c]) <0x1234>` }),
     ).toEqual({
       name: `read_config`,
-      location: { urlOrPath: `config.c` },
+      location: { type: `file`, urlOrPath: `config.c` },
       line: undefined,
     })
   })
@@ -66,7 +66,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `handle_mm_fault ([kernel])`,
-      location: { urlOrPath: `memory.c` },
+      location: { type: `file`, urlOrPath: `memory.c` },
       line: 5432,
     })
   })
@@ -94,7 +94,7 @@ describe(`normalizeStackFrame`, () => {
       }),
     ).toEqual({
       name: `std::vector<int>::push_back(int&&)`,
-      location: { urlOrPath: `vector.h` },
+      location: { type: `file`, urlOrPath: `vector.h` },
       line: 123,
     })
   })
@@ -104,7 +104,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `handle_request (python) [server.py:88]` }),
     ).toEqual({
       name: `handle_request`,
-      location: { urlOrPath: `server.py` },
+      location: { type: `file`, urlOrPath: `server.py` },
       line: 88,
     })
   })
@@ -117,8 +117,11 @@ describe(`normalizeStackFrame`, () => {
 
   test(`leaves an already-located frame untouched`, () => {
     expect(
-      normalizeStackFrame({ name: `located`, location: { urlOrPath: `a.c` } }),
-    ).toEqual({ name: `located`, location: { urlOrPath: `a.c` } })
+      normalizeStackFrame({
+        name: `located`,
+        location: { type: `file`, urlOrPath: `a.c` },
+      }),
+    ).toEqual({ name: `located`, location: { type: `file`, urlOrPath: `a.c` } })
   })
 })
 
