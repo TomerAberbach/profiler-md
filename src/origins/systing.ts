@@ -1,6 +1,10 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
-import { systemDirectoryCategory } from './categorize.ts'
+import {
+  pythonStdlibCategory,
+  pythonThirdPartyCategory,
+  systemDirectoryCategory,
+} from './categorize.ts'
 import type { OriginSpec } from './origin.ts'
 
 export const systingOriginSpec = {
@@ -9,6 +13,12 @@ export const systingOriginSpec = {
   matchesEntry: entry => NATIVE_FRAME.test(entry.name ?? ``),
   categorize: entry =>
     labelModuleCategory(entry) ??
+    // Pystacks blend CPython frames into the stacks, carrying the same
+    // interpreter path conventions the Python collapsed-stack origins see.
+    // Before the system-directory rule so Debian's
+    // /usr/lib/python3/dist-packages/ counts as third-party, not stdlib.
+    pythonThirdPartyCategory(entry) ??
+    pythonStdlibCategory(entry) ??
     systemDirectoryCategory(entry) ??
     // Unlike runtime profilers, a locationless frame here is not necessarily
     // a runtime internal: any native code without debug info (the app's own
@@ -27,14 +37,17 @@ export const systingOriginSpec = {
       const { func, inner } = native.groups!
       // The packed line is where the frame was executing (it comes from the
       // sampled address), so it feeds the per-line breakdown and the name
-      // and file alone identify the function. The module is dropped: the
-      // source location names the code better.
+      // and file alone identify the function. The module is dropped — the
+      // source location names the code better — except a bracketed label
+      // module, which carries the category signal (kernel code symbolized
+      // with kernel debuginfo has both a `[kernel]` label and a source
+      // location) and stays in the name like on source-less frames.
       const location =
         MODULE_LOCATION_LINE.exec(inner!) ?? MODULE_LOCATION.exec(inner!)
       if (location) {
-        const { file, line } = location.groups!
+        const { module, file, line } = location.groups!
         return {
-          name: func!,
+          name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
           location: { urlOrPath: file! },
           line: line === undefined ? undefined : Number(line),
         }
@@ -82,10 +95,14 @@ export const systingOriginSpec = {
 const NATIVE_FRAME = /^(?<func>.+) \((?<inner>[^()]*[^()\s])\) <0x[0-9a-f]+>$/u
 
 /** The ` [file:line]` location suffix inside a frame's parens. */
-const MODULE_LOCATION_LINE = /^.+ \[(?<file>[^\][:]+):(?<line>\d+)\]$/u
+const MODULE_LOCATION_LINE =
+  /^(?<module>.+) \[(?<file>[^\][:]+):(?<line>\d+)\]$/u
 
 /** The line-less ` [file]` location suffix inside a frame's parens. */
-const MODULE_LOCATION = /^.+ \[(?<file>[^\][:]+)\]$/u
+const MODULE_LOCATION = /^(?<module>.+) \[(?<file>[^\][:]+)\]$/u
+
+/** A whole-module bracketed label, e.g. `[kernel]`. */
+const LABEL = /^\[[^\][]+\]$/u
 
 /**
  * Systing's Python frame packing (pystacks): `name (python) [file.py:line]` —
