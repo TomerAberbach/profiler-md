@@ -22,6 +22,7 @@ import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 import { safariOriginSpec } from './safari.ts'
+import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 import { unknownOriginSpec } from './unknown.ts'
 
@@ -220,6 +221,7 @@ const originSpecs = [
   beamOriginSpec,
   rbspyOriginSpec,
   safariOriginSpec,
+  systingOriginSpec,
   unknownOriginSpec,
 ]
 
@@ -263,6 +265,8 @@ const fallbackOriginSpecs: Record<Format, SpecificOriginSpec> = {
   jfr: jvmOriginSpec,
   pprof: unknownOriginSpec,
   speedscope: unknownOriginSpec,
+  // The systing profile export format has exactly one emitter.
+  systing: systingOriginSpec,
   'v8-cpu-profile': unknownOriginSpec,
   'v8-heap-snapshot': nodeOriginSpec,
   'v8-heap-profile': nodeOriginSpec,

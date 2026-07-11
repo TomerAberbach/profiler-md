@@ -30,6 +30,7 @@ const extFormats: Record<string, Format> = {
   heapprofile: `v8-heap-profile`,
   heapsnapshot: `v8-heap-snapshot`,
   'speedscope.json': `speedscope`,
+  systing: `systing`,
   'jsc-heap-snapshot.json': `jsc-heap-snapshot`,
   'webkit-timeline-recording.json': `webkit-timeline-recording`,
 }

@@ -44,6 +44,7 @@ import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { pprofConverter } from './pprof/index.ts'
 import { speedscopeConverter } from './speedscope/index.ts'
+import { systingConverter } from './systing/index.ts'
 import { v8CpuProfileConverter } from './v8/cpu-profile/index.ts'
 import { v8HeapProfileConverter } from './v8/heap-profile/index.ts'
 import { v8HeapSnapshotConverter } from './v8/heap-snapshot/index.ts'
@@ -383,6 +384,7 @@ export const formats = [
   `jsc-heap-snapshot`,
   `pprof`,
   `speedscope`,
+  `systing`,
   `v8-cpu-profile`,
   `v8-heap-profile`,
   `v8-heap-snapshot`,
@@ -398,6 +400,7 @@ export const formatConverters: Record<Format, FormatConverter> = {
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,
+  systing: systingConverter,
   'v8-cpu-profile': v8CpuProfileConverter,
   'v8-heap-profile': v8HeapProfileConverter,
   'v8-heap-snapshot': v8HeapSnapshotConverter,

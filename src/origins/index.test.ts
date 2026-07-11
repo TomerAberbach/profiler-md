@@ -5,6 +5,7 @@ import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
 import { determineOrigin } from './index.ts'
+import { systingOriginSpec } from './systing.ts'
 
 const relativeEntry = (name: string, path?: string): ProfileEntry => ({
   id: 1,
@@ -44,6 +45,32 @@ describe(`determineOrigin`, () => {
     expect(
       determineOrigin({ format: `webkit-timeline-recording`, entries: [] }),
     ).toBe(`safari`)
+    expect(determineOrigin({ format: `systing`, entries: [] })).toBe(`systing`)
+  })
+
+  test(`systing's marker is its address-suffixed frame packing`, () => {
+    // Native frames: `name (module [file:line]) <0xaddr>` with the location
+    // optional and the module possibly a bracketed label.
+    for (const name of [
+      `gamma_spin (nested [nested.c:9]) <0x56475007017d>`,
+      `__libc_start_main (libc.so.6) <0x7f89613aa28b>`,
+      `do_syscall_64 ([kernel]) <0xffffffff9fca7238>`,
+      `unknown ([gvisor:runtime]) <0x7f0000001000>`,
+    ]) {
+      expect(systingOriginSpec.matchesEntry(relativeEntry(name))).toBe(true)
+    }
+
+    // Signals any profiler could produce, or lookalike packings missing the
+    // address suffix, aren't systing evidence.
+    for (const name of [
+      `compute`,
+      `work (app)`,
+      `handle_request (python) [server.py:88]`,
+      `0x7f95bfdb6e12`,
+      `(garbage collector)`,
+    ]) {
+      expect(systingOriginSpec.matchesEntry(relativeEntry(name))).toBe(false)
+    }
   })
 
   test(`falls back to the unknown origin when nothing matches`, () => {
