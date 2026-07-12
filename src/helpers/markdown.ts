@@ -1,6 +1,7 @@
 import type {
   Heading,
   InlineCode,
+  Node,
   Paragraph,
   PhrasingContent,
   RootContent,
@@ -11,7 +12,16 @@ import type {
 import { gfmTableToMarkdown } from 'mdast-util-gfm-table'
 import { toMarkdown } from 'mdast-util-to-markdown'
 
-export const text = (value: string): Text => ({ type: `text`, value })
+// The serializer encodes carriage returns in headings and table cells but
+// emits them raw in paragraphs, where a lone `\r` desyncs micromark's line
+// numbering (which counts it as a line ending) from the CLI highlighter's
+// Shiki line splitting (which splits on `\r?\n` only), shifting heat tints
+// onto the wrong lines. Normalize up front; `\r\n` is counted consistently by
+// both, so only a lone `\r` needs it.
+export const text = (value: string): Text => ({
+  type: `text`,
+  value: value.replaceAll(/\r(?!\n)/gu, ` `),
+})
 
 // Code spans render line endings as spaces anyway, but a raw newline in the
 // serialized span would break the enclosing construct (a table row or
@@ -71,6 +81,59 @@ export const phrasing = (
     }
   }
   return children
+}
+
+/**
+ * Phrasing for an entity heading: a code-span name followed by its
+ * parenthesized location. {@link headingNameLocationKey} recovers the
+ * {@link nameLocationKey} key from this shape, so entity headings must be
+ * built through this helper for the CLI highlighter's heading ↔ table
+ * matching to work.
+ */
+export const nameLocationPhrasing = (
+  name: string,
+  location: string | PhrasingContent | PhrasingContent[],
+): PhrasingContent[] => phrasing`${inlineCode(name)} (${location})`
+
+/** The key matching a {@link nameLocationPhrasing} heading to a table row. */
+export const nameLocationKey = (name: string, location: string): string =>
+  `${name} (${location})`
+
+/**
+ * Extracts the {@link nameLocationKey} key from a heading with the
+ * {@link nameLocationPhrasing} shape, or returns null if the heading doesn't
+ * have that shape.
+ */
+export const headingNameLocationKey = (heading: Heading): string | null => {
+  const nameIndex = heading.children.findIndex(
+    child => child.type === `inlineCode`,
+  )
+  if (nameIndex === -1) {
+    return null
+  }
+
+  const name = nodeText(heading.children[nameIndex]!)
+  const after = heading.children
+    .slice(nameIndex + 1)
+    .map(nodeText)
+    .join(``)
+    .trim()
+  if (!after.startsWith(`(`) || !after.endsWith(`)`)) {
+    return null
+  }
+
+  return nameLocationKey(name, after.slice(1, -1))
+}
+
+/** The concatenated text content of a node's subtree. */
+export const nodeText = (node: Node): string => {
+  if (`value` in node && typeof node.value === `string`) {
+    return node.value
+  }
+  if (`children` in node && Array.isArray(node.children)) {
+    return (node.children as Node[]).map(nodeText).join(``)
+  }
+  return ``
 }
 
 /**

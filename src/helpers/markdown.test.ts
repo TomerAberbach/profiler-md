@@ -1,9 +1,10 @@
 import { expect, test } from 'vitest'
-import { nodeText, parseMd } from '../testing/markdown.ts'
+import { parseMd } from '../testing/markdown.ts'
 import {
   heading,
   inlineCode,
   mdastToMarkdown,
+  nodeText,
   paragraph,
   phrasing,
   table,

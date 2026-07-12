@@ -27,6 +27,7 @@ import {
   formatSectionGroup,
   heading,
   inlineCode,
+  nameLocationPhrasing,
   paragraph,
   phrasing,
   text,
@@ -1117,7 +1118,10 @@ const formatFunctionHeading = (
 ): Heading =>
   heading(
     headingLevel,
-    phrasing`${inlineCode(func.name)} (${formatSourceLocation(func.location, options)})`,
+    nameLocationPhrasing(
+      func.name,
+      formatSourceLocation(func.location, options),
+    ),
   )
 
 /** The `Samples` header shared by the metric tables. */
