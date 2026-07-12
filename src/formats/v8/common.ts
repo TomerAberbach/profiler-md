@@ -1,4 +1,4 @@
-import type { ProfileStackFrame } from '../../profile/index.ts'
+import type { ProfileStackFrame } from '../../modalities/profile/index.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#937

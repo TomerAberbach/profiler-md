@@ -7,29 +7,32 @@ import {
   formatTable,
   percentCell,
   textCell,
-} from '../cell.ts'
-import type { Cell } from '../cell.ts'
-import type { Diff } from '../diff.ts'
-import { DynamicTypedArray } from '../helpers/array.ts'
+} from '../../cell.ts'
+import type { Cell } from '../../cell.ts'
+import type { Diff } from '../../diff.ts'
+import { DynamicTypedArray } from '../../helpers/array.ts'
 import {
   formatArrow,
   formatBytes,
   formatBytesDelta,
   formatChange,
   formatCount,
-} from '../helpers/format.ts'
-import { MaxHeap, selectTopN } from '../helpers/heap.ts'
+} from '../../helpers/format.ts'
+import { MaxHeap, selectTopN } from '../../helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
   inlineCode,
   nameLocationPhrasing,
   paragraph,
-} from '../helpers/markdown.ts'
-import type { Header } from '../helpers/markdown.ts'
-import { formatSourceLocation, formatSourceLocationPath } from '../location.ts'
-import type { FileReference, SourceLocation } from '../location.ts'
-import type { ResolvedProfileToMdOptions } from '../options.ts'
+} from '../../helpers/markdown.ts'
+import type { Header } from '../../helpers/markdown.ts'
+import {
+  formatSourceLocation,
+  formatSourceLocationPath,
+} from '../../location.ts'
+import type { FileReference, SourceLocation } from '../../location.ts'
+import type { ResolvedProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,

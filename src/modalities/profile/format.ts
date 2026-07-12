@@ -6,8 +6,8 @@ import {
   formatTable,
   percentCell,
   textCell,
-} from '../cell.ts'
-import type { Cell } from '../cell.ts'
+} from '../../cell.ts'
+import type { Cell } from '../../cell.ts'
 import {
   capitalizeFirst,
   formatArrow,
@@ -16,8 +16,8 @@ import {
   formatConjunction,
   formatCount,
   formatMicroseconds,
-} from '../helpers/format.ts'
-import { selectTopN } from '../helpers/heap.ts'
+} from '../../helpers/format.ts'
+import { selectTopN } from '../../helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
@@ -25,9 +25,9 @@ import {
   paragraph,
   phrasing,
   text,
-} from '../helpers/markdown.ts'
-import type { Header } from '../helpers/markdown.ts'
-import { fileReferenceId, formatSourceLocation } from '../location.ts'
+} from '../../helpers/markdown.ts'
+import type { Header } from '../../helpers/markdown.ts'
+import { fileReferenceId, formatSourceLocation } from '../../location.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
@@ -41,10 +41,10 @@ import {
   measureRankedByPhrase,
   metricCell,
   selectDiffFunctions,
-} from '../measure.ts'
-import type { NamedFunction } from '../measure.ts'
-import type { DiffMetric, Metric } from '../metric.ts'
-import type { ResolvedProfileToMdOptions } from '../options.ts'
+} from '../../measure.ts'
+import type { NamedFunction } from '../../measure.ts'
+import type { DiffMetric, Metric } from '../../metric.ts'
+import type { ResolvedProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,

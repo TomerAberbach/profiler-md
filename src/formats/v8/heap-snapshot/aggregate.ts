@@ -4,12 +4,12 @@ import {
   makeFileReference,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
-import type { ResolvedProfileToMdOptions } from '../../../options.ts'
-import { SnapshotAggregator } from '../../../snapshot/index.ts'
+import { SnapshotAggregator } from '../../../modalities/snapshot/index.ts'
 import type {
   AggregatedHeapSnapshot,
   NodeAdjacencyGraph,
-} from '../../../snapshot/index.ts'
+} from '../../../modalities/snapshot/index.ts'
+import type { ResolvedProfileToMdOptions } from '../../../options.ts'
 import type { V8HeapSnapshot, V8HeapSnapshotMeta } from './parse.ts'
 
 export const aggregateV8HeapSnapshot = (

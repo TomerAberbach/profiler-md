@@ -17,7 +17,7 @@ Before writing code for it:
    - Specific **origin-format pairs** → the origin's code, checking the `format`
      param (e.g. in `normalizeFrame`)
    - **Profiles generally** → the shared pipeline (e.g.
-     `src/profile/aggregate.ts`)
+     `src/modalities/profile/aggregate.ts`)
 
 The classification is subjective and NOT about writing the logic in the fewest
 places. The goal is to avoid:

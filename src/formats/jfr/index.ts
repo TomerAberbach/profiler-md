@@ -14,7 +14,7 @@ export const jfrConverter = {
   languages: [`java`],
   fallbackOrigin: `jvm`,
   type: `binary`,
-  shape: `profile`,
+  modality: `profile`,
   matches: matchesJfr,
   parse: parseJfr,
   parseAsync: parseJfrAsync,

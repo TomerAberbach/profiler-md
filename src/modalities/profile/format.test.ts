@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { mdastToMarkdown } from '../helpers/markdown.ts'
-import { determineMetric, MEGABYTES, MICROSECONDS } from '../metric.ts'
-import type { Metric } from '../metric.ts'
+import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import { determineMetric, MEGABYTES, MICROSECONDS } from '../../metric.ts'
+import type { Metric } from '../../metric.ts'
 import {
   callStackTables,
   categoryTables,
@@ -10,8 +10,8 @@ import {
   regressionsTables,
   summaryLines,
   totalTimeTables,
-} from '../testing/markdown.ts'
-import { resolveProfileToMdOptions } from '../testing/options.ts'
+} from '../../testing/markdown.ts'
+import { resolveProfileToMdOptions } from '../../testing/options.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'

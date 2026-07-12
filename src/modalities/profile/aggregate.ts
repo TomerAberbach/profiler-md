@@ -1,18 +1,18 @@
-import { DynamicTypedArray } from '../helpers/array.ts'
-import { HashInterner } from '../helpers/intern.ts'
-import type { SourceLocation } from '../location.ts'
-import type { Metric } from '../metric.ts'
+import { DynamicTypedArray } from '../../helpers/array.ts'
+import { HashInterner } from '../../helpers/intern.ts'
+import type { SourceLocation } from '../../location.ts'
+import type { Metric } from '../../metric.ts'
 import type {
   AggregateProfileToMdOptions,
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
-} from '../options.ts'
+} from '../../options.ts'
 import {
   functionIdentityKey,
   parseFrameFunction,
   resolveFrames,
-} from '../origins/index.ts'
-import type { FrameFunction, ResolvedFrames } from '../origins/index.ts'
+} from '../../origins/index.ts'
+import type { FrameFunction, ResolvedFrames } from '../../origins/index.ts'
 import type {
   Profile,
   ProfileStackFrame,

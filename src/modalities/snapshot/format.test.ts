@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { mdastToMarkdown } from '../helpers/markdown.ts'
+import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import {
   categoryTables,
   improvementsTables,
@@ -8,8 +8,8 @@ import {
   retainedSizeTables,
   selfSizeTables,
   summaryLines,
-} from '../testing/markdown.ts'
-import { resolveProfileToMdOptions } from '../testing/options.ts'
+} from '../../testing/markdown.ts'
+import { resolveProfileToMdOptions } from '../../testing/options.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {

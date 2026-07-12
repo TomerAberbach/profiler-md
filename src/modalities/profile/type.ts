@@ -1,5 +1,5 @@
-import type { SourceLocationInput } from '../location.ts'
-import type { Metric } from '../metric.ts'
+import type { SourceLocationInput } from '../../location.ts'
+import type { Metric } from '../../metric.ts'
 
 /**
  * A function occurrence at an executing position.

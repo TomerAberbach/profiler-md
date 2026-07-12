@@ -458,8 +458,10 @@ const expectedInputOrigin = (filename: string): Origin => {
 
 const profileInputFilenames = readdirSync(inputPath()).filter(
   filename =>
-    // Snapshot-shaped inputs are excluded: they don't categorize by origin.
-    formatConverters[parseExampleFilename(filename).format].shape === `profile`,
+    // Inputs with the snapshot modality are excluded: they don't categorize by
+    // origin.
+    formatConverters[parseExampleFilename(filename).format].modality ===
+    `profile`,
 )
 
 describe(`detected input origins`, () => {

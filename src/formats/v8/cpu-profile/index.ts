@@ -21,7 +21,7 @@ export const v8CpuProfileConverter = {
   languages: [`javascript`],
   fallbackOrigin: `unknown`,
   type: `json`,
-  shape: `profile`,
+  modality: `profile`,
   matches: matchesV8CpuProfile,
   parse: json => parseV8CpuProfile(json as V8CpuProfile),
 } as const satisfies JsonFormatConverter

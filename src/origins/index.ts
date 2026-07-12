@@ -3,12 +3,12 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { makeSourceLocation } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type {
   EntryCategory,
   ProfileEntry,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
-import type { ProfileStackFrame } from '../profile/type.ts'
 import { beamOriginSpec } from './beam.ts'
 import { bunOriginSpec } from './bun.ts'
 import { denoOriginSpec } from './deno.ts'

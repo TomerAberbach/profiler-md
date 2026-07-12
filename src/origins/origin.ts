@@ -2,8 +2,8 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
-import type { ProfileStackFrame } from '../profile/type.ts'
 
 /**
  * The internal spec of an origin: a **distinct profiler**, a profiling

@@ -5,7 +5,7 @@ description: |
   origin (e.g. profiler), or when a format's emitters need detection,
   categorization, or frame normalization beyond the unknown origin's universal
   rules.
-argument-hint: '[origin name, format name, issue link, or guidance]'
+argument-hint: '[origin name, motivating format, issue link, or guidance]'
 ---
 
 Implement support for a new origin end-to-end.

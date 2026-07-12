@@ -46,9 +46,9 @@ for (const filename of readdirSync(inputPath())) {
   if (variant !== `base`) {
     continue
   }
-  const { type, shape } = formatConverters[format]
+  const { type, modality } = formatConverters[format]
   inputSets[type].add(filename)
-  inputSets[shape].add(filename)
+  inputSets[modality].add(filename)
 }
 
 const jsonInputs = [...inputSets.json]

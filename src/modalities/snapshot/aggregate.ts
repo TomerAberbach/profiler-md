@@ -1,12 +1,12 @@
-import { fileReferenceId } from '../location.ts'
-import type { FileReference, SourceLocation } from '../location.ts'
+import { fileReferenceId } from '../../location.ts'
+import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
   AggregateProfileToMdOptions,
   ProfileEntry,
   ResolvedProfileToMdOptions,
   UnresolvedProfileToMdContext,
-} from '../options.ts'
-import { determineOrigin } from '../origins/index.ts'
+} from '../../options.ts'
+import { determineOrigin } from '../../origins/index.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {

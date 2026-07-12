@@ -29,7 +29,7 @@ export const pprofConverter = {
   languages: [`c`, `go`, `javascript`, `julia`, `ruby`, `rust`],
   fallbackOrigin: `unknown`,
   type: `binary`,
-  shape: `profile`,
+  modality: `profile`,
   matches: matchesPprof,
   parse: bytes => parsePprof(bytes),
   // `pprof-format` needs all bytes at once, so buffer the stream then delegate

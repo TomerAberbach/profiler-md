@@ -1,7 +1,7 @@
-import type { Diff } from '../diff.ts'
-import { matchDiffedMaps } from '../diff.ts'
-import type { FileReference, SourceLocation } from '../location.ts'
-import type { ResolvedProfileToMdOptions } from '../options.ts'
+import type { Diff } from '../../diff.ts'
+import { matchDiffedMaps } from '../../diff.ts'
+import type { FileReference, SourceLocation } from '../../location.ts'
+import type { ResolvedProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,

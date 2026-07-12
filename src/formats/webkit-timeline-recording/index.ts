@@ -33,7 +33,7 @@ export const webkitTimelineRecordingConverter = {
   languages: [`javascript`],
   fallbackOrigin: `safari`,
   type: `json`,
-  shape: `profile`,
+  modality: `profile`,
   matches: matchesWebKitTimelineRecording,
   parse: json => parseWebKitTimelineRecording(json as WebKitTimelineRecording),
 } as const satisfies JsonFormatConverter
