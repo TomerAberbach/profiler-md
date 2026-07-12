@@ -13,7 +13,7 @@ type MetricPhrases = {
   pastParticipleVerbPhrase: string
 }
 
-/** A metric sampled over time in a profile. */
+/** A metric measured in a profile. */
 export type Metric = (
   | {
       type: `time`
@@ -145,6 +145,48 @@ const phrasesEqual = (left: MetricPhrases, right: MetricPhrases): boolean =>
   left.columnNoun === right.columnNoun &&
   left.pastTenseVerb === right.pastTenseVerb &&
   left.pastParticipleVerbPhrase === right.pastParticipleVerbPhrase
+
+/** A metric measured in both the base and current profiles. */
+export type DiffMetric = {
+  /** The metric common to both profiles. */
+  metric: Metric
+
+  /** The metric's index in the base profile's metrics. */
+  baseIndex: number
+
+  /** The metric's index in the current profile's metrics. */
+  currentIndex: number
+}
+
+/**
+ * Returns the metrics present in both {@link baseMetrics} and
+ * {@link currentMetrics}, along with each metric's index in both arrays.
+ */
+export const matchDiffedMetrics = (
+  baseMetrics: Metric[],
+  currentMetrics: Metric[],
+): DiffMetric[] => {
+  const matchedMetrics: DiffMetric[] = []
+  for (let baseIndex = 0; baseIndex < baseMetrics.length; baseIndex++) {
+    for (
+      let currentIndex = 0;
+      currentIndex < currentMetrics.length;
+      currentIndex++
+    ) {
+      if (
+        metricsEqual(baseMetrics[baseIndex]!, currentMetrics[currentIndex]!)
+      ) {
+        matchedMetrics.push({
+          metric: baseMetrics[baseIndex]!,
+          baseIndex,
+          currentIndex,
+        })
+        break
+      }
+    }
+  }
+  return matchedMetrics
+}
 
 const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [`nanoseconds`, NANOSECONDS],

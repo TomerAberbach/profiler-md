@@ -1,41 +1,49 @@
-import type { Heading, PhrasingContent, RootContent } from 'mdast'
+import type { PhrasingContent, RootContent } from 'mdast'
 import {
   codeCell,
   countCell,
   formatDiffTable,
   formatTable,
-  numberCell,
   percentCell,
   textCell,
 } from '../cell.ts'
 import type { Cell } from '../cell.ts'
-import type { Diff } from '../diff.ts'
 import {
   capitalizeFirst,
   formatArrow,
   formatBytes,
-  formatBytesDelta,
   formatChange,
   formatConjunction,
   formatCount,
   formatMicroseconds,
-  formatMilliseconds,
-  formatMillisecondsDelta,
 } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
   inlineCode,
-  nameLocationPhrasing,
   paragraph,
   phrasing,
   text,
 } from '../helpers/markdown.ts'
 import type { Header } from '../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
-import type { Metric } from '../metric.ts'
+import {
+  ENTRY_FILTER_DISABLED_NOTE,
+  formatDiffFunctionSections,
+  formatFunctionHeading,
+  formatMeasureSections,
+  formatTitle,
+  formatValue,
+  formatValueDelta,
+  formatZeroTotalNote,
+  measureColumnNoun,
+  measureRankedByPhrase,
+  metricCell,
+  selectDiffFunctions,
+} from '../measure.ts'
+import type { NamedFunction } from '../measure.ts'
+import type { DiffMetric, Metric } from '../metric.ts'
 import type { ResolvedProfileToMdOptions } from '../options.ts'
 import type {
   AggregatedProfile,
@@ -47,7 +55,6 @@ import { findCommonCallStack } from './aggregate.ts'
 import type {
   AggregatedProfileDiff,
   AggregatedProfileFunctionDiff,
-  DiffMetric,
 } from './diff.ts'
 
 type FormatProfileOptions = ResolvedProfileToMdOptions & {
@@ -66,9 +73,10 @@ export const formatProfile = (
     ...formatMeasureSections(
       measuresOf(profile.metrics),
       headingLevel + 1,
+      measureMetric,
       (measure, sectionHeadingLevel) => {
         if (measureTotal(measure, profile) === 0) {
-          return [formatZeroTotalNote(measure)]
+          return [formatZeroTotalNote(measureMetric(measure), ` in any sample`)]
         }
 
         const showsAnyEntry = profile.functions.some(func =>
@@ -89,14 +97,6 @@ export const formatProfile = (
   ]
 }
 
-/**
- * The note shown when the entry filter would hide every function — e.g. a
- * profile sampled entirely inside external code with no frame of ours anywhere
- * (a runtime dump, a lock profile parked in the JDK) — in which case the
- * filter is disabled so the profile's body renders rather than vanishes.
- */
-const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
-
 export const formatProfileDiff = (
   diff: AggregatedProfileDiff,
   options: ResolvedProfileToMdOptions,
@@ -109,12 +109,13 @@ export const formatProfileDiff = (
     ...formatMeasureSections(
       diffMeasuresOf(diff.metrics),
       headingLevel + 1,
+      measureMetric,
       (measure, sectionHeadingLevel) => {
         if (
           diffTotal(measure, diff.base, `base`) === 0 &&
           diffTotal(measure, diff.current, `current`) === 0
         ) {
-          return [formatZeroTotalNote(measure)]
+          return [formatZeroTotalNote(measureMetric(measure), ` in any sample`)]
         }
 
         const showsAnyEntry = diff.functions.some(
@@ -808,7 +809,8 @@ const formatDiffSelfFunctions = (
       baseValue: diffSelfValue(measure, func.base, `base`),
       currentValue: diffSelfValue(measure, func.current, `current`),
     })),
-    options,
+    options.topN,
+    func => showDiffFunction(func, options),
   )
 
   const baseTotal = diffTotal(measure, diff.base, `base`)
@@ -840,7 +842,7 @@ const formatDiffSelfFunctions = (
     headingLevel,
     `Self ${measureColumnNoun(metric)}`,
     `${measureRankedByPhrase(metric)} directly in the function body, excluding callees`,
-    metric,
+    functionTableHeaders(metric),
     hasActive,
     regressions.map(({ func }) => rowOf(func)),
     progressions.map(({ func }) => rowOf(func)),
@@ -861,7 +863,8 @@ const formatDiffTotalFunctions = (
       baseValue: diffTotalValue(measure, func.base, `base`),
       currentValue: diffTotalValue(measure, func.current, `current`),
     })),
-    options,
+    options.topN,
+    func => showDiffFunction(func, options),
   )
 
   const baseTotal = diffTotal(measure, diff.base, `base`)
@@ -893,7 +896,7 @@ const formatDiffTotalFunctions = (
     headingLevel,
     `Total ${measureColumnNoun(metric)}`,
     `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
-    metric,
+    functionTableHeaders(metric),
     hasActive,
     regressions.map(({ func }) => rowOf(func)),
     progressions.map(({ func }) => rowOf(func)),
@@ -956,97 +959,6 @@ const measureForSide = (measure: DiffMeasure, side: DiffSide): Measure => {
   return { type: `metric`, metric: measure.metric, index }
 }
 
-/**
- * A diffed function paired with its base and current values for the direction
- * (self or total) being formatted.
- */
-type ActiveDiffFunction = {
-  func: AggregatedProfileFunctionDiff
-  baseValue: number
-  currentValue: number
-}
-
-/**
- * Selects the top regressed and progressed functions from {@link candidates},
- * keeping only those active on at least one side and shown by {@link options}.
- */
-const selectDiffFunctions = (
-  candidates: ActiveDiffFunction[],
-  options: ResolvedProfileToMdOptions,
-): {
-  hasActive: boolean
-  regressions: ActiveDiffFunction[]
-  progressions: ActiveDiffFunction[]
-} => {
-  const active = candidates.filter(
-    ({ func, baseValue, currentValue }) =>
-      (baseValue > 0 || currentValue > 0) && showDiffFunction(func, options),
-  )
-  return {
-    hasActive: active.length > 0,
-    regressions: selectTopN(
-      active.filter(({ baseValue, currentValue }) => currentValue > baseValue),
-      options.topN,
-      ({ baseValue, currentValue }) => currentValue - baseValue,
-    ),
-    progressions: selectTopN(
-      active.filter(({ baseValue, currentValue }) => currentValue < baseValue),
-      options.topN,
-      ({ baseValue, currentValue }) => baseValue - currentValue,
-    ),
-  }
-}
-
-/**
- * Assembles the regressions and progressions subsections for one function
- * direction (self or total) under a {@link title} heading.
- *
- * When nothing differed but {@link hasActive} functions exist on either side,
- * the section stays, with a "did not differ" note. When no functions are
- * active at all (the section a non-diff profile would have omitted), it is
- * omitted.
- */
-const formatDiffFunctionSections = (
-  headingLevel: number,
-  title: string,
-  description: string,
-  metric: Metric | null,
-  hasActive: boolean,
-  regressions: Diff<Cell[]>[],
-  progressions: Diff<Cell[]>[],
-): RootContent[] => {
-  const sections: RootContent[] = []
-
-  if (regressions.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Regressions`),
-      paragraph(`Functions with the largest increase in ${description}.`),
-      formatDiffTable(functionTableHeaders(metric), regressions, {
-        primaryIndex: 1,
-      }),
-    )
-  }
-
-  if (progressions.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Improvements`),
-      paragraph(`Functions with the largest decrease in ${description}.`),
-      formatDiffTable(functionTableHeaders(metric), progressions, {
-        primaryIndex: 1,
-      }),
-    )
-  }
-
-  if (sections.length === 0) {
-    if (!hasActive) {
-      return []
-    }
-    sections.push(paragraph(`No function differed in ${description}.`))
-  }
-
-  return formatSectionGroup([heading(headingLevel, title)], sections)
-}
-
 /** The headers of the hottest self or total functions table. */
 const functionTableHeaders = (metric: Metric | null): Header[] =>
   functionMeasureHeaders(metric, `Function`)
@@ -1058,71 +970,6 @@ const showDiffFunction = (
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
-
-const formatTitle = (metrics: Metric[]): string =>
-  metrics.length === 0
-    ? `Sampling profile`
-    : capitalizeFirst(
-        `${formatConjunction(
-          metrics.map(metric => metric.phrases.titleNoun),
-        )} profile`,
-      )
-
-/**
- * Formats a Markdown section per measure in {@link measures} via
- * {@link formatSections}, wrapping each measure's sections in a heading with
- * the metric's name when there are multiple measures.
- */
-const formatMeasureSections = <M extends Measure | DiffMeasure>(
-  measures: M[],
-  headingLevel: number,
-  formatSections: (measure: M, headingLevel: number) => RootContent[],
-): RootContent[] =>
-  measures.flatMap(measure =>
-    measures.length === 1
-      ? formatSections(measure, headingLevel)
-      : formatSectionGroup(
-          [
-            heading(
-              headingLevel,
-              capitalizeFirst(measureMetric(measure)!.phrases.titleNoun),
-            ),
-          ],
-          formatSections(measure, headingLevel + 1),
-        ),
-  )
-
-/**
- * The note shown in place of a measure's sections when the profile recorded
- * no value for it, e.g. a heap profile dumped when nothing was retained.
- */
-const formatZeroTotalNote = (measure: Measure | DiffMeasure): RootContent => {
-  const metric = measureMetric(measure)
-  return paragraph(
-    metric === null
-      ? `No samples were collected.`
-      : `No ${metric.phrases.pastParticipleVerbPhrase} in any sample.`,
-  )
-}
-
-type NamedFunction = {
-  name: string
-  location?: SourceLocation
-}
-
-/** Formats a heading for a function with its location. */
-const formatFunctionHeading = (
-  headingLevel: number,
-  func: NamedFunction,
-  options: ResolvedProfileToMdOptions,
-): Heading =>
-  heading(
-    headingLevel,
-    nameLocationPhrasing(
-      func.name,
-      formatSourceLocation(func.location, options),
-    ),
-  )
 
 /** The `Samples` header shared by the metric tables. */
 const samplesHeader: Header = { content: `Samples`, align: `right` }
@@ -1162,14 +1009,6 @@ const measureTotal = (measure: Measure, profile: AggregatedProfile): number =>
     ? profile.totalSampleCount
     : profile.totalValues[measure.index]!
 
-/** The noun used in headings, e.g. "time", "size", "count", or "samples". */
-const measureColumnNoun = (metric: Metric | null): string =>
-  metric === null ? `samples` : metric.phrases.columnNoun
-
-/** The phrase used in "ranked by ___", e.g. "time spent" or "samples taken". */
-const measureRankedByPhrase = (metric: Metric | null): string =>
-  metric === null ? `samples taken` : metric.phrases.pastParticipleVerbPhrase
-
 /**
  * The leading `%`, metric value (when there's a metric), and `Samples` headers
  * shared by the measure tables.
@@ -1198,37 +1037,6 @@ const measureCells = (
   ...(metric === null ? [] : [metricCell(value, metric)]),
   countCell(sampleCount),
 ]
-
-const metricCell = (value: number, metric: Metric): Cell =>
-  numberCell(
-    value,
-    value => formatValue(value, metric),
-    value => formatValueDelta(value, metric),
-  )
-
-/** Formats a single metric value (e.g. as milliseconds, bytes, or a count). */
-const formatValue = (value: number, metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return formatMilliseconds(value * metric.milliseconds)
-    case `size`:
-      return formatBytes(value * metric.bytes)
-    case `custom`:
-      return formatCount(value, metric.unit)
-  }
-}
-
-/** Formats a single metric delta magnitude, at delta precision. */
-const formatValueDelta = (value: number, metric: Metric): string => {
-  switch (metric.type) {
-    case `time`:
-      return formatMillisecondsDelta(value * metric.milliseconds)
-    case `size`:
-      return formatBytesDelta(value * metric.bytes)
-    case `custom`:
-      return formatCount(value, metric.unit)
-  }
-}
 
 /** Formats a call stack as a chain of functions, leaf to root. */
 const formatCallStack = (
