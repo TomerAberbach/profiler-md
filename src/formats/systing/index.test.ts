@@ -39,10 +39,15 @@ describe(`matches`, () => {
     expect(systingConverter.matches(new Uint8Array(0))).toBe(false)
   })
 
-  test(`rejects an unsupported future version`, () => {
+  test(`rejects an unsupported version, future or otherwise`, () => {
     expect(
       systingConverter.matches(
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
+      ),
+    ).toBe(false)
+    expect(
+      systingConverter.matches(
+        makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
       ),
     ).toBe(false)
   })
@@ -53,6 +58,27 @@ describe(`matches`, () => {
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
       ),
     ).toThrow(`version 2`)
+    expect(() =>
+      parseSysting(
+        makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
+      ),
+    ).toThrow(`version 0`)
+  })
+
+  test(`rejects an unsupported stack order`, () => {
+    expect(
+      systingConverter.matches(
+        makeSysting([], { ...systingHeader, stack_order: `root_first` }),
+      ),
+    ).toBe(false)
+  })
+
+  test(`parse reports the unsupported stack order`, () => {
+    expect(() =>
+      parseSysting(
+        makeSysting([], { ...systingHeader, stack_order: `root_first` }),
+      ),
+    ).toThrow(`root_first`)
   })
 
   test(`parse rejects records that aren't arrays`, () => {
@@ -345,6 +371,80 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`CPU cycles profile`])
     expect(summaryLines(md)).toEqual([
       `Recorded 2,000,000 cycles over 2 samples (1,000,000 cycles per sample).`,
+    ])
+  })
+
+  test(`event type ids resolve through the header's legend`, () => {
+    const md = convertBytesToMd(
+      systingConverter,
+      makeSysting(
+        [
+          [`f`, 0, `work (app) <0x1000>`],
+          [`s`, 0, [0]],
+          [`x`, 1, 0, 7, 2],
+          [`x`, 1, 0, 5, 3],
+        ],
+        {
+          ...systingHeader,
+          event_types: { '5': `uninterruptible_sleep`, '7': `cpu` },
+        },
+      ),
+      options(),
+    )
+
+    expect(profileTitles(md)).toEqual([
+      `CPU profile`,
+      `Uninterruptible sleep profile`,
+    ])
+    expect(summaryLines(md)).toEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+      `Slept 3 sleeps over 3 samples (1 sleep per sample).`,
+    ])
+  })
+
+  test(`samples of unrecognized event types are skipped`, () => {
+    // A future event type in the legend follows the format's versioning
+    // rules for unknown record tags: skipped, without failing the parse.
+    const md = convertBytesToMd(
+      systingConverter,
+      makeSysting(
+        [
+          [`f`, 0, `work (app) <0x1000>`],
+          [`s`, 0, [0]],
+          [`x`, 1, 0, 1, 2],
+          [`x`, 1, 0, 9, 5],
+        ],
+        {
+          ...systingHeader,
+          event_types: { ...systingHeader.event_types, '9': `preempted` },
+        },
+      ),
+      options(),
+    )
+
+    expect(profileTitles(md)).toEqual([`CPU profile`])
+    expect(summaryLines(md)).toEqual([
+      `Took 2.0ms over 2 samples (1.0ms per sample).`,
+    ])
+  })
+
+  test(`a header without a legend uses systing's own event type ids`, () => {
+    const md = convertBytesToMd(
+      systingConverter,
+      makeSysting(
+        [
+          [`f`, 0, `spin (app) <0x1>`],
+          [`s`, 0, [0]],
+          [`x`, 1, 0, 2, 4],
+        ],
+        { ...systingHeader, event_types: undefined },
+      ),
+      options(),
+    )
+
+    expect(profileTitles(md)).toEqual([`Interruptible sleep profile`])
+    expect(summaryLines(md)).toEqual([
+      `Slept 4 sleeps over 4 samples (1 sleep per sample).`,
     ])
   })
 

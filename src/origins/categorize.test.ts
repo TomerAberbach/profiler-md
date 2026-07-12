@@ -555,6 +555,46 @@ describe(`systing`, () => {
     ).toBe(`jit`)
   })
 
+  test(`a located kernel frame keeps its label's category`, () => {
+    // Kernel debuginfo symbolizes kernel frames with a source location; the
+    // label survives normalization in the name and still marks the category.
+    expect(
+      categorizeEntryForOrigin(
+        {
+          id: 1,
+          name: `handle_mm_fault ([kernel])`,
+          location: { type: `relative`, path: `memory.c` },
+        },
+        `systing`,
+      ),
+    ).toBe(`kernel`)
+  })
+
+  test(`pystack frames follow the shared CPython path rules`, () => {
+    expect(
+      categorizeEntryForOrigin(
+        located(
+          `file:///opt/venv/lib/python3.11/site-packages/django/core/handlers/base.py`,
+        ),
+        `systing`,
+      ),
+    ).toBe(`third-party`)
+    expect(
+      categorizeEntryForOrigin(
+        located(
+          `file:///root/.pyenv/versions/3.11.4/lib/python3.11/json/decoder.py`,
+        ),
+        `systing`,
+      ),
+    ).toBe(`stdlib`)
+    expect(
+      categorizeEntryForOrigin(
+        relative(`<frozen importlib._bootstrap>`),
+        `systing`,
+      ),
+    ).toBe(`stdlib`)
+  })
+
   test(`unresolved and library frames without sources are native, not stdlib`, () => {
     // A system profiler samples plenty of app code with no debug info, so a
     // missing source location doesn't imply a runtime internal.
@@ -784,6 +824,20 @@ describe(`normalizeFrame`, () => {
         name: `read_config`,
         location: { urlOrPath: `config.c` },
         line: undefined,
+      })
+    })
+
+    test(`keeps a bracketed label module alongside a source location`, () => {
+      // The label is the category signal, so it survives even when kernel
+      // debuginfo gives the frame a source location.
+      expect(
+        normalizeFrame({
+          name: `handle_mm_fault ([kernel] [memory.c:5432]) <0xffffffff96e00123>`,
+        }),
+      ).toEqual({
+        name: `handle_mm_fault ([kernel])`,
+        location: { urlOrPath: `memory.c` },
+        line: 5432,
       })
     })
 

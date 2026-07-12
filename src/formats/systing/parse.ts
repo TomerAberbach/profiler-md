@@ -42,15 +42,60 @@ type SystingHeader = {
    * nanoseconds for `cpu-clock`.
    */
   sample_period?: number | null
+
+  /** Legend mapping `x` record event type ids to event names. */
+  event_types?: Record<string, string> | null
+
+  /** Order of frame ids within `s` record stacks; always `leaf_first`. */
+  stack_order?: string | null
 }
 
 /**
- * The stack event types of `x` records: systing samples CPU execution and
- * takes a stack each time a thread enters a sleep state.
+ * The stack events of `x` records: systing samples CPU execution and takes a
+ * stack each time a thread enters a sleep state.
  */
-const CPU = 1
-const UNINTERRUPTIBLE_SLEEP = 0
-const INTERRUPTIBLE_SLEEP = 2
+const EVENT_KINDS = [
+  // CPU first (the headline), then uninterruptible sleep (D-state waits:
+  // disk, locks — the actionable off-CPU signal), then interruptible sleep.
+  `cpu`,
+  `uninterruptible_sleep`,
+  `interruptible_sleep`,
+] as const
+
+type SystingEventKind = (typeof EVENT_KINDS)[number]
+
+const isEventKind = (name: string): name is SystingEventKind =>
+  (EVENT_KINDS as readonly string[]).includes(name)
+
+/** The event type ids systing's recorder assigns, for legend-less headers. */
+const DEFAULT_EVENT_TYPE_KINDS: ReadonlyMap<number, SystingEventKind> = new Map(
+  [
+    [0, `uninterruptible_sleep`],
+    [1, `cpu`],
+    [2, `interruptible_sleep`],
+  ],
+)
+
+/**
+ * Resolves the header's `event_types` legend to event type id → kind. Legend
+ * entries with unrecognized names are future event types; their samples are
+ * skipped like unknown record tags.
+ */
+const eventTypeKinds = (
+  header: SystingHeader,
+): ReadonlyMap<number, SystingEventKind> => {
+  const legend = header.event_types
+  if (typeof legend !== `object` || legend === null) {
+    return DEFAULT_EVENT_TYPE_KINDS
+  }
+  const kinds = new Map<number, SystingEventKind>()
+  for (const [id, name] of Object.entries(legend)) {
+    if (isEventKind(name)) {
+      kinds.set(Number(id), name)
+    }
+  }
+  return kinds
+}
 
 /**
  * Parses systing profile export lines (see the format's spec in systing's
@@ -68,9 +113,22 @@ class SystingProfileBuilder {
   readonly #frameIndices = new Map<number, number>()
   /** Export stack id → the stack's frame indices, leaf-first. */
   readonly #stacks = new Map<number, number[]>()
-  /** Per stack event type, the samples seen so far. */
-  readonly #samples = new Map<number, Sample[]>()
+  /** Per event kind, the samples seen so far. */
+  readonly #samples = new Map<SystingEventKind, Sample[]>()
   #header: SystingHeader | undefined
+  /** Event type id → kind, per the header's `event_types` legend. */
+  #eventTypeKinds: ReadonlyMap<number, SystingEventKind> =
+    DEFAULT_EVENT_TYPE_KINDS
+
+  /**
+   * The CPU profile's metric and one CPU sample's metric values: the sample
+   * period, so aggregate CPU time/cycles is period × sample count. Decided
+   * together once the header is parsed so metrics and values can't disagree.
+   * An export without sampling provenance (recorded by systing before 1.9)
+   * has neither and ranks CPU purely by sample count.
+   */
+  #cpuMetric: Metric | undefined
+  #cpuValues: number[] = NO_VALUES
 
   public addLine(line: string): void {
     if (line.length === 0) {
@@ -78,7 +136,16 @@ class SystingProfileBuilder {
     }
 
     if (!this.#header) {
-      this.#header = parseSystingHeader(line)
+      const header = parseSystingHeader(line)
+      this.#header = header
+      this.#eventTypeKinds = eventTypeKinds(header)
+      const period = header.sample_period
+      if (typeof period === `number`) {
+        this.#cpuMetric = cpuMetric(header)
+        if (this.#cpuMetric) {
+          this.#cpuValues = [period]
+        }
+      }
       return
     }
 
@@ -117,27 +184,29 @@ class SystingProfileBuilder {
         const stackId = sample[2]
         const eventType = sample[3]
         const count = sample[4]
+        const kind = this.#eventTypeKinds.get(eventType)
+        // An event type outside the legend's known names is a future stack
+        // event; skip its samples like unknown record tags.
+        if (kind === undefined) {
+          break
+        }
         const frameIndices = this.#stacks.get(stackId)
         if (!frameIndices) {
           throw new Error(
             `Not a systing profile export: sample references undefined stack ${stackId}`,
           )
         }
-        let samples = this.#samples.get(eventType)
+        let samples = this.#samples.get(kind)
         if (!samples) {
           samples = []
-          this.#samples.set(eventType, samples)
+          this.#samples.set(kind, samples)
         }
         samples.push({
           id: stackId,
-          values:
-            eventType === CPU
-              ? this.#cpuSampleValues()
-              : SLEEP_METRICS.has(eventType)
-                ? SLEEP_SAMPLE_VALUES
-                : [],
+          values: kind === `cpu` ? this.#cpuValues : SLEEP_SAMPLE_VALUES,
           // Export stacks are already leaf-first (callee to caller), the
-          // aggregator's order.
+          // aggregator's order; parseSystingHeader rejects any other declared
+          // stack_order.
           frameIndices,
           sampleCount: count,
         })
@@ -152,19 +221,6 @@ class SystingProfileBuilder {
     }
   }
 
-  /**
-   * One CPU sample's metric values: the sample period, so aggregate CPU
-   * time/cycles is period × sample count. An export without sampling
-   * provenance (recorded by systing before 1.9) has no metrics and ranks CPU
-   * purely by sample count.
-   */
-  #cpuSampleValues(): number[] {
-    const period = this.#header?.sample_period
-    return typeof period === `number` && cpuMetric(this.#header!)
-      ? [period]
-      : []
-  }
-
   #internFrame(name: string): number {
     const index = this.#frames.length
     this.#frames.push({ name })
@@ -177,20 +233,15 @@ class SystingProfileBuilder {
     }
 
     const profiles: Profile[] = []
-    // CPU first (the headline), then uninterruptible sleep (D-state waits:
-    // disk, locks — the actionable off-CPU signal), then interruptible sleep.
-    for (const eventType of [CPU, UNINTERRUPTIBLE_SLEEP, INTERRUPTIBLE_SLEEP]) {
-      const samples = this.#samples.get(eventType)
+    for (const kind of EVENT_KINDS) {
+      const samples = this.#samples.get(kind)
       if (!samples) {
         continue
       }
-      const metric =
-        eventType === CPU
-          ? cpuMetric(this.#header)
-          : SLEEP_METRICS.get(eventType)
+      const metric = kind === `cpu` ? this.#cpuMetric : SLEEP_METRICS.get(kind)
       profiles.push({
         frames: this.#frames,
-        metrics: metric && samples[0]!.values.length > 0 ? [metric] : [],
+        metrics: metric ? [metric] : [],
         samples,
       })
     }
@@ -204,9 +255,9 @@ class SystingProfileBuilder {
  * by the tally's count. The metric exists to title and label the sleep
  * profiles distinctly; its totals always equal the sample counts.
  */
-const SLEEP_METRICS: ReadonlyMap<number, Metric> = new Map([
+const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
   [
-    UNINTERRUPTIBLE_SLEEP,
+    `uninterruptible_sleep`,
     {
       type: `custom`,
       unit: `sleep`,
@@ -219,7 +270,7 @@ const SLEEP_METRICS: ReadonlyMap<number, Metric> = new Map([
     },
   ],
   [
-    INTERRUPTIBLE_SLEEP,
+    `interruptible_sleep`,
     {
       type: `custom`,
       unit: `sleep`,
@@ -234,6 +285,8 @@ const SLEEP_METRICS: ReadonlyMap<number, Metric> = new Map([
 ])
 
 const SLEEP_SAMPLE_VALUES = [1]
+
+const NO_VALUES: number[] = []
 
 /**
  * The CPU profile's metric per the header's sampling provenance: real time
@@ -257,8 +310,8 @@ const cpuMetric = (header: SystingHeader): Metric | undefined => {
  * Also the format's detection signature: `matches` classifies only this line,
  * so detection and parsing can't disagree on what a systing export is.
  *
- * @throws when the line isn't a systing export header or its version is
- * unsupported.
+ * @throws when the line isn't a systing export header or its version or
+ * stack order is unsupported.
  */
 export const parseSystingHeader = (line: string): SystingHeader => {
   let json: unknown
@@ -278,9 +331,15 @@ export const parseSystingHeader = (line: string): SystingHeader => {
       `Not a systing profile export: missing systing_profile_export version`,
     )
   }
-  if (version > 1) {
+  if (version !== 1) {
     throw new Error(
       `Unsupported systing profile export version ${version}; only version 1 is supported`,
+    )
+  }
+  const stackOrder = header.stack_order ?? `leaf_first`
+  if (stackOrder !== `leaf_first`) {
+    throw new Error(
+      `Unsupported systing profile export stack order ${stackOrder}; only leaf_first is supported`,
     )
   }
   return header

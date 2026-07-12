@@ -118,7 +118,7 @@ export const categorizeCPythonEntry = (
   `ours`
 
 /** Categorizes Python frames from an installed-package directory as `third-party`. */
-const pythonThirdPartyCategory = ({
+export const pythonThirdPartyCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
   if (!location) {
