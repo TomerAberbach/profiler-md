@@ -240,6 +240,7 @@ class SystingProfileBuilder {
       }
       const metric = kind === `cpu` ? this.#cpuMetric : SLEEP_METRICS.get(kind)
       profiles.push({
+        type: `profile`,
         frames: this.#frames,
         metrics: metric ? [metric] : [],
         samples,

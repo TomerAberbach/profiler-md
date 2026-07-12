@@ -31,7 +31,6 @@ export const systingConverter = {
   languages: [`c`, `python`, `rust`],
   fallbackOrigin: `systing`,
   type: `binary`,
-  modality: `profile`,
   matches: matchesSysting,
   parse: parseSysting,
   parseAsync: parseSystingAsync,

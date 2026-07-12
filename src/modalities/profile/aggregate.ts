@@ -20,24 +20,26 @@ import type {
   SampleLineMetrics,
 } from './type.ts'
 
-/** Aggregates each {@link Profile} through the uniform pipeline. */
-export const aggregateProfiles = (
-  profiles: Profile[],
+/**
+ * Creates the function that aggregates one {@link Profile} through the uniform
+ * pipeline. A single instance should aggregate all of an input's profiles:
+ * multi-profile formats typically share one frames array reference (see
+ * {@link Profile.frames}), so it resolves the origin and normalizes once per
+ * distinct array rather than once per profile.
+ */
+export const makeAggregateProfile = (
   options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
-): AggregatedProfile[] => {
-  // Multi-profile formats typically share one frames array reference (see
-  // {@link Profile.frames}), so resolve the origin and normalize once per
-  // distinct array rather than once per profile.
+): ((profile: Profile) => AggregatedProfile) => {
   const resolutions = new Map<ProfileStackFrame[], ResolvedFrames>()
-  return profiles.map(profile => {
+  return profile => {
     let resolution = resolutions.get(profile.frames)
     if (!resolution) {
       resolution = resolveFrames(profile.frames, context)
       resolutions.set(profile.frames, resolution)
     }
     return aggregateProfile(profile, resolution, options, context)
-  })
+  }
 }
 
 /**

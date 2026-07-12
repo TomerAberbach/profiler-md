@@ -1,7 +1,7 @@
 import { readdirSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
-import { aggregateInputs, formatConverters } from '../formats/index.ts'
+import { aggregateInputs } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { inputPath, readInput } from '../testing/inputs.ts'
@@ -456,30 +456,28 @@ const expectedInputOrigin = (filename: string): Origin => {
   return origin
 }
 
-const profileInputFilenames = readdirSync(inputPath()).filter(
-  filename =>
-    // Inputs with the snapshot modality are excluded: they don't categorize by
-    // origin.
-    formatConverters[parseExampleFilename(filename).format].modality ===
-    `profile`,
-)
+const inputFilenames = readdirSync(inputPath())
 
 describe(`detected input origins`, () => {
-  test.each(profileInputFilenames)(
+  test.each(inputFilenames)(
     `%s resolves to its profiler's origin`,
     filename => {
-      const origin = expectedInputOrigin(filename)
-
       const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
 
-      const unexpectedOrigins = inputs.flatMap(input => {
-        if (input.type !== `profile`) {
-          throw new Error(`expected only profile inputs`)
-        }
-        return input.functions
+      // A modality is a property of each aggregated input, not of the format,
+      // so the sweep covers every committed input and asserts on its profiles.
+      // Snapshots are excluded: they don't categorize by origin.
+      const profiles = inputs.filter(input => input.type === `profile`)
+      if (profiles.length === 0) {
+        return
+      }
+
+      const origin = expectedInputOrigin(filename)
+      const unexpectedOrigins = profiles.flatMap(profile =>
+        profile.functions
           .map(func => func.category)
-          .filter(category => category !== origin)
-      })
+          .filter(category => category !== origin),
+      )
       expect(new Set(unexpectedOrigins)).toEqual(new Set())
     },
   )

@@ -41,6 +41,9 @@ export type ProfileStackFrame = {
  * typically sharing the same {@link Profile.frames} array reference.
  */
 export type Profile = {
+  /** Discriminates the modality within `ParsedInput`. */
+  type: `profile`
+
   /**
    * The distinct frames the samples reference.
    *

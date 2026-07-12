@@ -100,7 +100,7 @@ export const parseWebKitTimelineRecording = ({
     })
   }
 
-  return [{ frames, metrics: [SECONDS], samples }]
+  return [{ type: `profile`, frames, metrics: [SECONDS], samples }]
 }
 
 const frameKey = (node: WebKitStackFrame): string =>

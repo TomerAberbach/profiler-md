@@ -31,12 +31,11 @@ profiler-md
 │   │   ├── testing/
 │   │   │   └── convert.ts    # Test-only convertJsonToMd/convertBytesToMd runners for a single converter
 │   │   └── **/<name>/        # One per format; v8/ nests cpu-profile/heap-profile/heap-snapshot + shared common.ts
-│   │       ├── parse.ts      # Parses input to typed data; profile formats also produce the uniform `Profile`
-│   │       ├── aggregate.ts  # Aggregates to a heap snapshot (snapshot formats only)
-│   │       ├── index.ts      # Exports the format's converter (matches + parse/aggregate)
+│   │       ├── parse.ts      # Parses input to typed data and the modality's uniform parsed type (`Profile` or `HeapSnapshot`)
+│   │       ├── index.ts      # Exports the format's converter (matches + parse)
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
-│   ├── modalities/           # Per-modality conversion logic; a format converter declares its modality
+│   ├── modalities/           # Per-modality conversion logic; each parsed input's `type` selects its modality
 │   │   ├── profile/          # Common sampling profile conversion logic
 │   │   │   ├── type.ts       # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
 │   │   │   ├── aggregate.ts  # Sample aggregation over origin-resolved frames
@@ -44,9 +43,10 @@ profiler-md
 │   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
 │   │   │   └── index.ts      # Barrel file
 │   │   └── snapshot/         # Common heap snapshot conversion logic
+│   │       ├── type.ts       # Parsed heap snapshot types (`HeapSnapshot`, `SnapshotNode`)
 │   │       ├── graph.ts      # Node adjacency graph in CSR format
 │   │       ├── retained.ts   # Retained size computation
-│   │       ├── aggregate.ts  # Heap snapshot data aggregation
+│   │       ├── aggregate.ts  # Heap snapshot aggregation over classified nodes
 │   │       ├── diff.ts       # Aggregated heap snapshot diffing logic
 │   │       ├── format.ts     # Heap snapshot and diff to Markdown formatting
 │   │       ├── index.ts      # Barrel file

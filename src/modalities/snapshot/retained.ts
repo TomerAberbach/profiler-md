@@ -1,9 +1,7 @@
 import type { ImmediateDominatorGraph } from './graph.ts'
 
 export const computeNodeOrdinalToRetainedSize = (
-  nodes: ArrayLike<number>,
-  nodeFieldCount: number,
-  selfSizeOffset: number,
+  selfSizeOf: (nodeOrdinal: number) => number,
   {
     dfsIndexToOrdinal,
     ordinalToImmediateDominatorOrdinal,
@@ -18,8 +16,7 @@ export const computeNodeOrdinalToRetainedSize = (
     nodeOrdinal < nodeOrdinalToRetainedSize.length;
     nodeOrdinal++
   ) {
-    const selfSize = nodes[nodeOrdinal * nodeFieldCount + selfSizeOffset]!
-    nodeOrdinalToRetainedSize[nodeOrdinal] = selfSize
+    nodeOrdinalToRetainedSize[nodeOrdinal] = selfSizeOf(nodeOrdinal)
   }
   for (let dfsIndex = dfsIndexToOrdinal.length - 1; dfsIndex >= 1; dfsIndex--) {
     const dominateeOrdinal = dfsIndexToOrdinal[dfsIndex]!

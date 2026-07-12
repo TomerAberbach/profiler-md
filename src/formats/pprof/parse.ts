@@ -96,7 +96,7 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
     })
   }
 
-  return [{ frames, metrics, samples }]
+  return [{ type: `profile`, frames, metrics, samples }]
 }
 
 /**

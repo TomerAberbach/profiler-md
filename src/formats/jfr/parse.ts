@@ -238,6 +238,7 @@ const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
       continue
     }
     profiles.push({
+      type: `profile`,
       frames,
       metrics: metric ? [metric] : [],
       samples: kindSamples(kindEvents, metric, resolveStack),

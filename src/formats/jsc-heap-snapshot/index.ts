@@ -1,5 +1,5 @@
 import type { JsonFormatConverter } from '../converter.ts'
-import { aggregateJSCHeapSnapshot } from './aggregate.ts'
+import { parseJSCHeapSnapshot } from './parse.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
 const matchesJSCHeapSnapshot = (json: unknown): boolean => {
@@ -25,7 +25,6 @@ export const jscHeapSnapshotConverter = {
   languages: [`javascript`],
   fallbackOrigin: `safari`,
   type: `json`,
-  modality: `snapshot`,
   matches: matchesJSCHeapSnapshot,
-  aggregate: json => aggregateJSCHeapSnapshot(json as JSCHeapSnapshot),
+  parse: json => parseJSCHeapSnapshot(json as JSCHeapSnapshot),
 } as const satisfies JsonFormatConverter

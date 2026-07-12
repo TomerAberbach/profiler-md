@@ -35,8 +35,6 @@ vi.setConfig({ testTimeout: 125_000 })
 const inputSets = {
   json: new Set<string>(),
   binary: new Set<string>(),
-  profile: new Set<string>(),
-  snapshot: new Set<string>(),
 }
 // Every committed input is exercised through the registry. Only the `base`
 // variant of each is taken since `current` is a near-identical re-run, keeping
@@ -46,15 +44,12 @@ for (const filename of readdirSync(inputPath())) {
   if (variant !== `base`) {
     continue
   }
-  const { type, modality } = formatConverters[format]
-  inputSets[type].add(filename)
-  inputSets[modality].add(filename)
+  inputSets[formatConverters[format].type].add(filename)
 }
 
 const jsonInputs = [...inputSets.json]
 const binaryInputs = [...inputSets.binary]
 const allInputs = [...jsonInputs, ...binaryInputs]
-const snapshotInputs = [...inputSets.snapshot]
 
 // Some real captures legitimately have no samples (e.g. a lock profile that saw
 // no contention), so the pipeline yields the no-data message instead of a
@@ -826,22 +821,19 @@ describe(`diffProfiles`, () => {
     expect(md).toBe(`No profiling data found.\n`)
   })
 
-  test.each(snapshotInputs)(
-    `throws on diffing javascript.node.base.cpuprofile against %s`,
-    snapshotFilename => {
-      const profileContent = readFileSync(
-        inputPath(`javascript.node.base.cpuprofile`),
-      )
-      const snapshotContent = readInput(snapshotFilename)
+  test(`throws on diffing a profile against a snapshot`, () => {
+    const profileContent = readFileSync(
+      inputPath(`javascript.node.base.cpuprofile`),
+    )
+    const snapshotContent = readInput(`javascript.node.base.heapsnapshot`)
 
-      expect(() =>
-        diffProfiles(profileContent, snapshotContent, { baseURL: null }),
-      ).toThrow(/cannot diff a profile against a snapshot/u)
-      expect(() =>
-        diffProfiles(snapshotContent, profileContent, { baseURL: null }),
-      ).toThrow(/cannot diff a snapshot against a profile/u)
-    },
-  )
+    expect(() =>
+      diffProfiles(profileContent, snapshotContent, { baseURL: null }),
+    ).toThrow(/cannot diff a profile against a snapshot/u)
+    expect(() =>
+      diffProfiles(snapshotContent, profileContent, { baseURL: null }),
+    ).toThrow(/cannot diff a snapshot against a profile/u)
+  })
 })
 
 describe(`diffProfilesAsync`, () => {

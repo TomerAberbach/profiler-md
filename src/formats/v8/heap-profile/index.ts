@@ -25,7 +25,6 @@ export const v8HeapProfileConverter = {
   languages: [`javascript`],
   fallbackOrigin: `node`,
   type: `json`,
-  modality: `profile`,
   matches: matchesV8HeapProfile,
   parse: json => parseV8HeapProfile(json as V8HeapProfile),
 } as const satisfies JsonFormatConverter

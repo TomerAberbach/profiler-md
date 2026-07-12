@@ -1,5 +1,5 @@
 import type { JsonFormatConverter } from '../../converter.ts'
-import { aggregateV8HeapSnapshot } from './aggregate.ts'
+import { parseV8HeapSnapshot } from './parse.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 
 const matchesV8HeapSnapshot = (json: unknown): boolean => {
@@ -34,7 +34,6 @@ export const v8HeapSnapshotConverter = {
   languages: [`javascript`],
   fallbackOrigin: `node`,
   type: `json`,
-  modality: `snapshot`,
   matches: matchesV8HeapSnapshot,
-  aggregate: json => aggregateV8HeapSnapshot(json as V8HeapSnapshot),
+  parse: json => parseV8HeapSnapshot(json as V8HeapSnapshot),
 } as const satisfies JsonFormatConverter
