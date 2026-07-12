@@ -1,6 +1,7 @@
 import { DynamicTypedArray } from '../helpers/array.ts'
 import { HashInterner } from '../helpers/intern.ts'
 import type { SourceLocation } from '../location.ts'
+import type { Metric } from '../metric.ts'
 import type {
   AggregateProfileToMdOptions,
   ProfileToMdContext,
@@ -12,7 +13,6 @@ import {
   parseFrameFunction,
 } from '../origins/index.ts'
 import type { FrameFunction, Origin } from '../origins/index.ts'
-import type { Metric } from './metric.ts'
 import type {
   Profile,
   ProfileStackFrame,
