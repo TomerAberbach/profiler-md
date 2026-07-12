@@ -36,7 +36,6 @@ profiler-md
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
 │   ├── profile/              # Common sampling profile conversion logic
-│   │   ├── metric.ts         # Sampled metric types and inference logic
 │   │   ├── type.ts           # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
 │   │   ├── aggregate.ts      # Uniform pipeline (origin detection → frame normalization → aggregation) + aggregation builder
 │   │   ├── diff.ts           # Aggregated profile diffing logic
@@ -58,6 +57,8 @@ profiler-md
 │   │   └── index.ts          # Origin registry; determineOrigin/categorizeEntryForOrigin
 │   │
 │   ├── cell.ts               # Table cell types + Markdown table/diff-table formatting
+│   ├── metric.ts             # Sampled metric types and inference logic
+│   ├── measure.ts            # Metric/measure Markdown formatting shared across formatters
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
 │   ├── options.ts            # API option types and normalization logic
