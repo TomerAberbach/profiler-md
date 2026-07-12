@@ -33,9 +33,9 @@ import {
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
+  formatProseValue,
+  formatProseValueDelta,
   formatTitle,
-  formatValue,
-  formatValueDelta,
   formatZeroTotalNote,
   measureColumnNoun,
   measureRankedByPhrase,
@@ -193,7 +193,7 @@ const formatSummaryLine = ({
     formatConjunction(
       metrics.map(
         (metric, index) =>
-          `${metric.phrases.pastTenseVerb} ${formatValue(
+          `${metric.phrases.pastTenseVerb} ${formatProseValue(
             totalValues[index]!,
             metric,
           )}`,
@@ -645,10 +645,10 @@ const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
     const baseValue = diff.base.totalValues[baseIndex]!
     const currentValue = diff.current.totalValues[currentIndex]!
     return `${metric.phrases.pastTenseVerb} ${formatArrow(
-      formatValue(baseValue, metric),
-      formatValue(currentValue, metric),
+      formatProseValue(baseValue, metric),
+      formatProseValue(currentValue, metric),
     )}${formatChange(baseValue, currentValue, magnitude =>
-      formatValueDelta(magnitude, metric),
+      formatProseValueDelta(magnitude, metric),
     )}`
   })
   const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
@@ -673,7 +673,7 @@ const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
     case `size`:
       return formatBytes(samplingRate * metric.bytes)
     case `custom`:
-      return formatCount(samplingRate, metric.unit)
+      return formatCount(samplingRate, metric.proseUnit)
   }
 }
 

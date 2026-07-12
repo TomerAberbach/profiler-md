@@ -305,14 +305,14 @@ describe(`convert`, () => {
     ])
     expect(summaryLines(md)).toEqual([
       `Took 6.0ms over 6 samples (1.0ms per sample).`,
-      `Slept 2 sleeps over 2 samples (1 sleep per sample).`,
-      `Slept 5 sleeps over 5 samples (1 sleep per sample).`,
+      `Slept 2 times over 2 samples (1 time per sample).`,
+      `Slept 5 times over 5 samples (1 time per sample).`,
     ])
     expect(selfSleepsTables(md)).toEqual([
       [
         {
           '%': `100.0%`,
-          Sleeps: `2 sleeps`,
+          Sleeps: `2`,
           Samples: `2`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
@@ -321,7 +321,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Sleeps: `5 sleeps`,
+          Sleeps: `5`,
           Samples: `5`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
@@ -332,7 +332,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Sleeps: `2 sleeps`,
+          Sleeps: `2`,
           Samples: `2`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
@@ -341,7 +341,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Sleeps: `5 sleeps`,
+          Sleeps: `5`,
           Samples: `5`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
@@ -398,7 +398,7 @@ describe(`convert`, () => {
     ])
     expect(summaryLines(md)).toEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
-      `Slept 3 sleeps over 3 samples (1 sleep per sample).`,
+      `Slept 3 times over 3 samples (1 time per sample).`,
     ])
   })
 
@@ -444,7 +444,7 @@ describe(`convert`, () => {
 
     expect(profileTitles(md)).toEqual([`Interruptible sleep profile`])
     expect(summaryLines(md)).toEqual([
-      `Slept 4 sleeps over 4 samples (1 sleep per sample).`,
+      `Slept 4 times over 4 samples (1 time per sample).`,
     ])
   })
 
