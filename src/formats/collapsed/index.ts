@@ -32,9 +32,12 @@ const matchesCollapsed = (bytes: Uint8Array): boolean => {
 
 export const collapsedConverter = {
   title: `Collapsed stacks`,
+  extension: `collapsed`,
+  languages: [`elixir`, `java`, `python`, `ruby`],
+  fallbackOrigin: `unknown`,
   type: `binary`,
   shape: `profile`,
   matches: matchesCollapsed,
   parse: parseCollapsed,
   parseAsync: parseCollapsedAsync,
-} satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatConverter

@@ -10,9 +10,12 @@ const JFR_MAGIC = 0x464c5200
 
 export const jfrConverter = {
   title: `JFR`,
+  extension: `jfr`,
+  languages: [`java`],
+  fallbackOrigin: `jvm`,
   type: `binary`,
   shape: `profile`,
   matches: matchesJfr,
   parse: parseJfr,
   parseAsync: parseJfrAsync,
-} satisfies BinaryFormatConverter
+} as const satisfies BinaryFormatConverter

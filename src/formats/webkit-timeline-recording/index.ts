@@ -29,8 +29,11 @@ const matchesWebKitTimelineRecording = (json: unknown): boolean => {
 
 export const webkitTimelineRecordingConverter = {
   title: `WebKit timeline recording`,
+  extension: `webkit-timeline-recording.json`,
+  languages: [`javascript`],
+  fallbackOrigin: `safari`,
   type: `json`,
   shape: `profile`,
   matches: matchesWebKitTimelineRecording,
   parse: json => parseWebKitTimelineRecording(json as WebKitTimelineRecording),
-} satisfies JsonFormatConverter
+} as const satisfies JsonFormatConverter

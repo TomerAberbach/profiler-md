@@ -21,8 +21,11 @@ const matchesJSCHeapSnapshot = (json: unknown): boolean => {
 
 export const jscHeapSnapshotConverter = {
   title: `JSC heap snapshot`,
+  extension: `jsc-heap-snapshot.json`,
+  languages: [`javascript`],
+  fallbackOrigin: `safari`,
   type: `json`,
   shape: `snapshot`,
   matches: matchesJSCHeapSnapshot,
   aggregate: json => aggregateJSCHeapSnapshot(json as JSCHeapSnapshot),
-} satisfies JsonFormatConverter
+} as const satisfies JsonFormatConverter

@@ -1,13 +1,18 @@
-import { formats } from '../formats/index.ts'
-import type { Format } from '../formats/index.ts'
+import { formatConverters, formats } from '../formats/registry.ts'
+import type { Format } from '../formats/registry.ts'
 import { languages } from './languages.ts'
 
-export type ExampleVariant = `base` | `current` | `diff`
+const variants = [`base`, `current`, `diff`] as const
 
-/** A `examples/output/`/`examples/input/` filename parsed into its canonical parts. */
-export type ParsedExample = {
-  /** Language or alias id (the first filename segment, e.g. `cpp`, `kotlin`). */
-  lang: string
+export type ExampleVariant = (typeof variants)[number]
+
+/**
+ * A `examples/output/` or `examples/input/` filename parsed into its canonical
+ * parts.
+ */
+export type Example = {
+  /** Language or alias ID (e.g. `cpp`, `kotlin`). */
+  language: string
   /** Capture tool or runtime (e.g. `gperftools`, `node`, `async-profiler`). */
   source: string
   /** Capture configuration (e.g. `cpu`, `wall`); empty when absent. */
@@ -16,57 +21,45 @@ export type ParsedExample = {
   format: Format
 }
 
-const variants = new Set<string>([`base`, `current`, `diff`])
-
-// Exact post-variant extension → format. Multi-segment extensions
-// (`speedscope.json`, `jsc-heap-snapshot.json`, `webkit-timeline-recording.json`)
-// are matched in full, so the format is always recoverable from the extension
-// alone and never from the optional config segment.
-const extFormats: Record<string, Format> = {
-  pprof: `pprof`,
-  collapsed: `collapsed`,
-  jfr: `jfr`,
-  cpuprofile: `v8-cpu-profile`,
-  heapprofile: `v8-heap-profile`,
-  heapsnapshot: `v8-heap-snapshot`,
-  'speedscope.json': `speedscope`,
-  systing: `systing`,
-  'jsc-heap-snapshot.json': `jsc-heap-snapshot`,
-  'webkit-timeline-recording.json': `webkit-timeline-recording`,
-}
-
-// Guard against drift: every format must map from exactly one example extension,
-// so adding a format forces adding its extension here.
-const mappedFormats = new Set(Object.values(extFormats))
+const extensionFormats = new Map<string, Format>()
 for (const format of formats) {
-  if (!mappedFormats.has(format)) {
-    throw new Error(`format "${format}" has no example extension in extFormats`)
+  const { extension } = formatConverters[format]
+  const existing = extensionFormats.get(extension)
+  if (existing) {
+    throw new Error(
+      `formats ${JSON.stringify(existing)} and ${JSON.stringify(format)} share an extension: ${JSON.stringify(`.${extension}`)}`,
+    )
   }
+  extensionFormats.set(extension, format)
 }
 
 /**
  * Parses a canonical `<lang>.<source>.<config?>.<base|current|diff>.<ext...>`
  * example or input filename (with or without a trailing `.md`) into its parts.
  */
-export const parseExampleFilename = (filename: string): ParsedExample => {
+export const parseExampleFilename = (filename: string): Example => {
   const name = filename.endsWith(`.md`) ? filename.slice(0, -3) : filename
   const tokens = name.split(`.`)
 
-  const variantIndex = tokens.findIndex(token => variants.has(token))
+  const variantIndex = tokens.findIndex(token =>
+    variants.includes(token as ExampleVariant),
+  )
   if (variantIndex === -1) {
-    throw new Error(`example "${filename}" has no base/current/diff variant`)
+    throw new Error(
+      `Example ${JSON.stringify(filename)} has no base/current/diff variant`,
+    )
   }
 
-  const ext = tokens.slice(variantIndex + 1).join(`.`)
-  const format = extFormats[ext]
+  const extension = tokens.slice(variantIndex + 1).join(`.`)
+  const format = extensionFormats.get(extension)
   if (!format) {
     throw new Error(
-      `example "${filename}" has an unrecognized extension ".${ext}"`,
+      `Example "${JSON.stringify(filename)}" has an unrecognized extension: ${JSON.stringify(`.${extension}`)}`,
     )
   }
 
   return {
-    lang: tokens[0]!,
+    language: tokens[0]!,
     source: tokens[1]!,
     config: tokens.slice(2, variantIndex).join(`.`),
     variant: tokens[variantIndex] as ExampleVariant,
@@ -125,11 +118,11 @@ const exampleConfigName = (config: string): string =>
  * config). When nothing varies the label is empty.
  */
 export const exampleComboLabel = (
-  combo: Pick<ParsedExample, `lang` | `source` | `config`>,
+  combo: Pick<Example, `language` | `source` | `config`>,
   vary: { lang: boolean; source: boolean; config: boolean },
 ): string =>
   [
-    vary.lang ? exampleLanguageName(combo.lang) : ``,
+    vary.lang ? exampleLanguageName(combo.language) : ``,
     vary.source ? exampleSourceName(combo.source) : ``,
     vary.config ? exampleConfigName(combo.config) : ``,
   ]

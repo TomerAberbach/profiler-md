@@ -1,27 +1,28 @@
-import type { Format } from '../index.ts'
+import { formatConverters, formats } from '../formats/registry.ts'
+import type { Format } from '../formats/registry.ts'
 
 type LanguageAlias = {
-  id: string
-  name: string
+  readonly id: string
+  readonly name: string
 }
 
-export type Language = {
-  name: string
-  formats: Format[]
-  aliases?: LanguageAlias[]
+type LanguageMeta = {
+  readonly name: string
+  readonly aliases?: readonly LanguageAlias[]
   /**
    * File extensions accepted as undocumented `--help` topic aliases, excluding
    * extensions identical to the language's ID or an alias ID.
    */
-  extensions?: string[]
+  readonly extensions?: readonly string[]
 }
 
-export const languages: ReadonlyMap<string, Language> = new Map([
+export type Language = LanguageMeta & { formats: Format[] }
+
+const languageMetas = [
   [
     `c`,
     {
       name: `C`,
-      formats: [`pprof`, `systing`],
       aliases: [{ id: `cpp`, name: `C++` }],
       extensions: [`h`, `cc`, `cxx`, `hpp`],
     },
@@ -30,7 +31,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `csharp`,
     {
       name: `C#`,
-      formats: [`speedscope`],
       aliases: [{ id: `fsharp`, name: `F#` }],
       extensions: [`cs`, `fs`, `fsx`],
     },
@@ -39,7 +39,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `elixir`,
     {
       name: `Elixir`,
-      formats: [`collapsed`],
       aliases: [{ id: `erlang`, name: `Erlang` }],
       extensions: [`ex`, `exs`, `erl`],
     },
@@ -48,14 +47,12 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `go`,
     {
       name: `Go`,
-      formats: [`pprof`],
     },
   ],
   [
     `java`,
     {
       name: `Java`,
-      formats: [`jfr`, `collapsed`],
       aliases: [{ id: `kotlin`, name: `Kotlin` }],
       extensions: [`kt`, `kts`],
     },
@@ -64,14 +61,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `javascript`,
     {
       name: `JavaScript`,
-      formats: [
-        `jsc-heap-snapshot`,
-        `pprof`,
-        `v8-cpu-profile`,
-        `v8-heap-profile`,
-        `v8-heap-snapshot`,
-        `webkit-timeline-recording`,
-      ],
       aliases: [{ id: `typescript`, name: `TypeScript` }],
       extensions: [`js`, `mjs`, `cjs`, `jsx`, `ts`, `mts`, `cts`, `tsx`],
     },
@@ -80,7 +69,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `julia`,
     {
       name: `Julia`,
-      formats: [`pprof`],
       extensions: [`jl`],
     },
   ],
@@ -88,14 +76,12 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `php`,
     {
       name: `PHP`,
-      formats: [`speedscope`],
     },
   ],
   [
     `python`,
     {
       name: `Python`,
-      formats: [`collapsed`, `speedscope`, `systing`],
       extensions: [`py`],
     },
   ],
@@ -103,7 +89,6 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `ruby`,
     {
       name: `Ruby`,
-      formats: [`collapsed`, `pprof`, `speedscope`],
       extensions: [`rb`],
     },
   ],
@@ -111,11 +96,24 @@ export const languages: ReadonlyMap<string, Language> = new Map([
     `rust`,
     {
       name: `Rust`,
-      formats: [`pprof`, `systing`],
       extensions: [`rs`],
     },
   ],
-])
+] as const satisfies readonly (readonly [string, LanguageMeta])[]
+
+export type LanguageId = (typeof languageMetas)[number][0]
+
+export const languages: ReadonlyMap<string, Language> = new Map(
+  languageMetas.map(([id, meta]) => [
+    id,
+    {
+      ...meta,
+      formats: formats.filter(format =>
+        formatConverters[format].languages.includes(id as never),
+      ),
+    },
+  ]),
+)
 
 export const languageAliasToPrimary: ReadonlyMap<string, string> = new Map(
   [...languages.entries()].flatMap(

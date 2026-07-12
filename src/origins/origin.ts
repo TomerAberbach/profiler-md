@@ -1,4 +1,4 @@
-import type { Format } from '../formats/index.ts'
+import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'

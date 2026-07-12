@@ -17,8 +17,11 @@ const matchesV8CpuProfile = (json: unknown): boolean => {
 
 export const v8CpuProfileConverter = {
   title: `V8 CPU profile`,
+  extension: `cpuprofile`,
+  languages: [`javascript`],
+  fallbackOrigin: `unknown`,
   type: `json`,
   shape: `profile`,
   matches: matchesV8CpuProfile,
   parse: json => parseV8CpuProfile(json as V8CpuProfile),
-} satisfies JsonFormatConverter
+} as const satisfies JsonFormatConverter

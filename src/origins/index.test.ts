@@ -1,11 +1,15 @@
-import { describe, expect, test } from 'vitest'
-import { aggregateInputs } from '../formats/index.ts'
+import { readdirSync } from 'node:fs'
+import { describe, expect, test, vi } from 'vitest'
+import { parseExampleFilename } from '../cli/examples.ts'
+import { aggregateInputs, formatConverters } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
-import { readInput } from '../testing/inputs.ts'
+import { inputPath, readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
 import { determineOrigin } from './index.ts'
 import { systingOriginSpec } from './systing.ts'
+
+vi.setConfig({ testTimeout: 125_000 })
 
 const relativeEntry = (name: string, path?: string): ProfileEntry => ({
   id: 1,
@@ -402,42 +406,81 @@ describe(`determineOrigin`, () => {
   })
 })
 
-// Each profile input's expected detected origin, observed through its function
-// categories. Snapshots don't categorize by origin, so they're excluded;
-// `determineOrigin` is unit-tested directly above instead.
-const INPUT_ORIGINS: [filename: string, origin: Origin][] = [
-  [`javascript.bun.base.cpuprofile`, `bun`],
-  [`javascript.deno.base.cpuprofile`, `deno`],
-  [`javascript.node.base.cpuprofile`, `node`],
-  [`javascript.node.current.cpuprofile`, `node`],
-  [`javascript.node.base.heapprofile`, `node`],
-  [`javascript.pprof.cpu.base.pprof`, `node-pprof`],
-  [`javascript.safari.base.webkit-timeline-recording.json`, `safari`],
-  [`python.py-spy.cpu.base.collapsed`, `py-spy`],
-  [`python.py-spy.cpu.current.collapsed`, `py-spy`],
-  [`rust.pprof-rs.cpu.base.pprof`, `pprof-rs`],
-  [`rust.pprof-rs.cpu.current.pprof`, `pprof-rs`],
-  [`java.jdk.cpu.base.jfr`, `jvm`],
-  [`java.async-profiler.cpu.base.jfr`, `jvm`],
-  [`csharp.dotnet-trace.base.speedscope.json`, `dotnet-trace`],
-  [`csharp.dotnet-trace.current.speedscope.json`, `dotnet-trace`],
-  [`fsharp.dotnet-trace.base.speedscope.json`, `dotnet-trace`],
-  [`fsharp.dotnet-trace.current.speedscope.json`, `dotnet-trace`],
-]
+// The expected detected origin of each committed profile input, keyed by the
+// input's `<lang>.<source>`, with `<lang>.<source>.<config?>` and
+// `<lang>.<source>.<config?>.<format>` overrides.
+const SOURCE_ORIGINS = new Map<string, Origin>([
+  [`c.gperftools`, `unknown`],
+  [`c.systing`, `systing`],
+  [`cpp.gperftools`, `unknown`],
+  [`csharp.dotnet-trace`, `dotnet-trace`],
+  [`elixir.eflambe`, `beam`],
+  [`erlang.eflambe`, `beam`],
+  [`fsharp.dotnet-trace`, `dotnet-trace`],
+  [`go.pprof`, `go`],
+  // A threadcreate capture's stacks are thread-spawn sites with no
+  // GOROOT-located runtime frames, Go's only in-frame marker.
+  [`go.pprof.threadcreate`, `unknown`],
+  [`java.async-profiler`, `jvm`],
+  [`java.jdk`, `jvm`],
+  [`javascript.bun`, `bun`],
+  [`javascript.chrome`, `unknown`],
+  // Heap profiles carry no in-frame runtime markers, so the format resolves
+  // every capture to its fallback origin: node, its primary emitter.
+  [`javascript.chrome.v8-heap-profile`, `node`],
+  [`javascript.deno`, `deno`],
+  [`javascript.node`, `node`],
+  [`javascript.pprof`, `node-pprof`],
+  [`javascript.safari`, `safari`],
+  [`julia.pprof-jl`, `pprof-jl`],
+  [`kotlin.async-profiler`, `jvm`],
+  [`kotlin.jdk`, `jvm`],
+  [`php.excimer`, `unknown`],
+  [`python.py-spy`, `py-spy`],
+  [`ruby.rbspy`, `rbspy`],
+  [`rust.pprof-rs`, `pprof-rs`],
+])
+
+const expectedInputOrigin = (filename: string): Origin => {
+  const { language, source, config, format } = parseExampleFilename(filename)
+  const sourceKey = [language, source, config].filter(Boolean).join(`.`)
+  const origin =
+    SOURCE_ORIGINS.get(`${sourceKey}.${format}`) ??
+    SOURCE_ORIGINS.get(sourceKey) ??
+    SOURCE_ORIGINS.get(`${language}.${source}`)
+  if (!origin) {
+    throw new Error(
+      `Add ${JSON.stringify(sourceKey)} and its expected origin to \`SOURCE_ORIGINS\``,
+    )
+  }
+  return origin
+}
+
+const profileInputFilenames = readdirSync(inputPath()).filter(
+  filename =>
+    // Snapshot-shaped inputs are excluded: they don't categorize by origin.
+    formatConverters[parseExampleFilename(filename).format].shape === `profile`,
+)
 
 describe(`detected input origins`, () => {
-  test.each(INPUT_ORIGINS)(`%s is detected as %s`, (filename, origin) => {
-    const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
+  test.each(profileInputFilenames)(
+    `%s resolves to its profiler's origin`,
+    filename => {
+      const origin = expectedInputOrigin(filename)
 
-    for (const input of inputs) {
-      if (input.type !== `profile`) {
-        throw new Error(`expected only profile inputs`)
-      }
-      expect(new Set(input.functions.map(func => func.category))).toEqual(
-        new Set([origin]),
-      )
-    }
-  })
+      const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
+
+      const unexpectedOrigins = inputs.flatMap(input => {
+        if (input.type !== `profile`) {
+          throw new Error(`expected only profile inputs`)
+        }
+        return input.functions
+          .map(func => func.category)
+          .filter(category => category !== origin)
+      })
+      expect(new Set(unexpectedOrigins)).toEqual(new Set())
+    },
+  )
 })
 
 describe(`origin threading`, () => {

@@ -33,22 +33,17 @@ import {
   formatHeapSnapshotDiff,
 } from '../snapshot/format.ts'
 import { sourceMapSourceLocation } from '../source-map.ts'
-import { collapsedConverter } from './collapsed/index.ts'
 import type {
   AggregatedInput,
   BinaryFormatConverter,
   FormatConverter,
   JsonFormatConverter,
 } from './converter.ts'
-import { jfrConverter } from './jfr/index.ts'
-import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
-import { pprofConverter } from './pprof/index.ts'
-import { speedscopeConverter } from './speedscope/index.ts'
-import { systingConverter } from './systing/index.ts'
-import { v8CpuProfileConverter } from './v8/cpu-profile/index.ts'
-import { v8HeapProfileConverter } from './v8/heap-profile/index.ts'
-import { v8HeapSnapshotConverter } from './v8/heap-snapshot/index.ts'
-import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/index.ts'
+import { formatConverters, formats } from './registry.ts'
+import type { Format } from './registry.ts'
+
+export { formatConverters, formats } from './registry.ts'
+export type { Format } from './registry.ts'
 
 /**
  * Converts the given profile data to Markdown.
@@ -378,35 +373,6 @@ const isAbsoluteFileLocation = (
 ): location is SourceLocation & { type: `absolute` } =>
   location?.type === `absolute` && location.url.protocol === `file:`
 
-export const formats = [
-  `collapsed`,
-  `jfr`,
-  `jsc-heap-snapshot`,
-  `pprof`,
-  `speedscope`,
-  `systing`,
-  `v8-cpu-profile`,
-  `v8-heap-profile`,
-  `v8-heap-snapshot`,
-  `webkit-timeline-recording`,
-] as const
-
-/** Supported profile format IDs. */
-export type Format = (typeof formats)[number]
-
-export const formatConverters: Record<Format, FormatConverter> = {
-  collapsed: collapsedConverter,
-  jfr: jfrConverter,
-  'jsc-heap-snapshot': jscHeapSnapshotConverter,
-  pprof: pprofConverter,
-  speedscope: speedscopeConverter,
-  systing: systingConverter,
-  'v8-cpu-profile': v8CpuProfileConverter,
-  'v8-heap-profile': v8HeapProfileConverter,
-  'v8-heap-snapshot': v8HeapSnapshotConverter,
-  'webkit-timeline-recording': webkitTimelineRecordingConverter,
-}
-
 const detectFromJson = (
   json: unknown,
   options: AggregateProfileToMdOptions,
@@ -437,11 +403,14 @@ const detectFromJson = (
   return undefined
 }
 
-const jsonFormatConverters: [Format, JsonFormatConverter][] = Object.entries(
-  formatConverters,
-).filter(
-  (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
+const formatConverterEntries: [Format, FormatConverter][] = formats.map(
+  format => [format, formatConverters[format]],
 )
+
+const jsonFormatConverters: [Format, JsonFormatConverter][] =
+  formatConverterEntries.filter(
+    (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
+  )
 
 const detectFromBytes = (
   bytes: Uint8Array,
@@ -520,7 +489,7 @@ const makeContext = (
 ): UnresolvedProfileToMdContext => ({ format, origin: origin ?? null })
 
 const binaryFormatConverters: [Format, BinaryFormatConverter][] =
-  Object.entries(formatConverters).filter(
+  formatConverterEntries.filter(
     (entry): entry is [Format, BinaryFormatConverter] =>
       entry[1].type === `binary`,
   )
