@@ -55,7 +55,14 @@ class CollapsedProfileBuilder {
   }
 
   public build(): Profile[] {
-    return [{ frames: this.#frames, metrics: [], samples: this.#samples }]
+    return [
+      {
+        type: `profile`,
+        frames: this.#frames,
+        metrics: [],
+        samples: this.#samples,
+      },
+    ]
   }
 }
 

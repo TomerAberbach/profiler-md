@@ -83,6 +83,7 @@ export const parseV8CpuProfile = (profile: V8CpuProfile): Profile[] => {
 
   return [
     {
+      type: `profile`,
       frames,
       metrics: [MICROSECONDS],
       samples: cpuSamples(

@@ -131,6 +131,7 @@ const sampledProfile = (
   frames: ProfileStackFrame[],
   profile: SpeedscopeSampledProfile,
 ): Profile => ({
+  type: `profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
   samples: sampledSamples(profile),
@@ -158,6 +159,7 @@ const eventedProfile = (
   frames: ProfileStackFrame[],
   profile: SpeedscopeEventedProfile,
 ): Profile => ({
+  type: `profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
   samples: eventedSamples(profile),

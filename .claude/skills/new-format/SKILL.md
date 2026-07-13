@@ -47,12 +47,13 @@ $ARGUMENTS
    - Decide the format's `fallbackOrigin`: the runtime origin for single-runtime
      formats, else `unknown`
 
-4. Confirm the format fits one of the supported modalities: a sampling profile
-   (converts to `Profile[]`; see `src/modalities/profile/type.ts`) or a heap
-   snapshot (aggregates to `AggregatedHeapSnapshot[]`; see
-   `src/modalities/snapshot/`). If the format fits no modality, STOP: explain
-   the new modality and how it differs from the supported ones, and ask whether
-   to implement it first by loading `/new-modality` and following its workflow
+4. Confirm every modality the format captures is supported: a sampling profile
+   (parses to a `Profile`; see `src/modalities/profile/type.ts`) or a heap
+   snapshot (parses to a `HeapSnapshot`; see `src/modalities/snapshot/type.ts`).
+   A format may capture several. If any of its modalities is unsupported, STOP:
+   explain the new modality and how it differs from the supported ones, and ask
+   whether to implement it first by loading `/new-modality` and following its
+   workflow
 
 ## Generate inputs first
 
@@ -74,17 +75,17 @@ $ARGUMENTS
 ## Implement
 
 7. Create `src/formats/<name>/`:
-   - `parse.ts` (sampling-profile formats only):
-     - Typed data types and parsing into `Profile[]` (frames, metrics,
-       lazily-generated samples; see `src/modalities/profile/type.ts`)
-     - Map the format's units to metrics via `determineMetric`; a lone
-       sample-count metric should populate `Sample.sampleCount` with no metrics
-       instead
-     - Origin detection, normalization, and aggregation then run uniformly in
-       `src/modalities/profile/aggregate.ts`
-
-   - `aggregate.ts` (snapshot formats only): typed data types, and parsing and
-     aggregating into `AggregatedHeapSnapshot[]`
+   - `parse.ts`: typed data types and parsing into the modality's uniform parsed
+     type; aggregation, origin detection, and categorization then run uniformly
+     in the modality module
+     - A sampling profile parses into a `Profile` (frames, metrics,
+       lazily-generated samples; see `src/modalities/profile/type.ts`). Map the
+       format's units to metrics via `determineMetric`; a lone sample-count
+       metric should populate `Sample.sampleCount` with no metrics instead
+     - A snapshot parses into a `HeapSnapshot` (node adjacency graph,
+       lazily-classified nodes; see `src/modalities/snapshot/type.ts`)
+     - `parse` returns a list of them (`ParsedInput[]`), which may mix
+       modalities when one input contains both profiles and snapshots
 
    - `index.ts`: the `<name>Converter`
      (`as const satisfies JsonFormatConverter`/`BinaryFormatConverter`):
@@ -95,8 +96,7 @@ $ARGUMENTS
      - `matches`: keep it cheap and strict enough not to claim other text/JSON
      - `parse` is authoritative: it must throw on non-instances so
        auto-detection can move on
-     - Binary converters also implement the streaming `parseAsync` and have the
-       profile modality: the framework has no binary snapshot path
+     - Binary converters also implement the streaming `parseAsync`
 
    - `index.test.ts`: test:
      - `matches` accept/reject and `parse` rejections

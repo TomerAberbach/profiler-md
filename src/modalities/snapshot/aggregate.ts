@@ -13,46 +13,55 @@ import {
   attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
+import type { HeapSnapshot } from './type.ts'
 
-export type SnapshotAggregatorOptions = {
-  nodes: number[]
-  nodeCount: number
-  edgeCount: number
-  nodeFieldCount: number
-  nodeSelfSizeOffset: number
-  nodeAdjacencyGraph: NodeAdjacencyGraph
-
-  /**
-   * Formats an edge label for retainer paths, which are computed lazily at
-   * formatting time, so it receives the resolved formatting options.
-   */
-  formatEdgeLabel: (
-    retainerOrdinal: number,
-    edgeIndex: number,
-    options: ResolvedProfileToMdOptions,
-  ) => string
-
-  /**
-   * Formats a node label for retained-node lists, which are computed lazily
-   * at formatting time, so it receives the resolved formatting options. Eagerly
-   * aggregated entities ({@link SnapshotAggregator.addConstructorNode} etc.)
-   * take a raw, options-independent name instead.
-   */
-  formatNodeLabel: (
-    nodeOrdinal: number,
-    options: ResolvedProfileToMdOptions,
-  ) => string
-
-  isInternalNode: (nodeOrdinal: number) => boolean
+/**
+ * Aggregates one {@link HeapSnapshot} through the uniform pipeline: dominator
+ * and retained-size computation, per-node accumulation, then origin detection
+ * and categorization. The snapshot analogue of {@link makeAggregateProfile}'s
+ * returned function (snapshots share no state, so there is no maker).
+ */
+export const aggregateHeapSnapshot = (
+  snapshot: HeapSnapshot,
+  options: AggregateProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedHeapSnapshot => {
+  const aggregator = new SnapshotAggregator(snapshot)
+  let nodeOrdinal = 0
+  for (const node of snapshot.nodes) {
+    aggregator.addCategoryNode(nodeOrdinal, node.category)
+    switch (node.kind) {
+      case `constructor`:
+        aggregator.addConstructorNode(
+          nodeOrdinal,
+          node.name,
+          node.location,
+          node.nameLocation,
+        )
+        break
+      case `closure`:
+        aggregator.addClosureNode(nodeOrdinal, node.name, node.location)
+        break
+      case `string`:
+        aggregator.addStringNode(nodeOrdinal, node.name)
+        break
+      case undefined:
+        break
+    }
+    nodeOrdinal++
+  }
+  return categorizeAggregatedHeapSnapshot(
+    aggregator.aggregate(),
+    options,
+    context,
+  )
 }
 
-export class SnapshotAggregator {
-  readonly #nodes: number[]
+class SnapshotAggregator {
   readonly #nodeCount: number
   readonly #edgeCount: number
-  readonly #nodeFieldCount: number
-  readonly #nodeSelfSizeOffset: number
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
+  readonly #selfSizeOf: (nodeOrdinal: number) => number
   readonly #formatEdgeLabel: (
     retainerOrdinal: number,
     edgeIndex: number,
@@ -82,22 +91,18 @@ export class SnapshotAggregator {
   readonly #strings: AggregatedSnapshotNode[] = []
 
   public constructor({
-    nodes,
     nodeCount,
     edgeCount,
-    nodeFieldCount,
-    nodeSelfSizeOffset,
     nodeAdjacencyGraph,
+    selfSizeOf,
     formatEdgeLabel,
     formatNodeLabel,
     isInternalNode,
-  }: SnapshotAggregatorOptions) {
-    this.#nodes = nodes
+  }: HeapSnapshot) {
     this.#nodeCount = nodeCount
     this.#edgeCount = edgeCount
-    this.#nodeFieldCount = nodeFieldCount
-    this.#nodeSelfSizeOffset = nodeSelfSizeOffset
     this.#nodeAdjacencyGraph = nodeAdjacencyGraph
+    this.#selfSizeOf = selfSizeOf
     this.#formatEdgeLabel = formatEdgeLabel
     this.#formatNodeLabel = formatNodeLabel
     this.#isInternalNode = isInternalNode
@@ -107,9 +112,7 @@ export class SnapshotAggregator {
       nodeAdjacencyGraph,
     )
     this.#nodeOrdinalToRetainedSize = computeNodeOrdinalToRetainedSize(
-      nodes,
-      nodeFieldCount,
-      nodeSelfSizeOffset,
+      selfSizeOf,
       this.#immediateDominatorGraph,
     )
 
@@ -118,7 +121,7 @@ export class SnapshotAggregator {
   }
 
   public addCategoryNode(nodeOrdinal: number, category: string): void {
-    const selfSize = this.#selfSize(nodeOrdinal)
+    const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#totalSize += selfSize
     let stats = this.#nodeCategoryToStats.get(category)
     if (!stats) {
@@ -135,7 +138,7 @@ export class SnapshotAggregator {
     location?: SourceLocation,
     nameLocation?: FileReference,
   ): void {
-    const selfSize = this.#selfSize(nodeOrdinal)
+    const selfSize = this.#selfSizeOf(nodeOrdinal)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let constructorIndex = this.#nameToConstructorIndex.get(name)
     let constructor: AggregatedConstructor
@@ -202,7 +205,7 @@ export class SnapshotAggregator {
     }
 
     const closure = this.#closures[closureIndex]!
-    closure.selfSize += this.#selfSize(nodeOrdinal)
+    closure.selfSize += this.#selfSizeOf(nodeOrdinal)
     closure.instanceIds.push(nodeOrdinal)
     if (
       retainedSize > this.#nodeOrdinalToRetainedSize[closure.largestInstanceId]!
@@ -213,7 +216,7 @@ export class SnapshotAggregator {
   }
 
   public addStringNode(nodeOrdinal: number, name?: string): void {
-    const selfSize = this.#selfSize(nodeOrdinal)
+    const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#strings.push({
       type: `node`,
       id: nodeOrdinal,
@@ -221,12 +224,6 @@ export class SnapshotAggregator {
       selfSize,
       retainedSize: selfSize,
     })
-  }
-
-  #selfSize(nodeOrdinal: number): number {
-    return this.#nodes[
-      nodeOrdinal * this.#nodeFieldCount + this.#nodeSelfSizeOffset
-    ]!
   }
 
   public aggregate(): AggregatedHeapSnapshot {
@@ -266,9 +263,7 @@ export class SnapshotAggregator {
           nodeOrdinal,
           this.#immediateDominatorGraph,
           this.#nodeOrdinalToRetainedSize,
-          this.#nodes,
-          this.#nodeFieldCount,
-          this.#nodeSelfSizeOffset,
+          this.#selfSizeOf,
           ordinal => this.#formatNodeLabel(ordinal, options),
           this.#isInternalNode,
         ),
@@ -286,7 +281,7 @@ export class SnapshotAggregator {
  * URL-shaped name (e.g. a V8 module namespace object) so those categorize by
  * location too.
  */
-export const categorizeAggregatedHeapSnapshot = (
+const categorizeAggregatedHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
   options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
@@ -386,9 +381,7 @@ const computeRetainedNodes = (
     offsetToImmediateDominateeOrdinal,
   }: ImmediateDominatorGraph,
   nodeOrdinalToRetainedSize: Float64Array,
-  nodes: ArrayLike<number>,
-  nodeFieldCount: number,
-  nodeSelfSizeOffset: number,
+  selfSizeOf: (nodeOrdinal: number) => number,
   formatNodeLabel: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
 ): AggregatedSnapshotNode[] => {
@@ -409,7 +402,7 @@ const computeRetainedNodes = (
         type: `node`,
         id: current,
         name: formatNodeLabel(current),
-        selfSize: nodes[current * nodeFieldCount + nodeSelfSizeOffset]!,
+        selfSize: selfSizeOf(current),
         retainedSize: nodeOrdinalToRetainedSize[current]!,
       })
     }

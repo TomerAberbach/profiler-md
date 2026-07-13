@@ -1,6 +1,16 @@
 import type { LanguageId } from '../cli/languages.ts'
 import type { AggregatedProfile, Profile } from '../modalities/profile/index.ts'
-import type { AggregatedHeapSnapshot } from '../modalities/snapshot/index.ts'
+import type {
+  AggregatedHeapSnapshot,
+  HeapSnapshot,
+} from '../modalities/snapshot/index.ts'
+
+/**
+ * The uniform parsed form of a profile or snapshot, discriminated by its
+ * `type` literal. The framework aggregates each through its modality's
+ * pipeline.
+ */
+export type ParsedInput = Profile | HeapSnapshot
 
 /** The aggregated form of a profile or snapshot. */
 export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
@@ -28,14 +38,16 @@ type FormatMeta = {
 }
 
 /**
- * Converts a profile format's input into the uniform {@link Profile} (one per
- * profile the format yields).
+ * Converts a format's input into the uniform {@link ParsedInput}s (one per
+ * profile or snapshot the format yields, in the format's order; a format may
+ * yield a mix of modalities).
  *
  * This is a format's only custom step: it both reads the format and produces
- * the {@link Profile}, taking no options or context, since everything semantic
- * (origin, normalization, categorization) is the framework's uniform job. JSON
- * formats receive the generically-parsed JSON; binary formats receive the raw
- * bytes.
+ * the {@link Profile}s and {@link HeapSnapshot}s, taking no options or
+ * context, since everything semantic (aggregation, origin detection,
+ * categorization) is the framework's uniform job and anything that only
+ * affects the Markdown output resolves at formatting time. JSON formats
+ * receive the generically-parsed JSON; binary formats receive the raw bytes.
  *
  * Authoritative: it runs both when a user forces the format and (after
  * {@link Detect.matches} gates it) during auto-detection, so it should accept
@@ -44,23 +56,8 @@ type FormatMeta = {
  * string-table entry). A cheap {@link Detect.matches} may be a loose prefilter
  * because `parse` is the real check.
  */
-type ParseProfile<Input> = {
-  modality: `profile`
-  parse: (input: Input) => Profile[]
-}
-
-/**
- * Aggregates a snapshot format's input directly into aggregated heap snapshots.
- * Snapshots have no frames or samples, so they skip the profile pipeline. Like
- * {@link ParseProfile.parse}, aggregation takes no options or context: origin
- * detection and categorization run uniformly in the framework afterwards (see
- * {@link categorizeAggregatedHeapSnapshot}), and the framework resolves
- * anything that only affects the Markdown output (labels, base URLs) at
- * formatting time.
- */
-type AggregateSnapshot<Input> = {
-  modality: `snapshot`
-  aggregate: (input: Input) => AggregatedHeapSnapshot[]
+type Parse<Input> = {
+  parse: (input: Input) => ParsedInput[]
 }
 
 type Detect<Input> = {
@@ -73,7 +70,7 @@ type Detect<Input> = {
    * Keep it **cheap**: it shouldn't redo the production member's work. Because
    * it's detection-only, it does not need to agree exactly with what `parse`
    * accepts. It may be a loose prefilter that admits a few non-instances when
-   * the authoritative check is expensive ({@link ParseProfile.parse}
+   * the authoritative check is expensive ({@link Parse.parse}
    * re-validates and throws, so detection moves on), or stricter than `parse`
    * to keep ambiguous input (e.g. text a user could force) from being claimed
    * automatically.
@@ -82,10 +79,7 @@ type Detect<Input> = {
 }
 
 export type JsonFormatConverter = FormatMeta &
-  Detect<unknown> & { type: `json` } & (
-    | ParseProfile<unknown>
-    | AggregateSnapshot<unknown>
-  )
+  Detect<unknown> & { type: `json` } & Parse<unknown>
 
 export type BinaryFormatConverter = FormatMeta &
   Detect<Uint8Array> & {
@@ -93,11 +87,11 @@ export type BinaryFormatConverter = FormatMeta &
 
     /**
      * Parses a byte stream, the streaming analogue of
-     * {@link ParseProfile.parse}. Formats that can stream (e.g. line-based
+     * {@link Parse.parse}. Formats that can stream (e.g. line-based
      * text) should consume the stream incrementally; formats whose parser needs
      * all bytes at once can buffer the stream and delegate.
      */
-    parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<Profile[]>
-  } & ParseProfile<Uint8Array>
+    parseAsync: (stream: ReadableStream<Uint8Array>) => Promise<ParsedInput[]>
+  } & Parse<Uint8Array>
 
 export type FormatConverter = JsonFormatConverter | BinaryFormatConverter

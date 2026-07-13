@@ -26,9 +26,9 @@ $ARGUMENTS
   dispatch in `src/formats/index.ts`. That's expected; keep per-format logic out
   of the dispatch (formats still register only in `src/formats/registry.ts`)
 
-- Mirror the existing modalities' pipelines: per-format code only parses or
-  aggregates; categorization, diffing, and formatting run uniformly in the
-  modality module
+- Mirror the existing modalities' pipelines: per-format code only parses to the
+  modality's uniform parsed type; aggregation, categorization, diffing, and
+  formatting run uniformly in the modality module
 
 # Workflow
 
@@ -41,10 +41,10 @@ $ARGUMENTS
    needed
 
 2. Decide:
-   - The pipeline structure: profile-style (formats parse to a uniform parsed
-     type; aggregation, origin detection, and categorization run in the shared
-     pipeline) or snapshot-style (formats aggregate directly; categorization
-     runs afterwards over the aggregated form)
+   - The uniform parsed type: what a format's `parse` produces (see `Profile` in
+     `src/modalities/profile/type.ts` and `HeapSnapshot` in
+     `src/modalities/snapshot/type.ts`), so aggregation, origin detection, and
+     categorization run in the shared pipeline
    - The diff semantics for base/current pairs
    - How categorization works: what an entry (name + location) is for this
      modality, so origin detection and `showEntry` filtering apply uniformly
@@ -52,7 +52,7 @@ $ARGUMENTS
 ## Implement the modality module
 
 3. Create `src/modalities/<name>/` mirroring `profile/` and `snapshot/`:
-   - `type.ts` for the uniform parsed type (profile-style pipelines only)
+   - `type.ts` for the uniform parsed type
    - `aggregate.ts`: the aggregated form, with a `type: '<name>'` literal
      discriminating it within `AggregatedInput`, plus aggregation and
      categorization (following the CLAUDE.md aggregating principles)
@@ -65,25 +65,28 @@ $ARGUMENTS
 
 ## Extend the pipeline
 
-4. Extend the converter union in `src/formats/converter.ts`: a new
-   `modality: '<name>'` member with its production function, and the aggregated
-   form added to `AggregatedInput`. Decide whether binary formats can carry the
-   modality; today only profiles have a binary path
+4. Extend the unions in `src/formats/converter.ts`: the uniform parsed type
+   (tagged with a `type: '<name>'` literal) added to `ParsedInput` and the
+   aggregated form to `AggregatedInput`. Converters don't declare a modality —
+   `parse` may yield any mix of `ParsedInput`s, so a format can carry the new
+   modality alongside others
 
 5. Run `pnpm typecheck` and extend every dispatch site it reports in
-   `src/formats/index.ts` (aggregation, base-URL collection, formatting, and
-   diffing). Then audit that file for branches typecheck can't catch: if/else
-   chains and runtime throws like `formatAggregatedDiff`'s modality-mismatch
-   error
+   `src/formats/index.ts` — the `type` switches over aggregation, base-URL
+   collection, formatting, and diffing are exhaustiveness-checked. Then audit
+   that file for branches typecheck can't catch: runtime throws like
+   `formatAggregatedDiff`'s modality-mismatch error
 
 6. Extend the option types in `src/options.ts` if the modality has filterable
    entries (see `AggregatedProfileEntry` and `showEntry`)
 
 ## Test, document, and finish
 
-7. Add the modality's key to the `inputSets` sweep in
-   `src/formats/index.test.ts` so the sweep exercises every committed input of
-   the modality through the registry
+7. Confirm the input sweeps cover the modality: `src/formats/index.test.ts`
+   exercises every committed input through the registry, and the
+   detected-input-origins sweep in `src/origins/index.test.ts` asserts on each
+   aggregated input by its `type` — extend the latter if the modality
+   categorizes by origin
 
 8. Document:
    - `glossary.md`: a term entry alongside Profile and Snapshot, plus entries

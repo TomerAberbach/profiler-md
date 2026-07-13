@@ -26,7 +26,6 @@ export const speedscopeConverter = {
   languages: [`csharp`, `php`, `python`, `ruby`],
   fallbackOrigin: `unknown`,
   type: `json`,
-  modality: `profile`,
   matches: matchesSpeedscopeProfile,
   parse: json => parseSpeedscope(json as SpeedscopeProfile),
 } as const satisfies JsonFormatConverter

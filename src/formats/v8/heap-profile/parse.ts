@@ -74,6 +74,7 @@ export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
 
   return [
     {
+      type: `profile`,
       frames,
       metrics: [BYTES],
       samples: heapSamples(profile, idToIndex, indexToParentIndex),
