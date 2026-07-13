@@ -25,7 +25,7 @@ export const jscHeapSnapshotConverter = {
   languages: [`javascript`],
   fallbackOrigin: `safari`,
   type: `json`,
-  shape: `snapshot`,
+  modality: `snapshot`,
   matches: matchesJSCHeapSnapshot,
   aggregate: json => aggregateJSCHeapSnapshot(json as JSCHeapSnapshot),
 } as const satisfies JsonFormatConverter

@@ -1,5 +1,9 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
-import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
+import type {
+  Profile,
+  ProfileStackFrame,
+  Sample,
+} from '../../modalities/profile/index.ts'
 
 export const parseCollapsed = (bytes: Uint8Array): Profile[] => {
   const builder = new CollapsedProfileBuilder()

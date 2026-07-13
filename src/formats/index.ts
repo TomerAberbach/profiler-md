@@ -4,10 +4,22 @@ import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
 import { commonAncestorDirectoryURL } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import { diffAggregatedProfiles } from '../modalities/profile/diff.ts'
 import {
-  normalizeProfileInput,
-  normalizeProfileToMdOptions,
-} from '../options.ts'
+  formatProfile,
+  formatProfileDiff,
+} from '../modalities/profile/format.ts'
+import { aggregateProfiles } from '../modalities/profile/index.ts'
+import type { AggregatedProfile, Profile } from '../modalities/profile/index.ts'
+import {
+  categorizeAggregatedHeapSnapshot,
+  entityLocation,
+} from '../modalities/snapshot/aggregate.ts'
+import { diffAggregatedHeapSnapshots } from '../modalities/snapshot/diff.ts'
+import {
+  formatHeapSnapshot,
+  formatHeapSnapshotDiff,
+} from '../modalities/snapshot/format.ts'
 import type {
   AggregateProfileToMdOptions,
   AsyncProfileData,
@@ -18,20 +30,11 @@ import type {
   ResolvedProfileToMdOptions,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
+import {
+  normalizeProfileInput,
+  normalizeProfileToMdOptions,
+} from '../options.ts'
 import type { Origin } from '../origins/index.ts'
-import { diffAggregatedProfiles } from '../profile/diff.ts'
-import { formatProfile, formatProfileDiff } from '../profile/format.ts'
-import { aggregateProfiles } from '../profile/index.ts'
-import type { AggregatedProfile, Profile } from '../profile/index.ts'
-import {
-  categorizeAggregatedHeapSnapshot,
-  entityLocation,
-} from '../snapshot/aggregate.ts'
-import { diffAggregatedHeapSnapshots } from '../snapshot/diff.ts'
-import {
-  formatHeapSnapshot,
-  formatHeapSnapshotDiff,
-} from '../snapshot/format.ts'
 import { sourceMapSourceLocation } from '../source-map.ts'
 import type {
   AggregatedInput,
@@ -389,7 +392,7 @@ const detectFromJson = (
       if (!converter.matches(json)) {
         continue
       }
-      if (converter.shape === `profile`) {
+      if (converter.modality === `profile`) {
         profiles = converter.parse(json)
       }
     } catch {
@@ -445,7 +448,7 @@ export const aggregateJsonInput = (
   options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] =>
-  converter.shape === `snapshot`
+  converter.modality === `snapshot`
     ? converter
         .aggregate(json)
         .map(snapshot =>

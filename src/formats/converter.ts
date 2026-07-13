@@ -1,6 +1,6 @@
 import type { LanguageId } from '../cli/languages.ts'
-import type { AggregatedProfile, Profile } from '../profile/index.ts'
-import type { AggregatedHeapSnapshot } from '../snapshot/index.ts'
+import type { AggregatedProfile, Profile } from '../modalities/profile/index.ts'
+import type { AggregatedHeapSnapshot } from '../modalities/snapshot/index.ts'
 
 /** The aggregated form of a profile or snapshot. */
 export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
@@ -45,7 +45,7 @@ type FormatMeta = {
  * because `parse` is the real check.
  */
 type ParseProfile<Input> = {
-  shape: `profile`
+  modality: `profile`
   parse: (input: Input) => Profile[]
 }
 
@@ -59,7 +59,7 @@ type ParseProfile<Input> = {
  * formatting time.
  */
 type AggregateSnapshot<Input> = {
-  shape: `snapshot`
+  modality: `snapshot`
   aggregate: (input: Input) => AggregatedHeapSnapshot[]
 }
 

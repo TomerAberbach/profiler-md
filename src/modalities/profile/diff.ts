@@ -1,8 +1,8 @@
-import type { Diff } from '../diff.ts'
-import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
-import type { DiffMetric } from '../metric.ts'
-import { matchDiffedMetrics } from '../metric.ts'
-import type { ResolvedProfileToMdOptions } from '../options.ts'
+import type { Diff } from '../../diff.ts'
+import { matchDiffedEntries, matchDiffedMaps } from '../../diff.ts'
+import type { DiffMetric } from '../../metric.ts'
+import { matchDiffedMetrics } from '../../metric.ts'
+import type { ResolvedProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,

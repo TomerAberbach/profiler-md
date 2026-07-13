@@ -36,20 +36,21 @@ profiler-md
 │   │       ├── index.ts      # Exports the format's converter (matches + parse/aggregate)
 │   │       └── testing.ts    # Test-only utilities specific to this format (optional)
 │   │
-│   ├── profile/              # Common sampling profile conversion logic
-│   │   ├── type.ts           # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
-│   │   ├── aggregate.ts      # Sample aggregation over origin-resolved frames
-│   │   ├── diff.ts           # Aggregated profile diffing logic
-│   │   ├── format.ts         # Sampling profile and diff to Markdown formatting
-│   │   └── index.ts          # Barrel file
-│   ├── snapshot/             # Common heap snapshot conversion logic
-│   │   ├── graph.ts          # Node adjacency graph in CSR format
-│   │   ├── retained.ts       # Retained size computation
-│   │   ├── aggregate.ts      # Heap snapshot data aggregation
-│   │   ├── diff.ts           # Aggregated heap snapshot diffing logic
-│   │   ├── format.ts         # Heap snapshot and diff to Markdown formatting
-│   │   ├── index.ts          # Barrel file
-│   │   └── testing.ts        # Test-only utilities specific to this module
+│   ├── modalities/           # Per-modality conversion logic; a format converter declares its modality
+│   │   ├── profile/          # Common sampling profile conversion logic
+│   │   │   ├── type.ts       # Parsed profile types (`Profile`, `ProfileStackFrame`, `Sample`)
+│   │   │   ├── aggregate.ts  # Sample aggregation over origin-resolved frames
+│   │   │   ├── diff.ts       # Aggregated profile diffing logic
+│   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
+│   │   │   └── index.ts      # Barrel file
+│   │   └── snapshot/         # Common heap snapshot conversion logic
+│   │       ├── graph.ts      # Node adjacency graph in CSR format
+│   │       ├── retained.ts   # Retained size computation
+│   │       ├── aggregate.ts  # Heap snapshot data aggregation
+│   │       ├── diff.ts       # Aggregated heap snapshot diffing logic
+│   │       ├── format.ts     # Heap snapshot and diff to Markdown formatting
+│   │       ├── index.ts      # Barrel file
+│   │       └── testing.ts    # Test-only utilities specific to this module
 │   │
 │   ├── origins/              # Per-profiler detection and categorization
 │   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers

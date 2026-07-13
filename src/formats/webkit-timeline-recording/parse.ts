@@ -1,5 +1,9 @@
 import { SECONDS } from '../../metric.ts'
-import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
+import type {
+  Profile,
+  ProfileStackFrame,
+  Sample,
+} from '../../modalities/profile/index.ts'
 
 /** A function observed in a WebKit timeline recording call stack. */
 export type WebKitStackFrame = {

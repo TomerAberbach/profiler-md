@@ -47,11 +47,12 @@ $ARGUMENTS
    - Decide the format's `fallbackOrigin`: the runtime origin for single-runtime
      formats, else `unknown`
 
-4. Confirm the format fits one of the supported shapes: a sampling profile
-   (converts to `Profile[]`; see `src/profile/type.ts`) or a heap snapshot
-   (aggregates to `AggregatedHeapSnapshot[]`; see `src/snapshot/`). If the
-   format fits no shape, STOP: explain the new shape and how it differs from the
-   supported ones, and ask whether to add support for it before continuing
+4. Confirm the format fits one of the supported modalities: a sampling profile
+   (converts to `Profile[]`; see `src/modalities/profile/type.ts`) or a heap
+   snapshot (aggregates to `AggregatedHeapSnapshot[]`; see
+   `src/modalities/snapshot/`). If the format fits no modality, STOP: explain
+   the new modality and how it differs from the supported ones, and ask whether
+   to implement it first by loading `/new-modality` and following its workflow
 
 ## Generate inputs first
 
@@ -75,12 +76,12 @@ $ARGUMENTS
 7. Create `src/formats/<name>/`:
    - `parse.ts` (sampling-profile formats only):
      - Typed data types and parsing into `Profile[]` (frames, metrics,
-       lazily-generated samples; see `src/profile/type.ts`)
+       lazily-generated samples; see `src/modalities/profile/type.ts`)
      - Map the format's units to metrics via `determineMetric`; a lone
        sample-count metric should populate `Sample.sampleCount` with no metrics
        instead
      - Origin detection, normalization, and aggregation then run uniformly in
-       `src/profile/aggregate.ts`
+       `src/modalities/profile/aggregate.ts`
 
    - `aggregate.ts` (snapshot formats only): typed data types, and parsing and
      aggregating into `AggregatedHeapSnapshot[]`
@@ -94,8 +95,8 @@ $ARGUMENTS
      - `matches`: keep it cheap and strict enough not to claim other text/JSON
      - `parse` is authoritative: it must throw on non-instances so
        auto-detection can move on
-     - Binary converters also implement the streaming `parseAsync` and are
-       profile-shaped: the framework has no binary snapshot path
+     - Binary converters also implement the streaming `parseAsync` and have the
+       profile modality: the framework has no binary snapshot path
 
    - `index.test.ts`: test:
      - `matches` accept/reject and `parse` rejections

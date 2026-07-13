@@ -1,5 +1,5 @@
-import { makeFileReference } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import { makeFileReference } from '../../location.ts'
+import type { SourceLocation } from '../../location.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,

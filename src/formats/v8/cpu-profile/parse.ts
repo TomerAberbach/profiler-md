@@ -3,7 +3,7 @@ import type {
   Profile,
   Sample,
   SampleLineMetrics,
-} from '../../../profile/index.ts'
+} from '../../../modalities/profile/index.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,

@@ -1,7 +1,11 @@
 import { Profile as PprofProto } from 'pprof-format'
 import { determineMetric } from '../../metric.ts'
 import type { Metric } from '../../metric.ts'
-import type { Profile, ProfileStackFrame, Sample } from '../../profile/index.ts'
+import type {
+  Profile,
+  ProfileStackFrame,
+  Sample,
+} from '../../modalities/profile/index.ts'
 
 export const parsePprof = (bytes: Uint8Array): Profile[] => {
   const profile = PprofProto.decode(bytes)

@@ -36,7 +36,7 @@ export const collapsedConverter = {
   languages: [`elixir`, `java`, `python`, `ruby`],
   fallbackOrigin: `unknown`,
   type: `binary`,
-  shape: `profile`,
+  modality: `profile`,
   matches: matchesCollapsed,
   parse: parseCollapsed,
   parseAsync: parseCollapsedAsync,

@@ -1,9 +1,9 @@
 import globals from 'globals'
-import { SnapshotAggregator } from '../../snapshot/index.ts'
+import { SnapshotAggregator } from '../../modalities/snapshot/index.ts'
 import type {
   AggregatedHeapSnapshot,
   NodeAdjacencyGraph,
-} from '../../snapshot/index.ts'
+} from '../../modalities/snapshot/index.ts'
 import type { JSCHeapSnapshot } from './parse.ts'
 
 export const aggregateJSCHeapSnapshot = (
