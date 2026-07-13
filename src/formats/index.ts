@@ -1,6 +1,7 @@
 import { JumboJSON } from 'jumbo-json'
 import type { RootContent } from 'mdast'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
+import { maybeJson, maybeJsonAsync } from '../helpers/json.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
 import { commonAncestorDirectoryURL } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
@@ -148,9 +149,11 @@ export const aggregateInputs = (
       : concatUint8Arrays(data)
 
   let json: unknown
-  try {
-    json = JumboJSON.parse(buffered)
-  } catch {}
+  if (maybeJson(buffered)) {
+    try {
+      json = JumboJSON.parse(buffered)
+    } catch {}
+  }
   if (json !== undefined) {
     const inputs = detectFromJson(json, options, origin)
     if (inputs !== undefined) {
@@ -200,12 +203,18 @@ const aggregateInputAsync = async (
     data instanceof Blob ? data : await streamToUint8Array(data)
 
   let json: unknown
-  try {
-    json =
-      buffered instanceof Blob
-        ? await JumboJSON.parseAsync(buffered)
-        : JumboJSON.parse(buffered)
-  } catch {}
+  const couldBeJson =
+    buffered instanceof Blob
+      ? await maybeJsonAsync(buffered)
+      : maybeJson(buffered)
+  if (couldBeJson) {
+    try {
+      json =
+        buffered instanceof Blob
+          ? await JumboJSON.parseAsync(buffered)
+          : JumboJSON.parse(buffered)
+    } catch {}
+  }
   if (json !== undefined) {
     const inputs = detectFromJson(json, options, origin)
     if (inputs !== undefined) {
