@@ -30,18 +30,35 @@
 
 - **Polyglot:** supports many profile and heap snapshot formats across many
   languages
-- **Diffing:** compare two profiles or two heap snapshots to see what changed
-- **Heap analysis:** reports self and retained size with dominator-based
-  retention for heap snapshots
+- **Profile analysis:** summarizes sampling rates and category breakdowns, ranks
+  the hottest functions by self and total time (or allocations, locks, or
+  whatever else was sampled) with per-line, caller, and callee breakdowns, and
+  lists the hottest call stacks
+- **Heap analysis:** reports self and retained size with
+  [dominator](<https://en.wikipedia.org/wiki/Dominator_(graph_theory)>)-based
+  retention, retainer paths, and the largest constructors, closures, and strings
+- **Diffing:** compare two profiles or two heap snapshots to see ranked
+  regressions and improvements, with entry matching that ignores run-varying
+  identifiers like build hashes
 - **Source maps:** resolves minified and transpiled locations back to original
-  sources
-- **Zero config:** auto-detects the format, transparently decompresses
-  gzip/brotli, and reads from stdin
+  sources, from standalone or inline source maps
+- **Zero config:** auto-detects the format and the profiler and runtime that
+  produced it, decompresses gzip/brotli, and reads from stdin
+- **Fast:** parses and detects formats while streaming the input, and uses
+  specialized data structures so large profiles and snapshots convert quickly
+- **Configurable:** control the number of top entries shown, the base URL or
+  directory that locations are shown relative to, entry categorization and
+  third-party detection, entry filtering, and diff matching; the defaults are
+  exported for custom hooks to build on
+- **CLI and API:** use it from the command line or programmatically via a
+  fully-typed API with sync and async variants
 - **Readable in the terminal:** ANSI syntax highlighting with heat-map coloring
   and automatic paging
-- **Configurable:** control the number of top entries shown, working directory
-  for relative paths, third-party detection, and entry filtering
-- **CLI and API:** use it from the command line or programmatically
+- **Self-documenting:** `--help <language>` and `--help <format>` explain how to
+  generate and understand each profile type, and shell completions cover bash,
+  fish, zsh, and PowerShell
+- **Agent-ready:** ships a [skill](./skills/profile-optimize/SKILL.md) that
+  guides an agent through profiling and optimizing your code
 
 ## Languages and formats
 
@@ -299,8 +316,8 @@ console.log(
   await profileToMdAsync(await openAsBlob(`example.cpuprofile`), options),
 )
 
-// The same options also apply to diffs. `matchEntry` only takes effect here,
-// where it controls which entries are considered the same across the two sides.
+// The same options apply to diffs. `matchEntry` takes effect only here, where
+// it controls which entries count as the same across the two sides.
 console.log(
   await diffProfilesAsync(
     await openAsBlob(`base.pprof`),
