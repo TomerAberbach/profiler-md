@@ -251,8 +251,8 @@ describe(`profileToMd`, () => {
 
   test(`baseURL: 'auto' infers the common ancestor from source-mapped locations`, () => {
     // The only `ours` location is a generated bundle whose source map points
-    // into src/. Inference must follow the map like rendering does: a base
-    // inferred from the raw dist/ path would render the mapped source as
+    // into src/. Inference must follow the map like formatting does: a base
+    // inferred from the raw dist/ path would show the mapped source as
     // `../src/foo.ts`.
     const cpuProfile = JSON.stringify({
       nodes: [
@@ -556,7 +556,7 @@ describe(`diffProfiles`, () => {
       const md = diffProfiles(content, content, { baseURL: null })
 
       expectDiffConverted(md)
-      // No regressions or progressions when diffing an input against itself.
+      // No regressions or improvements when diffing an input against itself.
       expect(md).not.toMatch(/Regressions|Improvements/u)
     },
   )

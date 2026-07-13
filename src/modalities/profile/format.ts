@@ -358,16 +358,14 @@ const formatHottestLines = (
           stats.sampleCount,
           selfValue,
         ),
-        textCell(
-          func.location
-            ? [
-                formatSourceLocation(
-                  { ...func.location, line, column: undefined },
-                  options,
-                ),
-              ]
-            : String(line),
-        ),
+        func.location
+          ? codeCell(
+              formatSourceLocation(
+                { ...func.location, line, column: undefined },
+                options,
+              ),
+            )
+          : textCell(String(line)),
       ]),
     ),
   ]
@@ -555,7 +553,7 @@ const formatHottestCallStacks = (
  * Projects each call stack onto its shown frames and merges the stacks that
  * become identical, summing their self metrics.
  *
- * Without merging, stacks distinct only in hidden frames would render as
+ * Without merging, stacks distinct only in hidden frames would format as
  * duplicate rows, and each row would carry only its own slice of the value.
  * The merged row attributes hidden frames' (chiefly elided leaves') values to
  * the nearest shown frame. Projections with fewer than two shown frames are
@@ -721,7 +719,7 @@ const formatDiffCategoryTable = (
 /** The headers of the overall hottest function categories table. */
 const categoryTableHeaders = (metrics: Metric[]): Header[] => {
   // Two metrics sharing a noun (allocated and retained heap are both "Size")
-  // would render indistinguishable columns, so fall back to each metric's verb
+  // would produce indistinguishable columns, so fall back to each metric's verb
   // ("Allocated", "Retained").
   const nounCounts = new Map<string, number>()
   for (const { phrases } of metrics) {
@@ -803,7 +801,7 @@ const formatDiffSelfFunctions = (
 ): RootContent[] => {
   const metric = measureMetric(measure)
 
-  const { regressions, progressions, hasActive } = selectDiffFunctions(
+  const { regressions, improvements, hasActive } = selectDiffFunctions(
     diff.functions.map(func => ({
       func,
       baseValue: diffSelfValue(measure, func.base, `base`),
@@ -845,7 +843,7 @@ const formatDiffSelfFunctions = (
     functionTableHeaders(metric),
     hasActive,
     regressions.map(({ func }) => rowOf(func)),
-    progressions.map(({ func }) => rowOf(func)),
+    improvements.map(({ func }) => rowOf(func)),
   )
 }
 
@@ -857,7 +855,7 @@ const formatDiffTotalFunctions = (
 ): RootContent[] => {
   const metric = measureMetric(measure)
 
-  const { regressions, progressions, hasActive } = selectDiffFunctions(
+  const { regressions, improvements, hasActive } = selectDiffFunctions(
     diff.functions.map(func => ({
       func,
       baseValue: diffTotalValue(measure, func.base, `base`),
@@ -899,7 +897,7 @@ const formatDiffTotalFunctions = (
     functionTableHeaders(metric),
     hasActive,
     regressions.map(({ func }) => rowOf(func)),
-    progressions.map(({ func }) => rowOf(func)),
+    improvements.map(({ func }) => rowOf(func)),
   )
 }
 
@@ -989,7 +987,7 @@ const functionMeasureRow = (
 ): Cell[] => [
   ...measureCells(metric, value, sampleCount, total),
   codeCell(func.name),
-  textCell([formatSourceLocation(func.location, options)]),
+  codeCell(formatSourceLocation(func.location, options)),
 ]
 
 /** The measure's metric, or `null` when it ranks by raw sample count. */
@@ -1056,7 +1054,7 @@ const formatCallStack = (
       : undefined
     if (!previousFileId || fileReferenceId(frame.location) !== previousFileId) {
       parts.push(
-        ...phrasing` (${formatSourceLocation(frame.location, options)})`,
+        ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
       )
       return parts
     }

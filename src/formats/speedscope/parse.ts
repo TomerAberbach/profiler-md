@@ -145,7 +145,7 @@ function* sampledSamples(profile: SpeedscopeSampledProfile): Generator<Sample> {
     }
     // A zero-weight or empty-stack sample still counts as a sample: dropping
     // it would make the sample count (and, for an empty stack, the total
-    // value) disagree with other renderings of the same recording. The
+    // value) disagree with other presentations of the same recording. The
     // aggregator attributes an empty stack to a shared anonymous function.
     const frameIndices = profile.samples[index]!
     // Speedscope uses caller-to-callee order, but we use callee-to-caller.

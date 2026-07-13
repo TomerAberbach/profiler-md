@@ -101,7 +101,7 @@ describe(`normalizeFrame`, () => {
     `Threads`,
     `Thread (22921464)`,
     `CPU_TIME`,
-  ])(`drops the %s scaffolding frame`, name => {
+  ])(`drops the %s pseudo-frame`, name => {
     expect(normalizeFrame({ name })).toBeNull()
   })
 

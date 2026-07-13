@@ -17,7 +17,7 @@ const normalizePackedFrame = packedLocationNormalizer(FRAME)
 export const pySpyOriginSpec = {
   id: `py-spy`,
   formats: [`collapsed`, `speedscope`],
-  // Collapsed frames pack the location into the name; speedscope renderings of
+  // Collapsed frames pack the location into the name; speedscope exports of
   // the same profiles carry the location separately, so the marker there is a
   // CPython install-layout location (`<frozen ...>` bootstrap modules, the
   // interpreter's `lib/pythonX.Y/` sources). Tachyon observes the same

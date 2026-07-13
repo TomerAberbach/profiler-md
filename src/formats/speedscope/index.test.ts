@@ -465,8 +465,8 @@ describe(`convert`, () => {
     ).toEqual([[`/app/lib/foo.rb`]])
   })
 
-  test(`dotnet-trace scaffolding is dropped; self time lands on the sampled methods`, () => {
-    // A dotnet-trace export wraps every stack in scaffolding nodes and ends it
+  test(`dotnet-trace pseudo-frames are dropped; self time lands on the sampled methods`, () => {
+    // A dotnet-trace export wraps every stack in pseudo-frames and ends it
     // with a CPU_TIME bucket; none of those are functions, so only the managed
     // methods (and the unmanaged-time bucket) should surface.
     const profile = makeSpeedscopeProfile({

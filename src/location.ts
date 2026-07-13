@@ -1,5 +1,3 @@
-import type { PhrasingContent } from 'mdast'
-import { inlineCode } from './helpers/markdown.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import type { ResolvedProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
@@ -104,17 +102,11 @@ export const fileReferenceToSourceLocation = (
   },
 ): SourceLocation => ({ ...fileReference, line, column })
 
-/** Formats a location as a code span, falling back to `<unknown>`. */
-export const formatSourceLocation = (
-  location: SourceLocation | undefined,
-  options: ResolvedProfileToMdOptions,
-): PhrasingContent => inlineCode(formatSourceLocationPath(location, options))
-
 /**
- * Formats a location as a bare path string, for embedding in larger strings
- * (e.g. retainer paths) that render inside a single code span.
+ * Formats a location as a plain string, falling back to `<unknown>`. Callers
+ * wrap it in a code span where it stands alone.
  */
-export const formatSourceLocationPath = (
+export const formatSourceLocation = (
   location: SourceLocation | undefined,
   options: ResolvedProfileToMdOptions,
 ): string => {

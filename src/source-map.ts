@@ -36,7 +36,7 @@ export const normalizeSourceMaps = (
  *
  * A mapped source that is a relative path resolves against the resolved
  * `baseURL`, including one inferred by `baseURL: 'auto'`; the resolved source
- * may then fall outside the inferred directory and render with `../` segments.
+ * may then fall outside the inferred directory and format with `../` segments.
  */
 export const sourceMapSourceLocation = (
   location: SourceLocation,
