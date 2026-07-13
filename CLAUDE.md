@@ -138,7 +138,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 ### Format vs origin
 
-@.claude/format-vs-origin.md
+@.claude/dimensions.md
 
 ### Registration
 

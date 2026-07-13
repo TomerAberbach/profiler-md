@@ -25,8 +25,8 @@ $ARGUMENTS
   must equal the file's `summary:`; per-function totals from an independent
   parse) and compare against the formatted tables
 
-- Follow the @../../format-vs-origin.md principles for every behavior observed
-  in an input
+- Follow the @../../dimensions.md principles for every behavior observed in an
+  input
 
 # Workflow
 
