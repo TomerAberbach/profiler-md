@@ -1,7 +1,10 @@
 import type { Diff } from '../../diff.ts'
 import { matchDiffedMaps } from '../../diff.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type { ResolvedProfileToMdOptions } from '../../options.ts'
+import type {
+  ProfileToMdContext,
+  ResolvedProfileToMdOptions,
+} from '../../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -100,9 +103,11 @@ export const diffAggregatedHeapSnapshots = (
     ),
   ),
   closures: entityDiffsFromMatches(
+    // Each side's closures are keyed under that side's own context, since
+    // match normalization is origin-aware.
     matchDiffedMaps(
-      mergeClosures(base.closures, options),
-      mergeClosures(current.closures, options),
+      mergeClosures(base.closures, base.context, options),
+      mergeClosures(current.closures, current.context, options),
     ),
   ),
   strings: entityDiffsFromMatches(
@@ -136,11 +141,12 @@ const diffedConstructor = ({
  */
 const mergeClosures = (
   closures: AggregatedClosure[],
+  context: ProfileToMdContext,
   options: ResolvedProfileToMdOptions,
 ): Map<string, DiffedSnapshotEntity> => {
   const keyToClosure = new Map<string, DiffedSnapshotEntity>()
   for (const closure of closures) {
-    const key = options.entryKey(closure)
+    const key = options.entryKey(closure, context)
     const merged = keyToClosure.get(key)
     if (merged) {
       merged.selfSize += closure.selfSize

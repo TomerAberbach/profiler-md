@@ -3,10 +3,11 @@ import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
   AggregateProfileToMdOptions,
   ProfileEntry,
+  ProfileToMdContext,
   ResolvedProfileToMdOptions,
-  UnresolvedProfileToMdContext,
 } from '../../options.ts'
-import { determineOrigin } from '../../origins/index.ts'
+import type { OriginDetector } from '../../origins/index.ts'
+import type { InputAggregator } from '../aggregator.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
 import {
@@ -16,48 +17,13 @@ import {
 import type { HeapSnapshot } from './type.ts'
 
 /**
- * Aggregates one {@link HeapSnapshot} through the uniform pipeline: dominator
- * and retained-size computation, per-node accumulation, then origin detection
- * and categorization. The snapshot analogue of {@link makeAggregateProfile}'s
- * returned function (snapshots share no state, so there is no maker).
+ * Aggregates one {@link HeapSnapshot} through the uniform pipeline. The
+ * structural part (dominator and retained-size computation, per-node
+ * accumulation) needs no origin and runs at construction, deriving the
+ * distinct entities' entries origin detection reads; categorization runs
+ * under the file's resolved context.
  */
-export const aggregateHeapSnapshot = (
-  snapshot: HeapSnapshot,
-  options: AggregateProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedHeapSnapshot => {
-  const aggregator = new SnapshotAggregator(snapshot)
-  let nodeOrdinal = 0
-  for (const node of snapshot.nodes) {
-    aggregator.addCategoryNode(nodeOrdinal, node.category)
-    switch (node.kind) {
-      case `constructor`:
-        aggregator.addConstructorNode(
-          nodeOrdinal,
-          node.name,
-          node.location,
-          node.nameLocation,
-        )
-        break
-      case `closure`:
-        aggregator.addClosureNode(nodeOrdinal, node.name, node.location)
-        break
-      case `string`:
-        aggregator.addStringNode(nodeOrdinal, node.name)
-        break
-      case undefined:
-        break
-    }
-    nodeOrdinal++
-  }
-  return categorizeAggregatedHeapSnapshot(
-    aggregator.aggregate(),
-    options,
-    context,
-  )
-}
-
-class SnapshotAggregator {
+export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
   readonly #nodeCount: number
   readonly #edgeCount: number
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
@@ -90,15 +56,20 @@ class SnapshotAggregator {
 
   readonly #strings: AggregatedSnapshotNode[] = []
 
-  public constructor({
-    nodeCount,
-    edgeCount,
-    nodeAdjacencyGraph,
-    selfSizeOf,
-    formatEdgeLabel,
-    formatNodeLabel,
-    isInternalNode,
-  }: HeapSnapshot) {
+  readonly #entities: (AggregatedConstructor | AggregatedClosure)[]
+  readonly #entries: ProfileEntry[]
+
+  public constructor(snapshot: HeapSnapshot) {
+    const {
+      nodeCount,
+      edgeCount,
+      nodeAdjacencyGraph,
+      selfSizeOf,
+      nodes,
+      formatEdgeLabel,
+      formatNodeLabel,
+      isInternalNode,
+    } = snapshot
     this.#nodeCount = nodeCount
     this.#edgeCount = edgeCount
     this.#nodeAdjacencyGraph = nodeAdjacencyGraph
@@ -118,9 +89,44 @@ class SnapshotAggregator {
 
     this.#nodeOrdinalToConstructorIndex = new Int32Array(nodeCount).fill(-1)
     this.#nodeOrdinalToClosureIndex = new Int32Array(nodeCount).fill(-1)
+
+    let nodeOrdinal = 0
+    for (const node of nodes) {
+      this.#addCategoryNode(nodeOrdinal, node.category)
+      switch (node.kind) {
+        case `constructor`:
+          this.#addConstructorNode(
+            nodeOrdinal,
+            node.name,
+            node.location,
+            node.nameLocation,
+          )
+          break
+        case `closure`:
+          this.#addClosureNode(nodeOrdinal, node.name, node.location)
+          break
+        case `string`:
+          this.#addStringNode(nodeOrdinal, node.name)
+          break
+        case undefined:
+          break
+      }
+      nodeOrdinal++
+    }
+
+    this.#entities = [...this.#constructors, ...this.#closures]
+    this.#entries = this.#entities.map(entity => ({
+      id: entity.id,
+      name: entity.name,
+      location: entityLocation(entity),
+    }))
   }
 
-  public addCategoryNode(nodeOrdinal: number, category: string): void {
+  public detectOrigin(detector: OriginDetector): void {
+    detector.addEntries(this.#entries)
+  }
+
+  #addCategoryNode(nodeOrdinal: number, category: string): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#totalSize += selfSize
     let stats = this.#nodeCategoryToStats.get(category)
@@ -132,7 +138,7 @@ class SnapshotAggregator {
     stats.nodeCount++
   }
 
-  public addConstructorNode(
+  #addConstructorNode(
     nodeOrdinal: number,
     name: string,
     location?: SourceLocation,
@@ -151,7 +157,7 @@ class SnapshotAggregator {
         nameLocation,
         location,
         // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link categorizeAggregatedHeapSnapshot}).
+        // set of entities (see {@link SnapshotAggregator.aggregate}).
         category: ``,
         selfSize: 0,
         retainedSize: 0,
@@ -176,7 +182,7 @@ class SnapshotAggregator {
     this.#nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
   }
 
-  public addClosureNode(
+  #addClosureNode(
     nodeOrdinal: number,
     name: string,
     location?: SourceLocation,
@@ -194,7 +200,7 @@ class SnapshotAggregator {
         name,
         location,
         // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link categorizeAggregatedHeapSnapshot}).
+        // set of entities (see {@link SnapshotAggregator.aggregate}).
         category: ``,
         selfSize: 0,
         retainedSize: 0,
@@ -215,7 +221,7 @@ class SnapshotAggregator {
     this.#nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
   }
 
-  public addStringNode(nodeOrdinal: number, name?: string): void {
+  #addStringNode(nodeOrdinal: number, name?: string): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#strings.push({
       type: `node`,
@@ -226,7 +232,20 @@ class SnapshotAggregator {
     })
   }
 
-  public aggregate(): AggregatedHeapSnapshot {
+  public aggregate(
+    options: AggregateProfileToMdOptions,
+    context: ProfileToMdContext,
+  ): AggregatedHeapSnapshot {
+    // Categorization runs after structural aggregation so it sees the full set
+    // of entities (the snapshot analog of the profile pipeline's
+    // categorization; see {@link ProfileAggregator}). Each entry's location
+    // falls back to its URL-shaped name (e.g. a V8 module namespace object) so
+    // those categorize by location too.
+    const categories = options.categorizeEntries(this.#entries, context)
+    for (let i = 0; i < this.#entities.length; i++) {
+      this.#entities[i]!.category = categories[i]!
+    }
+
     attributeCategoryRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
@@ -242,6 +261,7 @@ class SnapshotAggregator {
 
     return {
       type: `snapshot`,
+      context,
       totalSize: this.#totalSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
@@ -272,41 +292,11 @@ class SnapshotAggregator {
 }
 
 /**
- * Assigns a category to each of the snapshot's constructors and closures.
- *
- * The snapshot analog of the profile pipeline's categorization (see
- * {@link ProfileAggregator}): it runs after aggregation so it sees the full set
- * of entities, from which it detects the origin (when the context's origin is
- * `null`) before categorizing. Each entry's location falls back to its
- * URL-shaped name (e.g. a V8 module namespace object) so those categorize by
- * location too.
- */
-const categorizeAggregatedHeapSnapshot = (
-  snapshot: AggregatedHeapSnapshot,
-  options: AggregateProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedHeapSnapshot => {
-  const entities = [...snapshot.constructors, ...snapshot.closures]
-  const entries: ProfileEntry[] = entities.map(entity => ({
-    id: entity.id,
-    name: entity.name,
-    location: entityLocation(entity),
-  }))
-  const { format } = context
-  const origin = context.origin ?? determineOrigin({ format, entries })
-  const categories = options.categorizeEntries(entries, { format, origin })
-  for (let i = 0; i < entities.length; i++) {
-    entities[i]!.category = categories[i]!
-  }
-  return snapshot
-}
-
-/**
  * An entity's effective location: its explicit location, falling back to its
  * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
  *
- * Categorization ({@link categorizeAggregatedHeapSnapshot}) and base URL
- * inference agree on an entity's location through this rule.
+ * Origin detection and categorization ({@link SnapshotAggregator}) and base
+ * URL inference agree on an entity's location through this rule.
  */
 export const entityLocation = ({
   location,
@@ -487,6 +477,14 @@ export type AggregatedClosure = AggregatedSnapshotNode & {
 
 export type AggregatedHeapSnapshot = {
   type: `snapshot`
+
+  /**
+   * The context (format and resolved origin) this snapshot was aggregated
+   * under, carried so downstream consumers (e.g. diff matching) can apply
+   * origin-aware logic per side. Diffed sides that resolved different origins
+   * can normalize match keys differently and miss matches.
+   */
+  context: ProfileToMdContext
 
   /** Total bytes allocated in the snapshot. */
   totalSize: number

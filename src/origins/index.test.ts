@@ -1,15 +1,29 @@
 import { readdirSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
+import type { Format } from '../formats/index.ts'
 import { aggregateInputs } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { inputPath, readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
-import { determineOrigin } from './index.ts'
+import { normalizeEntryMatchForOrigin, OriginDetector } from './index.ts'
 import { systingOriginSpec } from './systing.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
+
+/** Detects the origin of the given entries through an {@link OriginDetector}. */
+const determineOrigin = ({
+  format,
+  entries,
+}: {
+  format: Format
+  entries: readonly ProfileEntry[]
+}): Origin => {
+  const detector = new OriginDetector({ format, origin: null })
+  detector.addEntries(entries)
+  return detector.resolve()
+}
 
 const relativeEntry = (name: string, path?: string): ProfileEntry => ({
   id: 1,
@@ -424,10 +438,18 @@ const EMITTER_ORIGINS = new Map<string, Origin>([
   [`java.async-profiler`, `jvm`],
   [`java.jdk`, `jvm`],
   [`javascript.bun`, `bun`],
+  // JSC heap snapshots carry no in-frame runtime markers and safari is the
+  // format's only candidate origin, so every capture resolves to it, even
+  // Bun's.
+  [`javascript.bun.jsc-heap-snapshot`, `safari`],
+  // Like heap profiles below, heap snapshots resolve to the format's fallback
+  // origin: node, its primary emitter.
+  [`javascript.bun.v8-heap-snapshot`, `node`],
   [`javascript.chrome`, `unknown`],
   // Heap profiles carry no in-frame runtime markers, so the format resolves
   // every capture to its fallback origin: node, its primary emitter.
   [`javascript.chrome.v8-heap-profile`, `node`],
+  [`javascript.chrome.v8-heap-snapshot`, `node`],
   [`javascript.deno`, `deno`],
   [`javascript.node`, `node`],
   [`javascript.pprof`, `node-pprof`],
@@ -465,19 +487,18 @@ describe(`detected input origins`, () => {
       const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
 
       // A modality is a property of each aggregated input, not of the format,
-      // so the sweep covers every committed input and asserts on its profiles.
-      // Snapshots are excluded: they don't categorize by origin.
-      const profiles = inputs.filter(input => input.type === `profile`)
-      if (profiles.length === 0) {
-        return
-      }
-
+      // so the sweep covers every committed input, asserting on each
+      // profile's functions and each snapshot's entities.
       const origin = expectedInputOrigin(filename)
-      const unexpectedOrigins = profiles.flatMap(profile =>
-        profile.functions
-          .map(func => func.category)
-          .filter(category => category !== origin),
-      )
+      const unexpectedOrigins = inputs.flatMap(input => {
+        const entities =
+          input.type === `profile`
+            ? input.functions
+            : [...input.constructors, ...input.closures]
+        return entities
+          .map(entity => entity.category)
+          .filter(category => category !== origin)
+      })
       expect(new Set(unexpectedOrigins)).toEqual(new Set())
     },
   )
@@ -508,5 +529,84 @@ describe(`origin threading`, () => {
     expect(new Set(forced.functions.map(func => func.category))).toEqual(
       new Set([`deno`]),
     )
+  })
+})
+
+describe(`normalizeEntryMatchForOrigin`, () => {
+  const lambdaEntry = () =>
+    relativeEntry(
+      `apply(Object, Object)`,
+      `JavaKMeans$$Lambda.0x000000b801205218`,
+    )
+  const adapterEntry = () => relativeEntry(`I2C/C2I adapters(0xba)`)
+  const cargoEntry = () =>
+    absoluteEntry(
+      `parse`,
+      `file:///app/target/release/build/web-compiler-${`a`.repeat(16)}/out/parser.rs`,
+    )
+  const rustcEntry = () =>
+    absoluteEntry(`rt`, `file:///rustc/${`a`.repeat(40)}/library/std/src/rt.rs`)
+
+  test.each([
+    {
+      description: `jvm strips a lambda runtime address from the location`,
+      entry: lambdaEntry(),
+      origin: `jvm` as const,
+      expected: { location: `JavaKMeans$$Lambda` },
+    },
+    {
+      description: `jvm strips an adapter runtime address from the name`,
+      entry: adapterEntry(),
+      origin: `jvm` as const,
+      expected: { name: `I2C/C2I adapters` },
+    },
+    {
+      description: `pprof-rs strips a Cargo build-script hash`,
+      entry: cargoEntry(),
+      origin: `pprof-rs` as const,
+      expected: {
+        location: `file:///app/target/release/build/web-compiler/out/parser.rs`,
+      },
+    },
+    {
+      description: `pprof-rs strips a rustc commit hash`,
+      entry: rustcEntry(),
+      origin: `pprof-rs` as const,
+      expected: { location: `file:///rustc/library/std/src/rt.rs` },
+    },
+    {
+      description: `an unrelated origin leaves a Cargo build-script hash alone`,
+      entry: cargoEntry(),
+      origin: `node` as const,
+      expected: undefined,
+    },
+    {
+      description: `an unrelated origin leaves a JVM runtime address alone`,
+      entry: lambdaEntry(),
+      origin: `pprof-rs` as const,
+      expected: undefined,
+    },
+    {
+      // The unknown origin carries no profiler's rules (see
+      // `unknownOriginSpec`), so even a JVM-shaped marker survives.
+      description: `unknown strips nothing from a JVM runtime address`,
+      entry: lambdaEntry(),
+      origin: `unknown` as const,
+      expected: undefined,
+    },
+    {
+      description: `unknown strips nothing from a rustc commit hash`,
+      entry: rustcEntry(),
+      origin: `unknown` as const,
+      expected: undefined,
+    },
+    {
+      description: `an unmarked entry normalizes to undefined`,
+      entry: absoluteEntry(`main`, `file:///project/src/main.rs`),
+      origin: `unknown` as const,
+      expected: undefined,
+    },
+  ])(`$description`, ({ entry, origin, expected }) => {
+    expect(normalizeEntryMatchForOrigin(entry, origin)).toEqual(expected)
   })
 })

@@ -6,7 +6,9 @@ import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type {
   EntryCategory,
+  NormalizedEntry,
   ProfileEntry,
+  ProfileToMdContext,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
 import { beamOriginSpec } from './beam.ts'
@@ -31,7 +33,7 @@ import { unknownOriginSpec } from './unknown.ts'
  * A profile or snapshot origin: the thing that generated it, i.e. a profiler
  * paired with a runtime (e.g. `node`, `deno`, `safari`).
  *
- * Auto-detected from a profile's entries via {@link determineOrigin}, or
+ * Auto-detected from a profile's entries via {@link OriginDetector}, or
  * specified explicitly.
  */
 export type Origin = SpecificOriginSpec[`id`]
@@ -50,19 +52,38 @@ export const categorizeEntryForOrigin = (
 ): EntryCategory => originSpecsById.get(origin)!.categorize(entry)
 
 /**
- * Determines a profile or snapshot's origin by streaming its entries in, one at
- * a time, in the style of {@link ProfileAggregator}.
+ * Returns the normalized name and location to match {@link entry} by across
+ * diffed profiles as the given {@link origin} normalizes it, or `undefined`
+ * when the entry carries none of the origin's run-varying markers (see
+ * {@link OriginSpec.normalizeEntryMatch}).
+ *
+ * The origin-aware match normalization the library applies by default. Exposed
+ * so a custom `matchEntry` can reuse the library's normalization, like
+ * {@link categorizeEntryForOrigin} for categorization.
+ */
+export const normalizeEntryMatchForOrigin = (
+  entry: DeepReadonly<ProfileEntry>,
+  origin: Origin,
+): NormalizedEntry | undefined => {
+  const spec: OriginSpec = originSpecsById.get(origin)!
+  return spec.normalizeEntryMatch?.(entry)
+}
+
+/**
+ * Determines the origin of a file's profiles and snapshots by streaming their
+ * entries in, one at a time, in the style of {@link ProfileAggregator}.
  *
  * Tries each origin that can emit the format in priority order, resolving to the
  * highest-priority one whose {@link OriginSpec.matchesEntry} accepts any fed
  * entry, and falling back to the format's fallback origin when none match. An
  * explicit origin short-circuits detection.
  *
- * Converters feed the **raw**, pre-normalization frames so the detector can
- * recognize a variant by its frame names (e.g. a collapsed
- * `Elixir.Enum:reduce/3`), then pass the resolved origin to the aggregator.
+ * The framework feeds one detector from **all** of a file's inputs (profiles'
+ * raw frames via {@link OriginDetector.addFrames}, snapshots' aggregated
+ * entities via {@link OriginDetector.addEntries}) so a marker in any input
+ * resolves a single origin for the whole file.
  */
-class OriginDetector {
+export class OriginDetector {
   readonly #candidates: readonly SpecificOriginSpec[]
   readonly #fallback: SpecificOriginSpec
 
@@ -73,6 +94,9 @@ class OriginDetector {
    */
   #best = Infinity
   #decided: Origin | undefined
+
+  /** Frames arrays already fed via {@link OriginDetector.addFrames}. */
+  readonly #fedFrames = new Set<ProfileStackFrame[]>()
 
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
     this.#fallback = originSpecsById.get(
@@ -132,6 +156,47 @@ class OriginDetector {
     return false
   }
 
+  /**
+   * Feeds each entry until decided; feeding further entries is harmless.
+   */
+  public addEntries(entries: readonly DeepReadonly<ProfileEntry>[]): void {
+    for (const entry of entries) {
+      if (this.add(entry)) {
+        break
+      }
+    }
+  }
+
+  /**
+   * Feeds a profile's distinct frames until decided, filling
+   * {@link frameFunctions} (the caller's parse cache, indexed by frame index)
+   * as it parses, for the aggregator to reuse when the frames turn out to need
+   * no normalization. A frames array this detector was already fed is skipped,
+   * so a multi-profile file's sub-profiles sharing one array feed it once.
+   *
+   * Feeds the **raw**, pre-normalization frames so the detector can recognize
+   * a variant by its frame names (e.g. a collapsed `Elixir.Enum:reduce/3`),
+   * which normalization would destroy.
+   */
+  public addFrames(
+    frames: ProfileStackFrame[],
+    frameFunctions: (FrameFunction | undefined)[],
+  ): void {
+    if (this.#fedFrames.has(frames)) {
+      return
+    }
+    this.#fedFrames.add(frames)
+
+    for (let index = 0; !this.decided && index < frames.length; index++) {
+      let frameFunction = frameFunctions[index]
+      if (!frameFunction) {
+        frameFunction = parseFrameFunction(frames[index]!)
+        frameFunctions[index] = frameFunction
+      }
+      this.add({ id: index, ...frameFunction })
+    }
+  }
+
   /** Resolves the detected origin from everything fed so far. */
   public resolve(): Origin {
     if (this.#decided !== undefined) {
@@ -141,26 +206,6 @@ class OriginDetector {
       this.#best === Infinity ? this.#fallback : this.#candidates[this.#best]!
     ).id
   }
-}
-
-/**
- * Detects the origin of a profile or snapshot from its {@link format} and
- * aggregated {@link entries} by feeding them through an {@link OriginDetector}.
- */
-export const determineOrigin = ({
-  format,
-  entries,
-}: {
-  format: Format
-  entries: readonly DeepReadonly<ProfileEntry>[]
-}): Origin => {
-  const detector = new OriginDetector({ format, origin: null })
-  for (const entry of entries) {
-    if (detector.add(entry)) {
-      break
-    }
-  }
-  return detector.resolve()
 }
 
 /**
@@ -257,10 +302,8 @@ const indexOriginSpecsByFormat = (): Map<Format, SpecificOriginSpec[]> => {
 
 const formatToOriginSpecs = indexOriginSpecsByFormat()
 
-/** A profile's distinct frames after origin resolution. */
-export type ResolvedFrames = {
-  origin: Origin
-
+/** A profile's distinct frames after normalization by the resolved origin. */
+export type NormalizedFrames = {
   /**
    * The frames, normalized by the origin; the input array itself when the
    * origin has no `normalizeFrame`. A `null` slot is a frame the origin
@@ -280,34 +323,27 @@ export type ResolvedFrames = {
 }
 
 /**
- * Resolves the origin from the raw frames (a variant's marker lives in the
- * unsplit name, which normalization would destroy), early-exiting once decided,
- * then normalizes the distinct frames with it.
+ * Normalizes the distinct frames with the resolved origin.
+ *
+ * {@link frameFunctions} is the parse cache origin detection seeded from these
+ * frames ({@link OriginDetector.addFrames}); it carries over only when the
+ * frames turn out to need no normalization.
  */
-export const resolveFrames = (
+export const normalizeFrames = (
   frames: ProfileStackFrame[],
-  context: UnresolvedProfileToMdContext,
-): ResolvedFrames => {
-  const detector = new OriginDetector(context)
-  const frameFunctions: (FrameFunction | undefined)[] = []
-  for (let index = 0; !detector.decided && index < frames.length; index++) {
-    const frameFunction = parseFrameFunction(frames[index]!)
-    frameFunctions[index] = frameFunction
-    detector.add({ id: index, ...frameFunction })
-  }
-  const origin = detector.resolve()
-
+  frameFunctions: (FrameFunction | undefined)[],
+  { format, origin }: ProfileToMdContext,
+): NormalizedFrames => {
   const normalize = originNormalizeFrame(origin)
   if (!normalize && !frames.some(isNamedByOwnPath)) {
-    return { origin, frames, frameFunctions }
+    return { frames, frameFunctions }
   }
   return {
-    origin,
     // Every frame passes through, located or not: the origin decides what a
     // frame needs from how the format produced it (see
     // {@link OriginSpec.normalizeFrame}).
     frames: frames.map(frame => {
-      const normalized = normalize ? normalize(frame, context.format) : frame
+      const normalized = normalize ? normalize(frame, format) : frame
       return normalized && dropNameMatchingOwnPath(normalized)
     }),
     frameFunctions: [],

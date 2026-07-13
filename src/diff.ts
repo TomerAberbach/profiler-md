@@ -17,7 +17,7 @@ type DiffableEntry = {
 }
 
 /**
- * Matches each side's entries by the options' entry key.
+ * Matches each side's entries by that side's entry key.
  *
  * Several entries can share one key (e.g. Julia methods of one function
  * defined at different lines of the same file, whose match key ignores line
@@ -29,10 +29,11 @@ type DiffableEntry = {
 export const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntries: Entry[],
   currentEntries: Entry[],
-  entryKey: (entry: Entry) => string,
+  baseEntryKey: (entry: Entry) => string,
+  currentEntryKey: (entry: Entry) => string,
 ): Diff<Entry>[] => {
-  const baseByKey = groupByEntryKey(baseEntries, entryKey)
-  const currentByKey = groupByEntryKey(currentEntries, entryKey)
+  const baseByKey = groupByEntryKey(baseEntries, baseEntryKey)
+  const currentByKey = groupByEntryKey(currentEntries, currentEntryKey)
 
   const matched: Diff<Entry>[] = []
   for (const [key, baseGroup] of baseByKey) {

@@ -68,10 +68,14 @@ export const diffAggregatedProfiles = (
     throw new Error(`no matching metrics between the base and current profiles`)
   }
 
+  // Each side's functions are keyed under that side's own context, since match
+  // normalization is origin-aware.
+  const { entryKey } = options
   const functions = matchDiffedEntries(
     base.functions,
     current.functions,
-    options.entryKey,
+    func => entryKey(func, base.context),
+    func => entryKey(func, current.context),
   ).map(({ base: baseFunc, current: currentFunc }) => {
     const { name, location, category } = (currentFunc ?? baseFunc)!
     return { name, location, category, base: baseFunc, current: currentFunc }

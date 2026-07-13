@@ -1,9 +1,13 @@
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferencePath } from '../location.ts'
+import { fileReferenceId, fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
+import type {
+  EntryCategory,
+  NormalizedEntry,
+  ProfileEntry,
+} from '../options.ts'
 
 /**
  * The internal spec of an origin: a **distinct profiler**, a profiling
@@ -16,6 +20,8 @@ import type { EntryCategory, ProfileEntry } from '../options.ts'
  * An origin determines the categorization rules (which frames are `stdlib`,
  * `third-party`, etc.) that a profile's data implies but doesn't state. Users
  * never see it, only the {@link Origin} ID and the categorization built on it.
+ * An origin also carries the diff-match normalization for its profiler's
+ * run-varying identifiers (see {@link OriginSpec.normalizeEntryMatch}).
  *
  * An origin is orthogonal to the {@link Format} (the file type) and the
  * language: several origins emit one format (node, deno, and bun emit V8 CPU
@@ -89,6 +95,24 @@ export type OriginSpec = {
   categorize: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
 
   /**
+   * Returns a normalized name and location to match {@link entry} by across
+   * diffed profiles, with this origin's run-varying identifiers (build hashes,
+   * runtime addresses baked into names or paths) stripped so the same entity
+   * matches across runs and builds. Feeds the default
+   * {@link ProfileToMdOptions.matchEntry}.
+   *
+   * MUST return `undefined` for an entry carrying none of the origin's
+   * markers, so unmarked entries match by their own name and location.
+   *
+   * Unlike {@link OriginSpec.matchesEntry}, which *detects* the origin from an
+   * entry, this normalizes entries of a profile whose origin is already
+   * resolved.
+   */
+  normalizeEntryMatch?: (
+    entry: DeepReadonly<ProfileEntry>,
+  ) => NormalizedEntry | undefined
+
+  /**
    * Enriches a raw stack frame, splitting its display name, location, and
    * optional executing line out of {@link ProfileStackFrame.name}, for profilers
    * (chiefly the collapsed-stack variants) that pack a function's location into
@@ -148,6 +172,58 @@ export const packedLocationNormalizer =
       name: func!,
       location: { urlOrPath: file! },
       line: Number(line),
+    }
+  }
+
+/**
+ * A single match-normalization rule: a pattern for a run-varying identifier
+ * and the replacement that strips it (typically re-inserting named groups).
+ * Applied via `String.prototype.replace`, so a `g`-flagged pattern strips
+ * every occurrence.
+ */
+export type EntryMatchRule = readonly [RegExp, string]
+
+/**
+ * Builds an {@link OriginSpec.normalizeEntryMatch} from rules over an entry's
+ * name and its location's URL/path string. A field is included in the result
+ * only when a rule changed it, and the whole result is `undefined` when
+ * nothing changed, per the member's contract.
+ */
+export const entryMatchNormalizer =
+  ({
+    name: nameRules = [],
+    location: locationRules = [],
+  }: {
+    name?: readonly EntryMatchRule[]
+    location?: readonly EntryMatchRule[]
+  }) =>
+  (entry: DeepReadonly<ProfileEntry>): NormalizedEntry | undefined => {
+    const { name: originalName, location: originalLocation } = entry
+
+    let name = originalName
+    for (const [regex, replacement] of nameRules) {
+      name = name?.replace(regex, replacement)
+    }
+
+    let location
+    if (originalLocation) {
+      const id = fileReferenceId(originalLocation)
+      let normalizedId = id
+      for (const [regex, replacement] of locationRules) {
+        normalizedId = normalizedId.replace(regex, replacement)
+      }
+      if (normalizedId !== id) {
+        location = normalizedId
+      }
+    }
+
+    const nameChanged = name !== undefined && name !== originalName
+    if (!nameChanged && location === undefined) {
+      return undefined
+    }
+    return {
+      ...(nameChanged ? { name } : {}),
+      ...(location === undefined ? {} : { location }),
     }
   }
 

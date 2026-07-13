@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
+import type { ProfileToMdContext } from '../../options.ts'
 import {
   categoryTables,
   improvementsTables,
@@ -167,37 +168,44 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(improvementsTables(md, `Largest closures`)).toEqual([])
   })
 
-  test(`matches closures whose locations differ only by a build hash`, () => {
-    // Closures are keyed via the default `matchEntry`, so a per-build Cargo hash
-    // in the path is stripped and the closure matches across snapshots.
-    const cargo = (hash: string) =>
-      `file:///app/target/release/build/web-compiler-${hash}/out/lib.rs`
+  test(`keys each side's closures under that snapshot's own context`, () => {
+    // Match normalization is origin-aware, so each side's closures must be
+    // keyed under the context that side was aggregated with, not a shared one.
+    const observedContexts: ProfileToMdContext[] = []
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      matchEntry: (entry, context) => {
+        observedContexts.push(context)
+        return undefined
+      },
+    })
     const base = makeAggregatedHeapSnapshot({
+      context: { format: `v8-heap-snapshot`, origin: `node` },
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
-          location: makeSourceLocation(cargo(`a`.repeat(16)), 5, 10),
           selfSize: 64,
           retainedSize: 100,
         }),
       ],
     })
     const current = makeAggregatedHeapSnapshot({
+      context: { format: `jsc-heap-snapshot`, origin: `safari` },
       closures: [
         makeAggregatedClosure({
           name: `myFn`,
-          location: makeSourceLocation(cargo(`b`.repeat(16)), 5, 10),
           selfSize: 128,
           retainedSize: 300,
         }),
       ],
     })
 
-    const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
+    diffAggregatedHeapSnapshots(base, current, options)
 
-    expect(diff.closures).toHaveLength(1)
-    expect(diff.closures[0]!.base?.selfSize).toBe(64)
-    expect(diff.closures[0]!.current?.selfSize).toBe(128)
+    expect(observedContexts).toEqual([
+      { format: `v8-heap-snapshot`, origin: `node` },
+      { format: `jsc-heap-snapshot`, origin: `safari` },
+    ])
   })
 
   test(`does not match closures with the same name in different files`, () => {

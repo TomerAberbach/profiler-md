@@ -9,10 +9,10 @@ import {
   formatProfile,
   formatProfileDiff,
 } from '../modalities/profile/format.ts'
-import { makeAggregateProfile } from '../modalities/profile/index.ts'
+import { ProfileAggregator } from '../modalities/profile/index.ts'
 import {
-  aggregateHeapSnapshot,
   entityLocation,
+  SnapshotAggregator,
 } from '../modalities/snapshot/aggregate.ts'
 import { diffAggregatedHeapSnapshots } from '../modalities/snapshot/diff.ts'
 import {
@@ -25,6 +25,7 @@ import type {
   NormalizedProfileToMdOptions,
   ProfileData,
   ProfileInput,
+  ProfileToMdContext,
   ProfileToMdOptions,
   ResolvedProfileToMdOptions,
   UnresolvedProfileToMdContext,
@@ -33,6 +34,7 @@ import {
   normalizeProfileInput,
   normalizeProfileToMdOptions,
 } from '../options.ts'
+import { OriginDetector } from '../origins/index.ts'
 import type { Origin } from '../origins/index.ts'
 import { sourceMapSourceLocation } from '../source-map.ts'
 import type {
@@ -473,27 +475,43 @@ export const aggregateBinaryInputAsync = async (
  * Aggregates each parsed input through its modality's uniform pipeline,
  * preserving the parsed order so multi-input files format and diff
  * positionally.
+ *
+ * The origin is detected once across all inputs: everything in one file comes
+ * from one profiler, so a marker anywhere (e.g. in only one sub-profile's
+ * frames) resolves the origin for the whole file.
  */
 const aggregateParsedInputs = (
   parsed: ParsedInput[],
   options: AggregateProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] => {
-  const aggregateProfile = makeAggregateProfile(options, context)
-  return parsed.map(input => {
+  const aggregators = parsed.map(input => {
     switch (input.type) {
       case `profile`:
-        return aggregateProfile(input)
+        return new ProfileAggregator(input)
       case `snapshot`:
-        return aggregateHeapSnapshot(input, options, context)
+        return new SnapshotAggregator(input)
     }
   })
+
+  const detector = new OriginDetector(context)
+  for (const aggregator of aggregators) {
+    aggregator.detectOrigin(detector)
+  }
+  const resolvedContext: ProfileToMdContext = {
+    format: context.format,
+    origin: detector.resolve(),
+  }
+
+  return aggregators.map(aggregator =>
+    aggregator.aggregate(options, resolvedContext),
+  )
 }
 
 /**
  * Builds the conversion context, which carries the resolved format and the
- * explicit origin (or `null` when none was given, so the aggregator detects it
- * from the aggregated entries).
+ * explicit origin (or `null` when none was given, so
+ * {@link aggregateParsedInputs} detects it from the parsed inputs).
  */
 const makeContext = (
   format: Format,
