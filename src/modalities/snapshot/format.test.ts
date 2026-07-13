@@ -142,7 +142,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`lists constructor regressions and progressions for self and retained size`, () => {
+  test(`lists constructor regressions and improvements for self and retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
         makeAggregatedConstructor({
@@ -217,7 +217,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`lists closure regressions and progressions by retained size`, () => {
+  test(`lists closure regressions and improvements by retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
       closures: [
         makeAggregatedClosure({
@@ -287,7 +287,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`lists string regressions and progressions by size`, () => {
+  test(`lists string regressions and improvements by size`, () => {
     const base = makeAggregatedHeapSnapshot({
       strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
     })

@@ -407,9 +407,9 @@ describe(`determineOrigin`, () => {
 })
 
 // The expected detected origin of each committed profile input, keyed by the
-// input's `<lang>.<source>`, with `<lang>.<source>.<config?>` and
-// `<lang>.<source>.<config?>.<format>` overrides.
-const SOURCE_ORIGINS = new Map<string, Origin>([
+// input's `<lang>.<emitter>`, with `<lang>.<emitter>.<config?>` and
+// `<lang>.<emitter>.<config?>.<format>` overrides.
+const EMITTER_ORIGINS = new Map<string, Origin>([
   [`c.gperftools`, `unknown`],
   [`c.systing`, `systing`],
   [`cpp.gperftools`, `unknown`],
@@ -442,15 +442,15 @@ const SOURCE_ORIGINS = new Map<string, Origin>([
 ])
 
 const expectedInputOrigin = (filename: string): Origin => {
-  const { language, source, config, format } = parseExampleFilename(filename)
-  const sourceKey = [language, source, config].filter(Boolean).join(`.`)
+  const { language, emitter, config, format } = parseExampleFilename(filename)
+  const emitterKey = [language, emitter, config].filter(Boolean).join(`.`)
   const origin =
-    SOURCE_ORIGINS.get(`${sourceKey}.${format}`) ??
-    SOURCE_ORIGINS.get(sourceKey) ??
-    SOURCE_ORIGINS.get(`${language}.${source}`)
+    EMITTER_ORIGINS.get(`${emitterKey}.${format}`) ??
+    EMITTER_ORIGINS.get(emitterKey) ??
+    EMITTER_ORIGINS.get(`${language}.${emitter}`)
   if (!origin) {
     throw new Error(
-      `Add ${JSON.stringify(sourceKey)} and its expected origin to \`SOURCE_ORIGINS\``,
+      `Add ${JSON.stringify(emitterKey)} and its expected origin to \`EMITTER_ORIGINS\``,
     )
   }
   return origin

@@ -129,7 +129,7 @@ const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
  * binary) as `native`.
  *
  * A dot-less location alone could also be a default-package class, but JFR
- * renders Java method names with their parenthesized signature (`main(String[])`)
+ * writes Java method names with their parenthesized signature (`main(String[])`)
  * while native symbols are bare (`__CFRunLoopRun`), so a signature-less name
  * disambiguates.
  */

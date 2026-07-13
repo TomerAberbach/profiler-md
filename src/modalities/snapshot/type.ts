@@ -54,7 +54,7 @@ export type HeapSnapshot = {
     options: ResolvedProfileToMdOptions,
   ) => string
 
-  /** Whether the node is a VM pseudo-node that never points to user code. */
+  /** Whether the node is a VM bookkeeping node that never points to user code. */
   isInternalNode: (nodeOrdinal: number) => boolean
 }
 

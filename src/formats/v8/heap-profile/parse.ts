@@ -86,7 +86,7 @@ export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
  * V8's sampling heap profiler labels an allocation made outside JS execution
  * with the raw `VMState` tag (see v8's `sampling-heap-profiler.cc`). Mapped to
  * the lowercase labels the V8 CPU profiler uses (`(garbage collector)`) so both
- * profile kinds render and categorize consistently.
+ * profile kinds format and categorize consistently.
  */
 const VM_STATE_FRAME_NAMES: ReadonlyMap<string, string> = new Map([
   [`(GC)`, `(garbage collector)`],

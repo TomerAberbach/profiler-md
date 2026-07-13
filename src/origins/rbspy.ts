@@ -55,7 +55,7 @@ export const rbspyOriginSpec = {
 
 /**
  * Whether a raw frame name is rbspy-shaped. Collapsed frames pack the location
- * into the name (` - file:line`); pprof and speedscope renderings of the same
+ * into the name (` - file:line`); pprof and speedscope exports of the same
  * profiles carry the location separately, leaving rbspy's `[c function]`
  * marker and the Ruby VM's `<main>`/`<top (required)>` toplevel frames bare.
  */

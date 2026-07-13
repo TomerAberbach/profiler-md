@@ -25,7 +25,7 @@ export const nodePprofOriginSpec = {
   normalizeFrame: input => {
     // `dd-trace` heap profiles pack an anonymous function's definition
     // position into its name as `(anonymous:L#122135:C#9)`; move it into the
-    // location (which carries the file but no line) so the name renders as
+    // location (which carries the file but no line) so the name formats as
     // plain `(anonymous)` while the position still distinguishes functions.
     const packed =
       input.name === undefined ? null : PACKED_ANONYMOUS.exec(input.name)

@@ -52,7 +52,7 @@ export const systingOriginSpec = {
           line: line === undefined ? undefined : Number(line),
         }
       }
-      // No source info: keep systing's own `name (module)` rendering, minus
+      // No source info: keep systing's own `name (module)` form, minus
       // the address (which would fragment one function into an entry per
       // sampled address). The module distinguishes same-named symbols across
       // binaries and carries the category signal for label modules.
@@ -116,7 +116,7 @@ const PYTHON_FRAME = /^(?<func>.+) \(python\) \[(?<file>[^\][:]+)\]$/u
 
 /**
  * Categorizes frames by systing's bracketed label modules, which survive
- * normalization inside the `name (module)` rendering: kernel code (including
+ * normalization inside the `name (module)` form: kernel code (including
  * the kernel-provided vDSO), gVisor sandbox machinery, and JIT-compiled
  * regions no runtime symbolizer claimed. An `([exited])` frame — the process
  * was gone before symbolization — stays `native` like any other unresolved

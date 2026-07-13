@@ -17,7 +17,7 @@ import type { OriginSpec } from './origin.ts'
  * `system.private.corelib`, sometimes for the same method within one profile),
  * while the qualified method is consistently cased.
  *
- * The export also wraps every call stack in scaffolding pseudo-frames
+ * The export also wraps every call stack in pseudo-frames
  * (`Process64 Process(1234)…` \> `(Non-Activities)` \> `Threads` \> `Thread (…)`)
  * and buckets each sample's leaf time under a `CPU_TIME` marker, so
  * `normalizeFrame` drops those: they aren't functions, and dropping `CPU_TIME`
@@ -40,7 +40,7 @@ export const dotnetTraceOriginSpec = {
     }
 
     const name = input.name ?? ``
-    if (isScaffoldingFrame(name)) {
+    if (isPseudoFrame(name)) {
       return null
     }
 
@@ -79,7 +79,7 @@ export const dotnetTraceOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * Rewrites a TraceEvent IL-style parameter list the way JFR renders method
+ * Rewrites a TraceEvent IL-style parameter list the way JFR writes method
  * parameters: `class`/`value class` modifiers dropped, every
  * namespace-qualified type reduced to its simple name, and parameters separated
  * by `, `, so `(class System.String,value class System.Threading.CancellationToken)`
@@ -111,11 +111,11 @@ const isDotnetTraceFrame = (name: string | undefined): boolean =>
 const ASSEMBLY_BANG_METHOD = /^[\w.]+!\S+\(.*\)$/u
 
 /**
- * Whether a frame is TraceEvent stack scaffolding rather than a function: the
+ * Whether a frame is a TraceEvent pseudo-frame rather than a function: the
  * process/thread grouping nodes wrapping every stack and the `CPU_TIME` bucket
  * ending every managed stack.
  */
-const isScaffoldingFrame = (name: string): boolean =>
+const isPseudoFrame = (name: string): boolean =>
   name === `CPU_TIME` ||
   name === `Threads` ||
   name === `(Non-Activities)` ||

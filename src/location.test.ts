@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
   commonAncestorDirectoryURL,
-  formatSourceLocationPath,
+  formatSourceLocation,
   makeFileReference,
   makeSourceLocation,
 } from './location.ts'
@@ -18,7 +18,7 @@ const format = ({
   column?: number
   baseURL?: string | null
 }) =>
-  formatSourceLocationPath(
+  formatSourceLocation(
     { type: `absolute`, url: new URL(url), line, column },
     resolveProfileToMdOptions({ baseURL }),
   )
@@ -139,25 +139,25 @@ test(`wasm: URL shows full href when baseURL is file`, () => {
 
 test(`undefined location returns <unknown>`, () => {
   expect(
-    formatSourceLocationPath(
+    formatSourceLocation(
       undefined,
       resolveProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`<unknown>`)
 })
 
-test(`formatSourceLocationPath with relative reference displays the path`, () => {
+test(`formatSourceLocation with relative reference displays the path`, () => {
   expect(
-    formatSourceLocationPath(
+    formatSourceLocation(
       { type: `relative`, path: `src/index.js` },
       resolveProfileToMdOptions({ baseURL: `/project` }),
     ),
   ).toBe(`src/index.js`)
 })
 
-test(`formatSourceLocationPath with relative reference appends line and column`, () => {
+test(`formatSourceLocation with relative reference appends line and column`, () => {
   expect(
-    formatSourceLocationPath(
+    formatSourceLocation(
       { type: `relative`, path: `src/index.js`, line: 10, column: 5 },
       resolveProfileToMdOptions({ baseURL: `/project` }),
     ),

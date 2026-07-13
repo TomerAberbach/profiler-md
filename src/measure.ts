@@ -15,6 +15,7 @@ import { selectTopN } from './helpers/heap.ts'
 import {
   formatSectionGroup,
   heading,
+  inlineCode,
   nameLocationPhrasing,
   paragraph,
 } from './helpers/markdown.ts'
@@ -25,9 +26,9 @@ import type { Metric } from './metric.ts'
 import type { ResolvedProfileToMdOptions } from './options.ts'
 
 /**
- * Metric and measure Markdown formatting shared by the profile and call-graph
- * formatters. Table shapes that genuinely differ between the two (a profile's
- * Samples column, a call graph's Calls column) stay in each formatter.
+ * Metric and measure Markdown formatting for the profile formatter. Table
+ * shapes specific to the profile (e.g. its Samples column) stay in the
+ * formatter.
  */
 
 /** The document title for a profile with the given metrics. */
@@ -85,7 +86,7 @@ export const formatZeroTotalNote = (
  * The note shown when the entry filter would hide every function — e.g. a
  * profile sampled entirely inside external code with no frame of ours anywhere
  * (a runtime dump, a lock profile parked in the JDK) — in which case the
- * filter is disabled so the profile's body renders rather than vanishes.
+ * filter is disabled so the profile's body is shown rather than vanishes.
  */
 export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
 
@@ -105,7 +106,7 @@ export const formatFunctionHeading = (
     headingLevel,
     nameLocationPhrasing(
       func.name,
-      formatSourceLocation(func.location, options),
+      inlineCode(formatSourceLocation(func.location, options)),
     ),
   )
 
@@ -127,7 +128,7 @@ export const metricCell = (value: number, metric: Metric): Cell =>
 /**
  * Formats a single metric value (e.g. as milliseconds, bytes, or a count).
  *
- * A custom metric formats as a bare count: it renders in table cells whose
+ * A custom metric formats as a bare count: it appears in table cells whose
  * column header already names the unit, so repeating it per cell would be
  * redundant. Prose uses {@link formatProseValue} instead.
  */
@@ -180,7 +181,7 @@ export type ActiveDiffFunction<F> = {
 }
 
 /**
- * Selects the top regressed and progressed functions from {@link candidates},
+ * Selects the top regressed and improved functions from {@link candidates},
  * keeping only those active on at least one side and shown per {@link show}.
  */
 export const selectDiffFunctions = <F>(
@@ -190,7 +191,7 @@ export const selectDiffFunctions = <F>(
 ): {
   hasActive: boolean
   regressions: ActiveDiffFunction<F>[]
-  progressions: ActiveDiffFunction<F>[]
+  improvements: ActiveDiffFunction<F>[]
 } => {
   const active = candidates.filter(
     ({ func, baseValue, currentValue }) =>
@@ -203,7 +204,7 @@ export const selectDiffFunctions = <F>(
       topN,
       ({ baseValue, currentValue }) => currentValue - baseValue,
     ),
-    progressions: selectTopN(
+    improvements: selectTopN(
       active.filter(({ baseValue, currentValue }) => currentValue < baseValue),
       topN,
       ({ baseValue, currentValue }) => baseValue - currentValue,
@@ -212,7 +213,7 @@ export const selectDiffFunctions = <F>(
 }
 
 /**
- * Assembles the regressions and progressions subsections for one function
+ * Assembles the regressions and improvements subsections for one function
  * direction (self or total) under a {@link title} heading, with rows under the
  * given table {@link headers}.
  *
@@ -228,7 +229,7 @@ export const formatDiffFunctionSections = (
   headers: Header[],
   hasActive: boolean,
   regressions: Diff<Cell[]>[],
-  progressions: Diff<Cell[]>[],
+  improvements: Diff<Cell[]>[],
 ): RootContent[] => {
   const sections: RootContent[] = []
 
@@ -240,11 +241,11 @@ export const formatDiffFunctionSections = (
     )
   }
 
-  if (progressions.length > 0) {
+  if (improvements.length > 0) {
     sections.push(
       heading(headingLevel + 1, `Improvements`),
       paragraph(`Functions with the largest decrease in ${description}.`),
-      formatDiffTable(headers, progressions, { primaryIndex: 1 }),
+      formatDiffTable(headers, improvements, { primaryIndex: 1 }),
     )
   }
 

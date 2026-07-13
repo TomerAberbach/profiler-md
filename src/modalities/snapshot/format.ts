@@ -27,10 +27,7 @@ import {
   paragraph,
 } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
-import {
-  formatSourceLocation,
-  formatSourceLocationPath,
-} from '../../location.ts'
+import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { ResolvedProfileToMdOptions } from '../../options.ts'
 import type {
@@ -71,8 +68,8 @@ export const formatHeapSnapshot = (
 
 /**
  * The note shown when the entry filter would hide every constructor and
- * closure, in which case the filter is disabled so the snapshot's body renders
- * rather than vanishes.
+ * closure, in which case the filter is disabled so the snapshot's body is
+ * shown rather than vanishes.
  */
 const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
 
@@ -82,10 +79,10 @@ const formatOverallSummary = ({
   edgeCount,
   nodeCategoryToStats,
 }: AggregatedHeapSnapshot): RootContent[] => {
-  const hottestObjectCategories = [...nodeCategoryToStats].sort(
+  const largestNodeCategories = [...nodeCategoryToStats].sort(
     ([, stats1], [, stats2]) => stats2.size - stats1.size,
   )
-  if (hottestObjectCategories.length === 0) {
+  if (largestNodeCategories.length === 0) {
     return []
   }
 
@@ -97,7 +94,7 @@ const formatOverallSummary = ({
     ),
     formatTable(
       categoryTableHeaders(),
-      hottestObjectCategories.map(([category, stats]) =>
+      largestNodeCategories.map(([category, stats]) =>
         categoryRow(category, stats, totalSize),
       ),
     ),
@@ -532,7 +529,7 @@ const formatDiffSelfSizeConstructors = (
   hasLocation: boolean,
   options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
-  const { regressions, progressions, hasActive } = selectDiffEntities(
+  const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.selfSize : 0,
@@ -571,7 +568,7 @@ const formatDiffSelfSizeConstructors = (
     constructorTableHeaders(hasLocation),
     hasActive,
     regressions.map(({ entity }) => rowOf(entity)),
-    progressions.map(({ entity }) => rowOf(entity)),
+    improvements.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -580,7 +577,7 @@ const formatDiffRetainedSizeConstructors = (
   hasLocation: boolean,
   options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
-  const { regressions, progressions, hasActive } = selectDiffEntities(
+  const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -619,7 +616,7 @@ const formatDiffRetainedSizeConstructors = (
     constructorTableHeaders(hasLocation),
     hasActive,
     regressions.map(({ entity }) => rowOf(entity)),
-    progressions.map(({ entity }) => rowOf(entity)),
+    improvements.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -663,7 +660,7 @@ const formatDiffClosures = (
   hasLocation: boolean,
   options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
-  const { regressions, progressions, hasActive } = selectDiffEntities(
+  const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -698,7 +695,7 @@ const formatDiffClosures = (
     closureTableHeaders(hasLocation),
     hasActive,
     regressions.map(({ entity }) => rowOf(entity)),
-    progressions.map(({ entity }) => rowOf(entity)),
+    improvements.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -761,7 +758,7 @@ const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
   options: ResolvedProfileToMdOptions,
 ): RootContent[] => {
-  const { regressions, progressions, hasActive } = selectDiffEntities(
+  const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.strings.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.selfSize : 0,
@@ -795,7 +792,7 @@ const formatDiffStrings = (
     stringTableHeaders(true),
     hasActive,
     regressions.map(({ entity }) => rowOf(entity)),
-    progressions.map(({ entity }) => rowOf(entity)),
+    improvements.map(({ entity }) => rowOf(entity)),
   )
 }
 
@@ -836,7 +833,7 @@ type ActiveDiffEntity = {
 }
 
 /**
- * Selects the top regressed and progressed entities from {@link candidates},
+ * Selects the top regressed and improved entities from {@link candidates},
  * keeping only those active on at least one side and shown by {@link options}.
  */
 const selectDiffEntities = (
@@ -845,7 +842,7 @@ const selectDiffEntities = (
 ): {
   hasActive: boolean
   regressions: ActiveDiffEntity[]
-  progressions: ActiveDiffEntity[]
+  improvements: ActiveDiffEntity[]
 } => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
@@ -858,7 +855,7 @@ const selectDiffEntities = (
       options.topN,
       ({ baseValue, currentValue }) => currentValue - baseValue,
     ),
-    progressions: selectTopN(
+    improvements: selectTopN(
       active.filter(({ baseValue, currentValue }) => currentValue < baseValue),
       options.topN,
       ({ baseValue, currentValue }) => baseValue - currentValue,
@@ -867,7 +864,7 @@ const selectDiffEntities = (
 }
 
 /**
- * Assembles the regressions and progressions subsections for one diffed entity
+ * Assembles the regressions and improvements subsections for one diffed entity
  * table from its pre-built rows.
  */
 const formatDiffEntitySections = (
@@ -878,7 +875,7 @@ const formatDiffEntitySections = (
   headers: Header[],
   hasActive: boolean,
   regressions: Diff<Cell[]>[],
-  progressions: Diff<Cell[]>[],
+  improvements: Diff<Cell[]>[],
 ): RootContent[] => {
   const sections: RootContent[] = []
 
@@ -890,11 +887,11 @@ const formatDiffEntitySections = (
     )
   }
 
-  if (progressions.length > 0) {
+  if (improvements.length > 0) {
     sections.push(
       heading(headingLevel, `Improvements`),
       paragraph(`${plural} with the largest decrease in ${description}.`),
-      formatDiffTable(headers, progressions, { primaryIndex: 1 }),
+      formatDiffTable(headers, improvements, { primaryIndex: 1 }),
     )
   }
 
@@ -1006,7 +1003,7 @@ type NamedEntity = {
 }
 
 /**
- * An entity's displayed name: its URL-shaped name rendered relative to the
+ * An entity's displayed name: its URL-shaped name formatted relative to the
  * base URL when it has one, and its raw name otherwise.
  */
 const displayName = (
@@ -1014,7 +1011,7 @@ const displayName = (
   options: ResolvedProfileToMdOptions,
 ): string | undefined =>
   entity.nameLocation
-    ? formatSourceLocationPath(entity.nameLocation, options)
+    ? formatSourceLocation(entity.nameLocation, options)
     : entity.name
 
 /** Formats a heading for an entity, with its location when {@link hasLocation}. */
@@ -1029,7 +1026,7 @@ const formatEntityHeading = (
     hasLocation
       ? nameLocationPhrasing(
           displayName(entity, options)!,
-          formatSourceLocation(entity.location, options),
+          inlineCode(formatSourceLocation(entity.location, options)),
         )
       : [inlineCode(displayName(entity, options)!)],
   )
@@ -1093,6 +1090,6 @@ const entityCells = (
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   codeCell(displayName(entity, options) || `(unknown)`),
   ...(hasLocation
-    ? [textCell([formatSourceLocation(entity.location, options)])]
+    ? [codeCell(formatSourceLocation(entity.location, options))]
     : []),
 ]

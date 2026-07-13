@@ -269,7 +269,7 @@ const formatAggregatedDiff = (
   }
 
   // Resolve over both sides at once so they share a single inferred base URL
-  // and render consistently.
+  // and format consistently.
   const resolvedOptions = resolveProfileToMdOptions(options, [
     ...base,
     ...current,
@@ -329,9 +329,9 @@ const resolveProfileToMdOptions = (
  * up towards `/`.
  *
  * Applies source maps first so the base is inferred from the locations
- * formatting will actually render: a bundle's mapped sources, not the bundle
+ * formatting will actually show: a bundle's mapped sources, not the bundle
  * itself. A mapped source that is a relative path can't resolve yet (there's
- * no base) and contributes its raw location instead; it renders relative to
+ * no base) and contributes its raw location instead; it formats relative to
  * whatever base is inferred, so it doesn't constrain the choice.
  *
  * Aggregation categorized both profile functions and snapshot entities. A

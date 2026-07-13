@@ -386,7 +386,7 @@ describe(`formatProfileDiff`, () => {
     ])
   })
 
-  test(`lists regressions and progressions per direction`, () => {
+  test(`lists regressions and improvements per direction`, () => {
     const base = makeProfile(
       [MICROSECONDS],
       [
@@ -430,7 +430,7 @@ describe(`formatProfileDiff`, () => {
     const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
-    // (progression). funcA and funcB are leaves, so self and total match.
+    // (improvement). funcA and funcB are leaves, so self and total match.
     const expectedRegressions = [
       {
         Change: `+100.0%`,

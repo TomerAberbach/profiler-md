@@ -11,12 +11,12 @@ const check = process.argv.includes(`--check`)
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
 // Discover every `examples/output/*.md` and group it by primary language, then format,
-// then source/config combo, so the matrix links them all without hand
+// then emitter/config combo, so the matrix links them all without hand
 // maintenance. Variants are kept per combo and linked in base → current → diff
 // order.
 type Combo = {
   language: string
-  source: string
+  emitter: string
   config: string
   variants: Map<ExampleVariant, string>
 }
@@ -26,7 +26,7 @@ const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
 for (const filename of readdirSync(`examples/output`)) {
   const {
     language: languageId,
-    source,
+    emitter,
     config,
     variant,
     format,
@@ -55,10 +55,10 @@ for (const filename of readdirSync(`examples/output`)) {
     byCombo = new Map()
     byFormat.set(format, byCombo)
   }
-  const comboKey = `${languageId}.${source}.${config}`
+  const comboKey = `${languageId}.${emitter}.${config}`
   let combo = byCombo.get(comboKey)
   if (!combo) {
-    combo = { language: languageId, source, config, variants: new Map() }
+    combo = { language: languageId, emitter, config, variants: new Map() }
     byCombo.set(comboKey, combo)
   }
   combo.variants.set(variant, filename)
@@ -94,20 +94,20 @@ const renderFormatCell = (id: string, format: Format): string => {
   combos.sort(
     (first, second) =>
       first.language.localeCompare(second.language) ||
-      first.source.localeCompare(second.source) ||
+      first.emitter.localeCompare(second.emitter) ||
       first.config.localeCompare(second.config),
   )
 
   // A single combo has no distinguishing label, so its links sit inline after
   // the format. Multiple combos become a bulleted sublist, each labelled by the
-  // dimensions (language → source → config) that vary across the cell.
+  // dimensions (language → emitter → config) that vary across the cell.
   if (combos.length === 1) {
     return `<div>${link}: ${variantLinks(combos[0]!)}</div>`
   }
 
   const vary = {
     lang: new Set(combos.map(combo => combo.language)).size > 1,
-    source: new Set(combos.map(combo => combo.source)).size > 1,
+    emitter: new Set(combos.map(combo => combo.emitter)).size > 1,
     config: new Set(combos.map(combo => combo.config)).size > 1,
   }
   const items = combos

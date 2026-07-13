@@ -1,6 +1,6 @@
 import {
   fileReferenceToSourceLocation,
-  formatSourceLocationPath,
+  formatSourceLocation,
   makeFileReference,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
@@ -133,7 +133,7 @@ export const parseV8HeapSnapshot = (
         const retainerLocation = nodeOrdinalToLocation[retainerOrdinal]
         return `${edgeLabel} ${retainerLabel}${
           retainerLocation
-            ? ` (${formatSourceLocationPath(retainerLocation, options)})`
+            ? ` (${formatSourceLocation(retainerLocation, options)})`
             : ``
         }`
       },
@@ -448,7 +448,7 @@ const formatEdgeLabel = (
   // location), then it's shown as-is.
   const fileReference = rawEdgeName ? makeFileReference(rawEdgeName) : undefined
   const edgeName = fileReference
-    ? formatSourceLocationPath(fileReference, options)
+    ? formatSourceLocation(fileReference, options)
     : rawEdgeName
 
   return `.${edgeName}`
@@ -459,7 +459,7 @@ const formatEdgeLabel = (
  * value for strings, the function name for closures, and the raw node name
  * otherwise — plus the file reference the name parses as, when it can be one.
  * Sometimes the node name is a file URL (e.g. a module namespace object), and
- * formatting renders it relative to the base URL. A string's value or a
+ * formatting shows it relative to the base URL. A string's value or a
  * closure's name is never a location, even when it happens to be URL-shaped,
  * so those never carry a `nameLocation`. Neither does a bare constructor name
  * (`Object`, `system / Context`), which would otherwise parse as a relative
@@ -515,7 +515,7 @@ const formatNodeLabel = (
   options: ResolvedProfileToMdOptions,
 ): string => {
   const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
-  return nameLocation ? formatSourceLocationPath(nameLocation, options) : name
+  return nameLocation ? formatSourceLocation(nameLocation, options) : name
 }
 
 const formatString = (string: string): string => {

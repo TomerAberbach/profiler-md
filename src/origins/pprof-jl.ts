@@ -25,8 +25,8 @@ export const pprofJlOriginSpec = {
     juliaDepotPackageCategory(entry) ??
     juliaRuntimeNativeCategory(entry) ??
     (entry.location ? `ours` : `stdlib`),
-  // The allocation profiler wraps each sample in a synthetic `Alloc: <Type>`
-  // leaf pseudo-frame. It isn't a function: dropping it returns each sample's
+  // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
+  // pseudo-frame. It isn't a function: dropping it returns each sample's
   // self value to the function that allocated.
   normalizeFrame: input =>
     input.name?.startsWith(`Alloc: `) === true ? null : input,

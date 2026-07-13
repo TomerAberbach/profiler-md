@@ -362,7 +362,7 @@ const computeRetainerPath = (
     nodeOrdinal = predecessorOrdinal
   }
 
-  // Trim trailing internal hops (VM pseudo-nodes that never point to user code).
+  // Trim trailing internal hops (VM bookkeeping nodes that never point to user code).
   while (hops.at(-1)?.internal) {
     hops.pop()
   }
@@ -443,7 +443,7 @@ export type AggregatedSnapshotNode = {
   /**
    * The file reference the {@link name} parses as, when it is URL-shaped
    * (e.g. a V8 module namespace object named by its file URL). Formatting
-   * renders it relative to the base URL in place of the raw name.
+   * shows it relative to the base URL in place of the raw name.
    */
   nameLocation?: FileReference
 

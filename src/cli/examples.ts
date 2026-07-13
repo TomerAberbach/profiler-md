@@ -13,8 +13,8 @@ export type ExampleVariant = (typeof variants)[number]
 export type Example = {
   /** Language or alias ID (e.g. `cpp`, `kotlin`). */
   language: string
-  /** Capture tool or runtime (e.g. `gperftools`, `node`, `async-profiler`). */
-  source: string
+  /** The tool or runtime that emitted the input (e.g. `gperftools`, `node`, `async-profiler`). */
+  emitter: string
   /** Capture configuration (e.g. `cpu`, `wall`); empty when absent. */
   config: string
   variant: ExampleVariant
@@ -34,7 +34,7 @@ for (const format of formats) {
 }
 
 /**
- * Parses a canonical `<lang>.<source>.<config?>.<base|current|diff>.<ext...>`
+ * Parses a canonical `<lang>.<emitter>.<config?>.<base|current|diff>.<ext...>`
  * example or input filename (with or without a trailing `.md`) into its parts.
  */
 export const parseExampleFilename = (filename: string): Example => {
@@ -60,14 +60,14 @@ export const parseExampleFilename = (filename: string): Example => {
 
   return {
     language: tokens[0]!,
-    source: tokens[1]!,
+    emitter: tokens[1]!,
     config: tokens.slice(2, variantIndex).join(`.`),
     variant: tokens[variantIndex] as ExampleVariant,
     format,
   }
 }
 
-const sourceNames: Record<string, string> = {
+const emitterNames: Record<string, string> = {
   jdk: `JDK`,
   node: `Node.js`,
   deno: `Deno`,
@@ -107,23 +107,23 @@ const titleCase = (token: string): string => {
 
 const exampleLanguageName = (lang: string): string =>
   languageNames.get(lang) ?? lang
-const exampleSourceName = (source: string): string =>
-  sourceNames[source] ?? source
+const exampleEmitterName = (emitter: string): string =>
+  emitterNames[emitter] ?? emitter
 const exampleConfigName = (config: string): string =>
   configNames[config] ?? titleCase(config)
 
 /**
- * Builds a readable label for one source/config combo within a format cell,
- * including only the dimensions that vary across the cell (language → source →
+ * Builds a readable label for one emitter/config combo within a format cell,
+ * including only the dimensions that vary across the cell (language → emitter →
  * config). When nothing varies the label is empty.
  */
 export const exampleComboLabel = (
-  combo: Pick<Example, `language` | `source` | `config`>,
-  vary: { lang: boolean; source: boolean; config: boolean },
+  combo: Pick<Example, `language` | `emitter` | `config`>,
+  vary: { lang: boolean; emitter: boolean; config: boolean },
 ): string =>
   [
     vary.lang ? exampleLanguageName(combo.language) : ``,
-    vary.source ? exampleSourceName(combo.source) : ``,
+    vary.emitter ? exampleEmitterName(combo.emitter) : ``,
     vary.config ? exampleConfigName(combo.config) : ``,
   ]
     .filter(Boolean)

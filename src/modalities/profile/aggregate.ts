@@ -244,7 +244,7 @@ export class ProfileAggregator {
     }
 
     // A frame pair (caller, callee) can recur within a single call stack
-    // (recursion), so a per-edge epoch deduplicates it to count the stack just
+    // (recursion), so a per-pair epoch deduplicates it to count the stack just
     // once, the same way the function epoch above deduplicates functions.
     const maxFramePairCount = callStack.frames.length - 1
     for (let i = 0; i < maxFramePairCount; i++) {
@@ -261,7 +261,7 @@ export class ProfileAggregator {
         }
         caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
 
-        // Mirror the new edge on the callee, so its set of direct callers is
+        // Mirror the new frame pair on the callee, so its set of direct callers is
         // complete even when it never appears as a leaf (its self metrics stay
         // zero). The default entry filter reads that set to decide whether
         // `ours` code calls the function directly.
@@ -596,7 +596,7 @@ type AggregatedProfileCalleeMetrics = {
 
   /**
    * Internal aggregation bookkeeping: the epoch of the most recent call stack
-   * whose total this edge was counted into, so a frame pair that recurs within
+   * whose total this frame pair was counted into, so one that recurs within
    * one call stack is counted just once.
    */
   lastSeenEpoch: number

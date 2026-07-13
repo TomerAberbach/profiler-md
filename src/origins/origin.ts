@@ -106,8 +106,8 @@ export type OriginSpec = {
    *
    * Returning `null` drops the frame: the aggregator elides it from every call
    * stack, attributing its metrics to the surrounding real frames. For a
-   * profiler whose export wraps stacks in scaffolding pseudo-frames that aren't
-   * functions (dotnet-trace's `Threads` grouping and `CPU_TIME` time bucket),
+   * profiler whose export wraps stacks in pseudo-frames that aren't functions
+   * (dotnet-trace's `Threads` grouping and `CPU_TIME` time bucket),
    * dropping them keeps self and total values on the sampled functions.
    *
    * MUST return {@link input} unchanged for a frame lacking the variant's

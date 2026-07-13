@@ -264,7 +264,7 @@ export type ResolvedFrames = {
   /**
    * The frames, normalized by the origin; the input array itself when the
    * origin has no `normalizeFrame`. A `null` slot is a frame the origin
-   * dropped (profiler scaffolding, not a function), elided from every call
+   * dropped (a pseudo-frame, not a function), elided from every call
    * stack.
    */
   frames: (ProfileStackFrame | null)[]
@@ -320,7 +320,7 @@ export const resolveFrames = (
  * (Excimer names a PHP script's top-level scope this way in speedscope output;
  * rbspy does the same for Ruby's `<internal:gem_prelude>` in both speedscope
  * and pprof output). No profiler names a real function by its own file path,
- * so drop the name for any origin and format — the top-level code renders as
+ * so drop the name for any origin and format — the top-level code formats as
  * `(anonymous)` with the path in the Location column, relativized like any
  * other path. Runs after origin normalization so it sees the frame's final
  * name and location (e.g. after a packed location is split out of the name).
