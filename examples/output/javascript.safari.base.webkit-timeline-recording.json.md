@@ -237,7 +237,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 |     % |   Time | Samples | Callee        | Location                                                                                                 |
 | ----: | -----: | ------: | ------------- | -------------------------------------------------------------------------------------------------------- |
-| 81.2% | 13.0ms |      13 | `(anonymous)` | `https://en.wikipedia.org/w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421` |
+| 81.3% | 13.0ms |      13 | `(anonymous)` | `https://en.wikipedia.org/w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421` |
 | 18.7% |  3.0ms |       3 | `newStyleTag` | `https://en.wikipedia.org/w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:59`   |
 
 ##### `doPropagation` (`https://en.wikipedia.org/w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254`)
