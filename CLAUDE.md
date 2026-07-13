@@ -130,6 +130,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   - Fully assert on Markdown tables with `toEqual` and complete expected rows.
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
     individual cells, which would miss extra tables, rows, or cells
+- A parameterized test over the committed `examples/input/` files must run in
+  the per-format vitest projects, or it serializes every conversion in one
+  worker: add its test file to `inputProcessingFiles` in `vitest.config.ts`,
+  filter the inputs to `injectedFormat()` from `src/testing/inputs.ts`, and
+  register the file's input-independent tests only when it returns `undefined`
+  (the `unit` project)
 
 ## Glossary
 
