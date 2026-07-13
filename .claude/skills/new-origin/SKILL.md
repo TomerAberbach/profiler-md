@@ -18,7 +18,7 @@ $ARGUMENTS
 
 1. Enumerate the formats the new origin emits. Before writing code for any
    behavior its inputs show, decide where the logic belongs with the
-   @../../format-vs-origin.md principles
+   @../../dimensions.md principles
 
 2. Create `src/origins/<origin>.ts` exporting an `OriginSpec` with:
    - `matchesEntry`: detect the origin from frame data
