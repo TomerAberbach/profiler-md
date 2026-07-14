@@ -3,7 +3,7 @@ import type { InferValue } from '@optique/core'
 import { object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
-import { argument, flag, option } from '@optique/core/primitives'
+import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
 import { choice, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
@@ -110,11 +110,11 @@ const parser = object({
     value => !value,
   ),
   color: optional(
-    or(
-      flag(`--color`, {
+    negatableFlag(
+      { positive: `--color`, negative: `--no-color` },
+      {
         description: message`Enable or disable ANSI syntax highlighting (default: auto)`,
-      }),
-      map(flag(`--no-color`), () => false as const),
+      },
     ),
   ),
   input: or(

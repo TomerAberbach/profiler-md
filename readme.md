@@ -178,7 +178,7 @@ $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
        ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
        GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
-       --no-pager] [(--color | --no-color)] ([FILE] | BASE CURRENT)
+       --no-pager] [--color/--no-color] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -198,9 +198,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   --third-party GLOB          Additional URLs or paths to consider third-party 
                               (repeatable)
   --no-pager                  Disable stdout output paging (default: auto)
-  --color                     Enable or disable ANSI syntax highlighting 
+  --color, --no-color         Enable or disable ANSI syntax highlighting 
                               (default: auto)
-  --no-color                
   FILE                        Profile to convert (reads from stdin if omitted)
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
