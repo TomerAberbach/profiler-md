@@ -45,19 +45,20 @@ type JfrMethod = {
   className: string
 }
 
-/** A single frame within a {@link JfrStackTrace}. */
-type JfrStackFrame = {
-  /** The index of the {@link JfrMethod} executing in this frame. */
-  methodId: number
-
-  /** The 1-based line number executing in this frame, if known. */
-  lineNumber?: number
-}
-
-/** A unique call stack referenced by sample events. */
+/**
+ * A unique call stack referenced by sample events. Only the leaf frame's line
+ * is kept: it's the only line the uniform {@link Sample} carries, so non-leaf
+ * lines would be dropped anyway, and eliding them avoids a per-frame object.
+ */
 type JfrStackTrace = {
-  /** The frames in callee-to-caller order. */
-  frames: JfrStackFrame[]
+  /**
+   * Per frame in callee-to-caller order, the index of the {@link JfrMethod}
+   * executing in it.
+   */
+  methodIds: number[]
+
+  /** The 1-based line number executing in the leaf frame, if known. */
+  leafLine: number | undefined
 }
 
 /** A single profiling sample event. */
@@ -201,23 +202,6 @@ const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
   // kind's profile as its distinct frames.
   const frames = methods.map(methodToStackFrame)
 
-  // Resolve a stack's frame indices and leaf line lazily, caching by id. Many
-  // events share a stack and the same stack is reused across every kind, so each
-  // referenced stack is resolved at most once; unreferenced stacks never are.
-  const resolvedStacks: ResolvedStack[] = []
-  const resolveStack = (id: number): ResolvedStack => {
-    let resolved = resolvedStacks[id]
-    if (!resolved) {
-      const { frames: stackFrames } = stackTraces[id]!
-      resolved = {
-        frames: stackFrames.map(frame => frame.methodId),
-        line: stackFrames[0]?.lineNumber,
-      }
-      resolvedStacks[id] = resolved
-    }
-    return resolved
-  }
-
   const eventsByKind = new Map<JfrSampleKind, JfrSampleEvent[]>()
   for (const event of events) {
     let kindEvents = eventsByKind.get(event.kind)
@@ -241,7 +225,7 @@ const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
       type: `profile`,
       frames,
       metrics: metric ? [metric] : [],
-      samples: kindSamples(kindEvents, metric, resolveStack),
+      samples: kindSamples(kindEvents, metric, stackTraces),
     })
   }
 
@@ -256,22 +240,19 @@ const methodToStackFrame = (method: JfrMethod): ProfileStackFrame => ({
 function* kindSamples(
   events: JfrSampleEvent[],
   metric: Metric | undefined,
-  resolveStack: (id: number) => ResolvedStack,
+  stackTraces: JfrStackTrace[],
 ): Generator<Sample> {
   for (const event of events) {
-    const { frames, line } = resolveStack(event.stackTraceId)
+    const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
     yield {
       id: event.stackTraceId,
       values: metric ? [event.weight] : [],
-      frameIndices: frames,
-      line,
+      frameIndices: methodIds,
+      line: leafLine,
       sampleCount: event.sampleCount,
     }
   }
 }
-
-/** A stack trace's resolved frame indices and the leaf frame's self line. */
-type ResolvedStack = { frames: number[]; line: number | undefined }
 
 /** Heap allocation samples are weighted by allocated bytes. */
 const ALLOC_METRIC = determineMetric({ name: `alloc_space`, unit: `bytes` })
@@ -420,14 +401,17 @@ class JfrParser {
   // Merges stacks that recur across chunks under different chunk-local pool
   // keys, keyed by the resolved frames so the result is exact. Owns the stack
   // list; events reference its entries by the index `intern` returns.
-  readonly #stackInterner = new HashInterner<JfrStackFrame[], JfrStackTrace>(
-    (frames, sink) => {
-      for (const { methodId, lineNumber } of frames) {
-        // A missing line uses a sentinel that no valid 1-based line can take.
-        sink.add(methodId).add(lineNumber ?? -1)
+  readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
+    ({ methodIds, leafLine }, sink) => {
+      for (const methodId of methodIds) {
+        sink.add(methodId)
       }
+      // A missing line uses a sentinel that no valid 1-based line can take.
+      sink.add(leafLine ?? -1)
     },
-    (stack, frames) => sameFrames(stack.frames, frames),
+    (stack, key) =>
+      stack.leafLine === key.leafLine &&
+      sameMethodIds(stack.methodIds, key.methodIds),
   )
 
   // Sample events, with legacy TLAB allocation events kept apart so they can be
@@ -1050,18 +1034,18 @@ class JfrParser {
       const frameCount = flat ? flat.length / 2 : objectFrames!.length
 
       // Merge identical stacks that recur across chunks by their resolved
-      // (global) method indices and lines.
-      const frames: JfrStackFrame[] = []
+      // (global) method indices and leaf line.
+      const methodIds = Array.from<number>({ length: frameCount })
       for (let i = 0; i < frameCount; i++) {
-        const methodId = resolveMethod(
+        methodIds[i] = resolveMethod(
           (flat ? flat[i * 2] : objectFrames![i]!.method) as number,
         )
-        const lineNumber = validLineNumber(
-          flat ? flat[i * 2 + 1] : objectFrames![i]!.lineNumber,
-        )
-        frames.push({ methodId, lineNumber })
       }
-      index = this.#internStack(frames)
+      const leafLine =
+        frameCount === 0
+          ? undefined
+          : validLineNumber(flat ? flat[1] : objectFrames![0]!.lineNumber)
+      index = this.#internStack({ methodIds, leafLine })
       stackKeyToIndex.set(key, index)
       return index
     }
@@ -1072,7 +1056,10 @@ class JfrParser {
     // anonymous frame.
     let emptyStackIndex: number | undefined
     const emptyStack = (): number => {
-      emptyStackIndex ??= this.#internStack([])
+      emptyStackIndex ??= this.#internStack({
+        methodIds: [],
+        leafLine: undefined,
+      })
       return emptyStackIndex
     }
 
@@ -1099,11 +1086,12 @@ class JfrParser {
 
   /**
    * Deduplicates a resolved stack across chunks, returning its global index.
-   * Stacks are keyed by a numeric hash of their frames; a hash collision falls
-   * back to comparing frames, so distinct stacks that hash alike stay distinct.
+   * Stacks are keyed by a numeric hash of their method indices and leaf line; a
+   * hash collision falls back to comparing them, so distinct stacks that hash
+   * alike stay distinct.
    */
-  #internStack(frames: JfrStackFrame[]): number {
-    return this.#stackInterner.intern(frames, () => ({ frames }))
+  #internStack(stack: JfrStackTrace): number {
+    return this.#stackInterner.intern(stack, () => stack)
   }
 
   // Primitive readers
@@ -1313,16 +1301,13 @@ const validLineNumber = (lineNumber: unknown): number | undefined =>
     ? lineNumber
     : undefined
 
-/** Whether two resolved frame lists are identical in method index and line. */
-const sameFrames = (left: JfrStackFrame[], right: JfrStackFrame[]): boolean => {
+/** Whether two resolved stacks reference the same methods in the same order. */
+const sameMethodIds = (left: number[], right: number[]): boolean => {
   if (left.length !== right.length) {
     return false
   }
   for (let i = 0; i < left.length; i++) {
-    if (
-      left[i]!.methodId !== right[i]!.methodId ||
-      left[i]!.lineNumber !== right[i]!.lineNumber
-    ) {
+    if (left[i] !== right[i]) {
       return false
     }
   }
