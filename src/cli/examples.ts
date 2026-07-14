@@ -69,6 +69,7 @@ export const parseExampleFilename = (filename: string): Example => {
 
 const emitterNames: Record<string, string> = {
   jdk: `JDK`,
+  profile: `Profile`,
   node: `Node.js`,
   deno: `Deno`,
   bun: `Bun`,

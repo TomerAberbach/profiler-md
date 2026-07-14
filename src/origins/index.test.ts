@@ -464,6 +464,11 @@ const EMITTER_ORIGINS = new Map<string, Origin>([
   [`javascript.pprof`, `node-pprof`],
   [`javascript.safari`, `safari`],
   [`julia.pprof-jl`, `pprof-jl`],
+  // Julia's `Profile` stdlib writes V8-format heap snapshots directly. No
+  // registered origin matches their Julia-runtime entities, so like the heap
+  // snapshots above they resolve to the format's fallback origin: node, its
+  // primary emitter.
+  [`julia.profile`, `node`],
   [`kotlin.async-profiler`, `jvm`],
   [`kotlin.jdk`, `jvm`],
   [`php.excimer`, `unknown`],

@@ -1,7 +1,7 @@
 # Python
 
-Python profiling uses [py-spy](https://github.com/benfred/py-spy), a sampling
-profiler that attaches to a running process or wraps a script.
+Python profiling uses [py-spy](https://github.com/benfred/py-spy) or
+[systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
 
@@ -17,7 +17,7 @@ py-spy record -f speedscope -o cpu.speedscope.json -- python script.py
 # Attach to a running process
 py-spy record -f raw -o cpu.collapsed --pid <pid>
 
-# Include native extensions written in Cython or C
+# Include native Cython or C extensions
 py-spy record -f raw -o cpu.collapsed --native -- python script.py
 ```
 
@@ -45,18 +45,18 @@ py-spy dump --pid <pid> --locals
 
 ## CLI flags
 
-| Flag                | Default      | Description                                                |
-| ------------------- | ------------ | ---------------------------------------------------------- |
-| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`           |
-| `-o` / `--output`   | —            | Output file path                                           |
-| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)         |
-| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                        |
-| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads   |
-| `--native`          | off          | Profile native extensions written in Cython or C           |
-| `--nonblocking`     | off          | Don't pause the process to collect samples (less accurate) |
-| `--subprocesses`    | off          | Also profile subprocesses of the target                    |
+| Flag                | Default      | Description                                              |
+| ------------------- | ------------ | -------------------------------------------------------- |
+| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`         |
+| `-o` / `--output`   | —            | Output file path                                         |
+| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)       |
+| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                      |
+| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads |
+| `--native`          | off          | Profile native Cython or C extensions                    |
+| `--nonblocking`     | off          | Sample without pausing the process (less accurate)       |
+| `--subprocesses`    | off          | Also profile subprocesses of the target                  |
 
-## System profiling (systing)
+## System profiling
 
 [systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
 samples on-CPU stacks and records a stack each time a thread sleeps. With

@@ -1,7 +1,6 @@
 # Ruby
 
-Ruby profiling uses [rbspy](https://rbspy.github.io), a sampling profiler that
-attaches to a running Ruby process.
+Ruby profiling uses [rbspy](https://rbspy.github.io).
 
 ## CPU profiling
 
@@ -32,15 +31,14 @@ rbspy record --format speedscope -o profile.speedscope --subprocesses --pid <pid
 ## Snapshot
 
 Captures a single stack trace from a running process. Useful for quickly
-checking what a process is currently executing without starting a full
-recording.
+checking what a process is executing without a full recording.
 
 ### CLI
 
 ```sh
 rbspy snapshot --pid <pid>
 
-# Don't pause the process while reading its stack
+# Read the stack without pausing the process
 rbspy snapshot --nonblocking --pid <pid>
 ```
 
@@ -54,4 +52,4 @@ rbspy snapshot --nonblocking --pid <pid>
 | `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `collapsed`, `pprof`, `speedscope`, `callgrind`, `summary`, `summary_by_line` |
 | `-o` / `--file`     | —            | Output file path                                                                                           |
 | `--subprocesses`    | —            | Also profile child processes                                                                               |
-| `--nonblocking`     | —            | Don't pause the process while reading its stack (lower overhead, may miss frames)                          |
+| `--nonblocking`     | —            | Read the stack without pausing the process (lower overhead, may miss frames)                               |

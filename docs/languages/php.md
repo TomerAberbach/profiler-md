@@ -1,9 +1,8 @@
 # PHP
 
 PHP profiling uses the [Excimer](https://github.com/wikimedia/php-excimer)
-extension, a low-overhead sampling profiler. Excimer samples from a
-PHP-controlled timer, so you start and stop it from within the program or a
-prepended bootstrap script.
+extension. Excimer samples from a PHP-controlled timer, so you start and stop it
+within the program or a prepended bootstrap script.
 
 ## CPU profiling
 
@@ -44,7 +43,7 @@ file_put_contents('wall.speedscope.json',
 
 ## Profiling an existing program
 
-To profile a program you don't want to edit, point `auto_prepend_file` at a
+To profile a program without editing it, point `auto_prepend_file` at a
 bootstrap script that starts the profiler and writes the result on shutdown:
 
 ```php

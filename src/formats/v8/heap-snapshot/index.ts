@@ -31,7 +31,11 @@ const matchesV8HeapSnapshot = (json: unknown): boolean => {
 export const v8HeapSnapshotConverter = {
   title: `V8 heap snapshot`,
   extension: `heapsnapshot`,
-  languages: [`javascript`],
+  languages: [
+    `javascript`,
+    // Julia's `Profile` stdlib writes heap snapshots in this format natively.
+    `julia`,
+  ],
   fallbackOrigin: `node`,
   type: `json`,
   matches: matchesV8HeapSnapshot,

@@ -1,8 +1,7 @@
 # C/C++
 
 C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools),
-or [systing](https://github.com/josefbacik/systing) for whole-system profiles
-(see [System profiling](#system-profiling-systing)).
+or [systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
 
@@ -134,10 +133,10 @@ HeapLeakChecker checker("my_check");
 
 // Code to check...
 
-if (!checker.NoLeaks()) abort(); // fails if any net allocations were not freed
+if (!checker.NoLeaks()) abort(); // fails if any net allocation leaked
 ```
 
-## System profiling (systing)
+## System profiling
 
 [systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
 samples on-CPU stacks and records a stack each time a thread sleeps, across user

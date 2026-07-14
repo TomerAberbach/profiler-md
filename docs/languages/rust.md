@@ -1,7 +1,7 @@
 # Rust
 
-Rust CPU profiling uses [pprof-rs](https://github.com/tikv/pprof-rs), a sampling
-profiler that integrates directly into your binary.
+Rust CPU profiling uses [pprof-rs](https://github.com/tikv/pprof-rs) or
+[systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
 
@@ -15,12 +15,7 @@ pprof = { version = "...", features = ["prost-codec", "frame-pointer"] }
 ```
 
 The `frame-pointer` feature is required on macOS (the default stack unwinder
-crashes with SIGBUS). Also add the following rustflag to make frame-pointer
-unwinding reliable:
-
-```sh
-RUSTFLAGS="-C force-frame-pointers=yes" cargo build ...
-```
+crashes with SIGBUS).
 
 ```rust
 use pprof::protos::Message;
@@ -43,11 +38,11 @@ std::fs::write("cpu.pprof", &buf)?;
 | `.frequency(hz)`     | `100`   | Samples per second                       |
 | `.blocklist(frames)` | `[]`    | Stack frames to exclude from the profile |
 
-## System profiling (systing)
+## System profiling
 
 [systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
 samples on-CPU stacks and records a stack each time a thread sleeps, across user
-and kernel code — useful when the question spans more than the process (off-CPU
+and kernel code. Useful when the question spans more than the process (off-CPU
 waits, syscall time, whole-node contention). It needs root (BPF) and a kernel
 with BTF (`/sys/kernel/btf/vmlinux`).
 
@@ -56,15 +51,23 @@ with BTF (`/sys/kernel/btf/vmlinux`).
 sudo systing --duration 30 --output profile.systing -- ./target/release/program
 ```
 
-Keep frame pointers on so systing's unwinder can walk the stack (Cargo release
-builds omit them by default):
+## Tips
+
+### Frame pointers
+
+Frame-pointer unwinders walk the stack via frame pointers, which Cargo release
+builds omit by default. Force them on:
+
+```sh
+RUSTFLAGS="-C force-frame-pointers=yes" cargo build ...
+```
+
+### Symbols
+
+Keep debug info for release builds so frames resolve to readable names:
 
 ```toml
 # Cargo.toml
 [profile.release]
 debug = true
-```
-
-```sh
-RUSTFLAGS="-C force-frame-pointers=yes" cargo build --release
 ```
