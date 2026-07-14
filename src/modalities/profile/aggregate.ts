@@ -1,4 +1,3 @@
-import { DynamicTypedArray } from '../../helpers/array.ts'
 import { HashInterner } from '../../helpers/intern.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { Metric } from '../../metric.ts'
@@ -123,7 +122,6 @@ class SamplesAggregator {
   readonly #context: ProfileToMdContext
 
   #totalSampleCount: number
-  #sampleEpoch: number
   readonly #totalValues: Float64Array
 
   // Call stacks are deduplicated by a numeric hash of their frames' function
@@ -149,7 +147,6 @@ class SamplesAggregator {
 
   /** Per frame index, its registered function, a frame-index fast path. */
   readonly #frameIndexToFunction: AggregatedProfileFunction[]
-  readonly #functionIdToLastSeenEpoch: DynamicTypedArray<Uint32Array>
 
   /**
    * Per frame index, a cache of the frame's parsed name and location, filled
@@ -174,13 +171,11 @@ class SamplesAggregator {
     this.#frameFunctions = frameFunctions
 
     this.#totalSampleCount = 0
-    this.#sampleEpoch = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
 
     this.#idToCallStack = []
     this.#keyToFunction = new Map()
     this.#frameIndexToFunction = []
-    this.#functionIdToLastSeenEpoch = new DynamicTypedArray(new Uint32Array(1))
   }
 
   /**
@@ -205,21 +200,11 @@ class SamplesAggregator {
 
     const callStack = this.#getOrCreateCallStack(frameIndices, id)
     const callee = callStack.frames[0]!
-    const caller = callStack.frames[1]
 
-    let callerMetrics
-    if (caller) {
-      callerMetrics = callee.callerIdToMetrics.get(caller.id)
-      if (!callerMetrics) {
-        callerMetrics = {
-          caller,
-          selfSampleCount: 0,
-          selfValues: new Float64Array(this.#metrics.length),
-        }
-        callee.callerIdToMetrics.set(caller.id, callerMetrics)
-      }
-    }
-
+    // Line metrics accumulate per sample rather than per call stack in
+    // `#propagateCallStackMetrics`: frames that normalize to the same function
+    // intern to the same call stack while sampling different executing lines.
+    //
     // When the sample has no explicit line, fall back to the leaf frame's
     // sampled line, the one its origin's `normalizeFrame` derived
     // (py-spy/rbspy), so it surfaces in the function's line breakdown.
@@ -244,10 +229,6 @@ class SamplesAggregator {
 
     this.#totalSampleCount += sampleCount
     callStack.selfSampleCount += sampleCount
-    callee.selfSampleCount += sampleCount
-    if (callerMetrics) {
-      callerMetrics.selfSampleCount += sampleCount
-    }
     if (lineMetrics) {
       lineMetrics.sampleCount += sampleCount
     }
@@ -256,72 +237,108 @@ class SamplesAggregator {
       const value = values[i]! * sampleCount
       this.#totalValues[i]! += value
       callStack.selfValues[i]! += value
-      callee.selfValues[i]! += value
-      if (callerMetrics) {
-        callerMetrics.selfValues[i]! += value
-      }
       if (lineMetrics) {
         lineMetrics.values[i]! += value
       }
     }
+  }
 
-    // A per-call epoch, decoupled from the sample count, deduplicates functions
-    // that recur within a single call stack so their totals count it just once.
-    const epoch = ++this.#sampleEpoch
-    const funcCount = this.#keyToFunction.size
-    const functionIdToLastSeenEpoch =
-      this.#functionIdToLastSeenEpoch.ensureCapacity(funcCount)
-    for (const func of callStack.frames) {
-      if (functionIdToLastSeenEpoch[func.id] === epoch) {
-        continue
+  /**
+   * Propagates each canonical call stack's accumulated self metrics to its
+   * functions' self and total metrics, leaf caller metrics, and frame-pair
+   * callee metrics.
+   *
+   * These attributions depend only on a stack's frames, so summing the stack's
+   * accumulated self metrics reproduces the per-sample accumulation losslessly
+   * in one pass per unique call stack, rather than one O(depth) pass per
+   * sample.
+   */
+  #propagateCallStackMetrics(): void {
+    const callStacks = this.#callStackInterner.items
+    const metricCount = this.#metrics.length
+    const functionIdToLastSeenEpoch = new Uint32Array(this.#keyToFunction.size)
+
+    for (let epoch = 1; epoch <= callStacks.length; epoch++) {
+      const { frames, selfSampleCount, selfValues } = callStacks[epoch - 1]!
+
+      const leaf = frames[0]!
+      leaf.selfSampleCount += selfSampleCount
+      for (let i = 0; i < metricCount; i++) {
+        leaf.selfValues[i]! += selfValues[i]!
       }
-      functionIdToLastSeenEpoch[func.id] = epoch
 
-      func.totalSampleCount += sampleCount
-      for (let i = 0; i < values.length; i++) {
-        func.totalValues[i]! += values[i]! * sampleCount
-      }
-    }
-
-    // A frame pair (caller, callee) can recur within a single call stack
-    // (recursion), so a per-pair epoch deduplicates it to count the stack just
-    // once, the same way the function epoch above deduplicates functions.
-    const maxFramePairCount = callStack.frames.length - 1
-    for (let i = 0; i < maxFramePairCount; i++) {
-      const callee = callStack.frames[i]!
-      const caller = callStack.frames[i + 1]!
-
-      let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
-      if (!calleeMetrics) {
-        calleeMetrics = {
-          callee,
-          totalSampleCount: 0,
-          totalValues: new Float64Array(this.#metrics.length),
-          lastSeenEpoch: epoch,
-        }
-        caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
-
-        // Mirror the new frame pair on the callee, so its set of direct callers is
-        // complete even when it never appears as a leaf (its self metrics stay
-        // zero). The default entry filter reads that set to decide whether
-        // `ours` code calls the function directly.
-        if (!callee.callerIdToMetrics.has(caller.id)) {
-          callee.callerIdToMetrics.set(caller.id, {
-            caller,
+      const leafCaller = frames[1]
+      if (leafCaller) {
+        let callerMetrics = leaf.callerIdToMetrics.get(leafCaller.id)
+        if (!callerMetrics) {
+          callerMetrics = {
+            caller: leafCaller,
             selfSampleCount: 0,
-            selfValues: new Float64Array(this.#metrics.length),
-          })
+            selfValues: new Float64Array(metricCount),
+          }
+          leaf.callerIdToMetrics.set(leafCaller.id, callerMetrics)
         }
-      } else if (calleeMetrics.lastSeenEpoch === epoch) {
-        // This is a recursive call. Don't count this callee twice.
-        continue
-      } else {
-        calleeMetrics.lastSeenEpoch = epoch
+        callerMetrics.selfSampleCount += selfSampleCount
+        for (let i = 0; i < metricCount; i++) {
+          callerMetrics.selfValues[i]! += selfValues[i]!
+        }
       }
 
-      calleeMetrics.totalSampleCount += sampleCount
-      for (let i = 0; i < values.length; i++) {
-        calleeMetrics.totalValues[i]! += values[i]! * sampleCount
+      // A per-stack epoch deduplicates functions that recur within a single
+      // call stack so their totals count it just once.
+      for (const func of frames) {
+        if (functionIdToLastSeenEpoch[func.id] === epoch) {
+          continue
+        }
+        functionIdToLastSeenEpoch[func.id] = epoch
+
+        func.totalSampleCount += selfSampleCount
+        for (let i = 0; i < metricCount; i++) {
+          func.totalValues[i]! += selfValues[i]!
+        }
+      }
+
+      // A frame pair (caller, callee) can recur within a single call stack
+      // (recursion), so a per-pair epoch deduplicates it to count the stack
+      // just once, the same way the function epoch above deduplicates
+      // functions.
+      const maxFramePairCount = frames.length - 1
+      for (let i = 0; i < maxFramePairCount; i++) {
+        const callee = frames[i]!
+        const caller = frames[i + 1]!
+
+        let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
+        if (!calleeMetrics) {
+          calleeMetrics = {
+            callee,
+            totalSampleCount: 0,
+            totalValues: new Float64Array(metricCount),
+            lastSeenEpoch: epoch,
+          }
+          caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
+
+          // Mirror the new frame pair on the callee, so its set of direct callers is
+          // complete even when it never appears as a leaf (its self metrics stay
+          // zero). The default entry filter reads that set to decide whether
+          // `ours` code calls the function directly.
+          if (!callee.callerIdToMetrics.has(caller.id)) {
+            callee.callerIdToMetrics.set(caller.id, {
+              caller,
+              selfSampleCount: 0,
+              selfValues: new Float64Array(metricCount),
+            })
+          }
+        } else if (calleeMetrics.lastSeenEpoch === epoch) {
+          // This is a recursive call. Don't count this callee twice.
+          continue
+        } else {
+          calleeMetrics.lastSeenEpoch = epoch
+        }
+
+        calleeMetrics.totalSampleCount += selfSampleCount
+        for (let j = 0; j < metricCount; j++) {
+          calleeMetrics.totalValues[j]! += selfValues[j]!
+        }
       }
     }
   }
@@ -464,6 +481,8 @@ class SamplesAggregator {
   }
 
   public aggregate(): AggregatedProfile {
+    this.#propagateCallStackMetrics()
+
     const samplingRates = new Float64Array(this.#metrics.length)
     for (let i = 0; i < samplingRates.length; i++) {
       samplingRates[i] = this.#totalValues[i]! / this.#totalSampleCount
