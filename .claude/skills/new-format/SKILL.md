@@ -1,13 +1,13 @@
 ---
 name: new-format
 description: |
-  Implement support for a new profile or snapshot format end-to-end: research,
-  input generation, converter, origin decision, registration, tests, docs, and
-  examples. Use when asked to support, add, or implement a new format.
+  Implement a new profile format end-to-end: research, input generation,
+  converter, origin decision, registration, tests, docs, and examples. Use when
+  asked to support, add, or implement a new format.
 argument-hint: '[format name, issue link, or guidance]'
 ---
 
-Implement support for a new profile or snapshot format end-to-end.
+Implement a new profile format end-to-end.
 
 # Format
 
@@ -15,7 +15,7 @@ $ARGUMENTS
 
 # Principles
 
-- Real emitter output beats the spec. Real files may violate it. Consider
+- Trust real emitter output over the spec. Real files may violate it. Consider
   parsing correct only after a generated real input validates it, not just
   hand-written tests
 
@@ -40,20 +40,17 @@ $ARGUMENTS
 
 3. Enumerate the emitters (e.g. the canonical tool, other profilers that export
    the format, tools we already support), then decide the origin question:
-   - Note which existing origins will need their `formats` expanded
+   - Note which existing origins need their `formats` expanded
    - Decide whether an emitter warrants a new origin: its inputs need detection,
      categorization, or frame normalization beyond the unknown origin's
-     universal rules (implemented in step 8)
+     universal rules
    - Decide the format's `fallbackOrigin`: the runtime origin for single-runtime
      formats, else `unknown`
 
-4. Confirm every modality the format captures is supported: a sampling profile
-   (parses to a `Profile`; see `src/modalities/profile/type.ts`) or a heap
-   snapshot (parses to a `HeapSnapshot`; see `src/modalities/snapshot/type.ts`).
-   A format may capture several. If any of its modalities is unsupported, STOP:
-   explain the new modality and how it differs from the supported ones, and ask
-   whether to implement it first by loading `/new-modality` and following its
-   workflow
+4. Confirm every modality the format captures is supported. If any is
+   unsupported, STOP: explain the new modality and how it differs from the
+   supported ones, and ask whether to implement it first by loading
+   `/new-modality` and following its workflow
 
 ## Generate inputs first
 
@@ -63,7 +60,7 @@ $ARGUMENTS
      or synthetic input
    - Native-only tools run in Docker via `docker_capture`; host tools may need
      additions to `scripts/inputs/flake.nix`
-   - Name outputs `<lang>.<source>.<config?>.<base|current>.<ext>`; the
+   - Name outputs `<lang>.<emitter>.<config?>.<base|current>.<ext>`; the
      extension must match the converter's `extension` you'll declare
    - When a profiler can export multiple supported formats, export all from a
      single recording
@@ -117,30 +114,28 @@ $ARGUMENTS
    Either way, set up the format's origin detection:
    - List the format in the `formats` of every existing origin that emits it
    - A missing per-origin `formats` entry fails silently (detection falls back),
-     but the detected-input-origins sweep in `src/origins/index.test.ts` checks
-     every committed profile input against `SOURCE_ORIGINS`: add each new
-     input's `<lang>.<source>` entry with the origin you expect
+     but the detected-input-origins test in `src/origins/index.test.ts` checks
+     every committed input against `EMITTER_ORIGINS`: add each new input's
+     `<lang>.<emitter>` entry with the origin you expect, using a
+     `<lang>.<emitter>.<config?>` or `<lang>.<emitter>.<config?>.<format>`
+     override when one emitter's inputs resolve to different origins
 
 ## Register
 
-9. Add the converter to `formatConverters` in `src/formats/registry.ts`. That
-   one entry is the only registration: the `Format` union and help topics derive
-   from the record's keys, and the converter's metadata determines the rest
-   (`extension` maps input/example filenames, `languages` fills the readme
-   matrix and per-language help, `fallbackOrigin` is the origin used when
-   detection finds no match)
+9. Add the converter to `formatConverters` in `src/formats/registry.ts`
+
 10. `src/cli/languages.ts`: add a `languageMetas` entry (name, aliases,
-    extensions) for any emitting language we don't list yet; a language's format
-    list derives from the converters. If a new source or config token needs a
-    display label beyond title-casing, add it to `sourceNames`/`configNames` in
-    `src/cli/examples.ts`
+    extensions) for any emitting language we don't list yet. If a new source or
+    config token needs a display label beyond title-casing, add it to
+    `emitterNames`/`configNames` in `src/cli/examples.ts`
 
 ## Validate against real inputs
 
 11. Convert each generated input with `node src/cli/index.ts <input>` and verify
-    against independently computed ground truth (see Principles). Also convert
-    each base/current pair as a diff. Expect this step to send you back to step
-    7; that's the point of it
+    against independently computed ground truth. Also convert each base/current
+    pair as a diff. Expect this step to send you back to step 7; that's the
+    point
+
 12. `pnpm bench <input>` to confirm conversion time is comparable to existing
     formats on similar-size inputs
 
@@ -148,13 +143,10 @@ $ARGUMENTS
 
 13. `docs/formats/<name>.md` for `--help <format>`; generation instructions in
     each emitting language's `docs/languages/<language>.md` (a new file for a
-    new language). Help topics derive from the format registry and `languages`,
-    and `src/cli/help.test.ts` fails for any topic whose doc file is missing.
-    Verify the content renders with `node src/cli/index.ts --help <name>` for
-    the format and each language
+    new language). Verify the content renders with
+    `node src/cli/index.ts --help <name>` for the format and each language
+
 14. `pnpm update-examples` (re-run after ANY later converter change), then
     `pnpm update-readme`
-15. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`. Lint
-    runs with `--fix`; re-run typecheck and the format's tests afterwards
-    because autofixes can rewrite code (e.g. typed `new Array` into untyped
-    `Array.from`)
+
+15. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`

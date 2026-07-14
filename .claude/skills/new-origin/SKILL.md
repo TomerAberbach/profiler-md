@@ -1,14 +1,13 @@
 ---
 name: new-origin
 description: |
-  Implement a new origin for a format. Use when asked to add or support a new
-  origin (e.g. profiler), or when a format's emitters need detection,
-  categorization, or frame normalization beyond the unknown origin's universal
-  rules.
+  Implement a new origin end-to-end. Use when asked to add or support a new
+  origin, or when a format's emitters need detection, categorization, or frame
+  normalization beyond the unknown origin's universal rules.
 argument-hint: '[origin name, motivating format, issue link, or guidance]'
 ---
 
-Implement support for a new origin end-to-end.
+Implement a new origin end-to-end.
 
 # Origin
 
@@ -30,14 +29,23 @@ $ARGUMENTS
      (build hashes, runtime addresses) into names or paths (see
      `entryMatchNormalizer`)
 
-   Register it in `originSpecs` and add tests to `src/origins/index.test.ts` and
-   `src/origins/categorize.test.ts`
+   Register it in `originSpecs`, ordered by global detection priority: within a
+   format the detector tries candidates in order, so place the new origin above
+   any origin whose signals its own could satisfy (e.g. Deno before Node, since
+   Deno supports `node:` specifiers)
 
-3. Enable detection: list every format the origin emits in the new origin's
-   `formats`. A missing entry fails silently (detection falls back), but the
-   detected-input-origins sweep in `src/origins/index.test.ts` checks every
-   committed profile input against `SOURCE_ORIGINS`: add the new profiler's
-   `<lang>.<source>` entries with the origin you expect
+   Add detection tests to `src/origins/index.test.ts` and categorization tests
+   to `src/origins/categorize.test.ts`. Test a `normalizeFrame` or other
+   origin-specific logic in a colocated `src/origins/<origin>.test.ts`
+
+3. Enable detection: list every format the origin emits in its `formats`. A
+   missing entry fails silently (detection falls back), but the
+   detected-input-origins test in `src/origins/index.test.ts` checks every
+   committed input against `EMITTER_ORIGINS`: add the new profiler's
+   `<lang>.<emitter>` entries with the origin you expect, using a
+   `<lang>.<emitter>.<config>` or `.<format>` override key when some of its
+   inputs resolve to a different origin (e.g. a markerless modality falling
+   back)
 
 4. Run the origin tests (`pnpm test src/origins/index.test.ts` and
    `pnpm test src/origins/categorize.test.ts`, one at a time) and fix failures

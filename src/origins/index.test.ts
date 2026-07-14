@@ -495,7 +495,7 @@ const inputFilenames =
       )
 
 // Registered conditionally because this suite would be empty in the `unit`
-// project, which sweeps no inputs.
+// project, which receives no inputs.
 if (inputFilenames.length > 0) {
   describe(`detected input origins`, () => {
     test.each(inputFilenames)(
@@ -504,7 +504,7 @@ if (inputFilenames.length > 0) {
         const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
 
         // A modality is a property of each aggregated input, not of the format,
-        // so the sweep covers every committed input, asserting on each
+        // so the test covers every committed input, asserting on each
         // profile's functions and each snapshot's entities.
         const origin = expectedInputOrigin(filename)
         const unexpectedOrigins = inputs.flatMap(input => {
