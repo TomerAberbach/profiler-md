@@ -1,14 +1,13 @@
 ---
 name: new-modality
 description: |
-  Implement a new modality (the kind of data a format captures, like the
-  existing profile and snapshot) end-to-end: aggregated form, modality module,
+  Implement a new modality end-to-end: aggregated form, modality module,
   converter union, pipeline dispatch, options, tests, and docs. Use when asked
   to add a modality, or when a format fits neither supported modality.
 argument-hint: '[modality name, motivating format, issue link, or guidance]'
 ---
 
-Implement support for a new modality end-to-end.
+Implement a new modality end-to-end.
 
 # Modality
 
@@ -18,52 +17,42 @@ $ARGUMENTS
 
 - A modality is the kind of data a format captures, defined by its aggregated
   form and Markdown output, not by any single format. Add one only when a
-  format's data can't aggregate into an existing modality's form (e.g. a
-  wall-time trace may still aggregate into a sampling profile)
+  format's data can't aggregate into an existing modality's form
 
 - Unlike formats and origins, modalities are structural, not registered: adding
   one extends the converter union in `src/formats/converter.ts` and the shared
-  dispatch in `src/formats/index.ts`. That's expected; keep per-format logic out
-  of the dispatch (formats still register only in `src/formats/registry.ts`)
+  dispatch in `src/formats/index.ts`
 
 - Mirror the existing modalities' pipelines: per-format code only parses to the
   modality's uniform parsed type; aggregation, categorization, diffing, and
-  formatting run uniformly in the modality module
+  formatting run in the modality module
 
 # Workflow
 
 ## Design
 
-1. Define the modality: what a capture contains, its aggregated form, what the
-   Markdown output's tables show, and how it differs from a profile (sampled
-   call stacks over time) and a snapshot (a point-in-time state graph). If an
-   existing modality can represent it, STOP and explain why a new one isn't
-   needed
+1. Define the modality: what a capture contains, its aggregated form, and what
+   the Markdown output's tables show. If an existing modality can represent it,
+   STOP and explain why a new one isn't needed
 
 2. Decide:
-   - The uniform parsed type: what a format's `parse` produces (see `Profile` in
-     `src/modalities/profile/type.ts` and `HeapSnapshot` in
-     `src/modalities/snapshot/type.ts`), so aggregation, origin detection, and
-     categorization run in the shared pipeline
+   - The uniform parsed type: what a format's `parse` produces so aggregation,
+     origin detection, and categorization run in the shared pipeline
    - The diff semantics for base/current pairs
    - How categorization works: what an entry (name + location) is for this
      modality, so origin detection and `showEntry` filtering apply uniformly
-   - What `detectOrigin` feeds the file's shared `OriginDetector`: raw
-     pre-normalization data when normalization would destroy origin markers
-     (like the profile modality's frames), else the aggregated entries (like the
-     snapshot modality's entities)
+   - What `detectOrigin` feeds the file's shared `OriginDetector`
 
 ## Implement the modality module
 
-3. Create `src/modalities/<name>/` mirroring `profile/` and `snapshot/`:
-   - `type.ts` for the uniform parsed type
-   - `aggregate.ts`: the aggregated form, with a `type: '<name>'` literal
-     discriminating it within `AggregatedInput` and a `context` member, plus a
-     `<Name>Aggregator` class implementing `InputAggregator` from
-     `src/modalities/aggregator.ts` — `detectOrigin(detector)` feeds the input's
-     origin-detection entries and `aggregate(options, context)` aggregates and
-     categorizes under the file's resolved context (following the CLAUDE.md
-     aggregating principles)
+3. Create `src/modalities/<name>/`:
+   - `type.ts`: the uniform parsed type with a `type: '<name>'` field
+   - `aggregate.ts`:
+     - The aggregated form, with `type: '<name>'` and `context` fields
+     - A `<Name>Aggregator` class implementing `InputAggregator` from
+       `src/modalities/aggregator.ts`. `detectOrigin(detector)` feeds the
+       input's origin-detection entries; `aggregate(options, context)`
+       aggregates and categorizes under the file's resolved context
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, reusing `src/cell.ts`
      and `src/measure.ts` where tables match the other modalities
@@ -73,41 +62,28 @@ $ARGUMENTS
 
 ## Extend the pipeline
 
-4. Extend the unions in `src/formats/converter.ts`: the uniform parsed type
-   (tagged with a `type: '<name>'` literal) added to `ParsedInput` and the
-   aggregated form to `AggregatedInput`. Converters don't declare a modality —
-   `parse` may yield any mix of `ParsedInput`s, so a format can carry the new
-   modality alongside others
+4. Extend the unions in `src/formats/converter.ts`: add the uniform parsed type
+   to `ParsedInput` and the aggregated form to `AggregatedInput`
 
-5. Run `pnpm typecheck` and extend every dispatch site it reports in
-   `src/formats/index.ts` — the aggregator construction in
-   `aggregateParsedInputs` (the only per-modality aggregation dispatch) and the
-   `type` switches over base-URL collection, formatting, and diffing are
-   exhaustiveness-checked. Then audit that file for branches typecheck can't
-   catch: runtime throws like `formatAggregatedDiff`'s modality-mismatch error
+5. Run `pnpm typecheck` and extend every dispatch site it reports
 
 6. Extend the option types in `src/options.ts` if the modality has filterable
    entries (see `AggregatedProfileEntry` and `showEntry`)
 
 ## Test, document, and finish
 
-7. Confirm the input sweeps cover the modality: `src/formats/index.test.ts`
-   exercises every committed input through the registry, and the
-   detected-input-origins sweep in `src/origins/index.test.ts` asserts on each
-   aggregated input by its `type` — extend the latter if the modality
-   categorizes by origin
+7. Confirm the parameterized input tests cover the modality:
+   `src/formats/index.test.ts` exercises every committed input through the
+   registry, and the detected-input-origins test in `src/origins/index.test.ts`
+   asserts on each aggregated input by its `type`
 
 8. Document:
-   - `glossary.md`: a term entry alongside Profile and Snapshot, plus entries
-     for the modality's core nouns (mirror the Profile and Snapshot sections)
+   - `glossary.md`: a term entry for the modality's name plus entries for its
+     core nouns
    - The CLAUDE.md project structure tree and any principle that enumerates
-     modalities
-   - This skill and `/new-format`, wherever they enumerate the supported
      modalities
 
 9. Implement the motivating format via `/new-format`; a modality with no format
    exercising it is dead code and must not be committed alone
 
-10. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, then the affected
-    test files one at a time (they are memory-heavy):
-    `pnpm test src/modalities/<name>` and `pnpm test src/formats/index.test.ts`
+10. `pnpm format`, `pnpm lint`, `pnpm typecheck`, `pnpm knip`, `pnpm test`

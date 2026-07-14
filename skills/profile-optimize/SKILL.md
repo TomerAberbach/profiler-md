@@ -1,13 +1,13 @@
 ---
 name: profile-optimize
 description: Generate a performance profile, identify hotspots, and optimize.
-disable-model-invocation: true
+argument-hint: '[what to focus on]'
 allowed-tools: Bash(profiler-md *)
 ---
 
 Generate a performance profile, identify hotspots, and optimize.
 
-$ARGUMENTS
+Focus: $ARGUMENTS
 
 # Workflow
 
