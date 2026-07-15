@@ -8,57 +8,25 @@ import type { EntryCategory, MatchEntry, ProfileEntry } from '../options.ts'
 /**
  * The internal spec of an origin: a **distinct profiler**, a profiling
  * tool paired with the runtime it observed (e.g. `node` for Node's native V8
- * profiler, `node-pprof` for the `pprof` npm package, `py-spy`, `jvm` for JFR
- * producers).
+ * profiler, `node-pprof` for the `pprof` npm package, `jvm` for JFR producers).
  *
- * ## What an origin is for
+ * An origin determines:
+ * - Categorization rules (which entries are `stdlib`, `third-party`, etc.)
+ * - Frame normalization (e.g. extracting location data from packed frame names)
+ * - Diff-match normalization for its profiler's run-varying identifiers
  *
- * An origin determines the categorization rules (which frames are `stdlib`,
- * `third-party`, etc.) that a profile's data implies but doesn't state. Users
- * never see it, only the {@link Origin} ID and the categorization built on it.
- * An origin also carries the diff-match normalization for its profiler's
- * run-varying identifiers (see {@link OriginSpec.normalizeEntryMatch}).
- *
- * An origin is orthogonal to the {@link Format} (the file type) and the
- * language: several origins emit one format (node, deno, and bun emit V8 CPU
- * profiles; node-pprof and pprof-rs emit pprof), and one language spans several
- * origins (JavaScript spans node, node-pprof, deno, bun, safari).
- *
- * ## When a profiler deserves its own origin
- *
- * Add a new origin only when a profiler leaves a marker **in the frame
- * data** (names or locations, not file-level metadata) that needs a
- * **profiler-specific categorization rule** the existing origins' rules would
- * get wrong. Two tests, both required:
- *
- * 1. **It changes categorization.** If two profilers' frames categorize
- *    identically, one origin covers both. async-profiler and the JDK's Flight
- *    Recorder emit nearly identical JFR so a single `jvm` origin serves both.
- *    They differ only in recording metadata, which categorization never reads,
- *    so distinguishing them buys nothing.
- * 2. **The marker is in the frames.** Detection sees only one
- *    {@link ProfileEntry} at a time (via {@link OriginSpec.matchesEntry}), and
- *    categorization sees only one entry, so a metadata-only difference is
- *    neither detectable nor categorizable here. The `pprof` npm package
- *    qualifies because it names its
- *    garbage-collection frame differently than Node's native one
- *    (`(garbage collector)`), a frame name needing its own rule.
- *
- * Name the origin after the **specific profiler** you have evidence for (e.g.
- * `pprof-rs`, not `rust`). Widen to a runtime/language scope only when
- * *multiple* profilers share the categorization (as the JFR producers do under
- * `jvm`). When a runtime has a builtin profiler, the runtime name doubles as
- * the profiler name (`node`, `deno`, `bun`, `safari`).
- *
- * A profiler that emits an existing format but adds nothing
- * categorization-relevant needs no origin: it resolves to an existing origin or
- * the `unknown` fallback.
+ * Origin is orthogonal to {@link Format} and has a many-to-many relationship
+ * with it:
+ * - Multiple origins emit one format (e.g. node, deno, and bun emit V8 CPU
+ *   profiles)
+ * - One origin emits multiple formats (e.g. node emits V8 CPU and heap
+ *   profiles)
  */
 export type OriginSpec = {
   /** A unique ID for this origin. */
   id: string
 
-  /** The formats this origin can emit, used to narrow detection candidates. */
+  /** The formats this origin can emit. */
   formats: Format[]
 
   /**
@@ -68,14 +36,14 @@ export type OriginSpec = {
    *
    * Match on the profile's **data** (frame names and locations), never its
    * format: a profile can be converted between formats but keeps its original
-   * profiler's markers. The format only narrows which origins are tried,
-   * and is the fallback when no data signal matches.
+   * profiler's markers. The format only narrows which origins are tried, and is
+   * the fallback when no entry matches any origin.
    *
    * The marker must be **origin-level, not language-level**: evidence of this
    * profiler or runtime's own conventions (a synthetic frame name it invents,
-   * a runtime's install-layout path, its packed-name shape), never a signal
-   * any profiler observing the same language would produce (a `.rb`/`.py`
-   * file extension, idiomatic function names).
+   * a runtime's install-layout path, its packed-name shape), never evidence any
+   * profiler observing the same language would produce (a `.rb`/`.py` file
+   * extension, idiomatic function names).
    *
    * Used only for origin auto-detection (skipped when the user forces an
    * origin), so be strict to avoid false positives.
@@ -84,18 +52,19 @@ export type OriginSpec = {
 
   /**
    * Returns the category of {@link entry} under this origin's runtime
-   * conventions: which module specifiers denote builtins (`stdlib`) versus
-   * external dependencies (`third-party`), the profiler's synthetic frame
-   * names, and so on.
+   * conventions.
+   *
+   * For example, which module specifiers denote builtins (`stdlib`) versus
+   * external dependencies (`third-party`), and which frame names are the
+   * profiler's synthetic ones.
    */
   categorize: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
 
   /**
    * Returns a normalized name and location to match {@link entry} by across
    * diffed profiles, with this origin's run-varying identifiers (build hashes,
-   * runtime addresses baked into names or paths) stripped so the same entity
-   * matches across runs and builds. Feeds the default
-   * {@link ProfileToMdOptions.matchEntry}.
+   * runtime addresses embedded in names or paths) stripped so the same entity
+   * matches across runs and builds.
    *
    * MUST return `undefined` for an entry carrying none of the origin's
    * markers, so unmarked entries match by their own name and location.
@@ -109,29 +78,26 @@ export type OriginSpec = {
   ) => MatchEntry | undefined
 
   /**
-   * Enriches a raw stack frame, splitting its display name, location, and
-   * optional executing line out of {@link ProfileStackFrame.name}, for profilers
-   * (chiefly the collapsed-stack variants) that pack a function's location into
-   * its frame string rather than carrying it separately. Defaults to the
-   * identity when omitted.
+   * Normalizes a raw stack frame to a canonical form.
    *
-   * The aggregator applies this to every frame before keying and categorizing,
-   * so the derived location feeds both, passing the profile's {@link Format}
-   * so an origin spanning several formats can tell how a frame's fields were
-   * produced. An already-located frame usually needs nothing and MUST pass
-   * through unchanged (an origin can span a location-carrying format like JFR
-   * and a location-in-name one like collapsed), with one exception: a format
-   * can carry a field only the origin can interpret, like speedscope's
-   * ambiguous frame line (see {@link normalizeSpeedscopeExecutingLine}).
+   * Most commonly it splits the frame's display name, location, and optional
+   * executing line out of {@link ProfileStackFrame.name}, for profilers that
+   * pack a function's location into its frame string rather than carrying it
+   * separately.
    *
-   * Returning `null` drops the frame: the aggregator elides it from every call
-   * stack, attributing its metrics to the surrounding real frames. For a
+   * The profile's {@link Format} is provided for logic that applies only to
+   * specific origin-format pairs.
+   *
+   * Returning `null` drops the frame: the aggregator removes it from every
+   * call stack, attributing its metrics to the surrounding real frames. For a
    * profiler whose export wraps stacks in pseudo-frames that aren't functions
-   * (dotnet-trace's `Threads` grouping and `CPU_TIME` time bucket),
+   * (e.g. dotnet-trace's `Threads` grouping and `CPU_TIME` time bucket),
    * dropping them keeps self and total values on the sampled functions.
    *
-   * MUST return {@link input} unchanged for a frame lacking the variant's
+   * MUST return {@link input} unchanged for a frame lacking the origin's
    * marker. That keeps it safe to run on every format.
+   *
+   * Defaults to the identity when omitted.
    */
   normalizeFrame?: (
     input: ProfileStackFrame,
@@ -142,8 +108,9 @@ export type OriginSpec = {
 /**
  * Builds an {@link OriginSpec.normalizeFrame} for a profiler that packs a
  * frame's function, file, and sampled line into its name, matched by
- * {@link regex}'s named groups `func`, `file`, and `line`. A frame the regex
- * doesn't match is returned unchanged.
+ * {@link regex}'s named groups `func`, `file`, and `line`.
+ *
+ * A frame the regex doesn't match passes through unchanged.
  *
  * The packed line is where the frame was sampling, not where the function is
  * defined, so it becomes the executing line (feeding the per-line breakdown)
@@ -174,16 +141,15 @@ export const packedLocationNormalizer =
 /**
  * A single match-normalization rule: a pattern for a run-varying identifier
  * and the replacement that strips it (typically re-inserting named groups).
- * Applied via `String.prototype.replace`, so a `g`-flagged pattern strips
- * every occurrence.
  */
 export type EntryMatchRule = readonly [RegExp, string]
 
 /**
  * Builds an {@link OriginSpec.normalizeEntryMatch} from rules over an entry's
- * name and its location's URL/path string. A field is included in the result
- * only when a rule changed it, and the whole result is `undefined` when
- * nothing changed, per the member's contract.
+ * name and its location's URL/path string.
+ *
+ * The result includes a field only when a rule changed it; when nothing
+ * changed, the whole result is `undefined`.
  */
 export const entryMatchNormalizer =
   ({
@@ -229,15 +195,10 @@ export const entryMatchNormalizer =
  * *sampled* line rather than per function.
  *
  * The speedscope format leaves the field's semantics undefined, so only the
- * origin knows the line is where the frame was sampling, not where the
- * function is defined. Keeping it in the location would fragment one function
- * into an identity per line and break diff matching across runs, so it moves
- * to {@link ProfileStackFrame.line} (feeding the per-line breakdown) and the
- * name and file alone identify the function.
+ * origin knows the line is where the frame was sampling, not where the function
+ * is defined.
  *
- * A located frame from any other format passes through unchanged: its
- * location's line is a genuine definition line (e.g. pprof's
- * `Function.start_line`).
+ * A located frame from any other format passes through unchanged.
  */
 export const normalizeSpeedscopeExecutingLine = (
   input: ProfileStackFrame,
