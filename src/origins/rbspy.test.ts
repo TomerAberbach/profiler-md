@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest'
+import type { Format } from '../formats/registry.ts'
 import type { ProfileEntry } from '../options.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
-
-const { normalizeFrame } = rbspyOriginSpec
+import { determineOrigin, relativeEntry } from './testing.ts'
 
 const located = (name: string, path: string): ProfileEntry => ({
   id: 1,
@@ -12,7 +12,34 @@ const located = (name: string, path: string): ProfileEntry => ({
 
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
+describe(`detection`, () => {
+  // A ` - file:line` method frame and a `[c function]` native frame.
+  test.each([
+    `parse - /app/lib/foo.rb:12`,
+    `(unknown) [c function] - (unknown)`,
+  ])(`detects rbspy by its %s collapsed frame`, name => {
+    expect(
+      determineOrigin({
+        format: `collapsed`,
+        entries: [relativeEntry(name)],
+      }),
+    ).toBe(`rbspy`)
+  })
+
+  test.each<[Format, string]>([
+    [`pprof`, `(unknown) [c function]`],
+    [`speedscope`, `<top (required)>`],
+    [`pprof`, `<main>`],
+  ])(`detects rbspy in %s by its bare %s marker frame`, (format, name) => {
+    expect(determineOrigin({ format, entries: [relativeEntry(name)] })).toBe(
+      `rbspy`,
+    )
+  })
+})
+
 describe(`normalizeFrame`, () => {
+  const { normalizeFrame } = rbspyOriginSpec
+
   test(`splits a method's trailing file:line off the name`, () => {
     expect(
       normalizeFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
@@ -101,17 +128,11 @@ describe(`categorizeEntry`, () => {
     ).toBe(`third-party`)
   })
 
-  test(`the Ruby standard library is stdlib`, () => {
-    expect(
-      categorizeEntry(
-        located(`accept`, `/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb`),
-      ),
-    ).toBe(`stdlib`)
-    expect(
-      categorizeEntry(
-        located(`activate`, `/usr/lib/ruby/vendor_ruby/rubygems.rb`),
-      ),
-    ).toBe(`stdlib`)
+  test.each([
+    [`accept`, `/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb`],
+    [`activate`, `/usr/lib/ruby/vendor_ruby/rubygems.rb`],
+  ])(`the standard-library %s method at %s is stdlib`, (name, path) => {
+    expect(categorizeEntry(located(name, path))).toBe(`stdlib`)
   })
 
   test(`native [c function] frames are stdlib`, () => {

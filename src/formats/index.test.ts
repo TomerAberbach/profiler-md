@@ -43,11 +43,11 @@ const inputSets = {
   json: new Set<string>(),
   binary: new Set<string>(),
 }
-// Every committed input is exercised through the registry, in its format's
-// project. Only the `base` variant of each is taken since `current` is a
-// near-identical re-run, keeping the matrix of auto-detect/diff cases
-// manageable.
 if (format !== undefined) {
+  // Every committed input is exercised through the registry, in its format's
+  // project. Only the `base` variant of each is taken since `current` is a
+  // near-identical re-run, keeping the matrix of auto-detect/diff cases
+  // manageable.
   for (const filename of readdirSync(inputPath())) {
     const example = parseExampleFilename(filename)
     if (example.variant !== `base` || example.format !== format) {
@@ -64,13 +64,9 @@ const allInputs = [...jsonInputs, ...binaryInputs]
 // Some real captures legitimately have no samples (e.g. a lock profile that saw
 // no contention), so the pipeline yields the no-data message instead of a
 // heading. Either outcome means the format was detected and conversion ran end
-// to end, which is what these per-input smoke checks assert.
-const expectConverted = (md: string): void => {
-  expect(md).toMatch(/^(?:# |No profiling data found\.)/u)
-}
-const expectDiffConverted = (md: string): void => {
-  expect(md).toMatch(/^(?:# .*diff|No profiling data found\.)/iu)
-}
+// to end, which is what these regexes check.
+const MARKDOWN_REGEX = /^(?:# |No profiling data found\.)/u
+const MARKDOWN_DIFF_REGEX = /^(?:# .*diff|No profiling data found\.)/iu
 
 // A valid Speedscope file that carries no profiles, so it aggregates to nothing.
 const emptyProfile = JSON.stringify({
@@ -87,13 +83,13 @@ describe(`profileToMd`, () => {
       test(`from string`, () => {
         const md = profileToMd(content.toString(`utf8`), { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
 
       test(`from Uint8Array`, () => {
         const md = profileToMd(content, { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
     })
   }
@@ -105,7 +101,7 @@ describe(`profileToMd`, () => {
       test(`from Uint8Array`, () => {
         const md = profileToMd(content, { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
 
       test(`from one-shot Iterable<Uint8Array>`, () => {
@@ -116,7 +112,7 @@ describe(`profileToMd`, () => {
 
         const md = profileToMd(iterable, { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
     })
   }
@@ -135,8 +131,9 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' infers the common ancestor of ours locations`, () => {
-      // FuncA and funcB span the project; the dependency and builtin frames are
-      // not `ours`, so they don't move the inferred base up towards the root.
+      // `funcA` and `funcB` span the project; the dependency and builtin frames
+      // are not `ours`, so they don't move the inferred base up towards the
+      // root.
       const cpuProfile = JSON.stringify({
         nodes: [
           makeV8CpuProfileRoot([2, 3]),
@@ -347,9 +344,9 @@ describe(`profileToMd`, () => {
     ])(
       `auto-detection of %s propagates a throwing categorizeEntries`,
       filename => {
-        // Errors raised after a format is detected (here from a user callback
-        // during aggregation) are real errors, not detection misses, so they must
-        // surface instead of being swallowed into an unknown-format error.
+        // Errors raised after a format is detected are real errors, not
+        // detection misses, so they must surface, not be swallowed into an
+        // unknown-format error.
         const content = readFileSync(inputPath(filename))
 
         expect(() =>
@@ -389,7 +386,7 @@ describe(`profileToMdAsync`, () => {
 
         const md = await profileToMdAsync(blob, { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
 
       test(`from ReadableStream`, async () => {
@@ -402,7 +399,7 @@ describe(`profileToMdAsync`, () => {
 
         const md = await profileToMdAsync(stream, { baseURL: null })
 
-        expectConverted(md)
+        expect(md).toMatch(MARKDOWN_REGEX)
       })
     })
   }
@@ -634,7 +631,7 @@ describe(`diffProfiles`, () => {
 
         const md = diffProfiles(content, content, { baseURL: null })
 
-        expectDiffConverted(md)
+        expect(md).toMatch(MARKDOWN_DIFF_REGEX)
         // No regressions or improvements when diffing an input against itself.
         expect(md).not.toMatch(/Regressions|Improvements/u)
       },
@@ -932,7 +929,7 @@ if (allInputs.length > 0) {
         { baseURL: null },
       )
 
-      expectDiffConverted(md)
+      expect(md).toMatch(MARKDOWN_DIFF_REGEX)
     })
   })
 }
