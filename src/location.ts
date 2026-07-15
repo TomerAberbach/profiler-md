@@ -102,6 +102,11 @@ export const fileReferenceToSourceLocation = (
   },
 ): SourceLocation => ({ ...fileReference, line, column })
 
+export const isAbsoluteFileLocation = (
+  location: SourceLocation | undefined,
+): location is SourceLocation & { type: `absolute` } =>
+  location?.type === `absolute` && location.url.protocol === `file:`
+
 /**
  * Formats a location as a plain string, falling back to `<unknown>`. Callers
  * wrap it in a code span where it stands alone.

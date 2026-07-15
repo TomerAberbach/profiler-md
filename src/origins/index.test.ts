@@ -2,7 +2,7 @@ import { readdirSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import type { Format } from '../formats/index.ts'
-import { aggregateInputs } from '../formats/index.ts'
+import { aggregateInput } from '../formats/index.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { injectedFormat, inputPath, readInput } from '../testing/inputs.ts'
@@ -506,7 +506,7 @@ if (inputFilenames.length > 0) {
     test.each(inputFilenames)(
       `%s resolves to its profiler's origin`,
       filename => {
-        const inputs = aggregateInputs(readInput(filename), echoOriginOptions())
+        const inputs = aggregateInput(readInput(filename), echoOriginOptions())
 
         // A modality is a property of each aggregated input, not of the format,
         // so the test covers every committed input, asserting on each
@@ -535,8 +535,8 @@ if (format === undefined) {
     test(`an explicit origin overrides detection and reaches categorizeEntries`, () => {
       const options = echoOriginOptions()
 
-      const [detected] = aggregateInputs(nodeInput(), options)
-      const [forced] = aggregateInputs(
+      const [detected] = aggregateInput(nodeInput(), options)
+      const [forced] = aggregateInput(
         { data: nodeInput(), origin: `deno` },
         options,
       )
