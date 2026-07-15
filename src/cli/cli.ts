@@ -80,12 +80,12 @@ const parser = object({
   ),
   topN: optional(
     option(`--top-n`, integer({ metavar: `N` }), {
-      description: message`Number of top entries to show (default: 20)`,
+      description: message`Top entries to show (default: 20)`,
     }),
   ),
   baseURL: optional(
     option(`--base-url`, string(), {
-      description: message`Base URL or path to show paths relative to, or "auto" to infer the profiled files' common ancestor directory (default: cwd)`,
+      description: message`Base URL or path to show paths relative to, or "auto" to infer the common ancestor directory (default: cwd)`,
     }),
   ),
   sourceMaps: multiple(
@@ -105,7 +105,7 @@ const parser = object({
   ),
   pager: map(
     option(`--no-pager`, {
-      description: message`Disable stdout output paging (default: auto)`,
+      description: message`Disable stdout paging (default: auto)`,
     }),
     value => !value,
   ),
@@ -120,7 +120,7 @@ const parser = object({
   input: or(
     optional(
       argument(path({ metavar: `FILE` }), {
-        description: message`Profile to convert (reads from stdin if omitted)`,
+        description: message`Profile to convert (default: stdin)`,
       }),
     ),
     tuple([
