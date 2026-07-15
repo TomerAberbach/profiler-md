@@ -1,21 +1,21 @@
 # Java/Kotlin
 
-Java and Kotlin profiling works with any JVM language, using either
+Java and Kotlin profiling works with any JVM language, using
 [Java Flight Recorder](https://docs.oracle.com/en/java/javase/21/jfapi/) (JFR),
 built into the JDK since JDK 11, or
-[async-profiler](https://github.com/async-profiler/async-profiler), a low
-overhead sampling profiler that additionally resolves native frames and works on
-older JDKs.
+[async-profiler](https://github.com/async-profiler/async-profiler), which also
+resolves native frames and works on older JDKs.
 
 ## CPU profiling
 
 Periodically samples the call stack while on CPU. Useful for finding CPU hot
-spots. Recorded as `jdk.ExecutionSample` events.
+spots. Recorded as `jdk.ExecutionSample` events, plus `jdk.NativeMethodSample`
+events for threads running native methods.
 
 ### Java Flight Recorder
 
 ```sh
-java -XX:StartFlightRecording=filename=cpu.jfr,settings=none,+jdk.ExecutionSample#enabled=true,+jdk.ExecutionSample#period=10ms -jar app.jar
+java -XX:StartFlightRecording=filename=cpu.jfr,settings=none,+jdk.ExecutionSample#enabled=true,+jdk.ExecutionSample#period=10ms,+jdk.NativeMethodSample#enabled=true,+jdk.NativeMethodSample#period=10ms -jar app.jar
 jfr summary cpu.jfr
 ```
 
@@ -56,8 +56,8 @@ waiting. Useful for I/O-bound or latency-sensitive code.
 ### Java Flight Recorder
 
 JFR has no wall-clock sampler, so this metric is async-profiler only. (JFR does
-record specific waiting events, such as `jdk.ThreadPark` and
-`jdk.JavaMonitorWait`, via the lock recipe below.)
+record specific waiting events, such as `jdk.ThreadPark`, via the lock recipe
+below.)
 
 ### async-profiler
 
@@ -136,8 +136,8 @@ Recorded as `profiler.NativeLock` events.
 ### Java Flight Recorder
 
 The `profile` template records execution samples, allocations, locks, GC, and
-many other JVM events at once. JFR rotates the recording into multiple chunks as
-it grows (`-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold).
+many other JVM events at once. JFR rotates the recording into chunks as it grows
+(`-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold).
 
 ```sh
 java -XX:StartFlightRecording=filename=all.jfr,settings=profile -jar app.jar
@@ -146,9 +146,9 @@ jfr summary all.jfr
 
 ### async-profiler
 
-`--all` enables `cpu`, `wall`, `alloc`, `live`, `nativemem`, and `lock`
-simultaneously. Add `--nofree` to suppress the high-volume native `free` events,
-which otherwise dominate the recording.
+`--all` enables `cpu`, `wall`, `alloc`, `live`, `nativemem`, and `lock` at once.
+Add `--nofree` to suppress the high-volume native `free` events, which otherwise
+dominate the recording.
 
 ```sh
 asprof --all --nofree -d 30 -f all.jfr <pid>

@@ -26,12 +26,12 @@ bun --cpu-prof script.ts
 | -------------------------- | ---------------------------------- | --------------------------------------------- |
 | `--cpu-prof`               | —                                  | Write a CPU profile on exit; enabled when set |
 | `--cpu-prof-interval=<µs>` | `1000`                             | Sampling interval in microseconds             |
-| `--cpu-prof-dir=<dir>`     | `.`                                | Directory to write the profile to             |
+| `--cpu-prof-dir=<dir>`     | `.`                                | Directory for the profile                     |
 | `--cpu-prof-name=<name>`   | `CPU.<timestamp>.<pid>.cpuprofile` | Filename for the profile                      |
 
 ### Programmatic API
 
-Profile a specific section of code rather than the whole process:
+Profile a section of code rather than the whole process:
 
 ```js
 import { writeFileSync } from 'node:fs'
@@ -70,7 +70,7 @@ node --heap-prof script.js
 | ------------------------------ | -------- | ---------------------------------------------- |
 | `--heap-prof`                  | —        | Write a heap profile on exit; enabled when set |
 | `--heap-prof-interval=<bytes>` | `524288` | Sampling interval in bytes (default 512 KB)    |
-| `--heap-prof-dir=<dir>`        | `.`      | Directory to write the profile to              |
+| `--heap-prof-dir=<dir>`        | `.`      | Directory for the profile                      |
 | `--heap-prof-name=<name>`      | —        | Filename for the profile                       |
 
 ### Programmatic API
@@ -122,7 +122,7 @@ bun --heap-prof script.ts
 | Flag                      | Default | Description                                     |
 | ------------------------- | ------- | ----------------------------------------------- |
 | `--heap-prof`             | —       | Write a heap snapshot on exit; enabled when set |
-| `--heap-prof-dir=<dir>`   | `.`     | Directory to write the snapshot to              |
+| `--heap-prof-dir=<dir>`   | `.`     | Directory for the snapshot                      |
 | `--heap-prof-name=<name>` | —       | Filename for the snapshot                       |
 
 ### Programmatic API
@@ -254,10 +254,10 @@ Open the Web Inspector with **Develop → Show Web Inspector** (or ⌥⌘I).
 ### Recording
 
 1. Click the **Timelines** tab.
-2. Enable the instruments you want: **JavaScript & Events** (always), and
-   optionally **Memory** and **JavaScript Allocations**.
+2. Enable the instruments: **JavaScript & Events** (always), and optionally
+   **Memory** and **JavaScript Allocations**.
 3. Click **Start Recording** (or ⌘R).
-4. Reproduce the scenario you want to profile.
+4. Reproduce the scenario to profile.
 5. Click **Stop Recording**.
 6. Click the **Export** button (arrow icon) and save as a `.json` file.
 

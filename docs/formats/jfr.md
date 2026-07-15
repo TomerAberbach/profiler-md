@@ -11,6 +11,6 @@ CPU/wall sampling measured by sample count, heap and native memory allocation
 sampling measured by allocated bytes, and lock contention measured by blocked
 time.
 
-It supports one metric per profile and multiple profiles per file.
+It supports a single metric per profile and multiple profiles per file.
 
 Files use the `.jfr` extension.

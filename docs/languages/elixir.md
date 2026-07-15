@@ -1,8 +1,7 @@
 # Elixir/Erlang
 
 Elixir and Erlang profiling uses
-[eflambe](https://github.com/Stratus3D/eflambe), a BEAM profiler that wraps the
-runtime's built-in tracing and writes flame graph output.
+[eflambe](https://github.com/Stratus3D/eflambe).
 
 ## CPU profiling
 
@@ -19,7 +18,7 @@ large input can produce hundreds of MB.
 ### Elixir
 
 ```elixir
-# Profile a function as it runs during normal execution (capture 1 call)
+# Profile a function during normal execution (capture 1 call)
 :eflambe.capture({MyModule, :my_function, 1}, 1, output_format: :brendan_gregg)
 
 # Directly invoke and profile a function
@@ -29,7 +28,7 @@ large input can produce hundreds of MB.
 ### Erlang
 
 ```erlang
-%% Profile a function as it runs during normal execution (capture 1 call)
+%% Profile a function during normal execution (capture 1 call)
 eflambe:capture({my_module, my_function, 1}, 1, [{output_format, brendan_gregg}]).
 
 %% Directly invoke and profile a function
@@ -41,6 +40,6 @@ eflambe:apply({my_module, my_function, [Arg1, Arg2]}, [{output_format, brendan_g
 | Option             | Default         | Description                                         |
 | ------------------ | --------------- | --------------------------------------------------- |
 | `output_format`    | `brendan_gregg` | Output format: `brendan_gregg` (collapsed) or `svg` |
-| `output_directory` | project root    | Directory to write the output file to               |
+| `output_directory` | project root    | Directory for the output file                       |
 | `open`             | —               | Auto-open the result in `speedscope` or `hotspot`   |
 | `return`           | `filename`      | Return value: `value`, `flamegraph`, or `filename`  |

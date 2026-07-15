@@ -1,9 +1,7 @@
 # C#/F#
 
 .NET profiling (C#, F#, and other CLR languages) uses
-[`dotnet-trace`](https://learn.microsoft.com/dotnet/core/diagnostics/dotnet-trace),
-a cross-platform diagnostics tool that collects traces through the runtime's
-EventPipe without a native profiler.
+[`dotnet-trace`](https://learn.microsoft.com/dotnet/core/diagnostics/dotnet-trace).
 
 Install it as a global tool:
 
@@ -11,7 +9,7 @@ Install it as a global tool:
 dotnet tool install --global dotnet-trace
 ```
 
-The latest `dotnet-trace` needs a matching .NET runtime. If yours is older, then
+The latest `dotnet-trace` needs a matching .NET runtime. If yours is older,
 install a compatible version with `--version`.
 
 ## CPU profiling

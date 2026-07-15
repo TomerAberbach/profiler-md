@@ -120,7 +120,8 @@ it. Third-party tools can often convert others, though.
 <tr>
 <td><a href="docs/languages/julia.md">Julia</a></td>
 <td>
-<div><a href="docs/formats/pprof.md">pprof</a>:<ul><li>Allocations (<a href="examples/output/julia.pprof-jl.alloc.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.alloc.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.alloc.diff.pprof.md">diff</a>)</li><li>CPU (<a href="examples/output/julia.pprof-jl.cpu.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.cpu.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.cpu.diff.pprof.md">diff</a>)</li></ul></div>
+<div><a href="docs/formats/pprof.md">pprof</a>:<ul><li>Allocations (<a href="examples/output/julia.pprof-jl.alloc.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.alloc.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.alloc.diff.pprof.md">diff</a>)</li><li>CPU (<a href="examples/output/julia.pprof-jl.cpu.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.cpu.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.cpu.diff.pprof.md">diff</a>)</li><li>Wall (<a href="examples/output/julia.pprof-jl.wall.base.pprof.md">base</a>, <a href="examples/output/julia.pprof-jl.wall.current.pprof.md">current</a>, <a href="examples/output/julia.pprof-jl.wall.diff.pprof.md">diff</a>)</li></ul></div>
+<div><a href="docs/formats/v8-heap-snapshot.md">V8 heap snapshot</a>: <a href="examples/output/julia.profile.base.heapsnapshot.md">base</a>, <a href="examples/output/julia.profile.current.heapsnapshot.md">current</a>, <a href="examples/output/julia.profile.diff.heapsnapshot.md">diff</a></div>
 </td>
 </tr>
 <tr>

@@ -114,9 +114,9 @@ Captures stack traces that led to blocking on synchronization primitives
 diagnosing synchronization bottlenecks.
 
 Disabled by default. Call `runtime.SetBlockProfileRate(rate)` in your program
-before the code you want to profile. This applies whether you collect via HTTP
-or the programmatic API. Rate is in nanoseconds: `1` captures every blocking
-event; higher values sample less.
+before the code to profile. This applies whether you collect via HTTP or the
+programmatic API. Rate is in nanoseconds: `1` captures every blocking event;
+higher values sample less.
 
 ```go
 runtime.SetBlockProfileRate(1)
@@ -145,9 +145,9 @@ Captures stack traces of goroutines holding a contended mutex when another
 goroutine tries to acquire it. Useful for finding lock contention hot spots.
 
 Disabled by default. Call `runtime.SetMutexProfileFraction(rate)` in your
-program before the code you want to profile. This applies whether you collect
-via HTTP or the programmatic API. `1` captures every contended event; `n`
-samples roughly `1/n` events.
+program before the code to profile. This applies whether you collect via HTTP or
+the programmatic API. `1` captures every contended event; `n` samples roughly
+`1/n` events.
 
 ```go
 runtime.SetMutexProfileFraction(1)
