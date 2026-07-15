@@ -187,10 +187,10 @@ Converts performance profiles to human and LLM friendly Markdown.
   -f, --format FORMAT         Input profile format (default: auto)
   -r, --origin ORIGIN         Input profile origin (default: auto)
   -o, --output FILE           Output file (default: - for stdout)
-  --top-n N                   Number of top entries to show (default: 20)
+  --top-n N                   Top entries to show (default: 20)
   --base-url STRING           Base URL or path to show paths relative to, or 
-                              "auto" to infer the profiled files' common 
-                              ancestor directory (default: cwd)
+                              "auto" to infer the common ancestor directory 
+                              (default: cwd)
   --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
                               locations (repeatable)
   --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
@@ -198,10 +198,10 @@ Converts performance profiles to human and LLM friendly Markdown.
                               (repeatable)
   --third-party GLOB          Additional URLs or paths to consider third-party 
                               (repeatable)
-  --no-pager                  Disable stdout output paging (default: auto)
+  --no-pager                  Disable stdout paging (default: auto)
   --color, --no-color         Enable or disable ANSI syntax highlighting 
                               (default: auto)
-  FILE                        Profile to convert (reads from stdin if omitted)
+  FILE                        Profile to convert (default: stdin)
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
