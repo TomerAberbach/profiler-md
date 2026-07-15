@@ -44,7 +44,7 @@ import {
 } from '../../measure.ts'
 import type { NamedFunction } from '../../measure.ts'
 import type { DiffMetric, Metric } from '../../metric.ts'
-import type { ResolvedProfileToMdOptions } from '../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,
@@ -57,14 +57,14 @@ import type {
   AggregatedProfileFunctionDiff,
 } from './diff.ts'
 
-type FormatProfileOptions = ResolvedProfileToMdOptions & {
+type FormatProfileOptions = FormattingProfileToMdOptions & {
   /** The Markdown heading level to use. */
   headingLevel: number
 }
 
 export const formatProfile = (
   profile: AggregatedProfile,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
   return [
@@ -99,7 +99,7 @@ export const formatProfile = (
 
 export const formatProfileDiff = (
   diff: AggregatedProfileDiff,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
   const metrics = diff.metrics.map(({ metric }) => metric)
@@ -561,7 +561,7 @@ const formatHottestCallStacks = (
  */
 const mergeShownCallStacks = (
   callStacks: AggregatedProfileCallStack[],
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): AggregatedProfileCallStack[] => {
   const merged = new Map<string, AggregatedProfileCallStack>()
   for (const callStack of callStacks) {
@@ -604,7 +604,7 @@ const callStackRow = (
   measure: Measure,
   total: number,
   commonCallStack: AggregatedProfileFunction[],
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Cell[] => [
   ...measureCells(
     measureMetric(measure),
@@ -782,7 +782,7 @@ const categoryRow = (
 const formatDiffFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] =>
   formatSectionGroup(
@@ -796,7 +796,7 @@ const formatDiffFunctions = (
 const formatDiffSelfFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
   const metric = measureMetric(measure)
@@ -850,7 +850,7 @@ const formatDiffSelfFunctions = (
 const formatDiffTotalFunctions = (
   diff: AggregatedProfileDiff,
   measure: DiffMeasure,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
   headingLevel: number,
 ): RootContent[] => {
   const metric = measureMetric(measure)
@@ -964,7 +964,7 @@ const functionTableHeaders = (metric: Metric | null): Header[] =>
 /** Returns whether either side of the diffed function should be shown. */
 const showDiffFunction = (
   { base, current }: AggregatedProfileFunctionDiff,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
@@ -983,7 +983,7 @@ const functionMeasureRow = (
   value: number,
   sampleCount: number,
   total: number,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Cell[] => [
   ...measureCells(metric, value, sampleCount, total),
   codeCell(func.name),
@@ -1039,7 +1039,7 @@ const measureCells = (
 /** Formats a call stack as a chain of functions, leaf to root. */
 const formatCallStack = (
   frames: AggregatedProfileFunction[],
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): PhrasingContent[] =>
   frames.flatMap((frame, index) => {
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]

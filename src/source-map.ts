@@ -2,7 +2,7 @@ import { SourceMapConsumer } from 'source-map-js'
 import type { MappedPosition, RawSourceMap as SourceMap } from 'source-map-js'
 import { makeFileReference } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
-import type { ResolvedProfileToMdOptions } from './options.ts'
+import type { FormattingProfileToMdOptions } from './options.ts'
 
 type NormalizedSourceMap = {
   consumer: SourceMapConsumer
@@ -40,7 +40,7 @@ export const normalizeSourceMaps = (
  */
 export const sourceMapSourceLocation = (
   location: SourceLocation,
-  { baseURL, sourceMaps }: ResolvedProfileToMdOptions,
+  { baseURL, sourceMaps }: FormattingProfileToMdOptions,
 ): SourceLocation => {
   if (location.type === `relative`) {
     // We never apply source maps to relative paths because we don't know where

@@ -9,7 +9,7 @@ import type {
   NodeAdjacencyGraph,
   SnapshotNode,
 } from '../../../modalities/snapshot/index.ts'
-import type { ResolvedProfileToMdOptions } from '../../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../../options.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
@@ -434,7 +434,7 @@ const formatEdgeLabel = (
   edgeIndex: number,
   { edges, strings }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ) => {
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
@@ -512,7 +512,7 @@ const formatNodeLabel = (
   nodeOrdinal: number,
   snapshot: V8HeapSnapshot,
   fieldLayout: FieldLayout,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): string => {
   const { name, nameLocation } = nodeName(nodeOrdinal, snapshot, fieldLayout)
   return nameLocation ? formatSourceLocation(nameLocation, options) : name

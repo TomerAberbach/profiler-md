@@ -23,7 +23,7 @@ import type { Header } from './helpers/markdown.ts'
 import { formatSourceLocation } from './location.ts'
 import type { SourceLocation } from './location.ts'
 import type { Metric } from './metric.ts'
-import type { ResolvedProfileToMdOptions } from './options.ts'
+import type { FormattingProfileToMdOptions } from './options.ts'
 
 /**
  * Metric and measure Markdown formatting for the profile formatter. Table
@@ -100,7 +100,7 @@ export type NamedFunction = {
 export const formatFunctionHeading = (
   headingLevel: number,
   func: NamedFunction,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Heading =>
   heading(
     headingLevel,

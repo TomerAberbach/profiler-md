@@ -1,5 +1,5 @@
 import type { DeepReadonly } from './helpers/types.ts'
-import type { ResolvedProfileToMdOptions } from './options.ts'
+import type { FormattingProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
 
 /** A file reference, potentially with line and column information. */
@@ -108,7 +108,7 @@ export const fileReferenceToSourceLocation = (
  */
 export const formatSourceLocation = (
   location: SourceLocation | undefined,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): string => {
   if (!location) {
     return `<unknown>`

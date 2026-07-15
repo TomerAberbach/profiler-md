@@ -2,7 +2,7 @@ import type { Diff } from '../../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../../diff.ts'
 import type { DiffMetric } from '../../metric.ts'
 import { matchDiffedMetrics } from '../../metric.ts'
-import type { ResolvedProfileToMdOptions } from '../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,
@@ -56,7 +56,7 @@ export type AggregatedProfileDiff = {
 export const diffAggregatedProfiles = (
   base: AggregatedProfile,
   current: AggregatedProfile,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): AggregatedProfileDiff => {
   const metrics = matchDiffedMetrics(base.metrics, current.metrics)
   if (

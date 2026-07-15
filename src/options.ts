@@ -61,7 +61,7 @@ export type ProfileEntry = {
 
   /**
    * The location where the entity corresponding to this entry was defined, or
-   * undefined if it's unknown.
+   * undefined if unknown.
    */
   location?: SourceLocation
 }
@@ -72,7 +72,7 @@ export type ProfileEntry = {
  * Only affects matching; the entry's displayed name and location are
  * unchanged.
  */
-export type NormalizedEntry = {
+export type MatchEntry = {
   /** The name to match by. Omit to match by the entry's name. */
   name?: string
 
@@ -83,27 +83,23 @@ export type NormalizedEntry = {
   location?: string
 }
 
-/** A aggregated entry in a formatted profile. */
+/** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
   | AggregatedProfileFunction
   | AggregatedSnapshotNode
 
-/**
- * The context in which a single profile or snapshot is being converted to
- * Markdown.
- */
+/** The context in which a profile is being converted to Markdown. */
 export type ProfileToMdContext = {
-  /** The format of the profile or snapshot being converted. */
+  /** The format of the profile being converted. */
   format: Format
 
-  /** The origin, given explicitly or detected up front from the frames. */
+  /** The origin of the profile being converted. */
   origin: Origin
 }
 
 /**
  * A {@link ProfileToMdContext} whose origin has not been resolved yet: `null`
- * when none was given explicitly and the origin has yet to be detected from
- * the frames.
+ * when none was given explicitly and the origin has yet to be detected.
  */
 export type UnresolvedProfileToMdContext = {
   format: Format
@@ -115,8 +111,7 @@ export type ProfileToMdOptions = {
   /**
    * The number of entries to display when computing the "top N" by some metric.
    *
-   * This value is also be used to limit subsection entry count by dividing it
-   * by a constant.
+   * This value, divided by a constant, also limits subsection entry count.
    *
    * Defaults to 20.
    */
@@ -130,10 +125,10 @@ export type ProfileToMdOptions = {
    *
    * A value of `'auto'` infers the base URL as the common ancestor directory
    * of the input's `ours`-categorized entries with absolute `file:` locations,
-   * across all sub-profiles of a file and across both sides of a diff. Falls
-   * back to absolute paths when no entry qualifies.
+   * across all profiles of an input and across both sides of a diff. Falls back
+   * to absolute paths when no entry qualifies.
    *
-   * A value of `null` indicates that URLs should be absolute.
+   * A value of `null` leaves URLs absolute.
    *
    * Defaults to `process.cwd()` when available. Otherwise leaves paths
    * absolute.
@@ -141,7 +136,7 @@ export type ProfileToMdOptions = {
   baseURL?: `auto` | (string & {}) | URL | null
 
   /**
-   * Source maps to apply when formatting profile locations.
+   * Source maps to apply when formatting source locations.
    *
    * Accepts either a list of raw source map objects, or a record mapping
    * generated file URLs or absolute/relative paths to raw source map objects.
@@ -157,49 +152,33 @@ export type ProfileToMdOptions = {
    * location.
    *
    * Only affects which entries are considered the same entity when diffing
-   * (profile functions and snapshot closures); displayed names and locations,
-   * categorization, and source map resolution always use the entry's real
-   * name and location. Matched entries display the current profile's name and
-   * location.
+   * (e.g. profile functions); displayed names and locations, categorization,
+   * and source map resolution always use the entry's real name and location.
    *
-   * Called per entry with the conversion {@link ProfileToMdContext | context}
-   * (the {@link Format | format} and the resolved {@link Origin | origin}) of
-   * the profile or snapshot the entry belongs to. On a diff, each side's
-   * entries are keyed under **that side's own** context, so sides resolving
-   * different origins can normalize differently and miss matches; realistic
-   * diffs resolve the same origin on both sides.
+   * Matched entries display the _current_ profile's name and location (not
+   * _base_).
    *
-   * Defaults to {@link defaultMatchEntry}, which applies the library's
-   * origin-aware match normalization
-   * ({@link normalizeEntryMatchForOrigin}), stripping the origin's known
-   * run-varying identifiers (build hashes, runtime addresses) so the same
-   * function matches across profiles built from the same source.
+   * Defaults to {@link defaultMatchEntry}.
    */
   matchEntry?: (
     entry: DeepReadonly<ProfileEntry>,
     context: ProfileToMdContext,
-  ) => NormalizedEntry | undefined
+  ) => MatchEntry | undefined
 
   /**
-   * Returns a category string per entry of a single profile or snapshot, as an
-   * array aligned with {@link entries} (index `i` categorizes entry `i`).
+   * Returns a category string per entry of a profile, as an array aligned with
+   * {@link entries} (index `i` categorizes entry `i`).
    *
-   * Used to compute a category breakdown in the Markdown output.
+   * Used to compute:
+   * - A category breakdown in the Markdown output
+   * - The `baseURL` when using `baseURL: 'auto'`
+   * - Which entries to show in {@link defaultShowEntry}
    *
-   * Called once per profile or snapshot with all its {@link entries} and the
-   * conversion {@link ProfileToMdContext | context} (the {@link Format | format}
-   * and the resolved {@link Origin | origin}). A profile's entries are its
-   * functions; a snapshot's are its constructors and closures (each entry's
-   * location falling back to its URL-shaped name, when it has one).
+   * Called once per profile with all its {@link entries}. Receiving every entry
+   * up front lets the categorizer decide from the full set rather than per
+   * entry in isolation.
    *
-   * Receiving every entry up front lets the categorizer decide from the full
-   * set rather than per entry in isolation.
-   *
-   * The categories also decide which locations qualify for base URL inference
-   * when {@link baseURL} is `'auto'` (only `ours` entries contribute).
-   *
-   * Defaults to {@link defaultCategorizeEntries}, which applies the library's
-   * origin-aware categorization ({@link categorizeEntryForOrigin}).
+   * Defaults to {@link defaultCategorizeEntries}.
    */
   categorizeEntries?: (
     entries: readonly DeepReadonly<ProfileEntry>[],
@@ -209,7 +188,9 @@ export type ProfileToMdOptions = {
   /**
    * Whether to include the given entry in the Markdown output.
    *
-   * Not showing an entry does not exclude it from metric computations.
+   * Hidden entries still count in metric computations.
+   *
+   * Defaults to {@link defaultShowEntry}.
    */
   showEntry?: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
 }
@@ -228,36 +209,38 @@ export type NormalizedProfileToMdOptions = {
 }
 
 /**
- * The options aggregation code receives: everything except `baseURL`, which
- * only affects formatting and, for `'auto'`, is resolvable only after
- * aggregation (from the aggregated entries). The omission keeps
- * parse/aggregate logic from depending on it.
+ * The options aggregation code receives.
+ *
+ * Everything except `baseURL`, which only affects formatting and, for `'auto'`,
+ * is resolvable only after aggregation (from the aggregated entries). The
+ * omission keeps aggregation logic from depending on it.
  */
-export type AggregateProfileToMdOptions = Omit<
+export type AggregationProfileToMdOptions = Omit<
   NormalizedProfileToMdOptions,
   `baseURL`
 >
 
 /**
- * The options formatting code receives: {@link NormalizedProfileToMdOptions}
- * with `'auto'` resolved to a concrete base URL (or `undefined` when nothing
- * qualified for inference).
+ * The options formatting code receives.
+ *
+ * {@link NormalizedProfileToMdOptions} with `'auto'` resolved to a concrete
+ * base URL (or `undefined` when nothing qualified for inference).
  */
-export type ResolvedProfileToMdOptions = AggregateProfileToMdOptions & {
+export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   baseURL: URL | undefined
 }
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
   baseURL,
-  sourceMaps,
+  sourceMaps = [],
   matchEntry = defaultMatchEntry,
   categorizeEntries = defaultCategorizeEntries,
   showEntry = defaultShowEntry,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
   baseURL: normalizeBaseURL(baseURL),
-  sourceMaps: normalizeSourceMaps(sourceMaps ?? []),
+  sourceMaps: normalizeSourceMaps(sourceMaps),
   entryKey: cacheEntryFunction((entry, context) =>
     entryKey(entry, context, matchEntry),
   ),
@@ -275,126 +258,6 @@ export const normalizeProfileToMdOptions = ({
   showEntry: cacheEntryFunction(showEntry),
 })
 
-/** Returns an entry's full diff match key. */
-const entryKey = (
-  entry: ProfileEntry,
-  context: ProfileToMdContext,
-  matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
-): string => {
-  const match = matchEntry(entry, context)
-  const name = match?.name ?? entry.name ?? ``
-  const location =
-    match?.location ??
-    (entry.location ? fileReferenceId(entry.location) : undefined)
-  return location === undefined ? name : `${name}\0${location}`
-}
-
-const cacheEntryFunction = <Entry extends object, Context, Value>(
-  func: (entry: Entry, context: Context) => Value,
-): ((entry: Entry, context?: Context) => Value) => {
-  // Cache by entry identity rather than entry ID because IDs are only unique
-  // within a single profile, and the same options are used for multiple
-  // profiles when converting a multi-profile file or diffing two profiles.
-  // Keying by the entry alone stays valid despite the context because an
-  // entry belongs to exactly one aggregated profile or snapshot, so it is only
-  // ever called with that one's context.
-  const cache = new WeakMap<Entry, Value>()
-  return (entry, context) => {
-    const cached = cache.get(entry)
-    if (cached !== undefined) {
-      return cached
-    }
-    const value = func(entry, context!)
-    cache.set(entry, value)
-    return value
-  }
-}
-
-/**
- * The default {@link ProfileToMdOptions.matchEntry}.
- *
- * Applies the origin's match normalization to the entry (see
- * {@link normalizeEntryMatchForOrigin}), stripping the origin's known
- * run-varying identifiers — e.g. Rust build hashes for `pprof-rs`, JVM runtime
- * addresses for `jvm` — or `undefined` if the entry contains none.
- *
- * Exposed so a custom `matchEntry` can reuse it as a base (e.g. override a few
- * entries and delegate the rest).
- */
-export const defaultMatchEntry = (
-  entry: DeepReadonly<ProfileEntry>,
-  { origin }: ProfileToMdContext,
-): NormalizedEntry | undefined => normalizeEntryMatchForOrigin(entry, origin)
-
-/**
- * The default {@link ProfileToMdOptions.categorizeEntries}.
- *
- * Applies the library's origin-aware categorization to each entry (see
- * {@link categorizeEntryForOrigin}).
- *
- * Exposed so a custom categorizer can reuse it as a base (e.g. override a few
- * entries and delegate the rest).
- */
-export const defaultCategorizeEntries = (
-  entries: readonly DeepReadonly<ProfileEntry>[],
-  { origin }: ProfileToMdContext,
-): EntryCategory[] =>
-  entries.map(entry => categorizeEntryForOrigin(entry, origin))
-
-/**
- * Returns whether to include the given entry in the Markdown output.
- *
- * Excludes synthetic and external-private entries.
- */
-export const defaultShowEntry = (
-  entry: DeepReadonly<AggregatedProfileEntry>,
-): boolean =>
-  !isSyntheticEntry(entry) && !isExternalImplementationDetailEntry(entry)
-
-/**
- * Returns true if the entry is a synthetic artifacts.
- *
- * These entries are artifacts generated by the profiler and don't correspond to
- * something that actually exists in code or at runtime. For example, a
- * synthetic `(root)` node is typically created for heap snapshots.
- */
-export const isSyntheticEntry = ({
-  name,
-}: DeepReadonly<AggregatedProfileEntry>): boolean =>
-  name === `(root)` || name === `<root>` || name === `(module)`
-
-/**
- * Returns true if the entry corresponds to an external function (`native`,
- * `stdlib`, or `third-party`) that's never directly called by `ours` code.
- *
- * These entries are typically implementation details of external code that your
- * own code cannot directly call. Excluding these entries from the Markdown
- * leaves only your code and the public API surface of `stdlib` and
- * `third-party` code.
- */
-export const isExternalImplementationDetailEntry = (
-  entry: DeepReadonly<AggregatedProfileEntry>,
-): boolean => {
-  if (entry.type !== `function`) {
-    return false
-  }
-
-  if (
-    entry.category !== `native` &&
-    entry.category !== `stdlib` &&
-    entry.category !== `third-party`
-  ) {
-    return false
-  }
-  for (const { caller } of entry.callerIdToMetrics.values()) {
-    if (caller.category === `ours`) {
-      return false
-    }
-  }
-
-  return true
-}
-
 const normalizeBaseURL = (
   baseURL: `auto` | (string & {}) | URL | null | undefined,
 ): URL | `auto` | undefined => {
@@ -402,6 +265,7 @@ const normalizeBaseURL = (
     return undefined
   }
   if (baseURL === `auto`) {
+    // We infer the base URL later on.
     return `auto`
   }
 
@@ -422,10 +286,131 @@ const normalizeBaseURL = (
     url = baseURL
   }
 
-  if (url && !url.pathname.endsWith(`/`)) {
-    url = new URL(url.href)
-    url.pathname += `/`
+  if (url) {
+    url = ensureTrailingSlash(url)
   }
 
   return url
 }
+
+const ensureTrailingSlash = (url: URL): URL => {
+  if (url.pathname.endsWith(`/`)) {
+    return url
+  }
+
+  url = new URL(url.href)
+  url.pathname += `/`
+  return url
+}
+
+/** Returns an entry's full diff match key. */
+const entryKey = (
+  entry: ProfileEntry,
+  context: ProfileToMdContext,
+  matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
+): string => {
+  const match = matchEntry(entry, context)
+  const name = match?.name ?? entry.name ?? ``
+  const location =
+    match?.location ??
+    (entry.location ? fileReferenceId(entry.location) : undefined)
+  return location === undefined ? name : `${name}\0${location}`
+}
+
+const cacheEntryFunction = <Entry extends object, Context, Value>(
+  func: (entry: Entry, context: Context) => Value,
+): ((entry: Entry, context?: Context) => Value) => {
+  // Cache by entry identity rather than entry ID because IDs are unique only
+  // within a single profile, and the same options are used for multiple
+  // profiles when converting a multi-profile input or diffing two profiles.
+  // Keying by the entry alone stays valid despite the context because an
+  // entry belongs to exactly one aggregated profile, so it is only ever called
+  // with that one's context.
+  const cache = new WeakMap<Entry, Value>()
+  return (entry, context) => {
+    let cached = cache.get(entry)
+    if (cached === undefined) {
+      cached = func(entry, context!)
+      cache.set(entry, cached)
+    }
+    return cached
+  }
+}
+
+/**
+ * The default {@link ProfileToMdOptions.matchEntry}.
+ *
+ * Applies the origin's match normalization to the entry, stripping the origin's
+ * known run-varying identifiers (e.g. Rust build hashes for `pprof-rs`, JVM
+ * runtime addresses for `jvm`), or `undefined` if the entry contains none.
+ */
+export const defaultMatchEntry = (
+  entry: DeepReadonly<ProfileEntry>,
+  { origin }: ProfileToMdContext,
+): MatchEntry | undefined => normalizeEntryMatchForOrigin(entry, origin)
+
+/**
+ * The default {@link ProfileToMdOptions.categorizeEntries}.
+ *
+ * Applies the library's origin-aware categorization to each entry.
+ */
+export const defaultCategorizeEntries = (
+  entries: readonly DeepReadonly<ProfileEntry>[],
+  { origin }: ProfileToMdContext,
+): EntryCategory[] =>
+  entries.map(entry => categorizeEntryForOrigin(entry, origin))
+
+/**
+ * Returns whether to include the given entry in the Markdown output.
+ *
+ * Excludes synthetic and external implementation detail entries.
+ */
+export const defaultShowEntry = (
+  entry: DeepReadonly<AggregatedProfileEntry>,
+): boolean =>
+  !isSyntheticEntry(entry) && !isExternalImplementationDetailEntry(entry)
+
+/**
+ * Returns true if the entry is synthetic.
+ *
+ * The profiler invents these entries; they correspond to nothing that exists
+ * in code or at runtime (e.g. a synthetic `(root)` node for heap snapshots).
+ */
+export const isSyntheticEntry = ({
+  name,
+}: DeepReadonly<AggregatedProfileEntry>): boolean =>
+  name === `(root)` || name === `<root>` || name === `(module)`
+
+/**
+ * Returns true if the entry corresponds to an external function (`native`,
+ * `stdlib`, or `third-party`) that's never directly called by `ours` code.
+ *
+ * These entries are typically implementation details of external code.
+ * Excluding them from the Markdown leaves only your code and the public API
+ * of `stdlib` and `third-party` code.
+ */
+export const isExternalImplementationDetailEntry = (
+  entry: DeepReadonly<AggregatedProfileEntry>,
+): boolean => {
+  if (entry.type !== `function`) {
+    return false
+  }
+
+  if (!EXTERNAL_ENTRY_CATEGORIES.has(entry.category)) {
+    return false
+  }
+
+  for (const { caller } of entry.callerIdToMetrics.values()) {
+    if (caller.category === `ours`) {
+      return false
+    }
+  }
+
+  return true
+}
+
+const EXTERNAL_ENTRY_CATEGORIES: ReadonlySet<EntryCategory> = new Set([
+  `native`,
+  `stdlib`,
+  `third-party`,
+])

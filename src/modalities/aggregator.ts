@@ -1,5 +1,5 @@
 import type {
-  AggregateProfileToMdOptions,
+  AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../options.ts'
 import type { OriginDetector } from '../origins/index.ts'
@@ -19,7 +19,7 @@ export type InputAggregator<Aggregated> = {
 
   /** Aggregates the input under the file's resolved context. */
   aggregate: (
-    options: AggregateProfileToMdOptions,
+    options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ) => Aggregated
 }

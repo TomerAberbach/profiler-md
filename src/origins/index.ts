@@ -6,7 +6,7 @@ import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type {
   EntryCategory,
-  NormalizedEntry,
+  MatchEntry,
   ProfileEntry,
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
@@ -64,7 +64,7 @@ export const categorizeEntryForOrigin = (
 export const normalizeEntryMatchForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
   origin: Origin,
-): NormalizedEntry | undefined => {
+): MatchEntry | undefined => {
   const spec: OriginSpec = originSpecsById.get(origin)!
   return spec.normalizeEntryMatch?.(entry)
 }

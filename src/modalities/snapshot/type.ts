@@ -1,5 +1,5 @@
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type { ResolvedProfileToMdOptions } from '../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 
 /**
@@ -40,7 +40,7 @@ export type HeapSnapshot = {
   formatEdgeLabel: (
     retainerOrdinal: number,
     edgeIndex: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => string
 
   /**
@@ -51,7 +51,7 @@ export type HeapSnapshot = {
    */
   formatNodeLabel: (
     nodeOrdinal: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => string
 
   /** Whether the node is a VM bookkeeping node that never points to user code. */

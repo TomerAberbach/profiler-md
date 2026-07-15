@@ -21,14 +21,14 @@ import {
   formatHeapSnapshotDiff,
 } from '../modalities/snapshot/format.ts'
 import type {
-  AggregateProfileToMdOptions,
+  AggregationProfileToMdOptions,
   AsyncProfileData,
+  FormattingProfileToMdOptions,
   NormalizedProfileToMdOptions,
   ProfileData,
   ProfileInput,
   ProfileToMdContext,
   ProfileToMdOptions,
-  ResolvedProfileToMdOptions,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
 import {
@@ -129,7 +129,7 @@ export const diffProfilesAsync = async (
 
 export const aggregateInputs = (
   input: ProfileInput<ProfileData>,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
 ): AggregatedInput[] => {
   const { data, format, origin } = normalizeProfileInput(input)
 
@@ -171,7 +171,7 @@ export const aggregateInputs = (
 
 const aggregateInputAsync = async (
   input: ProfileInput<AsyncProfileData>,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
 ): Promise<AggregatedInput[]> => {
   const { data, format, origin } = normalizeProfileInput(input)
 
@@ -320,7 +320,7 @@ const NO_DATA_MESSAGE = `No profiling data found.`
 const resolveProfileToMdOptions = (
   options: NormalizedProfileToMdOptions,
   inputs: AggregatedInput[],
-): ResolvedProfileToMdOptions => {
+): FormattingProfileToMdOptions => {
   const { baseURL } = options
   return baseURL === `auto`
     ? {
@@ -352,7 +352,7 @@ const resolveProfileToMdOptions = (
  */
 const collectOursFileURLs = (
   inputs: AggregatedInput[],
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): URL[] => {
   const urls: URL[] = []
   const collect = (category: string, location: SourceLocation | undefined) => {
@@ -389,7 +389,7 @@ const isAbsoluteFileLocation = (
 
 const detectFromJson = (
   json: unknown,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of jsonFormatConverters) {
@@ -423,7 +423,7 @@ const jsonFormatConverters: [Format, JsonFormatConverter][] =
 
 const detectFromBytes = (
   bytes: Uint8Array,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   origin: Origin | undefined,
 ): AggregatedInput[] | undefined => {
   for (const [format, converter] of binaryFormatConverters) {
@@ -451,7 +451,7 @@ const detectFromBytes = (
 export const aggregateJsonInput = (
   converter: JsonFormatConverter,
   json: unknown,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] =>
   aggregateParsedInputs(converter.parse(json), options, context)
@@ -463,7 +463,7 @@ export const aggregateJsonInput = (
 export const aggregateBinaryInput = (
   converter: BinaryFormatConverter,
   bytes: Uint8Array,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] =>
   aggregateParsedInputs(converter.parse(bytes), options, context)
@@ -475,7 +475,7 @@ export const aggregateBinaryInput = (
 export const aggregateBinaryInputAsync = async (
   converter: BinaryFormatConverter,
   stream: ReadableStream<Uint8Array>,
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): Promise<AggregatedInput[]> =>
   aggregateParsedInputs(await converter.parseAsync(stream), options, context)
@@ -491,7 +491,7 @@ export const aggregateBinaryInputAsync = async (
  */
 const aggregateParsedInputs = (
   parsed: ParsedInput[],
-  options: AggregateProfileToMdOptions,
+  options: AggregationProfileToMdOptions,
   context: UnresolvedProfileToMdContext,
 ): AggregatedInput[] => {
   const aggregators = parsed.map(input => {

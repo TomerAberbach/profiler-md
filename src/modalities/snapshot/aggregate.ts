@@ -1,10 +1,10 @@
 import { fileReferenceId } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
-  AggregateProfileToMdOptions,
+  AggregationProfileToMdOptions,
+  FormattingProfileToMdOptions,
   ProfileEntry,
   ProfileToMdContext,
-  ResolvedProfileToMdOptions,
 } from '../../options.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
@@ -31,12 +31,12 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   readonly #formatEdgeLabel: (
     retainerOrdinal: number,
     edgeIndex: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => string
 
   readonly #formatNodeLabel: (
     nodeOrdinal: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => string
 
   readonly #isInternalNode: (nodeOrdinal: number) => boolean
@@ -233,7 +233,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   }
 
   public aggregate(
-    options: AggregateProfileToMdOptions,
+    options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
     // Categorization runs after structural aggregation so it sees the full set
@@ -504,10 +504,10 @@ export type AggregatedHeapSnapshot = {
 
   retainerPathOf: (
     nodeOrdinal: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => string
   retainedNodesOf: (
     nodeOrdinal: number,
-    options: ResolvedProfileToMdOptions,
+    options: FormattingProfileToMdOptions,
   ) => AggregatedSnapshotNode[]
 }
