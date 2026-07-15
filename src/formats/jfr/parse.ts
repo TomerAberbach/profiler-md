@@ -107,7 +107,7 @@ type Jfr = {
  *
  * Lenient by design: it never throws on bytes that aren't a JFR recording.
  * Input without the chunk magic simply yields no chunks, and so an empty
- * recording (detection gates on the magic separately, in `./index.ts`).
+ * recording (detection checks the magic separately, in `./index.ts`).
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
