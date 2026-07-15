@@ -1,7 +1,7 @@
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type {
+  FormattingProfileToMdOptions,
   ProfileToMdOptions,
-  ResolvedProfileToMdOptions,
 } from '../options.ts'
 
 /**
@@ -11,7 +11,7 @@ import type {
  */
 export const resolveProfileToMdOptions = (
   options?: ProfileToMdOptions,
-): ResolvedProfileToMdOptions => {
+): FormattingProfileToMdOptions => {
   const { baseURL, ...rest } = normalizeProfileToMdOptions(options)
   if (baseURL === `auto`) {
     throw new Error(

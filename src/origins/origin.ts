@@ -3,11 +3,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferenceId, fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
-import type {
-  EntryCategory,
-  NormalizedEntry,
-  ProfileEntry,
-} from '../options.ts'
+import type { EntryCategory, MatchEntry, ProfileEntry } from '../options.ts'
 
 /**
  * The internal spec of an origin: a **distinct profiler**, a profiling
@@ -110,7 +106,7 @@ export type OriginSpec = {
    */
   normalizeEntryMatch?: (
     entry: DeepReadonly<ProfileEntry>,
-  ) => NormalizedEntry | undefined
+  ) => MatchEntry | undefined
 
   /**
    * Enriches a raw stack frame, splitting its display name, location, and
@@ -197,7 +193,7 @@ export const entryMatchNormalizer =
     name?: readonly EntryMatchRule[]
     location?: readonly EntryMatchRule[]
   }) =>
-  (entry: DeepReadonly<ProfileEntry>): NormalizedEntry | undefined => {
+  (entry: DeepReadonly<ProfileEntry>): MatchEntry | undefined => {
     const { name: originalName, location: originalLocation } = entry
 
     let name = originalName

@@ -2,8 +2,8 @@ import type { Diff } from '../../diff.ts'
 import { matchDiffedMaps } from '../../diff.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
+  FormattingProfileToMdOptions,
   ProfileToMdContext,
-  ResolvedProfileToMdOptions,
 } from '../../options.ts'
 import type {
   AggregatedClosure,
@@ -82,7 +82,7 @@ export type AggregatedHeapSnapshotDiff = {
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
   current: AggregatedHeapSnapshot,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): AggregatedHeapSnapshotDiff => ({
   base,
   current,
@@ -142,7 +142,7 @@ const diffedConstructor = ({
 const mergeClosures = (
   closures: AggregatedClosure[],
   context: ProfileToMdContext,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Map<string, DiffedSnapshotEntity> => {
   const keyToClosure = new Map<string, DiffedSnapshotEntity>()
   for (const closure of closures) {

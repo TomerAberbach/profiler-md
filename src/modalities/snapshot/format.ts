@@ -29,7 +29,7 @@ import {
 import type { Header } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type { ResolvedProfileToMdOptions } from '../../options.ts'
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,
@@ -45,7 +45,7 @@ import type {
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(snapshot)
   const showsAnyEntry =
@@ -104,7 +104,7 @@ const formatOverallSummary = ({
 const formatLargestConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] =>
   formatSectionGroup(
     [heading(2, `Largest constructors`)],
@@ -117,7 +117,7 @@ const formatLargestConstructors = (
 const formatLargestSelfSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.selfSize
@@ -171,7 +171,7 @@ const formatLargestSelfSizeConstructors = (
 const formatLargestRetainedSizeConstructors = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, constructors } = snapshot
   const sizeOf = (node: AggregatedSnapshotNode) => node.retainedSize
@@ -227,7 +227,7 @@ const formatLargestConstructorInstances = (
   { retainerPathOf }: AggregatedHeapSnapshot,
   sizeOf: (node: AggregatedSnapshotNode) => number,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath(
     constructor.instances,
@@ -283,7 +283,7 @@ const selectLargestInstancesByRetainerPath = (
 const formatLargestClosures = (
   snapshot: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { totalSize, closures, retainerPathOf } = snapshot
 
@@ -342,7 +342,7 @@ const formatClosureRetainedObjects = (
   closure: AggregatedClosure,
   { retainedNodesOf, retainerPathOf }: AggregatedHeapSnapshot,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
   const allRetainedNodes: AggregatedSnapshotNode[] = []
@@ -388,7 +388,7 @@ const formatClosureRetainedObjects = (
 
 const formatLargestStrings = (
   { totalSize, strings, retainerPathOf }: AggregatedHeapSnapshot,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const largestStrings = selectTopN(
     strings,
@@ -421,7 +421,7 @@ const formatLargestStrings = (
 
 export const formatHeapSnapshotDiff = (
   diff: AggregatedHeapSnapshotDiff,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(diff)
   const showsAnyEntry =
@@ -514,7 +514,7 @@ const categoryRow = (
 const formatDiffConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] =>
   formatSectionGroup(
     [heading(2, `Largest constructors`)],
@@ -527,7 +527,7 @@ const formatDiffConstructors = (
 const formatDiffSelfSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
@@ -575,7 +575,7 @@ const formatDiffSelfSizeConstructors = (
 const formatDiffRetainedSizeConstructors = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
@@ -634,7 +634,7 @@ const constructorRow = (
   instanceCount: number,
   totalSize: number,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Cell[] => [
   ...sizeCells(size, totalSize),
   countCell(instanceCount),
@@ -658,7 +658,7 @@ const instanceRow = (group: InstanceGroup, totalSize: number): Cell[] => [
 const formatDiffClosures = (
   diff: AggregatedHeapSnapshotDiff,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
@@ -713,7 +713,7 @@ const closureRow = (
   row: ClosureRow,
   totalSize: number,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Cell[] => [
   ...sizeCells(row.retainedSize, totalSize),
   countCell(row.instanceCount),
@@ -741,7 +741,7 @@ const retainedRow = (row: NodeRow, totalSize: number): Cell[] => [
 const closureRowOf = (
   entity: DiffedSnapshotEntity,
   { retainerPathOf }: AggregatedHeapSnapshot,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): ClosureRow => ({
   name: entity.name,
   nameLocation: entity.nameLocation,
@@ -756,7 +756,7 @@ const closureRowOf = (
 
 const formatDiffStrings = (
   diff: AggregatedHeapSnapshotDiff,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.strings.map(entity => ({
@@ -818,7 +818,7 @@ const stringRow = (
 const nodeRowOf = (
   entity: DiffedSnapshotEntity,
   { retainerPathOf }: AggregatedHeapSnapshot,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): NodeRow => ({
   name: entity.name,
   selfSize: entity.selfSize,
@@ -838,7 +838,7 @@ type ActiveDiffEntity = {
  */
 const selectDiffEntities = (
   candidates: ActiveDiffEntity[],
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): {
   hasActive: boolean
   regressions: ActiveDiffEntity[]
@@ -908,7 +908,7 @@ const formatDiffEntitySections = (
 /** Returns whether either side of the diffed entity should be shown. */
 const showDiffEntity = (
   { base, current }: AggregatedSnapshotEntityDiff,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): boolean =>
   (base !== undefined && options.showEntry(base)) ||
   (current !== undefined && options.showEntry(current))
@@ -1008,7 +1008,7 @@ type NamedEntity = {
  */
 const displayName = (
   entity: { name?: string; nameLocation?: FileReference },
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): string | undefined =>
   entity.nameLocation
     ? formatSourceLocation(entity.nameLocation, options)
@@ -1019,7 +1019,7 @@ const formatEntityHeading = (
   headingLevel: number,
   entity: NamedEntity,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Heading =>
   heading(
     headingLevel,
@@ -1085,7 +1085,7 @@ const entityHeaders = (nameLabel: string, hasLocation: boolean): Header[] =>
 const entityCells = (
   entity: LabeledEntity,
   hasLocation: boolean,
-  options: ResolvedProfileToMdOptions,
+  options: FormattingProfileToMdOptions,
 ): Cell[] => [
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   codeCell(displayName(entity, options) || `(unknown)`),

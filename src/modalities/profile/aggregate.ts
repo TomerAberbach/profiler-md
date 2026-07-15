@@ -2,7 +2,7 @@ import { HashInterner } from '../../helpers/intern.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { Metric } from '../../metric.ts'
 import type {
-  AggregateProfileToMdOptions,
+  AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
 import {
@@ -41,7 +41,7 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   }
 
   public aggregate(
-    options: AggregateProfileToMdOptions,
+    options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedProfile {
     const { metrics, frames, samples, lineMetrics } = this.#profile
@@ -118,7 +118,7 @@ class SamplesAggregator {
    * {@link OriginSpec.normalizeFrame}).
    */
   readonly #frames: (ProfileStackFrame | null)[]
-  readonly #options: AggregateProfileToMdOptions
+  readonly #options: AggregationProfileToMdOptions
   readonly #context: ProfileToMdContext
 
   #totalSampleCount: number
@@ -160,7 +160,7 @@ class SamplesAggregator {
     /** @see {@link AggregatedProfile.metrics} */
     metrics: Metric[],
     frames: (ProfileStackFrame | null)[],
-    options: AggregateProfileToMdOptions,
+    options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
     frameFunctions: (FrameFunction | undefined)[] = [],
   ) {
