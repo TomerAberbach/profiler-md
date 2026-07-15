@@ -14,7 +14,7 @@ const matchesCollapsed = (bytes: Uint8Array): boolean => {
   }
 
   // Require at least one stack: empty or comment-only input would otherwise let
-  // collapsed claim any blank/unknown text during auto-detection. Classifying
+  // collapsed match any blank/unknown text during auto-detection. Classifying
   // the first non-comment line with the parser's own line grammar keeps
   // detection and parsing agreeing on what a stack line is, and stays cheap:
   // it parses only one line.

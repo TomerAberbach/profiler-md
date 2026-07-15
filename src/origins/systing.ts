@@ -118,7 +118,7 @@ const PYTHON_FRAME = /^(?<func>.+) \(python\) \[(?<file>[^\][:]+)\]$/u
  * Categorizes frames by systing's bracketed label modules, which survive
  * normalization inside the `name (module)` form: kernel code (including
  * the kernel-provided vDSO), gVisor sandbox machinery, and JIT-compiled
- * regions no runtime symbolizer claimed. An `([exited])` frame — the process
+ * regions no runtime symbolizer resolved. An `([exited])` frame — the process
  * was gone before symbolization — stays `native` like any other unresolved
  * native code.
  */

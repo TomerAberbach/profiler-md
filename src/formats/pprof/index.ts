@@ -20,7 +20,7 @@ const matchesPprof = (bytes: Uint8Array): boolean =>
   // A pprof leads with the tag byte of one of `Profile`'s fields,
   // `(fieldNumber << 3) | wireType`. A cheap prefilter to avoid attempting a
   // full protobuf decode of input that obviously isn't pprof; `decodePprof` is
-  // the authoritative check.
+  // the real check.
   bytes.length > 0 && profileFieldWireTypes[bytes[0]! >> 3] === (bytes[0]! & 7)
 
 export const pprofConverter = {
