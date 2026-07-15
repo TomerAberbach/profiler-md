@@ -49,9 +49,9 @@ test.each([
 test.each([
   [0, `0\u00A0B`, `0\u00A0B`],
   [42, `42\u00A0B`, `42\u00A0B`],
-  [1337, `1.34\u00A0kB`, `1.337\u00A0kB`],
-  [1999, `2\u00A0kB`, `1.999\u00A0kB`],
-  [133_712, `134\u00A0kB`, `133.712\u00A0kB`],
+  [1337, `1.31\u00A0KiB`, `1.305\u00A0KiB`],
+  [1999, `1.95\u00A0KiB`, `1.952\u00A0KiB`],
+  [133_712, `131\u00A0KiB`, `130.578\u00A0KiB`],
 ])(
   `formatBytes and formatBytesDelta format %d as %s and %s`,
   (bytes, expected, expectedDelta) => {

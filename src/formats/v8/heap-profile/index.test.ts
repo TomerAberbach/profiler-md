@@ -415,7 +415,7 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `ours`, '%': `71.4%`, Size: `1.25 kB`, Samples: `2` },
+        { Category: `ours`, '%': `71.4%`, Size: `1.22 KiB`, Samples: `2` },
         { Category: `third-party`, '%': `28.6%`, Size: `500 B`, Samples: `1` },
       ],
     ])

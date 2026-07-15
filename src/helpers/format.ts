@@ -1,5 +1,6 @@
 import plur from 'plur'
 import prettyBytes from 'pretty-bytes'
+import type { Options as PrettyBytesOptions } from 'pretty-bytes'
 import prettyMilliseconds from 'pretty-ms'
 
 export const formatCount = (count: number, unit?: string): string =>
@@ -51,7 +52,7 @@ const formatMillisecondsToDigits = (
       })
 
 export const formatBytes = (bytes: number): string =>
-  prettyBytes(bytes, { nonBreakingSpace: true })
+  prettyBytes(bytes, prettyBytesOptions)
 
 /**
  * Formats a delta magnitude exactly at the unit pretty-bytes picks for it,
@@ -61,7 +62,12 @@ export const formatBytes = (bytes: number): string =>
  * independently and may not sum exactly.
  */
 export const formatBytesDelta = (bytes: number): string =>
-  prettyBytes(bytes, { nonBreakingSpace: true, maximumFractionDigits: 3 })
+  prettyBytes(bytes, { ...prettyBytesOptions, maximumFractionDigits: 3 })
+
+const prettyBytesOptions: PrettyBytesOptions = {
+  nonBreakingSpace: true,
+  binary: true,
+}
 
 export const formatPercentChange = (base: number, current: number): string => {
   if (base === 0) {

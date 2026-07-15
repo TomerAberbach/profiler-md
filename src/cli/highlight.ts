@@ -227,7 +227,7 @@ const visitTable = (
 type PendingDiffRow = { lineIndex: number; delta: number }
 
 /**
- * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MB`) into a signed
+ * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`) into a signed
  * magnitude. Units are normalized so magnitudes are comparable within a single
  * table, which only ever mixes units of the same dimension (time or size).
  */
@@ -258,11 +258,11 @@ const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
   [`h`, 3600e3],
   [`d`, 86_400e3],
   [`B`, 1],
-  [`kB`, 1e3],
-  [`MB`, 1e6],
-  [`GB`, 1e9],
-  [`TB`, 1e12],
-  [`PB`, 1e15],
+  [`KiB`, 2 ** 10],
+  [`MiB`, 2 ** 20],
+  [`GiB`, 2 ** 30],
+  [`TiB`, 2 ** 40],
+  [`PiB`, 2 ** 50],
 ])
 
 /**

@@ -576,7 +576,7 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`Heap profile`])
     expect(summaryLines(md)).toEqual([expect.stringContaining(`Allocated`)])
     expect(selfSizeTables(md).map(table => table.map(row => row.Size))).toEqual(
-      [[`1.02 kB`, `512 B`]],
+      [[`1 KiB`, `512 B`]],
     )
   })
 
