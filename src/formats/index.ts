@@ -3,7 +3,10 @@ import type { RootContent } from 'mdast'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
 import { maybeJson, maybeJsonAsync } from '../helpers/json.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
-import { commonAncestorDirectoryURL } from '../location.ts'
+import {
+  commonAncestorDirectoryURL,
+  isAbsoluteFileLocation,
+} from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import { diffAggregatedProfiles } from '../modalities/profile/diff.ts'
 import {
@@ -54,7 +57,7 @@ export type { Format } from './registry.ts'
 /**
  * Converts the given profile data to Markdown.
  *
- * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs)
  * for supported formats and generation instructions.
  */
 export const profileToMd = (
@@ -62,14 +65,14 @@ export const profileToMd = (
   options: ProfileToMdOptions = {},
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
-  const aggregatedInputs = aggregateInputs(input, normalizedOptions)
+  const aggregatedInputs = aggregateInput(input, normalizedOptions)
   return formatAggregatedInputs(aggregatedInputs, normalizedOptions)
 }
 
 /**
  * Asynchronously converts the given profile data to Markdown.
  *
- * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs)
  * for supported formats and generation instructions.
  */
 export const profileToMdAsync = async (
@@ -87,7 +90,7 @@ export const profileToMdAsync = async (
  *
  * Each side accepts the same input as {@link profileToMd}.
  *
- * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs)
  * for supported formats and generation instructions.
  */
 export const diffProfiles = (
@@ -97,8 +100,8 @@ export const diffProfiles = (
 ): string => {
   const normalizedOptions = normalizeProfileToMdOptions(options)
   return formatAggregatedDiff(
-    aggregateInputs(base, normalizedOptions),
-    aggregateInputs(current, normalizedOptions),
+    aggregateInput(base, normalizedOptions),
+    aggregateInput(current, normalizedOptions),
     normalizedOptions,
   )
 }
@@ -109,7 +112,7 @@ export const diffProfiles = (
  *
  * Each side accepts the same input as {@link profileToMdAsync}.
  *
- * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs/formats)
+ * See the [docs](https://github.com/TomerAberbach/profiler-md/blob/main/docs)
  * for supported formats and generation instructions.
  */
 export const diffProfilesAsync = async (
@@ -127,13 +130,14 @@ export const diffProfilesAsync = async (
   )
 }
 
-export const aggregateInputs = (
+export const aggregateInput = (
   input: ProfileInput<ProfileData>,
   options: AggregationProfileToMdOptions,
 ): AggregatedInput[] => {
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
+    // The format was specified, so delegate directly to its converter.
     const converter = formatConverters[format]
     const context = makeContext(format, origin)
     return converter.type === `json`
@@ -141,12 +145,12 @@ export const aggregateInputs = (
       : aggregateBinaryInput(converter, dataToBytes(data), options, context)
   }
 
-  // Materialize a one-shot `Iterable<Uint8Array>` up front so the JSON and
-  // binary detection passes below don't both try to consume the iterator.
-  const buffered: string | Uint8Array =
-    typeof data === `string` || ArrayBuffer.isView(data)
-      ? data
-      : concatUint8Arrays(data)
+  // Buffer an `Iterable` up front because it might be one-shot, but we need to
+  // read it multiple times for detection.
+  const isIterable = typeof data !== `string` && !ArrayBuffer.isView(data)
+  const buffered: string | Uint8Array = isIterable
+    ? concatUint8Arrays(data)
+    : data
 
   let json: unknown
   if (maybeJson(buffered)) {
@@ -169,6 +173,18 @@ export const aggregateInputs = (
   throw unknownFormatError()
 }
 
+const dataToBytes = (data: ProfileData): Uint8Array => {
+  if (typeof data === `string`) {
+    return (textEncoder ??= new TextEncoder()).encode(data)
+  }
+  if (ArrayBuffer.isView(data)) {
+    return data
+  }
+  return concatUint8Arrays(data)
+}
+
+let textEncoder: InstanceType<typeof TextEncoder> | undefined
+
 const aggregateInputAsync = async (
   input: ProfileInput<AsyncProfileData>,
   options: AggregationProfileToMdOptions,
@@ -176,29 +192,27 @@ const aggregateInputAsync = async (
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
+    // The format was specified, so delegate directly to its converter.
     const converter = formatConverters[format]
-    // Binary formats stream-parse straight to parsed inputs; JSON formats
-    // parse generically first.
     const context = makeContext(format, origin)
-    return converter.type === `binary`
-      ? aggregateBinaryInputAsync(
-          converter,
-          data instanceof Blob ? data.stream() : data,
-          options,
-          context,
-        )
-      : aggregateJsonInput(
+    return converter.type === `json`
+      ? aggregateJsonInput(
           converter,
           await JumboJSON.parseAsync(data),
           options,
           context,
         )
+      : aggregateBinaryInputAsync(
+          converter,
+          // Stream the binary data when possible.
+          data instanceof Blob ? data.stream() : data,
+          options,
+          context,
+        )
   }
 
-  // Detection must retry multiple converters over the same input, so it stays
-  // buffered rather than streaming. A `Blob` can be read repeatedly, so let it
-  // stream-parse without buffering. A `ReadableStream` is read-once, so buffer
-  // it up front to allow reparsing across format attempts.
+  // Buffer a `ReadableStream` up front because it might be one-shot, but we
+  // need to read it multiple times for detection.
   const buffered: Blob | Uint8Array =
     data instanceof Blob ? data : await streamToUint8Array(data)
 
@@ -231,34 +245,146 @@ const aggregateInputAsync = async (
   throw unknownFormatError()
 }
 
-const dataToBytes = (data: ProfileData): Uint8Array => {
-  if (typeof data === `string`) {
-    return (textEncoder ??= new TextEncoder()).encode(data)
+const detectFromJson = (
+  json: unknown,
+  options: AggregationProfileToMdOptions,
+  origin: Origin | undefined,
+): AggregatedInput[] | undefined => {
+  for (const [format, converter] of jsonFormatConverters) {
+    let parsed: ParsedInput[]
+    try {
+      if (!converter.matches(json)) {
+        continue
+      }
+      parsed = converter.parse(json)
+    } catch {
+      continue
+    }
+    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
-  if (ArrayBuffer.isView(data)) {
-    return data
-  }
-  return concatUint8Arrays(data)
+  return undefined
 }
 
-let textEncoder: InstanceType<typeof TextEncoder> | undefined
+const formatConverterEntries: [Format, FormatConverter][] = formats.map(
+  format => [format, formatConverters[format]],
+)
+
+const jsonFormatConverters: [Format, JsonFormatConverter][] =
+  formatConverterEntries.filter(
+    (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
+  )
+
+const detectFromBytes = (
+  bytes: Uint8Array,
+  options: AggregationProfileToMdOptions,
+  origin: Origin | undefined,
+): AggregatedInput[] | undefined => {
+  for (const [format, converter] of binaryFormatConverters) {
+    let parsed: ParsedInput[]
+    try {
+      if (!converter.matches(bytes)) {
+        continue
+      }
+      parsed = converter.parse(bytes)
+    } catch {
+      continue
+    }
+    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
+  }
+  return undefined
+}
+
+export const aggregateJsonInput = (
+  converter: JsonFormatConverter,
+  json: unknown,
+  options: AggregationProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedInput[] =>
+  aggregateParsedInputs(converter.parse(json), options, context)
+
+export const aggregateBinaryInput = (
+  converter: BinaryFormatConverter,
+  bytes: Uint8Array,
+  options: AggregationProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedInput[] =>
+  aggregateParsedInputs(converter.parse(bytes), options, context)
+
+export const aggregateBinaryInputAsync = async (
+  converter: BinaryFormatConverter,
+  stream: ReadableStream<Uint8Array>,
+  options: AggregationProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): Promise<AggregatedInput[]> =>
+  aggregateParsedInputs(await converter.parseAsync(stream), options, context)
+
+/**
+ * Aggregates each parsed input through its modality's uniform pipeline.
+ *
+ * The origin is detected once across all inputs.
+ */
+const aggregateParsedInputs = (
+  parsed: ParsedInput[],
+  options: AggregationProfileToMdOptions,
+  context: UnresolvedProfileToMdContext,
+): AggregatedInput[] => {
+  const aggregators = parsed.map(input => {
+    switch (input.type) {
+      case `profile`:
+        return new ProfileAggregator(input)
+      case `snapshot`:
+        return new SnapshotAggregator(input)
+    }
+  })
+
+  const detector = new OriginDetector(context)
+  for (const aggregator of aggregators) {
+    aggregator.detectOrigin(detector)
+  }
+
+  const resolvedContext: ProfileToMdContext = {
+    format: context.format,
+    origin: detector.resolve(),
+  }
+  return aggregators.map(aggregator =>
+    aggregator.aggregate(options, resolvedContext),
+  )
+}
+
+/**
+ * Builds the conversion context, which carries the resolved format and the
+ * explicit origin (or `null` when none was given).
+ */
+const makeContext = (
+  format: Format,
+  origin: Origin | undefined,
+): UnresolvedProfileToMdContext => ({ format, origin: origin ?? null })
+
+const binaryFormatConverters: [Format, BinaryFormatConverter][] =
+  formatConverterEntries.filter(
+    (entry): entry is [Format, BinaryFormatConverter] =>
+      entry[1].type === `binary`,
+  )
+
+const unknownFormatError = (): Error =>
+  new Error(
+    `Could not detect profile format. Supported formats: ${formats.join(`, `)}`,
+  )
 
 export const formatAggregatedInputs = (
   inputs: AggregatedInput[],
   options: NormalizedProfileToMdOptions,
 ): string => {
-  // Resolve over all inputs at once so a multi-profile file's sub-profiles
-  // share a single inferred base URL.
-  const resolvedOptions = resolveProfileToMdOptions(options, inputs)
-  const children = inputs.flatMap(input => {
+  const formattingOptions = makeFormattingProfileToMdOptions(options, inputs)
+  const contents = inputs.flatMap(input => {
     switch (input.type) {
       case `profile`:
-        return formatProfile(input, resolvedOptions)
+        return formatProfile(input, formattingOptions)
       case `snapshot`:
-        return formatHeapSnapshot(input, resolvedOptions)
+        return formatHeapSnapshot(input, formattingOptions)
     }
   })
-  return mdastToMarkdownOrNoData(children)
+  return toMarkdown(contents)
 }
 
 /**
@@ -281,43 +407,43 @@ const formatAggregatedDiff = (
 
   // Resolve over both sides at once so they share a single inferred base URL
   // and format consistently.
-  const resolvedOptions = resolveProfileToMdOptions(options, [
+  const formattingOptions = makeFormattingProfileToMdOptions(options, [
     ...base,
     ...current,
   ])
-  const children = base.flatMap((baseInput, index) => {
+  const contents = base.flatMap((baseInput, index) => {
     const currentInput = current[index]!
     if (baseInput.type === `profile` && currentInput.type === `profile`) {
       return formatProfileDiff(
-        diffAggregatedProfiles(baseInput, currentInput, resolvedOptions),
-        resolvedOptions,
+        diffAggregatedProfiles(baseInput, currentInput, formattingOptions),
+        formattingOptions,
       )
     }
     if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
       return formatHeapSnapshotDiff(
-        diffAggregatedHeapSnapshots(baseInput, currentInput, resolvedOptions),
-        resolvedOptions,
+        diffAggregatedHeapSnapshots(baseInput, currentInput, formattingOptions),
+        formattingOptions,
       )
     }
     throw new Error(
       `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
     )
   })
-  return mdastToMarkdownOrNoData(children)
+  return toMarkdown(contents)
 }
 
-const mdastToMarkdownOrNoData = (children: RootContent[]): string =>
-  mdastToMarkdown(children.length > 0 ? children : [paragraph(NO_DATA_MESSAGE)])
-
-const NO_DATA_MESSAGE = `No profiling data found.`
+const toMarkdown = (contents: RootContent[]): string =>
+  mdastToMarkdown(
+    contents.length > 0 ? contents : [paragraph(`No profiling data found.`)],
+  )
 
 /**
  * Resolves a `baseURL` of `'auto'` to the common ancestor directory of the
- * aggregated {@link inputs}' `ours` absolute `file:` locations (`undefined`,
- * i.e. absolute paths, when nothing qualifies). Any other `baseURL` passes
- * through unchanged.
+ * aggregated {@link inputs}.
+ *
+ * Any other `baseURL` passes through unchanged.
  */
-const resolveProfileToMdOptions = (
+const makeFormattingProfileToMdOptions = (
   options: NormalizedProfileToMdOptions,
   inputs: AggregatedInput[],
 ): FormattingProfileToMdOptions => {
@@ -334,21 +460,10 @@ const resolveProfileToMdOptions = (
 
 /**
  * Collects the absolute `file:` URLs of {@link inputs}' `ours`-categorized
- * entries, the locations that qualify for base URL inference. Excludes
- * dependency and system paths (`native`, `stdlib`, `third-party`) and
- * non-`file:` or relative locations so they can't move the common ancestor
- * up towards `/`.
+ * entries.
  *
  * Applies source maps first so the base is inferred from the locations
- * formatting will actually show: a bundle's mapped sources, not the bundle
- * itself. A mapped source that is a relative path can't resolve yet (there's
- * no base) and contributes its raw location instead; it formats relative to
- * whatever base is inferred, so it doesn't constrain the choice.
- *
- * Aggregation categorized both profile functions and snapshot entities. A
- * snapshot entity's location falls back to its URL-shaped name (e.g. a V8
- * module namespace object), so those contribute too, matching their
- * categorization.
+ * formatting will actually show.
  */
 const collectOursFileURLs = (
   inputs: AggregatedInput[],
@@ -381,159 +496,3 @@ const collectOursFileURLs = (
   }
   return urls
 }
-
-const isAbsoluteFileLocation = (
-  location: SourceLocation | undefined,
-): location is SourceLocation & { type: `absolute` } =>
-  location?.type === `absolute` && location.url.protocol === `file:`
-
-const detectFromJson = (
-  json: unknown,
-  options: AggregationProfileToMdOptions,
-  origin: Origin | undefined,
-): AggregatedInput[] | undefined => {
-  for (const [format, converter] of jsonFormatConverters) {
-    // `matches` may be a loose prefilter that admits a few non-instances;
-    // `parse` re-validates and throws on input that isn't really this format,
-    // so detection moves on (see `Detect.matches`). Aggregation runs outside
-    // the guard: its errors (e.g. a throwing user callback) are real errors,
-    // not detection misses.
-    let parsed: ParsedInput[]
-    try {
-      if (!converter.matches(json)) {
-        continue
-      }
-      parsed = converter.parse(json)
-    } catch {
-      continue
-    }
-    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
-  }
-  return undefined
-}
-
-const formatConverterEntries: [Format, FormatConverter][] = formats.map(
-  format => [format, formatConverters[format]],
-)
-
-const jsonFormatConverters: [Format, JsonFormatConverter][] =
-  formatConverterEntries.filter(
-    (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
-  )
-
-const detectFromBytes = (
-  bytes: Uint8Array,
-  options: AggregationProfileToMdOptions,
-  origin: Origin | undefined,
-): AggregatedInput[] | undefined => {
-  for (const [format, converter] of binaryFormatConverters) {
-    // Same contract as `detectFromJson`: `matches` and `parse` throwing means
-    // the input isn't this format, so detection moves on, while aggregation
-    // errors are real errors that propagate.
-    let parsed: ParsedInput[]
-    try {
-      if (!converter.matches(bytes)) {
-        continue
-      }
-      parsed = converter.parse(bytes)
-    } catch {
-      continue
-    }
-    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
-  }
-  return undefined
-}
-
-/**
- * Produces the aggregated profiles and snapshots for generically-parsed JSON
- * using the given JSON {@link converter}.
- */
-export const aggregateJsonInput = (
-  converter: JsonFormatConverter,
-  json: unknown,
-  options: AggregationProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedInput[] =>
-  aggregateParsedInputs(converter.parse(json), options, context)
-
-/**
- * Produces the aggregated profiles and snapshots for raw bytes using the given
- * binary {@link converter}.
- */
-export const aggregateBinaryInput = (
-  converter: BinaryFormatConverter,
-  bytes: Uint8Array,
-  options: AggregationProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedInput[] =>
-  aggregateParsedInputs(converter.parse(bytes), options, context)
-
-/**
- * The streaming analogue of {@link aggregateBinaryInput}: parses a byte stream
- * via {@link BinaryFormatConverter.parseAsync} before aggregating.
- */
-export const aggregateBinaryInputAsync = async (
-  converter: BinaryFormatConverter,
-  stream: ReadableStream<Uint8Array>,
-  options: AggregationProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): Promise<AggregatedInput[]> =>
-  aggregateParsedInputs(await converter.parseAsync(stream), options, context)
-
-/**
- * Aggregates each parsed input through its modality's uniform pipeline,
- * preserving the parsed order so multi-input files format and diff
- * positionally.
- *
- * The origin is detected once across all inputs: everything in one file comes
- * from one profiler, so a marker anywhere (e.g. in only one sub-profile's
- * frames) resolves the origin for the whole file.
- */
-const aggregateParsedInputs = (
-  parsed: ParsedInput[],
-  options: AggregationProfileToMdOptions,
-  context: UnresolvedProfileToMdContext,
-): AggregatedInput[] => {
-  const aggregators = parsed.map(input => {
-    switch (input.type) {
-      case `profile`:
-        return new ProfileAggregator(input)
-      case `snapshot`:
-        return new SnapshotAggregator(input)
-    }
-  })
-
-  const detector = new OriginDetector(context)
-  for (const aggregator of aggregators) {
-    aggregator.detectOrigin(detector)
-  }
-  const resolvedContext: ProfileToMdContext = {
-    format: context.format,
-    origin: detector.resolve(),
-  }
-
-  return aggregators.map(aggregator =>
-    aggregator.aggregate(options, resolvedContext),
-  )
-}
-
-/**
- * Builds the conversion context, which carries the resolved format and the
- * explicit origin (or `null` when none was given, so
- * {@link aggregateParsedInputs} detects it from the parsed inputs).
- */
-const makeContext = (
-  format: Format,
-  origin: Origin | undefined,
-): UnresolvedProfileToMdContext => ({ format, origin: origin ?? null })
-
-const binaryFormatConverters: [Format, BinaryFormatConverter][] =
-  formatConverterEntries.filter(
-    (entry): entry is [Format, BinaryFormatConverter] =>
-      entry[1].type === `binary`,
-  )
-
-const unknownFormatError = (): Error =>
-  new Error(
-    `Could not detect profile format. Supported formats: ${formats.join(`, `)}`,
-  )
