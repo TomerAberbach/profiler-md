@@ -1,6 +1,6 @@
 # Allocated heap and retained heap profile
 
-Allocated 1.67 GiB and retained 2.09 MiB over 21,825,413 samples (82.4 B and 0.10052510804721083 B per sample).
+Allocated 1.67 GiB and retained 2.09 MiB over 21,825,413 samples (82.4 B and 0.101 B per sample).
 
 | Category |      % | Allocated | Retained |    Samples |
 | -------- | -----: | --------: | -------: | ---------: |
