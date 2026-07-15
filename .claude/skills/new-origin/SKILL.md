@@ -20,14 +20,13 @@ $ARGUMENTS
    @../../dimensions.md principles
 
 2. Create `src/origins/<origin>.ts` exporting an `OriginSpec` with:
-   - `matchesEntry`: detect the origin from frame data
+   - `isMarkerEntry`: detect the origin from frame data
    - `categorize`: compose from the `src/origins/categorize.ts` helpers plus
      profiler-specific rules
    - `normalizeFrame` when the profiler packs a frame's location into its name
      (see `packedLocationNormalizer`)
-   - `normalizeEntryMatch` when the profiler bakes run-varying identifiers
-     (build hashes, runtime addresses) into names or paths (see
-     `entryMatchNormalizer`)
+   - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
+     runtime addresses) into names or paths (see `matchEntryFromRules`)
 
    Register it in `originSpecs`, ordered by global detection priority: within a
    format the detector tries candidates in order, so place the new origin above

@@ -2,7 +2,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
 import { locationlessStdlibCategory } from './categorize.ts'
-import { entryMatchNormalizer } from './origin.ts'
+import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule, OriginSpec } from './origin.ts'
 
 /**
@@ -42,14 +42,14 @@ const RUST_LOCATION_MATCH_RULES: EntryMatchRule[] = [
 export const pprofRsOriginSpec = {
   id: `pprof-rs`,
   formats: [`pprof`],
-  matchesEntry: entry =>
+  isMarkerEntry: entry =>
     rustStdlibCategory(entry) !== undefined || isRustName(entry),
-  categorize: entry =>
+  categorizeEntry: entry =>
     rustStdlibCategory(entry) ??
     cargoRegistryCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,
-  normalizeEntryMatch: entryMatchNormalizer({
+  matchEntry: matchEntryFromRules({
     location: RUST_LOCATION_MATCH_RULES,
   }),
 } as const satisfies OriginSpec

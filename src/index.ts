@@ -17,7 +17,7 @@ export type {
   AsyncProfileData,
   ProfileInput,
   EntryCategory,
-  MatchEntry,
+  EntryMatch,
   ProfileEntry,
   AggregatedProfileEntry,
   ProfileToMdContext,

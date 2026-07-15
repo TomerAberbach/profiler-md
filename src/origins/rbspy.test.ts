@@ -87,12 +87,12 @@ describe(`normalizeFrame`, () => {
   })
 })
 
-describe(`categorize`, () => {
-  const { categorize } = rbspyOriginSpec
+describe(`categorizeEntry`, () => {
+  const { categorizeEntry } = rbspyOriginSpec
 
   test(`installed gems are third-party`, () => {
     expect(
-      categorize(
+      categorizeEntry(
         located(
           `parse`,
           `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`,
@@ -103,20 +103,24 @@ describe(`categorize`, () => {
 
   test(`the Ruby standard library is stdlib`, () => {
     expect(
-      categorize(
+      categorizeEntry(
         located(`accept`, `/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb`),
       ),
     ).toBe(`stdlib`)
     expect(
-      categorize(located(`activate`, `/usr/lib/ruby/vendor_ruby/rubygems.rb`)),
+      categorizeEntry(
+        located(`activate`, `/usr/lib/ruby/vendor_ruby/rubygems.rb`),
+      ),
     ).toBe(`stdlib`)
   })
 
   test(`native [c function] frames are stdlib`, () => {
-    expect(categorize(named(`(unknown) [c function]`))).toBe(`stdlib`)
+    expect(categorizeEntry(named(`(unknown) [c function]`))).toBe(`stdlib`)
   })
 
   test(`application code is ours`, () => {
-    expect(categorize(located(`<main>`, `/usr/local/bin/rubocop`))).toBe(`ours`)
+    expect(categorizeEntry(located(`<main>`, `/usr/local/bin/rubocop`))).toBe(
+      `ours`,
+    )
   })
 })

@@ -3,12 +3,12 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferenceId, fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
-import type { EntryCategory, MatchEntry, ProfileEntry } from '../options.ts'
+import type { EntryCategory, EntryMatch, ProfileEntry } from '../options.ts'
 
 /**
- * The internal spec of an origin: a **distinct profiler**, a profiling
- * tool paired with the runtime it observed (e.g. `node` for Node's native V8
- * profiler, `node-pprof` for the `pprof` npm package, `jvm` for JFR producers).
+ * The internal spec of an origin: a distinct profiler, a profiling tool paired
+ * with the runtime it observed (e.g. `node` for Node's native V8 profiler,
+ * `node-pprof` for the `pprof` npm package, `jvm` for JFR producers).
  *
  * An origin determines:
  * - Categorization rules (which entries are `stdlib`, `third-party`, etc.)
@@ -48,7 +48,7 @@ export type OriginSpec = {
    * Used only for origin auto-detection (skipped when the user forces an
    * origin), so be strict to avoid false positives.
    */
-  matchesEntry: (entry: DeepReadonly<ProfileEntry>) => boolean
+  isMarkerEntry: (entry: DeepReadonly<ProfileEntry>) => boolean
 
   /**
    * Returns the category of {@link entry} under this origin's runtime
@@ -58,7 +58,7 @@ export type OriginSpec = {
    * external dependencies (`third-party`), and which frame names are the
    * profiler's synthetic ones.
    */
-  categorize: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
+  categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
 
   /**
    * Returns a normalized name and location to match {@link entry} by across
@@ -69,13 +69,11 @@ export type OriginSpec = {
    * MUST return `undefined` for an entry carrying none of the origin's
    * markers, so unmarked entries match by their own name and location.
    *
-   * Unlike {@link OriginSpec.matchesEntry}, which *detects* the origin from an
+   * Unlike {@link OriginSpec.isMarkerEntry}, which *detects* the origin from an
    * entry, this normalizes entries of a profile whose origin is already
    * resolved.
    */
-  normalizeEntryMatch?: (
-    entry: DeepReadonly<ProfileEntry>,
-  ) => MatchEntry | undefined
+  matchEntry?: (entry: DeepReadonly<ProfileEntry>) => EntryMatch | undefined
 
   /**
    * Normalizes a raw stack frame to a canonical form.
@@ -145,13 +143,13 @@ export const packedLocationNormalizer =
 export type EntryMatchRule = readonly [RegExp, string]
 
 /**
- * Builds an {@link OriginSpec.normalizeEntryMatch} from rules over an entry's
+ * Builds an {@link OriginSpec.matchEntry} from rules over an entry's
  * name and its location's URL/path string.
  *
  * The result includes a field only when a rule changed it; when nothing
  * changed, the whole result is `undefined`.
  */
-export const entryMatchNormalizer =
+export const matchEntryFromRules =
   ({
     name: nameRules = [],
     location: locationRules = [],
@@ -159,7 +157,7 @@ export const entryMatchNormalizer =
     name?: readonly EntryMatchRule[]
     location?: readonly EntryMatchRule[]
   }) =>
-  (entry: DeepReadonly<ProfileEntry>): MatchEntry | undefined => {
+  (entry: DeepReadonly<ProfileEntry>): EntryMatch | undefined => {
     const { name: originalName, location: originalLocation } = entry
 
     let name = originalName

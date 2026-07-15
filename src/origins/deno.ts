@@ -11,8 +11,8 @@ import type { OriginSpec } from './origin.ts'
 export const denoOriginSpec = {
   id: `deno`,
   formats: [`v8-cpu-profile`],
-  matchesEntry: ({ location }) => hasProtocol(location, DENO_DETECT_PROTOCOLS),
-  categorize: entry =>
+  isMarkerEntry: ({ location }) => hasProtocol(location, DENO_DETECT_PROTOCOLS),
+  categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
     v8RegExpCategory(entry) ??
     locationlessStdlibCategory(entry) ??

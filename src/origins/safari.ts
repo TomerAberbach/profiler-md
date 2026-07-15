@@ -27,8 +27,8 @@ const isInjectedScript = ({
 export const safariOriginSpec = {
   id: `safari`,
   formats: [`jsc-heap-snapshot`, `webkit-timeline-recording`],
-  matchesEntry: isInjectedScript,
-  categorize: entry =>
+  isMarkerEntry: isInjectedScript,
+  categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     nodeModulesCategory(entry) ??

@@ -134,13 +134,15 @@ describe(`normalizeFrame`, () => {
   })
 })
 
-describe(`categorize`, () => {
-  const { categorize } = dotnetTraceOriginSpec
+describe(`categorizeEntry`, () => {
+  const { categorizeEntry } = dotnetTraceOriginSpec
 
   test(`runtime and framework namespaces are stdlib`, () => {
-    expect(categorize(typeEntry(`Setup`, `System.AppContext`))).toBe(`stdlib`)
+    expect(categorizeEntry(typeEntry(`Setup`, `System.AppContext`))).toBe(
+      `stdlib`,
+    )
     expect(
-      categorize(
+      categorizeEntry(
         typeEntry(
           `FindValue`,
           `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
@@ -148,28 +150,30 @@ describe(`categorize`, () => {
       ),
     ).toBe(`stdlib`)
     expect(
-      categorize(
+      categorizeEntry(
         typeEntry(`ToArray`, `Microsoft.FSharp.Collections.SeqModule`),
       ),
     ).toBe(`stdlib`)
   })
 
   test(`application namespaces are ours`, () => {
-    expect(categorize(typeEntry(`Main`, `Profile.Program`))).toBe(`ours`)
+    expect(categorizeEntry(typeEntry(`Main`, `Profile.Program`))).toBe(`ours`)
   })
 
   test(`NuGet dependencies fall to ours (no marker distinguishes them)`, () => {
     expect(
-      categorize(typeEntry(`ParseValue`, `Newtonsoft.Json.JsonTextReader`)),
+      categorizeEntry(
+        typeEntry(`ParseValue`, `Newtonsoft.Json.JsonTextReader`),
+      ),
     ).toBe(`ours`)
   })
 
   test(`a framework-prefix lookalike type is not stdlib`, () => {
-    expect(categorize(typeEntry(`Run`, `SystemUtils`))).toBe(`ours`)
+    expect(categorizeEntry(typeEntry(`Run`, `SystemUtils`))).toBe(`ours`)
   })
 
   test(`a location-less frame is stdlib`, () => {
-    expect(categorize(named(`UNMANAGED_CODE_TIME`))).toBe(`stdlib`)
-    expect(categorize(named(`?!?`))).toBe(`stdlib`)
+    expect(categorizeEntry(named(`UNMANAGED_CODE_TIME`))).toBe(`stdlib`)
+    expect(categorizeEntry(named(`?!?`))).toBe(`stdlib`)
   })
 })

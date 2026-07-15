@@ -23,6 +23,7 @@ ambiguous.
 | ------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
 | **Parse**           | Convert raw input bytes to a parsed input                                                    | decode, deserialize |
 | **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess        |
+| **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence |
 | **Entry**           | A name + location pair; the unit of filtering and categorization                             | record              |
 | **Category**        | A classification of an entity in an input                                                    | type, group         |
 | **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin      |
@@ -93,14 +94,15 @@ ambiguous.
 
 ## Diffing
 
-| Term            | Definition                                                                       | Aliases to avoid  |
-| --------------- | -------------------------------------------------------------------------------- | ----------------- |
-| **Diff**        | A comparison of two same-modality inputs, pairing entities across sides          | comparison, delta |
-| **Base**        | The side a diff compares from                                                    | before, old, left |
-| **Current**     | The side a diff compares to                                                      | after, new, right |
-| **Match key**   | The normalized name + location key that pairs an entry across a diff's two sides | id                |
-| **Regression**  | A diffed entity whose measure worsened from base to current                      | increase          |
-| **Improvement** | A diffed entity whose measure improved from base to current                      | progression       |
+| Term            | Definition                                                                       | Aliases to avoid    |
+| --------------- | -------------------------------------------------------------------------------- | ------------------- |
+| **Diff**        | A comparison of two same-modality inputs, pairing entities across sides          | comparison, delta   |
+| **Base**        | The side a diff compares from                                                    | before, old, left   |
+| **Current**     | The side a diff compares to                                                      | after, new, right   |
+| **Entry match** | Normalized name and location overrides an entry's match key is built from        | match normalization |
+| **Match key**   | The normalized name + location key that pairs an entry across a diff's two sides | id, entry key       |
+| **Regression**  | A diffed entity whose measure worsened from base to current                      | increase            |
+| **Improvement** | A diffed entity whose measure improved from base to current                      | progression         |
 
 ## Examples and inputs
 

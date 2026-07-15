@@ -53,11 +53,11 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
 
 const groupByEntryKey = <Entry extends DiffableEntry>(
   entries: Entry[],
-  entryKey: (entry: Entry) => string,
+  entryMatchKey: (entry: Entry) => string,
 ): Map<string, Entry[]> => {
   const byKey = new Map<string, Entry[]>()
   for (const entry of entries) {
-    const key = entryKey(entry)
+    const key = entryMatchKey(entry)
     const group = byKey.get(key)
     if (group) {
       group.push(entry)

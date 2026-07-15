@@ -17,8 +17,8 @@ import type { OriginSpec } from './origin.ts'
 export const beamOriginSpec = {
   id: `beam`,
   formats: [`collapsed`],
-  matchesEntry: entry => isBeamFrame(entry.name),
-  categorize: entry =>
+  isMarkerEntry: entry => isBeamFrame(entry.name),
+  categorizeEntry: entry =>
     beamModuleCategory(entry) ?? locationlessStdlibCategory(entry) ?? `ours`,
   normalizeFrame: input => {
     // A located frame (e.g. from a structured format) already has everything it

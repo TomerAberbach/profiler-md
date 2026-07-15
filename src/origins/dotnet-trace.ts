@@ -29,8 +29,8 @@ import type { OriginSpec } from './origin.ts'
 export const dotnetTraceOriginSpec = {
   id: `dotnet-trace`,
   formats: [`speedscope`],
-  matchesEntry: entry => isDotnetTraceFrame(entry.name),
-  categorize: entry =>
+  isMarkerEntry: entry => isDotnetTraceFrame(entry.name),
+  categorizeEntry: entry =>
     dotnetNamespaceCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     `ours`,

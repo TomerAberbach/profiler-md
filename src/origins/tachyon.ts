@@ -24,8 +24,8 @@ const TACHYON_FRAME =
 export const tachyonOriginSpec = {
   id: `tachyon`,
   formats: [`collapsed`],
-  matchesEntry: entry => isTachyonFrame(entry.name),
-  categorize: categorizeCPythonEntry,
+  isMarkerEntry: entry => isTachyonFrame(entry.name),
+  categorizeEntry: categorizeCPythonEntry,
   normalizeFrame: packedLocationNormalizer(TACHYON_FRAME),
 } as const satisfies OriginSpec
 

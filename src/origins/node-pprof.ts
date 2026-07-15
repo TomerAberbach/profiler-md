@@ -11,12 +11,12 @@ import type { OriginSpec } from './origin.ts'
 export const nodePprofOriginSpec = {
   id: `node-pprof`,
   formats: [`pprof`],
-  matchesEntry: ({ name, location }) =>
+  isMarkerEntry: ({ name, location }) =>
     name === `Node.js` ||
     name === `Garbage Collection` ||
     hasProtocol(location, NODE_PROTOCOLS) ||
     hasNodeModulesPath(location),
-  categorize: entry =>
+  categorizeEntry: entry =>
     garbageCollectionCategory(entry) ??
     locationlessStdlibCategory(entry) ??
     nodeModulesCategory(entry) ??

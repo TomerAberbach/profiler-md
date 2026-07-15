@@ -1,20 +1,13 @@
 import { HashInterner } from '../../helpers/intern.ts'
+import { makeSourceLocation } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { Metric } from '../../metric.ts'
 import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import {
-  functionIdentityKey,
-  normalizeFrames,
-  parseFrameFunction,
-} from '../../origins/index.ts'
-import type {
-  FrameFunction,
-  NormalizedFrames,
-  OriginDetector,
-} from '../../origins/index.ts'
+import { normalizeFrameForOrigin } from '../../origins/index.ts'
+import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type {
   Profile,
@@ -35,9 +28,34 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
     this.#profile = profile
   }
 
+  /**
+   * Adds the profile's distinct frames to {@link detector} until decided,
+   * filling the frames' shared parse cache as it parses, for aggregation to
+   * reuse when the frames turn out to need no normalization. A frames array
+   * already detected over is skipped, so a multi-profile file's sub-profiles
+   * sharing one array add it once.
+   *
+   * Adds the **raw**, pre-normalization frames so the detector can recognize
+   * a variant by its frame names (e.g. a collapsed `Elixir.Enum:reduce/3`),
+   * which normalization would rewrite.
+   */
   public detectOrigin(detector: OriginDetector): void {
     const { frames } = this.#profile
-    detector.addFrames(frames, frameResolutionOf(frames).frameFunctions)
+    const resolution = frameResolutionOf(frames)
+    if (resolution.detected) {
+      return
+    }
+    resolution.detected = true
+
+    const { frameFunctions } = resolution
+    for (let index = 0; !detector.decided && index < frames.length; index++) {
+      let frameFunction = frameFunctions[index]
+      if (!frameFunction) {
+        frameFunction = parseFrameFunction(frames[index]!)
+        frameFunctions[index] = frameFunction
+      }
+      detector.add({ id: index, ...frameFunction })
+    }
   }
 
   public aggregate(
@@ -80,9 +98,12 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
 type FrameResolution = {
   /**
    * The parse cache origin detection seeds (see
-   * {@link OriginDetector.addFrames}).
+   * {@link ProfileAggregator.detectOrigin}).
    */
   frameFunctions: (FrameFunction | undefined)[]
+
+  /** Whether these frames were already added to the conversion's detector. */
+  detected?: boolean
 
   /**
    * The frames normalized under the file's one resolved context. A frames
@@ -106,6 +127,113 @@ const frameResolutionOf = (frames: ProfileStackFrame[]): FrameResolution => {
   }
   return resolution
 }
+
+/**
+ * A frame's parsed display name and source location, the expensive part
+ * (location parsing) of building an entry from it.
+ *
+ * The single mapping used by both origin detection (over the raw frames) and
+ * function registration (over the normalized frames), so both see the same
+ * shape.
+ */
+type FrameFunction = {
+  name: string
+  location: SourceLocation | undefined
+}
+
+/** Parses a stack frame's {@link FrameFunction}. */
+const parseFrameFunction = ({
+  name,
+  location,
+}: ProfileStackFrame): FrameFunction => ({
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  name: name || `(anonymous)`,
+  location: makeSourceLocation(location),
+})
+
+/** A profile's distinct frames after normalization by the resolved origin. */
+type NormalizedFrames = {
+  /**
+   * The frames, normalized by the origin; the input array itself when the
+   * origin has no `normalizeFrame`. A `null` slot is a frame the origin
+   * dropped (a pseudo-frame, not a function), removed from every call
+   * stack.
+   */
+  frames: (ProfileStackFrame | null)[]
+
+  /**
+   * Per frame index, a lazily-filled cache of the frame's parsed name and
+   * location, shared across the profiles referencing these frames so each
+   * distinct frame's location is parsed once, not once per profile. Seeded by
+   * origin detection when the frames needed no normalization (normalization
+   * changes a frame's name and location).
+   */
+  frameFunctions: (FrameFunction | undefined)[]
+}
+
+/**
+ * Normalizes the distinct frames with the resolved origin.
+ *
+ * {@link frameFunctions} is the parse cache origin detection seeded from these
+ * frames; it carries over only when the frames turn out to need no
+ * normalization.
+ */
+const normalizeFrames = (
+  frames: ProfileStackFrame[],
+  frameFunctions: (FrameFunction | undefined)[],
+  { format, origin }: ProfileToMdContext,
+): NormalizedFrames => {
+  const normalize = normalizeFrameForOrigin(origin)
+  if (!normalize && !frames.some(isNamedByOwnPath)) {
+    return { frames, frameFunctions }
+  }
+  return {
+    // Every frame passes through, located or not: the origin decides what a
+    // frame needs from how the format produced it (see
+    // {@link OriginSpec.normalizeFrame}).
+    frames: frames.map(frame => {
+      const normalized = normalize ? normalize(frame, format) : frame
+      return normalized && dropNameMatchingOwnPath(normalized)
+    }),
+    frameFunctions: [],
+  }
+}
+
+/**
+ * A frame named by its own file path carries no function name: unrelated
+ * profilers independently converge on this idiom for a file's top-level code
+ * (Excimer names a PHP script's top-level scope this way in speedscope output;
+ * rbspy does the same for Ruby's `<internal:gem_prelude>` in both speedscope
+ * and pprof output). No profiler names a real function by its own file path,
+ * so drop the name for any origin and format — the top-level code formats as
+ * `(anonymous)` with the path in the Location column, relativized like any
+ * other path. Runs after origin normalization so it sees the frame's final
+ * name and location (e.g. after a packed location is split out of the name).
+ */
+const isNamedByOwnPath = (frame: ProfileStackFrame): boolean =>
+  frame.name !== undefined && frame.name === frame.location?.urlOrPath
+
+const dropNameMatchingOwnPath = (
+  frame: ProfileStackFrame,
+): ProfileStackFrame =>
+  isNamedByOwnPath(frame) ? { ...frame, name: undefined } : frame
+
+/**
+ * A function's identity key: its normalized name and location (URL/path, plus
+ * definition line and column). Two frames that normalize to the same name and
+ * location are the same function.
+ *
+ * The location's own line/column are part of the identity, but a frame's
+ * executing line ({@link ProfileStackFrame.line}) is not; that contributes to
+ * the line breakdown instead.
+ */
+const functionIdentityKey = ({
+  name = ``,
+  location,
+}: ProfileStackFrame): string =>
+  location === undefined
+    ? name
+    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
 
 /** Aggregates a profile's samples over its normalized distinct frames. */
 class SamplesAggregator {
