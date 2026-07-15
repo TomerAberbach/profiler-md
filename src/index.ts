@@ -23,11 +23,6 @@ export type {
   ProfileToMdContext,
   ProfileToMdOptions,
 } from './options.ts'
-export { fileReferenceId } from './location.ts'
 export type { FileReference, SourceLocation } from './location.ts'
-export {
-  categorizeEntryForOrigin,
-  normalizeEntryMatchForOrigin,
-} from './origins/index.ts'
 export type { Origin } from './origins/index.ts'
 export type { SourceMap } from './source-map.ts'
