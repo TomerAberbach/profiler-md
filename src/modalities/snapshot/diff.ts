@@ -146,7 +146,7 @@ const mergeClosures = (
 ): Map<string, DiffedSnapshotEntity> => {
   const keyToClosure = new Map<string, DiffedSnapshotEntity>()
   for (const closure of closures) {
-    const key = options.entryKey(closure, context)
+    const key = options.entryMatchKey(closure, context)
     const merged = keyToClosure.get(key)
     if (merged) {
       merged.selfSize += closure.selfSize

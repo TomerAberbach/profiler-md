@@ -6,7 +6,7 @@ import type { AggregatedProfileFunction } from './modalities/profile/aggregate.t
 import type { AggregatedSnapshotNode } from './modalities/snapshot/aggregate.ts'
 import {
   categorizeEntryForOrigin,
-  normalizeEntryMatchForOrigin,
+  matchEntryForOrigin,
 } from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
 import { normalizeSourceMaps } from './source-map.ts'
@@ -72,7 +72,7 @@ export type ProfileEntry = {
  * Only affects matching; the entry's displayed name and location are
  * unchanged.
  */
-export type MatchEntry = {
+export type EntryMatch = {
   /** The name to match by. Omit to match by the entry's name. */
   name?: string
 
@@ -163,7 +163,7 @@ export type ProfileToMdOptions = {
   matchEntry?: (
     entry: DeepReadonly<ProfileEntry>,
     context: ProfileToMdContext,
-  ) => MatchEntry | undefined
+  ) => EntryMatch | undefined
 
   /**
    * Returns a category string per entry of a profile, as an array aligned with
@@ -200,7 +200,7 @@ export type NormalizedProfileToMdOptions = {
   topN: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
-  entryKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
+  entryMatchKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
   categorizeEntries: (
     entries: readonly ProfileEntry[],
     context: ProfileToMdContext,
@@ -241,8 +241,8 @@ export const normalizeProfileToMdOptions = ({
   topN,
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps),
-  entryKey: cacheEntryFunction((entry, context) =>
-    entryKey(entry, context, matchEntry),
+  entryMatchKey: cacheEntryFunction((entry, context) =>
+    entryMatchKey(entry, context, matchEntry),
   ),
   categorizeEntries: (entries, context) => {
     const categories = categorizeEntries(entries, context)
@@ -304,7 +304,7 @@ const ensureTrailingSlash = (url: URL): URL => {
 }
 
 /** Returns an entry's full diff match key. */
-const entryKey = (
+const entryMatchKey = (
   entry: ProfileEntry,
   context: ProfileToMdContext,
   matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
@@ -347,7 +347,7 @@ const cacheEntryFunction = <Entry extends object, Context, Value>(
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,
   { origin }: ProfileToMdContext,
-): MatchEntry | undefined => normalizeEntryMatchForOrigin(entry, origin)
+): EntryMatch | undefined => matchEntryForOrigin(entry, origin)
 
 /**
  * The default {@link ProfileToMdOptions.categorizeEntries}.

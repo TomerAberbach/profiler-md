@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { EntryCategory, ProfileEntry } from '../options.ts'
-import { entryMatchNormalizer } from './origin.ts'
+import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule, OriginSpec } from './origin.ts'
 
 /**
@@ -24,11 +24,11 @@ const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
 export const jvmOriginSpec = {
   id: `jvm`,
   formats: [`jfr`, `collapsed`],
-  matchesEntry: entry =>
+  isMarkerEntry: entry =>
     // JFR carries the class as a location; async-profiler's collapsed stacks
     // carry it in the name (`java/util/HashMap.put`) instead.
     jvmStdlibCategory(entry) !== undefined || isJvmStdlibNameFrame(entry.name),
-  categorize: entry =>
+  categorizeEntry: entry =>
     jvmStdlibCategory(entry) ??
     hotspotStubCategory(entry) ??
     nativeLibraryCategory(entry) ??
@@ -37,7 +37,7 @@ export const jvmOriginSpec = {
     // location, so a frame with no location at all is a native symbol (JVM
     // C++ internals, malloc, unresolved native code) rather than Java code.
     (entry.location ? `ours` : `native`),
-  normalizeEntryMatch: entryMatchNormalizer({
+  matchEntry: matchEntryFromRules({
     // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`) or in
     // the location (a hidden lambda class reported as the declaring class).
     name: JVM_ENTRY_MATCH_RULES,

@@ -7,7 +7,7 @@ import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions, ProfileEntry } from '../options.ts'
 import { injectedFormat, inputPath, readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
-import { normalizeEntryMatchForOrigin, OriginDetector } from './index.ts'
+import { matchEntryForOrigin, OriginDetector } from './index.ts'
 import { systingOriginSpec } from './systing.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
@@ -21,7 +21,7 @@ const determineOrigin = ({
   entries: readonly ProfileEntry[]
 }): Origin => {
   const detector = new OriginDetector({ format, origin: null })
-  detector.addEntries(entries)
+  detector.addAll(entries)
   return detector.resolve()
 }
 
@@ -80,7 +80,7 @@ if (format === undefined) {
         `do_syscall_64 ([kernel]) <0xffffffff9fca7238>`,
         `unknown ([gvisor:runtime]) <0x7f0000001000>`,
       ]) {
-        expect(systingOriginSpec.matchesEntry(relativeEntry(name))).toBe(true)
+        expect(systingOriginSpec.isMarkerEntry(relativeEntry(name))).toBe(true)
       }
 
       // Signals any profiler could produce, or lookalike packings missing the
@@ -92,7 +92,7 @@ if (format === undefined) {
         `0x7f95bfdb6e12`,
         `(garbage collector)`,
       ]) {
-        expect(systingOriginSpec.matchesEntry(relativeEntry(name))).toBe(false)
+        expect(systingOriginSpec.isMarkerEntry(relativeEntry(name))).toBe(false)
       }
     })
 
@@ -558,7 +558,7 @@ if (format === undefined) {
 }
 
 if (format === undefined) {
-  describe(`normalizeEntryMatchForOrigin`, () => {
+  describe(`matchEntryForOrigin`, () => {
     const lambdaEntry = () =>
       relativeEntry(
         `apply(Object, Object)`,
@@ -636,7 +636,7 @@ if (format === undefined) {
         expected: undefined,
       },
     ])(`$description`, ({ entry, origin, expected }) => {
-      expect(normalizeEntryMatchForOrigin(entry, origin)).toEqual(expected)
+      expect(matchEntryForOrigin(entry, origin)).toEqual(expected)
     })
   })
 }

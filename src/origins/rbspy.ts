@@ -18,8 +18,8 @@ import type { OriginSpec } from './origin.ts'
 export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`collapsed`, `pprof`, `speedscope`],
-  matchesEntry: entry => isRbspyFrame(entry.name),
-  categorize: entry =>
+  isMarkerEntry: entry => isRbspyFrame(entry.name),
+  categorizeEntry: entry =>
     cFunctionCategory(entry) ??
     rubyGemCategory(entry) ??
     rubyStdlibCategory(entry) ??

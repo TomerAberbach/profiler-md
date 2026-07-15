@@ -17,10 +17,10 @@ export const pprofJlOriginSpec = {
   // Only a Julia install lays out its runtime sources under `share/julia/`,
   // and every Julia profile touches `Base` or standard-library code from
   // there.
-  matchesEntry: entry =>
+  isMarkerEntry: entry =>
     entry.location !== undefined &&
     fileReferencePath(entry.location).includes(`/share/julia/`),
-  categorize: entry =>
+  categorizeEntry: entry =>
     juliaInstallCategory(entry) ??
     juliaDepotPackageCategory(entry) ??
     juliaRuntimeNativeCategory(entry) ??

@@ -19,11 +19,12 @@ export const goOriginSpec = {
   // Every Go profile contains `runtime.*` frames (stack roots like
   // `runtime.main`/`runtime.goexit` if nothing else), and only Go locates a
   // `runtime.`-prefixed function in a GOROOT source tree.
-  matchesEntry: entry =>
+  isMarkerEntry: entry =>
     (entry.name?.startsWith(`runtime.`) ?? false) &&
     entry.location !== undefined &&
     fileReferencePath(entry.location).includes(`/go/src/`),
-  categorize: entry => goModuleCacheCategory(entry) ?? goPackageCategory(entry),
+  categorizeEntry: entry =>
+    goModuleCacheCategory(entry) ?? goPackageCategory(entry),
 } as const satisfies OriginSpec
 
 /**

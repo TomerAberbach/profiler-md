@@ -10,8 +10,8 @@ import type { OriginSpec } from './origin.ts'
 export const systingOriginSpec = {
   id: `systing`,
   formats: [`systing`],
-  matchesEntry: entry => NATIVE_FRAME.test(entry.name ?? ``),
-  categorize: entry =>
+  isMarkerEntry: entry => NATIVE_FRAME.test(entry.name ?? ``),
+  categorizeEntry: entry =>
     labelModuleCategory(entry) ??
     // Pystacks blend CPython frames into the stacks, carrying the same
     // interpreter path conventions the Python collapsed-stack origins see.

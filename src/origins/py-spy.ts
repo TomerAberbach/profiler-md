@@ -24,9 +24,9 @@ export const pySpyOriginSpec = {
   // interpreter with the same categorization, so resolving those frames here
   // categorizes them correctly regardless of which CPython profiler sampled
   // them.
-  matchesEntry: entry =>
+  isMarkerEntry: entry =>
     FRAME.test(entry.name ?? ``) || pythonStdlibCategory(entry) !== undefined,
-  categorize: categorizeCPythonEntry,
+  categorizeEntry: categorizeCPythonEntry,
   // Py-spy emits one frame per sampled line in both shapes: packed into a
   // collapsed name, or as a located speedscope frame whose `line` needs
   // reinterpreting as the executing line.

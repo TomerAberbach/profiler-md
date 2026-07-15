@@ -123,7 +123,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   }
 
   public detectOrigin(detector: OriginDetector): void {
-    detector.addEntries(this.#entries)
+    detector.addAll(this.#entries)
   }
 
   #addCategoryNode(nodeOrdinal: number, category: string): void {

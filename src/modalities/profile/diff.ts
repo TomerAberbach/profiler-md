@@ -70,12 +70,12 @@ export const diffAggregatedProfiles = (
 
   // Each side's functions are keyed under that side's own context, since match
   // normalization is origin-aware.
-  const { entryKey } = options
+  const { entryMatchKey } = options
   const functions = matchDiffedEntries(
     base.functions,
     current.functions,
-    func => entryKey(func, base.context),
-    func => entryKey(func, current.context),
+    func => entryMatchKey(func, base.context),
+    func => entryMatchKey(func, current.context),
   ).map(({ base: baseFunc, current: currentFunc }) => {
     const { name, location, category } = (currentFunc ?? baseFunc)!
     return { name, location, category, base: baseFunc, current: currentFunc }

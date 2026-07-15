@@ -18,8 +18,8 @@ import type { OriginSpec } from './origin.ts'
 export const unknownOriginSpec = {
   id: `unknown`,
   formats: [],
-  matchesEntry: () => false,
-  categorize: entry =>
+  isMarkerEntry: () => false,
+  categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
     systemDirectoryCategory(entry) ??
     locationlessStdlibCategory(entry) ??
