@@ -78,9 +78,9 @@ test(`formatDiffTable formats the Delta column at delta precision`, () => {
   ])
 
   expect(markdown)
-    .toBe(`| Change |    Delta |             % |              Size | Count | Name |
-| -----: | -------: | ------------: | ----------------: | ----: | ---- |
-| +42.5% | +1.56\u00A0kB | 36.7% → 52.3% | 3.67\u00A0kB → 5.23\u00A0kB |     1 | a    |
+    .toBe(`| Change |      Delta |             % |                Size | Count | Name |
+| -----: | ---------: | ------------: | ------------------: | ----: | ---- |
+| +42.5% | +1.523\u00A0KiB | 36.7% → 52.3% | 3.58\u00A0KiB → 5.11\u00A0KiB |     1 | a    |
 `)
 })
 

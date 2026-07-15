@@ -385,7 +385,7 @@ describe(`diff table intensity`, () => {
   test.each([
     { larger: `+1s`, smaller: `+250ms` },
     { larger: `+1m 5s`, smaller: `+16.25s` },
-    { larger: `+1.2 MB`, smaller: `+300 kB` },
+    { larger: `+1 MiB`, smaller: `+256 KiB` },
   ])(
     `$larger and $smaller deltas are normalized before comparison`,
     async ({ larger, smaller }) => {

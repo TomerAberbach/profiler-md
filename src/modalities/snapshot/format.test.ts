@@ -70,12 +70,12 @@ describe(`formatHeapSnapshot`, () => {
 describe(`formatHeapSnapshotDiff`, () => {
   test(`produces expected title and summary line`, () => {
     const base = makeAggregatedHeapSnapshot({
-      totalSize: 1000,
+      totalSize: 1024,
       nodeCount: 10,
       edgeCount: 20,
     })
     const current = makeAggregatedHeapSnapshot({
-      totalSize: 1500,
+      totalSize: 1536,
       nodeCount: 12,
       edgeCount: 25,
     })
@@ -85,13 +85,13 @@ describe(`formatHeapSnapshotDiff`, () => {
 
     expect(profileTitles(md)).toEqual([`Heap snapshot diff`])
     expect(summaryLines(md)).toEqual([
-      `Allocated 1\u00A0kB → 1.5\u00A0kB (+500\u00A0B, +50.0%) across 10 → 12 nodes and 20 → 25 edges.`,
+      `Allocated 1\u00A0KiB → 1.5\u00A0KiB (+512\u00A0B, +50.0%) across 10 → 12 nodes and 20 → 25 edges.`,
     ])
   })
 
   test(`omits the change suffix when the total size is unchanged`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
-      totalSize: 1000,
+      totalSize: 1024,
       nodeCount: 10,
       edgeCount: 20,
     })
@@ -100,21 +100,21 @@ describe(`formatHeapSnapshotDiff`, () => {
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
     expect(summaryLines(md)).toEqual([
-      `Allocated 1\u00A0kB across 10 nodes and 20 edges.`,
+      `Allocated 1\u00A0KiB across 10 nodes and 20 edges.`,
     ])
   })
 
   test(`includes a category table with change, delta, and node counts`, () => {
     const base = makeAggregatedHeapSnapshot({
-      totalSize: 1000,
+      totalSize: 1024,
       nodeCategoryToStats: new Map([
-        [`object`, { size: 1000, nodeCount: 10 }],
+        [`object`, { size: 1024, nodeCount: 10 }],
         [`string`, { size: 100, nodeCount: 2 }],
       ]),
     })
     const current = makeAggregatedHeapSnapshot({
-      totalSize: 1500,
-      nodeCategoryToStats: new Map([[`object`, { size: 1500, nodeCount: 12 }]]),
+      totalSize: 1536,
+      nodeCategoryToStats: new Map([[`object`, { size: 1536, nodeCount: 12 }]]),
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
@@ -125,16 +125,16 @@ describe(`formatHeapSnapshotDiff`, () => {
         {
           Category: `object`,
           Change: `+50.0%`,
-          Delta: `+500 B`,
+          Delta: `+512 B`,
           '%': `100.0%`,
-          Size: `1 kB → 1.5 kB`,
+          Size: `1 KiB → 1.5 KiB`,
           Nodes: `10 → 12`,
         },
         {
           Category: `string`,
           Change: `removed`,
           Delta: `-100 B`,
-          '%': `10.0% → 0.0%`,
+          '%': `9.8% → 0.0%`,
           Size: `100 B → 0 B`,
           Nodes: `2 → 0`,
         },

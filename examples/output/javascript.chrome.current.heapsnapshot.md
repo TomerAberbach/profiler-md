@@ -1,21 +1,21 @@
 # Heap snapshot
 
-Allocated 940 kB across 32,693 nodes and 142,162 edges.
+Allocated 918 KiB across 32,693 nodes and 142,162 edges.
 
-| Category            |     % |    Size | Nodes |
-| ------------------- | ----: | ------: | ----: |
-| hidden              | 28.2% |  265 kB | 8,002 |
-| object shape        | 17.2% |  162 kB | 2,500 |
-| string              | 12.5% |  118 kB | 6,143 |
-| array               | 11.7% |  110 kB |   369 |
-| object              | 10.5% | 99.1 kB | 2,884 |
-| closure             |  8.2% | 77.2 kB | 2,704 |
-| native              |  7.8% | 73.8 kB | 2,786 |
-| code                |  2.8% | 25.9 kB | 6,123 |
-| number              |  0.6% | 5.78 kB |   933 |
-| concatenated string |  0.4% | 4.04 kB |   202 |
-| synthetic           |  0.0% |     0 B |    31 |
-| symbol              |  0.0% |     0 B |    16 |
+| Category            |     % |     Size | Nodes |
+| ------------------- | ----: | -------: | ----: |
+| hidden              | 28.2% |  259 KiB | 8,002 |
+| object shape        | 17.2% |  158 KiB | 2,500 |
+| string              | 12.5% |  115 KiB | 6,143 |
+| array               | 11.7% |  107 KiB |   369 |
+| object              | 10.5% | 96.8 KiB | 2,884 |
+| closure             |  8.2% | 75.4 KiB | 2,704 |
+| native              |  7.8% |   72 KiB | 2,786 |
+| code                |  2.8% | 25.3 KiB | 6,123 |
+| number              |  0.6% | 5.65 KiB |   933 |
+| concatenated string |  0.4% | 3.95 KiB |   202 |
+| synthetic           |  0.0% |      0 B |    31 |
+| symbol              |  0.0% |      0 B |    16 |
 
 ## Largest constructors
 
@@ -23,28 +23,28 @@ Allocated 940 kB across 32,693 nodes and 142,162 edges.
 
 Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
 
-|     % |    Size | Instances | Constructor                   | Location    |
-| ----: | ------: | --------: | ----------------------------- | ----------- |
-|  7.7% | 72.7 kB |     1,448 | `Object`                      | `<unknown>` |
-|  1.8% | 16.9 kB |     1,059 | `Array`                       | `<unknown>` |
-|  1.8% | 16.6 kB |       208 | `Text`                        | `<unknown>` |
-|  1.3% |   12 kB |       100 | `<article class="status">`    | `<unknown>` |
-|  1.3% |   12 kB |       100 | `<h2>`                        | `<unknown>` |
-|  1.3% |   12 kB |       100 | `<p>`                         | `<unknown>` |
-|  1.2% | 11.3 kB |       143 | `system / ExternalStringData` | `<unknown>` |
-|  0.3% | 3.27 kB |         3 | `HTMLDocument`                | `<unknown>` |
-|  0.2% | 2.17 kB |        99 | `system / Context`            | `<unknown>` |
-|  0.1% | 1.02 kB |        10 | `Window`                      | `<unknown>` |
-|  0.1% | 1.01 kB |        36 | `Error`                       | `<unknown>` |
-|  0.1% | 1.01 kB |        36 | `TypedArray`                  | `<unknown>` |
-|  0.1% |   960 B |         8 | `<span class="hashtag">`      | `<unknown>` |
-|  0.1% |   960 B |         1 | `Performance`                 | `<unknown>` |
-|  0.1% |   800 B |         1 | `StyleEngine`                 | `<unknown>` |
-| <0.1% |   400 B |         1 | `Navigator`                   | `<unknown>` |
-| <0.1% |   328 B |         1 | `FontFaceSet`                 | `<unknown>` |
-| <0.1% |   208 B |         1 | `ScriptedAnimationController` | `<unknown>` |
-| <0.1% |   200 B |         1 | `IntersectionObserver`        | `<unknown>` |
-| <0.1% |   184 B |         1 | `DocumentTimeline`            | `<unknown>` |
+|     % |     Size | Instances | Constructor                   | Location    |
+| ----: | -------: | --------: | ----------------------------- | ----------- |
+|  7.7% |   71 KiB |     1,448 | `Object`                      | `<unknown>` |
+|  1.8% | 16.5 KiB |     1,059 | `Array`                       | `<unknown>` |
+|  1.8% | 16.3 KiB |       208 | `Text`                        | `<unknown>` |
+|  1.3% | 11.7 KiB |       100 | `<article class="status">`    | `<unknown>` |
+|  1.3% | 11.7 KiB |       100 | `<h2>`                        | `<unknown>` |
+|  1.3% | 11.7 KiB |       100 | `<p>`                         | `<unknown>` |
+|  1.2% |   11 KiB |       143 | `system / ExternalStringData` | `<unknown>` |
+|  0.3% | 3.19 KiB |         3 | `HTMLDocument`                | `<unknown>` |
+|  0.2% | 2.12 KiB |        99 | `system / Context`            | `<unknown>` |
+|  0.1% |   1016 B |        10 | `Window`                      | `<unknown>` |
+|  0.1% |   1008 B |        36 | `Error`                       | `<unknown>` |
+|  0.1% |   1008 B |        36 | `TypedArray`                  | `<unknown>` |
+|  0.1% |    960 B |         8 | `<span class="hashtag">`      | `<unknown>` |
+|  0.1% |    960 B |         1 | `Performance`                 | `<unknown>` |
+|  0.1% |    800 B |         1 | `StyleEngine`                 | `<unknown>` |
+| <0.1% |    400 B |         1 | `Navigator`                   | `<unknown>` |
+| <0.1% |    328 B |         1 | `FontFaceSet`                 | `<unknown>` |
+| <0.1% |    208 B |         1 | `ScriptedAnimationController` | `<unknown>` |
+| <0.1% |    200 B |         1 | `IntersectionObserver`        | `<unknown>` |
+| <0.1% |    184 B |         1 | `DocumentTimeline`            | `<unknown>` |
 
 #### Instances
 
@@ -52,13 +52,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Object` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                      |
-| ----: | ------: | --------: | ------------------------------------------------------------------------- |
-| 23.6% | 17.1 kB |       100 | `.user Object ← .__retained Window / ://`                                 |
-| 17.3% | 12.5 kB |        73 | `.user Object ← .retweeted_status Object ← .__retained Window / ://`      |
-| 14.8% | 10.8 kB |       100 | `.__retained Window / ://`                                                |
-| 10.5% | 7.62 kB |        73 | `.retweeted_status Object ← .__retained Window / ://`                     |
-|  0.1% |    60 B |         1 | `[0] Array ← .media Object ← .entities Object ← .__retained Window / ://` |
+|     % |     Size | Instances | Path                                                                      |
+| ----: | -------: | --------: | ------------------------------------------------------------------------- |
+| 23.6% | 16.7 KiB |       100 | `.user Object ← .__retained Window / ://`                                 |
+| 17.3% | 12.3 KiB |        73 | `.user Object ← .retweeted_status Object ← .__retained Window / ://`      |
+| 14.8% | 10.5 KiB |       100 | `.__retained Window / ://`                                                |
+| 10.5% | 7.45 KiB |        73 | `.retweeted_status Object ← .__retained Window / ://`                     |
+|  0.1% |     60 B |         1 | `[0] Array ← .media Object ← .entities Object ← .__retained Window / ://` |
 
 ##### `Array` (`<unknown>`)
 
@@ -82,25 +82,25 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `<article class="status">` (`<unknown>`)
 
-|     % |    Size | Instances | Path                       |
-| ----: | ------: | --------: | -------------------------- |
-| 66.0% | 7.92 kB |        66 | `(GC root)`                |
-| 34.0% | 4.08 kB |        34 | `.__retained Window / ://` |
+|     % |     Size | Instances | Path                       |
+| ----: | -------: | --------: | -------------------------- |
+| 66.0% | 7.73 KiB |        66 | `(GC root)`                |
+| 34.0% | 3.98 KiB |        34 | `.__retained Window / ://` |
 
 ##### `<h2>` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                      |
-| ----: | ------: | --------: | --------------------------------------------------------- |
-| 66.0% | 7.92 kB |        66 | `(GC root)`                                               |
-| 34.0% | 4.08 kB |        34 | `[3] <article class="status"> ← .__retained Window / ://` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 66.0% | 7.73 KiB |        66 | `(GC root)`                                               |
+| 34.0% | 3.98 KiB |        34 | `[3] <article class="status"> ← .__retained Window / ://` |
 
 ##### `<p>` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                      |
-| ----: | ------: | --------: | --------------------------------------------------------- |
-| 66.0% | 7.92 kB |        66 | `(GC root)`                                               |
-| 30.0% |  3.6 kB |        30 | `[4] <article class="status"> ← .__retained Window / ://` |
-|  4.0% |   480 B |         4 | `.__retained Window / ://`                                |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 66.0% | 7.73 KiB |        66 | `(GC root)`                                               |
+| 30.0% | 3.52 KiB |        30 | `[4] <article class="status"> ← .__retained Window / ://` |
+|  4.0% |    480 B |         4 | `.__retained Window / ://`                                |
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -114,10 +114,10 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `HTMLDocument` (`<unknown>`)
 
-|     % |    Size | Instances | Path         |
-| ----: | ------: | --------: | ------------ |
-| 99.5% | 3.25 kB |         2 | `(GC root)`  |
-|  0.5% |    16 B |         1 | `.155 array` |
+|     % |     Size | Instances | Path         |
+| ----: | -------: | --------: | ------------ |
+| 99.5% | 3.18 KiB |         2 | `(GC root)`  |
+|  0.5% |     16 B |         1 | `.155 array` |
 
 ##### `system / Context` (`<unknown>`)
 
@@ -151,9 +151,9 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |    Size | Instances | Path        |
-| -----: | ------: | --------: | ----------- |
-| 100.0% | 1.01 kB |        36 | `(GC root)` |
+|      % |   Size | Instances | Path        |
+| -----: | -----: | --------: | ----------- |
+| 100.0% | 1008 B |        36 | `(GC root)` |
 
 ##### `<span class="hashtag">` (`<unknown>`)
 
@@ -209,28 +209,28 @@ Instances ranked by contribution to each constructor's self size.
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
 
-|     % |    Size | Instances | Constructor                   | Location    |
-| ----: | ------: | --------: | ----------------------------- | ----------- |
-| 18.7% |  175 kB |         1 | `Window / ://`                | `<unknown>` |
-| 17.5% |  164 kB |     1,448 | `Object`                      | `<unknown>` |
-|  8.2% |   77 kB |        10 | `Window`                      | `<unknown>` |
-|  4.1% | 38.7 kB |         1 | `Window / `                   | `<unknown>` |
-|  3.7% | 35.1 kB |     1,059 | `Array`                       | `<unknown>` |
-|  2.8% | 26.6 kB |       100 | `<article class="status">`    | `<unknown>` |
-|  1.8% | 16.6 kB |       208 | `Text`                        | `<unknown>` |
-|  1.6% | 14.7 kB |       100 | `<h2>`                        | `<unknown>` |
-|  1.6% | 14.7 kB |       100 | `<p>`                         | `<unknown>` |
-|  1.2% | 11.3 kB |       143 | `system / ExternalStringData` | `<unknown>` |
-|  0.9% | 8.59 kB |         4 | `Map`                         | `<unknown>` |
-|  0.7% |  6.6 kB |         1 | `Object / `                   | `<unknown>` |
-|  0.6% | 5.72 kB |         1 | `Document`                    | `<unknown>` |
-|  0.6% | 5.58 kB |         3 | `Math`                        | `<unknown>` |
-|  0.6% | 5.56 kB |         3 | `HTMLDocument`                | `<unknown>` |
-|  0.6% | 5.47 kB |        36 | `Error`                       | `<unknown>` |
-|  0.5% | 5.04 kB |        36 | `TypedArray`                  | `<unknown>` |
-|  0.5% |  4.9 kB |         3 | `console`                     | `<unknown>` |
-|  0.5% | 4.56 kB |         3 | `Intl.Locale`                 | `<unknown>` |
-|  0.5% | 4.44 kB |         3 | `String`                      | `<unknown>` |
+|     % |     Size | Instances | Constructor                   | Location    |
+| ----: | -------: | --------: | ----------------------------- | ----------- |
+| 18.7% |  171 KiB |         1 | `Window / ://`                | `<unknown>` |
+| 17.5% |  161 KiB |     1,448 | `Object`                      | `<unknown>` |
+|  8.2% | 75.2 KiB |        10 | `Window`                      | `<unknown>` |
+|  4.1% | 37.8 KiB |         1 | `Window / `                   | `<unknown>` |
+|  3.7% | 34.3 KiB |     1,059 | `Array`                       | `<unknown>` |
+|  2.8% |   26 KiB |       100 | `<article class="status">`    | `<unknown>` |
+|  1.8% | 16.3 KiB |       208 | `Text`                        | `<unknown>` |
+|  1.6% | 14.4 KiB |       100 | `<h2>`                        | `<unknown>` |
+|  1.6% | 14.4 KiB |       100 | `<p>`                         | `<unknown>` |
+|  1.2% |   11 KiB |       143 | `system / ExternalStringData` | `<unknown>` |
+|  0.9% | 8.39 KiB |         4 | `Map`                         | `<unknown>` |
+|  0.7% | 6.44 KiB |         1 | `Object / `                   | `<unknown>` |
+|  0.6% | 5.59 KiB |         1 | `Document`                    | `<unknown>` |
+|  0.6% | 5.45 KiB |         3 | `Math`                        | `<unknown>` |
+|  0.6% | 5.43 KiB |         3 | `HTMLDocument`                | `<unknown>` |
+|  0.6% | 5.34 KiB |        36 | `Error`                       | `<unknown>` |
+|  0.5% | 4.92 KiB |        36 | `TypedArray`                  | `<unknown>` |
+|  0.5% | 4.79 KiB |         3 | `console`                     | `<unknown>` |
+|  0.5% | 4.45 KiB |         3 | `Intl.Locale`                 | `<unknown>` |
+|  0.5% | 4.34 KiB |         3 | `String`                      | `<unknown>` |
 
 #### Instances
 
@@ -238,52 +238,52 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Window / ://` (`<unknown>`)
 
-|      % |   Size | Instances | Path        |
-| -----: | -----: | --------: | ----------- |
-| 100.0% | 175 kB |         1 | `(GC root)` |
+|      % |    Size | Instances | Path        |
+| -----: | ------: | --------: | ----------- |
+| 100.0% | 171 KiB |         1 | `(GC root)` |
 
 ##### `Object` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                      |
-| ----: | ------: | --------: | ----------------------------------------- |
-| 95.5% |  157 kB |        15 | `.__retained Window / ://`                |
-|  4.0% |  6.5 kB |         3 | `.prototype Date`                         |
-|  3.2% | 5.22 kB |         3 | `(GC root)`                               |
-|  0.7% | 1.18 kB |         1 | `.data Object ← .__retained Window / ://` |
-|  0.7% |  1.1 kB |         1 | `.prototype CallSite`                     |
+|     % |     Size | Instances | Path                                      |
+| ----: | -------: | --------: | ----------------------------------------- |
+| 95.5% |  153 KiB |        15 | `.__retained Window / ://`                |
+|  4.0% | 6.35 KiB |         3 | `.prototype Date`                         |
+|  3.2% |  5.1 KiB |         3 | `(GC root)`                               |
+|  0.7% | 1.15 KiB |         1 | `.data Object ← .__retained Window / ://` |
+|  0.7% | 1.07 KiB |         1 | `.prototype CallSite`                     |
 
 ##### `Window` (`<unknown>`)
 
-|     % |    Size | Instances | Path         |
-| ----: | ------: | --------: | ------------ |
-| 73.9% | 56.9 kB |         6 | `(GC root)`  |
-| 13.0% |   10 kB |         1 | `.77 array`  |
-| 13.0% |   10 kB |         1 | `.205 array` |
-|  0.1% |    56 B |         1 | `.76 array`  |
-|  0.1% |    56 B |         1 | `.204 array` |
+|     % |     Size | Instances | Path         |
+| ----: | -------: | --------: | ------------ |
+| 73.9% | 55.6 KiB |         6 | `(GC root)`  |
+| 13.0% | 9.78 KiB |         1 | `.77 array`  |
+| 13.0% | 9.78 KiB |         1 | `.205 array` |
+|  0.1% |     56 B |         1 | `.76 array`  |
+|  0.1% |     56 B |         1 | `.204 array` |
 
 ##### `Window / ` (`<unknown>`)
 
-|      % |    Size | Instances | Path        |
-| -----: | ------: | --------: | ----------- |
-| 100.0% | 38.7 kB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 37.8 KiB |         1 | `(GC root)` |
 
 ##### `Array` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                                                     |
-| ----: | ------: | --------: | ---------------------------------------------------------------------------------------- |
-| 15.5% | 5.46 kB |         3 | `(GC root)`                                                                              |
-|  4.4% | 1.55 kB |         5 | `.media Object ← .entities Object ← .__retained Window / ://`                            |
-|  1.2% |   424 B |         1 | `.statuses Object ← .data Object ← .__retained Window / ://`                             |
-|  0.8% |   268 B |         1 | `.media Object ← .entities Object ← .retweeted_status Object ← .__retained Window / ://` |
-|  0.8% |   264 B |         1 | `.user_mentions Object ← .entities Object ← .__retained Window / ://`                    |
+|     % |     Size | Instances | Path                                                                                     |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------- |
+| 15.5% | 5.33 KiB |         3 | `(GC root)`                                                                              |
+|  4.4% | 1.51 KiB |         5 | `.media Object ← .entities Object ← .__retained Window / ://`                            |
+|  1.2% |    424 B |         1 | `.statuses Object ← .data Object ← .__retained Window / ://`                             |
+|  0.8% |    268 B |         1 | `.media Object ← .entities Object ← .retweeted_status Object ← .__retained Window / ://` |
+|  0.8% |    264 B |         1 | `.user_mentions Object ← .entities Object ← .__retained Window / ://`                    |
 
 ##### `<article class="status">` (`<unknown>`)
 
-|     % |    Size | Instances | Path                       |
-| ----: | ------: | --------: | -------------------------- |
-| 70.2% | 18.7 kB |        34 | `.__retained Window / ://` |
-| 29.8% | 7.92 kB |        66 | `(GC root)`                |
+|     % |     Size | Instances | Path                       |
+| ----: | -------: | --------: | -------------------------- |
+| 70.2% | 18.2 KiB |        34 | `.__retained Window / ://` |
+| 29.8% | 7.73 KiB |        66 | `(GC root)`                |
 
 ##### `Text` (`<unknown>`)
 
@@ -297,18 +297,18 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `<h2>` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                      |
-| ----: | ------: | --------: | --------------------------------------------------------- |
-| 53.8% | 7.92 kB |        66 | `(GC root)`                                               |
-| 46.2% |  6.8 kB |        34 | `[3] <article class="status"> ← .__retained Window / ://` |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 53.8% | 7.73 KiB |        66 | `(GC root)`                                               |
+| 46.2% | 6.64 KiB |        34 | `[3] <article class="status"> ← .__retained Window / ://` |
 
 ##### `<p>` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                                      |
-| ----: | ------: | --------: | --------------------------------------------------------- |
-| 53.8% | 7.92 kB |        66 | `(GC root)`                                               |
-| 40.8% |    6 kB |        30 | `[4] <article class="status"> ← .__retained Window / ://` |
-|  5.4% |   800 B |         4 | `.__retained Window / ://`                                |
+|     % |     Size | Instances | Path                                                      |
+| ----: | -------: | --------: | --------------------------------------------------------- |
+| 53.8% | 7.73 KiB |        66 | `(GC root)`                                               |
+| 40.8% | 5.86 KiB |        30 | `[4] <article class="status"> ← .__retained Window / ://` |
+|  5.4% |    800 B |         4 | `.__retained Window / ://`                                |
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -322,37 +322,37 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Map` (`<unknown>`)
 
-|     % |    Size | Instances | Path                                      |
-| ----: | ------: | --------: | ----------------------------------------- |
-| 92.6% | 7.95 kB |         1 | `.byId Object ← .__retained Window / ://` |
-|  7.4% |   636 B |         3 | `(GC root)`                               |
+|     % |     Size | Instances | Path                                      |
+| ----: | -------: | --------: | ----------------------------------------- |
+| 92.6% | 7.77 KiB |         1 | `.byId Object ← .__retained Window / ://` |
+|  7.4% |    636 B |         3 | `(GC root)`                               |
 
 ##### `Object / ` (`<unknown>`)
 
-|      % |   Size | Instances | Path        |
-| -----: | -----: | --------: | ----------- |
-| 100.0% | 6.6 kB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 6.44 KiB |         1 | `(GC root)` |
 
 ##### `Document` (`<unknown>`)
 
-|      % |    Size | Instances | Path        |
-| -----: | ------: | --------: | ----------- |
-| 100.0% | 5.72 kB |         1 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 5.59 KiB |         1 | `(GC root)` |
 
 ##### `Math` (`<unknown>`)
 
-|     % |    Size | Instances | Path                 |
-| ----: | ------: | --------: | -------------------- |
-| 33.3% | 1.86 kB |         1 | `.Math Window / ://` |
-| 33.3% | 1.86 kB |         1 | `.Math Object / `    |
-| 33.3% | 1.86 kB |         1 | `.Math Window / `    |
+|     % |     Size | Instances | Path                 |
+| ----: | -------: | --------: | -------------------- |
+| 33.3% | 1.82 KiB |         1 | `.Math Window / ://` |
+| 33.3% | 1.82 KiB |         1 | `.Math Object / `    |
+| 33.3% | 1.82 KiB |         1 | `.Math Window / `    |
 
 ##### `HTMLDocument` (`<unknown>`)
 
-|     % |    Size | Instances | Path         |
-| ----: | ------: | --------: | ------------ |
-| 99.7% | 5.55 kB |         2 | `(GC root)`  |
-|  0.3% |    16 B |         1 | `.155 array` |
+|     % |     Size | Instances | Path         |
+| ----: | -------: | --------: | ------------ |
+| 99.7% | 5.42 KiB |         2 | `(GC root)`  |
+|  0.3% |     16 B |         1 | `.155 array` |
 
 ##### `Error` (`<unknown>`)
 
@@ -366,27 +366,27 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `TypedArray` (`<unknown>`)
 
-|      % |    Size | Instances | Path        |
-| -----: | ------: | --------: | ----------- |
-| 100.0% | 5.04 kB |        36 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 4.92 KiB |        36 | `(GC root)` |
 
 ##### `console` (`<unknown>`)
 
-|      % |   Size | Instances | Path        |
-| -----: | -----: | --------: | ----------- |
-| 100.0% | 4.9 kB |         3 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 4.79 KiB |         3 | `(GC root)` |
 
 ##### `Intl.Locale` (`<unknown>`)
 
-|      % |    Size | Instances | Path                |
-| -----: | ------: | --------: | ------------------- |
-| 100.0% | 4.56 kB |         3 | `.prototype Locale` |
+|      % |     Size | Instances | Path                |
+| -----: | -------: | --------: | ------------------- |
+| 100.0% | 4.45 KiB |         3 | `.prototype Locale` |
 
 ##### `String` (`<unknown>`)
 
-|      % |    Size | Instances | Path        |
-| -----: | ------: | --------: | ----------- |
-| 100.0% | 4.44 kB |         3 | `(GC root)` |
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 4.34 KiB |         3 | `(GC root)` |
 
 ## Largest closures
 
@@ -394,26 +394,26 @@ Closures ranked by bytes that would be freed if the closure were garbage collect
 
 |    % | Retained | Instances | Paths | Name                   | Location                         | Example path                                                                                                      |
 | ---: | -------: | --------: | ----: | ---------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 0.9% |  8.05 kB |        14 |    14 | `safe`                 | `extensions::SafeBuiltins:26:22` | `.<symbol extensions::SafeBuiltins::Array> Window / ://`                                                          |
-| 0.8% |   7.5 kB |         3 |     1 | `Date`                 | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.6% |  5.68 kB |         3 |     1 | `RegExp`               | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.5% |  5.16 kB |         3 |     1 | `Locale`               | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.4% |  4.12 kB |        76 |    76 | `(anonymous)`          | `extensions::SafeBuiltins:10:36` | `.hasOwnProperty safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::Object> Window / ://` |
-| 0.4% |  3.77 kB |        30 |     6 | `(anonymous)`          | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.4% |  3.52 kB |         3 |     1 | `CallSite`             | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.3% |  3.09 kB |         3 |     1 | `Object`               | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.3% |  2.99 kB |         3 |     1 | `DisposableStack`      | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.3% |  2.99 kB |         3 |     1 | `AsyncDisposableStack` | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.3% |   2.7 kB |         3 |     1 | `Number`               | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.3% |  2.52 kB |         3 |     1 | `Symbol`               | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |     2 kB |         3 |     3 | `v8BreakIterator`      | `<unknown>`                      | `.v8BreakIterator Intl ← .Intl Window / ://`                                                                      |
-| 0.2% |  1.88 kB |         3 |     1 | `SharedArrayBuffer`    | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |  1.85 kB |         3 |     1 | `SuppressedError`      | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |  1.85 kB |         3 |     1 | `SuspendError`         | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |  1.84 kB |         3 |     1 | `DateTimeFormat`       | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |  1.84 kB |         3 |     1 | `NumberFormat`         | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |   1.7 kB |         3 |     1 | `EvalError`            | `<unknown>`                      | `(GC root)`                                                                                                       |
-| 0.2% |   1.7 kB |         3 |     1 | `AggregateError`       | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.9% | 7.86 KiB |        14 |    14 | `safe`                 | `extensions::SafeBuiltins:26:22` | `.<symbol extensions::SafeBuiltins::Array> Window / ://`                                                          |
+| 0.8% | 7.32 KiB |         3 |     1 | `Date`                 | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.6% | 5.54 KiB |         3 |     1 | `RegExp`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.5% | 5.04 KiB |         3 |     1 | `Locale`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.4% | 4.02 KiB |        76 |    76 | `(anonymous)`          | `extensions::SafeBuiltins:10:36` | `.hasOwnProperty safe (extensions::SafeBuiltins:26:22) ← .<symbol extensions::SafeBuiltins::Object> Window / ://` |
+| 0.4% | 3.68 KiB |        30 |     6 | `(anonymous)`          | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.4% | 3.43 KiB |         3 |     1 | `CallSite`             | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% | 3.02 KiB |         3 |     1 | `Object`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% | 2.92 KiB |         3 |     1 | `DisposableStack`      | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% | 2.92 KiB |         3 |     1 | `AsyncDisposableStack` | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% | 2.64 KiB |         3 |     1 | `Number`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.3% | 2.46 KiB |         3 |     1 | `Symbol`               | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% | 1.96 KiB |         3 |     3 | `v8BreakIterator`      | `<unknown>`                      | `.v8BreakIterator Intl ← .Intl Window / ://`                                                                      |
+| 0.2% | 1.84 KiB |         3 |     1 | `SharedArrayBuffer`    | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.8 KiB |         3 |     1 | `SuppressedError`      | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% |  1.8 KiB |         3 |     1 | `SuspendError`         | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% | 1.79 KiB |         3 |     1 | `DateTimeFormat`       | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% | 1.79 KiB |         3 |     1 | `NumberFormat`         | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% | 1.66 KiB |         3 |     1 | `EvalError`            | `<unknown>`                      | `(GC root)`                                                                                                       |
+| 0.2% | 1.66 KiB |         3 |     1 | `AggregateError`       | `<unknown>`                      | `(GC root)`                                                                                                       |
 
 ### Retained
 
@@ -623,25 +623,25 @@ Nodes ranked by contribution to each closure's retained size.
 
 Strings ranked by bytes allocated for them.
 
-|     % |    Size | Value                                                    | Path        |
-| ----: | ------: | -------------------------------------------------------- | ----------- |
-|  0.3% | 3.22 kB | `(function() {\n'use strict';\nnative function Apply…`   | `(GC root)` |
-| <0.1% |   332 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `(GC root)` |
-| <0.1% |   332 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `(GC root)` |
-| <0.1% |   332 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `(GC root)` |
-| <0.1% |   328 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `(GC root)` |
-| <0.1% |   324 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `(GC root)` |
-| <0.1% |   312 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `(GC root)` |
-| <0.1% |   304 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `(GC root)` |
-| <0.1% |   300 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `(GC root)` |
-| <0.1% |   296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `(GC root)` |
-| <0.1% |   292 B | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印…` | `(GC root)` |
-| <0.1% |   292 B | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか…`    | `(GC root)` |
-| <0.1% |   292 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `(GC root)` |
-| <0.1% |   288 B | `家具（かぐ、Furniture）は、家財道具のうち家の中に据え置いて利用する比較的大型の道具類、ま…`     | `(GC root)` |
-| <0.1% |   284 B | `●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる★らじる→大阪放送局を選択→N…`   | `(GC root)` |
-| <0.1% |   280 B | `泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働に必要な「同意」はまだ与えていませ…`     | `(GC root)` |
-| <0.1% |   264 B | `ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1度も行ったことない田舎道)…`     | `(GC root)` |
-| <0.1% |   260 B | `自分なりに生きる人、最後まであきらめないの。でも、フォローありがとう…。@ringo_BDFFLO…`     | `(GC root)` |
-| <0.1% |   260 B | `GパングのA型K月克己中尉の非公式botです。 主に七巻と八巻が中心の台詞をつぶやきます。 4/1…`     | `(GC root)` |
-| <0.1% |   256 B | `福島第一原発の構内地図がこちら。\nhttp://t.co/ZkU4TZCGPG\nどう見ても、１号機…`   | `(GC root)` |
+|     % |     Size | Value                                                    | Path        |
+| ----: | -------: | -------------------------------------------------------- | ----------- |
+|  0.3% | 3.15 KiB | `(function() {\n'use strict';\nnative function Apply…`   | `(GC root)` |
+| <0.1% |    332 B | `ROMって楽しんでいる部分もあり無言フォロー多めですすみません…。ツイート数多め・あらぶり多めなの…`     | `(GC root)` |
+| <0.1% |    332 B | `アッサム山中の趣味用アカ。当分の間、選挙啓発用としても使っていきます。このアカウントがアッサム山中…`     | `(GC root)` |
+| <0.1% |    332 B | `ブリヂストンのスポーツタイヤ「POTENZA」のアカウントです。レースやタイヤの事などをつぶやきま…`     | `(GC root)` |
+| <0.1% |    328 B | `THE SECOND/劇団EXILE/EXILE/二代目JSB ☞KENCHI.AKIRA.青柳翔…`     | `(GC root)` |
+| <0.1% |    324 B | `ﾟ.＊97line おさらに貢いでる系女子＊.゜                         …`     | `(GC root)` |
+| <0.1% |    312 B | `ニコ動で踊り手やってます!!応援本当に嬉しいですありがとうございます!!　ぽっちゃりだけど前向きに…`     | `(GC root)` |
+| <0.1% |    304 B | `【無断転載禁止･コピペ禁止・非公式RT禁止】【必読！】⇒ http://t.co/nuUvfUVD…`     | `(GC root)` |
+| <0.1% |    300 B | `bot遊びと実況が主目的の趣味アカウント。成人済♀。時々TLお騒がせします。リフォ率低いですがＦ／…`     | `(GC root)` |
+| <0.1% |    296 B | `ヤー・チャイカ。紫宝勢の末席くらいでQMAやってます。 \n9/13（土）「九州杯」今年も宜しくお願…`    | `(GC root)` |
+| <0.1% |    292 B | `@samao21718 \n呼び方☞まおちゃん\n呼ばれ方☞あーちゃん\n第一印象☞平野から？！\n今の印…` | `(GC root)` |
+| <0.1% |    292 B | `湯の街の元勃酩姦なんちゃら大　赤い犬の犬（外資系）　肥後で緑ナンバー屋さん勤め\nくだらないことしか…`    | `(GC root)` |
+| <0.1% |    292 B | `一に止まると書いて、正しいという意味だなんて、この年になるまで知りませんでした。 人は生きていると…`     | `(GC root)` |
+| <0.1% |    288 B | `家具（かぐ、Furniture）は、家財道具のうち家の中に据え置いて利用する比較的大型の道具類、ま…`     | `(GC root)` |
+| <0.1% |    284 B | `●継続試合（中京対崇徳）46回～　9時～\n　〈ラジオ中継〉\n　らじる★らじる→大阪放送局を選択→N…`   | `(GC root)` |
+| <0.1% |    280 B | `泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働に必要な「同意」はまだ与えていませ…`     | `(GC root)` |
+| <0.1% |    264 B | `ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1度も行ったことない田舎道)…`     | `(GC root)` |
+| <0.1% |    260 B | `自分なりに生きる人、最後まであきらめないの。でも、フォローありがとう…。@ringo_BDFFLO…`     | `(GC root)` |
+| <0.1% |    260 B | `GパングのA型K月克己中尉の非公式botです。 主に七巻と八巻が中心の台詞をつぶやきます。 4/1…`     | `(GC root)` |
+| <0.1% |    256 B | `福島第一原発の構内地図がこちら。\nhttp://t.co/ZkU4TZCGPG\nどう見ても、１号機…`   | `(GC root)` |

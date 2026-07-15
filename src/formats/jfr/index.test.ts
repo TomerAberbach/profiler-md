@@ -123,7 +123,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `3.07 kB`,
+          Size: `3 KiB`,
           Samples: `2`,
           Function: `allocate`,
           Location: `com.example.A`,
@@ -134,14 +134,14 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `3.07 kB`,
+          Size: `3 KiB`,
           Samples: `2`,
           Function: `allocate`,
           Location: `com.example.A`,
         },
         {
           '%': `100.0%`,
-          Size: `3.07 kB`,
+          Size: `3 KiB`,
           Samples: `2`,
           Function: `run`,
           Location: `com.example.A`,
@@ -176,7 +176,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `6.14 kB`,
+          Size: `6 KiB`,
           Samples: `2`,
           Function: `malloc`,
           Location: `libc.so`,
@@ -187,14 +187,14 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `6.14 kB`,
+          Size: `6 KiB`,
           Samples: `2`,
           Function: `malloc`,
           Location: `libc.so`,
         },
         {
           '%': `100.0%`,
-          Size: `6.14 kB`,
+          Size: `6 KiB`,
           Samples: `2`,
           Function: `run`,
           Location: `com.example.N`,
@@ -260,7 +260,7 @@ describe(`convert`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `3.07 kB`,
+          Size: `3 KiB`,
           Samples: `2`,
           Function: `allocate`,
           Location: `com.example.A`,
@@ -355,14 +355,14 @@ describe(`convert`, () => {
       [
         {
           '%': `66.7%`,
-          Size: `2.05 kB`,
+          Size: `2 KiB`,
           Samples: `1`,
           Function: `(anonymous)`,
           Location: `<unknown>`,
         },
         {
           '%': `33.3%`,
-          Size: `1.02 kB`,
+          Size: `1 KiB`,
           Samples: `1`,
           Function: `allocate`,
           Location: `com.example.A`,
@@ -548,7 +548,7 @@ describe(`allocation event families`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `1.02 kB`,
+          Size: `1 KiB`,
           Samples: `1`,
           Function: `allocate`,
           Location: `com.example.A`,
@@ -570,7 +570,7 @@ describe(`allocation event families`, () => {
       [
         {
           '%': `100.0%`,
-          Size: `2.05 kB`,
+          Size: `2 KiB`,
           Samples: `1`,
           Function: `allocate`,
           Location: `com.example.A`,
