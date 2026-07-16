@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ProfileEntry } from '../options.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
-
-const { normalizeFrame } = dotnetTraceOriginSpec
+import { determineOrigin, relativeEntry } from './testing.ts'
 
 /** A frame as it looks after normalization: a relative declaring-type location. */
 const typeEntry = (name: string, type: string): ProfileEntry => ({
@@ -13,7 +12,33 @@ const typeEntry = (name: string, type: string): ProfileEntry => ({
 
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
+describe(`detection`, () => {
+  // An assembly-bang managed frame and a time-bucket marker.
+  test.each([
+    `System.Private.CoreLib!System.AppContext.Setup(wchar**,wchar**,int32)`,
+    `UNMANAGED_CODE_TIME`,
+  ])(`detects dotnet-trace by its %s frame`, name => {
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(name)],
+      }),
+    ).toBe(`dotnet-trace`)
+  })
+
+  test(`a bang-less speedscope frame doesn't trigger dotnet-trace`, () => {
+    expect(
+      determineOrigin({
+        format: `speedscope`,
+        entries: [relativeEntry(`main()`)],
+      }),
+    ).toBe(`unknown`)
+  })
+})
+
 describe(`normalizeFrame`, () => {
+  const { normalizeFrame } = dotnetTraceOriginSpec
+
   test(`splits a managed frame into method name and declaring-type location`, () => {
     expect(
       normalizeFrame({
@@ -137,23 +162,12 @@ describe(`normalizeFrame`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = dotnetTraceOriginSpec
 
-  test(`runtime and framework namespaces are stdlib`, () => {
-    expect(categorizeEntry(typeEntry(`Setup`, `System.AppContext`))).toBe(
-      `stdlib`,
-    )
-    expect(
-      categorizeEntry(
-        typeEntry(
-          `FindValue`,
-          `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
-        ),
-      ),
-    ).toBe(`stdlib`)
-    expect(
-      categorizeEntry(
-        typeEntry(`ToArray`, `Microsoft.FSharp.Collections.SeqModule`),
-      ),
-    ).toBe(`stdlib`)
+  test.each([
+    `System.AppContext`,
+    `System.Collections.Generic.Dictionary\`2[System.__Canon,System.__Canon]`,
+    `Microsoft.FSharp.Collections.SeqModule`,
+  ])(`the runtime/framework %s type is stdlib`, type => {
+    expect(categorizeEntry(typeEntry(`f`, type))).toBe(`stdlib`)
   })
 
   test(`application namespaces are ours`, () => {
@@ -172,8 +186,10 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(typeEntry(`Run`, `SystemUtils`))).toBe(`ours`)
   })
 
-  test(`a location-less frame is stdlib`, () => {
-    expect(categorizeEntry(named(`UNMANAGED_CODE_TIME`))).toBe(`stdlib`)
-    expect(categorizeEntry(named(`?!?`))).toBe(`stdlib`)
-  })
+  test.each([`UNMANAGED_CODE_TIME`, `?!?`])(
+    `the location-less %s frame is stdlib`,
+    name => {
+      expect(categorizeEntry(named(name))).toBe(`stdlib`)
+    },
+  )
 })

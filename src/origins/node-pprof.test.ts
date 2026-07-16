@@ -1,0 +1,70 @@
+import { describe, expect, test } from 'vitest'
+import type { ProfileEntry } from '../options.ts'
+import { nodePprofOriginSpec } from './node-pprof.ts'
+import { absoluteEntry, determineOrigin, relativeEntry } from './testing.ts'
+
+describe(`detection`, () => {
+  test.each<[string, ProfileEntry]>([
+    [`its Node.js label`, relativeEntry(`Node.js`)],
+    [`its Garbage Collection label`, relativeEntry(`Garbage Collection`)],
+    [
+      `a node_modules/ path`,
+      absoluteEntry(`f`, `file:///app/node_modules/x.js`),
+    ],
+  ])(`detects node-pprof by %s`, (_description, entry) => {
+    expect(determineOrigin({ format: `pprof`, entries: [entry] })).toBe(
+      `node-pprof`,
+    )
+  })
+})
+
+describe(`normalizeFrame`, () => {
+  const { normalizeFrame } = nodePprofOriginSpec
+
+  test(`moves a dd-trace packed anonymous frame's position into the location`, () => {
+    expect(
+      normalizeFrame({
+        name: `(anonymous:L#122135:C#9)`,
+        location: { urlOrPath: `file:///app/src/index.js` },
+      }),
+    ).toEqual({
+      name: `(anonymous)`,
+      location: {
+        urlOrPath: `file:///app/src/index.js`,
+        line: 122_135,
+        column: 9,
+      },
+    })
+  })
+
+  test(`leaves an unpacked frame unchanged`, () => {
+    const input = {
+      name: `parse`,
+      location: { urlOrPath: `file:///app/src/index.js` },
+    }
+
+    expect(normalizeFrame(input)).toBe(input)
+  })
+})
+
+describe(`categorizeEntry`, () => {
+  const { categorizeEntry } = nodePprofOriginSpec
+
+  test(`the package's Garbage Collection frame is the garbage collector`, () => {
+    expect(categorizeEntry(relativeEntry(`Garbage Collection`))).toBe(
+      `garbage collector`,
+    )
+  })
+
+  test(`node: builtins are stdlib`, () => {
+    expect(categorizeEntry(absoluteEntry(`f`, `node:fs`))).toBe(`stdlib`)
+  })
+
+  test(`node_modules/ is third-party`, () => {
+    expect(
+      categorizeEntry(
+        absoluteEntry(`f`, `file:///app/node_modules/x/index.js`),
+      ),
+    ).toBe(`third-party`)
+  })
+})

@@ -1,8 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ProfileEntry } from '../options.ts'
 import { beamOriginSpec } from './beam.ts'
-
-const { normalizeFrame } = beamOriginSpec
+import { determineOrigin, relativeEntry } from './testing.ts'
 
 /** A frame as it looks after normalization: a relative module location. */
 const moduleEntry = (name: string, module: string): ProfileEntry => ({
@@ -13,7 +12,25 @@ const moduleEntry = (name: string, module: string): ProfileEntry => ({
 
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
+describe(`detection`, () => {
+  // An Elixir module frame, an Erlang `module:function/arity` frame, and a
+  // process-id frame.
+  test.each([`Elixir.Enum:reduce/3`, `lists:reverse/1`, `<0.94.0>`])(
+    `detects BEAM by its %s frame`,
+    name => {
+      expect(
+        determineOrigin({
+          format: `collapsed`,
+          entries: [relativeEntry(name)],
+        }),
+      ).toBe(`beam`)
+    },
+  )
+})
+
 describe(`normalizeFrame`, () => {
+  const { normalizeFrame } = beamOriginSpec
+
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
     expect(normalizeFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
       name: `encode!/1`,
@@ -53,39 +70,29 @@ describe(`normalizeFrame`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = beamOriginSpec
 
-  test(`OTP modules are stdlib`, () => {
-    expect(categorizeEntry(moduleEntry(`erlang:apply/2`, `erlang`))).toBe(
-      `stdlib`,
-    )
-    expect(categorizeEntry(moduleEntry(`lists:reverse/1`, `lists`))).toBe(
-      `stdlib`,
-    )
-    expect(
-      categorizeEntry(moduleEntry(`erts_internal:trace/3`, `erts_internal`)),
-    ).toBe(`stdlib`)
-    expect(categorizeEntry(moduleEntry(`json:encode/1`, `json`))).toBe(`stdlib`)
+  test.each([
+    [`erlang`, `erlang:apply/2`],
+    [`lists`, `lists:reverse/1`],
+    [`erts_internal`, `erts_internal:trace/3`],
+    [`json`, `json:encode/1`],
+  ])(`the OTP %s module is stdlib`, (module, name) => {
+    expect(categorizeEntry(moduleEntry(name, module))).toBe(`stdlib`)
   })
 
-  test(`Elixir-core modules are stdlib`, () => {
-    // The module location arrives with the `Elixir.` prefix already stripped
-    // by `normalizeFrame`.
-    expect(categorizeEntry(moduleEntry(`Elixir.Enum:reduce/3`, `Enum`))).toBe(
-      `stdlib`,
-    )
-    expect(
-      categorizeEntry(moduleEntry(`Elixir.String:split/2`, `String`)),
-    ).toBe(`stdlib`)
+  // The module location arrives with the `Elixir.` prefix already stripped
+  // by `normalizeFrame`.
+  test.each([
+    [`Enum`, `Elixir.Enum:reduce/3`],
+    [`String`, `Elixir.String:split/2`],
+  ])(`the Elixir-core %s module is stdlib`, (module, name) => {
+    expect(categorizeEntry(moduleEntry(name, module))).toBe(`stdlib`)
   })
 
-  test(`the eflambe profiler's own frames are stdlib`, () => {
-    expect(categorizeEntry(moduleEntry(`eflambe:apply/2`, `eflambe`))).toBe(
-      `stdlib`,
-    )
-    expect(
-      categorizeEntry(
-        moduleEntry(`eflambe_server:stop_trace/1`, `eflambe_server`),
-      ),
-    ).toBe(`stdlib`)
+  test.each([
+    [`eflambe`, `eflambe:apply/2`],
+    [`eflambe_server`, `eflambe_server:stop_trace/1`],
+  ])(`the eflambe profiler's own %s module is stdlib`, (module, name) => {
+    expect(categorizeEntry(moduleEntry(name, module))).toBe(`stdlib`)
   })
 
   test(`application modules are ours`, () => {
@@ -100,8 +107,11 @@ describe(`categorizeEntry`, () => {
     ).toBe(`ours`)
   })
 
-  test(`a process id or other location-less frame is stdlib`, () => {
-    expect(categorizeEntry(named(`<0.94.0>`))).toBe(`stdlib`)
-    expect(categorizeEntry(named(`sleep`))).toBe(`stdlib`)
-  })
+  // A process id or other location-less frame.
+  test.each([`<0.94.0>`, `sleep`])(
+    `the location-less %s frame is stdlib`,
+    name => {
+      expect(categorizeEntry(named(name))).toBe(`stdlib`)
+    },
+  )
 })
