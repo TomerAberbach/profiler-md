@@ -33,12 +33,19 @@ $ARGUMENTS
    any origin whose signals its own could satisfy (e.g. Deno before Node, since
    Deno supports `node:` specifiers)
 
-   Add detection tests to `src/origins/index.test.ts` and categorization tests
-   to `src/origins/categorize.test.ts`. Test a `normalizeFrame` or other
-   origin-specific logic in a colocated `src/origins/<origin>.test.ts`
+   Add a colocated `src/origins/<origin>.test.ts` for the origin's own logic:
+   detection, `categorizeEntry`, and any `normalizeFrame` or `matchEntry` rules.
+   Build entries with the `absoluteEntry`/`relativeEntry` helpers from
+   `src/origins/testing.ts`, drive detection through its `determineOrigin`, and
+   test categorization against its exported `OriginSpec` (e.g.
+   `nodeOriginSpec.categorizeEntry`).
+
+   `src/origins/categorize.test.ts` holds only cross-origin invariants every
+   origin must satisfy (looping over `origins`); touch it only if the new origin
+   changes a shared rule
 
 3. Enable detection: list every format the origin emits in its `formats`. A
-   missing entry fails silently (detection falls back), but the
+   missing entry fails silently (detection falls back), but the parameterized
    detected-input-origins test in `src/origins/index.test.ts` checks every
    committed input against `EMITTER_ORIGINS`: add the new profiler's
    `<lang>.<emitter>` entries with the origin you expect, using a
@@ -46,5 +53,6 @@ $ARGUMENTS
    inputs resolve to a different origin (e.g. a markerless modality falling
    back)
 
-4. Run the origin tests (`pnpm test src/origins/index.test.ts` and
-   `pnpm test src/origins/categorize.test.ts`, one at a time) and fix failures
+4. Run the origin tests (`pnpm test src/origins/<origin>.test.ts`,
+   `pnpm test src/origins/categorize.test.ts`, and
+   `pnpm test src/origins/index.test.ts`, one at a time) and fix failures
