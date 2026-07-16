@@ -180,7 +180,7 @@ function* v8SnapshotNodes(
         )
         yield {
           category,
-          kind: `constructor`,
+          type: `constructor`,
           name,
           location: nodeOrdinalToLocation[nodeOrdinal],
           nameLocation,
@@ -190,7 +190,7 @@ function* v8SnapshotNodes(
       case fieldLayout.nodeTypeClosure:
         yield {
           category,
-          kind: `closure`,
+          type: `closure`,
           name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
           location: nodeOrdinalToLocation[nodeOrdinal],
         }
@@ -200,7 +200,7 @@ function* v8SnapshotNodes(
       case fieldLayout.nodeTypeConcatenatedString:
         yield {
           category,
-          kind: `string`,
+          type: `string`,
           name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
         }
         break

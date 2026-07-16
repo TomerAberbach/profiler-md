@@ -123,10 +123,10 @@ function* jscSnapshotNodes({
     )
 
     yield classNameIndex === stringClassNameIndex
-      ? { category, kind: `string` }
+      ? { category, type: `string` }
       : {
           category,
-          kind: `constructor`,
+          type: `constructor`,
           name: nodeClassNames[classNameIndex]!,
         }
   }

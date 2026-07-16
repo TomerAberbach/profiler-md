@@ -15,13 +15,13 @@ import type { Header } from './helpers/markdown.ts'
 /** A single table cell, already resolved to a value and a formatter. */
 export type Cell =
   | {
-      kind: `number`
+      type: `number`
       value: number
       format: (value: number) => string
       /** Formats a delta magnitude of this value, at delta precision. */
       formatDelta: (value: number) => string
     }
-  | { kind: `text`; children: PhrasingContent[] }
+  | { type: `text`; children: PhrasingContent[] }
 
 /**
  * A right-aligned numeric cell formatted via {@link format}, with deltas
@@ -31,7 +31,7 @@ export const numberCell = (
   value: number,
   format: (value: number) => string,
   formatDelta: (value: number) => string = format,
-): Cell => ({ kind: `number`, value, format, formatDelta })
+): Cell => ({ type: `number`, value, format, formatDelta })
 
 /** A right-aligned numeric cell formatted as a percent. */
 export const percentCell = (fraction: number): Cell =>
@@ -46,7 +46,7 @@ export const bytesCell = (bytes: number): Cell =>
 
 /** A left-aligned text cell. */
 export const textCell = (children: PhrasingContent[] | string): Cell => ({
-  kind: `text`,
+  type: `text`,
   children: typeof children === `string` ? [text(children)] : children,
 })
 
@@ -60,7 +60,7 @@ export const formatTable = (headers: Header[], rows: Cell[][]): Table =>
   )
 
 const formatCell = (cell: Cell): PhrasingContent[] => {
-  switch (cell.kind) {
+  switch (cell.type) {
     case `number`:
       return [text(cell.format(cell.value))]
     case `text`:
@@ -112,7 +112,7 @@ export const formatDiffTable = (
       const delta = currentValue - baseValue
       const primary = present[primaryIndex]!
       const formatPrimaryDelta =
-        primary.kind === `number` ? primary.formatDelta : String
+        primary.type === `number` ? primary.formatDelta : String
 
       return [
         ...cells.slice(0, changeDeltaIndex),
@@ -128,7 +128,7 @@ const formatDiffCell = (
   base: Cell | undefined,
   current: Cell | undefined,
 ): PhrasingContent[] => {
-  switch (present.kind) {
+  switch (present.type) {
     case `number`:
       return [
         text(
@@ -144,4 +144,4 @@ const formatDiffCell = (
 }
 
 const numericValue = (cell: Cell | undefined): number =>
-  cell?.kind === `number` ? cell.value : 0
+  cell?.type === `number` ? cell.value : 0
