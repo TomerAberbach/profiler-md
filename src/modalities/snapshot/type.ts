@@ -3,15 +3,12 @@ import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { NodeAdjacencyGraph } from './graph.ts'
 
 /**
- * A heap snapshot parsed into the uniform structure the framework aggregates:
- * the node adjacency graph plus each node's classification. From here,
- * aggregation (dominators, retained sizes) and categorization run uniformly,
- * so a format's only custom logic is parsing into this.
+ * A heap snapshot parsed into the uniform structure containing the node
+ * adjacency graph and each node's classification.
  *
  * A format that yields several snapshots returns one of these per snapshot.
  */
 export type HeapSnapshot = {
-  /** Discriminates the modality within `ParsedInput`. */
   type: `snapshot`
 
   /** Number of nodes in the snapshot. */
@@ -27,15 +24,14 @@ export type HeapSnapshot = {
   selfSizeOf: (nodeOrdinal: number) => number
 
   /**
-   * One entry per node ordinal, in ordinal order, as a lazily-consumed sequence
-   * so large snapshots do not materialize every classification at once (the
-   * snapshot analogue of {@link Profile.samples}).
+   * One entry per node ordinal, in ordinal order, as a lazily-consumed
+   * iterable.
    */
   nodes: Iterable<SnapshotNode>
 
   /**
-   * Formats an edge label for retainer paths, which are computed lazily at
-   * formatting time, so it receives the resolved formatting options.
+   * Formats an edge label, which is computed lazily at formatting time, so it
+   * receives the resolved formatting options.
    */
   formatEdgeLabel: (
     retainerOrdinal: number,
@@ -44,30 +40,28 @@ export type HeapSnapshot = {
   ) => string
 
   /**
-   * Formats a node label for retained-node lists, which are computed lazily
-   * at formatting time, so it receives the resolved formatting options.
-   * Eagerly aggregated entities ({@link SnapshotNode}) take a raw,
-   * options-independent name instead.
+   * Formats a node label, which is computed lazily at formatting time, so it
+   * receives the resolved formatting options.
    */
   formatNodeLabel: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
   ) => string
 
-  /** Whether the node is a VM bookkeeping node that never points to user code. */
+  /** Whether the node is a bookkeeping node that never points to user code. */
   isInternalNode: (nodeOrdinal: number) => boolean
 }
 
 /**
- * A node's classification, the snapshot analogue of a profile {@link Sample}.
+ * A heap snapshot node's classification.
  *
  * Every node contributes to its {@link SnapshotNode.category}'s stats; a node
- * with a `kind` additionally aggregates into that kind's entities.
+ * with a `type` additionally aggregates into that type's entities.
  */
 export type SnapshotNode = { category: string } & (
-  | { kind?: undefined }
+  | { type?: undefined }
   | {
-      kind: `constructor`
+      type: `constructor`
 
       /** A human readable label for this constructor. */
       name: string
@@ -76,13 +70,12 @@ export type SnapshotNode = { category: string } & (
       location?: SourceLocation
 
       /**
-       * The file reference the {@link name} parses as, when it is URL-shaped
-       * (e.g. a V8 module namespace object named by its file URL).
+       * The file reference the {@link name} parses as, when it is URL-shaped.
        */
       nameLocation?: FileReference
     }
   | {
-      kind: `closure`
+      type: `closure`
 
       /** A human readable label for this closure. */
       name: string
@@ -91,7 +84,7 @@ export type SnapshotNode = { category: string } & (
       location?: SourceLocation
     }
   | {
-      kind: `string`
+      type: `string`
 
       /** The (truncated) string value, if known. */
       name?: string

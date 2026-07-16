@@ -93,7 +93,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     let nodeOrdinal = 0
     for (const node of nodes) {
       this.#addCategoryNode(nodeOrdinal, node.category)
-      switch (node.kind) {
+      switch (node.type) {
         case `constructor`:
           this.#addConstructorNode(
             nodeOrdinal,

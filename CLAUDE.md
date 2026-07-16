@@ -164,6 +164,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - When a derivation can't be type-enforced, guard it with a test that loops over
   the registry or the committed inputs so an omission fails the test
 
+### Types
+
+- Name a discriminated union's discriminant `type`, never `kind`. This does not
+  apply to a categorical field that merely names a variant on a non-union type
+
 ### Performance
 
 - Prioritize runtime performance so large profiles process quickly
