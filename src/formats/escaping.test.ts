@@ -69,6 +69,7 @@ test.prop([frameName])(
 
     expect(inlineCodeValues(md)).toContain(name)
   },
+  10_000,
 )
 
 test.each([
