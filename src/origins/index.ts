@@ -1,10 +1,12 @@
 import { formatConverters } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
+import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type {
   EntryCategory,
   EntryMatch,
   ProfileEntry,
+  ProfileToMdContext,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
 import { beamOriginSpec } from './beam.ts'
@@ -48,11 +50,28 @@ export const matchEntryForOrigin = (
   return spec.matchEntry?.(entry)
 }
 
-export const normalizeFrameForOrigin = (
-  origin: Origin,
-): OriginSpec[`normalizeFrame`] => {
+export const normalizeFrameForContext = (
+  frame: ProfileStackFrame,
+  { format, origin }: ProfileToMdContext,
+): ProfileStackFrame | null => {
   const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.normalizeFrame
+  const normalizedFrame = spec.normalizeFrame
+    ? spec.normalizeFrame(frame, format)
+    : frame
+  if (!normalizedFrame) {
+    return null
+  }
+
+  const nameIsLocation =
+    frame.name !== undefined && frame.name === frame.location?.urlOrPath
+  if (nameIsLocation) {
+    // A frame named with its own location carries no function name. Unrelated
+    // profilers independently converged on this idiom (e.g. Excimer, rbspy), so
+    // we drop the name for every origin and format.
+    return { ...normalizedFrame, name: undefined }
+  }
+
+  return normalizedFrame
 }
 
 /**

@@ -51,7 +51,6 @@ import type {
   AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
-import { findCommonCallStack } from './aggregate.ts'
 import type {
   AggregatedProfileDiff,
   AggregatedProfileFunctionDiff,
@@ -547,6 +546,41 @@ const formatHottestCallStacks = (
       ),
     ),
   ]
+}
+
+/**
+ * Returns the list of callers of {@link callStacks} that is the longest common
+ * suffix of their frames, except it never returns a call stack as long as one
+ * of the input call stacks.
+ *
+ * That cap makes it safe to remove the suffix from any call stack and still
+ * have a non-empty call stack to format.
+ */
+const findCommonCallStack = (
+  callStacks: { frames: AggregatedProfileFunction[] }[],
+): AggregatedProfileFunction[] => {
+  if (callStacks.length <= 1) {
+    return []
+  }
+
+  const minLength = Math.min(...callStacks.map(cs => cs.frames.length))
+  const firstFrames = callStacks[0]!.frames
+  let suffixLength = 0
+
+  for (let i = 1; i < minLength; i++) {
+    const suffix = firstFrames.slice(-i).map(frame => frame.id)
+    if (
+      callStacks.every(callStack =>
+        callStack.frames.slice(-i).every((frame, j) => frame.id === suffix[j]),
+      )
+    ) {
+      suffixLength = i
+    } else {
+      break
+    }
+  }
+
+  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
 }
 
 /**

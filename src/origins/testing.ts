@@ -3,7 +3,6 @@ import type { ProfileEntry } from '../options.ts'
 import type { Origin } from './index.ts'
 import { OriginDetector } from './index.ts'
 
-/** Detects the origin of the given entries through an {@link OriginDetector}. */
 export const determineOrigin = ({
   format,
   entries,

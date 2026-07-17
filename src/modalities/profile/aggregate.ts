@@ -6,7 +6,7 @@ import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
-import { normalizeFrameForOrigin } from '../../origins/index.ts'
+import { normalizeFrameForContext } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type {
@@ -16,11 +16,6 @@ import type {
   SampleLineMetrics,
 } from './type.ts'
 
-/**
- * Aggregates one {@link Profile} through the uniform pipeline: origin
- * detection over the raw frames, then sample aggregation over the
- * origin-normalized frames.
- */
 export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   readonly #profile: Profile
 
@@ -28,34 +23,9 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
     this.#profile = profile
   }
 
-  /**
-   * Adds the profile's distinct frames to {@link detector} until decided,
-   * filling the frames' shared parse cache as it parses, for aggregation to
-   * reuse when the frames turn out to need no normalization. A frames array
-   * already detected over is skipped, so a multi-profile file's sub-profiles
-   * sharing one array add it once.
-   *
-   * Adds the **raw**, pre-normalization frames so the detector can recognize
-   * a variant by its frame names (e.g. a collapsed `Elixir.Enum:reduce/3`),
-   * which normalization would rewrite.
-   */
+  /** Adds the profile's distinct frames to {@link detector} until decided. */
   public detectOrigin(detector: OriginDetector): void {
-    const { frames } = this.#profile
-    const resolution = frameResolutionOf(frames)
-    if (resolution.detected) {
-      return
-    }
-    resolution.detected = true
-
-    const { frameFunctions } = resolution
-    for (let index = 0; !detector.decided && index < frames.length; index++) {
-      let frameFunction = frameFunctions[index]
-      if (!frameFunction) {
-        frameFunction = parseFrameFunction(frames[index]!)
-        frameFunctions[index] = frameFunction
-      }
-      detector.add({ id: index, ...frameFunction })
-    }
+    ProfileStackFrameTable.for(this.#profile.frames).addToDetector(detector)
   }
 
   public aggregate(
@@ -64,20 +34,12 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   ): AggregatedProfile {
     const { metrics, frames, samples, lineMetrics } = this.#profile
 
-    const resolution = frameResolutionOf(frames)
-    resolution.normalized ??= normalizeFrames(
-      frames,
-      resolution.frameFunctions,
-      context,
-    )
-    const { normalized } = resolution
-
+    const functions = ProfileStackFrameTable.for(frames).resolve(context)
     const aggregator = new SamplesAggregator(
       metrics,
-      normalized.frames,
+      functions,
       options,
       context,
-      normalized.frameFunctions,
     )
     for (const sample of samples) {
       aggregator.addSample(sample)
@@ -90,162 +52,155 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
 }
 
 /**
- * Per frames-array state shared by the profiles referencing that array:
- * multi-profile formats typically share one frames array reference (see
- * {@link Profile.frames}), so its frames are parsed and normalized once, not
- * once per profile.
- */
-type FrameResolution = {
-  /**
-   * The parse cache origin detection seeds (see
-   * {@link ProfileAggregator.detectOrigin}).
-   */
-  frameFunctions: (FrameFunction | undefined)[]
-
-  /** Whether these frames were already added to the conversion's detector. */
-  detected?: boolean
-
-  /**
-   * The frames normalized under the file's one resolved context. A frames
-   * array belongs to one file and is parsed fresh each conversion, so it never
-   * sees another context.
-   */
-  normalized?: NormalizedFrames
-}
-
-/**
- * A `WeakMap` rather than per-file state so sharing needs no plumbing through
- * the pipeline: each entry is reclaimed with its frames array.
- */
-const frameResolutions = new WeakMap<ProfileStackFrame[], FrameResolution>()
-
-const frameResolutionOf = (frames: ProfileStackFrame[]): FrameResolution => {
-  let resolution = frameResolutions.get(frames)
-  if (!resolution) {
-    resolution = { frameFunctions: [] }
-    frameResolutions.set(frames, resolution)
-  }
-  return resolution
-}
-
-/**
- * A frame's parsed display name and source location, the expensive part
- * (location parsing) of building an entry from it.
+ * A profile's distinct {@link ProfileStackFrame}s, owning everything derived
+ * from them: origin detection over the raw frames and, once the context is
+ * resolved, the {@link ProfileFunctionTable} the frames resolve to.
  *
- * The single mapping used by both origin detection (over the raw frames) and
- * function registration (over the normalized frames), so both see the same
- * shape.
+ * One table exists per frames array. Formats that yield multiple profiles
+ * sometimes share the frames; the table shares the derived data
+ * so each computation runs once, not once per profile.
  */
-type FrameFunction = {
+class ProfileStackFrameTable {
+  /**
+   * A `WeakMap` rather than per-file state so sharing needs no extra
+   * parameter passed through the pipeline: each table is reclaimed with its
+   * frames array.
+   */
+  static readonly #tables = new WeakMap<
+    ProfileStackFrame[],
+    ProfileStackFrameTable
+  >()
+
+  public static for(frames: ProfileStackFrame[]): ProfileStackFrameTable {
+    let table = ProfileStackFrameTable.#tables.get(frames)
+    if (!table) {
+      table = new ProfileStackFrameTable(frames)
+      ProfileStackFrameTable.#tables.set(frames, table)
+    }
+    return table
+  }
+
+  readonly #frames: ProfileStackFrame[]
+
+  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
+  readonly #functions: ProfileFunction[] = []
+
+  #detected = false
+  #functionTable: ProfileFunctionTable | undefined
+
+  private constructor(frames: ProfileStackFrame[]) {
+    this.#frames = frames
+  }
+
+  /** Adds the raw frames to {@link detector}, once, until decided. */
+  public addToDetector(detector: OriginDetector): void {
+    if (this.#detected) {
+      return
+    }
+    this.#detected = true
+
+    const { length } = this.#frames
+    for (let index = 0; !detector.decided && index < length; index++) {
+      const { name, location } = this.#getOrCreateFunction(index)
+      detector.add({ id: index, name, location })
+    }
+  }
+
+  #getOrCreateFunction(index: number): ProfileFunction {
+    let func = this.#functions[index]
+    if (!func) {
+      func = parseProfileFunction(this.#frames[index]!)
+      this.#functions[index] = func
+    }
+    return func
+  }
+
+  /**
+   * Returns the {@link ProfileFunctionTable} the frames resolve to under
+   * {@link context}, normalizing them with the resolved origin on first call.
+   *
+   * Memoized without keying on the context: a frames array belongs to one file
+   * and is parsed fresh each conversion, so it never sees another context.
+   */
+  public resolve(context: ProfileToMdContext): ProfileFunctionTable {
+    this.#functionTable ??= this.#normalize(context)
+    return this.#functionTable
+  }
+
+  #normalize(context: ProfileToMdContext): ProfileFunctionTable {
+    return new ProfileFunctionTable(
+      this.#frames.map(frame => normalizeFrameForContext(frame, context)),
+    )
+  }
+}
+
+/**
+ * A profile's distinct frames normalized by the resolved origin, resolving a
+ * frame index to its {@link ProfileFunction}.
+ */
+class ProfileFunctionTable {
+  /**
+   * A `null` slot is a frame the origin dropped (a pseudo-frame, not a
+   * function), removed from every call stack.
+   */
+  readonly #frames: (ProfileStackFrame | null)[]
+
+  /** Per frame index, a lazily-filled cache of the frame's parsed function. */
+  readonly #functions: ProfileFunction[] = []
+
+  public constructor(frames: (ProfileStackFrame | null)[]) {
+    this.#frames = frames
+  }
+
+  /** Returns the frame's function, or `undefined` for a dropped frame. */
+  public function(index: number): ProfileFunction | undefined {
+    let func = this.#functions[index]
+    if (!func) {
+      const frame = this.#frames[index]
+      if (!frame) {
+        return undefined
+      }
+      func = parseProfileFunction(frame)
+      this.#functions[index] = func
+    }
+    return func
+  }
+
+  /** Returns the line the frame was sampled at, if known. */
+  public executingLine(index: number): number | undefined {
+    return this.#frames[index]?.line
+  }
+}
+
+/** A frame's parsed name and location, the unit functions aggregate by. */
+type ProfileFunction = {
+  /** @see {@link ProfileStackFrame.name} */
   name: string
+
+  /** @see {@link ProfileStackFrame.location} */
   location: SourceLocation | undefined
-}
-
-/** Parses a stack frame's {@link FrameFunction}. */
-const parseFrameFunction = ({
-  name,
-  location,
-}: ProfileStackFrame): FrameFunction => ({
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  name: name || `(anonymous)`,
-  location: makeSourceLocation(location),
-})
-
-/** A profile's distinct frames after normalization by the resolved origin. */
-type NormalizedFrames = {
-  /**
-   * The frames, normalized by the origin; the input array itself when the
-   * origin has no `normalizeFrame`. A `null` slot is a frame the origin
-   * dropped (a pseudo-frame, not a function), removed from every call
-   * stack.
-   */
-  frames: (ProfileStackFrame | null)[]
 
   /**
-   * Per frame index, a lazily-filled cache of the frame's parsed name and
-   * location, shared across the profiles referencing these frames so each
-   * distinct frame's location is parsed once, not once per profile. Seeded by
-   * origin detection when the frames needed no normalization (normalization
-   * changes a frame's name and location).
+   * The function's identity key: its normalized name and location (URL/path,
+   * plus definition line and column). Two frames that parse to the same key
+   * are the same function.
+   *
+   * The location's own line/column are part of the identity, but a frame's
+   * executing line ({@link ProfileStackFrame.line}) is not; that contributes
+   * to the line breakdown instead.
    */
-  frameFunctions: (FrameFunction | undefined)[]
+  key: string
 }
-
-/**
- * Normalizes the distinct frames with the resolved origin.
- *
- * {@link frameFunctions} is the parse cache origin detection seeded from these
- * frames; it carries over only when the frames turn out to need no
- * normalization.
- */
-const normalizeFrames = (
-  frames: ProfileStackFrame[],
-  frameFunctions: (FrameFunction | undefined)[],
-  { format, origin }: ProfileToMdContext,
-): NormalizedFrames => {
-  const normalize = normalizeFrameForOrigin(origin)
-  if (!normalize && !frames.some(isNamedByOwnPath)) {
-    return { frames, frameFunctions }
-  }
-  return {
-    // Every frame passes through, located or not: the origin decides what a
-    // frame needs from how the format produced it (see
-    // {@link OriginSpec.normalizeFrame}).
-    frames: frames.map(frame => {
-      const normalized = normalize ? normalize(frame, format) : frame
-      return normalized && dropNameMatchingOwnPath(normalized)
-    }),
-    frameFunctions: [],
-  }
-}
-
-/**
- * A frame named by its own file path carries no function name: unrelated
- * profilers independently converge on this idiom for a file's top-level code
- * (Excimer names a PHP script's top-level scope this way in speedscope output;
- * rbspy does the same for Ruby's `<internal:gem_prelude>` in both speedscope
- * and pprof output). No profiler names a real function by its own file path,
- * so drop the name for any origin and format — the top-level code formats as
- * `(anonymous)` with the path in the Location column, relativized like any
- * other path. Runs after origin normalization so it sees the frame's final
- * name and location (e.g. after a packed location is split out of the name).
- */
-const isNamedByOwnPath = (frame: ProfileStackFrame): boolean =>
-  frame.name !== undefined && frame.name === frame.location?.urlOrPath
-
-const dropNameMatchingOwnPath = (
-  frame: ProfileStackFrame,
-): ProfileStackFrame =>
-  isNamedByOwnPath(frame) ? { ...frame, name: undefined } : frame
-
-/**
- * A function's identity key: its normalized name and location (URL/path, plus
- * definition line and column). Two frames that normalize to the same name and
- * location are the same function.
- *
- * The location's own line/column are part of the identity, but a frame's
- * executing line ({@link ProfileStackFrame.line}) is not; that contributes to
- * the line breakdown instead.
- */
-const functionIdentityKey = ({
-  name = ``,
-  location,
-}: ProfileStackFrame): string =>
-  location === undefined
-    ? name
-    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
 
 /** Aggregates a profile's samples over its normalized distinct frames. */
 class SamplesAggregator {
   readonly #metrics: Metric[]
 
   /**
-   * The normalized distinct frames. {@link Sample.frameIndices} are indices
-   * into them; a frame's function identity is its normalized name and location.
-   * A `null` slot is a frame the origin dropped (see
-   * {@link OriginSpec.normalizeFrame}).
+   * The normalized distinct frames' functions. {@link Sample.frameIndices} are
+   * indices into the table.
    */
-  readonly #frames: (ProfileStackFrame | null)[]
+  readonly #functions: ProfileFunctionTable
   readonly #options: AggregationProfileToMdOptions
   readonly #context: ProfileToMdContext
 
@@ -276,27 +231,17 @@ class SamplesAggregator {
   /** Per frame index, its registered function, a frame-index fast path. */
   readonly #frameIndexToFunction: AggregatedProfileFunction[]
 
-  /**
-   * Per frame index, a cache of the frame's parsed name and location, filled
-   * lazily by {@link ProfileAggregator.#getOrCreateFunction} and shared with
-   * every other aggregator over the same frames, so each frame's location is
-   * parsed once, not once per profile.
-   */
-  readonly #frameFunctions: (FrameFunction | undefined)[]
-
   public constructor(
     /** @see {@link AggregatedProfile.metrics} */
     metrics: Metric[],
-    frames: (ProfileStackFrame | null)[],
+    functions: ProfileFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
-    frameFunctions: (FrameFunction | undefined)[] = [],
   ) {
     this.#metrics = metrics
-    this.#frames = frames
+    this.#functions = functions
     this.#options = options
     this.#context = context
-    this.#frameFunctions = frameFunctions
 
     this.#totalSampleCount = 0
     this.#totalValues = new Float64Array(this.#metrics.length)
@@ -334,13 +279,15 @@ class SamplesAggregator {
     // intern to the same call stack while sampling different executing lines.
     //
     // When the sample has no explicit line, fall back to the leaf frame's
-    // sampled line, the one its origin's `normalizeFrame` derived
-    // (py-spy/rbspy), so it surfaces in the function's line breakdown.
+    // sampled line, the one its origin's `normalizeFrame` derived so it
+    // surfaces in the function's line breakdown.
     let leafLine = line
     if (leafLine === undefined) {
       const leafIndex = frameIndices[0]
       leafLine =
-        leafIndex === undefined ? undefined : this.#frames[leafIndex]?.line
+        leafIndex === undefined
+          ? undefined
+          : this.#functions.executingLine(leafIndex)
     }
 
     let lineMetrics
@@ -445,10 +392,10 @@ class SamplesAggregator {
           }
           caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
 
-          // Mirror the new frame pair on the callee, so its set of direct callers is
-          // complete even when it never appears as a leaf (its self metrics stay
-          // zero). The default entry filter reads that set to decide whether
-          // `ours` code calls the function directly.
+          // Mirror the new frame pair on the callee, so its set of direct
+          // callers is complete even when it never appears as a leaf (its self
+          // metrics stay zero). The default entry filter reads that set to
+          // decide whether `ours` code calls the function directly.
           if (!callee.callerIdToMetrics.has(caller.id)) {
             callee.callerIdToMetrics.set(caller.id, {
               caller,
@@ -555,38 +502,31 @@ class SamplesAggregator {
     // A function's identity is its normalized name and location, so frames that
     // normalize alike (e.g. one function sampled at several lines) merge into
     // one function; distinct frames sharing that identity merge too.
-    const frame = this.#frames[index]
-    if (!frame) {
+    const frameFunction = this.#functions.function(index)
+    if (!frameFunction) {
       return undefined
     }
-    const key = functionIdentityKey(frame)
-    let func = this.#keyToFunction.get(key)
-    if (!func) {
-      let frameFunction = this.#frameFunctions[index]
-      if (!frameFunction) {
-        frameFunction = parseFrameFunction(frame)
-        this.#frameFunctions[index] = frameFunction
-      }
-      func = this.#registerFunction(key, frameFunction)
-    }
+    const func =
+      this.#keyToFunction.get(frameFunction.key) ??
+      this.#registerFunction(frameFunction.key, frameFunction)
     this.#frameIndexToFunction[index] = func
     return func
   }
 
   /**
    * The single shared anonymous function for stackless samples, keyed by a
-   * symbol so it can never collide with a {@link functionIdentityKey}.
+   * symbol so it can never collide with a {@link ProfileFunction.key}.
    */
   #getOrCreateAnonymousFunction(): AggregatedProfileFunction {
     return (
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
-      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, parseFrameFunction({}))
+      this.#registerFunction(ANONYMOUS_FUNCTION_KEY, parseProfileFunction({}))
     )
   }
 
   #registerFunction(
     key: number | string | symbol,
-    { name, location }: FrameFunction,
+    { name, location }: ProfileFunction,
   ): AggregatedProfileFunction {
     const func: AggregatedProfileFunction = {
       type: `function`,
@@ -635,14 +575,14 @@ class SamplesAggregator {
   /**
    * Assigns each function's category and builds the profile's category metrics.
    *
-   * Categorization runs here, at the end of aggregation, so it sees the full set
-   * of functions, from which {@link ProfileToMdOptions.categorizeEntries} can
-   * determine the origin (when the context's origin is `null`) before
+   * Categorization runs here, at the end of aggregation, so it sees the full
+   * set of functions, from which {@link ProfileToMdOptions.categorizeEntries}
+   * can determine the origin (when the context's origin is `null`) before
    * categorizing.
    *
-   * The category metrics are built from each function's self metrics rather than
-   * accumulated per sample: a self-sample's leaf is exactly its function, so
-   * summing self values over the functions of a category reproduces the
+   * The category metrics are built from each function's self metrics rather
+   * than accumulated per sample: a self-sample's leaf is exactly its function,
+   * so summing self values over the functions of a category reproduces the
    * per-sample total losslessly, in time linear in the function count rather
    * than the sample count.
    */
@@ -661,8 +601,8 @@ class SamplesAggregator {
       func.category = category
 
       // Only leaf functions (those with self samples) contributed to the
-      // category metrics during aggregation, so skip functions that were never a
-      // leaf to avoid introducing empty categories that wouldn't otherwise
+      // category metrics during aggregation, so skip functions that were never
+      // a leaf to avoid introducing empty categories that wouldn't otherwise
       // appear.
       if (func.selfSampleCount === 0) {
         continue
@@ -686,11 +626,27 @@ class SamplesAggregator {
   }
 }
 
+const parseProfileFunction = (frame: ProfileStackFrame): ProfileFunction => ({
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  name: frame.name || `(anonymous)`,
+  location: makeSourceLocation(frame.location),
+  key: functionIdentityKey(frame),
+})
+
+/** Builds {@link ProfileFunction.key} from a frame's name and location. */
+const functionIdentityKey = ({
+  name = ``,
+  location,
+}: ProfileStackFrame): string =>
+  location === undefined
+    ? name
+    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
+
 /**
  * Key for the single shared anonymous function that stackless samples (empty
- * {@link Sample.frameIndices}) are attributed to. A symbol so it can never collide
- * with a {@link functionIdentityKey}. All stackless samples merge into one
- * bucket because nothing distinguishes them.
+ * {@link Sample.frameIndices}) are attributed to. A symbol so it can never
+ * collide with a {@link ProfileFunction.key}. All stackless samples merge into
+ * one bucket because nothing distinguishes them.
  */
 const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
 
@@ -908,39 +864,4 @@ export type AggregatedProfile = {
 
   /** Aggregated data for all call stacks encountered in this profile. */
   callStacks: AggregatedProfileCallStack[]
-}
-
-/**
- * Returns the list of callers of {@link callStacks} that is the longest common
- * suffix of their frames, except it never returns a call stack as long as one
- * of the input call stacks.
- *
- * That cap makes it safe to remove the suffix from any call stack and still
- * have a non-empty call stack to format.
- */
-export const findCommonCallStack = (
-  callStacks: { frames: AggregatedProfileFunction[] }[],
-): AggregatedProfileFunction[] => {
-  if (callStacks.length <= 1) {
-    return []
-  }
-
-  const minLength = Math.min(...callStacks.map(cs => cs.frames.length))
-  const firstFrames = callStacks[0]!.frames
-  let suffixLength = 0
-
-  for (let i = 1; i < minLength; i++) {
-    const suffix = firstFrames.slice(-i).map(frame => frame.id)
-    if (
-      callStacks.every(callStack =>
-        callStack.frames.slice(-i).every((frame, j) => frame.id === suffix[j]),
-      )
-    ) {
-      suffixLength = i
-    } else {
-      break
-    }
-  }
-
-  return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
 }
