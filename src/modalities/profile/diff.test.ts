@@ -1,32 +1,26 @@
 import { describe, expect, test } from 'vitest'
 import { BYTES, MICROSECONDS, MILLISECONDS } from '../../metric.ts'
 import { resolveProfileToMdOptions } from '../../testing/options.ts'
-import type { AggregatedProfile } from './aggregate.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { makeAggregatedProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
-const simpleProfile = (
-  selfValue: number,
-  sampleCount: number,
-): AggregatedProfile =>
-  makeAggregatedProfile(
-    [MICROSECONDS],
-    [
-      {
-        name: `funcA`,
-        url: `file:///project/src/a.ts`,
-        line: 10,
-        selfValues: [selfValue],
-        selfSampleCount: sampleCount,
-      },
-    ],
-  )
-
 describe(`diffAggregatedProfiles`, () => {
   test(`identical profiles produce zero deltas`, () => {
-    const profile = simpleProfile(100, 10)
+    const profile = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          selfValues: [100],
+          selfSampleCount: 10,
+        },
+      ],
+    )
+
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
@@ -54,8 +48,8 @@ describe(`diffAggregatedProfiles`, () => {
     const current = makeAggregatedProfile([MICROSECONDS], [])
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const funcA = diff.functions.find(fn => fn.name === `funcA`)!
 
+    const funcA = diff.functions.find(fn => fn.name === `funcA`)!
     expect(funcA.base?.selfSampleCount).toBe(5)
     expect(funcA.current).toBeUndefined()
   })
@@ -75,8 +69,8 @@ describe(`diffAggregatedProfiles`, () => {
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const funcB = diff.functions.find(fn => fn.name === `funcB`)!
 
+    const funcB = diff.functions.find(fn => fn.name === `funcB`)!
     expect(funcB.base).toBeUndefined()
     expect(funcB.current?.selfSampleCount).toBe(10)
   })
@@ -174,9 +168,6 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`matches functions whose locations differ only by a build hash under the pprof-rs origin`, () => {
-    // The default `matchEntry` strips Cargo build-script and rustc commit
-    // hashes so the same function matches across builds even though its path
-    // embeds a per-build hash.
     const context = { format: `pprof`, origin: `pprof-rs` } as const
     const cargo = (hash: string) =>
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
@@ -230,9 +221,6 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`does not strip a build hash under an unrelated origin`, () => {
-    // Match normalization is origin-aware: a Cargo-shaped hash in a profile
-    // resolved to an unrelated origin is treated as part of the real path, so
-    // the sides diff as a removed+new pair.
     const cargo = (hash: string) =>
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const context = { format: `v8-cpu-profile`, origin: `node` } as const
@@ -278,11 +266,6 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`pairs same-key functions across sides instead of dropping them`, () => {
-    // Julia methods of one function live at different lines of the same file.
-    // The match key ignores line/column, so both methods share one key; each
-    // side's nth method must pair with the other side's nth, not collapse
-    // into a single slot that drops one method and diffs the survivor as
-    // new/removed.
     const methods = (counts: [number, number]) => [
       {
         name: `+`,

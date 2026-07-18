@@ -10,8 +10,8 @@ import type {
 } from './aggregate.ts'
 
 /**
- * A function matched across the base and current profiles by name and
- * location, ignoring line and column.
+ * A function matched across the base and current profiles by name and location,
+ * ignoring line and column.
  *
  * The name, location, and category come from the current profile when the
  * function is present in it, and from the base profile otherwise.
@@ -68,8 +68,6 @@ export const diffAggregatedProfiles = (
     throw new Error(`no matching metrics between the base and current profiles`)
   }
 
-  // Each side's functions are keyed under that side's own context, since match
-  // normalization is origin-aware.
   const { entryMatchKey } = options
   const functions = matchDiffedEntries(
     base.functions,

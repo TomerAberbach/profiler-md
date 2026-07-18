@@ -280,7 +280,7 @@ class SamplesAggregator {
     //
     // When the sample has no explicit line, fall back to the leaf frame's
     // sampled line, the one its origin's `normalizeFrame` derived so it
-    // surfaces in the function's line breakdown.
+    // appears in the function's line breakdown.
     let leafLine = line
     if (leafLine === undefined) {
       const leafIndex = frameIndices[0]
@@ -711,8 +711,8 @@ type AggregatedProfileCallerMetrics = {
   selfSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
-   * samples taken directly within the function's body with this caller.
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken directly within the function's body with this caller.
    */
   selfValues: Float64Array
 }
@@ -726,14 +726,14 @@ type AggregatedProfileCalleeMetrics = {
   callee: AggregatedProfileFunction
 
   /**
-   * The number of samples taken directly within the function's body, _and_
-   * all its callees, with this callee.
+   * The number of samples taken directly within the function's body, _and_ all
+   * its callees, with this callee.
    */
   totalSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
-   * samples taken directly within the function's body, _and_ all its
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken directly within the function's body, _and_ all its
    * callees, with this callee.
    */
   totalValues: Float64Array
@@ -778,14 +778,16 @@ export type AggregatedProfileFunction = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from samples
-   * taken directly within the function's body, excluding its callees.
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken directly within the function's body, excluding its
+   * callees.
    */
   selfValues: Float64Array
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from samples
-   * taken directly within the function's body _and_ all its callees.
+   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * from samples taken directly within the function's body _and_ all its
+   * callees.
    */
   totalValues: Float64Array
 
@@ -828,10 +830,10 @@ export type AggregatedProfile = {
   type: `profile`
 
   /**
-   * The context (format and resolved origin) this profile was aggregated
-   * under, carried so downstream consumers (e.g. diff matching) can apply
-   * origin-aware logic per side. Diffed sides that resolved different origins
-   * can normalize match keys differently and miss matches.
+   * The context (format and resolved origin) this profile was aggregated under.
+   * Match-key normalization varies by origin, so each diffed side's keys must
+   * be built under that side's own context; sides that resolved different
+   * origins can normalize match keys differently and miss matches.
    */
   context: ProfileToMdContext
 
