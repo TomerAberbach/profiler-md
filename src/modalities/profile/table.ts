@@ -4,15 +4,15 @@ import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
-import type { Metric } from '../../metric.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { codeCell, countCell, percentCell, textCell } from '../../table.ts'
-import type { Column, Table } from '../../table.ts'
+import { codeCell, countCell, percentCell, textCell } from '../table.ts'
+import type { Column, Table } from '../table.ts'
 import type {
   AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
 import { metricCell } from './measure.ts'
+import type { Metric } from './metric.ts'
 
 /** A function with a display name and optional location. */
 export type NamedFunction = {

@@ -1,6 +1,5 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
-import { determineMetric, MEGABYTES, MICROSECONDS } from '../../metric.ts'
 import {
   categoryTables,
   improvementsTables,
@@ -11,6 +10,7 @@ import {
 } from '../../testing.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
+import { determineMetric, MEGABYTES, MICROSECONDS } from './metric.ts'
 import {
   callStackTables,
   makeAggregatedProfile,

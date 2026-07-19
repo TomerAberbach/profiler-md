@@ -1,12 +1,12 @@
 import { ByteQueue } from '../../helpers/bytes.ts'
 import { HashInterner } from '../../helpers/intern.ts'
-import { determineMetric } from '../../metric.ts'
-import type { Metric } from '../../metric.ts'
 import type {
   Profile,
   ProfileStackFrame,
   Sample,
 } from '../../modalities/profile/index.ts'
+import { determineMetric } from '../../modalities/profile/metric.ts'
+import type { Metric } from '../../modalities/profile/metric.ts'
 
 /**
  * The kind of profiling an event represents.

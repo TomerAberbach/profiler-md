@@ -7,8 +7,8 @@ import {
   countCell,
   percentCell,
   textCell,
-} from '../../table.ts'
-import type { Table } from '../../table.ts'
+} from '../table.ts'
+import type { Table } from '../table.ts'
 
 /** An entity labeled by a name and optional location in a table. */
 export type LabeledEntity = {

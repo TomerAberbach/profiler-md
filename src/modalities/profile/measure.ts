@@ -5,11 +5,11 @@ import {
   formatMilliseconds,
   formatMillisecondsDelta,
 } from '../../helpers/format.ts'
-import type { Metric } from '../../metric.ts'
-import { numberCell } from '../../table.ts'
-import type { Cell } from '../../table.ts'
+import { numberCell } from '../table.ts'
+import type { Cell } from '../table.ts'
 import type { AggregatedProfile } from './aggregate.ts'
 import type { AggregatedProfileDiff } from './diff.ts'
+import type { Metric } from './metric.ts'
 
 /**
  * What a profile section ranks, percentages, and tabulates by: a metric, or

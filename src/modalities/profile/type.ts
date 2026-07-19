@@ -1,5 +1,5 @@
 import type { SourceLocationInput } from '../../location.ts'
-import type { Metric } from '../../metric.ts'
+import type { Metric } from './metric.ts'
 
 /**
  * A profile parsed into the uniform structure containing the distinct frames
