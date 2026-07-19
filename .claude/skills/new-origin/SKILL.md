@@ -19,7 +19,7 @@ $ARGUMENTS
    behavior its inputs show, decide where the logic belongs with the
    @../../dimensions.md principles
 
-2. Create `src/origins/<origin>.ts` exporting an `OriginSpec` with:
+2. Create `src/origins/specs/<origin>.ts` exporting an `OriginSpec` with:
    - `isMarkerEntry`: detect the origin from frame data
    - `categorize`: compose from the `src/origins/categorize.ts` helpers plus
      profiler-specific rules
@@ -28,14 +28,14 @@ $ARGUMENTS
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
 
-   Register it in `originSpecs`, ordered by global detection priority: within a
-   format the detector tries candidates in order, so place the new origin above
-   any origin whose signals its own could satisfy (e.g. Deno before Node, since
-   Deno supports `node:` specifiers)
+   Register it in `originSpecs` (in `src/origins/specs/index.ts`), ordered by
+   global detection priority: within a format the detector tries candidates in
+   order, so place the new origin above any origin whose signals its own could
+   satisfy (e.g. Deno before Node, since Deno supports `node:` specifiers)
 
-   Add a colocated `src/origins/<origin>.test.ts` for the origin's own logic:
-   detection, `categorizeEntry`, and any `normalizeFrame` or `matchEntry` rules.
-   Build entries with the `absoluteEntry`/`relativeEntry` helpers from
+   Add a colocated `src/origins/specs/<origin>.test.ts` for the origin's own
+   logic: detection, `categorizeEntry`, and any `normalizeFrame` or `matchEntry`
+   rules. Build entries with the `absoluteEntry`/`relativeEntry` helpers from
    `src/origins/testing.ts`, drive detection through its `determineOrigin`, and
    test categorization against its exported `OriginSpec` (e.g.
    `nodeOriginSpec.categorizeEntry`).
@@ -53,6 +53,6 @@ $ARGUMENTS
    inputs resolve to a different origin (e.g. a markerless modality falling
    back)
 
-4. Run the origin tests (`pnpm test src/origins/<origin>.test.ts`,
+4. Run the origin tests (`pnpm test src/origins/specs/<origin>.test.ts`,
    `pnpm test src/origins/categorize.test.ts`, and
    `pnpm test src/origins/index.test.ts`, one at a time) and fix failures
