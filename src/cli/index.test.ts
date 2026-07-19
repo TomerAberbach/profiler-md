@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
-import { inputPath } from '../testing/inputs.ts'
+import { inputPath } from '../formats/testing.ts'
 import { languageExtensionToPrimary } from './languages.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.

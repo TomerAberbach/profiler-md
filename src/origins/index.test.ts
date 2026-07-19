@@ -2,9 +2,9 @@ import { readdirSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { aggregateInput } from '../formats/index.ts'
+import { injectedFormat, inputPath, readInput } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import { injectedFormat, inputPath, readInput } from '../testing/inputs.ts'
 import type { Origin } from './index.ts'
 
 vi.setConfig({ testTimeout: 125_000 })

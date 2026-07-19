@@ -5,8 +5,8 @@ import {
   categoryTables,
   improvementsTables,
   regressionsTables,
-} from '../../testing/markdown.ts'
-import { resolveProfileToMdOptions } from '../../testing/options.ts'
+  resolveProfileToMdOptions,
+} from '../../testing.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {

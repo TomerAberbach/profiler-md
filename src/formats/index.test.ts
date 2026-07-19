@@ -3,16 +3,17 @@ import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { fileReferenceId } from '../location.ts'
 import type { Profile } from '../modalities/profile/index.ts'
+import {
+  selfSamplesTables,
+  selfTimeTables,
+} from '../modalities/profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
-import { injectedFormat, inputPath, readInput } from '../testing/inputs.ts'
 import {
   categoryTables,
   improvementsTables,
   profileTitles,
   regressionsTables,
-  selfSamplesTables,
-  selfTimeTables,
-} from '../testing/markdown.ts'
+} from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
 import {
   diffProfiles,
@@ -21,7 +22,12 @@ import {
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
-import { convertJsonToMd } from './testing/convert.ts'
+import {
+  convertJsonToMd,
+  injectedFormat,
+  inputPath,
+  readInput,
+} from './testing.ts'
 import {
   makeV8CallFrame,
   makeV8CpuProfileRoot,

@@ -2,18 +2,20 @@ import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import { determineMetric, MEGABYTES, MICROSECONDS } from '../../metric.ts'
 import {
-  callStackTables,
   categoryTables,
   improvementsTables,
   profileTitles,
   regressionsTables,
+  resolveProfileToMdOptions,
   summaryLines,
-  totalTimeTables,
-} from '../../testing/markdown.ts'
-import { resolveProfileToMdOptions } from '../../testing/options.ts'
+} from '../../testing.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
-import { makeAggregatedProfile } from './testing.ts'
+import {
+  callStackTables,
+  makeAggregatedProfile,
+  totalTimeTables,
+} from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 

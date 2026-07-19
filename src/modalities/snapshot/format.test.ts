@@ -5,11 +5,9 @@ import {
   improvementsTables,
   profileTitles,
   regressionsTables,
-  retainedSizeTables,
-  selfSizeTables,
+  resolveProfileToMdOptions,
   summaryLines,
-} from '../../testing/markdown.ts'
-import { resolveProfileToMdOptions } from '../../testing/options.ts'
+} from '../../testing.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
@@ -18,6 +16,8 @@ import {
   makeAggregatedHeapSnapshot,
   makeAggregatedString,
   makeSourceLocation,
+  retainedSizeTables,
+  selfSizeTables,
 } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })

@@ -5,7 +5,7 @@ import {
   makeFileReference,
   makeSourceLocation,
 } from './location.ts'
-import { resolveProfileToMdOptions } from './testing/options.ts'
+import { resolveProfileToMdOptions } from './testing.ts'
 
 const format = ({
   url,

@@ -1,6 +1,13 @@
+import {
+  allTablesAfterHeading,
+  allTablesAfterHeadingContaining,
+  nodesUnderHeading,
+  parseMd,
+} from '../../helpers/testing.ts'
+import type { Table } from '../../helpers/testing.ts'
 import type { Metric } from '../../metric.ts'
 import type { ProfileToMdContext } from '../../options.ts'
-import { resolveProfileToMdOptions } from '../../testing/options.ts'
+import { resolveProfileToMdOptions } from '../../testing.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import type { AggregatedProfile } from './aggregate.ts'
 
@@ -41,4 +48,40 @@ export const makeAggregatedProfile = (
     options,
     context ?? { format: `v8-cpu-profile`, origin: `unknown` },
   )
+}
+
+export const selfTimeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self time`)
+
+export const totalTimeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Total time`)
+
+export const selfSamplesTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self samples`)
+
+export const totalSamplesTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Total samples`)
+
+export const selfSleepsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self sleeps`)
+
+export const totalSleepsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Total sleeps`)
+
+export const callStackTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Hottest call stacks`)
+
+export const callersTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Callers`)
+  return allTablesAfterHeadingContaining(under, fn)
+}
+
+export const calleesTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Callees`)
+  return allTablesAfterHeadingContaining(under, fn)
+}
+
+export const linesTables = (md: string, fn: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Lines`)
+  return allTablesAfterHeadingContaining(under, fn)
 }

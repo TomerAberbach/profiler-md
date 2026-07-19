@@ -30,13 +30,12 @@ profiler-md
 │   │   ├── converter.ts      # Format converter types
 │   │   ├── registry.ts       # Format converter registry
 │   │   ├── index.ts          # profileToMd(Async)/diffProfiles(Async) and format auto-detection
-│   │   ├── **/<name>/        # One per format, some nested in subdirectories (e.g. collapsed, v8/cpu-profile)
+│   │   ├── **/<name>/        # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
 │   │   │   ├── matches.ts    # Cheap auto-detection check for the format
 │   │   │   ├── parse.ts      # Parses input into a modality's parsed type
 │   │   │   ├── index.ts      # Exports the format's converter
 │   │   │   └── testing.ts    # Test-only utilities specific to this format (optional)
-│   │   └── testing/
-│   │       └── convert.ts    # Test-only utilities for running a converter
+│   │   └── testing.ts        # Test-only utilities for running a converter and reading example inputs
 │   │
 │   ├── origins/              # Profiler detection and categorization
 │   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers
@@ -70,18 +69,18 @@ profiler-md
 │   ├── measure.ts            # Metric/measure Markdown formatting shared across formatters
 │   ├── diff.ts               # Base/current diffing primitives
 │   ├── cell.ts               # Table cell types + Markdown table/diff-table formatting
+│   ├── testing.ts            # Test-only option resolution and cross-modality Markdown assertion helpers
 │   │
-│   ├── helpers/              # Truly generic (non-profiling) utility functions
-│   │   ├── array.ts
-│   │   ├── bytes.ts
-│   │   ├── heap.ts
-│   │   ├── format.ts
-│   │   ├── intern.ts
-│   │   ├── json.ts
-│   │   ├── markdown.ts
-│   │   └── types.ts
-│   │
-│   └── testing/              # Cross-module test-only utilities (module-specific ones go in that module's testing.ts)
+│   └── helpers/              # Truly generic (non-profiling) utility functions
+│       ├── array.ts
+│       ├── bytes.ts
+│       ├── heap.ts
+│       ├── format.ts
+│       ├── intern.ts
+│       ├── json.ts
+│       ├── markdown.ts
+│       ├── testing.ts
+│       └── types.ts
 │
 ├── docs/
 │   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
@@ -131,17 +130,18 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ## Testing
 
 - Uses `vitest` and `@fast-check/vitest`
-- `*.test.ts`, `testing.ts`, and `testing/` are colocated with implementation
+- `*.test.ts` and `testing.ts` are colocated with implementation
 - Most tests run profile to Markdown conversion end-to-end
   - Assert on the Markdown output, not on intermediate data structures, using
-    the helpers in `src/testing/markdown.ts`
+    the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
+    `src/modalities/profile/testing.ts`)
   - Fully assert on Markdown tables with `toEqual` and complete expected rows.
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
     individual cells, which would miss extra tables, rows, or cells
 - A parameterized test over the committed `examples/input/` files must run in
   the per-format vitest projects, or it serializes every conversion in one
   worker: add its test file to `inputProcessingFiles` in `vitest.config.ts`,
-  filter the inputs to `injectedFormat()` from `src/testing/inputs.ts`, and
+  filter the inputs to `injectedFormat()` from `src/formats/testing.ts`, and
   register the file's input-independent tests only when it returns `undefined`
   (the `unit` project)
 

@@ -1,7 +1,7 @@
 import { fc, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
-import { chunk, streamOf } from '../testing/bytes.ts'
 import { ByteQueue, decodeUtf8Lines, decodeUtf8LinesAsync } from './bytes.ts'
+import { chunk, streamOf } from './testing.ts'
 
 const lines = (text: string, chunkSize?: number): string[] => [
   ...decodeUtf8Lines(new TextEncoder().encode(text), chunkSize),

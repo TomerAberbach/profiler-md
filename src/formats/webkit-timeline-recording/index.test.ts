@@ -1,14 +1,13 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,
-  categoryTables,
   linesTables,
   selfTimeTables,
-  summaryLines,
   totalTimeTables,
-} from '../../testing/markdown.ts'
-import { convertJsonToMd } from '../testing/convert.ts'
+} from '../../modalities/profile/testing.ts'
+import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
+import { categoryTables, summaryLines } from '../../testing.ts'
+import { convertJsonToMd } from '../testing.ts'
 import { webkitTimelineRecordingConverter } from './index.ts'
 import { makeWebKitFrame, makeWebKitRecording } from './testing.ts'
 

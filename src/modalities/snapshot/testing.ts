@@ -1,3 +1,11 @@
+import type { Root } from 'mdast'
+import {
+  allTablesAfterHeading,
+  allTablesAfterHeadingContaining,
+  nodesUnderHeading,
+  parseMd,
+} from '../../helpers/testing.ts'
+import type { Table } from '../../helpers/testing.ts'
 import { makeFileReference } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
@@ -126,3 +134,39 @@ export const makeAggregatedString = ({
   selfSize,
   retainedSize: selfSize,
 })
+
+export const selfSizeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self size`)
+
+export const totalSizeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Total size`)
+
+export const retainedSizeTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Retained size`)
+
+export const selfSizeInstancesTables = (md: string, name: string): Table[] => {
+  const selfUnder = nodesUnderHeading(parseMd(md), `Self size`)
+  const instUnder = nodesUnderHeading(
+    { type: `root`, children: selfUnder } as Root,
+    `Instances`,
+  )
+  return allTablesAfterHeadingContaining(instUnder, name)
+}
+
+export const retainedSizeInstancesTables = (
+  md: string,
+  name: string,
+): Table[] => {
+  const retainedUnder = nodesUnderHeading(parseMd(md), `Retained size`)
+  const instancesUnder = nodesUnderHeading(
+    { type: `root`, children: retainedUnder } as Root,
+    `Instances`,
+  )
+  return allTablesAfterHeadingContaining(instancesUnder, name)
+}
+
+export const closureTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Largest closures`)
+
+export const largestStringsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Largest strings`)

@@ -1,12 +1,12 @@
 import { fc, test } from '@fast-check/vitest'
 import { expect } from 'vitest'
+import { parseMd } from '../helpers/testing.ts'
 import { profileToMd } from '../index.ts'
 import {
-  categoryTables,
-  parseMd,
   selfTimeTables,
   totalTimeTables,
-} from '../testing/markdown.ts'
+} from '../modalities/profile/testing.ts'
+import { categoryTables } from '../testing.ts'
 
 /**
  * A speedscope profile whose single sampled function has the given untrusted
