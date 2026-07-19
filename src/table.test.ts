@@ -1,4 +1,5 @@
 import { expect, test } from 'vitest'
+import { mdastToMarkdown } from './helpers/markdown.ts'
 import {
   bytesCell,
   countCell,
@@ -6,34 +7,35 @@ import {
   formatTable,
   percentCell,
   textCell,
-} from './cell.ts'
-import type { Cell } from './cell.ts'
-import { mdastToMarkdown } from './helpers/markdown.ts'
-import type { Header } from './helpers/markdown.ts'
-
-type Row = { name: string; size: number; count: number }
-
-const headers: Header[] = [
-  { content: `%`, align: `right` },
-  { content: `Size`, align: `right` },
-  { content: `Count`, align: `right` },
-  `Name`,
-]
+} from './table.ts'
+import type { Table } from './table.ts'
 
 /**
- * Builds a row's cells relative to {@link total}, capturing it directly. A diff
- * builds each side against its own total, so base and current `%` cells differ.
+ * A row carries its own total so a diff's sides compute `%` against their own
+ * totals, making base and current `%` cells differ.
  */
-const cellsOf = (row: Row, total: number): Cell[] => [
-  percentCell(row.size / total),
-  bytesCell(row.size),
-  countCell(row.count),
-  textCell(row.name),
+type Row = { name: string; size: number; count: number; total: number }
+
+const columns: Table<Row> = [
+  {
+    header: { content: `%`, align: `right` },
+    cellOf: row => percentCell(row.size / row.total),
+  },
+  {
+    header: { content: `Size`, align: `right` },
+    primary: true,
+    cellOf: row => bytesCell(row.size),
+  },
+  {
+    header: { content: `Count`, align: `right` },
+    cellOf: row => countCell(row.count),
+  },
+  { header: `Name`, cellOf: row => textCell(row.name) },
 ]
 
 test(`formatTable formats numeric cells and leaves text cells verbatim`, () => {
   const markdown = mdastToMarkdown([
-    formatTable(headers, [cellsOf({ name: `a`, size: 30, count: 2 }, 100)]),
+    formatTable(columns, [{ name: `a`, size: 30, count: 2, total: 100 }]),
   ])
 
   expect(markdown).toBe(`|     % | Size | Count | Name |
@@ -44,16 +46,12 @@ test(`formatTable formats numeric cells and leaves text cells verbatim`, () => {
 
 test(`formatDiffTable prepends Change and Delta and arrows value cells`, () => {
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      headers,
-      [
-        {
-          base: cellsOf({ name: `a`, size: 10, count: 1 }, 100),
-          current: cellsOf({ name: `a`, size: 30, count: 4 }, 200),
-        },
-      ],
-      { primaryIndex: 1 },
-    ),
+    formatDiffTable(columns, [
+      {
+        base: { name: `a`, size: 10, count: 1, total: 100 },
+        current: { name: `a`, size: 30, count: 4, total: 200 },
+      },
+    ]),
   ])
 
   expect(markdown)
@@ -65,16 +63,12 @@ test(`formatDiffTable prepends Change and Delta and arrows value cells`, () => {
 
 test(`formatDiffTable formats the Delta column at delta precision`, () => {
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      headers,
-      [
-        {
-          base: cellsOf({ name: `a`, size: 3670, count: 1 }, 10_000),
-          current: cellsOf({ name: `a`, size: 5230, count: 1 }, 10_000),
-        },
-      ],
-      { primaryIndex: 1 },
-    ),
+    formatDiffTable(columns, [
+      {
+        base: { name: `a`, size: 3670, count: 1, total: 10_000 },
+        current: { name: `a`, size: 5230, count: 1, total: 10_000 },
+      },
+    ]),
   ])
 
   expect(markdown)
@@ -86,11 +80,9 @@ test(`formatDiffTable formats the Delta column at delta precision`, () => {
 
 test(`formatDiffTable treats an absent base side as zero and shows current text`, () => {
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      headers,
-      [{ current: cellsOf({ name: `added`, size: 50, count: 3 }, 100) }],
-      { primaryIndex: 1 },
-    ),
+    formatDiffTable(columns, [
+      { current: { name: `added`, size: 50, count: 3, total: 100 } },
+    ]),
   ])
 
   expect(markdown)
@@ -102,11 +94,9 @@ test(`formatDiffTable treats an absent base side as zero and shows current text`
 
 test(`formatDiffTable treats an absent current side as zero and falls back to base text`, () => {
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      headers,
-      [{ base: cellsOf({ name: `removed`, size: 40, count: 2 }, 100) }],
-      { primaryIndex: 1 },
-    ),
+    formatDiffTable(columns, [
+      { base: { name: `removed`, size: 40, count: 2, total: 100 } },
+    ]),
   ])
 
   expect(markdown)
@@ -118,16 +108,12 @@ test(`formatDiffTable treats an absent current side as zero and falls back to ba
 
 test(`formatDiffTable collapses unchanged value cells to a single value`, () => {
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      headers,
-      [
-        {
-          base: cellsOf({ name: `a`, size: 30, count: 2 }, 100),
-          current: cellsOf({ name: `a`, size: 30, count: 2 }, 100),
-        },
-      ],
-      { primaryIndex: 1 },
-    ),
+    formatDiffTable(columns, [
+      {
+        base: { name: `a`, size: 30, count: 2, total: 100 },
+        current: { name: `a`, size: 30, count: 2, total: 100 },
+      },
+    ]),
   ])
 
   expect(markdown).toBe(`| Change | Delta |     % | Size | Count | Name |
@@ -136,29 +122,28 @@ test(`formatDiffTable collapses unchanged value cells to a single value`, () => 
 `)
 })
 
-test(`formatDiffTable inserts Change and Delta at changeDeltaIndex`, () => {
-  const leadingNameHeaders: Header[] = [
-    `Name`,
-    { content: `%`, align: `right` },
-    { content: `Size`, align: `right` },
-  ]
-  const leadingNameCells = (row: Row, total: number): Cell[] => [
-    textCell(row.name),
-    percentCell(row.size / total),
-    bytesCell(row.size),
+test(`formatDiffTable inserts Change and Delta before the changeDeltaBefore column`, () => {
+  const leadingNameColumns: Table<Row> = [
+    { header: `Name`, cellOf: row => textCell(row.name) },
+    {
+      header: { content: `%`, align: `right` },
+      changeDeltaBefore: true,
+      cellOf: row => percentCell(row.size / row.total),
+    },
+    {
+      header: { content: `Size`, align: `right` },
+      primary: true,
+      cellOf: row => bytesCell(row.size),
+    },
   ]
 
   const markdown = mdastToMarkdown([
-    formatDiffTable(
-      leadingNameHeaders,
-      [
-        {
-          base: leadingNameCells({ name: `a`, size: 10, count: 0 }, 100),
-          current: leadingNameCells({ name: `a`, size: 30, count: 0 }, 200),
-        },
-      ],
-      { primaryIndex: 2, changeDeltaIndex: 1 },
-    ),
+    formatDiffTable(leadingNameColumns, [
+      {
+        base: { name: `a`, size: 10, count: 0, total: 100 },
+        current: { name: `a`, size: 30, count: 0, total: 200 },
+      },
+    ]),
   ])
 
   expect(markdown)

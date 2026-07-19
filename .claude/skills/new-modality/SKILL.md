@@ -54,8 +54,8 @@ $ARGUMENTS
        input's origin-detection entries; `aggregate(options, context)`
        aggregates and categorizes under the file's resolved context
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
-   - `format.ts`: aggregated form and diff to Markdown, reusing `src/cell.ts`
-     and `src/measure.ts` where tables match the other modalities. If the
+   - `format.ts`: aggregated form and diff to Markdown, building tables with
+     `src/table.ts` in a colocated `table.ts` like the other modalities. If the
      modality's tables or headings diverge, update `src/cli/highlight.ts`, which
      recovers heat intensities by re-parsing the output (column headers like
      `%`, `Delta`, and `Location`, and `name (location)` heading keys)

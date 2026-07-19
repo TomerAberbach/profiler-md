@@ -50,10 +50,13 @@ profiler-md
 │   │
 │   ├── modalities/           # Individual modality implementations
 │   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
+│   │   ├── format.ts         # Formatting helpers shared across modalities
 │   │   ├── profile/          # Common sampling profile conversion logic
 │   │   │   ├── type.ts       # Parsed profile types
 │   │   │   ├── aggregate.ts  # Sample aggregation over frames
 │   │   │   ├── diff.ts       # Aggregated profile diffing logic
+│   │   │   ├── measure.ts    # Profile-resolved measure views + metric/measure phrasing
+│   │   │   ├── table.ts      # The profile formatter's table columns
 │   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
 │   │   │   ├── index.ts      # Barrel file
 │   │   │   └── testing.ts    # Test-only utilities specific to this module
@@ -63,6 +66,7 @@ profiler-md
 │   │       ├── retained.ts   # Retained size computation
 │   │       ├── aggregate.ts  # Heap snapshot aggregation over classified nodes
 │   │       ├── diff.ts       # Aggregated heap snapshot diffing logic
+│   │       ├── table.ts      # The heap snapshot formatter's table columns
 │   │       ├── format.ts     # Heap snapshot and diff to Markdown formatting
 │   │       ├── index.ts      # Barrel file
 │   │       └── testing.ts    # Test-only utilities specific to this module
@@ -71,9 +75,8 @@ profiler-md
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
 │   ├── metric.ts             # Sampled metric types and inference logic
-│   ├── measure.ts            # Metric/measure Markdown formatting shared across formatters
 │   ├── diff.ts               # Base/current diffing primitives
-│   ├── cell.ts               # Table cell types + Markdown table/diff-table formatting
+│   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
 │   ├── testing.ts            # Test-only option resolution and cross-modality Markdown assertion helpers
 │   │
 │   └── helpers/              # Truly generic (non-profiling) utility functions

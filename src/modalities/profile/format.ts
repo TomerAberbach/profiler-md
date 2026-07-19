@@ -1,13 +1,5 @@
-import type { PhrasingContent, RootContent } from 'mdast'
-import {
-  codeCell,
-  countCell,
-  formatDiffTable,
-  formatTable,
-  percentCell,
-  textCell,
-} from '../../cell.ts'
-import type { Cell } from '../../cell.ts'
+import type { Heading, RootContent } from 'mdast'
+import type { Diff } from '../../diff.ts'
 import {
   capitalizeFirst,
   formatArrow,
@@ -22,29 +14,20 @@ import {
   formatSectionGroup,
   heading,
   inlineCode,
+  nameLocationPhrasing,
   paragraph,
   phrasing,
-  text,
 } from '../../helpers/markdown.ts'
-import type { Header } from '../../helpers/markdown.ts'
-import { fileReferenceId, formatSourceLocation } from '../../location.ts'
-import {
-  ENTRY_FILTER_DISABLED_NOTE,
-  formatDiffFunctionSections,
-  formatFunctionHeading,
-  formatMeasureSections,
-  formatProseValue,
-  formatProseValueDelta,
-  formatTitle,
-  formatZeroTotalNote,
-  measureColumnNoun,
-  measureRankedByPhrase,
-  metricCell,
-  selectDiffFunctions,
-} from '../../measure.ts'
-import type { NamedFunction } from '../../measure.ts'
-import type { DiffMetric, Metric } from '../../metric.ts'
+import { formatSourceLocation } from '../../location.ts'
+import type { Metric } from '../../metric.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import { formatDiffTable, formatTable } from '../../table.ts'
+import type { Table } from '../../table.ts'
+import {
+  resolveEntryFilter,
+  selectDiffEntities,
+  showDiffEntity,
+} from '../format.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,
@@ -55,11 +38,25 @@ import type {
   AggregatedProfileDiff,
   AggregatedProfileFunctionDiff,
 } from './diff.ts'
-
-type FormatProfileOptions = FormattingProfileToMdOptions & {
-  /** The Markdown heading level to use. */
-  headingLevel: number
-}
+import {
+  diffMeasuresOf,
+  formatProseValue,
+  formatProseValueDelta,
+  measureColumnNoun,
+  measureRankedByPhrase,
+  measuresOf,
+  selfValueOf,
+  totalValueOf,
+} from './measure.ts'
+import type { DiffMeasure, Measure } from './measure.ts'
+import {
+  callStackColumns,
+  categoryColumns,
+  formatCallStack,
+  functionColumns,
+  lineColumns,
+} from './table.ts'
+import type { FunctionMeasureRow, NamedFunction } from './table.ts'
 
 export const formatProfile = (
   profile: AggregatedProfile,
@@ -70,26 +67,34 @@ export const formatProfile = (
     heading(headingLevel, formatTitle(profile.metrics)),
     ...formatOverallSummary(profile),
     ...formatMeasureSections(
-      measuresOf(profile.metrics),
+      measuresOf(profile),
       headingLevel + 1,
-      measureMetric,
       (measure, sectionHeadingLevel) => {
-        if (measureTotal(measure, profile) === 0) {
-          return [formatZeroTotalNote(measureMetric(measure), ` in any sample`)]
+        if (measure.total === 0) {
+          return [formatZeroTotalNote(measure.metric)]
         }
 
-        const showsAnyEntry = profile.functions.some(func =>
-          options.showEntry(func),
-        )
-        const sectionOptions = {
-          ...options,
-          ...(showsAnyEntry ? {} : { showEntry: () => true }),
-          headingLevel: sectionHeadingLevel,
-        }
+        const { sectionOptions, notes } = resolveEntryFilter({
+          options,
+          showsAnyEntry: profile.functions.some(func =>
+            options.showEntry(func),
+          ),
+          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+        })
         return [
-          ...(showsAnyEntry ? [] : [paragraph(ENTRY_FILTER_DISABLED_NOTE)]),
-          ...formatHottestFunctions(measure, profile, sectionOptions),
-          ...formatHottestCallStacks(measure, profile, sectionOptions),
+          ...notes,
+          ...formatHottestFunctions({
+            measure,
+            profile,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
+          ...formatHottestCallStacks({
+            measure,
+            profile,
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
         ]
       },
     ),
@@ -106,33 +111,28 @@ export const formatProfileDiff = (
     heading(headingLevel, `${formatTitle(metrics)} diff`),
     ...formatDiffSummary(diff),
     ...formatMeasureSections(
-      diffMeasuresOf(diff.metrics),
+      diffMeasuresOf(diff),
       headingLevel + 1,
-      measureMetric,
       (measure, sectionHeadingLevel) => {
-        if (
-          diffTotal(measure, diff.base, `base`) === 0 &&
-          diffTotal(measure, diff.current, `current`) === 0
-        ) {
-          return [formatZeroTotalNote(measureMetric(measure), ` in any sample`)]
+        if (measure.base.total === 0 && measure.current.total === 0) {
+          return [formatZeroTotalNote(measure.metric)]
         }
 
-        const showsAnyEntry = diff.functions.some(
-          ({ base, current }) =>
-            (base !== undefined && options.showEntry(base)) ||
-            (current !== undefined && options.showEntry(current)),
-        )
-        const sectionOptions = showsAnyEntry
-          ? options
-          : { ...options, showEntry: () => true }
+        const { sectionOptions, notes } = resolveEntryFilter({
+          options,
+          showsAnyEntry: diff.functions.some(func =>
+            showDiffEntity(func, options),
+          ),
+          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+        })
         return [
-          ...(showsAnyEntry ? [] : [paragraph(ENTRY_FILTER_DISABLED_NOTE)]),
-          ...formatDiffFunctions(
+          ...notes,
+          ...formatDiffFunctions({
             diff,
             measure,
-            sectionOptions,
-            sectionHeadingLevel,
-          ),
+            options: sectionOptions,
+            headingLevel: sectionHeadingLevel,
+          }),
         ]
       },
     ),
@@ -140,38 +140,69 @@ export const formatProfileDiff = (
 }
 
 /**
- * What a profile section ranks, percentages, and tabulates by: a metric at a
- * given index in {@link AggregatedProfile.metrics}, or the raw sample count when
- * a profile has no metrics.
+ * The note shown when the entry filter would hide every function, e.g. a
+ * profile sampled entirely inside external code with no frame of ours (a
+ * runtime dump, a lock profile parked in the JDK).
  */
-type Measure =
-  | { type: `samples` }
-  | { type: `metric`; metric: Metric; index: number }
+const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
+
+/** The document title for a profile with the given metrics. */
+const formatTitle = (metrics: Metric[]): string =>
+  metrics.length === 0
+    ? `Sampling profile`
+    : capitalizeFirst(
+        `${formatConjunction(
+          metrics.map(metric => metric.phrases.titleNoun),
+        )} profile`,
+      )
 
 /**
- * The {@link Measure}s for a profile: one per metric, or a single sample-count
- * measure when the profile has no metrics.
+ * Formats a Markdown section per measure in {@link measures} via
+ * {@link formatSections}, wrapping each measure's sections in a heading with
+ * the metric's name when there are multiple measures.
  */
-const measuresOf = (metrics: Metric[]): Measure[] =>
-  metrics.length === 0
-    ? [{ type: `samples` }]
-    : metrics.map((metric, index) => ({ type: `metric`, metric, index }))
+const formatMeasureSections = <M extends { metric: Metric | null }>(
+  measures: M[],
+  headingLevel: number,
+  formatSections: (measure: M, headingLevel: number) => RootContent[],
+): RootContent[] =>
+  measures.flatMap(measure =>
+    measures.length === 1
+      ? formatSections(measure, headingLevel)
+      : formatSectionGroup(
+          [
+            heading(
+              headingLevel,
+              capitalizeFirst(measure.metric!.phrases.titleNoun),
+            ),
+          ],
+          formatSections(measure, headingLevel + 1),
+        ),
+  )
 
-/** A {@link Measure} for diffing, with each side's metric index. */
-type DiffMeasure =
-  | { type: `samples` }
-  | { type: `metric`; metric: Metric; baseIndex: number; currentIndex: number }
+/**
+ * The note shown in place of a measure's sections when the profile recorded no
+ * value for it, e.g. a heap profile dumped when nothing was retained.
+ */
+const formatZeroTotalNote = (metric: Metric | null): RootContent =>
+  paragraph(
+    metric === null
+      ? `No samples were collected.`
+      : `No ${metric.phrases.pastParticipleVerbPhrase} in any sample.`,
+  )
 
-/** The diffing counterpart to {@link measuresOf}. */
-const diffMeasuresOf = (metrics: DiffMetric[]): DiffMeasure[] =>
-  metrics.length === 0
-    ? [{ type: `samples` }]
-    : metrics.map(({ metric, baseIndex, currentIndex }) => ({
-        type: `metric`,
-        metric,
-        baseIndex,
-        currentIndex,
-      }))
+const formatFunctionHeading = (
+  headingLevel: number,
+  func: NamedFunction,
+  options: FormattingProfileToMdOptions,
+): Heading =>
+  heading(
+    headingLevel,
+    nameLocationPhrasing(
+      func.name,
+      inlineCode(formatSourceLocation(func.location, options)),
+    ),
+  )
 
 const formatOverallSummary = (profile: AggregatedProfile): RootContent[] => [
   paragraph(formatSummaryLine(profile)),
@@ -214,104 +245,119 @@ const formatSummaryLine = ({
 const formatCategoryTable = (profile: AggregatedProfile): RootContent[] => {
   const { metrics, categoryToMetrics } = profile
   // The first metric, or raw sample count when metric-less, determines sorting and %.
-  const primaryMeasure = measuresOf(metrics)[0]!
+  const primaryMeasure = measuresOf(profile)[0]!
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) =>
-      measureValue(primaryMeasure, metrics2.values, metrics2.sampleCount) -
-      measureValue(primaryMeasure, metrics1.values, metrics1.sampleCount),
+      primaryMeasure.valueOf(metrics2.values, metrics2.sampleCount) -
+      primaryMeasure.valueOf(metrics1.values, metrics1.sampleCount),
   )
   if (hottestCategories.length === 0) {
     return []
   }
 
   const metricIndices = metrics.map((_, index) => index)
-  const firstTotal = measureTotal(primaryMeasure, profile)
+  const firstTotal = primaryMeasure.total
   return [
     formatTable(
-      categoryTableHeaders(metrics),
-      hottestCategories.map(([category, categoryMetrics]) =>
-        categoryRow(
-          category,
-          categoryMetrics,
-          metrics,
-          metricIndices,
-          firstTotal,
-        ),
-      ),
+      categoryColumns(metrics),
+      hottestCategories.map(([category, stats]) => ({
+        category,
+        stats,
+        indices: metricIndices,
+        total: firstTotal,
+      })),
     ),
   ]
 }
 
-const formatHottestFunctions = (
-  measure: Measure,
-  profile: AggregatedProfile,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const subsectionOptions = {
-    ...options,
-    headingLevel: options.headingLevel + 1,
-  }
-  return formatSectionGroup(
-    [heading(options.headingLevel, `Hottest functions`)],
+const formatHottestFunctions = ({
+  measure,
+  profile,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  profile: AggregatedProfile
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] =>
+  formatSectionGroup(
+    [heading(headingLevel, `Hottest functions`)],
     [
-      ...formatHottestSelfFunctions(measure, profile, subsectionOptions),
-      ...formatHottestTotalFunctions(measure, profile, subsectionOptions),
+      ...formatHottestSelfFunctions({
+        measure,
+        profile,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
+      ...formatHottestTotalFunctions({
+        measure,
+        profile,
+        options,
+        headingLevel: headingLevel + 1,
+      }),
     ],
   )
-}
 
-const formatHottestSelfFunctions = (
-  measure: Measure,
-  profile: AggregatedProfile,
-  options: FormatProfileOptions,
-): RootContent[] => {
+const formatHottestSelfFunctions = ({
+  measure,
+  profile,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  profile: AggregatedProfile
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
   const hottestFunctions = selectTopN(
     profile.functions.filter(
-      func =>
-        options.showEntry(func) &&
-        measureValue(measure, func.selfValues, func.selfSampleCount) > 0,
+      func => options.showEntry(func) && selfValueOf(measure, func) > 0,
     ),
     options.topN,
-    func => measureValue(measure, func.selfValues, func.selfSampleCount),
+    func => selfValueOf(measure, func),
   )
   if (hottestFunctions.length === 0) {
     return []
   }
 
-  const subsectionOptions = {
-    ...options,
-    headingLevel: options.headingLevel + 2,
-  }
   const hottestLinesSections = hottestFunctions
     .filter(func => func.lineToMetrics.size > 0)
-    .flatMap(func => formatHottestLines(measure, func, subsectionOptions))
+    .flatMap(func =>
+      formatHottestLines({
+        measure,
+        func,
+        options,
+        headingLevel: headingLevel + 2,
+      }),
+    )
   const hottestCallersSections = hottestFunctions.flatMap(func =>
-    formatHottestCallers(measure, func, subsectionOptions),
+    formatHottestCallers({
+      measure,
+      func,
+      options,
+      headingLevel: headingLevel + 2,
+    }),
   )
 
-  const metric = measureMetric(measure)
-  const total = measureTotal(measure, profile)
+  const { metric, total } = measure
   return [
-    heading(options.headingLevel, `Self ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Self ${measureColumnNoun(metric)}`),
     paragraph(
       `Functions ranked by ${measureRankedByPhrase(metric)} directly in the function body, excluding callees.`,
     ),
     formatTable(
-      functionTableHeaders(metric),
-      hottestFunctions.map(func =>
-        functionMeasureRow(
-          func,
-          metric,
-          measureValue(measure, func.selfValues, func.selfSampleCount),
-          func.selfSampleCount,
-          total,
-          options,
-        ),
-      ),
+      functionColumns(metric, `Function`, options),
+      hottestFunctions.map(func => ({
+        func,
+        value: selfValueOf(measure, func),
+        sampleCount: func.selfSampleCount,
+        total,
+      })),
     ),
     ...formatSectionGroup(
       [
-        heading(options.headingLevel + 1, `Lines`),
+        heading(headingLevel + 1, `Lines`),
         paragraph(
           `Lines ranked by contribution to each function's self ${measureColumnNoun(metric)}.`,
         ),
@@ -320,7 +366,7 @@ const formatHottestSelfFunctions = (
     ),
     ...formatSectionGroup(
       [
-        heading(options.headingLevel + 1, `Callers`),
+        heading(headingLevel + 1, `Callers`),
         paragraph(
           `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Inlining can make caller attribution imprecise.`,
         ),
@@ -330,133 +376,129 @@ const formatHottestSelfFunctions = (
   ]
 }
 
-const formatHottestLines = (
-  measure: Measure,
-  func: AggregatedProfileFunction,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const selfValue = measureValue(measure, func.selfValues, func.selfSampleCount)
+const formatHottestLines = ({
+  measure,
+  func,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  func: AggregatedProfileFunction
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const selfValue = selfValueOf(measure, func)
   const hottestLines = selectTopN(
     [...func.lineToMetrics],
     Math.ceil(options.topN / 4),
-    ([, stats]) => measureValue(measure, stats.values, stats.sampleCount),
+    ([, stats]) => measure.valueOf(stats.values, stats.sampleCount),
   )
   if (hottestLines.length === 0) {
     return []
   }
 
-  const metric = measureMetric(measure)
   return [
-    formatFunctionHeading(options.headingLevel, func, options),
+    formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      [...measureHeaders(metric), `Location`],
-      hottestLines.map(([line, stats]) => [
-        ...measureCells(
-          metric,
-          measureValue(measure, stats.values, stats.sampleCount),
-          stats.sampleCount,
-          selfValue,
-        ),
-        func.location
-          ? codeCell(
-              formatSourceLocation(
-                { ...func.location, line, column: undefined },
-                options,
-              ),
-            )
-          : textCell(String(line)),
-      ]),
+      lineColumns(measure.metric, func, options),
+      hottestLines.map(([line, stats]) => ({
+        line,
+        value: measure.valueOf(stats.values, stats.sampleCount),
+        sampleCount: stats.sampleCount,
+        total: selfValue,
+      })),
     ),
   ]
 }
 
-const formatHottestCallers = (
-  measure: Measure,
-  func: AggregatedProfileFunction,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const selfValue = measureValue(measure, func.selfValues, func.selfSampleCount)
+const formatHottestCallers = ({
+  measure,
+  func,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  func: AggregatedProfileFunction
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const selfValue = selfValueOf(measure, func)
   const hottestCallers = selectTopN(
     [...func.callerIdToMetrics.values()].filter(
       entry =>
-        options.showEntry(entry.caller) &&
-        measureValue(measure, entry.selfValues, entry.selfSampleCount) > 0,
+        options.showEntry(entry.caller) && selfValueOf(measure, entry) > 0,
     ),
     Math.ceil(options.topN / 4),
-    entry => measureValue(measure, entry.selfValues, entry.selfSampleCount),
+    entry => selfValueOf(measure, entry),
   )
   if (hottestCallers.length === 0) {
     return []
   }
 
-  const metric = measureMetric(measure)
+  const { metric } = measure
   return [
-    formatFunctionHeading(options.headingLevel, func, options),
+    formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionMeasureHeaders(metric, `Caller`),
-      hottestCallers.map(entry =>
-        functionMeasureRow(
-          entry.caller,
-          metric,
-          measureValue(measure, entry.selfValues, entry.selfSampleCount),
-          entry.selfSampleCount,
-          selfValue,
-          options,
-        ),
-      ),
+      functionColumns(metric, `Caller`, options),
+      hottestCallers.map(entry => ({
+        func: entry.caller,
+        value: selfValueOf(measure, entry),
+        sampleCount: entry.selfSampleCount,
+        total: selfValue,
+      })),
     ),
   ]
 }
 
-const formatHottestTotalFunctions = (
-  measure: Measure,
-  profile: AggregatedProfile,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const total = measureTotal(measure, profile)
+const formatHottestTotalFunctions = ({
+  measure,
+  profile,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  profile: AggregatedProfile
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
   const hottestFunctions = selectTopN(
     profile.functions.filter(
-      func =>
-        options.showEntry(func) &&
-        measureValue(measure, func.totalValues, func.totalSampleCount) > 0,
+      func => options.showEntry(func) && totalValueOf(measure, func) > 0,
     ),
     options.topN,
-    func => measureValue(measure, func.totalValues, func.totalSampleCount),
+    func => totalValueOf(measure, func),
   )
   if (hottestFunctions.length === 0) {
     return []
   }
 
-  const subsectionOptions = {
-    ...options,
-    headingLevel: options.headingLevel + 2,
-  }
   const calleeSections = hottestFunctions.flatMap(func =>
-    formatHottestCallees(measure, func, subsectionOptions),
+    formatHottestCallees({
+      measure,
+      func,
+      options,
+      headingLevel: headingLevel + 2,
+    }),
   )
 
-  const metric = measureMetric(measure)
+  const { metric, total } = measure
   return [
-    heading(options.headingLevel, `Total ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Total ${measureColumnNoun(metric)}`),
     paragraph(
       `Functions ranked by total ${measureRankedByPhrase(metric)} in the function and all its callees.`,
     ),
     formatTable(
-      functionTableHeaders(metric),
-      hottestFunctions.map(func =>
-        functionMeasureRow(
-          func,
-          metric,
-          measureValue(measure, func.totalValues, func.totalSampleCount),
-          func.totalSampleCount,
-          total,
-          options,
-        ),
-      ),
+      functionColumns(metric, `Function`, options),
+      hottestFunctions.map(func => ({
+        func,
+        value: totalValueOf(measure, func),
+        sampleCount: func.totalSampleCount,
+        total,
+      })),
     ),
     ...formatSectionGroup(
       [
-        heading(options.headingLevel + 1, `Callees`),
+        heading(headingLevel + 1, `Callees`),
         paragraph(
           `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
         ),
@@ -466,69 +508,72 @@ const formatHottestTotalFunctions = (
   ]
 }
 
-const formatHottestCallees = (
-  measure: Measure,
-  func: AggregatedProfileFunction,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const total = measureValue(measure, func.totalValues, func.totalSampleCount)
+const formatHottestCallees = ({
+  measure,
+  func,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  func: AggregatedProfileFunction
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
+  const total = totalValueOf(measure, func)
   const hottestCallees = selectTopN(
     [...func.calleeIdToMetrics.values()].filter(
       entry =>
-        options.showEntry(entry.callee) &&
-        measureValue(measure, entry.totalValues, entry.totalSampleCount) > 0,
+        options.showEntry(entry.callee) && totalValueOf(measure, entry) > 0,
     ),
     Math.ceil(options.topN / 4),
-    entry => measureValue(measure, entry.totalValues, entry.totalSampleCount),
+    entry => totalValueOf(measure, entry),
   )
   if (hottestCallees.length === 0) {
     return []
   }
 
-  const metric = measureMetric(measure)
+  const { metric } = measure
   return [
-    formatFunctionHeading(options.headingLevel, func, options),
+    formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionMeasureHeaders(metric, `Callee`),
-      hottestCallees.map(entry =>
-        functionMeasureRow(
-          entry.callee,
-          metric,
-          measureValue(measure, entry.totalValues, entry.totalSampleCount),
-          entry.totalSampleCount,
-          total,
-          options,
-        ),
-      ),
+      functionColumns(metric, `Callee`, options),
+      hottestCallees.map(entry => ({
+        func: entry.callee,
+        value: totalValueOf(measure, entry),
+        sampleCount: entry.totalSampleCount,
+        total,
+      })),
     ),
   ]
 }
 
-const formatHottestCallStacks = (
-  measure: Measure,
-  profile: AggregatedProfile,
-  options: FormatProfileOptions,
-): RootContent[] => {
-  const total = measureTotal(measure, profile)
+const formatHottestCallStacks = ({
+  measure,
+  profile,
+  options,
+  headingLevel,
+}: {
+  measure: Measure
+  profile: AggregatedProfile
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] => {
   const hottestCallStacks = selectTopN(
     mergeShownCallStacks(profile.callStacks, options).filter(
-      callStack =>
-        measureValue(measure, callStack.selfValues, callStack.selfSampleCount) >
-        0,
+      callStack => selfValueOf(measure, callStack) > 0,
     ),
     options.topN,
-    callStack =>
-      measureValue(measure, callStack.selfValues, callStack.selfSampleCount),
+    callStack => selfValueOf(measure, callStack),
   )
   if (hottestCallStacks.length === 0) {
     return []
   }
 
-  const metric = measureMetric(measure)
+  const { metric, total } = measure
   const commonCallStack = findCommonCallStack(hottestCallStacks)
 
   return [
-    heading(options.headingLevel, `Hottest call stacks`),
+    heading(headingLevel, `Hottest call stacks`),
     paragraph(
       `Call stacks ranked by ${measureRankedByPhrase(metric)} in their leaf frame.`,
     ),
@@ -540,10 +585,13 @@ const formatHottestCallStacks = (
         ]
       : []),
     formatTable(
-      callStackTableHeaders(metric),
-      hottestCallStacks.map(callStack =>
-        callStackRow(callStack, measure, total, commonCallStack, options),
-      ),
+      callStackColumns(metric, commonCallStack, options),
+      hottestCallStacks.map(callStack => ({
+        frames: callStack.frames,
+        value: selfValueOf(measure, callStack),
+        sampleCount: callStack.selfSampleCount,
+        total,
+      })),
     ),
   ]
 }
@@ -623,39 +671,6 @@ const mergeShownCallStacks = (
   return [...merged.values()]
 }
 
-/** The headers of the hottest call stacks table. */
-const callStackTableHeaders = (metric: Metric | null): Header[] => [
-  ...measureHeaders(metric),
-  `Call stack`,
-]
-
-/**
- * A row of the hottest call stacks table for one call stack, with
- * {@link commonCallStack} trimmed off.
- */
-const callStackRow = (
-  callStack: AggregatedProfileCallStack,
-  measure: Measure,
-  total: number,
-  commonCallStack: AggregatedProfileFunction[],
-  options: FormattingProfileToMdOptions,
-): Cell[] => [
-  ...measureCells(
-    measureMetric(measure),
-    measureValue(measure, callStack.selfValues, callStack.selfSampleCount),
-    callStack.selfSampleCount,
-    total,
-  ),
-  textCell(
-    formatCallStack(
-      commonCallStack.length > 0
-        ? callStack.frames.slice(0, -commonCallStack.length)
-        : callStack.frames,
-      options,
-    ),
-  ),
-]
-
 const formatDiffSummary = (diff: AggregatedProfileDiff): RootContent[] => [
   paragraph(formatDiffSummaryLine(diff)),
   ...formatDiffCategoryTable(diff),
@@ -718,14 +733,13 @@ const formatDiffCategoryTable = (
 
   const metrics = diff.metrics.map(({ metric }) => metric)
   // The first metric, or raw sample count when metric-less, determines sorting and %.
-  const primaryMeasure = diffMeasuresOf(diff.metrics)[0]!
-  const currentMeasure = measureForSide(primaryMeasure, `current`)
+  const primaryMeasure = diffMeasuresOf(diff)[0]!
   const categoryValue = (
     metrics: AggregatedProfileCategoryMetrics | undefined,
   ): number =>
     metrics === undefined
       ? 0
-      : measureValue(currentMeasure, metrics.values, metrics.sampleCount)
+      : primaryMeasure.current.valueOf(metrics.values, metrics.sampleCount)
   const categories = [...diff.categoryToMetrics].sort(
     ([, left], [, right]) =>
       categoryValue(right.current) - categoryValue(left.current),
@@ -733,371 +747,186 @@ const formatDiffCategoryTable = (
 
   const baseIndices = diff.metrics.map(metric => metric.baseIndex)
   const currentIndices = diff.metrics.map(metric => metric.currentIndex)
-  const baseTotal = diffTotal(primaryMeasure, diff.base, `base`)
-  const currentTotal = diffTotal(primaryMeasure, diff.current, `current`)
+  const baseTotal = primaryMeasure.base.total
+  const currentTotal = primaryMeasure.current.total
   return [
     formatDiffTable(
-      categoryTableHeaders(metrics),
+      categoryColumns(metrics),
       categories.map(([category, { base, current }]) => ({
-        base:
-          base && categoryRow(category, base, metrics, baseIndices, baseTotal),
-        current:
-          current &&
-          categoryRow(category, current, metrics, currentIndices, currentTotal),
+        base: base && {
+          category,
+          stats: base,
+          indices: baseIndices,
+          total: baseTotal,
+        },
+        current: current && {
+          category,
+          stats: current,
+          indices: currentIndices,
+          total: currentTotal,
+        },
       })),
-      { primaryIndex: categoryPrimaryIndex, changeDeltaIndex: 1 },
     ),
   ]
 }
 
-/** The headers of the overall hottest function categories table. */
-const categoryTableHeaders = (metrics: Metric[]): Header[] => {
-  // Two metrics sharing a noun (allocated and retained heap are both "Size")
-  // would produce indistinguishable columns, so fall back to each metric's verb
-  // ("Allocated", "Retained").
-  const nounCounts = new Map<string, number>()
-  for (const { phrases } of metrics) {
-    nounCounts.set(
-      phrases.columnNoun,
-      (nounCounts.get(phrases.columnNoun) ?? 0) + 1,
-    )
-  }
-  return [
-    `Category`,
-    { content: `%`, align: `right` },
-    ...metrics.map(
-      (metric): Header => ({
-        content: capitalizeFirst(
-          nounCounts.get(metric.phrases.columnNoun)! > 1
-            ? metric.phrases.pastTenseVerb
-            : metric.phrases.columnNoun,
-        ),
-        align: `right`,
-      }),
-    ),
-    samplesHeader,
-  ]
-}
-
-/** The index of the primary metric value column in the categories table. */
-const categoryPrimaryIndex = 2
-
-/**
- * A row of the categories table for one category on one side, reading each
- * metric column from {@link metricIndices} and ranking `%` against
- * {@link firstTotal}. With no metrics, the sample count is the primary column.
- */
-const categoryRow = (
-  category: string,
-  categoryMetrics: AggregatedProfileCategoryMetrics,
-  metrics: Metric[],
-  metricIndices: number[],
-  firstTotal: number,
-): Cell[] => {
-  if (metrics.length === 0) {
-    return [
-      textCell(category),
-      percentCell(firstTotal ? categoryMetrics.sampleCount / firstTotal : 0),
-      countCell(categoryMetrics.sampleCount),
-    ]
-  }
-
-  const firstMetricValue = categoryMetrics.values[metricIndices[0]!]!
-  return [
-    textCell(category),
-    percentCell(firstMetricValue / firstTotal),
-    ...metrics.map((metric, columnIndex) =>
-      metricCell(categoryMetrics.values[metricIndices[columnIndex]!]!, metric),
-    ),
-    countCell(categoryMetrics.sampleCount),
-  ]
-}
-
-const formatDiffFunctions = (
-  diff: AggregatedProfileDiff,
-  measure: DiffMeasure,
-  options: FormattingProfileToMdOptions,
-  headingLevel: number,
-): RootContent[] =>
+const formatDiffFunctions = ({
+  diff,
+  measure,
+  options,
+  headingLevel,
+}: {
+  diff: AggregatedProfileDiff
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+}): RootContent[] =>
   formatSectionGroup(
     [heading(headingLevel, `Hottest functions`)],
     [
-      ...formatDiffSelfFunctions(diff, measure, options, headingLevel + 1),
-      ...formatDiffTotalFunctions(diff, measure, options, headingLevel + 1),
+      ...formatDiffDirectionFunctions({
+        diff,
+        measure,
+        options,
+        headingLevel: headingLevel + 1,
+        direction: SELF_DIRECTION,
+      }),
+      ...formatDiffDirectionFunctions({
+        diff,
+        measure,
+        options,
+        headingLevel: headingLevel + 1,
+        direction: TOTAL_DIRECTION,
+      }),
     ],
   )
 
-const formatDiffSelfFunctions = (
-  diff: AggregatedProfileDiff,
-  measure: DiffMeasure,
-  options: FormattingProfileToMdOptions,
-  headingLevel: number,
-): RootContent[] => {
-  const metric = measureMetric(measure)
+/**
+ * The value accessors and phrasing for one function diff direction (self or
+ * total).
+ */
+type DiffFunctionDirection = {
+  valueOf: (side: Measure, func: AggregatedProfileFunction) => number
+  sampleCountOf: (func: AggregatedProfileFunction) => number
+  titleOf: (metric: Metric | null) => string
+  descriptionOf: (metric: Metric | null) => string
+}
 
-  const { regressions, improvements, hasActive } = selectDiffFunctions(
-    diff.functions.map(func => ({
-      func,
-      baseValue: diffSelfValue(measure, func.base, `base`),
-      currentValue: diffSelfValue(measure, func.current, `current`),
-    })),
-    options.topN,
-    func => showDiffFunction(func, options),
-  )
-
-  const baseTotal = diffTotal(measure, diff.base, `base`)
-  const currentTotal = diffTotal(measure, diff.current, `current`)
-  const rowOf = ({ base, current }: AggregatedProfileFunctionDiff) => ({
-    base:
-      base &&
-      functionMeasureRow(
-        base,
-        metric,
-        diffSelfValue(measure, base, `base`),
-        base.selfSampleCount,
-        baseTotal,
-        options,
-      ),
-    current:
-      current &&
-      functionMeasureRow(
-        current,
-        metric,
-        diffSelfValue(measure, current, `current`),
-        current.selfSampleCount,
-        currentTotal,
-        options,
-      ),
-  })
-
-  return formatDiffFunctionSections(
-    headingLevel,
-    `Self ${measureColumnNoun(metric)}`,
+const SELF_DIRECTION: DiffFunctionDirection = {
+  valueOf: selfValueOf,
+  sampleCountOf: func => func.selfSampleCount,
+  titleOf: metric => `Self ${measureColumnNoun(metric)}`,
+  descriptionOf: metric =>
     `${measureRankedByPhrase(metric)} directly in the function body, excluding callees`,
-    functionTableHeaders(metric),
-    hasActive,
-    regressions.map(({ func }) => rowOf(func)),
-    improvements.map(({ func }) => rowOf(func)),
-  )
 }
 
-const formatDiffTotalFunctions = (
-  diff: AggregatedProfileDiff,
-  measure: DiffMeasure,
-  options: FormattingProfileToMdOptions,
-  headingLevel: number,
-): RootContent[] => {
-  const metric = measureMetric(measure)
+const TOTAL_DIRECTION: DiffFunctionDirection = {
+  valueOf: totalValueOf,
+  sampleCountOf: func => func.totalSampleCount,
+  titleOf: metric => `Total ${measureColumnNoun(metric)}`,
+  descriptionOf: metric =>
+    `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
+}
 
-  const { regressions, improvements, hasActive } = selectDiffFunctions(
+const formatDiffDirectionFunctions = ({
+  diff,
+  measure,
+  options,
+  headingLevel,
+  direction: { valueOf, sampleCountOf, titleOf, descriptionOf },
+}: {
+  diff: AggregatedProfileDiff
+  measure: DiffMeasure
+  options: FormattingProfileToMdOptions
+  headingLevel: number
+  direction: DiffFunctionDirection
+}): RootContent[] => {
+  const { metric, base: baseMeasure, current: currentMeasure } = measure
+
+  const diffValue = (side: Measure, func?: AggregatedProfileFunction) =>
+    func === undefined ? 0 : valueOf(side, func)
+  const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.functions.map(func => ({
-      func,
-      baseValue: diffTotalValue(measure, func.base, `base`),
-      currentValue: diffTotalValue(measure, func.current, `current`),
+      entity: func,
+      baseValue: diffValue(baseMeasure, func.base),
+      currentValue: diffValue(currentMeasure, func.current),
     })),
-    options.topN,
-    func => showDiffFunction(func, options),
+    options,
   )
 
-  const baseTotal = diffTotal(measure, diff.base, `base`)
-  const currentTotal = diffTotal(measure, diff.current, `current`)
+  const sideRowOf = (side: Measure, func?: AggregatedProfileFunction) =>
+    func && {
+      func,
+      value: valueOf(side, func),
+      sampleCount: sampleCountOf(func),
+      total: side.total,
+    }
   const rowOf = ({ base, current }: AggregatedProfileFunctionDiff) => ({
-    base:
-      base &&
-      functionMeasureRow(
-        base,
-        metric,
-        diffTotalValue(measure, base, `base`),
-        base.totalSampleCount,
-        baseTotal,
-        options,
-      ),
-    current:
-      current &&
-      functionMeasureRow(
-        current,
-        metric,
-        diffTotalValue(measure, current, `current`),
-        current.totalSampleCount,
-        currentTotal,
-        options,
-      ),
+    base: sideRowOf(baseMeasure, base),
+    current: sideRowOf(currentMeasure, current),
   })
 
-  return formatDiffFunctionSections(
+  return formatDiffFunctionSections({
     headingLevel,
-    `Total ${measureColumnNoun(metric)}`,
-    `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
-    functionTableHeaders(metric),
+    title: titleOf(metric),
+    description: descriptionOf(metric),
+    columns: functionColumns(metric, `Function`, options),
     hasActive,
-    regressions.map(({ func }) => rowOf(func)),
-    improvements.map(({ func }) => rowOf(func)),
-  )
+    regressions: regressions.map(({ entity }) => rowOf(entity)),
+    improvements: improvements.map(({ entity }) => rowOf(entity)),
+  })
 }
-
-type DiffSide = `base` | `current`
-
-/** A diffed function's self value on one side: metric value or sample count. */
-const diffSelfValue = (
-  measure: DiffMeasure,
-  func: AggregatedProfileFunction | undefined,
-  side: DiffSide,
-): number =>
-  func === undefined
-    ? 0
-    : measureValue(
-        measureForSide(measure, side),
-        func.selfValues,
-        func.selfSampleCount,
-      )
-
-/** A diffed function's total value on one side: metric value or sample count. */
-const diffTotalValue = (
-  measure: DiffMeasure,
-  func: AggregatedProfileFunction | undefined,
-  side: DiffSide,
-): number =>
-  func === undefined
-    ? 0
-    : measureValue(
-        measureForSide(measure, side),
-        func.totalValues,
-        func.totalSampleCount,
-      )
-
-/** A profile's total on one side of a diff: total metric value or sample count. */
-const diffTotal = (
-  measure: DiffMeasure,
-  profile: AggregatedProfile,
-  side: DiffSide,
-): number => measureTotal(measureForSide(measure, side), profile)
-
-/** Resolves a {@link DiffMeasure} to the one-sided {@link Measure} for a side. */
-const measureForSide = (measure: DiffMeasure, side: DiffSide): Measure => {
-  if (measure.type === `samples`) {
-    return measure
-  }
-
-  let index: number
-  switch (side) {
-    case `base`:
-      index = measure.baseIndex
-      break
-    case `current`:
-      index = measure.currentIndex
-      break
-  }
-
-  return { type: `metric`, metric: measure.metric, index }
-}
-
-/** The headers of the hottest self or total functions table. */
-const functionTableHeaders = (metric: Metric | null): Header[] =>
-  functionMeasureHeaders(metric, `Function`)
-
-/** Returns whether either side of the diffed function should be shown. */
-const showDiffFunction = (
-  { base, current }: AggregatedProfileFunctionDiff,
-  options: FormattingProfileToMdOptions,
-): boolean =>
-  (base !== undefined && options.showEntry(base)) ||
-  (current !== undefined && options.showEntry(current))
-
-/** The `Samples` header shared by the metric tables. */
-const samplesHeader: Header = { content: `Samples`, align: `right` }
-
-const functionMeasureHeaders = (
-  metric: Metric | null,
-  entity: string,
-): Header[] => [...measureHeaders(metric), entity, `Location`]
-
-const functionMeasureRow = (
-  func: NamedFunction,
-  metric: Metric | null,
-  value: number,
-  sampleCount: number,
-  total: number,
-  options: FormattingProfileToMdOptions,
-): Cell[] => [
-  ...measureCells(metric, value, sampleCount, total),
-  codeCell(func.name),
-  codeCell(formatSourceLocation(func.location, options)),
-]
-
-/** The measure's metric, or `null` when it ranks by raw sample count. */
-const measureMetric = (measure: Measure | DiffMeasure): Metric | null =>
-  measure.type === `samples` ? null : measure.metric
-
-/** The value an entity contributes: its metric value, or its sample count. */
-const measureValue = (
-  measure: Measure,
-  values: Float64Array,
-  sampleCount: number,
-): number => (measure.type === `samples` ? sampleCount : values[measure.index]!)
-
-/** The profile-wide total for a measure: total metric value or sample count. */
-const measureTotal = (measure: Measure, profile: AggregatedProfile): number =>
-  measure.type === `samples`
-    ? profile.totalSampleCount
-    : profile.totalValues[measure.index]!
 
 /**
- * The leading `%`, metric value (when there's a metric), and `Samples` headers
- * shared by the measure tables.
+ * Assembles the regressions and improvements subsections for one function
+ * direction (self or total) under a {@link title} heading, with rows under the
+ * given table {@link columns}.
+ *
+ * When nothing differed but {@link hasActive} functions exist on either side,
+ * the section stays, with a "did not differ" note. When no functions are
+ * active (the section a non-diff profile would have omitted), it is omitted.
  */
-const measureHeaders = (metric: Metric | null): Header[] => [
-  { content: `%`, align: `right` },
-  ...(metric === null
-    ? []
-    : [
-        {
-          content: capitalizeFirst(metric.phrases.columnNoun),
-          align: `right`,
-        } as Header,
-      ]),
-  samplesHeader,
-]
+const formatDiffFunctionSections = ({
+  headingLevel,
+  title,
+  description,
+  columns,
+  hasActive,
+  regressions,
+  improvements,
+}: {
+  headingLevel: number
+  title: string
+  description: string
+  columns: Table<FunctionMeasureRow>
+  hasActive: boolean
+  regressions: Diff<FunctionMeasureRow>[]
+  improvements: Diff<FunctionMeasureRow>[]
+}): RootContent[] => {
+  const sections: RootContent[] = []
 
-/** The leading `%`, metric value, and `Samples` cells matching {@link measureHeaders}. */
-const measureCells = (
-  metric: Metric | null,
-  value: number,
-  sampleCount: number,
-  total: number,
-): Cell[] => [
-  percentCell(total ? value / total : 0),
-  ...(metric === null ? [] : [metricCell(value, metric)]),
-  countCell(sampleCount),
-]
+  if (regressions.length > 0) {
+    sections.push(
+      heading(headingLevel + 1, `Regressions`),
+      paragraph(`Functions with the largest increase in ${description}.`),
+      formatDiffTable(columns, regressions),
+    )
+  }
 
-/** Formats a call stack as a chain of functions, leaf to root. */
-const formatCallStack = (
-  frames: AggregatedProfileFunction[],
-  options: FormattingProfileToMdOptions,
-): PhrasingContent[] =>
-  frames.flatMap((frame, index) => {
-    const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]
-    parts.push(inlineCode(frame.name))
-    if (!frame.location) {
-      return parts
+  if (improvements.length > 0) {
+    sections.push(
+      heading(headingLevel + 1, `Improvements`),
+      paragraph(`Functions with the largest decrease in ${description}.`),
+      formatDiffTable(columns, improvements),
+    )
+  }
+
+  if (sections.length === 0) {
+    if (!hasActive) {
+      return []
     }
+    sections.push(paragraph(`No function differed in ${description}.`))
+  }
 
-    const previousFrame = frames[index - 1]
-    const previousFileId = previousFrame?.location
-      ? fileReferenceId(previousFrame.location)
-      : undefined
-    if (!previousFileId || fileReferenceId(frame.location) !== previousFileId) {
-      parts.push(
-        ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
-      )
-      return parts
-    }
-
-    const { line, column } = frame.location
-    if (line === undefined) {
-      return parts
-    }
-
-    parts.push(text(` (${line}${column === undefined ? `` : `:${column}`})`))
-    return parts
-  })
+  return formatSectionGroup([heading(headingLevel, title)], sections)
+}
