@@ -1,5 +1,4 @@
 import type { RootContent } from 'mdast'
-import type { Diff } from '../diff.ts'
 import { selectTopN } from '../helpers/heap.ts'
 import { paragraph } from '../helpers/markdown.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
@@ -7,6 +6,7 @@ import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
 } from '../options.ts'
+import type { Diff } from './diff.ts'
 
 /**
  * The options a modality's sections format with. When the entry filter would

@@ -1,11 +1,11 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
-import { determineMetric } from '../../metric.ts'
-import type { Metric } from '../../metric.ts'
 import type {
   Profile,
   ProfileStackFrame,
   Sample,
 } from '../../modalities/profile/index.ts'
+import { determineMetric } from '../../modalities/profile/metric.ts'
+import type { Metric } from '../../modalities/profile/metric.ts'
 
 export const parseSysting = (bytes: Uint8Array): Profile[] => {
   const builder = new SystingProfileBuilder()

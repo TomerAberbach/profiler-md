@@ -5,11 +5,11 @@ import {
   parseMd,
 } from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
-import type { Metric } from '../../metric.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import { ProfileAggregator } from './aggregate.ts'
 import type { AggregatedProfile } from './aggregate.ts'
+import type { Metric } from './metric.ts'
 
 export const makeAggregatedProfile = (
   metrics: Metric[],

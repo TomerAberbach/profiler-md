@@ -1,5 +1,4 @@
 import type { Heading, RootContent } from 'mdast'
-import type { Diff } from '../../diff.ts'
 import { DynamicTypedArray } from '../../helpers/array.ts'
 import {
   formatArrow,
@@ -19,13 +18,14 @@ import {
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { formatDiffTable, formatTable } from '../../table.ts'
-import type { Table } from '../../table.ts'
+import type { Diff } from '../diff.ts'
 import {
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import { formatDiffTable, formatTable } from '../table.ts'
+import type { Table } from '../table.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,

@@ -50,9 +50,12 @@ profiler-md
 │   │
 │   ├── modalities/           # Individual modality implementations
 │   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
+│   │   ├── diff.ts           # Base/current diffing primitives
+│   │   ├── table.ts          # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts         # Formatting helpers shared across modalities
 │   │   ├── profile/          # Common sampling profile conversion logic
 │   │   │   ├── type.ts       # Parsed profile types
+│   │   │   ├── metric.ts     # Sampled metric types and inference logic
 │   │   │   ├── aggregate.ts  # Sample aggregation over frames
 │   │   │   ├── diff.ts       # Aggregated profile diffing logic
 │   │   │   ├── measure.ts    # Profile-resolved measure views + metric/measure phrasing
@@ -74,9 +77,6 @@ profiler-md
 │   ├── options.ts            # API option types and normalization logic
 │   ├── location.ts           # URL, file path, and line:column location logic
 │   ├── source-map.ts         # Source map resolution logic
-│   ├── metric.ts             # Sampled metric types and inference logic
-│   ├── diff.ts               # Base/current diffing primitives
-│   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
 │   ├── testing.ts            # Test-only option resolution and cross-modality Markdown assertion helpers
 │   │
 │   └── helpers/              # Truly generic (non-profiling) utility functions

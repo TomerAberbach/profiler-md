@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { mdastToMarkdown } from './helpers/markdown.ts'
+import { mdastToMarkdown } from '../helpers/markdown.ts'
 import {
   bytesCell,
   countCell,

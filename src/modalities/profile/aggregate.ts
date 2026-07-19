@@ -1,7 +1,6 @@
 import { HashInterner } from '../../helpers/intern.ts'
 import { makeSourceLocation } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
-import type { Metric } from '../../metric.ts'
 import type {
   AggregationProfileToMdOptions,
   ProfileToMdContext,
@@ -9,6 +8,7 @@ import type {
 import { normalizeFrameForContext } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
+import type { Metric } from './metric.ts'
 import type {
   Profile,
   ProfileStackFrame,

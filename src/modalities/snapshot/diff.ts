@@ -1,10 +1,10 @@
-import type { Diff } from '../../diff.ts'
-import { matchDiffedMaps } from '../../diff.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
   FormattingProfileToMdOptions,
   ProfileToMdContext,
 } from '../../options.ts'
+import type { Diff } from '../diff.ts'
+import { matchDiffedMaps } from '../diff.ts'
 import type {
   AggregatedClosure,
   AggregatedConstructor,

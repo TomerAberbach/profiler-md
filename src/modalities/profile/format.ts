@@ -1,5 +1,4 @@
 import type { Heading, RootContent } from 'mdast'
-import type { Diff } from '../../diff.ts'
 import {
   capitalizeFirst,
   formatArrow,
@@ -19,15 +18,15 @@ import {
   phrasing,
 } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
-import type { Metric } from '../../metric.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { formatDiffTable, formatTable } from '../../table.ts'
-import type { Table } from '../../table.ts'
+import type { Diff } from '../diff.ts'
 import {
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import { formatDiffTable, formatTable } from '../table.ts'
+import type { Table } from '../table.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCallStack,
@@ -49,6 +48,7 @@ import {
   totalValueOf,
 } from './measure.ts'
 import type { DiffMeasure, Measure } from './measure.ts'
+import type { Metric } from './metric.ts'
 import {
   callStackColumns,
   categoryColumns,

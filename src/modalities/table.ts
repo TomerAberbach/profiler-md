@@ -1,5 +1,4 @@
 import type { Table as MdastTable, PhrasingContent } from 'mdast'
-import type { Diff } from './diff.ts'
 import {
   formatArrow,
   formatBytes,
@@ -8,9 +7,10 @@ import {
   formatPercent,
   formatPercentChange,
   formatSigned,
-} from './helpers/format.ts'
-import { inlineCode, table, text } from './helpers/markdown.ts'
-import type { Header } from './helpers/markdown.ts'
+} from '../helpers/format.ts'
+import { inlineCode, table, text } from '../helpers/markdown.ts'
+import type { Header } from '../helpers/markdown.ts'
+import type { Diff } from './diff.ts'
 
 /** A single table cell, already resolved to a value and a formatter. */
 export type Cell =
