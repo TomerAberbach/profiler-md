@@ -221,15 +221,15 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' falls back to absolute paths when no location qualifies`, () => {
-      // The only `ours` location is an HTTP URL and the builtin is stdlib, so
-      // nothing qualifies for inference.
+      // The only `ours` location is a relative path and the builtin's `node:`
+      // URL has no hierarchical path, so nothing qualifies for inference.
       const cpuProfile = JSON.stringify({
         nodes: [
           makeV8CpuProfileRoot([2]),
           {
             id: 2,
             hitCount: 3,
-            callFrame: makeV8CallFrame(`handler`, `https://example.com/app.js`),
+            callFrame: makeV8CallFrame(`handler`, `src/app.js`),
             children: [3],
           },
           {
@@ -254,7 +254,7 @@ describe(`profileToMd`, () => {
             Time: `0.1ms`,
             Samples: `3`,
             Function: `handler`,
-            Location: `https://example.com/app.js:1:1`,
+            Location: `src/app.js:1:1`,
           },
           {
             '%': `25.0%`,
@@ -262,6 +262,125 @@ describe(`profileToMd`, () => {
             Samples: `1`,
             Function: `readFileSync`,
             Location: `node:fs:1:1`,
+          },
+        ],
+      ])
+    })
+
+    test(`baseURL: 'auto' infers the common ancestor of HTTP locations`, () => {
+      // Both scripts live on one HTTPS origin and differ only by query string,
+      // so the inferred base relativizes them while keeping the queries.
+      const cpuProfile = JSON.stringify({
+        nodes: [
+          makeV8CpuProfileRoot([2, 3]),
+          {
+            id: 2,
+            hitCount: 3,
+            callFrame: makeV8CallFrame(
+              `startup`,
+              `https://en.wikipedia.org/w/load.php?modules=startup`,
+            ),
+          },
+          {
+            id: 3,
+            hitCount: 1,
+            callFrame: makeV8CallFrame(
+              `cookie`,
+              `https://en.wikipedia.org/w/load.php?modules=mediawiki.cookie`,
+            ),
+          },
+        ],
+        samples: [2, 2, 2, 3],
+        timeDeltas: Array.from({ length: 4 }, () => 20),
+      })
+
+      const md = profileToMd(
+        { data: cpuProfile, format: `v8-cpu-profile` },
+        { baseURL: `auto` },
+      )
+
+      expect(selfTimeTables(md)).toEqual([
+        [
+          {
+            '%': `75.0%`,
+            Time: `0.1ms`,
+            Samples: `3`,
+            Function: `startup`,
+            Location: `load.php?modules=startup:1:1`,
+          },
+          {
+            '%': `25.0%`,
+            Time: `20.0µs`,
+            Samples: `1`,
+            Function: `cookie`,
+            Location: `load.php?modules=mediawiki.cookie:1:1`,
+          },
+        ],
+      ])
+    })
+
+    test(`baseURL: 'auto' infers the dominant file: base despite a lone HTTP location`, () => {
+      // Two of the three absolute locations are file: URLs, so the file: group
+      // dominates and the lone HTTP location renders absolute.
+      const cpuProfile = JSON.stringify({
+        nodes: [
+          makeV8CpuProfileRoot([2, 3, 4]),
+          {
+            id: 2,
+            hitCount: 5,
+            callFrame: makeV8CallFrame(
+              `funcA`,
+              `file:///home/user/project/src/a.ts`,
+            ),
+          },
+          {
+            id: 3,
+            hitCount: 3,
+            callFrame: makeV8CallFrame(
+              `funcB`,
+              `file:///home/user/project/lib/b.ts`,
+            ),
+          },
+          {
+            id: 4,
+            hitCount: 2,
+            callFrame: makeV8CallFrame(
+              `remoteFn`,
+              `https://cdn.example.com/lib.js`,
+            ),
+          },
+        ],
+        samples: [2, 2, 2, 2, 2, 3, 3, 3, 4, 4],
+        timeDeltas: Array.from({ length: 10 }, () => 20),
+      })
+
+      const md = profileToMd(
+        { data: cpuProfile, format: `v8-cpu-profile` },
+        { baseURL: `auto` },
+      )
+
+      expect(selfTimeTables(md)).toEqual([
+        [
+          {
+            '%': `50.0%`,
+            Time: `0.1ms`,
+            Samples: `5`,
+            Function: `funcA`,
+            Location: `src/a.ts:1:1`,
+          },
+          {
+            '%': `30.0%`,
+            Time: `0.1ms`,
+            Samples: `3`,
+            Function: `funcB`,
+            Location: `lib/b.ts:1:1`,
+          },
+          {
+            '%': `20.0%`,
+            Time: `40.0µs`,
+            Samples: `2`,
+            Function: `remoteFn`,
+            Location: `https://cdn.example.com/lib.js:1:1`,
           },
         ],
       ])

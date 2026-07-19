@@ -5,7 +5,7 @@ import { maybeJson, maybeJsonAsync } from '../helpers/json.ts'
 import { mdastToMarkdown, paragraph } from '../helpers/markdown.ts'
 import {
   commonAncestorDirectoryURL,
-  isAbsoluteFileLocation,
+  isBaseURLInferableLocation,
 } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import { diffAggregatedProfiles } from '../modalities/profile/diff.ts'
@@ -452,20 +452,20 @@ const makeFormattingProfileToMdOptions = (
     ? {
         ...options,
         baseURL: commonAncestorDirectoryURL(
-          collectOursFileURLs(inputs, { ...options, baseURL: undefined }),
+          collectOursInferableURLs(inputs, { ...options, baseURL: undefined }),
         ),
       }
     : { ...options, baseURL }
 }
 
 /**
- * Collects the absolute `file:` URLs of {@link inputs}' `ours`-categorized
- * entries.
+ * Collects the base-URL-inferable absolute URLs of {@link inputs}'
+ * `ours`-categorized entries.
  *
  * Applies source maps first so the base is inferred from the locations
- * formatting will actually show.
+ * formatting will show.
  */
-const collectOursFileURLs = (
+const collectOursInferableURLs = (
   inputs: AggregatedInput[],
   options: FormattingProfileToMdOptions,
 ): URL[] => {
@@ -475,7 +475,7 @@ const collectOursFileURLs = (
       return
     }
     const mappedLocation = sourceMapSourceLocation(location, options)
-    if (isAbsoluteFileLocation(mappedLocation)) {
+    if (isBaseURLInferableLocation(mappedLocation)) {
       urls.push(mappedLocation.url)
     }
   }

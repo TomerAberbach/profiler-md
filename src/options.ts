@@ -124,9 +124,11 @@ export type ProfileToMdOptions = {
    * `file://` URLs internally.
    *
    * A value of `'auto'` infers the base URL as the common ancestor directory
-   * of the input's `ours`-categorized entries with absolute `file:` locations,
-   * across all profiles of an input and across both sides of a diff. Falls back
-   * to absolute paths when no entry qualifies.
+   * of the input's `ours`-categorized entries with absolute locations (`file:`,
+   * `http(s):`, etc.), across all profiles of an input and across both sides
+   * of a diff. When those locations span multiple protocol/host origins, the
+   * origin with the most entries wins. Falls back to absolute paths when no
+   * entry qualifies.
    *
    * A value of `null` leaves URLs absolute.
    *
