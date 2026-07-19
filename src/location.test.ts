@@ -111,6 +111,15 @@ test(`HTTP URL relative to same-origin HTTP baseURL`, () => {
   ).toBe(`../src/file.ts`)
 })
 
+test(`HTTP URL relative to same-origin HTTP baseURL keeps the query string`, () => {
+  expect(
+    format({
+      url: `https://example.com/w/load.php?modules=startup`,
+      baseURL: `https://example.com/w/`,
+    }),
+  ).toBe(`load.php?modules=startup`)
+})
+
 test(`HTTP URL shows full href when origin differs from baseURL`, () => {
   expect(
     format({
@@ -118,6 +127,24 @@ test(`HTTP URL shows full href when origin differs from baseURL`, () => {
       baseURL: `https://example.com/project`,
     }),
   ).toBe(`https://other.com/src/file.ts`)
+})
+
+test(`webpack URL relative to same-bundle webpack baseURL`, () => {
+  expect(
+    format({
+      url: `webpack://my-app/src/file.ts`,
+      baseURL: `webpack://my-app/src/`,
+    }),
+  ).toBe(`file.ts`)
+})
+
+test(`webpack URL shows full href when bundle differs from baseURL`, () => {
+  expect(
+    format({
+      url: `webpack://other-app/src/file.ts`,
+      baseURL: `webpack://my-app/src/`,
+    }),
+  ).toBe(`webpack://other-app/src/file.ts`)
 })
 
 test(`node: URL shows full href when baseURL is file`, () => {
@@ -272,18 +299,37 @@ describe(`commonAncestorDirectoryURL`, () => {
       [`https://example.com/app/src/a.js`, `https://example.com/app/lib/b.js`],
       `https://example.com/app/`,
     ],
+    [
+      `the first-seen origin's directory when differing protocols tie`,
+      [`file:///project/a.ts`, `https://example.com/project/b.ts`],
+      `file:///project/`,
+    ],
+    [
+      `the first-seen origin's directory when differing hosts tie`,
+      [`https://example.com/a.js`, `https://other.com/b.js`],
+      `https://example.com/`,
+    ],
+    [
+      `the dominant host's directory across mixed hosts`,
+      [
+        `https://cdn.example.net/lib/vendor.js`,
+        `https://example.com/app/src/a.js`,
+        `https://example.com/app/lib/b.js`,
+      ],
+      `https://example.com/app/`,
+    ],
+    [
+      `the dominant file: directory despite a lone HTTP URL`,
+      [
+        `file:///project/src/a.ts`,
+        `https://example.com/app.js`,
+        `file:///project/lib/b.ts`,
+      ],
+      `file:///project/`,
+    ],
   ])(`returns %s`, (_label, urls, expected) => {
     expect(
       commonAncestorDirectoryURL(urls.map(url => new URL(url))),
     ).toStrictEqual(new URL(expected))
-  })
-
-  test.each([
-    [`protocols`, [`file:///project/a.ts`, `https://example.com/project/b.ts`]],
-    [`hosts`, [`https://example.com/a.js`, `https://other.com/b.js`]],
-  ])(`returns undefined for URLs with differing %s`, (_label, urls) => {
-    expect(
-      commonAncestorDirectoryURL(urls.map(url => new URL(url))),
-    ).toBeUndefined()
   })
 })

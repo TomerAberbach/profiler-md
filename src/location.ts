@@ -102,10 +102,15 @@ export const fileReferenceToSourceLocation = (
   },
 ): SourceLocation => ({ ...fileReference, line, column })
 
-export const isAbsoluteFileLocation = (
+/**
+ * Whether a base URL can be inferred from {@link location}: an absolute
+ * location with a hierarchical path. Excludes opaque-path URLs like `node:fs`,
+ * whose pathname is not rooted and so names no directory.
+ */
+export const isBaseURLInferableLocation = (
   location: SourceLocation | undefined,
 ): location is SourceLocation & { type: `absolute` } =>
-  location?.type === `absolute` && location.url.protocol === `file:`
+  location?.type === `absolute` && location.url.pathname.startsWith(`/`)
 
 /**
  * Formats a location as a plain string, falling back to `<unknown>`. Callers
@@ -132,7 +137,11 @@ export const formatSourceLocation = (
           ? location.url.pathname
           : location.url.href
     } else if (isSameOrigin(baseURL, location.url)) {
-      path = relativeURLPath(baseURL.pathname, location.url.pathname)
+      // Keep the query so scripts distinguished only by it (e.g.
+      // `load.php?modules=...`) stay distinct.
+      path =
+        relativeURLPath(baseURL.pathname, location.url.pathname) +
+        location.url.search
       // A path that goes up more than two levels above the base URL is a
       // system or toolchain file, not code near the project; `/nix/store/...`
       // reads better than a long `../` prefix that only reflects how deep the
@@ -163,10 +172,11 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
     return false
   }
 
-  // Opaque origins (file:, node:, wasm:, etc.) all report `null`. Compare
-  // protocol alone for file: URLs, reject all other opaque pairs.
+  // Opaque origins (file:, webpack:, wasm:, etc.) all report `null`. Compare
+  // host instead; file: URLs have empty hosts, so equal-protocol file: pairs
+  // match, and webpack:// URLs match when their "host" (the bundle name) does.
   if (url1.origin === `null`) {
-    return url1.protocol === `file:`
+    return url1.host === url2.host
   }
 
   return url1.origin === url2.origin
@@ -180,8 +190,9 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
 const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
 
 /**
- * Returns the deepest directory URL containing every URL in {@link urls}, or
- * `undefined` when there are no URLs or they disagree on protocol or host.
+ * Returns the deepest directory URL containing every URL in {@link urls} that
+ * shares the dominant protocol and host (the pair with the most URLs,
+ * first-seen winning ties), or `undefined` when there are no URLs.
  *
  * Excludes each URL's last path segment (the filename), so a single URL
  * yields its containing directory. The result always ends with a `/` and
@@ -190,34 +201,42 @@ const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
 export const commonAncestorDirectoryURL = (
   urls: Iterable<URL>,
 ): URL | undefined => {
-  let protocol: string | undefined
-  let host: string | undefined
-  let commonSegments: string[] | undefined
+  const groups = new Map<string, { count: number; commonSegments: string[] }>()
 
   for (const url of urls) {
-    if (commonSegments === undefined) {
-      ;({ protocol, host } = url)
-      // Drop the last segment (the filename) so the prefix is a directory.
-      commonSegments = url.pathname.split(`/`).slice(0, -1)
-      continue
-    }
-
-    if (url.protocol !== protocol || url.host !== host) {
-      return undefined
-    }
-
+    const origin = `${url.protocol}//${url.host}`
     // The filename slot never counts towards the common prefix, so a path
     // that is a directory prefix of another truncates to that directory's
     // parent.
     const segments = url.pathname.split(`/`).slice(0, -1)
-    commonSegments.length = commonSegmentPrefixLength(commonSegments, segments)
+
+    const group = groups.get(origin)
+    if (!group) {
+      groups.set(origin, { count: 1, commonSegments: segments })
+      continue
+    }
+
+    group.count++
+    group.commonSegments.length = commonSegmentPrefixLength(
+      group.commonSegments,
+      segments,
+    )
   }
 
-  if (commonSegments === undefined) {
+  let dominant: { origin: string; commonSegments: string[] } | undefined
+  let dominantCount = 0
+  for (const [origin, { count, commonSegments }] of groups) {
+    if (count > dominantCount) {
+      dominant = { origin, commonSegments }
+      dominantCount = count
+    }
+  }
+
+  if (!dominant) {
     return undefined
   }
 
-  return new URL(`${protocol}//${host}${commonSegments.join(`/`)}/`)
+  return new URL(`${dominant.origin}${dominant.commonSegments.join(`/`)}/`)
 }
 
 const relativeURLPath = (from: string, to: string): string => {
