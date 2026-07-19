@@ -1,6 +1,6 @@
 import type { HighlighterCore, ThemedToken } from '@shikijs/core'
 import type { Ansis } from 'ansis'
-import type { Heading, Table } from 'mdast'
+import type { Heading, Table, TableRow } from 'mdast'
 import {
   headingNameLocationKey,
   nameLocationKey,
@@ -168,23 +168,15 @@ const visitTable = (
   // rows by percent would tint improvements red by their base share instead
   // of green by their delta.
   if (deltaColumnIndex !== -1) {
-    // Intensities for diff rows are relative to the largest delta in the
-    // table, which isn't known until the table ends, so buffer them.
-    const pendingDiffRows: PendingDiffRow[] = []
-    for (const row of dataRows) {
-      const deltaCell = row.children[deltaColumnIndex]
-      if (deltaCell === undefined) {
-        continue
-      }
-      const delta = parseDelta(nodeText(deltaCell))
-      if (delta !== null) {
-        pendingDiffRows.push({
-          lineIndex: row.position!.start.line - 1,
-          delta,
-        })
-      }
-    }
-    flushDiffTable(pendingDiffRows, lineToIntensity)
+    visitDiffTable(
+      dataRows,
+      {
+        change: headerCells.indexOf(`Change`),
+        delta: deltaColumnIndex,
+        percent: percentColumnIndex,
+      },
+      lineToIntensity,
+    )
   } else if (percentColumnIndex !== -1) {
     // Column index of the backtick-quoted name cell, lazily detected from the
     // first data row that has one.
@@ -224,17 +216,159 @@ const visitTable = (
   }
 }
 
+type DiffColumnIndexes = {
+  change: number
+  delta: number
+  percent: number
+}
+
+/**
+ * Tints each diff row by its delta's share of the profile total, the same
+ * absolute scale non-diff tables get from their `%` column, so a row's tint is
+ * proportional to how much of the profile its change moved.
+ *
+ * The total isn't printed, but each row implies it: `Change` is
+ * `delta ÷ base value` and `%` holds the base and current shares of their
+ * totals, so `|delta ÷ Change| ÷ base%` recovers the base total (for `new` and
+ * `removed` rows the delta itself is the changed side's whole value). The
+ * estimate divides by rounded percentages, so take it from the row with the
+ * largest share, where rounding error is proportionally smallest.
+ */
+const visitDiffTable = (
+  dataRows: Table[`children`],
+  columnIndexes: DiffColumnIndexes,
+  lineToIntensity: Map<number, number>,
+): void => {
+  const pendingDiffRows: PendingDiffRow[] = []
+  let bestCandidate: TotalCandidate | null = null
+  for (const row of dataRows) {
+    const diffRow = parseDiffRow(row, columnIndexes)
+    if (diffRow === null) {
+      continue
+    }
+    if (diffRow.delta !== 0) {
+      pendingDiffRows.push({
+        lineIndex: diffRow.lineIndex,
+        delta: diffRow.delta,
+      })
+    }
+    if (
+      diffRow.candidate !== null &&
+      diffRow.candidate.percent > (bestCandidate?.percent ?? 0)
+    ) {
+      bestCandidate = diffRow.candidate
+    }
+  }
+  if (bestCandidate === null) {
+    return
+  }
+
+  const total = bestCandidate.value / bestCandidate.percent
+  for (const { lineIndex, delta } of pendingDiffRows) {
+    lineToIntensity.set(lineIndex, Math.max(-1, Math.min(1, delta / total)))
+  }
+}
+
 type PendingDiffRow = { lineIndex: number; delta: number }
 
 /**
- * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`) into a signed
- * magnitude. Units are normalized so magnitudes are comparable within a single
- * table, which only ever mixes units of the same dimension (time or size).
+ * Reads one diff row's cells into its line index, parsed delta, and
+ * total-estimate candidate, or null when a required cell is missing or the
+ * delta is unparsable.
+ */
+const parseDiffRow = (
+  row: TableRow,
+  columnIndexes: DiffColumnIndexes,
+): {
+  lineIndex: number
+  delta: number
+  candidate: TotalCandidate | null
+} | null => {
+  const changeCell = row.children[columnIndexes.change]
+  const deltaCell = row.children[columnIndexes.delta]
+  const percentCell = row.children[columnIndexes.percent]
+  if (
+    changeCell === undefined ||
+    deltaCell === undefined ||
+    percentCell === undefined
+  ) {
+    return null
+  }
+  const delta = parseDelta(nodeText(deltaCell))
+  if (delta === null) {
+    return null
+  }
+  return {
+    lineIndex: row.position!.start.line - 1,
+    delta,
+    candidate: totalCandidate(
+      nodeText(changeCell),
+      delta,
+      nodeText(percentCell),
+    ),
+  }
+}
+
+type TotalCandidate = { percent: number; value: number }
+
+/**
+ * Derives a (share of total, value) pair from one diff row for estimating the
+ * profile total as `value ÷ percent`, or null when the row implies no usable
+ * share (unchanged rows, zero or unparsable percentages).
+ */
+const totalCandidate = (
+  changeCell: string,
+  delta: number,
+  percentCell: string,
+): TotalCandidate | null => {
+  const [basePercent, currentPercent] = parsePercentSides(percentCell)
+  const change = changeCell.trim()
+  if (change === `new`) {
+    return currentPercent
+      ? { percent: currentPercent, value: Math.abs(delta) }
+      : null
+  }
+  if (change === `removed`) {
+    return basePercent ? { percent: basePercent, value: Math.abs(delta) } : null
+  }
+
+  const changeFraction = parsePercent(change)
+  if (!changeFraction || !basePercent) {
+    return null
+  }
+  return { percent: basePercent, value: Math.abs(delta / changeFraction) }
+}
+
+/**
+ * Parses a `%` cell into `[base, current]` shares. A diff cell holds
+ * `base% → current%`, collapsing to a single value when both sides format
+ * identically. Either side may be unparsable (e.g. `<0.1%`), yielding null.
+ */
+const parsePercentSides = (
+  cell: string,
+): [base: number | null, current: number | null] => {
+  const arrowIndex = cell.indexOf(`→`)
+  if (arrowIndex === -1) {
+    const percent = parsePercent(cell)
+    return [percent, percent]
+  }
+  return [
+    parsePercent(cell.slice(0, arrowIndex)),
+    parsePercent(cell.slice(arrowIndex + 1)),
+  ]
+}
+
+/**
+ * Parses a `Delta` cell (e.g. `+33.0ms`, `-1m 5s`, `+1.2 MiB`, or a unitless
+ * sample count like `+1,384`) into a signed magnitude. Units are normalized so
+ * magnitudes are comparable within a single table, which only ever mixes units
+ * of the same dimension (time or size).
  */
 const parseDelta = (cell: string): number | null => {
+  const normalized = cell.replaceAll(`,`, ``)
   let magnitude = 0
   let matched = false
-  for (const match of cell.matchAll(DELTA_PART_REGEX)) {
+  for (const match of normalized.matchAll(DELTA_PART_REGEX)) {
     const scale = DELTA_UNIT_SCALES.get(match.groups!.unit!)
     if (scale === undefined) {
       return null
@@ -243,12 +377,21 @@ const parseDelta = (cell: string): number | null => {
     matched = true
   }
   if (!matched) {
-    return null
+    const trimmed = normalized.trim()
+    const value = UNITLESS_DELTA_REGEX.test(trimmed)
+      ? Number.parseFloat(trimmed)
+      : Number.NaN
+    if (Number.isNaN(value)) {
+      return null
+    }
+    magnitude = Math.abs(value)
   }
   return cell.trimStart().startsWith(`-`) ? -magnitude : magnitude
 }
 
 const DELTA_PART_REGEX = /(?<value>[\d.]+)\s*(?<unit>[A-Za-zµ]+)/gu
+
+const UNITLESS_DELTA_REGEX = /^[+-]?[\d.]+$/u
 
 const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
   [`µs`, 1e-3],
@@ -264,31 +407,6 @@ const DELTA_UNIT_SCALES: ReadonlyMap<string, number> = new Map([
   [`TiB`, 2 ** 40],
   [`PiB`, 2 ** 50],
 ])
-
-/**
- * Assigns each buffered diff row a signed intensity equal to its delta
- * relative to the largest absolute delta in the table, so tinting reflects
- * each row's share of the table's churn rather than its raw percent change
- * (which saturates for `new`, `removed`, and changes of 100% or more).
- */
-const flushDiffTable = (
-  pendingDiffRows: PendingDiffRow[],
-  lineToIntensity: Map<number, number>,
-): void => {
-  let maxAbsDelta = 0
-  for (const { delta } of pendingDiffRows) {
-    maxAbsDelta = Math.max(maxAbsDelta, Math.abs(delta))
-  }
-  if (maxAbsDelta === 0) {
-    return
-  }
-
-  for (const { lineIndex, delta } of pendingDiffRows) {
-    if (delta !== 0) {
-      lineToIntensity.set(lineIndex, delta / maxAbsDelta)
-    }
-  }
-}
 
 const parsePercent = (cell: string): number | null => {
   const trimmed = cell.trim()
