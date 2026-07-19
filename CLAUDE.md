@@ -40,7 +40,9 @@ profiler-md
 │   ├── origins/              # Profiler detection and categorization
 │   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers
 │   │   ├── categorize.ts     # Shared categorization rule helpers
-│   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jvm)
+│   │   ├── specs/
+│   │   │   ├── <name>.ts     # One file per origin (e.g. node, node-pprof, jvm)
+│   │   │   └── index.ts      # Exports originSpecs in detection-priority order
 │   │   └── index.ts          # Origin registry and derived detector
 │   │
 │   ├── modalities/           # Individual modality implementations
@@ -158,7 +160,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Registration
 
 - A format registers in exactly one place (in `src/formats/registry.ts`)
-- An origin in exactly one place (in `src/origins/index.ts`)
+- An origin in exactly one place (in `src/origins/specs/index.ts`)
 - NEVER add logic that requires editing another file when a new format or origin
   is added. Express per-format or per-origin behavior as data or functions in
   the registry to derive from everywhere else

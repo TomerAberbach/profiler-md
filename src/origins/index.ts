@@ -9,23 +9,8 @@ import type {
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
 } from '../options.ts'
-import { beamOriginSpec } from './beam.ts'
-import { bunOriginSpec } from './bun.ts'
-import { denoOriginSpec } from './deno.ts'
-import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
-import { goOriginSpec } from './go.ts'
-import { jvmOriginSpec } from './jvm.ts'
-import { nodePprofOriginSpec } from './node-pprof.ts'
-import { nodeOriginSpec } from './node.ts'
 import type { OriginSpec } from './origin.ts'
-import { pprofJlOriginSpec } from './pprof-jl.ts'
-import { pprofRsOriginSpec } from './pprof-rs.ts'
-import { pySpyOriginSpec } from './py-spy.ts'
-import { rbspyOriginSpec } from './rbspy.ts'
-import { safariOriginSpec } from './safari.ts'
-import { systingOriginSpec } from './systing.ts'
-import { tachyonOriginSpec } from './tachyon.ts'
-import { unknownOriginSpec } from './unknown.ts'
+import { originSpecs } from './specs/index.ts'
 
 /**
  * A profiling tool paired with the runtime it observed (e.g. `node` for Node's
@@ -174,32 +159,6 @@ export class OriginDetector {
     ).id
   }
 }
-
-/**
- * All origin specs in global detection-priority order.
- *
- * Within a format, the detector tries candidates in this order, so origins that
- * share a format and whose marker entries overlap must be ordered carefully
- * (e.g. Deno before Node, since Deno supports `node:` specifiers).
- */
-const originSpecs = [
-  denoOriginSpec,
-  bunOriginSpec,
-  nodeOriginSpec,
-  nodePprofOriginSpec,
-  pprofRsOriginSpec,
-  goOriginSpec,
-  pprofJlOriginSpec,
-  pySpyOriginSpec,
-  tachyonOriginSpec,
-  jvmOriginSpec,
-  dotnetTraceOriginSpec,
-  beamOriginSpec,
-  rbspyOriginSpec,
-  safariOriginSpec,
-  systingOriginSpec,
-  unknownOriginSpec,
-]
 
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
 type SpecificOriginSpec = (typeof originSpecs)[number]
