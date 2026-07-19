@@ -32,8 +32,8 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
   baseEntryKey: (entry: Entry) => string,
   currentEntryKey: (entry: Entry) => string,
 ): Diff<Entry>[] => {
-  const baseByKey = groupByEntryKey(baseEntries, baseEntryKey)
-  const currentByKey = groupByEntryKey(currentEntries, currentEntryKey)
+  const baseByKey = Map.groupBy(baseEntries, baseEntryKey)
+  const currentByKey = Map.groupBy(currentEntries, currentEntryKey)
 
   const matched: Diff<Entry>[] = []
   for (const [key, baseGroup] of baseByKey) {
@@ -49,23 +49,6 @@ export const matchDiffedEntries = <Entry extends DiffableEntry>(
     matched.push(...currentGroup.map(current => ({ base: undefined, current })))
   }
   return matched
-}
-
-const groupByEntryKey = <Entry extends DiffableEntry>(
-  entries: Entry[],
-  entryMatchKey: (entry: Entry) => string,
-): Map<string, Entry[]> => {
-  const byKey = new Map<string, Entry[]>()
-  for (const entry of entries) {
-    const key = entryMatchKey(entry)
-    const group = byKey.get(key)
-    if (group) {
-      group.push(entry)
-    } else {
-      byKey.set(key, [entry])
-    }
-  }
-  return byKey
 }
 
 /**
@@ -84,16 +67,7 @@ const pairGroups = <Entry extends DiffableEntry>(
 
   const lineColumnKey = (entry: Entry) =>
     `${entry.location?.line ?? ``}\0${entry.location?.column ?? ``}`
-  const byLineColumn = new Map<string, Entry[]>()
-  for (const current of currentGroup) {
-    const key = lineColumnKey(current)
-    const queue = byLineColumn.get(key)
-    if (queue) {
-      queue.push(current)
-    } else {
-      byLineColumn.set(key, [current])
-    }
-  }
+  const byLineColumn = Map.groupBy(currentGroup, lineColumnKey)
 
   const matched: Diff<Entry>[] = []
   const remainingBase: Entry[] = []

@@ -32,10 +32,9 @@ export type WebKitStackFrame = {
   url: string
 
   /**
-   * The location of the currently executing expression within this frame, or
-   * absent if unknown. For the innermost frame, this is where execution is
-   * within the function body. For outer frames, this is the call site of the
-   * callee.
+   * The location of the executing expression within this frame, or absent if
+   * unknown. For the innermost frame, this is the point of execution in the
+   * function body. For outer frames, this is the call site of the callee.
    */
   expressionLocation?: { line: number; column: number }
 }
@@ -66,21 +65,7 @@ export type WebKitTimelineRecording = {
 export const parseWebKitTimelineRecording = ({
   recording: { sampleStackTraces, sampleDurations },
 }: WebKitTimelineRecording): Profile[] => {
-  // Frames are inlined per sample rather than in a shared table, so dedup them
-  // into the distinct frames by identity; a frame's index is its position.
-  const indexByFrame = new Map<string, number>()
-  const frames: ProfileStackFrame[] = []
-  const intern = (frame: WebKitStackFrame): number => {
-    const key = frameKey(frame)
-    let index = indexByFrame.get(key)
-    if (index === undefined) {
-      index = frames.length
-      indexByFrame.set(key, index)
-      frames.push(frameToStackFrame(frame))
-    }
-    return index
-  }
-
+  const { frames, intern } = createFrameInterner()
   const samples: Sample[] = []
   for (let index = 0; index < sampleStackTraces.length; index++) {
     const { stackFrames } = sampleStackTraces[index]!
@@ -88,19 +73,40 @@ export const parseWebKitTimelineRecording = ({
       continue
     }
 
-    // WebKit's stack frames are already in callee-to-caller order.
-    const expressionLine = stackFrames[0]!.expressionLocation?.line
     samples.push({
       values: [sampleDurations[index]!],
+      // WebKit's stack frames are already in callee-to-caller order.
       frameIndices: stackFrames.map(intern),
-      line:
-        expressionLine !== undefined && expressionLine !== -1
-          ? expressionLine
-          : undefined,
+      line: executingLine(stackFrames[0]!),
     })
   }
 
   return [{ type: `profile`, frames, metrics: [SECONDS], samples }]
+}
+
+/**
+ * Frames are inlined per sample rather than in a shared table, so dedup them
+ * by identity; a frame's index is its position in `frames`.
+ */
+const createFrameInterner = (): {
+  frames: ProfileStackFrame[]
+  intern: (frame: WebKitStackFrame) => number
+} => {
+  const indexByFrame = new Map<string, number>()
+  const frames: ProfileStackFrame[] = []
+  return {
+    frames,
+    intern: frame => {
+      const key = frameKey(frame)
+      let index = indexByFrame.get(key)
+      if (index === undefined) {
+        index = frames.length
+        indexByFrame.set(key, index)
+        frames.push(frameToStackFrame(frame))
+      }
+      return index
+    },
+  }
 }
 
 const frameKey = (node: WebKitStackFrame): string =>
@@ -116,3 +122,12 @@ const frameToStackFrame = (node: WebKitStackFrame): ProfileStackFrame => ({
       }
     : undefined,
 })
+
+/**
+ * The executing line of a sample's leaf frame, or `undefined` when WebKit
+ * reports none (an absent expression location or a -1 line).
+ */
+const executingLine = (leafFrame: WebKitStackFrame): number | undefined => {
+  const line = leafFrame.expressionLocation?.line
+  return line !== undefined && line !== -1 ? line : undefined
+}

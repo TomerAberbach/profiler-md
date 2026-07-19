@@ -32,8 +32,8 @@ $ARGUMENTS
 ## Design
 
 1. Define the modality: what a capture contains, its aggregated form, and what
-   the Markdown output's tables show. If an existing modality can represent it,
-   STOP and explain why a new one isn't needed
+   its Markdown tables show. If an existing modality can represent it, STOP and
+   explain why none is needed
 
 2. Decide:
    - The uniform parsed type: what a format's `parse` produces so aggregation,
@@ -55,7 +55,10 @@ $ARGUMENTS
        aggregates and categorizes under the file's resolved context
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, reusing `src/cell.ts`
-     and `src/measure.ts` where tables match the other modalities
+     and `src/measure.ts` where tables match the other modalities. If the
+     modality's tables or headings diverge, update `src/cli/highlight.ts`, which
+     recovers heat intensities by re-parsing the output (column headers like
+     `%`, `Delta`, and `Location`, and `name (location)` heading keys)
    - `index.ts` barrel, `testing.ts` for modality-specific test utilities
    - Colocated tests asserting on Markdown output per the CLAUDE.md testing
      rules

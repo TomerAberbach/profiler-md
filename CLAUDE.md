@@ -31,6 +31,7 @@ profiler-md
 │   │   ├── registry.ts       # Format converter registry
 │   │   ├── index.ts          # profileToMd(Async)/diffProfiles(Async) and format auto-detection
 │   │   ├── **/<name>/        # One per format, some nested in subdirectories (e.g. collapsed, v8/cpu-profile)
+│   │   │   ├── matches.ts    # Cheap auto-detection check for the format
 │   │   │   ├── parse.ts      # Parses input into a modality's parsed type
 │   │   │   ├── index.ts      # Exports the format's converter
 │   │   │   └── testing.ts    # Test-only utilities specific to this format (optional)
@@ -196,3 +197,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Formatting
 
 - Use heaps to avoid fully sorting data when possible
+- `src/cli/highlight.ts` heat-tints stdout by re-parsing the emitted Markdown
+  (column headers like `%`, `Delta`, and `Location`, and `name (location)`
+  heading keys), so a change to table or heading structure may require updating
+  it

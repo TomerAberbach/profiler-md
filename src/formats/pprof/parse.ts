@@ -9,16 +9,51 @@ import type {
 
 export const parsePprof = (bytes: Uint8Array): Profile[] => {
   const profile = PprofProto.decode(bytes)
+  const string = makeStringReader(profile)
 
+  const { metrics, metricValueIndices, countValueIndex } = parseSampleTypes(
+    profile,
+    string,
+  )
+  const { frames, frameIndexByFunctionId } = parseFunctionFrames(
+    profile,
+    string,
+  )
+  const framesByLocationId = resolveLocationFrames(
+    profile,
+    frameIndexByFunctionId,
+  )
+  const samples = parseSamples(
+    profile,
+    framesByLocationId,
+    metricValueIndices,
+    countValueIndex,
+  )
+
+  return [{ type: `profile`, frames, metrics, samples }]
+}
+
+type StringReader = (index: number | bigint) => string
+
+const makeStringReader = (profile: PprofProto): StringReader => {
   const { strings } = profile.stringTable
-  const string = (index: number | bigint): string =>
-    strings[Number(index)] ?? ``
+  return index => strings[Number(index)] ?? ``
+}
 
-  // Every value type except a plain sample count becomes a metric; remember each
-  // one's index into a sample's parallel value list. The first count-typed
-  // value is how many sampled occurrences a record aggregates (pprof merges
-  // identical stacks into one record), so it feeds the sample count rather
-  // than a metric.
+/**
+ * Every value type except a plain sample count becomes a metric; remember each
+ * one's index into a sample's parallel value list. The first count-typed value
+ * is how many sampled occurrences a record aggregates (pprof merges identical
+ * stacks into one record), so it feeds the sample count rather than a metric.
+ */
+const parseSampleTypes = (
+  profile: PprofProto,
+  string: StringReader,
+): {
+  metrics: Metric[]
+  metricValueIndices: number[]
+  countValueIndex: number | undefined
+} => {
   const metrics: Metric[] = []
   const metricValueIndices: number[] = []
   let countValueIndex: number | undefined
@@ -31,11 +66,22 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
     metricValueIndices.push(index)
     metrics.push(determineMetric({ name: string(type), unit: unitName }))
   }
+  return { metrics, metricValueIndices, countValueIndex }
+}
 
-  // Each function is a frame; its dense index is its id. IDs are keyed raw
-  // (pprof-format decodes a given varint to `number`, or `bigint` past 4
-  // encoded bytes, deterministically per value) so the per-sample lookups
-  // below never build key strings.
+/**
+ * Each function is a frame; its dense index is its id. IDs are keyed raw
+ * (pprof-format decodes a given varint to `number`, or `bigint` past 4 encoded
+ * bytes, deterministically per value) so the per-sample lookups never build
+ * key strings.
+ */
+const parseFunctionFrames = (
+  profile: PprofProto,
+  string: StringReader,
+): {
+  frames: ProfileStackFrame[]
+  frameIndexByFunctionId: Map<number | bigint, number>
+} => {
   const frameIndexByFunctionId = new Map<number | bigint, number>()
   const frames: ProfileStackFrame[] = []
   for (const func of profile.function) {
@@ -48,11 +94,20 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
       },
     })
   }
+  return { frames, frameIndexByFunctionId }
+}
 
-  // Each location resolves to its frame indices and lines, dropping any frame
-  // whose function is absent from the table (unsymbolized) rather than carrying
-  // a dangling reference into aggregation.
-  type LocationFrame = { frame: number; line: number }
+type LocationFrame = { frame: number; line: number }
+
+/**
+ * Each location resolves to its frame indices and lines, dropping any frame
+ * whose function is absent from the table (unsymbolized) rather than carrying
+ * a dangling reference into aggregation.
+ */
+const resolveLocationFrames = (
+  profile: PprofProto,
+  frameIndexByFunctionId: Map<number | bigint, number>,
+): Map<number | bigint, LocationFrame[]> => {
   const framesByLocationId = new Map<number | bigint, LocationFrame[]>()
   for (const location of profile.location) {
     framesByLocationId.set(
@@ -63,13 +118,21 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
       }),
     )
   }
+  return framesByLocationId
+}
 
+const parseSamples = (
+  profile: PprofProto,
+  framesByLocationId: Map<number | bigint, LocationFrame[]>,
+  metricValueIndices: number[],
+  countValueIndex: number | undefined,
+): Sample[] => {
   const samples: Sample[] = []
   for (const { locationId, value } of profile.sample) {
     const frameIndices: number[] = []
     let calleeLine: number | undefined
     for (const id of locationId) {
-      // Drop references to locations absent from the table, as above.
+      // Drop references to locations absent from the table.
       for (const { frame, line } of framesByLocationId.get(id) ?? []) {
         frameIndices.push(frame)
         calleeLine ??= line
@@ -95,8 +158,7 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
       sampleCount,
     })
   }
-
-  return [{ type: `profile`, frames, metrics, samples }]
+  return samples
 }
 
 /**

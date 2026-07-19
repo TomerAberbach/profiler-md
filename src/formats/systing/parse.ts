@@ -55,8 +55,8 @@ type SystingHeader = {
  * stack each time a thread enters a sleep state.
  */
 const EVENT_KINDS = [
-  // CPU first (the headline), then uninterruptible sleep (D-state waits:
-  // disk, locks — the actionable off-CPU signal), then interruptible sleep.
+  // CPU first (the headline), then uninterruptible sleep (D-state waits on
+  // disk or locks, the actionable off-CPU signal), then interruptible sleep.
   `cpu`,
   `uninterruptible_sleep`,
   `interruptible_sleep`,
@@ -77,9 +77,9 @@ const DEFAULT_EVENT_TYPE_KINDS: ReadonlyMap<number, SystingEventKind> = new Map(
 )
 
 /**
- * Resolves the header's `event_types` legend to event type id → kind. Legend
- * entries with unrecognized names are future event types; their samples are
- * skipped like unknown record tags.
+ * Resolves the header's `event_types` legend to event type id → kind. Entries
+ * with unrecognized names are future event types; their samples are skipped
+ * like unknown record tags.
  */
 const eventTypeKinds = (
   header: SystingHeader,
@@ -100,7 +100,7 @@ const eventTypeKinds = (
 /**
  * Parses systing profile export lines (see the format's spec in systing's
  * docs/PROFILE_EXPORT_FORMAT.md): a JSON header line, then one JSON array per
- * record — `f` interned frame, `s` interned stack (frame ids leaf-first), `x`
+ * record: `f` interned frame, `s` interned stack (frame ids leaf-first), `x`
  * sample tally, and `p`/`t` process/thread metadata (unused here).
  *
  * Produces one {@link Profile} per stack event type present, sharing one
@@ -134,21 +134,27 @@ class SystingProfileBuilder {
     if (line.length === 0) {
       return
     }
-
     if (!this.#header) {
-      const header = parseSystingHeader(line)
-      this.#header = header
-      this.#eventTypeKinds = eventTypeKinds(header)
-      const period = header.sample_period
-      if (typeof period === `number`) {
-        this.#cpuMetric = cpuMetric(header)
-        if (this.#cpuMetric) {
-          this.#cpuValues = [period]
-        }
-      }
+      this.#addHeader(line)
       return
     }
+    this.#addRecord(line)
+  }
 
+  #addHeader(line: string): void {
+    const header = parseSystingHeader(line)
+    this.#header = header
+    this.#eventTypeKinds = eventTypeKinds(header)
+    const period = header.sample_period
+    if (typeof period === `number`) {
+      this.#cpuMetric = cpuMetric(header)
+      if (this.#cpuMetric) {
+        this.#cpuValues = [period]
+      }
+    }
+  }
+
+  #addRecord(line: string): void {
     const record: unknown = JSON.parse(line)
     if (!Array.isArray(record)) {
       throw new TypeError(
@@ -158,58 +164,19 @@ class SystingProfileBuilder {
     switch (record[0]) {
       case `f`: {
         const [, id, name] = record as [string, number, string]
-        this.#frameIndices.set(id, this.#internFrame(name))
+        this.#addFrame(id, name)
         break
       }
       case `s`: {
         const [, id, frameIds] = record as [string, number, number[]]
-        this.#stacks.set(
-          id,
-          frameIds.map(frameId => {
-            const index = this.#frameIndices.get(frameId)
-            if (index === undefined) {
-              throw new Error(
-                `Not a systing profile export: stack ${id} references undefined frame ${frameId}`,
-              )
-            }
-            return index
-          }),
-        )
+        this.#addStack(id, frameIds)
         break
       }
       case `x`: {
         // ["x", utid, stackId, eventType, count]; the thread id goes unused
         // like the `t` records it references.
         const sample = record as [string, number, number, number, number]
-        const stackId = sample[2]
-        const eventType = sample[3]
-        const count = sample[4]
-        const kind = this.#eventTypeKinds.get(eventType)
-        // An event type outside the legend's known names is a future stack
-        // event; skip its samples like unknown record tags.
-        if (kind === undefined) {
-          break
-        }
-        const frameIndices = this.#stacks.get(stackId)
-        if (!frameIndices) {
-          throw new Error(
-            `Not a systing profile export: sample references undefined stack ${stackId}`,
-          )
-        }
-        let samples = this.#samples.get(kind)
-        if (!samples) {
-          samples = []
-          this.#samples.set(kind, samples)
-        }
-        samples.push({
-          id: stackId,
-          values: kind === `cpu` ? this.#cpuValues : SLEEP_SAMPLE_VALUES,
-          // Export stacks are already leaf-first (callee to caller), the
-          // aggregator's order; parseSystingHeader rejects any other declared
-          // stack_order.
-          frameIndices,
-          sampleCount: count,
-        })
+        this.#addSample(sample[2], sample[3], sample[4])
         break
       }
       // P (process) and t (thread) records aren't used: profiles have no
@@ -221,10 +188,54 @@ class SystingProfileBuilder {
     }
   }
 
-  #internFrame(name: string): number {
+  #addFrame(id: number, name: string): void {
     const index = this.#frames.length
     this.#frames.push({ name })
-    return index
+    this.#frameIndices.set(id, index)
+  }
+
+  #addStack(id: number, frameIds: number[]): void {
+    this.#stacks.set(
+      id,
+      frameIds.map(frameId => {
+        const index = this.#frameIndices.get(frameId)
+        if (index === undefined) {
+          throw new Error(
+            `Not a systing profile export: stack ${id} references undefined frame ${frameId}`,
+          )
+        }
+        return index
+      }),
+    )
+  }
+
+  #addSample(stackId: number, eventType: number, count: number): void {
+    const kind = this.#eventTypeKinds.get(eventType)
+    // An event type outside the legend's known names is a future stack event;
+    // skip its samples like unknown record tags.
+    if (kind === undefined) {
+      return
+    }
+    const frameIndices = this.#stacks.get(stackId)
+    if (!frameIndices) {
+      throw new Error(
+        `Not a systing profile export: sample references undefined stack ${stackId}`,
+      )
+    }
+    let samples = this.#samples.get(kind)
+    if (!samples) {
+      samples = []
+      this.#samples.set(kind, samples)
+    }
+    samples.push({
+      id: stackId,
+      values: kind === `cpu` ? this.#cpuValues : SLEEP_SAMPLE_VALUES,
+      // Export stacks are already leaf-first (callee to caller), the
+      // aggregator's order; parseSystingHeader rejects any other declared
+      // stack_order.
+      frameIndices,
+      sampleCount: count,
+    })
   }
 
   public build(): Profile[] {

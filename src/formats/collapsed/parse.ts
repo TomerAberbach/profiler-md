@@ -35,8 +35,8 @@ class CollapsedProfileBuilder {
     }
 
     this.#samples.push({
-      // Collapsed stacks carry only a sample count, with no unit, so there are
-      // no metrics and the profile is ranked purely by sample count.
+      // Collapsed stacks carry only a unitless sample count, so the profile
+      // has no metrics and ranks by count alone.
       values: [],
       // Collapsed stacks are root-to-leaf, but we aggregate callee-to-caller.
       frameIndices: stack.frames.map(frame => this.#intern(frame)).reverse(),
@@ -70,8 +70,8 @@ class CollapsedProfileBuilder {
  * Parses one collapsed line into its raw frames and count, returning
  * `undefined` for blank or `#` comment lines.
  *
- * Also the format's line grammar for detection, so `matches` and `parse` can't
- * disagree on what a collapsed stack line is.
+ * Also the format's detection grammar, so `matches` and `parse` agree on what
+ * a collapsed line is.
  *
  * @throws on a missing or non-numeric count.
  */
@@ -92,11 +92,11 @@ export const parseCollapsedLine = (
     throw new Error(`Not a collapsed stack profile: invalid sample count`)
   }
 
-  // Trim any extra separator whitespace so a count padded with multiple spaces
-  // doesn't leave a trailing space on the leaf frame.
+  // Trim extra separator whitespace so a count padded with multiple spaces
+  // leaves no trailing space on the leaf frame.
   const stack = line.slice(0, lastSpace).trimEnd()
   // An empty stack is a stackless sample; pass no frames so the aggregator
-  // attributes it to an anonymous function (rather than a lone empty frame).
+  // attributes it to an anonymous function, not a lone empty frame.
   return {
     frames: stack === `` ? [] : stack.split(`;`),
     count: Number(countText),

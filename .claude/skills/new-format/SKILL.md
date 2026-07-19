@@ -25,8 +25,7 @@ $ARGUMENTS
   must equal the file's `summary:`; per-function totals from an independent
   parse) and compare against the formatted tables
 
-- Follow the @../../dimensions.md principles for every behavior observed in an
-  input
+- Follow the @../../dimensions.md principles for every behavior an input shows
 
 # Workflow
 
@@ -84,13 +83,16 @@ $ARGUMENTS
      - `parse` returns a list of them (`ParsedInput[]`), which may mix
        modalities when one input contains both profiles and snapshots
 
+   - `matches.ts`: the `matches<Name>` auto-detection check. Keep it cheap and
+     strict enough not to claim other text/JSON
+
    - `index.ts`: the `<name>Converter`
      (`as const satisfies JsonFormatConverter`/`BinaryFormatConverter`):
      - Registration metadata: `title` (the display name in the readme matrix),
        `extension` (the `examples/input/` filename extension), `languages` (the
        languages whose profilers emit the format), and `fallbackOrigin` (decided
        in step 3)
-     - `matches`: keep it cheap and strict enough not to claim other text/JSON
+     - `matches` from `matches.ts`
      - `parse` is authoritative: it must throw on non-instances so
        auto-detection can move on
      - Binary converters also implement the streaming `parseAsync`
