@@ -77,7 +77,7 @@ const expectedInputOrigin = (filename: string): Origin => {
     EMITTER_ORIGINS.get(`${language}.${emitter}`)
   if (!origin) {
     throw new Error(
-      `Add ${JSON.stringify(emitterKey)} and its expected origin to \`EMITTER_ORIGINS\``,
+      `Add ${emitterKey} and its expected origin to \`EMITTER_ORIGINS\``,
     )
   }
   return origin

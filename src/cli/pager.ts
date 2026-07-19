@@ -56,8 +56,9 @@ const trySpawn = (
   return new Promise(resolve => {
     child.once(`spawn`, () => {
       child.stdin.on(`error`, (error: NodeJS.ErrnoException) => {
-        // The user can quit the pager (e.g. `q` in `less`) before we finish writing, which closes its stdin
-        // and makes our next write reject with EPIPE. That's a normal exit path, not a failure.
+        // The user can quit the pager (e.g. `q` in `less`) before we finish
+        // writing, which closes its stdin and makes our next write reject with
+        // EPIPE. That's a normal exit path, not a failure.
         if (error.code !== `EPIPE`) {
           throw error
         }

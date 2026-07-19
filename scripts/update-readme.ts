@@ -1,6 +1,10 @@
 import { execSync } from 'node:child_process'
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { exampleComboLabel, parseExampleFilename } from '../src/cli/examples.ts'
+import {
+  exampleComboLabel,
+  parseExampleFilename,
+  variants,
+} from '../src/cli/examples.ts'
 import type { ExampleVariant } from '../src/cli/examples.ts'
 import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
 import { formatConverters } from '../src/formats/index.ts'
@@ -10,17 +14,12 @@ const check = process.argv.includes(`--check`)
 
 const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
-// Discover every `examples/output/*.md` and group it by primary language, then format,
-// then emitter/config combo, so the matrix links them all without hand
-// maintenance. Variants are kept per combo and linked in base → current → diff
-// order.
 type Combo = {
   language: string
   emitter: string
   config: string
   variants: Map<ExampleVariant, string>
 }
-const variantOrder: ExampleVariant[] = [`base`, `current`, `diff`]
 
 const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
 for (const filename of readdirSync(`examples/output`)) {
@@ -36,12 +35,12 @@ for (const filename of readdirSync(`examples/output`)) {
   const language = languages.get(primary)
   if (!language) {
     throw new Error(
-      `examples/output/${filename} maps to unknown language "${primary}"`,
+      `examples/output/${filename} maps to unknown language ${primary}`,
     )
   }
   if (!language.formats.includes(format)) {
     throw new Error(
-      `examples/output/${filename}: format "${format}" is not declared for "${primary}"`,
+      `examples/output/${filename}: format ${format} is not declared for ${primary}`,
     )
   }
 
@@ -64,9 +63,6 @@ for (const filename of readdirSync(`examples/output`)) {
   combo.variants.set(variant, filename)
 }
 
-// The matrix is emitted as raw HTML (and `prettier-ignore`d in the readme) so a
-// format with multiple combos can list them as a bulleted sublist. Markdown
-// links aren't parsed inside HTML tables, so links are `<a>` tags.
 const escapeHtml = (text: string): string =>
   text.replaceAll(`&`, `&amp;`).replaceAll(`<`, `&lt;`).replaceAll(`>`, `&gt;`)
 
@@ -74,14 +70,14 @@ const anchor = (text: string, href: string): string =>
   `<a href="${href}">${escapeHtml(text)}</a>`
 
 const variantLinks = (combo: Combo): string =>
-  variantOrder
-    .filter(variant => combo.variants.has(variant))
-    .map(variant =>
-      anchor(variant, `examples/output/${combo.variants.get(variant)!}`),
-    )
+  variants
+    .flatMap(variant => {
+      const filename = combo.variants.get(variant)
+      return filename ? [anchor(variant, `examples/output/${filename}`)] : []
+    })
     .join(`, `)
 
-const renderFormatCell = (id: string, format: Format): string => {
+const formatCell = (id: string, format: Format): string => {
   const link = anchor(
     formatConverters[format].title,
     `docs/formats/${format}.md`,
@@ -98,25 +94,13 @@ const renderFormatCell = (id: string, format: Format): string => {
       first.config.localeCompare(second.config),
   )
 
-  // A single combo has no distinguishing label, so its links sit inline after
-  // the format. Multiple combos become a bulleted sublist, each labelled by the
-  // dimensions (language → emitter → config) that vary across the cell.
-  if (combos.length === 1) {
-    return `<div>${link}: ${variantLinks(combos[0]!)}</div>`
-  }
-
-  const vary = {
-    lang: new Set(combos.map(combo => combo.language)).size > 1,
-    emitter: new Set(combos.map(combo => combo.emitter)).size > 1,
-    config: new Set(combos.map(combo => combo.config)).size > 1,
-  }
   const items = combos
     .map(
       combo =>
-        `<li>${escapeHtml(exampleComboLabel(combo, vary))} (${variantLinks(combo)})</li>`,
+        `<li>${escapeHtml(exampleComboLabel(combo))} (${variantLinks(combo)})</li>`,
     )
     .join(``)
-  return `<div>${link}:<ul>${items}</ul></div>`
+  return `<details><summary>${link}</summary><ul>${items}</ul></details>`
 }
 
 const rows = Array.from(
@@ -127,7 +111,7 @@ const rows = Array.from(
       `docs/languages/${id}.md`,
     )
     const formatsCell = langFormats
-      .map(format => renderFormatCell(id, format))
+      .map(format => formatCell(id, format))
       .join(`\n`)
     return `<tr>\n<td>${languageCell}</td>\n<td>\n${formatsCell}\n</td>\n</tr>`
   },
@@ -142,7 +126,8 @@ ${rows}
 </tbody>
 </table>`
 
-let readme = readFileSync(`readme.md`, `utf8`)
+const original = readFileSync(`readme.md`, `utf8`)
+let readme = original
 
 readme = readme.replace(
   /<!-- CLI_HELP START -->[\S\s]*?<!-- CLI_HELP END -->/u,
@@ -155,7 +140,6 @@ readme = readme.replace(
 )
 
 if (check) {
-  const original = readFileSync(`readme.md`, `utf8`)
   if (original !== readme) {
     process.stderr.write(
       `readme.md is out of date. Run \`pnpm update-readme\` to fix.\n`,
