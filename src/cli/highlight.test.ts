@@ -325,17 +325,20 @@ describe(`heat intensity`, () => {
 describe(`diff table intensity`, () => {
   beforeEach(() => vi.stubEnv(`FORCE_COLOR`, `3`))
 
-  // Diff tables always have a `%` column alongside `Delta`, like real output.
+  // Diff tables always have `Change` and `%` columns alongside `Delta`, like
+  // real output. Together they recover the profile total: `|Delta ÷ Change|`
+  // is the base value, and dividing it by the base share in `%` yields the
+  // total.
   const diffTable = (rows: string[]): string =>
     [
-      `| Change  |   Delta | %           | Base | Current |`,
-      `| ------- | ------: | ----------- | ---- | ------- |`,
+      `| Change  |   Delta | %           |`,
+      `| ------- | ------: | ----------- |`,
       ...rows,
     ].join(`\n`)
 
   test(`header and separator rows are untinted`, async () => {
     const highlighted = await highlight(
-      diffTable([`| +50.0%  |   +1ms  | 0.2% → 0.3% | 2ms  | 3ms     |`]),
+      diffTable([`| +50.0%  |   +1ms  | 0.2% → 0.3% |`]),
       highlightMarkdownOptions,
     )
 
@@ -343,70 +346,91 @@ describe(`diff table intensity`, () => {
     expect(maxRed(highlighted, 1)).toBe(defaultRowRed)
   })
 
-  test(`increase rows are red-tinted relative to the largest delta in the table`, async () => {
+  test(`increase rows are red-tinted by their delta's share of the profile total`, async () => {
+    // Both rows imply a 1s total, so +16ms tints at 1.6% and +4ms at 0.4%.
     const highlighted = await highlight(
       diffTable([
-        `| +100.0% |  +16ms  | 1.6% → 3.2% | 16ms | 32ms    |`,
-        `| +100.0% |   +4ms  | 0.4% → 0.8% |  4ms |  8ms    |`,
+        `| +100.0% |  +16ms  | 1.6% → 3.2% |`,
+        `| +100.0% |   +4ms  | 0.4% → 0.8% |`,
       ]),
       highlightMarkdownOptions,
     )
 
-    expect(maxRed(highlighted, 2)).toBe(244)
-    expect(maxRed(highlighted, 3)).toBe(228)
+    expect(maxRed(highlighted, 2)).toBe(215)
+    expect(maxRed(highlighted, 3)).toBe(213)
   })
 
-  test(`decrease rows are green-tinted relative to the largest delta in the table`, async () => {
+  test(`decrease rows are green-tinted by their delta's share of the profile total`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| -50.0%  |  -16ms  | 3.2% → 1.6% | 32ms | 16ms    |`,
-        `| -50.0%  |   -4ms  | 0.8% → 0.4% |  8ms |  4ms    |`,
+        `| -50.0%  |  -16ms  | 3.2% → 1.6% |`,
+        `| -50.0%  |   -4ms  | 0.8% → 0.4% |`,
       ]),
       highlightMarkdownOptions,
     )
 
-    expect(maxGreen(highlighted, 2)).toBe(241)
-    expect(maxGreen(highlighted, 3)).toBe(219)
+    expect(maxGreen(highlighted, 2)).toBe(203)
+    expect(maxGreen(highlighted, 3)).toBe(201)
   })
 
-  test(`new and removed rows scale with their delta instead of always tinting at maximum`, async () => {
+  test(`a delta moving a large share of the profile tints strongly`, async () => {
+    // -250ms of a 500ms total: half the profile improved.
+    const highlighted = await highlight(
+      diffTable([`| -50.0%  | -250ms  | 100.0% → 50.0% |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxGreen(highlighted, 2)).toBe(228)
+  })
+
+  test(`new and removed rows recover the total from their changed side's share`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| new     |   +4ms  | 0.0% → 0.4% |  0ms |  4ms    |`,
-        `| removed |  -16ms  | 1.6% → 0.0% | 16ms |  0ms    |`,
+        `| new     |   +4ms  | 0.0% → 0.4% |`,
+        `| removed |  -16ms  | 1.6% → 0.0% |`,
       ]),
       highlightMarkdownOptions,
     )
 
-    expect(maxRed(highlighted, 2)).toBe(228)
-    expect(maxGreen(highlighted, 3)).toBe(241)
+    expect(maxRed(highlighted, 2)).toBe(213)
+    expect(maxGreen(highlighted, 3)).toBe(203)
+  })
+
+  test(`a single-value % cell provides the base share`, async () => {
+    const highlighted = await highlight(
+      diffTable([`| -3.4%   | -44.00ms | 99.5%      |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxGreen(highlighted, 2)).toBe(206)
   })
 
   test.each([
     { larger: `+1s`, smaller: `+250ms` },
     { larger: `+1m 5s`, smaller: `+16.25s` },
     { larger: `+1 MiB`, smaller: `+256 KiB` },
+    { larger: `+1,000`, smaller: `+250` },
   ])(
     `$larger and $smaller deltas are normalized before comparison`,
     async ({ larger, smaller }) => {
       const highlighted = await highlight(
         diffTable([
-          `| +100.0% | ${larger} | 0.1% → 0.2% | 1 | 2 |`,
-          `| +100.0% | ${smaller} | 0.1% → 0.2% | 1 | 2 |`,
+          `| +100.0% | ${larger} | 25.0% → 50.0% |`,
+          `| +100.0% | ${smaller} | 6.3% → 12.5% |`,
         ]),
         highlightMarkdownOptions,
       )
 
-      expect(maxRed(highlighted, 2)).toBe(244)
-      expect(maxRed(highlighted, 3)).toBe(228)
+      expect(maxRed(highlighted, 2)).toBe(228)
+      expect(maxRed(highlighted, 3)).toBe(219)
     },
   )
 
   test(`— unchanged row is untinted`, async () => {
     const highlighted = await highlight(
       diffTable([
-        `| +100.0% |  +16ms  | 1.6% → 3.2% | 16ms | 32ms    |`,
-        `| —       |   0ms   | 0.8% → 0.8% |  8ms |  8ms    |`,
+        `| +100.0% |  +16ms  | 1.6% → 3.2% |`,
+        `| —       |   0ms   | 0.8% → 0.8% |`,
       ]),
       highlightMarkdownOptions,
     )
@@ -417,12 +441,23 @@ describe(`diff table intensity`, () => {
 
   test(`table with only unchanged rows is untinted`, async () => {
     const highlighted = await highlight(
-      diffTable([`| —       |   0ms   | 0.8% → 0.8% |  8ms |  8ms    |`]),
+      diffTable([`| —       |   0ms   | 0.8% → 0.8% |`]),
       highlightMarkdownOptions,
     )
 
     expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
     expect(maxGreen(highlighted, 2)).toBe(defaultRowGreen)
+  })
+
+  test(`table whose total cannot be recovered is untinted`, async () => {
+    // Every share rounds below the output's precision, so no row can anchor a
+    // total estimate.
+    const highlighted = await highlight(
+      diffTable([`| new     |   +1ms  | 0.0% → <0.1% |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
   })
 
   test(`diff table rows don't propagate intensity to matching headings`, async () => {
