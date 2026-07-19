@@ -43,8 +43,32 @@ type V8HeapProfileSample = {
 }
 
 export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
-  // Flatten the call tree, reindexing each node's id to its flattened position,
-  // which doubles as its frame-universe index.
+  const { flatNodes, idToIndex, indexToParentIndex } = flattenCallTree(profile)
+  const frames = flatNodes.map(nodeToStackFrame)
+
+  return [
+    {
+      type: `profile`,
+      frames,
+      metrics: [BYTES],
+      samples: heapSamples(profile, idToIndex, indexToParentIndex),
+    },
+  ]
+}
+
+/**
+ * Flattens the call tree, reindexing each node's ID to its flattened position,
+ * which doubles as its frame-universe index, and returns the flattened nodes
+ * with the mappings from original ID to position and from position to parent
+ * position (`-1` for the root).
+ */
+const flattenCallTree = (
+  profile: V8HeapProfile,
+): {
+  flatNodes: V8HeapProfileNode[]
+  idToIndex: number[]
+  indexToParentIndex: number[]
+} => {
   const flatNodes: V8HeapProfileNode[] = []
   const idToIndex: number[] = []
   const indexToParentIndex: number[] = []
@@ -66,20 +90,13 @@ export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
     }
   } while (stack.length > 0)
 
-  const frames = flatNodes.map(node => {
-    const frame = callFrameToStackFrame(node.callFrame)
-    const name = VM_STATE_FRAME_NAMES.get(frame.name ?? ``)
-    return name === undefined ? frame : { ...frame, name }
-  })
+  return { flatNodes, idToIndex, indexToParentIndex }
+}
 
-  return [
-    {
-      type: `profile`,
-      frames,
-      metrics: [BYTES],
-      samples: heapSamples(profile, idToIndex, indexToParentIndex),
-    },
-  ]
+const nodeToStackFrame = (node: V8HeapProfileNode) => {
+  const frame = callFrameToStackFrame(node.callFrame)
+  const name = VM_STATE_FRAME_NAMES.get(frame.name ?? ``)
+  return name === undefined ? frame : { ...frame, name }
 }
 
 /**
@@ -102,7 +119,7 @@ function* heapSamples(
   profile: V8HeapProfile,
   idToIndex: number[],
   indexToParentIndex: number[],
-): Generator<Sample> {
+): Iterable<Sample> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   for (const { size, nodeId } of profile.samples) {
     const nodeIndex = idToIndex[nodeId]

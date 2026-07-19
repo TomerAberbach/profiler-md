@@ -58,6 +58,18 @@ export type NodeAdjacencyGraph = {
 }
 
 /**
+ * Prefix-sums per-node counts into CSR start offsets, with one extra trailing
+ * entry holding the total.
+ */
+export const computeStartOffsets = (ordinalToCount: Int32Array): Int32Array => {
+  const ordinalToStartOffset = new Int32Array(ordinalToCount.length + 1)
+  for (let i = 0; i < ordinalToCount.length; i++) {
+    ordinalToStartOffset[i + 1] = ordinalToStartOffset[i]! + ordinalToCount[i]!
+  }
+  return ordinalToStartOffset
+}
+
+/**
  * The immediate dominator graph for a heap snapshot in CSR format.
  *
  * There's a 1:N relationship between immediate dominator and immediate

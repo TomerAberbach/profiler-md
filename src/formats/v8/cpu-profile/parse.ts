@@ -51,27 +51,8 @@ export type V8CpuProfileNode = {
 }
 
 export const parseV8CpuProfile = (profile: V8CpuProfile): Profile[] => {
-  // Reindex nodes so each node's id is its position in the table, which doubles
-  // as its frame-universe index.
-  const idToIndex: number[] = []
-  for (let index = 0; index < profile.nodes.length; index++) {
-    const node = profile.nodes[index]!
-    idToIndex[node.id] = index
-    node.id = index
-  }
-
-  const indexToParentIndex = new Int32Array(profile.nodes.length).fill(-1)
-  for (const node of profile.nodes) {
-    if (node.children) {
-      for (const childId of node.children) {
-        const childIndex = idToIndex[childId]
-        if (childIndex === undefined) {
-          continue
-        }
-        indexToParentIndex[childIndex] = node.id
-      }
-    }
-  }
+  const idToIndex = reindexNodes(profile)
+  const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
 
   const frames = profile.nodes.map(node =>
     callFrameToStackFrame(node.callFrame),
@@ -97,12 +78,48 @@ export const parseV8CpuProfile = (profile: V8CpuProfile): Profile[] => {
   ]
 }
 
+/**
+ * Reindexes nodes so each node's ID is its position in the table, which
+ * doubles as its frame-universe index, and returns the mapping from original
+ * ID to position.
+ */
+const reindexNodes = (profile: V8CpuProfile): number[] => {
+  const idToIndex: number[] = []
+  for (let index = 0; index < profile.nodes.length; index++) {
+    const node = profile.nodes[index]!
+    idToIndex[node.id] = index
+    node.id = index
+  }
+  return idToIndex
+}
+
+/** Maps each node's index to its parent's index, or `-1` for a root. */
+const makeIndexToParentIndex = (
+  profile: V8CpuProfile,
+  idToIndex: number[],
+): Int32Array => {
+  const indexToParentIndex = new Int32Array(profile.nodes.length).fill(-1)
+  for (const node of profile.nodes) {
+    if (!node.children) {
+      continue
+    }
+    for (const childId of node.children) {
+      const childIndex = idToIndex[childId]
+      if (childIndex === undefined) {
+        continue
+      }
+      indexToParentIndex[childIndex] = node.id
+    }
+  }
+  return indexToParentIndex
+}
+
 function* cpuSamples(
   profile: V8CpuProfile,
   idToIndex: number[],
   indexToParentIndex: Int32Array,
   indexToSelfTime: Float64Array,
-): Generator<Sample> {
+): Iterable<Sample> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   for (let index = 0; index < profile.samples.length; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]
@@ -126,7 +143,7 @@ function* cpuSamples(
 function* cpuLineMetrics(
   profile: V8CpuProfile,
   indexToSelfTime: Float64Array,
-): Generator<SampleLineMetrics> {
+): Iterable<SampleLineMetrics> {
   for (const node of profile.nodes) {
     if (!node.positionTicks) {
       continue

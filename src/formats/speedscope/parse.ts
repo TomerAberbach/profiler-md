@@ -137,7 +137,7 @@ const sampledProfile = (
   samples: sampledSamples(profile),
 })
 
-function* sampledSamples(profile: SpeedscopeSampledProfile): Generator<Sample> {
+function* sampledSamples(profile: SpeedscopeSampledProfile): Iterable<Sample> {
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
     if (weight < 0) {
@@ -169,10 +169,10 @@ const eventedProfile = (
  * Reconstructs samples from open/close events: each frame's self time (the gap
  * since its last child closed) becomes one sample of the current stack.
  */
-function* eventedSamples(profile: SpeedscopeEventedProfile): Generator<Sample> {
+function* eventedSamples(profile: SpeedscopeEventedProfile): Iterable<Sample> {
   const stack: { frame: number; lastChildClosed: number }[] = []
 
-  function* emitTopSelfTime(at: number): Generator<Sample> {
+  function* emitTopSelfTime(at: number): Iterable<Sample> {
     if (stack.length === 0) {
       return
     }

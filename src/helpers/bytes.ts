@@ -56,7 +56,7 @@ export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
 export function* decodeUtf8Lines(
   bytes: Uint8Array,
   chunkSize: number = DECODE_CHUNK_SIZE,
-): Generator<string> {
+): Iterable<string> {
   const decoder = new Utf8LineDecoder()
   for (let offset = 0; offset < bytes.length; offset += chunkSize) {
     yield* decoder.push(bytes.subarray(offset, offset + chunkSize))
@@ -106,7 +106,7 @@ class Utf8LineDecoder {
   readonly #decoder = new TextDecoder(`utf-8`, { fatal: true })
   #pending = ``
 
-  public *push(bytes: Uint8Array): Generator<string> {
+  public *push(bytes: Uint8Array): Iterable<string> {
     this.#pending += this.#decoder.decode(bytes, { stream: true })
 
     const lines = this.#pending.split(`\n`)
@@ -123,7 +123,7 @@ class Utf8LineDecoder {
    *
    * @throws if a trailing sequence is truncated.
    */
-  public *flush(): Generator<string> {
+  public *flush(): Iterable<string> {
     this.#pending += this.#decoder.decode()
     yield stripCarriageReturn(this.#pending)
   }

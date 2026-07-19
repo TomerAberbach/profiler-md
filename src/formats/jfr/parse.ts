@@ -106,8 +106,8 @@ type Jfr = {
  * versions.
  *
  * Lenient by design: it never throws on bytes that aren't a JFR recording.
- * Input without the chunk magic simply yields no chunks, and so an empty
- * recording (detection checks the magic separately, in `./index.ts`).
+ * Input without the chunk magic yields no chunks, and so an empty
+ * recording (detection checks the magic separately).
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
@@ -141,7 +141,7 @@ export const parseJfrAsync = async (
  * a truncated trailing chunk whose size runs past the buffer), keeping the
  * chunks read so far.
  */
-function* jfrChunks(bytes: Uint8Array): Generator<Uint8Array> {
+function* jfrChunks(bytes: Uint8Array): Iterable<Uint8Array> {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
   let position = 0
   while (
@@ -202,22 +202,14 @@ const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
   // kind's profile as its distinct frames.
   const frames = methods.map(methodToStackFrame)
 
-  const eventsByKind = new Map<JfrSampleKind, JfrSampleEvent[]>()
-  for (const event of events) {
-    let kindEvents = eventsByKind.get(event.kind)
-    if (!kindEvents) {
-      kindEvents = []
-      eventsByKind.set(event.kind, kindEvents)
-    }
-    kindEvents.push(event)
-  }
+  const byKind = Map.groupBy(events, event => event.kind)
 
   // A single recording can mix CPU, allocation, and lock events, so emit one
   // profile per kind that's present (all sharing `frames`), like multi-metric
   // pprof.
   const profiles: Profile[] = []
   for (const { kind, metric } of KINDS) {
-    const kindEvents = eventsByKind.get(kind)
+    const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
     }
@@ -241,7 +233,7 @@ function* kindSamples(
   events: JfrSampleEvent[],
   metric: Metric | undefined,
   stackTraces: JfrStackTrace[],
-): Generator<Sample> {
+): Iterable<Sample> {
   for (const event of events) {
     const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
     yield {
@@ -315,6 +307,18 @@ type FieldKind =
   | typeof FIELD_STRING
   | typeof FIELD_NESTED
 
+/** The reader dispatch tag for each JFR primitive type, by type name. */
+const PRIMITIVE_FIELD_KINDS: [string, FieldKind][] = [
+  [`long`, FIELD_VARINT],
+  [`int`, FIELD_VARINT],
+  [`short`, FIELD_VARINT],
+  [`char`, FIELD_VARINT],
+  [`boolean`, FIELD_BYTE],
+  [`byte`, FIELD_BYTE],
+  [`float`, FIELD_FLOAT],
+  [`double`, FIELD_DOUBLE],
+]
+
 type TypeDef = {
   name: string
   fields: Field[]
@@ -347,6 +351,40 @@ type EventKind = {
   /** Which allocation family this event belongs to, for `alloc` events. */
   allocFamily?: AllocFamily
 }
+
+/** The supported sample event types, by the event names JFR records. */
+const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
+  [`jdk.ExecutionSample`, { kind: `cpu` }],
+  [`jdk.NativeMethodSample`, { kind: `cpu` }],
+  [`profiler.WallClockSample`, { kind: `cpu`, countField: `samples` }],
+  [
+    `jdk.ObjectAllocationSample`,
+    { kind: `alloc`, weightField: `weight`, allocFamily: `sampled` },
+  ],
+  [
+    `jdk.ObjectAllocationInNewTLAB`,
+    { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
+  ],
+  [
+    `jdk.ObjectAllocationOutsideTLAB`,
+    { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
+  ],
+  [`jdk.OldObjectSample`, { kind: `live`, weightField: `objectSize` }],
+  [`profiler.LiveObject`, { kind: `live`, weightField: `allocationSize` }],
+  [`profiler.Malloc`, { kind: `nativemem`, weightField: `size` }],
+  [
+    `jdk.JavaMonitorEnter`,
+    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+  ],
+  [
+    `jdk.ThreadPark`,
+    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+  ],
+  [
+    `profiler.NativeLock`,
+    { kind: `lock`, weightField: `duration`, weightInTicks: true },
+  ],
+]
 
 /**
  * Thrown when a field's type can't be sized (not a primitive, pool reference,
@@ -692,42 +730,10 @@ class JfrParser {
 
   // Events
 
+  /** Maps this chunk's type IDs to their supported event kinds, skipping absent event types. */
   #eventKinds(): Map<number, EventKind> {
-    const byName: [string, EventKind][] = [
-      [`jdk.ExecutionSample`, { kind: `cpu` }],
-      [`jdk.NativeMethodSample`, { kind: `cpu` }],
-      [`profiler.WallClockSample`, { kind: `cpu`, countField: `samples` }],
-      [
-        `jdk.ObjectAllocationSample`,
-        { kind: `alloc`, weightField: `weight`, allocFamily: `sampled` },
-      ],
-      [
-        `jdk.ObjectAllocationInNewTLAB`,
-        { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
-      ],
-      [
-        `jdk.ObjectAllocationOutsideTLAB`,
-        { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
-      ],
-      [`jdk.OldObjectSample`, { kind: `live`, weightField: `objectSize` }],
-      [`profiler.LiveObject`, { kind: `live`, weightField: `allocationSize` }],
-      [`profiler.Malloc`, { kind: `nativemem`, weightField: `size` }],
-      [
-        `jdk.JavaMonitorEnter`,
-        { kind: `lock`, weightField: `duration`, weightInTicks: true },
-      ],
-      [
-        `jdk.ThreadPark`,
-        { kind: `lock`, weightField: `duration`, weightInTicks: true },
-      ],
-      [
-        `profiler.NativeLock`,
-        { kind: `lock`, weightField: `duration`, weightInTicks: true },
-      ],
-    ]
-
     const eventKinds = new Map<number, EventKind>()
-    for (const [name, eventKind] of byName) {
+    for (const [name, eventKind] of EVENT_KINDS_BY_NAME) {
       const id = this.#typeIdsByName.get(name)
       if (id !== undefined) {
         eventKinds.set(id, eventKind)
@@ -779,20 +785,12 @@ class JfrParser {
    */
   #resolveFieldKinds(): void {
     const primitiveKinds = new Map<number, FieldKind>()
-    const set = (name: string, kind: FieldKind) => {
+    for (const [name, kind] of PRIMITIVE_FIELD_KINDS) {
       const id = this.#typeIdsByName.get(name)
       if (id !== undefined) {
         primitiveKinds.set(id, kind)
       }
     }
-    set(`long`, FIELD_VARINT)
-    set(`int`, FIELD_VARINT)
-    set(`short`, FIELD_VARINT)
-    set(`char`, FIELD_VARINT)
-    set(`boolean`, FIELD_BYTE)
-    set(`byte`, FIELD_BYTE)
-    set(`float`, FIELD_FLOAT)
-    set(`double`, FIELD_DOUBLE)
     if (this.#stringTypeId !== undefined) {
       primitiveKinds.set(this.#stringTypeId, FIELD_STRING)
     }
@@ -919,150 +917,16 @@ class JfrParser {
 
   // Resolution
 
-  /** The constant pool for a type, or an empty map if it's absent. */
-  #pool(
-    pools: Map<number, Map<number, unknown>>,
-    name: string,
-  ): Map<number, unknown> {
-    const id = this.#typeIdsByName.get(name)
-    return (
-      (id === undefined ? undefined : pools.get(id)) ??
-      new Map<number, unknown>()
-    )
-  }
-
+  /**
+   * Resolves each raw event's stack against the chunk's constant pools and
+   * files it by kind, keeping legacy TLAB allocation events apart so
+   * {@link finish} can drop them when the modern sampled event is also present.
+   */
   #resolve(
     pools: Map<number, Map<number, unknown>>,
     rawEvents: RawEvent[],
   ): void {
-    const symbolPool = this.#pool(pools, `jdk.types.Symbol`)
-    const methodPool = this.#pool(pools, `jdk.types.Method`)
-    const classPool = this.#pool(pools, `java.lang.Class`)
-    const stackPool = this.#pool(pools, `jdk.types.StackTrace`)
-
-    // Symbol strings can be stored inline or as references into the chunk's
-    // `java.lang.String` pool, which may not have been read when the symbol was.
-    const stringPool =
-      this.#stringTypeId === undefined
-        ? undefined
-        : pools.get(this.#stringTypeId)
-    const resolveString = (value: unknown): string | null => {
-      // Follow string-pool references, bounded against malformed cycles.
-      let current = value as BuiltinString | null | undefined
-      for (let i = 0; i < 8 && current != null; i++) {
-        if (current.type === `inline`) {
-          return current.value
-        }
-        current = stringPool?.get(current.index) as
-          | BuiltinString
-          | null
-          | undefined
-      }
-      return null
-    }
-
-    const symbol = (key: unknown): string => {
-      const entry = symbolPool.get(key as number) as
-        | { string?: unknown }
-        | undefined
-      return resolveString(entry?.string) ?? ``
-    }
-
-    // Resolve each referenced method to a global sequential index, lazily.
-    const methodKeyToIndex = new Map<number, number>()
-    const resolveMethod = (key: number): number => {
-      let index = methodKeyToIndex.get(key)
-      if (index !== undefined) {
-        return index
-      }
-
-      const method = methodPool.get(key) as
-        | { type?: unknown; name?: unknown; descriptor?: unknown }
-        | undefined
-      const declaringClass = method
-        ? (classPool.get(method.type as number) as
-            | { name?: unknown }
-            | undefined)
-        : undefined
-      const bareName = symbol(method?.name)
-      const className = classNameToSource(symbol(declaringClass?.name))
-      const descriptor = symbol(method?.descriptor)
-
-      // Merge methods that recur across chunks: chunk-local pool keys differ,
-      // but the same method has the same name, class, and descriptor everywhere.
-      // The full descriptor is part of the identity so overloads (and bridge
-      // methods differing only by return type) stay distinct.
-      const identity = `${className}\n${bareName}\n${descriptor}`
-      index = this.#methodIndexByIdentity.get(identity)
-      if (index === undefined) {
-        index = this.#methods.length
-        this.#methods.push({
-          id: index,
-          name: methodDisplayName(bareName, descriptor),
-          className,
-        })
-        this.#methodIndexByIdentity.set(identity, index)
-      }
-      methodKeyToIndex.set(key, index)
-      return index
-    }
-
-    // Resolve each referenced stack trace to a global sequential index, lazily.
-    const stackKeyToIndex = new Map<number, number>()
-    const resolveStack = (key: number): number | undefined => {
-      let index = stackKeyToIndex.get(key)
-      if (index !== undefined) {
-        return index
-      }
-
-      const raw = stackPool.get(key)
-      if (raw === undefined) {
-        return undefined
-      }
-
-      // Stack traces are stored as a flat array of interleaved
-      // `[method, lineNumber]` pairs by the fast path, or, when the layout was
-      // unrecognized, as a generic `{ frames: [{ method, lineNumber }, …] }`
-      // object by `#readFields`.
-      const flat = Array.isArray(raw) ? (raw as number[]) : undefined
-      const objectFrames = flat
-        ? undefined
-        : (((raw as { frames?: unknown }).frames ?? []) as Record<
-            string,
-            unknown
-          >[])
-      const frameCount = flat ? flat.length / 2 : objectFrames!.length
-
-      // Merge identical stacks that recur across chunks by their resolved
-      // (global) method indices and leaf line.
-      const methodIds = Array.from<number>({ length: frameCount })
-      for (let i = 0; i < frameCount; i++) {
-        methodIds[i] = resolveMethod(
-          (flat ? flat[i * 2] : objectFrames![i]!.method) as number,
-        )
-      }
-      const leafLine =
-        frameCount === 0
-          ? undefined
-          : validLineNumber(flat ? flat[1] : objectFrames![0]!.lineNumber)
-      index = this.#internStack({ methodIds, leafLine })
-      stackKeyToIndex.set(key, index)
-      return index
-    }
-
-    // A shared empty stack for events whose stack can't be resolved (a null
-    // reference or a missing pool entry). Their weight still counts, so they're
-    // attributed to it rather than dropped; the aggregator surfaces it as an
-    // anonymous frame.
-    let emptyStackIndex: number | undefined
-    const emptyStack = (): number => {
-      emptyStackIndex ??= this.#internStack({
-        methodIds: [],
-        leafLine: undefined,
-      })
-      return emptyStackIndex
-    }
-
+    const resolver = this.#chunkResolver(pools)
     for (const {
       kind,
       stackKey,
@@ -1070,7 +934,8 @@ class JfrParser {
       sampleCount,
       allocFamily,
     } of rawEvents) {
-      const stackTraceId = resolveStack(stackKey) ?? emptyStack()
+      const stackTraceId =
+        resolver.resolveStack(stackKey) ?? resolver.emptyStack()
 
       const event: JfrSampleEvent = { kind, stackTraceId, weight, sampleCount }
       if (allocFamily === `tlab`) {
@@ -1082,6 +947,37 @@ class JfrParser {
         this.#events.push(event)
       }
     }
+  }
+
+  /** Builds a resolver over the current chunk's constant pools. */
+  #chunkResolver(pools: Map<number, Map<number, unknown>>): ChunkResolver {
+    return new ChunkResolver(
+      {
+        symbols: this.#pool(pools, `jdk.types.Symbol`),
+        methods: this.#pool(pools, `jdk.types.Method`),
+        classes: this.#pool(pools, `java.lang.Class`),
+        stacks: this.#pool(pools, `jdk.types.StackTrace`),
+        strings:
+          this.#stringTypeId === undefined
+            ? undefined
+            : pools.get(this.#stringTypeId),
+      },
+      this.#methods,
+      this.#methodIndexByIdentity,
+      stack => this.#internStack(stack),
+    )
+  }
+
+  /** The constant pool for a type, or an empty map if it's absent. */
+  #pool(
+    pools: Map<number, Map<number, unknown>>,
+    name: string,
+  ): Map<number, unknown> {
+    const id = this.#typeIdsByName.get(name)
+    return (
+      (id === undefined ? undefined : pools.get(id)) ??
+      new Map<number, unknown>()
+    )
   }
 
   /**
@@ -1155,6 +1051,173 @@ class JfrParser {
       default:
         return null
     }
+  }
+}
+
+/**
+ * Resolves one chunk's constant-pool references into the global sequential
+ * indices accumulated across every chunk. Methods and stacks recur across
+ * chunks under different chunk-local pool keys, so each resolved entity is
+ * merged into the shared tables by stable identity; resolution is lazy and
+ * cached per chunk-local key.
+ */
+class ChunkResolver {
+  readonly #symbolPool: Map<number, unknown>
+  readonly #methodPool: Map<number, unknown>
+  readonly #classPool: Map<number, unknown>
+  readonly #stackPool: Map<number, unknown>
+  // Symbol strings can be stored inline or as references into the chunk's
+  // `java.lang.String` pool, which may not have been read when the symbol was.
+  readonly #stringPool: Map<number, unknown> | undefined
+
+  // The global tables accumulated across chunks, shared with the parser.
+  readonly #methods: JfrMethod[]
+  readonly #methodIndexByIdentity: Map<string, number>
+  readonly #internStack: (stack: JfrStackTrace) => number
+
+  readonly #methodKeyToIndex = new Map<number, number>()
+  readonly #stackKeyToIndex = new Map<number, number>()
+  #emptyStackIndex: number | undefined
+
+  public constructor(
+    pools: {
+      symbols: Map<number, unknown>
+      methods: Map<number, unknown>
+      classes: Map<number, unknown>
+      stacks: Map<number, unknown>
+      strings: Map<number, unknown> | undefined
+    },
+    methods: JfrMethod[],
+    methodIndexByIdentity: Map<string, number>,
+    internStack: (stack: JfrStackTrace) => number,
+  ) {
+    this.#symbolPool = pools.symbols
+    this.#methodPool = pools.methods
+    this.#classPool = pools.classes
+    this.#stackPool = pools.stacks
+    this.#stringPool = pools.strings
+    this.#methods = methods
+    this.#methodIndexByIdentity = methodIndexByIdentity
+    this.#internStack = internStack
+  }
+
+  /**
+   * Resolves a referenced stack trace to a global sequential index, lazily, or
+   * `undefined` when the pool has no entry for the key.
+   */
+  public resolveStack(key: number): number | undefined {
+    let index = this.#stackKeyToIndex.get(key)
+    if (index !== undefined) {
+      return index
+    }
+
+    const raw = this.#stackPool.get(key)
+    if (raw === undefined) {
+      return undefined
+    }
+
+    // Stack traces are stored as a flat array of interleaved
+    // `[method, lineNumber]` pairs by the fast path, or, when the layout was
+    // unrecognized, as a generic `{ frames: [{ method, lineNumber }, …] }`
+    // object by generic field reading.
+    const flat = Array.isArray(raw) ? (raw as number[]) : undefined
+    const objectFrames = flat
+      ? undefined
+      : (((raw as { frames?: unknown }).frames ?? []) as Record<
+          string,
+          unknown
+        >[])
+    const frameCount = flat ? flat.length / 2 : objectFrames!.length
+
+    // Merge identical stacks that recur across chunks by their resolved
+    // (global) method indices and leaf line.
+    const methodIds = Array.from<number>({ length: frameCount })
+    for (let i = 0; i < frameCount; i++) {
+      methodIds[i] = this.#resolveMethod(
+        (flat ? flat[i * 2] : objectFrames![i]!.method) as number,
+      )
+    }
+    const leafLine =
+      frameCount === 0
+        ? undefined
+        : validLineNumber(flat ? flat[1] : objectFrames![0]!.lineNumber)
+    index = this.#internStack({ methodIds, leafLine })
+    this.#stackKeyToIndex.set(key, index)
+    return index
+  }
+
+  /**
+   * A shared empty stack for events whose stack can't be resolved (a null
+   * reference or a missing pool entry). Their weight still counts, so they're
+   * attributed to it rather than dropped; the aggregator surfaces it as an
+   * anonymous frame.
+   */
+  public emptyStack(): number {
+    this.#emptyStackIndex ??= this.#internStack({
+      methodIds: [],
+      leafLine: undefined,
+    })
+    return this.#emptyStackIndex
+  }
+
+  /** Resolves a referenced method to a global sequential index, lazily. */
+  #resolveMethod(key: number): number {
+    let index = this.#methodKeyToIndex.get(key)
+    if (index !== undefined) {
+      return index
+    }
+
+    const method = this.#methodPool.get(key) as
+      | { type?: unknown; name?: unknown; descriptor?: unknown }
+      | undefined
+    const declaringClass = method
+      ? (this.#classPool.get(method.type as number) as
+          | { name?: unknown }
+          | undefined)
+      : undefined
+    const bareName = this.#symbol(method?.name)
+    const className = classNameToSource(this.#symbol(declaringClass?.name))
+    const descriptor = this.#symbol(method?.descriptor)
+
+    // Merge methods that recur across chunks: chunk-local pool keys differ,
+    // but the same method has the same name, class, and descriptor everywhere.
+    // The full descriptor is part of the identity so overloads (and bridge
+    // methods differing only by return type) stay distinct.
+    const identity = `${className}\n${bareName}\n${descriptor}`
+    index = this.#methodIndexByIdentity.get(identity)
+    if (index === undefined) {
+      index = this.#methods.length
+      this.#methods.push({
+        id: index,
+        name: methodDisplayName(bareName, descriptor),
+        className,
+      })
+      this.#methodIndexByIdentity.set(identity, index)
+    }
+    this.#methodKeyToIndex.set(key, index)
+    return index
+  }
+
+  #symbol(key: unknown): string {
+    const entry = this.#symbolPool.get(key as number) as
+      | { string?: unknown }
+      | undefined
+    return this.#resolveString(entry?.string) ?? ``
+  }
+
+  #resolveString(value: unknown): string | null {
+    // Follow string-pool references, bounded against malformed cycles.
+    let current = value as BuiltinString | null | undefined
+    for (let i = 0; i < 8 && current != null; i++) {
+      if (current.type === `inline`) {
+        return current.value
+      }
+      current = this.#stringPool?.get(current.index) as
+        | BuiltinString
+        | null
+        | undefined
+    }
+    return null
   }
 }
 
