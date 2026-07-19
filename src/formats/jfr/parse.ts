@@ -93,6 +93,14 @@ type Jfr = {
 
   /** The supported sample events observed in the recording. */
   events: JfrSampleEvent[]
+
+  /**
+   * Whether any chunk declared async-profiler's own `profiler.*` event types.
+   * Async-profiler registers them in every recording regardless of config,
+   * while the JDK's recorder never does, so they identify the recorder even
+   * when the sampled stacks are pure Java frames.
+   */
+  isAsyncProfiler: boolean
 }
 
 /**
@@ -197,7 +205,12 @@ async function* jfrChunksAsync(
   }
 }
 
-const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
+const jfrToProfiles = ({
+  methods,
+  stackTraces,
+  events,
+  isAsyncProfiler,
+}: Jfr): Profile[] => {
   // Methods are a dense table whose index is the method id, shared across every
   // kind's profile as its distinct frames.
   const frames = methods.map(methodToStackFrame)
@@ -215,6 +228,7 @@ const jfrToProfiles = ({ methods, stackTraces, events }: Jfr): Profile[] => {
     }
     profiles.push({
       type: `profile`,
+      ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
       samples: kindSamples(kindEvents, metric, stackTraces),
@@ -420,6 +434,7 @@ class JfrParser {
   #typeIdsByName = new Map<string, number>()
   #stringTypeId: number | undefined
   #frequency = 1
+  #isAsyncProfiler = false
 
   // Stack traces dominate the constant pool, so they're read into a compact
   // flat form (interleaved method, lineNumber) instead of arrays of per-frame
@@ -488,6 +503,7 @@ class JfrParser {
       methods: this.#methods,
       stackTraces: this.#stackInterner.items,
       events: this.#finalizeEvents(),
+      isAsyncProfiler: this.#isAsyncProfiler,
     }
   }
 
@@ -518,6 +534,14 @@ class JfrParser {
     this.#types = this.#parseMetadata()
     this.#typeIdsByName = indexTypeIdsByName(this.#types)
     this.#stringTypeId = this.#typeIdsByName.get(`java.lang.String`)
+    if (!this.#isAsyncProfiler) {
+      for (const name of this.#typeIdsByName.keys()) {
+        if (name.startsWith(`profiler.`)) {
+          this.#isAsyncProfiler = true
+          break
+        }
+      }
+    }
     this.#resolveFieldKinds()
     this.#resolveStackTraceLayout()
   }

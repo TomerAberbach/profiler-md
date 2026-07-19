@@ -25,6 +25,33 @@ describe(`detection`, () => {
       }),
     ).toBe(`node`)
   })
+
+  test.each([`jsc-heap-snapshot`, `v8-heap-snapshot`] as const)(
+    `detects Bun in a %s by its runtime classes`,
+    format => {
+      expect(
+        determineOrigin({
+          format,
+          entries: [
+            relativeEntry(`Object`),
+            relativeEntry(`InternalModuleRegistry`),
+          ],
+        }),
+      ).toBe(`bun`)
+    },
+  )
+
+  test(`a plausible user class name doesn't trigger Bun`, () => {
+    // Snapshot nodes are mostly location-less, including instances of
+    // user-defined classes, so a name a user might define is not a marker even
+    // without a location.
+    expect(
+      determineOrigin({
+        format: `v8-heap-snapshot`,
+        entries: [relativeEntry(`FileSink`), relativeEntry(`NextTickQueue`)],
+      }),
+    ).toBe(`node`)
+  })
 })
 
 describe(`categorizeEntry`, () => {

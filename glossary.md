@@ -13,8 +13,7 @@ ambiguous.
 | **Modality**  | A data structure a format captures (e.g. heap snapshot)                                     | shape, kind            |
 | **Profile**   | The modality produced by sampling a program's call stack at regular intervals               | snapshot               |
 | **Snapshot**  | The modality produced by capturing the program's state at a single point in time            | profile                |
-| **Origin**    | A registered profiler-runtime pairing an input is detected and categorized as (e.g. safari) | source, runtime, tool  |
-| **Emitter**   | A concrete tool or runtime that wrote an input                                              | source, tool           |
+| **Origin**    | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)           | source, emitter, tool  |
 | **Language**  | A programming language whose profilers emit a format                                        | runtime                |
 
 ## Conversion pipeline
@@ -24,6 +23,7 @@ ambiguous.
 | **Parse**           | Convert raw input bytes to a parsed input                                                    | decode, deserialize |
 | **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess        |
 | **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence |
+| **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker         | —                   |
 | **Entry**           | A name + location pair; the unit of filtering and categorization                             | record              |
 | **Category**        | A classification of an entity in an input                                                    | type, group         |
 | **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin      |
@@ -116,9 +116,11 @@ ambiguous.
 
 - A **language** spans multiple **origins**, and an **origin** may emit multiple
   **formats**
-- An **emitter** may be finer or coarser than its **origin**: several emitters
-  can resolve to one origin, and one emitter's inputs can resolve to different
-  origins
+- Every tool or runtime that writes inputs is its own **origin**, always;
+  origins sharing runtime conventions share helper modules, never a registered
+  spec
+- An **origin** with no **marker entries** still registers; its inputs resolve
+  to the **fallback origin** unless the user specifies the origin
 - A **profile** contains many **samples**
 - A **sample** has one **call stack** and one **value** per **metric**
 - A **call stack** is an ordered list of **frames** and each **frame** is a

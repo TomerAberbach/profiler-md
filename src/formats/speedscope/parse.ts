@@ -15,7 +15,7 @@ export type SpeedscopeFrame = {
 
   /**
    * The 1-based line in the function, if known. The spec only allows omission,
-   * but some emitters (py-spy, rbspy) write `null` for unknown.
+   * but some origins (py-spy, rbspy) write `null` for unknown.
    */
   line?: number | null
 
@@ -89,6 +89,9 @@ export type SpeedscopeEventedProfile = {
 export type SpeedscopeProfile = {
   $schema: `https://www.speedscope.app/file-format-schema.json`
 
+  /** The name of the tool that exported the file, if it identifies itself. */
+  exporter?: string
+
   /** The list of profiles. */
   profiles: (SpeedscopeSampledProfile | SpeedscopeEventedProfile)[]
 
@@ -100,14 +103,37 @@ export type SpeedscopeProfile = {
 }
 
 export const parseSpeedscope = (profile: SpeedscopeProfile): Profile[] => {
+  const originHint = exporterOriginHint(profile.exporter)
   // Speedscope samples reference frames by their index in the shared table, so
   // it doubles as the distinct frames, shared across the file's profiles.
   const frames = profile.shared.frames.map(frameToStackFrame)
-  return profile.profiles.map(subProfile =>
-    subProfile.type === `sampled`
+  return profile.profiles.map(subProfile => ({
+    ...(originHint && { originHint }),
+    ...(subProfile.type === `sampled`
       ? sampledProfile(frames, subProfile)
-      : eventedProfile(frames, subProfile),
-  )
+      : eventedProfile(frames, subProfile)),
+  }))
+}
+
+/**
+ * Maps a self-identifying {@link SpeedscopeProfile.exporter} to its origin.
+ * Excimer writes a bare `Excimer`; dotnet-trace writes its exporting library
+ * with a version suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`).
+ * py-spy and rbspy omit the field, so they rely on their frame markers.
+ */
+const exporterOriginHint = (
+  exporter: string | undefined,
+): string | undefined => {
+  if (!exporter) {
+    return undefined
+  }
+  if (exporter === `Excimer`) {
+    return `excimer`
+  }
+  if (exporter.startsWith(`Microsoft.Diagnostics.Tracing.TraceEvent`)) {
+    return `dotnet-trace`
+  }
+  return undefined
 }
 
 // The `line`/`col` are read as the function's definition position, matching

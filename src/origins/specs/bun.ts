@@ -1,21 +1,25 @@
 import {
   locationlessStdlibCategory,
-  nodeModulesCategory,
   protocolCategory,
   syntheticFrameCategory,
 } from '../categorize.ts'
+import { nodeModulesCategory } from '../javascript.ts'
 import type { OriginSpec } from '../origin.ts'
 
 export const bunOriginSpec = {
   id: `bun`,
-  formats: [`v8-cpu-profile`],
-  // The builtins are native, so they have no source location; a user function
-  // that happens to share one of these names would carry a location, so
-  // requiring none keeps the signal from misfiring on it.
+  title: `Bun`,
+  formats: [`v8-cpu-profile`, `jsc-heap-snapshot`, `v8-heap-snapshot`],
+  // Both sets are native, so their frames and heap nodes have no source
+  // location. In CPU profiles the no-location guard alone excludes user code,
+  // since V8 and JSC record every JavaScript function's script location. Heap
+  // snapshots are weaker: most nodes are location-less, including instances of
+  // user-defined classes, so each marker name must additionally be one no user
+  // or library would plausibly define.
   isMarkerEntry: ({ name, location }) =>
     location === undefined &&
     name !== undefined &&
-    JSC_MODULE_LOADER_BUILTINS.has(name),
+    (JSC_MODULE_LOADER_BUILTINS.has(name) || BUN_RUNTIME_CLASSES.has(name)),
   categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
     locationlessStdlibCategory(entry) ??
@@ -44,4 +48,20 @@ const JSC_MODULE_LOADER_BUILTINS = new Set([
   `newRegistryEntry`,
   `cacheSatisfyAndReturn`,
   `ensureRegistered`,
+])
+
+/**
+ * Bun's own runtime C++ classes, which appear as heap-snapshot node class
+ * names in both the JSC and V8 snapshot formats Bun writes. Safari (the other
+ * JSC snapshot writer) and Node/Chrome (the other V8 snapshot writers) never
+ * register these classes. A snapshot node has no location, so a user class
+ * sharing a name would match too; the set deliberately excludes names user
+ * code might define (`Bun`, `FileSink`, `NextTickQueue`) in favor of ones only
+ * Bun's internals spell.
+ */
+const BUN_RUNTIME_CLASSES = new Set([
+  `NodeJSFS`,
+  `InternalModuleRegistry`,
+  `ProcessBindingConstants`,
+  `FileInternalReadableStreamSource`,
 ])

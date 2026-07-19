@@ -1,7 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { argv, exit } from 'node:process'
-import puppeteer from 'puppeteer'
-import { runInPage } from './chrome-workload.mjs'
+import { launchWorkloadPage, runInPage } from './chrome-workload.mjs'
 
 const [jsonPath, out] = argv.slice(2)
 if (!jsonPath || !out) {
@@ -13,12 +12,10 @@ const data = JSON.parse(readFileSync(jsonPath, `utf8`))
 
 // Headless Chrome's `Profiler` domain produces a `.cpuprofile` byte-identical to
 // the DevTools Performance-panel export, but driven over CDP with no GUI.
-const browser = await puppeteer.launch({
-  headless: true,
-  args: [`--no-sandbox`],
-})
+// Launching with the page already open keeps the recording to only the
+// workload, not the page load.
+const { browser, page } = await launchWorkloadPage()
 try {
-  const page = await browser.newPage()
   const client = await page.createCDPSession()
 
   await client.send(`Profiler.enable`)

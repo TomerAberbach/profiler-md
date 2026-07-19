@@ -1,22 +1,15 @@
-import {
-  locationlessStdlibCategory,
-  nodeModulesCategory,
-  protocolCategory,
-  syntheticFrameCategory,
-  v8RegExpCategory,
-} from '../categorize.ts'
+import { protocolCategory } from '../categorize.ts'
+import { v8JavaScriptCategory } from '../javascript.ts'
 import { hasProtocol } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
 export const denoOriginSpec = {
   id: `deno`,
+  title: `Deno`,
   formats: [`v8-cpu-profile`],
   isMarkerEntry: ({ location }) => hasProtocol(location, DENO_DETECT_PROTOCOLS),
   categorizeEntry: entry =>
-    syntheticFrameCategory(entry) ??
-    v8RegExpCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
-    nodeModulesCategory(entry) ??
+    v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `stdlib`, DENO_STDLIB_PROTOCOLS) ??
     protocolCategory(entry, `third-party`, DENO_THIRD_PARTY_PROTOCOLS) ??
     `ours`,

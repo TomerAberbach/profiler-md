@@ -15,7 +15,9 @@ Before writing code for it:
    - The **modality or modalities**, across formats → the modality's (e.g.
      `aggregate.ts`)
    - The **origin(s)**, across formats → the origin's code (e.g.
-     `OriginSpec.normalizeFrame`)
+     `OriginSpec.normalizeFrame`); multiple origins observing the same runtime
+     share the logic through a helper module (e.g. `src/origins/jvm.ts`), never
+     a merged spec
    - Specific **origin-format pairs** → the origin's code, checking the `format`
      param (e.g. in `normalizeFrame`)
    - **Profiles generally** → the shared pipeline
@@ -29,12 +31,12 @@ places. The goal is to avoid:
 Considerations that inform the decision:
 
 - **Independent convergence suggests a convention.** When unrelated dimensions
-  show the same behavior without deriving it from one another, emitters likely
+  show the same behavior without deriving it from one another, origins likely
   converge on that convention. Expect more from origins without committed
   inputs, and prefer the broader placement so each new one is already handled
 
 - **Does the logic's correctness depend on knowing the origin or format?** If
-  the same bytes mean different things per emitter (e.g. a speedscope `line` as
+  the same bytes mean different things per origin (e.g. a speedscope `line` as
   definition vs. executing line), the logic is origin or format knowledge and
   belongs there. If the rule holds without knowing who emitted the profile,
   encoding it in an origin or format overstates its specificity

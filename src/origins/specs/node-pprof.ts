@@ -1,11 +1,8 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import {
-  locationlessStdlibCategory,
-  nodeModulesCategory,
-  protocolCategory,
-} from '../categorize.ts'
-import { hasNodeModulesPath, hasProtocol } from '../origin.ts'
+import { locationlessStdlibCategory, protocolCategory } from '../categorize.ts'
+import { hasNodeModulesPath, nodeModulesCategory } from '../javascript.ts'
+import { hasProtocol } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
 export const nodePprofOriginSpec = {

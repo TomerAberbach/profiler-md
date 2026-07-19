@@ -3,9 +3,9 @@ import { fileReferencePath } from '../../location.ts'
 import type { ProfileEntry } from '../../options.ts'
 import {
   locationlessStdlibCategory,
-  nodeModulesCategory,
   syntheticFrameCategory,
 } from '../categorize.ts'
+import { nodeModulesCategory } from '../javascript.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
@@ -26,6 +26,7 @@ const isInjectedScript = ({
 
 export const safariOriginSpec = {
   id: `safari`,
+  title: `Safari`,
   formats: [`jsc-heap-snapshot`, `webkit-timeline-recording`],
   isMarkerEntry: isInjectedScript,
   categorizeEntry: entry =>
@@ -41,7 +42,7 @@ export const safariOriginSpec = {
 /**
  * Whether the entry comes from a script Safari bundles and runs in the page
  * (e.g. `FormMetadata.js`, its autofill/password metadata classifier). Those
- * scripts surface as a bare filename with no directory or scheme, while page
+ * scripts appear as a bare filename with no directory or scheme, while page
  * code always carries a full URL, so a bare `*.js` name marks browser work
  * that shouldn't be attributed to the page.
  */

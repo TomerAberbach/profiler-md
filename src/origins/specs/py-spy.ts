@@ -1,4 +1,4 @@
-import { categorizeCPythonEntry, pythonStdlibCategory } from '../categorize.ts'
+import { categorizeCPythonEntry, pythonStdlibCategory } from '../cpython.ts'
 import {
   normalizeSpeedscopeExecutingLine,
   packedLocationNormalizer,

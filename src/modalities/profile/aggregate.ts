@@ -23,8 +23,14 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
     this.#profile = profile
   }
 
-  /** Adds the profile's distinct frames to {@link detector} until decided. */
+  /**
+   * Applies the parser's origin hint, then adds the profile's distinct frames
+   * to {@link detector} until decided.
+   */
   public detectOrigin(detector: OriginDetector): void {
+    if (this.#profile.originHint !== undefined) {
+      detector.hint(this.#profile.originHint)
+    }
     ProfileStackFrameTable.for(this.#profile.frames).addToDetector(detector)
   }
 

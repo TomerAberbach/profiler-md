@@ -355,7 +355,7 @@ describe(`diffAggregatedProfiles`, () => {
           selfSampleCount: 5,
         },
       ],
-      { format: `jfr`, origin: `jvm` },
+      { format: `jfr`, origin: `jdk` },
     )
     const current = makeAggregatedProfile(
       [MICROSECONDS],
@@ -372,7 +372,7 @@ describe(`diffAggregatedProfiles`, () => {
           selfSampleCount: 10,
         },
       ],
-      { format: `jfr`, origin: `jvm` },
+      { format: `jfr`, origin: `jdk` },
     )
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)

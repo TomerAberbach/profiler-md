@@ -1,11 +1,16 @@
-import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { matchEntryFromRules } from '../origin.ts'
-import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+/**
+ * HotSpot JVM runtime conventions shared by the origins that observe the JVM
+ * through different recorders.
+ */
+
+import type { DeepReadonly } from '../helpers/types.ts'
+import { fileReferencePath } from '../location.ts'
+import type { EntryCategory, ProfileEntry } from '../options.ts'
+import { matchEntryFromRules } from './origin.ts'
+import type { EntryMatchRule } from './origin.ts'
 
 /**
- * A JVM runtime address baked into a frame's identity, differing per JVM run:
+ * A JVM runtime address embedded in a frame's identity, differing per JVM run:
  * a hidden lambda class (`Foo$$Lambda.0x00000070011868b8`) or HotSpot's
  * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
  * prefix alone still identifies the function across runs.
@@ -21,55 +26,30 @@ const JVM_ENTRY_MATCH_RULES: EntryMatchRule[] = [
   [JVM_RUNTIME_ADDRESS_REGEX, `$<kept>`],
 ]
 
-export const jvmOriginSpec = {
-  id: `jvm`,
-  formats: [`jfr`, `collapsed`],
-  isMarkerEntry: entry =>
-    // JFR carries the class as a location; async-profiler's collapsed stacks
-    // carry it in the name (`java/util/HashMap.put`) instead.
-    jvmStdlibCategory(entry) !== undefined || isJvmStdlibNameFrame(entry.name),
-  categorizeEntry: entry =>
-    jvmStdlibCategory(entry) ??
-    hotspotStubCategory(entry) ??
-    nativeLibraryCategory(entry) ??
-    nativeModuleCategory(entry) ??
-    // JFR and collapsed both carry a Java frame's declaring class as its
-    // location, so a frame with no location at all is a native symbol (JVM
-    // C++ internals, malloc, unresolved native code) rather than Java code.
-    (entry.location ? `ours` : `native`),
-  matchEntry: matchEntryFromRules({
-    // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`) or in
-    // the location (a hidden lambda class reported as the declaring class).
-    name: JVM_ENTRY_MATCH_RULES,
-    location: JVM_ENTRY_MATCH_RULES,
-  }),
-  normalizeFrame: input => {
-    // A located (JFR) frame already carries its declaring class; only
-    // async-profiler's collapsed names need splitting.
-    if (input.location) {
-      return input
-    }
+export const jvmMatchEntry = matchEntryFromRules({
+  // A runtime address can sit in the name (`I2C/C2I adapters(0xba)`) or in
+  // the location (a hidden lambda class reported as the declaring class).
+  name: JVM_ENTRY_MATCH_RULES,
+  location: JVM_ENTRY_MATCH_RULES,
+})
 
-    // Async-profiler names a Java frame `package/path/Class.method`. Native
-    // (C++/JNI) frames have no `/` and stay location-less.
-    const name = input.name ?? ``
-    const lastDot = name.lastIndexOf(`.`)
-    if (lastDot === -1 || !name.includes(`/`)) {
-      return input
-    }
-
-    return {
-      name: name.slice(lastDot + 1),
-      location: { urlOrPath: name.slice(0, lastDot).replaceAll(`/`, `.`) },
-    }
-  },
-} as const satisfies OriginSpec
+export const categorizeJvmEntry = (
+  entry: DeepReadonly<ProfileEntry>,
+): EntryCategory =>
+  jvmStdlibCategory(entry) ??
+  hotspotStubCategory(entry) ??
+  nativeLibraryCategory(entry) ??
+  nativeModuleCategory(entry) ??
+  // JFR and collapsed both carry a Java frame's declaring class as its
+  // location, so a frame with no location is a native symbol (JVM C++
+  // internals, malloc, unresolved native code) rather than Java code.
+  (entry.location ? `ours` : `native`)
 
 /**
  * Whether a raw async-profiler frame name is in a JVM standard-library package,
  * before its `/`s become `.`s.
  */
-const isJvmStdlibNameFrame = (name: string | undefined): boolean =>
+export const isJvmStdlibNameFrame = (name: string | undefined): boolean =>
   name !== undefined && JVM_STDLIB_PACKAGE.test(name)
 
 /** Categorizes Java standard-library and JDK-internal frames as `stdlib`. */
@@ -101,9 +81,10 @@ const JVM_STDLIB_PACKAGE =
  * Categorizes HotSpot's synthetic code-stub frames, which async-profiler
  * reports by their stub names without a location: JIT dispatch and transition
  * stubs as `jit`, and GC write-barrier stubs executed inline in compiled code
- * as `garbage collector`.
+ * as `garbage collector`. Only async-profiler observes these stubs, so a
+ * categorized entry is also a marker entry.
  */
-const hotspotStubCategory = ({
+export const hotspotStubCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
   if (name === undefined) {
@@ -130,6 +111,20 @@ const JIT_STUB =
 /** HotSpot GC barrier stubs, e.g. `g1_pre_barrier_slow`/`g1_post_barrier_slow`. */
 const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
 
+/**
+ * Whether a frame reports a native shared library as its location while its
+ * name lacks a Java method's parenthesized signature. Only async-profiler's
+ * own stack walker mixes such native frames into JFR or collapsed output; JFR
+ * written by the JDK's recorder carries Java-only stacks.
+ */
+export const isNativeLibraryFrame = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): boolean =>
+  location !== undefined &&
+  NATIVE_LIBRARY.test(fileReferencePath(location)) &&
+  !(name ?? ``).includes(`(`)
+
 /** Categorizes native shared-library frames as `native`. */
 const nativeLibraryCategory = ({
   location,
@@ -143,7 +138,11 @@ const nativeLibraryCategory = ({
  * `libsystem_kernel.dylib`, or a versioned `libc.so.6`) as their location. The
  * extension is anchored to the end (allowing a trailing version like `.so.6`)
  * so a class whose package contains a segment named `so`/`dll`/`dylib` (e.g.
- * `com.acme.so.Helper`) isn't mistaken for a native library.
+ * `com.acme.so.Helper`) isn't mistaken for a native library. A class whose
+ * simple name is itself `so`/`dll`/`dylib` would still match, but its methods
+ * carry parenthesized signatures, which the marker check excludes; real
+ * library names can't be required to look different (`libc.so.6` and
+ * `libjvm.dylib` are both valid dotted class shapes).
  */
 const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
 

@@ -15,7 +15,7 @@ $ARGUMENTS
 
 # Principles
 
-- Trust real emitter output over the spec. Real files may violate it. Consider
+- Trust real profiler output over the spec. Real files may violate it. Consider
   parsing correct only after a generated real input validates it, not just
   hand-written tests
 
@@ -37,14 +37,16 @@ $ARGUMENTS
    parser, speedscope's importer). Note where they deviate from or extend the
    spec
 
-3. Enumerate the emitters (e.g. the canonical tool, other profilers that export
-   the format, tools we already support), then decide the origin question:
+3. Enumerate the tools and runtimes that emit the format (the canonical tool,
+   other profilers that export it, tools we already support), then decide the
+   origin question:
    - Note which existing origins need their `formats` expanded
-   - Decide whether an emitter warrants a new origin: its inputs need detection,
-     categorization, or frame normalization beyond the unknown origin's
-     universal rules
-   - Decide the format's `fallbackOrigin`: the runtime origin for single-runtime
-     formats, else `unknown`
+   - Register each emitting tool or runtime we don't have yet as its own origin,
+     even when its inputs carry no detectable markers (a markerless spec,
+     `isMarkerEntry: () => false`); sharing another origin's spec would make a
+     later behavioral split a breaking change
+   - Decide the format's `fallbackOrigin`: the origin of the format's defining
+     tool or runtime for single-runtime formats, else `unknown`
 
 4. Confirm every modality the format captures is supported. If any is
    unsupported, STOP: explain the new modality and how it differs from the
@@ -59,8 +61,9 @@ $ARGUMENTS
      or synthetic input
    - Native-only tools run in Docker via `docker_capture`; host tools may need
      additions to `scripts/inputs/flake.nix`
-   - Name outputs `<lang>.<emitter>.<config?>.<base|current>.<ext>`; the
-     extension must match the converter's `extension` you'll declare
+   - Name outputs `<lang>.<origin>.<config?>.<base|current>.<ext>`; the second
+     token must be the origin's registered ID, and the extension must match the
+     converter's `extension` you'll declare
    - When a profiler can export multiple supported formats, export all from a
      single recording
 
@@ -107,29 +110,27 @@ $ARGUMENTS
 
    - `testing.ts` for format-specific test utilities
 
-8. Implement the origin decision from step 3:
-   - New origin: load `/new-origin` and follow its workflow
-   - No new origin: document why the unknown origin's universal rules suffice in
-     a comment on the converter's `fallbackOrigin`; the `SOURCE_ORIGINS` entries
-     for its inputs (below) pin the fallback
+8. Implement the origin decision from step 3: for each new emitting tool or
+   runtime, load `/new-origin` and follow its workflow.
 
-   Either way, set up the format's origin detection:
-   - List the format in the `formats` of every existing origin that emits it
-   - A missing per-origin `formats` entry fails silently (detection falls back),
-     but the detected-input-origins test in `src/origins/index.test.ts` checks
-     every committed input against `EMITTER_ORIGINS`: add each new input's
-     `<lang>.<emitter>` entry with the origin you expect, using a
-     `<lang>.<emitter>.<config?>` or `<lang>.<emitter>.<config?>.<format>`
-     override when one emitter's inputs resolve to different origins
+   Then set up the format's origin detection:
+   - List the format in the `formats` of every origin that emits it
+   - A missing per-origin `formats` entry fails silently (detection falls back).
+     The detected-input-origins test in `src/origins/index.test.ts` requires
+     every committed input to resolve to the origin in its filename. NEVER
+     commit an input that resolves elsewhere: give the origin a marker or a
+     parser origin hint, or make the workload realistic enough to carry the
+     origin's evidence
 
 ## Register
 
 9. Add the converter to `formatConverters` in `src/formats/registry.ts`
 
 10. `src/cli/languages.ts`: add a `languageMetas` entry (name, aliases,
-    extensions) for any emitting language we don't list yet. If a new source or
-    config token needs a display label beyond title-casing, add it to
-    `emitterNames`/`configNames` in `src/cli/examples.ts`
+    extensions) for any emitting language we don't list yet. An origin's display
+    name comes from its `OriginSpec.title`; if a new config token needs a
+    display label beyond title-casing, add it to `configNames` in
+    `src/cli/examples.ts`
 
 ## Validate against real inputs
 
