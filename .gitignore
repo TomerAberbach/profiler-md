@@ -4,6 +4,7 @@
 .claude/worktrees
 
 # Large input assets we fetch.
+scripts/inputs/assets/groovy
 scripts/inputs/assets/java
 scripts/inputs/assets/python
 scripts/inputs/assets/shared

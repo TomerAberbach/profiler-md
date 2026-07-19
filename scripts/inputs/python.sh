@@ -17,11 +17,8 @@ TARGET_URL="https://raw.githubusercontent.com/python/cpython/v$CPYTHON_VERSION/L
 TARGET_SHA256="87a3372df4c4269adcdac5725e04675d306abcfa8d65e8dda59c1846e3d202ac"
 
 fetch_pydecimal() {
-  [[ -f "$TARGET" ]] && return 0
-  notice "Fetching CPython $CPYTHON_VERSION _pydecimal.py"
-  mkdir -p "$(dirname "$TARGET")"
-  curl -fsSL "$TARGET_URL" -o "$TARGET"
-  echo "$TARGET_SHA256  $TARGET" | shasum -a 256 -c -
+  fetch_asset "CPython $CPYTHON_VERSION _pydecimal.py" \
+    "$TARGET_URL" "$TARGET_SHA256" "$TARGET"
 }
 
 # Run all three py-spy captures once per role inside the container, writing the
@@ -33,8 +30,8 @@ run_for_role() {
   local dir="$WORKDIR/python-$role"
   mkdir -p "$dir"
   # Stage the real CPython _pydecimal.py into the mount as the Black input.
-  fetch_pydecimal
-  cp "$TARGET" "$dir/_pydecimal.py"
+  fetch_pydecimal || return 1
+  cp "$TARGET" "$dir/_pydecimal.py" || return 1
 
   notice "Profiling black with py-spy ($role)"
   docker_capture "$dir" '
@@ -66,7 +63,7 @@ run_for_role() {
       cap /out/wall.collapsed raw --idle
     ' --cap-add SYS_PTRACE \
     -e PY_SPY_VERSION="$PY_SPY_VERSION" \
-    -e BLACK_VERSION="$BLACK_VERSION"
+    -e BLACK_VERSION="$BLACK_VERSION" || return 1
 
   rundir[$role]=$dir
 }
@@ -74,7 +71,7 @@ run_for_role() {
 # capture_fn for emit: $1=out  $2=role  $3=in-container filename
 copy_python_profile() {
   local out=$1 role=$2 name=$3
-  run_for_role "$role"
+  run_for_role "$role" || return 1
   cp "${rundir[$role]}/$name" "$out"
 }
 

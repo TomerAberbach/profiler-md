@@ -53,8 +53,11 @@ const languageMetas = [
     `java`,
     {
       name: `Java`,
-      aliases: [{ id: `kotlin`, name: `Kotlin` }],
-      extensions: [`kt`, `kts`],
+      aliases: [
+        { id: `kotlin`, name: `Kotlin` },
+        { id: `groovy`, name: `Groovy` },
+      ],
+      extensions: [`kt`, `kts`, `gvy`, `gy`, `gsh`],
     },
   ],
   [

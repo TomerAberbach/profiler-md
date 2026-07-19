@@ -44,13 +44,20 @@ describe(`categorizeEntry`, () => {
     `kotlin.jvm.internal.Intrinsics`,
     `kotlinx.collections.immutable.PersistentList`,
     `scala.collection.SeqOps`,
+    `groovy.lang.MetaClassImpl`,
+    `groovyjarjarasm.asm.ClassWriter`,
+    `org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite`,
+    `org.apache.groovy.json.internal.JsonParserCharArray`,
   ])(`the %s language-runtime class is stdlib`, path => {
     expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`stdlib`)
   })
 
-  test(`a class prefixed by but not inside a runtime package stays ours`, () => {
-    expect(categorizeEntry(relativeEntry(`f`, `kotlinfoo.Bar`))).toBe(`ours`)
-  })
+  test.each([`kotlinfoo.Bar`, `groovyfoo.Bar`])(
+    `the %s class prefixed by but not inside a runtime package stays ours`,
+    path => {
+      expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`ours`)
+    },
+  )
 
   // A package segment named like a native-library extension (`so`/`dll`/
   // `dylib`) must not be mistaken for a shared object: the extension only

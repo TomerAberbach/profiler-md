@@ -23,9 +23,8 @@ fetch_composer() {
   [[ -n "$composer_phar" ]] && return 0
 
   local phar="$WORKDIR/composer.phar"
-  notice "Fetching composer $COMPOSER_VERSION"
-  curl -fsSL "$COMPOSER_URL" -o "$phar"
-  echo "$COMPOSER_SHA256  $phar" | shasum -a 256 -c -
+  fetch_asset "composer $COMPOSER_VERSION" \
+    "$COMPOSER_URL" "$COMPOSER_SHA256" "$phar" || return 1
 
   composer_phar="$phar"
 }
@@ -35,12 +34,12 @@ setup_for_role() {
   local role=$1
   [[ -n "${guzzle_dir[$role]:-}" ]] && return 0
 
-  fetch_composer
+  fetch_composer || return 1
 
   notice "Cloning guzzle $GUZZLE_TAG ($role)"
 
   local src="$WORKDIR/php-$role"
-  git clone --depth 1 --branch "$GUZZLE_TAG" "$GUZZLE_URL" "$src"
+  git clone --depth 1 --branch "$GUZZLE_TAG" "$GUZZLE_URL" "$src" || return 1
 
   guzzle_dir[$role]="$src"
 }
@@ -48,7 +47,7 @@ setup_for_role() {
 # capture_fn for emit: $1=out  $2=role  $3=config (cpu|wall)
 capture_excimer() {
   local out=$1 role=$2 cfg=$3
-  setup_for_role "$role"
+  setup_for_role "$role" || return 1
   local src="${guzzle_dir[$role]}"
 
   notice "Profiling composer dump-autoload using excimer ($cfg, $role)"

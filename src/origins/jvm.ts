@@ -68,14 +68,15 @@ const jvmStdlibCategory = ({
  * detection (over raw names) and categorization (over normalized locations)
  * share one rule.
  *
- * `kotlin`/`kotlinx` and `scala` are the Kotlin and Scala language runtimes,
- * the JVM guest languages' analogue of `java.*`. Dependency jars (e.g.
- * `com.intellij.*`, `scopt.*`) carry no marker distinguishing them from
- * application packages, so they fall to `ours`, like dotnet-trace's NuGet
- * namespaces.
+ * `kotlin`/`kotlinx`, `scala`, and the Groovy runtime (`groovy.*`,
+ * `org.codehaus.groovy.*`, `org.apache.groovy.*`, and the `groovyjarjar*`
+ * packages Groovy shades its bundled dependencies into) are the JVM guest
+ * languages' analogue of `java.*`. Dependency jars (e.g. `com.intellij.*`,
+ * `scopt.*`) carry no marker distinguishing them from application packages, so
+ * they fall to `ours`, like dotnet-trace's NuGet namespaces.
  */
 const JVM_STDLIB_PACKAGE =
-  /^(?:java|javax|jdk|sun|com[./]sun|kotlin|kotlinx|scala)[./]/u
+  /^(?:(?:java|javax|jdk|sun|com[./]sun|kotlin|kotlinx|scala|groovy|org[./](?:codehaus|apache)[./]groovy)[./]|groovyjarjar)/u
 
 /**
  * Categorizes HotSpot's synthetic code-stub frames, which async-profiler
