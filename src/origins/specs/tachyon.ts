@@ -1,4 +1,4 @@
-import { categorizeCPythonEntry } from '../categorize.ts'
+import { categorizeCPythonEntry } from '../cpython.ts'
 import { packedLocationNormalizer } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 

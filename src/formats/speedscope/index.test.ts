@@ -440,7 +440,7 @@ describe(`convert`, () => {
   })
 
   test(`null line and column are dropped from a located frame`, () => {
-    // Some emitters (rbspy) write `null` instead of omitting an unknown line
+    // Some origins (rbspy) write `null` instead of omitting an unknown line
     // or column.
     const profile = makeSpeedscopeProfile({
       profiles: [makeSampledProfile({ samples: [[0]], weights: [10] })],

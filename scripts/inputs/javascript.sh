@@ -161,9 +161,9 @@ for role in base current; do
     capture_node_heap "$role"
   try emit "$GENERATED_INPUTS/javascript.node.$role.heapsnapshot" \
     capture_node_heap_snapshot "$role"
-  try emit "$GENERATED_INPUTS/javascript.pprof.cpu.$role.pprof" \
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$role.pprof" \
     capture_pprof_cpu "$role"
-  try emit "$GENERATED_INPUTS/javascript.pprof.heap.$role.pprof" \
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.heap.$role.pprof" \
     capture_pprof_heap "$role"
   try emit "$GENERATED_INPUTS/javascript.deno.$role.cpuprofile" \
     capture_deno_cpu "$role"

@@ -1,14 +1,15 @@
 # CPU profile diff
 
-Took 428.0ms → 422.0ms (-5.96ms, -1.4%) over 342 samples → 337 samples (1.3ms per sample).
+Took 415.8ms → 420.7ms (+4.92ms, +1.2%) over 281 samples → 282 samples (1.5ms per sample).
 
-| Category          | Change |    Delta |             % |              Time |   Samples |
-| ----------------- | -----: | -------: | ------------: | ----------------: | --------: |
-| ours              |  -7.8% | -17.82ms | 53.5% → 50.1% | 229.0ms → 211.2ms | 183 → 169 |
-| stdlib            | +17.4% | +16.20ms | 21.7% → 25.9% |  93.0ms → 109.2ms |   75 → 87 |
-| program           | -10.5% |  -8.21ms | 18.2% → 16.5% |   77.9ms → 69.7ms |   62 → 56 |
-| garbage collector |  +7.4% |  +1.41ms |   4.4% → 4.8% |   19.0ms → 20.4ms |   15 → 16 |
-| idle              | +27.3% |  +2.46ms |   2.1% → 2.7% |    9.0ms → 11.5ms |     7 → 9 |
+| Category          | Change |   Delta |             % |              Time |   Samples |
+| ----------------- | -----: | ------: | ------------: | ----------------: | --------: |
+| ours              |  +0.1% | +0.17ms | 54.2% → 53.7% | 225.5ms → 225.7ms | 154 → 152 |
+| program           |  -0.2% | -0.17ms | 16.7% → 16.5% |   69.6ms → 69.4ms |        46 |
+| regexp            | +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 |
+| stdlib            |  -7.9% | -3.63ms | 11.0% → 10.1% |   45.9ms → 42.3ms |   31 → 29 |
+| garbage collector | +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 |
+| idle              | +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 |
 
 ## Hottest functions
 
@@ -18,25 +19,24 @@ Took 428.0ms → 422.0ms (-5.96ms, -1.4%) over 342 samples → 337 samples (1.3m
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-| Change |    Delta |             % |            Time |   Samples | Function              | Location                   |
-| -----: | -------: | ------------: | --------------: | --------: | --------------------- | -------------------------- |
-|    new | +12.75ms |   0.0% → 3.0% |    0ms → 12.7ms |    0 → 10 | `tokenize`            | `<unknown>`                |
-| +16.5% |  +7.46ms | 10.6% → 12.5% | 45.3ms → 52.7ms |   37 → 42 | `createElement`       | `<unknown>`                |
-| +77.5% |  +3.87ms |   1.2% → 2.1% |   5.0ms → 8.9ms |     5 → 7 | `(anonymous)`         | `chrome-workload.mjs:1:1`  |
-| +27.3% |  +2.46ms |   2.1% → 2.7% |  9.0ms → 11.5ms |     7 → 9 | `(idle)`              | `<unknown>`                |
-|  +7.4% |  +1.41ms |   4.4% → 4.8% | 19.0ms → 20.4ms |   15 → 16 | `(garbage collector)` | `<unknown>`                |
-| +93.5% |  +1.21ms |   0.3% → 0.6% |   1.3ms → 2.5ms |     1 → 2 | `scoreStatus`         | `chrome-workload.mjs:7:23` |
-|    ~0% |  +0.05ms | 46.7% → 47.4% |         199.8ms | 159 → 160 | `(anonymous)`         | `chrome-workload.mjs:1:2`  |
+| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
+| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
+| +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 | `RegExp: \s+`                  | `<unknown>`          |
+| +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 | `(garbage collector)`          | `<unknown>`          |
+| +12.3% | +1.83ms |   3.6% → 4.0% |   15.0ms → 16.8ms |   10 → 11 | `tokenize`                     | `workload.mjs:10:20` |
+| +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 | `(idle)`                       | `<unknown>`          |
+|    ~0% | +0.09ms | 48.1% → 47.6% | 200.0ms → 200.1ms | 137 → 135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |    Delta |             % |            Time | Samples | Function      | Location                   |
-| ------: | -------: | ------------: | --------------: | ------: | ------------- | -------------------------- |
-| removed | -22.96ms |   5.4% → 0.0% |    23.0ms → 0ms |  18 → 0 | `tokenize`    | `chrome-workload.mjs:6:20` |
-|  -10.5% |  -8.21ms | 18.2% → 16.5% | 77.9ms → 69.7ms | 62 → 56 | `(program)`   | `<unknown>`                |
-|   -8.4% |  -4.00ms | 11.2% → 10.4% | 47.8ms → 43.7ms | 38 → 35 | `RegExp: \s+` | `<unknown>`                |
+|  Change |   Delta |             % |            Time | Samples | Function        | Location             |
+| ------: | ------: | ------------: | --------------: | ------: | --------------- | -------------------- |
+|   -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>`          |
+| removed | -1.50ms |   0.4% → 0.0% |     1.5ms → 0ms |   1 → 0 | `scoreStatus`   | `workload.mjs:11:23` |
+|   -2.8% | -0.25ms |   2.2% → 2.1% |   9.1ms → 8.8ms |       6 | `(anonymous)`   | `run.mjs:1:1`        |
+|   -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>`          |
 
 ### Total time
 
@@ -44,22 +44,21 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-| Change |    Delta |             % |            Time | Samples | Function              | Location    |
-| -----: | -------: | ------------: | --------------: | ------: | --------------------- | ----------- |
-|    new | +56.50ms |  0.0% → 13.4% |    0ms → 56.5ms |  0 → 45 | `tokenize`            | `<unknown>` |
-| +16.5% |  +7.46ms | 10.6% → 12.5% | 45.3ms → 52.7ms | 37 → 42 | `createElement`       | `<unknown>` |
-| +27.3% |  +2.46ms |   2.1% → 2.7% |  9.0ms → 11.5ms |   7 → 9 | `(idle)`              | `<unknown>` |
-|  +7.4% |  +1.41ms |   4.4% → 4.8% | 19.0ms → 20.4ms | 15 → 16 | `(garbage collector)` | `<unknown>` |
+| Change |   Delta |             % |              Time |   Samples | Function                       | Location             |
+| -----: | ------: | ------------: | ----------------: | --------: | ------------------------------ | -------------------- |
+| +11.2% | +6.71ms | 14.3% → 15.8% |   59.6ms → 66.3ms |   40 → 44 | `tokenize`                     | `workload.mjs:10:20` |
+|  +8.5% | +5.21ms | 14.7% → 15.8% |   61.1ms → 66.3ms |   41 → 44 | `scoreStatus`                  | `workload.mjs:11:23` |
+| +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 | `RegExp: \s+`                  | `<unknown>`          |
+| +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 | `(garbage collector)`          | `<unknown>`          |
+|  +0.5% | +1.67ms | 73.9% → 73.4% | 307.0ms → 308.7ms | 209 → 208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+|  +0.4% | +1.42ms | 76.0% → 75.5% | 316.1ms → 317.5ms | 215 → 214 | `(anonymous)`                  | `run.mjs:1:1`        |
+| +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 | `(idle)`                       | `<unknown>`          |
 
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
-|  Change |    Delta |             % |              Time |   Samples | Function      | Location                   |
-| ------: | -------: | ------------: | ----------------: | --------: | ------------- | -------------------------- |
-| removed | -70.71ms |  16.5% → 0.0% |      70.7ms → 0ms |    56 → 0 | `tokenize`    | `chrome-workload.mjs:6:20` |
-|  -18.1% | -13.00ms | 16.8% → 14.0% |   72.0ms → 59.0ms |   57 → 47 | `scoreStatus` | `chrome-workload.mjs:7:23` |
-|  -10.5% |  -8.21ms | 18.2% → 16.5% |   77.9ms → 69.7ms |   62 → 56 | `(program)`   | `<unknown>`                |
-|   -1.7% |  -5.50ms | 74.1% → 73.8% | 317.1ms → 311.6ms | 253 → 249 | `(anonymous)` | `chrome-workload.mjs:1:2`  |
-|   -8.4% |  -4.00ms | 11.2% → 10.4% |   47.8ms → 43.7ms |   38 → 35 | `RegExp: \s+` | `<unknown>`                |
-|   -0.5% |  -1.62ms | 75.3% → 75.9% | 322.1ms → 320.5ms | 258 → 256 | `(anonymous)` | `chrome-workload.mjs:1:1`  |
+| Change |   Delta |             % |            Time | Samples | Function        | Location    |
+| -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
+|  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
+|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |

@@ -33,7 +33,7 @@ copy_go_profile() {
 
 for role in base current; do
   for cfg in "${CONFIGS[@]}"; do
-    out="$GENERATED_INPUTS/go.pprof.$cfg.$role.pprof"
+    out="$GENERATED_INPUTS/go.go.$cfg.$role.pprof"
     try emit "$out" copy_go_profile "$role" "${CONFIG_TO_PROFILE[$cfg]}"
   done
 done

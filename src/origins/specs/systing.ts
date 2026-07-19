@@ -1,10 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import {
-  pythonStdlibCategory,
-  pythonThirdPartyCategory,
-  systemDirectoryCategory,
-} from '../categorize.ts'
+import { systemDirectoryCategory } from '../categorize.ts'
+import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import type { OriginSpec } from '../origin.ts'
 
 export const systingOriginSpec = {
@@ -13,8 +10,9 @@ export const systingOriginSpec = {
   isMarkerEntry: entry => NATIVE_FRAME.test(entry.name ?? ``),
   categorizeEntry: entry =>
     labelModuleCategory(entry) ??
-    // Pystacks blend CPython frames into the stacks, carrying the same
-    // interpreter path conventions the Python collapsed-stack origins see.
+    // Pystacks interleaves CPython frames among the native ones, carrying
+    // the same interpreter path conventions the Python collapsed-stack origins
+    // see.
     // Before the system-directory rule so Debian's
     // /usr/lib/python3/dist-packages/ counts as third-party, not stdlib.
     pythonThirdPartyCategory(entry) ??
@@ -39,7 +37,7 @@ export const systingOriginSpec = {
       // sampled address), so it feeds the per-line breakdown and the name
       // and file alone identify the function. The module is dropped — the
       // source location names the code better — except a bracketed label
-      // module, which carries the category signal (kernel code symbolized
+      // module, which determines the category (kernel code symbolized
       // with kernel debuginfo has both a `[kernel]` label and a source
       // location) and stays in the name like on source-less frames.
       const location =
@@ -55,7 +53,7 @@ export const systingOriginSpec = {
       // No source info: keep systing's own `name (module)` form, minus
       // the address (which would fragment one function into an entry per
       // sampled address). The module distinguishes same-named symbols across
-      // binaries and carries the category signal for label modules.
+      // binaries and determines the category for label modules.
       return { name: `${func!} (${inner!})` }
     }
 

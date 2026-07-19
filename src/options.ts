@@ -344,7 +344,7 @@ const cacheEntryFunction = <Entry extends object, Context, Value>(
  *
  * Applies the origin's match normalization to the entry, stripping the origin's
  * known run-varying identifiers (e.g. Rust build hashes for `pprof-rs`, JVM
- * runtime addresses for `jvm`), or `undefined` if the entry contains none.
+ * runtime addresses for `jdk`), or `undefined` if the entry contains none.
  */
 export const defaultMatchEntry = (
   entry: DeepReadonly<ProfileEntry>,

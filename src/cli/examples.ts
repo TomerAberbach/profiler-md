@@ -1,6 +1,8 @@
 import { formatConverters, formats } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import { capitalizeFirst } from '../helpers/format.ts'
+import { origins, originTitle } from '../origins/index.ts'
+import type { Origin } from '../origins/index.ts'
 import { languages } from './languages.ts'
 
 export const variants = [`base`, `current`, `diff`] as const
@@ -14,8 +16,8 @@ export type ExampleVariant = (typeof variants)[number]
 export type Example = {
   /** Language or alias ID (e.g. `cpp`, `kotlin`). */
   language: string
-  /** The tool or runtime that emitted the input (e.g. `gperftools`, `node`). */
-  emitter: string
+  /** The origin that emitted the input (e.g. `gperftools`, `node`). */
+  origin: Origin
   /** Capture configuration (e.g. `cpu`, `wall`); empty when absent. */
   config: string
   variant: ExampleVariant
@@ -35,7 +37,7 @@ for (const format of formats) {
 }
 
 /**
- * Parses a canonical `<lang>.<emitter>.<config?>.<base|current|diff>.<ext...>`
+ * Parses a canonical `<lang>.<origin>.<config?>.<base|current|diff>.<ext...>`
  * example or input filename (with or without a trailing `.md`) into its parts.
  */
 export const parseExampleFilename = (filename: string): Example => {
@@ -57,25 +59,22 @@ export const parseExampleFilename = (filename: string): Example => {
     )
   }
 
+  const origin = tokens[1]!
+  if (!isOrigin(origin)) {
+    throw new Error(`Example ${filename} names an unregistered origin`)
+  }
+
   return {
     language: tokens[0]!,
-    emitter: tokens[1]!,
+    origin,
     config: tokens.slice(2, variantIndex).join(`.`),
     variant: tokens[variantIndex] as ExampleVariant,
     format,
   }
 }
 
-const emitterNames: Record<string, string> = {
-  jdk: `JDK`,
-  profile: `Profile`,
-  node: `Node.js`,
-  deno: `Deno`,
-  bun: `Bun`,
-  chrome: `Chrome`,
-  safari: `Safari`,
-  excimer: `Excimer`,
-}
+const isOrigin = (token: string): token is Origin =>
+  (origins as string[]).includes(token)
 
 const configNames: Record<string, string> = {
   cpu: `CPU`,
@@ -90,22 +89,20 @@ const languageNames: ReadonlyMap<string, string> = new Map(
 
 const exampleLanguageName = (lang: string): string =>
   languageNames.get(lang) ?? lang
-const exampleEmitterName = (emitter: string): string =>
-  emitterNames[emitter] ?? emitter
 const exampleConfigName = (config: string): string =>
   configNames[config] ?? config
 
 /**
- * Builds a readable label for one emitter/config combo within a format cell
- * from its language, emitter, and config names.
+ * Builds a readable label for one origin/config combo within a format cell
+ * from its language, origin, and config names.
  */
 export const exampleComboLabel = (
-  combo: Pick<Example, `language` | `emitter` | `config`>,
+  combo: Pick<Example, `language` | `origin` | `config`>,
 ): string =>
   capitalizeFirst(
     [
       exampleLanguageName(combo.language),
-      exampleEmitterName(combo.emitter),
+      originTitle(combo.origin),
       exampleConfigName(combo.config),
     ]
       .filter(Boolean)

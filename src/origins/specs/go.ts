@@ -15,6 +15,7 @@ import type { OriginSpec } from '../origin.ts'
  */
 export const goOriginSpec = {
   id: `go`,
+  title: `pprof`,
   formats: [`pprof`],
   // Every Go profile contains `runtime.*` frames (stack roots like
   // `runtime.main`/`runtime.goexit` if nothing else), and only Go locates a

@@ -5,7 +5,7 @@ import { aggregateInput } from '../formats/index.ts'
 import { injectedFormat, inputPath, readInput } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import type { Origin } from './index.ts'
+import { OriginDetector } from './index.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
 
@@ -20,69 +20,6 @@ const echoOriginOptions = (): NormalizedProfileToMdOptions =>
 
 const format = injectedFormat()
 
-// The expected detected origin of each committed profile input, keyed by the
-// input's `<lang>.<emitter>`, with `<lang>.<emitter>.<config?>` and
-// `<lang>.<emitter>.<config?>.<format>` overrides.
-const EMITTER_ORIGINS = new Map<string, Origin>([
-  [`c.gperftools`, `unknown`],
-  [`c.systing`, `systing`],
-  [`cpp.gperftools`, `unknown`],
-  [`csharp.dotnet-trace`, `dotnet-trace`],
-  [`elixir.eflambe`, `beam`],
-  [`erlang.eflambe`, `beam`],
-  [`fsharp.dotnet-trace`, `dotnet-trace`],
-  [`go.pprof`, `go`],
-  // A threadcreate capture's stacks are thread-spawn sites with no
-  // GOROOT-located runtime frames, Go's only in-frame marker.
-  [`go.pprof.threadcreate`, `unknown`],
-  [`java.async-profiler`, `jvm`],
-  [`java.jdk`, `jvm`],
-  [`javascript.bun`, `bun`],
-  // JSC heap snapshots carry no in-frame runtime markers and safari is the
-  // format's only candidate origin, so every capture resolves to it, even
-  // Bun's.
-  [`javascript.bun.jsc-heap-snapshot`, `safari`],
-  // Like heap profiles below, heap snapshots resolve to the format's fallback
-  // origin: node, its primary emitter.
-  [`javascript.bun.v8-heap-snapshot`, `node`],
-  [`javascript.chrome`, `unknown`],
-  // Heap profiles carry no in-frame runtime markers, so the format resolves
-  // every capture to its fallback origin: node, its primary emitter.
-  [`javascript.chrome.v8-heap-profile`, `node`],
-  [`javascript.chrome.v8-heap-snapshot`, `node`],
-  [`javascript.deno`, `deno`],
-  [`javascript.node`, `node`],
-  [`javascript.pprof`, `node-pprof`],
-  [`javascript.safari`, `safari`],
-  [`julia.pprof-jl`, `pprof-jl`],
-  // Julia's `Profile` stdlib writes V8-format heap snapshots directly. No
-  // registered origin matches their Julia-runtime entities, so like the heap
-  // snapshots above they resolve to the format's fallback origin: node, its
-  // primary emitter.
-  [`julia.profile`, `node`],
-  [`kotlin.async-profiler`, `jvm`],
-  [`kotlin.jdk`, `jvm`],
-  [`php.excimer`, `unknown`],
-  [`python.py-spy`, `py-spy`],
-  [`ruby.rbspy`, `rbspy`],
-  [`rust.pprof-rs`, `pprof-rs`],
-])
-
-const expectedInputOrigin = (filename: string): Origin => {
-  const { language, emitter, config, format } = parseExampleFilename(filename)
-  const emitterKey = [language, emitter, config].filter(Boolean).join(`.`)
-  const origin =
-    EMITTER_ORIGINS.get(`${emitterKey}.${format}`) ??
-    EMITTER_ORIGINS.get(emitterKey) ??
-    EMITTER_ORIGINS.get(`${language}.${emitter}`)
-  if (!origin) {
-    throw new Error(
-      `Add ${emitterKey} and its expected origin to \`EMITTER_ORIGINS\``,
-    )
-  }
-  return origin
-}
-
 const inputFilenames =
   format === undefined
     ? []
@@ -94,6 +31,9 @@ const inputFilenames =
 // project, which receives no inputs.
 if (inputFilenames.length > 0) {
   describe(`detected input origins`, () => {
+    // Every committed input must resolve to the origin in its filename: a
+    // capture that doesn't detect needs a marker entry, a parser origin hint,
+    // or a more realistic workload before it's committed.
     test.each(inputFilenames)(
       `%s resolves to its profiler's origin`,
       filename => {
@@ -102,7 +42,7 @@ if (inputFilenames.length > 0) {
         // A modality is a property of each aggregated input, not of the format,
         // so the test covers every committed input, asserting on each
         // profile's functions and each snapshot's entities.
-        const origin = expectedInputOrigin(filename)
+        const { origin } = parseExampleFilename(filename)
         const unexpectedOrigins = inputs.flatMap(input => {
           const entities =
             input.type === `profile`
@@ -144,6 +84,37 @@ if (format === undefined) {
       expect(new Set(forced.functions.map(func => func.category))).toEqual(
         new Set([`deno`]),
       )
+    })
+  })
+
+  describe(`origin hints`, () => {
+    test(`a hint resolves an origin no entry marks`, () => {
+      const detector = new OriginDetector({ format: `pprof`, origin: null })
+      detector.hint(`gperftools`)
+      expect(detector.resolve()).toBe(`gperftools`)
+    })
+
+    test(`a forced origin ignores the hint`, () => {
+      const detector = new OriginDetector({ format: `pprof`, origin: `go` })
+      detector.hint(`gperftools`)
+      expect(detector.resolve()).toBe(`go`)
+    })
+
+    test(`a higher-priority origin's marker entry overrides the hint`, () => {
+      const detector = new OriginDetector({ format: `pprof`, origin: null })
+      detector.hint(`gperftools`)
+      detector.add({
+        id: 1,
+        name: `runtime.main`,
+        location: { type: `relative`, path: `/usr/lib/go/src/runtime/proc.go` },
+      })
+      expect(detector.resolve()).toBe(`go`)
+    })
+
+    test(`an origin that can't emit the format is ignored`, () => {
+      const detector = new OriginDetector({ format: `pprof`, origin: null })
+      detector.hint(`excimer`)
+      expect(detector.resolve()).toBe(`unknown`)
     })
   })
 }

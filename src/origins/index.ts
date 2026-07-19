@@ -13,9 +13,9 @@ import type { OriginSpec } from './origin.ts'
 import { originSpecs } from './specs/index.ts'
 
 /**
- * A profiling tool paired with the runtime it observed (e.g. `node` for Node's
- * native V8 profiler, `node-pprof` for the `pprof` npm package, `jvm` for JFR
- * producers).
+ * The profiler tool or runtime that wrote an input (e.g. `node` for
+ * Node's native V8 profiler, `node-pprof` for the `pprof` npm package,
+ * `async-profiler` for async-profiler's JFR and collapsed output).
  *
  * Auto-detected from a profile's entries via {@link OriginDetector}, or
  * specified explicitly.
@@ -137,6 +137,34 @@ export class OriginDetector {
     return false
   }
 
+  /**
+   * Applies an origin hint set by a parser: format-level metadata evidence
+   * (e.g. a recorder's own event types or a writer's self-identification
+   * field) pointing at an origin whose entries carry no marker.
+   *
+   * Treated like a marker entry of the hinted origin: a forced origin ignores
+   * it and a higher-priority origin's marker entry overrides it. Unlike a
+   * marker entry, the evidence doesn't survive format conversion, so a hint
+   * supplements an origin's markers rather than replacing them. An ID that
+   * isn't a candidate for the format is ignored.
+   */
+  public hint(origin: string): void {
+    if (this.#decided !== undefined) {
+      return
+    }
+
+    const index = this.#candidates.findIndex(
+      candidate => candidate.id === origin,
+    )
+    if (index === -1 || index >= this.#bestMatchIndex) {
+      return
+    }
+    this.#bestMatchIndex = index
+    if (index === 0) {
+      this.#decided = this.#candidates[0]!.id
+    }
+  }
+
   /** Adds each entry until decided; adding further entries is harmless. */
   public addAll(entries: readonly DeepReadonly<ProfileEntry>[]): void {
     for (const entry of entries) {
@@ -171,6 +199,12 @@ export const origins: Origin[] = originSpecs
 const originToSpec = new Map<Origin, SpecificOriginSpec>(
   originSpecs.map(originSpec => [originSpec.id, originSpec]),
 )
+
+/** The display name of {@link origin}, defaulting to its ID. */
+export const originTitle = (origin: Origin): string => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.title ?? origin
+}
 
 const makeFormatToOriginSpecs = (): Map<Format, SpecificOriginSpec[]> => {
   const index = new Map<Format, SpecificOriginSpec[]>()

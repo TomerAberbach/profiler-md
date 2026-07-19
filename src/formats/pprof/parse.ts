@@ -11,6 +11,7 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
   const profile = PprofProto.decode(bytes)
   const string = makeStringReader(profile)
 
+  const originHint = pprofOriginHint(profile, string)
   const { metrics, metricValueIndices, countValueIndex } = parseSampleTypes(
     profile,
     string,
@@ -30,8 +31,44 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
     countValueIndex,
   )
 
-  return [{ type: `profile`, frames, metrics, samples }]
+  return [
+    {
+      type: `profile`,
+      ...(originHint && { originHint }),
+      frames,
+      metrics,
+      samples,
+    },
+  ]
 }
+
+/**
+ * Derives an origin hint from writer-level metadata:
+ *
+ * - gperftools is the only supported pprof writer that populates
+ *   `drop_frames`/`keep_frames`, and it fills them with regexes naming its own
+ *   internals (`CpuProfiler::prof_handler`, `tcmalloc::*`)
+ * - `threadcreate` is a Go `runtime/pprof` profile type, and its captures'
+ *   stacks are unsymbolized thread-spawn sites carrying none of Go's frame
+ *   markers
+ */
+const pprofOriginHint = (
+  profile: PprofProto,
+  string: StringReader,
+): string | undefined => {
+  const frameFilters = `${string(profile.dropFrames)}\n${string(profile.keepFrames)}`
+  if (GPERFTOOLS_FRAME_FILTER.test(frameFilters)) {
+    return `gperftools`
+  }
+  if (profile.sampleType.some(({ type }) => string(type) === `threadcreate`)) {
+    return `go`
+  }
+  return undefined
+}
+
+/** Gperftools' own internal function names in its frame-filter regexes. */
+const GPERFTOOLS_FRAME_FILTER =
+  /CpuProfiler::prof_handler|ProfileData::prof_handler|tcmalloc::/u
 
 type StringReader = (index: number | bigint) => string
 

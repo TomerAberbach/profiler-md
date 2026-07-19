@@ -1,14 +1,21 @@
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferenceId, fileReferencePath } from '../location.ts'
+import { fileReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { ProfileStackFrame } from '../modalities/profile/type.ts'
 import type { EntryCategory, EntryMatch, ProfileEntry } from '../options.ts'
 
 /**
- * The internal spec of an origin: a distinct profiler, a profiling tool paired
- * with the runtime it observed (e.g. `node` for Node's native V8 profiler,
- * `node-pprof` for the `pprof` npm package, `jvm` for JFR producers).
+ * The internal spec of an origin: a distinct profiler tool or runtime that
+ * writes inputs (e.g. `node` for Node's native V8 profiler, `node-pprof` for
+ * the `pprof` npm package, `async-profiler` for async-profiler's JFR and
+ * collapsed output).
+ *
+ * One origin per profiler, always; origins sharing runtime conventions share
+ * helper modules, never a spec. An origin whose inputs carry no
+ * distinguishing evidence still registers, with `isMarkerEntry: () => false`;
+ * its inputs resolve to the format's fallback origin unless the origin is
+ * specified explicitly.
  *
  * An origin determines:
  * - Categorization rules (which entries are `stdlib`, `third-party`, etc.)
@@ -25,6 +32,12 @@ import type { EntryCategory, EntryMatch, ProfileEntry } from '../options.ts'
 export type OriginSpec = {
   /** A unique ID for this origin. */
   id: string
+
+  /**
+   * The origin's display name for generated docs and example labels (e.g.
+   * `Node.js` for `node`). Defaults to {@link OriginSpec.id}.
+   */
+  title?: string
 
   /** The formats this origin can emit. */
   formats: Format[]
@@ -44,6 +57,13 @@ export type OriginSpec = {
    * a runtime's install-layout path, its packed-name shape), never evidence any
    * profiler observing the same language would produce (a `.rb`/`.py` file
    * extension, idiomatic function names).
+   *
+   * When no entry carries origin-level evidence but the format's own metadata
+   * identifies the writer (a recorder's event-type definitions, a
+   * self-identification field), the format's parser sets a
+   * `Profile.originHint` instead, which detection treats like a marker entry
+   * of that origin. The hint doesn't survive format conversion, so it
+   * supplements markers rather than replacing them.
    *
    * Used only for origin auto-detection (skipped when the user forces an
    * origin), so be strict to avoid false positives.
@@ -221,17 +241,3 @@ export const hasProtocol = (
   protocols: string[],
 ): boolean =>
   location?.type === `absolute` && protocols.includes(location.url.protocol)
-
-/**
- * Returns whether {@link location}'s path lies within a `node_modules/`
- * directory.
- */
-export const hasNodeModulesPath = (
-  location: DeepReadonly<SourceLocation> | undefined,
-): boolean => {
-  if (!location) {
-    return false
-  }
-  const path = fileReferencePath(location)
-  return path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)
-}

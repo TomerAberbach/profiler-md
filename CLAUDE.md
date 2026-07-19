@@ -39,9 +39,12 @@ profiler-md
 │   │
 │   ├── origins/              # Profiler detection and categorization
 │   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers
-│   │   ├── categorize.ts     # Shared categorization rule helpers
+│   │   ├── categorize.ts     # Generic categorization rule helpers
+│   │   ├── jvm.ts            # JVM runtime conventions shared across origins
+│   │   ├── javascript.ts     # JavaScript ecosystem conventions shared across origins
+│   │   ├── cpython.ts        # CPython interpreter conventions shared across origins
 │   │   ├── specs/
-│   │   │   ├── <name>.ts     # One file per origin (e.g. node, node-pprof, jvm)
+│   │   │   ├── <name>.ts     # One file per origin (e.g. node, node-pprof, jdk)
 │   │   │   └── index.ts      # Exports originSpecs in detection-priority order
 │   │   └── index.ts          # Origin registry and derived detector
 │   │
@@ -161,6 +164,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 - A format registers in exactly one place (in `src/formats/registry.ts`)
 - An origin in exactly one place (in `src/origins/specs/index.ts`)
+- One origin per profiler, always: every tool or runtime that writes inputs
+  registers its own origin, even when its inputs carry no detectable markers.
+  Origins sharing runtime conventions share logic through helper modules (e.g.
+  `src/origins/jvm.ts`), never a merged spec: a later behavioral split must not
+  break published origin IDs
 - NEVER add logic that requires editing another file when a new format or origin
   is added. Express per-format or per-origin behavior as data or functions in
   the registry to derive from everywhere else

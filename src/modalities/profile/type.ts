@@ -12,6 +12,17 @@ export type Profile = {
   type: `profile`
 
   /**
+   * The ID of the origin the format's own metadata points to (e.g. a
+   * recorder's event-type definitions or a writer's self-identification
+   * field), set by a parser when such evidence exists.
+   *
+   * A hint, not a decision: detection treats it like a marker entry of that
+   * origin, so a forced origin ignores it and a higher-priority origin's
+   * marker entry overrides it.
+   */
+  originHint?: string
+
+  /**
    * The distinct frames the samples reference.
    *
    * A {@link Sample.frameIndices} entry is an index into this list.

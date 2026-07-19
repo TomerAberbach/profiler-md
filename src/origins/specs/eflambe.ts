@@ -14,8 +14,8 @@ import type { OriginSpec } from '../origin.ts'
  * file path, so its `normalizeFrame` lifts the module out of the name to act as
  * the location, JFR-style.
  */
-export const beamOriginSpec = {
-  id: `beam`,
+export const eflambeOriginSpec = {
+  id: `eflambe`,
   formats: [`collapsed`],
   isMarkerEntry: entry => isBeamFrame(entry.name),
   categorizeEntry: entry =>

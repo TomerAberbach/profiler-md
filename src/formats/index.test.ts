@@ -692,13 +692,14 @@ const currentHeapSnapshot = JSON.stringify(
 )
 
 describe(`origin detection`, () => {
-  test(`resolves one origin for all sub-profiles from any sub-profile's signal`, () => {
-    // Only the first sub-profile carries a JVM marker (a `java.*` stdlib
-    // frame); the second's frames live in a separate array with no signal of
-    // their own. The origin is detected once for the whole file, so the second
-    // sub-profile's collapsed name still splits into method and declaring
-    // class under the `jvm` origin detected from the first.
-    const signalProfile: Profile = {
+  test(`resolves one origin for all sub-profiles from any sub-profile's marker`, () => {
+    // Only the first sub-profile carries an async-profiler marker (a slash-form
+    // `java/*` stdlib frame); the second's frames live in a separate array
+    // with no marker entries of their own. The origin is detected once for the
+    // whole file, so the second sub-profile's collapsed name still splits into
+    // method and declaring class under the `async-profiler` origin detected
+    // from the first.
+    const markerProfile: Profile = {
       type: `profile`,
       frames: [
         { name: `java/util/HashMap.put` },
@@ -707,7 +708,7 @@ describe(`origin detection`, () => {
       metrics: [],
       samples: [{ values: [], frameIndices: [0, 1] }],
     }
-    const signallessProfile: Profile = {
+    const markerlessProfile: Profile = {
       type: `profile`,
       frames: [{ name: `com/example/Widget.render` }],
       metrics: [],
@@ -720,7 +721,7 @@ describe(`origin detection`, () => {
       fallbackOrigin: `unknown`,
       type: `json`,
       matches: () => true,
-      parse: () => [signalProfile, signallessProfile],
+      parse: () => [markerProfile, markerlessProfile],
     }
     const options = normalizeProfileToMdOptions({ baseURL: null })
 

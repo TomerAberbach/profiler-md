@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
-import { beamOriginSpec } from './beam.ts'
+import { eflambeOriginSpec } from './eflambe.ts'
 
 /** A frame as it looks after normalization: a relative module location. */
 const moduleEntry = (name: string, module: string): ProfileEntry => ({
@@ -23,13 +23,13 @@ describe(`detection`, () => {
           format: `collapsed`,
           entries: [relativeEntry(name)],
         }),
-      ).toBe(`beam`)
+      ).toBe(`eflambe`)
     },
   )
 })
 
 describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = beamOriginSpec
+  const { normalizeFrame } = eflambeOriginSpec
 
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
     expect(normalizeFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
@@ -68,7 +68,7 @@ describe(`normalizeFrame`, () => {
 })
 
 describe(`categorizeEntry`, () => {
-  const { categorizeEntry } = beamOriginSpec
+  const { categorizeEntry } = eflambeOriginSpec
 
   test.each([
     [`erlang`, `erlang:apply/2`],

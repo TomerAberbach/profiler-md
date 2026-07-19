@@ -54,7 +54,7 @@ for role in base current; do
   try emit "$GENERATED_INPUTS/julia.pprof-jl.cpu.$role.pprof" record_julia "$role" cpu
   try emit "$GENERATED_INPUTS/julia.pprof-jl.wall.$role.pprof" record_julia "$role" wall
   try emit "$GENERATED_INPUTS/julia.pprof-jl.alloc.$role.pprof" record_julia "$role" alloc
-  try emit "$GENERATED_INPUTS/julia.profile.$role.heapsnapshot" record_julia_heap "$role"
+  try emit "$GENERATED_INPUTS/julia.profile-jl.$role.heapsnapshot" record_julia_heap "$role"
 done
 
 verify_pairs

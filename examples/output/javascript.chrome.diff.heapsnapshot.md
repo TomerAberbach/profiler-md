@@ -1,21 +1,22 @@
 # Heap snapshot diff
 
-Allocated 918 KiB (+496 B, +0.1%) across 30,859 → 32,693 nodes and 137,199 → 142,162 edges.
+Allocated 1011 KiB → 1012 KiB (+496 B, ~0%) across 33,183 → 34,798 nodes and 145,158 → 149,397 edges.
 
-| Category            | Change |  Delta |     % |              Size |       Nodes |
-| ------------------- | -----: | -----: | ----: | ----------------: | ----------: |
-| hidden              |   0.0% |    0 B | 28.2% |           259 KiB |       8,002 |
-| object shape        |   0.0% |    0 B | 17.2% |           158 KiB |       2,500 |
-| string              |   0.0% |    0 B | 12.5% |           115 KiB |       6,143 |
-| array               |   0.0% |    0 B | 11.7% |           107 KiB |         369 |
-| object              |   0.0% |    0 B | 10.5% |          96.8 KiB |       2,884 |
-| closure             |   0.0% |    0 B |  8.2% |          75.4 KiB |       2,704 |
-| native              |  +0.7% | +496 B |  7.8% | 71.5 KiB → 72 KiB | 952 → 2,786 |
-| code                |   0.0% |    0 B |  2.8% |          25.3 KiB |       6,123 |
-| number              |   0.0% |    0 B |  0.6% |          5.65 KiB |         933 |
-| concatenated string |   0.0% |    0 B |  0.4% |          3.95 KiB |         202 |
-| synthetic           |      — |    0 B |  0.0% |               0 B |          31 |
-| symbol              |      — |    0 B |  0.0% |               0 B |          16 |
+| Category            | Change |  Delta |             % |              Size |       Nodes |
+| ------------------- | -----: | -----: | ------------: | ----------------: | ----------: |
+| hidden              |   0.0% |    0 B | 28.3% → 28.2% |           286 KiB |       9,074 |
+| object shape        |   0.0% |    0 B |         16.1% |           163 KiB |       2,580 |
+| string              |   0.0% |    0 B |         13.5% |           136 KiB |       6,591 |
+| array               |   0.0% |    0 B | 10.7% → 10.6% |           108 KiB |         390 |
+| object              |   0.0% |    0 B |          9.7% |          97.9 KiB |       2,929 |
+| closure             |   0.0% |    0 B |          7.8% |          79.2 KiB |       2,840 |
+| native              |  +0.6% | +496 B |   7.5% → 7.6% | 76 KiB → 76.4 KiB | 995 → 2,610 |
+| code                |   0.0% |    0 B |          5.5% |          55.7 KiB |       6,594 |
+| number              |   0.0% |    0 B |          0.6% |          5.65 KiB |         934 |
+| concatenated string |   0.0% |    0 B |          0.4% |          4.06 KiB |         208 |
+| regexp              |   0.0% |    0 B |         <0.1% |              28 B |           1 |
+| synthetic           |      — |    0 B |          0.0% |               0 B |          31 |
+| symbol              |      — |    0 B |          0.0% |               0 B |          16 |
 
 ## Largest constructors
 
@@ -44,11 +45,11 @@ Constructors with the largest increase in retained size.
 
 | Change |  Delta |            % |                Size |   Instances | Constructor                    | Location    |
 | -----: | -----: | -----------: | ------------------: | ----------: | ------------------------------ | ----------- |
-| +27.6% | +496 B |         0.2% | 1.76 KiB → 2.24 KiB | 269 → 2,099 | `InternalNode`                 | `<unknown>` |
-|  +0.3% | +256 B |         8.2% |   75 KiB → 75.2 KiB |          10 | `Window`                       | `<unknown>` |
-| +19.9% | +256 B |  0.1% → 0.2% | 1.26 KiB → 1.51 KiB |           1 | `Performance`                  | `<unknown>` |
+| +16.0% | +496 B |         0.3% | 3.03 KiB → 3.52 KiB | 283 → 1,894 | `InternalNode`                 | `<unknown>` |
+|  +0.3% | +256 B |         7.5% |   75.8 KiB → 76 KiB |          10 | `Window`                       | `<unknown>` |
+| +16.0% | +256 B |         0.2% | 1.56 KiB → 1.81 KiB |           1 | `Performance`                  | `<unknown>` |
 |    new | +256 B | 0.0% → <0.1% |         0 B → 256 B |       0 → 1 | `PerformanceLongTaskTiming`    | `<unknown>` |
-|  +4.5% | +240 B |         0.6% |  5.2 KiB → 5.43 KiB |           3 | `HTMLDocument`                 | `<unknown>` |
+|  +4.5% | +240 B |         0.5% | 5.23 KiB → 5.46 KiB |           3 | `HTMLDocument`                 | `<unknown>` |
 |    new | +240 B | 0.0% → <0.1% |         0 B → 240 B |       0 → 1 | `IntersectionObserver`         | `<unknown>` |
 |    new | +136 B | 0.0% → <0.1% |         0 B → 136 B |       0 → 1 | `TaskAttributionTiming`        | `<unknown>` |
 |    new |  +40 B | 0.0% → <0.1% |          0 B → 40 B |       0 → 1 | `IntersectionObserverDelegate` | `<unknown>` |
@@ -59,9 +60,9 @@ Constructors with the largest decrease in retained size.
 
 | Change |       Delta |           % |                Size | Instances | Constructor                | Location    |
 | -----: | ----------: | ----------: | ------------------: | --------: | -------------------------- | ----------- |
-| -50.4% | -26.367 KiB | 5.7% → 2.8% |   52.3 KiB → 26 KiB |       100 | `<article class="status">` | `<unknown>` |
-| -26.4% |  -5.156 KiB | 2.1% → 1.6% | 19.5 KiB → 14.4 KiB |       100 | `<h2>`                     | `<unknown>` |
-| -26.4% |  -5.156 KiB | 2.1% → 1.6% | 19.5 KiB → 14.4 KiB |       100 | `<p>`                      | `<unknown>` |
+| -50.4% | -26.367 KiB | 5.2% → 2.6% |   52.3 KiB → 26 KiB |       100 | `<article class="status">` | `<unknown>` |
+| -26.4% |  -5.156 KiB | 1.9% → 1.4% | 19.5 KiB → 14.4 KiB |       100 | `<p>`                      | `<unknown>` |
+| -26.4% |  -5.156 KiB | 1.9% → 1.4% | 19.5 KiB → 14.4 KiB |       100 | `<h2>`                     | `<unknown>` |
 | -15.0% |      -240 B | 0.2% → 0.1% | 1.56 KiB → 1.33 KiB |         8 | `<span class="hashtag">`   | `<unknown>` |
 
 ## Largest closures
@@ -70,4 +71,20 @@ No closure differed in bytes that would be freed if the closure were garbage col
 
 ## Largest strings
 
-No string differed in bytes allocated for it.
+Strings ranked by bytes allocated for them.
+
+### Regressions
+
+Strings with the largest increase in size.
+
+| Change | Delta |            % |       Size | Value                                                | Path        |
+| -----: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
+|    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:52789E855ACDCDA1A5B613DDD40E0D9D…` | `(GC root)` |
+
+### Improvements
+
+Strings with the largest decrease in size.
+
+|  Change | Delta |            % |       Size | Value                                                | Path        |
+| ------: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
+| removed | -68 B | <0.1% → 0.0% | 68 B → 0 B | `http://127.0.0.1:527895C4268906A52093F2E56B7F6E5A…` | `(GC root)` |

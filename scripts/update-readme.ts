@@ -5,7 +5,7 @@ import {
   parseExampleFilename,
   variants,
 } from '../src/cli/examples.ts'
-import type { ExampleVariant } from '../src/cli/examples.ts'
+import type { Example, ExampleVariant } from '../src/cli/examples.ts'
 import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
 import { formatConverters } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
@@ -16,7 +16,7 @@ const help = execSync(`node src/cli/index.ts --help`, { encoding: `utf8` })
 
 type Combo = {
   language: string
-  emitter: string
+  origin: Example[`origin`]
   config: string
   variants: Map<ExampleVariant, string>
 }
@@ -25,7 +25,7 @@ const examplesByLanguage = new Map<string, Map<Format, Map<string, Combo>>>()
 for (const filename of readdirSync(`examples/output`)) {
   const {
     language: languageId,
-    emitter,
+    origin,
     config,
     variant,
     format,
@@ -54,10 +54,10 @@ for (const filename of readdirSync(`examples/output`)) {
     byCombo = new Map()
     byFormat.set(format, byCombo)
   }
-  const comboKey = `${languageId}.${emitter}.${config}`
+  const comboKey = `${languageId}.${origin}.${config}`
   let combo = byCombo.get(comboKey)
   if (!combo) {
-    combo = { language: languageId, emitter, config, variants: new Map() }
+    combo = { language: languageId, origin, config, variants: new Map() }
     byCombo.set(comboKey, combo)
   }
   combo.variants.set(variant, filename)
@@ -90,7 +90,7 @@ const formatCell = (id: string, format: Format): string => {
   combos.sort(
     (first, second) =>
       first.language.localeCompare(second.language) ||
-      first.emitter.localeCompare(second.emitter) ||
+      first.origin.localeCompare(second.origin) ||
       first.config.localeCompare(second.config),
   )
 

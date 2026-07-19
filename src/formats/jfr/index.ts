@@ -6,7 +6,9 @@ export const jfrConverter = {
   title: `JFR`,
   extension: `jfr`,
   languages: [`java`],
-  fallbackOrigin: `jvm`,
+  // The JDK's recorder defines the format; async-profiler recordings are
+  // detected by their marker entries instead.
+  fallbackOrigin: `jdk`,
   type: `binary`,
   matches: matchesJfr,
   parse: parseJfr,
