@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'vitest'
-import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
-import { streamOf } from '../../testing/bytes.ts'
+import { streamOf } from '../../helpers/testing.ts'
 import {
   callersTables,
   linesTables,
   selfTimeTables,
-  summaryLines,
   totalTimeTables,
-} from '../../testing/markdown.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
+} from '../../modalities/profile/testing.ts'
+import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
+import { summaryLines } from '../../testing.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
 

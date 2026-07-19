@@ -1,15 +1,15 @@
 import { describe, expect, test } from 'vitest'
+import { callersTables } from '../../../modalities/profile/testing.ts'
+import {
+  selfSizeTables,
+  totalSizeTables,
+} from '../../../modalities/snapshot/testing.ts'
 import {
   defaultShowEntry,
   normalizeProfileToMdOptions,
 } from '../../../options.ts'
-import {
-  callersTables,
-  categoryTables,
-  selfSizeTables,
-  totalSizeTables,
-} from '../../../testing/markdown.ts'
-import { convertJsonToMd } from '../../testing/convert.ts'
+import { categoryTables } from '../../../testing.ts'
+import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapProfileConverter } from './index.ts'
 import { makeV8HeapProfileRoot } from './testing.ts'
 

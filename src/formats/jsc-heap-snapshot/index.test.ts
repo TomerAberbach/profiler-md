@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
-import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
-  categoryTables,
   largestStringsTables,
   selfSizeInstancesTables,
   selfSizeTables,
-} from '../../testing/markdown.ts'
-import { convertJsonToMd } from '../testing/convert.ts'
+} from '../../modalities/snapshot/testing.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
+import { categoryTables } from '../../testing.ts'
+import { convertJsonToMd } from '../testing.ts'
 import { jscHeapSnapshotConverter } from './index.ts'
 import {
   EDGE_INDEX,

@@ -1,16 +1,18 @@
 import { describe, expect, test } from 'vitest'
+import {
+  closureTables,
+  largestStringsTables,
+  selfSizeInstancesTables,
+  selfSizeTables,
+} from '../../../modalities/snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
 import {
   categoryTables,
-  closureTables,
   improvementsTables,
-  largestStringsTables,
   regressionsTables,
-  selfSizeInstancesTables,
-  selfSizeTables,
-} from '../../../testing/markdown.ts'
+} from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
-import { convertJsonToMd } from '../../testing/convert.ts'
+import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
 import {
   EDGE_TYPE_HIDDEN,

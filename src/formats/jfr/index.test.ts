@@ -1,17 +1,19 @@
 import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
-import { normalizeProfileToMdOptions } from '../../options.ts'
-import { chunk, streamOf } from '../../testing/bytes.ts'
+import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   callersTables,
   linesTables,
-  profileTitles,
   selfSamplesTables,
-  selfSizeTables,
   selfTimeTables,
+} from '../../modalities/profile/testing.ts'
+import {
+  selfSizeTables,
   totalSizeTables,
-} from '../../testing/markdown.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing/convert.ts'
+} from '../../modalities/snapshot/testing.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
+import { profileTitles } from '../../testing.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { jfrConverter } from './index.ts'
 import { makeJfr } from './testing.ts'
 

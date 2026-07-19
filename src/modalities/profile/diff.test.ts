@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { BYTES, MICROSECONDS, MILLISECONDS } from '../../metric.ts'
-import { resolveProfileToMdOptions } from '../../testing/options.ts'
+import { resolveProfileToMdOptions } from '../../testing.ts'
 import { diffAggregatedProfiles } from './diff.ts'
 import { makeAggregatedProfile } from './testing.ts'
 

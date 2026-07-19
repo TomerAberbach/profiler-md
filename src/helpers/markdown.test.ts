@@ -1,5 +1,4 @@
 import { expect, test } from 'vitest'
-import { parseMd } from '../testing/markdown.ts'
 import {
   heading,
   inlineCode,
@@ -10,6 +9,7 @@ import {
   table,
   text,
 } from './markdown.ts'
+import { parseMd } from './testing.ts'
 
 test.each([
   [`plain pipe`, text(`a|b`)],
