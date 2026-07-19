@@ -1,8 +1,9 @@
 import { formatConverters, formats } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
+import { capitalizeFirst } from '../helpers/format.ts'
 import { languages } from './languages.ts'
 
-const variants = [`base`, `current`, `diff`] as const
+export const variants = [`base`, `current`, `diff`] as const
 
 export type ExampleVariant = (typeof variants)[number]
 
@@ -13,7 +14,7 @@ export type ExampleVariant = (typeof variants)[number]
 export type Example = {
   /** Language or alias ID (e.g. `cpp`, `kotlin`). */
   language: string
-  /** The tool or runtime that emitted the input (e.g. `gperftools`, `node`, `async-profiler`). */
+  /** The tool or runtime that emitted the input (e.g. `gperftools`, `node`). */
   emitter: string
   /** Capture configuration (e.g. `cpu`, `wall`); empty when absent. */
   config: string
@@ -27,7 +28,7 @@ for (const format of formats) {
   const existing = extensionFormats.get(extension)
   if (existing) {
     throw new Error(
-      `formats ${JSON.stringify(existing)} and ${JSON.stringify(format)} share an extension: ${JSON.stringify(`.${extension}`)}`,
+      `formats ${existing} and ${format} share an extension: .${extension}`,
     )
   }
   extensionFormats.set(extension, format)
@@ -45,16 +46,14 @@ export const parseExampleFilename = (filename: string): Example => {
     variants.includes(token as ExampleVariant),
   )
   if (variantIndex === -1) {
-    throw new Error(
-      `Example ${JSON.stringify(filename)} has no base/current/diff variant`,
-    )
+    throw new Error(`Example ${filename} has no base/current/diff variant`)
   }
 
   const extension = tokens.slice(variantIndex + 1).join(`.`)
   const format = extensionFormats.get(extension)
   if (!format) {
     throw new Error(
-      `Example "${JSON.stringify(filename)}" has an unrecognized extension: ${JSON.stringify(`.${extension}`)}`,
+      `Example ${filename} has an unrecognized extension: .${extension}`,
     )
   }
 
@@ -80,18 +79,6 @@ const emitterNames: Record<string, string> = {
 
 const configNames: Record<string, string> = {
   cpu: `CPU`,
-  heap: `Heap`,
-  'heap-alloc': `Heap allocations`,
-  alloc: `Allocations`,
-  wall: `Wall`,
-  block: `Block`,
-  mutex: `Mutex`,
-  goroutine: `Goroutine`,
-  threadcreate: `Thread creation`,
-  all: `All`,
-  live: `Live`,
-  lock: `Lock`,
-  nativemem: `Native memory`,
 }
 
 const languageNames: ReadonlyMap<string, string> = new Map(
@@ -101,31 +88,26 @@ const languageNames: ReadonlyMap<string, string> = new Map(
   ]),
 )
 
-const titleCase = (token: string): string => {
-  const words = token.replaceAll(`-`, ` `)
-  return words.charAt(0).toUpperCase() + words.slice(1)
-}
-
 const exampleLanguageName = (lang: string): string =>
   languageNames.get(lang) ?? lang
 const exampleEmitterName = (emitter: string): string =>
   emitterNames[emitter] ?? emitter
 const exampleConfigName = (config: string): string =>
-  configNames[config] ?? titleCase(config)
+  configNames[config] ?? config
 
 /**
- * Builds a readable label for one emitter/config combo within a format cell,
- * including only the dimensions that vary across the cell (language → emitter →
- * config). When nothing varies the label is empty.
+ * Builds a readable label for one emitter/config combo within a format cell
+ * from its language, emitter, and config names.
  */
 export const exampleComboLabel = (
   combo: Pick<Example, `language` | `emitter` | `config`>,
-  vary: { lang: boolean; emitter: boolean; config: boolean },
 ): string =>
-  [
-    vary.lang ? exampleLanguageName(combo.language) : ``,
-    vary.emitter ? exampleEmitterName(combo.emitter) : ``,
-    vary.config ? exampleConfigName(combo.config) : ``,
-  ]
-    .filter(Boolean)
-    .join(` `)
+  capitalizeFirst(
+    [
+      exampleLanguageName(combo.language),
+      exampleEmitterName(combo.emitter),
+      exampleConfigName(combo.config),
+    ]
+      .filter(Boolean)
+      .join(` `),
+  )

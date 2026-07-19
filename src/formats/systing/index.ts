@@ -26,7 +26,7 @@ const NEWLINE = 0x0a
 let textDecoder: InstanceType<typeof TextDecoder> | undefined
 
 export const systingConverter = {
-  title: `systing profile export`,
+  title: `systing`,
   extension: `systing`,
   languages: [`c`, `python`, `rust`],
   fallbackOrigin: `systing`,
