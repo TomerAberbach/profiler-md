@@ -11,19 +11,23 @@ import {
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
+  closureTables,
   makeAggregatedClosure,
   makeAggregatedConstructor,
   makeAggregatedHeapSnapshot,
   makeAggregatedString,
   makeSourceLocation,
   retainedSizeTables,
+  retainedTables,
   selfSizeTables,
 } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
 describe(`formatHeapSnapshot`, () => {
-  test(`shows all nodes when a custom showEntry would hide every one`, () => {
+  test(`admits the largest hidden constructors when a custom showEntry hides every one`, () => {
+    // Each group relaxes independently: the constructors and closures groups
+    // both fall short and admit their own largest hidden entities.
     const snapshot = makeAggregatedHeapSnapshot({
       constructors: [
         makeAggregatedConstructor({
@@ -32,6 +36,9 @@ describe(`formatHeapSnapshot`, () => {
           retainedSize: 150,
           instanceCount: 1,
         }),
+      ],
+      closures: [
+        makeAggregatedClosure({ name: `myFn`, selfSize: 0, retainedSize: 50 }),
       ],
     })
     const options = resolveProfileToMdOptions({
@@ -42,7 +49,10 @@ describe(`formatHeapSnapshot`, () => {
     const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
 
     expect(md).toContain(
-      `The entry filter hides every node, so all nodes are shown.`,
+      `Hidden constructors account for 100.0% of the bytes constructors retain, so the largest are also shown.`,
+    )
+    expect(md).toContain(
+      `Hidden closures account for 100.0% of the bytes closures retain, so the largest are also shown.`,
     )
     expect(selfSizeTables(md)).toEqual([
       [
@@ -61,6 +71,178 @@ describe(`formatHeapSnapshot`, () => {
           Size: `150 B`,
           Instances: `1`,
           Constructor: `Widget`,
+        },
+      ],
+    ])
+    expect(closureTables(md)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Retained: `50 B`,
+          Instances: `1`,
+          Paths: `1`,
+          Name: `myFn`,
+          'Example path': `(GC root)`,
+        },
+      ],
+    ])
+  })
+
+  test(`admits hidden constructors by retained size when shown constructors fall short of the target`, () => {
+    // BigRetained's retained size alone reaches the coverage target, so
+    // BigSelf stays hidden despite its larger self size: coverage is measured
+    // on the union of retained sizes.
+    const snapshot = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Ours`,
+          selfSize: 100,
+          retainedSize: 100,
+          instanceCount: 1,
+        }),
+        makeAggregatedConstructor({
+          name: `BigRetained`,
+          selfSize: 50,
+          retainedSize: 500,
+          instanceCount: 1,
+        }),
+        makeAggregatedConstructor({
+          name: `BigSelf`,
+          selfSize: 300,
+          retainedSize: 300,
+          instanceCount: 1,
+        }),
+      ],
+    })
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name === `Ours`,
+    })
+
+    const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
+
+    expect(md).toContain(
+      `Hidden constructors account for 88.9% of the bytes constructors retain, so the largest are also shown.`,
+    )
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `22.2%`,
+          Size: `100 B`,
+          Instances: `1`,
+          Constructor: `Ours`,
+        },
+        {
+          '%': `11.1%`,
+          Size: `50 B`,
+          Instances: `1`,
+          Constructor: `BigRetained`,
+        },
+      ],
+    ])
+    expect(retainedSizeTables(md)).toEqual([
+      [
+        {
+          '%': `111.1%`,
+          Size: `500 B`,
+          Instances: `1`,
+          Constructor: `BigRetained`,
+        },
+        {
+          '%': `22.2%`,
+          Size: `100 B`,
+          Instances: `1`,
+          Constructor: `Ours`,
+        },
+      ],
+    ])
+    expect(md).not.toContain(`BigSelf`)
+  })
+
+  test(`admits hidden closures independently of shown constructors`, () => {
+    // The shown constructor covers its own group, but the closures group has
+    // nothing shown, so it admits its largest hidden closure.
+    const snapshot = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Ours`,
+          selfSize: 100,
+          retainedSize: 100,
+          instanceCount: 1,
+        }),
+      ],
+      closures: [
+        makeAggregatedClosure({
+          name: `bigClosure`,
+          selfSize: 300,
+          retainedSize: 400,
+        }),
+      ],
+    })
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name === `Ours`,
+    })
+
+    const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
+
+    expect(md).not.toContain(`Hidden constructors`)
+    expect(md).toContain(
+      `Hidden closures account for 100.0% of the bytes closures retain, so the largest are also shown.`,
+    )
+    expect(closureTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Retained: `400 B`,
+          Instances: `1`,
+          Paths: `1`,
+          Name: `bigClosure`,
+          'Example path': `(GC root)`,
+        },
+      ],
+    ])
+  })
+
+  test(`admits an admitted closure's hidden retained nodes for coverage`, () => {
+    // The filter that hid the admitted closure also hides the nodes it
+    // retains; shown nodes cover none of the closure's retained size, so the
+    // largest hidden nodes are admitted.
+    const snapshot = makeAggregatedHeapSnapshot({
+      closures: [
+        makeAggregatedClosure({
+          name: `bigClosure`,
+          selfSize: 300,
+          retainedSize: 400,
+        }),
+      ],
+      retainedNodesOf: () => [
+        {
+          type: `node`,
+          id: 1,
+          name: `BigBuffer`,
+          selfSize: 200,
+          retainedSize: 200,
+        },
+      ],
+    })
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: () => false,
+    })
+
+    const md = mdastToMarkdown(formatHeapSnapshot(snapshot, options))
+
+    expect(md).toContain(
+      `Where shown nodes fell short of the coverage target, the largest hidden nodes are also shown.`,
+    )
+    expect(retainedTables(md, `bigClosure`)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Self: `200 B`,
+          Name: `BigBuffer`,
+          Path: `(GC root)`,
         },
       ],
     ])
@@ -413,6 +595,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `Hidden`,
+      coverageTarget: 0,
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
@@ -433,7 +616,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`shows all nodes when a custom showEntry would hide every one`, () => {
+  test(`admits a constructor pair hidden on both sides when coverage falls short`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
         makeAggregatedConstructor({
@@ -463,7 +646,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
 
     expect(md).toContain(
-      `The entry filter hides every node, so all nodes are shown.`,
+      `Hidden constructors account for 100.0% of the bytes constructors retain, so the largest are also shown.`,
     )
     expect(regressionsTables(md, `Self size`)).toEqual([
       [
@@ -477,6 +660,32 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
+  })
+
+  test(`ignores strings when computing diff coverage`, () => {
+    // The shown constructor covers the target among constructors and
+    // closures; the hidden string's size counts toward neither side's total,
+    // as in single-snapshot coverage.
+    const snapshot = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedConstructor({
+          name: `Ours`,
+          selfSize: 80,
+          retainedSize: 80,
+          instanceCount: 1,
+        }),
+      ],
+      strings: [makeAggregatedString({ value: `huge`, selfSize: 900 })],
+    })
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name === `Ours`,
+    })
+
+    const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
+
+    expect(md).not.toContain(`account for`)
   })
 
   test(`notes that each entity section is unchanged when nothing changed`, () => {

@@ -197,7 +197,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
@@ -211,9 +211,10 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ##### `join` (`java.util.concurrent.ForkJoinTask`)
 
-|     % | Samples | Callee        | Location    |
-| ----: | ------: | ------------- | ----------- |
-| <0.1% |       1 | `vtable stub` | `<unknown>` |
+|      % | Samples | Callee        | Location                            |
+| -----: | ------: | ------------- | ----------------------------------- |
+| 100.0% |   4,217 | `awaitDone`   | `java.util.concurrent.ForkJoinTask` |
+|  <0.1% |       1 | `vtable stub` | `<unknown>`                         |
 
 ##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
@@ -260,6 +261,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ---: | ------: | --------------- | ------------------ |
 | 1.7% |      17 | `doubleValue`   | `java.lang.Double` |
 | 0.2% |       2 | `SafepointBlob` | `<unknown>`        |
+
+##### `invoke` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee   | Location                            |
+| -----: | ------: | -------- | ----------------------------------- |
+| 100.0% |     981 | `doExec` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `computeClusterAverages` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 

@@ -8,6 +8,8 @@
 | stdlib      |  +2.6% |  +245 | 35.9% → 36.8% |   9,442 → 9,687 |
 | ours        | -68.3% |   -84 |   0.5% → 0.1% |        123 → 39 |
 
+Hidden functions account for 99.0% of samples taken, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self samples
@@ -28,10 +30,12 @@ Functions with the largest increase in samples taken directly in the function bo
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-| Change | Delta |           % |  Samples | Function           | Location                                                                                              |
-| -----: | ----: | ----------: | -------: | ------------------ | ----------------------------------------------------------------------------------------------------- |
-| -68.3% |   -84 | 0.5% → 0.1% | 123 → 39 | `parse_workload`   | `profile.jl:13`                                                                                       |
-| -20.5% |    -9 | 0.2% → 0.1% |  44 → 35 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:533` |
+| Change | Delta |             % |       Samples | Function           | Location                                                                                              |
+| -----: | ----: | ------------: | ------------: | ------------------ | ----------------------------------------------------------------------------------------------------- |
+|  -1.3% |  -112 | 33.4% → 33.0% | 8,784 → 8,672 | `#write#78`        | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:157`          |
+|  -1.3% |   -86 | 25.2% → 24.9% | 6,627 → 6,541 | `_symbol`          | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1`            |
+| -68.3% |   -84 |   0.5% → 0.1% |      123 → 39 | `parse_workload`   | `profile.jl:13`                                                                                       |
+| -20.5% |    -9 |   0.2% → 0.1% |       44 → 35 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:533` |
 
 ### Total samples
 
@@ -54,6 +58,8 @@ Functions with the largest decrease in total samples taken in the function and a
 
 | Change | Delta |             % |         Samples | Function           | Location                                                                                                          |
 | -----: | ----: | ------------: | --------------: | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+|  -0.5% |   -93 | 68.0% → 67.6% | 17,881 → 17,788 | `#write#78`        | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:157`                      |
+|  -1.3% |   -86 | 25.2% → 24.9% |   6,627 → 6,541 | `_symbol`          | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/utils.jl:1`                        |
 |  -0.2% |   -40 | 96.7% → 96.5% | 25,426 → 25,386 | `parse_workload`   | `profile.jl:13`                                                                                                   |
 |  -0.2% |   -40 | 96.7% → 96.5% | 25,426 → 25,386 | `macro expansion`  | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/stdlib/v1.12/Profile/src/Profile.jl:60` |
 |  -0.2% |   -40 | 96.7% → 96.5% | 25,426 → 25,386 | `capture_cpu`      | `profile.jl:24`                                                                                                   |

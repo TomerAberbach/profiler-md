@@ -6,7 +6,37 @@ Blocked 1.6ms over 10 samples (159.3µs per sample).
 | -------- | -----: | ----: | ------: |
 | stdlib   | 100.0% | 1.6ms |      10 |
 
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self time
+
+Functions ranked by time blocked directly in the function body, excluding callees.
+
+|     % |  Time | Samples | Function                     | Location                |
+| ----: | ----: | ------: | ---------------------------- | ----------------------- |
+| 77.4% | 1.2ms |       4 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
+
+#### Lines
+
+Lines ranked by contribution to each function's self time.
+
+##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
+
+|      % |  Time | Samples | Location                    |
+| -----: | ----: | ------: | --------------------------- |
+| 100.0% | 1.2ms |       4 | `java.lang.ClassLoader:573` |
+
+#### Callers
+
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+
+##### `loadClass(String, boolean)` (`java.lang.ClassLoader`)
+
+|      % |  Time | Samples | Caller              | Location                |
+| -----: | ----: | ------: | ------------------- | ----------------------- |
+| 100.0% | 1.2ms |       4 | `loadClass(String)` | `java.lang.ClassLoader` |
 
 ### Total time
 
@@ -15,6 +45,7 @@ Functions ranked by total time blocked in the function and all its callees.
 |     % |   Time | Samples | Function                                 | Location                                                   |
 | ----: | -----: | ------: | ---------------------------------------- | ---------------------------------------------------------- |
 | 93.1% |  1.5ms |       6 | `loadClass(String)`                      | `java.lang.ClassLoader`                                    |
+| 77.4% |  1.2ms |       4 | `loadClass(String, boolean)`             | `java.lang.ClassLoader`                                    |
 | 77.4% |  1.2ms |       4 | `average(List)`                          | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | 77.4% |  1.2ms |       4 | `computeClusterAverages()`               | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | 77.4% |  1.2ms |       4 | `computeDirectly()`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
@@ -30,7 +61,13 @@ Functions ranked by total time blocked in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
+
+##### `loadClass(String)` (`java.lang.ClassLoader`)
+
+|     % |  Time | Samples | Callee                       | Location                |
+| ----: | ----: | ------: | ---------------------------- | ----------------------- |
+| 83.1% | 1.2ms |       4 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
@@ -58,6 +95,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 100.0% | 1.2ms |       4 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 |  43.4% | 0.5ms |       2 | `join()`            | `java.util.concurrent.ForkJoinTask`                    |
 
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % |  Time | Samples | Callee                 | Location                            |
+| -----: | ----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% | 0.5ms |       2 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+
 ##### `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`)
 
 |     % |  Time | Samples | Callee                            | Location                |
@@ -83,6 +126,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | --------------------------------------- | ------------------------------- |
 | 100.0% | 0.4ms |       6 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils` |
 
+##### `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`)
+
+|     % |  Time | Samples | Callee                                      | Location              |
+| ----: | ----: | ------: | ------------------------------------------- | --------------------- |
+| 83.4% | 0.1ms |       4 | `walkFileTree(Path, Set, int, FileVisitor)` | `java.nio.file.Files` |
+
 ##### `visitFile(Path, BasicFileAttributes)` (`org.renaissance.core.DirUtils$1`)
 
 |      % |   Time | Samples | Callee              | Location                |
@@ -101,8 +150,8 @@ Call stacks ranked by time blocked in their leaf frame.
 
 |     % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 43.8% |  0.7ms |       2 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                              |
-| 33.5% |  0.5ms |       2 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                      |
+| 43.8% |  0.7ms |       2 | `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                               |
+| 33.5% |  0.5ms |       2 | `loadClass(String, boolean)` (`java.lang.ClassLoader`) ← `loadClass(String)` ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                       |
 | 14.0% |  0.2ms |       1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000f001003a68`)                                                                                                                                                                                     |
 |  6.9% |  0.1ms |       4 | `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000f001003a68`)                                                                                                                                                                         |
 |  1.8% | 28.0µs |       1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `visitFile(Path, BasicFileAttributes)` (`org.renaissance.core.DirUtils$1`) ← `visitFile(Object, BasicFileAttributes)` ← `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000f001003a68`) |

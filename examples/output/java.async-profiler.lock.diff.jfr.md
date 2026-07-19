@@ -6,7 +6,19 @@ Blocked 1.9ms → 1.6ms (-0.29ms, -15.2%) over 19 samples → 10 samples (98.9µ
 | -------- | -----: | ------: | -----: | ------------: | ------: |
 | stdlib   | -15.2% | -0.29ms | 100.0% | 1.9ms → 1.6ms | 19 → 10 |
 
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self time
+
+#### Improvements
+
+Functions with the largest decrease in time blocked directly in the function body, excluding callees.
+
+| Change |   Delta |             % |          Time | Samples | Function                     | Location                |
+| -----: | ------: | ------------: | ------------: | ------: | ---------------------------- | ----------------------- |
+|  -4.7% | -0.06ms | 68.9% → 77.4% | 1.3ms → 1.2ms |   5 → 4 | `loadClass(String, boolean)` | `java.lang.ClassLoader` |
 
 ### Total time
 
@@ -37,6 +49,7 @@ Functions with the largest decrease in total time blocked in the function and al
 |  -19.0% | -0.08ms | 23.7% → 22.6% |         0.4ms |   8 → 6 | `deleteRecursively(Path)`               | `org.renaissance.core.DirUtils`                                        |
 |  -19.0% | -0.08ms | 23.7% → 22.6% |         0.4ms |   8 → 6 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils`                                        |
 |  -19.0% | -0.08ms | 23.7% → 22.6% |         0.4ms |   8 → 6 | `run()`                                 | `org.renaissance.core.DirUtils$$Lambda.0x000000f001003a68`             |
+|   -4.7% | -0.06ms | 68.9% → 77.4% | 1.3ms → 1.2ms |   5 → 4 | `loadClass(String, boolean)`            | `java.lang.ClassLoader`                                                |
 |   -3.3% | -0.04ms | 67.8% → 77.4% | 1.3ms → 1.2ms |       4 | `average(List)`                         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
 | removed | -0.03ms |   1.4% → 0.0% |  27.0µs → 0ms |   1 → 0 | `invoke()`                              | `java.util.concurrent.ForkJoinTask`                                    |
 | removed | -0.03ms |   1.4% → 0.0% |  27.0µs → 0ms |   1 → 0 | `lambda$run$0(int, List, int)`          | `org.renaissance.jdk.concurrent.JavaKMeans`                            |

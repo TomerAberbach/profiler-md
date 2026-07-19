@@ -32,6 +32,15 @@ export class MaxHeap<Value> {
     return this.#size
   }
 
+  /** Returns the values not yet popped, in arbitrary order. */
+  public values(): Value[] {
+    const values: Value[] = []
+    for (let i = 0; i < this.#size; i++) {
+      values.push(this.#values[this.#heap[i]!]!)
+    }
+    return values
+  }
+
   public pop(): Value | undefined {
     if (this.#size === 0) {
       return undefined
@@ -74,6 +83,77 @@ export class MaxHeap<Value> {
       this.#heap[largest] = tmp
       index = largest
     }
+  }
+}
+
+/**
+ * A max-heap with per-value keys that supports pushing after construction,
+ * for consumers that re-insert values under decreased keys.
+ */
+export class MutableMaxHeap<Value> {
+  readonly #values: Value[] = []
+  readonly #keys: number[] = []
+
+  public get length(): number {
+    return this.#values.length
+  }
+
+  /** The largest key, or `-Infinity` when empty. */
+  public peekKey(): number {
+    return this.#keys.length === 0 ? -Infinity : this.#keys[0]!
+  }
+
+  public push(value: Value, key: number): void {
+    const values = this.#values
+    const keys = this.#keys
+    let index = values.length
+    values.push(value)
+    keys.push(key)
+    while (index > 0) {
+      const parentIndex = (index - 1) >> 1
+      if (keys[parentIndex]! >= key) {
+        break
+      }
+      values[index] = values[parentIndex]!
+      keys[index] = keys[parentIndex]!
+      index = parentIndex
+    }
+    values[index] = value
+    keys[index] = key
+  }
+
+  public pop(): Value | undefined {
+    const values = this.#values
+    const keys = this.#keys
+    if (values.length === 0) {
+      return undefined
+    }
+
+    const max = values[0]!
+    const lastValue = values.pop()!
+    const lastKey = keys.pop()!
+    if (values.length > 0) {
+      let index = 0
+      while (true) {
+        let largest = 2 * index + 1
+        if (largest >= values.length) {
+          break
+        }
+        const right = largest + 1
+        if (right < values.length && keys[right]! > keys[largest]!) {
+          largest = right
+        }
+        if (keys[largest]! <= lastKey) {
+          break
+        }
+        values[index] = values[largest]!
+        keys[index] = keys[largest]!
+        index = largest
+      }
+      values[index] = lastValue
+      keys[index] = lastKey
+    }
+    return max
   }
 }
 

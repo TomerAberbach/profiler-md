@@ -14,6 +14,7 @@ import type { RegexReplacement } from './cli.ts'
 
 export type BuildOptionsFlags = {
   topN?: number
+  coverageTarget?: number
   baseURL?: string
   sourceMaps: readonly string[]
   match: readonly RegexReplacement[]
@@ -22,12 +23,14 @@ export type BuildOptionsFlags = {
 
 export const buildOptions = async ({
   topN,
+  coverageTarget,
   baseURL,
   sourceMaps,
   match,
   thirdParty,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
+  coverageTarget,
   // A directory literally named `auto` is still reachable via `./auto`.
   baseURL:
     baseURL !== undefined && baseURL !== `auto` && !URL.canParse(baseURL)

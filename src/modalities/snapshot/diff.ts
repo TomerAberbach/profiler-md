@@ -25,8 +25,8 @@ export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
 
   /**
    * Node ordinals of all instances aggregated into this entity on this side,
-   * for computing unique retainer path counts. Empty for entities that don't
-   * report paths (constructors and strings).
+   * for computing unique retainer path counts and retained-size unions. Empty
+   * for strings, which need neither.
    */
   instanceIds: number[]
 }
@@ -132,7 +132,7 @@ const diffedConstructor = ({
   selfSize,
   retainedSize,
   instanceCount: instances.length,
-  instanceIds: [],
+  instanceIds: instances.map(instance => instance.id),
 })
 
 /**
@@ -156,7 +156,7 @@ const mergeClosures = (
     } else {
       keyToClosure.set(key, {
         type: `node`,
-        id: closure.largestInstanceId,
+        id: closure.id,
         name: closure.name,
         location: closure.location,
         selfSize: closure.selfSize,

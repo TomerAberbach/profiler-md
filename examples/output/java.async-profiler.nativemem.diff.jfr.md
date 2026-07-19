@@ -6,7 +6,19 @@ Allocated 243 MiB → 246 MiB (+2.365 MiB, +1.0%) over 84,474 samples → 82,
 | -------- | -----: | ---------: | -----: | ----------------: | --------------: |
 | native   |  +1.0% | +2.365 MiB | 100.0% | 243 MiB → 246 MiB | 84,474 → 82,688 |
 
+Hidden functions account for 100.0% of native bytes allocated, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self size
+
+#### Regressions
+
+Functions with the largest increase in native bytes allocated directly in the function body, excluding callees.
+
+| Change |      Delta |     % |              Size |         Samples | Function      | Location                 |
+| -----: | ---------: | ----: | ----------------: | --------------: | ------------- | ------------------------ |
+|  +1.0% | +2.368 MiB | 99.9% | 243 MiB → 246 MiB | 83,768 → 81,982 | `malloc_hook` | `libasyncProfiler.dylib` |
 
 ### Total size
 
@@ -16,6 +28,7 @@ Functions with the largest increase in total native bytes allocated in the funct
 
 | Change |       Delta |            % |                Size |         Samples | Function                                                                                                               | Location                                                               |
 | -----: | ----------: | -----------: | ------------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  +1.0% |  +2.368 MiB |        99.9% |   243 MiB → 246 MiB | 83,768 → 81,982 | `malloc_hook`                                                                                                          | `libasyncProfiler.dylib`                                               |
 | +53.6% | +47.687 KiB | <0.1% → 0.1% |    89 KiB → 137 KiB |       130 → 185 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  +1.6% | +45.149 KiB |         1.2% | 2.84 MiB → 2.88 MiB |   5,978 → 5,981 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
 |  +1.5% | +44.928 KiB |         1.2% | 2.99 MiB → 3.03 MiB |   6,645 → 6,644 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
@@ -35,7 +48,6 @@ Functions with the largest increase in total native bytes allocated in the funct
 | +14.5% | +35.458 KiB |         0.1% |   245 KiB → 280 KiB |   1,920 → 1,939 | `doPrivileged(PrivilegedAction)`                                                                                       | `java.security.AccessController`                                       |
 | +67.1% | +35.054 KiB |        <0.1% | 52.2 KiB → 87.3 KiB |       155 → 164 | `afterOperationSetUp(String, int, boolean)`                                                                            | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`               |
 | +67.1% | +35.054 KiB |        <0.1% | 52.2 KiB → 87.3 KiB |       155 → 164 | `notifyAfterOperationSetUp(String, int, boolean)`                                                                      | `org.renaissance.harness.EventDispatcher`                              |
-| +73.1% | +35.054 KiB |        <0.1% |     48 KiB → 83 KiB |       108 → 117 | `runFinalization()`                                                                                                    | `java.lang.Runtime`                                                    |
 
 #### Improvements
 

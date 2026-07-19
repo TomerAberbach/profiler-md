@@ -38,7 +38,10 @@ export const makeFileReference = (
 
   if (urlOrPath.startsWith(`/`)) {
     try {
-      return { type: `absolute`, url: new URL(`file://${urlOrPath}`) }
+      return {
+        type: `absolute`,
+        url: removeDotSegments(new URL(`file://${urlOrPath}`)),
+      }
     } catch {
       return { type: `relative`, path: urlOrPath }
     }
@@ -49,11 +52,50 @@ export const makeFileReference = (
   }
 
   try {
-    return { type: `absolute`, url: new URL(urlOrPath) }
+    return { type: `absolute`, url: removeDotSegments(new URL(urlOrPath)) }
   } catch {
     return { type: `relative`, path: urlOrPath }
   }
 }
+
+/**
+ * Removes `.` and `..` segments from {@link url}'s pathname, per RFC 3986's
+ * remove-dot-segments algorithm. The URL parser already does this, but
+ * Node.js 22's keeps them when an earlier segment starts with a dot (e.g.
+ * `/.julia/src/./file.h`), so removing them again keeps output identical
+ * across Node.js versions.
+ */
+export const removeDotSegments = (url: URL): URL => {
+  const { pathname } = url
+  if (!pathname.startsWith(`/`) || !DOT_SEGMENT.test(pathname)) {
+    return url
+  }
+
+  const segments = pathname.split(`/`)
+  const kept: string[] = []
+  for (const segment of segments) {
+    if (segment === `.`) {
+      continue
+    }
+    if (segment === `..`) {
+      if (kept.length > 1) {
+        kept.pop()
+      }
+      continue
+    }
+    kept.push(segment)
+  }
+  // A trailing dot segment names a directory, which keeps the trailing slash.
+  const lastSegment = segments.at(-1)
+  if (lastSegment === `.` || lastSegment === `..`) {
+    kept.push(``)
+  }
+
+  url.pathname = kept.join(`/`)
+  return url
+}
+
+const DOT_SEGMENT = /\/\.\.?(?:\/|$)/u
 
 // Profilers indicate unknown locations in many different ways.
 const UNKNOWN_URL_OR_PATH = /^(?:unknown|nothing|\?+)$/iu

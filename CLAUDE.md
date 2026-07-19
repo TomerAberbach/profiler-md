@@ -215,3 +215,25 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   (column headers like `%`, `Delta`, and `Location`, and `name (location)`
   heading keys), so a change to table or heading structure may require updating
   it
+
+### Coverage
+
+- Every section group strives for the coverage target and caps at `topN`: when
+  the units the entry filter shows fall short of covering the target fraction of
+  the group's measure, the largest hidden units are admitted largest-first until
+  the target is met or the fold (`topN`) is full. `topN` truncation alone never
+  triggers admission: a section with no filter has nothing hidden to admit
+- A section group is the set of sibling sections ranking the same units under
+  different sorts (e.g. self and total functions); one relaxation serves the
+  whole group. Subsections (callers, callees, retained nodes) and other units
+  (call stacks) are their own groups and relax independently
+- A group admits by the measure that partitions its domain: self values for
+  profiles, marginal union retained size for heap entities (dominator-deduped so
+  nested retained sets never double-count). Never rank admission by a
+  double-counting measure (totals, raw retained sums)
+- Report a coverage note only when admission changed what is displayed. Fold
+  gating guarantees this for value-ranked sections; delta-ranked diff tables
+  must check their displayed entries before noting
+- Admission widens the filter only: an admitted unit renders exactly as a shown
+  unit would (e.g. an admitted call stack renders its degenerate projection,
+  never its hidden frames)

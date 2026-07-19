@@ -426,6 +426,7 @@ describe(`options`, () => {
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
         showEntry: row => defaultShowEntry(row) && row.name !== `work`,
+        coverageTarget: 0,
       }),
     )
 

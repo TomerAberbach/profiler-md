@@ -40,7 +40,7 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `accumulate` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
@@ -111,6 +111,12 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 |      % | Samples | Caller           | Location                                    |
 | -----: | ------: | ---------------- | ------------------------------------------- |
 | 100.0% |       5 | `lambda$merge$6` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % | Samples | Caller | Location                             |
+| -----: | ------: | ------ | ------------------------------------ |
+| 100.0% |       3 | `exec` | `java.util.concurrent.RecursiveTask` |
 
 ##### `get` (`java.util.ArrayList`)
 
@@ -190,7 +196,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `compute` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
@@ -201,6 +207,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 39.2% |   1,650 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 | 17.8% |     748 | `computeDirectly` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  7.5% |     317 | `combineResults`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `join` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee      | Location                            |
+| -----: | ------: | ----------- | ----------------------------------- |
+| 100.0% |   4,054 | `awaitDone` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `computeDirectly` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
@@ -240,6 +252,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |    % | Samples | Callee        | Location           |
 | ---: | ------: | ------------- | ------------------ |
 | 8.4% |      89 | `doubleValue` | `java.lang.Double` |
+
+##### `invoke` (`java.util.concurrent.ForkJoinTask`)
+
+|     % | Samples | Callee   | Location                            |
+| ----: | ------: | -------- | ----------------------------------- |
+| 99.9% |   1,023 | `doExec` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `distance` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 

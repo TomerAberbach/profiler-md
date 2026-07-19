@@ -32,7 +32,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`)
 
@@ -109,6 +109,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ------------------------------- | ----------------- |
 | 100.0% | 1.0ms |       1 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
 
+##### `FSE_compress_usingCTable_generic` (`fse_compress.c`)
+
+|      % |  Time | Samples | Caller                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `HUF_writeCTable_wksp` | `<unknown>` |
+
 ##### `FSE_normalizeCount` (`<unknown>`)
 
 |      % |  Time | Samples | Caller            | Location                    |
@@ -144,7 +150,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `ZSTDMT_compressionJob` (`zstdmt_compress.c`)
 
@@ -236,6 +242,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 50.0% | 2.0ms |       2 | `ZSTD_encodeSequences`  | `<unknown>` |
 | 25.0% | 1.0ms |       1 | `ZSTD_seqToCodes`       | `<unknown>` |
 | 25.0% | 1.0ms |       1 | `ZSTD_compressLiterals` | `<unknown>` |
+
+##### `ZSTD_compressStream2` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                          | Location    |
+| ----: | ----: | ------: | ------------------------------- | ----------- |
+| 33.3% | 1.0ms |       1 | `ZSTDMT_compressStream_generic` | `<unknown>` |
 
 ##### `FIO_compressFilename_srcFile` (`fileio.c`)
 

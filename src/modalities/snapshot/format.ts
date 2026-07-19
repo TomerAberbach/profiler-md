@@ -6,6 +6,7 @@ import {
   formatBytesDelta,
   formatChange,
   formatCount,
+  formatPercent,
 } from '../../helpers/format.ts'
 import { MaxHeap, selectTopN } from '../../helpers/heap.ts'
 import {
@@ -17,13 +18,19 @@ import {
 } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
+import { isSyntheticEntry } from '../../options.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import {
-  resolveEntryFilter,
+  admitDiffEntriesForUnionCoverage,
+  admitEntriesForCoverage,
+  admitEntriesForUnionCoverage,
+  diffSidesOf,
+  relaxedOptions,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import type { CoverageRelaxation } from '../format.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
 import type {
@@ -31,6 +38,7 @@ import type {
   AggregatedConstructor,
   AggregatedHeapSnapshot,
   AggregatedSnapshotNode,
+  SnapshotEntityGroup,
 } from './aggregate.ts'
 import type {
   AggregatedHeapSnapshotDiff,
@@ -53,38 +61,57 @@ export const formatHeapSnapshot = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(snapshot)
-  const { sectionOptions, notes } = resolveEntryFilter({
-    options,
-    showsAnyEntry:
-      snapshot.constructors.some(options.showEntry) ||
-      snapshot.closures.some(closure =>
-        options.showEntry({ ...closure, id: closure.largestInstanceId }),
-      ),
-    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
-  })
   return [
     heading(1, `Heap snapshot`),
     ...formatOverallSummary(snapshot),
-    ...notes,
-    ...formatLargestConstructors({
-      snapshot,
-      hasLocation,
-      options: sectionOptions,
-    }),
-    ...formatLargestClosures({
-      snapshot,
-      hasLocation,
-      options: sectionOptions,
-    }),
-    ...formatLargestStrings({ snapshot, options: sectionOptions }),
+    ...formatLargestConstructors({ snapshot, hasLocation, options }),
+    ...formatLargestClosures({ snapshot, hasLocation, options }),
+    ...formatLargestStrings({ snapshot, options }),
   ]
 }
 
 /**
- * The note shown when the entry filter would hide every constructor and
- * closure.
+ * Relaxes the entry filter when the group's shown entities fall short of the
+ * coverage target: the largest hidden entities are admitted, and a note
+ * reporting the pre-relaxation coverage leads the group's sections. Coverage
+ * is measured on the union of the group's retained sizes, so nested retained
+ * sets never double-count. Returns {@link options} unchanged, with no notes,
+ * when coverage already suffices.
+ *
+ * Each group relaxes independently: strings are excluded entirely (the entry
+ * filter targets code entities), and one group's entities never cover for the
+ * other's.
  */
-const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
+const relaxGroupEntityFilter = ({
+  snapshot,
+  group,
+  entities,
+  options,
+}: {
+  snapshot: AggregatedHeapSnapshot
+  group: SnapshotEntityGroup
+  entities: readonly (AggregatedConstructor | AggregatedClosure)[]
+  options: FormattingProfileToMdOptions
+}): {
+  sectionOptions: FormattingProfileToMdOptions
+  notes: RootContent[]
+} => {
+  const relaxation = admitEntriesForUnionCoverage(entities, {
+    isShown: options.showEntry,
+    isAdmissible: entity => !isSyntheticEntry(entity),
+    staticValueOf: entity => entity.retainedSize,
+    union: snapshot.retainedUnionOf(group, options.showEntry),
+    coverageTarget: options.coverageTarget,
+    topN: options.topN,
+  })
+  return {
+    sectionOptions: relaxedOptions(
+      options,
+      relaxation && new Set(relaxation.admitted),
+    ),
+    notes: relaxation ? [formatCoverageNote(group, relaxation.coverage)] : [],
+  }
+}
 
 const formatOverallSummary = ({
   totalSize,
@@ -125,24 +152,31 @@ const formatLargestConstructors = ({
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   options: FormattingProfileToMdOptions
-}): RootContent[] =>
-  formatSectionGroup(
-    [heading(2, `Largest constructors`)],
+}): RootContent[] => {
+  const { sectionOptions, notes } = relaxGroupEntityFilter({
+    snapshot,
+    group: `constructors`,
+    entities: snapshot.constructors,
+    options,
+  })
+  return formatSectionGroup(
+    [heading(2, `Largest constructors`), ...notes],
     [
       ...formatLargestSizeConstructors({
         snapshot,
         hasLocation,
-        options,
+        options: sectionOptions,
         size: SELF_SIZE,
       }),
       ...formatLargestSizeConstructors({
         snapshot,
         hasLocation,
-        options,
+        options: sectionOptions,
         size: RETAINED_SIZE,
       }),
     ],
   )
+}
 
 /**
  * The size accessor, heading, and phrasing for one constructor size (self or
@@ -337,26 +371,38 @@ const formatLargestClosures = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const { totalSize, closures, retainerPathOf } = snapshot
+  const { sectionOptions, notes } = relaxGroupEntityFilter({
+    snapshot,
+    group: `closures`,
+    entities: closures,
+    options,
+  })
 
   const largestClosures = selectTopN(
-    closures.filter(closure =>
-      options.showEntry({ ...closure, id: closure.largestInstanceId }),
-    ),
-    options.topN,
+    closures.filter(sectionOptions.showEntry),
+    sectionOptions.topN,
     closure => closure.retainedSize,
   )
   if (largestClosures.length === 0) {
     return []
   }
 
-  const retainedSections = largestClosures.flatMap(closure =>
-    formatClosureRetainedObjects({ closure, snapshot, hasLocation, options }),
+  const retainedObjects = largestClosures.map(closure =>
+    formatClosureRetainedObjects({
+      closure,
+      snapshot,
+      hasLocation,
+      options: sectionOptions,
+    }),
   )
+  const anyRetainedAdmitted = retainedObjects.some(({ admitted }) => admitted)
+  const retainedSections = retainedObjects.flatMap(({ content }) => content)
 
   return [
     ...formatLargestClosuresHeading({ isEmptyDiff: false }),
+    ...notes,
     formatTable(
-      closureColumns(hasLocation, options),
+      closureColumns(hasLocation, sectionOptions),
       largestClosures.map(closure => ({
         entity: closure,
         size: closure.retainedSize,
@@ -364,17 +410,17 @@ const formatLargestClosures = ({
         instanceCount: closure.instanceIds.length,
         pathCount: new Set(
           closure.instanceIds.map(nodeOrdinal =>
-            retainerPathOf(nodeOrdinal, options),
+            retainerPathOf(nodeOrdinal, sectionOptions),
           ),
         ).size,
-        examplePath: retainerPathOf(closure.largestInstanceId, options),
+        examplePath: retainerPathOf(closure.id, sectionOptions),
       })),
     ),
     ...formatSectionGroup(
       [
         heading(3, `Retained`),
         paragraph(
-          `Nodes ranked by contribution to each closure's retained size.`,
+          `Nodes ranked by contribution to each closure's retained size.${anyRetainedAdmitted ? ` Where shown nodes fell short of the coverage target, the largest hidden nodes are also shown.` : ``}`,
         ),
       ],
       retainedSections,
@@ -392,35 +438,52 @@ const formatClosureRetainedObjects = ({
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   options: FormattingProfileToMdOptions
-}): RootContent[] => {
+}): { content: RootContent[]; admitted: boolean } => {
+  const allRetainedNodes = collectRetainedNodes(
+    closure,
+    retainedNodesOf,
+    options,
+  )
+  const topN = Math.ceil(options.topN / 4)
+  const relaxation = admitEntriesForCoverage(allRetainedNodes, {
+    isShown: node => options.showEntry(node),
+    isAdmissible: node => !isSyntheticEntry(node),
+    selfValueOf: node => node.selfSize,
+    coverageTarget: options.coverageTarget,
+    topN,
+  })
+  const shownNodes = allRetainedNodes.filter(node => options.showEntry(node))
   const retainedNodes = selectTopN(
-    collectShownRetainedNodes(closure, retainedNodesOf, options),
-    Math.ceil(options.topN / 4),
+    relaxation ? [...shownNodes, ...relaxation.admitted] : shownNodes,
+    topN,
     node => node.selfSize,
   )
   if (retainedNodes.length === 0) {
-    return []
+    return { content: [], admitted: false }
   }
 
-  return [
-    formatEntityHeading(4, closure, hasLocation, options),
-    formatTable(
-      retainedColumns,
-      retainedNodes.map(node => ({
-        name: node.name,
-        size: node.selfSize,
-        total: closure.retainedSize,
-        path: retainerPathOf(node.id, options),
-      })),
-    ),
-  ]
+  return {
+    content: [
+      formatEntityHeading(4, closure, hasLocation, options),
+      formatTable(
+        retainedColumns,
+        retainedNodes.map(node => ({
+          name: node.name,
+          size: node.selfSize,
+          total: closure.retainedSize,
+          path: retainerPathOf(node.id, options),
+        })),
+      ),
+    ],
+    admitted: relaxation !== undefined,
+  }
 }
 
 /**
- * The shown nodes retained by the closure's instances, deduplicated across
+ * The nodes retained by the closure's instances, deduplicated across
  * instances.
  */
-const collectShownRetainedNodes = (
+const collectRetainedNodes = (
   closure: AggregatedClosure,
   retainedNodesOf: AggregatedHeapSnapshot[`retainedNodesOf`],
   options: FormattingProfileToMdOptions,
@@ -434,9 +497,7 @@ const collectShownRetainedNodes = (
         continue
       }
       seen[node.id] = 1
-      if (options.showEntry(node)) {
-        retainedNodes.push(node)
-      }
+      retainedNodes.push(node)
     }
   }
   return retainedNodes
@@ -478,21 +539,89 @@ export const formatHeapSnapshotDiff = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const hasLocation = hasAnyLocation(diff)
-  const { sectionOptions, notes } = resolveEntryFilter({
-    options,
-    showsAnyEntry:
-      diff.constructors.some(entity => showDiffEntity(entity, options)) ||
-      diff.closures.some(entity => showDiffEntity(entity, options)),
-    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
-  })
   return [
     heading(1, `Heap snapshot diff`),
     ...formatDiffSummary(diff),
-    ...notes,
-    ...formatDiffConstructors({ diff, hasLocation, options: sectionOptions }),
-    ...formatDiffClosures({ diff, hasLocation, options: sectionOptions }),
-    ...formatDiffStrings({ diff, options: sectionOptions }),
+    ...formatDiffConstructors({ diff, hasLocation, options }),
+    ...formatDiffClosures({ diff, hasLocation, options }),
+    ...formatDiffStrings({ diff, options }),
   ]
+}
+
+/**
+ * The diffing counterpart to {@link relaxGroupEntityFilter}, admitting entity
+ * pairs and showing both their sides. Each side's coverage is measured on
+ * that side's retained-size union.
+ *
+ * Returns the relaxation itself instead of notes: the diff tables rank by
+ * delta, which admission cannot know, so the caller reports the relaxation
+ * only when an admitted pair is actually displayed.
+ */
+const relaxDiffGroupEntityFilter = ({
+  diff,
+  group,
+  pairs,
+  sideKeyOf,
+  options,
+}: {
+  diff: AggregatedHeapSnapshotDiff
+  group: SnapshotEntityGroup
+  pairs: readonly AggregatedSnapshotEntityDiff[]
+
+  /**
+   * The key an entity was matched across the diff's sides under, used to map
+   * pair-level shown-ness onto each side's own aggregated entities.
+   */
+  sideKeyOf: (
+    entity: AggregatedClosure | AggregatedConstructor | DiffedSnapshotEntity,
+    snapshot: AggregatedHeapSnapshot,
+  ) => string
+
+  options: FormattingProfileToMdOptions
+}): {
+  sectionOptions: FormattingProfileToMdOptions
+  relaxation: CoverageRelaxation<AggregatedSnapshotEntityDiff> | undefined
+} => {
+  const shownSideKeys = (
+    snapshot: AggregatedHeapSnapshot,
+    sideOf: (
+      pair: AggregatedSnapshotEntityDiff,
+    ) => DiffedSnapshotEntity | undefined,
+  ): ReadonlySet<string> => {
+    const keys = new Set<string>()
+    for (const pair of pairs) {
+      const side = sideOf(pair)
+      if (side !== undefined && showDiffEntity(pair, options)) {
+        keys.add(sideKeyOf(side, snapshot))
+      }
+    }
+    return keys
+  }
+  const baseShownKeys = shownSideKeys(diff.base, pair => pair.base)
+  const currentShownKeys = shownSideKeys(diff.current, pair => pair.current)
+
+  const relaxation = admitDiffEntriesForUnionCoverage(pairs, {
+    isShown: pair => showDiffEntity(pair, options),
+    isAdmissible: ({ base, current }) => !isSyntheticEntry((base ?? current)!),
+    baseSideOf: pair => pair.base,
+    currentSideOf: pair => pair.current,
+    staticValueOf: side => side.retainedSize,
+    baseUnion: diff.base.retainedUnionOf(group, entity =>
+      baseShownKeys.has(sideKeyOf(entity, diff.base)),
+    ),
+    currentUnion: diff.current.retainedUnionOf(group, entity =>
+      currentShownKeys.has(sideKeyOf(entity, diff.current)),
+    ),
+    coverageTarget: options.coverageTarget,
+    topN: options.topN,
+  })
+  return {
+    sectionOptions: relaxedOptions(
+      options,
+      relaxation && new Set(diffSidesOf(relaxation.admitted)),
+    ),
+    relaxation,
+  }
 }
 
 const formatDiffSummary = (diff: AggregatedHeapSnapshotDiff): RootContent[] => [
@@ -518,6 +647,20 @@ const formatDiffSummaryLine = ({
     formatCount(base.edgeCount),
     formatCount(current.edgeCount),
   )} edges.`
+
+/**
+ * The note shown before a group's sections when shown entities fell short of
+ * the coverage target and hidden entities were admitted.
+ */
+const formatCoverageNote = (
+  group: SnapshotEntityGroup,
+  coverage: number,
+): RootContent =>
+  paragraph(
+    `Hidden ${group} account for ${formatPercent(
+      1 - coverage,
+    )} of the bytes ${group} retain, so the largest are also shown.`,
+  )
 
 const formatDiffCategoryTable = (
   diff: AggregatedHeapSnapshotDiff,
@@ -562,24 +705,32 @@ const formatDiffConstructors = ({
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   options: FormattingProfileToMdOptions
-}): RootContent[] =>
-  formatSectionGroup(
-    [heading(2, `Largest constructors`)],
-    [
-      ...formatDiffSizeConstructors({
-        diff,
-        hasLocation,
-        options,
-        size: SELF_SIZE,
-      }),
-      ...formatDiffSizeConstructors({
-        diff,
-        hasLocation,
-        options,
-        size: RETAINED_SIZE,
-      }),
-    ],
+}): RootContent[] => {
+  const { sectionOptions, relaxation } = relaxDiffGroupEntityFilter({
+    diff,
+    group: `constructors`,
+    pairs: diff.constructors,
+    // Constructors are matched across sides by name.
+    sideKeyOf: entity => entity.name ?? ``,
+    options,
+  })
+  const sections = [SELF_SIZE, RETAINED_SIZE].map(size =>
+    formatDiffSizeConstructors({
+      diff,
+      hasLocation,
+      options: sectionOptions,
+      size,
+    }),
   )
+  const displayed = new Set(sections.flatMap(({ displayed }) => displayed))
+  const notes = relaxation?.admitted.some(pair => displayed.has(pair))
+    ? [formatCoverageNote(`constructors`, relaxation.coverage)]
+    : []
+  return formatSectionGroup(
+    [heading(2, `Largest constructors`), ...notes],
+    sections.flatMap(({ content }) => content),
+  )
+}
 
 const formatDiffSizeConstructors = ({
   diff,
@@ -591,7 +742,10 @@ const formatDiffSizeConstructors = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
   size: ConstructorSize
-}): RootContent[] => {
+}): {
+  content: RootContent[]
+  displayed: AggregatedSnapshotEntityDiff[]
+} => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.constructors.map(entity => ({
       entity,
@@ -613,16 +767,19 @@ const formatDiffSizeConstructors = ({
     current: sideRowOf(diff.current.totalSize, current),
   })
 
-  return formatDiffEntitySections({
-    formatHeader,
-    headingLevel: 4,
-    plural: `Constructors`,
-    description,
-    columns: constructorColumns(hasLocation, options),
-    hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
-  })
+  return {
+    content: formatDiffEntitySections({
+      formatHeader,
+      headingLevel: 4,
+      plural: `Constructors`,
+      description,
+      columns: constructorColumns(hasLocation, options),
+      hasActive,
+      regressions: regressions.map(({ entity }) => rowOf(entity)),
+      improvements: improvements.map(({ entity }) => rowOf(entity)),
+    }),
+    displayed: [...regressions, ...improvements].map(({ entity }) => entity),
+  }
 }
 
 const formatDiffClosures = ({
@@ -634,26 +791,44 @@ const formatDiffClosures = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
+  const { sectionOptions, relaxation } = relaxDiffGroupEntityFilter({
+    diff,
+    group: `closures`,
+    pairs: diff.closures,
+    // Closures are matched across sides by entry match key under each side's
+    // own context.
+    sideKeyOf: (entity, snapshot) =>
+      options.entryMatchKey(entity, snapshot.context),
+    options,
+  })
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.closures.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
       currentValue: entity.current ? entity.current.retainedSize : 0,
     })),
-    options,
+    sectionOptions,
   )
 
   const rowOf = ({ base, current }: AggregatedSnapshotEntityDiff) => ({
-    base: base && closureRowOf(base, diff.base, options),
-    current: current && closureRowOf(current, diff.current, options),
+    base: base && closureRowOf(base, diff.base, sectionOptions),
+    current: current && closureRowOf(current, diff.current, sectionOptions),
   })
+
+  const displayed = new Set(
+    [...regressions, ...improvements].map(({ entity }) => entity),
+  )
+  const notes = relaxation?.admitted.some(pair => displayed.has(pair))
+    ? [formatCoverageNote(`closures`, relaxation.coverage)]
+    : []
 
   return formatDiffEntitySections({
     formatHeader: formatLargestClosuresHeading,
+    notes,
     headingLevel: 3,
     plural: `Closures`,
     description: `retained size`,
-    columns: closureColumns(hasLocation, options),
+    columns: closureColumns(hasLocation, sectionOptions),
     hasActive,
     regressions: regressions.map(({ entity }) => rowOf(entity)),
     improvements: improvements.map(({ entity }) => rowOf(entity)),
@@ -689,7 +864,9 @@ const formatDiffStrings = ({
       baseValue: entity.base ? entity.base.selfSize : 0,
       currentValue: entity.current ? entity.current.selfSize : 0,
     })),
-    options,
+    // The entry filter targets code entities; strings are data and always
+    // shown.
+    { ...options, showEntry: () => true },
   )
 
   const rowOf = ({ base, current }: AggregatedSnapshotEntityDiff) => ({
@@ -728,6 +905,7 @@ const nodeRowOf = (
  */
 const formatDiffEntitySections = <Row>({
   formatHeader,
+  notes = [],
   headingLevel,
   plural,
   description,
@@ -737,6 +915,10 @@ const formatDiffEntitySections = <Row>({
   improvements,
 }: {
   formatHeader: (options: { isEmptyDiff: boolean }) => RootContent[]
+
+  /** Notes shown between the header and the sections. */
+  notes?: RootContent[]
+
   headingLevel: number
   plural: string
   description: string
@@ -770,7 +952,11 @@ const formatDiffEntitySections = <Row>({
     return []
   }
 
-  return [...formatHeader({ isEmptyDiff: sections.length === 0 }), ...sections]
+  return [
+    ...formatHeader({ isEmptyDiff: sections.length === 0 }),
+    ...notes,
+    ...sections,
+  ]
 }
 
 /**

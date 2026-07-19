@@ -9,6 +9,8 @@
 | stdlib   | -35.7% |   -65 |   3.5% → 2.4% |     182 → 117 |
 | jit      | -33.3% |    -5 |   0.3% → 0.2% |       15 → 10 |
 
+Hidden functions account for 86.1% of samples taken, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self samples
@@ -34,16 +36,17 @@ Functions with the largest increase in samples taken directly in the function bo
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
 
-|  Change | Delta |            % |  Samples | Function                         | Location                                                   |
-| ------: | ----: | -----------: | -------: | -------------------------------- | ---------------------------------------------------------- |
-|  -31.6% |   -42 |  2.6% → 1.9% | 133 → 91 | `findNearestCentroid()`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  -90.2% |   -37 |  0.8% → 0.1% |   41 → 4 | `doubleValue()`                  | `java.lang.Double`                                         |
-|  -18.3% |   -19 |  2.0% → 1.7% | 104 → 85 | `vectorSum()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  -33.3% |    -5 |  0.3% → 0.2% |  15 → 10 | `zero_blocks`                    | `<unknown>`                                                |
-| removed |    -2 | <0.1% → 0.0% |    2 → 0 | `createSubtask(int, int)`        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| removed |    -1 | <0.1% → 0.0% |    1 → 0 | `lambda$merge$6(List, List)`     | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| removed |    -1 | <0.1% → 0.0% |    1 → 0 | `combineResults(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| removed |    -1 | <0.1% → 0.0% |    1 → 0 | `add(double[], double[])`        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  Change | Delta |             % |       Samples | Function                         | Location                                                   |
+| ------: | ----: | ------------: | ------------: | -------------------------------- | ---------------------------------------------------------- |
+|   -4.9% |  -125 | 50.0% → 50.1% | 2,571 → 2,446 | `__psynch_cvwait`                | `libsystem_kernel.dylib`                                   |
+|  -31.6% |   -42 |   2.6% → 1.9% |      133 → 91 | `findNearestCentroid()`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -90.2% |   -37 |   0.8% → 0.1% |        41 → 4 | `doubleValue()`                  | `java.lang.Double`                                         |
+|  -18.3% |   -19 |   2.0% → 1.7% |      104 → 85 | `vectorSum()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  -33.3% |    -5 |   0.3% → 0.2% |       15 → 10 | `zero_blocks`                    | `<unknown>`                                                |
+| removed |    -2 |  <0.1% → 0.0% |         2 → 0 | `createSubtask(int, int)`        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| removed |    -1 |  <0.1% → 0.0% |         1 → 0 | `lambda$merge$6(List, List)`     | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| removed |    -1 |  <0.1% → 0.0% |         1 → 0 | `combineResults(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| removed |    -1 |  <0.1% → 0.0% |         1 → 0 | `add(double[], double[])`        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 
 ### Total samples
 
@@ -72,6 +75,7 @@ Functions with the largest decrease in total samples taken in the function and a
 
 | Change | Delta |             % |       Samples | Function                            | Location                                                               |
 | -----: | ----: | ------------: | ------------: | ----------------------------------- | ---------------------------------------------------------------------- |
+|  -4.9% |  -125 | 50.0% → 50.1% | 2,571 → 2,446 | `__psynch_cvwait`                   | `libsystem_kernel.dylib`                                               |
 |  -4.8% |   -54 | 22.0% → 22.1% | 1,130 → 1,076 | `compute()`                         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
 | -90.2% |   -37 |   0.8% → 0.1% |        41 → 4 | `doubleValue()`                     | `java.lang.Double`                                                     |
 |  -3.3% |   -36 | 21.1% → 21.5% | 1,087 → 1,051 | `join()`                            | `java.util.concurrent.ForkJoinTask`                                    |
@@ -91,4 +95,3 @@ Functions with the largest decrease in total samples taken in the function and a
 | -12.5% |   -10 |   1.6% → 1.4% |       80 → 70 | `combineResults(Map, Map)`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 | -12.5% |   -10 |   1.6% → 1.4% |       80 → 70 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  -7.6% |    -9 |   2.3% → 2.2% |     118 → 109 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-|  -7.6% |    -9 |   2.3% → 2.2% |     118 → 109 | `call()`                            | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a801183d68` |

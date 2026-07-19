@@ -57,6 +57,24 @@ describe(`normalizeProfileToMdOptions`, () => {
     expect(normalizeProfileToMdOptions({ topN: 5 }).topN).toBe(5)
   })
 
+  describe(`coverageTarget`, () => {
+    test(`defaults to 0.5`, () => {
+      expect(normalizeProfileToMdOptions().coverageTarget).toBe(0.5)
+    })
+
+    test(`keeps an explicit coverageTarget`, () => {
+      expect(
+        normalizeProfileToMdOptions({ coverageTarget: 0.5 }).coverageTarget,
+      ).toBe(0.5)
+    })
+
+    test.each([-0.1, 1.1, Number.NaN])(`throws for %s`, coverageTarget => {
+      expect(() => normalizeProfileToMdOptions({ coverageTarget })).toThrow(
+        `coverageTarget must be between 0 and 1, got: ${coverageTarget}`,
+      )
+    })
+  })
+
   describe(`baseURL`, () => {
     test.each<[string, string | URL, URL]>([
       [`an absolute path`, `/project/src`, new URL(`file:///project/src/`)],

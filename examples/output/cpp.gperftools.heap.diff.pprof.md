@@ -10,6 +10,10 @@ Allocated 120 MiB and retained 0 B over 1,998,001 samples (62.9 B and 0 B pe
 
 ### Hottest functions
 
+#### Self size
+
+No function differed in bytes allocated directly in the function body, excluding callees.
+
 #### Total size
 
 No function differed in total bytes allocated in the function and all its callees.

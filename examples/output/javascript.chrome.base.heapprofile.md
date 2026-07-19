@@ -27,13 +27,37 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 
 #### Callers
 
-Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
+
+##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+
+|      % |     Size | Samples | Caller        | Location    |
+| -----: | -------: | ------: | ------------- | ----------- |
+| 100.0% | 3.19 MiB |     197 | `(anonymous)` | `<unknown>` |
 
 ##### `set` (`<unknown>`)
 
 |      % |    Size | Samples | Caller                         | Location            |
 | -----: | ------: | ------: | ------------------------------ | ------------------- |
 | 100.0% | 896 KiB |       1 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### `(v8 api)` (`<unknown>`)
+
+|      % |    Size | Samples | Caller   | Location    |
+| -----: | ------: | ------: | -------- | ----------- |
+| 100.0% | 788 KiB |       1 | `(root)` | `<unknown>` |
+
+##### `(bytecode compiler)` (`<unknown>`)
+
+|      % |    Size | Samples | Caller   | Location    |
+| -----: | ------: | ------: | -------- | ----------- |
+| 100.0% | 160 KiB |      10 | `(root)` | `<unknown>` |
+
+##### `(parser)` (`<unknown>`)
+
+|      % |     Size | Samples | Caller   | Location    |
+| -----: | -------: | ------: | -------- | ----------- |
+| 100.0% | 80.3 KiB |       5 | `(root)` | `<unknown>` |
 
 ##### `split` (`<unknown>`)
 
@@ -83,9 +107,10 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes allocated in their leaf frame.
 
-Common call stack: `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+Hidden call stacks account for 82.5% of bytes allocated, so the hottest are also shown.
 
-|     % |     Size | Samples | Call stack                                                          |
-| ----: | -------: | ------: | ------------------------------------------------------------------- |
-| 16.9% |  896 KiB |       1 | `set`                                                               |
-|  0.3% | 16.9 KiB |       1 | `split` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) |
+|     % |     Size | Samples | Call stack                                                                                                  |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------- |
+| 61.6% | 3.19 MiB |     197 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                        |
+| 16.9% |  896 KiB |       1 | `set` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                |
+|  0.3% | 16.9 KiB |       1 | `split` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32) |

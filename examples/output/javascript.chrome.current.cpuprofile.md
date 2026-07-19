@@ -65,13 +65,19 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
 |      % |    Time | Samples | Caller        | Location      |
 | -----: | ------: | ------: | ------------- | ------------- |
 | 100.0% | 200.1ms |     135 | `(anonymous)` | `run.mjs:1:1` |
+
+##### `(program)` (`<unknown>`)
+
+|      % |   Time | Samples | Caller   | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% | 69.4ms |      46 | `(root)` | `<unknown>` |
 
 ##### `RegExp: \s+` (`<unknown>`)
 
@@ -85,11 +91,29 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ------------------------------ | ------------------- |
 | 100.0% | 42.3ms |      29 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
+##### `(garbage collector)` (`<unknown>`)
+
+|      % |   Time | Samples | Caller   | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% | 23.2ms |      15 | `(root)` | `<unknown>` |
+
 ##### `tokenize` (`workload.mjs:10:20`)
 
 |      % |   Time | Samples | Caller        | Location             |
 | -----: | -----: | ------: | ------------- | -------------------- |
 | 100.0% | 16.8ms |      11 | `scoreStatus` | `workload.mjs:11:23` |
+
+##### `(idle)` (`<unknown>`)
+
+|      % |   Time | Samples | Caller   | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% | 10.5ms |       7 | `(root)` | `<unknown>` |
+
+##### `(anonymous)` (`run.mjs:1:1`)
+
+|      % |  Time | Samples | Caller   | Location    |
+| -----: | ----: | ------: | -------- | ----------- |
+| 100.0% | 8.8ms |       6 | `(root)` | `<unknown>` |
 
 ### Total time
 

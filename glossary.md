@@ -38,6 +38,9 @@ ambiguous.
 | **Synthetic entry** | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file | fake, artificial |
 | **Measure**         | A quantity a section ranks and tabulates by: a metric, or the sample count when there is none  | metric, value    |
 | **Top N**           | The per-ranking display count; a truncation limit, not a synonym for hottest/largest           | —                |
+| **Section group**   | Sibling sections ranking the same units under different sorts; the scope of one relaxation     | —                |
+| **Admit**           | Show a filter-hidden unit because a group's shown units fall short of the coverage target      | relax, unhide    |
+| **Fold**            | The top-N display boundary; admission never pushes a unit below it                             | cutoff, cap      |
 
 ## Code location
 

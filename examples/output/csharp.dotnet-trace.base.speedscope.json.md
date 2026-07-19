@@ -210,7 +210,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `Main()` (`Profile.Program`)
 
@@ -359,6 +359,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |  1.4% |  10.7ms |       8 | `CheckForCircularReference(JsonWriter, Object, JsonProperty, JsonContract, JsonContainerContract, JsonProperty)` | `Newtonsoft.Json.Serialization.JsonSerializerInternalWriter`                            |
 |  1.3% |   9.5ms |       7 | `IsInstance_Helper(void*, Object)`                                                                               | `System.Runtime.CompilerServices.CastHelpers`                                           |
 |  0.5% |   4.1ms |       3 | `TryGetValueInternal(Tables<!0, !1>, !0, int32, !1&)`                                                            | ``System.Collections.Concurrent.ConcurrentDictionary`2[System.__Canon,System.__Canon]`` |
+
+##### `CopyTo(Array, int32)` (``System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection``)
+
+|    % |  Time | Samples | Callee                                    | Location       |
+| ---: | ----: | ------: | ----------------------------------------- | -------------- |
+| 0.5% | 2.7ms |       2 | `Copy(Array, int32, Array, int32, int32)` | `System.Array` |
 
 ##### `Deserialize(JsonReader, Type)` (`Newtonsoft.Json.JsonSerializer`)
 

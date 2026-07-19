@@ -7,6 +7,8 @@ Took 5.39s → 5.63s (+240.00ms, +4.5%) over 539 samples → 563 samples (10.0ms
 | stdlib   |  +4.7% | +250.00ms | 99.6% → 99.8% |   5.37s → 5.62s | 537 → 562 |
 | ours     | -50.0% |  -10.00ms |   0.4% → 0.2% | 20.0ms → 10.0ms |     2 → 1 |
 
+Hidden functions account for 99.8% of time spent, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self time
@@ -15,9 +17,11 @@ Took 5.39s → 5.63s (+240.00ms, +4.5%) over 539 samples → 563 samples (10.0ms
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-| Change |    Delta |           % |         Time | Samples | Function                    | Location                                                                                     |
-| -----: | -------: | ----------: | -----------: | ------: | --------------------------- | -------------------------------------------------------------------------------------------- |
-|    new | +10.00ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144` |
+| Change |     Delta |             % |          Time |   Samples | Function                    | Location                                                                                      |
+| -----: | --------: | ------------: | ------------: | --------: | --------------------------- | --------------------------------------------------------------------------------------------- |
+|  +5.6% | +110.00ms | 36.5% → 36.9% | 1.97s → 2.08s | 197 → 208 | `runtime.usleep`            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:273` |
+|  +1.3% |  +20.00ms | 28.2% → 27.4% | 1.52s → 1.54s | 152 → 154 | `runtime.madvise`           | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:224` |
+|    new |  +10.00ms |   0.0% → 0.2% |  0ms → 10.0ms |     0 → 1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144`  |
 
 #### Improvements
 
@@ -34,9 +38,11 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-| Change |    Delta |           % |         Time | Samples | Function                    | Location                                                                                     |
-| -----: | -------: | ----------: | -----------: | ------: | --------------------------- | -------------------------------------------------------------------------------------------- |
-|    new | +10.00ms | 0.0% → 0.2% | 0ms → 10.0ms |   0 → 1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144` |
+| Change |     Delta |             % |          Time |   Samples | Function                    | Location                                                                                      |
+| -----: | --------: | ------------: | ------------: | --------: | --------------------------- | --------------------------------------------------------------------------------------------- |
+|  +5.6% | +110.00ms | 36.5% → 36.9% | 1.97s → 2.08s | 197 → 208 | `runtime.usleep`            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:273` |
+|  +1.3% |  +20.00ms | 28.2% → 27.4% | 1.52s → 1.54s | 152 → 154 | `runtime.madvise`           | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/sys_darwin.go:224` |
+|    new |  +10.00ms |   0.0% → 0.2% |  0ms → 10.0ms |     0 → 1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144`  |
 
 #### Improvements
 

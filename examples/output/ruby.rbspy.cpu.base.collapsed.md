@@ -19,13 +19,17 @@ Functions ranked by samples taken directly in the function body, excluding calle
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `(unknown) [c function]` (`<unknown>`)
 
-|    % | Samples | Caller                   | Location    |
-| ---: | ------: | ------------------------ | ----------- |
-| 5.9% |       5 | `(unknown) [c function]` | `<unknown>` |
+|     % | Samples | Caller                   | Location                                                                      |
+| ----: | ------: | ------------------------ | ----------------------------------------------------------------------------- |
+| 17.6% |      15 | `<top (required)>`       | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                      |
+|  8.2% |       7 | `require`                | `<unknown>`                                                                   |
+|  5.9% |       5 | `(unknown) [c function]` | `<unknown>`                                                                   |
+|  4.7% |       4 | `slice`                  | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`        |
+|  4.7% |       4 | `move_pos`               | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb` |
 
 ### Total samples
 
@@ -39,13 +43,17 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `(unknown) [c function]` (`<unknown>`)
 
-|     % | Samples | Callee                   | Location    |
-| ----: | ------: | ------------------------ | ----------- |
-| 57.1% |      76 | `(unknown) [c function]` | `<unknown>` |
+|     % | Samples | Callee                              | Location                                                        |
+| ----: | ------: | ----------------------------------- | --------------------------------------------------------------- |
+| 96.2% |     128 | `<top (required)>`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`           |
+| 57.1% |      76 | `(unknown) [c function]`            | `<unknown>`                                                     |
+| 54.1% |      72 | `block in each_inspected_file`      | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+| 38.3% |      51 | `block in inspect_file`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+| 38.3% |      51 | `block in iterate_until_no_changes` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
 ##### `<main>` (`rubocop`)
 

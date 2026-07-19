@@ -1,6 +1,6 @@
 import { SourceMapConsumer } from 'source-map-js'
 import type { MappedPosition, RawSourceMap as SourceMap } from 'source-map-js'
-import { makeFileReference } from './location.ts'
+import { makeFileReference, removeDotSegments } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
 
@@ -101,7 +101,7 @@ export const sourceMapSourceLocation = (
 
   return {
     type: `absolute`,
-    url: new URL(mappedFileReference.path, baseURL),
+    url: removeDotSegments(new URL(mappedFileReference.path, baseURL)),
     line: mappedPosition.line,
     // Source map columns are 0-based, but ours are 1-based.
     column: mappedPosition.column + 1,

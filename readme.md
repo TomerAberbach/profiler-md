@@ -181,9 +181,10 @@ $ npm i -g profiler-md
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
-       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
-       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
-       --no-pager] [--color/--no-color] ([FILE] | BASE CURRENT)
+       ORIGIN] [-o/--output FILE] [--top-n N] [--coverage-target FRACTION] [
+       --base-url STRING] [--source-maps GLOB...] [--match REGEX=REPLACEMENT...]
+       [--third-party GLOB...] [--no-pager] [--color/--no-color] ([FILE] | BASE
+       CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
@@ -192,6 +193,9 @@ Converts performance profiles to human and LLM friendly Markdown.
   -r, --origin ORIGIN         Input profile origin (default: auto)
   -o, --output FILE           Output file (default: - for stdout)
   --top-n N                   Top entries to show (default: 20)
+  --coverage-target FRACTION  Show hidden entries until shown entries cover 
+                              this fraction of each section, capped at the top 
+                              N; 0 disables (default: 0.5)
   --base-url STRING           Base URL or path to show paths relative to, or 
                               "auto" to infer the common ancestor directory 
                               (default: cwd)
@@ -314,6 +318,9 @@ const options = {
     defaultShowEntry(entry) &&
     // Exclude entries from a specific file.
     !entry.location?.includes(`/path/to/project/src/noisy`),
+  // Also show hidden hot entries until shown entries cover 90% of each
+  // measure, or pass 0 to never relax the entry filter.
+  coverageTarget: 0.9,
 }
 console.log(await profileToMdAsync(await openAsBlob(`example.pprof`), options))
 console.log(

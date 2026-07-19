@@ -7,6 +7,7 @@ import {
   formatConjunction,
   formatCount,
   formatMicroseconds,
+  formatPercent,
 } from '../../helpers/format.ts'
 import { selectTopN } from '../../helpers/heap.ts'
 import {
@@ -18,13 +19,18 @@ import {
   phrasing,
 } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
+import { isSyntheticEntry } from '../../options.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import {
-  resolveEntryFilter,
+  admitDiffEntriesForCoverage,
+  admitEntriesForCoverage,
+  diffSidesOf,
+  relaxedOptions,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import type { CoverageRelaxation } from '../format.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
 import type {
@@ -74,12 +80,10 @@ export const formatProfile = (
           return [formatZeroTotalNote(measure.metric)]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
+        const { sectionOptions, notes } = relaxEntryFilterForCoverage({
+          measure,
+          profile,
           options,
-          showsAnyEntry: profile.functions.some(func =>
-            options.showEntry(func),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
         })
         return [
           ...notes,
@@ -118,33 +122,115 @@ export const formatProfileDiff = (
           return [formatZeroTotalNote(measure.metric)]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
+        const { sectionOptions, relaxation } = relaxDiffEntryFilterForCoverage({
+          measure,
+          diff,
           options,
-          showsAnyEntry: diff.functions.some(func =>
-            showDiffEntity(func, options),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
         })
-        return [
-          ...notes,
-          ...formatDiffFunctions({
-            diff,
-            measure,
-            options: sectionOptions,
-            headingLevel: sectionHeadingLevel,
-          }),
-        ]
+        const { content, displayed } = formatDiffFunctions({
+          diff,
+          measure,
+          options: sectionOptions,
+          headingLevel: sectionHeadingLevel,
+        })
+        const notes = relaxation?.admitted.some(pair => displayed.has(pair))
+          ? [formatCoverageNote(measure.metric, relaxation.coverage)]
+          : []
+        return [...notes, ...content]
       },
     ),
   ]
 }
 
 /**
- * The note shown when the entry filter would hide every function, e.g. a
- * profile sampled entirely inside external code with no frame of ours (a
- * runtime dump, a lock profile parked in the JDK).
+ * Relaxes the entry filter when the functions it shows fall short of the
+ * coverage target for {@link measure}: the hottest hidden functions are
+ * admitted, and a note reporting the pre-relaxation coverage leads the
+ * sections. Returns {@link options} unchanged, with no notes, when coverage
+ * already suffices.
  */
-const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
+const relaxEntryFilterForCoverage = ({
+  measure,
+  profile,
+  options,
+}: {
+  measure: Measure
+  profile: AggregatedProfile
+  options: FormattingProfileToMdOptions
+}): {
+  sectionOptions: FormattingProfileToMdOptions
+  notes: RootContent[]
+} => {
+  const relaxation = admitEntriesForCoverage(profile.functions, {
+    isShown: options.showEntry,
+    isAdmissible: func => !isSyntheticEntry(func),
+    selfValueOf: func => selfValueOf(measure, func),
+    coverageTarget: options.coverageTarget,
+    topN: options.topN,
+  })
+  return {
+    sectionOptions: relaxedOptions(
+      options,
+      relaxation && new Set(relaxation.admitted),
+    ),
+    notes: relaxation
+      ? [formatCoverageNote(measure.metric, relaxation.coverage)]
+      : [],
+  }
+}
+
+/**
+ * The diffing counterpart to {@link relaxEntryFilterForCoverage}, admitting
+ * both sides of the admitted function pairs.
+ *
+ * Returns the relaxation itself instead of notes: the diff tables rank by
+ * delta, which admission cannot know, so the caller reports the relaxation
+ * only when an admitted pair is actually displayed.
+ */
+const relaxDiffEntryFilterForCoverage = ({
+  measure,
+  diff,
+  options,
+}: {
+  measure: DiffMeasure
+  diff: AggregatedProfileDiff
+  options: FormattingProfileToMdOptions
+}): {
+  sectionOptions: FormattingProfileToMdOptions
+  relaxation: CoverageRelaxation<AggregatedProfileFunctionDiff> | undefined
+} => {
+  const relaxation = admitDiffEntriesForCoverage(diff.functions, {
+    isShown: func => showDiffEntity(func, options),
+    isAdmissible: ({ base, current }) => !isSyntheticEntry((base ?? current)!),
+    baseSelfValueOf: ({ base }) =>
+      base === undefined ? 0 : selfValueOf(measure.base, base),
+    currentSelfValueOf: ({ current }) =>
+      current === undefined ? 0 : selfValueOf(measure.current, current),
+    coverageTarget: options.coverageTarget,
+    topN: options.topN,
+  })
+  return {
+    sectionOptions: relaxedOptions(
+      options,
+      relaxation && new Set(diffSidesOf(relaxation.admitted)),
+    ),
+    relaxation,
+  }
+}
+
+/**
+ * The note shown before a measure's sections when shown entries fell short of
+ * the coverage target and hidden entries were admitted.
+ */
+const formatCoverageNote = (
+  metric: Metric | null,
+  coverage: number,
+): RootContent =>
+  paragraph(
+    `Hidden functions account for ${formatPercent(
+      1 - coverage,
+    )} of ${measureRankedByPhrase(metric)}, so the hottest are also shown.`,
+  )
 
 /** The document title for a profile with the given metrics. */
 const formatTitle = (metrics: Metric[]): string =>
@@ -331,13 +417,17 @@ const formatHottestSelfFunctions = ({
         headingLevel: headingLevel + 2,
       }),
     )
-  const hottestCallersSections = hottestFunctions.flatMap(func =>
+  const hottestCallers = hottestFunctions.map(func =>
     formatHottestCallers({
       measure,
       func,
       options,
       headingLevel: headingLevel + 2,
     }),
+  )
+  const anyCallersAdmitted = hottestCallers.some(({ admitted }) => admitted)
+  const hottestCallersSections = hottestCallers.flatMap(
+    ({ content }) => content,
   )
 
   const { metric, total } = measure
@@ -368,7 +458,7 @@ const formatHottestSelfFunctions = ({
       [
         heading(headingLevel + 1, `Callers`),
         paragraph(
-          `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Inlining can make caller attribution imprecise.`,
+          `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Inlining can make caller attribution imprecise.${anyCallersAdmitted ? ` Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.` : ``}`,
         ),
       ],
       hottestCallersSections,
@@ -421,33 +511,45 @@ const formatHottestCallers = ({
   func: AggregatedProfileFunction
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] => {
+}): { content: RootContent[]; admitted: boolean } => {
   const selfValue = selfValueOf(measure, func)
+  const entries = [...func.callerIdToMetrics.values()]
+  const topN = subsectionTopN(options)
+  const relaxation = admitEntriesForCoverage(entries, {
+    isShown: entry => options.showEntry(entry.caller),
+    isAdmissible: entry => !isSyntheticEntry(entry.caller),
+    selfValueOf: entry => selfValueOf(measure, entry),
+    coverageTarget: options.coverageTarget,
+    topN,
+  })
+  const shownEntries = entries.filter(
+    entry => options.showEntry(entry.caller) && selfValueOf(measure, entry) > 0,
+  )
   const hottestCallers = selectTopN(
-    [...func.callerIdToMetrics.values()].filter(
-      entry =>
-        options.showEntry(entry.caller) && selfValueOf(measure, entry) > 0,
-    ),
-    Math.ceil(options.topN / 4),
+    relaxation ? [...shownEntries, ...relaxation.admitted] : shownEntries,
+    topN,
     entry => selfValueOf(measure, entry),
   )
   if (hottestCallers.length === 0) {
-    return []
+    return { content: [], admitted: false }
   }
 
   const { metric } = measure
-  return [
-    formatFunctionHeading(headingLevel, func, options),
-    formatTable(
-      functionColumns(metric, `Caller`, options),
-      hottestCallers.map(entry => ({
-        func: entry.caller,
-        value: selfValueOf(measure, entry),
-        sampleCount: entry.selfSampleCount,
-        total: selfValue,
-      })),
-    ),
-  ]
+  return {
+    content: [
+      formatFunctionHeading(headingLevel, func, options),
+      formatTable(
+        functionColumns(metric, `Caller`, options),
+        hottestCallers.map(entry => ({
+          func: entry.caller,
+          value: selfValueOf(measure, entry),
+          sampleCount: entry.selfSampleCount,
+          total: selfValue,
+        })),
+      ),
+    ],
+    admitted: relaxation !== undefined,
+  }
 }
 
 const formatHottestTotalFunctions = ({
@@ -472,7 +574,7 @@ const formatHottestTotalFunctions = ({
     return []
   }
 
-  const calleeSections = hottestFunctions.flatMap(func =>
+  const hottestCallees = hottestFunctions.map(func =>
     formatHottestCallees({
       measure,
       func,
@@ -480,6 +582,8 @@ const formatHottestTotalFunctions = ({
       headingLevel: headingLevel + 2,
     }),
   )
+  const anyCalleesAdmitted = hottestCallees.some(({ admitted }) => admitted)
+  const calleeSections = hottestCallees.flatMap(({ content }) => content)
 
   const { metric, total } = measure
   return [
@@ -500,7 +604,7 @@ const formatHottestTotalFunctions = ({
       [
         heading(headingLevel + 1, `Callees`),
         paragraph(
-          `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
+          `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.${anyCalleesAdmitted ? ` Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.` : ``}`,
         ),
       ],
       calleeSections,
@@ -518,34 +622,51 @@ const formatHottestCallees = ({
   func: AggregatedProfileFunction
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] => {
+}): { content: RootContent[]; admitted: boolean } => {
   const total = totalValueOf(measure, func)
+  const entries = [...func.calleeIdToMetrics.values()]
+  const topN = subsectionTopN(options)
+  const relaxation = admitEntriesForCoverage(entries, {
+    isShown: entry => options.showEntry(entry.callee),
+    isAdmissible: entry => !isSyntheticEntry(entry.callee),
+    selfValueOf: entry => totalValueOf(measure, entry),
+    coverageTarget: options.coverageTarget,
+    topN,
+  })
+  const shownEntries = entries.filter(
+    entry =>
+      options.showEntry(entry.callee) && totalValueOf(measure, entry) > 0,
+  )
   const hottestCallees = selectTopN(
-    [...func.calleeIdToMetrics.values()].filter(
-      entry =>
-        options.showEntry(entry.callee) && totalValueOf(measure, entry) > 0,
-    ),
-    Math.ceil(options.topN / 4),
+    relaxation ? [...shownEntries, ...relaxation.admitted] : shownEntries,
+    topN,
     entry => totalValueOf(measure, entry),
   )
   if (hottestCallees.length === 0) {
-    return []
+    return { content: [], admitted: false }
   }
 
   const { metric } = measure
-  return [
-    formatFunctionHeading(headingLevel, func, options),
-    formatTable(
-      functionColumns(metric, `Callee`, options),
-      hottestCallees.map(entry => ({
-        func: entry.callee,
-        value: totalValueOf(measure, entry),
-        sampleCount: entry.totalSampleCount,
-        total,
-      })),
-    ),
-  ]
+  return {
+    content: [
+      formatFunctionHeading(headingLevel, func, options),
+      formatTable(
+        functionColumns(metric, `Callee`, options),
+        hottestCallees.map(entry => ({
+          func: entry.callee,
+          value: totalValueOf(measure, entry),
+          sampleCount: entry.totalSampleCount,
+          total,
+        })),
+      ),
+    ],
+    admitted: relaxation !== undefined,
+  }
 }
+
+/** The per-subsection display cap derived from the top-level top N. */
+const subsectionTopN = (options: FormattingProfileToMdOptions): number =>
+  Math.ceil(options.topN / 4)
 
 const formatHottestCallStacks = ({
   measure,
@@ -558,10 +679,27 @@ const formatHottestCallStacks = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
+  const isShownCallStack = (callStack: MergedCallStack) =>
+    callStack.frames.length >= 2
+  // A single-frame stack that lost no frames to the filter carries no call
+  // structure and nothing is hidden; it is neither displayed nor covered.
+  const mergedCallStacks = mergeShownCallStacks(
+    profile.callStacks,
+    options,
+  ).filter(callStack => isShownCallStack(callStack) || callStack.lostFrames)
+  const relaxation = admitEntriesForCoverage(mergedCallStacks, {
+    isShown: isShownCallStack,
+    isAdmissible: callStack => !isSyntheticEntry(callStack.frames[0]!),
+    selfValueOf: callStack => selfValueOf(measure, callStack),
+    coverageTarget: options.coverageTarget,
+    topN: options.topN,
+  })
+  const shownCallStacks = mergedCallStacks.filter(
+    callStack =>
+      isShownCallStack(callStack) && selfValueOf(measure, callStack) > 0,
+  )
   const hottestCallStacks = selectTopN(
-    mergeShownCallStacks(profile.callStacks, options).filter(
-      callStack => selfValueOf(measure, callStack) > 0,
-    ),
+    relaxation ? [...shownCallStacks, ...relaxation.admitted] : shownCallStacks,
     options.topN,
     callStack => selfValueOf(measure, callStack),
   )
@@ -577,6 +715,15 @@ const formatHottestCallStacks = ({
     paragraph(
       `Call stacks ranked by ${measureRankedByPhrase(metric)} in their leaf frame.`,
     ),
+    ...(relaxation
+      ? [
+          paragraph(
+            `Hidden call stacks account for ${formatPercent(
+              1 - relaxation.coverage,
+            )} of ${measureRankedByPhrase(metric)}, so the hottest are also shown.`,
+          ),
+        ]
+      : []),
     ...(commonCallStack.length > 0
       ? [
           paragraph(
@@ -631,6 +778,12 @@ const findCommonCallStack = (
   return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
 }
 
+/** A projected call stack merged with the others sharing its projection. */
+type MergedCallStack = AggregatedProfileCallStack & {
+  /** Whether the entry filter hid frames of any constituent stack. */
+  lostFrames: boolean
+}
+
 /**
  * Projects each call stack onto its shown frames and merges the stacks that
  * become identical, summing their self metrics.
@@ -638,20 +791,22 @@ const findCommonCallStack = (
  * Without merging, stacks distinct only in hidden frames would format as
  * duplicate rows, and each row would carry only its own slice of the value.
  * The merged row attributes hidden frames' (chiefly elided leaves') values to
- * the nearest shown frame. Projections with fewer than two shown frames are
- * dropped: a single-frame "stack" carries no call structure.
+ * the nearest shown frame. A single-frame projection carries no call
+ * structure, so it is displayed only when admitted for coverage; a zero-frame
+ * projection cannot be displayed at all and is dropped.
  */
 const mergeShownCallStacks = (
   callStacks: AggregatedProfileCallStack[],
   options: FormattingProfileToMdOptions,
-): AggregatedProfileCallStack[] => {
-  const merged = new Map<string, AggregatedProfileCallStack>()
+): MergedCallStack[] => {
+  const merged = new Map<string, MergedCallStack>()
   for (const callStack of callStacks) {
     const frames = callStack.frames.filter(options.showEntry)
-    if (frames.length <= 1) {
+    if (frames.length === 0) {
       continue
     }
 
+    const lostFrames = frames.length < callStack.frames.length
     const key = frames.map(frame => frame.id).join(`,`)
     const existing = merged.get(key)
     if (!existing) {
@@ -659,6 +814,7 @@ const mergeShownCallStacks = (
         frames,
         selfSampleCount: callStack.selfSampleCount,
         selfValues: new Float64Array(callStack.selfValues),
+        lostFrames,
       })
       continue
     }
@@ -667,6 +823,7 @@ const mergeShownCallStacks = (
     for (let i = 0; i < existing.selfValues.length; i++) {
       existing.selfValues[i]! += callStack.selfValues[i]!
     }
+    existing.lostFrames ||= lostFrames
   }
   return [...merged.values()]
 }
@@ -780,26 +937,33 @@ const formatDiffFunctions = ({
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] =>
-  formatSectionGroup(
-    [heading(headingLevel, `Hottest functions`)],
-    [
-      ...formatDiffDirectionFunctions({
+}): {
+  content: RootContent[]
+  displayed: ReadonlySet<AggregatedProfileFunctionDiff>
+} => {
+  const displayed = new Set<AggregatedProfileFunctionDiff>()
+  const sections = [SELF_DIRECTION, TOTAL_DIRECTION].flatMap(direction => {
+    const { content, displayed: directionDisplayed } =
+      formatDiffDirectionFunctions({
         diff,
         measure,
         options,
         headingLevel: headingLevel + 1,
-        direction: SELF_DIRECTION,
-      }),
-      ...formatDiffDirectionFunctions({
-        diff,
-        measure,
-        options,
-        headingLevel: headingLevel + 1,
-        direction: TOTAL_DIRECTION,
-      }),
-    ],
-  )
+        direction,
+      })
+    for (const pair of directionDisplayed) {
+      displayed.add(pair)
+    }
+    return content
+  })
+  return {
+    content: formatSectionGroup(
+      [heading(headingLevel, `Hottest functions`)],
+      sections,
+    ),
+    displayed,
+  }
+}
 
 /**
  * The value accessors and phrasing for one function diff direction (self or
@@ -840,7 +1004,10 @@ const formatDiffDirectionFunctions = ({
   options: FormattingProfileToMdOptions
   headingLevel: number
   direction: DiffFunctionDirection
-}): RootContent[] => {
+}): {
+  content: RootContent[]
+  displayed: AggregatedProfileFunctionDiff[]
+} => {
   const { metric, base: baseMeasure, current: currentMeasure } = measure
 
   const diffValue = (side: Measure, func?: AggregatedProfileFunction) =>
@@ -866,15 +1033,18 @@ const formatDiffDirectionFunctions = ({
     current: sideRowOf(currentMeasure, current),
   })
 
-  return formatDiffFunctionSections({
-    headingLevel,
-    title: titleOf(metric),
-    description: descriptionOf(metric),
-    columns: functionColumns(metric, `Function`, options),
-    hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
-  })
+  return {
+    content: formatDiffFunctionSections({
+      headingLevel,
+      title: titleOf(metric),
+      description: descriptionOf(metric),
+      columns: functionColumns(metric, `Function`, options),
+      hasActive,
+      regressions: regressions.map(({ entity }) => rowOf(entity)),
+      improvements: improvements.map(({ entity }) => rowOf(entity)),
+    }),
+    displayed: [...regressions, ...improvements].map(({ entity }) => entity),
+  }
 }
 
 /**

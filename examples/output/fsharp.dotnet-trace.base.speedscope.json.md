@@ -38,17 +38,17 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `UNMANAGED_CODE_TIME` (`<unknown>`)
 
-|     % |  Time | Samples | Caller                                                   | Location                                                 |
-| ----: | ----: | ------: | -------------------------------------------------------- | -------------------------------------------------------- |
-| 35.4% | 3.78s |   1,950 | `MakeGenericType(Type[])`                                | `System.RuntimeType`                                     |
-|  0.1% | 6.8ms |       4 | `main(String[])`                                         | `Profile`                                                |
-| <0.1% | 4.0ms |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)`     | `Argu.CliParser`                                         |
-| <0.1% | 2.7ms |       2 | ``add(IComparer`1<!!0>, !!0, !!1, MapTree`2<!!0, !!1>)`` | `Microsoft.FSharp.Collections.MapTreeModule`             |
-| <0.1% | 2.7ms |       2 | `Invoke(BindingEnv)`                                     | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+|     % |  Time | Samples | Caller                                                   | Location                                     |
+| ----: | ----: | ------: | -------------------------------------------------------- | -------------------------------------------- |
+| 60.8% | 6.48s |   3,552 | `?!?`                                                    | `<unknown>`                                  |
+| 35.4% | 3.78s |   1,950 | `MakeGenericType(Type[])`                                | `System.RuntimeType`                         |
+|  0.1% | 6.8ms |       4 | `main(String[])`                                         | `Profile`                                    |
+| <0.1% | 4.0ms |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)`     | `Argu.CliParser`                             |
+| <0.1% | 2.7ms |       2 | ``add(IComparer`1<!!0>, !!0, !!1, MapTree`2<!!0, !!1>)`` | `Microsoft.FSharp.Collections.MapTreeModule` |
 
 ##### `MakeGenericType(Type[])` (`System.RuntimeType`)
 
@@ -65,9 +65,10 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `u_Expr(InputState)` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
-|     % |  Time | Samples | Caller               | Location                                     |
-| ----: | ----: | ------: | -------------------- | -------------------------------------------- |
-| 33.2% | 1.3ms |       1 | `u_Expr(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule` |
+|     % |  Time | Samples | Caller               | Location                                                |
+| ----: | ----: | ------: | -------------------- | ------------------------------------------------------- |
+| 33.6% | 1.3ms |       1 | `Invoke(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule+attrs@1993` |
+| 33.2% | 1.3ms |       1 | `u_Expr(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule`            |
 
 ##### `StartsWith(String, StringComparison)` (`System.String`)
 
@@ -77,9 +78,10 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)
 
-|     % |  Time | Samples | Caller           | Location  |
-| ----: | ----: | ------: | ---------------- | --------- |
-| <0.1% | 0.5µs |   1,691 | `main(String[])` | `Profile` |
+|      % |  Time | Samples | Caller                                                                               | Location                                  |
+| -----: | ----: | ------: | ------------------------------------------------------------------------------------ | ----------------------------------------- |
+| 100.0% | 1.4ms |       2 | ``mapToFreshConsTail(FSharpList`1<!!0>, FSharpFunc`2<!!1, !!0>, FSharpList`1<!!1>)`` | `Microsoft.FSharp.Primitives.Basics.List` |
+|  <0.1% | 0.5µs |   1,691 | `main(String[])`                                                                     | `Profile`                                 |
 
 ##### `ToArray()` (``System.Collections.Generic.List`1[System.__Canon]``)
 
@@ -98,6 +100,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 |      % |  Time | Samples | Caller                  | Location                                  |
 | -----: | ----: | ------: | ----------------------- | ----------------------------------------- |
 | 100.0% | 1.3ms |       1 | `ToUnionParseResults()` | `Argu.CliParser+CliParseResultAggregator` |
+
+##### ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`)
+
+|      % |  Time | Samples | Caller                           | Location                                     |
+| -----: | ----: | ------: | -------------------------------- | -------------------------------------------- |
+| 100.0% | 0.1µs |     755 | `getUnionCaseInfo(Type, String)` | `Microsoft.FSharp.Quotations.PatternsModule` |
 
 ##### `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
@@ -125,9 +133,10 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### ``ToArray(IEnumerable`1<!!0>)`` (`Microsoft.FSharp.Collections.SeqModule`)
 
-|     % |   Time | Samples | Caller         | Location                                         |
-| ----: | -----: | ------: | -------------- | ------------------------------------------------ |
-| 35.4% | <0.1µs |       1 | `Invoke(Unit)` | `Argu.PreCompute+Helpers+groupedSwitchRegex@229` |
+|     % |   Time | Samples | Caller         | Location                                                                          |
+| ----: | -----: | ------: | -------------- | --------------------------------------------------------------------------------- |
+| 64.6% | <0.1µs |       1 | `Invoke(Unit)` | `Microsoft.FSharp.Collections.SeqModule+SortBy@1385[System.__Canon,System.Int32]` |
+| 35.4% | <0.1µs |       1 | `Invoke(Unit)` | `Argu.PreCompute+Helpers+groupedSwitchRegex@229`                                  |
 
 ##### `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)` (`Argu.KeyValueParser`)
 
@@ -182,7 +191,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `main(String[])` (`Profile`)
 
@@ -196,10 +205,17 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)
 
-|     % |  Time | Samples | Callee                    | Location             |
-| ----: | ----: | ------: | ------------------------- | -------------------- |
-| 35.2% | 3.62s |   1,908 | `MakeGenericType(Type[])` | `System.RuntimeType` |
-| <0.1% | 2.7ms |       2 | `UNMANAGED_CODE_TIME`     | `<unknown>`          |
+|     % |  Time | Samples | Callee                                                     | Location                                                         |
+| ----: | ----: | ------: | ---------------------------------------------------------- | ---------------------------------------------------------------- |
+| 59.8% | 6.15s |   4,528 | ``Invoke(FSharpList`1<Type>, FSharpValueOption`1<int32>)`` | `Microsoft.FSharp.Quotations.PatternsModule+u_constSpec@2137-10` |
+| 35.2% | 3.62s |   1,908 | `MakeGenericType(Type[])`                                  | `System.RuntimeType`                                             |
+| <0.1% | 2.7ms |       2 | `UNMANAGED_CODE_TIME`                                      | `<unknown>`                                                      |
+
+##### ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`)
+
+|     % |  Time | Samples | Callee                                  | Location                           |
+| ----: | ----: | ------: | --------------------------------------- | ---------------------------------- |
+| 77.4% | 4.75s |   2,801 | `getTypeOfReprType(Type, BindingFlags)` | `Microsoft.FSharp.Reflection.Impl` |
 
 ##### `MakeGenericType(Type[])` (`System.RuntimeType`)
 
@@ -207,11 +223,23 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | ----: | ------: | --------------------- | ----------- |
 | 84.5% | 3.78s |   1,950 | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
+##### `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)
+
+|     % |    Time | Samples | Callee               | Location                                                   |
+| ----: | ------: | ------: | -------------------- | ---------------------------------------------------------- |
+| 96.0% | 413.7ms |     383 | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1994-5` |
+
 ##### `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)
 
 |      % |    Time | Samples | Callee                                                             | Location                                     |
 | -----: | ------: | ------: | ------------------------------------------------------------------ | -------------------------------------------- |
 | 100.0% | 384.3ms |     366 | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.PatternsModule` |
+
+##### `CreateValue()` (``System.Lazy`1[System.__Canon]``)
+
+|      % |   Time | Samples | Callee                                      | Location                          |
+| -----: | -----: | ------: | ------------------------------------------- | --------------------------------- |
+| 100.0% | 65.4ms |      82 | `ExecutionAndPublication(LazyHelper, bool)` | ``System.Lazy`1[System.__Canon]`` |
 
 ##### ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)
 
@@ -267,6 +295,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 95.1% | 26.5ms |      27 | `GetValue(String)`    | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader` |
 |  4.9% |  1.4ms |       1 | `UNMANAGED_CODE_TIME` | `<unknown>`                                                     |
 
+##### `get_AppSettings()` (`System.Configuration.ConfigurationManager`)
+
+|      % |   Time | Samples | Callee               | Location                                    |
+| -----: | -----: | ------: | -------------------- | ------------------------------------------- |
+| 100.0% | 26.5ms |      27 | `GetSection(String)` | `System.Configuration.ConfigurationManager` |
+
 ##### `GetValue(String)` (`Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`)
 
 |      % |   Time | Samples | Callee              | Location                                    |
@@ -289,10 +323,11 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `u_Expr(InputState)` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
-|     % |  Time | Samples | Callee                | Location                                     |
-| ----: | ----: | ------: | --------------------- | -------------------------------------------- |
-| 38.6% | 6.7ms |       5 | `u_Expr(InputState)`  | `Microsoft.FSharp.Quotations.PatternsModule` |
-|  7.9% | 1.4ms |       1 | `UNMANAGED_CODE_TIME` | `<unknown>`                                  |
+|     % |   Time | Samples | Callee                                                                       | Location                                                    |
+| ----: | -----: | ------: | ---------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 61.4% | 10.6ms |       8 | ``u_list_aux(FSharpFunc`2<InputState, !!0>, FSharpList`1<!!0>, InputState)`` | `Microsoft.FSharp.Quotations.PatternsModule+SimpleUnpickle` |
+| 38.6% |  6.7ms |       5 | `u_Expr(InputState)`                                                         | `Microsoft.FSharp.Quotations.PatternsModule`                |
+|  7.9% |  1.4ms |       1 | `UNMANAGED_CODE_TIME`                                                        | `<unknown>`                                                 |
 
 ## Hottest call stacks
 

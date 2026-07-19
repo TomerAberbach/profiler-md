@@ -118,6 +118,27 @@ export type ProfileToMdOptions = {
   topN?: number
 
   /**
+   * The fraction of each section group's measure that shown entries should
+   * cover.
+   *
+   * When the entries {@link ProfileToMdOptions.showEntry} keeps fall short of
+   * the target, the largest hidden entries are also shown, largest-first,
+   * until the target is met. Synthetic entries are admitted only when no
+   * other entries can reach the target.
+   *
+   * The target is best-effort within the top N
+   * ({@link ProfileToMdOptions.topN}): admission never grows a table past its
+   * display cap, so a long tail of small hidden entries can leave the target
+   * unmet. A coverage note appears only when admission changed what is
+   * displayed.
+   *
+   * `0` disables the relaxation. Must be between 0 and 1.
+   *
+   * Defaults to 0.5.
+   */
+  coverageTarget?: number
+
+  /**
    * Base URL to show paths relative to in the Markdown output.
    *
    * Accepts an absolute file path string or URL. File paths are converted to
@@ -200,6 +221,7 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
+  coverageTarget: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
   entryMatchKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
@@ -213,13 +235,12 @@ export type NormalizedProfileToMdOptions = {
 /**
  * The options aggregation code receives.
  *
- * Everything except `baseURL`, which only affects formatting and, for `'auto'`,
- * is resolvable only after aggregation (from the aggregated entries). The
- * omission keeps aggregation logic from depending on it.
+ * Everything except options that only affect formatting. The omission keeps
+ * aggregation logic from depending on them.
  */
 export type AggregationProfileToMdOptions = Omit<
   NormalizedProfileToMdOptions,
-  `baseURL`
+  `coverageTarget` | `baseURL`
 >
 
 /**
@@ -229,36 +250,48 @@ export type AggregationProfileToMdOptions = Omit<
  * base URL (or `undefined` when nothing qualified for inference).
  */
 export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
+  coverageTarget: number
   baseURL: URL | undefined
 }
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
+  coverageTarget = 0.5,
   baseURL,
   sourceMaps = [],
   matchEntry = defaultMatchEntry,
   categorizeEntries = defaultCategorizeEntries,
   showEntry = defaultShowEntry,
-}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
-  topN,
-  baseURL: normalizeBaseURL(baseURL),
-  sourceMaps: normalizeSourceMaps(sourceMaps),
-  entryMatchKey: cacheEntryFunction((entry, context) =>
-    entryMatchKey(entry, context, matchEntry),
-  ),
-  categorizeEntries: (entries, context) => {
-    const categories = categorizeEntries(entries, context)
-    if (categories.length !== entries.length) {
-      throw new Error(
-        `categorizeEntries returned ${categories.length} categories for ` +
-          `${entries.length} entries; it must return exactly one category per ` +
-          `entry, aligned by index.`,
-      )
-    }
-    return categories
-  },
-  showEntry: cacheEntryFunction(showEntry),
-})
+}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
+  // The negated form also rejects NaN.
+  if (!(coverageTarget >= 0 && coverageTarget <= 1)) {
+    throw new Error(
+      `coverageTarget must be between 0 and 1, got: ${coverageTarget}`,
+    )
+  }
+
+  return {
+    topN,
+    coverageTarget,
+    baseURL: normalizeBaseURL(baseURL),
+    sourceMaps: normalizeSourceMaps(sourceMaps),
+    entryMatchKey: cacheEntryFunction((entry, context) =>
+      entryMatchKey(entry, context, matchEntry),
+    ),
+    categorizeEntries: (entries, context) => {
+      const categories = categorizeEntries(entries, context)
+      if (categories.length !== entries.length) {
+        throw new Error(
+          `categorizeEntries returned ${categories.length} categories for ` +
+            `${entries.length} entries; it must return exactly one category per ` +
+            `entry, aligned by index.`,
+        )
+      }
+      return categories
+    },
+    showEntry: cacheEntryFunction(showEntry),
+  }
+}
 
 const normalizeBaseURL = (
   baseURL: `auto` | (string & {}) | URL | null | undefined,

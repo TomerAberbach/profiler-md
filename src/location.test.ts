@@ -206,6 +206,20 @@ describe(`makeFileReference`, () => {
     })
   })
 
+  // Node.js 22's URL parser keeps dot segments that follow a segment starting
+  // with a dot, so the parser can't be relied on to remove them.
+  test.each([
+    [`/a/.julia/src/./file.ts`, `file:///a/.julia/src/file.ts`],
+    [`/a/.julia/src/../file.ts`, `file:///a/.julia/file.ts`],
+    [`/a/.julia/src/.`, `file:///a/.julia/src/`],
+    [`file:///a/.julia/src/./file.ts`, `file:///a/.julia/src/file.ts`],
+  ])(`removes dot segments in %s`, (urlOrPath, expected) => {
+    expect(makeFileReference(urlOrPath)).toStrictEqual({
+      type: `absolute`,
+      url: new URL(expected),
+    })
+  })
+
   test(`bare path becomes a relative reference`, () => {
     expect(makeFileReference(`src/file.ts`)).toStrictEqual({
       type: `relative`,

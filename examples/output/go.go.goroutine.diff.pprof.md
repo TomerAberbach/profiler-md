@@ -8,6 +8,10 @@
 
 ## Hottest functions
 
+### Self samples
+
+No function differed in samples taken directly in the function body, excluding callees.
+
 ### Total samples
 
 No function differed in total samples taken in the function and all its callees.

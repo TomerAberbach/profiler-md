@@ -7,6 +7,8 @@ Allocated 9.18 MiB → 7.94 MiB (-1.234 MiB, -13.5%) over 24,242 samples (397
 | stdlib   | -13.5% | -1.234 MiB | 99.9% | 9.17 MiB → 7.94 MiB | 24,027 → 24,039 |
 | ours     |  -2.7% |     -208 B |  0.1% | 7.61 KiB → 7.41 KiB |       215 → 203 |
 
+Hidden functions account for 99.6% of bytes allocated, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self size
@@ -42,28 +44,28 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-|  Change |      Delta |            % |                Size |   Samples | Function                                                      | Location                                                 |
-| ------: | ---------: | -----------: | ------------------: | --------: | ------------------------------------------------------------- | -------------------------------------------------------- |
-|  -15.1% | -1.484 KiB |         0.1% | 9.84 KiB → 8.36 KiB | 126 → 107 | `matcher(CharSequence)`                                       | `java.util.regex.Pattern`                                |
-|  -14.6% |     -336 B |        <0.1% | 2.25 KiB → 1.92 KiB |   48 → 41 | `<init>()`                                                    | `java.util.HashSet`                                      |
-|  -41.7% |     -320 B |        <0.1% |       768 B → 448 B |    12 → 7 | `collectViolations(SourceCode, RuleSet)`                      | `org.codenarc.analyzer.AbstractSourceAnalyzer`           |
-|  -29.0% |     -288 B |        <0.1% |       992 B → 704 B |   20 → 16 | `matches(String)`                                             | `org.codenarc.util.WildcardPattern`                      |
-|  -36.4% |     -224 B |        <0.1% |       616 B → 392 B |   20 → 12 | `writeViolation(Writer, Violation, String)`                   | `org.codenarc.report.TextReportWriter`                   |
-|  -38.1% |     -192 B |        <0.1% |       504 B → 312 B |   21 → 13 | `isCase(Object, Object)`                                      | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter`      |
-| removed |     -192 B | <0.1% → 0.0% |         192 B → 0 B |     6 → 0 | `shouldApplyThisRuleTo(SourceCode)`                           | `org.codenarc.rule.AbstractRule`                         |
-|  -83.3% |     -160 B |        <0.1% |        192 B → 32 B |     6 → 1 | `checkForCorrectColumn(ASTNode, String, int)`                 | `org.codenarc.rule.formatting.IndentationAstVisitor`     |
-|  -25.6% |     -160 B |        <0.1% |       624 B → 464 B |   39 → 29 | `valueOf(int)`                                                | `java.lang.Integer`                                      |
-|  -57.1% |     -128 B |        <0.1% |        224 B → 96 B |    10 → 4 | `<init>()`                                                    | `org.codenarc.rule.AbstractAstVisitor`                   |
-|  -83.3% |      -80 B |        <0.1% |         96 B → 16 B |     6 → 1 | `applyTo(SourceCode, List)`                                   | `org.codenarc.rule.AbstractAstVisitorRule`               |
-|  -76.9% |      -80 B |        <0.1% |        104 B → 24 B |     3 → 1 | `processMethodOrConstructorCall(MethodCall)`                  | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor` |
-|   -8.3% |      -72 B |        <0.1% |       864 B → 792 B |   36 → 33 | `toString()`                                                  | `java.lang.StringBuilder`                                |
-|  -75.0% |      -72 B |        <0.1% |         96 B → 24 B |     4 → 1 | `applyTo(SourceCode)`                                         | `org.codenarc.rule.AbstractRule`                         |
-| removed |      -72 B | <0.1% → 0.0% |          72 B → 0 B |     1 → 0 | `findReference(SourceCode, String, String)`                   | `org.codenarc.rule.imports.UnusedImportRule`             |
-|  -60.0% |      -72 B |        <0.1% |        120 B → 48 B |     5 → 2 | `visitVariableExpression(VariableExpression)`                 | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor` |
-| removed |      -56 B | <0.1% → 0.0% |          56 B → 0 B |     1 → 0 | `collectAllPrivateFields(ModuleNode)`                         | `org.codenarc.rule.unused.UnusedPrivateFieldRule`        |
-| removed |      -56 B | <0.1% → 0.0% |          56 B → 0 B |     1 → 0 | `processImports(SourceCode, List)`                            | `org.codenarc.rule.imports.UnusedImportRule`             |
-| removed |      -56 B | <0.1% → 0.0% |          56 B → 0 B |     1 → 0 | `getViolations(AstVisitor, SourceCode)`                       | `org.codenarc.rule.unused.UnusedPrivateFieldRule`        |
-| removed |      -48 B | <0.1% → 0.0% |          48 B → 0 B |     1 → 0 | `addClosureFieldsToMetricResults(SourceCode, ClassNode, Map)` | `org.gmetrics.metric.AbstractMethodMetric`               |
+|  Change |        Delta |             % |                Size |   Samples | Function                                      | Location                                                 |
+| ------: | -----------: | ------------: | ------------------: | --------: | --------------------------------------------- | -------------------------------------------------------- |
+|  -50.0% | -913.765 KiB | 19.4% → 11.2% |  1.78 MiB → 914 KiB |     2 → 1 | `initCEN(int, ZipCoder)`                      | `java.util.zip.ZipFile$Source`                           |
+|  -11.9% | -348.835 KiB | 31.2% → 31.7% | 2.86 MiB → 2.52 MiB | 145 → 132 | `copyOf(byte[], int)`                         | `java.util.Arrays`                                       |
+|  -15.1% |   -1.484 KiB |          0.1% | 9.84 KiB → 8.36 KiB | 126 → 107 | `matcher(CharSequence)`                       | `java.util.regex.Pattern`                                |
+|  -14.6% |       -336 B |         <0.1% | 2.25 KiB → 1.92 KiB |   48 → 41 | `<init>()`                                    | `java.util.HashSet`                                      |
+|  -41.7% |       -320 B |         <0.1% |       768 B → 448 B |    12 → 7 | `collectViolations(SourceCode, RuleSet)`      | `org.codenarc.analyzer.AbstractSourceAnalyzer`           |
+|  -29.0% |       -288 B |         <0.1% |       992 B → 704 B |   20 → 16 | `matches(String)`                             | `org.codenarc.util.WildcardPattern`                      |
+|  -36.4% |       -224 B |         <0.1% |       616 B → 392 B |   20 → 12 | `writeViolation(Writer, Violation, String)`   | `org.codenarc.report.TextReportWriter`                   |
+|  -38.1% |       -192 B |         <0.1% |       504 B → 312 B |   21 → 13 | `isCase(Object, Object)`                      | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter`      |
+| removed |       -192 B |  <0.1% → 0.0% |         192 B → 0 B |     6 → 0 | `shouldApplyThisRuleTo(SourceCode)`           | `org.codenarc.rule.AbstractRule`                         |
+|  -83.3% |       -160 B |         <0.1% |        192 B → 32 B |     6 → 1 | `checkForCorrectColumn(ASTNode, String, int)` | `org.codenarc.rule.formatting.IndentationAstVisitor`     |
+|  -25.6% |       -160 B |         <0.1% |       624 B → 464 B |   39 → 29 | `valueOf(int)`                                | `java.lang.Integer`                                      |
+|  -57.1% |       -128 B |         <0.1% |        224 B → 96 B |    10 → 4 | `<init>()`                                    | `org.codenarc.rule.AbstractAstVisitor`                   |
+|  -83.3% |        -80 B |         <0.1% |         96 B → 16 B |     6 → 1 | `applyTo(SourceCode, List)`                   | `org.codenarc.rule.AbstractAstVisitorRule`               |
+|  -76.9% |        -80 B |         <0.1% |        104 B → 24 B |     3 → 1 | `processMethodOrConstructorCall(MethodCall)`  | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor` |
+|   -8.3% |        -72 B |         <0.1% |       864 B → 792 B |   36 → 33 | `toString()`                                  | `java.lang.StringBuilder`                                |
+|  -75.0% |        -72 B |         <0.1% |         96 B → 24 B |     4 → 1 | `applyTo(SourceCode)`                         | `org.codenarc.rule.AbstractRule`                         |
+| removed |        -72 B |  <0.1% → 0.0% |          72 B → 0 B |     1 → 0 | `findReference(SourceCode, String, String)`   | `org.codenarc.rule.imports.UnusedImportRule`             |
+|  -60.0% |        -72 B |         <0.1% |        120 B → 48 B |     5 → 2 | `visitVariableExpression(VariableExpression)` | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor` |
+| removed |        -56 B |  <0.1% → 0.0% |          56 B → 0 B |     1 → 0 | `collectAllPrivateFields(ModuleNode)`         | `org.codenarc.rule.unused.UnusedPrivateFieldRule`        |
+| removed |        -56 B |  <0.1% → 0.0% |          56 B → 0 B |     1 → 0 | `processImports(SourceCode, List)`            | `org.codenarc.rule.imports.UnusedImportRule`             |
 
 ### Total size
 
@@ -98,28 +100,28 @@ Functions with the largest increase in total bytes allocated in the function and
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
-|  Change |        Delta |             % |                Size |         Samples | Function                                                 | Location                                                                    |
-| ------: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
-|   -8.1% | -516.117 KiB | 68.2% → 72.4% | 6.25 MiB → 5.75 MiB | 24,167 → 24,166 | `linkToCallSite(Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                          |
-|   -8.0% | -509.414 KiB | 67.9% → 72.2% | 6.23 MiB → 5.73 MiB | 23,905 → 23,883 | `execute()`                                              | `org.codenarc.CodeNarcRunner`                                               |
-|   -7.9% | -503.726 KiB | 68.0% → 72.4% | 6.24 MiB → 5.75 MiB | 24,173 → 24,174 | `execute(String[])`                                      | `org.codenarc.CodeNarc`                                                     |
-|   -7.8% | -469.453 KiB | 63.8% → 67.9% |  5.86 MiB → 5.4 MiB | 22,335 → 22,295 | `processFile(String, DirectoryResults, RuleSet)`         | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|   -7.8% | -468.531 KiB | 63.8% → 67.9% | 5.85 MiB → 5.39 MiB | 22,306 → 22,276 | `collectViolations(SourceCode, RuleSet)`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|   -7.8% | -465.078 KiB | 63.8% → 68.0% |  5.86 MiB → 5.4 MiB | 22,354 → 22,316 | `doCall(Object)`                                         | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-|   -7.7% | -463.695 KiB | 63.8% → 68.0% |  5.86 MiB → 5.4 MiB | 22,357 → 22,318 | `processDirectory(String, RuleSet)`                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|   -7.7% | -461.375 KiB | 63.8% → 68.1% | 5.86 MiB → 5.41 MiB | 22,361 → 22,323 | `analyze(RuleSet)`                                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|   -7.5% | -456.742 KiB | 64.5% → 68.9% | 5.92 MiB → 5.47 MiB | 23,261 → 23,242 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
-|   -6.2% | -451.429 KiB | 77.9% → 84.5% | 7.15 MiB → 6.71 MiB | 24,223 → 24,224 | `main(String[])`                                         | `org.codenarc.CodeNarc`                                                     |
-|   -7.4% | -448.406 KiB | 64.5% → 69.0% | 5.92 MiB → 5.48 MiB | 23,399 → 23,397 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
-|   -6.0% | -439.609 KiB | 77.8% → 84.5% | 7.14 MiB → 6.71 MiB |          24,217 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                          |
-|  -10.2% | -402.578 KiB | 42.2% → 43.8% | 3.87 MiB → 3.48 MiB |        109 → 95 | `loadClass(String)`                                      | `java.lang.ClassLoader`                                                     |
-|  -17.4% | -398.382 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,366 → 3,345 | `init()`                                                 | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-|  -17.3% | -398.335 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,407 → 3,388 | `isRuleSuppressed(Rule)`                                 | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-|  -17.4% | -398.203 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,356 → 3,342 | `init()`                                                 | `org.codenarc.source.AbstractSourceCode`                                    |
-|  -17.4% | -398.179 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,357 → 3,344 | `getAst()`                                               | `org.codenarc.source.AbstractSourceCode`                                    |
-|  -17.1% |  -396.71 KiB | 24.7% → 23.7% | 2.27 MiB → 1.88 MiB |   4,148 → 4,194 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
-| removed | -223.632 KiB |   2.4% → 0.0% |       224 KiB → 0 B |       2,176 → 0 | `linkToCallSite(Object, Object, long, Object)`           | `java.lang.invoke.LambdaForm$MH.0x0000009001323400`                         |
-|   -5.7% | -127.164 KiB | 23.6% → 25.7% | 2.17 MiB → 2.04 MiB |           8 → 5 | `callGetProperty(Object)`                                | `org.codehaus.groovy.runtime.callsite.AbstractCallSite`                     |
+| Change |        Delta |             % |                Size |         Samples | Function                                                 | Location                                                                    |
+| -----: | -----------: | ------------: | ------------------: | --------------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
+| -50.0% | -913.765 KiB | 19.4% → 11.2% |  1.78 MiB → 914 KiB |           2 → 1 | `initCEN(int, ZipCoder)`                                 | `java.util.zip.ZipFile$Source`                                              |
+|  -8.1% | -516.117 KiB | 68.2% → 72.4% | 6.25 MiB → 5.75 MiB | 24,167 → 24,166 | `linkToCallSite(Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                          |
+|  -8.0% | -509.414 KiB | 67.9% → 72.2% | 6.23 MiB → 5.73 MiB | 23,905 → 23,883 | `execute()`                                              | `org.codenarc.CodeNarcRunner`                                               |
+|  -7.9% | -503.726 KiB | 68.0% → 72.4% | 6.24 MiB → 5.75 MiB | 24,173 → 24,174 | `execute(String[])`                                      | `org.codenarc.CodeNarc`                                                     |
+|  -7.8% | -469.453 KiB | 63.8% → 67.9% |  5.86 MiB → 5.4 MiB | 22,335 → 22,295 | `processFile(String, DirectoryResults, RuleSet)`         | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  -7.8% | -468.531 KiB | 63.8% → 67.9% | 5.85 MiB → 5.39 MiB | 22,306 → 22,276 | `collectViolations(SourceCode, RuleSet)`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|  -7.8% | -465.078 KiB | 63.8% → 68.0% |  5.86 MiB → 5.4 MiB | 22,354 → 22,316 | `doCall(Object)`                                         | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+|  -7.7% | -463.695 KiB | 63.8% → 68.0% |  5.86 MiB → 5.4 MiB | 22,357 → 22,318 | `processDirectory(String, RuleSet)`                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  -7.7% | -461.375 KiB | 63.8% → 68.1% | 5.86 MiB → 5.41 MiB | 22,361 → 22,323 | `analyze(RuleSet)`                                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  -7.5% | -456.742 KiB | 64.5% → 68.9% | 5.92 MiB → 5.47 MiB | 23,261 → 23,242 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
+|  -6.2% | -451.429 KiB | 77.9% → 84.5% | 7.15 MiB → 6.71 MiB | 24,223 → 24,224 | `main(String[])`                                         | `org.codenarc.CodeNarc`                                                     |
+|  -7.4% | -448.406 KiB | 64.5% → 69.0% | 5.92 MiB → 5.48 MiB | 23,399 → 23,397 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
+|  -6.0% | -439.609 KiB | 77.8% → 84.5% | 7.14 MiB → 6.71 MiB |          24,217 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                          |
+| -10.2% | -402.578 KiB | 42.2% → 43.8% | 3.87 MiB → 3.48 MiB |        109 → 95 | `loadClass(String)`                                      | `java.lang.ClassLoader`                                                     |
+| -17.4% | -398.382 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,366 → 3,345 | `init()`                                                 | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
+| -17.3% | -398.335 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,407 → 3,388 | `isRuleSuppressed(Rule)`                                 | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
+| -17.4% | -398.203 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,356 → 3,342 | `init()`                                                 | `org.codenarc.source.AbstractSourceCode`                                    |
+| -17.4% | -398.179 KiB | 24.4% → 23.3% | 2.24 MiB → 1.85 MiB |   3,357 → 3,344 | `getAst()`                                               | `org.codenarc.source.AbstractSourceCode`                                    |
+| -17.1% |  -396.71 KiB | 24.7% → 23.7% | 2.27 MiB → 1.88 MiB |   4,148 → 4,194 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
+| -11.9% | -348.835 KiB | 31.2% → 31.7% | 2.86 MiB → 2.52 MiB |       145 → 132 | `copyOf(byte[], int)`                                    | `java.util.Arrays`                                                          |
 
 # Retained heap profile diff
 

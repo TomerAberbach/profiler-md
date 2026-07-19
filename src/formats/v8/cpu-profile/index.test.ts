@@ -580,9 +580,9 @@ describe(`options`, () => {
   }
 
   test(`showEntry hides entries while preserving metrics`, () => {
-    // `funcB` is excluded via `showEntry`. Its hit count is zero, but it
-    // is in `funcC`'s call stack. `funcC`'s callers section is omitted because
-    // its only direct caller (`funcB`) is excluded.
+    // `funcB` is excluded via `showEntry`. Its hit count is zero, but it is
+    // in `funcC`'s call stack. `funcC`'s shown callers cover none of its self
+    // time, so the hidden `funcB` is admitted into its callers table.
     const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
@@ -595,7 +595,17 @@ describe(`options`, () => {
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
     ).toEqual([expect.not.arrayContaining([`funcB`])])
-    expect(callersTables(md, `funcC`)).toHaveLength(0)
+    expect(callersTables(md, `funcC`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.2ms`,
+          Samples: `2`,
+          Caller: `funcB`,
+          Location: `src/b.ts:1:1`,
+        },
+      ],
+    ])
   })
 
   test(`topN limits functions shown`, () => {

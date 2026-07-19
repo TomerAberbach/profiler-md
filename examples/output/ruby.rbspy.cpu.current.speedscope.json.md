@@ -19,14 +19,17 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `(unknown) [c function]` (`(unknown)`)
 
-|    % |   Time | Samples | Caller                   | Location    |
-| ---: | -----: | ------: | ------------------------ | ----------- |
-| 3.6% | 31.6ms |       3 | `(unknown) [c function]` | `(unknown)` |
-| 1.3% | 11.9ms |       1 | `do_parse`               | `(eval)`    |
+|     % |   Time | Samples | Caller               | Location                                                                                               |
+| ----: | -----: | ------: | -------------------- | ------------------------------------------------------------------------------------------------------ |
+| 10.6% | 94.4ms |      10 | `<top (required)>`   | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                                               |
+|  9.5% | 83.9ms |       8 | `require`            | `<internal:/usr/lib/ruby/vendor_ruby/rubygems/core_ext/kernel_require.rb>`                             |
+|  5.2% | 46.5ms |       5 | `slice`              | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`                                 |
+|  4.7% | 41.5ms |       4 | `move_pos`           | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb`                          |
+|  4.5% | 39.6ms |       4 | `<module:Interface>` | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.5/lib/language_server/protocol/interface.rb` |
 
 ### Total time
 
@@ -45,13 +48,17 @@ Functions ranked by total time spent in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `(unknown) [c function]` (`(unknown)`)
 
-|     % |    Time | Samples | Callee                   | Location    |
-| ----: | ------: | ------: | ------------------------ | ----------- |
-| 60.4% | 794.1ms |      78 | `(unknown) [c function]` | `(unknown)` |
+|     % |    Time | Samples | Callee                              | Location                                                        |
+| ----: | ------: | ------: | ----------------------------------- | --------------------------------------------------------------- |
+| 97.5% |   1.28s |     127 | `<top (required)>`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`           |
+| 60.4% | 794.1ms |      78 | `(unknown) [c function]`            | `(unknown)`                                                     |
+| 54.6% | 717.5ms |      71 | `block in each_inspected_file`      | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+| 41.4% | 544.2ms |      54 | `block in inspect_file`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+| 41.4% | 544.2ms |      54 | `block in iterate_until_no_changes` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
 ##### `<main>` (`rubocop`)
 
@@ -84,6 +91,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |   Time | Samples | Callee                   | Location    |
 | -----: | -----: | ------: | ------------------------ | ----------- |
 | 100.0% | 11.6ms |       2 | `(unknown) [c function]` | `(unknown)` |
+
+##### `block in dir` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb`)
+
+|      % |   Time | Samples | Callee   | Location                           |
+| -----: | -----: | ------: | -------- | ---------------------------------- |
+| 100.0% | 10.3ms |       1 | `mkpath` | `../../lib/ruby/3.1.0/pathname.rb` |
+
+##### `block in execute_runners` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+
+|      % |  Time | Samples | Callee               | Location                                                     |
+| -----: | ----: | ------: | -------------------- | ------------------------------------------------------------ |
+| 100.0% | 9.7ms |       1 | `suggest_extensions` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
 ## Hottest call stacks
 

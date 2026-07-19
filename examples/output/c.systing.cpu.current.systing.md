@@ -709,7 +709,7 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 
 #### Callees
 
-Callees ranked by contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total sleeps. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `__schedule ([kernel])` (`<unknown>`)
 
@@ -764,6 +764,12 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 |      % | Sleeps | Samples | Callee                     | Location    |
 | -----: | -----: | ------: | -------------------------- | ----------- |
 | 100.0% |     87 |      87 | `do_syscall_64 ([kernel])` | `<unknown>` |
+
+##### `pthread_cond_wait (libc.so.6)` (`<unknown>`)
+
+|      % | Sleeps | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% |     87 |      87 | `unknown (libc.so.6)` | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 

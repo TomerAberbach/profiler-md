@@ -15,6 +15,7 @@ import type {
   AggregatedHeapSnapshot,
   AggregatedSnapshotNode,
   NodeCategoryStats,
+  RetainedUnionEntity,
 } from './aggregate.ts'
 
 export const makeAggregatedHeapSnapshot = ({
@@ -29,6 +30,7 @@ export const makeAggregatedHeapSnapshot = ({
     (totalSize, node) => totalSize + node.selfSize,
     0,
   ),
+  retainedNodesOf = () => [],
 }: {
   context?: ProfileToMdContext
   totalSize?: number
@@ -38,6 +40,7 @@ export const makeAggregatedHeapSnapshot = ({
   constructors?: AggregatedConstructor[]
   closures?: AggregatedClosure[]
   strings?: AggregatedSnapshotNode[]
+  retainedNodesOf?: AggregatedHeapSnapshot[`retainedNodesOf`]
 } = {}): AggregatedHeapSnapshot => ({
   type: `snapshot`,
   context,
@@ -49,7 +52,28 @@ export const makeAggregatedHeapSnapshot = ({
   closures,
   strings,
   retainerPathOf: () => `(GC root)`,
-  retainedNodesOf: () => [],
+  retainedNodesOf,
+  // Hand-made snapshots have no dominator tree; treat entity retained sets as
+  // disjoint.
+  retainedUnionOf: (group, isShown) => {
+    const entities = group === `constructors` ? constructors : closures
+    let denominator = 0
+    let shownSize = 0
+    for (const entity of entities) {
+      denominator += entity.retainedSize
+      if (isShown(entity)) {
+        shownSize += entity.retainedSize
+      }
+    }
+    const retainedSizeOf = (entity: RetainedUnionEntity) =>
+      (entity as { retainedSize?: number }).retainedSize ?? 0
+    return {
+      denominator,
+      shownSize,
+      marginalOf: retainedSizeOf,
+      admit: retainedSizeOf,
+    }
+  },
 })
 
 export const makeSourceLocation = (
@@ -117,7 +141,6 @@ export const makeAggregatedClosure = ({
   location,
   selfSize,
   retainedSize,
-  largestInstanceId: 0,
   instanceIds: Array.from({ length: instanceCount }, (_, index) => index),
 })
 
@@ -167,6 +190,11 @@ export const retainedSizeInstancesTables = (
 
 export const closureTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest closures`)
+
+export const retainedTables = (md: string, name: string): Table[] => {
+  const under = nodesUnderHeading(parseMd(md), `Retained`)
+  return allTablesAfterHeadingContaining(under, name)
+}
 
 export const largestStringsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest strings`)

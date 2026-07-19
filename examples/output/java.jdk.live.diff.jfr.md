@@ -111,6 +111,8 @@ Allocated 37.6 GiB → 37.5 GiB (-52.124 MiB, -0.1%) over 1,984 samples → 2
 | ours     | -10.3% | -215.329 MiB |   5.4% → 4.9% | 2.04 GiB → 1.83 GiB |           117 |
 | native   | -12.2% |       -280 B |         <0.1% | 2.24 KiB → 1.97 KiB |         2 → 1 |
 
+Hidden functions account for 95.1% of bytes allocated, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self size
@@ -135,13 +137,14 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-|  Change |        Delta |            % |                Size | Samples | Function                  | Location                                                   |
-| ------: | -----------: | -----------: | ------------------: | ------: | ------------------------- | ---------------------------------------------------------- |
-|  -85.7% | -334.309 MiB |  1.0% → 0.1% |  390 MiB → 55.7 MiB |   8 → 4 | `collectClusters(int[])`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  -99.0% |  -97.071 MiB | 0.3% → <0.1% | 98.1 MiB → 1.02 MiB |       2 | `vectorSum()`             | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  -35.2% |   -91.91 MiB |  0.7% → 0.4% |   261 MiB → 169 MiB |  8 → 12 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| removed |  -86.092 MiB |  0.2% → 0.0% |      86.1 MiB → 0 B |   5 → 0 | `add(double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| removed | -798.601 KiB | <0.1% → 0.0% |       799 KiB → 0 B |   3 → 0 | `range(int, int)`         | `java.util.stream.IntStream`                               |
+|  Change |        Delta |             % |                Size |       Samples | Function                  | Location                                                   |
+| ------: | -----------: | ------------: | ------------------: | ------------: | ------------------------- | ---------------------------------------------------------- |
+|  -85.7% | -334.309 MiB |   1.0% → 0.1% |  390 MiB → 55.7 MiB |         8 → 4 | `collectClusters(int[])`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|   -0.8% | -305.154 MiB | 93.5% → 92.8% | 35.1 GiB → 34.8 GiB | 1,708 → 1,756 | `copyOf(Object[], int)`   | `java.util.Arrays`                                         |
+|  -99.0% |  -97.071 MiB |  0.3% → <0.1% | 98.1 MiB → 1.02 MiB |             2 | `vectorSum()`             | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  -35.2% |   -91.91 MiB |   0.7% → 0.4% |   261 MiB → 169 MiB |        8 → 12 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| removed |  -86.092 MiB |   0.2% → 0.0% |      86.1 MiB → 0 B |         5 → 0 | `add(double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| removed | -798.601 KiB |  <0.1% → 0.0% |       799 KiB → 0 B |         3 → 0 | `range(int, int)`         | `java.util.stream.IntStream`                               |
 
 ### Total size
 
@@ -191,13 +194,13 @@ Functions with the largest decrease in total bytes allocated in the function and
 |   -1.4% | -443.346 MiB | 82.3% → 81.3% | 30.9 GiB → 30.5 GiB | 1,532 → 1,552 | `merge(Map, Map)`                    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |   -1.4% | -443.346 MiB | 82.3% → 81.3% | 30.9 GiB → 30.5 GiB | 1,532 → 1,552 | `combineResults(Map, Map)`           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |   -1.4% | -443.346 MiB | 82.3% → 81.3% | 30.9 GiB → 30.5 GiB | 1,532 → 1,552 | `combineResults(Object, Object)`     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|   -0.8% | -303.372 MiB | 93.6% → 92.9% | 35.1 GiB → 34.8 GiB | 1,730 → 1,782 | `copyOf(Object[], int)`              | `java.util.Arrays`                                                     |
 |  -99.0% |  -97.071 MiB |  0.3% → <0.1% | 98.1 MiB → 1.02 MiB |             2 | `vectorSum()`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 |  -99.0% |  -97.071 MiB |  0.3% → <0.1% | 98.1 MiB → 1.02 MiB |             2 | `computeDirectly()`                  | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 |  -35.2% |   -91.91 MiB |   0.7% → 0.4% |   261 MiB → 169 MiB |        8 → 12 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 | removed |  -86.092 MiB |   0.2% → 0.0% |      86.1 MiB → 0 B |         5 → 0 | `add(double[], double[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 | removed |  -86.092 MiB |   0.2% → 0.0% |      86.1 MiB → 0 B |         5 → 0 | `combineResults(double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
 | removed |  -86.092 MiB |   0.2% → 0.0% |      86.1 MiB → 0 B |         5 → 0 | `combineResults(Object, Object)`     | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
-|  -57.0% |  -74.336 MiB |   0.3% → 0.1% |    130 MiB → 56 MiB |         9 → 5 | `average(List)`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
 
 # Retained heap profile diff
 
@@ -258,7 +261,19 @@ Blocked 7.15s → 7.14s (-8.45ms, -0.1%) over 59 samples → 54 samples (121.3ms
 | -------- | -----: | ------: | -----: | ------------: | ------: |
 | stdlib   |  -0.1% | -8.45ms | 100.0% | 7.15s → 7.14s | 59 → 54 |
 
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self time
+
+#### Improvements
+
+Functions with the largest decrease in time blocked directly in the function body, excluding callees.
+
+| Change |   Delta |      % |          Time | Samples | Function              | Location                   |
+| -----: | ------: | -----: | ------------: | ------: | --------------------- | -------------------------- |
+|  -0.1% | -8.45ms | 100.0% | 7.15s → 7.14s | 59 → 54 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 ### Total time
 
@@ -287,3 +302,11 @@ Functions with the largest increase in total time blocked in the function and al
 |  +0.8% | +49.23ms | 86.1% → 86.9% | 6.16s → 6.21s |      16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
 |  +0.8% | +49.23ms | 86.1% → 86.9% | 6.16s → 6.21s |      16 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
 |  +0.8% | +49.23ms | 86.1% → 86.9% | 6.16s → 6.21s |      16 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+
+#### Improvements
+
+Functions with the largest decrease in total time blocked in the function and all its callees.
+
+| Change |   Delta |      % |          Time | Samples | Function              | Location                   |
+| -----: | ------: | -----: | ------------: | ------: | --------------------- | -------------------------- |
+|  -0.1% | -8.45ms | 100.0% | 7.15s → 7.14s | 59 → 54 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |

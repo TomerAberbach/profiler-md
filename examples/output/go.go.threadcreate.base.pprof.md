@@ -6,7 +6,7 @@ Collected 13 samples.
 | -------- | -----: | ------: |
 | stdlib   | 100.0% |      13 |
 
-The entry filter hides every sampled function, so all functions are shown.
+Hidden functions account for 100.0% of samples taken, so the hottest are also shown.
 
 ## Hottest functions
 

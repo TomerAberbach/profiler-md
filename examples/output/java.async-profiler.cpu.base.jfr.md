@@ -326,7 +326,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
@@ -337,6 +337,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 35.2% |   1,489 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 | 15.9% |     672 | `computeDirectly()`              | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 |  9.3% |     394 | `combineResults(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee                 | Location                            |
+| -----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% |   4,049 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
@@ -375,6 +381,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |    % | Samples | Callee          | Location           |
 | ---: | ------: | --------------- | ------------------ |
 | 9.0% |      89 | `doubleValue()` | `java.lang.Double` |
+
+##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee     | Location                            |
+| -----: | ------: | ---------- | ----------------------------------- |
+| 100.0% |     964 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 

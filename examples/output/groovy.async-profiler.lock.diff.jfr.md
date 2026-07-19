@@ -6,7 +6,19 @@ Blocked 1.4ms → 4.0ms (+2.56ms, +178.0%) over 30 samples → 41 samples (47.9�
 | -------- | ------: | ------: | -----: | ------------: | ------: |
 | stdlib   | +178.0% | +2.56ms | 100.0% | 1.4ms → 4.0ms | 30 → 41 |
 
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self time
+
+#### Regressions
+
+Functions with the largest increase in time blocked directly in the function body, excluding callees.
+
+|  Change |   Delta |             % |          Time | Samples | Function             | Location                             |
+| ------: | ------: | ------------: | ------------: | ------: | -------------------- | ------------------------------------ |
+| +110.7% | +1.09ms | 68.6% → 52.0% | 1.0ms → 2.1ms | 13 → 16 | `enqueue(Reference)` | `java.lang.ref.NativeReferenceQueue` |
 
 ### Total time
 

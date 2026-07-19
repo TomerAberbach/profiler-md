@@ -6,7 +6,19 @@ Blocked 155.8ms → 159.9ms (+4.09ms, +2.6%) over 5,028 samples → 4,990 sample
 | -------- | -----: | ------: | -----: | ----------------: | ------------: |
 | stdlib   |  +2.6% | +4.09ms | 100.0% | 155.8ms → 159.9ms | 5,028 → 4,990 |
 
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
+
 ## Hottest functions
+
+### Self time
+
+#### Regressions
+
+Functions with the largest increase in time blocked directly in the function body, excluding callees.
+
+| Change |   Delta |     % |              Time |       Samples | Function         | Location                                                                                         |
+| -----: | ------: | ----: | ----------------: | ------------: | ---------------- | ------------------------------------------------------------------------------------------------ |
+|  +2.6% | +3.69ms | 89.6% | 139.6ms → 143.3ms | 4,344 → 4,249 | `runtime.unlock` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
 
 ### Total time
 
@@ -14,9 +26,10 @@ Blocked 155.8ms → 159.9ms (+4.09ms, +2.6%) over 5,028 samples → 4,990 sample
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-| Change |   Delta |           % |          Time |   Samples | Function                  | Location                                                                                         |
-| -----: | ------: | ----------: | ------------: | --------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
-|  +3.9% | +0.08ms | 1.3% → 1.4% | 2.1ms → 2.2ms | 349 → 390 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+| Change |   Delta |           % |              Time |       Samples | Function                  | Location                                                                                         |
+| -----: | ------: | ----------: | ----------------: | ------------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
+|  +2.6% | +3.69ms |       89.6% | 139.6ms → 143.3ms | 4,344 → 4,249 | `runtime.unlock`          | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260` |
+|  +3.9% | +0.08ms | 1.3% → 1.4% |     2.1ms → 2.2ms |     349 → 390 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
 #### Improvements
 

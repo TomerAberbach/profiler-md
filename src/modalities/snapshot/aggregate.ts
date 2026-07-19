@@ -45,6 +45,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   readonly #nodeCategoryToStats = new Map<string, NodeCategoryStats>()
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
   readonly #nodeOrdinalToRetainedSize: Float64Array
+  #dominatorPreorder: DominatorPreorder | undefined
 
   readonly #constructors: AggregatedConstructor[] = []
   readonly #nameToConstructorIndex = new Map<string, number>()
@@ -204,7 +205,6 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
         category: ``,
         selfSize: 0,
         retainedSize: 0,
-        largestInstanceId: nodeOrdinal,
         instanceIds: [],
       })
       this.#keyToClosureIndex.set(key, closureIndex)
@@ -213,10 +213,8 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     const closure = this.#closures[closureIndex]!
     closure.selfSize += this.#selfSizeOf(nodeOrdinal)
     closure.instanceIds.push(nodeOrdinal)
-    if (
-      retainedSize > this.#nodeOrdinalToRetainedSize[closure.largestInstanceId]!
-    ) {
-      closure.largestInstanceId = nodeOrdinal
+    if (retainedSize > this.#nodeOrdinalToRetainedSize[closure.id]!) {
+      closure.id = nodeOrdinal
     }
     this.#nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
   }
@@ -287,7 +285,28 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
           ordinal => this.#formatNodeLabel(ordinal, options),
           this.#isInternalNode,
         ),
+      retainedUnionOf: (group, isShown) =>
+        this.#retainedUnionOf(group, isShown),
     }
+  }
+
+  #retainedUnionOf(
+    group: SnapshotEntityGroup,
+    isShown: (entity: AggregatedConstructor | AggregatedClosure) => boolean,
+  ): RetainedUnion {
+    this.#dominatorPreorder ??= computeDominatorPreorder(
+      this.#immediateDominatorGraph,
+    )
+    return createRetainedUnion({
+      preorder: this.#dominatorPreorder,
+      nodeOrdinalToRetainedSize: this.#nodeOrdinalToRetainedSize,
+      nodeOrdinalToEntityIndex:
+        group === `constructors`
+          ? this.#nodeOrdinalToConstructorIndex
+          : this.#nodeOrdinalToClosureIndex,
+      entities: group === `constructors` ? this.#constructors : this.#closures,
+      isShown,
+    })
   }
 }
 
@@ -413,6 +432,310 @@ const computeRetainedNodes = (
   return retainedNodes
 }
 
+/**
+ * A preorder of the dominator tree. Each node's subtree occupies the
+ * contiguous index range `[index, index + subtree size)`, so subtree
+ * containment is an interval containment check.
+ */
+type DominatorPreorder = {
+  /** Preorder index per node ordinal; -1 for nodes outside the tree. */
+  ordinalToPreorderIndex: Int32Array
+
+  /** Node ordinal per preorder index, up to {@link DominatorPreorder.count}. */
+  preorderToOrdinal: Int32Array
+
+  /** Dominator subtree node count per node ordinal. */
+  ordinalToSubtreeSize: Int32Array
+
+  /** The number of nodes in the tree. */
+  count: number
+}
+
+const computeDominatorPreorder = ({
+  dfsIndexToOrdinal,
+  ordinalToImmediateDominatorOrdinal,
+  immediateDominateeOrdinalToStartOffset,
+  offsetToImmediateDominateeOrdinal,
+}: ImmediateDominatorGraph): DominatorPreorder => {
+  const nodeCount = ordinalToImmediateDominatorOrdinal.length
+
+  // Accumulate subtree sizes bottom-up: a node's immediate dominator precedes
+  // it in graph DFS order, so the reverse order visits children first.
+  const ordinalToSubtreeSize = new Int32Array(nodeCount).fill(1)
+  for (let dfsIndex = dfsIndexToOrdinal.length - 1; dfsIndex >= 1; dfsIndex--) {
+    const dominateeOrdinal = dfsIndexToOrdinal[dfsIndex]!
+    ordinalToSubtreeSize[
+      ordinalToImmediateDominatorOrdinal[dominateeOrdinal]!
+    ]! += ordinalToSubtreeSize[dominateeOrdinal]!
+  }
+
+  const ordinalToPreorderIndex = new Int32Array(nodeCount).fill(-1)
+  const preorderToOrdinal = new Int32Array(nodeCount)
+  const stack = new Int32Array(nodeCount)
+  stack[0] = dfsIndexToOrdinal[0]!
+  let topOffset = 1
+  let count = 0
+  while (topOffset > 0) {
+    const nodeOrdinal = stack[--topOffset]!
+    ordinalToPreorderIndex[nodeOrdinal] = count
+    preorderToOrdinal[count] = nodeOrdinal
+    count++
+
+    const dominateeStartOffset =
+      immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
+    const dominateeEndOffset =
+      immediateDominateeOrdinalToStartOffset[nodeOrdinal + 1]!
+    for (
+      let offset = dominateeStartOffset;
+      offset < dominateeEndOffset;
+      offset++
+    ) {
+      stack[topOffset++] = offsetToImmediateDominateeOrdinal[offset]!
+    }
+  }
+
+  return {
+    ordinalToPreorderIndex,
+    preorderToOrdinal,
+    ordinalToSubtreeSize,
+    count,
+  }
+}
+
+/** The entity group a retained-size union accumulates over. */
+export type SnapshotEntityGroup = `constructors` | `closures`
+
+/**
+ * An entity a {@link RetainedUnion} can account: anything carrying its
+ * instances' node ordinals.
+ */
+export type RetainedUnionEntity =
+  | { instances: readonly { id: number }[] }
+  | { instanceIds: readonly number[] }
+
+/**
+ * An accumulator for the union of entity retained sizes.
+ *
+ * Retained sets are dominator subtrees, so they either nest or are disjoint;
+ * the union counts only the outermost nodes, never double-counting nested
+ * retained sets, within an entity or across entities.
+ */
+export type RetainedUnion = {
+  /** The union retained size over every entity in the group. */
+  denominator: number
+
+  /** The union retained size over the entities shown at creation. */
+  shownSize: number
+
+  /** The exact bytes admitting the entity would add to the union. */
+  marginalOf: (entity: RetainedUnionEntity) => number
+
+  /** Adds the entity's instances to the union; returns the bytes added. */
+  admit: (entity: RetainedUnionEntity) => number
+}
+
+/** A maximal instance's preorder interval and retained size. */
+type RetainedInterval = { start: number; end: number; retained: number }
+
+const createRetainedUnion = ({
+  preorder: {
+    ordinalToPreorderIndex,
+    preorderToOrdinal,
+    ordinalToSubtreeSize,
+    count,
+  },
+  nodeOrdinalToRetainedSize,
+  nodeOrdinalToEntityIndex,
+  entities,
+  isShown,
+}: {
+  preorder: DominatorPreorder
+  nodeOrdinalToRetainedSize: Float64Array
+  nodeOrdinalToEntityIndex: Int32Array
+  entities: readonly (AggregatedConstructor | AggregatedClosure)[]
+  isShown: (entity: AggregatedConstructor | AggregatedClosure) => boolean
+}): RetainedUnion => {
+  const entityShown = new Uint8Array(entities.length)
+  for (let i = 0; i < entities.length; i++) {
+    entityShown[i] = isShown(entities[i]!) ? 1 : 0
+  }
+
+  // One ascending preorder scan finds each cursor's outermost nodes: a node
+  // below the cursor is inside a subtree the cursor already counted.
+  let denominator = 0
+  let shownSize = 0
+  let allCoveredEnd = 0
+  let shownCoveredEnd = 0
+  // The counted intervals: the outermost shown instances, later extended by
+  // admissions. Disjoint and sorted by start.
+  let starts: number[] = []
+  let ends: number[] = []
+  let retaineds: number[] = []
+  for (let preorderIndex = 0; preorderIndex < count; preorderIndex++) {
+    const nodeOrdinal = preorderToOrdinal[preorderIndex]!
+    const entityIndex = nodeOrdinalToEntityIndex[nodeOrdinal]!
+    if (entityIndex === -1) {
+      continue
+    }
+
+    const retainedSize = nodeOrdinalToRetainedSize[nodeOrdinal]!
+    const end = preorderIndex + ordinalToSubtreeSize[nodeOrdinal]!
+    if (preorderIndex >= allCoveredEnd) {
+      denominator += retainedSize
+      allCoveredEnd = end
+    }
+    if (entityShown[entityIndex] === 1 && preorderIndex >= shownCoveredEnd) {
+      shownSize += retainedSize
+      shownCoveredEnd = end
+      starts.push(preorderIndex)
+      ends.push(end)
+      retaineds.push(retainedSize)
+    }
+  }
+
+  /** `prefix[i]` is the sum of `retaineds[0..i)`. */
+  let prefix = prefixSums(retaineds)
+
+  /** The index of the last counted interval starting at or before `start`. */
+  const lastStartingBefore = (start: number): number => {
+    let low = 0
+    let high = starts.length
+    while (low < high) {
+      const mid = (low + high) >> 1
+      if (starts[mid]! <= start) {
+        low = mid + 1
+      } else {
+        high = mid
+      }
+    }
+    return low - 1
+  }
+
+  const maximalIntervalsByEntity = new Map<
+    RetainedUnionEntity,
+    RetainedInterval[]
+  >()
+  const maximalIntervalsOf = (
+    entity: RetainedUnionEntity,
+  ): RetainedInterval[] => {
+    let intervals = maximalIntervalsByEntity.get(entity)
+    if (intervals) {
+      return intervals
+    }
+
+    const ordinals =
+      `instanceIds` in entity
+        ? entity.instanceIds
+        : entity.instances.map(instance => instance.id)
+    intervals = []
+    for (const ordinal of ordinals) {
+      const start = ordinalToPreorderIndex[ordinal]!
+      if (start >= 0) {
+        intervals.push({
+          start,
+          end: start + ordinalToSubtreeSize[ordinal]!,
+          retained: nodeOrdinalToRetainedSize[ordinal]!,
+        })
+      }
+    }
+    intervals.sort((interval1, interval2) => interval1.start - interval2.start)
+
+    // Drop instances nested inside another of the entity's own instances.
+    let maximalCount = 0
+    let lastEnd = 0
+    for (const interval of intervals) {
+      if (interval.start >= lastEnd) {
+        intervals[maximalCount++] = interval
+        lastEnd = interval.end
+      }
+    }
+    intervals.length = maximalCount
+
+    maximalIntervalsByEntity.set(entity, intervals)
+    return intervals
+  }
+
+  const marginalOf = (entity: RetainedUnionEntity): number => {
+    let marginal = 0
+    for (const { start, end, retained } of maximalIntervalsOf(entity)) {
+      const coveringIndex = lastStartingBefore(start)
+      if (coveringIndex >= 0 && ends[coveringIndex]! > start) {
+        continue
+      }
+
+      // Counted intervals inside the instance's subtree are already in the
+      // union; the instance contributes only the rest of its retained set.
+      const innerStart = coveringIndex + 1
+      let innerEnd = innerStart
+      while (innerEnd < starts.length && starts[innerEnd]! < end) {
+        innerEnd++
+      }
+      marginal += retained - (prefix[innerEnd]! - prefix[innerStart]!)
+    }
+    return marginal
+  }
+
+  const admit = (entity: RetainedUnionEntity): number => {
+    let marginal = 0
+    const newStarts: number[] = []
+    const newEnds: number[] = []
+    const newRetaineds: number[] = []
+    let countedIndex = 0
+    for (const interval of maximalIntervalsOf(entity)) {
+      while (
+        countedIndex < starts.length &&
+        starts[countedIndex]! < interval.start
+      ) {
+        newStarts.push(starts[countedIndex]!)
+        newEnds.push(ends[countedIndex]!)
+        newRetaineds.push(retaineds[countedIndex]!)
+        countedIndex++
+      }
+      if (newEnds.length > 0 && newEnds.at(-1)! > interval.start) {
+        // A counted interval contains the instance; nothing to add.
+        continue
+      }
+
+      marginal += interval.retained
+      // Counted intervals inside the instance are absorbed into it.
+      while (
+        countedIndex < starts.length &&
+        starts[countedIndex]! < interval.end
+      ) {
+        marginal -= retaineds[countedIndex]!
+        countedIndex++
+      }
+      newStarts.push(interval.start)
+      newEnds.push(interval.end)
+      newRetaineds.push(interval.retained)
+    }
+    while (countedIndex < starts.length) {
+      newStarts.push(starts[countedIndex]!)
+      newEnds.push(ends[countedIndex]!)
+      newRetaineds.push(retaineds[countedIndex]!)
+      countedIndex++
+    }
+
+    starts = newStarts
+    ends = newEnds
+    retaineds = newRetaineds
+    prefix = prefixSums(retaineds)
+    return marginal
+  }
+
+  return { denominator, shownSize, marginalOf, admit }
+}
+
+const prefixSums = (values: readonly number[]): number[] => {
+  const prefix = [0]
+  let sum = 0
+  for (const value of values) {
+    sum += value
+    prefix.push(sum)
+  }
+  return prefix
+}
+
 export type NodeCategoryStats = {
   /** Bytes allocated directly for nodes in this category. */
   size: number
@@ -462,14 +785,17 @@ export type AggregatedConstructor = AggregatedSnapshotNode & {
 }
 
 export type AggregatedClosure = AggregatedSnapshotNode & {
+  /**
+   * Node ordinal of the instance with the largest individual retained size,
+   * standing in for the closure wherever a single node addresses it.
+   */
+  id: number
+
   /** A human readable label for this closure. */
   name: string
 
   /** The category of code this closure belongs to. */
   category: string
-
-  /** Node ordinal of the instance with the largest individual retained size. */
-  largestInstanceId: number
 
   /** Node ordinals of all instances, for computing unique retainer path counts. */
   instanceIds: number[]
@@ -510,4 +836,13 @@ export type AggregatedHeapSnapshot = {
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
   ) => AggregatedSnapshotNode[]
+
+  /**
+   * Creates a {@link RetainedUnion} over the group's entities, with the
+   * entities {@link isShown} keeps already counted.
+   */
+  retainedUnionOf: (
+    group: SnapshotEntityGroup,
+    isShown: (entity: AggregatedConstructor | AggregatedClosure) => boolean,
+  ) => RetainedUnion
 }

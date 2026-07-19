@@ -528,7 +528,19 @@ describe(`options`, () => {
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Function)),
     ).toEqual([expect.not.arrayContaining([`funcA`])])
-    expect(callersTables(md, `funcB`)).toHaveLength(0)
+    // `funcB`'s shown callers cover none of its self time, so the hidden
+    // `funcA` is admitted into its callers table.
+    expect(callersTables(md, `funcB`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.2ms`,
+          Samples: `2`,
+          Caller: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
   })
 
   test(`baseURL: null shows absolute paths`, () => {

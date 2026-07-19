@@ -12,8 +12,12 @@ import { diffAggregatedProfiles } from './diff.ts'
 import { formatProfile, formatProfileDiff } from './format.ts'
 import { determineMetric, MEGABYTES, MICROSECONDS } from './metric.ts'
 import {
+  calleesTables,
+  callersTables,
   callStackTables,
   makeAggregatedProfile,
+  selfSizeTables,
+  selfTimeTables,
   totalTimeTables,
 } from './testing.ts'
 
@@ -93,8 +97,13 @@ describe(`formatProfile`, () => {
         },
       ],
     )
+    // Coverage relaxation is disabled to isolate the base filter's behavior.
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      coverageTarget: 0,
+    })
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatProfile(profile, options))
 
     expect(totalTimeTables(md)).toEqual([
       [
@@ -145,8 +154,13 @@ describe(`formatProfile`, () => {
         },
       ],
     )
+    // Coverage relaxation is disabled to isolate the merging of hidden frames.
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      coverageTarget: 0,
+    })
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatProfile(profile, options))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -160,11 +174,11 @@ describe(`formatProfile`, () => {
     ])
   })
 
-  test(`shows all functions when the default filter would hide every one`, () => {
+  test(`admits the hottest hidden functions when the default filter hides every one`, () => {
     // A profile sampled entirely inside external code, with no frame of ours
     // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
-    // default filter would hide everything, emptying the body, so it is
-    // disabled with a note instead.
+    // functions the filter shows cover nothing, so the hottest hidden
+    // functions are admitted up to the coverage target.
     const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
@@ -181,7 +195,24 @@ describe(`formatProfile`, () => {
     const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
 
     expect(md).toContain(
-      `The entry filter hides every sampled function, so all functions are shown.`,
+      `Hidden functions account for 100.0% of time spent, so the hottest are also shown.`,
+    )
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    // The zero-self extRoot stays hidden, so extLeaf's call stack projects to
+    // a single frame; the stack is admitted for coverage in that degenerate
+    // form rather than dropped.
+    expect(md).toContain(
+      `Hidden call stacks account for 100.0% of time spent, so the hottest are also shown.`,
     )
     expect(callStackTables(md)).toEqual([
       [
@@ -189,13 +220,13 @@ describe(`formatProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `extLeaf ← extRoot`,
+          'Call stack': `extLeaf`,
         },
       ],
     ])
   })
 
-  test(`shows all functions when a custom showEntry would hide every one`, () => {
+  test(`admits the hottest functions hidden by a custom showEntry that hides every one`, () => {
     const profile = makeAggregatedProfile(
       [MICROSECONDS],
       [
@@ -211,15 +242,253 @@ describe(`formatProfile`, () => {
     const md = mdastToMarkdown(formatProfile(profile, options))
 
     expect(md).toContain(
-      `The entry filter hides every sampled function, so all functions are shown.`,
+      `Hidden functions account for 100.0% of time spent, so the hottest are also shown.`,
     )
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          Function: `funcA`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    // The zero-self funcB stays hidden, so funcA's call stack projects to a
+    // single frame; the stack is admitted for coverage in that degenerate
+    // form rather than dropped.
     expect(callStackTables(md)).toEqual([
       [
         {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
-          'Call stack': `funcA ← funcB`,
+          'Call stack': `funcA`,
+        },
+      ],
+    ])
+  })
+
+  test(`admits hidden functions into tables, subsections, and call stacks when coverage falls short`, () => {
+    // Main (ours) spends 90% of the time inside extLeaf, an external
+    // implementation detail the filter hides. Hidden functions account for
+    // 90%, so extLeaf is admitted. ExtApi is called directly by main, so the
+    // filter already shows it and the call stack keeps every frame.
+    const profile = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 9,
+          selfValues: [900],
+          stack: [0, 1, 2],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          selfSampleCount: 1,
+          selfValues: [100],
+          stack: [2],
+        },
+      ],
+    )
+
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+
+    expect(md).toContain(
+      `Hidden functions account for 90.0% of time spent, so the hottest are also shown.`,
+    )
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `90.0%`,
+          Time: `0.9ms`,
+          Samples: `9`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `10.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+      ],
+    ])
+    expect(callersTables(md, `extLeaf`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.9ms`,
+          Samples: `9`,
+          Caller: `extApi`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `90.0%`,
+          Time: `0.9ms`,
+          Samples: `9`,
+          'Call stack': `extLeaf ← extApi ← main (src/main.ts)`,
+        },
+      ],
+    ])
+  })
+
+  test(`keeps hidden functions hidden when shown functions cover the target`, () => {
+    const profile = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 2,
+          selfValues: [200],
+          stack: [0, 1, 2],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          selfSampleCount: 8,
+          selfValues: [800],
+          stack: [2],
+        },
+      ],
+    )
+
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+
+    expect(md).not.toContain(`account for`)
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `80.0%`,
+          Time: `0.8ms`,
+          Samples: `8`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+      ],
+    ])
+    expect(totalTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `1.0ms`,
+          Samples: `10`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+        {
+          '%': `20.0%`,
+          Time: `0.2ms`,
+          Samples: `2`,
+          Function: `extApi`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    // The function tables keep extLeaf hidden; only extApi's callees table
+    // admits it, since extApi's shown callees cover none of its total time.
+    expect(calleesTables(md, `extApi`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.2ms`,
+          Samples: `2`,
+          Callee: `extLeaf`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
+  test(`admits nothing when coverageTarget is 0`, () => {
+    const profile = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1],
+        },
+        { name: `extRoot`, selfSampleCount: 0, selfValues: [0] },
+      ],
+    )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      coverageTarget: 0,
+    })
+
+    const md = mdastToMarkdown(formatProfile(profile, options))
+
+    expect(md).not.toContain(`account for`)
+    expect(selfTimeTables(md)).toEqual([])
+    expect(callStackTables(md)).toEqual([])
+  })
+
+  test(`relaxes each measure section independently`, () => {
+    // ExtLeaf dominates time while main dominates retained bytes, so only the
+    // CPU section falls below the coverage target and admits extLeaf.
+    const profile = makeAggregatedProfile(
+      [MICROSECONDS, RETAINED_BYTES],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 9,
+          selfValues: [900, 100],
+          stack: [0, 1, 2],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0, 0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          selfSampleCount: 1,
+          selfValues: [100, 900],
+          stack: [2],
+        },
+      ],
+    )
+
+    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+
+    expect(md).toContain(
+      `Hidden functions account for 90.0% of time spent, so the hottest are also shown.`,
+    )
+    expect(md).not.toContain(`account for 90.0% of bytes retained`)
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `90.0%`,
+          Time: `0.9ms`,
+          Samples: `9`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `10.0%`,
+          Time: `0.1ms`,
+          Samples: `1`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+      ],
+    ])
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `90.0%`,
+          Size: `900 B`,
+          Samples: `1`,
+          Function: `main`,
+          Location: `src/main.ts`,
         },
       ],
     ])
@@ -497,6 +766,7 @@ describe(`formatProfileDiff`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcB`,
+      coverageTarget: 0,
     })
 
     const diff = diffAggregatedProfiles(base, current, defaultOptions)
@@ -604,6 +874,7 @@ describe(`formatProfileDiff`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
+      coverageTarget: 0,
     })
 
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
@@ -710,6 +981,7 @@ describe(`formatProfileDiff`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `funcA`,
+      coverageTarget: 0,
     })
 
     const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
@@ -717,5 +989,102 @@ describe(`formatProfileDiff`, () => {
 
     expect(md).not.toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
+  })
+
+  test(`admits a pair hidden on both sides symmetrically when coverage falls short`, () => {
+    // ExtLeaf is an external implementation detail hidden on both sides. Shown
+    // functions cover 25% of the base and 10% of the current side, so the pair
+    // is admitted on both sides at once.
+    const base = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 3,
+          selfValues: [300],
+          stack: [0, 1, 2],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          selfSampleCount: 1,
+          selfValues: [100],
+          stack: [2],
+        },
+      ],
+    )
+    const current = makeAggregatedProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `extLeaf`,
+          selfSampleCount: 9,
+          selfValues: [900],
+          stack: [0, 1, 2],
+        },
+        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
+        {
+          name: `main`,
+          url: `file:///project/src/main.ts`,
+          selfSampleCount: 1,
+          selfValues: [100],
+          stack: [2],
+        },
+      ],
+    )
+
+    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+
+    expect(md).toContain(
+      `Hidden functions account for 90.0% of time spent, so the hottest are also shown.`,
+    )
+    expect(regressionsTables(md, `Self time`)).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+0.60ms`,
+          '%': `75.0% → 90.0%`,
+          Time: `0.3ms → 0.9ms`,
+          Samples: `3 → 9`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+    // ExtApi is called directly by main, so the filter already shows it and
+    // total-direction attribution keeps the full chain.
+    expect(regressionsTables(md, `Total time`)).toEqual([
+      [
+        {
+          Change: `+200.0%`,
+          Delta: `+0.60ms`,
+          '%': `75.0% → 90.0%`,
+          Time: `0.3ms → 0.9ms`,
+          Samples: `3 → 9`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+        {
+          Change: `+200.0%`,
+          Delta: `+0.60ms`,
+          '%': `75.0% → 90.0%`,
+          Time: `0.3ms → 0.9ms`,
+          Samples: `3 → 9`,
+          Function: `extApi`,
+          Location: `<unknown>`,
+        },
+        {
+          Change: `+150.0%`,
+          Delta: `+0.60ms`,
+          '%': `100.0%`,
+          Time: `0.4ms → 1.0ms`,
+          Samples: `4 → 10`,
+          Function: `main`,
+          Location: `src/main.ts`,
+        },
+      ],
+    ])
   })
 })

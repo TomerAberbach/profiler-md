@@ -131,6 +131,8 @@ Allocated 684 MiB (-244.382 KiB, ~0%) over 874 samples → 869 samples (801 K
 | ours     |  +7.2% | +10.541 MiB | 21.3% → 22.9% |   146 MiB → 156 MiB | 293 → 310 |
 | native   |  -0.8% |      -240 B |         <0.1% | 29.3 KiB → 29.1 KiB |    10 → 8 |
 
+Hidden functions account for 65.0% of bytes allocated, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self size
@@ -139,28 +141,28 @@ Allocated 684 MiB (-244.382 KiB, ~0%) over 874 samples → 869 samples (801 K
 
 Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
 
-|  Change |          Delta |           % |                Size | Samples | Function                                                                                   | Location                                                                                           |
-| ------: | -------------: | ----------: | ------------------: | ------: | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| +135.4% |     +4.592 MiB | 0.5% → 1.2% | 3.39 MiB → 7.98 MiB |  7 → 15 | `box-impl(List)`                                                                           | `org.jetbrains.kotlin.fir.MutableOrEmptyList`                                                      |
-| +350.0% |     +3.492 MiB | 0.1% → 0.7% | 1022 KiB → 4.49 MiB |   2 → 9 | `<init>()`                                                                                 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage`                      |
-|  +22.3% |     +2.993 MiB | 2.0% → 2.4% | 13.4 MiB → 16.4 MiB | 27 → 33 | `<init>(int)`                                                                              | `org.jetbrains.kotlin.protobuf.ByteString$Output`                                                  |
-| +166.7% |     +2.495 MiB | 0.2% → 0.6% |  1.5 MiB → 3.99 MiB |   3 → 7 | `to(Object, Object)`                                                                       | `kotlin.TuplesKt`                                                                                  |
-| +200.0% |     +1.996 MiB | 0.1% → 0.4% | 1022 KiB → 2.99 MiB |   2 → 6 | `<init>()`                                                                                 | `org.jetbrains.kotlin.types.AbstractTypeApproximator$Cache`                                        |
-|  +36.2% |     +1.996 MiB | 0.8% → 1.1% | 5.52 MiB → 7.52 MiB | 12 → 16 | `newInstance(OutputStream, int)`                                                           | `org.jetbrains.kotlin.protobuf.CodedOutputStream`                                                  |
-| +400.0% |     +1.996 MiB | 0.1% → 0.4% |   511 KiB → 2.5 MiB |   1 → 5 | `iterator()`                                                                               | `org.jetbrains.kotlin.utils.SmartList`                                                             |
-|     new |     +1.497 MiB | 0.0% → 0.2% |       0 B → 1.5 MiB |   0 → 3 | `simplifyKnownSafeCallPatterns(TemporaryVariablesEliminationTransformer$ControlFlowGraph)` | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.TemporaryVariablesEliminationTransformer` |
-|     new |     +1.497 MiB | 0.0% → 0.2% |       0 B → 1.5 MiB |   0 → 3 | `getLabel()`                                                                               | `org.jetbrains.org.objectweb.asm.tree.LabelNode`                                                   |
-|  +60.0% |     +1.497 MiB | 0.4% → 0.6% |  2.5 MiB → 3.99 MiB |   5 → 8 | `newOutput()`                                                                              | `org.jetbrains.kotlin.protobuf.ByteString`                                                         |
-|  +45.9% | +1,022.546 KiB | 0.3% → 0.5% | 2.18 MiB → 3.17 MiB |   4 → 5 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`      | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`                                  |
-| +200.0% | +1,022.007 KiB | 0.1% → 0.2% |   511 KiB → 1.5 MiB |   1 → 3 | `IrSimpleTypeImpl(IrClassifierSymbol, SimpleTypeNullability, List, List, KotlinType)`      | `org.jetbrains.kotlin.ir.types.impl.IrSimpleTypeImplKt`                                            |
-|     new |     +1,022 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `getAnnotationsByClassId(List, ClassId, FirSession)`                                       | `org.jetbrains.kotlin.fir.declarations.FirAnnotationUtilsKt`                                       |
-|     new |     +1,022 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `_init_$lambda$0(int, int)`                                                                | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.FastStoreLoadAnalyzer`                    |
-|     new |     +1,022 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `valueOf(int)`                                                                             | `java.lang.Integer`                                                                                |
-|     new | +1,021.992 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `resolveNameByInternalName(String, FileBasedKotlinClass$InnerClassesInfo)`                 | `org.jetbrains.kotlin.load.kotlin.FileBasedKotlinClass`                                            |
-| +200.0% | +1,021.992 KiB | 0.1% → 0.2% |   511 KiB → 1.5 MiB |   1 → 3 | `createScope(IrSymbolOwner)`                                                               | `org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext`                          |
-|     new | +1,021.976 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `processCandidatesAndPostponedAtoms(ConeResolutionAtom, Function1, Function1)`             | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateTraversalKt`                            |
-|     new | +1,021.976 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 2 | `getSuperConeTypes(FirClass)`                                                              | `org.jetbrains.kotlin.fir.declarations.utils.FirDeclarationUtilKt`                                 |
-|     new | +1,021.976 KiB | 0.0% → 0.1% |      0 B → 1022 KiB |   0 → 1 | `_get_boundsNullability_$lambda$0$2(List, AbstractSignatureParts)`                         | `org.jetbrains.kotlin.load.java.typeEnhancement.AbstractSignatureParts`                            |
+|  Change |          Delta |             % |                Size |  Samples | Function                                                                                   | Location                                                                                           |
+| ------: | -------------: | ------------: | ------------------: | -------: | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| +148.5% |   +148.415 MiB | 14.6% → 36.3% |  99.9 MiB → 248 MiB | 98 → 107 | `copyOf(byte[], int)`                                                                      | `java.util.Arrays`                                                                                 |
+| +135.4% |     +4.592 MiB |   0.5% → 1.2% | 3.39 MiB → 7.98 MiB |   7 → 15 | `box-impl(List)`                                                                           | `org.jetbrains.kotlin.fir.MutableOrEmptyList`                                                      |
+| +350.0% |     +3.492 MiB |   0.1% → 0.7% | 1022 KiB → 4.49 MiB |    2 → 9 | `<init>()`                                                                                 | `org.jetbrains.kotlin.resolve.calls.inference.model.MutableConstraintStorage`                      |
+|  +22.3% |     +2.993 MiB |   2.0% → 2.4% | 13.4 MiB → 16.4 MiB |  27 → 33 | `<init>(int)`                                                                              | `org.jetbrains.kotlin.protobuf.ByteString$Output`                                                  |
+| +166.7% |     +2.495 MiB |   0.2% → 0.6% |  1.5 MiB → 3.99 MiB |    3 → 7 | `to(Object, Object)`                                                                       | `kotlin.TuplesKt`                                                                                  |
+| +200.0% |     +1.996 MiB |   0.1% → 0.4% | 1022 KiB → 2.99 MiB |    2 → 6 | `<init>()`                                                                                 | `org.jetbrains.kotlin.types.AbstractTypeApproximator$Cache`                                        |
+|  +36.2% |     +1.996 MiB |   0.8% → 1.1% | 5.52 MiB → 7.52 MiB |  12 → 16 | `newInstance(OutputStream, int)`                                                           | `org.jetbrains.kotlin.protobuf.CodedOutputStream`                                                  |
+| +400.0% |     +1.996 MiB |   0.1% → 0.4% |   511 KiB → 2.5 MiB |    1 → 5 | `iterator()`                                                                               | `org.jetbrains.kotlin.utils.SmartList`                                                             |
+|     new |     +1.497 MiB |   0.0% → 0.2% |       0 B → 1.5 MiB |    0 → 3 | `simplifyKnownSafeCallPatterns(TemporaryVariablesEliminationTransformer$ControlFlowGraph)` | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.TemporaryVariablesEliminationTransformer` |
+|     new |     +1.497 MiB |   0.0% → 0.2% |       0 B → 1.5 MiB |    0 → 3 | `getLabel()`                                                                               | `org.jetbrains.org.objectweb.asm.tree.LabelNode`                                                   |
+|  +60.0% |     +1.497 MiB |   0.4% → 0.6% |  2.5 MiB → 3.99 MiB |    5 → 8 | `newOutput()`                                                                              | `org.jetbrains.kotlin.protobuf.ByteString`                                                         |
+|  +45.9% | +1,022.546 KiB |   0.3% → 0.5% | 2.18 MiB → 3.17 MiB |    4 → 5 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`      | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`                                  |
+| +200.0% | +1,022.007 KiB |   0.1% → 0.2% |   511 KiB → 1.5 MiB |    1 → 3 | `IrSimpleTypeImpl(IrClassifierSymbol, SimpleTypeNullability, List, List, KotlinType)`      | `org.jetbrains.kotlin.ir.types.impl.IrSimpleTypeImplKt`                                            |
+|     new |     +1,022 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `getAnnotationsByClassId(List, ClassId, FirSession)`                                       | `org.jetbrains.kotlin.fir.declarations.FirAnnotationUtilsKt`                                       |
+|     new |     +1,022 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `_init_$lambda$0(int, int)`                                                                | `org.jetbrains.kotlin.codegen.optimization.temporaryVals.FastStoreLoadAnalyzer`                    |
+|     new |     +1,022 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `valueOf(int)`                                                                             | `java.lang.Integer`                                                                                |
+|     new | +1,021.992 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `resolveNameByInternalName(String, FileBasedKotlinClass$InnerClassesInfo)`                 | `org.jetbrains.kotlin.load.kotlin.FileBasedKotlinClass`                                            |
+| +200.0% | +1,021.992 KiB |   0.1% → 0.2% |   511 KiB → 1.5 MiB |    1 → 3 | `createScope(IrSymbolOwner)`                                                               | `org.jetbrains.kotlin.backend.common.IrElementTransformerVoidWithContext`                          |
+|     new | +1,021.976 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `processCandidatesAndPostponedAtoms(ConeResolutionAtom, Function1, Function1)`             | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateTraversalKt`                            |
+|     new | +1,021.976 KiB |   0.0% → 0.1% |      0 B → 1022 KiB |    0 → 2 | `getSuperConeTypes(FirClass)`                                                              | `org.jetbrains.kotlin.fir.declarations.utils.FirDeclarationUtilKt`                                 |
 
 #### Improvements
 
@@ -197,6 +199,7 @@ Functions with the largest increase in total bytes allocated in the function and
 
 |   Change |        Delta |             % |                Size |   Samples | Function                                                                             | Location                                                                |
 | -------: | -----------: | ------------: | ------------------: | --------: | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+|  +144.5% | +152.705 MiB | 15.5% → 37.8% |   106 MiB → 258 MiB | 114 → 134 | `copyOf(byte[], int)`                                                                | `java.util.Arrays`                                                      |
 |  +151.7% | +150.505 MiB | 14.5% → 36.5% |  99.2 MiB → 250 MiB | 101 → 113 | `toByteArray()`                                                                      | `java.io.ByteArrayOutputStream`                                         |
 |   +48.8% |  +63.382 MiB | 19.0% → 28.3% |   130 MiB → 193 MiB | 264 → 274 | `doMainNoExit(CLICompiler, String[], MessageRenderer)`                               | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion`                 |
 |   +48.3% |  +63.382 MiB | 19.2% → 28.5% |   131 MiB → 195 MiB | 267 → 277 | `exec(PrintStream, MessageRenderer, String[])`                                       | `org.jetbrains.kotlin.cli.common.CLICompiler`                           |
@@ -216,7 +219,6 @@ Functions with the largest increase in total bytes allocated in the function and
 |    +6.6% |   +9.464 MiB | 21.1% → 22.5% |   144 MiB → 154 MiB | 290 → 308 | `phaseBody(PipelineContext, PipelineArtifact)`                                       | `org.jetbrains.kotlin.cli.pipeline.PipelinePhase`                       |
 |    +7.1% |   +9.443 MiB | 19.4% → 20.8% |   133 MiB → 142 MiB | 268 → 286 | `execute(CommonCompilerArguments, Services, MessageCollector)`                       | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                 |
 |    +6.5% |   +9.312 MiB | 21.1% → 22.4% |   144 MiB → 153 MiB | 291 → 307 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                           | `org.jetbrains.kotlin.config.phaser.NamedCompilerPhase`                 |
-|    +6.5% |    +9.21 MiB | 20.6% → 22.0% |   141 MiB → 150 MiB | 285 → 301 | `invoke(PhaseConfig, PhaserState, LoggingContext, Object)`                           | `org.jetbrains.kotlin.backend.common.phaser.CompositePhase`             |
 
 #### Improvements
 
@@ -254,6 +256,8 @@ Retained 19.2 MiB → 18.7 MiB (-548.218 KiB, -2.8%) over 198 samples → 203
 | stdlib   |  -3.0% | -550.46 KiB | 93.6% → 93.5% | 18 MiB → 17.5 MiB | 183 → 188 |
 | ours     |  +0.2% |  +2.242 KiB |   6.4% → 6.5% |          1.22 MiB |        15 |
 
+Hidden functions account for 93.6% of bytes retained, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self size
@@ -274,13 +278,14 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change |  Delta |            % |        Size | Samples | Function                                    | Location                                                                       |
-| ------: | -----: | -----------: | ----------: | ------: | ------------------------------------------- | ------------------------------------------------------------------------------ |
-| removed | -256 B | <0.1% → 0.0% | 256 B → 0 B |   1 → 0 | `asRigidType(KotlinTypeMarker)`             | `org.jetbrains.kotlin.fir.types.ConeTypeContext`                               |
-| removed |  -88 B | <0.1% → 0.0% |  88 B → 0 B |   1 → 0 | `build()`                                   | `org.jetbrains.kotlin.fir.declarations.builder.FirRegularClassBuilder`         |
-| removed |  -72 B | <0.1% → 0.0% |  72 B → 0 B |   1 → 0 | `getBytes(int, int)`                        | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.LargeDynamicMappedBuffer$Mapping` |
-| removed |  -64 B | <0.1% → 0.0% |  64 B → 0 B |   1 → 0 | `build()`                                   | `org.jetbrains.kotlin.fir.java.declarations.FirJavaValueParameterBuilder`      |
-| removed |  -32 B | <0.1% → 0.0% |  32 B → 0 B |   1 → 0 | `substituteArguments(ConeSimpleKotlinType)` | `org.jetbrains.kotlin.fir.resolve.substitution.AbstractConeSubstitutor`        |
+|  Change |      Delta |             % |                Size |   Samples | Function                                    | Location                                                                       |
+| ------: | ---------: | ------------: | ------------------: | --------: | ------------------------------------------- | ------------------------------------------------------------------------------ |
+|  -14.2% | -1.875 MiB | 68.5% → 60.4% | 13.2 MiB → 11.3 MiB | 154 → 143 | `copyOf(byte[], int)`                       | `java.util.Arrays`                                                             |
+| removed |     -256 B |  <0.1% → 0.0% |         256 B → 0 B |     1 → 0 | `asRigidType(KotlinTypeMarker)`             | `org.jetbrains.kotlin.fir.types.ConeTypeContext`                               |
+| removed |      -88 B |  <0.1% → 0.0% |          88 B → 0 B |     1 → 0 | `build()`                                   | `org.jetbrains.kotlin.fir.declarations.builder.FirRegularClassBuilder`         |
+| removed |      -72 B |  <0.1% → 0.0% |          72 B → 0 B |     1 → 0 | `getBytes(int, int)`                        | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.LargeDynamicMappedBuffer$Mapping` |
+| removed |      -64 B |  <0.1% → 0.0% |          64 B → 0 B |     1 → 0 | `build()`                                   | `org.jetbrains.kotlin.fir.java.declarations.FirJavaValueParameterBuilder`      |
+| removed |      -32 B |  <0.1% → 0.0% |          32 B → 0 B |     1 → 0 | `substituteArguments(ConeSimpleKotlinType)` | `org.jetbrains.kotlin.fir.resolve.substitution.AbstractConeSubstitutor`        |
 
 ### Total size
 
@@ -327,6 +332,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 |   -5.6% | -222.359 KiB | 20.1% → 19.5% | 3.87 MiB → 3.65 MiB |        13 | `invoke(Object, Object[])`                                                                                                                                                                                                                                      | `java.lang.reflect.Method`                                                                   |
 |   -4.6% | -185.445 KiB | 20.4% → 20.0% | 3.92 MiB → 3.74 MiB |   17 → 19 | `main(String[])`                                                                                                                                                                                                                                                | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`                                       |
 |   -4.6% | -185.445 KiB | 20.4% → 20.0% | 3.92 MiB → 3.74 MiB |   17 → 19 | `main(String[])`                                                                                                                                                                                                                                                | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`                                                 |
+|   -0.8% | -108.843 KiB | 70.3% → 71.7% | 13.5 MiB → 13.4 MiB | 163 → 167 | `copyOf(byte[], int)`                                                                                                                                                                                                                                           | `java.util.Arrays`                                                                           |
 |   -0.8% | -108.843 KiB | 70.3% → 71.7% | 13.5 MiB → 13.4 MiB | 163 → 167 | `toByteArray()`                                                                                                                                                                                                                                                 | `java.io.ByteArrayOutputStream`                                                              |
 |   -0.8% | -108.843 KiB | 71.6% → 73.0% | 13.8 MiB → 13.7 MiB | 164 → 168 | `loadAllClassesFromJars(Collection, int, ClassHandler)`                                                                                                                                                                                                         | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils`                                       |
 |   -0.8% | -108.843 KiB | 71.6% → 73.0% | 13.8 MiB → 13.7 MiB | 164 → 168 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)`                                                                                                                                                                                    | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils`                                       |
@@ -336,7 +342,6 @@ Functions with the largest decrease in total bytes retained in the function and 
 |  -61.2% |       -504 B |         <0.1% |       824 B → 320 B |         3 | `prepareSessions$default(SessionConstructionUtils, List, CompilerConfiguration, Name, TargetPlatform, boolean, DependencyListForCliModule, List, Function1, Function1, Function2, Function0, Function0, Function1, FirSessionProducer, Function4, int, Object)` | `org.jetbrains.kotlin.cli.common.SessionConstructionUtils`                                   |
 |  -61.2% |       -504 B |         <0.1% |       824 B → 320 B |         3 | `prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1)`                                                                     | `org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase`                             |
 |  -59.2% |       -488 B |         <0.1% |       824 B → 336 B |     4 → 1 | `convertToIrAndActualize()`                                                                                                                                                                                                                                     | `org.jetbrains.kotlin.fir.pipeline.Fir2IrPipeline`                                           |
-|  -59.2% |       -488 B |         <0.1% |       824 B → 336 B |     4 → 1 | `convertToIrAndActualize-MT2kVtw(List, Fir2IrExtensions, Fir2IrConfiguration, Collection, KotlinMangler$IrMangler, Fir2IrVisibilityConverter, KotlinBuiltIns, Function1, IrSpecialAnnotationsProvider, Function1, Fir2IrCommonMemberStorage, Function1)`        | `org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt`                                            |
 
 # Lock contention profile diff
 
@@ -346,7 +351,7 @@ Blocked 510.6ms → 492.7ms (-17.91ms, -3.5%) over 3 samples → 2 samples (170.
 | -------- | -----: | -------: | -----: | ----------------: | ------: |
 | stdlib   |  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 |
 
-The entry filter hides every sampled function, so all functions are shown.
+Hidden functions account for 100.0% of time blocked, so the hottest are also shown.
 
 ## Hottest functions
 
@@ -366,15 +371,6 @@ Functions with the largest decrease in time blocked directly in the function bod
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 
-| Change |    Delta |      % |              Time | Samples | Function                    | Location                                                                |
-| -----: | -------: | -----: | ----------------: | ------: | --------------------------- | ----------------------------------------------------------------------- |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `park(boolean, long)`       | `jdk.internal.misc.Unsafe`                                              |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `parkNanos(Object, long)`   | `java.util.concurrent.locks.LockSupport`                                |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `await(long, TimeUnit)`     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `await(long)`               | `java.lang.ref.ReferenceQueue`                                          |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `remove0(long)`             | `java.lang.ref.ReferenceQueue`                                          |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `remove(long)`              | `java.lang.ref.ReferenceQueue`                                          |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `run()`                     | `jdk.internal.ref.CleanerImpl`                                          |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `runWith(Object, Runnable)` | `java.lang.Thread`                                                      |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `run()`                     | `java.lang.Thread`                                                      |
-|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `run()`                     | `jdk.internal.misc.InnocuousThread`                                     |
+| Change |    Delta |      % |              Time | Samples | Function              | Location                   |
+| -----: | -------: | -----: | ----------------: | ------: | --------------------- | -------------------------- |
+|  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |

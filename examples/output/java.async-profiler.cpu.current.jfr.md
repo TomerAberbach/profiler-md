@@ -169,7 +169,7 @@ Lines ranked by contribution to each function's self samples.
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `accumulate(Double[], double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
 
@@ -227,11 +227,18 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ----------------------------------- | ------------------------------------------- |
 | 100.0% |      11 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
+##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % | Samples | Caller   | Location                             |
+| -----: | ------: | -------- | ------------------------------------ |
+| 100.0% |       4 | `exec()` | `java.util.concurrent.RecursiveTask` |
+
 ##### `mach_absolute_time` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Caller              | Location                                    |
-| ----: | ------: | ------------------- | ------------------------------------------- |
-| 25.0% |       1 | `getVmStartNanos()` | `org.renaissance.harness.RenaissanceSuite$` |
+|     % | Samples | Caller                | Location                                    |
+| ----: | ------: | --------------------- | ------------------------------------------- |
+| 75.0% |       3 | `os::elapsed_counter` | `libjvm.dylib`                              |
+| 25.0% |       1 | `getVmStartNanos()`   | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `add(Object)` (`java.util.ArrayList`)
 
@@ -318,7 +325,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
@@ -332,9 +339,10 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ##### `join()` (`java.util.concurrent.ForkJoinTask`)
 
-|     % | Samples | Callee        | Location    |
-| ----: | ------: | ------------- | ----------- |
-| <0.1% |       1 | `vtable stub` | `<unknown>` |
+|      % | Samples | Callee                 | Location                            |
+| -----: | ------: | ---------------------- | ----------------------------------- |
+| 100.0% |   4,154 | `awaitDone(int, long)` | `java.util.concurrent.ForkJoinTask` |
+|  <0.1% |       1 | `vtable stub`          | `<unknown>`                         |
 
 ##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
@@ -377,6 +385,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ---: | ------: | -------------------------------- | ------------------ |
 | 8.3% |      91 | `doubleValue()`                  | `java.lang.Double` |
 | 0.1% |       1 | `counter_overflow Runtime1 stub` | `<unknown>`        |
+
+##### `invoke()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Callee     | Location                            |
+| -----: | ------: | ---------- | ----------------------------------- |
+| 100.0% |     981 | `doExec()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `distance(Double[], Double[])` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 

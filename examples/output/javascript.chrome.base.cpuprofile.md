@@ -71,13 +71,19 @@ Lines ranked by contribution to each function's self time.
 
 #### Callers
 
-Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise. Where shown callers fell short of the coverage target, the hottest hidden callers are also shown.
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
 |      % |    Time | Samples | Caller        | Location      |
 | -----: | ------: | ------: | ------------- | ------------- |
 | 100.0% | 200.0ms |     137 | `(anonymous)` | `run.mjs:1:1` |
+
+##### `(program)` (`<unknown>`)
+
+|      % |   Time | Samples | Caller   | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% | 69.6ms |      46 | `(root)` | `<unknown>` |
 
 ##### `createElement` (`<unknown>`)
 
@@ -91,11 +97,29 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ---------- | -------------------- |
 | 100.0% | 44.7ms |      30 | `tokenize` | `workload.mjs:10:20` |
 
+##### `(garbage collector)` (`<unknown>`)
+
+|      % |   Time | Samples | Caller   | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% | 20.9ms |      14 | `(root)` | `<unknown>` |
+
 ##### `tokenize` (`workload.mjs:10:20`)
 
 |      % |   Time | Samples | Caller        | Location             |
 | -----: | -----: | ------: | ------------- | -------------------- |
 | 100.0% | 15.0ms |      10 | `scoreStatus` | `workload.mjs:11:23` |
+
+##### `(idle)` (`<unknown>`)
+
+|      % |  Time | Samples | Caller   | Location    |
+| -----: | ----: | ------: | -------- | ----------- |
+| 100.0% | 9.2ms |       6 | `(root)` | `<unknown>` |
+
+##### `(anonymous)` (`run.mjs:1:1`)
+
+|      % |  Time | Samples | Caller   | Location    |
+| -----: | ----: | ------: | -------- | ----------- |
+| 100.0% | 9.1ms |       6 | `(root)` | `<unknown>` |
 
 ##### `scoreStatus` (`workload.mjs:11:23`)
 

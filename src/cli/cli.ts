@@ -5,7 +5,7 @@ import { message, text, value } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
 import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
-import { choice, integer, string } from '@optique/core/valueparser'
+import { choice, float, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
 import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
@@ -83,6 +83,15 @@ const parser = object({
     option(`--top-n`, integer({ metavar: `N` }), {
       description: message`Top entries to show (default: 20)`,
     }),
+  ),
+  coverageTarget: optional(
+    option(
+      `--coverage-target`,
+      float({ metavar: `FRACTION`, min: 0, max: 1 }),
+      {
+        description: message`Show hidden entries until shown entries cover this fraction of each section, capped at the top N; 0 disables (default: 0.5)`,
+      },
+    ),
   ),
   baseURL: optional(
     option(`--base-url`, string(), {

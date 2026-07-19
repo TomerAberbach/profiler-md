@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   closureTables,
   largestStringsTables,
+  retainedSizeTables,
   selfSizeInstancesTables,
   selfSizeTables,
 } from '../../../modalities/snapshot/testing.ts'
@@ -459,6 +460,69 @@ describe(`convert`, () => {
         },
       ],
     ])
+  })
+
+  test(`coverage admission never double-counts nested retained sets`, () => {
+    // Outer dominates Inner, so Outer's retained size (150 B) already
+    // includes Inner's. The constructors group's union denominator is 150 B,
+    // not 200 B: admitting Outer alone reaches even a 90% target, and Inner
+    // stays hidden.
+    const snapshot = makeV8Snapshot({
+      nodeCount: 3,
+      edgeCount: 2,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }), // Root
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 3,
+          selfSize: 100,
+          edgeCount: 1,
+        }), // Outer
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 2,
+          id: 5,
+          selfSize: 50,
+          edgeCount: 0,
+        }), // Inner
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> Outer (flat 6)
+        ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 3, toNode: 12 }), // Outer -[ref]-> Inner (flat 12)
+      ],
+      strings: [``, `Outer`, `Inner`, `ref`],
+    })
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions({
+        showEntry: () => false,
+        coverageTarget: 0.9,
+      }),
+    )
+
+    expect(md).toContain(
+      `Hidden constructors account for 100.0% of the bytes constructors retain, so the largest are also shown.`,
+    )
+    expect(retainedSizeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `150 B`,
+          Instances: `1`,
+          Constructor: `Outer`,
+        },
+      ],
+    ])
+    expect(md).not.toContain(`Inner`)
   })
 
   test(`string nodes appear in the Largest strings section`, () => {

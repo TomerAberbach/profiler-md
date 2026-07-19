@@ -7,6 +7,8 @@ Allocated 3.12 GiB → 3.08 GiB (-35.451 MiB, -1.1%) over 76,154 samples → 
 | stdlib   |  -1.1% |  -35.688 MiB | 99.8% | 3.11 GiB → 3.08 GiB | 70,926 → 70,684 |
 | ours     |  +3.7% | +243.148 KiB |  0.2% | 6.42 MiB → 6.66 MiB |   5,228 → 5,438 |
 
+Hidden functions account for 99.8% of bytes allocated, so the hottest are also shown.
+
 ## Hottest functions
 
 ### Self size
@@ -32,16 +34,17 @@ Functions with the largest increase in bytes allocated directly in the function 
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-|  Change |      Delta |            % |                Size |   Samples | Function                   | Location                                                   |
-| ------: | ---------: | -----------: | ------------------: | --------: | -------------------------- | ---------------------------------------------------------- |
-|  -22.1% | -2.156 KiB |        <0.1% | 9.75 KiB → 7.59 KiB | 208 → 162 | `collectClusters(int[])`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  -12.0% | -2.078 KiB |        <0.1% | 17.3 KiB → 15.2 KiB | 316 → 278 | `createSubtask(int, int)`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  -24.3% |     -840 B |        <0.1% | 3.38 KiB → 2.55 KiB | 144 → 109 | `valueOf(double)`          | `java.lang.Double`                                         |
-|  -50.0% |     -432 B |        <0.1% |       864 B → 432 B |    18 → 9 | `createSubtask(int, int)`  | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  -25.0% |     -192 B |        <0.1% |       768 B → 576 B |   16 → 12 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| removed |     -168 B | <0.1% → 0.0% |         168 B → 0 B |     3 → 0 | `div(double[], int)`       | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  -26.9% |     -168 B |        <0.1% |       624 B → 456 B |   26 → 19 | `range(int, int)`          | `java.util.stream.IntStream`                               |
-| removed |      -96 B | <0.1% → 0.0% |          96 B → 0 B |     2 → 0 | `average(List)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  Change |       Delta |            % |                Size |         Samples | Function                   | Location                                                   |
+| ------: | ----------: | -----------: | ------------------: | --------------: | -------------------------- | ---------------------------------------------------------- |
+|   -1.1% | -36.266 MiB |        99.6% | 3.11 GiB → 3.07 GiB | 69,267 → 69,036 | `copyOf(Object[], int)`    | `java.util.Arrays`                                         |
+|  -22.1% |  -2.156 KiB |        <0.1% | 9.75 KiB → 7.59 KiB |       208 → 162 | `collectClusters(int[])`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -12.0% |  -2.078 KiB |        <0.1% | 17.3 KiB → 15.2 KiB |       316 → 278 | `createSubtask(int, int)`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -24.3% |      -840 B |        <0.1% | 3.38 KiB → 2.55 KiB |       144 → 109 | `valueOf(double)`          | `java.lang.Double`                                         |
+|  -50.0% |      -432 B |        <0.1% |       864 B → 432 B |          18 → 9 | `createSubtask(int, int)`  | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -25.0% |      -192 B |        <0.1% |       768 B → 576 B |         16 → 12 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| removed |      -168 B | <0.1% → 0.0% |         168 B → 0 B |           3 → 0 | `div(double[], int)`       | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -26.9% |      -168 B |        <0.1% |       624 B → 456 B |         26 → 19 | `range(int, int)`          | `java.util.stream.IntStream`                               |
+| removed |       -96 B | <0.1% → 0.0% |          96 B → 0 B |           2 → 0 | `average(List)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 
 ### Total size
 
@@ -88,6 +91,7 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -1.1% |  -36.411 MiB | 99.5% → 99.4% |  3.1 GiB → 3.07 GiB | 57,973 → 57,531 | `combineResults(Map, Map)`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  -1.1% |  -36.411 MiB | 99.5% → 99.4% |  3.1 GiB → 3.07 GiB | 57,973 → 57,531 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  -1.1% |  -36.042 MiB |         99.8% | 3.11 GiB → 3.08 GiB | 75,706 → 75,720 | `compute()`                         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+|  -1.1% |  -35.491 MiB |         99.8% | 3.11 GiB → 3.08 GiB | 69,295 → 69,063 | `copyOf(Object[], int)`             | `java.util.Arrays`                                                     |
 |  -1.4% |  -35.204 MiB | 81.0% → 80.8% | 2.52 GiB → 2.49 GiB | 42,853 → 42,397 | `addAll(Collection)`                | `java.util.ArrayList`                                                  |
 |  -1.6% |  -31.317 MiB | 62.7% → 62.4% | 1.95 GiB → 1.92 GiB | 15,275 → 15,062 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |  -1.6% |  -31.317 MiB | 62.7% → 62.4% | 1.95 GiB → 1.92 GiB | 15,275 → 15,062 | `call()`                            | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68` |
@@ -97,7 +101,6 @@ Functions with the largest decrease in total bytes allocated in the function and
 | -23.8% | -234.265 KiB |         <0.1% |   983 KiB → 749 KiB |         45 → 54 | `loadClass(String)`                 | `java.lang.ClassLoader`                                                |
 | -42.6% |  -216.21 KiB |         <0.1% |   508 KiB → 292 KiB |         26 → 27 | `executeOperation(int)`             | `org.renaissance.harness.ExecutionDriver`                              |
 | -42.6% |  -216.21 KiB |         <0.1% |   508 KiB → 291 KiB |         24 → 25 | `run(BenchmarkContext)`             | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-| -86.9% | -100.085 KiB |         <0.1% |  115 KiB → 15.1 KiB |           9 → 5 | `map(Function1)`                    | `scala.collection.immutable.Range`                                     |
 
 # Retained heap profile diff
 
@@ -107,6 +110,8 @@ Retained 8.47 MiB → 6.33 MiB (-2.138 MiB, -25.3%) over 320 samples → 193 
 | -------- | -----: | ---------: | -------------: | ------------------: | --------: |
 | stdlib   | -25.2% | -2.131 MiB | 99.9% → 100.0% | 8.46 MiB → 6.33 MiB | 271 → 145 |
 | ours     | -79.9% |  -7.57 KiB |   0.1% → <0.1% | 9.48 KiB → 1.91 KiB |   49 → 48 |
+
+Hidden functions account for 99.9% of bytes retained, so the hottest are also shown.
 
 ## Hottest functions
 
@@ -127,12 +132,13 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change |      Delta |            % |                Size |  Samples | Function                  | Location                                                   |
-| ------: | ---------: | -----------: | ------------------: | -------: | ------------------------- | ---------------------------------------------------------- |
-| removed | -7.687 KiB |  0.1% → 0.0% |      7.69 KiB → 0 B |    4 → 0 | `findNearestCentroid()`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  -25.6% |     -816 B |        <0.1% | 3.12 KiB → 2.32 KiB | 133 → 99 | `valueOf(double)`         | `java.lang.Double`                                         |
-| removed |     -112 B | <0.1% → 0.0% |         112 B → 0 B |    2 → 0 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| removed |      -48 B | <0.1% → 0.0% |          48 B → 0 B |    1 → 0 | `collectClusters(int[])`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  Change |      Delta |             % |                Size |  Samples | Function                  | Location                                                   |
+| ------: | ---------: | ------------: | ------------------: | -------: | ------------------------- | ---------------------------------------------------------- |
+|  -30.5% | -1.875 MiB | 72.5% → 67.4% | 6.14 MiB → 4.26 MiB | 127 → 37 | `copyOf(Object[], int)`   | `java.util.Arrays`                                         |
+| removed | -7.687 KiB |   0.1% → 0.0% |      7.69 KiB → 0 B |    4 → 0 | `findNearestCentroid()`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  -25.6% |     -816 B |         <0.1% | 3.12 KiB → 2.32 KiB | 133 → 99 | `valueOf(double)`         | `java.lang.Double`                                         |
+| removed |     -112 B |  <0.1% → 0.0% |         112 B → 0 B |    2 → 0 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| removed |      -48 B |  <0.1% → 0.0% |          48 B → 0 B |    1 → 0 | `collectClusters(int[])`  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ### Total size
 
@@ -171,6 +177,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 | ------: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 |  -36.1% |   -1.978 MiB | 64.6% → 55.2% |  5.47 MiB → 3.5 MiB |   90 → 25 | `addAll(Collection)`                                                                                                   | `java.util.ArrayList`                                                  |
 |  -30.6% |   -1.883 MiB | 72.6% → 67.4% | 6.15 MiB → 4.26 MiB |  137 → 41 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+|  -22.9% |   -1.875 MiB | 96.8% → 99.9% |  8.2 MiB → 6.32 MiB |  128 → 38 | `copyOf(Object[], int)`                                                                                                | `java.util.Arrays`                                                     |
 |  -30.5% |   -1.868 MiB | 72.4% → 67.3% | 6.13 MiB → 4.26 MiB |  111 → 34 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |  -30.5% |   -1.868 MiB | 72.4% → 67.3% | 6.13 MiB → 4.26 MiB |  111 → 34 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801186fd0` |
 |  -30.5% |   -1.868 MiB | 72.4% → 67.3% | 6.13 MiB → 4.26 MiB |  111 → 34 | `merge(Object, Object, BiFunction)`                                                                                    | `java.util.HashMap`                                                    |
@@ -188,4 +195,3 @@ Functions with the largest decrease in total bytes retained in the function and 
 | -100.0% | -260.695 KiB |  3.0% → <0.1% |      261 KiB → 96 B |     5 → 3 | `loadClass(String)`                                                                                                    | `java.lang.ClassLoader`                                                |
 |  -10.8% | -255.781 KiB | 27.3% → 32.6% | 2.31 MiB → 2.06 MiB | 179 → 145 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
 |  -10.8% | -255.781 KiB | 27.3% → 32.6% | 2.31 MiB → 2.06 MiB | 179 → 145 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  -10.8% | -255.781 KiB | 27.3% → 32.6% | 2.31 MiB → 2.06 MiB | 179 → 145 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000080111efe0` |

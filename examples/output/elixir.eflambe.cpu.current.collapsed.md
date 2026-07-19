@@ -208,7 +208,7 @@ Functions ranked by total samples taken in the function and all its callees.
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ##### `-run/1-fun-0-/2` (`Profile`)
 
@@ -315,11 +315,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ##### `ensure_loaded/1` (`code`)
 
-|    % | Samples | Callee       | Location      |
-| ---: | ------: | ------------ | ------------- |
-| 5.9% |      70 | `call/1`     | `code_server` |
-| 0.3% |       3 | `get_mode/0` | `code_server` |
-| 0.1% |       1 | `call/1`     | `code`        |
+|     % | Samples | Callee                | Location      |
+| ----: | ------: | --------------------- | ------------- |
+| 77.0% |     909 | `prepare_loading_1/2` | `erlang`      |
+|  5.9% |      70 | `call/1`              | `code_server` |
+|  0.3% |       3 | `get_mode/0`          | `code_server` |
+|  0.1% |       1 | `call/1`              | `code`        |
 
 ##### `string/7` (`Jason.Decoder`)
 

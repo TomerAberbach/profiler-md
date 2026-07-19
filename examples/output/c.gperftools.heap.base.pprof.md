@@ -157,13 +157,14 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
 
 ###### `_start` (`<unknown>`)
 
-|    % |    Size | Samples | Callee   | Location    |
-| ---: | ------: | ------: | -------- | ----------- |
-| 0.6% | 387 KiB |       6 | `_start` | `<unknown>` |
+|      % |     Size | Samples | Callee   | Location    |
+| -----: | -------: | ------: | -------- | ----------- |
+| 100.0% | 66.8 MiB |      75 | `main`   | `<unknown>` |
+|   0.6% |  387 KiB |       6 | `_start` | `<unknown>` |
 
 ###### `POOL_thread` (`pool.c`)
 
@@ -283,7 +284,28 @@ Call stacks ranked by bytes allocated in their leaf frame.
 
 ## Retained heap
 
+Hidden functions account for 100.0% of bytes retained, so the hottest are also shown.
+
 ### Hottest functions
+
+#### Self size
+
+Functions ranked by bytes retained directly in the function body, excluding callees.
+
+|      % |  Size | Samples | Function               | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 912 B |      12 | `POOL_create_advanced` | `<unknown>` |
+
+##### Callers
+
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+
+###### `POOL_create_advanced` (`<unknown>`)
+
+|     % |  Size | Samples | Caller                       | Location    |
+| ----: | ----: | ------: | ---------------------------- | ----------- |
+| 66.7% | 608 B |       8 | `POOL_create`                | `<unknown>` |
+| 33.3% | 304 B |       4 | `ZSTDMT_createCCtx_advanced` | `<unknown>` |
 
 #### Total size
 
@@ -291,6 +313,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 |      % |  Size | Samples | Function                         | Location           |
 | -----: | ----: | ------: | -------------------------------- | ------------------ |
+| 100.0% | 912 B |      12 | `POOL_create_advanced`           | `<unknown>`        |
 | 100.0% | 912 B |      75 | `_start`                         | `<unknown>`        |
 |  66.7% | 608 B |       8 | `POOL_create`                    | `<unknown>`        |
 |  66.7% | 608 B |      48 | `AIO_IOPool_init`                | `fileio_asyncio.c` |
@@ -304,7 +327,19 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Callees
 
-Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse. Where shown callees fell short of the coverage target, the hottest hidden callees are also shown.
+
+###### `_start` (`<unknown>`)
+
+|      % |  Size | Samples | Callee | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 912 B |      75 | `main` | `<unknown>` |
+
+###### `POOL_create` (`<unknown>`)
+
+|      % |  Size | Samples | Callee                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 608 B |       8 | `POOL_create_advanced` | `<unknown>` |
 
 ###### `AIO_IOPool_init` (`fileio_asyncio.c`)
 
@@ -331,6 +366,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | ----: | ------: | ----------------- | ------------------ |
 | 100.0% | 304 B |      24 | `AIO_IOPool_init` | `fileio_asyncio.c` |
 
+###### `ZSTDMT_createCCtx_advanced` (`<unknown>`)
+
+|      % |  Size | Samples | Callee                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 304 B |       4 | `POOL_create_advanced` | `<unknown>` |
+
 ###### `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`)
 
 |      % |  Size | Samples | Callee                       | Location    |
@@ -355,8 +396,8 @@ Call stacks ranked by bytes retained in their leaf frame.
 
 Common call stack: `_start`
 
-|     % |  Size | Samples | Call stack                                                                                                                                                 |
-| ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 33.3% | 304 B |       4 | `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`)                                      |
-| 33.3% | 304 B |       4 | `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`)                                       |
-| 33.3% | 304 B |       5 | `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) |
+|     % |  Size | Samples | Call stack                                                                                                                                                                          |
+| ----: | ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 33.3% | 304 B |       4 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_WritePool_create` ← `FIO_createCResources` (`fileio.c`)                                      |
+| 33.3% | 304 B |       4 | `POOL_create_advanced` ← `POOL_create` ← `AIO_IOPool_init` (`fileio_asyncio.c`) ← `AIO_ReadPool_create` ← `FIO_createCResources` (`fileio.c`)                                       |
+| 33.3% | 304 B |       4 | `POOL_create_advanced` ← `ZSTDMT_createCCtx_advanced` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) |

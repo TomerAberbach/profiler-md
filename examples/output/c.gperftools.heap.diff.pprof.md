@@ -23,6 +23,10 @@ No function differed in total bytes allocated in the function and all its callee
 
 ### Hottest functions
 
+#### Self size
+
+No function differed in bytes retained directly in the function body, excluding callees.
+
 #### Total size
 
 No function differed in total bytes retained in the function and all its callees.
