@@ -1,4 +1,4 @@
-import { formatDocPage, getDocPage } from '@optique/core'
+import { formatDocPage, getDocPage, runParser } from '@optique/core'
 import type { InferValue } from '@optique/core'
 import { object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
@@ -7,11 +7,12 @@ import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
 import { choice, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
-import { path, run } from '@optique/run'
+import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
+import { logo } from './logo.ts'
 
 const languageTopics = [...languages.entries()].flatMap(
   ([id, { aliases, extensions }]) => [
@@ -165,9 +166,23 @@ export const getHelpText = (): string =>
 export type CLIArgs = InferValue<typeof program.parser>
 
 export const parseArgs = (): CLIArgs =>
-  run(program, {
+  runParser(parser, program.metadata.name, process.argv.slice(2), {
     colors: false,
-    version: program.metadata.version,
-    completion: `option`,
-    errorExitCode: 2,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    maxWidth: process.stdout.columns ?? 80,
+    version: {
+      value: packageJson.version,
+      option: true,
+      onShow: () => {
+        if (process.stderr.isTTY) {
+          console.error(logo)
+        }
+        return process.exit(0)
+      },
+    },
+    completion: {
+      option: true,
+      onShow: () => process.exit(0),
+    },
+    onError: () => process.exit(2),
   })

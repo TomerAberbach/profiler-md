@@ -20,6 +20,7 @@ profiler-md
 │   │   ├── pager.ts          # Spawns $PAGER or `less` for stdout output
 │   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
 │   │   ├── theme-kindling.ts # Custom Shiki theme for syntax highlighting
+│   │   ├── logo.ts           # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts          # ANSI color helpers (respects TTY/no-color)
 │   │   ├── help.ts           # Prints CLI help and per-topic docs
 │   │   ├── languages.ts      # Language display metadata
