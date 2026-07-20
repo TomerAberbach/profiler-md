@@ -10,6 +10,8 @@
       "Bash(pnpm build *)",
       "Bash(pnpm update-readme *)",
       "Bash(pnpm check-readme *)",
+      "Bash(pnpm update-demo *)",
+      "Bash(pnpm check-demo *)",
       "Bash(pnpm update-examples *)",
       "Bash(pnpm check-examples *)",
       "Bash(node src/cli/index.ts *)"

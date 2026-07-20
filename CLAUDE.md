@@ -47,7 +47,8 @@ profiler-md
 │   │   ├── specs/
 │   │   │   ├── <name>.ts     # One file per origin (e.g. node, node-pprof, jdk)
 │   │   │   └── index.ts      # Exports originSpecs in detection-priority order
-│   │   └── index.ts          # Origin registry and derived detector
+│   │   ├── index.ts          # Origin registry and derived detector
+│   │   └── testing.ts        # Test-only origin detection and entry construction helpers
 │   │
 │   ├── modalities/           # Individual modality implementations
 │   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
@@ -92,20 +93,32 @@ profiler-md
 │       └── types.ts
 │
 ├── docs/
+│   ├── api.md                # Programmatic API guide linked from the readme
 │   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
 │   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
 │
 ├── skills/
 │   └── profile-optimize/     # Agent skill published with the package
 │
+├── .claude/
+│   ├── dimensions.md         # Where behavior belongs across format/modality/origin
+│   ├── hooks/lint-format.sh  # Lints and formats each written file
+│   └── skills/               # Repo-only agent skills (new-format, new-modality, new-origin, new-input, bench)
+│
 ├── scripts/                  # Bash and TypeScript scripts
 │   ├── bench                 # Benchmark the CLI with the given arguments
 │   ├── generate-inputs       # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
-│   ├── inputs/               # Per-language workload scripts (<lang>.sh + shared _common.sh), assets/ workload inputs, and profiler toolchain nix flake
+│   ├── inputs/               # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
 │   ├── update-examples.ts    # Update examples/output/ from examples/input/
-│   └── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
+│   ├── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
+│   └── update-demo.ts        # Record assets/demo.gif with vhs and embed its input digest
 │
-├── examples/
+├── assets/
+│   ├── demo.tape             # vhs script for the readme demo
+│   ├── demo.gif              # Recorded from demo.tape with `pnpm update-demo`
+│   └── logo.svg              # Readme logo
+│
+├── examples/                 # Filenames are `<lang>.<origin>.<config?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
 │   ├── input/                # Profile and snapshot inputs for testing and docs
 │   └── output/               # Markdown generated from examples/input/* with `pnpm update-examples`
 └── readme.md                 # CLI and matrix sections generated with `pnpm update-readme`
@@ -121,11 +134,19 @@ pnpm knip     # Find unused files, dependencies, and exports
 pnpm test
 pnpm test -u   # Update snapshots
 pnpm coverage
+pnpm build    # Bundle with tsdown
 
 # Update `examples/output/` from `examples/input/`
 pnpm update-examples
+# Re-record `assets/demo.gif` from `assets/demo.tape` (requires vhs and gifsicle)
+pnpm update-demo
 # Update readme (CLI help + language matrix) from src/cli/languages.ts and `--help`
 pnpm update-readme
+
+# Each generated artifact has a `--check` variant CI runs instead of updating
+pnpm check-examples
+pnpm check-demo
+pnpm check-readme
 
 # Benchmark the CLI with the given args
 pnpm bench ./examples/input/javascript.node.base.cpuprofile

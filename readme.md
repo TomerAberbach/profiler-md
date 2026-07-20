@@ -22,52 +22,177 @@
   Converts performance profiles to human and LLM friendly Markdown.
 </div>
 
+<div align="center">
+  <a href="#demo">Demo</a> •
+  <a href="#features">Features</a> •
+  <a href="#install">Install</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#skill">Skill</a> •
+  <a href="#languages-and-formats">Languages and formats</a>
+</div>
+
 > [!NOTE]
 >
-> This package is in **beta** and I'm excited for you to try it!
->
-> I'd love your feedback! Share suggestions, bug reports, feature requests, or
-> other thoughts by
+> This package is in **beta** and I'm excited for you to try it! Share
+> suggestions, bug reports, and feature requests by
 > [filing an issue](https://github.com/TomerAberbach/profiler-md/issues/new).
+
+## Demo
+
+<div align="center">
+  <img src="assets/demo.gif" alt="Converting and diffing CPU profiles in the terminal" />
+</div>
+
+The output covers category breakdowns, the hottest functions by self and total
+time with per-line, caller, and callee detail, and the hottest call stacks; see
+the [full output](examples/output/javascript.node.base.cpuprofile.md).
+[`examples/output/`](examples/output) has more, including heap snapshots and
+diffs.
 
 ## Features
 
-- **Polyglot:** supports many profile and heap snapshot formats across many
+- **Polyglot:** supports
+  [profile and heap snapshot formats](#languages-and-formats) across many
   languages
-- **Profile analysis:** summarizes sampling rates and category breakdowns, ranks
-  the hottest functions by self and total time (or allocations, locks, or
-  whatever else was sampled) with per-line, caller, and callee breakdowns, and
-  lists the hottest call stacks
-- **Heap analysis:** reports self and retained size with
+- **Profile analysis:** sampling rates, category breakdowns, and the hottest
+  functions and call stacks by whatever was sampled (time, allocations, locks…)
+- **Heap analysis:** self and
   [dominator](<https://en.wikipedia.org/wiki/Dominator_(graph_theory)>)-based
-  retention, retainer paths, and the largest constructors, closures, and strings
-- **Diffing:** compare two profiles or two heap snapshots to see ranked
-  regressions and improvements, with entry matching that ignores run-varying
-  identifiers like build hashes
+  retained sizes, retainer paths, and the largest constructors, closures, and
+  strings
+- **Diffing:** ranked regressions and improvements between two profiles or two
+  heap snapshots, ignoring run-varying identifiers like build hashes
 - **Source maps:** resolves minified and transpiled locations back to original
-  sources, from standalone or inline source maps
-- **Zero config:** auto-detects the format and the profiler and runtime that
-  produced it, decompresses gzip/brotli, and reads from stdin
-- **Fast:** parses and detects formats while streaming the input, and uses
-  specialized data structures so large profiles and snapshots convert quickly
-- **Configurable:** control the number of top entries shown, the base URL or
-  directory that locations are shown relative to, entry categorization and
-  third-party detection, entry filtering, and diff matching; the defaults are
-  exported for custom hooks to build on
-- **CLI and API:** use it from the command line or programmatically via a
-  fully-typed API with sync and async variants
+  sources
+- **Zero config:** auto-detects the format and profiler, decompresses
+  gzip/brotli, and reads from stdin
+- **Fast:** streaming parsing and specialized data structures convert large
+  profiles quickly
+- **Configurable:** top entry counts, base URLs, categorization, filtering, and
+  diff matching, with overridable defaults ([API docs](docs/api.md))
+- **CLI and API:** use the command line or a fully-typed API with sync and async
+  variants
 - **Readable in the terminal:** ANSI syntax highlighting with heat-map coloring
   and automatic paging
 - **Self-documenting:** `--help <language>` and `--help <format>` explain how to
-  generate and understand each profile type, and shell completions cover bash,
-  fish, zsh, and PowerShell
-- **Agent-ready:** ships a [skill](./skills/profile-optimize/SKILL.md) that
-  guides an agent through profiling and optimizing your code
+  generate and understand each profile type
+- **Agent-ready:** ships a [skill](#skill) that guides an agent through
+  profiling and optimizing your code
+
+## Install
+
+```sh
+$ npm i -g profiler-md
+```
+
+<details>
+<summary>Shell completions (optional)</summary>
+
+```sh
+# Bash (Linux)
+$ profiler-md --completion bash > ~/.local/share/bash-completion/completions/profiler-md
+
+# Bash (macOS/Homebrew)
+$ profiler-md --completion bash > $(brew --prefix)/etc/bash_completion.d/profiler-md
+
+# Fish
+$ profiler-md --completion fish > ~/.config/fish/completions/profiler-md.fish
+
+# Zsh
+$ profiler-md --completion zsh > ~/.zfunc/_profiler-md
+
+# PowerShell
+$ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
+```
+
+</details>
+
+## Usage
+
+### CLI
+
+<!-- prettier-ignore-start -->
+
+<!-- CLI_HELP START -->
+
+```sh
+$ profiler-md --help
+Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
+       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
+       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
+       --no-pager] [--color/--no-color] ([FILE] | BASE CURRENT)
+
+Converts performance profiles to human and LLM friendly Markdown.
+
+  -h, --help [TOPIC]          Show this help message or topic docs
+  -f, --format FORMAT         Input profile format (default: auto)
+  -r, --origin ORIGIN         Input profile origin (default: auto)
+  -o, --output FILE           Output file (default: - for stdout)
+  --top-n N                   Top entries to show (default: 20)
+  --base-url STRING           Base URL or path to show paths relative to, or 
+                              "auto" to infer the common ancestor directory 
+                              (default: cwd)
+  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
+                              locations (repeatable)
+  --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
+                              when matching entries across diffed profiles 
+                              (repeatable)
+  --third-party GLOB          Additional URLs or paths to consider third-party 
+                              (repeatable)
+  --no-pager                  Disable stdout paging (default: auto)
+  --color, --no-color         Enable or disable ANSI syntax highlighting 
+                              (default: auto)
+  FILE                        Profile to convert (default: stdin)
+  BASE                        Base profile to diff
+  CURRENT                     Current profile to diff against the base
+
+Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown
+Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust
+```
+
+<!-- CLI_HELP END -->
+
+<!-- prettier-ignore-end -->
+
+### API
+
+```js
+import { openAsBlob } from 'node:fs'
+import { diffProfilesAsync, profileToMdAsync } from 'profiler-md'
+
+// Convert a profile or heap snapshot; format and origin are auto-detected
+console.log(await profileToMdAsync(await openAsBlob(`example.cpuprofile`)))
+
+// Diff two profiles or two heap snapshots
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.cpuprofile`),
+    await openAsBlob(`current.cpuprofile`),
+  ),
+)
+```
+
+See the [API docs](docs/api.md) for sync variants, explicit formats and origins,
+and configuration callbacks.
+
+## Skill
+
+Use the [`profiler-md` skill](./skills/profile-optimize/SKILL.md) to have an
+agent profile and optimize your code:
+
+```sh
+$ npx skills add TomerAberbach/profiler-md --skill profile-optimize
+```
+
+See [skills.sh](https://skills.sh/docs) for more info.
+
+Fun fact: the skill has profiled and optimized `profiler-md` itself!
 
 ## Languages and formats
 
-We list a format for a language only if its ecosystem's tools natively generate
-it. Third-party tools can often convert others, though.
+A language lists only the formats its ecosystem's tools natively generate;
+third-party tools can often convert others.
 
 <!-- prettier-ignore-start -->
 
@@ -164,211 +289,12 @@ it. Third-party tools can often convert others, though.
 
 <!-- prettier-ignore-end -->
 
-## Install
-
-```sh
-$ npm i -g profiler-md
-```
-
-## Usage
-
-### CLI
-
-<!-- prettier-ignore-start -->
-
-<!-- CLI_HELP START -->
-
-```sh
-$ profiler-md --help
-Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
-       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
-       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
-       --no-pager] [--color/--no-color] ([FILE] | BASE CURRENT)
-
-Converts performance profiles to human and LLM friendly Markdown.
-
-  -h, --help [TOPIC]          Show this help message or topic docs
-  -f, --format FORMAT         Input profile format (default: auto)
-  -r, --origin ORIGIN         Input profile origin (default: auto)
-  -o, --output FILE           Output file (default: - for stdout)
-  --top-n N                   Top entries to show (default: 20)
-  --base-url STRING           Base URL or path to show paths relative to, or 
-                              "auto" to infer the common ancestor directory 
-                              (default: cwd)
-  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
-                              locations (repeatable)
-  --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
-                              when matching entries across diffed profiles 
-                              (repeatable)
-  --third-party GLOB          Additional URLs or paths to consider third-party 
-                              (repeatable)
-  --no-pager                  Disable stdout paging (default: auto)
-  --color, --no-color         Enable or disable ANSI syntax highlighting 
-                              (default: auto)
-  FILE                        Profile to convert (default: stdin)
-  BASE                        Base profile to diff
-  CURRENT                     Current profile to diff against the base
-
-Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown
-Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust
-```
-
-<!-- CLI_HELP END -->
-
-<!-- prettier-ignore-end -->
-
-### API
-
-```js
-import { openAsBlob, readFileSync } from 'node:fs'
-import {
-  defaultCategorizeEntries,
-  defaultMatchEntry,
-  defaultShowEntry,
-  diffProfiles,
-  diffProfilesAsync,
-  profileToMd,
-  profileToMdAsync,
-} from 'profiler-md'
-
-// Auto-detect format and origin (async)
-console.log(await profileToMdAsync(await openAsBlob(`example.cpuprofile`)))
-console.log(await profileToMdAsync(await openAsBlob(`example.pprof`)))
-
-// Explicit format
-console.log(
-  await profileToMdAsync({
-    data: await openAsBlob(`example.pprof`),
-    format: `pprof`,
-  }),
-)
-// Explicit origin
-console.log(
-  await profileToMdAsync({
-    data: await openAsBlob(`example.cpuprofile`),
-    origin: `deno`,
-  }),
-)
-
-// Synchronous usage (auto-detect)
-console.log(profileToMd(readFileSync(`example.cpuprofile`, `utf8`)))
-console.log(profileToMd(readFileSync(`example.pprof`)))
-
-// Synchronous usage with explicit format and origin
-console.log(
-  profileToMd({
-    data: readFileSync(`example.pprof`),
-    format: `pprof`,
-    origin: `node-pprof`,
-  }),
-)
-
-// Diff two profiles or two heap snapshots (async, auto-detect)
-console.log(
-  await diffProfilesAsync(
-    await openAsBlob(`base.cpuprofile`),
-    await openAsBlob(`current.cpuprofile`),
-  ),
-)
-console.log(
-  await diffProfilesAsync(
-    await openAsBlob(`base.heapsnapshot`),
-    await openAsBlob(`current.heapsnapshot`),
-  ),
-)
-
-// Synchronous diff with explicit format
-console.log(
-  diffProfiles(
-    { data: readFileSync(`base.pprof`), format: `pprof` },
-    { data: readFileSync(`current.pprof`), format: `pprof` },
-  ),
-)
-
-// Complex usage
-const options = {
-  // Show top 10 functions instead of the default 20.
-  topN: 10,
-  // Make paths relative to a custom base URL or directory, or pass `auto` to
-  // infer the profiled files' common ancestor directory.
-  baseURL: `/path/to/project`,
-  matchEntry: (entry, context) => {
-    if (entry.location?.url.pathname.includes(`/bundle.`)) {
-      // Match bundled entries when diffing by name only, ignoring
-      // content-hashed filenames.
-      return { name: entry.name }
-    }
-    return defaultMatchEntry(entry, context)
-  },
-  categorizeEntries: (entries, context) => {
-    const categories = defaultCategorizeEntries(entries, context)
-    return entries.map((entry, index) =>
-      // Treat an additional vendor directory as third-party.
-      entry.location?.url?.pathname.includes(`/vendor/`)
-        ? `third-party`
-        : categories[index],
-    )
-  },
-  showEntry: entry =>
-    defaultShowEntry(entry) &&
-    // Exclude entries from a specific file.
-    !entry.location?.includes(`/path/to/project/src/noisy`),
-}
-console.log(await profileToMdAsync(await openAsBlob(`example.pprof`), options))
-console.log(
-  await profileToMdAsync(await openAsBlob(`example.cpuprofile`), options),
-)
-
-// The same options apply to diffs. `matchEntry` takes effect only here, where
-// it controls which entries count as the same across the two sides.
-console.log(
-  await diffProfilesAsync(
-    await openAsBlob(`base.pprof`),
-    await openAsBlob(`current.pprof`),
-    options,
-  ),
-)
-```
-
-## Shell completions
-
-```sh
-# Bash (Linux)
-$ profiler-md --completion bash > ~/.local/share/bash-completion/completions/profiler-md
-
-# Bash (macOS/Homebrew)
-$ profiler-md --completion bash > $(brew --prefix)/etc/bash_completion.d/profiler-md
-
-# Fish
-$ profiler-md --completion fish > ~/.config/fish/completions/profiler-md.fish
-
-# Zsh
-$ profiler-md --completion zsh > ~/.zfunc/_profiler-md
-
-# PowerShell
-$ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
-```
-
-## Skills
-
-Use the [`profiler-md` skill](./skills/profile-optimize/SKILL.md) to have an
-agent profile and optimize your code:
-
-```sh
-$ npx skills add TomerAberbach/profiler-md --skill profile-optimize
-```
-
-See [skills.sh](https://skills.sh/docs) for more info.
-
-Fun fact: the skill has profiled and optimized `profiler-md` itself!
-
 ## Contributing
 
 Stars are always welcome!
 
 For bugs and feature requests,
-[please create an issue](https://github.com/TomerAberbach/profiler-md/issues/new).
+[create an issue](https://github.com/TomerAberbach/profiler-md/issues/new).
 
 ## License
 

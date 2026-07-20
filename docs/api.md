@@ -1,0 +1,134 @@
+# API
+
+The API accepts the same inputs and options as the CLI: pass a profile (or two,
+to diff) and get Markdown back. Every function has a sync and an async variant.
+The async variants accept a `Blob`, so large profiles stream instead of loading
+into memory.
+
+## Converting
+
+Format and origin are auto-detected by default:
+
+```js
+import { openAsBlob, readFileSync } from 'node:fs'
+import { profileToMd, profileToMdAsync } from 'profiler-md'
+
+// Async (streams the input)
+console.log(await profileToMdAsync(await openAsBlob(`example.cpuprofile`)))
+console.log(await profileToMdAsync(await openAsBlob(`example.pprof`)))
+
+// Sync
+console.log(profileToMd(readFileSync(`example.cpuprofile`, `utf8`)))
+console.log(profileToMd(readFileSync(`example.pprof`)))
+```
+
+Pass an object to specify the format or origin explicitly:
+
+```js
+console.log(
+  await profileToMdAsync({
+    data: await openAsBlob(`example.pprof`),
+    format: `pprof`,
+  }),
+)
+console.log(
+  await profileToMdAsync({
+    data: await openAsBlob(`example.cpuprofile`),
+    origin: `deno`,
+  }),
+)
+console.log(
+  profileToMd({
+    data: readFileSync(`example.pprof`),
+    format: `pprof`,
+    origin: `node-pprof`,
+  }),
+)
+```
+
+## Diffing
+
+Diff two profiles or two heap snapshots:
+
+```js
+import { openAsBlob, readFileSync } from 'node:fs'
+import { diffProfiles, diffProfilesAsync } from 'profiler-md'
+
+// Async, auto-detect
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.cpuprofile`),
+    await openAsBlob(`current.cpuprofile`),
+  ),
+)
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.heapsnapshot`),
+    await openAsBlob(`current.heapsnapshot`),
+  ),
+)
+
+// Sync, explicit format
+console.log(
+  diffProfiles(
+    { data: readFileSync(`base.pprof`), format: `pprof` },
+    { data: readFileSync(`current.pprof`), format: `pprof` },
+  ),
+)
+```
+
+## Options
+
+All functions take an options object as their last argument. The default for
+each callback option is exported so a custom callback can build on it:
+
+```js
+import { openAsBlob } from 'node:fs'
+import {
+  defaultCategorizeEntries,
+  defaultMatchEntry,
+  defaultShowEntry,
+  diffProfilesAsync,
+  profileToMdAsync,
+} from 'profiler-md'
+
+const options = {
+  // Show top 10 functions instead of the default 20.
+  topN: 10,
+  // Make paths relative to a custom base URL or directory, or pass `auto` to
+  // infer the profiled files' common ancestor directory.
+  baseURL: `/path/to/project`,
+  matchEntry: (entry, context) => {
+    if (entry.location?.url?.pathname.includes(`/bundle.`)) {
+      // Match bundled entries when diffing by name only, ignoring
+      // content-hashed filenames.
+      return { name: entry.name }
+    }
+    return defaultMatchEntry(entry, context)
+  },
+  categorizeEntries: (entries, context) => {
+    const categories = defaultCategorizeEntries(entries, context)
+    return entries.map((entry, index) =>
+      // Treat an additional vendor directory as third-party.
+      entry.location?.url?.pathname.includes(`/vendor/`)
+        ? `third-party`
+        : categories[index],
+    )
+  },
+  showEntry: entry =>
+    defaultShowEntry(entry) &&
+    // Exclude entries from a specific file.
+    !entry.location?.url?.pathname.includes(`/path/to/project/src/noisy`),
+}
+console.log(await profileToMdAsync(await openAsBlob(`example.pprof`), options))
+
+// The same options apply to diffs. `matchEntry` takes effect only here, where
+// it controls which entries count as the same across the two sides.
+console.log(
+  await diffProfilesAsync(
+    await openAsBlob(`base.pprof`),
+    await openAsBlob(`current.pprof`),
+    options,
+  ),
+)
+```
