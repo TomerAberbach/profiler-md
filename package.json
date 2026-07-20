@@ -43,6 +43,7 @@
   },
   "license": "MIT",
   "files": [
+    "assets",
     "examples/output",
     "dist",
     "docs",

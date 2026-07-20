@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
+import packageJson from '../../package.json' with { type: 'json' }
 import { inputPath } from '../formats/testing.ts'
 import { languageExtensionToPrimary } from './languages.ts'
 
@@ -28,6 +29,17 @@ test.concurrent.each(await fs.readdir(inputPath()))(
 // One input is enough to exercise these general flags.
 const cpuProfilePath = inputPath(`javascript.node.base.cpuprofile`)
 const cpuProfileContent = readFileSync(cpuProfilePath)
+
+test.concurrent(
+  `--version prints the version to stdout and no logo without a TTY`,
+  async () => {
+    const { status, stdout, stderr } = await runCli([`--version`])
+
+    expect(status).toBe(0)
+    expect(stdout).toBe(`${packageJson.version}\n`)
+    expect(stderr).toBe(``)
+  },
+)
 
 test.concurrent(`reads from stdin and auto-detects format`, async () => {
   const { status, stdout } = await runCli([], cpuProfileContent)

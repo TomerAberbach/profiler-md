@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/logo.svg" alt="Markdown flame logo" width="250" />
+</div>
+
 <h1 align="center">
   profiler-md
 </h1>
