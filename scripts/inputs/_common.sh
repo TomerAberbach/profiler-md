@@ -47,21 +47,37 @@ ensure_docker() {
   done
 }
 
+# fetch_asset <label> <url> <sha256> <dest>
+#   Downloads a pinned, checksum-verified file unless <dest> already exists, so
+#   re-runs do no network I/O. Downloads to a temporary sibling and renames
+#   into place only after the checksum passes, so an interrupted download can't
+#   leave a partial file the existence guard would trust on the next run. Every
+#   step is guarded with `|| return 1` because callers run under `try`'s `||`
+#   context, where set -e is off.
+fetch_asset() {
+  local label=$1 url=$2 sha256=$3 dest=$4 tmp
+  [[ -f "$dest" ]] && return 0
+  notice "Fetching $label"
+  mkdir -p "$(dirname "$dest")" || return 1
+  tmp="$(mktemp "$dest.XXXXXX")" || return 1
+  curl -fsSL "$url" -o "$tmp" \
+    || { rm -f "$tmp"; echo "  FAILED to fetch: $url" >&2; return 1; }
+  echo "$sha256  $tmp" | shasum -a 256 -c - >/dev/null \
+    || { rm -f "$tmp"; echo "  CHECKSUM mismatch: $url" >&2; return 1; }
+  mv "$tmp" "$dest" || return 1
+}
+
 # A shared benchmark input parsed by several language workloads: simdjson's
 # twitter.json sample (a real Twitter API search response), pinned to a release
 # tag and checksum-verified. Our committed copy was reformatted, so the fetched
-# bytes differ from it but parse to the identical document. Fetched on demand
-# (guarded on the file already existing) so re-runs do no network I/O.
+# bytes differ from it but parse to the identical document.
 TWITTER_JSON="$REPO/scripts/inputs/assets/shared/twitter.json"
 TWITTER_JSON_URL="https://raw.githubusercontent.com/simdjson/simdjson/v3.10.1/jsonexamples/twitter.json"
 TWITTER_JSON_SHA256="30721e496a8d73cfc50658923c34eb2c0fbe15ee6835005e43ee624d8dedf200"
 
 fetch_twitter_json() {
-  [[ -f "$TWITTER_JSON" ]] && return 0
-  notice "Fetching simdjson twitter.json"
-  mkdir -p "$(dirname "$TWITTER_JSON")"
-  curl -fsSL "$TWITTER_JSON_URL" -o "$TWITTER_JSON"
-  echo "$TWITTER_JSON_SHA256  $TWITTER_JSON" | shasum -a 256 -c -
+  fetch_asset "simdjson twitter.json" \
+    "$TWITTER_JSON_URL" "$TWITTER_JSON_SHA256" "$TWITTER_JSON"
 }
 
 # The aarch64 Linux target for the container-based captures, kept in one place.
@@ -96,12 +112,19 @@ should_generate() {
 # Runs the repo CLI against a generated input.
 cli() { node "$REPO/src/cli/index.ts" "$@"; }
 
+# GitHub rejects files of 100 MB or more, so an oversized capture must fail at
+# generation time, while the workload can still be shrunk.
+MAX_INPUT_BYTES=$((100 * 1024 * 1024))
+
 # Verifies a single generated input converts to Markdown. Returns non-zero if it doesn't
 # (the `|| return 1` matters: under `try`, set -e is off, so an unchecked failing
 # `cli` would otherwise fall through to the "Verified" echo and report success).
 verify_generated_input() {
-  local out=$1
+  local out=$1 bytes
   [[ -f "$out" ]] || { echo "  MISSING after capture: $(rel "$out")" >&2; return 1; }
+  bytes="$(wc -c <"$out")" || return 1
+  ((bytes < MAX_INPUT_BYTES)) \
+    || { echo "  TOO LARGE ($((bytes)) bytes; GitHub's limit is 100 MB — shrink the workload): $(rel "$out")" >&2; return 1; }
   cli "$out" >/dev/null || { echo "  FAILED to convert: $(rel "$out")" >&2; return 1; }
   echo "Verified $(rel "$out")"
 }

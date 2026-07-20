@@ -24,25 +24,26 @@ setup_node() {
   local dir="$WORKDIR/zod"
 
   notice "Cloning zod ($ZOD_TAG)"
-  git clone --depth 1 --branch "$ZOD_TAG" "$ZOD_REPO" "$dir" >&2
+  git clone --depth 1 --branch "$ZOD_TAG" "$ZOD_REPO" "$dir" >&2 || return 1
 
   notice "Installing tsc tooling and puppeteer (downloads pinned Chromium)"
   npm install --prefix "$dir" --no-save --no-audit --no-fund \
     "typescript@$TYPESCRIPT_VERSION" \
     "@datadog/pprof@$DATADOG_PPROF_VERSION" \
-    "puppeteer@$PUPPETEER_VERSION" >&2
+    "puppeteer@$PUPPETEER_VERSION" >&2 || return 1
 
   cp "$assets/cpuprofile-run.mjs" "$assets/tsc-run.mjs" \
     "$assets/tsc-workload.mjs" "$assets/datadog-pprof.mjs" \
     "$assets/datadog-pprof-heap.mjs" \
     "$assets/chrome-workload.mjs" "$assets/chrome-cpu.mjs" \
-    "$assets/chrome-heap.mjs" "$assets/chrome-heap-snapshot.mjs" "$dir/"
+    "$assets/chrome-heap.mjs" "$assets/chrome-heap-snapshot.mjs" "$dir/" \
+    || return 1
   node_proj="$dir"
 }
 
 capture_node_cpu() {
   local out=$1 role=$2
-  setup_node
+  setup_node || return 1
   notice "CPU profiling zod type-check using node ($role)"
   node "$node_proj/cpuprofile-run.mjs" "$node_proj" "$out" >&2
 }
@@ -50,7 +51,7 @@ capture_node_cpu() {
 capture_node_heap() {
   local out=$1 role=$2
   local profdir
-  setup_node
+  setup_node || return 1
   profdir="$WORKDIR/node-heap-$role"
   mkdir -p "$profdir"
   notice "Heap profiling zod type-check using node ($role)"
@@ -61,28 +62,28 @@ capture_node_heap() {
 
 capture_node_heap_snapshot() {
   local out=$1 role=$2
-  fetch_twitter_json
+  fetch_twitter_json || return 1
   notice "Heap snapshotting parsed twitter.json using node ($role)"
   node "$assets/heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_pprof_cpu() {
   local out=$1 role=$2
-  setup_node
+  setup_node || return 1
   notice "CPU profiling zod type-check using @datadog/pprof ($role)"
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_heap() {
   local out=$1 role=$2
-  setup_node
+  setup_node || return 1
   notice "Heap profiling zod type-check using @datadog/pprof ($role)"
   node "$node_proj/datadog-pprof-heap.mjs" "$node_proj" "$out" >&2
 }
 
 capture_deno_cpu() {
   local out=$1 role=$2
-  setup_node
+  setup_node || return 1
   notice "CPU profiling zod type-check using deno ($role)"
   deno run -A --node-modules-dir=auto \
     "$node_proj/cpuprofile-run.mjs" "$node_proj" "$out" >&2
@@ -91,7 +92,7 @@ capture_deno_cpu() {
 capture_bun_cpu() {
   local out=$1 role=$2
   local profdir prof
-  setup_node
+  setup_node || return 1
   profdir="$WORKDIR/bun-cpu-$role"
   mkdir -p "$profdir"
   notice "CPU profiling zod type-check using bun ($role)"
@@ -107,7 +108,7 @@ capture_bun_v8_heap_snapshot() {
   local profdir prof
   profdir="$WORKDIR/bun-v8-heap-snapshot-$role"
   mkdir -p "$profdir"
-  fetch_twitter_json
+  fetch_twitter_json || return 1
   notice "V8 heap snapshotting parsed twitter.json using bun ($role)"
   # `bun --heap-prof` writes a V8-format snapshot on exit (the same schema Node
   # and Chrome produce, matched by `v8-heap-snapshot`), so the workload just
@@ -123,7 +124,7 @@ capture_bun_v8_heap_snapshot() {
 
 capture_bun_jsc_heap_snapshot() {
   local out=$1 role=$2
-  fetch_twitter_json
+  fetch_twitter_json || return 1
   notice "JSC heap snapshotting parsed twitter.json using bun ($role)"
   # Bun's `generateHeapSnapshot("jsc")` returns a JSC `Inspector`-format snapshot
   # (matched by `jsc-heap-snapshot`) — the same flavor Safari exports, headless.
@@ -132,24 +133,24 @@ capture_bun_jsc_heap_snapshot() {
 
 capture_chrome_cpu() {
   local out=$1 role=$2
-  setup_node
-  fetch_twitter_json
+  setup_node || return 1
+  fetch_twitter_json || return 1
   notice "CPU profiling DOM build using headless Chrome ($role)"
   node "$node_proj/chrome-cpu.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap() {
   local out=$1 role=$2
-  setup_node
-  fetch_twitter_json
+  setup_node || return 1
+  fetch_twitter_json || return 1
   notice "Heap allocation profiling DOM build using headless Chrome ($role)"
   node "$node_proj/chrome-heap.mjs" "$TWITTER_JSON" "$out" >&2
 }
 
 capture_chrome_heap_snapshot() {
   local out=$1 role=$2
-  setup_node
-  fetch_twitter_json
+  setup_node || return 1
+  fetch_twitter_json || return 1
   notice "Heap snapshotting DOM build using headless Chrome ($role)"
   node "$node_proj/chrome-heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
 }

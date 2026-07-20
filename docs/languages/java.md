@@ -1,6 +1,6 @@
-# Java/Kotlin
+# Java/Kotlin/Groovy
 
-Java and Kotlin profiling works with any JVM language, using
+Java, Kotlin, and Groovy profiling works with any JVM language, using
 [Java Flight Recorder](https://docs.oracle.com/en/java/javase/21/jfapi/) (JFR),
 built into the JDK since JDK 11, or
 [async-profiler](https://github.com/async-profiler/async-profiler), which also
