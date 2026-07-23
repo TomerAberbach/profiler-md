@@ -57,8 +57,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       pprof-format:
-        specifier: ^2.2.2
-        version: 2.2.2
+        specifier: ^2.2.3
+        version: 2.2.3
       pretty-bytes:
         specifier: ^7.1.1
         version: 7.1.1
@@ -2687,8 +2687,8 @@ packages:
     resolution: {integrity: sha512-vuwillviilfKZsg0VGj5R/YwwcHx4SLsIOI/7K6mQkWx+l5cUHTjj5g0AasTBcyXsbfTgrwsUNmVUb5xVwyPwg==}
     engines: {node: ^10 || ^12 || >=14}
 
-  pprof-format@2.2.2:
-    resolution: {integrity: sha512-hd90rHVDhNOhgHTmazVzDSVwTLOBjpZQ26AO/0j46sAFZ9uSWY0DcK2zJcwnuo2R6EzufBbOoWlPazA5nSyHcg==}
+  pprof-format@2.2.3:
+    resolution: {integrity: sha512-gkcixnBUN3k1+ovWOfD97dF87ZV7P8twaIENitC+/InkpyHc7n2SDIHZ6fD1XcF/NE/JKrBGUGDhmygJVdOR7Q==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -6193,7 +6193,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  pprof-format@2.2.2: {}
+  pprof-format@2.2.3: {}
 
   prelude-ls@1.2.1: {}
 
