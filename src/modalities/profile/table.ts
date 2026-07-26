@@ -203,14 +203,11 @@ export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
       cellOf: row =>
         percentCell(row.total ? primaryValueOf(row) / row.total : 0),
     },
-    ...metrics.map(
-      (metric, index): Column<CategoryRow> => ({
-        header: { content: columnNouns[index]!, align: `right` },
-        primary: index === 0,
-        cellOf: row =>
-          metricCell(row.stats.values[row.indices[index]!]!, metric),
-      }),
-    ),
+    ...metrics.map((metric, index): Column<CategoryRow> => ({
+      header: { content: columnNouns[index]!, align: `right` },
+      primary: index === 0,
+      cellOf: row => metricCell(row.stats.values[row.indices[index]!]!, metric),
+    })),
     {
       header: samplesHeader,
       primary: metrics.length === 0,

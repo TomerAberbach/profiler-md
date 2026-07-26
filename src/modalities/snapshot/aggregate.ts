@@ -302,8 +302,7 @@ export const entityLocation = ({
   location,
   nameLocation,
 }: Pick<AggregatedSnapshotNode, `location` | `nameLocation`>):
-  | SourceLocation
-  | undefined => location ?? nameLocation
+  SourceLocation | undefined => location ?? nameLocation
 
 const computeRetainerPath = (
   nodeOrdinal: number,

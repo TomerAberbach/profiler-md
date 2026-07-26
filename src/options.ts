@@ -24,8 +24,7 @@ export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
  * The format and origin are auto-detected if not specified.
  */
 export type ProfileInput<Data> =
-  | Data
-  | { data: Data; format?: Format; origin?: Origin }
+  Data | { data: Data; format?: Format; origin?: Origin }
 
 export type NormalizedProfileInput<Data> = {
   data: Data
@@ -42,11 +41,7 @@ export const normalizeProfileInput = <Data>(
 
 /** The category of code an entry originated from. */
 export type EntryCategory =
-  | `ours`
-  | `native`
-  | `stdlib`
-  | `third-party`
-  | (string & {})
+  `ours` | `native` | `stdlib` | `third-party` | (string & {})
 
 /** A single entry in a formatted profile. */
 export type ProfileEntry = {
@@ -85,8 +80,7 @@ export type EntryMatch = {
 
 /** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
-  | AggregatedProfileFunction
-  | AggregatedSnapshotNode
+  AggregatedProfileFunction | AggregatedSnapshotNode
 
 /** The context in which a profile is being converted to Markdown. */
 export type ProfileToMdContext = {

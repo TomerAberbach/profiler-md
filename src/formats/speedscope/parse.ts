@@ -28,12 +28,7 @@ export type SpeedscopeFrame = {
 
 /** Possible units for values observed in a speedscope profile. */
 export type SpeedscopeValueUnit =
-  | `nanoseconds`
-  | `microseconds`
-  | `milliseconds`
-  | `seconds`
-  | `bytes`
-  | `none`
+  `nanoseconds` | `microseconds` | `milliseconds` | `seconds` | `bytes` | `none`
 
 /** A profile represented as a sequence of samples. */
 export type SpeedscopeSampledProfile = {
