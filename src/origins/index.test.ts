@@ -1,8 +1,11 @@
-import { readdirSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { aggregateInput } from '../formats/index.ts'
-import { injectedFormat, inputPath, readInput } from '../formats/testing.ts'
+import {
+  injectedFormat,
+  injectedInputs,
+  readInput,
+} from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import { OriginDetector } from './index.ts'
@@ -19,13 +22,7 @@ const echoOriginOptions = (): NormalizedProfileToMdOptions =>
   })
 
 const format = injectedFormat()
-
-const inputFilenames =
-  format === undefined
-    ? []
-    : readdirSync(inputPath()).filter(
-        filename => parseExampleFilename(filename).format === format,
-      )
+const inputFilenames = injectedInputs()
 
 // Registered conditionally because this suite would be empty in the `unit`
 // project, which receives no inputs.
