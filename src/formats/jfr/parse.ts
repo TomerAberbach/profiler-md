@@ -1192,12 +1192,10 @@ class ChunkResolver {
     }
 
     const method = this.#methodPool.get(key) as
-      | { type?: unknown; name?: unknown; descriptor?: unknown }
-      | undefined
+      { type?: unknown; name?: unknown; descriptor?: unknown } | undefined
     const declaringClass = method
       ? (this.#classPool.get(method.type as number) as
-          | { name?: unknown }
-          | undefined)
+          { name?: unknown } | undefined)
       : undefined
     const bareName = this.#symbol(method?.name)
     const className = classNameToSource(this.#symbol(declaringClass?.name))
@@ -1224,8 +1222,7 @@ class ChunkResolver {
 
   #symbol(key: unknown): string {
     const entry = this.#symbolPool.get(key as number) as
-      | { string?: unknown }
-      | undefined
+      { string?: unknown } | undefined
     return this.#resolveString(entry?.string) ?? ``
   }
 
@@ -1237,9 +1234,7 @@ class ChunkResolver {
         return current.value
       }
       current = this.#stringPool?.get(current.index) as
-        | BuiltinString
-        | null
-        | undefined
+        BuiltinString | null | undefined
     }
     return null
   }
@@ -1251,8 +1246,7 @@ class ChunkResolver {
  * whole chunk (and thus the pool) has been read.
  */
 type BuiltinString =
-  | { type: `inline`; value: string }
-  | { type: `reference`; index: number }
+  { type: `inline`; value: string } | { type: `reference`; index: number }
 
 type MetadataElement = {
   name: string

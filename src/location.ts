@@ -26,8 +26,7 @@ export const fileReferencePath = (
     : fileReference.path
 
 export type FileReference =
-  | { type: `absolute`; url: URL }
-  | { type: `relative`; path: string }
+  { type: `absolute`; url: URL } | { type: `relative`; path: string }
 
 export const makeFileReference = (
   urlOrPath: string,
