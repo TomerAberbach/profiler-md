@@ -56,5 +56,8 @@ jobs:
       - name: Check readme
         run: pnpm check-readme
 
+      - name: Check demo
+        run: pnpm check-demo
+
       - name: Check examples
         run: pnpm check-examples

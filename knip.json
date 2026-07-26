@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@latest/schema.json",
   "entry": ["scripts/*.ts"],
-  "project": ["src/**/*.ts", "scripts/*.ts"]
+  "project": ["src/**/*.ts", "scripts/*.ts"],
+  "ignoreBinaries": ["vhs", "gifsicle"]
 }
