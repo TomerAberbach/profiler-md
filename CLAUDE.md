@@ -169,11 +169,13 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
     individual cells, which would miss extra tables, rows, or cells
 - A parameterized test over the committed `examples/input/` files must run in
-  the per-format vitest projects, or it serializes every conversion in one
-  worker: add its test file to `inputProcessingFiles` in `vitest.config.ts`,
-  filter the inputs to `injectedFormat()` from `src/formats/testing.ts`, and
-  register the file's input-independent tests only when it returns `undefined`
-  (the `unit` project)
+  the input-processing vitest projects, or every conversion runs one at a time
+  in a single worker: add its test file to `inputProcessingFiles` in
+  `vitest.config.ts`, and take its inputs from `injectedInputs()` in
+  `src/formats/testing.ts` rather than the input directory, since a format's
+  inputs span several size-balanced projects. Register the file's
+  input-independent tests only when `injectedFormat()` returns `undefined` (the
+  `unit` project)
 
 ## Glossary
 

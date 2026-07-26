@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
+import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { fileReferenceId } from '../location.ts'
 import type { Profile } from '../modalities/profile/index.ts'
@@ -25,6 +26,7 @@ import {
 import {
   convertJsonToMd,
   injectedFormat,
+  injectedInputs,
   inputPath,
   readInput,
 } from './testing.ts'
@@ -50,16 +52,13 @@ const inputSets = {
   binary: new Set<string>(),
 }
 if (format !== undefined) {
-  // Every committed input is exercised through the registry, in its format's
-  // project. Only the `base` variant of each is taken since `current` is a
-  // near-identical re-run, keeping the matrix of auto-detect/diff cases
-  // manageable.
-  for (const filename of readdirSync(inputPath())) {
-    const example = parseExampleFilename(filename)
-    if (example.variant !== `base` || example.format !== format) {
-      continue
+  // Every committed input is exercised through the registry, in one of its
+  // format's projects. Only the `base` variant of each is taken since `current`
+  // is a near-identical re-run, keeping the auto-detect/diff matrix manageable.
+  for (const filename of injectedInputs()) {
+    if (parseExampleFilename(filename).variant === `base`) {
+      inputSets[formatConverters[format].type].add(filename)
     }
-    inputSets[formatConverters[format].type].add(filename)
   }
 }
 
@@ -80,6 +79,36 @@ const emptyProfile = JSON.stringify({
   shared: { frames: [] },
   profiles: [],
 })
+
+if (format === undefined) {
+  describe(`input projects`, () => {
+    // Partitioning a format's inputs across projects could otherwise drop one
+    // silently, since no project can tell what the others hold.
+    test(`cover every committed input exactly once`, () => {
+      const projectInputs = projects.flatMap(
+        project => project.test.provide.inputs,
+      )
+
+      expect(projectInputs.sort()).toEqual(readdirSync(inputPath()).sort())
+    })
+
+    // A project holding only `current` inputs registers no tests, since the
+    // suites take the `base` variant of each example.
+    test(`each hold a base input`, () => {
+      const withoutBase = projects
+        .filter(project => project.test.provide.inputs.length > 0)
+        .filter(
+          project =>
+            !project.test.provide.inputs.some(
+              filename => parseExampleFilename(filename).variant === `base`,
+            ),
+        )
+        .map(project => project.test.name)
+
+      expect(withoutBase).toEqual([])
+    })
+  })
+}
 
 describe(`profileToMd`, () => {
   if (jsonInputs.length > 0) {

@@ -22,14 +22,22 @@ declare module 'vitest' {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface ProvidedContext {
     format: Format | undefined
+    inputs: string[]
   }
 }
 
 /**
- * The format provided by the current per-format project (see vitest.config.ts),
- * or `undefined` in the `unit` project.
+ * The format provided by the current input-processing project (see
+ * vitest.config.ts), or `undefined` in the `unit` project.
  */
 export const injectedFormat = (): Format | undefined => inject(`format`)
+
+/**
+ * The partition of the injected format's committed inputs the current project
+ * handles, or empty in the `unit` project. A format's inputs may span several
+ * projects, so a test over them must never read the input directory.
+ */
+export const injectedInputs = (): string[] => inject(`inputs`)
 
 export const inputPath = (filename?: string): string =>
   path.join(

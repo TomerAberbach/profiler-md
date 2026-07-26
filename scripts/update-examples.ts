@@ -1,5 +1,11 @@
 import { execFile } from 'node:child_process'
-import { readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  readdirSync,
+  readFileSync,
+  rmSync,
+  statSync,
+  writeFileSync,
+} from 'node:fs'
 import { availableParallelism } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -115,14 +121,31 @@ const updateExample = limitConcur(
   },
 )
 
-await Promise.all([
-  ...inputFilenames.map(filename =>
-    updateExample(filename, [join(`examples/input`, filename)]),
+const totalInputBytes = (filenames: string[]): number =>
+  filenames.reduce(
+    (bytes, filename) =>
+      bytes + statSync(join(`examples/input`, filename)).size,
+    0,
+  )
+
+// Conversion cost tracks input size, so the largest examples start first.
+// Started last, one would run alone while the other workers sit idle,
+// stretching the run past the point everything else finished.
+const examples = [
+  ...inputFilenames.map(filename => ({ name: filename, inputs: [filename] })),
+  ...[...pairs.values()].map(({ name, ext, base, current }) => ({
+    name: `${name}.diff.${ext}`,
+    inputs: [base!, current!],
+  })),
+]
+  .map(example => ({ ...example, bytes: totalInputBytes(example.inputs) }))
+  .sort((example1, example2) => example2.bytes - example1.bytes)
+
+await Promise.all(
+  examples.map(({ name, inputs }) =>
+    updateExample(
+      name,
+      inputs.map(filename => join(`examples/input`, filename)),
+    ),
   ),
-  ...[...pairs.values()].map(({ name, ext, base, current }) =>
-    updateExample(`${name}.diff.${ext}`, [
-      join(`examples/input`, base!),
-      join(`examples/input`, current!),
-    ]),
-  ),
-])
+)
