@@ -5,20 +5,21 @@ Allocated 5.15 MiB across 68,760 nodes and 286,440 edges.
 | Category            |     % |     Size |  Nodes |
 | ------------------- | ----: | -------: | -----: |
 | code                | 41.5% | 2.14 MiB | 22,401 |
-| array               | 14.7% |  774 KiB |  1,680 |
+| array               | 15.5% |  816 KiB |  2,953 |
 | string              | 13.6% |  718 KiB | 17,123 |
 | object shape        | 10.1% |  531 KiB |  5,846 |
-| closure             |  6.8% |  359 KiB |  6,194 |
-| object              |  6.7% |  351 KiB |  5,297 |
+| closure             |  6.8% |  359 KiB |  6,197 |
+| object              |  5.5% |  292 KiB |  3,508 |
 | hidden              |  5.4% |  287 KiB |  8,256 |
 | concatenated string |  0.4% | 21.2 KiB |    679 |
-| native              |  0.4% | 20.3 KiB |    126 |
-| number              |  0.2% |  8.5 KiB |    544 |
+| native              |  0.4% | 21.1 KiB |    151 |
+| built-in            |  0.3% | 15.5 KiB |    485 |
+| number              |  0.2% | 8.53 KiB |    545 |
 | sliced string       |  0.1% | 6.63 KiB |    212 |
-| symbol              |  0.1% | 6.52 KiB |    278 |
+| symbol              |  0.1% | 6.57 KiB |    279 |
 | regexp              |  0.1% | 3.34 KiB |     61 |
 | synthetic           |  0.1% | 3.05 KiB |     34 |
-| bigint              | <0.1% |    672 B |     29 |
+| bigint              | <0.1% |    728 B |     30 |
 
 ## Largest constructors
 

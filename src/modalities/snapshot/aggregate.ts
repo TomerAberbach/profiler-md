@@ -6,7 +6,8 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../../options.ts'
-import type { OriginDetector } from '../../origins/index.ts'
+import { categorizeSnapshotConstructorForOrigin } from '../../origins/index.ts'
+import type { Origin, OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
 import type { ImmediateDominatorGraph, NodeAdjacencyGraph } from './graph.ts'
@@ -14,7 +15,7 @@ import {
   attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
-import type { HeapSnapshot } from './type.ts'
+import type { HeapSnapshot, SnapshotNode } from './type.ts'
 
 /**
  * Aggregates one {@link HeapSnapshot} through the uniform pipeline. The
@@ -42,7 +43,8 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   readonly #isInternalNode: (nodeOrdinal: number) => boolean
 
   #totalSize = 0
-  readonly #nodeCategoryToStats = new Map<string, NodeCategoryStats>()
+  readonly #nodeCategoryStats = new NodeCategoryStatsAggregator()
+
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
   readonly #nodeOrdinalToRetainedSize: Float64Array
 
@@ -92,7 +94,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
 
     let nodeOrdinal = 0
     for (const node of nodes) {
-      this.#addCategoryNode(nodeOrdinal, node.category)
+      this.#addCategoryNode(nodeOrdinal, node)
       switch (node.type) {
         case `constructor`:
           this.#addConstructorNode(
@@ -126,16 +128,10 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     detector.addAll(this.#entries)
   }
 
-  #addCategoryNode(nodeOrdinal: number, category: string): void {
+  #addCategoryNode(nodeOrdinal: number, node: SnapshotNode): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#totalSize += selfSize
-    let stats = this.#nodeCategoryToStats.get(category)
-    if (!stats) {
-      stats = { size: 0, nodeCount: 0 }
-      this.#nodeCategoryToStats.set(category, stats)
-    }
-    stats.size += selfSize
-    stats.nodeCount++
+    this.#nodeCategoryStats.add(node, selfSize)
   }
 
   #addConstructorNode(
@@ -265,7 +261,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
       totalSize: this.#totalSize,
       nodeCount: this.#nodeCount,
       edgeCount: this.#edgeCount,
-      nodeCategoryToStats: this.#nodeCategoryToStats,
+      nodeCategoryToStats: this.#nodeCategoryStats.aggregate(context.origin),
       constructors: this.#constructors,
       closures: this.#closures,
       strings: this.#strings,
@@ -289,6 +285,90 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
         ),
     }
   }
+}
+
+/**
+ * Aggregates each node's self size and count into its category's stats.
+ *
+ * A constructor's stats stay keyed by its name until {@link aggregate}, since
+ * the origin categorizes it by the class name its language defines and is
+ * detected only after the nodes are consumed.
+ */
+class NodeCategoryStatsAggregator {
+  /**
+   * Stats of the nodes the origin can't recategorize, keyed by the category the
+   * format derived.
+   */
+  readonly #categoryToStats = new Map<string, NodeCategoryStats>()
+
+  /**
+   * Stats of the constructor nodes, keyed by the category the format derived,
+   * then by constructor name.
+   */
+  readonly #categoryToConstructorNameToStats = new Map<
+    string,
+    Map<string, NodeCategoryStats>
+  >()
+
+  public add(node: SnapshotNode, selfSize: number): void {
+    const stats =
+      node.type === `constructor`
+        ? statsOf(this.#constructorNameToStats(node.category), node.name)
+        : statsOf(this.#categoryToStats, node.category)
+    stats.size += selfSize
+    stats.nodeCount++
+  }
+
+  #constructorNameToStats(category: string): Map<string, NodeCategoryStats> {
+    let nameToStats = this.#categoryToConstructorNameToStats.get(category)
+    if (!nameToStats) {
+      nameToStats = new Map()
+      this.#categoryToConstructorNameToStats.set(category, nameToStats)
+    }
+    return nameToStats
+  }
+
+  /**
+   * Resolves each node's category: the origin categorizes a constructor by the
+   * class name its language defines, falling back to the category the format
+   * derived from the engine's own node classification.
+   */
+  public aggregate(origin: Origin): Map<string, NodeCategoryStats> {
+    const nodeCategoryToStats = new Map<string, NodeCategoryStats>()
+    const add = (category: string, { size, nodeCount }: NodeCategoryStats) => {
+      const stats = statsOf(nodeCategoryToStats, category)
+      stats.size += size
+      stats.nodeCount += nodeCount
+    }
+
+    for (const [category, stats] of this.#categoryToStats) {
+      add(category, stats)
+    }
+    for (const [category, nameToStats] of this
+      .#categoryToConstructorNameToStats) {
+      for (const [name, stats] of nameToStats) {
+        add(
+          categorizeSnapshotConstructorForOrigin(name, origin) ?? category,
+          stats,
+        )
+      }
+    }
+
+    return nodeCategoryToStats
+  }
+}
+
+/** The stats {@link key} accumulates into, inserted empty when it has none. */
+const statsOf = (
+  keyToStats: Map<string, NodeCategoryStats>,
+  key: string,
+): NodeCategoryStats => {
+  let stats = keyToStats.get(key)
+  if (!stats) {
+    stats = { size: 0, nodeCount: 0 }
+    keyToStats.set(key, stats)
+  }
+  return stats
 }
 
 /**

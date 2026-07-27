@@ -1,5 +1,9 @@
 import { protocolCategory } from '../categorize.ts'
-import { hasNodeModulesPath, v8JavaScriptCategory } from '../javascript.ts'
+import {
+  hasNodeModulesPath,
+  javaScriptConstructorCategory,
+  v8JavaScriptCategory,
+} from '../javascript.ts'
 import { hasProtocol } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
@@ -13,6 +17,7 @@ export const nodeOriginSpec = {
     v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
+  categorizeSnapshotConstructor: javaScriptConstructorCategory,
 } as const satisfies OriginSpec
 
 /** The module specifiers Node resolves to runtime builtins. */

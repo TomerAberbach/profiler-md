@@ -5,7 +5,11 @@ import {
   locationlessStdlibCategory,
   syntheticFrameCategory,
 } from '../categorize.ts'
-import { nodeModulesCategory } from '../javascript.ts'
+import {
+  javaScriptConstructorCategory,
+  nodeModulesCategory,
+} from '../javascript.ts'
+import { jscConstructorCategory } from '../jsc.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /** The marker WebKit gives the scripts it injects (e.g. devtools internals). */
@@ -37,6 +41,8 @@ export const safariOriginSpec = {
       ? `stdlib`
       : undefined) ??
     `ours`,
+  categorizeSnapshotConstructor: name =>
+    jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
 } as const satisfies OriginSpec
 
 /**
