@@ -1,4 +1,3 @@
-import globals from 'globals'
 import { computeStartOffsets } from '../../modalities/snapshot/index.ts'
 import type {
   HeapSnapshot,
@@ -102,187 +101,35 @@ function* jscSnapshotNodes({
 }: JSCHeapSnapshot): Iterable<SnapshotNode> {
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const stringClassNameIndex = nodeClassNames.indexOf(`string`)
-  const classNameIndexToCategoryOrdinal =
-    computeClassNameIndexToCategoryOrdinal(nodeClassNames)
 
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
     const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
     const flags = nodes[nodeIndex + NODE_FLAGS_OFFSET]!
-    const category = categorizeNode(
-      classNameIndex,
-      flags,
-      classNameIndexToCategoryOrdinal,
-    )
 
     yield classNameIndex === stringClassNameIndex
-      ? { category, type: `string` }
+      ? { category: `string`, type: `string` }
       : {
-          category,
+          category: categorizeNode(flags),
           type: `constructor`,
           name: nodeClassNames[classNameIndex]!,
         }
   }
 }
 
-const computeClassNameIndexToCategoryOrdinal = (
-  nodeClassNames: string[],
-): Int8Array => {
-  const classNameToCategoryOrdinal = getClassNameToCategoryOrdinal()
-  const classNameIndexToCategoryOrdinal = new Int8Array(
-    nodeClassNames.length,
-  ).fill(-1)
-  for (let index = 0; index < nodeClassNames.length; index++) {
-    const categoryOrdinal = classNameToCategoryOrdinal.get(
-      nodeClassNames[index]!,
-    )
-    if (categoryOrdinal !== undefined) {
-      classNameIndexToCategoryOrdinal[index] = categoryOrdinal
-    }
-  }
-  return classNameIndexToCategoryOrdinal
-}
-
-const getClassNameToCategoryOrdinal = (): Map<string, number> => {
-  if (classNameToCategoryOrdinal !== undefined) {
-    return classNameToCategoryOrdinal
-  }
-
-  classNameToCategoryOrdinal = new Map()
-  for (const name of Object.keys(globals.builtin)) {
-    classNameToCategoryOrdinal.set(name, 12)
-  }
-  for (const name of Object.keys(globals.browser)) {
-    classNameToCategoryOrdinal.set(name, 13)
-  }
-  for (const [name, ordinal] of Object.entries({
-    string: 0,
-    // Array
-    Array: 1,
-    'Array Iterator': 1,
-    'Immutable Butterfly': 1,
-    SparseArrayValueMap: 1,
-    Int8Array: 1,
-    Uint8Array: 1,
-    Uint8ClampedArray: 1,
-    Int16Array: 1,
-    Uint16Array: 1,
-    Int32Array: 1,
-    Uint32Array: 1,
-    Float16Array: 1,
-    Float32Array: 1,
-    Float64Array: 1,
-    BigInt64Array: 1,
-    BigUint64Array: 1,
-    // Closure
-    Function: 2,
-    GeneratorFunction: 2,
-    AsyncFunction: 2,
-    AsyncGeneratorFunction: 2,
-    Callee: 2,
-    CallbackObject: 2,
-    // Code
-    FunctionExecutable: 3,
-    UnlinkedFunctionExecutable: 3,
-    NativeExecutable: 3,
-    ProgramExecutable: 3,
-    ModuleProgramExecutable: 3,
-    FunctionCodeBlock: 3,
-    UnlinkedFunctionCodeBlock: 3,
-    ModuleRecord: 3,
-    JSSourceCode: 3,
-    // Single entries
-    RegExp: 4,
-    Number: 5,
-    symbol: 6,
-    Symbol: 6,
-    BigInt: 7,
-    // Internal
-    JSLexicalEnvironment: 8,
-    JSModuleEnvironment: 8,
-    JSGlobalLexicalEnvironment: 8,
-    JSWindowProxy: 8,
-    InjectedScriptHost: 8,
-    CommandLineAPIHost: 8,
-    '<root>': 8,
-    // Object
-    Object: 10,
-    Prototype: 10,
-    Generator: 10,
-    AsyncGenerator: 10,
-    'Map Iterator': 10,
-    'Set Iterator': 10,
-    'String Iterator': 10,
-    'RegExp String Iterator': 10,
-    AsyncFromSyncIterator: 10,
-    AsyncIterator: 10,
-    Arguments: 10,
-    Int8ArrayPrototype: 10,
-    Uint8ArrayPrototype: 10,
-    Uint8ClampedArrayPrototype: 10,
-    Int16ArrayPrototype: 10,
-    Uint16ArrayPrototype: 10,
-    Int32ArrayPrototype: 10,
-    Uint32ArrayPrototype: 10,
-    Float32ArrayPrototype: 10,
-    Float64ArrayPrototype: 10,
-    // Built-in
-    InternalPromise: 12,
-    InternalPromisePrototype: 12,
-    ShadowRealm: 12,
-    ModuleNamespaceObject: 12,
-    'Intl.DurationFormat': 12,
-    'Intl.ListFormat': 12,
-    'Intl.DateTimeFormat': 12,
-    // Native
-    WindowProperties: 13,
-    TextEncoderStreamEncoder: 13,
-    ModuleLoader: 13,
-  })) {
-    classNameToCategoryOrdinal.set(name, ordinal)
-  }
-
-  return classNameToCategoryOrdinal
-}
-
-let classNameToCategoryOrdinal: Map<string, number> | undefined
-
-const categorizeNode = (
-  classNameIndex: number,
-  flags: number,
-  classNameIndexToCategoryOrdinal: Int8Array,
-): string => {
-  let categoryOrdinal = classNameIndexToCategoryOrdinal[classNameIndex]!
-  if (categoryOrdinal === -1) {
-    if (flags & NODE_INTERNAL_FLAG) {
-      categoryOrdinal = 8
-    } else if (flags & NODE_ELEMENT_FLAG) {
-      categoryOrdinal = 9
-    } else if (flags & NODE_OBJECT_FLAG) {
-      categoryOrdinal = 10
-    } else {
-      categoryOrdinal = 11
-    }
-  }
-  return CATEGORY_ORDINAL_TO_NAME[categoryOrdinal]!
-}
-
-const CATEGORY_ORDINAL_TO_NAME = [
-  `string`, // 0
-  `array`, // 1
-  `closure`, // 2
-  `code`, // 3
-  `regexp`, // 4
-  `number`, // 5
-  `symbol`, // 6
-  `bigint`, // 7
-  `internal`, // 8
-  `element`, // 9
-  `object`, // 10
-  `unknown`, // 11
-  `built-in`, // 12
-  `native`, // 13
-]
+/**
+ * Categorizes a node by its flags, all the snapshot itself defines about a
+ * node. The class its name refers to is the engine's or the language's, so the
+ * origin categorizes by name instead.
+ */
+const categorizeNode = (flags: number): string =>
+  flags & NODE_INTERNAL_FLAG
+    ? `internal`
+    : flags & NODE_ELEMENT_FLAG
+      ? `element`
+      : flags & NODE_OBJECT_FLAG
+        ? `object`
+        : `unknown`
 
 /**
  * Maps node identifiers to node ordinals. Edges reference nodes by identifier,

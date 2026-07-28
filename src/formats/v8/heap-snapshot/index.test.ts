@@ -169,6 +169,42 @@ const makeClosureSnapshot = (
     locations: [12, 1, 5, 10],
   })
 
+// A synthetic root retaining two location-less object nodes, whose names are
+// used for origin detection and categorization.
+const makeObjectSnapshot = (firstName: string, secondName: string) =>
+  makeV8Snapshot({
+    nodeCount: 3,
+    edgeCount: 2,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 3,
+        selfSize: 200,
+        edgeCount: 0,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 2,
+        id: 5,
+        selfSize: 100,
+        edgeCount: 0,
+      }),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }),
+    ],
+    strings: [``, firstName, secondName],
+  })
+
 describe(`convert`, () => {
   test(`formats all sections`, () => {
     const md = convertJsonToMd(
@@ -238,6 +274,45 @@ describe(`convert`, () => {
           Value: `file:///project/src/a.ts`,
           Path: `(GC root)`,
         },
+      ],
+    ])
+  })
+
+  test(`a JavaScript origin categorizes constructors by the language's classes`, () => {
+    const snapshot = makeObjectSnapshot(`Promise`, `MyClass`)
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    // V8 types both nodes `object`; only the runtime's language knows
+    // `Promise` is one of its built-ins.
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `built-in`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
+        { Category: `object`, '%': `33.3%`, Size: `100 B`, Nodes: `1` },
+        { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+      ],
+    ])
+  })
+
+  test(`an origin observing another language keeps V8's own categories`, () => {
+    // Julia's `Profile` writes V8-format snapshots, where a JavaScript class
+    // name means nothing.
+    const snapshot = makeObjectSnapshot(`Promise`, `<generic memory - malloc>`)
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(categoryTables(md)).toEqual([
+      [
+        { Category: `object`, '%': `100.0%`, Size: `300 B`, Nodes: `2` },
+        { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
   })

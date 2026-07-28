@@ -1,5 +1,8 @@
 import { protocolCategory } from '../categorize.ts'
-import { v8JavaScriptCategory } from '../javascript.ts'
+import {
+  javaScriptConstructorCategory,
+  v8JavaScriptCategory,
+} from '../javascript.ts'
 import { hasProtocol } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
@@ -38,6 +41,7 @@ export const chromeOriginSpec = {
     v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `third-party`, [EXTENSION_PROTOCOL]) ??
     `ours`,
+  categorizeSnapshotConstructor: javaScriptConstructorCategory,
 } as const satisfies OriginSpec
 
 /** The protocol a browser extension's injected scripts load from. */

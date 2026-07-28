@@ -8,7 +8,11 @@ import {
 } from '../formats/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import { OriginDetector } from './index.ts'
+import {
+  categorizeSnapshotConstructorForOrigin,
+  OriginDetector,
+} from './index.ts'
+import type { Origin } from './index.ts'
 
 vi.setConfig({ testTimeout: 125_000 })
 
@@ -81,6 +85,41 @@ if (format === undefined) {
       expect(new Set(forced.functions.map(func => func.category))).toEqual(
         new Set([`deno`]),
       )
+    })
+  })
+
+  describe(`heap snapshot constructor categorization`, () => {
+    test.each<Origin>([`node`, `chrome`, `bun`, `safari`])(
+      `%s categorizes JavaScript's own classes`,
+      origin => {
+        expect(categorizeSnapshotConstructorForOrigin(`Promise`, origin)).toBe(
+          `built-in`,
+        )
+      },
+    )
+
+    test(`an origin observing another language leaves the format's category`, () => {
+      // Julia writes V8-format snapshots, whose class names are Julia's.
+      expect(
+        categorizeSnapshotConstructorForOrigin(`Promise`, `profile-jl`),
+      ).toBeUndefined()
+    })
+
+    test.each<Origin>([`safari`, `bun`])(
+      `%s categorizes JavaScriptCore's own classes`,
+      origin => {
+        expect(
+          categorizeSnapshotConstructorForOrigin(`ModuleLoader`, origin),
+        ).toBe(`native`)
+      },
+    )
+
+    test(`an origin observing another engine leaves the format's category`, () => {
+      // Node's ESM loader defines a JavaScript class by the same name as
+      // JavaScriptCore's native one, which is the program's own code.
+      expect(
+        categorizeSnapshotConstructorForOrigin(`ModuleLoader`, `node`),
+      ).toBeUndefined()
     })
   })
 

@@ -3,7 +3,11 @@ import {
   protocolCategory,
   syntheticFrameCategory,
 } from '../categorize.ts'
-import { nodeModulesCategory } from '../javascript.ts'
+import {
+  javaScriptConstructorCategory,
+  nodeModulesCategory,
+} from '../javascript.ts'
+import { jscConstructorCategory } from '../jsc.ts'
 import type { OriginSpec } from '../origin.ts'
 
 export const bunOriginSpec = {
@@ -26,6 +30,8 @@ export const bunOriginSpec = {
     nodeModulesCategory(entry) ??
     protocolCategory(entry, `stdlib`, BUN_STDLIB_PROTOCOLS) ??
     `ours`,
+  categorizeSnapshotConstructor: name =>
+    jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
 } as const satisfies OriginSpec
 
 /**

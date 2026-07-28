@@ -81,6 +81,19 @@ export type OriginSpec = {
   categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
 
   /**
+   * Returns the heap snapshot category of a constructor named {@link name}
+   * under this origin's language conventions (e.g. which class names the
+   * language itself defines), or `undefined` to keep the category the format
+   * derived.
+   *
+   * Applies to constructors alone: a closure's name is a function name and a
+   * string's is its value, either of which a class name can collide with.
+   *
+   * Defaults to keeping the format's category when omitted.
+   */
+  categorizeSnapshotConstructor?: (name: string) => string | undefined
+
+  /**
    * Returns a normalized name and location to match {@link entry} by across
    * diffed profiles, with this origin's run-varying identifiers (build hashes,
    * runtime addresses embedded in names or paths) stripped so the same entity

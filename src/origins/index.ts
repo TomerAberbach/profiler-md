@@ -27,6 +27,14 @@ export const categorizeEntryForOrigin = (
   origin: Origin,
 ): EntryCategory => originToSpec.get(origin)!.categorizeEntry(entry)
 
+export const categorizeSnapshotConstructorForOrigin = (
+  name: string,
+  origin: Origin,
+): string | undefined => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.categorizeSnapshotConstructor?.(name)
+}
+
 export const matchEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
   origin: Origin,

@@ -23,8 +23,7 @@ $ARGUMENTS
    Every tool or runtime that writes inputs gets its own origin, even when its
    behavior duplicates another origin's: share the logic through helper modules
    (generic rules in `src/origins/categorize.ts`; runtime- or ecosystem-specific
-   rules in a sibling module like `src/origins/jvm.ts`,
-   `src/origins/javascript.ts`, or `src/origins/cpython.ts`), never by merging
+   rules in a sibling module, e.g. `src/origins/jvm.ts`), never by merging
    specs. A later behavioral split must not break the published origin IDs
 
 2. Create `src/origins/specs/<origin>.ts` exporting an `OriginSpec` with:
@@ -39,8 +38,9 @@ $ARGUMENTS
      added without a breaking change
    - `title` when generated docs should show a display name other than the ID
      (e.g. `Node.js` for `node`)
-   - `categorize`: compose from the `src/origins/categorize.ts` helpers plus
-     profiler-specific rules
+   - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
+     plus profiler-specific rules
+   - `categorizeSnapshotConstructor` when the origin writes heap snapshots
    - `normalizeFrame` when the profiler packs a frame's location into its name
      (see `packedLocationNormalizer`)
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
