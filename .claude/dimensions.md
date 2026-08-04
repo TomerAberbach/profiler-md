@@ -15,11 +15,11 @@ Before writing code for it:
    - The **modality or modalities**, across formats → the modality's (e.g.
      `aggregate.ts`)
    - The **origin(s)**, across formats → the origin's code (e.g.
-     `OriginSpec.normalizeFrame`); multiple origins observing the same runtime
-     share the logic through a helper module (e.g. `src/origins/jvm.ts`), never
-     a merged spec
+     `OriginSpec.normalizeStackFrame`); multiple origins observing the same
+     runtime share the logic through a helper module (e.g.
+     `src/origins/jvm.ts`), never a merged spec
    - Specific **origin-format pairs** → the origin's code, checking the `format`
-     param (e.g. in `normalizeFrame`)
+     param (e.g. in `normalizeStackFrame`)
    - **Profiles generally** → the shared pipeline
 
 The classification is subjective and NOT about writing the logic in the fewest

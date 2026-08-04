@@ -55,7 +55,7 @@ describe(`matches`, () => {
 describe(`convert`, () => {
   test(`tachyon "file:func:line" stacks: reversal and locations`, () => {
     // The `tid:` root frame marks the profile as tachyon, whose
-    // `normalizeFrame` splits the `file:func:line` shape, keeping the packed
+    // `normalizeStackFrame` splits the `file:func:line` shape, keeping the packed
     // line as the executing line. The duplicate `work` stack sums to 10.
     const md = convertBytesToMd(
       collapsedConverter,

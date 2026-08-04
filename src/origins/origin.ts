@@ -130,14 +130,14 @@ export type OriginSpec = {
    *
    * Defaults to the identity when omitted.
    */
-  normalizeFrame?: (
+  normalizeStackFrame?: (
     input: ProfileStackFrame,
     format: Format,
   ) => ProfileStackFrame | null
 }
 
 /**
- * Builds an {@link OriginSpec.normalizeFrame} for a profiler that packs a
+ * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that packs a
  * frame's function, file, and sampled line into its name, matched by
  * {@link regex}'s named groups `func`, `file`, and `line`.
  *

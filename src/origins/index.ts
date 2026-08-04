@@ -43,13 +43,13 @@ export const matchEntryForOrigin = (
   return spec.matchEntry?.(entry)
 }
 
-export const normalizeFrameForContext = (
+export const normalizeStackFrameForContext = (
   frame: ProfileStackFrame,
   { format, origin }: ProfileToMdContext,
 ): ProfileStackFrame | null => {
   const spec: OriginSpec = originToSpec.get(origin)!
-  const normalizedFrame = spec.normalizeFrame
-    ? spec.normalizeFrame(frame, format)
+  const normalizedFrame = spec.normalizeStackFrame
+    ? spec.normalizeStackFrame(frame, format)
     : frame
   if (!normalizedFrame) {
     return null

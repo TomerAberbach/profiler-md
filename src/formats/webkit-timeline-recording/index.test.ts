@@ -9,7 +9,7 @@ import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import { categoryTables, summaryLines } from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
 import { webkitTimelineRecordingConverter } from './index.ts'
-import { makeWebKitFrame, makeWebKitRecording } from './testing.ts'
+import { makeWebKitRecording, makeWebKitStackFrame } from './testing.ts'
 
 describe(`matches`, () => {
   test(`accepts valid recording`, () => {
@@ -69,12 +69,12 @@ describe(`convert`, () => {
       sampleStackTraces: [
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `work`,
               url: `file:///project/src/index.ts`,
               line: 10,
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -82,12 +82,12 @@ describe(`convert`, () => {
         },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `work`,
               url: `file:///project/src/index.ts`,
               line: 10,
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -95,7 +95,7 @@ describe(`convert`, () => {
         },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -158,7 +158,7 @@ describe(`convert`, () => {
         { stackFrames: [] },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -219,11 +219,11 @@ describe(`convert`, () => {
       sampleStackTraces: [
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `factorial`,
               url: `file:///project/src/index.ts`,
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `factorial`,
               url: `file:///project/src/index.ts`,
             }),
@@ -231,7 +231,7 @@ describe(`convert`, () => {
         },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `factorial`,
               url: `file:///project/src/index.ts`,
             }),
@@ -269,12 +269,12 @@ describe(`convert`, () => {
       sampleStackTraces: [
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `anon`,
               url: `https://example.com/app.js`,
               column: 244,
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -282,11 +282,11 @@ describe(`convert`, () => {
         },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `thirdParty`,
               url: `file:///project/node_modules/lib/index.js`,
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -318,13 +318,13 @@ describe(`convert`, () => {
       sampleStackTraces: [
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `work`,
               url: `file:///project/src/index.ts`,
               line: 10,
               expressionLocation: { line: 12, column: 1 },
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -332,13 +332,13 @@ describe(`convert`, () => {
         },
         {
           stackFrames: [
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `work`,
               url: `file:///project/src/index.ts`,
               line: 10,
               expressionLocation: { line: 15, column: 1 },
             }),
-            makeWebKitFrame({
+            makeWebKitStackFrame({
               name: `main`,
               url: `file:///project/src/index.ts`,
             }),
@@ -382,12 +382,12 @@ describe(`options`, () => {
     sampleStackTraces: [
       {
         stackFrames: [
-          makeWebKitFrame({
+          makeWebKitStackFrame({
             name: `work`,
             url: `file:///project/src/index.ts`,
             line: 10,
           }),
-          makeWebKitFrame({
+          makeWebKitStackFrame({
             name: `main`,
             url: `file:///project/src/index.ts`,
           }),
@@ -395,12 +395,12 @@ describe(`options`, () => {
       },
       {
         stackFrames: [
-          makeWebKitFrame({
+          makeWebKitStackFrame({
             name: `work`,
             url: `file:///project/src/index.ts`,
             line: 10,
           }),
-          makeWebKitFrame({
+          makeWebKitStackFrame({
             name: `main`,
             url: `file:///project/src/index.ts`,
           }),
@@ -408,7 +408,7 @@ describe(`options`, () => {
       },
       {
         stackFrames: [
-          makeWebKitFrame({
+          makeWebKitStackFrame({
             name: `main`,
             url: `file:///project/src/index.ts`,
           }),

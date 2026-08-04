@@ -1,8 +1,8 @@
 import {
   categorizeJvmEntry,
   hotspotStubCategory,
-  isJvmStdlibNameFrame,
-  isNativeLibraryFrame,
+  isJvmStdlibNameStackFrame,
+  isNativeLibraryStackFrame,
   jvmMatchEntry,
 } from '../jvm.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -16,12 +16,12 @@ export const asyncProfilerOriginSpec = {
   // (collapsed), HotSpot code stubs, and native shared-library frames mixed
   // into Java stacks (JFR written by the JDK's recorder is Java-only).
   isMarkerEntry: entry =>
-    isJvmStdlibNameFrame(entry.name) ||
+    isJvmStdlibNameStackFrame(entry.name) ||
     hotspotStubCategory(entry) !== undefined ||
-    isNativeLibraryFrame(entry),
+    isNativeLibraryStackFrame(entry),
   categorizeEntry: categorizeJvmEntry,
   matchEntry: jvmMatchEntry,
-  normalizeFrame: input => {
+  normalizeStackFrame: input => {
     // A located (JFR) frame already carries its declaring class; only
     // collapsed names need splitting.
     if (input.location) {

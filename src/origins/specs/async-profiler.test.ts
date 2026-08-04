@@ -51,11 +51,11 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = asyncProfilerOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = asyncProfilerOriginSpec
 
   test(`turns the slashed class into a dotted location`, () => {
-    expect(normalizeFrame({ name: `java/util/HashMap.put` })).toEqual({
+    expect(normalizeStackFrame({ name: `java/util/HashMap.put` })).toEqual({
       name: `put`,
       location: { urlOrPath: `java.util.HashMap` },
     })
@@ -63,7 +63,7 @@ describe(`normalizeFrame`, () => {
 
   test(`handles a nested class and an <init> method`, () => {
     expect(
-      normalizeFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
+      normalizeStackFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
     ).toEqual({
       name: `valueOf`,
       location: { urlOrPath: `java.lang.System$Logger$Level` },
@@ -71,7 +71,7 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves a native (no-slash) frame location-less`, () => {
-    expect(normalizeFrame({ name: `Parker::park` })).toEqual({
+    expect(normalizeStackFrame({ name: `Parker::park` })).toEqual({
       name: `Parker::park`,
     })
   })

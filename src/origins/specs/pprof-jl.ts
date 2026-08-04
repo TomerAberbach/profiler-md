@@ -28,7 +28,7 @@ export const pprofJlOriginSpec = {
   // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
   // pseudo-frame. It isn't a function: dropping it returns each sample's
   // self value to the function that allocated.
-  normalizeFrame: input =>
+  normalizeStackFrame: input =>
     input.name?.startsWith(`Alloc: `) === true ? null : input,
 } as const satisfies OriginSpec
 

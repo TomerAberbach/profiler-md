@@ -40,12 +40,12 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = pySpyOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = pySpyOriginSpec
 
   test(`splits the trailing (file:line) into a location and sampled line`, () => {
     expect(
-      normalizeFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
+      normalizeStackFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
     ).toEqual({
       name: `parse`,
       location: { urlOrPath: `black/parsing.py` },
@@ -55,7 +55,7 @@ describe(`normalizeFrame`, () => {
 
   test(`keeps a frozen-module location intact`, () => {
     expect(
-      normalizeFrame(
+      normalizeStackFrame(
         { name: `<module> (<frozen importlib._bootstrap>:1080)` },
         `collapsed`,
       ),
@@ -67,7 +67,7 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves a thread frame unchanged`, () => {
-    expect(normalizeFrame({ name: `tid:7` }, `collapsed`)).toEqual({
+    expect(normalizeStackFrame({ name: `tid:7` }, `collapsed`)).toEqual({
       name: `tid:7`,
     })
   })
@@ -76,7 +76,7 @@ describe(`normalizeFrame`, () => {
     // Py-spy's speedscope export emits one frame per sampled line; the line
     // must feed the line breakdown rather than the function's identity.
     expect(
-      normalizeFrame(
+      normalizeStackFrame(
         {
           name: `parse`,
           location: { urlOrPath: `black/parsing.py`, line: 42 },

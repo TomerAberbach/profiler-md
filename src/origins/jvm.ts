@@ -49,7 +49,7 @@ export const categorizeJvmEntry = (
  * Whether a raw async-profiler frame name is in a JVM standard-library package,
  * before its `/`s become `.`s.
  */
-export const isJvmStdlibNameFrame = (name: string | undefined): boolean =>
+export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
   name !== undefined && JVM_STDLIB_PACKAGE.test(name)
 
 /** Categorizes Java standard-library and JDK-internal frames as `stdlib`. */
@@ -118,7 +118,7 @@ const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
  * own stack walker mixes such native frames into JFR or collapsed output; JFR
  * written by the JDK's recorder carries Java-only stacks.
  */
-export const isNativeLibraryFrame = ({
+export const isNativeLibraryStackFrame = ({
   name,
   location,
 }: DeepReadonly<ProfileEntry>): boolean =>

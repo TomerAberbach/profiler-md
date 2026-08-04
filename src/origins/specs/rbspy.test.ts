@@ -37,12 +37,12 @@ describe(`detection`, () => {
   })
 })
 
-describe(`normalizeFrame`, () => {
-  const { normalizeFrame } = rbspyOriginSpec
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = rbspyOriginSpec
 
   test(`splits a method's trailing file:line off the name`, () => {
     expect(
-      normalizeFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
+      normalizeStackFrame({ name: `parse - /app/lib/foo.rb:12` }, `collapsed`),
     ).toEqual({
       name: `parse`,
       location: { urlOrPath: `/app/lib/foo.rb` },
@@ -54,7 +54,7 @@ describe(`normalizeFrame`, () => {
     // The internal colon of `<module:AST>` must not be mistaken for the
     // file/line separator, which previously corrupted the name and path.
     expect(
-      normalizeFrame(
+      normalizeStackFrame(
         {
           name: `<module:AST> - /var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb:28`,
         },
@@ -71,7 +71,7 @@ describe(`normalizeFrame`, () => {
 
   test(`a native frame keeps its name and stays location-less`, () => {
     expect(
-      normalizeFrame(
+      normalizeStackFrame(
         { name: `(unknown) [c function] - (unknown)` },
         `collapsed`,
       ),
@@ -79,7 +79,7 @@ describe(`normalizeFrame`, () => {
   })
 
   test(`leaves a frame without a separator unchanged`, () => {
-    expect(normalizeFrame({ name: `<main>` }, `collapsed`)).toEqual({
+    expect(normalizeStackFrame({ name: `<main>` }, `collapsed`)).toEqual({
       name: `<main>`,
     })
   })
@@ -88,7 +88,7 @@ describe(`normalizeFrame`, () => {
     // Rbspy's speedscope export emits one frame per sampled line; the line
     // must feed the line breakdown rather than the function's identity.
     expect(
-      normalizeFrame(
+      normalizeStackFrame(
         { name: `parse`, location: { urlOrPath: `/app/lib/foo.rb`, line: 12 } },
         `speedscope`,
       ),
@@ -105,12 +105,12 @@ describe(`normalizeFrame`, () => {
       name: `parse`,
       location: { urlOrPath: `/app/lib/foo.rb`, line: 12 },
     }
-    expect(normalizeFrame(input, `pprof`)).toBe(input)
+    expect(normalizeStackFrame(input, `pprof`)).toBe(input)
   })
 
   test(`leaves a located speedscope frame without a line unchanged`, () => {
     const input = { name: `parse - x`, location: { urlOrPath: `x.rb` } }
-    expect(normalizeFrame(input, `speedscope`)).toBe(input)
+    expect(normalizeStackFrame(input, `speedscope`)).toBe(input)
   })
 })
 

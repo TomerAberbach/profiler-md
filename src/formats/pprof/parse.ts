@@ -16,11 +16,11 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
     profile,
     string,
   )
-  const { frames, frameIndexByFunctionId } = parseFunctionFrames(
+  const { frames, frameIndexByFunctionId } = parseFunctionStackFrames(
     profile,
     string,
   )
-  const framesByLocationId = resolveLocationFrames(
+  const framesByLocationId = resolveLocationStackFrames(
     profile,
     frameIndexByFunctionId,
   )
@@ -112,7 +112,7 @@ const parseSampleTypes = (
  * bytes, deterministically per value) so the per-sample lookups never build
  * key strings.
  */
-const parseFunctionFrames = (
+const parseFunctionStackFrames = (
   profile: PprofProto,
   string: StringReader,
 ): {
@@ -134,18 +134,18 @@ const parseFunctionFrames = (
   return { frames, frameIndexByFunctionId }
 }
 
-type LocationFrame = { frame: number; line: number }
+type LocationStackFrame = { frame: number; line: number }
 
 /**
  * Each location resolves to its frame indices and lines, dropping any frame
  * whose function is absent from the table (unsymbolized) rather than carrying
  * a dangling reference into aggregation.
  */
-const resolveLocationFrames = (
+const resolveLocationStackFrames = (
   profile: PprofProto,
   frameIndexByFunctionId: Map<number | bigint, number>,
-): Map<number | bigint, LocationFrame[]> => {
-  const framesByLocationId = new Map<number | bigint, LocationFrame[]>()
+): Map<number | bigint, LocationStackFrame[]> => {
+  const framesByLocationId = new Map<number | bigint, LocationStackFrame[]>()
   for (const location of profile.location) {
     framesByLocationId.set(
       location.id,
@@ -160,7 +160,7 @@ const resolveLocationFrames = (
 
 const parseSamples = (
   profile: PprofProto,
-  framesByLocationId: Map<number | bigint, LocationFrame[]>,
+  framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
   metricValueIndices: number[],
   countValueIndex: number | undefined,
 ): Sample[] => {

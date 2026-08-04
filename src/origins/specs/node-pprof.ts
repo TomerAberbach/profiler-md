@@ -19,7 +19,7 @@ export const nodePprofOriginSpec = {
     nodeModulesCategory(entry) ??
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
-  normalizeFrame: input => {
+  normalizeStackFrame: input => {
     // `dd-trace` heap profiles pack an anonymous function's definition
     // position into its name as `(anonymous:L#122135:C#9)`; move it into the
     // location (which carries the file but no line) so the name formats as
