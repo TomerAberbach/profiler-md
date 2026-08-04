@@ -6,7 +6,7 @@ import { parsePprof } from './parse.ts'
 export const pprofConverter = {
   title: `pprof`,
   extension: `pprof`,
-  languages: [`c`, `go`, `javascript`, `julia`, `ruby`, `rust`],
+  languages: [`c`, `go`, `javascript`, `julia`, `ruby`, `rust`, `zig`],
   fallbackOrigin: `unknown`,
   type: `binary`,
   matches: matchesPprof,

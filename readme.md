@@ -148,7 +148,7 @@ Converts performance profiles to human and LLM friendly Markdown.
 
 Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown
-Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust
+Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
 ```
 
 <!-- CLI_HELP END -->
@@ -280,6 +280,12 @@ third-party tools can often convert others.
 <td>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Rust pprof-rs CPU (<a href="examples/output/rust.pprof-rs.cpu.base.pprof.md">base</a>, <a href="examples/output/rust.pprof-rs.cpu.current.pprof.md">current</a>, <a href="examples/output/rust.pprof-rs.cpu.diff.pprof.md">diff</a>)</li></ul></details>
 <div><a href="docs/formats/systing.md">systing</a></div>
+</td>
+</tr>
+<tr>
+<td><a href="docs/languages/zig.md">Zig</a></td>
+<td>
+<details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Zig gperftools CPU (<a href="examples/output/zig.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/zig.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/zig.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>Zig gperftools heap (<a href="examples/output/zig.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/zig.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/zig.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 </tbody>

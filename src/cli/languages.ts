@@ -102,6 +102,12 @@ const languageMetas = [
       extensions: [`rs`],
     },
   ],
+  [
+    `zig`,
+    {
+      name: `Zig`,
+    },
+  ],
 ] as const satisfies readonly (readonly [string, LanguageMeta])[]
 
 export type LanguageId = (typeof languageMetas)[number][0]
