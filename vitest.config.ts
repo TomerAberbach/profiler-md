@@ -8,6 +8,7 @@ import type { Format } from './src/formats/registry.ts'
 // For tests that run over all inputs, each project takes a partition of them so
 // the conversions spread across workers instead of running one at a time.
 const inputProcessingFiles = [
+  `src/cli/index.test.ts`,
   `src/formats/index.test.ts`,
   `src/origins/index.test.ts`,
 ]
