@@ -1,12 +1,15 @@
 import { describe, expect, test } from 'vitest'
 import {
-  callersTables,
-  linesTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../modalities/profile/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables, summaryLines } from '../../testing.ts'
+import {
+  callersTables,
+  categoryTables,
+  linesTables,
+  summaryLines,
+} from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
 import { webkitTimelineRecordingConverter } from './index.ts'
 import { makeWebKitRecording, makeWebKitStackFrame } from './testing.ts'

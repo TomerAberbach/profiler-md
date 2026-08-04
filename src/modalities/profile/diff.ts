@@ -1,13 +1,13 @@
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
+import type { DiffMetric } from '../metric.ts'
+import { matchDiffedMetrics } from '../metric.ts'
 import type {
   AggregatedProfile,
   AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
-import type { DiffMetric } from './metric.ts'
-import { matchDiffedMetrics } from './metric.ts'
 
 /**
  * A function matched across the base and current profiles by name and location,

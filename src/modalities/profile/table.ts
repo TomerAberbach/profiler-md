@@ -3,22 +3,16 @@ import { capitalizeFirst } from '../../helpers/format.ts'
 import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
 import { fileReferenceId, formatSourceLocation } from '../../location.ts'
-import type { SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type { NamedFunction } from '../format.ts'
+import { metricCell, metricColumnNouns } from '../measure.ts'
+import type { Metric } from '../metric.ts'
 import { codeCell, countCell, percentCell, textCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type {
   AggregatedProfileCategoryMetrics,
   AggregatedProfileFunction,
 } from './aggregate.ts'
-import { metricCell } from './measure.ts'
-import type { Metric } from './metric.ts'
-
-/** A function with a display name and optional location. */
-export type NamedFunction = {
-  name: string
-  location?: SourceLocation
-}
 
 /** The `Samples` header shared by the metric tables. */
 const samplesHeader: Header = { content: `Samples`, align: `right` }
@@ -214,27 +208,4 @@ export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
       cellOf: row => countCell(row.stats.sampleCount),
     },
   ]
-}
-
-/**
- * The header noun for each metric's column. Two metrics sharing a noun
- * (allocated and retained heap are both "Size") would produce
- * indistinguishable columns, so those fall back to each metric's verb
- * ("Allocated", "Retained").
- */
-const metricColumnNouns = (metrics: Metric[]): string[] => {
-  const nounCounts = new Map<string, number>()
-  for (const { phrases } of metrics) {
-    nounCounts.set(
-      phrases.columnNoun,
-      (nounCounts.get(phrases.columnNoun) ?? 0) + 1,
-    )
-  }
-  return metrics.map(({ phrases }) =>
-    capitalizeFirst(
-      nounCounts.get(phrases.columnNoun)! > 1
-        ? phrases.pastTenseVerb
-        : phrases.columnNoun,
-    ),
-  )
 }

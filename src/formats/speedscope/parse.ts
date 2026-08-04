@@ -1,9 +1,9 @@
+import { determineMetric } from '../../modalities/metric.ts'
 import type {
   Profile,
   ProfileStackFrame,
   Sample,
 } from '../../modalities/profile/index.ts'
-import { determineMetric } from '../../modalities/profile/metric.ts'
 
 /** A unique location within a function. */
 export type SpeedscopeFrame = {

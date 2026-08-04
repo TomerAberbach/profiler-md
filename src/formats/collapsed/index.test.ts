@@ -1,13 +1,17 @@
 import { describe, expect, test } from 'vitest'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
-  calleesTables,
-  linesTables,
   selfSamplesTables,
   totalSamplesTables,
 } from '../../modalities/profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables, profileTitles, summaryLines } from '../../testing.ts'
+import {
+  calleesTables,
+  categoryTables,
+  linesTables,
+  profileTitles,
+  summaryLines,
+} from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { collapsedConverter } from './index.ts'
 import { parseCollapsed } from './parse.ts'

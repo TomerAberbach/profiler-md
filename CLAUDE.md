@@ -53,14 +53,16 @@ profiler-md
 │   ├── modalities/           # Individual modality implementations
 │   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
 │   │   ├── diff.ts           # Base/current diffing primitives
+│   │   ├── stack-frame.ts    # Distinct-frame origin detection and normalization shared across modalities
+│   │   ├── metric.ts         # Recorded metric types and inference logic
+│   │   ├── measure.ts        # Metric phrasing and cell formatting shared across modalities
 │   │   ├── table.ts          # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts         # Formatting helpers shared across modalities
 │   │   ├── profile/          # Common sampling profile conversion logic
 │   │   │   ├── type.ts       # Parsed profile types
-│   │   │   ├── metric.ts     # Sampled metric types and inference logic
 │   │   │   ├── aggregate.ts  # Sample aggregation over frames
 │   │   │   ├── diff.ts       # Aggregated profile diffing logic
-│   │   │   ├── measure.ts    # Profile-resolved measure views + metric/measure phrasing
+│   │   │   ├── measure.ts    # Profile-resolved measure views with sample-count fallback
 │   │   │   ├── table.ts      # The profile formatter's table columns
 │   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
 │   │   │   ├── index.ts      # Barrel file

@@ -1,9 +1,9 @@
+import { MICROSECONDS } from '../../../modalities/metric.ts'
 import type {
   Profile,
   Sample,
   SampleLineMetrics,
 } from '../../../modalities/profile/index.ts'
-import { MICROSECONDS } from '../../../modalities/profile/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,

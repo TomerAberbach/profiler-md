@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import { resolveProfileToMdOptions } from '../../testing.ts'
+import { BYTES, MICROSECONDS, MILLISECONDS } from '../metric.ts'
 import { diffAggregatedProfiles } from './diff.ts'
-import { BYTES, MICROSECONDS, MILLISECONDS } from './metric.ts'
 import { makeAggregatedProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })

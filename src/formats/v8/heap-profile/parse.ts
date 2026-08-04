@@ -1,5 +1,5 @@
+import { BYTES } from '../../../modalities/metric.ts'
 import type { Profile, Sample } from '../../../modalities/profile/index.ts'
-import { BYTES } from '../../../modalities/profile/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,

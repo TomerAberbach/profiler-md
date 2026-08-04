@@ -1,12 +1,155 @@
-import type { RootContent } from 'mdast'
+import type { Heading, RootContent } from 'mdast'
+import { capitalizeFirst, formatConjunction } from '../helpers/format.ts'
 import { selectTopN } from '../helpers/heap.ts'
-import { paragraph } from '../helpers/markdown.ts'
+import {
+  formatSectionGroup,
+  heading,
+  inlineCode,
+  nameLocationPhrasing,
+  paragraph,
+} from '../helpers/markdown.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
+import { formatSourceLocation } from '../location.ts'
+import type { SourceLocation } from '../location.ts'
 import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
 } from '../options.ts'
 import type { Diff } from './diff.ts'
+import type { Metric } from './metric.ts'
+import { formatDiffTable } from './table.ts'
+import type { Table } from './table.ts'
+
+/** The document title for an input with the given metrics. */
+export const formatTitle = (metrics: Metric[]): string =>
+  metrics.length === 0
+    ? `Sampling profile`
+    : capitalizeFirst(
+        `${formatConjunction(
+          metrics.map(metric => metric.phrases.titleNoun),
+        )} profile`,
+      )
+
+/**
+ * Formats a Markdown section per measure in {@link measures} via
+ * {@link formatSections}, wrapping each measure's sections in a heading with
+ * the metric's name when there are multiple measures.
+ */
+export const formatMeasureSections = <M extends { metric: Metric | null }>(
+  measures: M[],
+  headingLevel: number,
+  formatSections: (measure: M, headingLevel: number) => RootContent[],
+): RootContent[] =>
+  measures.flatMap(measure =>
+    measures.length === 1
+      ? formatSections(measure, headingLevel)
+      : formatSectionGroup(
+          [
+            heading(
+              headingLevel,
+              capitalizeFirst(measure.metric!.phrases.titleNoun),
+            ),
+          ],
+          formatSections(measure, headingLevel + 1),
+        ),
+  )
+
+/**
+ * The note shown in place of a measure's sections when the input recorded no
+ * value for it, e.g. a heap profile dumped when nothing was retained.
+ * {@link scope} qualifies where nothing was recorded (a sampling profile's
+ * ` in any sample`) and may be empty.
+ */
+export const formatZeroTotalNote = (
+  metric: Metric | null,
+  scope: string,
+): RootContent =>
+  paragraph(
+    metric === null
+      ? `No samples were collected.`
+      : `No ${metric.phrases.pastParticipleVerbPhrase}${scope}.`,
+  )
+
+/**
+ * The note shown when the entry filter would hide every function, e.g. a
+ * profile sampled entirely inside external code with no frame of ours (a
+ * runtime dump, a lock profile parked in the JDK).
+ */
+export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
+
+/** A function with a display name and optional location. */
+export type NamedFunction = {
+  name: string
+  location?: SourceLocation
+}
+
+/** Formats a heading for a function with its location. */
+export const formatFunctionHeading = (
+  headingLevel: number,
+  func: NamedFunction,
+  options: FormattingProfileToMdOptions,
+): Heading =>
+  heading(
+    headingLevel,
+    nameLocationPhrasing(
+      func.name,
+      inlineCode(formatSourceLocation(func.location, options)),
+    ),
+  )
+
+/**
+ * Assembles the regressions and improvements subsections for one function
+ * direction (self or total) under a {@link title} heading, with rows under the
+ * given table {@link columns}.
+ *
+ * When nothing differed but {@link hasActive} functions exist on either side,
+ * the section stays, with a "did not differ" note. When no functions are
+ * active (the section a non-diff input would have omitted), it is omitted.
+ */
+export const formatDiffFunctionSections = <Row>({
+  headingLevel,
+  title,
+  description,
+  columns,
+  hasActive,
+  regressions,
+  improvements,
+}: {
+  headingLevel: number
+  title: string
+  description: string
+  columns: Table<Row>
+  hasActive: boolean
+  regressions: Diff<Row>[]
+  improvements: Diff<Row>[]
+}): RootContent[] => {
+  const sections: RootContent[] = []
+
+  if (regressions.length > 0) {
+    sections.push(
+      heading(headingLevel + 1, `Regressions`),
+      paragraph(`Functions with the largest increase in ${description}.`),
+      formatDiffTable(columns, regressions),
+    )
+  }
+
+  if (improvements.length > 0) {
+    sections.push(
+      heading(headingLevel + 1, `Improvements`),
+      paragraph(`Functions with the largest decrease in ${description}.`),
+      formatDiffTable(columns, improvements),
+    )
+  }
+
+  if (sections.length === 0) {
+    if (!hasActive) {
+      return []
+    }
+    sections.push(paragraph(`No function differed in ${description}.`))
+  }
+
+  return formatSectionGroup([heading(headingLevel, title)], sections)
+}
 
 /**
  * The options a modality's sections format with. When the entry filter would
