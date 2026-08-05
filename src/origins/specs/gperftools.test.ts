@@ -24,6 +24,14 @@ describe(`categorizeEntry`, () => {
     ).toBe(`stdlib`)
   })
 
+  test(`a Zig toolchain source is stdlib`, () => {
+    expect(
+      categorizeEntry(
+        relativeEntry(`mem.copyForwards`, `/opt/zig/lib/std/mem.zig`),
+      ),
+    ).toBe(`stdlib`)
+  })
+
   test(`a located application frame is ours`, () => {
     expect(categorizeEntry(relativeEntry(`main`, `/app/main.cc`))).toBe(`ours`)
   })

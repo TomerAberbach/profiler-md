@@ -3,6 +3,7 @@ import type { EntryCategory, ProfileEntry } from '../../options.ts'
 import { systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import type { OriginSpec } from '../origin.ts'
+import { zigStdlibCategory } from '../zig.ts'
 
 export const systingOriginSpec = {
   id: `systing`,
@@ -17,6 +18,9 @@ export const systingOriginSpec = {
     // /usr/lib/python3/dist-packages/ counts as third-party, not stdlib.
     pythonThirdPartyCategory(entry) ??
     pythonStdlibCategory(entry) ??
+    // A statically linked Zig binary is one of the native binaries systing
+    // observes, and its toolchain sources are outside the system directories.
+    zigStdlibCategory(entry) ??
     systemDirectoryCategory(entry) ??
     // Unlike runtime profilers, a locationless frame here is not necessarily
     // a runtime internal: any native code without debug info (the app's own
