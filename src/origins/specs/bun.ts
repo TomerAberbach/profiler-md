@@ -30,7 +30,7 @@ export const bunOriginSpec = {
     nodeModulesCategory(entry) ??
     protocolCategory(entry, `stdlib`, BUN_STDLIB_PROTOCOLS) ??
     `ours`,
-  categorizeSnapshotConstructor: name =>
+  categorizeHeapSnapshotConstructor: name =>
     jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
 } as const satisfies OriginSpec
 

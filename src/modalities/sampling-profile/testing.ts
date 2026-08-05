@@ -3,10 +3,10 @@ import type { Table } from '../../helpers/testing.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import type { Metric } from '../metric.ts'
-import { ProfileAggregator } from './aggregate.ts'
-import type { AggregatedProfile } from './aggregate.ts'
+import { SamplingProfileAggregator } from './aggregate.ts'
+import type { AggregatedSamplingProfile } from './aggregate.ts'
 
-export const makeAggregatedProfile = (
+export const makeAggregatedSamplingProfile = (
   metrics: Metric[],
   functions: {
     name: string
@@ -21,7 +21,7 @@ export const makeAggregatedProfile = (
   // signal; tests exercising origin-aware match normalization pass the
   // relevant context.
   context?: ProfileToMdContext,
-): AggregatedProfile => {
+): AggregatedSamplingProfile => {
   const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const frames = functions.map(func => ({
     name: func.name,
@@ -34,8 +34,8 @@ export const makeAggregatedProfile = (
     })),
   )
 
-  return new ProfileAggregator({
-    type: `profile`,
+  return new SamplingProfileAggregator({
+    type: `sampling-profile`,
     frames,
     metrics,
     samples,

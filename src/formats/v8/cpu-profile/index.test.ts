@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   selfTimeTables,
   totalTimeTables,
-} from '../../../modalities/profile/testing.ts'
+} from '../../../modalities/sampling-profile/testing.ts'
 import {
   defaultShowEntry,
   normalizeProfileToMdOptions,

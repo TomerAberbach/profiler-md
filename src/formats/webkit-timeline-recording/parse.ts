@@ -1,9 +1,9 @@
 import { SECONDS } from '../../modalities/metric.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A function observed in a WebKit timeline recording call stack. */
 export type WebKitStackFrame = {
@@ -64,7 +64,7 @@ export type WebKitTimelineRecording = {
 
 export const parseWebKitTimelineRecording = ({
   recording: { sampleStackTraces, sampleDurations },
-}: WebKitTimelineRecording): Profile[] => {
+}: WebKitTimelineRecording): SamplingProfile[] => {
   const { frames, intern } = createStackFrameInterner()
   const samples: Sample[] = []
   for (let index = 0; index < sampleStackTraces.length; index++) {
@@ -81,7 +81,7 @@ export const parseWebKitTimelineRecording = ({
     })
   }
 
-  return [{ type: `profile`, frames, metrics: [SECONDS], samples }]
+  return [{ type: `sampling-profile`, frames, metrics: [SECONDS], samples }]
 }
 
 /**
@@ -89,11 +89,11 @@ export const parseWebKitTimelineRecording = ({
  * by identity; a frame's index is its position in `frames`.
  */
 const createStackFrameInterner = (): {
-  frames: ProfileStackFrame[]
+  frames: StackFrame[]
   intern: (frame: WebKitStackFrame) => number
 } => {
   const indexByFrame = new Map<string, number>()
-  const frames: ProfileStackFrame[] = []
+  const frames: StackFrame[] = []
   return {
     frames,
     intern: frame => {
@@ -112,7 +112,7 @@ const createStackFrameInterner = (): {
 const frameKey = (node: WebKitStackFrame): string =>
   `${node.name}|${node.url}|${node.line}|${node.column}`
 
-const frameToStackFrame = (node: WebKitStackFrame): ProfileStackFrame => ({
+const frameToStackFrame = (node: WebKitStackFrame): StackFrame => ({
   name: node.name,
   location: node.url
     ? {

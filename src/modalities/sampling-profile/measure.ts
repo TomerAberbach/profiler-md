@@ -1,6 +1,6 @@
 import type { Metric } from '../metric.ts'
-import type { AggregatedProfile } from './aggregate.ts'
-import type { AggregatedProfileDiff } from './diff.ts'
+import type { AggregatedSamplingProfile } from './aggregate.ts'
+import type { AggregatedSamplingProfileDiff } from './diff.ts'
 
 /**
  * What a profile section ranks, percentages, and tabulates by: a metric, or
@@ -22,14 +22,14 @@ export type Measure = {
  * The {@link Measure}s for a profile: one per metric, or a single sample-count
  * measure when the profile has no metrics.
  */
-export const measuresOf = (profile: AggregatedProfile): Measure[] =>
+export const measuresOf = (profile: AggregatedSamplingProfile): Measure[] =>
   profile.metrics.length === 0
     ? [sampleCountMeasure(profile)]
     : profile.metrics.map((metric, index) =>
         metricMeasure(metric, index, profile),
       )
 
-const sampleCountMeasure = (profile: AggregatedProfile): Measure => ({
+const sampleCountMeasure = (profile: AggregatedSamplingProfile): Measure => ({
   metric: null,
   valueOf: (_values, sampleCount) => sampleCount,
   total: profile.totalSampleCount,
@@ -38,7 +38,7 @@ const sampleCountMeasure = (profile: AggregatedProfile): Measure => ({
 const metricMeasure = (
   metric: Metric,
   index: number,
-  profile: AggregatedProfile,
+  profile: AggregatedSamplingProfile,
 ): Measure => ({
   metric,
   valueOf: values => values[index]!,
@@ -65,7 +65,9 @@ export type DiffMeasure = {
 }
 
 /** The diffing counterpart to {@link measuresOf}. */
-export const diffMeasuresOf = (diff: AggregatedProfileDiff): DiffMeasure[] =>
+export const diffMeasuresOf = (
+  diff: AggregatedSamplingProfileDiff,
+): DiffMeasure[] =>
   diff.metrics.length === 0
     ? [
         {

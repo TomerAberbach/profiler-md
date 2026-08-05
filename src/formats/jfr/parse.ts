@@ -3,10 +3,10 @@ import { HashInterner } from '../../helpers/intern.ts'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /**
  * The kind of profiling an event represents.
@@ -119,7 +119,7 @@ type Jfr = {
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
-export const parseJfr = (bytes: Uint8Array): Profile[] => {
+export const parseJfr = (bytes: Uint8Array): SamplingProfile[] => {
   const parser = new JfrParser()
   for (const chunk of jfrChunks(bytes)) {
     parser.parseChunk(chunk)
@@ -134,7 +134,7 @@ export const parseJfr = (bytes: Uint8Array): Profile[] => {
  */
 export const parseJfrAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<Profile[]> => {
+): Promise<SamplingProfile[]> => {
   const parser = new JfrParser()
   for await (const chunk of jfrChunksAsync(stream)) {
     parser.parseChunk(chunk)
@@ -210,7 +210,7 @@ const jfrToProfiles = ({
   stackTraces,
   events,
   isAsyncProfiler,
-}: Jfr): Profile[] => {
+}: Jfr): SamplingProfile[] => {
   // Methods are a dense table whose index is the method id, shared across every
   // kind's profile as its distinct frames.
   const frames = methods.map(methodToStackFrame)
@@ -220,14 +220,14 @@ const jfrToProfiles = ({
   // A single recording can mix CPU, allocation, and lock events, so emit one
   // profile per kind that's present (all sharing `frames`), like multi-metric
   // pprof.
-  const profiles: Profile[] = []
+  const profiles: SamplingProfile[] = []
   for (const { kind, metric } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
     }
     profiles.push({
-      type: `profile`,
+      type: `sampling-profile`,
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
@@ -238,7 +238,7 @@ const jfrToProfiles = ({
   return profiles
 }
 
-const methodToStackFrame = (method: JfrMethod): ProfileStackFrame => ({
+const methodToStackFrame = (method: JfrMethod): StackFrame => ({
   name: method.name,
   location: method.className ? { urlOrPath: method.className } : undefined,
 })

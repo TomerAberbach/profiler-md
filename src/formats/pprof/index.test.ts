@@ -3,7 +3,7 @@ import { streamOf } from '../../helpers/testing.ts'
 import {
   selfTimeTables,
   totalTimeTables,
-} from '../../modalities/profile/testing.ts'
+} from '../../modalities/sampling-profile/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import { callersTables, linesTables, summaryLines } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'

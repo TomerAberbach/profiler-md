@@ -5,7 +5,7 @@ import {
   selfTimeTables,
   totalSleepsTables,
   totalTimeTables,
-} from '../../modalities/profile/testing.ts'
+} from '../../modalities/sampling-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,

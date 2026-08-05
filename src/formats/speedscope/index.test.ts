@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
+import { selfSizeTables } from '../../modalities/heap-snapshot/testing.ts'
 import {
   selfTimeTables,
   totalTimeTables,
-} from '../../modalities/profile/testing.ts'
-import { selfSizeTables } from '../../modalities/snapshot/testing.ts'
+} from '../../modalities/sampling-profile/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
 import {
   callersTables,

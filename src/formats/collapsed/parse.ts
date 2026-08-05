@@ -1,11 +1,11 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
-export const parseCollapsed = (bytes: Uint8Array): Profile[] => {
+export const parseCollapsed = (bytes: Uint8Array): SamplingProfile[] => {
   const builder = new CollapsedProfileBuilder()
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
@@ -15,7 +15,7 @@ export const parseCollapsed = (bytes: Uint8Array): Profile[] => {
 
 export const parseCollapsedAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<Profile[]> => {
+): Promise<SamplingProfile[]> => {
   const builder = new CollapsedProfileBuilder()
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
@@ -25,7 +25,7 @@ export const parseCollapsedAsync = async (
 
 class CollapsedProfileBuilder {
   readonly #indexByFrame = new Map<string, number>()
-  readonly #frames: ProfileStackFrame[] = []
+  readonly #frames: StackFrame[] = []
   readonly #samples: Sample[] = []
 
   public addLine(line: string): void {
@@ -54,10 +54,10 @@ class CollapsedProfileBuilder {
     return index
   }
 
-  public build(): Profile[] {
+  public build(): SamplingProfile[] {
     return [
       {
-        type: `profile`,
+        type: `sampling-profile`,
         frames: this.#frames,
         metrics: [],
         samples: this.#samples,

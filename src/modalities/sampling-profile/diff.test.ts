@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'vitest'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import { BYTES, MICROSECONDS, MILLISECONDS } from '../metric.ts'
-import { diffAggregatedProfiles } from './diff.ts'
-import { makeAggregatedProfile } from './testing.ts'
+import { diffAggregatedSamplingProfiles } from './diff.ts'
+import { makeAggregatedSamplingProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
-describe(`diffAggregatedProfiles`, () => {
+describe(`diffAggregatedSamplingProfiles`, () => {
   test(`identical profiles produce zero deltas`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -21,7 +21,11 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(
+      profile,
+      profile,
+      defaultOptions,
+    )
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.functions).toHaveLength(1)
@@ -34,7 +38,7 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`function only in base has no current side`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -45,9 +49,9 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile([MICROSECONDS], [])
+    const current = makeAggregatedSamplingProfile([MICROSECONDS], [])
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     const funcA = diff.functions.find(fn => fn.name === `funcA`)!
     expect(funcA.base?.selfSampleCount).toBe(5)
@@ -55,8 +59,8 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`function only in current has no base side`, () => {
-    const base = makeAggregatedProfile([MICROSECONDS], [])
-    const current = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile([MICROSECONDS], [])
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -68,7 +72,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     const funcB = diff.functions.find(fn => fn.name === `funcB`)!
     expect(funcB.base).toBeUndefined()
@@ -76,7 +80,7 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`intersects metrics with partial overlap`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS, BYTES],
       [
         {
@@ -87,7 +91,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -99,14 +103,14 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.metrics[0]!.metric.type).toBe(`time`)
   })
 
   test(`throws on no matching metrics`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [BYTES],
       [
         {
@@ -117,7 +121,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -129,13 +133,13 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    expect(() => diffAggregatedProfiles(base, current, defaultOptions)).toThrow(
-      `no matching metrics`,
-    )
+    expect(() =>
+      diffAggregatedSamplingProfiles(base, current, defaultOptions),
+    ).toThrow(`no matching metrics`)
   })
 
   test(`matches functions by name + URL ignoring line/column`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -147,7 +151,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -160,7 +164,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.base?.selfSampleCount).toBe(5)
@@ -173,7 +177,7 @@ describe(`diffAggregatedProfiles`, () => {
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const rustc = (hash: string) =>
       `file:///rustc/${hash}/library/std/src/rt.rs`
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -191,7 +195,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
       context,
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -210,7 +214,7 @@ describe(`diffAggregatedProfiles`, () => {
       context,
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const name of [`parse`, `rt`]) {
@@ -224,7 +228,7 @@ describe(`diffAggregatedProfiles`, () => {
     const cargo = (hash: string) =>
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const context = { format: `v8-cpu-profile`, origin: `node` } as const
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -236,7 +240,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
       context,
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -249,7 +253,7 @@ describe(`diffAggregatedProfiles`, () => {
       context,
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(
@@ -282,10 +286,16 @@ describe(`diffAggregatedProfiles`, () => {
         selfSampleCount: counts[1],
       },
     ]
-    const base = makeAggregatedProfile([MICROSECONDS], methods([322, 50]))
-    const current = makeAggregatedProfile([MICROSECONDS], methods([333, 60]))
+    const base = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      methods([322, 50]),
+    )
+    const current = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      methods([333, 60]),
+    )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(
@@ -313,13 +323,16 @@ describe(`diffAggregatedProfiles`, () => {
       selfValues: [sampleCount],
       selfSampleCount: sampleCount,
     })
-    const base = makeAggregatedProfile([MICROSECONDS], [method(36, 5514)])
-    const current = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [method(36, 5514)],
+    )
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [method(36, 5680), method(35, 12)],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(
       diff.functions.map(func => ({
@@ -340,7 +353,7 @@ describe(`diffAggregatedProfiles`, () => {
     // Hidden lambda classes and HotSpot transition stubs embed a per-run
     // runtime address; the default `matchEntry` strips it so the same frame
     // matches across runs instead of diffing as a removed+new pair.
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -357,7 +370,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
       { format: `jfr`, origin: `jdk` },
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -375,7 +388,7 @@ describe(`diffAggregatedProfiles`, () => {
       { format: `jfr`, origin: `jdk` },
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const func of diff.functions) {
@@ -385,7 +398,7 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`matches functions without locations by name`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -395,7 +408,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -406,7 +419,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.name).toBe(`(garbage collector)`)
@@ -415,7 +428,7 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`merges category metrics from both profiles`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -426,7 +439,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -438,7 +451,7 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
 
     expect(diff.categoryToMetrics.size).toBeGreaterThan(0)
     const ours = diff.categoryToMetrics.get(`ours`)
@@ -448,7 +461,7 @@ describe(`diffAggregatedProfiles`, () => {
   })
 
   test(`throws on metrics with matching types but different units`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -459,7 +472,7 @@ describe(`diffAggregatedProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MILLISECONDS],
       [
         {
@@ -471,8 +484,8 @@ describe(`diffAggregatedProfiles`, () => {
       ],
     )
 
-    expect(() => diffAggregatedProfiles(base, current, defaultOptions)).toThrow(
-      `no matching metrics`,
-    )
+    expect(() =>
+      diffAggregatedSamplingProfiles(base, current, defaultOptions),
+    ).toThrow(`no matching metrics`)
   })
 })

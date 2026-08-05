@@ -41,7 +41,7 @@ export const safariOriginSpec = {
       ? `stdlib`
       : undefined) ??
     `ours`,
-  categorizeSnapshotConstructor: name =>
+  categorizeHeapSnapshotConstructor: name =>
     jscConstructorCategory(name) ?? javaScriptConstructorCategory(name),
 } as const satisfies OriginSpec
 

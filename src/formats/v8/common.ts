@@ -1,4 +1,4 @@
-import type { ProfileStackFrame } from '../../modalities/profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/profile-generator.cc#937
@@ -26,9 +26,7 @@ export type V8CallFrame = {
   columnNumber: number
 }
 
-export const callFrameToStackFrame = (
-  callFrame: V8CallFrame,
-): ProfileStackFrame => {
+export const callFrameToStackFrame = (callFrame: V8CallFrame): StackFrame => {
   const { functionName, url, lineNumber, columnNumber } = callFrame
   return {
     name: functionName,

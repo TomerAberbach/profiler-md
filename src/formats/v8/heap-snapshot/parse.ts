@@ -4,12 +4,12 @@ import {
   makeFileReference,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
-import { computeStartOffsets } from '../../../modalities/snapshot/index.ts'
+import { computeStartOffsets } from '../../../modalities/heap-snapshot/index.ts'
 import type {
   HeapSnapshot,
+  HeapSnapshotNode,
   NodeAdjacencyGraph,
-  SnapshotNode,
-} from '../../../modalities/snapshot/index.ts'
+} from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
 
 /**
@@ -108,7 +108,7 @@ export const parseV8HeapSnapshot = (
 
   return [
     {
-      type: `snapshot`,
+      type: `heap-snapshot`,
       nodeCount,
       edgeCount,
       nodeAdjacencyGraph,
@@ -152,7 +152,7 @@ function* v8SnapshotNodes(
   snapshot: V8HeapSnapshot,
   fieldLayout: FieldLayout,
   nodeOrdinalToLocation: SourceLocation[],
-): Iterable<SnapshotNode> {
+): Iterable<HeapSnapshotNode> {
   const {
     snapshot: {
       node_count: nodeCount,

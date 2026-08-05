@@ -1,9 +1,9 @@
 import { determineMetric } from '../../modalities/metric.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A unique location within a function. */
 export type SpeedscopeFrame = {
@@ -97,7 +97,9 @@ export type SpeedscopeProfile = {
   }
 }
 
-export const parseSpeedscope = (profile: SpeedscopeProfile): Profile[] => {
+export const parseSpeedscope = (
+  profile: SpeedscopeProfile,
+): SamplingProfile[] => {
   const originHint = exporterOriginHint(profile.exporter)
   // Speedscope samples reference frames by their index in the shared table, so
   // it doubles as the distinct frames, shared across the file's profiles.
@@ -136,7 +138,7 @@ const exporterOriginHint = (
 // frame. Some profilers (py-spy, rbspy) instead emit one frame per *sampled*
 // line; their origins' `normalizeStackFrame` reinterprets the line as the executing
 // line (see `normalizeSpeedscopeExecutingLine` in `src/origins/origin.ts`).
-const frameToStackFrame = (frame: SpeedscopeFrame): ProfileStackFrame => ({
+const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => ({
   name: frame.name,
   location: frame.file
     ? {
@@ -149,10 +151,10 @@ const frameToStackFrame = (frame: SpeedscopeFrame): ProfileStackFrame => ({
 })
 
 const sampledProfile = (
-  frames: ProfileStackFrame[],
+  frames: StackFrame[],
   profile: SpeedscopeSampledProfile,
-): Profile => ({
-  type: `profile`,
+): SamplingProfile => ({
+  type: `sampling-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
   samples: sampledSamples(profile),
@@ -177,10 +179,10 @@ function* sampledSamples(profile: SpeedscopeSampledProfile): Iterable<Sample> {
 }
 
 const eventedProfile = (
-  frames: ProfileStackFrame[],
+  frames: StackFrame[],
   profile: SpeedscopeEventedProfile,
-): Profile => ({
-  type: `profile`,
+): SamplingProfile => ({
+  type: `sampling-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
   samples: eventedSamples(profile),

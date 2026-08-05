@@ -17,7 +17,7 @@ export const nodeOriginSpec = {
     v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `stdlib`, NODE_PROTOCOLS) ??
     `ours`,
-  categorizeSnapshotConstructor: javaScriptConstructorCategory,
+  categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
 } as const satisfies OriginSpec
 
 /** The module specifiers Node resolves to runtime builtins. */

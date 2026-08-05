@@ -32,15 +32,15 @@ $ARGUMENTS
      (`isMarkerEntry: () => false`, like `gperftools`) and check whether the
      format's own metadata identifies the writer (a recorder's event-type
      definitions, a self-identification field like speedscope's `exporter`): if
-     so, have the format's parser set `Profile.originHint` (see the pprof and
-     jfr parsers). Without either, its inputs resolve to the format's fallback
-     origin unless the user specifies the origin, and future detection can be
-     added without a breaking change
+     so, have the format's parser set `SamplingProfile.originHint` (see the
+     pprof and jfr parsers). Without either, its inputs resolve to the format's
+     fallback origin unless the user specifies the origin, and future detection
+     can be added without a breaking change
    - `title` when generated docs should show a display name other than the ID
      (e.g. `Node.js` for `node`)
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
      plus profiler-specific rules
-   - `categorizeSnapshotConstructor` when the origin writes heap snapshots
+   - `categorizeHeapSnapshotConstructor` when the origin writes heap snapshots
    - `normalizeStackFrame` when the profiler packs a frame's location into its
      name (see `packedLocationNormalizer`)
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,

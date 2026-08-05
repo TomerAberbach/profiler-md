@@ -9,7 +9,7 @@ import type {
   AggregatedClosure,
   AggregatedConstructor,
   AggregatedHeapSnapshot,
-  AggregatedSnapshotNode,
+  AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
 
@@ -19,7 +19,7 @@ import type {
  * The `id` is a node ordinal within that side's snapshot; ordinals are never
  * comparable across the two snapshots.
  */
-export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
+export type DiffedHeapSnapshotEntity = AggregatedHeapSnapshotNode & {
   /** The number of instances aggregated into this entity on this side. */
   instanceCount: number
 
@@ -37,7 +37,7 @@ export type DiffedSnapshotEntity = AggregatedSnapshotNode & {
  * The name and location come from the current snapshot when the entity is
  * present in it, and from the base snapshot otherwise.
  */
-export type AggregatedSnapshotEntityDiff = {
+export type AggregatedHeapSnapshotEntityDiff = {
   /** A human readable label for this entity. */
   name: string
 
@@ -46,7 +46,7 @@ export type AggregatedSnapshotEntityDiff = {
 
   /** The exact location where the entity was defined. */
   location?: SourceLocation
-} & Diff<DiffedSnapshotEntity>
+} & Diff<DiffedHeapSnapshotEntity>
 
 /** A diff of two aggregated heap snapshots. */
 export type AggregatedHeapSnapshotDiff = {
@@ -60,10 +60,10 @@ export type AggregatedHeapSnapshotDiff = {
   nodeCategoryToStats: Map<string, Diff<NodeCategoryStats>>
 
   /** Constructors present in either snapshot, matched across the two. */
-  constructors: AggregatedSnapshotEntityDiff[]
+  constructors: AggregatedHeapSnapshotEntityDiff[]
 
   /** Closures present in either snapshot, matched across the two. */
-  closures: AggregatedSnapshotEntityDiff[]
+  closures: AggregatedHeapSnapshotEntityDiff[]
 
   /**
    * Strings present in either snapshot, matched across the two by value, with
@@ -72,7 +72,7 @@ export type AggregatedHeapSnapshotDiff = {
    * Strings without a known value are excluded because they can't be matched
    * across snapshots; they still count towards totals and category stats.
    */
-  strings: AggregatedSnapshotEntityDiff[]
+  strings: AggregatedHeapSnapshotEntityDiff[]
 }
 
 /**
@@ -123,7 +123,7 @@ const diffedConstructor = ({
   selfSize,
   retainedSize,
   instances,
-}: AggregatedConstructor): DiffedSnapshotEntity => ({
+}: AggregatedConstructor): DiffedHeapSnapshotEntity => ({
   type: `node`,
   id,
   name,
@@ -143,8 +143,8 @@ const mergeClosures = (
   closures: AggregatedClosure[],
   context: ProfileToMdContext,
   options: FormattingProfileToMdOptions,
-): Map<string, DiffedSnapshotEntity> => {
-  const keyToClosure = new Map<string, DiffedSnapshotEntity>()
+): Map<string, DiffedHeapSnapshotEntity> => {
+  const keyToClosure = new Map<string, DiffedHeapSnapshotEntity>()
   for (const closure of closures) {
     const key = options.entryMatchKey(closure, context)
     const merged = keyToClosure.get(key)
@@ -174,9 +174,9 @@ const mergeClosures = (
  * value since they can't be matched across snapshots.
  */
 const mergeStrings = (
-  strings: AggregatedSnapshotNode[],
-): Map<string, DiffedSnapshotEntity> => {
-  const valueToString = new Map<string, DiffedSnapshotEntity>()
+  strings: AggregatedHeapSnapshotNode[],
+): Map<string, DiffedHeapSnapshotEntity> => {
+  const valueToString = new Map<string, DiffedHeapSnapshotEntity>()
   for (const string of strings) {
     if (string.name === undefined) {
       continue
@@ -203,8 +203,8 @@ const mergeStrings = (
 }
 
 const entityDiffsFromMatches = (
-  diffs: Map<string, Diff<DiffedSnapshotEntity>>,
-): AggregatedSnapshotEntityDiff[] =>
+  diffs: Map<string, Diff<DiffedHeapSnapshotEntity>>,
+): AggregatedHeapSnapshotEntityDiff[] =>
   Array.from(diffs.values(), ({ base, current }) => {
     const { name, nameLocation, location } = (current ?? base)!
     return { name: name!, nameLocation, location, base, current }

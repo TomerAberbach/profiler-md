@@ -1,12 +1,41 @@
 import { makeSourceLocation } from '../location.ts'
-import type { SourceLocation } from '../location.ts'
+import type { SourceLocation, SourceLocationInput } from '../location.ts'
 import type { ProfileToMdContext } from '../options.ts'
 import { normalizeStackFrameForContext } from '../origins/index.ts'
 import type { OriginDetector } from '../origins/index.ts'
-import type { ProfileStackFrame } from './profile/type.ts'
 
 /**
- * An input's distinct {@link ProfileStackFrame}s, owning everything derived
+ * A function occurrence at an executing position.
+ *
+ * Its {@link name} and {@link location} (the function's *definition* location)
+ * identify the function; frames sharing them are the same function.
+ *
+ * {@link line} is the *executing* line and is used for the per-line breakdown,
+ * not identity.
+ *
+ * A converter produces these raw; the resolved origin's `normalizeStackFrame` then
+ * splits out the location and line for variants that pack them into the frame
+ * string.
+ */
+export type StackFrame = {
+  /** The function's name, if known. */
+  name?: string
+
+  /** Where the function was defined, if known. */
+  location?: SourceLocationInput
+
+  /**
+   * The 1-based line where this frame was sampled, if known.
+   *
+   * Distinct from {@link location}'s line (the definition line): this is the
+   * executing line, which the aggregator forwards to the leaf function's
+   * per-line breakdown. Never a function-identity component.
+   */
+  line?: number
+}
+
+/**
+ * An input's distinct {@link StackFrame}s, owning everything derived
  * from them: origin detection over the raw frames and, once the context is
  * resolved, the {@link StackFrameFunctionTable} the frames resolve to.
  *
@@ -20,9 +49,9 @@ export class StackFrameTable {
    * parameter passed through the pipeline: each table is reclaimed with its
    * frames array.
    */
-  static readonly #tables = new WeakMap<ProfileStackFrame[], StackFrameTable>()
+  static readonly #tables = new WeakMap<StackFrame[], StackFrameTable>()
 
-  public static for(frames: ProfileStackFrame[]): StackFrameTable {
+  public static for(frames: StackFrame[]): StackFrameTable {
     let table = StackFrameTable.#tables.get(frames)
     if (!table) {
       table = new StackFrameTable(frames)
@@ -31,7 +60,7 @@ export class StackFrameTable {
     return table
   }
 
-  readonly #frames: ProfileStackFrame[]
+  readonly #frames: StackFrame[]
 
   /** Per frame index, a lazily-filled cache of the frame's parsed function. */
   readonly #functions: StackFrameFunction[] = []
@@ -39,7 +68,7 @@ export class StackFrameTable {
   #detected = false
   #functionTable: StackFrameFunctionTable | undefined
 
-  private constructor(frames: ProfileStackFrame[]) {
+  private constructor(frames: StackFrame[]) {
     this.#frames = frames
   }
 
@@ -94,12 +123,12 @@ export class StackFrameFunctionTable {
    * A `null` slot is a frame the origin dropped (a pseudo-frame, not a
    * function), removed from every call stack.
    */
-  readonly #frames: (ProfileStackFrame | null)[]
+  readonly #frames: (StackFrame | null)[]
 
   /** Per frame index, a lazily-filled cache of the frame's parsed function. */
   readonly #functions: StackFrameFunction[] = []
 
-  public constructor(frames: (ProfileStackFrame | null)[]) {
+  public constructor(frames: (StackFrame | null)[]) {
     this.#frames = frames
   }
 
@@ -125,10 +154,10 @@ export class StackFrameFunctionTable {
 
 /** A frame's parsed name and location, the unit functions aggregate by. */
 export type StackFrameFunction = {
-  /** @see {@link ProfileStackFrame.name} */
+  /** @see {@link StackFrame.name} */
   name: string
 
-  /** @see {@link ProfileStackFrame.location} */
+  /** @see {@link StackFrame.location} */
   location: SourceLocation | undefined
 
   /**
@@ -137,14 +166,14 @@ export type StackFrameFunction = {
    * are the same function.
    *
    * The location's own line/column are part of the identity, but a frame's
-   * executing line ({@link ProfileStackFrame.line}) is not; that contributes
+   * executing line ({@link StackFrame.line}) is not; that contributes
    * to the line breakdown instead.
    */
   key: string
 }
 
 export const parseStackFrameFunction = (
-  frame: ProfileStackFrame,
+  frame: StackFrame,
 ): StackFrameFunction => ({
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   name: frame.name || `(anonymous)`,
@@ -153,10 +182,7 @@ export const parseStackFrameFunction = (
 })
 
 /** Builds {@link StackFrameFunction.key} from a frame's name and location. */
-const functionIdentityKey = ({
-  name = ``,
-  location,
-}: ProfileStackFrame): string =>
+const functionIdentityKey = ({ name = ``, location }: StackFrame): string =>
   location === undefined
     ? name
     : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`

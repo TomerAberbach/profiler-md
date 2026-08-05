@@ -2,12 +2,12 @@ import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
-export const parseSysting = (bytes: Uint8Array): Profile[] => {
+export const parseSysting = (bytes: Uint8Array): SamplingProfile[] => {
   const builder = new SystingProfileBuilder()
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
@@ -17,7 +17,7 @@ export const parseSysting = (bytes: Uint8Array): Profile[] => {
 
 export const parseSystingAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<Profile[]> => {
+): Promise<SamplingProfile[]> => {
   const builder = new SystingProfileBuilder()
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
@@ -103,12 +103,12 @@ const eventTypeKinds = (
  * record: `f` interned frame, `s` interned stack (frame ids leaf-first), `x`
  * sample tally, and `p`/`t` process/thread metadata (unused here).
  *
- * Produces one {@link Profile} per stack event type present, sharing one
+ * Produces one {@link SamplingProfile} per stack event type present, sharing one
  * frames array: CPU samples weighted by the header's sample period, and sleep
  * events as pure occurrence counts.
  */
 class SystingProfileBuilder {
-  readonly #frames: ProfileStackFrame[] = []
+  readonly #frames: StackFrame[] = []
   /** Export frame id → index into the frames array. */
   readonly #frameIndices = new Map<number, number>()
   /** Export stack id → the stack's frame indices, leaf-first. */
@@ -238,12 +238,12 @@ class SystingProfileBuilder {
     })
   }
 
-  public build(): Profile[] {
+  public build(): SamplingProfile[] {
     if (!this.#header) {
       throw new Error(`Not a systing profile export: empty input`)
     }
 
-    const profiles: Profile[] = []
+    const profiles: SamplingProfile[] = []
     for (const kind of EVENT_KINDS) {
       const samples = this.#samples.get(kind)
       if (!samples) {
@@ -251,7 +251,7 @@ class SystingProfileBuilder {
       }
       const metric = kind === `cpu` ? this.#cpuMetric : SLEEP_METRICS.get(kind)
       profiles.push({
-        type: `profile`,
+        type: `sampling-profile`,
         frames: this.#frames,
         metrics: metric ? [metric] : [],
         samples,

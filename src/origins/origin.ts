@@ -2,7 +2,7 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
-import type { ProfileStackFrame } from '../modalities/profile/type.ts'
+import type { StackFrame } from '../modalities/stack-frame.ts'
 import type { EntryCategory, EntryMatch, ProfileEntry } from '../options.ts'
 
 /**
@@ -61,7 +61,7 @@ export type OriginSpec = {
    * When no entry carries origin-level evidence but the format's own metadata
    * identifies the writer (a recorder's event-type definitions, a
    * self-identification field), the format's parser sets a
-   * `Profile.originHint` instead, which detection treats like a marker entry
+   * `SamplingProfile.originHint` instead, which detection treats like a marker entry
    * of that origin. The hint doesn't survive format conversion, so it
    * supplements markers rather than replacing them.
    *
@@ -91,7 +91,7 @@ export type OriginSpec = {
    *
    * Defaults to keeping the format's category when omitted.
    */
-  categorizeSnapshotConstructor?: (name: string) => string | undefined
+  categorizeHeapSnapshotConstructor?: (name: string) => string | undefined
 
   /**
    * Returns a normalized name and location to match {@link entry} by across
@@ -112,7 +112,7 @@ export type OriginSpec = {
    * Normalizes a raw stack frame to a canonical form.
    *
    * Most commonly it splits the frame's display name, location, and optional
-   * executing line out of {@link ProfileStackFrame.name}, for profilers that
+   * executing line out of {@link StackFrame.name}, for profilers that
    * pack a function's location into its frame string rather than carrying it
    * separately.
    *
@@ -130,10 +130,7 @@ export type OriginSpec = {
    *
    * Defaults to the identity when omitted.
    */
-  normalizeStackFrame?: (
-    input: ProfileStackFrame,
-    format: Format,
-  ) => ProfileStackFrame | null
+  normalizeStackFrame?: (input: StackFrame, format: Format) => StackFrame | null
 }
 
 /**
@@ -149,7 +146,7 @@ export type OriginSpec = {
  */
 export const packedLocationNormalizer =
   (regex: RegExp) =>
-  (input: ProfileStackFrame): ProfileStackFrame => {
+  (input: StackFrame): StackFrame => {
     // A located frame carries its location separately, so its name can't be
     // packed; matching it anyway could corrupt a coincidentally-shaped name.
     if (input.location) {
@@ -232,9 +229,9 @@ export const matchEntryFromRules =
  * A located frame from any other format passes through unchanged.
  */
 export const normalizeSpeedscopeExecutingLine = (
-  input: ProfileStackFrame,
+  input: StackFrame,
   format: Format,
-): ProfileStackFrame => {
+): StackFrame => {
   if (format !== `speedscope` || input.location?.line === undefined) {
     return input
   }

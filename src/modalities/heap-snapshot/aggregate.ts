@@ -6,7 +6,7 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../../options.ts'
-import { categorizeSnapshotConstructorForOrigin } from '../../origins/index.ts'
+import { categorizeHeapSnapshotConstructorForOrigin } from '../../origins/index.ts'
 import type { Origin, OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
@@ -15,7 +15,7 @@ import {
   attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
-import type { HeapSnapshot, SnapshotNode } from './type.ts'
+import type { HeapSnapshot, HeapSnapshotNode } from './type.ts'
 
 /**
  * Aggregates one {@link HeapSnapshot} through the uniform pipeline. The
@@ -24,7 +24,7 @@ import type { HeapSnapshot, SnapshotNode } from './type.ts'
  * distinct entities' entries origin detection reads; categorization runs
  * under the file's resolved context.
  */
-export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
+export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSnapshot> {
   readonly #nodeCount: number
   readonly #edgeCount: number
   readonly #nodeAdjacencyGraph: NodeAdjacencyGraph
@@ -56,7 +56,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
   readonly #keyToClosureIndex = new Map<string, number>()
   readonly #nodeOrdinalToClosureIndex: Int32Array
 
-  readonly #strings: AggregatedSnapshotNode[] = []
+  readonly #strings: AggregatedHeapSnapshotNode[] = []
 
   readonly #entities: (AggregatedConstructor | AggregatedClosure)[]
   readonly #entries: ProfileEntry[]
@@ -128,7 +128,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     detector.addAll(this.#entries)
   }
 
-  #addCategoryNode(nodeOrdinal: number, node: SnapshotNode): void {
+  #addCategoryNode(nodeOrdinal: number, node: HeapSnapshotNode): void {
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     this.#totalSize += selfSize
     this.#nodeCategoryStats.add(node, selfSize)
@@ -153,7 +153,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
         nameLocation,
         location,
         // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link SnapshotAggregator.aggregate}).
+        // set of entities (see {@link HeapSnapshotAggregator.aggregate}).
         category: ``,
         selfSize: 0,
         retainedSize: 0,
@@ -196,7 +196,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
         name,
         location,
         // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link SnapshotAggregator.aggregate}).
+        // set of entities (see {@link HeapSnapshotAggregator.aggregate}).
         category: ``,
         selfSize: 0,
         retainedSize: 0,
@@ -233,8 +233,8 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
     // Categorization runs after structural aggregation so it sees the full set
-    // of entities (the snapshot analog of the profile pipeline's
-    // categorization; see {@link ProfileAggregator}). Each entry's location
+    // of entities (the heap snapshot analog of the sampling profile pipeline's
+    // categorization; see {@link SamplingProfileAggregator}). Each entry's location
     // falls back to its URL-shaped name (e.g. a V8 module namespace object) so
     // those categorize by location too.
     const categories = options.categorizeEntries(this.#entries, context)
@@ -256,7 +256,7 @@ export class SnapshotAggregator implements InputAggregator<AggregatedHeapSnapsho
     )
 
     return {
-      type: `snapshot`,
+      type: `heap-snapshot`,
       context,
       totalSize: this.#totalSize,
       nodeCount: this.#nodeCount,
@@ -310,7 +310,7 @@ class NodeCategoryStatsAggregator {
     Map<string, NodeCategoryStats>
   >()
 
-  public add(node: SnapshotNode, selfSize: number): void {
+  public add(node: HeapSnapshotNode, selfSize: number): void {
     const stats =
       node.type === `constructor`
         ? statsOf(this.#constructorNameToStats(node.category), node.name)
@@ -348,7 +348,7 @@ class NodeCategoryStatsAggregator {
       .#categoryToConstructorNameToStats) {
       for (const [name, stats] of nameToStats) {
         add(
-          categorizeSnapshotConstructorForOrigin(name, origin) ?? category,
+          categorizeHeapSnapshotConstructorForOrigin(name, origin) ?? category,
           stats,
         )
       }
@@ -375,13 +375,13 @@ const statsOf = (
  * An entity's effective location: its explicit location, falling back to its
  * URL-shaped name (e.g. a V8 module namespace object named by its file URL).
  *
- * Origin detection and categorization ({@link SnapshotAggregator}) and base
+ * Origin detection and categorization ({@link HeapSnapshotAggregator}) and base
  * URL inference agree on an entity's location through this rule.
  */
 export const entityLocation = ({
   location,
   nameLocation,
-}: Pick<AggregatedSnapshotNode, `location` | `nameLocation`>):
+}: Pick<AggregatedHeapSnapshotNode, `location` | `nameLocation`>):
   SourceLocation | undefined => location ?? nameLocation
 
 const computeRetainerPath = (
@@ -453,8 +453,8 @@ const computeRetainedNodes = (
   selfSizeOf: (nodeOrdinal: number) => number,
   formatNodeLabel: (nodeOrdinal: number) => string,
   isInternalNode: (nodeOrdinal: number) => boolean,
-): AggregatedSnapshotNode[] => {
-  const retainedNodes: AggregatedSnapshotNode[] = []
+): AggregatedHeapSnapshotNode[] => {
+  const retainedNodes: AggregatedHeapSnapshotNode[] = []
 
   const dominateeOrdinals: number[] = []
   const childStartOffset = immediateDominateeOrdinalToStartOffset[nodeOrdinal]!
@@ -500,7 +500,7 @@ export type NodeCategoryStats = {
   nodeCount: number
 }
 
-export type AggregatedSnapshotNode = {
+export type AggregatedHeapSnapshotNode = {
   type: `node`
 
   /** Unique ID for this node that can also be used as an index. */
@@ -529,7 +529,7 @@ export type AggregatedSnapshotNode = {
   location?: SourceLocation
 }
 
-export type AggregatedConstructor = AggregatedSnapshotNode & {
+export type AggregatedConstructor = AggregatedHeapSnapshotNode & {
   /** A human readable label for this constructor. */
   name: string
 
@@ -537,10 +537,10 @@ export type AggregatedConstructor = AggregatedSnapshotNode & {
   category: string
 
   /** Instances of this constructor and their sizes. */
-  instances: AggregatedSnapshotNode[]
+  instances: AggregatedHeapSnapshotNode[]
 }
 
-export type AggregatedClosure = AggregatedSnapshotNode & {
+export type AggregatedClosure = AggregatedHeapSnapshotNode & {
   /** A human readable label for this closure. */
   name: string
 
@@ -555,7 +555,7 @@ export type AggregatedClosure = AggregatedSnapshotNode & {
 }
 
 export type AggregatedHeapSnapshot = {
-  type: `snapshot`
+  type: `heap-snapshot`
 
   /**
    * The context (format and resolved origin) this snapshot was aggregated
@@ -579,7 +579,7 @@ export type AggregatedHeapSnapshot = {
 
   constructors: AggregatedConstructor[]
   closures: AggregatedClosure[]
-  strings: AggregatedSnapshotNode[]
+  strings: AggregatedHeapSnapshotNode[]
 
   retainerPathOf: (
     nodeOrdinal: number,
@@ -588,5 +588,5 @@ export type AggregatedHeapSnapshot = {
   retainedNodesOf: (
     nodeOrdinal: number,
     options: FormattingProfileToMdOptions,
-  ) => AggregatedSnapshotNode[]
+  ) => AggregatedHeapSnapshotNode[]
 }

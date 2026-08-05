@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
-import { makeAggregatedProfile } from './modalities/profile/testing.ts'
-import { makeAggregatedConstructor } from './modalities/snapshot/testing.ts'
+import { makeAggregatedConstructor } from './modalities/heap-snapshot/testing.ts'
+import { makeAggregatedSamplingProfile } from './modalities/sampling-profile/testing.ts'
 import {
   defaultShowEntry,
   isExternalImplementationDetailEntry,
@@ -151,7 +151,7 @@ const nodeContext = { format: `v8-cpu-profile`, origin: `node` } as const
 
 describe(`isExternalImplementationDetailEntry`, () => {
   test(`returns false for an 'ours' function`, () => {
-    const [ourFunc] = makeAggregatedProfile(
+    const [ourFunc] = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -168,7 +168,7 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns false for an external function called by 'ours' code`, () => {
-    const [, libFunc] = makeAggregatedProfile(
+    const [, libFunc] = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -192,7 +192,7 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns true for an external function called only by external code`, () => {
-    const libHelper = makeAggregatedProfile(
+    const libHelper = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -223,7 +223,7 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns true for an external function with no callers`, () => {
-    const [libFunc] = makeAggregatedProfile(
+    const [libFunc] = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -240,7 +240,7 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns false for a locationless function called by 'ours' code`, () => {
-    const [, nativeCall] = makeAggregatedProfile(
+    const [, nativeCall] = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -277,7 +277,7 @@ describe(`defaultShowEntry`, () => {
   })
 
   test(`hides external implementation detail entries`, () => {
-    const [libFunc] = makeAggregatedProfile(
+    const [libFunc] = makeAggregatedSamplingProfile(
       [],
       [
         {
@@ -294,7 +294,7 @@ describe(`defaultShowEntry`, () => {
   })
 
   test(`shows 'ours' entries`, () => {
-    const [ourFunc] = makeAggregatedProfile(
+    const [ourFunc] = makeAggregatedSamplingProfile(
       [],
       [
         {

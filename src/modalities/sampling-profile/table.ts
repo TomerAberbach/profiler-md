@@ -10,8 +10,8 @@ import type { Metric } from '../metric.ts'
 import { codeCell, countCell, percentCell, textCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type {
-  AggregatedProfileCategoryMetrics,
-  AggregatedProfileFunction,
+  AggregatedSamplingProfileCategoryMetrics,
+  AggregatedSamplingProfileFunction,
 } from './aggregate.ts'
 
 /** The `Samples` header shared by the metric tables. */
@@ -106,7 +106,7 @@ export const lineColumns = (
 
 /** A call stack's row: its measure values plus its frames. */
 export type CallStackRow = MeasureRow & {
-  frames: AggregatedProfileFunction[]
+  frames: AggregatedSamplingProfileFunction[]
 }
 
 /**
@@ -115,7 +115,7 @@ export type CallStackRow = MeasureRow & {
  */
 export const callStackColumns = (
   metric: Metric | null,
-  commonCallStack: AggregatedProfileFunction[],
+  commonCallStack: AggregatedSamplingProfileFunction[],
   options: FormattingProfileToMdOptions,
 ): Table<CallStackRow> => [
   ...measureColumns(metric),
@@ -135,7 +135,7 @@ export const callStackColumns = (
 
 /** Formats a call stack as a chain of functions, leaf to root. */
 export const formatCallStack = (
-  frames: AggregatedProfileFunction[],
+  frames: AggregatedSamplingProfileFunction[],
   options: FormattingProfileToMdOptions,
 ): PhrasingContent[] =>
   frames.flatMap((frame, index) => {
@@ -172,7 +172,7 @@ export const formatCallStack = (
  */
 export type CategoryRow = {
   category: string
-  stats: AggregatedProfileCategoryMetrics
+  stats: AggregatedSamplingProfileCategoryMetrics
   /** Maps each metric column to its index in {@link stats}. */
   indices: number[]
   total: number

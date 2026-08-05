@@ -1,15 +1,15 @@
-import type { SourceLocationInput } from '../../location.ts'
 import type { Metric } from '../metric.ts'
+import type { StackFrame } from '../stack-frame.ts'
 
 /**
  * A profile parsed into the uniform structure containing the distinct frames
  * and the samples that reference them.
  *
  * A format that yields several profiles returns one of these per profile,
- * typically sharing the same {@link Profile.frames} array reference.
+ * typically sharing the same {@link SamplingProfile.frames} array reference.
  */
-export type Profile = {
-  type: `profile`
+export type SamplingProfile = {
+  type: `sampling-profile`
 
   /**
    * The ID of the origin the format's own metadata points to (e.g. a
@@ -27,9 +27,9 @@ export type Profile = {
    *
    * A {@link Sample.frameIndices} entry is an index into this list.
    */
-  frames: ProfileStackFrame[]
+  frames: StackFrame[]
 
-  /** @see {@link AggregatedProfile.metrics} */
+  /** @see {@link AggregatedSamplingProfile.metrics} */
   metrics: Metric[]
 
   /** The samples as a lazily-consumed iterable. */
@@ -38,39 +38,9 @@ export type Profile = {
   /**
    * Per-line metrics added after the samples, so a format can break a
    * function's self time down by line from data accumulated while iterating
-   * {@link Profile.samples}.
+   * {@link SamplingProfile.samples}.
    */
   lineMetrics?: Iterable<SampleLineMetrics>
-}
-
-/**
- * A function occurrence at an executing position.
- *
- * Its {@link name} and {@link location} (the function's *definition* location)
- * identify the function; frames sharing them are the same function.
- *
- * {@link line} is the *executing* line and is used for the per-line breakdown,
- * not identity.
- *
- * A converter produces these raw; the resolved origin's `normalizeStackFrame` then
- * splits out the location and line for variants that pack them into the frame
- * string.
- */
-export type ProfileStackFrame = {
-  /** The function's name, if known. */
-  name?: string
-
-  /** Where the function was defined, if known. */
-  location?: SourceLocationInput
-
-  /**
-   * The 1-based line where this frame was sampled, if known.
-   *
-   * Distinct from {@link location}'s line (the definition line): this is the
-   * executing line, which the aggregator forwards to the leaf function's
-   * per-line breakdown. Never a function-identity component.
-   */
-  line?: number
 }
 
 /** A single sample within a profile. */
@@ -86,7 +56,7 @@ export type Sample = {
   /** The values recorded for each metric. */
   values: number[]
 
-  /** The call stack as indices into {@link Profile.frames}. */
+  /** The call stack as indices into {@link SamplingProfile.frames}. */
   frameIndices: number[]
 
   /** The 1-based line number where the sample was taken, if known. */
@@ -103,7 +73,7 @@ export type Sample = {
  * separately from its samples.
  */
 export type SampleLineMetrics = {
-  /** The frame's index into {@link Profile.frames}. */
+  /** The frame's index into {@link SamplingProfile.frames}. */
   frame: number
 
   /** The sampled lines within the frame's function body. */

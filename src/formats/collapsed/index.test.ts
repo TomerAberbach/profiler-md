@@ -3,7 +3,7 @@ import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   selfSamplesTables,
   totalSamplesTables,
-} from '../../modalities/profile/testing.ts'
+} from '../../modalities/sampling-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,

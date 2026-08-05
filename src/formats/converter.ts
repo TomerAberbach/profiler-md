@@ -1,13 +1,16 @@
 import type { LanguageId } from '../cli/languages.ts'
-import type { AggregatedProfile, Profile } from '../modalities/profile/index.ts'
 import type {
   AggregatedHeapSnapshot,
   HeapSnapshot,
-} from '../modalities/snapshot/index.ts'
+} from '../modalities/heap-snapshot/index.ts'
+import type {
+  AggregatedSamplingProfile,
+  SamplingProfile,
+} from '../modalities/sampling-profile/index.ts'
 
-export type ParsedInput = Profile | HeapSnapshot
+export type ParsedInput = SamplingProfile | HeapSnapshot
 
-export type AggregatedInput = AggregatedProfile | AggregatedHeapSnapshot
+export type AggregatedInput = AggregatedSamplingProfile | AggregatedHeapSnapshot
 
 type FormatMeta = {
   /** The format's display name. */

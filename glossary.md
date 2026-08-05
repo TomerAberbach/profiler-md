@@ -5,16 +5,16 @@ parsed representations of format-specific types), defer to their canonical
 naming. Prose can also use aliases for explanations that would otherwise be
 ambiguous.
 
-| Term          | Definition                                                                                  | Aliases to avoid       |
-| ------------- | ------------------------------------------------------------------------------------------- | ---------------------- |
-| **Input**     | A profiler output passed to the tool; qualified by pipeline stage (raw, parsed, aggregated) | file, fixture, payload |
-| **Format**    | A supported input type (e.g. V8 CPU profile)                                                | —                      |
-| **Converter** | A format's registered logic: detection plus parsing of its input to the uniform parsed form | parser, plugin         |
-| **Modality**  | A data structure a format captures (e.g. heap snapshot)                                     | shape, kind            |
-| **Profile**   | The modality produced by sampling a program's call stack at regular intervals               | snapshot               |
-| **Snapshot**  | The modality produced by capturing the program's state at a single point in time            | profile                |
-| **Origin**    | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)           | source, emitter, tool  |
-| **Language**  | A programming language whose profilers emit a format                                        | runtime                |
+| Term                 | Definition                                                                                  | Aliases to avoid       |
+| -------------------- | ------------------------------------------------------------------------------------------- | ---------------------- |
+| **Input**            | A profiler output passed to the tool; qualified by pipeline stage (raw, parsed, aggregated) | file, fixture, payload |
+| **Format**           | A supported input type (e.g. V8 CPU profile)                                                | —                      |
+| **Converter**        | A format's registered logic: detection plus parsing of its input to the uniform parsed form | parser, plugin         |
+| **Modality**         | A data structure a format captures (e.g. heap snapshot)                                     | shape, kind            |
+| **Sampling profile** | The modality produced by sampling a program's call stack at regular intervals               | profile, snapshot      |
+| **Heap snapshot**    | The modality produced by capturing the program's state at a single point in time            | snapshot, profile      |
+| **Origin**           | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)           | source, emitter, tool  |
+| **Language**         | A programming language whose profilers emit a format                                        | runtime                |
 
 ## Conversion pipeline
 
@@ -47,7 +47,7 @@ ambiguous.
 | **File reference** | An absolute URL or a relative file path, before resolution to a `URL`                  | path             |
 | **Source map**     | A mapping from generated-file positions to original source positions                   | —                |
 
-## Profile
+## Sampling profile
 
 | Term               | Definition                                                                              | Aliases to avoid      |
 | ------------------ | --------------------------------------------------------------------------------------- | --------------------- |
@@ -58,7 +58,7 @@ ambiguous.
 | **Self**           | Accumulated only from samples taken directly in a function's body, excluding callees    | exclusive             |
 | **Total**          | Accumulated from samples taken anywhere in a function's body or its transitive callees  | inclusive, cumulative |
 | **Executing line** | The line a frame was at when sampled, not its function's definition line                | sampled line          |
-| **Hottest**        | Describes the most sampled entities in a profile                                        | top                   |
+| **Hottest**        | Describes the most sampled entities in a sampling profile                               | top                   |
 
 ### Functions and call stacks
 
@@ -74,7 +74,7 @@ ambiguous.
 | **Root frame**   | The last frame in a call stack (callee-to-caller order); the outermost caller                     | top frame, bottom frame |
 | **Frame pair**   | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution      | edge, call edge         |
 
-## Snapshot
+## Heap snapshot
 
 | Term              | Definition                                                                                        | Aliases to avoid            |
 | ----------------- | ------------------------------------------------------------------------------------------------- | --------------------------- |
@@ -87,10 +87,10 @@ ambiguous.
 | **Retained size** | Bytes that would be freed if a node and all nodes it exclusively dominates were garbage collected | size, deep size, total size |
 | **Retainer path** | The dominator-guided chain of edges from a node back toward the GC root                           | retention path, chain       |
 | **Internal node** | A VM bookkeeping node that never points to user code, trimmed from retainer paths                 | hidden node                 |
-| **Entity**        | A named aggregated unit of a snapshot (e.g. constructor)                                          | entry, object               |
+| **Entity**        | A named aggregated unit of a heap snapshot (e.g. constructor)                                     | entry, object               |
 | **Instance**      | One heap object of a constructor; instances sharing a retainer path form an instance group        | object, occurrence          |
 | **Retained node** | A node a closure or instance exclusively dominates, ranked by self size in output                 | retained object             |
-| **Largest**       | Describes the entities with the highest size in a snapshot                                        | top, hottest                |
+| **Largest**       | Describes the entities with the highest size in a heap snapshot                                   | top, hottest                |
 
 ## Diffing
 
@@ -121,15 +121,16 @@ ambiguous.
   spec
 - An **origin** with no **marker entries** still registers; its inputs resolve
   to the **fallback origin** unless the user specifies the origin
-- A **profile** contains many **samples**
+- A **sampling profile** contains many **samples**
 - A **sample** has one **call stack** and one **value** per **metric**
 - A **call stack** is an ordered list of **frames** and each **frame** is a
   **function**
 - A **function**'s **self** **values** come from **samples** where it is the
   leaf **frame** and its **total** **values** include all **samples** where it
   appears anywhere in the **call stack**
-- A profile with no **metrics** still has one **measure**: its sample count
-- A **snapshot** contains **nodes** connected by **edges**
+- A **sampling profile** with no **metrics** still has one **measure**: its
+  sample count
+- A **heap snapshot** contains **nodes** connected by **edges**
 - A **node**'s **retained size** is computed via the **dominator** graph
 - An **entity** aggregates one or more **nodes**; a constructor **entity**'s
   nodes are its **instances**

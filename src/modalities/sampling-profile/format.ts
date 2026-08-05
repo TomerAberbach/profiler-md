@@ -36,14 +36,14 @@ import {
 import type { Metric } from '../metric.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
-  AggregatedProfile,
-  AggregatedProfileCallStack,
-  AggregatedProfileCategoryMetrics,
-  AggregatedProfileFunction,
+  AggregatedSamplingProfile,
+  AggregatedSamplingProfileCallStack,
+  AggregatedSamplingProfileCategoryMetrics,
+  AggregatedSamplingProfileFunction,
 } from './aggregate.ts'
 import type {
-  AggregatedProfileDiff,
-  AggregatedProfileFunctionDiff,
+  AggregatedSamplingProfileDiff,
+  AggregatedSamplingProfileFunctionDiff,
 } from './diff.ts'
 import {
   diffMeasuresOf,
@@ -60,8 +60,8 @@ import {
   lineColumns,
 } from './table.ts'
 
-export const formatProfile = (
-  profile: AggregatedProfile,
+export const formatSamplingProfile = (
+  profile: AggregatedSamplingProfile,
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
@@ -103,8 +103,8 @@ export const formatProfile = (
   ]
 }
 
-export const formatProfileDiff = (
-  diff: AggregatedProfileDiff,
+export const formatSamplingProfileDiff = (
+  diff: AggregatedSamplingProfileDiff,
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
@@ -141,7 +141,9 @@ export const formatProfileDiff = (
   ]
 }
 
-const formatOverallSummary = (profile: AggregatedProfile): RootContent[] => [
+const formatOverallSummary = (
+  profile: AggregatedSamplingProfile,
+): RootContent[] => [
   paragraph(formatSummaryLine(profile)),
   ...formatCategoryTable(profile),
 ]
@@ -151,7 +153,7 @@ const formatSummaryLine = ({
   totalSampleCount,
   totalValues,
   samplingRates,
-}: AggregatedProfile): string => {
+}: AggregatedSamplingProfile): string => {
   if (metrics.length === 0) {
     return `Collected ${formatCount(totalSampleCount, `sample`)}.`
   }
@@ -179,7 +181,9 @@ const formatSummaryLine = ({
   )} ${samplingRatesSummary}.`
 }
 
-const formatCategoryTable = (profile: AggregatedProfile): RootContent[] => {
+const formatCategoryTable = (
+  profile: AggregatedSamplingProfile,
+): RootContent[] => {
   const { metrics, categoryToMetrics } = profile
   // The first metric, or raw sample count when metric-less, determines sorting and %.
   const primaryMeasure = measuresOf(profile)[0]!
@@ -214,7 +218,7 @@ const formatHottestFunctions = ({
   headingLevel,
 }: {
   measure: Measure
-  profile: AggregatedProfile
+  profile: AggregatedSamplingProfile
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] =>
@@ -243,7 +247,7 @@ const formatHottestSelfFunctions = ({
   headingLevel,
 }: {
   measure: Measure
-  profile: AggregatedProfile
+  profile: AggregatedSamplingProfile
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -320,7 +324,7 @@ const formatHottestLines = ({
   headingLevel,
 }: {
   measure: Measure
-  func: AggregatedProfileFunction
+  func: AggregatedSamplingProfileFunction
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -355,7 +359,7 @@ const formatHottestCallers = ({
   headingLevel,
 }: {
   measure: Measure
-  func: AggregatedProfileFunction
+  func: AggregatedSamplingProfileFunction
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -394,7 +398,7 @@ const formatHottestTotalFunctions = ({
   headingLevel,
 }: {
   measure: Measure
-  profile: AggregatedProfile
+  profile: AggregatedSamplingProfile
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -452,7 +456,7 @@ const formatHottestCallees = ({
   headingLevel,
 }: {
   measure: Measure
-  func: AggregatedProfileFunction
+  func: AggregatedSamplingProfileFunction
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -491,7 +495,7 @@ const formatHottestCallStacks = ({
   headingLevel,
 }: {
   measure: Measure
-  profile: AggregatedProfile
+  profile: AggregatedSamplingProfile
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -542,8 +546,8 @@ const formatHottestCallStacks = ({
  * have a non-empty call stack to format.
  */
 const findCommonCallStack = (
-  callStacks: { frames: AggregatedProfileFunction[] }[],
-): AggregatedProfileFunction[] => {
+  callStacks: { frames: AggregatedSamplingProfileFunction[] }[],
+): AggregatedSamplingProfileFunction[] => {
   if (callStacks.length <= 1) {
     return []
   }
@@ -579,10 +583,10 @@ const findCommonCallStack = (
  * dropped: a single-frame "stack" carries no call structure.
  */
 const mergeShownCallStacks = (
-  callStacks: AggregatedProfileCallStack[],
+  callStacks: AggregatedSamplingProfileCallStack[],
   options: FormattingProfileToMdOptions,
-): AggregatedProfileCallStack[] => {
-  const merged = new Map<string, AggregatedProfileCallStack>()
+): AggregatedSamplingProfileCallStack[] => {
+  const merged = new Map<string, AggregatedSamplingProfileCallStack>()
   for (const callStack of callStacks) {
     const frames = callStack.frames.filter(options.showEntry)
     if (frames.length <= 1) {
@@ -608,12 +612,14 @@ const mergeShownCallStacks = (
   return [...merged.values()]
 }
 
-const formatDiffSummary = (diff: AggregatedProfileDiff): RootContent[] => [
+const formatDiffSummary = (
+  diff: AggregatedSamplingProfileDiff,
+): RootContent[] => [
   paragraph(formatDiffSummaryLine(diff)),
   ...formatDiffCategoryTable(diff),
 ]
 
-const formatDiffSummaryLine = (diff: AggregatedProfileDiff): string => {
+const formatDiffSummaryLine = (diff: AggregatedSamplingProfileDiff): string => {
   if (diff.metrics.length === 0) {
     const baseSamples = diff.base.totalSampleCount
     const currentSamples = diff.current.totalSampleCount
@@ -662,7 +668,7 @@ const formatSamplingRate = (samplingRate: number, metric: Metric): string => {
 }
 
 const formatDiffCategoryTable = (
-  diff: AggregatedProfileDiff,
+  diff: AggregatedSamplingProfileDiff,
 ): RootContent[] => {
   if (diff.categoryToMetrics.size === 0) {
     return []
@@ -672,7 +678,7 @@ const formatDiffCategoryTable = (
   // The first metric, or raw sample count when metric-less, determines sorting and %.
   const primaryMeasure = diffMeasuresOf(diff)[0]!
   const categoryValue = (
-    metrics: AggregatedProfileCategoryMetrics | undefined,
+    metrics: AggregatedSamplingProfileCategoryMetrics | undefined,
   ): number =>
     metrics === undefined
       ? 0
@@ -713,7 +719,7 @@ const formatDiffFunctions = ({
   options,
   headingLevel,
 }: {
-  diff: AggregatedProfileDiff
+  diff: AggregatedSamplingProfileDiff
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -743,8 +749,8 @@ const formatDiffFunctions = ({
  * total).
  */
 type DiffFunctionDirection = {
-  valueOf: (side: Measure, func: AggregatedProfileFunction) => number
-  sampleCountOf: (func: AggregatedProfileFunction) => number
+  valueOf: (side: Measure, func: AggregatedSamplingProfileFunction) => number
+  sampleCountOf: (func: AggregatedSamplingProfileFunction) => number
   titleOf: (metric: Metric | null) => string
   descriptionOf: (metric: Metric | null) => string
 }
@@ -772,7 +778,7 @@ const formatDiffDirectionFunctions = ({
   headingLevel,
   direction: { valueOf, sampleCountOf, titleOf, descriptionOf },
 }: {
-  diff: AggregatedProfileDiff
+  diff: AggregatedSamplingProfileDiff
   measure: DiffMeasure
   options: FormattingProfileToMdOptions
   headingLevel: number
@@ -780,8 +786,10 @@ const formatDiffDirectionFunctions = ({
 }): RootContent[] => {
   const { metric, base: baseMeasure, current: currentMeasure } = measure
 
-  const diffValue = (side: Measure, func?: AggregatedProfileFunction) =>
-    func === undefined ? 0 : valueOf(side, func)
+  const diffValue = (
+    side: Measure,
+    func?: AggregatedSamplingProfileFunction,
+  ) => (func === undefined ? 0 : valueOf(side, func))
   const { regressions, improvements, hasActive } = selectDiffEntities(
     diff.functions.map(func => ({
       entity: func,
@@ -791,14 +799,14 @@ const formatDiffDirectionFunctions = ({
     options,
   )
 
-  const sideRowOf = (side: Measure, func?: AggregatedProfileFunction) =>
+  const sideRowOf = (side: Measure, func?: AggregatedSamplingProfileFunction) =>
     func && {
       func,
       value: valueOf(side, func),
       sampleCount: sampleCountOf(func),
       total: side.total,
     }
-  const rowOf = ({ base, current }: AggregatedProfileFunctionDiff) => ({
+  const rowOf = ({ base, current }: AggregatedSamplingProfileFunctionDiff) => ({
     base: sideRowOf(baseMeasure, base),
     current: sideRowOf(currentMeasure, current),
   })
