@@ -174,6 +174,14 @@ describe(`categorizeEntry`, () => {
     },
   )
 
+  test(`a Zig toolchain source is stdlib`, () => {
+    expect(
+      categorizeEntry(
+        absoluteEntry(`mem.copyForwards`, `file:///opt/zig/lib/std/mem.zig`),
+      ),
+    ).toBe(`stdlib`)
+  })
+
   test(`a system-directory source is stdlib`, () => {
     expect(
       categorizeEntry(

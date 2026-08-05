@@ -45,9 +45,12 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
 /**
  * Derives an origin hint from writer-level metadata:
  *
- * - gperftools is the only supported pprof writer that populates
- *   `drop_frames`/`keep_frames`, and it fills them with regexes naming its own
- *   internals (`CpuProfiler::prof_handler`, `tcmalloc::*`)
+ * - `pprof` populates `drop_frames`/`keep_frames` when it converts a legacy
+ *   profile (the binary CPU format and the text heap format gperftools writes)
+ *   to the proto format, with fixed regexes matching gperftools' allocator and
+ *   signal handler internals (`CpuProfiler::prof_handler`, `tcmalloc::*`).
+ *   `jeprof` converts a jemalloc dump the same way, so it also resolves to
+ *   gperftools unless the user specifies the origin
  * - `threadcreate` is a Go `runtime/pprof` profile type, and its captures'
  *   stacks are unsymbolized thread-spawn sites carrying none of Go's frame
  *   markers
@@ -66,7 +69,7 @@ const pprofOriginHint = (
   return undefined
 }
 
-/** Gperftools' own internal function names in its frame-filter regexes. */
+/** Gperftools' own internal function names in a legacy profile's frame filters. */
 const GPERFTOOLS_FRAME_FILTER =
   /CpuProfiler::prof_handler|ProfileData::prof_handler|tcmalloc::/u
 
