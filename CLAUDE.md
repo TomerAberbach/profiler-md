@@ -204,6 +204,16 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - When a derivation can't be type-enforced, guard it with a test that loops over
   the registry or the committed inputs so an omission fails the test
 
+### Inputs
+
+- A profiler emits the formats it writes itself. A separate tool that rewrites
+  one of its outputs into another format converts
+- Commit an input in a format its profiler emits. A converted input makes the
+  language claim a format its ecosystem never writes, since a language's formats
+  come from the `languages` of every registered converter
+- When a profiler emits no supported format, the format is missing. Implement it
+  (`/new-format`)
+
 ### Types
 
 - Name a discriminated union's discriminant `type`, never `kind`. This does not
