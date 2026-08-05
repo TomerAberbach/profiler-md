@@ -465,26 +465,25 @@ const makeFormattingProfileToMdOptions = (
     ? {
         ...options,
         baseURL: commonAncestorDirectoryURL(
-          collectOursInferableURLs(inputs, { ...options, baseURL: undefined }),
+          collectInferableURLs(inputs, { ...options, baseURL: undefined }),
         ),
       }
     : { ...options, baseURL }
 }
 
 /**
- * Collects the base-URL-inferable absolute URLs of {@link inputs}'
- * `ours`-categorized entries.
+ * Collects the base-URL-inferable absolute URLs of {@link inputs}' entries.
  *
  * Applies source maps first so the base is inferred from the locations
  * formatting will show.
  */
-const collectOursInferableURLs = (
+const collectInferableURLs = (
   inputs: AggregatedInput[],
   options: FormattingProfileToMdOptions,
 ): URL[] => {
   const urls: URL[] = []
-  const collect = (category: string, location: SourceLocation | undefined) => {
-    if (category !== `ours` || !location) {
+  const collect = (location: SourceLocation | undefined) => {
+    if (!location) {
       return
     }
     const mappedLocation = sourceMapSourceLocation(location, options)
@@ -497,12 +496,17 @@ const collectOursInferableURLs = (
     switch (input.type) {
       case `sampling-profile`:
         for (const func of input.functions) {
-          collect(func.category, func.location)
+          // Onky `ours`-categorized functions contribute, because a
+          // dependency's install path can be far outside the source tree and
+          // would raise the base to a shared root.
+          if (func.category === `ours`) {
+            collect(func.location)
+          }
         }
         break
       case `heap-snapshot`:
         for (const entity of [...input.constructors, ...input.closures]) {
-          collect(entity.category, entityLocation(entity))
+          collect(entityLocation(entity))
         }
         break
     }

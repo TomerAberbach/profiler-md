@@ -317,7 +317,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`baseURL: 'auto' infers the base from ours locations and relativizes URL-shaped constructor names`, () => {
+  test(`baseURL: 'auto' infers the base from entity locations and relativizes URL-shaped constructor names`, () => {
     const snapshot = makeClosureSnapshot(
       `file:///home/user/project/lib/a.ts`,
       `file:///home/user/project/src/mod.js`,

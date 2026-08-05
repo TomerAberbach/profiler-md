@@ -117,10 +117,9 @@ describe(`normalizeProfileToMdOptions`, () => {
   })
 })
 
-const makeSnapshotNode = (name: string, category = `ours`) =>
+const makeSnapshotNode = (name: string) =>
   makeAggregatedConstructor({
     name,
-    category,
     selfSize: 0,
     retainedSize: 0,
     instanceCount: 0,
@@ -262,11 +261,9 @@ describe(`isExternalImplementationDetailEntry`, () => {
     expect(isExternalImplementationDetailEntry(nativeCall!)).toBe(false)
   })
 
-  test(`returns false for a snapshot node regardless of category`, () => {
+  test(`returns false for a snapshot node`, () => {
     expect(
-      isExternalImplementationDetailEntry(
-        makeSnapshotNode(`Buffer`, `third-party`),
-      ),
+      isExternalImplementationDetailEntry(makeSnapshotNode(`Buffer`)),
     ).toBe(false)
   })
 })
