@@ -23,6 +23,11 @@
             doInstallCheck = false;
           });
 
+          # GHC's cost-centre profiler records a library only when it was
+          # compiled the profiling way, so the toolchain ships a GHC that
+          # already has aeson's profiling libraries registered.
+          ghcWithProfiling = pkgs.haskellPackages.ghcWithPackages (p: [ p.aeson ]);
+
           # dotnet-trace is a .NET global tool published on NuGet, not a
           # standalone nixpkgs package; build it with buildDotnetGlobalTool so
           # it's pinned in the toolchain instead of `dotnet tool install`ed at
@@ -52,6 +57,7 @@
           erlang
           elixir
           rebar3
+          ghcWithProfiling
           python3
           async-profiler
           cmake

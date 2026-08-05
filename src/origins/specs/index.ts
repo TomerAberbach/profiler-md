@@ -5,6 +5,7 @@ import { denoOriginSpec } from './deno.ts'
 import { dotnetTraceOriginSpec } from './dotnet-trace.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
 import { excimerOriginSpec } from './excimer.ts'
+import { ghcOriginSpec } from './ghc.ts'
 import { goOriginSpec } from './go.ts'
 import { gperftoolsOriginSpec } from './gperftools.ts'
 import { jdkOriginSpec } from './jdk.ts'
@@ -67,5 +68,6 @@ export const originSpecs = [
   gperftoolsOriginSpec,
   excimerOriginSpec,
   memrayOriginSpec,
+  ghcOriginSpec,
   unknownOriginSpec,
 ]
