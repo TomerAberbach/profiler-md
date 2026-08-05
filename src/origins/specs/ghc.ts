@@ -20,13 +20,13 @@ import type { OriginSpec } from '../origin.ts'
  * names no package and a dependency's paths have the same shape as the
  * program's.
  *
- * It emits only its own format, so detection resolves an input to it by
+ * It emits only its own formats, so detection resolves an input to it by
  * fallback rather than by a marker entry.
  */
 export const ghcOriginSpec = {
   id: `ghc`,
   title: `GHC`,
-  formats: [`ghc-json-profile`],
+  formats: [`ghc-eventlog`, `ghc-json-profile`],
   isMarkerEntry: () => false,
   categorizeEntry: entry =>
     runtimeActivityCategory(entry) ??

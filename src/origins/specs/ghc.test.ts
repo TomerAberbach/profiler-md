@@ -12,14 +12,15 @@ const located = (name: string, path: string): ProfileEntry => ({
 const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`detection`, () => {
-  test(`the runtime's own format resolves to GHC`, () => {
-    expect(determineOrigin({ format: `ghc-json-profile`, entries: [] })).toBe(
-      `ghc`,
-    )
-  })
+  test.each([`ghc-eventlog`, `ghc-json-profile`] as const)(
+    `the runtime's own %s format resolves to GHC`,
+    format => {
+      expect(determineOrigin({ format, entries: [] })).toBe(`ghc`)
+    },
+  )
 
   test(`a cost-centre source span in another format is not GHC`, () => {
-    // GHC emits only its own format, so a converter wrote a speedscope profile
+    // GHC emits only its own formats, so a converter wrote a speedscope profile
     // with a source span. GHC's conventions are registered for GHC rather than
     // for a converter.
     expect(
