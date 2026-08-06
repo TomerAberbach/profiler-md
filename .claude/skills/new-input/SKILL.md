@@ -31,6 +31,11 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
      and follow its workflow first; input filenames carry the origin's
      registered ID, and every committed input must resolve to it
 
+   A profiler emits the formats it writes itself. A separate tool that rewrites
+   one of its outputs into a supported format converts, and a converted input
+   makes the language claim a format its ecosystem never writes. Treat it as a
+   missing format: STOP and load `/new-format`
+
 ## Generate
 
 2. Add or update workload scripts in `scripts/inputs/`, one per emitting

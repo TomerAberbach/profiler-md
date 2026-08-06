@@ -38,8 +38,9 @@ $ARGUMENTS
    spec
 
 3. Enumerate the tools and runtimes that emit the format (the canonical tool,
-   other profilers that export it, tools we already support), then decide the
-   origin question:
+   other profilers that export it, tools we already support). A tool emits the
+   format when it writes the format itself, so leave out the tools that convert
+   another profiler's output into it. Then decide the origin question:
    - Note which existing origins need their `formats` expanded
    - Register each emitting tool or runtime we don't have yet as its own origin,
      even when its inputs carry no detectable markers (a markerless spec,
