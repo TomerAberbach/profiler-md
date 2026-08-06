@@ -1017,12 +1017,19 @@ class JfrParser {
   // Primitive readers
 
   #readVarint(): number {
-    let result = 0
+    // Most varints are a single byte, so return it without the loop's counter,
+    // multiplier, and continuation checks.
+    const first = this.#bytes[this.#position++]!
+    if ((first & 0x80) === 0) {
+      return first
+    }
+
+    let result = first & 0x7f
     // A running multiplier (×128 per byte) replaces `2 ** shift`: the
     // exponentiation operator with a variable exponent compiles to a pow call,
     // far costlier than a single float multiply on this per-byte hot path.
-    let multiplier = 1
-    for (let i = 0; i < 9; i++) {
+    let multiplier = 128
+    for (let i = 1; i < 9; i++) {
       const byte = this.#bytes[this.#position++]!
       if (i === 8) {
         result += byte * multiplier
