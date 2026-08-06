@@ -1,5 +1,4 @@
 import { describe, expect, test } from 'vitest'
-import type { Format } from '../../formats/registry.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { nodeOriginSpec } from './node.ts'
 
@@ -13,12 +12,14 @@ describe(`detection`, () => {
     ).toBe(`node`)
   })
 
-  test.each<Format>([`v8-heap-profile`, `v8-heap-snapshot`])(
-    `resolves %s to node when no entries match any origin`,
-    format => {
-      expect(determineOrigin({ format, entries: [] })).toBe(`node`)
-    },
-  )
+  test(`detects Node by a node_modules dependency`, () => {
+    expect(
+      determineOrigin({
+        format: `v8-cpu-profile`,
+        entries: [absoluteEntry(`f`, `file:///app/node_modules/x/index.js`)],
+      }),
+    ).toBe(`node`)
+  })
 })
 
 describe(`categorizeEntry`, () => {

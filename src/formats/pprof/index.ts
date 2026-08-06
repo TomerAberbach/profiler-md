@@ -7,6 +7,8 @@ export const pprofConverter = {
   title: `pprof`,
   extension: `pprof`,
   languages: [`c`, `go`, `javascript`, `julia`, `ruby`, `rust`, `zig`],
+  // The pprof project defines `profile.proto`, not the profilers that emit it,
+  // so no emitting origin is canonical.
   fallbackOrigin: `unknown`,
   type: `binary`,
   matches: matchesPprof,

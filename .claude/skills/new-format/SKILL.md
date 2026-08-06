@@ -46,8 +46,14 @@ $ARGUMENTS
      even when its inputs carry no detectable markers (a markerless spec,
      `isMarkerEntry: () => false`); sharing another origin's spec would make a
      later behavioral split a breaking change
-   - Decide the format's `fallbackOrigin`: the origin of the format's defining
-     tool or runtime for single-runtime formats, else `unknown`
+   - Decide the format's `fallbackOrigin`: the format's canonical origin, the
+     tool or runtime whose definition of the format the other emitters write to
+     match (e.g. `valgrind` for callgrind, `chrome` for the V8 formats). A
+     format with several emitters still has a canonical origin. The canonical
+     emitter may have its own markers. Use `unknown` when the format is defined
+     by something that profiles nothing itself (e.g. the speedscope viewer,
+     FlameGraph's stack-collapsing scripts, the pprof project). Record the
+     reasoning in a comment above the field
 
 4. Confirm every modality the format captures is supported. If any is
    unsupported, STOP: explain the new modality and how it differs from the

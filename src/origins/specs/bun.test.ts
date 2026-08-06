@@ -48,7 +48,11 @@ describe(`detection`, () => {
     expect(
       determineOrigin({
         format: `v8-heap-snapshot`,
-        entries: [relativeEntry(`FileSink`), relativeEntry(`NextTickQueue`)],
+        entries: [
+          relativeEntry(`FileSink`),
+          relativeEntry(`NextTickQueue`),
+          absoluteEntry(`Socket`, `file:///app/node_modules/ws/lib/socket.js`),
+        ],
       }),
     ).toBe(`node`)
   })
