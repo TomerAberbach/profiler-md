@@ -373,7 +373,11 @@ if (format === undefined) {
 const runCli = (args: string[], input?: string | Uint8Array) =>
   new Promise<{ status: number | null; stdout: string; stderr: string }>(
     (resolve, reject) => {
-      const child = spawn(process.execPath, [cliPath, ...args])
+      const child = spawn(process.execPath, [cliPath, ...args], {
+        // Reuse compiled bytecode across the many spawned CLI processes,
+        // roughly halving each one's startup.
+        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath },
+      })
 
       const stdout: Buffer[] = []
       const stderr: Buffer[] = []
@@ -393,3 +397,8 @@ const runCli = (args: string[], input?: string | Uint8Array) =>
   )
 
 const cliPath = join(import.meta.dirname, `index.ts`)
+
+const compileCachePath = join(
+  import.meta.dirname,
+  `../../node_modules/.cache/node-compile-cache`,
+)
