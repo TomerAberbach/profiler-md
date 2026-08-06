@@ -13,7 +13,7 @@ import type {
   AggregatedClosure,
   AggregatedConstructor,
   AggregatedHeapSnapshot,
-  AggregatedSnapshotNode,
+  AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
 
@@ -37,9 +37,9 @@ export const makeAggregatedHeapSnapshot = ({
   nodeCategoryToStats?: Map<string, NodeCategoryStats>
   constructors?: AggregatedConstructor[]
   closures?: AggregatedClosure[]
-  strings?: AggregatedSnapshotNode[]
+  strings?: AggregatedHeapSnapshotNode[]
 } = {}): AggregatedHeapSnapshot => ({
-  type: `snapshot`,
+  type: `heap-snapshot`,
   context,
   totalSize,
   nodeCount,
@@ -127,7 +127,7 @@ export const makeAggregatedString = ({
 }: {
   value?: string
   selfSize: number
-}): AggregatedSnapshotNode => ({
+}): AggregatedHeapSnapshotNode => ({
   type: `node`,
   id: 0,
   name: value,

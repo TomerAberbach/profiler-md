@@ -9,7 +9,7 @@ import {
 import { normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import {
-  categorizeSnapshotConstructorForOrigin,
+  categorizeHeapSnapshotConstructorForOrigin,
   OriginDetector,
 } from './index.ts'
 import type { Origin } from './index.ts'
@@ -46,7 +46,7 @@ if (inputFilenames.length > 0) {
         const { origin } = parseExampleFilename(filename)
         const unexpectedOrigins = inputs.flatMap(input => {
           const entities =
-            input.type === `profile`
+            input.type === `sampling-profile`
               ? input.functions
               : [...input.constructors, ...input.closures]
           return entities
@@ -72,7 +72,10 @@ if (format === undefined) {
         { data: nodeInput(), origin: `deno` },
         options,
       )
-      if (detected?.type !== `profile` || forced?.type !== `profile`) {
+      if (
+        detected?.type !== `sampling-profile` ||
+        forced?.type !== `sampling-profile`
+      ) {
         throw new Error(`expected both inputs to be profiles`)
       }
 
@@ -92,16 +95,16 @@ if (format === undefined) {
     test.each<Origin>([`node`, `chrome`, `bun`, `safari`])(
       `%s categorizes JavaScript's own classes`,
       origin => {
-        expect(categorizeSnapshotConstructorForOrigin(`Promise`, origin)).toBe(
-          `built-in`,
-        )
+        expect(
+          categorizeHeapSnapshotConstructorForOrigin(`Promise`, origin),
+        ).toBe(`built-in`)
       },
     )
 
     test(`an origin observing another language leaves the format's category`, () => {
       // Julia writes V8-format snapshots, whose class names are Julia's.
       expect(
-        categorizeSnapshotConstructorForOrigin(`Promise`, `profile-jl`),
+        categorizeHeapSnapshotConstructorForOrigin(`Promise`, `profile-jl`),
       ).toBeUndefined()
     })
 
@@ -109,7 +112,7 @@ if (format === undefined) {
       `%s categorizes JavaScriptCore's own classes`,
       origin => {
         expect(
-          categorizeSnapshotConstructorForOrigin(`ModuleLoader`, origin),
+          categorizeHeapSnapshotConstructorForOrigin(`ModuleLoader`, origin),
         ).toBe(`native`)
       },
     )
@@ -118,7 +121,7 @@ if (format === undefined) {
       // Node's ESM loader defines a JavaScript class by the same name as
       // JavaScriptCore's native one, which is the program's own code.
       expect(
-        categorizeSnapshotConstructorForOrigin(`ModuleLoader`, `node`),
+        categorizeHeapSnapshotConstructorForOrigin(`ModuleLoader`, `node`),
       ).toBeUndefined()
     })
   })

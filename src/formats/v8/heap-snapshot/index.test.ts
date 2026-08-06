@@ -4,7 +4,7 @@ import {
   largestStringsTables,
   selfSizeInstancesTables,
   selfSizeTables,
-} from '../../../modalities/snapshot/testing.ts'
+} from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
 import {
   categoryTables,

@@ -2,13 +2,13 @@ import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
-  selfSamplesTables,
-  selfTimeTables,
-} from '../../modalities/profile/testing.ts'
-import {
   selfSizeTables,
   totalSizeTables,
-} from '../../modalities/snapshot/testing.ts'
+} from '../../modalities/heap-snapshot/testing.ts'
+import {
+  selfSamplesTables,
+  selfTimeTables,
+} from '../../modalities/sampling-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import { callersTables, linesTables, profileTitles } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'

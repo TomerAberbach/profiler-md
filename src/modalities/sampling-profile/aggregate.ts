@@ -12,12 +12,12 @@ import type {
   StackFrameFunction,
   StackFrameFunctionTable,
 } from '../stack-frame.ts'
-import type { Profile, Sample, SampleLineMetrics } from './type.ts'
+import type { Sample, SampleLineMetrics, SamplingProfile } from './type.ts'
 
-export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
-  readonly #profile: Profile
+export class SamplingProfileAggregator implements InputAggregator<AggregatedSamplingProfile> {
+  readonly #profile: SamplingProfile
 
-  public constructor(profile: Profile) {
+  public constructor(profile: SamplingProfile) {
     this.#profile = profile
   }
 
@@ -35,7 +35,7 @@ export class ProfileAggregator implements InputAggregator<AggregatedProfile> {
   public aggregate(
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
-  ): AggregatedProfile {
+  ): AggregatedSamplingProfile {
     const { metrics, frames, samples, lineMetrics } = this.#profile
 
     const functions = StackFrameTable.for(frames).resolve(context)
@@ -74,8 +74,8 @@ class SamplesAggregator {
   // IDs rather than a joined string key, whose building and hashing dominated
   // stack creation. The interner owns the canonical call stack list.
   readonly #callStackInterner = new HashInterner<
-    AggregatedProfileFunction[],
-    AggregatedProfileCallStack
+    AggregatedSamplingProfileFunction[],
+    AggregatedSamplingProfileCallStack
   >(
     (frames, sink) => {
       for (const frame of frames) {
@@ -85,17 +85,17 @@ class SamplesAggregator {
     (callStack, frames) => sameStackFrameIds(callStack.frames, frames),
   )
 
-  readonly #idToCallStack: AggregatedProfileCallStack[]
+  readonly #idToCallStack: AggregatedSamplingProfileCallStack[]
   readonly #keyToFunction: Map<
     number | string | symbol,
-    AggregatedProfileFunction
+    AggregatedSamplingProfileFunction
   >
 
   /** Per frame index, its registered function, a frame-index fast path. */
-  readonly #frameIndexToFunction: AggregatedProfileFunction[]
+  readonly #frameIndexToFunction: AggregatedSamplingProfileFunction[]
 
   public constructor(
-    /** @see {@link AggregatedProfile.metrics} */
+    /** @see {@link AggregatedSamplingProfile.metrics} */
     metrics: Metric[],
     functions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
@@ -305,7 +305,7 @@ class SamplesAggregator {
   #getOrCreateCallStack(
     frameIndices: number[],
     id: number | undefined,
-  ): AggregatedProfileCallStack {
+  ): AggregatedSamplingProfileCallStack {
     // A stable stack ID lets repeat stacks (the common case, since a profile
     // has far fewer unique stacks than samples) skip resolving frames and the
     // hash-keyed lookup, becoming a single sparse-array index.
@@ -318,7 +318,7 @@ class SamplesAggregator {
 
     // A stackless sample has no frames (or only dropped ones); attribute it to
     // a shared anonymous frame.
-    const frames: AggregatedProfileFunction[] = []
+    const frames: AggregatedSamplingProfileFunction[] = []
     for (const index of frameIndices) {
       const func = this.#getOrCreateFunction(index)
       if (func) {
@@ -345,8 +345,8 @@ class SamplesAggregator {
    * alike stay distinct.
    */
   #internCallStack(
-    frames: AggregatedProfileFunction[],
-  ): AggregatedProfileCallStack {
+    frames: AggregatedSamplingProfileFunction[],
+  ): AggregatedSamplingProfileCallStack {
     const index = this.#callStackInterner.intern(frames, () => ({
       frames,
       selfSampleCount: 0,
@@ -356,7 +356,9 @@ class SamplesAggregator {
   }
 
   /** Returns the frame's function, or `undefined` for a dropped frame. */
-  #getOrCreateFunction(index: number): AggregatedProfileFunction | undefined {
+  #getOrCreateFunction(
+    index: number,
+  ): AggregatedSamplingProfileFunction | undefined {
     const cached = this.#frameIndexToFunction[index]
     if (cached) {
       return cached
@@ -380,7 +382,7 @@ class SamplesAggregator {
    * The single shared anonymous function for stackless samples, keyed by a
    * symbol so it can never collide with a {@link StackFrameFunction.key}.
    */
-  #getOrCreateAnonymousFunction(): AggregatedProfileFunction {
+  #getOrCreateAnonymousFunction(): AggregatedSamplingProfileFunction {
     return (
       this.#keyToFunction.get(ANONYMOUS_FUNCTION_KEY) ??
       this.#registerFunction(
@@ -393,8 +395,8 @@ class SamplesAggregator {
   #registerFunction(
     key: number | string | symbol,
     { name, location }: StackFrameFunction,
-  ): AggregatedProfileFunction {
-    const func: AggregatedProfileFunction = {
+  ): AggregatedSamplingProfileFunction {
+    const func: AggregatedSamplingProfileFunction = {
       type: `function`,
       id: this.#keyToFunction.size,
       name,
@@ -414,7 +416,7 @@ class SamplesAggregator {
     return func
   }
 
-  public aggregate(): AggregatedProfile {
+  public aggregate(): AggregatedSamplingProfile {
     this.#propagateCallStackMetrics()
 
     const samplingRates = new Float64Array(this.#metrics.length)
@@ -426,7 +428,7 @@ class SamplesAggregator {
     const callStacks = this.#callStackInterner.items
 
     return {
-      type: `profile`,
+      type: `sampling-profile`,
       context: this.#context,
       metrics: this.#metrics,
       totalSampleCount: this.#totalSampleCount,
@@ -453,12 +455,12 @@ class SamplesAggregator {
    * than the sample count.
    */
   #categorize(
-    functions: AggregatedProfileFunction[],
-  ): Map<string, AggregatedProfileCategoryMetrics> {
+    functions: AggregatedSamplingProfileFunction[],
+  ): Map<string, AggregatedSamplingProfileCategoryMetrics> {
     const categories = this.#options.categorizeEntries(functions, this.#context)
     const categoryToMetrics = new Map<
       string,
-      AggregatedProfileCategoryMetrics
+      AggregatedSamplingProfileCategoryMetrics
     >()
 
     for (let i = 0; i < functions.length; i++) {
@@ -502,8 +504,8 @@ const ANONYMOUS_FUNCTION_KEY = Symbol(`anonymous`)
 
 /** Whether two frame lists reference the same functions in the same order. */
 const sameStackFrameIds = (
-  left: AggregatedProfileFunction[],
-  right: AggregatedProfileFunction[],
+  left: AggregatedSamplingProfileFunction[],
+  right: AggregatedSamplingProfileFunction[],
 ): boolean => {
   if (left.length !== right.length) {
     return false
@@ -520,19 +522,19 @@ const sameStackFrameIds = (
  * An aggregation of data from every sample of functions with a given category
  * within a profile.
  */
-export type AggregatedProfileCategoryMetrics = {
+export type AggregatedSamplingProfileCategoryMetrics = {
   /** The number of samples taken for functions with this category. */
   sampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken for functions with this category.
    */
   values: Float64Array
 }
 
 /** An aggregation of samples taken at a given line within a function's body. */
-type AggregatedProfileLineMetrics = {
+type AggregatedSamplingProfileLineMetrics = {
   /**
    * The number of samples taken directly within the function's body at this
    * line.
@@ -540,7 +542,7 @@ type AggregatedProfileLineMetrics = {
   sampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values from
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values from
    * samples taken directly within the function's body at this line.
    */
   values: Float64Array
@@ -550,9 +552,9 @@ type AggregatedProfileLineMetrics = {
  * An aggregation of samples taken directly within a function's body with a
  * given direct caller.
  */
-type AggregatedProfileCallerMetrics = {
+type AggregatedSamplingProfileCallerMetrics = {
   /** The caller corresponding to the ID. */
-  caller: AggregatedProfileFunction
+  caller: AggregatedSamplingProfileFunction
 
   /**
    * The number of samples taken directly within the function's body with this
@@ -561,7 +563,7 @@ type AggregatedProfileCallerMetrics = {
   selfSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken directly within the function's body with this caller.
    */
   selfValues: Float64Array
@@ -571,9 +573,9 @@ type AggregatedProfileCallerMetrics = {
  * An aggregation of samples taken within a function's body, _and_ all its
  * callees, with a given direct callee.
  */
-type AggregatedProfileCalleeMetrics = {
+type AggregatedSamplingProfileCalleeMetrics = {
   /** The callee corresponding to the ID. */
-  callee: AggregatedProfileFunction
+  callee: AggregatedSamplingProfileFunction
 
   /**
    * The number of samples taken directly within the function's body, _and_ all
@@ -582,7 +584,7 @@ type AggregatedProfileCalleeMetrics = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken directly within the function's body, _and_ all its
    * callees, with this callee.
    */
@@ -600,7 +602,7 @@ type AggregatedProfileCalleeMetrics = {
  * An aggregation of data from every sample involving a given function within a
  * profile.
  */
-export type AggregatedProfileFunction = {
+export type AggregatedSamplingProfileFunction = {
   type: `function`
 
   /** An index that uniquely identifies this function. */
@@ -628,56 +630,56 @@ export type AggregatedProfileFunction = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken directly within the function's body, excluding its
    * callees.
    */
   selfValues: Float64Array
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken directly within the function's body _and_ all its
    * callees.
    */
   totalValues: Float64Array
 
   /** 1-based line number to values and sample count for that line. */
-  lineToMetrics: Map<number, AggregatedProfileLineMetrics>
+  lineToMetrics: Map<number, AggregatedSamplingProfileLineMetrics>
 
   /**
    * Direct caller id to values and sample count with that caller's calls to
    * this function.
    */
-  callerIdToMetrics: Map<number, AggregatedProfileCallerMetrics>
+  callerIdToMetrics: Map<number, AggregatedSamplingProfileCallerMetrics>
 
   /**
    * Direct callee id to values and sample count for that callee's calls where
    * this function was a direct or transitive caller.
    */
-  calleeIdToMetrics: Map<number, AggregatedProfileCalleeMetrics>
+  calleeIdToMetrics: Map<number, AggregatedSamplingProfileCalleeMetrics>
 }
 
 /**
  * An aggregation of data from every sample involving a given function call
  * stack within a profile.
  */
-export type AggregatedProfileCallStack = {
+export type AggregatedSamplingProfileCallStack = {
   /** The functions on the call stack in callee to caller order. */
-  frames: AggregatedProfileFunction[]
+  frames: AggregatedSamplingProfileFunction[]
 
   /** The number of samples taken with this exact call stack. */
   selfSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken with this exact call stack.
    */
   selfValues: Float64Array
 }
 
 /** An aggregation of all samples within a sampling profile. */
-export type AggregatedProfile = {
-  type: `profile`
+export type AggregatedSamplingProfile = {
+  type: `sampling-profile`
 
   /**
    * The context (format and resolved origin) this profile was aggregated under.
@@ -694,13 +696,13 @@ export type AggregatedProfile = {
   totalSampleCount: number
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the sum of values
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the sum of values
    * from samples taken within this profile.
    */
   totalValues: Float64Array
 
   /**
-   * For each metric in {@link AggregatedProfile.metrics}, the average metric
+   * For each metric in {@link AggregatedSamplingProfile.metrics}, the average metric
    * value per sample (total value ÷ total sample count).
    */
   samplingRates: Float64Array
@@ -709,11 +711,11 @@ export type AggregatedProfile = {
    * Function category to values and sample count for calls of functions with
    * that category.
    */
-  categoryToMetrics: Map<string, AggregatedProfileCategoryMetrics>
+  categoryToMetrics: Map<string, AggregatedSamplingProfileCategoryMetrics>
 
   /** Aggregated data for all functions called in this profile. */
-  functions: AggregatedProfileFunction[]
+  functions: AggregatedSamplingProfileFunction[]
 
   /** Aggregated data for all call stacks encountered in this profile. */
-  callStacks: AggregatedProfileCallStack[]
+  callStacks: AggregatedSamplingProfileCallStack[]
 }

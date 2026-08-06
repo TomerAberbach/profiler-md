@@ -53,21 +53,21 @@ profiler-md
 │   ├── modalities/           # Individual modality implementations
 │   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
 │   │   ├── diff.ts           # Base/current diffing primitives
-│   │   ├── stack-frame.ts    # Distinct-frame origin detection and normalization shared across modalities
+│   │   ├── stack-frame.ts    # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
 │   │   ├── metric.ts         # Recorded metric types and inference logic
 │   │   ├── measure.ts        # Metric phrasing and cell formatting shared across modalities
 │   │   ├── table.ts          # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts         # Formatting helpers shared across modalities
-│   │   ├── profile/          # Common sampling profile conversion logic
-│   │   │   ├── type.ts       # Parsed profile types
+│   │   ├── sampling-profile/ # Common sampling profile conversion logic
+│   │   │   ├── type.ts       # Parsed sampling profile types
 │   │   │   ├── aggregate.ts  # Sample aggregation over frames
-│   │   │   ├── diff.ts       # Aggregated profile diffing logic
-│   │   │   ├── measure.ts    # Profile-resolved measure views with sample-count fallback
-│   │   │   ├── table.ts      # The profile formatter's table columns
+│   │   │   ├── diff.ts       # Aggregated sampling profile diffing logic
+│   │   │   ├── measure.ts    # Sampling-profile-resolved measure views with sample-count fallback
+│   │   │   ├── table.ts      # The sampling profile formatter's table columns
 │   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
 │   │   │   ├── index.ts      # Barrel file
 │   │   │   └── testing.ts    # Test-only utilities specific to this module
-│   │   └── snapshot/         # Common heap snapshot conversion logic
+│   │   └── heap-snapshot/    # Common heap snapshot conversion logic
 │   │       ├── type.ts       # Parsed heap snapshot types
 │   │       ├── graph.ts      # Node adjacency graph in CSR format
 │   │       ├── retained.ts   # Retained size computation
@@ -166,7 +166,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Most tests run profile to Markdown conversion end-to-end
   - Assert on the Markdown output, not on intermediate data structures, using
     the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
-    `src/modalities/profile/testing.ts`)
+    `src/modalities/sampling-profile/testing.ts`)
   - Fully assert on Markdown tables with `toEqual` and complete expected rows.
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
     individual cells, which would miss extra tables, rows, or cells

@@ -1,5 +1,8 @@
 import { BYTES } from '../../../modalities/metric.ts'
-import type { Profile, Sample } from '../../../modalities/profile/index.ts'
+import type {
+  Sample,
+  SamplingProfile,
+} from '../../../modalities/sampling-profile/index.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -42,13 +45,15 @@ type V8HeapProfileSample = {
   ordinal: number
 }
 
-export const parseV8HeapProfile = (profile: V8HeapProfile): Profile[] => {
+export const parseV8HeapProfile = (
+  profile: V8HeapProfile,
+): SamplingProfile[] => {
   const { flatNodes, idToIndex, indexToParentIndex } = flattenCallTree(profile)
   const frames = flatNodes.map(nodeToStackFrame)
 
   return [
     {
-      type: `profile`,
+      type: `sampling-profile`,
       frames,
       metrics: [BYTES],
       samples: heapSamples(profile, idToIndex, indexToParentIndex),

@@ -68,12 +68,13 @@ $ARGUMENTS
    - `parse.ts`: typed data types and parsing into the modality's uniform parsed
      type; aggregation, origin detection, and categorization then run uniformly
      in the modality module
-     - A sampling profile parses into a `Profile` (frames, metrics,
-       lazily-generated samples; see `src/modalities/profile/type.ts`). Map the
-       format's units to metrics via `determineMetric`; a lone sample-count
-       metric should populate `Sample.sampleCount` with no metrics instead
-     - A snapshot parses into a `HeapSnapshot` (node adjacency graph,
-       lazily-classified nodes; see `src/modalities/snapshot/type.ts`)
+     - A sampling profile parses into a `SamplingProfile` (frames, metrics,
+       lazily-generated samples; see `src/modalities/sampling-profile/type.ts`).
+       Map the format's units to metrics via `determineMetric`; a lone
+       sample-count metric should populate `Sample.sampleCount` with no metrics
+       instead
+     - A heap snapshot parses into a `HeapSnapshot` (node adjacency graph,
+       lazily-classified nodes; see `src/modalities/heap-snapshot/type.ts`)
      - `parse` returns a list of them (`ParsedInput[]`), which may mix
        modalities when one input contains both profiles and snapshots
 

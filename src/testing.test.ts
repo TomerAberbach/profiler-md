@@ -17,12 +17,12 @@ describe(`profileTitles`, () => {
 
   test(`returns H1 text values`, () => {
     const titles = profileTitles(dedent`
-      # Profile One
+      # SamplingProfile One
 
-      # Profile Two
+      # SamplingProfile Two
     `)
 
-    expect(titles).toStrictEqual([`Profile One`, `Profile Two`])
+    expect(titles).toStrictEqual([`SamplingProfile One`, `SamplingProfile Two`])
   })
 
   test(`ignores H2 and H3 headings`, () => {
@@ -47,11 +47,11 @@ describe(`summaryLines`, () => {
 
   test(`returns first paragraph after each H1`, () => {
     const lines = summaryLines(dedent`
-      # Profile One
+      # SamplingProfile One
 
       Summary one.
 
-      # Profile Two
+      # SamplingProfile Two
 
       Summary two.
     `)
@@ -61,7 +61,7 @@ describe(`summaryLines`, () => {
 
   test(`skips H1 immediately followed by a heading`, () => {
     const lines = summaryLines(dedent`
-      # Profile One
+      # SamplingProfile One
 
       ## Subheading
 
@@ -87,7 +87,7 @@ describe(`categoryTables`, () => {
 
   test(`returns [] when H1 has no table`, () => {
     const tables = categoryTables(dedent`
-      # Profile
+      # SamplingProfile
 
       Just text.
     `)
@@ -97,7 +97,7 @@ describe(`categoryTables`, () => {
 
   test(`returns parsed rows from the table immediately after each H1`, () => {
     const tables = categoryTables(dedent`
-      # Profile
+      # SamplingProfile
 
       | Category | Count |
       | --- | --- |
@@ -109,7 +109,7 @@ describe(`categoryTables`, () => {
 
   test(`does not pick up a table under a sub-heading`, () => {
     const tables = categoryTables(dedent`
-      # Profile
+      # SamplingProfile
 
       ## Section
 
@@ -123,13 +123,13 @@ describe(`categoryTables`, () => {
 
   test(`multiple H1s each contribute one table`, () => {
     const tables = categoryTables(dedent`
-      # Profile A
+      # SamplingProfile A
 
       | Category | Count |
       | --- | --- |
       | A | 1 |
 
-      # Profile B
+      # SamplingProfile B
 
       | Category | Count |
       | --- | --- |

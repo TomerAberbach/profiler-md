@@ -8,21 +8,21 @@ import {
   isBaseURLInferableLocation,
 } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
-import { diffAggregatedProfiles } from '../modalities/profile/diff.ts'
-import {
-  formatProfile,
-  formatProfileDiff,
-} from '../modalities/profile/format.ts'
-import { ProfileAggregator } from '../modalities/profile/index.ts'
 import {
   entityLocation,
-  SnapshotAggregator,
-} from '../modalities/snapshot/aggregate.ts'
-import { diffAggregatedHeapSnapshots } from '../modalities/snapshot/diff.ts'
+  HeapSnapshotAggregator,
+} from '../modalities/heap-snapshot/aggregate.ts'
+import { diffAggregatedHeapSnapshots } from '../modalities/heap-snapshot/diff.ts'
 import {
   formatHeapSnapshot,
   formatHeapSnapshotDiff,
-} from '../modalities/snapshot/format.ts'
+} from '../modalities/heap-snapshot/format.ts'
+import { diffAggregatedSamplingProfiles } from '../modalities/sampling-profile/diff.ts'
+import {
+  formatSamplingProfile,
+  formatSamplingProfileDiff,
+} from '../modalities/sampling-profile/format.ts'
+import { SamplingProfileAggregator } from '../modalities/sampling-profile/index.ts'
 import type {
   AggregationProfileToMdOptions,
   AsyncProfileData,
@@ -330,10 +330,10 @@ const aggregateParsedInputs = (
 ): AggregatedInput[] => {
   const aggregators = parsed.map(input => {
     switch (input.type) {
-      case `profile`:
-        return new ProfileAggregator(input)
-      case `snapshot`:
-        return new SnapshotAggregator(input)
+      case `sampling-profile`:
+        return new SamplingProfileAggregator(input)
+      case `heap-snapshot`:
+        return new HeapSnapshotAggregator(input)
     }
   })
 
@@ -378,9 +378,9 @@ export const formatAggregatedInputs = (
   const formattingOptions = makeFormattingProfileToMdOptions(options, inputs)
   const contents = inputs.flatMap(input => {
     switch (input.type) {
-      case `profile`:
-        return formatProfile(input, formattingOptions)
-      case `snapshot`:
+      case `sampling-profile`:
+        return formatSamplingProfile(input, formattingOptions)
+      case `heap-snapshot`:
         return formatHeapSnapshot(input, formattingOptions)
     }
   })
@@ -413,24 +413,37 @@ const formatAggregatedDiff = (
   ])
   const contents = base.flatMap((baseInput, index) => {
     const currentInput = current[index]!
-    if (baseInput.type === `profile` && currentInput.type === `profile`) {
-      return formatProfileDiff(
-        diffAggregatedProfiles(baseInput, currentInput, formattingOptions),
+    if (
+      baseInput.type === `sampling-profile` &&
+      currentInput.type === `sampling-profile`
+    ) {
+      return formatSamplingProfileDiff(
+        diffAggregatedSamplingProfiles(
+          baseInput,
+          currentInput,
+          formattingOptions,
+        ),
         formattingOptions,
       )
     }
-    if (baseInput.type === `snapshot` && currentInput.type === `snapshot`) {
+    if (
+      baseInput.type === `heap-snapshot` &&
+      currentInput.type === `heap-snapshot`
+    ) {
       return formatHeapSnapshotDiff(
         diffAggregatedHeapSnapshots(baseInput, currentInput, formattingOptions),
         formattingOptions,
       )
     }
     throw new Error(
-      `cannot diff a ${baseInput.type} against a ${currentInput.type}`,
+      `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
     )
   })
   return toMarkdown(contents)
 }
+
+const modalityName = (type: ParsedInput[`type`]): string =>
+  type.replaceAll(`-`, ` `)
 
 const toMarkdown = (contents: RootContent[]): string =>
   mdastToMarkdown(
@@ -482,12 +495,12 @@ const collectOursInferableURLs = (
 
   for (const input of inputs) {
     switch (input.type) {
-      case `profile`:
+      case `sampling-profile`:
         for (const func of input.functions) {
           collect(func.category, func.location)
         }
         break
-      case `snapshot`:
+      case `heap-snapshot`:
         for (const entity of [...input.constructors, ...input.closures]) {
           collect(entity.category, entityLocation(entity))
         }

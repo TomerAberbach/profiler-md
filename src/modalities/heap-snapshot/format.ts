@@ -30,12 +30,12 @@ import type {
   AggregatedClosure,
   AggregatedConstructor,
   AggregatedHeapSnapshot,
-  AggregatedSnapshotNode,
+  AggregatedHeapSnapshotNode,
 } from './aggregate.ts'
 import type {
   AggregatedHeapSnapshotDiff,
-  AggregatedSnapshotEntityDiff,
-  DiffedSnapshotEntity,
+  AggregatedHeapSnapshotEntityDiff,
+  DiffedHeapSnapshotEntity,
 } from './diff.ts'
 import {
   categoryColumns,
@@ -251,7 +251,7 @@ const formatLargestConstructorInstances = ({
 }: {
   constructor: AggregatedConstructor
   snapshot: AggregatedHeapSnapshot
-  sizeOf: (node: AggregatedSnapshotNode) => number
+  sizeOf: (node: AggregatedHeapSnapshotNode) => number
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
@@ -286,8 +286,8 @@ const selectLargestInstancesByRetainerPath = ({
   retainerPathOf,
   topN,
 }: {
-  instances: AggregatedSnapshotNode[]
-  sizeOf: (instance: AggregatedSnapshotNode) => number
+  instances: AggregatedHeapSnapshotNode[]
+  sizeOf: (instance: AggregatedHeapSnapshotNode) => number
   retainerPathOf: (nodeOrdinal: number) => string
   topN: number
 }): InstanceGroup[] => {
@@ -424,9 +424,9 @@ const collectShownRetainedNodes = (
   closure: AggregatedClosure,
   retainedNodesOf: AggregatedHeapSnapshot[`retainedNodesOf`],
   options: FormattingProfileToMdOptions,
-): AggregatedSnapshotNode[] => {
+): AggregatedHeapSnapshotNode[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
-  const retainedNodes: AggregatedSnapshotNode[] = []
+  const retainedNodes: AggregatedHeapSnapshotNode[] = []
   for (const instanceId of closure.instanceIds) {
     for (const node of retainedNodesOf(instanceId, options)) {
       const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
@@ -601,14 +601,14 @@ const formatDiffSizeConstructors = ({
     options,
   )
 
-  const sideRowOf = (total: number, entity?: DiffedSnapshotEntity) =>
+  const sideRowOf = (total: number, entity?: DiffedHeapSnapshotEntity) =>
     entity && {
       entity,
       size: sizeOf(entity),
       total,
       instanceCount: entity.instanceCount,
     }
-  const rowOf = ({ base, current }: AggregatedSnapshotEntityDiff) => ({
+  const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
     base: sideRowOf(diff.base.totalSize, base),
     current: sideRowOf(diff.current.totalSize, current),
   })
@@ -643,7 +643,7 @@ const formatDiffClosures = ({
     options,
   )
 
-  const rowOf = ({ base, current }: AggregatedSnapshotEntityDiff) => ({
+  const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
     base: base && closureRowOf(base, diff.base, options),
     current: current && closureRowOf(current, diff.current, options),
   })
@@ -662,7 +662,7 @@ const formatDiffClosures = ({
 
 /** Resolves a diffed closure entity's row using one side's snapshot. */
 const closureRowOf = (
-  entity: DiffedSnapshotEntity,
+  entity: DiffedHeapSnapshotEntity,
   { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
 ): ClosureRow => ({
@@ -692,7 +692,7 @@ const formatDiffStrings = ({
     options,
   )
 
-  const rowOf = ({ base, current }: AggregatedSnapshotEntityDiff) => ({
+  const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
     base: base && nodeRowOf(base, diff.base, options),
     current: current && nodeRowOf(current, diff.current, options),
   })
@@ -712,7 +712,7 @@ const formatDiffStrings = ({
 
 /** Resolves a diffed node entity's row using one side's snapshot. */
 const nodeRowOf = (
-  entity: DiffedSnapshotEntity,
+  entity: DiffedHeapSnapshotEntity,
   { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
 ): NodeRow => ({

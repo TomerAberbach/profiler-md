@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   selfSizeTables,
   totalSizeTables,
-} from '../../../modalities/snapshot/testing.ts'
+} from '../../../modalities/heap-snapshot/testing.ts'
 import {
   defaultShowEntry,
   normalizeProfileToMdOptions,

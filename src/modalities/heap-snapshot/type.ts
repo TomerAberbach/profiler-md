@@ -9,7 +9,7 @@ import type { NodeAdjacencyGraph } from './graph.ts'
  * A format that yields several snapshots returns one of these per snapshot.
  */
 export type HeapSnapshot = {
-  type: `snapshot`
+  type: `heap-snapshot`
 
   /** Number of nodes in the snapshot. */
   nodeCount: number
@@ -27,7 +27,7 @@ export type HeapSnapshot = {
    * One entry per node ordinal, in ordinal order, as a lazily-consumed
    * iterable.
    */
-  nodes: Iterable<SnapshotNode>
+  nodes: Iterable<HeapSnapshotNode>
 
   /**
    * Formats an edge label, which is computed lazily at formatting time, so it
@@ -55,10 +55,10 @@ export type HeapSnapshot = {
 /**
  * A heap snapshot node's classification.
  *
- * Every node contributes to its {@link SnapshotNode.category}'s stats; a node
+ * Every node contributes to its {@link HeapSnapshotNode.category}'s stats; a node
  * with a `type` additionally aggregates into that type's entities.
  */
-export type SnapshotNode = { category: string } & (
+export type HeapSnapshotNode = { category: string } & (
   | { type?: undefined }
   | {
       type: `constructor`

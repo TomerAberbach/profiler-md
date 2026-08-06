@@ -9,11 +9,11 @@ import {
   summaryLines,
 } from '../../testing.ts'
 import { determineMetric, MEGABYTES, MICROSECONDS } from '../metric.ts'
-import { diffAggregatedProfiles } from './diff.ts'
-import { formatProfile, formatProfileDiff } from './format.ts'
+import { diffAggregatedSamplingProfiles } from './diff.ts'
+import { formatSamplingProfile, formatSamplingProfileDiff } from './format.ts'
 import {
   callStackTables,
-  makeAggregatedProfile,
+  makeAggregatedSamplingProfile,
   totalTimeTables,
 } from './testing.ts'
 
@@ -22,9 +22,9 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 /** The gperftools in-use metric, all zeros when nothing was live at dump time. */
 const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
 
-describe(`formatProfile`, () => {
+describe(`formatSamplingProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -56,7 +56,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -75,7 +75,7 @@ describe(`formatProfile`, () => {
     // default filter hides external implementation details (extLeaf, called
     // only by stdlib) but must keep extMid: it's the external API surface ours
     // code calls directly, even though it has zero self samples.
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -94,7 +94,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(totalTimeTables(md)).toEqual([
       [
@@ -121,7 +121,7 @@ describe(`formatProfile`, () => {
     // Two stacks share the visible suffix extApi ← main but end in different
     // hidden stdlib leaves. Without merging they'd render as two identical
     // rows, each carrying only its own slice of the value.
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -146,7 +146,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -165,7 +165,7 @@ describe(`formatProfile`, () => {
     // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
     // default filter would hide everything, emptying the body, so it is
     // disabled with a note instead.
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -178,7 +178,7 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -196,7 +196,7 @@ describe(`formatProfile`, () => {
   })
 
   test(`shows all functions when a custom showEntry would hide every one`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         { name: `funcA`, selfSampleCount: 5, selfValues: [300], stack: [0, 1] },
@@ -208,7 +208,7 @@ describe(`formatProfile`, () => {
       showEntry: () => false,
     })
 
-    const md = mdastToMarkdown(formatProfile(profile, options))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -226,7 +226,7 @@ describe(`formatProfile`, () => {
   })
 
   test(`notes a metric with no recorded values in place of its sections`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
@@ -238,14 +238,14 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
   })
 
   test(`notes a single metric with no recorded values in place of all sections`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [RETAINED_BYTES],
       [
         {
@@ -257,16 +257,16 @@ describe(`formatProfile`, () => {
       ],
     )
 
-    const md = mdastToMarkdown(formatProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
 
     expect(md).toContain(`No bytes retained in any sample.`)
     expect(md).not.toContain(`Hottest`)
   })
 })
 
-describe(`formatProfileDiff`, () => {
+describe(`formatSamplingProfileDiff`, () => {
   test(`produces expected title`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -277,7 +277,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -289,14 +289,14 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     expect(profileTitles(md)).toEqual([`CPU profile diff`])
   })
 
   test(`includes base and current summary lines`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -307,7 +307,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -319,8 +319,8 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     const lines = summaryLines(md)
     expect(lines).toHaveLength(1)
@@ -329,7 +329,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`includes category table with delta and change`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -340,7 +340,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -352,8 +352,8 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toEqual([
       [
@@ -370,7 +370,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`lists regressions and improvements per direction`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -389,7 +389,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -409,8 +409,8 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
     // (improvement). funcA and funcB are leaves, so self and total match.
@@ -456,7 +456,7 @@ describe(`formatProfileDiff`, () => {
     // FuncB exists only in the base profile and funcC only in the current
     // profile, so they have the same profile-local function ID; hiding funcB
     // must not hide funcC.
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -475,7 +475,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -499,8 +499,8 @@ describe(`formatProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, options))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
     expect(regressionsTables(md, `Self time`)).toEqual([
@@ -529,7 +529,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -542,8 +542,12 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(
+      profile,
+      profile,
+      defaultOptions,
+    )
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     // The unchanged total reads as a measurement, so it omits the change suffix
     // a zero delta would otherwise produce.
@@ -579,7 +583,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS],
       [
         {
@@ -606,15 +610,19 @@ describe(`formatProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, options))
+    const diff = diffAggregatedSamplingProfiles(
+      profile,
+      profile,
+      defaultOptions,
+    )
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## Hottest functions$/mu)
     expect(md).not.toContain(`No function differed`)
   })
 
   test(`notes the unchanged metric while detailing the changed one in a multi-metric diff`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
@@ -627,7 +635,7 @@ describe(`formatProfileDiff`, () => {
       ],
     )
     // Only the CPU metric changes; the heap metric is identical on both sides.
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
@@ -640,8 +648,8 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
@@ -655,7 +663,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {
-    const base = makeAggregatedProfile(
+    const base = makeAggregatedSamplingProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
@@ -666,7 +674,7 @@ describe(`formatProfileDiff`, () => {
         },
       ],
     )
-    const current = makeAggregatedProfile(
+    const current = makeAggregatedSamplingProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
@@ -678,8 +686,8 @@ describe(`formatProfileDiff`, () => {
       ],
     )
 
-    const diff = diffAggregatedProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
@@ -687,7 +695,7 @@ describe(`formatProfileDiff`, () => {
   })
 
   test(`omits a metric's heading when hidden entries leave it without sections`, () => {
-    const profile = makeAggregatedProfile(
+    const profile = makeAggregatedSamplingProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
@@ -712,8 +720,12 @@ describe(`formatProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedProfiles(profile, profile, defaultOptions)
-    const md = mdastToMarkdown(formatProfileDiff(diff, options))
+    const diff = diffAggregatedSamplingProfiles(
+      profile,
+      profile,
+      defaultOptions,
+    )
+    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)

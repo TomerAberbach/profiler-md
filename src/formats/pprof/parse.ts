@@ -2,12 +2,12 @@ import { Profile as PprofProto } from 'pprof-format'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type {
-  Profile,
-  ProfileStackFrame,
   Sample,
-} from '../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../modalities/sampling-profile/index.ts'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 
-export const parsePprof = (bytes: Uint8Array): Profile[] => {
+export const parsePprof = (bytes: Uint8Array): SamplingProfile[] => {
   const profile = PprofProto.decode(bytes)
   const string = makeStringReader(profile)
 
@@ -33,7 +33,7 @@ export const parsePprof = (bytes: Uint8Array): Profile[] => {
 
   return [
     {
-      type: `profile`,
+      type: `sampling-profile`,
       ...(originHint && { originHint }),
       frames,
       metrics,
@@ -119,11 +119,11 @@ const parseFunctionStackFrames = (
   profile: PprofProto,
   string: StringReader,
 ): {
-  frames: ProfileStackFrame[]
+  frames: StackFrame[]
   frameIndexByFunctionId: Map<number | bigint, number>
 } => {
   const frameIndexByFunctionId = new Map<number | bigint, number>()
-  const frames: ProfileStackFrame[] = []
+  const frames: StackFrame[] = []
   for (const func of profile.function) {
     frameIndexByFunctionId.set(func.id, frames.length)
     frames.push({

@@ -1,9 +1,9 @@
 import { MICROSECONDS } from '../../../modalities/metric.ts'
 import type {
-  Profile,
   Sample,
   SampleLineMetrics,
-} from '../../../modalities/profile/index.ts'
+  SamplingProfile,
+} from '../../../modalities/sampling-profile/index.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -50,7 +50,7 @@ export type V8CpuProfileNode = {
   }[]
 }
 
-export const parseV8CpuProfile = (profile: V8CpuProfile): Profile[] => {
+export const parseV8CpuProfile = (profile: V8CpuProfile): SamplingProfile[] => {
   const idToIndex = reindexNodes(profile)
   const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
 
@@ -64,7 +64,7 @@ export const parseV8CpuProfile = (profile: V8CpuProfile): Profile[] => {
 
   return [
     {
-      type: `profile`,
+      type: `sampling-profile`,
       frames,
       metrics: [MICROSECONDS],
       samples: cpuSamples(

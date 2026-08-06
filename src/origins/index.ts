@@ -1,7 +1,7 @@
 import { formatConverters } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import type { ProfileStackFrame } from '../modalities/profile/type.ts'
+import type { StackFrame } from '../modalities/stack-frame.ts'
 import type {
   EntryCategory,
   EntryMatch,
@@ -27,12 +27,12 @@ export const categorizeEntryForOrigin = (
   origin: Origin,
 ): EntryCategory => originToSpec.get(origin)!.categorizeEntry(entry)
 
-export const categorizeSnapshotConstructorForOrigin = (
+export const categorizeHeapSnapshotConstructorForOrigin = (
   name: string,
   origin: Origin,
 ): string | undefined => {
   const spec: OriginSpec = originToSpec.get(origin)!
-  return spec.categorizeSnapshotConstructor?.(name)
+  return spec.categorizeHeapSnapshotConstructor?.(name)
 }
 
 export const matchEntryForOrigin = (
@@ -44,9 +44,9 @@ export const matchEntryForOrigin = (
 }
 
 export const normalizeStackFrameForContext = (
-  frame: ProfileStackFrame,
+  frame: StackFrame,
   { format, origin }: ProfileToMdContext,
-): ProfileStackFrame | null => {
+): StackFrame | null => {
   const spec: OriginSpec = originToSpec.get(origin)!
   const normalizedFrame = spec.normalizeStackFrame
     ? spec.normalizeStackFrame(frame, format)

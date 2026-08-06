@@ -41,7 +41,7 @@ export const chromeOriginSpec = {
     v8JavaScriptCategory(entry) ??
     protocolCategory(entry, `third-party`, [EXTENSION_PROTOCOL]) ??
     `ours`,
-  categorizeSnapshotConstructor: javaScriptConstructorCategory,
+  categorizeHeapSnapshotConstructor: javaScriptConstructorCategory,
 } as const satisfies OriginSpec
 
 /** The protocol a browser extension's injected scripts load from. */

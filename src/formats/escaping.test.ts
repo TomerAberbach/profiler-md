@@ -5,7 +5,7 @@ import { profileToMd } from '../index.ts'
 import {
   selfTimeTables,
   totalTimeTables,
-} from '../modalities/profile/testing.ts'
+} from '../modalities/sampling-profile/testing.ts'
 import { categoryTables } from '../testing.ts'
 
 /**

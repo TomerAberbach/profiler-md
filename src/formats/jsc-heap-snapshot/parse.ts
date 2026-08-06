@@ -1,9 +1,9 @@
-import { computeStartOffsets } from '../../modalities/snapshot/index.ts'
+import { computeStartOffsets } from '../../modalities/heap-snapshot/index.ts'
 import type {
   HeapSnapshot,
+  HeapSnapshotNode,
   NodeAdjacencyGraph,
-  SnapshotNode,
-} from '../../modalities/snapshot/index.ts'
+} from '../../modalities/heap-snapshot/index.ts'
 
 /**
  * @see https://github.com/WebKit/WebKit/blob/main/Source/JavaScriptCore/heap/HeapSnapshotBuilder.cpp
@@ -66,7 +66,7 @@ export const parseJSCHeapSnapshot = (
 
   return [
     {
-      type: `snapshot`,
+      type: `heap-snapshot`,
       nodeCount,
       edgeCount: nodeAdjacencyGraph.offsetToSuccessorOrdinal.length,
       nodeAdjacencyGraph,
@@ -98,7 +98,7 @@ const isInternalNode = (
 function* jscSnapshotNodes({
   nodes,
   nodeClassNames,
-}: JSCHeapSnapshot): Iterable<SnapshotNode> {
+}: JSCHeapSnapshot): Iterable<HeapSnapshotNode> {
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const stringClassNameIndex = nodeClassNames.indexOf(`string`)
 
