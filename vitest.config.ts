@@ -116,7 +116,7 @@ export const projects = [
 
 export default defineConfig({
   test: {
-    environment: `jsdom`,
+    environment: `node`,
     exclude: [...configDefaults.exclude, `.claude/worktrees/**`],
     projects,
     coverage: {
