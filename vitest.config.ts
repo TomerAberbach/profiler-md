@@ -117,6 +117,11 @@ export const projects = [
 export default defineConfig({
   test: {
     environment: `node`,
+    // Threads over the default forks pool, without per-file isolation. No test
+    // mutates module or global state, so a fresh worker and module graph per
+    // test file would only slow the run.
+    pool: `threads`,
+    isolate: false,
     exclude: [...configDefaults.exclude, `.claude/worktrees/**`],
     projects,
     coverage: {
