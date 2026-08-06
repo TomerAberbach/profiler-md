@@ -181,11 +181,10 @@ an unstripped build instead.
 
 Modern toolchains link with `--as-needed` by default, which drops
 `-lprofiler`/`-ltcmalloc` when your program references no symbol from them,
-exactly the case when you enable profiling through the environment variables
-instead of the programmatic API. Force the link with `-Wl,--no-as-needed`, or
-preload the library at runtime with `LD_PRELOAD`. The programmatic API
-(`ProfilerStart`, etc.) references the symbols, so plain
-`-lprofiler`/`-ltcmalloc` works there.
+exactly the case when you enable profiling through environment variables instead
+of the programmatic API. Force the link with `-Wl,--no-as-needed`, or preload
+the library at runtime with `LD_PRELOAD`. The programmatic API (`ProfilerStart`,
+etc.) references the symbols, so plain `-lprofiler`/`-ltcmalloc` works there.
 
 ### Converting
 
