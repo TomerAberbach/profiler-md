@@ -375,9 +375,10 @@ const computeNodeOrdinalToLocation = (
     fieldLayout,
   )
 
-  const nodeOrdinalToLocation = Array.from<SourceLocation>({
-    length: nodeCount,
-  })
+  // `new Array` over `Array.from({ length })`: the latter runs the iteration
+  // protocol per element, too slow at heap snapshot node counts.
+  // eslint-disable-next-line unicorn/no-new-array
+  const nodeOrdinalToLocation = new Array<SourceLocation>(nodeCount)
   // Cache `FileReference` per file path to avoid repeated construction.
   const fileLocationToRef = new Map<string, FileReference | null>()
   for (
