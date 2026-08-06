@@ -22,12 +22,15 @@ const PROJECT_INPUT_BYTES = 64 * 1024 * 1024
 
 const inputDirectory = path.join(import.meta.dirname, `examples/input`)
 
+type InputFile = { filename: string; bytes: number }
+
 /**
- * The inputs of one example across its variants, which stay in one project:
- * tests that take only the `base` variant would otherwise land in a project
- * holding just its `current`.
+ * The inputs of one example across its variants. Variants stay in one project
+ * while the example fits the project budget, so the `base`-only suites run
+ * beside the per-input ones. An oversized example splits per variant, because
+ * its suites would otherwise run one at a time in a single worker.
  */
-type VariantGroup = { filenames: string[]; bytes: number }
+type VariantGroup = { files: InputFile[]; bytes: number }
 
 /** Groups every committed input by its format and then by its example. */
 const readVariantGroupsByFormat = (): Map<Format, VariantGroup[]> => {
@@ -36,9 +39,10 @@ const readVariantGroupsByFormat = (): Map<Format, VariantGroup[]> => {
     const { format, language, origin, config } = parseExampleFilename(filename)
     const groups = groupsByFormat.get(format) ?? new Map<string, VariantGroup>()
     const key = [language, origin, config].join(`.`)
-    const group = groups.get(key) ?? { filenames: [], bytes: 0 }
-    group.filenames.push(filename)
-    group.bytes += statSync(path.join(inputDirectory, filename)).size
+    const group = groups.get(key) ?? { files: [], bytes: 0 }
+    const bytes = statSync(path.join(inputDirectory, filename)).size
+    group.files.push({ filename, bytes })
+    group.bytes += bytes
     groups.set(key, group)
     groupsByFormat.set(format, groups)
   }
@@ -57,31 +61,41 @@ const variantGroupsByFormat = readVariantGroupsByFormat()
  * Splits variant groups into byte-balanced partitions, assigning the largest
  * group first to the smallest partition so a late huge group can't unbalance
  * the totals. Conversion cost tracks input size closely enough within a format
- * to balance on bytes. A group never splits, so a format yields at most one
- * partition per group.
+ * to balance on bytes. A group splits only when it alone exceeds the project
+ * budget, so a format yields at most one partition per input file.
  */
-const partitionVariantGroups = (variantGroups: VariantGroup[]): string[][] => {
-  const totalBytes = variantGroups.reduce((sum, { bytes }) => sum + bytes, 0)
+const partitionVariantGroups = (
+  variantGroups: VariantGroup[],
+): { inputs: string[]; bytes: number }[] => {
+  const groups = variantGroups.flatMap(group =>
+    group.bytes > PROJECT_INPUT_BYTES && group.files.length > 1
+      ? group.files.map(file => ({ files: [file], bytes: file.bytes }))
+      : [group],
+  )
+
+  const totalBytes = groups.reduce((sum, { bytes }) => sum + bytes, 0)
   const partitionCount = Math.min(
     Math.max(Math.ceil(totalBytes / PROJECT_INPUT_BYTES), 1),
-    Math.max(variantGroups.length, 1),
+    Math.max(groups.length, 1),
   )
 
   const partitions = Array.from({ length: partitionCount }, () => ({
     bytes: 0,
     filenames: [] as string[],
   }))
-  for (const { filenames, bytes } of [...variantGroups].sort(
+  for (const { files, bytes } of [...groups].sort(
     (group1, group2) => group2.bytes - group1.bytes,
   )) {
     const smallest = partitions.reduce((smallest, partition) =>
       partition.bytes < smallest.bytes ? partition : smallest,
     )
     smallest.bytes += bytes
-    smallest.filenames.push(...filenames)
+    smallest.filenames.push(...files.map(({ filename }) => filename))
   }
 
-  return partitions.map(({ filenames }) => filenames)
+  return partitions
+    .map(({ filenames, bytes }) => ({ inputs: filenames, bytes }))
+    .filter(({ inputs }) => inputs.length > 0)
 }
 
 /**
@@ -92,26 +106,36 @@ const formatProjects = (format: Format) => {
   const partitions = partitionVariantGroups(
     variantGroupsByFormat.get(format) ?? [],
   )
-  return partitions.map((inputs, index) => ({
-    extends: true as const,
-    test: {
-      name: partitions.length > 1 ? `${format}-${index + 1}` : format,
-      include: inputProcessingFiles,
-      provide: { format, inputs },
+  return partitions.map(({ inputs, bytes }, index) => ({
+    bytes,
+    project: {
+      extends: true as const,
+      test: {
+        name: partitions.length > 1 ? `${format}-${index + 1}` : format,
+        include: inputProcessingFiles,
+        provide: { format, inputs },
+        // A partition holding only `current` variants registers no tests in
+        // `src/formats/index.test.ts`, whose suites take each example's `base`.
+        passWithNoTests: true,
+      },
     },
   }))
 }
 
 /**
  * The `unit` project runs every input-independent test, since it's the only one
- * without an `include` filter.
+ * without an `include` filter. Input projects follow largest first, so the
+ * longest-running partitions start while workers are free.
  */
 export const projects = [
   {
     extends: true as const,
     test: { name: `unit`, provide: { inputs: [] as string[] } },
   },
-  ...formats.flatMap(format => formatProjects(format)),
+  ...formats
+    .flatMap(format => formatProjects(format))
+    .sort((project1, project2) => project2.bytes - project1.bytes)
+    .map(({ project }) => project),
 ]
 
 export default defineConfig({
