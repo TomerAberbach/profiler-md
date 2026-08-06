@@ -58,7 +58,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
 
   readonly #strings: AggregatedHeapSnapshotNode[] = []
 
-  readonly #entities: (AggregatedConstructor | AggregatedClosure)[]
   readonly #entries: ProfileEntry[]
 
   public constructor(snapshot: HeapSnapshot) {
@@ -116,8 +115,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       nodeOrdinal++
     }
 
-    this.#entities = [...this.#constructors, ...this.#closures]
-    this.#entries = this.#entities.map(entity => ({
+    this.#entries = [...this.#constructors, ...this.#closures].map(entity => ({
       id: entity.id,
       name: entity.name,
       location: entityLocation(entity),
@@ -152,9 +150,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         name,
         nameLocation,
         location,
-        // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link HeapSnapshotAggregator.aggregate}).
-        category: ``,
         selfSize: 0,
         retainedSize: 0,
         instances: [],
@@ -195,9 +190,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         id: nodeOrdinal,
         name,
         location,
-        // Categories are assigned after aggregation, in one pass over the full
-        // set of entities (see {@link HeapSnapshotAggregator.aggregate}).
-        category: ``,
         selfSize: 0,
         retainedSize: 0,
         largestInstanceId: nodeOrdinal,
@@ -232,16 +224,6 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedHeapSnapshot {
-    // Categorization runs after structural aggregation so it sees the full set
-    // of entities (the heap snapshot analog of the sampling profile pipeline's
-    // categorization; see {@link SamplingProfileAggregator}). Each entry's location
-    // falls back to its URL-shaped name (e.g. a V8 module namespace object) so
-    // those categorize by location too.
-    const categories = options.categorizeEntries(this.#entries, context)
-    for (let i = 0; i < this.#entities.length; i++) {
-      this.#entities[i]!.category = categories[i]!
-    }
-
     attributeCategoryRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
@@ -533,9 +515,6 @@ export type AggregatedConstructor = AggregatedHeapSnapshotNode & {
   /** A human readable label for this constructor. */
   name: string
 
-  /** The category of code this constructor belongs to. */
-  category: string
-
   /** Instances of this constructor and their sizes. */
   instances: AggregatedHeapSnapshotNode[]
 }
@@ -543,9 +522,6 @@ export type AggregatedConstructor = AggregatedHeapSnapshotNode & {
 export type AggregatedClosure = AggregatedHeapSnapshotNode & {
   /** A human readable label for this closure. */
   name: string
-
-  /** The category of code this closure belongs to. */
-  category: string
 
   /** Node ordinal of the instance with the largest individual retained size. */
   largestInstanceId: number

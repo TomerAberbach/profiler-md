@@ -17,8 +17,8 @@ import type { Origin } from './index.ts'
 vi.setConfig({ testTimeout: 125_000 })
 
 /**
- * Echoes each input's resolved origin as the category of every entry, so a
- * profile's origin is observable through its entry categories.
+ * Echoes a profile's resolved origin as the category of every entry, so the
+ * origin `categorizeEntries` received is observable in the categories.
  */
 const echoOriginOptions = (): NormalizedProfileToMdOptions =>
   normalizeProfileToMdOptions({
@@ -38,21 +38,19 @@ if (inputFilenames.length > 0) {
     test.each(inputFilenames)(
       `%s resolves to its profiler's origin`,
       filename => {
-        const inputs = aggregateInput(readInput(filename), echoOriginOptions())
+        const inputs = aggregateInput(
+          readInput(filename),
+          normalizeProfileToMdOptions(),
+        )
 
-        // A modality is a property of each aggregated input, not of the format,
-        // so the test covers every committed input, asserting on each
-        // profile's functions and each snapshot's entities.
+        // A multi-profile input aggregates each profile under its own
+        // context, so each must resolve to the filename's origin. An input
+        // holding no profiling data aggregates to nothing and has no origin
+        // to check.
         const { origin } = parseExampleFilename(filename)
-        const unexpectedOrigins = inputs.flatMap(input => {
-          const entities =
-            input.type === `sampling-profile`
-              ? input.functions
-              : [...input.constructors, ...input.closures]
-          return entities
-            .map(entity => entity.category)
-            .filter(category => category !== origin)
-        })
+        const unexpectedOrigins = inputs
+          .map(input => input.context.origin)
+          .filter(resolved => resolved !== origin)
         expect(new Set(unexpectedOrigins)).toEqual(new Set())
       },
     )

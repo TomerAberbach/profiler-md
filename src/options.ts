@@ -118,11 +118,8 @@ export type ProfileToMdOptions = {
    * `file://` URLs internally.
    *
    * A value of `'auto'` infers the base URL as the common ancestor directory
-   * of the input's `ours`-categorized entries with absolute locations (`file:`,
-   * `http(s):`, etc.), across all profiles of an input and across both sides
-   * of a diff. When those locations span multiple protocol/host origins, the
-   * origin with the most entries wins. Falls back to absolute paths when no
-   * entry qualifies.
+   * of the input's entries with absolute locations (`file:`, `http(s):`, etc.),
+   * across all profiles of an input and across both sides of a diff.
    *
    * A value of `null` leaves URLs absolute.
    *
@@ -173,6 +170,9 @@ export type ProfileToMdOptions = {
    * Called once per profile with all its {@link entries}. Receiving every entry
    * up front lets the categorizer decide from the full set rather than per
    * entry in isolation.
+   *
+   * Doesn't apply to heap snapshots because they record their own node
+   * categories.
    *
    * Defaults to {@link defaultCategorizeEntries}.
    */
