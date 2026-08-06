@@ -375,9 +375,6 @@ const computeNodeOrdinalToLocation = (
     fieldLayout,
   )
 
-  // `new Array` over `Array.from({ length })`: the latter runs the iteration
-  // protocol per element, too slow at heap snapshot node counts.
-  // eslint-disable-next-line unicorn/no-new-array
   const nodeOrdinalToLocation = new Array<SourceLocation>(nodeCount)
   // Cache `FileReference` per file path to avoid repeated construction.
   const fileLocationToRef = new Map<string, FileReference | null>()

@@ -1155,9 +1155,6 @@ class ChunkResolver {
 
     // Merge identical stacks that recur across chunks by their resolved
     // (global) method indices and leaf line.
-    // `new Array` over `Array.from({ length })`: the latter runs the iteration
-    // protocol per element, too slow for a call that runs per stack.
-    // eslint-disable-next-line unicorn/no-new-array
     const methodIds = new Array<number>(frameCount)
     for (let i = 0; i < frameCount; i++) {
       methodIds[i] = this.#resolveMethod(

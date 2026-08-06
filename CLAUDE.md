@@ -229,6 +229,8 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Prioritize runtime performance so large profiles process quickly
 - Use low overhead abstractions
 - NEVER use more than `O(n)` memory for a profile of size `n`
+- Preallocate an array of known length with `new Array(length)`, not
+  `Array.from({ length })`, which runs the iteration protocol per element
 
 ### Parsing
 
