@@ -1,5 +1,10 @@
 import { expect, test } from 'vitest'
-import { maybeJson, maybeJsonAsync } from './json.ts'
+import {
+  maybeJson,
+  maybeJsonAsync,
+  startsJsonDocument,
+  startsJsonDocumentAsync,
+} from './json.ts'
 
 test.each([
   [`{"a":1}`, true],
@@ -63,5 +68,54 @@ test.each([
   `maybeJsonAsync reports the blob %j as maybe-JSON: %s`,
   async (input, expected) => {
     await expect(maybeJsonAsync(new Blob([input]))).resolves.toBe(expected)
+  },
+)
+
+test.each([
+  [`{"a":1}`, true],
+  [`[1,2]`, true],
+  [` \t\r\n{"a":1}`, true],
+  [`"text"`, false],
+  [`true`, false],
+  [`null`, false],
+  [`9`, false],
+  [`-42`, false],
+  [`hello`, false],
+  [``, false],
+  [`${` `.repeat(5000)}{"a":1}`, false],
+])(
+  `startsJsonDocument reports %j as a JSON document: %s`,
+  (input, expected) => {
+    expect(startsJsonDocument(input)).toBe(expected)
+    expect(startsJsonDocument(new TextEncoder().encode(input))).toBe(expected)
+  },
+)
+
+test.each([
+  [`{"a":1}`, true],
+  [`true`, false],
+])(
+  `startsJsonDocument skips a UTF-8 byte order mark before %j and reports a JSON document: %s`,
+  (input, expected) => {
+    const bytes = new Uint8Array([
+      0xef,
+      0xbb,
+      0xbf,
+      ...new TextEncoder().encode(input),
+    ])
+
+    expect(startsJsonDocument(bytes)).toBe(expected)
+  },
+)
+
+test.each([
+  [`[1]`, true],
+  [`true`, false],
+])(
+  `startsJsonDocumentAsync reports the blob %j as a JSON document: %s`,
+  async (input, expected) => {
+    await expect(startsJsonDocumentAsync(new Blob([input]))).resolves.toBe(
+      expected,
+    )
   },
 )

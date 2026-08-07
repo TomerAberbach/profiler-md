@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { formatConverters } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
 import { getHelpText, helpTopics } from './cli.ts'
+import { CliError } from './error.ts'
 import { highlightMarkdown } from './highlight.ts'
 import {
   languageAliasToPrimary,
@@ -32,10 +33,10 @@ export const printHelpTopic = async (
     formatConverters as Partial<typeof formatConverters>
   )[topic as Format]
   if (!language && !formatConverter) {
-    process.stderr.write(
-      `error: unknown topic "${topic}"\nAvailable topics: ${helpTopics.join(`, `)}\n`,
+    throw new CliError(
+      `--help: expected one of ${helpTopics.join(`, `)}, got: ${topic}`,
+      2,
     )
-    process.exit(2)
   }
 
   const docURL = new URL(

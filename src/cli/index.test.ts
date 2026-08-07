@@ -297,7 +297,21 @@ if (format === undefined) {
       scenario: `stdin with unrecognizable content`,
       args: [],
       input: `{}`,
-      expectedStderr: `Could not detect profile format`,
+      expectedStderr: `could not detect the profile format`,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `stdin with a truncated JSON profile`,
+      args: [],
+      input: `{"nodes": [`,
+      expectedStderr: `the input reads as JSON but failed to parse`,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `stdin with an unsupported systing export`,
+      args: [],
+      input: `{"systing_profile_export": 2}\n`,
+      expectedStderr: `systing: unsupported version 2, expected 1`,
       expectedStatus: 1,
     },
     {
@@ -309,13 +323,13 @@ if (format === undefined) {
     {
       scenario: `nonexistent file`,
       args: [`nonexistent.cpuprofile`],
-      expectedStderr: `no such file: nonexistent.cpuprofile`,
+      expectedStderr: `cannot read nonexistent.cpuprofile: no such file`,
       expectedStatus: 1,
     },
     {
       scenario: `directory instead of a file`,
       args: [inputPath()],
-      expectedStderr: `is a directory, expected a file`,
+      expectedStderr: `is a directory`,
       expectedStatus: 1,
     },
     {
@@ -346,7 +360,7 @@ if (format === undefined) {
     {
       scenario: `--match with an invalid regex`,
       args: [inputPath(`javascript.node.base.cpuprofile`), `--match`, `[=x`],
-      expectedStderr: `Invalid --match regex`,
+      expectedStderr: `expected a valid regex`,
       expectedStatus: 2,
     },
     {

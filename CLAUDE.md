@@ -233,6 +233,29 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Name a discriminated union's discriminant `type`, never `kind`. This does not
   apply to a categorical field that merely names a variant on a non-union type
 
+### Errors
+
+- Choose the class by who caused the failure: `ProfilerMdError` for the caller's
+  input or options, its `CliError` subclass for a CLI-only failure (file access,
+  output, flags), and a plain `Error` for a violated invariant, which is a bug.
+  NEVER throw another built-in subclass such as `TypeError`, which nothing
+  treats differently
+- Pass `{ cause }` when wrapping a caught error. NEVER flatten it to its
+  `message`
+- A converter's `parse` throws a `FormatParseError` stating the reason alone,
+  and the conversion pipeline prefixes the format's title. Write `matches` to
+  accept anything of the format, including a version or variant the parser
+  rejects, so auto-detection reports that reason instead of an undetectable
+  input
+- Write a message as `<what failed>: <detail>`, or as a single clause when there
+  is no useful prefix. Put the offending value last, after `got: `.
+  `eslint-rules/error-message.js` checks the remaining wording conventions
+- Name what the caller controls (a flag, an option, a file path), never an
+  internal function. An invariant message is the exception, since only a
+  maintainer reads it
+- Derive a format or origin name from the registry (e.g. `FormatMeta.title`),
+  never a string literal
+
 ### Performance
 
 - Prioritize runtime performance so large profiles process quickly

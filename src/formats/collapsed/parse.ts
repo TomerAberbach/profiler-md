@@ -4,6 +4,7 @@ import type {
   SamplingProfile,
 } from '../../modalities/sampling-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { FormatParseError } from '../error.ts'
 
 export const parseCollapsed = (bytes: Uint8Array): SamplingProfile[] => {
   const builder = new CollapsedProfileBuilder()
@@ -172,12 +173,12 @@ export const parseCollapsedLine = (
 
   const lastSpace = line.lastIndexOf(` `)
   if (lastSpace === -1) {
-    throw new Error(`Not a collapsed stack profile: missing sample count`)
+    throw new FormatParseError(`missing sample count`)
   }
 
   const countText = line.slice(lastSpace + 1)
   if (!/^\d+$/u.test(countText)) {
-    throw new Error(`Not a collapsed stack profile: invalid sample count`)
+    throw new FormatParseError(`invalid sample count`)
   }
 
   // Trim extra separator whitespace so a count padded with multiple spaces

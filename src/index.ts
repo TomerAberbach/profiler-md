@@ -5,6 +5,7 @@ export {
   diffProfilesAsync,
 } from './formats/index.ts'
 export type { Format } from './formats/index.ts'
+export { ProfilerMdError } from './error.ts'
 export {
   defaultCategorizeEntries,
   defaultMatchEntry,

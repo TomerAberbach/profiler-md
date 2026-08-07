@@ -34,7 +34,7 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
     if (index === -1) {
       return {
         success: false,
-        error: message`Invalid --match ${value(input)}: expected REGEX=REPLACEMENT.`,
+        error: message`expected REGEX=REPLACEMENT, got: ${value(input)}`,
       }
     }
 
@@ -45,9 +45,9 @@ const regexReplacement = (): ValueParser<`sync`, RegexReplacement> => ({
     } catch (error) {
       return {
         success: false,
-        error: message`Invalid --match regex ${value(pattern)}: ${text(
+        error: message`expected a valid regex, got: ${value(pattern)} (${text(
           error instanceof Error ? error.message : String(error),
-        )}.`,
+        )})`,
       }
     }
   },

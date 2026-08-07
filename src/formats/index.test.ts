@@ -16,6 +16,7 @@ import {
   regressionsTables,
 } from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
+import { FormatDetectError } from './error.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
@@ -463,17 +464,72 @@ describe(`profileToMd`, () => {
       )
     })
 
-    test(`detection moves on when a JSON format's parse rejects prefiltered input`, () => {
+    test(`detection reports the rejection when one format recognized the input`, () => {
       // Passes Speedscope's cheap `matches` prefilter but fails its `parse`
-      // (`shared.frames` is missing), so detection moves on and reports an
-      // unknown format instead of leaking the parse error.
+      // (`shared.frames` is missing), so no other format recognizes it and the
+      // rejection is the reported reason.
       const almostSpeedscope = JSON.stringify({
         $schema: `https://www.speedscope.app/file-format-schema.json`,
         shared: {},
         profiles: [],
       })
 
-      expect(() => profileToMd(almostSpeedscope)).toThrow(/could not detect/iu)
+      expect(() => profileToMd(almostSpeedscope)).toThrow(/^Speedscope: /u)
+    })
+
+    test(`a specified format reports its rejection as that format's`, () => {
+      expect(() =>
+        profileToMd({ data: `funcA;funcB`, format: `collapsed` }),
+      ).toThrow(`Collapsed stacks: missing sample count`)
+    })
+
+    test(`a specified format reports its rejection as that format's when async`, async () => {
+      await expect(
+        profileToMdAsync({
+          data: new Blob([`funcA;funcB`]),
+          format: `collapsed`,
+        }),
+      ).rejects.toThrow(`Collapsed stacks: missing sample count`)
+    })
+
+    test(`detection names every format that rejected the input`, () => {
+      // Passes Speedscope's and the V8 CPU profile's `matches` prefilters, and
+      // fails their parses.
+      const almostBoth = JSON.stringify({
+        $schema: `https://www.speedscope.app/file-format-schema.json`,
+        shared: {},
+        profiles: [],
+        nodes: [{ id: 1, callFrame: null }],
+        timeDeltas: [1],
+      })
+
+      expect(() => profileToMd(almostBoth)).toThrow(
+        /could not detect the profile format, rejected by: Speedscope: .*, V8 CPU profile: /u,
+      )
+    })
+
+    test(`detection reports a malformed JSON document as unparseable JSON`, () => {
+      expect(() => profileToMd(`{"nodes": [`)).toThrow(
+        /could not detect the profile format, the input reads as JSON but failed to parse: /u,
+      )
+    })
+
+    test(`a detection error contains the error from each format that rejected the input`, () => {
+      const almostSpeedscope = JSON.stringify({
+        $schema: `https://www.speedscope.app/file-format-schema.json`,
+        shared: {},
+        profiles: [],
+      })
+
+      let thrown
+      try {
+        profileToMd(almostSpeedscope)
+      } catch (error: unknown) {
+        thrown = error
+      }
+
+      expect(thrown).toBeInstanceOf(FormatDetectError)
+      expect((thrown as FormatDetectError).errors).toHaveLength(1)
     })
 
     test.each([
