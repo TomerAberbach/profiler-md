@@ -328,6 +328,24 @@ const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
           pastParticipleVerbPhrase: `native bytes allocated`,
         },
       ],
+      [
+        `peak_space`,
+        {
+          titleNoun: `peak memory`,
+          columnNoun: `size`,
+          pastTenseVerb: `held`,
+          pastParticipleVerbPhrase: `bytes held at peak memory`,
+        },
+      ],
+      [
+        `leaked_space`,
+        {
+          titleNoun: `leaked memory`,
+          columnNoun: `size`,
+          pastTenseVerb: `leaked`,
+          pastParticipleVerbPhrase: `bytes never freed`,
+        },
+      ],
     ]),
   ],
 ])

@@ -1,6 +1,7 @@
 # Python
 
-Python profiling uses [py-spy](https://github.com/benfred/py-spy) or
+Python profiling uses [py-spy](https://github.com/benfred/py-spy),
+[memray](https://github.com/bloomberg/memray), or
 [systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
@@ -55,6 +56,42 @@ py-spy dump --pid <pid> --locals
 | `--native`          | off          | Profile native Cython or C extensions                    |
 | `--nonblocking`     | off          | Sample without pausing the process (less accurate)       |
 | `--subprocesses`    | off          | Also profile subprocesses of the target                  |
+
+## Memory profiling
+
+[memray](https://github.com/bloomberg/memray) traces every allocation the
+interpreter makes, from inside the process, and records the Python call stack
+each one came from. The capture shows where memory was held when the program's
+memory use was highest, and what was never freed.
+
+```sh
+# Trace a script's allocations
+memray run -o memory.bin script.py
+
+# Trace a module, as `python -m` would run it
+memray run -o memory.bin -m black file.py
+
+# Keep per-stack totals only, for a much smaller capture of a long run
+memray run --aggregate -o memory.bin script.py
+
+# Attach to a running process
+memray attach --duration 60 -o memory.bin <pid>
+```
+
+Tracing from inside the process makes the program run several times slower, so
+profile a workload small enough to finish with tracing on.
+
+### memray CLI flags
+
+| Flag                        | Default | Description                                                        |
+| --------------------------- | ------- | ------------------------------------------------------------------ |
+| `-o` / `--output`           | —       | Output file path                                                   |
+| `-f` / `--force`            | off     | Overwrite the output file if it exists                             |
+| `--aggregate`               | off     | Record each stack's totals instead of every allocation             |
+| `--native`                  | off     | Also record C/C++ frames, which this tool skips                    |
+| `--trace-python-allocators` | off     | Record pymalloc's own allocations, not just the ones underneath it |
+| `--follow-fork`             | off     | Also trace child processes, each into its own capture              |
+| `--no-compress`             | off     | Write the capture uncompressed rather than LZ4 compressed          |
 
 ## System profiling
 

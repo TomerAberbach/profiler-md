@@ -16,8 +16,9 @@ type TypedArrayConstructor<T extends TypedArray> = new (length: number) => T
 /**
  * A {@link TypedArray} wrapper that's growable.
  *
- * It's mainly useful when the indices are sequential IDs that arrive out of
- * order and with the maximum unknown.
+ * It's useful when the maximum length is unknown, whether because the indices
+ * are sequential IDs that arrive out of order, or because the elements are
+ * appended one batch at a time.
  */
 export class DynamicTypedArray<T extends TypedArray> {
   #array: T
@@ -27,6 +28,11 @@ export class DynamicTypedArray<T extends TypedArray> {
     this.#array = initialArray
     this.#arrayConstructor =
       initialArray.constructor as TypedArrayConstructor<T>
+  }
+
+  /** The array as it is currently sized. */
+  public get array(): T {
+    return this.#array
   }
 
   public ensureCapacity(minLength: number): T {
