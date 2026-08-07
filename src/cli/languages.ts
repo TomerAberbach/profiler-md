@@ -44,6 +44,13 @@ const languageMetas = [
     },
   ],
   [
+    `fortran`,
+    {
+      name: `Fortran`,
+      extensions: [`f90`, `f95`, `f03`, `f08`, `for`, `f`],
+    },
+  ],
+  [
     `go`,
     {
       name: `Go`,
