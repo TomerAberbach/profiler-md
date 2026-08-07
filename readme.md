@@ -82,7 +82,11 @@ diffs.
 ## Install
 
 ```sh
+# npm
 $ npm i -g profiler-md
+
+# Homebrew
+$ brew install tomeraberbach/tap/profiler-md
 ```
 
 <details>
