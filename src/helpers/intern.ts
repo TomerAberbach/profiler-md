@@ -83,18 +83,12 @@ export class HashInterner<Key, Value> {
    * a fresh one from {@link create} and returns its index when none matches.
    */
   public intern(key: Key, create: () => Value): number {
-    const add = (): number => {
-      const index = this.#values.length
-      this.#values.push(create())
-      return index
-    }
-
     this.#sink.reset()
     this.#hash(key, this.#sink)
     const hash = this.#sink.value
     const bucket = this.#indicesByHash.get(hash)
     if (bucket === undefined) {
-      const index = add()
+      const index = this.#add(create)
       this.#indicesByHash.set(hash, index)
       return index
     }
@@ -103,7 +97,7 @@ export class HashInterner<Key, Value> {
       if (this.#matches(this.#values[bucket]!, key)) {
         return bucket
       }
-      const index = add()
+      const index = this.#add(create)
       this.#indicesByHash.set(hash, [bucket, index])
       return index
     }
@@ -113,8 +107,14 @@ export class HashInterner<Key, Value> {
         return candidate
       }
     }
-    const index = add()
+    const index = this.#add(create)
     bucket.push(index)
+    return index
+  }
+
+  #add(create: () => Value): number {
+    const index = this.#values.length
+    this.#values.push(create())
     return index
   }
 }
