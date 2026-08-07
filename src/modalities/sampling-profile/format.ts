@@ -66,6 +66,12 @@ export const formatSamplingProfile = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
+  const { memoizedOptions, showsAnyEntry } = memoizeShowEntry(profile, options)
+  const { sectionOptions, notes } = resolveEntryFilter({
+    options: memoizedOptions,
+    showsAnyEntry,
+    disabledNote: ENTRY_FILTER_DISABLED_NOTE,
+  })
   return [
     heading(headingLevel, formatTitle(profile.metrics)),
     ...formatOverallSummary(profile),
@@ -77,13 +83,6 @@ export const formatSamplingProfile = (
           return [formatZeroTotalNote(measure.metric, ` in any sample`)]
         }
 
-        const { sectionOptions, notes } = resolveEntryFilter({
-          options,
-          showsAnyEntry: profile.functions.some(func =>
-            options.showEntry(func),
-          ),
-          disabledNote: ENTRY_FILTER_DISABLED_NOTE,
-        })
         return [
           ...notes,
           ...formatHottestFunctions({
@@ -102,6 +101,38 @@ export const formatSamplingProfile = (
       },
     ),
   ]
+}
+
+/**
+ * {@link options} with `showEntry` memoized by the profile's function IDs,
+ * along with whether it shows any of {@link profile}'s functions.
+ *
+ * The option's own per-entry cache is a `WeakMap`, whose lookup is too slow to
+ * run once per stack frame. Function IDs are unique only within one profile,
+ * so the returned options must format only {@link profile}.
+ */
+const memoizeShowEntry = (
+  profile: AggregatedSamplingProfile,
+  options: FormattingProfileToMdOptions,
+): {
+  memoizedOptions: FormattingProfileToMdOptions
+  showsAnyEntry: boolean
+} => {
+  const { showEntry } = options
+  const shownById = new Array<boolean | undefined>(profile.functions.length)
+  let showsAnyEntry = false
+  for (const func of profile.functions) {
+    if ((shownById[func.id] = showEntry(func))) {
+      showsAnyEntry = true
+    }
+  }
+  return {
+    memoizedOptions: {
+      ...options,
+      showEntry: entry => shownById[entry.id] ?? showEntry(entry),
+    },
+    showsAnyEntry,
+  }
 }
 
 export const formatSamplingProfileDiff = (
@@ -602,8 +633,9 @@ const mergeShownCallStacks = (
       callStack.frames.length === frames.length &&
       callStack.frames.every((frame, i) => frame.id === frames[i]!.id),
   )
+  const { showEntry } = options
   for (const callStack of callStacks) {
-    const frames = callStack.frames.filter(options.showEntry)
+    const frames = callStack.frames.filter(showEntry)
     if (frames.length <= 1) {
       continue
     }
