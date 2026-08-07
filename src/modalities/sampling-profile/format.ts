@@ -9,6 +9,7 @@ import {
   formatMicroseconds,
 } from '../../helpers/format.ts'
 import { selectTopN } from '../../helpers/heap.ts'
+import { HashInterner } from '../../helpers/intern.ts'
 import {
   formatSectionGroup,
   heading,
@@ -586,30 +587,44 @@ const mergeShownCallStacks = (
   callStacks: AggregatedSamplingProfileCallStack[],
   options: FormattingProfileToMdOptions,
 ): AggregatedSamplingProfileCallStack[] => {
-  const merged = new Map<string, AggregatedSamplingProfileCallStack>()
+  // The interner hashes frame IDs directly because building and hashing a key
+  // string per call stack dominated this function's runtime.
+  const interner = new HashInterner<
+    AggregatedSamplingProfileFunction[],
+    AggregatedSamplingProfileCallStack
+  >(
+    (frames, sink) => {
+      for (const frame of frames) {
+        sink.add(frame.id)
+      }
+    },
+    (callStack, frames) =>
+      callStack.frames.length === frames.length &&
+      callStack.frames.every((frame, i) => frame.id === frames[i]!.id),
+  )
   for (const callStack of callStacks) {
     const frames = callStack.frames.filter(options.showEntry)
     if (frames.length <= 1) {
       continue
     }
 
-    const key = frames.map(frame => frame.id).join(`,`)
-    const existing = merged.get(key)
-    if (!existing) {
-      merged.set(key, {
-        frames,
-        selfSampleCount: callStack.selfSampleCount,
-        selfValues: new Float64Array(callStack.selfValues),
-      })
+    const countBeforeIntern = interner.items.length
+    const index = interner.intern(frames, () => ({
+      frames,
+      selfSampleCount: callStack.selfSampleCount,
+      selfValues: new Float64Array(callStack.selfValues),
+    }))
+    if (index === countBeforeIntern) {
       continue
     }
 
+    const existing = interner.items[index]!
     existing.selfSampleCount += callStack.selfSampleCount
     for (let i = 0; i < existing.selfValues.length; i++) {
       existing.selfValues[i]! += callStack.selfValues[i]!
     }
   }
-  return [...merged.values()]
+  return interner.items
 }
 
 const formatDiffSummary = (
