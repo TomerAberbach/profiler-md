@@ -148,7 +148,7 @@ Converts performance profiles to human and LLM friendly Markdown.
 
 Formats: collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown
-Languages: c/cpp, csharp/fsharp, elixir/erlang, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
+Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
 ```
 
 <!-- CLI_HELP END -->
@@ -220,6 +220,12 @@ third-party tools can often convert others.
 <td><a href="docs/languages/elixir.md">Elixir⁠/⁠Erlang</a></td>
 <td>
 <details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Elixir eflambe CPU (<a href="examples/output/elixir.eflambe.cpu.base.collapsed.md">base</a>, <a href="examples/output/elixir.eflambe.cpu.current.collapsed.md">current</a>, <a href="examples/output/elixir.eflambe.cpu.diff.collapsed.md">diff</a>)</li><li>Erlang eflambe CPU (<a href="examples/output/erlang.eflambe.cpu.base.collapsed.md">base</a>, <a href="examples/output/erlang.eflambe.cpu.current.collapsed.md">current</a>, <a href="examples/output/erlang.eflambe.cpu.diff.collapsed.md">diff</a>)</li></ul></details>
+</td>
+</tr>
+<tr>
+<td><a href="docs/languages/fortran.md">Fortran</a></td>
+<td>
+<details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Fortran gperftools CPU (<a href="examples/output/fortran.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/fortran.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/fortran.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>Fortran gperftools heap (<a href="examples/output/fortran.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/fortran.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/fortran.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 <tr>
