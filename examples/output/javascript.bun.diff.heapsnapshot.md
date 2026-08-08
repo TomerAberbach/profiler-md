@@ -31,6 +31,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 Constructors with the largest decrease in retained size.
 
+##### Object
+
 | Change |      Delta |            % |                Size | Instances | Constructor           |
 | -----: | ---------: | -----------: | ------------------: | --------: | --------------------- |
 |  -0.2% | -2.937 KiB |        83.7% |            1.24 MiB |         1 | `GlobalObject`        |

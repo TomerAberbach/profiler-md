@@ -22,6 +22,10 @@ Allocated 155 MiB across 1,797,991 nodes and 5,735,169 edges.
 
 Constructors ranked by bytes allocated for their instances, excluding nodes kept reachable by them.
 
+#### Categories
+
+##### Object
+
 |     % |     Size | Instances | Constructor                                                                                                   |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |
 |  6.4% | 9.88 MiB |   120,343 | `<generic memory - inline alloc>`                                                                             |
@@ -184,6 +188,10 @@ Instances ranked by contribution to each constructor's self size.
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
+
+#### Categories
+
+##### Object
 
 |     % |     Size | Instances | Constructor                                                                                                   |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------- |

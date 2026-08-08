@@ -164,7 +164,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
 }): RootContent[] => {
   const sections = [
     ...formatDiffRankingSections({
-      headingLevel,
+      headingLevel: headingLevel + 1,
       subtitle: `Regressions`,
       sentence: `Functions with the largest increase in ${description}.`,
       columns,
@@ -174,7 +174,7 @@ export const formatDiffFunctionSections = <Entity, Row>({
       rowOf,
     }),
     ...formatDiffRankingSections({
-      headingLevel,
+      headingLevel: headingLevel + 1,
       subtitle: `Improvements`,
       sentence: `Functions with the largest decrease in ${description}.`,
       columns,
@@ -196,10 +196,11 @@ export const formatDiffFunctionSections = <Entity, Row>({
 }
 
 /**
- * One ranking's subsection: the {@link subtitle} heading, the {@link sentence}
- * introducing it, and the tables ranking {@link entities}.
+ * One ranking's subsection: the {@link subtitle} heading at
+ * {@link headingLevel}, the {@link sentence} introducing it, and the tables
+ * ranking {@link entities}.
  */
-const formatDiffRankingSections = <Entity, Row>({
+export const formatDiffRankingSections = <Entity, Row>({
   headingLevel,
   subtitle,
   sentence,
@@ -221,10 +222,10 @@ const formatDiffRankingSections = <Entity, Row>({
   entities.length === 0
     ? []
     : [
-        heading(headingLevel + 1, subtitle),
+        heading(headingLevel, subtitle),
         paragraph(sentence),
         ...formatDiffRankingTables({
-          headingLevel: headingLevel + 2,
+          headingLevel: headingLevel + 1,
           columns,
           entities,
           categoryEntities: categoryRankings.map(ranking => ({

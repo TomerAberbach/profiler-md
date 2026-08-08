@@ -14,7 +14,7 @@ import {
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
   formatRankingTables,
-  rankFunctions,
+  rankEntities,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -198,19 +198,19 @@ const formatHottestSelfFunctions = ({
 }): RootContent[] => {
   const { metric, index } = measure
   const valueOf = (func: AggregatedCallGraphFunction) => func.selfValues[index]!
-  const ranking = rankFunctions({
-    functions: graph.functions.filter(
+  const ranking = rankEntities({
+    entities: graph.functions.filter(
       func => options.showEntry(func) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
     topN: options.topN,
   })
-  if (ranking.hottestFunctions.length === 0) {
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
-  const hottestLinesSections = ranking.displayedFunctions
+  const hottestLinesSections = ranking.displayedEntities
     .filter(func => func.lineToMetrics.size > 0)
     .flatMap(func =>
       formatHottestLines({
@@ -228,7 +228,7 @@ const formatHottestSelfFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      formatFunctionTable: functions =>
+      formatEntityTable: functions =>
         formatFunctionTable({
           functions,
           metric,
@@ -319,21 +319,21 @@ const formatHottestTotalFunctions = ({
   const { metric, index } = measure
   const valueOf = (func: AggregatedCallGraphFunction) =>
     func.totalValues[index]!
-  const ranking = rankFunctions({
-    functions: graph.functions.filter(
+  const ranking = rankEntities({
+    entities: graph.functions.filter(
       func => options.showEntry(func) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
     topN: options.topN,
   })
-  if (ranking.hottestFunctions.length === 0) {
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
-  const { displayedFunctions } = ranking
+  const { displayedEntities } = ranking
   const hasCallCounts = graphHasCallCounts(graph)
-  const callerSections = displayedFunctions.flatMap(func =>
+  const callerSections = displayedEntities.flatMap(func =>
     formatHottestArcs({
       measure,
       func,
@@ -343,7 +343,7 @@ const formatHottestTotalFunctions = ({
       headingLevel: headingLevel + 2,
     }),
   )
-  const calleeSections = displayedFunctions.flatMap(func =>
+  const calleeSections = displayedEntities.flatMap(func =>
     formatHottestArcs({
       measure,
       func,
@@ -361,7 +361,7 @@ const formatHottestTotalFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      formatFunctionTable: functions =>
+      formatEntityTable: functions =>
         formatFunctionTable({
           functions,
           metric,

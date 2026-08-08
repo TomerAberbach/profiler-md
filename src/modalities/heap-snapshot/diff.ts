@@ -10,6 +10,7 @@ import type {
   AggregatedHeapSnapshotConstructor,
   AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
+  AggregatedHeapSnapshotString,
   NodeCategoryStats,
 } from './aggregate.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
@@ -41,6 +42,9 @@ export type DiffedHeapSnapshotEntity = AggregatedHeapSnapshotNode & {
 export type AggregatedHeapSnapshotEntityDiff = {
   /** A human readable label for this entity. */
   name: string
+
+  /** What this entity holds, set on the entities a ranking breaks down. */
+  category?: HeapSnapshotNodeCategory
 
   /** The file reference the {@link name} parses as, when it is URL-shaped. */
   nameLocation?: FileReference
@@ -121,6 +125,7 @@ const diffedConstructor = ({
   name,
   nameLocation,
   location,
+  category,
   selfSize,
   retainedSize,
   instances,
@@ -130,6 +135,7 @@ const diffedConstructor = ({
   name,
   nameLocation,
   location,
+  category,
   selfSize,
   retainedSize,
   instanceCount: instances.length,
@@ -173,9 +179,13 @@ const mergeFunctions = (
 /**
  * Merges strings sharing the same value, excluding strings without a known
  * value since they can't be matched across snapshots.
+ *
+ * A merged string takes the category of the first string merged into it, like
+ * its `id`, because same-valued strings differ only in the representation the
+ * engine gave each one.
  */
 const mergeStrings = (
-  strings: AggregatedHeapSnapshotNode[],
+  strings: AggregatedHeapSnapshotString[],
 ): Map<string, DiffedHeapSnapshotEntity> => {
   const valueToString = new Map<string, DiffedHeapSnapshotEntity>()
   for (const string of strings) {
@@ -193,6 +203,7 @@ const mergeStrings = (
         type: `node`,
         id: string.id,
         name: string.name,
+        category: string.category,
         selfSize: string.selfSize,
         retainedSize: string.selfSize,
         instanceCount: 1,
@@ -207,6 +218,6 @@ const entityDiffsFromMatches = (
   diffs: Map<string, Diff<DiffedHeapSnapshotEntity>>,
 ): AggregatedHeapSnapshotEntityDiff[] =>
   Array.from(diffs.values(), ({ base, current }) => {
-    const { name, nameLocation, location } = (current ?? base)!
-    return { name: name!, nameLocation, location, base, current }
+    const { name, nameLocation, location, category } = (current ?? base)!
+    return { name: name!, nameLocation, location, category, base, current }
   })

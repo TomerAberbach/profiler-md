@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import {
+  categoryRankingTables,
+  categorySectionTables,
   categoryTables,
   improvementsTables,
   profileTitles,
@@ -64,6 +66,137 @@ describe(`formatHeapSnapshot`, () => {
         },
       ],
     ])
+  })
+
+  describe(`category subsections`, () => {
+    const snapshot = makeAggregatedHeapSnapshot({
+      totalSize: 1000,
+      constructors: [
+        makeAggregatedHeapSnapshotConstructor({
+          name: `Widget`,
+          selfSize: 600,
+          retainedSize: 600,
+          instanceCount: 3,
+          category: `object`,
+        }),
+        makeAggregatedHeapSnapshotConstructor({
+          name: `Uint8Array`,
+          selfSize: 390,
+          retainedSize: 390,
+          instanceCount: 2,
+          category: `array`,
+        }),
+        makeAggregatedHeapSnapshotConstructor({
+          name: `Structure`,
+          selfSize: 10,
+          retainedSize: 10,
+          instanceCount: 1,
+          category: `internal`,
+        }),
+      ],
+    })
+
+    test(`splits a ranking into a subsection per covered category`, () => {
+      const md = mdastToMarkdown(formatHeapSnapshot(snapshot, defaultOptions))
+
+      expect(categorySectionTables(md, `Self size`)).toEqual({
+        Object: [
+          {
+            '%': `60.0%`,
+            Size: `600 B`,
+            Instances: `3`,
+            Constructor: `Widget`,
+          },
+        ],
+        Array: [
+          {
+            '%': `39.0%`,
+            Size: `390 B`,
+            Instances: `2`,
+            Constructor: `Uint8Array`,
+          },
+        ],
+        Internal: [
+          {
+            '%': `1.0%`,
+            Size: `10 B`,
+            Instances: `1`,
+            Constructor: `Structure`,
+          },
+        ],
+      })
+    })
+
+    test(`drops a category covering less than minCategoryShare`, () => {
+      const md = mdastToMarkdown(
+        formatHeapSnapshot(
+          snapshot,
+          resolveProfileToMdOptions({
+            baseURL: `/project`,
+            minCategoryShare: 0.05,
+          }),
+        ),
+      )
+
+      expect(Object.keys(categorySectionTables(md, `Self size`))).toEqual([
+        `Object`,
+        `Array`,
+      ])
+    })
+
+    test(`splits a ranking whose constructors all fall in one category`, () => {
+      const singleCategory = makeAggregatedHeapSnapshot({
+        totalSize: 1000,
+        constructors: [
+          makeAggregatedHeapSnapshotConstructor({
+            name: `Widget`,
+            selfSize: 1000,
+            retainedSize: 1000,
+            instanceCount: 3,
+            category: `object`,
+          }),
+        ],
+      })
+
+      const md = mdastToMarkdown(
+        formatHeapSnapshot(singleCategory, defaultOptions),
+      )
+
+      expect(categorySectionTables(md, `Self size`)).toEqual({
+        Object: [
+          {
+            '%': `100.0%`,
+            Size: `1000 B`,
+            Instances: `3`,
+            Constructor: `Widget`,
+          },
+        ],
+      })
+    })
+
+    test(`splits the strings ranking by the representation of each string`, () => {
+      const strings = makeAggregatedHeapSnapshot({
+        strings: [
+          makeAggregatedHeapSnapshotString({ value: `flat`, selfSize: 600 }),
+          makeAggregatedHeapSnapshotString({
+            value: `joined`,
+            selfSize: 400,
+            category: `concatenated string`,
+          }),
+        ],
+      })
+
+      const md = mdastToMarkdown(formatHeapSnapshot(strings, defaultOptions))
+
+      expect(categorySectionTables(md, `Largest strings`)).toEqual({
+        String: [
+          { '%': `60.0%`, Size: `600 B`, Value: `flat`, Path: `(GC root)` },
+        ],
+        'Concatenated string': [
+          { '%': `40.0%`, Size: `400 B`, Value: `joined`, Path: `(GC root)` },
+        ],
+      })
+    })
   })
 })
 
@@ -574,5 +707,169 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(md).toContain(
       `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,
     )
+  })
+
+  describe(`category subsections`, () => {
+    /**
+     * A snapshot whose size splits between plain objects and a typed array,
+     * with a VM bookkeeping constructor too small to cover a hundredth of it.
+     */
+    const makeMixedSnapshot = (
+      widgetSize: number,
+      bufferSize: number,
+      structureSize: number,
+    ) =>
+      makeAggregatedHeapSnapshot({
+        totalSize: widgetSize + bufferSize + structureSize,
+        constructors: [
+          makeAggregatedHeapSnapshotConstructor({
+            name: `Widget`,
+            selfSize: widgetSize,
+            retainedSize: widgetSize,
+            instanceCount: 3,
+            category: `object`,
+          }),
+          makeAggregatedHeapSnapshotConstructor({
+            name: `Uint8Array`,
+            selfSize: bufferSize,
+            retainedSize: bufferSize,
+            instanceCount: 2,
+            category: `array`,
+          }),
+          makeAggregatedHeapSnapshotConstructor({
+            name: `Structure`,
+            selfSize: structureSize,
+            retainedSize: structureSize,
+            instanceCount: 1,
+            category: `internal`,
+          }),
+        ],
+      })
+
+    const diffMixedSnapshots = (
+      base: [number, number, number],
+      current: [number, number, number],
+    ) =>
+      mdastToMarkdown(
+        formatHeapSnapshotDiff(
+          diffAggregatedHeapSnapshots(
+            makeMixedSnapshot(...base),
+            makeMixedSnapshot(...current),
+            defaultOptions,
+          ),
+          defaultOptions,
+        ),
+      )
+
+    test(`splits each ranking into a subsection per covered category`, () => {
+      const md = diffMixedSnapshots([600, 390, 10], [300, 700, 10])
+
+      expect(categoryRankingTables(md, `Self size`, `Regressions`)).toEqual({
+        Array: [
+          {
+            Change: `+79.5%`,
+            Delta: `+310 B`,
+            '%': `39.0% → 69.3%`,
+            Size: `390 B → 700 B`,
+            Instances: `2`,
+            Constructor: `Uint8Array`,
+          },
+        ],
+      })
+      expect(categoryRankingTables(md, `Self size`, `Improvements`)).toEqual({
+        Object: [
+          {
+            Change: `-50.0%`,
+            Delta: `-300 B`,
+            '%': `60.0% → 29.7%`,
+            Size: `600 B → 300 B`,
+            Instances: `3`,
+            Constructor: `Widget`,
+          },
+        ],
+      })
+    })
+
+    test(`covers a category by the side it weighs more on`, () => {
+      // The typed array's share falls from 39.0% to under 1%, so only its base
+      // side clears the threshold.
+      const md = diffMixedSnapshots([600, 390, 10], [1000, 1, 10])
+
+      expect(
+        Object.keys(categoryRankingTables(md, `Self size`, `Improvements`)),
+      ).toEqual([`Array`])
+    })
+
+    test(`splits a ranking whose constructors all fall in one category`, () => {
+      const md = diffMixedSnapshots([1000, 0, 0], [500, 0, 0])
+
+      expect(categoryRankingTables(md, `Self size`, `Improvements`)).toEqual({
+        Object: [
+          {
+            Change: `-50.0%`,
+            Delta: `-500 B`,
+            '%': `100.0%`,
+            Size: `1000 B → 500 B`,
+            Instances: `3`,
+            Constructor: `Widget`,
+          },
+        ],
+      })
+    })
+
+    test(`splits the strings ranking by the representation of each string`, () => {
+      const base = makeAggregatedHeapSnapshot({
+        strings: [
+          makeAggregatedHeapSnapshotString({ value: `flat`, selfSize: 100 }),
+          makeAggregatedHeapSnapshotString({
+            value: `joined`,
+            selfSize: 100,
+            category: `concatenated string`,
+          }),
+        ],
+      })
+      const current = makeAggregatedHeapSnapshot({
+        strings: [
+          makeAggregatedHeapSnapshotString({ value: `flat`, selfSize: 300 }),
+          makeAggregatedHeapSnapshotString({
+            value: `joined`,
+            selfSize: 200,
+            category: `concatenated string`,
+          }),
+        ],
+      })
+
+      const md = mdastToMarkdown(
+        formatHeapSnapshotDiff(
+          diffAggregatedHeapSnapshots(base, current, defaultOptions),
+          defaultOptions,
+        ),
+      )
+
+      expect(
+        categoryRankingTables(md, `Largest strings`, `Regressions`),
+      ).toEqual({
+        String: [
+          {
+            Change: `+200.0%`,
+            Delta: `+200 B`,
+            '%': `50.0% → 60.0%`,
+            Size: `100 B → 300 B`,
+            Value: `flat`,
+            Path: `(GC root)`,
+          },
+        ],
+        'Concatenated string': [
+          {
+            Change: `+100.0%`,
+            Delta: `+100 B`,
+            '%': `50.0% → 40.0%`,
+            Size: `100 B → 200 B`,
+            Value: `joined`,
+            Path: `(GC root)`,
+          },
+        ],
+      })
+    })
   })
 })

@@ -21,7 +21,7 @@ import {
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
   formatRankingTables,
-  rankFunctions,
+  rankEntities,
   subsectionCategories,
   subsectionDiffCategories,
 } from '../category.ts'
@@ -333,21 +333,21 @@ const formatHottestSelfFunctions = ({
   const valueOf = (func: AggregatedCallStackProfileFunction) =>
     selfValueOf(measure, func)
   const countOf = (func: AggregatedCallStackProfileFunction) => func.selfCount
-  const ranking = rankFunctions({
-    functions: profile.functions.filter(
+  const ranking = rankEntities({
+    entities: profile.functions.filter(
       func => options.showEntry(func) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
     topN: options.topN,
   })
-  if (ranking.hottestFunctions.length === 0) {
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
   const { metric } = measure
-  const { displayedFunctions } = ranking
-  const hottestLinesSections = displayedFunctions
+  const { displayedEntities } = ranking
+  const hottestLinesSections = displayedEntities
     .filter(func => func.lineToMetrics.size > 0)
     .flatMap(func =>
       formatHottestLines({
@@ -357,7 +357,7 @@ const formatHottestSelfFunctions = ({
         headingLevel: headingLevel + 2,
       }),
     )
-  const hottestCallersSections = displayedFunctions.flatMap(func =>
+  const hottestCallersSections = displayedEntities.flatMap(func =>
     formatHottestCallers({
       measure,
       func,
@@ -373,7 +373,7 @@ const formatHottestSelfFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      formatFunctionTable: functions =>
+      formatEntityTable: functions =>
         formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
     }),
@@ -510,20 +510,20 @@ const formatHottestTotalFunctions = ({
   const valueOf = (func: AggregatedCallStackProfileFunction) =>
     totalValueOf(measure, func)
   const countOf = (func: AggregatedCallStackProfileFunction) => func.totalCount
-  const ranking = rankFunctions({
-    functions: profile.functions.filter(
+  const ranking = rankEntities({
+    entities: profile.functions.filter(
       func => options.showEntry(func) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
     topN: options.topN,
   })
-  if (ranking.hottestFunctions.length === 0) {
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
   const { metric } = measure
-  const calleeSections = ranking.displayedFunctions.flatMap(func =>
+  const calleeSections = ranking.displayedEntities.flatMap(func =>
     formatHottestCallees({
       measure,
       func,
@@ -539,7 +539,7 @@ const formatHottestTotalFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      formatFunctionTable: functions =>
+      formatEntityTable: functions =>
         formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
     }),
