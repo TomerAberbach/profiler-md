@@ -236,6 +236,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 - Cast untyped profile data to typed data for performance. Validate only when
   necessary to make progress
+- Parse a specified format to its spec, accepting every shape the spec allows.
+  Add handling for a shape the spec forbids only when an input contains it, and
+  name the emitter that writes it in a comment
 - NEVER index into a plain object with profile-derived strings (e.g. frame
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
