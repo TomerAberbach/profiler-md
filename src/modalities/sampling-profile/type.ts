@@ -37,7 +37,7 @@ export type SamplingProfile = {
 
   /**
    * Per-line metrics added after the samples, so a format can break a
-   * function's self time down by line from data accumulated while iterating
+   * function's self time down by line from data summed while iterating
    * {@link SamplingProfile.samples}.
    */
   lineMetrics?: Iterable<SampleLineMetrics>

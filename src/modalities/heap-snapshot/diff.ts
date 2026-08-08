@@ -12,6 +12,7 @@ import type {
   AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
+import type { HeapSnapshotNodeCategory } from './type.ts'
 
 /**
  * One side's data for an entity matched across the base and current snapshots.
@@ -57,7 +58,7 @@ export type AggregatedHeapSnapshotDiff = {
   current: AggregatedHeapSnapshot
 
   /** Node category to that category's stats in each snapshot. */
-  nodeCategoryToStats: Map<string, Diff<NodeCategoryStats>>
+  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, Diff<NodeCategoryStats>>
 
   /** Constructors present in either snapshot, matched across the two. */
   constructors: AggregatedHeapSnapshotEntityDiff[]

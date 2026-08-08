@@ -7,7 +7,7 @@ export const computeNodeOrdinalToRetainedSize = (
     ordinalToImmediateDominatorOrdinal,
   }: ImmediateDominatorGraph,
 ): Float64Array => {
-  // Accumulate retained sizes bottom-up through the dominator tree.
+  // Sum retained sizes bottom-up through the dominator tree.
   const nodeOrdinalToRetainedSize = new Float64Array(
     ordinalToImmediateDominatorOrdinal.length,
   )

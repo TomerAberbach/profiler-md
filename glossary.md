@@ -19,18 +19,18 @@ ambiguous.
 
 ## Conversion pipeline
 
-| Term                | Definition                                                                                   | Aliases to avoid    |
-| ------------------- | -------------------------------------------------------------------------------------------- | ------------------- |
-| **Parse**           | Convert raw input bytes to a parsed input                                                    | decode, deserialize |
-| **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess        |
-| **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence |
-| **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker         | —                   |
-| **Entry**           | A name + location pair; the unit of filtering                                                | record              |
-| **Category**        | A classification of an entity in an input, drawn from a closed per-modality set              | type, group         |
-| **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin      |
-| **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, fix lines, drop pseudo-frames) | clean, fix up       |
-| **Aggregate**       | Accumulate data from a input into an aggregated form                                         | summarize           |
-| **Format**          | Convert an aggregated input to Markdown output                                               | render              |
+| Term                | Definition                                                                                   | Aliases to avoid      |
+| ------------------- | -------------------------------------------------------------------------------------------- | --------------------- |
+| **Parse**           | Convert raw input bytes to a parsed input                                                    | decode, deserialize   |
+| **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess          |
+| **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence   |
+| **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker         | —                     |
+| **Entry**           | A name + location pair; the unit of filtering                                                | record                |
+| **Category**        | A classification of an entity in an input, drawn from a closed per-modality set              | type, group           |
+| **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin        |
+| **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, fix lines, drop pseudo-frames) | clean, fix up         |
+| **Aggregate**       | Combine data from an input into an aggregated form                                           | accumulate, summarize |
+| **Format**          | Convert an aggregated input to Markdown output                                               | render                |
 
 ### Formatting
 
@@ -54,8 +54,8 @@ ambiguous.
 | ------------ | ---------------------------------------------------------------------------------------------------- | --------------------- |
 | **Metric**   | A measured dimension with a unit: time, size, or a custom count (e.g. instructions)                  | dimension, value type |
 | **Value**    | A numeric measurement for one metric, summed across the samples or costs it aggregates               | measurement           |
-| **Self**     | Accumulated from a function's body, excluding its callees                                            | exclusive             |
-| **Total**    | Accumulated from a function's body and its transitive callees                                        | inclusive, cumulative |
+| **Self**     | Aggregated from a function's body, excluding its callees                                             | exclusive             |
+| **Total**    | Aggregated from a function's body and its transitive callees                                         | inclusive, cumulative |
 | **Function** | A unique function, identified by name and location, aggregating every sample or cost recorded for it | node, call frame      |
 | **Caller**   | A function that calls another                                                                        | parent                |
 | **Callee**   | A function another calls                                                                             | child                 |

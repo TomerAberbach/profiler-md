@@ -8,6 +8,7 @@ import { computeStartOffsets } from '../../../modalities/heap-snapshot/index.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
+  HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
@@ -165,7 +166,11 @@ function* v8SnapshotNodes(
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
     const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
-    const category = nodeTypes[nodeType]!
+    const category = fieldLayout.nodeTypeToCategory[nodeType]
+    // A declared type name that isn't V8's own is kept for an origin to map
+    // (see `HeapSnapshotNode.declaredType`).
+    const declaredType =
+      category === undefined ? nodeTypes[nodeType]! : undefined
 
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:
@@ -177,6 +182,7 @@ function* v8SnapshotNodes(
         )
         yield {
           category,
+          declaredType,
           type: `constructor`,
           name,
           location: nodeOrdinalToLocation[nodeOrdinal],
@@ -187,6 +193,7 @@ function* v8SnapshotNodes(
       case fieldLayout.nodeTypeClosure:
         yield {
           category,
+          declaredType,
           type: `closure`,
           name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
           location: nodeOrdinalToLocation[nodeOrdinal],
@@ -197,12 +204,13 @@ function* v8SnapshotNodes(
       case fieldLayout.nodeTypeConcatenatedString:
         yield {
           category,
+          declaredType,
           type: `string`,
           name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
         }
         break
       default:
-        yield { category }
+        yield { category, declaredType }
     }
   }
 }
@@ -633,6 +641,15 @@ type FieldLayout = {
   nodeTypeOffset: number
 
   /**
+   * Each declared node type's category, by its index in `meta.node_types`,
+   * resolved once so categorizing a node costs a lookup rather than a name
+   * comparison.
+   *
+   * An entry is undefined for a declared type name V8 doesn't define.
+   */
+  nodeTypeToCategory: (HeapSnapshotNodeCategory | undefined)[]
+
+  /**
    * A human-readable label for the node.
    *
    * For plain objects this is the constructor name (e.g. `Array`), for strings
@@ -754,6 +771,30 @@ type FieldLayout = {
   nodeTypeSlicedString: number
 }
 
+/**
+ * The category each type V8 declares in `meta.node_types` names.
+ *
+ * `hidden` maps to `internal` because V8's name for its bookkeeping nodes is
+ * its own. The modality's categories name them the same as JavaScriptCore's.
+ */
+const V8_NODE_TYPE_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>([
+  [`object`, `object`],
+  [`array`, `array`],
+  [`string`, `string`],
+  [`concatenated string`, `concatenated string`],
+  [`sliced string`, `sliced string`],
+  [`closure`, `closure`],
+  [`code`, `code`],
+  [`regexp`, `regexp`],
+  [`number`, `number`],
+  [`bigint`, `bigint`],
+  [`symbol`, `symbol`],
+  [`native`, `native`],
+  [`object shape`, `object shape`],
+  [`hidden`, `internal`],
+  [`synthetic`, `synthetic`],
+])
+
 const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
   const {
     node_fields: nodeFields,
@@ -771,6 +812,9 @@ const computeFieldLayout = (meta: V8HeapSnapshotMeta): FieldLayout => {
 
   return {
     nodeTypeOffset: nodeFieldToIndex.get(`type`)!,
+    nodeTypeToCategory: nodeTypes.map(nodeType =>
+      V8_NODE_TYPE_TO_CATEGORY.get(nodeType),
+    ),
     nodeNameOffset: nodeFieldToIndex.get(`name`)!,
     nodeSelfSizeOffset: nodeFieldToIndex.get(`self_size`)!,
     nodeEdgeCountOffset: nodeFieldToIndex.get(`edge_count`)!,

@@ -6,6 +6,7 @@ import {
   injectedInputs,
   readInput,
 } from '../formats/testing.ts'
+import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES, normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import {
@@ -83,10 +84,37 @@ if (inputFilenames.length > 0) {
         ).toEqual([])
       },
     )
+
+    // A format declaring its own node type names (Julia writes Julia's types
+    // into V8's `meta.node_types`) reaches the categories through its origin,
+    // and types can't check that mapping against the names a capture contains.
+    test.each(inputFilenames)(
+      `%s categorizes every heap snapshot node canonically`,
+      filename => {
+        const inputs = aggregateInput(
+          readInput(filename),
+          normalizeProfileToMdOptions(),
+        )
+
+        const categories = new Set(
+          inputs.flatMap(input =>
+            input.type === `heap-snapshot`
+              ? [...input.nodeCategoryToStats.keys()]
+              : [],
+          ),
+        )
+        expect(
+          [...categories].filter(category => !NODE_CATEGORIES.has(category)),
+        ).toEqual([])
+      },
+    )
   })
 }
 
 const CATEGORIES: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
+const NODE_CATEGORIES: ReadonlySet<string> = new Set(
+  HEAP_SNAPSHOT_NODE_CATEGORIES,
+)
 
 if (format === undefined) {
   describe(`origin threading`, () => {
@@ -114,15 +142,15 @@ if (format === undefined) {
       `%s categorizes JavaScript's own classes`,
       origin => {
         expect(
-          categorizeHeapSnapshotConstructorForOrigin(`Promise`, origin),
-        ).toBe(`built-in`)
+          categorizeHeapSnapshotConstructorForOrigin(`Array`, origin),
+        ).toBe(`array`)
       },
     )
 
     test(`an origin observing another language leaves the format's category`, () => {
       // Julia writes V8-format snapshots, whose class names are Julia's.
       expect(
-        categorizeHeapSnapshotConstructorForOrigin(`Promise`, `profile-jl`),
+        categorizeHeapSnapshotConstructorForOrigin(`Array`, `profile-jl`),
       ).toBeUndefined()
     })
 

@@ -138,7 +138,7 @@ class SamplesAggregator {
     const callStack = this.#getOrCreateCallStack(frameIndices, id)
     const callee = callStack.frames[0]!
 
-    // Line metrics accumulate per sample rather than per call stack in
+    // Line metrics aggregate per sample rather than per call stack in
     // `#propagateCallStackMetrics`: frames that normalize to the same function
     // intern to the same call stack while sampling different executing lines.
     //
@@ -183,12 +183,12 @@ class SamplesAggregator {
   }
 
   /**
-   * Propagates each canonical call stack's accumulated self metrics to its
+   * Propagates each canonical call stack's aggregated self metrics to its
    * functions' self and total metrics, leaf caller metrics, and frame-pair
    * callee metrics.
    *
    * These attributions depend only on a stack's frames, so summing the stack's
-   * accumulated self metrics reproduces the per-sample accumulation losslessly
+   * aggregated self metrics reproduces the per-sample aggregation losslessly
    * in one pass per unique call stack, rather than one O(depth) pass per
    * sample.
    */
@@ -450,7 +450,7 @@ class SamplesAggregator {
    * categorizing.
    *
    * The category metrics are built from each function's self metrics rather
-   * than accumulated per sample: a self-sample's leaf is exactly its function,
+   * than aggregated per sample: a self-sample's leaf is exactly its function,
    * so summing self values over the functions of a category reproduces the
    * per-sample total losslessly, in time linear in the function count rather
    * than the sample count.

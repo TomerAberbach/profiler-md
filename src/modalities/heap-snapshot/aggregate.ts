@@ -6,7 +6,10 @@ import type {
   ProfileEntry,
   ProfileToMdContext,
 } from '../../options.ts'
-import { categorizeHeapSnapshotConstructorForOrigin } from '../../origins/index.ts'
+import {
+  categorizeHeapSnapshotConstructorForOrigin,
+  categorizeHeapSnapshotDeclaredTypeForOrigin,
+} from '../../origins/index.ts'
 import type { Origin, OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import { computeImmediateDominatorGraph } from './graph.ts'
@@ -15,12 +18,16 @@ import {
   attributeCategoryRetainedSizes,
   computeNodeOrdinalToRetainedSize,
 } from './retained.ts'
-import type { HeapSnapshot, HeapSnapshotNode } from './type.ts'
+import type {
+  HeapSnapshot,
+  HeapSnapshotNode,
+  HeapSnapshotNodeCategory,
+} from './type.ts'
 
 /**
  * Aggregates one {@link HeapSnapshot} through the uniform pipeline. The
  * structural part (dominator and retained-size computation, per-node
- * accumulation) needs no origin and runs at construction, deriving the
+ * aggregation) needs no origin and runs at construction, deriving the
  * distinct entities' entries origin detection reads; categorization runs
  * under the file's resolved context.
  */
@@ -277,37 +284,25 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
  * detected only after the nodes are consumed.
  */
 class NodeCategoryStatsAggregator {
-  /**
-   * Stats of the nodes the origin can't recategorize, keyed by the category the
-   * format derived.
-   */
-  readonly #categoryToStats = new Map<string, NodeCategoryStats>()
+  /** Stats of the nodes the format categorized, by the category it derived. */
+  readonly #byCategory = new KeyedNodeStats<HeapSnapshotNodeCategory>()
 
   /**
-   * Stats of the constructor nodes, keyed by the category the format derived,
-   * then by constructor name.
+   * The same, for a node the format left uncategorized, by the type name it
+   * declared instead.
+   *
+   * Kept separate from the stats above rather than sharing one map keyed by
+   * either, because a format may declare a type name equal to a category name,
+   * and the two mean different things.
    */
-  readonly #categoryToConstructorNameToStats = new Map<
-    string,
-    Map<string, NodeCategoryStats>
-  >()
+  readonly #byDeclaredType = new KeyedNodeStats<string>()
 
   public add(node: HeapSnapshotNode, selfSize: number): void {
-    const stats =
-      node.type === `constructor`
-        ? statsOf(this.#constructorNameToStats(node.category), node.name)
-        : statsOf(this.#categoryToStats, node.category)
-    stats.size += selfSize
-    stats.nodeCount++
-  }
-
-  #constructorNameToStats(category: string): Map<string, NodeCategoryStats> {
-    let nameToStats = this.#categoryToConstructorNameToStats.get(category)
-    if (!nameToStats) {
-      nameToStats = new Map()
-      this.#categoryToConstructorNameToStats.set(category, nameToStats)
+    if (node.category === undefined && node.declaredType !== undefined) {
+      this.#byDeclaredType.add(node, node.declaredType, selfSize)
+    } else {
+      this.#byCategory.add(node, node.category ?? `unknown`, selfSize)
     }
-    return nameToStats
   }
 
   /**
@@ -315,35 +310,111 @@ class NodeCategoryStatsAggregator {
    * class name its language defines, falling back to the category the format
    * derived from the engine's own node classification.
    */
-  public aggregate(origin: Origin): Map<string, NodeCategoryStats> {
-    const nodeCategoryToStats = new Map<string, NodeCategoryStats>()
-    const add = (category: string, { size, nodeCount }: NodeCategoryStats) => {
-      const stats = statsOf(nodeCategoryToStats, category)
-      stats.size += size
-      stats.nodeCount += nodeCount
-    }
+  public aggregate(
+    origin: Origin,
+  ): Map<HeapSnapshotNodeCategory, NodeCategoryStats> {
+    const nodeCategoryToStats = new Map<
+      HeapSnapshotNodeCategory,
+      NodeCategoryStats
+    >()
 
-    for (const [category, stats] of this.#categoryToStats) {
-      add(category, stats)
-    }
-    for (const [category, nameToStats] of this
-      .#categoryToConstructorNameToStats) {
-      for (const [name, stats] of nameToStats) {
-        add(
-          categorizeHeapSnapshotConstructorForOrigin(name, origin) ?? category,
-          stats,
-        )
-      }
-    }
+    this.#byCategory.aggregateInto(
+      nodeCategoryToStats,
+      origin,
+      category => category,
+    )
+    this.#byDeclaredType.aggregateInto(
+      nodeCategoryToStats,
+      origin,
+      declaredType =>
+        categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ??
+        `object`,
+    )
 
     return nodeCategoryToStats
   }
 }
 
-/** The stats {@link key} accumulates into, inserted empty when it has none. */
-const statsOf = (
-  keyToStats: Map<string, NodeCategoryStats>,
-  key: string,
+/**
+ * Size and count stats of the nodes sharing a key, which resolves to a category
+ * only once the origin is known.
+ *
+ * A constructor node's stats stay keyed by its name under that key, since the
+ * origin categorizes it by the class name its language defines.
+ */
+class KeyedNodeStats<Key> {
+  readonly #keyToStats = new Map<Key, NodeCategoryStats>()
+  readonly #keyToConstructorNameToStats = new Map<
+    Key,
+    Map<string, NodeCategoryStats>
+  >()
+
+  public add(node: HeapSnapshotNode, key: Key, selfSize: number): void {
+    const stats = this.#statsOf(node, key)
+    stats.size += selfSize
+    stats.nodeCount++
+  }
+
+  /**
+   * Adds every key's stats to {@link nodeCategoryToStats} under the category
+   * {@link categoryOf} resolves the key to, or the one the origin gives a
+   * constructor's name.
+   */
+  public aggregateInto(
+    nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>,
+    origin: Origin,
+    categoryOf: (key: Key) => HeapSnapshotNodeCategory,
+  ): void {
+    for (const [key, stats] of this.#keyToStats) {
+      addStats(nodeCategoryToStats, categoryOf(key), stats)
+    }
+    for (const [key, nameToStats] of this.#keyToConstructorNameToStats) {
+      // `categoryOf` runs once per key rather than per constructor name, since
+      // one key can have thousands of them.
+      const category = categoryOf(key)
+      for (const [name, stats] of nameToStats) {
+        addStats(
+          nodeCategoryToStats,
+          categorizeHeapSnapshotConstructorForOrigin(name, origin) ?? category,
+          stats,
+        )
+      }
+    }
+  }
+
+  /**
+   * The stats {@link node} aggregates into under {@link key}: its constructor
+   * name's when it has one, and the key's own otherwise.
+   */
+  #statsOf(node: HeapSnapshotNode, key: Key): NodeCategoryStats {
+    if (node.type !== `constructor`) {
+      return statsOf(this.#keyToStats, key)
+    }
+
+    let nameToStats = this.#keyToConstructorNameToStats.get(key)
+    if (!nameToStats) {
+      nameToStats = new Map()
+      this.#keyToConstructorNameToStats.set(key, nameToStats)
+    }
+    return statsOf(nameToStats, node.name)
+  }
+}
+
+/** Adds {@link stats} to the stats {@link key} aggregates into. */
+const addStats = <Key>(
+  keyToStats: Map<Key, NodeCategoryStats>,
+  key: Key,
+  { size, nodeCount }: NodeCategoryStats,
+): void => {
+  const stats = statsOf(keyToStats, key)
+  stats.size += size
+  stats.nodeCount += nodeCount
+}
+
+/** The stats {@link key} aggregates into, inserted empty when it has none. */
+const statsOf = <Key>(
+  keyToStats: Map<Key, NodeCategoryStats>,
+  key: Key,
 ): NodeCategoryStats => {
   let stats = keyToStats.get(key)
   if (!stats) {
@@ -551,7 +622,7 @@ export type AggregatedHeapSnapshot = {
   edgeCount: number
 
   /** Size and count stats by node category. */
-  nodeCategoryToStats: Map<string, NodeCategoryStats>
+  nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
 
   constructors: AggregatedConstructor[]
   closures: AggregatedClosure[]

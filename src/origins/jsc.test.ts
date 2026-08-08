@@ -9,7 +9,7 @@ describe(`jscConstructorCategory`, () => {
     [`<root>`, `internal`],
     [`SparseArrayValueMap`, `array`],
     [`Int8ArrayPrototype`, `object`],
-    [`InternalPromise`, `built-in`],
+    [`InternalPromise`, `object`],
     [`TextEncoderStreamEncoder`, `native`],
     [`symbol`, `symbol`],
   ])(`categorizes the engine's %s class as %s`, (name, category) => {

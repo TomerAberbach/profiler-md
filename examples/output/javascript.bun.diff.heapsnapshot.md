@@ -7,16 +7,14 @@ Allocated 1.48 MiB (-2.937 KiB, -0.2%) across 16,629 → 16,601 nodes and 44,4
 | code         |   0.0% |        0 B | 45.7% → 45.8% |             693 KiB |         3,192 |
 | string       |   0.0% |        0 B | 23.5% → 23.6% |             356 KiB |         6,272 |
 | object shape |  -1.5% | -2.843 KiB | 12.7% → 12.6% |   193 KiB → 190 KiB | 1,764 → 1,738 |
-| object       |   0.0% |        0 B |          7.4% |             113 KiB |         1,430 |
-| hidden       |  -0.1% |      -96 B |          5.0% | 75.5 KiB → 75.4 KiB |     962 → 960 |
+| object       |   0.0% |        0 B |          7.5% |             114 KiB |         1,471 |
+| internal     |  -0.1% |      -96 B |          5.0% | 75.5 KiB → 75.4 KiB |     962 → 960 |
 | closure      |   0.0% |        0 B |          4.3% |              65 KiB |         1,811 |
 | array        |   0.0% |        0 B |          1.1% |            16.8 KiB |         1,073 |
-| symbol       |   0.0% |        0 B |          0.1% |            1.22 KiB |            78 |
-| built-in     |   0.0% |        0 B |          0.1% |               969 B |            31 |
-| native       |   0.0% |        0 B |         <0.1% |               632 B |            10 |
+| symbol       |   0.0% |        0 B |          0.1% |             1.2 KiB |            77 |
+| native       |   0.0% |        0 B |         <0.1% |               387 B |             3 |
 | regexp       |   0.0% |        0 B |         <0.1% |                64 B |             2 |
-| bigint       |   0.0% |        0 B |         <0.1% |                50 B |             2 |
-| number       |   0.0% |        0 B |         <0.1% |                34 B |             1 |
+| bigint       |   0.0% |        0 B |         <0.1% |                32 B |             1 |
 | synthetic    |      — |        0 B |          0.0% |                 0 B |             1 |
 
 ## Largest constructors

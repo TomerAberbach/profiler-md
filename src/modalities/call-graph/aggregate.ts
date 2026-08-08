@@ -165,7 +165,7 @@ class FunctionsAggregator {
   }
 
   public aggregate(): AggregatedCallGraph {
-    this.#accumulateCosts()
+    this.#aggregateCosts()
     this.#computeTotals()
 
     const functions = [...this.#keyToFunction.values()]
@@ -179,23 +179,23 @@ class FunctionsAggregator {
     }
   }
 
-  /** Accumulates selves, per-line selves, and arcs onto the merged functions. */
-  #accumulateCosts(): void {
+  /** Aggregates selves, per-line selves, and arcs onto the merged functions. */
+  #aggregateCosts(): void {
     for (const [index, parsed] of this.#functions.entries()) {
       const func = this.#mergedFunctions[index]!
 
       addValues(func.selfValues, parsed.selfValues)
       addValues(this.#totalValues, parsed.selfValues)
-      this.#accumulateLineCosts(func, parsed.lineToValues)
+      this.#aggregateLineCosts(func, parsed.lineToValues)
 
       for (const call of parsed.calls) {
-        this.#accumulateArc(func, call)
+        this.#aggregateArc(func, call)
       }
     }
   }
 
-  /** Accumulates a parsed function's per-line selves onto its merged function. */
-  #accumulateLineCosts(
+  /** Aggregates a parsed function's per-line selves onto its merged function. */
+  #aggregateLineCosts(
     func: AggregatedCallGraphFunction,
     lineToValues: CallGraphFunction[`lineToValues`],
   ): void {
@@ -209,18 +209,18 @@ class FunctionsAggregator {
     }
   }
 
-  /** Accumulates one outgoing arc onto both of its endpoints. */
-  #accumulateArc(
+  /** Aggregates one outgoing arc onto both of its endpoints. */
+  #aggregateArc(
     func: AggregatedCallGraphFunction,
     call: CallGraphFunction[`calls`][number],
   ): void {
     const callee = this.#mergedFunctions[call.callee]!
-    this.#accumulateCalleeMetrics(func, callee, call)
-    this.#accumulateCallerMetrics(func, callee, call)
+    this.#aggregateCalleeMetrics(func, callee, call)
+    this.#aggregateCallerMetrics(func, callee, call)
   }
 
-  /** Accumulates an arc onto its caller's metrics for the callee. */
-  #accumulateCalleeMetrics(
+  /** Aggregates an arc onto its caller's metrics for the callee. */
+  #aggregateCalleeMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
     call: CallGraphFunction[`calls`][number],
@@ -238,8 +238,8 @@ class FunctionsAggregator {
     addValues(calleeMetrics.totalValues, call.totalValues)
   }
 
-  /** Accumulates an arc onto its callee's metrics for the caller. */
-  #accumulateCallerMetrics(
+  /** Aggregates an arc onto its callee's metrics for the caller. */
+  #aggregateCallerMetrics(
     func: AggregatedCallGraphFunction,
     callee: AggregatedCallGraphFunction,
     call: CallGraphFunction[`calls`][number],

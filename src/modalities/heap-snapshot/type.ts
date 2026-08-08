@@ -53,12 +53,53 @@ export type HeapSnapshot = {
 }
 
 /**
+ * What a heap snapshot node holds.
+ *
+ * A closed set, so a category names the same thing whichever engine wrote the
+ * snapshot and formatting can partition by it. V8 declares its own names for
+ * most of these in `meta.node_types`. JavaScriptCore derives them from a node's
+ * flags. `internal` covers V8's `hidden` and JavaScriptCore's `internal`, which
+ * name the same bookkeeping nodes.
+ */
+export type HeapSnapshotNodeCategory =
+  (typeof HEAP_SNAPSHOT_NODE_CATEGORIES)[number]
+
+/** Every category {@link HeapSnapshotNodeCategory} allows. */
+export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
+  `object`,
+  `array`,
+  `string`,
+  `concatenated string`,
+  `sliced string`,
+  `closure`,
+  `code`,
+  `regexp`,
+  `number`,
+  `bigint`,
+  `symbol`,
+  `native`,
+  `object shape`,
+  `internal`,
+  `synthetic`,
+  `unknown`,
+] as const
+
+/**
  * A heap snapshot node's classification.
  *
- * Every node contributes to its {@link HeapSnapshotNode.category}'s stats; a node
- * with a `type` additionally aggregates into that type's entities.
+ * Every node contributes to its category's stats. A node with a `type` also
+ * aggregates into that type's entities.
+ *
+ * {@link category} is undefined when the format declared a type name this
+ * modality's categories don't name, in which case {@link declaredType} holds
+ * that name for an origin to map. Julia writes its own type names into V8's
+ * `meta.node_types`, so every node of its snapshots has a {@link declaredType}
+ * instead of a category.
  */
-export type HeapSnapshotNode = { category: string } & (
+export type HeapSnapshotNode = {
+  category: HeapSnapshotNodeCategory | undefined
+  declaredType?: string
+} & (
   | { type?: undefined }
   | {
       type: `constructor`
