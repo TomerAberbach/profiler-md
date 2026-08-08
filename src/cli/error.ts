@@ -1,8 +1,10 @@
-export class CliError extends Error {
+import { ProfilerMdError } from '../error.ts'
+
+export class CliError extends ProfilerMdError {
   public readonly exitCode: 1 | 2
 
-  public constructor(message: string, exitCode: 1 | 2) {
-    super(message)
+  public constructor(message: string, exitCode: 1 | 2, options?: ErrorOptions) {
+    super(message, options)
     // eslint-disable-next-line stylistic/quotes
     this.name = 'CliError'
     this.exitCode = exitCode
@@ -10,9 +12,9 @@ export class CliError extends Error {
 }
 
 export const reportError = (error: unknown): never => {
-  if (error instanceof CliError) {
+  if (error instanceof ProfilerMdError) {
     process.stderr.write(`error: ${error.message}\n`)
-    process.exit(error.exitCode)
+    process.exit(error instanceof CliError ? error.exitCode : 1)
   }
 
   if (error instanceof Error) {

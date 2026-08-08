@@ -24,20 +24,24 @@ const openRawInputAsBlob = async (
     stats = await stat(filePath)
   } catch (error) {
     if (error instanceof Error && `code` in error && error.code === `ENOENT`) {
-      throw new CliError(`no such file: ${filePath}`, 1)
+      throw new CliError(`cannot read ${filePath}: no such file`, 1, {
+        cause: error,
+      })
     }
-    const message = error instanceof Error ? error.message : String(error)
-    throw new CliError(`cannot read ${filePath}: ${message}`, 1)
+    throw new CliError(`cannot read ${filePath}: ${reasonOf(error)}`, 1, {
+      cause: error,
+    })
   }
   if (stats.isDirectory()) {
-    throw new CliError(`${filePath} is a directory, expected a file`, 1)
+    throw new CliError(`cannot read ${filePath}: is a directory`, 1)
   }
 
   try {
     return await openAsBlob(filePath)
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    throw new CliError(message, 1)
+    throw new CliError(`cannot read ${filePath}: ${reasonOf(error)}`, 1, {
+      cause: error,
+    })
   }
 }
 
@@ -55,10 +59,16 @@ const decompressBlob = async (
     }
     return data
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    throw new CliError(`failed to decompress input: ${message}`, 1)
+    throw new CliError(
+      `cannot decompress ${filePath ?? `stdin`}: ${reasonOf(error)}`,
+      1,
+      { cause: error },
+    )
   }
 }
+
+const reasonOf = (error: unknown): string =>
+  error instanceof Error ? error.message : String(error)
 
 const decompressStream = async (
   data: Blob,

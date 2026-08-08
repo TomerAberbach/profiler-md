@@ -1,3 +1,4 @@
+import { ProfilerMdError } from './error.ts'
 import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import { fileReferenceId, makeFileReference } from './location.ts'
@@ -246,10 +247,9 @@ export const normalizeProfileToMdOptions = ({
   categorizeEntries: (entries, context) => {
     const categories = categorizeEntries(entries, context)
     if (categories.length !== entries.length) {
-      throw new Error(
-        `categorizeEntries returned ${categories.length} categories for ` +
-          `${entries.length} entries; it must return exactly one category per ` +
-          `entry, aligned by index.`,
+      throw new ProfilerMdError(
+        `categorizeEntries must return one category per entry, aligned by ` +
+          `index, got: ${categories.length} categories for ${entries.length} entries`,
       )
     }
     return categories
@@ -276,7 +276,7 @@ const normalizeBaseURL = (
   } else if (typeof baseURL === `string`) {
     const fileReference = makeFileReference(baseURL)
     if (fileReference?.type !== `absolute`) {
-      throw new Error(
+      throw new ProfilerMdError(
         `baseURL must be an absolute path or URL, got: ${baseURL}`,
       )
     }

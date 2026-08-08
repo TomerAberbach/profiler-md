@@ -24,7 +24,7 @@ export const resolveProfileToMdOptions = (
   const { baseURL, ...rest } = normalizeProfileToMdOptions(options)
   if (baseURL === `auto`) {
     throw new Error(
-      `baseURL: 'auto' is resolved by the conversion pipeline; pass a concrete base URL here`,
+      `baseURL 'auto' is resolved by the conversion pipeline, so pass a concrete base URL here`,
     )
   }
   return { ...rest, baseURL }

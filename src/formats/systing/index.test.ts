@@ -41,17 +41,17 @@ describe(`matches`, () => {
     expect(systingConverter.matches(new Uint8Array(0))).toBe(false)
   })
 
-  test(`rejects an unsupported version, future or otherwise`, () => {
+  test(`accepts an unsupported version, leaving parse to reject it`, () => {
     expect(
       systingConverter.matches(
         makeSysting([], { ...systingHeader, systing_profile_export: 2 }),
       ),
-    ).toBe(false)
+    ).toBe(true)
     expect(
       systingConverter.matches(
         makeSysting([], { ...systingHeader, systing_profile_export: 0 }),
       ),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   test(`parse reports the unsupported version`, () => {
@@ -67,12 +67,12 @@ describe(`matches`, () => {
     ).toThrow(`version 0`)
   })
 
-  test(`rejects an unsupported stack order`, () => {
+  test(`accepts an unsupported stack order, leaving parse to reject it`, () => {
     expect(
       systingConverter.matches(
         makeSysting([], { ...systingHeader, stack_order: `root_first` }),
       ),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   test(`parse reports the unsupported stack order`, () => {

@@ -81,31 +81,31 @@ describe(`parse`, () => {
   test(`rejects prose`, () => {
     expect(() =>
       parseCallgrind(makeCallgrind([`hello world, not a profile`])),
-    ).toThrow(`Not a callgrind profile`)
+    ).toThrow(`unrecognized line, got: "hello world, not a profile"`)
   })
 
   test(`rejects a file without an events header`, () => {
     expect(() =>
       parseCallgrind(makeCallgrind([`fl=/app/a.c`, `fn=main`])),
-    ).toThrow(`Not a callgrind profile: missing events header`)
+    ).toThrow(`missing events header`)
   })
 
   test(`rejects a cost line before the events header`, () => {
     expect(() => parseCallgrind(makeCallgrind([`fn=main`, `1 10`]))).toThrow(
-      `Not a callgrind profile: cost line before events header`,
+      `cost line before events header`,
     )
   })
 
   test(`rejects a cost line before any fn=`, () => {
     expect(() => parseCallgrind(makeCallgrind([`events: Ir`, `1 10`]))).toThrow(
-      `Not a callgrind profile: cost line before fn=`,
+      `cost line before fn=`,
     )
   })
 
   test(`rejects a compressed name referenced before definition`, () => {
     expect(() =>
       parseCallgrind(makeCallgrind([`events: Ir`, `fn=(3)`, `1 10`])),
-    ).toThrow(`Not a callgrind profile: name (3) referenced before definition`)
+    ).toThrow(`name (3) referenced before definition`)
   })
 
   test(`rejects calls= without a preceding cfn=`, () => {
@@ -113,19 +113,19 @@ describe(`parse`, () => {
       parseCallgrind(
         makeCallgrind([`events: Ir`, `fn=main`, `calls=1 5`, `1 10`]),
       ),
-    ).toThrow(`Not a callgrind profile: calls= without a preceding cfn=`)
+    ).toThrow(`calls= without a preceding cfn=`)
   })
 
   test(`rejects a cost line with more values than events`, () => {
     expect(() =>
       parseCallgrind(makeCallgrind([`events: Ir`, `fn=main`, `1 10 20`])),
-    ).toThrow(`Not a callgrind profile: cost line with more values than events`)
+    ).toThrow(`cost line with more values than events`)
   })
 
   test(`rejects a relative subposition with no offset after its sign`, () => {
     expect(() =>
       parseCallgrind(makeCallgrind([`events: Ir`, `fn=main`, `1 10`, `+ 20`])),
-    ).toThrow(`Not a callgrind profile: invalid number ""`)
+    ).toThrow(`invalid number, got: ""`)
   })
 
   test(`defines a compressed name written with extra spaces after its ID`, () => {

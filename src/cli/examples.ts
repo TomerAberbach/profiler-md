@@ -48,20 +48,20 @@ export const parseExampleFilename = (filename: string): Example => {
     variants.includes(token as ExampleVariant),
   )
   if (variantIndex === -1) {
-    throw new Error(`Example ${filename} has no base/current/diff variant`)
+    throw new Error(`example ${filename} has no base, current, or diff variant`)
   }
 
   const extension = tokens.slice(variantIndex + 1).join(`.`)
   const format = extensionFormats.get(extension)
   if (!format) {
     throw new Error(
-      `Example ${filename} has an unrecognized extension: .${extension}`,
+      `example ${filename} has an unrecognized extension, got: .${extension}`,
     )
   }
 
   const origin = tokens[1]!
   if (!isOrigin(origin)) {
-    throw new Error(`Example ${filename} names an unregistered origin`)
+    throw new Error(`example ${filename} names an unregistered origin`)
   }
 
   return {

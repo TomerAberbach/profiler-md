@@ -6,6 +6,7 @@ import type {
   SamplingProfile,
 } from '../../modalities/sampling-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { FormatParseError } from '../error.ts'
 
 export const parseSysting = (bytes: Uint8Array): SamplingProfile[] => {
   const builder = new SystingProfileBuilder()
@@ -157,9 +158,7 @@ class SystingProfileBuilder {
   #addRecord(line: string): void {
     const record: unknown = JSON.parse(line)
     if (!Array.isArray(record)) {
-      throw new TypeError(
-        `Not a systing profile export: record is not an array`,
-      )
+      throw new FormatParseError(`record is not an array`)
     }
     switch (record[0]) {
       case `f`: {
@@ -200,8 +199,8 @@ class SystingProfileBuilder {
       frameIds.map(frameId => {
         const index = this.#frameIndices.get(frameId)
         if (index === undefined) {
-          throw new Error(
-            `Not a systing profile export: stack ${id} references undefined frame ${frameId}`,
+          throw new FormatParseError(
+            `stack ${id} references undefined frame ${frameId}`,
           )
         }
         return index
@@ -218,9 +217,7 @@ class SystingProfileBuilder {
     }
     const frameIndices = this.#stacks.get(stackId)
     if (!frameIndices) {
-      throw new Error(
-        `Not a systing profile export: sample references undefined stack ${stackId}`,
-      )
+      throw new FormatParseError(`sample references undefined stack ${stackId}`)
     }
     let samples = this.#samples.get(kind)
     if (!samples) {
@@ -240,7 +237,7 @@ class SystingProfileBuilder {
 
   public build(): SamplingProfile[] {
     if (!this.#header) {
-      throw new Error(`Not a systing profile export: empty input`)
+      throw new FormatParseError(`empty input`)
     }
 
     const profiles: SamplingProfile[] = []
@@ -319,39 +316,34 @@ const cpuMetric = (header: SystingHeader): Metric | undefined => {
 /**
  * Parses and validates a systing profile export's header line.
  *
- * Also the format's detection signature: `matches` classifies only this line,
- * so detection and parsing can't disagree on what a systing export is.
- *
  * @throws when the line isn't a systing export header or its version or
  * stack order is unsupported.
  */
-export const parseSystingHeader = (line: string): SystingHeader => {
+const parseSystingHeader = (line: string): SystingHeader => {
   let json: unknown
   try {
     json = JSON.parse(line)
   } catch {
-    throw new Error(`Not a systing profile export: header is not JSON`)
+    throw new FormatParseError(`header is not JSON`)
   }
   if (typeof json !== `object` || json === null || Array.isArray(json)) {
-    throw new Error(`Not a systing profile export: header is not an object`)
+    throw new FormatParseError(`header is not an object`)
   }
 
   const header = json as SystingHeader
   const version = header.systing_profile_export
   if (!Number.isInteger(version)) {
-    throw new TypeError(
-      `Not a systing profile export: missing systing_profile_export version`,
+    throw new FormatParseError(
+      `header is missing the systing_profile_export version`,
     )
   }
   if (version !== 1) {
-    throw new Error(
-      `Unsupported systing profile export version ${version}; only version 1 is supported`,
-    )
+    throw new FormatParseError(`unsupported version ${version}, expected 1`)
   }
   const stackOrder = header.stack_order ?? `leaf_first`
   if (stackOrder !== `leaf_first`) {
-    throw new Error(
-      `Unsupported systing profile export stack order ${stackOrder}; only leaf_first is supported`,
+    throw new FormatParseError(
+      `unsupported stack order ${stackOrder}, expected leaf_first`,
     )
   }
   return header

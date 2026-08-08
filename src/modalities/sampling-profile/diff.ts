@@ -1,3 +1,4 @@
+import { ProfilerMdError } from '../../error.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
@@ -65,7 +66,7 @@ export const diffAggregatedSamplingProfiles = (
   ) {
     // Two metric-less profiles are comparable by sample count alone, so an
     // empty match is only an error when a side has metrics.
-    throw new Error(`no matching metrics between the base and current profiles`)
+    throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 
   const { entryMatchKey } = options

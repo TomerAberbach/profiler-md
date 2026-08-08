@@ -10,7 +10,8 @@
  * possible-JSON so the parser makes the call.
  */
 export const maybeJson = (data: string | Uint8Array): boolean => {
-  // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may carry one.
+  // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include
+  // one.
   let start = 0
   if (
     typeof data !== `string` &&
@@ -55,5 +56,57 @@ export const maybeJsonAsync = async (data: Blob): Promise<boolean> =>
   maybeJson(
     new Uint8Array(await data.slice(0, MAYBE_JSON_PREFIX_LENGTH).arrayBuffer()),
   )
+
+/**
+ * Whether the input opens a JSON object or array, the only shapes a profile in
+ * JSON takes.
+ *
+ * {@link maybeJson} also admits a bare JSON value, so text starting with `t`
+ * or a digit passes it. This is the stricter check, for deciding whether a
+ * failed JSON parse is worth reporting as the reason the input was unusable.
+ */
+export const startsJsonDocument = (data: string | Uint8Array): boolean => {
+  // `TextDecoder` strips a UTF-8 byte order mark, so JSON bytes may include
+  // one.
+  let start = 0
+  if (
+    typeof data !== `string` &&
+    data[0] === 0xef &&
+    data[1] === 0xbb &&
+    data[2] === 0xbf
+  ) {
+    start = 3
+  }
+
+  const end = Math.min(data.length, start + START_JSON_DOCUMENT_PREFIX_LENGTH)
+  for (let i = start; i < end; i++) {
+    // eslint-disable-next-line unicorn/prefer-code-point
+    const code = typeof data === `string` ? data.charCodeAt(i) : data[i]!
+    switch (code) {
+      // JSON whitespace: tab, line feed, carriage return, space.
+      case 0x09:
+      case 0x0a:
+      case 0x0d:
+      case 0x20:
+        continue
+      case 0x7b: // {
+      case 0x5b: // [
+        return true
+      default:
+        return false
+    }
+  }
+  return false
+}
+
+/** {@link startsJsonDocument} for a `Blob`, reading only the scanned prefix. */
+export const startsJsonDocumentAsync = async (data: Blob): Promise<boolean> =>
+  startsJsonDocument(
+    new Uint8Array(
+      await data.slice(0, START_JSON_DOCUMENT_PREFIX_LENGTH).arrayBuffer(),
+    ),
+  )
+
+const START_JSON_DOCUMENT_PREFIX_LENGTH = 16
 
 const MAYBE_JSON_PREFIX_LENGTH = 1024

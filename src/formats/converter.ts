@@ -46,8 +46,8 @@ type FormatMeta = {
  *
  * Runs both when a user forces the format and during auto-detection (after
  * {@link Detect.matches} returns true), so it should accept any valid instance
- * and throw on input that isn't really this format, including spec invariants
- * only parsing can check.
+ * and throw a `FormatParseError` on input that isn't this format, including
+ * spec invariants only parsing can check.
  *
  * A cheap {@link Detect.matches} may be a loose prefilter because `parse` is
  * the real check.

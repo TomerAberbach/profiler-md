@@ -7,6 +7,7 @@ import type {
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { FormatParseError } from '../error.ts'
 
 export const parseCallgrind = (bytes: Uint8Array): CallGraph[] => {
   const builder = new CallgrindProfileBuilder()
@@ -83,9 +84,6 @@ const HEADER_KEY = /^[A-Za-z][\w-]*$/u
 /** A compressed name's numeric ID between its parentheses. */
 const COMPRESSED_NAME_ID = /^\d+$/u
 
-const notCallgrind = (reason: string): Error =>
-  new Error(`Not a callgrind profile: ${reason}`)
-
 /**
  * Resolves a possibly-compressed name against its {@link dictionary}: `(N)`
  * defines (when a name follows) or references an ID. Anything else is a
@@ -120,7 +118,7 @@ const resolveName = (
 
   const known = dictionary.get(id)
   if (known === undefined) {
-    throw notCallgrind(`name (${id}) referenced before definition`)
+    throw new FormatParseError(`name (${id}) referenced before definition`)
   }
   return known
 }
@@ -195,7 +193,9 @@ class CallgrindProfileBuilder {
       return
     }
 
-    throw notCallgrind(`unrecognized line ${JSON.stringify(line)}`)
+    throw new FormatParseError(
+      `unrecognized line, got: ${JSON.stringify(line)}`,
+    )
   }
 
   #addHeader(key: string, rest: string): void {
@@ -231,7 +231,7 @@ class CallgrindProfileBuilder {
   #setPartEvents(rest: string): void {
     const names = rest.split(/\s+/u).filter(name => name.length > 0)
     if (names.length === 0) {
-      throw notCallgrind(`empty events header`)
+      throw new FormatParseError(`empty events header`)
     }
     this.#partEventIndices = names.map(name => this.#eventIndex(name))
   }
@@ -270,7 +270,9 @@ class CallgrindProfileBuilder {
       columns.length === 0 ||
       columns.some(column => column !== `instr` && column !== `line`)
     ) {
-      throw notCallgrind(`invalid positions header ${JSON.stringify(rest)}`)
+      throw new FormatParseError(
+        `invalid positions header, got: ${JSON.stringify(rest)}`,
+      )
     }
     this.#subpositionCount = columns.length
     this.#lineSubpositionIndex = columns.indexOf(`line`)
@@ -332,7 +334,7 @@ class CallgrindProfileBuilder {
         // caller→callee arc. The following cost line contains the call's
         // inclusive cost. Aggregation ignores the target position.
         if (this.#callName === undefined) {
-          throw notCallgrind(`calls= without a preceding cfn=`)
+          throw new FormatParseError(`calls= without a preceding cfn=`)
         }
         const count = rest.split(/\s+/u, 1)[0]!
         this.#pendingCall = {
@@ -373,11 +375,11 @@ class CallgrindProfileBuilder {
   #addCostLine(line: string): void {
     const eventIndices = this.#partEventIndices
     if (!eventIndices) {
-      throw notCallgrind(`cost line before events header`)
+      throw new FormatParseError(`cost line before events header`)
     }
     const func = this.#function
     if (!func) {
-      throw notCallgrind(`cost line before fn=`)
+      throw new FormatParseError(`cost line before fn=`)
     }
 
     // Each subposition and cost ends with a space, so a cost line's last value
@@ -400,7 +402,7 @@ class CallgrindProfileBuilder {
    */
   #parseSubpositions(tokens: string[]): number | undefined {
     if (tokens.length < this.#subpositionCount) {
-      throw notCallgrind(`cost line with missing subpositions`)
+      throw new FormatParseError(`cost line with missing subpositions`)
     }
 
     let costLine: number | undefined
@@ -416,7 +418,7 @@ class CallgrindProfileBuilder {
   /** Reads the line's cost values into the global event indices. */
   #parseValues(tokens: string[], eventIndices: number[]): number[] {
     if (tokens.length > this.#subpositionCount + eventIndices.length) {
-      throw notCallgrind(`cost line with more values than events`)
+      throw new FormatParseError(`cost line with more values than events`)
     }
     const values: number[] = []
     for (let i = this.#subpositionCount; i < tokens.length; i++) {
@@ -524,7 +526,7 @@ class CallgrindProfileBuilder {
 
   public build(): CallGraph[] {
     if (this.#eventNames.length === 0) {
-      throw notCallgrind(`missing events header`)
+      throw new FormatParseError(`missing events header`)
     }
 
     const originHint = creatorOriginHint(this.#creator)
@@ -598,7 +600,7 @@ const parseCost = (token: string): number => {
         ? Number.parseInt(token, 16)
         : Number(token)
   if (Number.isNaN(value) || value < 0) {
-    throw notCallgrind(`invalid number ${JSON.stringify(token)}`)
+    throw new FormatParseError(`invalid number, got: ${JSON.stringify(token)}`)
   }
   return value
 }

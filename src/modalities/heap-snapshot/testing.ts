@@ -59,7 +59,7 @@ export const makeSourceLocation = (
 ): SourceLocation => {
   const fileReference = makeFileReference(url)
   if (!fileReference) {
-    throw new Error(`Expected a usable file reference, got: ${url}`)
+    throw new Error(`expected a usable file reference, got: ${url}`)
   }
   return { ...fileReference, line, column }
 }

@@ -135,7 +135,7 @@ describe(`diffAggregatedSamplingProfiles`, () => {
 
     expect(() =>
       diffAggregatedSamplingProfiles(base, current, defaultOptions),
-    ).toThrow(`no matching metrics`)
+    ).toThrow(`no metrics in common`)
   })
 
   test(`matches functions by name + URL ignoring line/column`, () => {
@@ -486,6 +486,6 @@ describe(`diffAggregatedSamplingProfiles`, () => {
 
     expect(() =>
       diffAggregatedSamplingProfiles(base, current, defaultOptions),
-    ).toThrow(`no matching metrics`)
+    ).toThrow(`no metrics in common`)
   })
 })
