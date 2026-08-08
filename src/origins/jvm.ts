@@ -5,7 +5,8 @@
 
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
+import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { locationlessCategory } from './categorize.ts'
 import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule } from './origin.ts'
 
@@ -35,15 +36,17 @@ export const jvmMatchEntry = matchEntryFromRules({
 
 export const categorizeJvmEntry = (
   entry: DeepReadonly<ProfileEntry>,
-): EntryCategory =>
+): FunctionCategory =>
   jvmStdlibCategory(entry) ??
-  hotspotStubCategory(entry) ??
+  hotspotRuntimeCategory(entry) ??
+  unresolvedFrameCategory(entry) ??
   nativeLibraryCategory(entry) ??
   nativeModuleCategory(entry) ??
   // JFR and collapsed both carry a Java frame's declaring class as its
   // location, so a frame with no location is a native symbol (JVM C++
   // internals, malloc, unresolved native code) rather than Java code.
-  (entry.location ? `ours` : `native`)
+  locationlessCategory(entry) ??
+  `ours`
 
 /**
  * Whether a raw async-profiler frame name is in a JVM standard-library package,
@@ -55,7 +58,7 @@ export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
 /** Categorizes Java standard-library and JDK-internal frames as `stdlib`. */
 const jvmStdlibCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && JVM_STDLIB_PACKAGE.test(fileReferencePath(location))
     ? `stdlib`
     : undefined
@@ -79,16 +82,23 @@ const JVM_STDLIB_PACKAGE =
   /^(?:(?:java|javax|jdk|sun|com[./]sun|kotlin|kotlinx|scala|groovy|org[./](?:codehaus|apache)[./]groovy)[./]|groovyjarjar)/u
 
 /**
- * Categorizes HotSpot's synthetic code-stub frames, which async-profiler
- * reports by their stub names without a location: JIT dispatch and transition
- * stubs as `jit`, and GC write-barrier stubs executed inline in compiled code
- * as `garbage collector`. Only async-profiler observes these stubs, so a
- * categorized entry is also a marker entry.
+ * Categorizes the HotSpot frames async-profiler walks that aren't Java: its
+ * generated code stubs, reported by stub name without a location, and its
+ * compiler's own C++ frames. Only async-profiler observes either, so a
+ * categorized entry is also a marker entry. The JDK's own recorder writes
+ * Java-only stacks, and never reaches these rules.
+ *
+ * A GC write barrier is generated code executed inline in a compiled method, so
+ * it satisfies `jit` as literally as the dispatch stubs do. It is
+ * `garbage collector` because a named activity takes precedence, leaving `jit`
+ * for generated code with no more specific one. Folding it into `jit` would
+ * hide the cost of collection and leave `jit` meaning two unrelated things.
  */
-export const hotspotStubCategory = ({
-  name,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
-  if (name === undefined) {
+export const hotspotRuntimeCategory = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory | undefined => {
+  const { name } = entry
+  if (name === undefined || !isHotspotNativeStackFrame(entry)) {
     return undefined
   }
   if (JIT_STUB.test(name)) {
@@ -97,8 +107,79 @@ export const hotspotStubCategory = ({
   if (GC_STUB.test(name)) {
     return `garbage collector`
   }
-  return undefined
+  return HOTSPOT_COMPILER.test(name) ? `compiler` : undefined
 }
+
+/**
+ * Whether a frame is HotSpot's own compiled code rather than a Java method.
+ *
+ * The rules below match a bare symbol, which a Java method name can satisfy
+ * (`getNode` looks like C2's `*Node` classes), so they need a guard that
+ * excludes the profiled program's code. A Java frame's location is always its
+ * declaring class, so a frame with none is native. A located native frame
+ * reports a shared library or a bare module rather than a package, and its name
+ * lacks the parenthesized signature JFR writes for a Java method.
+ */
+const isHotspotNativeStackFrame = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): boolean => {
+  if (!location) {
+    return true
+  }
+  const path = fileReferencePath(location)
+  return (
+    (NATIVE_LIBRARY.test(path) || !path.includes(`.`)) &&
+    !(name ?? ``).includes(`(`)
+  )
+}
+
+/**
+ * HotSpot's compiler internals: the compile broker and tiering policy, C1's
+ * HIR/LIR pipeline and linear-scan allocator, C2's ideal-graph phases, nodes,
+ * and types, the compiler interface (`ci*`) both read the class file through,
+ * and the assemblers and metadata recorders that emit the resulting nmethod.
+ *
+ * Matches by name because the frame's own symbol identifies compilation. The
+ * stack root (`CompileBroker::compiler_thread_loop`) is the stronger signal but
+ * is unavailable to a per-entry rule. Deliberately excludes the symbols the
+ * whole VM shares (`Arena`, `Dict`, `BitMap`, `CodeCache`, `InstanceKlass`), and
+ * the runtime classes whose names begin like a compiler one (`TypeArrayKlass`
+ * allocates arrays, `OopMapCache` serves the interpreter), which all stay
+ * `native`.
+ *
+ * Measured over the committed async-profiler CPU inputs, partitioning leaf
+ * frames by whether their stack is rooted at the compile broker: 99.3% of what
+ * it matches is compilation, and it matches 74% of compilation's samples. The
+ * misses are symbols the whole VM shares, which stay `native`.
+ */
+const HOTSPOT_COMPILER =
+  /^(?:Compil(?:e|ation)(?:Broker|Task|Queue|Policy|Log)?(?:::|$)|AbstractCompiler|C[12]Compiler|C[12]_MacroAssembler|Phase[A-Z]|GraphBuilder|GraphKit|IdealKit|Matcher::|Scheduling::|LinearScan|IntervalWalker|LIR|Canonicalizer|Value(?:Stack|Map)|Block(?:Begin|End|List|_)|ci[A-Z]|Type(?!ArrayKlass)[A-Z]|Type::|[A-Za-z_0-9]*Node(?:::|$)|Node_|NodeHash|Unique_Node_List|IndexSet|RegMask|ConnectionGraph|MethodLiveness|BCEscapeAnalyzer|AbstractAssembler|Assembler::|MacroAssembler|CodeBuffer|CodeSection|DebugInformationRecorder|OopMap(?!Cache)|RelocIterator|AdapterHandlerLibrary|JVMState|OopFlow|NTarjan)/u
+
+/**
+ * Categorizes the frames async-profiler emits for a stack entry it could not
+ * resolve as `unknown`.
+ *
+ * These name the failure rather than the code: `[unknown]` for an unwalkable
+ * frame and `[stale_jmethodID]` for a method whose ID no longer resolves. The
+ * code behind them is as likely to be Java as native.
+ */
+const unresolvedFrameCategory = ({
+  name,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name !== undefined && UNRESOLVED_FRAME.has(name) ? `unknown` : undefined
+
+/** Async-profiler's markers for a stack entry it could not resolve. */
+const UNRESOLVED_FRAME: ReadonlySet<string> = new Set([
+  `[unknown]`,
+  `[stale_jmethodID]`,
+  `[unknown_Java]`,
+  `[not_walkable_Java]`,
+  `[unknown_not_Java]`,
+  `[not_walkable_not_Java]`,
+  `[break_deopt]`,
+  `[break_stack_range]`,
+])
 
 /**
  * HotSpot JIT stubs: virtual-dispatch stubs (`vtable stub`, `itable stub`),
@@ -129,7 +210,7 @@ export const isNativeLibraryStackFrame = ({
 /** Categorizes native shared-library frames as `native`. */
 const nativeLibraryCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && NATIVE_LIBRARY.test(fileReferencePath(location))
     ? `native`
     : undefined
@@ -160,7 +241,7 @@ const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
 const nativeModuleCategory = ({
   name,
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location &&
   !fileReferencePath(location).includes(`.`) &&
   !(name ?? ``).includes(`(`)

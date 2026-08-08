@@ -2,10 +2,12 @@
 
 Took 10.81s over 9,201 samples (1.2ms per sample).
 
-| Category |      % |   Time | Samples |
-| -------- | -----: | -----: | ------: |
-| stdlib   | 100.0% | 10.80s |   8,995 |
-| ours     |  <0.1% |  5.4ms |     206 |
+| Category |     % |   Time | Samples |
+| -------- | ----: | -----: | ------: |
+| native   | 98.7% | 10.67s |   5,767 |
+| stdlib   |  0.6% | 68.4ms |   3,168 |
+| unknown  |  0.6% | 64.5ms |      60 |
+| ours     | <0.1% |  5.4ms |     206 |
 
 ## Hottest functions
 

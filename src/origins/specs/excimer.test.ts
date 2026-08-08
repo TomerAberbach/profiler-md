@@ -22,7 +22,9 @@ describe(`categorizeEntry`, () => {
     )
   })
 
-  test(`a locationless frame is stdlib`, () => {
-    expect(categorizeEntry(relativeEntry(`array_map`))).toBe(`stdlib`)
+  // PHP's standard library is compiled into the binary, so Excimer reports it
+  // with no file and no evidence for `stdlib`.
+  test(`a locationless frame is native`, () => {
+    expect(categorizeEntry(relativeEntry(`array_map`))).toBe(`native`)
   })
 })

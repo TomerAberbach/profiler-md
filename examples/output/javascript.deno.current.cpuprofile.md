@@ -5,9 +5,10 @@ Took 2.31s over 3,159 samples (734.2µs per sample).
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
 | third-party       | 87.1% |   2.02s |   2,930 |
-| stdlib            |  6.3% | 145.3ms |      98 |
 | garbage collector |  5.8% | 134.3ms |     110 |
-| program           |  0.8% |  18.6ms |      21 |
+| stdlib            |  4.2% |  98.4ms |      59 |
+| native            |  2.7% |  63.1ms |      58 |
+| unknown           |  0.1% |   2.5ms |       2 |
 
 ## Hottest functions
 
@@ -19,7 +20,6 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | ---: | ------: | ------: | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 5.8% | 134.3ms |     110 | `(garbage collector)` | `<unknown>`                                                                                                                                             |
 | 1.2% |  28.1ms |       1 | `post`                | `ext:deno_node/inspector.js:179:7`                                                                                                                      |
-| 0.8% |  18.6ms |      21 | `(program)`           | `<unknown>`                                                                                                                                             |
 | 0.1% |   1.2ms |       1 | `createProgram`       | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
 #### Lines
@@ -63,7 +63,6 @@ Functions ranked by total time spent in the function and all its callees.
 |  1.2% |  28.9ms |       2 | `post`                             | `ext:deno_node/inspector.js:179:7`                                                                                                                      |
 |  1.2% |  28.9ms |       2 | `(anonymous)`                      | `cpuprofile-run.mjs:16:15`                                                                                                                              |
 |  1.2% |  28.9ms |       2 | `post`                             | `cpuprofile-run.mjs:15:14`                                                                                                                              |
-|  0.8% |  18.6ms |      21 | `(program)`                        | `<unknown>`                                                                                                                                             |
 |  0.4% |  10.0ms |       9 | `getParsedCommandLineOfConfigFile` | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
 
 #### Callees

@@ -5,9 +5,10 @@ Collected 5,188 samples.
 | Category          |     % | Samples |
 | ----------------- | ----: | ------: |
 | ours              | 59.7% |   3,098 |
-| native            | 24.5% |   1,269 |
+| native            | 23.3% |   1,207 |
 | stdlib            | 14.5% |     752 |
 | jit               |  1.3% |      67 |
+| compiler          |  1.2% |      62 |
 | garbage collector | <0.1% |       2 |
 
 ## Hottest functions
@@ -32,12 +33,12 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.1% |       3 | `compute()`                                      | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
 |  0.1% |       3 | `join()`                                         | `java.util.concurrent.ForkJoinTask`                        |
 |  0.1% |       3 | `get(int)`                                       | `java.util.ArrayList`                                      |
+|  0.1% |       3 | `Node_Backward_Iterator::next`                   | `libjvm.dylib`                                             |
 | <0.1% |       2 | `add(Object)`                                    | `java.util.ArrayList`                                      |
 | <0.1% |       2 | `lambda$collectClusters$0(Double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% |       2 | `Scheduling::ComputeRegisterAntidependencies`    | `libjvm.dylib`                                             |
+| <0.1% |       2 | `PhaseCFG::schedule_local`                       | `libjvm.dylib`                                             |
 | <0.1% |       2 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                |
-| <0.1% |       2 | `g1_post_barrier_slow`                           | `<unknown>`                                                |
-| <0.1% |       1 | `computeDirectly()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       1 | `computeDirectly()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
 
 #### Lines
 
@@ -155,18 +156,6 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | ---------------------------------------------- |
 | 100.0% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans:86` |
 
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Location                                                       |
-| -----: | ------: | -------------------------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:171` |
-
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
-
-|      % | Samples | Location                                                      |
-| -----: | ------: | ------------------------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:367` |
-
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
@@ -251,6 +240,13 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ------------- | --------------------------------------------------------- |
 | 100.0% |       3 | `vectorSum()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
 
+##### `Node_Backward_Iterator::next` (`libjvm.dylib`)
+
+|     % | Samples | Caller                         | Location       |
+| ----: | ------: | ------------------------------ | -------------- |
+| 66.7% |       2 | `PhaseCFG::schedule_late`      | `libjvm.dylib` |
+| 33.3% |       1 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
+
 ##### `add(Object)` (`java.util.ArrayList`)
 
 |      % | Samples | Caller                   | Location                                                   |
@@ -263,30 +259,23 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------- | ------------------------------------------------------------------------------------- |
 | 100.0% |       2 | `apply(Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000801186b38` |
 
+##### `Scheduling::ComputeRegisterAntidependencies` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |       2 | `Scheduling::DoScheduling` | `libjvm.dylib` |
+
+##### `PhaseCFG::schedule_local` (`libjvm.dylib`)
+
+|      % | Samples | Caller                         | Location       |
+| -----: | ------: | ------------------------------ | -------------- |
+| 100.0% |       2 | `PhaseCFG::global_code_motion` | `libjvm.dylib` |
+
 ##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
 |      % | Samples | Caller       | Location                                                               |
 | -----: | ------: | ------------ | ---------------------------------------------------------------------- |
 | 100.0% |       2 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801125b10` |
-
-##### `g1_post_barrier_slow` (`<unknown>`)
-
-|     % | Samples | Caller                     | Location                                                  |
-| ----: | ------: | -------------------------- | --------------------------------------------------------- |
-| 50.0% |       1 | `<init>()`                 | `java.util.concurrent.RecursiveTask`                      |
-| 50.0% |       1 | `<init>(JavaKMeans, List)` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
-
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Caller      | Location                                               |
-| -----: | ------: | ----------- | ------------------------------------------------------ |
-| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
-
-|      % | Samples | Caller      | Location                                               |
-| -----: | ------: | ----------- | ------------------------------------------------------ |
-| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
 ### Total samples
 

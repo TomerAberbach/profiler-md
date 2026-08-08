@@ -25,8 +25,8 @@ ambiguous.
 | **Detect**          | Infer an input's format or origin when the user doesn't specify one                          | sniff, guess        |
 | **Marker entry**    | An entry carrying evidence unique to an origin; the unit of detection                        | signature, evidence |
 | **Origin hint**     | Format metadata identifying the writer, set by a parser when entries carry no marker         | —                   |
-| **Entry**           | A name + location pair; the unit of filtering and categorization                             | record              |
-| **Category**        | A classification of an entity in an input                                                    | type, group         |
+| **Entry**           | A name + location pair; the unit of filtering                                                | record              |
+| **Category**        | A classification of an entity in an input, drawn from a closed per-modality set              | type, group         |
 | **Fallback origin** | The origin a format resolves to when no specific origin matches any entry                    | default origin      |
 | **Normalize**       | An origin's rewrite of a raw stack frame (split packed names, fix lines, drop pseudo-frames) | clean, fix up       |
 | **Aggregate**       | Accumulate data from a input into an aggregated form                                         | summarize           |

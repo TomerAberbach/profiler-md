@@ -5,7 +5,8 @@ Collected 129 samples → 126 samples (-3 samples, -2.3%).
 | Category    | Change | Delta |             % |  Samples |
 | ----------- | -----: | ----: | ------------: | -------: |
 | third-party |  -2.9% |    -3 | 79.1% → 78.6% | 102 → 99 |
-| stdlib      |   0.0% |     0 | 20.9% → 21.4% |       27 |
+| unknown     |  -6.7% |    -1 | 11.6% → 11.1% |  15 → 14 |
+| stdlib      |  +8.3% |    +1 |  9.3% → 10.3% |  12 → 13 |
 
 ## Hottest functions
 

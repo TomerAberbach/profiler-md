@@ -5,7 +5,8 @@ Took 5.58s over 4,226 samples (1.3ms per sample).
 | Category    |     % |    Time | Samples |
 | ----------- | ----: | ------: | ------: |
 | third-party | 91.7% |   5.11s |   3,906 |
-| stdlib      |  8.3% | 463.5ms |     319 |
+| stdlib      |  5.5% | 304.7ms |     197 |
+| native      |  2.8% | 158.8ms |     122 |
 | unknown     | <0.1% |   1.2ms |       1 |
 
 ## Hottest functions
@@ -16,7 +17,6 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |  Time | Samples | Function        | Location                                                                                  |
 | ----: | ----: | ------: | --------------- | ----------------------------------------------------------------------------------------- |
-| <0.1% | 1.2ms |       1 | `(unknown)`     | `<unknown>`                                                                               |
 | <0.1% | 1.1ms |       1 | `createProgram` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
 #### Callers
@@ -41,7 +41,6 @@ Functions ranked by total time spent in the function and all its callees.
 |  1.4% |  77.3ms |      59 | `bound require`                    | `<unknown>`                                                                               |
 |  0.7% |  38.6ms |      31 | `parseJsonConfigFileContentWorker` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`  |
 |  0.1% |   3.6ms |       3 | `getParsedCommandLineOfConfigFile` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
-| <0.1% |   2.5ms |       2 | `(unknown)`                        | `<unknown>`                                                                               |
 
 #### Callees
 

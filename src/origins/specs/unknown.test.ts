@@ -27,8 +27,12 @@ describe(`categorizeEntry`, () => {
     )
   })
 
-  test(`location-less frames are internals`, () => {
-    expect(categorizeEntry(relativeEntry(`native`))).toBe(`stdlib`)
+  test(`location-less frames are native`, () => {
+    expect(categorizeEntry(relativeEntry(`native`))).toBe(`native`)
+  })
+
+  test(`a frame with neither a name nor a location is unknown`, () => {
+    expect(categorizeEntry(relativeEntry(`(anonymous)`))).toBe(`unknown`)
   })
 
   test(`parenthesized closure names are not synthetic frame labels`, () => {
@@ -40,14 +44,23 @@ describe(`categorizeEntry`, () => {
           `(::JSON3.var"#defaultminimum##2#defaultminimum##3")(::Pair{Symbol, Any})`,
         ),
       ),
+    ).toBe(`native`)
+  })
+
+  test(`an OS toolchain header is stdlib`, () => {
+    expect(
+      categorizeEntry(
+        absoluteEntry(`f`, `file:///usr/include/c++/12/bits/basic_string.tcc`),
+      ),
     ).toBe(`stdlib`)
   })
 
-  test.each([
-    `file:///usr/include/c++/12/bits/basic_string.tcc`,
-    `file:///usr/lib/x86_64-linux-gnu/libc.so.6`,
-  ])(`the OS system-directory source %s is stdlib`, url => {
-    expect(categorizeEntry(absoluteEntry(`f`, url))).toBe(`stdlib`)
+  test(`an OS system library is native`, () => {
+    expect(
+      categorizeEntry(
+        absoluteEntry(`f`, `file:///usr/lib/x86_64-linux-gnu/libc.so.6`),
+      ),
+    ).toBe(`native`)
   })
 
   test(`a project directory merely named like a system one stays ours`, () => {
@@ -59,9 +72,9 @@ describe(`categorizeEntry`, () => {
   test(`applies no runtime-specific knowledge`, () => {
     // V8 regexp labels and node_modules need a known runtime, yet appear in
     // undetected profiles. A marker-free pprof profile from a JavaScript
-    // runtime, for example, resolves to unknown. A `RegExp:` frame is `stdlib`
+    // runtime, for example, resolves to unknown. A `RegExp:` frame is `native`
     // only because it has no location, not because the label is recognized.
-    expect(categorizeEntry(relativeEntry(`RegExp: /a/`))).toBe(`stdlib`)
+    expect(categorizeEntry(relativeEntry(`RegExp: /a/`))).toBe(`native`)
     expect(
       categorizeEntry(
         absoluteEntry(`f`, `file:///app/node_modules/x/index.js`),

@@ -84,6 +84,8 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  0.1% | 1.74 MiB |         55 | `main.main`                     | `profile.go:61`                                                                                  |
 |  0.1% | 1.13 MiB |          2 | `runtime/pprof.StartCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:888`  |
 | <0.1% |  624 KiB |          1 | `os.ReadFile`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`              |
+| <0.1% | 28.8 KiB |        202 | `runtime.gcBgMarkWorker`        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`         |
+| <0.1% | 20.3 KiB |        185 | `runtime.gcMarkDone`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`         |
 | <0.1% | 4.04 KiB |         51 | `path/filepath.Join`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/path/filepath/path.go:130`   |
 
 ##### Callees
@@ -105,6 +107,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 35.1% |  624 KiB |       1 | `os.ReadFile`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`             |
 |  0.2% | 4.04 KiB |      51 | `path/filepath.Join`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/path/filepath/path.go:130`  |
 
+###### `runtime.gcBgMarkWorker` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`)
+
+|     % |     Size | Samples | Callee               | Location                                                                                 |
+| ----: | -------: | ------: | -------------------- | ---------------------------------------------------------------------------------------- |
+| 70.4% | 20.3 KiB |     185 | `runtime.gcMarkDone` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015` |
+
 ### Hottest call stacks
 
 Call stacks ranked by bytes allocated in their leaf frame.
@@ -115,6 +123,7 @@ Call stacks ranked by bytes allocated in their leaf frame.
 | 46.3% |  795 MiB | 10,621,980 | `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`) ← `main.workload.func1` (`profile.go:25`) |
 |  0.1% | 1.13 MiB |          2 | `runtime/pprof.StartCPUProfile` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:888`) ← `main.main` (`profile.go:61`)      |
 | <0.1% |  624 KiB |          1 | `os.ReadFile` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`) ← `main.main` (`profile.go:61`)                                    |
+| <0.1% | 20.3 KiB |        185 | `runtime.gcMarkDone` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`) ← `runtime.gcBgMarkWorker` (1750)                      |
 | <0.1% | 4.04 KiB |         51 | `path/filepath.Join` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/path/filepath/path.go:130`) ← `main.main` (`profile.go:61`)                  |
 
 ## Retained heap
@@ -129,6 +138,8 @@ Functions ranked by total bytes retained in the function and all its callees.
 | ----: | -------: | ---------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
 | 95.8% |    2 MiB | 21,823,512 | `main.workload.func1`     | `profile.go:25`                                                                                  |
 | 95.6% |    2 MiB | 11,200,763 | `encoding/json.Marshal`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+|  1.3% | 28.8 KiB |        202 | `runtime.gcBgMarkWorker`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`         |
+|  0.9% | 20.3 KiB |        185 | `runtime.gcMarkDone`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`         |
 |  0.2% | 4.05 KiB | 10,621,980 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
 ##### Callees
@@ -142,13 +153,18 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 99.8% |    2 MiB | 11,200,763 | `encoding/json.Marshal`   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
 |  0.2% | 4.05 KiB | 10,621,980 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
+###### `runtime.gcBgMarkWorker` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`)
+
+|     % |     Size | Samples | Callee               | Location                                                                                 |
+| ----: | -------: | ------: | -------------------- | ---------------------------------------------------------------------------------------- |
+| 70.4% | 20.3 KiB |     185 | `runtime.gcMarkDone` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015` |
+
 ### Hottest call stacks
 
 Call stacks ranked by bytes retained in their leaf frame.
 
-Common call stack: `main.workload.func1` (`profile.go:25`)
-
-|     % |     Size |    Samples | Call stack                                                                                                                   |
-| ----: | -------: | ---------: | ---------------------------------------------------------------------------------------------------------------------------- |
-| 95.6% |    2 MiB | 11,200,763 | `encoding/json.Marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`)   |
-|  0.2% | 4.05 KiB | 10,621,980 | `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`) |
+|     % |     Size |    Samples | Call stack                                                                                                                                                             |
+| ----: | -------: | ---------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 95.6% |    2 MiB | 11,200,763 | `encoding/json.Marshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205`) ← `main.workload.func1` (`profile.go:25`)   |
+|  0.9% | 20.3 KiB |        185 | `runtime.gcMarkDone` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`) ← `runtime.gcBgMarkWorker` (1750)                      |
+|  0.2% | 4.05 KiB | 10,621,980 | `encoding/json.Unmarshal` (`/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102`) ← `main.workload.func1` (`profile.go:25`) |

@@ -110,4 +110,25 @@ describe(`categorizeEntry`, () => {
       `garbage collector`,
     )
   })
+
+  test.each([
+    [`CompileBroker::compiler_thread_loop`, `libjvm.dylib`],
+    [`LinearScan::do_linear_scan`, `libjvm.dylib`],
+    [`Compile::Optimize`, undefined],
+  ])(`the HotSpot compiler frame %s is compiler`, (name, path) => {
+    expect(categorizeEntry(relativeEntry(name, path))).toBe(`compiler`)
+  })
+
+  // The compiler rules match a bare symbol, which a Java method name can
+  // satisfy, so a declaring class keeps them off the profiled program.
+  test.each([
+    [`getNode`, `com.acme.Tree`],
+    [`removeNode`, `com.acme.LinkedList`],
+    [`TypeAdapter`, `com.google.gson.TypeAdapter`],
+    [`GraphBuilder`, `com.acme.GraphBuilder`],
+  ])(`the Java method %s is ours, not compiler`, (name, path) => {
+    const entry = relativeEntry(name, path)
+    expect(categorizeEntry(entry)).toBe(`ours`)
+    expect(asyncProfilerOriginSpec.isMarkerEntry(entry)).toBe(false)
+  })
 })

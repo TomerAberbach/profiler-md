@@ -19,11 +19,16 @@ const named = (name: string): ProfileEntry => ({ id: 1, name })
 
 describe(`every origin`, () => {
   test.each(origins)(`%s`, origin => {
-    // A frame with no location is a runtime internal.
+    // A frame with no location is compiled code, except where the profiler
+    // says only that it could not attribute the frame.
     expect(categorizeEntryForOrigin(named(`native`), origin)).toBeOneOf([
       `native`,
-      `stdlib`,
+      `unknown`,
     ])
+    // A frame the profiler neither named nor located is unknown everywhere.
+    expect(categorizeEntryForOrigin(named(`(anonymous)`), origin)).toBe(
+      `unknown`,
+    )
     // A located project file is ours.
     expect(
       categorizeEntryForOrigin(located(`file:///app/src/index.ts`), origin),
@@ -41,9 +46,10 @@ describe(`synthetic frames (JavaScript runtimes)`, () => {
       `garbage collector`,
     )
     expect(categorizeEntryForOrigin(named(`(idle)`), origin)).toBe(`idle`)
-    // Anonymous functions are real frames, not synthetic ones.
+    // Anonymous functions are real frames, not synthetic ones, so the label
+    // names no category and the frame categorizes by its (absent) location.
     expect(
       categorizeEntryForOrigin(named(`(anonymous function)`), origin),
-    ).toBe(`stdlib`)
+    ).toBe(`native`)
   })
 })

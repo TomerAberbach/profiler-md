@@ -664,21 +664,23 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntries groups entries by custom category`, () => {
+  test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
       speedscopeConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project/`,
-        categorizeEntries: entries =>
-          entries.map(entry => (entry.name === `main` ? `core` : `workers`)),
+        categorizeFunctions: entries =>
+          entries.map(entry =>
+            entry.name === `main` ? `ours` : `third-party`,
+          ),
       }),
     )
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `workers`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
-        { Category: `core`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
+        { Category: `third-party`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
+        { Category: `ours`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
       ],
     ])
   })

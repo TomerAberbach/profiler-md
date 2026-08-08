@@ -5,7 +5,7 @@ Took 1.29s over 1,290 samples (1.0ms per sample).
 | Category |     % |   Time | Samples |
 | -------- | ----: | -----: | ------: |
 | ours     | 99.1% |  1.27s |   1,279 |
-| stdlib   |  0.9% | 11.0ms |      11 |
+| native   |  0.9% | 11.0ms |      11 |
 
 ## Hottest functions
 

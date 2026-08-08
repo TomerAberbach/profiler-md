@@ -2,10 +2,11 @@
 
 Allocated 927 MiB over 10,093,789 samples (96.3 B per sample).
 
-| Category    |     % |    Size |   Samples |
-| ----------- | ----: | ------: | --------: |
-| third-party | 76.8% | 712 MiB | 8,842,365 |
-| stdlib      | 23.2% | 215 MiB | 1,251,424 |
+| Category    |     % |     Size |   Samples |
+| ----------- | ----: | -------: | --------: |
+| third-party | 76.8% |  712 MiB | 8,842,365 |
+| stdlib      | 23.0% |  213 MiB | 1,251,423 |
+| native      |  0.2% | 1.98 MiB |         1 |
 
 ## Hottest functions
 

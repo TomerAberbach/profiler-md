@@ -2,11 +2,14 @@
 
 Took 18.29s over 14,612 samples (1.3ms per sample).
 
-| Category    |     % |   Time | Samples |
-| ----------- | ----: | -----: | ------: |
-| third-party | 88.6% | 16.20s |  12,941 |
-| stdlib      | 11.4% |  2.09s |   1,670 |
-| ours        | <0.1% |  1.3ms |       1 |
+| Category          |     % |    Time | Samples |
+| ----------------- | ----: | ------: | ------: |
+| third-party       | 88.6% |  16.20s |  12,941 |
+| garbage collector |  9.6% |   1.75s |   1,403 |
+| native            |  1.0% | 174.0ms |     139 |
+| stdlib            |  0.7% | 134.0ms |     107 |
+| regexp            |  0.1% |  26.3ms |      21 |
+| ours              | <0.1% |   1.3ms |       1 |
 
 ## Hottest functions
 
@@ -14,11 +17,18 @@ Took 18.29s over 14,612 samples (1.3ms per sample).
 
 Functions ranked by wall time spent directly in the function body, excluding callees.
 
-|     % |  Time | Samples | Function           | Location                                                                        |
-| ----: | ----: | ------: | ------------------ | ------------------------------------------------------------------------------- |
-| <0.1% | 5.0ms |       4 | `noop`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| <0.1% | 2.5ms |       2 | `createProgram`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| <0.1% | 1.3ms |       1 | `typeCheckProject` | `tsc-workload.mjs`                                                              |
+|     % |   Time | Samples | Function                                               | Location                                                                        |
+| ----: | -----: | ------: | ------------------------------------------------------ | ------------------------------------------------------------------------------- |
+|  9.6% |  1.75s |   1,403 | `(garbage collector)`                                  | `<unknown>`                                                                     |
+|  0.1% | 11.3ms |       9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+`       | `<unknown>`                                                                     |
+|  0.1% | 10.0ms |       8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`            | `<unknown>`                                                                     |
+| <0.1% |  5.0ms |       4 | `noop`                                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| <0.1% |  2.5ms |       2 | `createProgram`                                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| <0.1% |  1.3ms |       1 | `typeCheckProject`                                     | `tsc-workload.mjs`                                                              |
+| <0.1% |  1.3ms |       1 | `RegExp: {(\d+)}`                                      | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                                                     |
 
 #### Lines
 
@@ -68,17 +78,24 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total wall time spent in the function and all its callees.
 
-|     % |   Time | Samples | Function                           | Location                                                                        |
-| ----: | -----: | ------: | ---------------------------------- | ------------------------------------------------------------------------------- |
-| 89.4% | 16.35s |  13,063 | `typeCheckProject`                 | `tsc-workload.mjs`                                                              |
-| 89.4% | 16.35s |  13,063 | `(anonymous)`                      | `datadog-pprof.mjs`                                                             |
-| 77.6% | 14.18s |  11,333 | `getSemanticDiagnostics`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| 11.2% |  2.04s |   1,632 | `createProgram`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-|  0.5% | 97.7ms |      78 | `require`                          | `node:internal/modules/helpers`                                                 |
-|  0.1% | 26.3ms |      21 | `getParsedCommandLineOfConfigFile` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| <0.1% |  5.0ms |       4 | `noop`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| <0.1% |  1.3ms |       1 | `getSyntacticDiagnostics`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
-| <0.1% |  1.3ms |       1 | `findConfigFile`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+|     % |   Time | Samples | Function                                               | Location                                                                        |
+| ----: | -----: | ------: | ------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| 89.4% | 16.35s |  13,063 | `typeCheckProject`                                     | `tsc-workload.mjs`                                                              |
+| 89.4% | 16.35s |  13,063 | `(anonymous)`                                          | `datadog-pprof.mjs`                                                             |
+| 77.6% | 14.18s |  11,333 | `getSemanticDiagnostics`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| 11.2% |  2.04s |   1,632 | `createProgram`                                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+|  9.6% |  1.75s |   1,403 | `(garbage collector)`                                  | `<unknown>`                                                                     |
+|  0.5% | 97.7ms |      78 | `require`                                              | `node:internal/modules/helpers`                                                 |
+|  0.1% | 26.3ms |      21 | `getParsedCommandLineOfConfigFile`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+|  0.1% | 11.3ms |       9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+`       | `<unknown>`                                                                     |
+|  0.1% | 10.0ms |       8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`            | `<unknown>`                                                                     |
+| <0.1% |  5.0ms |       4 | `noop`                                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| <0.1% |  1.3ms |       1 | `getSyntacticDiagnostics`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| <0.1% |  1.3ms |       1 | `findConfigFile`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js` |
+| <0.1% |  1.3ms |       1 | `RegExp: {(\d+)}`                                      | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>`                                                                     |
+| <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                                                     |
 
 #### Callees
 
@@ -106,15 +123,23 @@ Call stacks ranked by wall time spent in their leaf frame. `…` stands for fram
 
 Common call stack: `(anonymous)` (`datadog-pprof.mjs`)
 
-|     % |   Time | Samples | Call stack                                                                                                                                                     |
-| ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 77.5% | 14.18s |  11,328 | `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)           |
-| 11.1% |  2.03s |   1,629 | `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                    |
-|  0.5% | 96.4ms |      77 | `require` (`node:internal/modules/helpers`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                          |
-|  0.1% | 26.3ms |      21 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) |
-| <0.1% |  3.8ms |       3 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← … ← `createProgram` ← `typeCheckProject` (`tsc-workload.mjs`)       |
-| <0.1% |  1.3ms |       1 | `typeCheckProject` (`tsc-workload.mjs`)                                                                                                                        |
-| <0.1% |  1.3ms |       1 | `getSyntacticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)          |
-| <0.1% |  1.3ms |       1 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                             |
-| <0.1% |  1.3ms |       1 | `findConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                   |
-| <0.1% |  1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← … ← `require` ← `typeCheckProject` (`tsc-workload.mjs`)                                                          |
+|     % |   Time | Samples | Call stack                                                                                                                                                                                                  |
+| ----: | -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 77.5% | 14.17s |  11,323 | `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                        |
+| 11.0% |  2.01s |   1,613 | `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                 |
+|  0.5% | 96.4ms |      77 | `require` (`node:internal/modules/helpers`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                                                                       |
+|  0.1% | 26.3ms |      21 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                              |
+|  0.1% | 10.0ms |       8 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` ← … ← `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)          |
+| <0.1% |  7.5ms |       6 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` ← … ← `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)               |
+| <0.1% |  3.8ms |       3 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← … ← `createProgram` ← `typeCheckProject` (`tsc-workload.mjs`)                                                    |
+| <0.1% |  2.5ms |       2 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` ← … ← `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)      |
+| <0.1% |  1.3ms |       1 | `typeCheckProject` (`tsc-workload.mjs`)                                                                                                                                                                     |
+| <0.1% |  1.3ms |       1 | `getSyntacticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                       |
+| <0.1% |  1.3ms |       1 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                          |
+| <0.1% |  1.3ms |       1 | `findConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                |
+| <0.1% |  1.3ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` ← … ← `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) |
+| <0.1% |  1.3ms |       1 | `RegExp: {(\d+)}` ← … ← `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                |
+| <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])` ← … ← `getSemanticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                       |
+| <0.1% |  1.3ms |       1 | `RegExp: import\|require` ← … ← `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                                 |
+| <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` ← … ← `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)    |
+| <0.1% |  1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← … ← `require` ← `typeCheckProject` (`tsc-workload.mjs`)                                                                                                       |

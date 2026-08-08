@@ -3,7 +3,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
-import type { EntryCategory, EntryMatch, ProfileEntry } from '../options.ts'
+import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
 
 /**
  * The internal spec of an origin: a distinct profiler tool or runtime that
@@ -78,7 +78,7 @@ export type OriginSpec = {
    * external dependencies (`third-party`), and which frame names are the
    * profiler's synthetic ones.
    */
-  categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => EntryCategory
+  categorizeEntry: (entry: DeepReadonly<ProfileEntry>) => FunctionCategory
 
   /**
    * Returns the heap snapshot category of a constructor named {@link name}

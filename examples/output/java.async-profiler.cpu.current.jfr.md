@@ -5,8 +5,9 @@ Collected 4,822 samples.
 | Category |     % | Samples |
 | -------- | ----: | ------: |
 | ours     | 60.0% |   2,894 |
-| native   | 24.3% |   1,170 |
+| native   | 23.0% |   1,109 |
 | stdlib   | 14.7% |     709 |
+| compiler |  1.3% |      61 |
 | jit      |  1.0% |      49 |
 
 ## Hottest functions
@@ -15,28 +16,28 @@ Collected 4,822 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|     % | Samples | Function                            | Location                                                   |
-| ----: | ------: | ----------------------------------- | ---------------------------------------------------------- |
-| 20.7% |     998 | `accumulate(Double[], double[])`    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| 19.1% |     921 | `distance(Double[], Double[])`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  9.5% |     456 | `vectorSum()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  8.0% |     386 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  3.2% |     155 | `computeIfAbsent(Object, Function)` | `java.util.HashMap`                                        |
-|  2.4% |     115 | `collectClusters(int[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  2.3% |     113 | `doubleValue()`                     | `java.lang.Double`                                         |
-|  0.9% |      45 | `zero_blocks`                       | `<unknown>`                                                |
-|  0.2% |      11 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                                        |
-|  0.1% |       4 | `compute()`                         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
-|  0.1% |       4 | `mach_absolute_time`                | `libsystem_kernel.dylib`                                   |
-|  0.1% |       3 | `add(Object)`                       | `java.util.ArrayList`                                      |
-|  0.1% |       3 | `add(double[], double[])`           | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| <0.1% |       2 | `join()`                            | `java.util.concurrent.ForkJoinTask`                        |
-| <0.1% |       2 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       2 | `get(int)`                          | `java.util.ArrayList`                                      |
-| <0.1% |       2 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| <0.1% |       2 | `I2C/C2I adapters(0xba)`            | `<unknown>`                                                |
-| <0.1% |       1 | `computeDirectly()`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       1 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+|     % | Samples | Function                                    | Location                                                   |
+| ----: | ------: | ------------------------------------------- | ---------------------------------------------------------- |
+| 20.7% |     998 | `accumulate(Double[], double[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| 19.1% |     921 | `distance(Double[], Double[])`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  9.5% |     456 | `vectorSum()`                               | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  8.0% |     386 | `findNearestCentroid()`                     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  3.2% |     155 | `computeIfAbsent(Object, Function)`         | `java.util.HashMap`                                        |
+|  2.4% |     115 | `collectClusters(int[])`                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  2.3% |     113 | `doubleValue()`                             | `java.lang.Double`                                         |
+|  0.9% |      45 | `zero_blocks`                               | `<unknown>`                                                |
+|  0.2% |      11 | `merge(Object, Object, BiFunction)`         | `java.util.HashMap`                                        |
+|  0.1% |       4 | `compute()`                                 | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+|  0.1% |       4 | `mach_absolute_time`                        | `libsystem_kernel.dylib`                                   |
+|  0.1% |       3 | `add(Object)`                               | `java.util.ArrayList`                                      |
+|  0.1% |       3 | `add(double[], double[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  0.1% |       3 | `PhaseIdealLoop::build_loop_late_post_work` | `libjvm.dylib`                                             |
+|  0.1% |       3 | `PhaseChaitin::Split`                       | `libjvm.dylib`                                             |
+| <0.1% |       2 | `join()`                                    | `java.util.concurrent.ForkJoinTask`                        |
+| <0.1% |       2 | `combineResults(Object, Object)`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% |       2 | `get(int)`                                  | `java.util.ArrayList`                                      |
+| <0.1% |       2 | `combineResults(Object, Object)`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| <0.1% |       2 | `PhaseChaitin::build_ifg_virtual`           | `libjvm.dylib`                                             |
 
 #### Lines
 
@@ -155,18 +156,6 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | ------------------------------------------------------------- |
 | 100.0% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:367` |
 
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Location                                                       |
-| -----: | ------: | -------------------------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:171` |
-
-##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
-
-|      % | Samples | Location                                       |
-| -----: | ------: | ---------------------------------------------- |
-| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans:56` |
-
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
@@ -245,6 +234,19 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ------------------------------------ | --------------------------------------------------------- |
 | 100.0% |       3 | `combineResults(double[], double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
 
+##### `PhaseIdealLoop::build_loop_late_post_work` (`libjvm.dylib`)
+
+|     % | Samples | Caller                               | Location       |
+| ----: | ------: | ------------------------------------ | -------------- |
+| 66.7% |       2 | `PhaseIdealLoop::build_loop_late`    | `libjvm.dylib` |
+| 33.3% |       1 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Split` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       3 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
 ##### `join()` (`java.util.concurrent.ForkJoinTask`)
 
 |      % | Samples | Caller      | Location                                               |
@@ -270,24 +272,11 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ----------- | ------------------------------------------------------ |
 | 100.0% |       2 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
-##### `I2C/C2I adapters(0xba)` (`<unknown>`)
+##### `PhaseChaitin::build_ifg_virtual` (`libjvm.dylib`)
 
-|     % | Samples | Caller              | Location                                                   |
-| ----: | ------: | ------------------- | ---------------------------------------------------------- |
-| 50.0% |       1 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| 50.0% |       1 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-
-##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Caller      | Location                                               |
-| -----: | ------: | ----------- | ------------------------------------------------------ |
-| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
-
-|      % | Samples | Caller   | Location                                                               |
-| -----: | ------: | -------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `call()` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000e801183d68` |
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
 
 ### Total samples
 

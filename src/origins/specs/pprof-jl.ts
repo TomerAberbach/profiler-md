@@ -1,6 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -24,7 +25,8 @@ export const pprofJlOriginSpec = {
     juliaInstallCategory(entry) ??
     juliaDepotPackageCategory(entry) ??
     juliaRuntimeNativeCategory(entry) ??
-    (entry.location ? `ours` : `stdlib`),
+    locationlessCategory(entry) ??
+    `ours`,
   // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
   // pseudo-frame. It isn't a function: dropping it returns each sample's
   // self value to the function that allocated.
@@ -38,7 +40,7 @@ export const pprofJlOriginSpec = {
  */
 const juliaInstallCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && fileReferencePath(location).includes(`/share/julia/`)
     ? `stdlib`
     : undefined
@@ -50,7 +52,7 @@ const juliaInstallCategory = ({
  */
 const juliaDepotPackageCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }
@@ -68,7 +70,7 @@ const juliaDepotPackageCategory = ({
  */
 const juliaRuntimeNativeCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && JULIA_NATIVE_SOURCE.test(fileReferencePath(location))
     ? `native`
     : undefined

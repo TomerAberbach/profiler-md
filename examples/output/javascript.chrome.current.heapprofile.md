@@ -2,13 +2,13 @@
 
 Allocated 5.21 MiB over 223 samples (23.9 KiB per sample).
 
-| Category          |     % |     Size | Samples |
-| ----------------- | ----: | -------: | ------: |
-| ours              | 61.8% | 3.22 MiB |     199 |
-| stdlib            | 19.8% | 1.03 MiB |      11 |
-| v8 api            | 14.8% |  788 KiB |       1 |
-| bytecode compiler |  2.4% |  128 KiB |       8 |
-| parser            |  1.2% | 64.3 KiB |       4 |
+| Category |     % |     Size | Samples |
+| -------- | ----: | -------: | ------: |
+| ours     | 61.8% | 3.22 MiB |     199 |
+| stdlib   | 17.1% |  912 KiB |       2 |
+| native   | 14.8% |  788 KiB |       1 |
+| compiler |  3.6% |  193 KiB |      12 |
+| unknown  |  2.7% |  144 KiB |       9 |
 
 ## Hottest functions
 
@@ -20,9 +20,7 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | ----: | -------: | ------: | ------------------------------ | ------------------- |
 | 61.8% | 3.22 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 | 16.8% |  896 KiB |       1 | `set`                          | `<unknown>`         |
-| 14.8% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`         |
-|  2.4% |  128 KiB |       8 | `(bytecode compiler)`          | `<unknown>`         |
-|  1.2% | 64.3 KiB |       4 | `(parser)`                     | `<unknown>`         |
+|  3.6% |  193 KiB |      12 | `(compiler)`                   | `<unknown>`         |
 |  0.3% |   16 KiB |       1 | `split`                        | `<unknown>`         |
 
 #### Callers
@@ -49,9 +47,7 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | ----: | -------: | ------: | ------------------------------ | -------------------- |
 | 78.9% | 4.11 MiB |     201 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
 | 16.8% |  896 KiB |       1 | `set`                          | `<unknown>`          |
-| 14.8% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`          |
-|  2.4% |  128 KiB |       8 | `(bytecode compiler)`          | `<unknown>`          |
-|  1.2% | 64.3 KiB |       4 | `(parser)`                     | `<unknown>`          |
+|  3.6% |  193 KiB |      12 | `(compiler)`                   | `<unknown>`          |
 |  0.3% |   16 KiB |       1 | `split`                        | `<unknown>`          |
 |  0.3% |   16 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
 |  0.3% |   16 KiB |       1 | `scoreStatus`                  | `workload.mjs:11:23` |

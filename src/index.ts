@@ -7,7 +7,7 @@ export {
 export type { Format } from './formats/index.ts'
 export { ProfilerMdError } from './error.ts'
 export {
-  defaultCategorizeEntries,
+  defaultCategorizeFunctions,
   defaultMatchEntry,
   defaultShowEntry,
   isSyntheticEntry,
@@ -17,7 +17,7 @@ export type {
   ProfileData,
   AsyncProfileData,
   ProfileInput,
-  EntryCategory,
+  FunctionCategory,
   EntryMatch,
   ProfileEntry,
   AggregatedProfileEntry,

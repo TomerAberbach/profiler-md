@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { locationlessStdlibCategory } from '../categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { locationlessCategory } from '../categorize.ts'
 import { matchEntryFromRules } from '../origin.ts'
 import type { EntryMatchRule, OriginSpec } from '../origin.ts'
 
@@ -47,7 +47,7 @@ export const pprofRsOriginSpec = {
   categorizeEntry: entry =>
     rustStdlibCategory(entry) ??
     cargoRegistryCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
+    locationlessCategory(entry) ??
     `ours`,
   matchEntry: matchEntryFromRules({
     location: RUST_LOCATION_MATCH_RULES,
@@ -57,7 +57,7 @@ export const pprofRsOriginSpec = {
 /** Categorizes Rust standard-library (`std`/`core`/`alloc`) frames as `stdlib`. */
 const rustStdlibCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && RUST_STDLIB_PATH.test(fileReferencePath(location))
     ? `stdlib`
     : undefined
@@ -75,7 +75,7 @@ const RUST_STDLIB_PATH = new RegExp(
 /** Categorizes frames from Cargo's dependency registry as `third-party`. */
 const cargoRegistryCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && fileReferencePath(location).includes(`/registry/src/`)
     ? `third-party`
     : undefined

@@ -5,7 +5,7 @@
 
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
+import type { FunctionCategory, ProfileEntry } from '../options.ts'
 
 /**
  * Categorizes sources the Zig toolchain ships as `stdlib`: the standard
@@ -18,7 +18,7 @@ import type { EntryCategory, ProfileEntry } from '../options.ts'
  */
 export const zigStdlibCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && ZIG_TOOLCHAIN_SOURCE.test(fileReferencePath(location))
     ? `stdlib`
     : undefined

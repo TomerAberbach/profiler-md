@@ -109,11 +109,20 @@ describe(`categorizeEntry`, () => {
     ).toBe(`ours`)
   })
 
-  // A process id or other location-less frame.
-  test.each([`<0.94.0>`, `sleep`])(
-    `the location-less %s frame is stdlib`,
-    name => {
-      expect(categorizeEntry(named(name))).toBe(`stdlib`)
-    },
-  )
+  // A process id, which has no module.
+  test(`the location-less <0.94.0> frame is native`, () => {
+    expect(categorizeEntry(named(`<0.94.0>`))).toBe(`native`)
+  })
+
+  // Eflambe's leaf marker for a process scheduled out, not a function.
+  test(`the sleep frame is idle`, () => {
+    expect(categorizeEntry(named(`sleep`))).toBe(`idle`)
+  })
+
+  // A real function named `sleep` keeps its module and stays categorized by it.
+  test(`a module-qualified sleep is not idle`, () => {
+    expect(categorizeEntry(moduleEntry(`timer:sleep/1`, `timer`))).toBe(
+      `stdlib`,
+    )
+  })
 })

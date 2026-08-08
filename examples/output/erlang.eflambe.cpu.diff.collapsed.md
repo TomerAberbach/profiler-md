@@ -4,8 +4,9 @@
 
 | Category | Change | Delta |     % | Samples |
 | -------- | -----: | ----: | ----: | ------: |
-| stdlib   |   0.0% |     0 | 99.8% |  19,758 |
+| stdlib   |   0.0% |     0 | 99.7% |  19,738 |
 | ours     |   0.0% |     0 |  0.2% |      31 |
+| idle     |   0.0% |     0 |  0.1% |      20 |
 
 ## Hottest functions
 

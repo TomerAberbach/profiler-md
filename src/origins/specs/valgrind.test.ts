@@ -47,18 +47,23 @@ describe(`detection`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = valgrindOriginSpec
 
-  test(`a system-library object is stdlib`, () => {
+  test(`a system-library object is native`, () => {
     expect(
       categorizeEntry(absoluteEntry(`memcpy`, `file:///usr/lib/libc.so.6`)),
-    ).toBe(`stdlib`)
+    ).toBe(`native`)
   })
 
   test(`a located application frame is ours`, () => {
     expect(categorizeEntry(relativeEntry(`main`, `/src/main.c`))).toBe(`ours`)
   })
 
-  test(`a parenthesized synthetic frame becomes its own category`, () => {
-    expect(categorizeEntry(relativeEntry(`(below main)`))).toBe(`below main`)
+  // `below main` names where the frame is on the stack rather than what the
+  // code is, so it categorizes by location like any other frame.
+  test(`the below main pseudo-frame is not a category of its own`, () => {
+    expect(categorizeEntry(relativeEntry(`(below main)`))).toBe(`native`)
+    expect(
+      categorizeEntry(relativeEntry(`(below main)`, `/src/csu/libc-start.c`)),
+    ).toBe(`ours`)
   })
 })
 

@@ -5,9 +5,11 @@ Collected 4,869 samples.
 | Category |     % | Samples |
 | -------- | ----: | ------: |
 | ours     | 60.3% |   2,937 |
-| native   | 23.1% |   1,124 |
+| native   | 21.9% |   1,068 |
 | stdlib   | 15.1% |     733 |
 | jit      |  1.5% |      75 |
+| compiler |  1.1% |      54 |
+| unknown  | <0.1% |       2 |
 
 ## Hottest functions
 
@@ -15,28 +17,28 @@ Collected 4,869 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|     % | Samples | Function                   | Location                                                   |
-| ----: | ------: | -------------------------- | ---------------------------------------------------------- |
-| 19.8% |     965 | `distance`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| 19.8% |     962 | `accumulate`               | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  9.1% |     444 | `findNearestCentroid`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  8.6% |     420 | `vectorSum`                | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-|  3.0% |     148 | `computeIfAbsent`          | `java.util.HashMap`                                        |
-|  2.9% |     141 | `doubleValue`              | `java.lang.Double`                                         |
-|  2.6% |     129 | `collectClusters`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  1.5% |      73 | `zero_blocks`              | `<unknown>`                                                |
-|  1.2% |      58 | `add`                      | `java.util.ArrayList`                                      |
-|  0.2% |      12 | `merge`                    | `java.util.HashMap`                                        |
-|  0.1% |       4 | `forEach`                  | `java.util.HashMap`                                        |
-|  0.1% |       4 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-|  0.1% |       3 | `get`                      | `java.util.ArrayList`                                      |
-|  0.1% |       3 | `join`                     | `java.util.concurrent.ForkJoinTask`                        |
-| <0.1% |       2 | `computeDirectly`          | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
-| <0.1% |       2 | `vtable stub`              | `<unknown>`                                                |
-| <0.1% |       2 | `size`                     | `java.util.ArrayList`                                      |
-| <0.1% |       2 | `<init>`                   | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| <0.1% |       2 | `mach_absolute_time`       | `<unknown>`                                                |
-| <0.1% |       1 | `merge`                    | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+|     % | Samples | Function                           | Location                                                   |
+| ----: | ------: | ---------------------------------- | ---------------------------------------------------------- |
+| 19.8% |     965 | `distance`                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| 19.8% |     962 | `accumulate`                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  9.1% |     444 | `findNearestCentroid`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  8.6% |     420 | `vectorSum`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  3.0% |     148 | `computeIfAbsent`                  | `java.util.HashMap`                                        |
+|  2.9% |     141 | `doubleValue`                      | `java.lang.Double`                                         |
+|  2.6% |     129 | `collectClusters`                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  1.5% |      73 | `zero_blocks`                      | `<unknown>`                                                |
+|  1.2% |      58 | `add`                              | `java.util.ArrayList`                                      |
+|  0.2% |      12 | `merge`                            | `java.util.HashMap`                                        |
+|  0.1% |       4 | `forEach`                          | `java.util.HashMap`                                        |
+|  0.1% |       4 | `lambda$collectClusters$0`         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.1% |       3 | `get`                              | `java.util.ArrayList`                                      |
+|  0.1% |       3 | `join`                             | `java.util.concurrent.ForkJoinTask`                        |
+| <0.1% |       2 | `computeDirectly`                  | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| <0.1% |       2 | `PhaseChaitin::build_ifg_physical` | `<unknown>`                                                |
+| <0.1% |       2 | `PhaseChaitin::elide_copy`         | `<unknown>`                                                |
+| <0.1% |       2 | `vtable stub`                      | `<unknown>`                                                |
+| <0.1% |       2 | `Matcher::match_tree`              | `<unknown>`                                                |
+| <0.1% |       2 | `size`                             | `java.util.ArrayList`                                      |
 
 #### Callers
 
@@ -137,6 +139,18 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------- | ------------------------------------------------------ |
 | 100.0% |       2 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
+##### `PhaseChaitin::build_ifg_physical` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
+##### `PhaseChaitin::elide_copy` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |       2 | `PhaseChaitin::post_allocate_copy_removal` | `<unknown>` |
+
 ##### `vtable stub` (`<unknown>`)
 
 |     % | Samples | Caller    | Location                                               |
@@ -144,29 +158,17 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | 50.0% |       1 | `join`    | `java.util.concurrent.ForkJoinTask`                    |
 | 50.0% |       1 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
+##### `Matcher::match_tree` (`<unknown>`)
+
+|      % | Samples | Caller           | Location    |
+| -----: | ------: | ---------------- | ----------- |
+| 100.0% |       2 | `Matcher::xform` | `<unknown>` |
+
 ##### `size` (`java.util.ArrayList`)
 
 |      % | Samples | Caller                | Location                                                   |
 | -----: | ------: | --------------------- | ---------------------------------------------------------- |
 | 100.0% |       2 | `findNearestCentroid` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-
-##### `<init>` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
-
-|      % | Samples | Caller   | Location                                               |
-| -----: | ------: | -------- | ------------------------------------------------------ |
-| 100.0% |       2 | `<init>` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-
-##### `mach_absolute_time` (`<unknown>`)
-
-|     % | Samples | Caller            | Location                                    |
-| ----: | ------: | ----------------- | ------------------------------------------- |
-| 50.0% |       1 | `getVmStartNanos` | `org.renaissance.harness.RenaissanceSuite$` |
-
-##### `merge` (`org.renaissance.jdk.concurrent.JavaKMeans`)
-
-|      % | Samples | Caller           | Location                                                   |
-| -----: | ------: | ---------------- | ---------------------------------------------------------- |
-| 100.0% |       1 | `combineResults` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 
 ### Total samples
 

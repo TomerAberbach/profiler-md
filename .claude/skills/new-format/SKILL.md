@@ -74,7 +74,11 @@ $ARGUMENTS
 7. Create `src/formats/<name>/`:
    - `parse.ts`: typed data types and parsing into the modality's uniform parsed
      type; aggregation, origin detection, and categorization then run uniformly
-     in the modality module
+     in the modality module. Where the format spells a runtime activity its own
+     way, rename it here to the label the shared categorization already has (see
+     `VM_STATE_FRAME_NAMES` in `src/formats/v8/heap-profile/parse.ts`) rather
+     than widening `FunctionCategory`, whose members must hold across languages
+     (see the categorizing principles in `CLAUDE.md`)
      - A sampling profile parses into a `SamplingProfile` (frames, metrics,
        lazily-generated samples; see `src/modalities/sampling-profile/type.ts`).
        Map the format's units to metrics via `determineMetric`; a lone
