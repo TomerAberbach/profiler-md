@@ -165,6 +165,11 @@ pnpm check-readme
 # Benchmark the CLI with the given args
 pnpm bench ./examples/input/javascript.node.base.cpuprofile
 
+# Report which categories the examples emit, and which none emits
+pnpm categories
+# Report the function names a candidate rule matches, by their category today
+pnpm categories --rule '^LinearScan'
+
 # Generate inputs
 pnpm generate-inputs           # --missing: skip already-generated inputs
 pnpm generate-inputs --all     # Delete targets first, regenerate all
