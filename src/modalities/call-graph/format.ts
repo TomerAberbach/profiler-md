@@ -13,6 +13,12 @@ import {
 } from '../../helpers/markdown.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
+  formatRankingTables,
+  rankFunctions,
+  subsectionCategories,
+  subsectionDiffCategories,
+} from '../category.ts'
+import {
   ENTRY_FILTER_DISABLED_NOTE,
   formatDiffFunctionSections,
   formatFunctionHeading,
@@ -23,6 +29,7 @@ import {
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import type { Category } from '../format.ts'
 import {
   formatProseValue,
   formatProseValueDelta,
@@ -150,49 +157,65 @@ const formatHottestFunctions = ({
   graph: AggregatedCallGraph
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] =>
-  formatSectionGroup(
+}): RootContent[] => {
+  // Resolved once for both rankings, since a category's share comes from the
+  // shown functions' self values whether the ranking is by self or total value.
+  const categories = subsectionCategories({
+    entries: graph.functions.filter(func => options.showEntry(func)),
+    selfValueOf: func => func.selfValues[measure.index]!,
+    categoryOf: func => func.category,
+    minCategoryShare: options.minCategoryShare,
+  })
+
+  return formatSectionGroup(
     [heading(headingLevel, `Hottest functions`)],
     [
       ...formatHottestSelfFunctions({
         measure,
         graph,
+        categories,
         options,
         headingLevel: headingLevel + 1,
       }),
       ...formatHottestTotalFunctions({
         measure,
         graph,
+        categories,
         options,
         headingLevel: headingLevel + 1,
       }),
     ],
   )
+}
 
 const formatHottestSelfFunctions = ({
   measure,
   graph,
+  categories,
   options,
   headingLevel,
 }: {
   measure: Measure
   graph: AggregatedCallGraph
+  categories: Category[]
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
   const { metric, index } = measure
-  const hottestFunctions = selectTopN(
-    graph.functions.filter(
-      func => options.showEntry(func) && func.selfValues[index]! > 0,
+  const valueOf = (func: AggregatedCallGraphFunction) => func.selfValues[index]!
+  const ranking = rankFunctions({
+    functions: graph.functions.filter(
+      func => options.showEntry(func) && valueOf(func) > 0,
     ),
-    options.topN,
-    func => func.selfValues[index]!,
-  )
-  if (hottestFunctions.length === 0) {
+    categories,
+    valueOf,
+    topN: options.topN,
+  })
+  if (ranking.hottestFunctions.length === 0) {
     return []
   }
 
-  const hottestLinesSections = hottestFunctions
+  const hottestLinesSections = ranking.displayedFunctions
     .filter(func => func.lineToMetrics.size > 0)
     .flatMap(func =>
       formatHottestLines({
@@ -203,20 +226,23 @@ const formatHottestSelfFunctions = ({
       }),
     )
 
-  const total = graph.totalValues[index]!
   return [
     heading(headingLevel, `Self ${measureColumnNoun(metric)}`),
     paragraph(
       `Functions ranked by ${measureRankedByPhrase(metric)} directly in the function body, excluding callees.`,
     ),
-    formatTable(
-      functionColumns(metric, `Function`, options),
-      hottestFunctions.map(func => ({
-        func,
-        value: func.selfValues[index]!,
-        total,
-      })),
-    ),
+    ...formatRankingTables({
+      ranking,
+      formatFunctionTable: functions =>
+        formatFunctionTable({
+          functions,
+          metric,
+          valueOf,
+          total: graph.totalValues[index]!,
+          options,
+        }),
+      headingLevel: headingLevel + 1,
+    }),
     ...formatSectionGroup(
       [
         heading(headingLevel + 1, `Lines`),
@@ -228,6 +254,24 @@ const formatHottestSelfFunctions = ({
     ),
   ]
 }
+
+const formatFunctionTable = ({
+  functions,
+  metric,
+  valueOf,
+  total,
+  options,
+}: {
+  functions: AggregatedCallGraphFunction[]
+  metric: Metric
+  valueOf: (func: AggregatedCallGraphFunction) => number
+  total: number
+  options: FormattingProfileToMdOptions
+}): RootContent =>
+  formatTable(
+    functionColumns(metric, `Function`, options),
+    functions.map(func => ({ func, value: valueOf(func), total })),
+  )
 
 const formatHottestLines = ({
   measure,
@@ -267,29 +311,34 @@ const formatHottestLines = ({
 const formatHottestTotalFunctions = ({
   measure,
   graph,
+  categories,
   options,
   headingLevel,
 }: {
   measure: Measure
   graph: AggregatedCallGraph
+  categories: Category[]
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
   const { metric, index } = measure
-  const total = graph.totalValues[index]!
-  const hottestFunctions = selectTopN(
-    graph.functions.filter(
-      func => options.showEntry(func) && func.totalValues[index]! > 0,
+  const valueOf = (func: AggregatedCallGraphFunction) =>
+    func.totalValues[index]!
+  const ranking = rankFunctions({
+    functions: graph.functions.filter(
+      func => options.showEntry(func) && valueOf(func) > 0,
     ),
-    options.topN,
-    func => func.totalValues[index]!,
-  )
-  if (hottestFunctions.length === 0) {
+    categories,
+    valueOf,
+    topN: options.topN,
+  })
+  if (ranking.hottestFunctions.length === 0) {
     return []
   }
 
+  const { displayedFunctions } = ranking
   const hasCallCounts = graphHasCallCounts(graph)
-  const callerSections = hottestFunctions.flatMap(func =>
+  const callerSections = displayedFunctions.flatMap(func =>
     formatHottestArcs({
       measure,
       func,
@@ -299,7 +348,7 @@ const formatHottestTotalFunctions = ({
       headingLevel: headingLevel + 2,
     }),
   )
-  const calleeSections = hottestFunctions.flatMap(func =>
+  const calleeSections = displayedFunctions.flatMap(func =>
     formatHottestArcs({
       measure,
       func,
@@ -315,14 +364,18 @@ const formatHottestTotalFunctions = ({
     paragraph(
       `Functions ranked by total ${measureRankedByPhrase(metric)} in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.`,
     ),
-    formatTable(
-      functionColumns(metric, `Function`, options),
-      hottestFunctions.map(func => ({
-        func,
-        value: func.totalValues[index]!,
-        total,
-      })),
-    ),
+    ...formatRankingTables({
+      ranking,
+      formatFunctionTable: functions =>
+        formatFunctionTable({
+          functions,
+          metric,
+          valueOf,
+          total: graph.totalValues[index]!,
+          options,
+        }),
+      headingLevel: headingLevel + 1,
+    }),
     ...formatSectionGroup(
       [
         heading(headingLevel + 1, `Callers`),
@@ -505,13 +558,24 @@ const formatDiffFunctions = ({
   measure: AggregatedCallGraphDiff[`metrics`][number]
   options: FormattingProfileToMdOptions
   headingLevel: number
-}): RootContent[] =>
-  formatSectionGroup(
+}): RootContent[] => {
+  // Resolved once for both rankings, over the functions the diff shows.
+  const categories = subsectionDiffCategories({
+    entries: diff.functions.filter(func => showDiffEntity(func, options)),
+    baseSelfValueOf: func => func.base?.selfValues[measure.baseIndex] ?? 0,
+    currentSelfValueOf: func =>
+      func.current?.selfValues[measure.currentIndex] ?? 0,
+    categoryOf: func => func.category,
+    minCategoryShare: options.minCategoryShare,
+  })
+
+  return formatSectionGroup(
     [heading(headingLevel, `Hottest functions`)],
     [
       ...formatDiffDirectionFunctions({
         diff,
         measure,
+        categories,
         options,
         headingLevel: headingLevel + 1,
         direction: `self`,
@@ -519,23 +583,27 @@ const formatDiffFunctions = ({
       ...formatDiffDirectionFunctions({
         diff,
         measure,
+        categories,
         options,
         headingLevel: headingLevel + 1,
         direction: `total`,
       }),
     ],
   )
+}
 
 /** The Self or Total regressions/improvements subsections of a diff. */
 const formatDiffDirectionFunctions = ({
   diff,
   measure,
+  categories,
   options,
   headingLevel,
   direction,
 }: {
   diff: AggregatedCallGraphDiff
   measure: AggregatedCallGraphDiff[`metrics`][number]
+  categories: Category[]
   options: FormattingProfileToMdOptions
   headingLevel: number
   direction: `self` | `total`
@@ -549,14 +617,16 @@ const formatDiffDirectionFunctions = ({
       ? 0
       : (direction === `self` ? func.selfValues : func.totalValues)[index]!
 
-  const { regressions, improvements, hasActive } = selectDiffEntities(
-    diff.functions.map(func => ({
-      entity: func,
-      baseValue: valueOf(func.base, baseIndex),
-      currentValue: valueOf(func.current, currentIndex),
-    })),
-    options,
-  )
+  const { regressions, improvements, hasActive, categoryRankings } =
+    selectDiffEntities(
+      diff.functions.map(func => ({
+        entity: func,
+        baseValue: valueOf(func.base, baseIndex),
+        currentValue: valueOf(func.current, currentIndex),
+      })),
+      options,
+      { categories, categoryOf: func => func.category },
+    )
 
   const baseTotal = diff.base.totalValues[baseIndex]!
   const currentTotal = diff.current.totalValues[currentIndex]!
@@ -592,6 +662,7 @@ const formatDiffDirectionFunctions = ({
     hasActive,
     regressions,
     improvements,
+    categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
   })
 }

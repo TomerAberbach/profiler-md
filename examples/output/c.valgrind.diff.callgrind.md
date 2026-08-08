@@ -38,9 +38,31 @@ Functions with the largest increase in instructions recorded directly in the fun
 | +20.0% |   +18 | <0.1% |      90 → 108 | `__aarch64_ldset4_rel`               | `../../usr/lib/aarch64-linux-gnu/libc.so.6` |
 | +16.7% |   +18 | <0.1% |     108 → 126 | `__aarch64_swp4_acq`                 | `../../usr/lib/aarch64-linux-gnu/libc.so.6` |
 
+##### Ours
+
+| Change | Delta |     % |  Instructions | Function                             | Location                               |
+| -----: | ----: | ----: | ------------: | ------------------------------------ | -------------------------------------- |
+| +17.9% |  +291 | <0.1% | 1,629 → 1,920 | `__futex_abstimed_wait_cancelable64` | `./nptl/./nptl/futex-internal.c`       |
+| +16.6% |  +229 | <0.1% | 1,378 → 1,607 | `pthread_cond_wait@@GLIBC_2.17`      | `./nptl/./nptl/pthread_cond_wait.c`    |
+|  +3.1% |  +120 | <0.1% | 3,828 → 3,948 | `pthread_cond_signal@@GLIBC_2.17`    | `./nptl/./nptl/pthread_cond_signal.c`  |
+|  +1.4% |  +120 | <0.1% | 8,390 → 8,510 | `__pthread_mutex_unlock_usercnt`     | `./nptl/./nptl/pthread_mutex_unlock.c` |
+| +25.0% |  +108 | <0.1% |     432 → 540 | `pthread_cond_signal@@GLIBC_2.17`    | `./nptl/./nptl/pthread_cond_common.c`  |
+| +20.0% |   +81 | <0.1% |     405 → 486 | `__pthread_mutex_cond_lock`          | `./nptl/../nptl/pthread_mutex_lock.c`  |
+|  +8.6% |   +72 | <0.1% |     840 → 912 | `__pthread_enable_asynccancel`       | `./nptl/./nptl/cancellation.c`         |
+|  +8.6% |   +66 | <0.1% |     770 → 836 | `__pthread_disable_asynccancel`      | `./nptl/./nptl/cancellation.c`         |
+| +20.0% |   +42 | <0.1% |     210 → 252 | `__condvar_confirm_wakeup`           | `./nptl/./nptl/pthread_cond_wait.c`    |
+| +20.0% |   +42 | <0.1% |     210 → 252 | `__condvar_dec_grefs`                | `./nptl/./nptl/pthread_cond_wait.c`    |
+| +20.0% |   +24 | <0.1% |     120 → 144 | `__lll_lock_wake`                    | `./nptl/./nptl/lowlevellock.c`         |
+| +16.7% |   +21 | <0.1% |     126 → 147 | `_pthread_cleanup_push@@GLIBC_2.34`  | `./nptl/./nptl/cleanup_compat.c`       |
+| +16.7% |   +18 | <0.1% |     108 → 126 | `_pthread_cleanup_pop@@GLIBC_2.34`   | `./nptl/./nptl/cleanup_compat.c`       |
+|  +6.1% |   +13 | <0.1% |     214 → 227 | `strcspn`                            | `./string/./string/strcspn.c`          |
+|  +2.9% |    +9 | <0.1% |     309 → 318 | `POOL_joinJobs`                      | `lib//common/pool.c`                   |
+
 #### Improvements
 
 Functions with the largest decrease in instructions recorded directly in the function body, excluding callees.
+
+##### Ours
 
 | Change | Delta |     % |    Instructions | Function   | Location                               |
 | -----: | ----: | ----: | --------------: | ---------- | -------------------------------------- |
@@ -52,6 +74,8 @@ Functions with the largest decrease in instructions recorded directly in the fun
 #### Regressions
 
 Functions with the largest increase in total instructions recorded in the function and all its callees.
+
+##### Ours
 
 | Change |  Delta |     % |      Instructions | Function                        | Location                                       |
 | -----: | -----: | ----: | ----------------: | ------------------------------- | ---------------------------------------------- |
@@ -79,6 +103,8 @@ Functions with the largest increase in total instructions recorded in the functi
 #### Improvements
 
 Functions with the largest decrease in total instructions recorded in the function and all its callees.
+
+##### Ours
 
 | Change | Delta |     % |    Instructions | Function   | Location                               |
 | -----: | ----: | ----: | --------------: | ---------- | -------------------------------------- |
