@@ -7,7 +7,7 @@ import { hasProtocol } from './origin.ts'
  * Categorizes an engine's synthetic profiler frames, named like `(idle)` or
  * `(garbage collector)`, by the label inside the parentheses.
  *
- * Only a plain word label counts, and only one {@link SYNTHETIC_FRAME_CATEGORIES}
+ * Only a plain word label counts, and only one {@link SYNTHETIC_FRAME_LABEL_CATEGORIES}
  * names. A looser rule would promote arbitrary name fragments in languages whose
  * closure names are themselves parenthesized (Julia's
  * `(::JSON3.var"#f##2#f##3")(::Pair{Symbol, Any})`), and would admit a category
@@ -22,31 +22,29 @@ export const syntheticFrameCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   const label = name && SYNTHETIC_FRAME_LABEL.exec(name)?.groups!.label
-  return label && SYNTHETIC_FRAME_CATEGORIES.has(label as FunctionCategory)
-    ? (label as FunctionCategory)
-    : undefined
+  return label ? SYNTHETIC_FRAME_LABEL_CATEGORIES.get(label) : undefined
 }
 
 /** A whole-name `(label)` of plain words, e.g. `(garbage collector)`. */
 const SYNTHETIC_FRAME_LABEL = /^\((?<label>[A-Za-z][A-Za-z0-9 _-]*)\)$/u
 
 /**
- * The categories a `(label)` frame name maps to: the runtime activities an
+ * The category each `(label)` frame name names: the runtime activities an
  * engine reports as a pseudo-frame rather than as a function.
  *
- * A label names the category directly, so an engine spelling an activity
- * differently maps its own vocabulary onto these in the format's parser (see
- * the V8 heap profile's VM state frame names). Excludes the categories
- * recording where source code came from (`ours`, `third-party`, `stdlib`),
- * which a frame belonging to no source file can't be, and those an engine names
- * in a frame's location rather than its name (`jit`, `kernel`, `native`).
+ * An engine spelling an activity differently maps its own vocabulary onto these
+ * labels in the format's parser (see the V8 heap profile's VM state frame
+ * names). Excludes the categories recording where source code came from
+ * (`ours`, `third-party`, `stdlib`), which a frame belonging to no source file
+ * can't be, and those an engine names in a frame's location rather than its
+ * name (`jit`, `kernel`, `native`).
  */
-const SYNTHETIC_FRAME_CATEGORIES: ReadonlySet<FunctionCategory> =
-  new Set<FunctionCategory>([
-    `garbage collector`,
-    `compiler`,
-    `idle`,
-    `unknown`,
+const SYNTHETIC_FRAME_LABEL_CATEGORIES: ReadonlyMap<string, FunctionCategory> =
+  new Map([
+    [`garbage collector`, `garbage collector`],
+    [`compiler`, `compiler`],
+    [`idle`, `idle`],
+    [`unknown`, `unknown`],
   ])
 
 /**
