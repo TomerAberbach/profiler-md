@@ -126,22 +126,22 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks ranked by samples taken in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % | Samples | Call stack                                                                                                                                          |
-| ----: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 20.7% |   4,105 | `do_encode_map/2` (`json`) ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                         |
-| 20.3% |   4,027 | `do_encode_map/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                             |
-|  3.1% |     607 | `do_encode_map/2` (`json`) ← `do_encode_map/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                     |
-|  2.7% |     530 | `do_encode/2` (`json`) ← `do_encode_map/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                         |
-|  1.4% |     273 | `do_encode/2` (`json`) ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                             |
-|  0.5% |     102 | `do_encode/2` (`json`) ← `do_encode_map/2` ← `do_encode_map/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                     |
-|  0.5% |      95 | `do_encode_map/2` (`json`) ← `do_encode_map/2` ← `do_encode_map/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                 |
-|  0.1% |      15 | `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                                          |
-|  0.1% |      10 | `do_encode/2` (`json`) ← `do_encode_map/2` ← `do_encode_map/2` ← `do_encode_map/2` ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2` |
-| <0.1% |       5 | `encode/1` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                    |
-| <0.1% |       5 | `encode/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                    |
-| <0.1% |       5 | `do_encode/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                 |
-| <0.1% |       5 | `iolist_to_binary/1` (`erlang`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                        |
-| <0.1% |       2 | `seq/2` (`lists`) ← `run/1` (`profile`)                                                                                                             |
-| <0.1% |       2 | `seq_loop/3` (`lists`) ← `run/1` (`profile`)                                                                                                        |
+|     % | Samples | Call stack                                                                                                                                                          |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 20.7% |   4,105 | `do_encode_map/2` (`json`) ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                     |
+| 20.3% |   4,027 | `do_encode_map/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                             |
+|  3.1% |     607 | `do_encode_map/2` (`json`) ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                             |
+|  2.7% |     530 | `do_encode/2` (`json`) ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                 |
+|  1.4% |     273 | `do_encode/2` (`json`) ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                         |
+|  0.5% |     102 | `do_encode/2` (`json`) ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                         |
+|  0.5% |      95 | `do_encode_map/2` (`json`) ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                     |
+|  0.1% |      15 | `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                                                          |
+|  0.1% |      10 | `do_encode/2` (`json`) ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← … ← `do_encode_map/2` ← `encode/1` (`profile`) ← `-run/1-fun-0-/2` |
+| <0.1% |       5 | `encode/1` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                                    |
+| <0.1% |       5 | `encode/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                                    |
+| <0.1% |       5 | `do_encode/2` (`json`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                                 |
+| <0.1% |       5 | `iolist_to_binary/1` (`erlang`) ← `encode/1` (`profile`) ← `-run/1-fun-0-/2`                                                                                        |
+| <0.1% |       2 | `seq/2` (`lists`) ← `run/1` (`profile`)                                                                                                                             |
+| <0.1% |       2 | `seq_loop/3` (`lists`) ← `run/1` (`profile`)                                                                                                                        |

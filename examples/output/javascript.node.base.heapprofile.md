@@ -43,7 +43,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by bytes allocated in their leaf frame.
+Call stacks ranked by bytes allocated in their leaf frame. `…` stands for frames the entry filter hides.
 
 Common call stack: `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)` (`tsc-run.mjs:1:1`)
 
@@ -53,4 +53,4 @@ Common call stack: `typeCheckProject` (`tsc-workload.mjs:3:33`) ← `(anonymous)
 | 28.8% | 9.51 MiB |      19 | `getSemanticDiagnostics` (`node_modules/typescript/lib/typescript.js:121549:36`)          |
 | 10.7% | 3.52 MiB |       7 | `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`)                   |
 |  1.5% |  512 KiB |       1 | `getParsedCommandLineOfConfigFile` (`node_modules/typescript/lib/typescript.js:36594:44`) |
-|  1.5% |  512 KiB |       1 | `require` (`node:internal/modules/helpers:146:19`) ← `require` (146:19)                   |
+|  1.5% |  512 KiB |       1 | `require` (`node:internal/modules/helpers:146:19`) ← … ← `require` (146:19)               |

@@ -57,17 +57,17 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks ranked by time spent in their leaf frame. `…` stands for frames the entry filter hides.
 
 Common call stack: `typeCheckProject` (`tsc-workload.mjs:3:33`)
 
-|     % |    Time | Samples | Call stack                                                                                                                                         |
-| ----: | ------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 84.4% |   4.71s |   3,609 | `getDiagnosticsHelper` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38`)                                 |
-| 12.5% | 699.7ms |     494 | `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27`)                                        |
-|  1.3% |  73.7ms |      57 | `bound require`                                                                                                                                    |
-|  0.8% |  45.1ms |      35 | `forEachAncestorDirectory` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:6613:38`) ← `createProgram` (113744:27) |
-|  0.7% |  37.9ms |      30 | `parseJsonConfigFileContentWorker` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`)                      |
-| <0.1% |   2.8ms |       2 | `bound require` ← `bound require`                                                                                                                  |
-| <0.1% |   2.5ms |       2 | `forEachAncestorDirectory` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:6613:38`)                               |
-| <0.1% |   1.4ms |       1 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`)                      |
+|     % |    Time | Samples | Call stack                                                                                                                                             |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 84.4% |   4.71s |   3,609 | `getDiagnosticsHelper` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38`)                                     |
+| 12.5% | 699.7ms |     494 | `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27`)                                            |
+|  1.3% |  73.7ms |      57 | `bound require`                                                                                                                                        |
+|  0.8% |  45.1ms |      35 | `forEachAncestorDirectory` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:6613:38`) ← … ← `createProgram` (113744:27) |
+|  0.7% |  37.9ms |      30 | `parseJsonConfigFileContentWorker` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`)                          |
+| <0.1% |   2.8ms |       2 | `bound require` ← … ← `bound require`                                                                                                                  |
+| <0.1% |   2.5ms |       2 | `forEachAncestorDirectory` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:6613:38`)                                   |
+| <0.1% |   1.4ms |       1 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`)                          |

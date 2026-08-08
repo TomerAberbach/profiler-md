@@ -19,6 +19,12 @@ import {
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
+/**
+ * The note explaining the ellipsis, shown only when a displayed call stack
+ * contains a hidden frame.
+ */
+const ELLIPSIS_NOTE = `\`…\` stands for frames the entry filter hides.`
+
 /** The gperftools in-use metric, all zeros when nothing was live at dump time. */
 const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
 
@@ -158,6 +164,210 @@ describe(`formatSamplingProfile`, () => {
         },
       ],
     ])
+  })
+
+  test(`marks hidden frames between two shown frames with an ellipsis`, () => {
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1, 2],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `funcC`,
+          url: `file:///project/src/c.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+      ],
+    )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `funcB`,
+    })
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `funcA (src/a.ts) ← … ← funcC (src/c.ts)`,
+        },
+      ],
+    ])
+    expect(md).toContain(ELLIPSIS_NOTE)
+  })
+
+  test(`ends a row with an ellipsis when hidden frames precede the common call stack`, () => {
+    // One stack reaches funcC through a hidden frame and the other calls it
+    // directly, so the ellipsis prints on the row instead of in the common
+    // call stack.
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          selfSampleCount: 6,
+          selfValues: [360],
+          stack: [0, 1, 2],
+        },
+        {
+          name: `hiddenMid`,
+          url: `file:///project/src/mid.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `funcC`,
+          url: `file:///project/src/c.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          selfSampleCount: 3,
+          selfValues: [180],
+          stack: [3, 2],
+        },
+      ],
+    )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => !entry.name?.startsWith(`hidden`),
+    })
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+
+    expect(md).toContain(`Common call stack: \`funcC\` (\`src/c.ts\`)`)
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `0.4ms`,
+          Samples: `6`,
+          'Call stack': `funcA (src/a.ts) ← …`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `0.2ms`,
+          Samples: `3`,
+          'Call stack': `funcB (src/b.ts)`,
+        },
+      ],
+    ])
+    expect(md).toContain(ELLIPSIS_NOTE)
+  })
+
+  test(`shortens a location across an ellipsis`, () => {
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1, 2],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `funcC`,
+          url: `file:///project/src/a.ts`,
+          line: 42,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+      ],
+    )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => entry.name !== `funcB`,
+    })
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `funcA (src/a.ts:10) ← … ← funcC (42)`,
+        },
+      ],
+    ])
+  })
+
+  test(`drops hidden frames below the leaf and above the root without an ellipsis`, () => {
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `hiddenLeaf`,
+          url: `file:///project/src/leaf.ts`,
+          selfSampleCount: 5,
+          selfValues: [300],
+          stack: [0, 1, 2, 3],
+        },
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+        {
+          name: `hiddenRoot`,
+          url: `file:///project/src/root.ts`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+      ],
+    )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => !entry.name?.startsWith(`hidden`),
+    })
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
+          'Call stack': `funcA (src/a.ts) ← funcB (src/b.ts)`,
+        },
+      ],
+    ])
+    expect(md).not.toContain(ELLIPSIS_NOTE)
   })
 
   test(`shows all functions when the default filter would hide every one`, () => {

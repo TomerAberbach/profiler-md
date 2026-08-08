@@ -13,8 +13,10 @@ import { HashInterner } from '../../helpers/intern.ts'
 import {
   formatSectionGroup,
   heading,
+  inlineCode,
   paragraph,
   phrasing,
+  text,
 } from '../../helpers/markdown.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import {
@@ -58,8 +60,11 @@ import {
   categoryColumns,
   formatCallStack,
   functionColumns,
+  HIDDEN_FRAMES,
   lineColumns,
+  sameShownFrame,
 } from './table.ts'
+import type { ShownFrame } from './table.ts'
 
 export const formatSamplingProfile = (
   profile: AggregatedSamplingProfile,
@@ -544,12 +549,20 @@ const formatHottestCallStacks = ({
 
   const { metric, total } = measure
   const commonCallStack = findCommonCallStack(hottestCallStacks)
+  const hidesAnyFrame = hottestCallStacks.some(callStack =>
+    callStack.frames.some(frame => frame.type === `hidden`),
+  )
 
   return [
     heading(headingLevel, `Hottest call stacks`),
-    paragraph(
-      `Call stacks ranked by ${measureRankedByPhrase(metric)} in their leaf frame.`,
-    ),
+    paragraph([
+      text(
+        `Call stacks ranked by ${measureRankedByPhrase(metric)} in their leaf frame.`,
+      ),
+      ...(hidesAnyFrame
+        ? phrasing` ${inlineCode(`…`)} stands for frames the entry filter hides.`
+        : []),
+    ]),
     ...(commonCallStack.length > 0
       ? [
           paragraph(
@@ -578,8 +591,8 @@ const formatHottestCallStacks = ({
  * have a non-empty call stack to format.
  */
 const findCommonCallStack = (
-  callStacks: { frames: AggregatedSamplingProfileFunction[] }[],
-): AggregatedSamplingProfileFunction[] => {
+  callStacks: { frames: ShownFrame[] }[],
+): ShownFrame[] => {
   if (callStacks.length <= 1) {
     return []
   }
@@ -589,10 +602,12 @@ const findCommonCallStack = (
   let suffixLength = 0
 
   for (let i = 1; i < minLength; i++) {
-    const suffix = firstFrames.slice(-i).map(frame => frame.id)
+    const suffix = firstFrames.slice(-i)
     if (
       callStacks.every(callStack =>
-        callStack.frames.slice(-i).every((frame, j) => frame.id === suffix[j]),
+        callStack.frames
+          .slice(-i)
+          .every((frame, j) => sameShownFrame(frame, suffix[j]!)),
       )
     ) {
       suffixLength = i
@@ -604,39 +619,32 @@ const findCommonCallStack = (
   return suffixLength > 0 ? firstFrames.slice(-suffixLength) : []
 }
 
+/** A call stack's shown frames, with the stack's self metrics. */
+type ShownCallStack = {
+  frames: ShownFrame[]
+  selfSampleCount: number
+  selfValues: Float64Array
+}
+
 /**
- * Projects each call stack onto its shown frames and merges the stacks that
+ * Replaces each call stack with its shown frames and merges the stacks that
  * become identical, summing their self metrics.
  *
  * Without merging, stacks distinct only in hidden frames would format as
- * duplicate rows, and each row would carry only its own slice of the value.
- * The merged row attributes hidden frames' (chiefly elided leaves') values to
- * the nearest shown frame. Projections with fewer than two shown frames are
- * dropped: a single-frame "stack" carries no call structure.
+ * duplicate rows, and each row would show only its own part of the value.
+ * The merged row attributes the values of hidden frames, mostly hidden
+ * leaves, to the nearest shown frame. Call stacks with fewer than two shown
+ * frames are dropped: a single-frame "stack" has no call structure.
  */
 const mergeShownCallStacks = (
   callStacks: AggregatedSamplingProfileCallStack[],
   options: FormattingProfileToMdOptions,
-): AggregatedSamplingProfileCallStack[] => {
-  // The interner hashes frame IDs directly because building and hashing a key
-  // string per call stack dominated this function's runtime.
-  const interner = new HashInterner<
-    AggregatedSamplingProfileFunction[],
-    AggregatedSamplingProfileCallStack
-  >(
-    (frames, sink) => {
-      for (const frame of frames) {
-        sink.add(frame.id)
-      }
-    },
-    (callStack, frames) =>
-      callStack.frames.length === frames.length &&
-      callStack.frames.every((frame, i) => frame.id === frames[i]!.id),
-  )
+): ShownCallStack[] => {
+  const interner = newShownCallStackInterner()
   const { showEntry } = options
   for (const callStack of callStacks) {
-    const frames = callStack.frames.filter(showEntry)
-    if (frames.length <= 1) {
+    const frames = shownFramesOf(callStack.frames, showEntry)
+    if (frames === null) {
       continue
     }
 
@@ -650,13 +658,73 @@ const mergeShownCallStacks = (
       continue
     }
 
-    const existing = interner.items[index]!
-    existing.selfSampleCount += callStack.selfSampleCount
-    for (let i = 0; i < existing.selfValues.length; i++) {
-      existing.selfValues[i]! += callStack.selfValues[i]!
-    }
+    addSelfMetrics(interner.items[index]!, callStack)
   }
   return interner.items
+}
+
+/**
+ * An interner keying call stacks on their shown frames.
+ *
+ * It hashes frame IDs directly because building and hashing a key string per
+ * call stack dominated the merge's runtime.
+ */
+const newShownCallStackInterner = (): HashInterner<
+  ShownFrame[],
+  ShownCallStack
+> =>
+  new HashInterner(
+    (frames, sink) => {
+      for (const frame of frames) {
+        sink.add(frame.type === `hidden` ? -1 : frame.id)
+      }
+    },
+    (callStack, frames) =>
+      callStack.frames.length === frames.length &&
+      callStack.frames.every((frame, i) => sameShownFrame(frame, frames[i]!)),
+  )
+
+/**
+ * Returns {@link frames} with the hidden frames between two shown ones
+ * replaced by {@link HIDDEN_FRAMES}, or `null` when fewer than two frames are
+ * shown.
+ *
+ * Hidden frames below the leaf and above the root are dropped, because they
+ * are between a shown frame and an end of the stack instead of between two
+ * shown frames.
+ */
+const shownFramesOf = (
+  frames: AggregatedSamplingProfileFunction[],
+  showEntry: FormattingProfileToMdOptions[`showEntry`],
+): ShownFrame[] | null => {
+  const shownFrames: ShownFrame[] = []
+  let shownCount = 0
+  let hidAnyFrame = false
+  for (const frame of frames) {
+    if (!showEntry(frame)) {
+      hidAnyFrame = true
+      continue
+    }
+
+    if (hidAnyFrame && shownCount > 0) {
+      shownFrames.push(HIDDEN_FRAMES)
+    }
+    shownFrames.push(frame)
+    shownCount++
+    hidAnyFrame = false
+  }
+  return shownCount > 1 ? shownFrames : null
+}
+
+/** Adds {@link callStack}'s self metrics into {@link target}'s. */
+const addSelfMetrics = (
+  target: ShownCallStack,
+  callStack: AggregatedSamplingProfileCallStack,
+): void => {
+  target.selfSampleCount += callStack.selfSampleCount
+  for (let i = 0; i < target.selfValues.length; i++) {
+    target.selfValues[i]! += callStack.selfValues[i]!
+  }
 }
 
 const formatDiffSummary = (

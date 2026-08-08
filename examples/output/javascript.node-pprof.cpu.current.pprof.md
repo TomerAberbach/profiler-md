@@ -102,7 +102,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks ranked by wall time spent in their leaf frame. `…` stands for frames the entry filter hides.
 
 Common call stack: `(anonymous)` (`datadog-pprof.mjs`)
 
@@ -112,9 +112,9 @@ Common call stack: `(anonymous)` (`datadog-pprof.mjs`)
 | 11.1% |  2.03s |   1,629 | `createProgram` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                    |
 |  0.5% | 96.4ms |      77 | `require` (`node:internal/modules/helpers`) ← `typeCheckProject` (`tsc-workload.mjs`)                                                                          |
 |  0.1% | 26.3ms |      21 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) |
-| <0.1% |  3.8ms |       3 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `createProgram` ← `typeCheckProject` (`tsc-workload.mjs`)           |
+| <0.1% |  3.8ms |       3 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← … ← `createProgram` ← `typeCheckProject` (`tsc-workload.mjs`)       |
 | <0.1% |  1.3ms |       1 | `typeCheckProject` (`tsc-workload.mjs`)                                                                                                                        |
 | <0.1% |  1.3ms |       1 | `getSyntacticDiagnostics` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)          |
 | <0.1% |  1.3ms |       1 | `noop` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                             |
 | <0.1% |  1.3ms |       1 | `findConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`)                   |
-| <0.1% |  1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← `require` ← `typeCheckProject` (`tsc-workload.mjs`)                                                              |
+| <0.1% |  1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← … ← `require` ← `typeCheckProject` (`tsc-workload.mjs`)                                                          |

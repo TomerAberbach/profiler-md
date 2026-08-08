@@ -89,7 +89,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by wall time spent in their leaf frame.
+Call stacks ranked by wall time spent in their leaf frame. `…` stands for frames the entry filter hides.
 
 |     % |    Time | Samples | Call stack                                                                                                                                                       |
 | ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,4 +101,4 @@ Call stacks ranked by wall time spent in their leaf frame.
 | <0.1% |   1.3ms |       1 | `stop` (`node_modules/@datadog/pprof/out/src/time-profiler.js`) ← `(anonymous)` (`datadog-pprof.mjs`)                                                            |
 | <0.1% |   1.3ms |       1 | `createRequire` (`node:internal/modules/cjs/loader`) ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof.mjs`)                             |
 | <0.1% |   1.3ms |       1 | `getSyntacticDiagnostics` (`node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof.mjs`)          |
-| <0.1% |   1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← `require` ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof.mjs`)                          |
+| <0.1% |   1.3ms |       1 | `require` (`node:internal/modules/helpers`) ← … ← `require` ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof.mjs`)                      |

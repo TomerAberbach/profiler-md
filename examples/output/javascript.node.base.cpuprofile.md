@@ -119,18 +119,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks ranked by time spent in their leaf frame. `…` stands for frames the entry filter hides.
 
 Common call stack: `(anonymous)` (`cpuprofile-run.mjs`)
 
-|     % |    Time | Samples | Call stack                                                                                                                                                               |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 70.9% |   1.77s |   2,003 | `getSemanticDiagnostics` (`node_modules/typescript/lib/typescript.js:121549:36`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                          |
-| 14.9% | 371.7ms |     360 | `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                   |
-|  4.1% | 102.8ms |      82 | `require` (`node:internal/modules/helpers:146:19`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                                        |
-|  0.4% |  11.2ms |       9 | `getParsedCommandLineOfConfigFile` (`node_modules/typescript/lib/typescript.js:36594:44`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                 |
-|  0.4% |  10.1ms |       1 | `post` (`node:inspector:118:7`) ← `(anonymous)` (`cpuprofile-run.mjs:16:15`) ← `post` (15:14)                                                                            |
-|  0.1% |   1.3ms |       1 | `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                                                                                             |
-|  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` ← `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)     |
-| <0.1% |   1.2ms |       1 | `require` (`node:internal/modules/helpers:146:19`) ← `require` (146:19) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                   |
-| <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` ← `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) |
+|     % |    Time | Samples | Call stack                                                                                                                                                                   |
+| ----: | ------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 70.9% |   1.77s |   2,003 | `getSemanticDiagnostics` (`node_modules/typescript/lib/typescript.js:121549:36`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                              |
+| 14.9% | 371.7ms |     360 | `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                       |
+|  4.1% | 102.8ms |      82 | `require` (`node:internal/modules/helpers:146:19`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                                            |
+|  0.4% |  11.2ms |       9 | `getParsedCommandLineOfConfigFile` (`node_modules/typescript/lib/typescript.js:36594:44`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                     |
+|  0.4% |  10.1ms |       1 | `post` (`node:inspector:118:7`) ← `(anonymous)` (`cpuprofile-run.mjs:16:15`) ← `post` (15:14)                                                                                |
+|  0.1% |   1.3ms |       1 | `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                                                                                                 |
+|  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` ← … ← `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)     |
+| <0.1% |   1.2ms |       1 | `require` (`node:internal/modules/helpers:146:19`) ← … ← `require` (146:19) ← `typeCheckProject` (`tsc-workload.mjs:3:33`)                                                   |
+| <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` ← … ← `createProgram` (`node_modules/typescript/lib/typescript.js:120478:25`) ← `typeCheckProject` (`tsc-workload.mjs:3:33`) |

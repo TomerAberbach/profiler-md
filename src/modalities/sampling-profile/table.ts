@@ -104,9 +104,28 @@ export const lineColumns = (
   },
 ]
 
+/**
+ * Stands in for the frames `showEntry` hides between two shown frames of a
+ * call stack.
+ */
+export const HIDDEN_FRAMES = { type: `hidden` } as const
+
+/**
+ * A frame of a call stack once the frames `showEntry` hides are removed: a
+ * shown function, or {@link HIDDEN_FRAMES}.
+ */
+export type ShownFrame =
+  AggregatedSamplingProfileFunction | typeof HIDDEN_FRAMES
+
+/** Whether two shown frames are the same function, or both hidden. */
+export const sameShownFrame = (left: ShownFrame, right: ShownFrame): boolean =>
+  left.type === `hidden` || right.type === `hidden`
+    ? left.type === right.type
+    : left.id === right.id
+
 /** A call stack's row: its measure values plus its frames. */
 export type CallStackRow = MeasureRow & {
-  frames: AggregatedSamplingProfileFunction[]
+  frames: ShownFrame[]
 }
 
 /**
@@ -115,7 +134,7 @@ export type CallStackRow = MeasureRow & {
  */
 export const callStackColumns = (
   metric: Metric | null,
-  commonCallStack: AggregatedSamplingProfileFunction[],
+  commonCallStack: ShownFrame[],
   options: FormattingProfileToMdOptions,
 ): Table<CallStackRow> => [
   ...measureColumns(metric),
@@ -133,37 +152,61 @@ export const callStackColumns = (
   },
 ]
 
-/** Formats a call stack as a chain of functions, leaf to root. */
+/**
+ * Formats a call stack as a chain of functions, leaf to root, with an ellipsis
+ * for each run of hidden frames between two shown ones.
+ */
 export const formatCallStack = (
-  frames: AggregatedSamplingProfileFunction[],
+  frames: ShownFrame[],
   options: FormattingProfileToMdOptions,
-): PhrasingContent[] =>
-  frames.flatMap((frame, index) => {
+): PhrasingContent[] => {
+  let previousFunction: AggregatedSamplingProfileFunction | undefined
+  return frames.flatMap((frame, index) => {
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]
+    if (frame.type === `hidden`) {
+      parts.push(text(`…`))
+      return parts
+    }
+
     parts.push(inlineCode(frame.name))
-    if (!frame.location) {
-      return parts
-    }
-
-    const previousFrame = frames[index - 1]
-    const previousFileId = previousFrame?.location
-      ? fileReferenceId(previousFrame.location)
-      : undefined
-    if (!previousFileId || fileReferenceId(frame.location) !== previousFileId) {
-      parts.push(
-        ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
-      )
-      return parts
-    }
-
-    const { line, column } = frame.location
-    if (line === undefined) {
-      return parts
-    }
-
-    parts.push(text(` (${line}${column === undefined ? `` : `:${column}`})`))
+    parts.push(...formatFrameLocation(frame, previousFunction, options))
+    previousFunction = frame
     return parts
   })
+}
+
+/**
+ * Formats {@link frame}'s location, shortened to its line and column when
+ * {@link previousFunction} is in the same file.
+ *
+ * An ellipsis prints no location, so a shortened location after one still
+ * refers to the last printed file.
+ */
+const formatFrameLocation = (
+  frame: AggregatedSamplingProfileFunction,
+  previousFunction: AggregatedSamplingProfileFunction | undefined,
+  options: FormattingProfileToMdOptions,
+): PhrasingContent[] => {
+  if (!frame.location) {
+    return []
+  }
+
+  const previousFileId = previousFunction?.location
+    ? fileReferenceId(previousFunction.location)
+    : undefined
+  if (!previousFileId || fileReferenceId(frame.location) !== previousFileId) {
+    return [
+      ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
+    ]
+  }
+
+  const { line, column } = frame.location
+  if (line === undefined) {
+    return []
+  }
+
+  return [text(` (${line}${column === undefined ? `` : `:${column}`})`)]
+}
 
 /**
  * A row of the categories table for one category on one side, reading each
