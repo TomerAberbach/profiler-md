@@ -18,6 +18,9 @@ rbspy record --format collapsed -o cpu.collapsed -- ruby script.rb
 # pprof
 rbspy record --format pprof -o cpu.pprof -- ruby script.rb
 
+# Callgrind
+rbspy record --format callgrind -o cpu.callgrind -- ruby script.rb
+
 # Attach to a running process
 rbspy record --format speedscope -o cpu.speedscope.json --pid <pid>
 
