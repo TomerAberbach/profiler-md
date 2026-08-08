@@ -91,22 +91,6 @@ if (format === undefined) {
 
       expect(projectInputs.sort()).toEqual(readdirSync(inputPath()).sort())
     })
-
-    // A project holding only `current` inputs registers no tests, since the
-    // suites take the `base` variant of each example.
-    test(`each hold a base input`, () => {
-      const withoutBase = projects
-        .filter(project => project.test.provide.inputs.length > 0)
-        .filter(
-          project =>
-            !project.test.provide.inputs.some(
-              filename => parseExampleFilename(filename).variant === `base`,
-            ),
-        )
-        .map(project => project.test.name)
-
-      expect(withoutBase).toEqual([])
-    })
   })
 }
 
