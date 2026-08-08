@@ -2,6 +2,7 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
 import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
 
@@ -91,7 +92,22 @@ export type OriginSpec = {
    *
    * Defaults to keeping the format's category when omitted.
    */
-  categorizeHeapSnapshotConstructor?: (name: string) => string | undefined
+  categorizeHeapSnapshotConstructor?: (
+    name: string,
+  ) => HeapSnapshotNodeCategory | undefined
+
+  /**
+   * Returns the category of a heap snapshot node whose declared type name the
+   * format's own type table doesn't name, or `undefined` to leave it
+   * uncategorized.
+   *
+   * Applies to an origin whose language writes its own type names into a
+   * format's type table (Julia into V8's `meta.node_types`), so the names are
+   * that language's rather than the engine's.
+   */
+  categorizeHeapSnapshotDeclaredType?: (
+    declaredType: string,
+  ) => HeapSnapshotNodeCategory | undefined
 
   /**
    * Returns whether this origin's runtime makes {@link entry}'s outgoing call

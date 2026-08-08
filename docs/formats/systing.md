@@ -15,8 +15,8 @@ interruptible sleep (both measured in sleep occurrences). Stacks mix kernel,
 native user, and Python frames; systing's frame markers (`[kernel]`,
 `[gvisor:*]`, `[jit:*]` label modules) determine categorization. Sleep stacks
 are taken at the context switch, so they always end in the kernel's scheduler
-internals: self costs accumulate on scheduler frames, and the total costs show
-which callers slept.
+internals: self costs are attributed to scheduler frames, and the total costs
+show which callers slept.
 
 Produce it with `systing --output profile.systing -- <command>`, or from an
 existing trace database with

@@ -2,6 +2,7 @@ import { computeStartOffsets } from '../../modalities/heap-snapshot/index.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
+  HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
 } from '../../modalities/heap-snapshot/index.ts'
 
@@ -121,15 +122,25 @@ function* jscSnapshotNodes({
  * Categorizes a node by its flags, all the snapshot itself defines about a
  * node. The class its name refers to is the engine's or the language's, so the
  * origin categorizes by name instead.
+ *
+ * An element node is one the host allocated for the document, which V8 declares
+ * as `native`. The flags are a bitset, so no flag set means neither internal
+ * nor element rather than unclassified. Every remaining node is therefore an
+ * ordinary object, and the object flag it also has adds nothing.
+ *
+ * No committed snapshot sets the element flag. A Safari capture of a page whose
+ * heap holds 418 `HTMLDivElement` and 160 `Text` nodes leaves every one of them
+ * unflagged, so a Safari snapshot reports the DOM as ordinary objects while a
+ * V8 snapshot of a comparable page reports it as `native`. Categorizing those
+ * nodes by their class name instead would mean trusting a name a program can
+ * define (`Node`, `Range`, `Text`).
  */
-const categorizeNode = (flags: number): string =>
+const categorizeNode = (flags: number): HeapSnapshotNodeCategory =>
   flags & NODE_INTERNAL_FLAG
     ? `internal`
     : flags & NODE_ELEMENT_FLAG
-      ? `element`
-      : flags & NODE_OBJECT_FLAG
-        ? `object`
-        : `unknown`
+      ? `native`
+      : `object`
 
 /**
  * Maps node identifiers to node ordinals. Edges reference nodes by identifier,
@@ -365,5 +376,4 @@ const EDGE_DATA_OFFSET = 3
 const EDGE_FIELD_COUNT = 4
 
 const NODE_INTERNAL_FLAG = 0b0001
-const NODE_OBJECT_FLAG = 0b0010
 const NODE_ELEMENT_FLAG = 0b0100

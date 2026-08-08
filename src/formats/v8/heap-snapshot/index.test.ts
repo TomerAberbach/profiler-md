@@ -279,7 +279,7 @@ describe(`convert`, () => {
   })
 
   test(`a JavaScript origin categorizes constructors by the language's classes`, () => {
-    const snapshot = makeObjectSnapshot(`Promise`, `MyClass`)
+    const snapshot = makeObjectSnapshot(`Array`, `MyClass`)
 
     const md = convertJsonToMd(
       v8HeapSnapshotConverter,
@@ -287,11 +287,11 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions(),
     )
 
-    // V8 types both nodes `object`; only the runtime's language knows
-    // `Promise` is one of its built-ins.
+    // V8 types both nodes `object`. Only the runtime's language states that an
+    // `Array` instance is an array.
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `built-in`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
+        { Category: `array`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
         { Category: `object`, '%': `33.3%`, Size: `100 B`, Nodes: `1` },
         { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],

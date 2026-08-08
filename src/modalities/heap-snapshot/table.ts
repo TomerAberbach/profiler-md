@@ -9,6 +9,7 @@ import {
   textCell,
 } from '../table.ts'
 import type { Table } from '../table.ts'
+import type { HeapSnapshotNodeCategory } from './type.ts'
 
 /** An entity labeled by a name and optional location in a table. */
 export type LabeledEntity = {
@@ -77,7 +78,7 @@ const entityColumns = (
 
 /** A category's row on one side. */
 export type CategoryRow = SizeRow & {
-  category: string
+  category: HeapSnapshotNodeCategory
   nodeCount: number
 }
 

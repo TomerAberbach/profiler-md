@@ -10,6 +10,7 @@ import globals from 'globals'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
+import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { locationlessCategory, syntheticFrameCategory } from './categorize.ts'
 
@@ -147,50 +148,49 @@ export const nodeModulesCategory = ({
 
 /**
  * The heap snapshot category of a constructor named {@link name} under
- * JavaScript's own conventions: the classes the language specifies, the
- * built-in globals, and the web platform's natively implemented ones.
+ * JavaScript's own conventions: the classes the language specifies whose
+ * instances a format types as plain objects.
  *
  * An engine names these classes after the language, not its own internals, so
  * the same names appear whichever snapshot format it writes. Engine classes
  * (JSC's `FunctionExecutable`, V8's `system / Context`) are the engine's own
  * and categorize in the format's code instead.
  *
- * Returns `undefined` for a name JavaScript doesn't define, leaving the
- * format's category in place.
+ * Covers only the classes whose category the format gets wrong: an `Array`
+ * instance is an `array` though every format types it as an object. A class the
+ * host implements natively is left to the format, since a name alone can't
+ * establish that the host allocated a node. A program may define a class named
+ * `Cache` or `Range` as readily as the web platform does. V8 states host
+ * allocation in the `native` node type. JavaScriptCore states nothing, so a
+ * Safari snapshot reports the DOM as ordinary objects.
+ *
+ * Returns `undefined` for every other name, leaving the format's category in
+ * place.
  */
 export const javaScriptConstructorCategory = (
   name: string,
-): string | undefined => getConstructorNameToCategory().get(name)
+): HeapSnapshotNodeCategory | undefined =>
+  getConstructorNameToCategory().get(name)
 
-/**
- * Builds the constructor name to category map on first use, since iterating the
- * globals lists costs time an input with no heap snapshot shouldn't spend.
- *
- * The language's classes are listed after the globals so they override the
- * plain `built-in` a global name would otherwise get: `Array` is an array,
- * `Function` a closure, and `Object` an object.
- */
-const getConstructorNameToCategory = (): Map<string, string> => {
-  if (constructorNameToCategory) {
-    return constructorNameToCategory
-  }
-
-  constructorNameToCategory = new Map()
-  for (const name of Object.keys(globals.builtin)) {
-    constructorNameToCategory.set(name, `built-in`)
-  }
-  for (const name of Object.keys(globals.browser)) {
-    constructorNameToCategory.set(name, `native`)
-  }
-  for (const [category, names] of Object.entries(CATEGORY_TO_CLASS_NAMES)) {
-    for (const name of names) {
-      constructorNameToCategory.set(name, category)
-    }
-  }
+/** Builds the constructor name to category map on first use. */
+const getConstructorNameToCategory = (): Map<
+  string,
+  HeapSnapshotNodeCategory
+> => {
+  constructorNameToCategory ??= new Map(
+    (
+      Object.entries(CATEGORY_TO_CLASS_NAMES) as [
+        HeapSnapshotNodeCategory,
+        readonly string[],
+      ][]
+    ).flatMap(([category, names]) =>
+      names.map(name => [name, category] as const),
+    ),
+  )
   return constructorNameToCategory
 }
 
-let constructorNameToCategory: Map<string, string> | undefined
+let constructorNameToCategory: Map<string, HeapSnapshotNodeCategory> | undefined
 
 /** The classes JavaScript defines, by the category they belong to. */
 const CATEGORY_TO_CLASS_NAMES = {
@@ -217,9 +217,9 @@ const CATEGORY_TO_CLASS_NAMES = {
     `AsyncGeneratorFunction`,
   ],
   regexp: [`RegExp`],
-  number: [`Number`],
-  symbol: [`Symbol`],
-  bigint: [`BigInt`],
+  // The primitive wrappers (`Number`, `String`, `Boolean`, `Symbol`, `BigInt`)
+  // are absent: a wrapper is an object holding a primitive, and every format
+  // types the primitives themselves directly.
   object: [
     `Object`,
     `Arguments`,
@@ -232,11 +232,6 @@ const CATEGORY_TO_CLASS_NAMES = {
     `AsyncIterator`,
     `AsyncFromSyncIterator`,
   ],
-  // Namespaced classes, whose namespace is the global rather than the class.
-  'built-in': [
-    `ShadowRealm`,
-    `Intl.DurationFormat`,
-    `Intl.ListFormat`,
-    `Intl.DateTimeFormat`,
-  ],
-} as const satisfies Record<string, readonly string[]>
+} as const satisfies Partial<
+  Record<HeapSnapshotNodeCategory, readonly string[]>
+>

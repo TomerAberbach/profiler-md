@@ -1,6 +1,7 @@
 import { formatConverters } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
+import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
 import type {
   EntryMatch,
@@ -30,9 +31,17 @@ export const categorizeEntryForOrigin = (
 export const categorizeHeapSnapshotConstructorForOrigin = (
   name: string,
   origin: Origin,
-): string | undefined => {
+): HeapSnapshotNodeCategory | undefined => {
   const spec: OriginSpec = originToSpec.get(origin)!
   return spec.categorizeHeapSnapshotConstructor?.(name)
+}
+
+export const categorizeHeapSnapshotDeclaredTypeForOrigin = (
+  declaredType: string,
+  origin: Origin,
+): HeapSnapshotNodeCategory | undefined => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.categorizeHeapSnapshotDeclaredType?.(declaredType)
 }
 
 export const hasRuntimeInsertedArcsForOrigin = (
