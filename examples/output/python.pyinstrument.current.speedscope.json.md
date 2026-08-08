@@ -14,6 +14,10 @@ Took 7.74s over 35 samples (221.3ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |     % |    Time | Samples | Function                          | Location                                     |
 | ----: | ------: | ------: | --------------------------------- | -------------------------------------------- |
 | 37.9% |   2.93s |       3 | `_format_str_once`                | `src/black/src/black/__init__.py:1236`       |
@@ -178,6 +182,33 @@ Functions ranked by total time spent in the function and all its callees.
 |   5.7% | 439.8ms |      11 | `visit_suite`                     | `src/black/src/black/linegen.py:288`                   |
 |   5.7% | 439.8ms |      11 | `visit_funcdef`                   | `src/black/src/black/linegen.py:254`                   |
 
+#### Categories
+
+##### Ours
+
+|      % |    Time | Samples | Function                          | Location                                     |
+| -----: | ------: | ------: | --------------------------------- | -------------------------------------------- |
+| 100.0% |   7.74s |      35 | `<module>`                        | `venv/bin/black:1`                           |
+|  97.6% |   7.55s |      33 | `patched_main`                    | `src/black/src/black/__init__.py:1594`       |
+|  97.6% |   7.55s |      32 | `main`                            | `src/black/src/black/__init__.py:244`        |
+|  97.6% |   7.55s |      31 | `reformat_one`                    | `src/black/src/black/__init__.py:860`        |
+|  97.5% |   7.55s |      30 | `format_file_contents`            | `src/black/src/black/__init__.py:1054`       |
+|  97.5% |   7.55s |      30 | `format_file_in_place`            | `src/black/src/black/__init__.py:917`        |
+|  84.1% |   6.50s |      25 | `_format_str_once`                | `src/black/src/black/__init__.py:1236`       |
+|  58.4% |   4.52s |      17 | `format_str`                      | `src/black/src/black/__init__.py:1189`       |
+|  39.1% |   3.03s |      13 | `check_stability_and_equivalence` | `src/black/src/black/__init__.py:1037`       |
+|  35.4% |   2.73s |       8 | `lib2to3_parse`                   | `src/black/src/black/parsing.py:55`          |
+|  35.3% |   2.73s |       7 | `parse_string`                    | `src/black/src/blib2to3/pgen2/driver.py:198` |
+|  35.3% |   2.73s |       6 | `parse_tokens`                    | `src/black/src/blib2to3/pgen2/driver.py:114` |
+|  25.9% |      2s |      10 | `assert_stable`                   | `src/black/src/black/__init__.py:1557`       |
+|  13.2% |   1.02s |       2 | `assert_equivalent`               | `src/black/src/black/__init__.py:1524`       |
+|   5.7% | 439.8ms |      11 | `visit_default`                   | `src/black/src/black/linegen.py:134`         |
+|   5.7% | 439.8ms |      11 | `visit`                           | `src/black/src/black/nodes.py:163`           |
+|   5.7% | 439.8ms |      11 | `visit_default`                   | `src/black/src/black/nodes.py:187`           |
+|   5.7% | 439.8ms |      11 | `visit_suite`                     | `src/black/src/black/linegen.py:288`         |
+|   5.7% | 439.8ms |      11 | `visit_funcdef`                   | `src/black/src/black/linegen.py:254`         |
+|   5.7% | 438.8ms |      10 | `visit_stmt`                      | `src/black/src/black/linegen.py:199`         |
+
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -305,6 +336,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |    Time | Samples | Callee  | Location                           |
 | -----: | ------: | ------: | ------- | ---------------------------------- |
 | 100.0% | 439.8ms |      11 | `visit` | `src/black/src/black/nodes.py:163` |
+
+##### `visit_stmt` (`src/black/src/black/linegen.py:199`)
+
+|      % |    Time | Samples | Callee                       | Location                              |
+| -----: | ------: | ------: | ---------------------------- | ------------------------------------- |
+| 100.0% | 438.8ms |      10 | `visit`                      | `src/black/src/black/nodes.py:163`    |
+|  18.1% |  79.5ms |       1 | `normalize_invisible_parens` | `src/black/src/black/linegen.py:1328` |
 
 ## Hottest call stacks
 

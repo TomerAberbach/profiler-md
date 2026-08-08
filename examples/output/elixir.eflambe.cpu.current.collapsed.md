@@ -37,6 +37,59 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.5% |     137 | `archive_split/3`                    | `erl_prim_loader` |
 |  0.4% |     125 | `encode_atom/2`                      | `Jason.Encode`    |
 
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                             | Location          |
+| ----: | ------: | ------------------------------------ | ----------------- |
+| 30.3% |   8,475 | `string/6`                           | `Jason.Decoder`   |
+| 30.2% |   8,450 | `escape_json_chunk/5`                | `Jason.Encode`    |
+|  3.8% |   1,075 | `map_naive_loop/3`                   | `Jason.Encode`    |
+|  3.7% |   1,029 | `string/7`                           | `Jason.Decoder`   |
+|  2.9% |     804 | `object/6`                           | `Jason.Decoder`   |
+|  2.1% |     595 | `escape_json/4`                      | `Jason.Encode`    |
+|  1.9% |     525 | `escape_json/3`                      | `Jason.Encode`    |
+|  1.8% |     515 | `-string_decode_function/1-fun-0-/1` | `Jason.Decoder`   |
+|  1.8% |     500 | `value/3`                            | `Jason.Encode`    |
+|  1.7% |     480 | `map_naive/3`                        | `Jason.Encode`    |
+|  1.5% |     420 | `value/5`                            | `Jason.Decoder`   |
+|  1.4% |     382 | `-key_decode_function/1-fun-0-/1`    | `Jason.Decoder`   |
+|  1.4% |     380 | `key/2`                              | `Jason.Encode`    |
+|  1.4% |     380 | `key/5`                              | `Jason.Decoder`   |
+|  1.4% |     380 | `key/6`                              | `Jason.Decoder`   |
+|  1.2% |     345 | `number/6`                           | `Jason.Decoder`   |
+|  1.0% |     290 | `encode_string/2`                    | `Jason.Encode`    |
+|  0.5% |     137 | `archive_split/3`                    | `erl_prim_loader` |
+|  0.4% |     125 | `encode_atom/2`                      | `Jason.Encode`    |
+|  0.2% |      65 | `escape/1`                           | `Jason.Encode`    |
+
+##### Idle
+
+|    % | Samples | Function | Location    |
+| ---: | ------: | -------- | ----------- |
+| 2.1% |     575 | `sleep`  | `<unknown>` |
+
+##### Standard library
+
+|     % | Samples | Function              | Location |
+| ----: | ------: | --------------------- | -------- |
+|  0.3% |      95 | `binary_to_integer/1` | `erlang` |
+|  0.3% |      70 | `to_list/1`           | `maps`   |
+|  0.2% |      65 | `integer_to_binary/1` | `erlang` |
+|  0.2% |      45 | `from_list/1`         | `maps`   |
+|  0.2% |      45 | `to_list_internal/1`  | `maps`   |
+|  0.1% |      34 | `into_map/2`          | `Enum`   |
+|  0.1% |      20 | `iolist_to_binary/1`  | `erlang` |
+| <0.1% |      11 | `reverse/2`           | `lists`  |
+| <0.1% |      10 | `into/2`              | `Enum`   |
+| <0.1% |       5 | `ensure_loaded/1`     | `code`   |
+| <0.1% |       2 | `call/1`              | `code`   |
+| <0.1% |       2 | `monitor/2`           | `erlang` |
+| <0.1% |       2 | `demonitor/2`         | `erlang` |
+| <0.1% |       1 | `whereis/1`           | `erlang` |
+| <0.1% |       1 | `function_exported/3` | `erlang` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
@@ -180,6 +233,110 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | 92.0% |     115 | `map_naive_loop/3` | `Jason.Encode` |
 |  8.0% |      10 | `map_naive/3`      | `Jason.Encode` |
 
+##### `binary_to_integer/1` (`erlang`)
+
+|      % | Samples | Caller     | Location        |
+| -----: | ------: | ---------- | --------------- |
+| 100.0% |      95 | `number/6` | `Jason.Decoder` |
+
+##### `to_list/1` (`maps`)
+
+|      % | Samples | Caller    | Location       |
+| -----: | ------: | --------- | -------------- |
+| 100.0% |      70 | `value/3` | `Jason.Encode` |
+
+##### `escape/1` (`Jason.Encode`)
+
+|     % | Samples | Caller                | Location       |
+| ----: | ------: | --------------------- | -------------- |
+| 92.3% |      60 | `escape_json_chunk/5` | `Jason.Encode` |
+|  7.7% |       5 | `escape_json/4`       | `Jason.Encode` |
+
+##### `integer_to_binary/1` (`erlang`)
+
+|      % | Samples | Caller    | Location       |
+| -----: | ------: | --------- | -------------- |
+| 100.0% |      65 | `value/3` | `Jason.Encode` |
+
+##### `from_list/1` (`maps`)
+
+|     % | Samples | Caller       | Location        |
+| ----: | ------: | ------------ | --------------- |
+| 77.8% |      35 | `object/6`   | `Jason.Decoder` |
+| 22.2% |      10 | `into_map/2` | `Enum`          |
+
+##### `to_list_internal/1` (`maps`)
+
+|      % | Samples | Caller    | Location       |
+| -----: | ------: | --------- | -------------- |
+| 100.0% |      45 | `value/3` | `Jason.Encode` |
+
+##### `into_map/2` (`Enum`)
+
+|     % | Samples | Caller      | Location |
+| ----: | ------: | ----------- | -------- |
+| 55.9% |      19 | `encode!/2` | `Jason`  |
+| 44.1% |      15 | `decode/2`  | `Jason`  |
+
+##### `iolist_to_binary/1` (`erlang`)
+
+|     % | Samples | Caller      | Location        |
+| ----: | ------: | ----------- | --------------- |
+| 50.0% |      10 | `string/7`  | `Jason.Decoder` |
+| 25.0% |       5 | `encode!/2` | `Jason`         |
+| 25.0% |       5 | `decode/2`  | `Jason`         |
+
+##### `reverse/2` (`lists`)
+
+|     % | Samples | Caller      | Location          |
+| ----: | ------: | ----------- | ----------------- |
+| 90.9% |      10 | `array/6`   | `Jason.Decoder`   |
+|  9.1% |       1 | `reverse/1` | `erl_prim_loader` |
+
+##### `into/2` (`Enum`)
+
+|     % | Samples | Caller      | Location |
+| ----: | ------: | ----------- | -------- |
+| 50.0% |       5 | `encode!/2` | `Jason`  |
+| 50.0% |       5 | `decode/2`  | `Jason`  |
+
+##### `ensure_loaded/1` (`code`)
+
+|      % | Samples | Caller                 | Location        |
+| -----: | ------: | ---------------------- | --------------- |
+| 100.0% |       5 | `undefined_function/3` | `error_handler` |
+
+##### `call/1` (`code`)
+
+|     % | Samples | Caller                 | Location        |
+| ----: | ------: | ---------------------- | --------------- |
+| 50.0% |       1 | `ensure_loaded/1`      | `code`          |
+| 50.0% |       1 | `undefined_function/3` | `error_handler` |
+
+##### `monitor/2` (`erlang`)
+
+|      % | Samples | Caller   | Location      |
+| -----: | ------: | -------- | ------------- |
+| 100.0% |       2 | `call/1` | `code_server` |
+
+##### `demonitor/2` (`erlang`)
+
+|      % | Samples | Caller   | Location      |
+| -----: | ------: | -------- | ------------- |
+| 100.0% |       2 | `call/1` | `code_server` |
+
+##### `whereis/1` (`erlang`)
+
+|      % | Samples | Caller            | Location        |
+| -----: | ------: | ----------------- | --------------- |
+| 100.0% |       1 | `ensure_loaded/1` | `error_handler` |
+
+##### `function_exported/3` (`erlang`)
+
+|      % | Samples | Caller                 | Location        |
+| -----: | ------: | ---------------------- | --------------- |
+| 100.0% |       1 | `undefined_function/3` | `error_handler` |
+
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
@@ -206,6 +363,59 @@ Functions ranked by total samples taken in the function and all its callees.
 |  2.1% |     600 | `escape_json/4`        | `Jason.Encode`  |
 |  2.1% |     575 | `sleep`                | `<unknown>`     |
 |  2.0% |     548 | `call/1`               | `code_server`   |
+
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                             | Location        |
+| ----: | ------: | ------------------------------------ | --------------- |
+| 52.2% |  14,591 | `-run/1-fun-0-/2`                    | `Profile`       |
+| 52.1% |  14,557 | `encode!/2`                          | `Jason`         |
+| 47.7% |  13,314 | `decode!/2`                          | `Jason`         |
+| 47.4% |  13,249 | `parse/2`                            | `Jason.Decoder` |
+| 45.9% |  12,816 | `encode/2`                           | `Jason.Encode`  |
+| 45.7% |  12,756 | `map_naive/3`                        | `Jason.Encode`  |
+| 44.9% |  12,541 | `map_naive_loop/3`                   | `Jason.Encode`  |
+| 32.2% |   8,994 | `string/6`                           | `Jason.Decoder` |
+| 30.5% |   8,516 | `escape_json_chunk/5`                | `Jason.Encode`  |
+| 15.7% |   4,397 | `encode_string/2`                    | `Jason.Encode`  |
+|  6.0% |   1,667 | `undefined_function/3`               | `error_handler` |
+|  4.4% |   1,223 | `object/6`                           | `Jason.Decoder` |
+|  3.7% |   1,047 | `string/7`                           | `Jason.Decoder` |
+|  2.6% |     720 | `value/3`                            | `Jason.Encode`  |
+|  2.4% |     672 | `list/3`                             | `Jason.Encode`  |
+|  2.2% |     610 | `number/6`                           | `Jason.Decoder` |
+|  2.1% |     600 | `escape_json/4`                      | `Jason.Encode`  |
+|  2.0% |     548 | `call/1`                             | `code_server`   |
+|  1.9% |     525 | `escape_json/3`                      | `Jason.Encode`  |
+|  1.8% |     515 | `-string_decode_function/1-fun-0-/1` | `Jason.Decoder` |
+
+##### Idle
+
+|    % | Samples | Function | Location    |
+| ---: | ------: | -------- | ----------- |
+| 2.1% |     575 | `sleep`  | `<unknown>` |
+
+##### Standard library
+
+|     % | Samples | Function              | Location |
+| ----: | ------: | --------------------- | -------- |
+|  4.2% |   1,181 | `ensure_loaded/1`     | `code`   |
+|  0.9% |     265 | `binary_to_integer/1` | `erlang` |
+|  0.4% |     105 | `to_list/1`           | `maps`   |
+|  0.2% |      65 | `integer_to_binary/1` | `erlang` |
+|  0.2% |      54 | `into_map/2`          | `Enum`   |
+|  0.2% |      50 | `to_list_internal/1`  | `maps`   |
+|  0.2% |      45 | `from_list/1`         | `maps`   |
+|  0.1% |      22 | `iolist_to_binary/1`  | `erlang` |
+| <0.1% |      11 | `reverse/2`           | `lists`  |
+| <0.1% |      10 | `into/2`              | `Enum`   |
+| <0.1% |       2 | `call/1`              | `code`   |
+| <0.1% |       2 | `monitor/2`           | `erlang` |
+| <0.1% |       2 | `demonitor/2`         | `erlang` |
+| <0.1% |       1 | `whereis/1`           | `erlang` |
+| <0.1% |       1 | `function_exported/3` | `erlang` |
 
 #### Callees
 
@@ -370,6 +580,18 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 98.2% |     538 | `sleep`       | `<unknown>` |
 |  0.4% |       2 | `monitor/2`   | `erlang`    |
 |  0.4% |       2 | `demonitor/2` | `erlang`    |
+
+##### `into_map/2` (`Enum`)
+
+|     % | Samples | Callee        | Location |
+| ----: | ------: | ------------- | -------- |
+| 18.5% |      10 | `from_list/1` | `maps`   |
+
+##### `iolist_to_binary/1` (`erlang`)
+
+|    % | Samples | Callee  | Location    |
+| ---: | ------: | ------- | ----------- |
+| 9.1% |       2 | `sleep` | `<unknown>` |
 
 ## Hottest call stacks
 

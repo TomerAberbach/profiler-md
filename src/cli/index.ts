@@ -15,6 +15,7 @@ try {
     format,
     origin,
     topN,
+    minCategoryShare,
     baseURL,
     thirdParty,
     match,
@@ -39,6 +40,7 @@ try {
     format || origin ? { data, format, origin } : data
   const optionsPromise = buildOptions({
     topN,
+    minCategoryShare,
     baseURL,
     thirdParty,
     match,

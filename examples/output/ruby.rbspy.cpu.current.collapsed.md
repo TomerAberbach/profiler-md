@@ -15,6 +15,10 @@ Collected 131 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
+#### Categories
+
+##### Native
+
 |     % | Samples | Function                 | Location    |
 | ----: | ------: | ------------------------ | ----------- |
 | 67.9% |      89 | `(unknown) [c function]` | `<unknown>` |
@@ -38,6 +42,14 @@ Functions ranked by total samples taken in the function and all its callees.
 | 100.0% |     131 | `(unknown) [c function]` | `<unknown>`                              |
 |  98.5% |     129 | `<main>`                 | `rubocop`                                |
 |   1.5% |       2 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
+
+#### Categories
+
+##### Native
+
+|      % | Samples | Function                 | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |     131 | `(unknown) [c function]` | `<unknown>` |
 
 #### Callees
 

@@ -37,6 +37,39 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% |   2.0ms |       1 | `format_file_in_place`                             | `src/black/src/black/__init__.py:917`        |
 | <0.1% |   1.0ms |       1 | `lib2to3_parse`                                    | `src/black/src/black/parsing.py:55`          |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                                           | Location                                     |
+| ----: | ------: | ------: | -------------------------------------------------- | -------------------------------------------- |
+| 42.7% |   2.21s |       3 | `_format_str_once`                                 | `src/black/src/black/__init__.py:1236`       |
+| 32.3% |   1.67s |       3 | `parse_tokens`                                     | `src/black/src/blib2to3/pgen2/driver.py:114` |
+|  5.8% | 301.9ms |       3 | `get_features_used`                                | `src/black/src/black/__init__.py:1307`       |
+|  5.3% | 275.9ms |       1 | `assert_equivalent`                                | `src/black/src/black/__init__.py:1524`       |
+|  1.5% |  79.9ms |       2 | `_stringify_ast`                                   | `src/black/src/black/parsing.py:174`         |
+|  1.3% |  68.4ms |       1 | `visit_default`                                    | `src/black/src/black/linegen.py:134`         |
+|  1.3% |  67.4ms |       1 | `<module>`                                         | `src/black/src/black/__init__.py:1`          |
+|  1.1% |  58.6ms |       1 | `<module>`                                         | `src/black/src/black/nodes.py:1`             |
+|  1.1% |  55.9ms |       1 | `contains_implicit_multiline_string_with_comments` | `src/black/src/black/lines.py:261`           |
+|  1.1% |  55.0ms |       1 | `_stringify_ast_with_new_parent`                   | `src/black/src/black/parsing.py:166`         |
+|  1.0% |  52.0ms |       1 | `convert_one_fmt_off_pair`                         | `src/black/src/black/comments.py:177`        |
+|  0.1% |   6.1ms |       1 | `format_str`                                       | `src/black/src/black/__init__.py:1189`       |
+|  0.1% |   5.1ms |       1 | `<module>`                                         | `venv/bin/black:1`                           |
+|  0.1% |   4.1ms |       1 | `check_stability_and_equivalence`                  | `src/black/src/black/__init__.py:1037`       |
+|  0.1% |   3.4ms |       1 | `assert_stable`                                    | `src/black/src/black/__init__.py:1557`       |
+|  0.1% |   3.0ms |       1 | `shift`                                            | `src/black/src/blib2to3/pgen2/parse.py:373`  |
+|  0.1% |   2.9ms |       1 | `<module>`                                         | `src/black/src/black/comments.py:1`          |
+| <0.1% |   2.0ms |       1 | `format_file_in_place`                             | `src/black/src/black/__init__.py:917`        |
+| <0.1% |   1.0ms |       1 | `lib2to3_parse`                                    | `src/black/src/black/parsing.py:55`          |
+| <0.1% |   1.0ms |       1 | `main`                                             | `src/black/src/black/__init__.py:244`        |
+
+##### Native
+
+|    % |    Time | Samples | Function         | Location     |
+| ---: | ------: | ------: | ---------------- | ------------ |
+| 2.1% | 110.2ms |       1 | `object.__new__` | `<built-in>` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
@@ -183,6 +216,39 @@ Functions ranked by total time spent in the function and all its callees.
 |   2.7% | 139.0ms |       1 | `_parse_single_version`           | `src/black/src/black/parsing.py:117`                   |
 |   2.7% | 139.0ms |       1 | `parse_ast`                       | `src/black/src/black/parsing.py:129`                   |
 
+#### Categories
+
+##### Ours
+
+|      % |    Time | Samples | Function                          | Location                                     |
+| -----: | ------: | ------: | --------------------------------- | -------------------------------------------- |
+| 100.0% |   5.19s |      35 | `<module>`                        | `venv/bin/black:1`                           |
+|  97.4% |   5.06s |      31 | `patched_main`                    | `src/black/src/black/__init__.py:1594`       |
+|  97.4% |   5.05s |      30 | `main`                            | `src/black/src/black/__init__.py:244`        |
+|  97.4% |   5.05s |      29 | `format_file_in_place`            | `src/black/src/black/__init__.py:917`        |
+|  97.4% |   5.05s |      29 | `reformat_one`                    | `src/black/src/black/__init__.py:860`        |
+|  97.3% |   5.05s |      28 | `format_file_contents`            | `src/black/src/black/__init__.py:1054`       |
+|  86.5% |   4.49s |      20 | `_format_str_once`                | `src/black/src/black/__init__.py:1236`       |
+|  58.3% |   3.02s |      16 | `format_str`                      | `src/black/src/black/__init__.py:1189`       |
+|  39.0% |   2.02s |      12 | `check_stability_and_equivalence` | `src/black/src/black/__init__.py:1037`       |
+|  34.5% |   1.79s |       9 | `lib2to3_parse`                   | `src/black/src/black/parsing.py:55`          |
+|  34.5% |   1.79s |       8 | `parse_string`                    | `src/black/src/blib2to3/pgen2/driver.py:198` |
+|  34.5% |   1.79s |       7 | `parse_tokens`                    | `src/black/src/blib2to3/pgen2/driver.py:114` |
+|  28.4% |   1.47s |       6 | `assert_stable`                   | `src/black/src/black/__init__.py:1557`       |
+|  10.6% | 549.8ms |       5 | `assert_equivalent`               | `src/black/src/black/__init__.py:1524`       |
+|   5.8% | 301.9ms |       3 | `get_features_used`               | `src/black/src/black/__init__.py:1307`       |
+|   5.8% | 301.9ms |       3 | `detect_target_versions`          | `src/black/src/black/__init__.py:1464`       |
+|   2.7% | 139.0ms |       1 | `_parse_single_version`           | `src/black/src/black/parsing.py:117`         |
+|   2.7% | 139.0ms |       1 | `parse_ast`                       | `src/black/src/black/parsing.py:129`         |
+|   2.6% | 134.9ms |       3 | `_stringify_ast`                  | `src/black/src/black/parsing.py:174`         |
+|   2.5% | 128.9ms |       3 | `<module>`                        | `src/black/src/black/__init__.py:1`          |
+
+##### Native
+
+|    % |    Time | Samples | Function         | Location     |
+| ---: | ------: | ------: | ---------------- | ------------ |
+| 2.1% | 110.2ms |       1 | `object.__new__` | `<built-in>` |
+
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -296,6 +362,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |    Time | Samples | Callee                  | Location                             |
 | -----: | ------: | ------: | ----------------------- | ------------------------------------ |
 | 100.0% | 139.0ms |       1 | `_parse_single_version` | `src/black/src/black/parsing.py:117` |
+
+##### `_stringify_ast` (`src/black/src/black/parsing.py:174`)
+
+|     % |   Time | Samples | Callee                           | Location                             |
+| ----: | -----: | ------: | -------------------------------- | ------------------------------------ |
+| 40.8% | 55.0ms |       1 | `_stringify_ast_with_new_parent` | `src/black/src/black/parsing.py:166` |
+
+##### `<module>` (`src/black/src/black/__init__.py:1`)
+
+|     % |   Time | Samples | Callee     | Location                            |
+| ----: | -----: | ------: | ---------- | ----------------------------------- |
+| 47.7% | 61.5ms |       2 | `<module>` | `src/black/src/black/comments.py:1` |
 
 ## Hottest call stacks
 

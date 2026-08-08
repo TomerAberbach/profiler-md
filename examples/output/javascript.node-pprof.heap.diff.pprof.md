@@ -16,6 +16,8 @@ Allocated 927 MiB → 732 MiB (-195.207 MiB, -21.1%) over 10,093,789 samples 
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
+##### Third-party
+
 |  Change |        Delta |           % |          Size |   Samples | Function        | Location                                    |
 | ------: | -----------: | ----------: | ------------: | --------: | --------------- | ------------------------------------------- |
 | removed | -512.015 KiB | 0.1% → 0.0% | 512 KiB → 0 B | 5,958 → 0 | `createProgram` | `node_modules/typescript/lib/typescript.js` |
@@ -38,6 +40,14 @@ Functions with the largest decrease in total bytes allocated in the function and
 | -----: | -----------: | ------------: | ----------------: | --------------------: | ---------------------------------- | ------------------------------------------- |
 | -21.5% | -155.179 MiB | 77.9% → 77.5% | 723 MiB → 567 MiB | 7,813,936 → 5,868,039 | `typeCheckProject`                 | `tsc-workload.mjs`                          |
 | -21.5% |  -154.68 MiB | 77.5% → 77.0% | 718 MiB → 564 MiB | 7,728,122 → 5,802,917 | `(anonymous)`                      | `datadog-pprof-heap.mjs:1:1`                |
+| -22.5% | -100.872 MiB | 48.4% → 47.5% | 449 MiB → 348 MiB | 4,946,952 → 3,593,223 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js` |
+| -20.8% |  -55.972 MiB | 29.1% → 29.2% | 270 MiB → 214 MiB | 2,922,784 → 2,243,751 | `createProgram`                    | `node_modules/typescript/lib/typescript.js` |
+|  -0.5% |   -2.437 KiB |          0.1% | 514 KiB → 512 KiB |          163 → 16,385 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js` |
+
+##### Third-party
+
+| Change |        Delta |             % |              Size |               Samples | Function                           | Location                                    |
+| -----: | -----------: | ------------: | ----------------: | --------------------: | ---------------------------------- | ------------------------------------------- |
 | -22.5% | -100.872 MiB | 48.4% → 47.5% | 449 MiB → 348 MiB | 4,946,952 → 3,593,223 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js` |
 | -20.8% |  -55.972 MiB | 29.1% → 29.2% | 270 MiB → 214 MiB | 2,922,784 → 2,243,751 | `createProgram`                    | `node_modules/typescript/lib/typescript.js` |
 |  -0.5% |   -2.437 KiB |          0.1% | 514 KiB → 512 KiB |          163 → 16,385 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js` |

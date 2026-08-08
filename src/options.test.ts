@@ -57,6 +57,24 @@ describe(`normalizeProfileToMdOptions`, () => {
     expect(normalizeProfileToMdOptions({ topN: 5 }).topN).toBe(5)
   })
 
+  describe(`minCategoryShare`, () => {
+    test(`defaults to 0.01`, () => {
+      expect(normalizeProfileToMdOptions().minCategoryShare).toBe(0.01)
+    })
+
+    test.each([0, 0.5, 1])(`keeps the fraction %s`, minCategoryShare => {
+      expect(
+        normalizeProfileToMdOptions({ minCategoryShare }).minCategoryShare,
+      ).toBe(minCategoryShare)
+    })
+
+    test.each([-0.5, 1.5, Number.NaN])(`throws for %s`, minCategoryShare => {
+      expect(() => normalizeProfileToMdOptions({ minCategoryShare })).toThrow(
+        `minCategoryShare must be a fraction between 0 and 1, got: ${minCategoryShare}`,
+      )
+    })
+  })
+
   describe(`baseURL`, () => {
     test.each<[string, string | URL, URL]>([
       [`an absolute path`, `/project/src`, new URL(`file:///project/src/`)],

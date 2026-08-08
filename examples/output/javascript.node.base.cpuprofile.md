@@ -26,6 +26,27 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>`                                           |
 | <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 7.6% | 191.0ms |     156 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |   Time | Samples | Function | Location               |
+| ---: | -----: | ------: | -------- | ---------------------- |
+| 0.4% | 10.1ms |       1 | `post`   | `node:inspector:118:7` |
+
+##### Regular expression
+
+|     % |  Time | Samples | Function                                        | Location    |
+| ----: | ----: | ------: | ----------------------------------------------- | ----------- |
+|  0.1% | 1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>` |
+| <0.1% | 1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -82,6 +103,28 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.4% |  10.1ms |       1 | `post`                                          | `cpuprofile-run.mjs:15:14`                            |
 |  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>`                                           |
 | <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 7.6% | 191.0ms |     156 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |    Time | Samples | Function  | Location                               |
+| ---: | ------: | ------: | --------- | -------------------------------------- |
+| 4.2% | 104.0ms |      83 | `require` | `node:internal/modules/helpers:146:19` |
+| 0.4% |  10.1ms |       1 | `post`    | `node:inspector:118:7`                 |
+
+##### Regular expression
+
+|     % |  Time | Samples | Function                                        | Location    |
+| ----: | ----: | ------: | ----------------------------------------------- | ----------- |
+|  0.1% | 1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>` |
+| <0.1% | 1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>` |
 
 #### Callees
 

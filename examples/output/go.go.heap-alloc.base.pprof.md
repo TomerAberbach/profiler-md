@@ -22,6 +22,16 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% | 65.1 KiB |     463 | `encoding/json.Unmarshal`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 | <0.1% |   12 KiB |     769 | `main.workload.func1`           | `profile.go:25`                                                                                  |
 
+##### Categories
+
+###### Standard library
+
+|     % |     Size | Samples | Function                        | Location                                                                                         |
+| ----: | -------: | ------: | ------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 10.6% |  181 MiB |     400 | `encoding/json.Marshal`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+|  0.1% | 1.13 MiB |       2 | `runtime/pprof.StartCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:888`  |
+| <0.1% | 65.1 KiB |     463 | `encoding/json.Unmarshal`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+
 ##### Lines
 
 Lines ranked by contribution to each function's self size.
@@ -86,6 +96,18 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | <0.1% |  624 KiB |          1 | `os.ReadFile`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`              |
 | <0.1% | 28.8 KiB |        202 | `runtime.gcBgMarkWorker`        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`         |
 | <0.1% | 20.3 KiB |        185 | `runtime.gcMarkDone`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`         |
+| <0.1% | 4.04 KiB |         51 | `path/filepath.Join`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/path/filepath/path.go:130`   |
+
+##### Categories
+
+###### Standard library
+
+|     % |     Size |    Samples | Function                        | Location                                                                                         |
+| ----: | -------: | ---------: | ------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 53.5% |  917 MiB | 11,200,763 | `encoding/json.Marshal`         | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+| 46.3% |  795 MiB | 10,621,980 | `encoding/json.Unmarshal`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+|  0.1% | 1.13 MiB |          2 | `runtime/pprof.StartCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:888`  |
+| <0.1% |  624 KiB |          1 | `os.ReadFile`                   | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/os/file.go:864`              |
 | <0.1% | 4.04 KiB |         51 | `path/filepath.Join`            | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/path/filepath/path.go:130`   |
 
 ##### Callees

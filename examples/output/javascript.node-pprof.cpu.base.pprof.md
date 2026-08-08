@@ -27,6 +27,14 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 | <0.1% | 1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>`                                 |
 | <0.1% | 1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                 |
 
+#### Categories
+
+##### Garbage collector
+
+|     % |  Time | Samples | Function              | Location    |
+| ----: | ----: | ------: | --------------------- | ----------- |
+| 11.4% | 1.93s |   1,542 | `(garbage collector)` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -80,6 +88,14 @@ Functions ranked by total wall time spent in the function and all its callees.
 | <0.1% |   1.3ms |       1 | `getSyntacticDiagnostics`                              | `node_modules/typescript/lib/typescript.js`            |
 | <0.1% |   1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>`                                            |
 | <0.1% |   1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                            |
+
+#### Categories
+
+##### Garbage collector
+
+|     % |  Time | Samples | Function              | Location    |
+| ----: | ----: | ------: | --------------------- | ----------- |
+| 11.4% | 1.93s |   1,542 | `(garbage collector)` | `<unknown>` |
 
 #### Callees
 

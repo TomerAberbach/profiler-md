@@ -30,6 +30,25 @@ Functions ranked by wall time spent directly in the function body, excluding cal
 | <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>`                                                                     |
 | <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                                                     |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |  Time | Samples | Function              | Location    |
+| ---: | ----: | ------: | --------------------- | ----------- |
+| 9.6% | 1.75s |   1,403 | `(garbage collector)` | `<unknown>` |
+
+##### Regular expression
+
+|     % |   Time | Samples | Function                                               | Location    |
+| ----: | -----: | ------: | ------------------------------------------------------ | ----------- |
+|  0.1% | 11.3ms |       9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+`       | `<unknown>` |
+|  0.1% | 10.0ms |       8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`            | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: {(\d+)}`                                      | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -96,6 +115,25 @@ Functions ranked by total wall time spent in the function and all its callees.
 | <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>`                                                                     |
 | <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>`                                                                     |
 | <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                                                     |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |  Time | Samples | Function              | Location    |
+| ---: | ----: | ------: | --------------------- | ----------- |
+| 9.6% | 1.75s |   1,403 | `(garbage collector)` | `<unknown>` |
+
+##### Regular expression
+
+|     % |   Time | Samples | Function                                               | Location    |
+| ----: | -----: | ------: | ------------------------------------------------------ | ----------- |
+|  0.1% | 11.3ms |       9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+`       | `<unknown>` |
+|  0.1% | 10.0ms |       8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`            | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: {(\d+)}`                                      | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: ^\.\.?($\|[\\/])`                             | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: import\|require`                              | `<unknown>` |
+| <0.1% |  1.3ms |       1 | `RegExp: ^(?:\/\|\*)*\s*@(ts-expect-error\|ts-ignore)` | `<unknown>` |
 
 #### Callees
 

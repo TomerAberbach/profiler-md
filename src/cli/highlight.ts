@@ -112,7 +112,16 @@ type HeadingSection = {
   intensity: number | null
 
   /** Maps `name (location)` keys to intensities for child heading lookups. */
-  nameLocationToIntensity: Map<string, number>
+  nameLocationToIntensity: Map<string, NameIntensity>
+}
+
+/**
+ * An intensity registered for a `name (location)` key, with the heading level
+ * of the section whose table registered it.
+ */
+type NameIntensity = {
+  intensity: number
+  registeredLevel: Heading[`depth`]
 }
 
 const visitHeading = (
@@ -120,11 +129,7 @@ const visitHeading = (
   sections: HeadingSection[],
   lineToIntensity: Map<number, number>,
 ): void => {
-  // Close all heading sections deeper than this current one. e.g. an H3
-  // following an H6 closes the prior H6 through H3 headings.
-  while (sections.length > 0 && sections.at(-1)!.level >= heading.depth) {
-    sections.pop()
-  }
+  closeDeeperSections(sections, heading.depth)
 
   const key = headingNameLocationKey(heading)
   const intensity = key === null ? null : lookupAncestorIntensity(sections, key)
@@ -139,14 +144,64 @@ const visitHeading = (
   }
 }
 
+/**
+ * Closes the heading sections at or deeper than {@link depth}. e.g. an H3
+ * following an H6 closes the prior H6 through H3 headings.
+ */
+const closeDeeperSections = (
+  sections: HeadingSection[],
+  depth: Heading[`depth`],
+): void => {
+  while (sections.length > 0 && sections.at(-1)!.level >= depth) {
+    inheritClosedNames(sections.pop()!, sections.at(-1))
+  }
+}
+
+/**
+ * Passes a closed section's names up to its {@link parent}, where they stay
+ * available to the parent's later children, which cover the same entries: a
+ * function reaching the output through a category subsection is broken down
+ * under the sibling sections that follow it. A name the parent registered
+ * itself is the more local one, so it takes precedence.
+ *
+ * A name stops at {@link MAX_INHERITED_LEVELS} above the section that
+ * registered it, which is as far as the sibling sections covering the same
+ * entries reach. Beyond that an intensity would apply under a heading measuring
+ * a different total, e.g. a retained-heap section inheriting allocated-heap
+ * intensities.
+ */
+const inheritClosedNames = (
+  closed: HeadingSection,
+  parent: HeadingSection | undefined,
+): void => {
+  if (!parent) {
+    return
+  }
+  for (const [key, name] of closed.nameLocationToIntensity) {
+    if (
+      name.registeredLevel - parent.level <= MAX_INHERITED_LEVELS &&
+      !parent.nameLocationToIntensity.has(key)
+    ) {
+      parent.nameLocationToIntensity.set(key, name)
+    }
+  }
+}
+
+/**
+ * A category subsection's table is two levels below the section holding the
+ * breakdown sections that follow it (`Categories` groups the subsections, and
+ * the breakdowns are its siblings).
+ */
+const MAX_INHERITED_LEVELS = 2
+
 const lookupAncestorIntensity = (
   sections: HeadingSection[],
   key: string,
 ): number | null => {
   for (let i = sections.length - 1; i >= 0; i--) {
-    const intensity = sections[i]!.nameLocationToIntensity.get(key)
-    if (intensity !== undefined) {
-      return intensity
+    const name = sections[i]!.nameLocationToIntensity.get(key)
+    if (name !== undefined) {
+      return name.intensity
     }
   }
   return null
@@ -207,7 +262,7 @@ const visitTable = (
         if (nameCell !== undefined && locationCell !== undefined) {
           headingSection.nameLocationToIntensity.set(
             nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
-            intensity,
+            { intensity, registeredLevel: headingSection.level },
           )
         }
       }

@@ -22,6 +22,23 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 0.2% | 10.0ms |       1 | `runtime.gcBeginWork`       | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1933`      |
 | 0.2% | 10.0ms |       1 | `runtime.gcFlushBgCredit`   | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:836`   |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |   Time | Samples | Function                  | Location                                                                                    |
+| ---: | -----: | ------: | ------------------------- | ------------------------------------------------------------------------------------------- |
+| 0.2% | 10.0ms |       1 | `runtime.gcDrain`         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1239` |
+| 0.2% | 10.0ms |       1 | `runtime.gcstopm`         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3296`    |
+| 0.2% | 10.0ms |       1 | `runtime.gcBeginWork`     | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1933`     |
+| 0.2% | 10.0ms |       1 | `runtime.gcFlushBgCredit` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:836`  |
+
+##### Ours
+
+|    % |   Time | Samples | Function                    | Location                                                                                     |
+| ---: | -----: | ------: | --------------------------- | -------------------------------------------------------------------------------------------- |
+| 0.2% | 10.0ms |       1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -104,6 +121,38 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.2% |  10.0ms |       1 | `gosave_systemstack_switch`                            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144`    |
 |  0.2% |  10.0ms |       1 | `gcWriteBarrier`                                       | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1475`    |
 |  0.2% |  10.0ms |       1 | `runtime.gcStart`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:733`          |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function                                               | Location                                                                                    |
+| ---: | ------: | ------: | ------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| 9.1% | 510.0ms |      51 | `runtime.gcDrain`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1239` |
+| 9.1% | 510.0ms |      51 | `runtime.gcBgMarkWorker.func2`                         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1847`     |
+| 7.1% | 400.0ms |      40 | `runtime.gcstopm`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3296`    |
+| 5.7% | 320.0ms |      32 | `runtime.gcDrainMarkWorkerDedicated`                   | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1173` |
+| 4.3% | 240.0ms |      24 | `runtime.gcBgMarkWorker`                               | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`     |
+| 4.1% | 230.0ms |      23 | `runtime.(*sweepLocked).sweep`                         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:505` |
+| 3.4% | 190.0ms |      19 | `runtime.gcDrainMarkWorkerIdle`                        | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1167` |
+| 2.3% | 130.0ms |      13 | `runtime.gcStart.func2`                                | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:834`      |
+| 2.1% | 120.0ms |      12 | `runtime.sweepone`                                     | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:359` |
+| 2.1% | 120.0ms |      12 | `runtime.bgsweep`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:272` |
+| 1.2% |  70.0ms |       7 | `runtime.gcMarkDone.forEachP.func5`                    | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2112`    |
+| 0.7% |  40.0ms |       4 | `runtime.(*sweepLocked).sweep.(*mheap).freeSpan.func2` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1667`   |
+| 0.5% |  30.0ms |       3 | `runtime.gcMarkTermination.forEachP.func7`             | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2112`    |
+| 0.2% |  10.0ms |       1 | `runtime.gcStart`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:733`      |
+| 0.2% |  10.0ms |       1 | `runtime.gcBeginWork`                                  | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1933`     |
+| 0.2% |  10.0ms |       1 | `runtime.gcMarkTermination.func4`                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1545`     |
+| 0.2% |  10.0ms |       1 | `runtime.gcFlushBgCredit`                              | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:836`  |
+
+##### Ours
+
+|     % |    Time | Samples | Function                    | Location                                                                                     |
+| ----: | ------: | ------: | --------------------------- | -------------------------------------------------------------------------------------------- |
+| 14.0% | 790.0ms |      79 | `main.workload.func1`       | `Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25`       |
+|  0.2% |  10.0ms |       1 | `gosave_systemstack_switch` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1144` |
+|  0.2% |  10.0ms |       1 | `gcWriteBarrier`            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1475` |
 
 #### Callees
 

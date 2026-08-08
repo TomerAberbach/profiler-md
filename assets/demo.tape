@@ -22,7 +22,7 @@ Enter
 Sleep 1.5s
 Down@100ms 20
 Sleep 900ms
-Type@800ms "dddddd"
+Type@800ms "dddddddd"
 Sleep 900ms
 Right@250ms 5
 Sleep 1.2s
@@ -40,7 +40,7 @@ Enter
 Sleep 1.5s
 Down@100ms 20
 Sleep 900ms
-Type@800ms "dd"
+Type@800ms "dddd"
 Sleep 1.5s
 Type "q"
 Sleep 1.2s

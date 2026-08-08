@@ -151,11 +151,35 @@ export type ProfileToMdOptions = {
   /**
    * The number of entries to display when computing the "top N" by some metric.
    *
+   * Applies to each ranking rather than to the output as a whole, so a ranking
+   * split into per-category subsections displays up to this many entries in
+   * every one of them. See {@link minCategoryShare}.
+   *
    * This value, divided by a constant, also limits subsection entry count.
    *
    * Defaults to 20.
    */
   topN?: number
+
+  /**
+   * The share of a profile a category must account for to be broken down into
+   * its own subsection, as a fraction between 0 and 1.
+   *
+   * A ranking splits into one subsection per category that meets this, each
+   * ranking that category's own entries. A category below it is dropped from
+   * the subsections, though the category breakdown still reports its totals.
+   *
+   * A category's share is measured over the self values of the entries
+   * {@link showEntry} keeps, so the threshold applies to the entries the
+   * subsections display rather than to every entry in the profile. Total values
+   * include callees, so they double count and their shares add up to more
+   * than 1.
+   *
+   * Pass 0 to break down every category.
+   *
+   * Defaults to 0.01.
+   */
+  minCategoryShare?: number
 
   /**
    * Base URL to show paths relative to in the Markdown output.
@@ -243,6 +267,7 @@ export type ProfileToMdOptions = {
 /** {@link ProfileToMdOptions} with defaults applied. */
 export type NormalizedProfileToMdOptions = {
   topN: number
+  minCategoryShare: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
   entryMatchKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
@@ -277,6 +302,7 @@ export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
 
 export const normalizeProfileToMdOptions = ({
   topN = 20,
+  minCategoryShare = 0.01,
   baseURL,
   sourceMaps = [],
   matchEntry = defaultMatchEntry,
@@ -284,6 +310,7 @@ export const normalizeProfileToMdOptions = ({
   showEntry = defaultShowEntry,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
+  minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps),
   entryMatchKey: cacheEntryFunction((entry, context) =>
@@ -301,6 +328,15 @@ export const normalizeProfileToMdOptions = ({
   },
   showEntry: cacheEntryFunction(showEntry),
 })
+
+const normalizeMinCategoryShare = (minCategoryShare: number): number => {
+  if (!(minCategoryShare >= 0 && minCategoryShare <= 1)) {
+    throw new ProfilerMdError(
+      `minCategoryShare must be a fraction between 0 and 1, got: ${minCategoryShare}`,
+    )
+  }
+  return minCategoryShare
+}
 
 const normalizeBaseURL = (
   baseURL: `auto` | (string & {}) | URL | null | undefined,

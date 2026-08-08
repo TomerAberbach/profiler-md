@@ -34,11 +34,13 @@ ambiguous.
 
 ### Formatting
 
-| Term                | Definition                                                                                     | Aliases to avoid |
-| ------------------- | ---------------------------------------------------------------------------------------------- | ---------------- |
-| **Synthetic entry** | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file | fake, artificial |
-| **Measure**         | A quantity a section ranks and tabulates by: a metric, or the count when there is none         | metric, value    |
-| **Top N**           | The per-ranking display count; a truncation limit, not a synonym for hottest/largest           | —                |
+| Term                    | Definition                                                                                     | Aliases to avoid |
+| ----------------------- | ---------------------------------------------------------------------------------------------- | ---------------- |
+| **Synthetic entry**     | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file | fake, artificial |
+| **Measure**             | A quantity a section ranks and tabulates by: a metric, or the count when there is none         | metric, value    |
+| **Top N**               | The per-ranking display count; a truncation limit, not a synonym for hottest/largest           | —                |
+| **Category share**      | A category's part of the summed self values of the entries a ranking shows                     | coverage, weight |
+| **Category subsection** | A ranking of one category's own entries, repeating its ranking within that category            | category section |
 
 ## Code location
 

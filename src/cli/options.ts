@@ -12,9 +12,14 @@ import {
 } from '../location.ts'
 import type { RegexReplacement } from './cli.ts'
 
+/**
+ * Every flag the options are built from, each required so that a flag added to
+ * the CLI without being passed here fails to compile.
+ */
 export type BuildOptionsFlags = {
-  topN?: number
-  baseURL?: string
+  topN: number | undefined
+  minCategoryShare: number | undefined
+  baseURL: string | undefined
   sourceMaps: readonly string[]
   match: readonly RegexReplacement[]
   thirdParty: readonly string[]
@@ -22,12 +27,14 @@ export type BuildOptionsFlags = {
 
 export const buildOptions = async ({
   topN,
+  minCategoryShare,
   baseURL,
   sourceMaps,
   match,
   thirdParty,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
+  minCategoryShare,
   // A directory literally named `auto` is still reachable via `./auto`.
   baseURL:
     baseURL !== undefined && baseURL !== `auto` && !URL.canParse(baseURL)

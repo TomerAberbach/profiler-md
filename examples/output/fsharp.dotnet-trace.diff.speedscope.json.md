@@ -37,6 +37,12 @@ Functions with the largest increase in time spent directly in the function body,
 |        new |  +<0.01µs |  0.0% → <0.1% |    0ms → <0.1µs |         0 → 1 | `Invoke(UnionCaseInfo)`                                                                                                          | `Argu.PreCompute+caseInfo@576-2`                            |
 |        new |  +<0.01µs |  0.0% → <0.1% |    0ms → <0.1µs |         0 → 1 | `tryExtractUnionParameterLabel(PropertyInfo)`                                                                                    | `Argu.PreCompute`                                           |
 
+##### Native
+
+| Change |     Delta |             % |            Time |       Samples | Function              | Location    |
+| -----: | --------: | ------------: | --------------: | ------------: | --------------------- | ----------- |
+|  +4.1% | +434.75ms | 98.7% → 98.8% | 10.67s → 11.11s | 5,767 → 6,000 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
@@ -92,6 +98,12 @@ Functions with the largest increase in total time spent in the function and all 
 |    new |   +2.59ms |  0.0% → <0.1% |       0ms → 2.6ms |         0 → 1 | `get_Item(Object)`                                                                                                              | `System.Collections.Hashtable`                                   |
 | +15.8% |   +1.89ms |          0.1% |   12.0ms → 13.8ms |       15 → 16 | `preComputeUnionArgInfo()`                                                                                                      | `Argu.PreCompute`                                                |
 |  +6.3% |   +1.83ms |          0.3% |   29.2ms → 31.0ms |       32 → 34 | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                       | `Argu.KeyValueParser`                                            |
+
+##### Native
+
+| Change |     Delta |             % |            Time |       Samples | Function              | Location    |
+| -----: | --------: | ------------: | --------------: | ------------: | --------------------- | ----------- |
+|  +4.1% | +434.75ms | 98.7% → 98.8% | 10.67s → 11.11s | 5,767 → 6,000 | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Improvements
 

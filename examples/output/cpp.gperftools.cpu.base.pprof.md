@@ -14,6 +14,10 @@ Took 499.0ms over 499 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |    % |   Time | Samples | Function                                                               | Location                           |
 | ---: | -----: | ------: | ---------------------------------------------------------------------- | ---------------------------------- |
 | 8.4% | 42.0ms |      42 | `fmt::v11::detail::buffer::append`                                     | `src/fmt/include/fmt/base.h`       |
@@ -341,6 +345,10 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
+
+#### Categories
+
+##### Ours
 
 |     % |    Time | Samples | Function                                                 | Location                           |
 | ----: | ------: | ------: | -------------------------------------------------------- | ---------------------------------- |

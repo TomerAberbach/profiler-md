@@ -38,6 +38,14 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% | <0.1µs |       1 | `GetNextToken(bool, UnionArgInfo)`                                                                                              | `Argu.CliParser+CliTokenReader`                             |
 | <0.1% | <0.1µs |       2 | ``TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)``                                                                        | `Microsoft.FSharp.Collections.SeqModule`                    |
 
+#### Categories
+
+##### Native
+
+|     % |   Time | Samples | Function              | Location    |
+| ----: | -----: | ------: | --------------------- | ----------- |
+| 98.8% | 11.11s |   6,000 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
@@ -169,6 +177,14 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.2% |  27.0ms |      31 | `GetValue(String)`                                                                                                                          | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`  |
 |  0.2% |  22.8ms |      17 | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                     |
 |  0.2% |  17.7ms |      16 | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                 |
+
+#### Categories
+
+##### Native
+
+|     % |   Time | Samples | Function              | Location    |
+| ----: | -----: | ------: | --------------------- | ----------- |
+| 98.8% | 11.11s |   6,000 | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callees
 

@@ -37,6 +37,55 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.0% |  1.0ms |       1 | `Title.js`           | `w/load.php?lang=en&modules=mediawiki.Title&skin=vector-2022&version=1fg2m:1:105`                    |
 | 1.0% |  1.0ms |       1 | `eventSender.js`     | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:28`                    |
 
+#### Categories
+
+##### Ours
+
+|    % |  Time | Samples | Function         | Location                                                                                             |
+| ---: | ----: | ------: | ---------------- | ---------------------------------------------------------------------------------------------------- |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `wiki/Profiling_(computer_programming):6:19`                                                         |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:812`                      |
+| 1.0% | 1.0ms |       1 | `resolveIndex`   | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:17:352`                      |
+| 1.0% | 1.0ms |       1 | `load`           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:20:748`                      |
+| 1.0% | 1.0ms |       1 | `splitModuleKey` | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:720`                      |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:24`                |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24`                     |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:420`                             |
+| 1.0% | 1.0ms |       1 | `doPropagation`  | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254`                       |
+| 1.0% | 1.0ms |       1 | `add`            | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:42:286`                            |
+| 1.0% | 1.0ms |       1 | `jar.js`         | `w/load.php?lang=en&modules=mediawiki.cookie&skin=vector-2022&version=spq95:3:20`                    |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.visualEditor.core.utils.parsing&skin=vector-2022&version=962r8:1:86` |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=jquery.uls.data&skin=vector-2022&version=1ey9x:1:627`                    |
+| 1.0% | 1.0ms |       1 | `Title.js`       | `w/load.php?lang=en&modules=mediawiki.Title&skin=vector-2022&version=1fg2m:1:105`                    |
+| 1.0% | 1.0ms |       1 | `eventSender.js` | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:10:28`                    |
+| 1.0% | 1.0ms |       1 | `get`            | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:721`                       |
+| 1.0% | 1.0ms |       1 | `buildEvent`     | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:16:842`                   |
+| 1.0% | 1.0ms |       1 | `isInSample`     | `w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:28:619`               |
+| 1.0% | 1.0ms |       1 | `(anonymous)`    | `w/load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:4:23`            |
+| 1.0% | 1.0ms |       1 | `buildFragment`  | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:59:231`                            |
+
+##### Native
+
+|    % |  Time | Samples | Function                   | Location    |
+| ---: | ----: | ------: | -------------------------- | ----------- |
+| 3.9% | 4.0ms |       4 | `insertBefore`             | `<unknown>` |
+| 3.9% | 4.0ms |       4 | `getPropertyValue`         | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `createHTMLDocument`       | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `remove`                   | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `setAttribute`             | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `bound setupEventHandlers` | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `addEventListener`         | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `setTimeout`               | `<unknown>` |
+
+##### Standard library
+
+|    % |   Time | Samples | Function  | Location    |
+| ---: | -----: | ------: | --------- | ----------- |
+| 9.8% | 10.0ms |      10 | `eval`    | `<unknown>` |
+| 1.0% |  1.0ms |       1 | `parse`   | `<unknown>` |
+| 1.0% |  1.0ms |       1 | `forEach` | `<unknown>` |
+| 1.0% |  1.0ms |       1 | `exec`    | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -58,6 +107,18 @@ Lines ranked by contribution to each function's self time.
 |      % |  Time | Samples | Location                                                                   |
 | -----: | ----: | ------: | -------------------------------------------------------------------------- |
 | 100.0% | 1.0ms |       1 | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5` |
+
+##### `get` (`w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:721`)
+
+|      % |  Time | Samples | Location                                                                   |
+| -----: | ----: | ------: | -------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1` |
+
+##### `forEach` (`<unknown>`)
+
+|      % |  Time | Samples | Location |
+| -----: | ----: | ------: | -------- |
+| 100.0% | 1.0ms |       1 | 1        |
 
 #### Callers
 
@@ -184,6 +245,78 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | --------- | ------------------------------------------------------------------------------ |
 | 100.0% | 1.0ms |       1 | `require` | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344` |
 
+##### `get` (`w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:721`)
+
+|      % |  Time | Samples | Caller           | Location                                                                              |
+| -----: | ----: | ------: | ---------------- | ------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `webUIScroll.js` | `w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:26:28` |
+
+##### `buildEvent` (`w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:16:842`)
+
+|      % |  Time | Samples | Caller | Location                                                                           |
+| -----: | ----: | ------: | ------ | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `send` | `w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:16:355` |
+
+##### `isInSample` (`w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:28:619`)
+
+|      % |  Time | Samples | Caller        | Location                                                                               |
+| -----: | ----: | ------: | ------------- | -------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:30:633` |
+
+##### `(anonymous)` (`w/load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:4:23`)
+
+|      % |  Time | Samples | Caller        | Location                                                                                  |
+| -----: | ----: | ------: | ------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:1:75` |
+
+##### `buildFragment` (`w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:59:231`)
+
+|      % |  Time | Samples | Caller     | Location                                                                  |
+| -----: | ----: | ------: | ---------- | ------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `domManip` | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:74:285` |
+
+##### `remove` (`<unknown>`)
+
+|      % |  Time | Samples | Caller             | Location                                                                           |
+| -----: | ----: | ------: | ------------------ | ---------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `toggleDocClasses` | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:44:524` |
+
+##### `setAttribute` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                                                                                |
+| -----: | ----: | ------: | ------------- | --------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=jquery.makeCollapsible&skin=vector-2022&version=1yvlc:2:91` |
+
+##### `bound setupEventHandlers` (`<unknown>`)
+
+|      % |  Time | Samples | Caller       | Location                                                                  |
+| -----: | ----: | ------: | ------------ | ------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `mightThrow` | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:44:918` |
+
+##### `addEventListener` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                                                                               |
+| -----: | ----: | ------: | ------------- | -------------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:56:313` |
+
+##### `setTimeout` (`<unknown>`)
+
+|      % |  Time | Samples | Caller        | Location                                                                        |
+| -----: | ----: | ------: | ------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:528` |
+
+##### `forEach` (`<unknown>`)
+
+|      % |  Time | Samples | Caller    | Location                                                                        |
+| -----: | ----: | ------: | --------- | ------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `enqueue` | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:255` |
+
+##### `exec` (`<unknown>`)
+
+|      % |  Time | Samples | Caller     | Location                                                                  |
+| -----: | ----: | ------: | ---------- | ------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `tokenize` | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:27:121` |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
@@ -210,6 +343,57 @@ Functions ranked by total time spent in the function and all its callees.
 |  4.9% |  5.0ms |       5 | `require`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344`    |
 |  4.9% |  5.0ms |       5 | `setupTableOfContents`              | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:6:197` |
 |  4.9% |  5.0ms |       5 | `main`                              | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:7:660` |
+
+#### Categories
+
+##### Ours
+
+|     % |   Time | Samples | Function                            | Location                                                                          |
+| ----: | -----: | ------: | ----------------------------------- | --------------------------------------------------------------------------------- |
+| 26.6% | 27.0ms |      27 | `(anonymous)`                       | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558`   |
+| 24.6% | 25.0ms |      25 | `runScript`                         | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:11:59`    |
+| 15.7% | 16.0ms |      16 | `flushCssBuffer`                    | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217`    |
+| 12.8% | 13.0ms |      13 | `doPropagation`                     | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:5:254`    |
+| 12.8% | 13.0ms |      13 | `(anonymous)`                       | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:12:421`   |
+| 12.8% | 13.0ms |      13 | `mightThrow`                        | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:44:918`         |
+| 12.8% | 13.0ms |      13 | `(anonymous)`                       | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636`         |
+| 11.8% | 12.0ms |      12 | `indirectEval`                      | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:216`   |
+| 11.8% | 12.0ms |      12 | `asyncEvalTask`                     | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:381`   |
+| 11.8% | 12.0ms |      12 | `(anonymous)`                       | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:15:294`   |
+| 11.8% | 12.0ms |      12 | `execute`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:868`   |
+|  7.9% |  8.0ms |       8 | `each`                              | `w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:5:105`          |
+|  6.9% |  7.0ms |       7 | `resources/skins.vector.js/skin.js` | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155` |
+|  5.9% |  6.0ms |       6 | `main`                              | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:965` |
+|  4.9% |  5.0ms |       5 | `(anonymous)`                       | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:812`   |
+|  4.9% |  5.0ms |       5 | `(program)`                         | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:1`      |
+|  4.9% |  5.0ms |       5 | `require`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344`    |
+|  4.9% |  5.0ms |       5 | `setupTableOfContents`              | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:6:197` |
+|  4.9% |  5.0ms |       5 | `main`                              | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:7:660` |
+|  3.9% |  4.0ms |       4 | `enqueue`                           | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:255`   |
+
+##### Native
+
+|    % |  Time | Samples | Function                   | Location    |
+| ---: | ----: | ------: | -------------------------- | ----------- |
+| 3.9% | 4.0ms |       4 | `insertBefore`             | `<unknown>` |
+| 3.9% | 4.0ms |       4 | `getPropertyValue`         | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `createHTMLDocument`       | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `remove`                   | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `bound processThumbs`      | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `setAttribute`             | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `bound setupEventHandlers` | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `addEventListener`         | `<unknown>` |
+| 1.0% | 1.0ms |       1 | `setTimeout`               | `<unknown>` |
+
+##### Standard library
+
+|     % |   Time | Samples | Function  | Location    |
+| ----: | -----: | ------: | --------- | ----------- |
+| 11.8% | 12.0ms |      12 | `eval`    | `<unknown>` |
+|  3.0% |  3.0ms |       3 | `forEach` | `<unknown>` |
+|  1.0% |  1.0ms |       1 | `parse`   | `<unknown>` |
+|  1.0% |  1.0ms |       1 | `exec`    | `<unknown>` |
+|  1.0% |  1.0ms |       1 | `Promise` | `<unknown>` |
 
 #### Callees
 
@@ -360,6 +544,33 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |  Time | Samples | Callee                 | Location                                                                          |
 | -----: | ----: | ------: | ---------------------- | --------------------------------------------------------------------------------- |
 | 100.0% | 5.0ms |       5 | `setupTableOfContents` | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:6:197` |
+
+##### `enqueue` (`w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:10:255`)
+
+|     % |  Time | Samples | Callee        | Location                                                                         |
+| ----: | ----: | ------: | ------------- | -------------------------------------------------------------------------------- |
+| 50.0% | 2.0ms |       2 | `work`        | `w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:16:424`  |
+| 25.0% | 1.0ms |       1 | `forEach`     | `<unknown>`                                                                      |
+| 25.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=mediawiki.base&skin=vector-2022&version=13iwe:6:847` |
+
+##### `forEach` (`<unknown>`)
+
+|     % |  Time | Samples | Callee        | Location                                                                                         |
+| ----: | ----: | ------: | ------------- | ------------------------------------------------------------------------------------------------ |
+| 33.3% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:40:292`               |
+| 33.3% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=skins.vector.clientPreferences&skin=vector-2022&version=1vmjt:9:688` |
+
+##### `bound processThumbs` (`<unknown>`)
+
+|      % |  Time | Samples | Callee          | Location                                                                        |
+| -----: | ----: | ------: | --------------- | ------------------------------------------------------------------------------- |
+| 100.0% | 1.0ms |       1 | `processThumbs` | `w/load.php?lang=en&modules=mmv.bootstrap&skin=vector-2022&version=176u6:4:425` |
+
+##### `Promise` (`<unknown>`)
+
+|      % |  Time | Samples | Callee        | Location                                                                                         |
+| -----: | ----: | ------: | ------------- | ------------------------------------------------------------------------------------------------ |
+| 100.0% | 1.0ms |       1 | `(anonymous)` | `w/load.php?lang=en&modules=skins.vector.clientPreferences&skin=vector-2022&version=1vmjt:9:632` |
 
 ## Hottest call stacks
 

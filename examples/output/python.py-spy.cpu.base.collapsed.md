@@ -14,6 +14,10 @@ Collected 189 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |     % | Samples | Function                     | Location                     |
 | ----: | ------: | ---------------------------- | ---------------------------- |
 | 10.1% |      19 | `_addtoken`                  | `blib2to3/pgen2/parse.py`    |
@@ -331,6 +335,10 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
+
+#### Categories
+
+##### Ours
 
 |     % | Samples | Function                          | Location                   |
 | ----: | ------: | --------------------------------- | -------------------------- |

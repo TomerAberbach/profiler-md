@@ -30,6 +30,23 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   1.0ms |       1 | `FSE_compress_usingCTable_generic`       | `fse_compress.c`    |
 |  0.1% |   1.0ms |       1 | `FSE_normalizeCount`                     | `<unknown>`         |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                                 | Location            |
+| ----: | ------: | ------: | ---------------------------------------- | ------------------- |
+| 74.4% | 927.0ms |     927 | `ZSTD_btGetAllMatches_noDict_3`          | `zstd_opt.c`        |
+| 22.2% | 276.0ms |     276 | `ZSTD_compressBlock_opt2`                | `zstd_opt.c`        |
+|  0.8% |  10.0ms |      10 | `ZSTD_litLengthPrice.constprop.1.isra.0` | `zstd_opt.c`        |
+|  0.5% |   6.0ms |       6 | `ZSTD_litLengthPrice.constprop.0.isra.0` | `zstd_opt.c`        |
+|  0.4% |   5.0ms |       5 | `ZSTD_insertBt1.constprop.3`             | `zstd_opt.c`        |
+|  0.2% |   3.0ms |       3 | `ZSTD_updateStats`                       | `zstd_opt.c`        |
+|  0.2% |   2.0ms |       2 | `ZSTD_compressBegin_internal`            | `zstd_compress.c`   |
+|  0.1% |   1.0ms |       1 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
+|  0.1% |   1.0ms |       1 | `HIST_count_parallel_wksp`               | `hist.c`            |
+|  0.1% |   1.0ms |       1 | `FSE_compress_usingCTable_generic`       | `fse_compress.c`    |
+
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
@@ -142,6 +159,33 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.2% |   3.0ms |       3 | `ZSTD_compressStream2`                               | `<unknown>`         |
 |  0.2% |   3.0ms |       3 | `FIO_compressFilename_srcFile`                       | `fileio.c`          |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                                             | Location                    |
+| ----: | ------: | ------: | ---------------------------------------------------- | --------------------------- |
+| 99.8% |   1.24s |   1,243 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c`         |
+| 99.8% |   1.24s |   1,243 | `POOL_thread`                                        | `pool.c`                    |
+| 99.5% |   1.24s |   1,240 | `ZSTD_compress_frameChunk`                           | `zstd_compress.c`           |
+| 98.5% |   1.22s |   1,227 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`           |
+| 97.0% |   1.20s |   1,208 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                |
+| 74.8% | 932.0ms |     932 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`                |
+|  0.8% |  10.0ms |      10 | `ZSTD_litLengthPrice.constprop.1.isra.0`             | `zstd_opt.c`                |
+|  0.7% |   9.0ms |       9 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`           |
+|  0.7% |   9.0ms |       9 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`           |
+|  0.5% |   6.0ms |       6 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`                |
+|  0.4% |   5.0ms |       5 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`                |
+|  0.3% |   4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock`                  | `zstd_compress.c`           |
+|  0.2% |   3.0ms |       3 | `ZSTD_updateStats`                                   | `zstd_opt.c`                |
+|  0.2% |   3.0ms |       3 | `FIO_compressFilename_srcFile`                       | `fileio.c`                  |
+|  0.2% |   2.0ms |       2 | `ZSTD_buildSequencesStatistics`                      | `zstd_compress.c`           |
+|  0.2% |   2.0ms |       2 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`           |
+|  0.1% |   1.0ms |       1 | `HIST_count_parallel_wksp`                           | `hist.c`                    |
+|  0.1% |   1.0ms |       1 | `FSE_compress_usingCTable_generic`                   | `fse_compress.c`            |
+|  0.1% |   1.0ms |       1 | `ZSTD_NCountCost`                                    | `zstd_compress_sequences.c` |
+|  0.1% |   1.0ms |       1 | `HUF_compress_internal`                              | `huf_compress.c`            |
+
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -242,6 +286,25 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |  Time | Samples | Callee                 | Location    |
 | -----: | ----: | ------: | ---------------------- | ----------- |
 | 100.0% | 3.0ms |       3 | `ZSTD_compressStream2` | `<unknown>` |
+
+##### `ZSTD_buildSequencesStatistics` (`zstd_compress.c`)
+
+|     % |  Time | Samples | Callee                     | Location    |
+| ----: | ----: | ------: | -------------------------- | ----------- |
+| 50.0% | 1.0ms |       1 | `HIST_count_parallel_wksp` | `hist.c`    |
+| 50.0% | 1.0ms |       1 | `ZSTD_selectEncodingType`  | `<unknown>` |
+
+##### `ZSTD_NCountCost` (`zstd_compress_sequences.c`)
+
+|      % |  Time | Samples | Callee               | Location    |
+| -----: | ----: | ------: | -------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `FSE_normalizeCount` | `<unknown>` |
+
+##### `HUF_compress_internal` (`huf_compress.c`)
+
+|      % |  Time | Samples | Callee                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `HUF_optimalTableLog` | `<unknown>` |
 
 ## Hottest call stacks
 

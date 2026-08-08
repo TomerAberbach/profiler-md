@@ -12,6 +12,10 @@ Took 5.82s over 5,822 samples (1.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Standard library
+
 |    % |   Time | Samples | Function        | Location                         |
 | ---: | -----: | ------: | --------------- | -------------------------------- |
 | 0.7% | 39.0ms |      39 | `zig.Ast.parse` | `../opt/zig/lib/std/zig/Ast.zig` |
@@ -44,6 +48,20 @@ Functions ranked by total time spent in the function and all its callees.
 |     % |   Time | Samples | Function                                 | Location                               |
 | ----: | -----: | ------: | ---------------------------------------- | -------------------------------------- |
 | 99.9% |  5.81s |   5,817 | `profile.main`                           | `profile.zig`                          |
+| 71.2% |  4.14s |   4,143 | `zig.Ast.renderAlloc`                    | `../opt/zig/lib/std/zig/Ast.zig`       |
+| 27.0% |  1.57s |   1,570 | `zig.Ast.parse`                          | `../opt/zig/lib/std/zig/Ast.zig`       |
+|  1.3% | 78.0ms |      78 | `Io.Dir.readFileAllocOptions__anon_2741` | `../opt/zig/lib/std/Io/Dir.zig`        |
+|  0.3% | 19.0ms |      19 | `Io.Dir.Walker.next`                     | `../opt/zig/lib/std/Io/Dir.zig`        |
+|  0.1% |  3.0ms |       3 | `mem.Allocator.free__anon_2983`          | `../opt/zig/lib/std/mem/Allocator.zig` |
+|  0.1% |  3.0ms |       3 | `zig.Ast.deinit`                         | `../opt/zig/lib/std/zig/Ast.zig`       |
+| <0.1% |  1.0ms |       1 | `debug.print__anon_3012`                 | `../opt/zig/lib/std/debug.zig`         |
+
+#### Categories
+
+##### Standard library
+
+|     % |   Time | Samples | Function                                 | Location                               |
+| ----: | -----: | ------: | ---------------------------------------- | -------------------------------------- |
 | 71.2% |  4.14s |   4,143 | `zig.Ast.renderAlloc`                    | `../opt/zig/lib/std/zig/Ast.zig`       |
 | 27.0% |  1.57s |   1,570 | `zig.Ast.parse`                          | `../opt/zig/lib/std/zig/Ast.zig`       |
 |  1.3% | 78.0ms |      78 | `Io.Dir.readFileAllocOptions__anon_2741` | `../opt/zig/lib/std/Io/Dir.zig`        |

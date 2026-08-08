@@ -31,6 +31,33 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.1% |       1 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
 |  0.1% |       1 | `apply(Object)`                     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007801204b38` |
 
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                            | Location                                                                              |
+| ----: | ------: | ----------------------------------- | ------------------------------------------------------------------------------------- |
+| 44.3% |     743 | `accumulate(Double[], double[])`    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| 22.8% |     383 | `distance(Double[], Double[])`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+| 12.6% |     211 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  6.4% |     107 | `collectClusters(int[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  3.1% |      52 | `vectorSum()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+|  0.7% |      11 | `computeDirectly()`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  0.1% |       2 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+|  0.1% |       1 | `merge(Map, Map)`                   | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+|  0.1% |       1 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+|  0.1% |       1 | `apply(Object)`                     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007801204b38` |
+
+##### Standard library
+
+|    % | Samples | Function                            | Location                            |
+| ---: | ------: | ----------------------------------- | ----------------------------------- |
+| 3.9% |      66 | `computeIfAbsent(Object, Function)` | `java.util.HashMap`                 |
+| 0.9% |      15 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                 |
+| 0.1% |       2 | `awaitDone(int, long)`              | `java.util.concurrent.ForkJoinTask` |
+| 0.1% |       1 | `valueOf(double)`                   | `java.lang.Double`                  |
+| 0.1% |       1 | `join()`                            | `java.util.concurrent.ForkJoinTask` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self samples.
@@ -248,6 +275,54 @@ Functions ranked by total samples taken in the function and all its callees.
 |  1.4% |      23 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 |  1.0% |      17 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                                                    | Location                                                               |
+| ----: | ------: | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 99.4% |   1,667 | `compute()`                                                 | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| 48.8% |     818 | `computeDirectly()`                                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 47.4% |     795 | `vectorSum()`                                               | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 47.4% |     795 | `computeDirectly()`                                         | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 44.3% |     743 | `accumulate(Double[], double[])`                            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 35.4% |     594 | `findNearestCentroid()`                                     | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 22.8% |     383 | `distance(Double[], Double[])`                              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 16.5% |     277 | `computeClusterAverages()`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 16.5% |     276 | `average(List)`                                             | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 16.2% |     272 | `computeDirectly()`                                         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 12.7% |     213 | `collectClusters(int[])`                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  1.4% |      23 | `merge(Map, Map)`                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  1.4% |      23 | `combineResults(Map, Map)`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  1.4% |      23 | `combineResults(Object, Object)`                            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  1.0% |      17 | `lambda$merge$7(Map, Object, List)`                         | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  1.0% |      17 | `accept(Object, Object)`                                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204d88` |
+|  0.8% |      13 | `lambda$run$0(int, List, int)`                              | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  0.8% |      13 | `call()`                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000078011ffbc0` |
+|  0.4% |       6 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`                                        |
+|  0.4% |       6 | `launchHarnessClass(String, String[])`                      | `org.renaissance.core.Launcher`                                        |
+
+##### Standard library
+
+|     % | Samples | Function                                | Location                             |
+| ----: | ------: | --------------------------------------- | ------------------------------------ |
+| 98.1% |   1,645 | `awaitDone(int, long)`                  | `java.util.concurrent.ForkJoinTask`  |
+| 98.1% |   1,645 | `join()`                                | `java.util.concurrent.ForkJoinTask`  |
+| 17.1% |     286 | `invoke()`                              | `java.util.concurrent.ForkJoinTask`  |
+|  4.2% |      70 | `computeIfAbsent(Object, Function)`     | `java.util.HashMap`                  |
+|  2.3% |      39 | `add(Object)`                           | `java.util.ArrayList`                |
+|  1.0% |      17 | `forEach(BiConsumer)`                   | `java.util.HashMap`                  |
+|  1.0% |      16 | `merge(Object, Object, BiFunction)`     | `java.util.HashMap`                  |
+|  0.3% |       5 | `foreach(Function1)`                    | `scala.collection.immutable.List`    |
+|  0.3% |       5 | `invoke(Object, Object[])`              | `java.lang.reflect.Method`           |
+|  0.3% |       5 | `<init>(Map)`                           | `java.util.HashMap`                  |
+|  0.2% |       3 | `copy(InputStream, Path, CopyOption[])` | `java.nio.file.Files`                |
+|  0.2% |       3 | `collect(Collector)`                    | `java.util.stream.ReferencePipeline` |
+|  0.1% |       2 | `toArray(IntFunction)`                  | `java.util.stream.ReferencePipeline` |
+|  0.1% |       2 | `fork()`                                | `java.util.concurrent.ForkJoinTask`  |
+|  0.1% |       1 | `valueOf(double)`                       | `java.lang.Double`                   |
+|  0.1% |       1 | `addAll(Collection)`                    | `java.util.ArrayList`                |
+
 #### Callees
 
 Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -353,6 +428,49 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ----: | ------: | ----------------------------------- | ------------------- |
 | 88.2% |      15 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
 
+##### `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204d88`)
+
+|      % | Samples | Callee                              | Location                                    |
+| -----: | ------: | ----------------------------------- | ------------------------------------------- |
+| 100.0% |      17 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `forEach(BiConsumer)` (`java.util.HashMap`)
+
+|      % | Samples | Callee                   | Location                                                               |
+| -----: | ------: | ------------------------ | ---------------------------------------------------------------------- |
+| 100.0% |      17 | `accept(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204d88` |
+
+##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
+
+|    % | Samples | Callee                  | Location                                                               |
+| ---: | ------: | ----------------------- | ---------------------------------------------------------------------- |
+| 6.3% |       1 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204fd0` |
+
+##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|     % | Samples | Callee     | Location                            |
+| ----: | ------: | ---------- | ----------------------------------- |
+| 92.3% |      12 | `invoke()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000078011ffbc0`)
+
+|      % | Samples | Callee                         | Location                                    |
+| -----: | ------: | ------------------------------ | ------------------------------------------- |
+| 100.0% |      13 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
+
+|     % | Samples | Callee                               | Location                            |
+| ----: | ------: | ------------------------------------ | ----------------------------------- |
+| 83.3% |       5 | `invoke(Object, Object[])`           | `java.lang.reflect.Method`          |
+| 16.7% |       1 | `createClassLoaderForModule(String)` | `org.renaissance.core.ModuleLoader` |
+
+##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
+
+|      % | Samples | Callee                                                      | Location                        |
+| -----: | ------: | ----------------------------------------------------------- | ------------------------------- |
+| 100.0% |       6 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
+
 ## Hottest call stacks
 
 Call stacks ranked by samples taken in their leaf frame. `…` stands for frames the entry filter hides.
@@ -410,6 +528,23 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% | 9.67 MiB |      26 | `valueOf(double)`                    | `java.lang.Double`                                         |
 | <0.1% | 3.42 MiB |      10 | `lambda$generateData$4(int)`         | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 | <0.1% |  799 KiB |       3 | `range(int, int)`                    | `java.util.stream.IntStream`                               |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                             | Location                                                   |
+| ----: | -------: | ------: | ------------------------------------ | ---------------------------------------------------------- |
+|  2.7% | 1023 MiB |      65 | `findNearestCentroid()`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  1.0% |  390 MiB |       8 | `collectClusters(int[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.7% |  261 MiB |       8 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  0.3% | 98.1 MiB |       2 | `vectorSum()`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  0.2% | 86.1 MiB |       5 | `add(double[], double[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+|  0.2% | 85.1 MiB |       4 | `lambda$merge$6(List, List)`         | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+|  0.2% |   64 MiB |       5 | `lambda$collectClusters$0(Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.2% | 59.4 MiB |       4 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.1% | 23.3 MiB |       6 | `merge(Map, Map)`                    | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% | 3.42 MiB |      10 | `lambda$generateData$4(int)`         | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 
 #### Lines
 
@@ -590,6 +725,33 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 11.8% | 4.43 GiB |     226 | `add(Object)`                       | `java.util.ArrayList`                                                  |
 |  2.7% | 1023 MiB |      65 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                                                                                                               | Location                                                               |
+| ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 99.4% | 37.3 GiB |   1,859 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| 82.3% | 30.9 GiB |   1,532 | `merge(Map, Map)`                                                                                                      | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 82.3% | 30.9 GiB |   1,532 | `combineResults(Map, Map)`                                                                                             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 82.3% | 30.9 GiB |   1,532 | `combineResults(Object, Object)`                                                                                       | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 82.1% | 30.8 GiB |   1,518 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 82.1% | 30.8 GiB |   1,518 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204fd0` |
+| 82.1% | 30.8 GiB |   1,518 | `lambda$merge$7(Map, Object, List)`                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 82.1% | 30.8 GiB |   1,518 | `accept(Object, Object)`                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007801204d88` |
+| 20.4% | 7.66 GiB |     195 | `lambda$run$0(int, List, int)`                                                                                         | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 20.4% | 7.66 GiB |     195 | `call()`                                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000078011ffbc0` |
+| 15.8% | 5.93 GiB |     308 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 13.1% | 4.93 GiB |     243 | `collectClusters(int[])`                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  2.7% | 1023 MiB |      65 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  0.7% |  261 MiB |       8 | `createSubtask(int, int)`                                                                                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+|  0.5% |  208 MiB |     120 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
+|  0.5% |  208 MiB |     120 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+|  0.5% |  208 MiB |     118 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
+|  0.5% |  207 MiB |     117 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
+|  0.5% |  204 MiB |     111 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  0.5% |  190 MiB |      75 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+
 #### Callees
 
 Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -687,6 +849,51 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | 89.8% | 4.43 GiB |     226 | `add(Object)`                       | `java.util.ArrayList` |
 |  2.5% |  124 MiB |       9 | `computeIfAbsent(Object, Function)` | `java.util.HashMap`   |
 
+##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
+
+|     % |    Size | Samples | Callee                                                      | Location                            |
+| ----: | ------: | ------: | ----------------------------------------------------------- | ----------------------------------- |
+| 99.6% | 208 MiB |     118 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`     |
+|  0.2% | 388 KiB |       1 | `createScratchRoot(Path, boolean)`                          | `org.renaissance.core.Launcher`     |
+|  0.2% | 388 KiB |       1 | `create(Path, URI)`                                         | `org.renaissance.core.ModuleLoader` |
+
+##### `main(String[])` (`org.renaissance.core.Launcher`)
+
+|      % |    Size | Samples | Callee                                 | Location                        |
+| -----: | ------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 208 MiB |     120 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+
+##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
+
+|     % |    Size | Samples | Callee                               | Location                            |
+| ----: | ------: | ------: | ------------------------------------ | ----------------------------------- |
+| 99.8% | 207 MiB |     117 | `invoke(Object, Object[])`           | `java.lang.reflect.Method`          |
+|  0.2% | 403 KiB |       1 | `createClassLoaderForModule(String)` | `org.renaissance.core.ModuleLoader` |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
+
+|     % |     Size | Samples | Callee              | Location                                    |
+| ----: | -------: | ------: | ------------------- | ------------------------------------------- |
+| 98.7% |  204 MiB |     111 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
+|  1.3% | 2.75 MiB |       6 | `loadClass(String)` | `java.lang.ClassLoader`                     |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|     % |     Size | Samples | Callee                                                                        | Location                                    |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| 92.9% |  190 MiB |      75 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+|  1.9% | 3.87 MiB |      10 | `<clinit>()`                                                                  | `scala.Predef$`                             |
+|  1.3% | 2.61 MiB |       7 | `<init>(Map)`                                                                 | `org.renaissance.harness.ConfigParser`      |
+|  1.2% |  2.4 MiB |       6 | `parse(String[])`                                                             | `org.renaissance.harness.ConfigParser`      |
+|  0.9% | 1.93 MiB |       5 | `loadClass(String)`                                                           | `java.lang.ClassLoader`                     |
+
+##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|     % |    Size | Samples | Callee                                                                                       | Location                                  |
+| ----: | ------: | ------: | -------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 99.8% | 189 MiB |      74 | `executeBenchmark()`                                                                         | `org.renaissance.harness.ExecutionDriver` |
+|  0.2% | 391 KiB |       1 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | `org.renaissance.harness.ExecutionDriver` |
+
 ## Hottest call stacks
 
 Call stacks ranked by bytes allocated in their leaf frame. `…` stands for frames the entry filter hides.
@@ -727,6 +934,10 @@ Retained 2.56 MiB over 9 samples (291 KiB per sample).
 ### Self size
 
 Functions ranked by bytes retained directly in the function body, excluding callees.
+
+#### Categories
+
+##### Standard library
 
 |     % | Size | Samples | Function          | Location           |
 | ----: | ---: | ------: | ----------------- | ------------------ |
@@ -778,6 +989,22 @@ Functions ranked by total bytes retained in the function and all its callees.
 | <0.1% |    112 B |       1 | `createParser(Map)`                                                                                                    | `org.renaissance.harness.ConfigParser`                                 |
 | <0.1% |    112 B |       1 | `<init>(Map)`                                                                                                          | `org.renaissance.harness.ConfigParser`                                 |
 | <0.1% |     96 B |       4 | `valueOf(double)`                                                                                                      | `java.lang.Double`                                                     |
+
+#### Categories
+
+##### Standard library
+
+|     % |     Size | Samples | Function                   | Location                             |
+| ----: | -------: | ------: | -------------------------- | ------------------------------------ |
+| 90.2% | 2.31 MiB |       8 | `invoke(Object, Object[])` | `java.lang.reflect.Method`           |
+| 80.5% | 2.06 MiB |       5 | `collect(Collector)`       | `java.util.stream.ReferencePipeline` |
+| 80.5% | 2.06 MiB |       5 | `foreach(Function1)`       | `scala.collection.immutable.List`    |
+|  9.7% |  255 KiB |       1 | `loadClass(String)`        | `java.lang.ClassLoader`              |
+| <0.1% |    112 B |       1 | `<clinit>()`               | `scala.runtime.LazyVals$`            |
+| <0.1% |     96 B |       4 | `valueOf(double)`          | `java.lang.Double`                   |
+| <0.1% |     96 B |       4 | `toArray(IntFunction)`     | `java.util.stream.ReferencePipeline` |
+| <0.1% |     72 B |       1 | `load(InputStream)`        | `java.util.Properties`               |
+| <0.1% |     72 B |       1 | `apply(Function0)`         | `scala.util.Try$`                    |
 
 #### Callees
 
@@ -869,6 +1096,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |      % |  Size | Samples | Callee              | Location                               |
 | -----: | ----: | ------: | ------------------- | -------------------------------------- |
 | 100.0% | 112 B |       1 | `createParser(Map)` | `org.renaissance.harness.ConfigParser` |
+
+##### `apply(Function0)` (`scala.util.Try$`)
+
+|      % | Size | Samples | Callee    | Location                                                               |
+| -----: | ---: | ------: | --------- | ---------------------------------------------------------------------- |
+| 100.0% | 72 B |       1 | `apply()` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000780117e000` |
 
 ## Hottest call stacks
 

@@ -38,6 +38,14 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% | <0.1µs |       1 | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)`                                                            | `Argu.CliParser`                                                           |
 | <0.1% | <0.1µs |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                           |
 
+#### Categories
+
+##### Native
+
+|     % |   Time | Samples | Function              | Location    |
+| ----: | -----: | ------: | --------------------- | ----------- |
+| 98.7% | 10.67s |   5,767 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
@@ -181,6 +189,14 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.2% |  18.5ms |      14 | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                 |
 |  0.2% |  18.5ms |      14 | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])``                                    | `Argu.CliParser`                                                 |
 |  0.2% |  17.3ms |      13 | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                     |
+
+#### Categories
+
+##### Native
+
+|     % |   Time | Samples | Function              | Location    |
+| ----: | -----: | ------: | --------------------- | ----------- |
+| 98.7% | 10.67s |   5,767 | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callees
 

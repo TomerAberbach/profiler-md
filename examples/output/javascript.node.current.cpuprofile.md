@@ -23,6 +23,26 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                               |
 | <0.1% |   1.3ms |       1 | `createProgram`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 6.6% | 177.0ms |     144 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |  Time | Samples | Function | Location               |
+| ---: | ----: | ------: | -------- | ---------------------- |
+| 0.4% | 9.8ms |       1 | `post`   | `node:inspector:118:7` |
+
+##### Regular expression
+
+|    % |  Time | Samples | Function                                    | Location    |
+| ---: | ----: | ------: | ------------------------------------------- | ----------- |
+| 0.1% | 3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -66,6 +86,27 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.4% |  10.3ms |       2 | `(anonymous)`                               | `cpuprofile-run.mjs:16:15`                                                                |
 |  0.4% |  10.3ms |       2 | `post`                                      | `cpuprofile-run.mjs:15:14`                                                                |
 |  0.1% |   3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                               |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 6.6% | 177.0ms |     144 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |    Time | Samples | Function  | Location                               |
+| ---: | ------: | ------: | --------- | -------------------------------------- |
+| 3.7% | 100.3ms |      80 | `require` | `node:internal/modules/helpers:146:19` |
+| 0.4% |  10.3ms |       2 | `post`    | `node:inspector:118:7`                 |
+
+##### Regular expression
+
+|    % |  Time | Samples | Function                                    | Location    |
+| ---: | ----: | ------: | ------------------------------------------- | ----------- |
+| 0.1% | 3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>` |
 
 #### Callees
 

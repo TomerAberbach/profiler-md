@@ -1,6 +1,9 @@
 import { describe, expect, test } from 'vitest'
 import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import {
+  callersTables,
+  categoryRankingTables,
+  categorySectionTables,
   categoryTables,
   improvementsTables,
   profileTitles,
@@ -548,6 +551,165 @@ describe(`formatCallStackProfile`, () => {
       ],
     ])
   })
+
+  describe(`category subsections`, () => {
+    /**
+     * A profile whose time splits between the project's own code and a
+     * dependency, with a third function too small to account for a hundredth of
+     * it.
+     */
+    const makeMixedProfile = () =>
+      makeAggregatedCallStackProfile(
+        [MICROSECONDS],
+        [
+          {
+            name: `ourFunc`,
+            url: `file:///project/src/a.ts`,
+            selfCount: 60,
+            selfValues: [600],
+          },
+          {
+            name: `libFunc`,
+            url: `file:///project/node_modules/lib/index.js`,
+            selfCount: 39,
+            selfValues: [390],
+            stack: [1, 0],
+          },
+          {
+            name: `nativeCall`,
+            selfCount: 1,
+            selfValues: [1],
+            stack: [2, 0],
+          },
+        ],
+        // Aggregated as `node` so a `node_modules/` location categorizes as
+        // `third-party`, which is a JavaScript ecosystem convention.
+        { format: `v8-cpu-profile`, origin: `node` },
+      )
+
+    test(`splits a ranking into a subsection per qualifying category`, () => {
+      const md = mdastToMarkdown(
+        formatCallStackProfile(makeMixedProfile(), defaultOptions),
+      )
+
+      expect(categorySectionTables(md, `Self time`)).toEqual({
+        Ours: [
+          {
+            '%': `60.5%`,
+            Time: `0.6ms`,
+            Samples: `60`,
+            Function: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+        'Third-party': [
+          {
+            '%': `39.4%`,
+            Time: `0.4ms`,
+            Samples: `39`,
+            Function: `libFunc`,
+            Location: `node_modules/lib/index.js`,
+          },
+        ],
+      })
+    })
+
+    test(`drops a category below minCategoryShare`, () => {
+      // `nativeCall` has no location, so it is `native`, and accounts for 0.1%
+      // of the profile.
+      const md = mdastToMarkdown(
+        formatCallStackProfile(makeMixedProfile(), defaultOptions),
+      )
+
+      expect(Object.keys(categorySectionTables(md, `Self time`))).toEqual([
+        `Ours`,
+        `Third-party`,
+      ])
+      expect(md).toContain(`nativeCall`)
+    })
+
+    test(`breaks down a function only a category subsection ranks`, () => {
+      const md = mdastToMarkdown(
+        formatCallStackProfile(
+          makeMixedProfile(),
+          resolveProfileToMdOptions({ baseURL: `/project`, topN: 1 }),
+        ),
+      )
+
+      // The overall ranking shows `ourFunc` alone, so `libFunc` reaches the
+      // output through its category's subsection and must be broken down too.
+      expect(selfTimeTables(md)).toEqual([
+        [
+          {
+            '%': `60.5%`,
+            Time: `0.6ms`,
+            Samples: `60`,
+            Function: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+      ])
+      expect(callersTables(md, `libFunc`)).toEqual([
+        [
+          {
+            '%': `100.0%`,
+            Time: `0.4ms`,
+            Samples: `39`,
+            Caller: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+      ])
+    })
+
+    test(`splits a ranking whose entries all fall in one category`, () => {
+      const profile = makeAggregatedCallStackProfile(
+        [MICROSECONDS],
+        [
+          {
+            name: `ourFunc`,
+            url: `file:///project/src/a.ts`,
+            selfCount: 100,
+            selfValues: [1000],
+          },
+        ],
+      )
+
+      const md = mdastToMarkdown(
+        formatCallStackProfile(profile, defaultOptions),
+      )
+
+      expect(categorySectionTables(md, `Self time`)).toEqual({
+        Ours: [
+          {
+            '%': `100.0%`,
+            Time: `1.0ms`,
+            Samples: `100`,
+            Function: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+      })
+    })
+
+    test(`minCategoryShare of 0 keeps every category`, () => {
+      const md = mdastToMarkdown(
+        formatCallStackProfile(
+          makeMixedProfile(),
+          resolveProfileToMdOptions({
+            baseURL: `/project`,
+            minCategoryShare: 0,
+          }),
+        ),
+      )
+
+      expect(Object.keys(categorySectionTables(md, `Self time`))).toEqual([
+        `Ours`,
+        `Third-party`,
+        `Native`,
+      ])
+    })
+  })
 })
 
 describe(`formatCallStackProfileDiff`, () => {
@@ -1015,5 +1177,161 @@ describe(`formatCallStackProfileDiff`, () => {
 
     expect(md).not.toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
+  })
+
+  describe(`category subsections`, () => {
+    /**
+     * A profile whose time splits between the project's own code and a
+     * dependency, with a third function too small to account for a hundredth of
+     * it.
+     */
+    const makeMixedProfile = (selfValues: [number, number, number]) =>
+      makeAggregatedCallStackProfile(
+        [MICROSECONDS],
+        [
+          {
+            name: `ourFunc`,
+            url: `file:///project/src/a.ts`,
+            selfCount: selfValues[0],
+            selfValues: [selfValues[0] * 10],
+          },
+          {
+            name: `libFunc`,
+            url: `file:///project/node_modules/lib/index.js`,
+            selfCount: selfValues[1],
+            selfValues: [selfValues[1] * 10],
+            stack: [1, 0],
+          },
+          {
+            name: `nativeCall`,
+            selfCount: selfValues[2],
+            selfValues: [selfValues[2] * 10],
+            stack: [2, 0],
+          },
+        ],
+        // Aggregated as `node` so a `node_modules/` location categorizes as
+        // `third-party`, which is a JavaScript ecosystem convention.
+        { format: `v8-cpu-profile`, origin: `node` },
+      )
+
+    const diffMixedProfiles = (
+      base: [number, number, number],
+      current: [number, number, number],
+    ) =>
+      mdastToMarkdown(
+        formatCallStackProfileDiff(
+          diffAggregatedCallStackProfiles(
+            makeMixedProfile(base),
+            makeMixedProfile(current),
+            defaultOptions,
+          ),
+          defaultOptions,
+        ),
+      )
+
+    test(`splits each ranking into a subsection per qualifying category`, () => {
+      const md = diffMixedProfiles([60, 39, 1], [30, 70, 1])
+
+      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({
+        'Third-party': [
+          {
+            '%': `39.0% → 69.3%`,
+            Change: `+79.5%`,
+            Delta: `+0.31ms`,
+            Time: `0.4ms → 0.7ms`,
+            Samples: `39 → 70`,
+            Function: `libFunc`,
+            Location: `node_modules/lib/index.js`,
+          },
+        ],
+      })
+      expect(categoryRankingTables(md, `Self time`, `Improvements`)).toEqual({
+        Ours: [
+          {
+            '%': `60.0% → 29.7%`,
+            Change: `-50.0%`,
+            Delta: `-0.30ms`,
+            Time: `0.6ms → 0.3ms`,
+            Samples: `60 → 30`,
+            Function: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+      })
+    })
+
+    test(`admits a category by its larger side`, () => {
+      // The dependency's share drops from 39.0% to under 1%, so only its base
+      // side meets the threshold.
+      const md = diffMixedProfiles([60, 39, 1], [100, 1, 1])
+
+      expect(
+        Object.keys(categoryRankingTables(md, `Self time`, `Improvements`)),
+      ).toEqual([`Third-party`])
+    })
+
+    test(`splits a ranking whose entries all fall in one category`, () => {
+      const md = diffMixedProfiles([100, 0, 0], [50, 0, 0])
+
+      expect(categoryRankingTables(md, `Self time`, `Improvements`)).toEqual({
+        Ours: [
+          {
+            '%': `100.0%`,
+            Change: `-50.0%`,
+            Delta: `-0.50ms`,
+            Time: `1.0ms → 0.5ms`,
+            Samples: `100 → 50`,
+            Function: `ourFunc`,
+            Location: `src/a.ts`,
+          },
+        ],
+      })
+    })
+
+    test(`drops a category below the threshold on both sides`, () => {
+      // The dependency's two functions swap which one runs, so it accounts for
+      // 0.7% of each side while its functions' larger shares add up to more
+      // than the threshold.
+      const churning = (firstSamples: number, secondSamples: number) =>
+        makeAggregatedCallStackProfile(
+          [MICROSECONDS],
+          [
+            {
+              name: `ourFunc`,
+              url: `file:///project/src/a.ts`,
+              selfCount: 994,
+              selfValues: [9940],
+            },
+            {
+              name: `libFirst`,
+              url: `file:///project/node_modules/lib/first.js`,
+              selfCount: firstSamples,
+              selfValues: [firstSamples * 10],
+              stack: [1, 0],
+            },
+            {
+              name: `libSecond`,
+              url: `file:///project/node_modules/lib/second.js`,
+              selfCount: secondSamples,
+              selfValues: [secondSamples * 10],
+              stack: [2, 0],
+            },
+          ],
+          { format: `v8-cpu-profile`, origin: `node` },
+        )
+
+      const md = mdastToMarkdown(
+        formatCallStackProfileDiff(
+          diffAggregatedCallStackProfiles(
+            churning(6, 1),
+            churning(1, 6),
+            defaultOptions,
+          ),
+          defaultOptions,
+        ),
+      )
+
+      expect(categoryRankingTables(md, `Self time`, `Regressions`)).toEqual({})
+    })
   })
 })

@@ -16,6 +16,8 @@
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
+##### Ours
+
 |  Change | Delta |             % | Samples | Function                                           | Location                     |
 | ------: | ----: | ------------: | ------: | -------------------------------------------------- | ---------------------------- |
 | +128.6% |    +9 |   4.0% → 8.7% |  7 → 16 | `generate_comments`                                | `black/comments.py`          |
@@ -42,6 +44,8 @@ Functions with the largest increase in samples taken directly in the function bo
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+
+##### Ours
 
 |  Change | Delta |           % | Samples | Function                                 | Location                     |
 | ------: | ----: | ----------: | ------: | ---------------------------------------- | ---------------------------- |
@@ -72,6 +76,8 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
+##### Ours
+
 |  Change | Delta |             % |   Samples | Function                                           | Location                     |
 | ------: | ----: | ------------: | --------: | -------------------------------------------------- | ---------------------------- |
 |  +24.3% |   +17 | 40.0% → 47.3% |   70 → 87 | `check_stability_and_equivalence`                  | `black/__init__.py`          |
@@ -98,6 +104,8 @@ Functions with the largest increase in total samples taken in the function and a
 #### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
+
+##### Ours
 
 |  Change | Delta |             % | Samples | Function                    | Location                   |
 | ------: | ----: | ------------: | ------: | --------------------------- | -------------------------- |

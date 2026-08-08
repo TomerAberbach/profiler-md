@@ -14,6 +14,10 @@ The entry filter hides every sampled function, so all functions are shown.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
+#### Categories
+
+##### Unknown
+
 |      % | Samples | Function      | Location    |
 | -----: | ------: | ------------- | ----------- |
 | 100.0% |      13 | `(anonymous)` | `<unknown>` |
@@ -31,6 +35,10 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
+
+#### Categories
+
+##### Unknown
 
 |      % | Samples | Function      | Location    |
 | -----: | ------: | ------------- | ----------- |

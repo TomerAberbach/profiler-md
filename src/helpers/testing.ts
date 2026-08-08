@@ -1,4 +1,10 @@
-import type { Table as MdastTable, Node, Root, RootContent } from 'mdast'
+import type {
+  Heading,
+  Table as MdastTable,
+  Node,
+  Root,
+  RootContent,
+} from 'mdast'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
 import { gfm } from 'micromark-extension-gfm'
@@ -33,19 +39,41 @@ export const parseMd = (markdown: string): Root =>
     mdastExtensions: [gfmFromMarkdown()],
   })
 
+/**
+ * Each {@link heading} section's ranking table: the first table under the
+ * heading, or the first one in a subsection of it when the ranking shows only
+ * under the category every ranked entry falls in.
+ */
 export const allTablesAfterHeading = (root: Root, heading: string): Table[] => {
   const nodes = root.children
   const results: Table[] = []
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]!
     if (node.type === `heading` && nodeText(node) === heading) {
-      const table = nextTable(nodes, i + 1)
+      const table = firstTableInSection(nodes, i + 1, node.depth)
       if (table) {
         results.push(rowsFromTable(table))
       }
     }
   }
   return results
+}
+
+const firstTableInSection = (
+  nodes: readonly (Node | RootContent)[],
+  from: number,
+  depth: number,
+): MdastTable | undefined => {
+  for (let i = from; i < nodes.length; i++) {
+    const node = nodes[i]!
+    if (node.type === `heading` && (node as Heading).depth <= depth) {
+      break
+    }
+    if (node.type === `table`) {
+      return node as MdastTable
+    }
+  }
+  return undefined
 }
 
 export const allTablesAfterHeadingContaining = (
@@ -56,7 +84,7 @@ export const allTablesAfterHeadingContaining = (
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]!
     if (node.type === `heading` && nodeText(node).includes(substring)) {
-      const table = nextTable(nodes, i + 1)
+      const table = firstTableInSection(nodes, i + 1, (node as Heading).depth)
       if (table) {
         results.push(rowsFromTable(table))
       }
@@ -65,17 +93,23 @@ export const allTablesAfterHeadingContaining = (
   return results
 }
 
-export const nodesUnderHeading = (root: Root, heading: string): Node[] => {
-  const nodes = root.children
+export const nodesUnderHeading = (root: Root, heading: string): Node[] =>
+  nodesUnderHeadingIn(root.children, heading)
+
+export const nodesUnderHeadingIn = (
+  nodes: readonly (Node | RootContent)[],
+  heading: string,
+): Node[] => {
   let start = -1
   let depth = -1
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]!
     if (node.type === `heading`) {
+      const { depth: nodeDepth } = node as Heading
       if (start === -1 && nodeText(node) === heading) {
         start = i + 1
-        ;({ depth } = node)
-      } else if (start !== -1 && node.depth <= depth) {
+        depth = nodeDepth
+      } else if (start !== -1 && nodeDepth <= depth) {
         return nodes.slice(start, i)
       }
     }

@@ -36,6 +36,51 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |    144 B |       6 | `record(Object, int)`                                  | `org.codehaus.groovy.runtime.powerassert.ValueRecorder`                                |
 | <0.1% |    128 B |       4 | `<init>(String, boolean)`                              | `org.codenarc.util.WildcardPattern`                                                    |
 
+#### Categories
+
+##### Standard library
+
+|     % |     Size | Samples | Function                                        | Location                                                |
+| ----: | -------: | ------: | ----------------------------------------------- | ------------------------------------------------------- |
+|  0.1% | 9.88 KiB |     115 | `compile(String)`                               | `java.util.regex.Pattern`                               |
+|  0.1% | 8.36 KiB |     107 | `matcher(CharSequence)`                         | `java.util.regex.Pattern`                               |
+|  0.1% | 5.19 KiB |     166 | `iterator()`                                    | `java.util.ArrayList`                                   |
+| <0.1% | 1.92 KiB |      41 | `<init>()`                                      | `java.util.HashSet`                                     |
+| <0.1% |    792 B |      33 | `toString()`                                    | `java.lang.StringBuilder`                               |
+| <0.1% |    464 B |      29 | `valueOf(int)`                                  | `java.lang.Integer`                                     |
+| <0.1% |    400 B |      10 | `createRange(Object, Object, boolean, boolean)` | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter`     |
+| <0.1% |    312 B |      13 | `isCase(Object, Object)`                        | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter`     |
+| <0.1% |    280 B |       5 | `filter(Predicate)`                             | `java.util.stream.ReferencePipeline`                    |
+| <0.1% |    144 B |       6 | `record(Object, int)`                           | `org.codehaus.groovy.runtime.powerassert.ValueRecorder` |
+| <0.1% |     48 B |       2 | `asList(Object[])`                              | `java.util.Arrays`                                      |
+| <0.1% |     48 B |       2 | `<init>()`                                      | `org.codehaus.groovy.runtime.powerassert.ValueRecorder` |
+| <0.1% |     24 B |       1 | `getText()`                                     | `org.codehaus.groovy.ast.expr.PropertyExpression`       |
+
+##### Ours
+
+|     % |  Size | Samples | Function                                                | Location                                                                               |
+| ----: | ----: | ------: | ------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| <0.1% | 952 B |      17 | `doCall(Object)`                                        | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`             |
+| <0.1% | 704 B |      16 | `matches(String)`                                       | `org.codenarc.util.WildcardPattern`                                                    |
+| <0.1% | 576 B |       8 | `doCall(Object)`                                        | `org.codenarc.util.WildcardPattern$_convertStringWithWildcardsToRegex_closure3`        |
+| <0.1% | 448 B |       7 | `collectViolations(SourceCode, RuleSet)`                | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                         |
+| <0.1% | 392 B |      12 | `writeViolation(Writer, Violation, String)`             | `org.codenarc.report.TextReportWriter`                                                 |
+| <0.1% | 272 B |       6 | `visitConstantExpression(ConstantExpression)`           | `org.codenarc.rule.unnecessary.UnnecessaryGStringAstVisitor`                           |
+| <0.1% | 272 B |       6 | `markVariableAsReferenced(String, VariableExpression)`  | `org.codenarc.rule.unused.UnusedVariableAstVisitor`                                    |
+| <0.1% | 240 B |       5 | `doCall(Object)`                                        | `org.codenarc.rule.unused.UnusedVariableAstVisitor$_markVariableAsReferenced_closure3` |
+| <0.1% | 192 B |       7 | `getViolationLocationString(Violation, String)`         | `org.codenarc.report.TextReportWriter`                                                 |
+| <0.1% | 128 B |       4 | `<init>(String, boolean)`                               | `org.codenarc.util.WildcardPattern`                                                    |
+| <0.1% | 128 B |       4 | `convertStringWithWildcardsToRegex(String)`             | `org.codenarc.util.WildcardPattern`                                                    |
+| <0.1% | 112 B |       2 | `visitBlockStatement(BlockStatement)`                   | `org.codenarc.rule.formatting.IndentationAstVisitor`                                   |
+| <0.1% | 112 B |       2 | `addMethodsToMetricResults(SourceCode, ClassNode, Map)` | `org.gmetrics.metric.AbstractMethodMetric`                                             |
+| <0.1% | 112 B |       2 | `removeAnyViolationsForSameLine(int)`                   | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`                         |
+| <0.1% | 112 B |       2 | `visitBlockStatement(BlockStatement)`                   | `org.codenarc.rule.formatting.SpaceAfterSemicolonAstVisitor`                           |
+| <0.1% | 104 B |       3 | `visitMethodEx(MethodNode)`                             | `org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor`                         |
+| <0.1% |  96 B |       2 | `doCall(Object)`                                        | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3`  |
+| <0.1% |  96 B |       4 | `visitConstantExpression(ConstantExpression)`           | `org.codenarc.rule.convention.LongLiteralWithLowerCaseLAstVisitor`                     |
+| <0.1% |  96 B |       4 | `<init>()`                                              | `org.codenarc.rule.AbstractAstVisitor`                                                 |
+| <0.1% |  96 B |       3 | `isViolationSuppressed(Violation)`                      | `org.codenarc.analyzer.SuppressionAnalyzer`                                            |
+
 #### Lines
 
 Lines ranked by contribution to each function's self size.
@@ -166,6 +211,88 @@ Lines ranked by contribution to each function's self size.
 | 12.5% | 16 B |       1 | `org.codenarc.util.WildcardPattern:39` |
 | 12.5% | 16 B |       1 | `org.codenarc.util.WildcardPattern:40` |
 
+##### `convertStringWithWildcardsToRegex(String)` (`org.codenarc.util.WildcardPattern`)
+
+|     % | Size | Samples | Location                                |
+| ----: | ---: | ------: | --------------------------------------- |
+| 43.8% | 56 B |       1 | `org.codenarc.util.WildcardPattern:101` |
+| 37.5% | 48 B |       2 | `org.codenarc.util.WildcardPattern:100` |
+| 18.8% | 24 B |       1 | `org.codenarc.util.WildcardPattern:99`  |
+
+##### `visitBlockStatement(BlockStatement)` (`org.codenarc.rule.formatting.IndentationAstVisitor`)
+
+|      % |  Size | Samples | Location                                                 |
+| -----: | ----: | ------: | -------------------------------------------------------- |
+| 100.0% | 112 B |       2 | `org.codenarc.rule.formatting.IndentationAstVisitor:257` |
+
+##### `addMethodsToMetricResults(SourceCode, ClassNode, Map)` (`org.gmetrics.metric.AbstractMethodMetric`)
+
+|      % |  Size | Samples | Location                                       |
+| -----: | ----: | ------: | ---------------------------------------------- |
+| 100.0% | 112 B |       2 | `org.gmetrics.metric.AbstractMethodMetric:106` |
+
+##### `removeAnyViolationsForSameLine(int)` (`org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`)
+
+|      % |  Size | Samples | Location                                                           |
+| -----: | ----: | ------: | ------------------------------------------------------------------ |
+| 100.0% | 112 B |       2 | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor:124` |
+
+##### `visitBlockStatement(BlockStatement)` (`org.codenarc.rule.formatting.SpaceAfterSemicolonAstVisitor`)
+
+|      % |  Size | Samples | Location                                                        |
+| -----: | ----: | ------: | --------------------------------------------------------------- |
+| 100.0% | 112 B |       2 | `org.codenarc.rule.formatting.SpaceAfterSemicolonAstVisitor:45` |
+
+##### `visitMethodEx(MethodNode)` (`org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor`)
+
+|     % | Size | Samples | Location                                                          |
+| ----: | ---: | ------: | ----------------------------------------------------------------- |
+| 53.8% | 56 B |       1 | `org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor:71` |
+| 46.2% | 48 B |       2 | `org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor:77` |
+
+##### `doCall(Object)` (`org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3`)
+
+|      % | Size | Samples | Location                                                                                  |
+| -----: | ---: | ------: | ----------------------------------------------------------------------------------------- |
+| 100.0% | 96 B |       2 | `org.codenarc.source.AbstractSourceCode$_removeGrabTransformation_closure1$_closure3:142` |
+
+##### `visitConstantExpression(ConstantExpression)` (`org.codenarc.rule.convention.LongLiteralWithLowerCaseLAstVisitor`)
+
+|     % | Size | Samples | Location                                                              |
+| ----: | ---: | ------: | --------------------------------------------------------------------- |
+| 75.0% | 72 B |       3 | `org.codenarc.rule.convention.LongLiteralWithLowerCaseLAstVisitor:51` |
+| 25.0% | 24 B |       1 | `org.codenarc.rule.convention.LongLiteralWithLowerCaseLAstVisitor:42` |
+
+##### `<init>()` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|      % | Size | Samples | Location                                  |
+| -----: | ---: | ------: | ----------------------------------------- |
+| 100.0% | 96 B |       4 | `org.codenarc.rule.AbstractAstVisitor:36` |
+
+##### `isViolationSuppressed(Violation)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
+
+|      % | Size | Samples | Location                                       |
+| -----: | ---: | ------: | ---------------------------------------------- |
+| 100.0% | 96 B |       3 | `org.codenarc.analyzer.SuppressionAnalyzer:83` |
+
+##### `asList(Object[])` (`java.util.Arrays`)
+
+|      % | Size | Samples | Location                |
+| -----: | ---: | ------: | ----------------------- |
+| 100.0% | 48 B |       2 | `java.util.Arrays:4223` |
+
+##### `<init>()` (`org.codehaus.groovy.runtime.powerassert.ValueRecorder`)
+
+|      % | Size | Samples | Location                                                   |
+| -----: | ---: | ------: | ---------------------------------------------------------- |
+| 100.0% | 48 B |       2 | `org.codehaus.groovy.runtime.powerassert.ValueRecorder:29` |
+
+##### `getText()` (`org.codehaus.groovy.ast.expr.PropertyExpression`)
+
+|      % | Size | Samples | Location                                             |
+| -----: | ---: | ------: | ---------------------------------------------------- |
+| 100.0% | 24 B |       1 | `org.codehaus.groovy.ast.expr.PropertyExpression:84` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
@@ -242,6 +369,40 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | 16.7% | 24 B |       1 | `visitDeclarationExpression(DeclarationExpression)` | `org.codenarc.rule.naming.VariableNameAstVisitor` |
 | 16.7% | 24 B |       1 | `validate()`                                        | `org.codenarc.rule.naming.FieldNameRule`          |
 
+##### `visitMethodEx(MethodNode)` (`org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor`)
+
+|      % |  Size | Samples | Caller                    | Location                               |
+| -----: | ----: | ------: | ------------------------- | -------------------------------------- |
+| 100.0% | 104 B |       3 | `visitMethod(MethodNode)` | `org.codenarc.rule.AbstractAstVisitor` |
+
+##### `<init>()` (`org.codenarc.rule.AbstractAstVisitor`)
+
+|     % | Size | Samples | Caller                        | Location                                                           |
+| ----: | ---: | ------: | ----------------------------- | ------------------------------------------------------------------ |
+| 25.0% | 24 B |       1 | `<init>(String)`              | `org.codenarc.rule.exceptions.CommonCatchAstVisitor`               |
+| 25.0% | 24 B |       1 | `<init>(Map, List)`           | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`           |
+| 25.0% | 24 B |       1 | `<init>(Class, List, String)` | `org.codenarc.rule.unnecessary.UnnecessaryInstantiationAstVisitor` |
+| 25.0% | 24 B |       1 | `<init>()`                    | `org.codenarc.rule.basic.AbstractFinallyAstVisitor`                |
+
+##### `asList(Object[])` (`java.util.Arrays`)
+
+|     % | Size | Samples | Caller                                          | Location                    |
+| ----: | ---: | ------: | ----------------------------------------------- | --------------------------- |
+| 50.0% | 24 B |       1 | `getVariableExpressions(DeclarationExpression)` | `org.codenarc.util.AstUtil` |
+
+##### `<init>()` (`org.codehaus.groovy.runtime.powerassert.ValueRecorder`)
+
+|     % | Size | Samples | Caller                                           | Location                                       |
+| ----: | ---: | ------: | ------------------------------------------------ | ---------------------------------------------- |
+| 50.0% | 24 B |       1 | `<init>(Metric, MetricLevel, Map, Integer, int)` | `org.gmetrics.result.NumberMetricResult`       |
+| 50.0% | 24 B |       1 | `<init>(Metric, MetricLevel, Object, Integer)`   | `org.gmetrics.result.SingleNumberMetricResult` |
+
+##### `getText()` (`org.codehaus.groovy.ast.expr.PropertyExpression`)
+
+|      % | Size | Samples | Caller                                     | Location                    |
+| -----: | ---: | ------: | ------------------------------------------ | --------------------------- |
+| 100.0% | 24 B |       1 | `isMethodCallOnObject(Expression, String)` | `org.codenarc.util.AstUtil` |
+
 ### Total size
 
 Functions ranked by total bytes allocated in the function and all its callees.
@@ -268,6 +429,58 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 35.0% | 2.78 MiB |   6,527 | `visitClass(ClassNode)`                                  | `org.codenarc.rule.AbstractAstVisitor`                                      |
 | 26.2% | 2.08 MiB |     113 | `visitClassEx(ClassNode)`                                | `org.codenarc.rule.size.AbstractMethodMetricAstVisitor`                     |
 | 25.7% | 2.04 MiB |       5 | `callGetProperty(Object)`                                | `org.codehaus.groovy.runtime.callsite.AbstractCallSite`                     |
+
+#### Categories
+
+##### Standard library
+
+|     % |     Size | Samples | Function                                                         | Location                                                |
+| ----: | -------: | ------: | ---------------------------------------------------------------- | ------------------------------------------------------- |
+| 84.5% | 6.71 MiB |  24,217 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                      |
+| 72.4% | 5.75 MiB |  24,166 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder`                      |
+| 69.0% | 5.48 MiB |  23,397 | `linkToCallSite(Object, Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                      |
+| 68.9% | 5.47 MiB |  23,242 | `linkToCallSite(Object, Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                      |
+| 43.8% | 3.48 MiB |      95 | `loadClass(String)`                                              | `java.lang.ClassLoader`                                 |
+| 25.7% | 2.04 MiB |       5 | `callGetProperty(Object)`                                        | `org.codehaus.groovy.runtime.callsite.AbstractCallSite` |
+| 25.7% | 2.04 MiB |       2 | `callStatic(Class, Object, Object, Object)`                      | `org.codehaus.groovy.runtime.callsite.AbstractCallSite` |
+|  5.6% |  454 KiB |   5,683 | `visitClass(ClassNode)`                                          | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`       |
+|  4.7% |  379 KiB |   1,491 | `compile(String)`                                                | `java.util.regex.Pattern`                               |
+|  4.6% |  372 KiB |     100 | `linkToCallSite(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                      |
+|  4.3% |  351 KiB |      25 | `<init>(Object, Object)`                                         | `groovy.lang.Closure`                                   |
+|  4.3% |  350 KiB |      16 | `<clinit>()`                                                     | `groovy.lang.Closure`                                   |
+|  3.9% |  318 KiB |   4,763 | `visitMethod(MethodNode)`                                        | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`       |
+|  3.7% |  302 KiB |   4,560 | `visitConstructorOrMethod(MethodNode, boolean)`                  | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`       |
+|  3.6% |  292 KiB |   4,322 | `visitBlockStatement(BlockStatement)`                            | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`       |
+|  3.3% |  270 KiB |   3,885 | `visitExpressionStatement(ExpressionStatement)`                  | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`       |
+|  2.9% |  239 KiB |   2,213 | `linkToCallSite(Object, Object, long, Object)`                   | `java.lang.invoke.LambdaForm$MH.0x0000000301322800`     |
+|  2.5% |  204 KiB |     911 | `matches(String)`                                                | `java.lang.String`                                      |
+|  2.4% |  197 KiB |   2,230 | `visit(GroovyCodeVisitor)`                                       | `org.codehaus.groovy.ast.expr.MethodCallExpression`     |
+|  2.3% |  184 KiB |     752 | `findRegex(Object, Object)`                                      | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter`     |
+
+##### Ours
+
+|     % |     Size | Samples | Function                                         | Location                                                                    |
+| ----: | -------: | ------: | ------------------------------------------------ | --------------------------------------------------------------------------- |
+| 84.5% | 6.71 MiB |  24,224 | `main(String[])`                                 | `org.codenarc.CodeNarc`                                                     |
+| 72.4% | 5.75 MiB |  24,174 | `execute(String[])`                              | `org.codenarc.CodeNarc`                                                     |
+| 72.2% | 5.73 MiB |  23,883 | `execute()`                                      | `org.codenarc.CodeNarcRunner`                                               |
+| 68.1% | 5.41 MiB |  22,323 | `analyze(RuleSet)`                               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+| 68.0% |  5.4 MiB |  22,318 | `processDirectory(String, RuleSet)`              | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+| 68.0% |  5.4 MiB |  22,316 | `doCall(Object)`                                 | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+| 67.9% |  5.4 MiB |  22,295 | `processFile(String, DirectoryResults, RuleSet)` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+| 67.9% | 5.39 MiB |  22,276 | `collectViolations(SourceCode, RuleSet)`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+| 43.4% | 3.45 MiB |  16,350 | `measureRuleProcessingTime(Rule, Closure)`       | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+| 39.2% | 3.11 MiB |  10,900 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+| 37.8% |    3 MiB |   7,873 | `applyTo(SourceCode)`                            | `org.codenarc.rule.AbstractRule`                                            |
+| 36.4% | 2.89 MiB |   6,928 | `applyTo(SourceCode, List)`                      | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
+| 35.0% | 2.78 MiB |   6,527 | `visitClass(ClassNode)`                          | `org.codenarc.rule.AbstractAstVisitor`                                      |
+| 26.2% | 2.08 MiB |     113 | `visitClassEx(ClassNode)`                        | `org.codenarc.rule.size.AbstractMethodMetricAstVisitor`                     |
+| 25.7% | 2.04 MiB |       4 | `getMetric()`                                    | `org.codenarc.rule.size.AbstractMethodMetricAstVisitor`                     |
+| 25.7% | 2.04 MiB |       3 | `createMetric()`                                 | `org.codenarc.rule.size.AbcMetricAstVisitor`                                |
+| 25.7% | 2.04 MiB |       2 | `<clinit>()`                                     | `org.gmetrics.metric.MetricLevel`                                           |
+| 25.7% | 2.04 MiB |       2 | `<init>()`                                       | `org.gmetrics.metric.AbstractMethodMetric`                                  |
+| 25.7% | 2.04 MiB |       2 | `<init>()`                                       | `org.gmetrics.metric.abc.AbcMetric`                                         |
+| 23.7% | 1.88 MiB |   4,194 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
 
 #### Callees
 
@@ -393,6 +606,100 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |  1.7% | 36.1 KiB |      89 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 | <0.1% |    784 B |      20 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 
+##### `getMetric()` (`org.codenarc.rule.size.AbstractMethodMetricAstVisitor`)
+
+|      % |     Size | Samples | Callee                           | Location                           |
+| -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
+| 100.0% | 2.04 MiB |       4 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `createMetric()` (`org.codenarc.rule.size.AbcMetricAstVisitor`)
+
+|      % |     Size | Samples | Callee                           | Location                           |
+| -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
+| 100.0% | 2.04 MiB |       3 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `callStatic(Class, Object, Object, Object)` (`org.codehaus.groovy.runtime.callsite.AbstractCallSite`)
+
+|      % |     Size | Samples | Callee              | Location                |
+| -----: | -------: | ------: | ------------------- | ----------------------- |
+| 100.0% | 2.04 MiB |       2 | `loadClass(String)` | `java.lang.ClassLoader` |
+
+##### `<clinit>()` (`org.gmetrics.metric.MetricLevel`)
+
+|      % |     Size | Samples | Callee                                      | Location                                                |
+| -----: | -------: | ------: | ------------------------------------------- | ------------------------------------------------------- |
+| 100.0% | 2.04 MiB |       2 | `callStatic(Class, Object, Object, Object)` | `org.codehaus.groovy.runtime.callsite.AbstractCallSite` |
+
+##### `<init>()` (`org.gmetrics.metric.AbstractMethodMetric`)
+
+|      % |     Size | Samples | Callee                    | Location                                                |
+| -----: | -------: | ------: | ------------------------- | ------------------------------------------------------- |
+| 100.0% | 2.04 MiB |       2 | `callGetProperty(Object)` | `org.codehaus.groovy.runtime.callsite.AbstractCallSite` |
+
+##### `<init>()` (`org.gmetrics.metric.abc.AbcMetric`)
+
+|      % |     Size | Samples | Callee     | Location                                   |
+| -----: | -------: | ------: | ---------- | ------------------------------------------ |
+| 100.0% | 2.04 MiB |       2 | `<init>()` | `org.gmetrics.metric.AbstractMethodMetric` |
+
+##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
+
+|      % |     Size | Samples | Callee                                   | Location                                            |
+| -----: | -------: | ------: | ---------------------------------------- | --------------------------------------------------- |
+| 100.0% | 1.88 MiB |   4,187 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
+|  <0.1% |    192 B |       7 | `linkToCallSite(Object, Object)`         | `java.lang.invoke.LambdaForm$MH.0x00000003010c8400` |
+
+##### `visitClass(ClassNode)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|    % |     Size | Samples | Callee                            | Location                                                              |
+| ---: | -------: | ------: | --------------------------------- | --------------------------------------------------------------------- |
+| 0.3% | 1.34 KiB |      42 | `visitImports(ModuleNode)`        | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                     |
+| 0.2% |    864 B |      18 | `visitImports(ModuleNode)`        | `org.codenarc.rule.ClassReferenceAstVisitor`                          |
+| 0.1% |    408 B |      10 | `visitAnnotations(AnnotatedNode)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                     |
+| 0.1% |    328 B |      11 | `visitImports(ModuleNode)`        | `org.codenarc.rule.groovyism.GroovyLangImmutableAstVisitor`           |
+| 0.1% |    256 B |       6 | `visitAnnotations(AnnotatedNode)` | `org.codenarc.rule.groovyism.GStringExpressionWithinStringAstVisitor` |
+
+##### `visitMethod(MethodNode)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|     % |     Size | Samples | Callee                                          | Location                                                          |
+| ----: | -------: | ------: | ----------------------------------------------- | ----------------------------------------------------------------- |
+| 88.0% |  280 KiB |   4,160 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                 |
+|  2.8% | 8.82 KiB |      56 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.unused.UnusedMethodParameterAstVisitor`        |
+|  2.3% | 7.41 KiB |      50 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.BlockStartsWithBlankLineAstVisitor` |
+|  2.0% | 6.33 KiB |     130 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`          |
+|  1.3% | 4.21 KiB |     114 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.ClassReferenceAstVisitor`                      |
+
+##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|    % |     Size | Samples | Callee                            | Location                                                              |
+| ---: | -------: | ------: | --------------------------------- | --------------------------------------------------------------------- |
+| 0.8% | 2.28 KiB |      51 | `visitAnnotations(AnnotatedNode)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                     |
+| 0.3% |    960 B |      23 | `visitAnnotations(AnnotatedNode)` | `org.codenarc.rule.groovyism.GStringExpressionWithinStringAstVisitor` |
+
+##### `visitBlockStatement(BlockStatement)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|     % |     Size | Samples | Callee                      | Location                                                        |
+| ----: | -------: | ------: | --------------------------- | --------------------------------------------------------------- |
+|  1.8% | 5.11 KiB |     144 | `visitStatement(Statement)` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`  |
+| <0.1% |     24 B |       1 | `visitStatement(Statement)` | `org.codenarc.rule.convention.CouldBeSwitchStatementAstVisitor` |
+
+##### `visitExpressionStatement(ExpressionStatement)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|     % |     Size | Samples | Callee                      | Location                                                        |
+| ----: | -------: | ------: | --------------------------- | --------------------------------------------------------------- |
+|  3.3% | 9.02 KiB |     194 | `visitStatement(Statement)` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`  |
+| <0.1% |     24 B |       1 | `visitStatement(Statement)` | `org.codenarc.rule.convention.CouldBeSwitchStatementAstVisitor` |
+
+##### `visit(GroovyCodeVisitor)` (`org.codehaus.groovy.ast.expr.MethodCallExpression`)
+
+|     % |     Size | Samples | Callee                                            | Location                                                     |
+| ----: | -------: | ------: | ------------------------------------------------- | ------------------------------------------------------------ |
+| 17.2% | 33.9 KiB |     606 | `visitMethodCallExpression(MethodCallExpression)` | `org.codehaus.groovy.ast.CodeVisitorSupport`                 |
+| 14.5% | 28.6 KiB |     230 | `visitMethodCallExpression(MethodCallExpression)` | `org.codenarc.rule.unused.UnusedPrivateMethodAstVisitor`     |
+| 14.0% | 27.5 KiB |     469 | `visitMethodCallExpression(MethodCallExpression)` | `org.codenarc.rule.dry.DuplicateLiteralAstVisitor`           |
+|  5.3% | 10.3 KiB |      61 | `visitMethodCallExpression(MethodCallExpression)` | `org.codenarc.rule.basic.ComparisonWithSelfAstVisitor`       |
+|  5.0% | 9.87 KiB |      50 | `visitMethodCallExpression(MethodCallExpression)` | `org.codenarc.rule.basic.ComparisonOfTwoConstantsAstVisitor` |
+
 ## Hottest call stacks
 
 Call stacks ranked by bytes allocated in their leaf frame. `…` stands for frames the entry filter hides.
@@ -440,6 +747,21 @@ Functions ranked by bytes retained directly in the function body, excluding call
 | <0.1% | 64 B |       2 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor`                               |
 | <0.1% | 24 B |       1 | `<init>()`                      | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor` |
 | <0.1% | 16 B |       1 | `valueOf(int)`                  | `java.lang.Integer`                                                  |
+
+#### Categories
+
+##### Ours
+
+|     % | Size | Samples | Function                        | Location                                                             |
+| ----: | ---: | ------: | ------------------------------- | -------------------------------------------------------------------- |
+| <0.1% | 64 B |       2 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor`                               |
+| <0.1% | 24 B |       1 | `<init>()`                      | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor` |
+
+##### Standard library
+
+|     % | Size | Samples | Function       | Location            |
+| ----: | ---: | ------: | -------------- | ------------------- |
+| <0.1% | 16 B |       1 | `valueOf(int)` | `java.lang.Integer` |
 
 #### Lines
 
@@ -505,6 +827,58 @@ Functions ranked by total bytes retained in the function and all its callees.
 |  1.4% | 13.5 KiB |     120 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`          |
 |  1.1% | 10.9 KiB |     281 | `linkToCallSite(Object, int, Object, Object)`            | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00`                                 |
 |  1.1% | 10.9 KiB |     281 | `doCall(Object)`                                         | `org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3` |
+
+#### Categories
+
+##### Ours
+
+|    % |     Size | Samples | Function                                          | Location                                                                            |
+| ---: | -------: | ------: | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 4.6% |   44 KiB |     650 | `main(String[])`                                  | `org.codenarc.CodeNarc`                                                             |
+| 4.6% | 43.8 KiB |     646 | `execute(String[])`                               | `org.codenarc.CodeNarc`                                                             |
+| 3.4% | 32.8 KiB |     362 | `execute()`                                       | `org.codenarc.CodeNarcRunner`                                                       |
+| 2.4% |   23 KiB |     217 | `processFile(String, DirectoryResults, RuleSet)`  | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                                    |
+| 2.4% |   23 KiB |     217 | `doCall(Object)`                                  | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`         |
+| 2.4% |   23 KiB |     217 | `processDirectory(String, RuleSet)`               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                                    |
+| 2.4% |   23 KiB |     217 | `analyze(RuleSet)`                                | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                                    |
+| 2.4% | 22.9 KiB |     216 | `collectViolations(SourceCode, RuleSet)`          | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                      |
+| 1.4% | 13.5 KiB |     120 | `init()`                                          | `org.codenarc.source.AbstractSourceCode`                                            |
+| 1.4% | 13.5 KiB |     120 | `getAst()`                                        | `org.codenarc.source.AbstractSourceCode`                                            |
+| 1.4% | 13.5 KiB |     120 | `init()`                                          | `org.codenarc.analyzer.SuppressionAnalyzer`                                         |
+| 1.4% | 13.5 KiB |     120 | `isRuleSuppressed(Rule)`                          | `org.codenarc.analyzer.SuppressionAnalyzer`                                         |
+| 1.4% | 13.5 KiB |     120 | `doCall(Object)`                                  | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`          |
+| 1.1% | 10.9 KiB |     281 | `doCall(Object)`                                  | `org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3` |
+| 1.1% | 10.9 KiB |     281 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.DirectoryResults`                                             |
+| 1.1% | 10.9 KiB |     281 | `getNumberOfViolationsWithPriority(int)`          | `org.codenarc.results.DirectoryResults`                                             |
+| 1.1% | 10.9 KiB |     281 | `checkMaxViolations(Results, int, int)`           | `org.codenarc.CodeNarc`                                                             |
+| 1.1% | 10.9 KiB |     280 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.FileResults`                                                  |
+| 1.1% | 10.9 KiB |     280 | `getNumberOfViolationsWithPriority(int)`          | `org.codenarc.results.FileResults`                                                  |
+| 1.1% | 10.8 KiB |     275 | `doCall(Object)`                                  | `org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`      |
+
+##### Standard library
+
+|     % |     Size | Samples | Function                                                      | Location                                            |
+| ----: | -------: | ------: | ------------------------------------------------------------- | --------------------------------------------------- |
+| 95.4% |  914 KiB |       4 | `loadClass(String)`                                           | `java.lang.ClassLoader`                             |
+|  4.6% |   44 KiB |     650 | `linkToCallSite(Object, Object, Object)`                      | `java.lang.invoke.Invokers$Holder`                  |
+|  4.6% | 43.7 KiB |     639 | `linkToCallSite(Object, Object)`                              | `java.lang.invoke.Invokers$Holder`                  |
+|  3.1% | 30.1 KiB |     327 | `linkToCallSite(Object, Object, Object, Object)`              | `java.lang.invoke.Invokers$Holder`                  |
+|  3.1% | 30.1 KiB |     327 | `linkToCallSite(Object, Object, Object, Object, Object)`      | `java.lang.invoke.Invokers$Holder`                  |
+|  1.1% | 10.9 KiB |     281 | `linkToCallSite(Object, int, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
+|  1.1% | 10.9 KiB |     281 | `linkToCallSite(Object, int, int, Object)`                    | `java.lang.invoke.LambdaForm$MH.0x00000003013f5400` |
+|  1.1% | 10.9 KiB |     281 | `linkToCallSite(Object, Object, int, int, Object)`            | `java.lang.invoke.LambdaForm$MH.0x0000000301940400` |
+|  1.0% | 9.19 KiB |      82 | `getMetaClass()`                                              | `org.codehaus.groovy.reflection.ClassInfo`          |
+|  0.3% | 2.63 KiB |      39 | `visitClass(ClassNode)`                                       | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`   |
+|  0.2% | 2.07 KiB |      27 | `linkToCallSite(Object, Object)`                              | `java.lang.invoke.LambdaForm$MH.0x00000003010c8400` |
+|  0.2% | 1.88 KiB |      31 | `newInstance()`                                               | `java.lang.Class`                                   |
+|  0.2% | 1.77 KiB |      26 | `visitConstructorOrMethod(MethodNode, boolean)`               | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`   |
+|  0.2% | 1.77 KiB |      26 | `visitMethod(MethodNode)`                                     | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`   |
+|  0.2% | 1.61 KiB |      25 | `visitBlockStatement(BlockStatement)`                         | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`   |
+|  0.1% | 1.41 KiB |      21 | `visitExpressionStatement(ExpressionStatement)`               | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`   |
+|  0.1% | 1.38 KiB |      18 | `invokeMethodOnSuperN(Class, GroovyObject, String, Object[])` | `org.codehaus.groovy.runtime.ScriptBytecodeAdapter` |
+|  0.1% |    552 B |       9 | `visitMethodCallExpression(MethodCallExpression)`             | `org.codehaus.groovy.ast.CodeVisitorSupport`        |
+|  0.1% |    496 B |       8 | `<init>(Object, Object)`                                      | `groovy.lang.Closure`                               |
+| <0.1% |    464 B |       6 | `visitClosureExpression(ClosureExpression)`                   | `org.codehaus.groovy.ast.CodeVisitorSupport`        |
 
 #### Callees
 
@@ -601,6 +975,57 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |      % |     Size | Samples | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`)
+
+|      % |     Size | Samples | Callee                                        | Location                                            |
+| -----: | -------: | ------: | --------------------------------------------- | --------------------------------------------------- |
+| 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, int, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
+
+##### `getNumberOfViolationsWithPriority(int)` (`org.codenarc.results.DirectoryResults`)
+
+|      % |     Size | Samples | Callee                                            | Location                                |
+| -----: | -------: | ------: | ------------------------------------------------- | --------------------------------------- |
+| 100.0% | 10.9 KiB |     281 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.DirectoryResults` |
+
+##### `checkMaxViolations(Results, int, int)` (`org.codenarc.CodeNarc`)
+
+|      % |     Size | Samples | Callee                                     | Location                                            |
+| -----: | -------: | ------: | ------------------------------------------ | --------------------------------------------------- |
+| 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, int, int, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013f5400` |
+
+##### `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.FileResults`)
+
+|      % |     Size | Samples | Callee                                        | Location                                            |
+| -----: | -------: | ------: | --------------------------------------------- | --------------------------------------------------- |
+| 100.0% | 10.9 KiB |     280 | `linkToCallSite(Object, int, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
+
+##### `getNumberOfViolationsWithPriority(int)` (`org.codenarc.results.FileResults`)
+
+|      % |     Size | Samples | Callee                                            | Location                           |
+| -----: | -------: | ------: | ------------------------------------------------- | ---------------------------------- |
+| 100.0% | 10.9 KiB |     280 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.FileResults` |
+
+##### `doCall(Object)` (`org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`)
+
+|      % |     Size | Samples | Callee                           | Location                           |
+| -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
+| 100.0% | 10.8 KiB |     275 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+
+##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|    % | Size | Samples | Callee                            | Location                                          |
+| ---: | ---: | ------: | --------------------------------- | ------------------------------------------------- |
+| 1.8% | 32 B |       1 | `visitAnnotations(AnnotatedNode)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport` |
+
+##### `visitMethod(MethodNode)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
+
+|     % |     Size | Samples | Callee                                          | Location                                                     |
+| ----: | -------: | ------: | ----------------------------------------------- | ------------------------------------------------------------ |
+| 93.4% | 1.66 KiB |      23 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`            |
+|  3.5% |     64 B |       1 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.convention.NoDefAstVisitor`               |
+|  1.8% |     32 B |       1 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.SpaceAroundOperatorAstVisitor` |
+|  1.3% |     24 B |       1 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.ClassReferenceAstVisitor`                 |
 
 ## Hottest call stacks
 

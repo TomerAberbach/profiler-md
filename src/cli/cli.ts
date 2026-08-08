@@ -5,7 +5,8 @@ import { message, text, value } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
 import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
-import { choice, integer, string } from '@optique/core/valueparser'
+import { formatUsageTerm } from '@optique/core/usage'
+import { choice, float, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
 import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
@@ -81,8 +82,17 @@ const parser = object({
   ),
   topN: optional(
     option(`--top-n`, integer({ metavar: `N` }), {
-      description: message`Top entries to show (default: 20)`,
+      description: message`Top entries to show in each ranking, including each category subsection (default: 20)`,
     }),
+  ),
+  minCategoryShare: optional(
+    option(
+      `--min-category-share`,
+      float({ metavar: `FRACTION`, min: 0, max: 1 }),
+      {
+        description: message`Share of a profile a category must account for to get its own subsection, between 0 and 1 (default: 0.01)`,
+      },
+    ),
   ),
   baseURL: optional(
     option(`--base-url`, string(), {
@@ -144,16 +154,23 @@ const program = defineProgram({
   },
 })
 
-export const getHelpText = (): string =>
-  `${[
-    formatDocPage(
-      program.metadata.name,
-      { ...getDocPage(parser)!, ...program.metadata },
-      {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        maxWidth: process.stdout.columns ?? 80,
-      },
+export const getHelpText = (): string => {
+  const docPage = { ...getDocPage(parser)!, ...program.metadata }
+  // A term wider than the description column pushes its first description line
+  // past the column its wrapped lines are indented to
+  const termWidth = Math.max(
+    ...docPage.sections.flatMap(section =>
+      section.entries.map(
+        entry => formatUsageTerm(entry.term, { context: `doc` }).length,
+      ),
     ),
+  )
+  return `${[
+    formatDocPage(program.metadata.name, docPage, {
+      termWidth,
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      maxWidth: process.stdout.columns ?? 80,
+    }),
     `Formats: ${formats.join(`, `)}`,
     `Origins: ${origins.join(`, `)}`,
     `Languages: ${[...languages.entries()]
@@ -162,6 +179,7 @@ export const getHelpText = (): string =>
       )
       .join(`, `)}`,
   ].join(`\n`)}\n`
+}
 
 export type CLIArgs = InferValue<typeof program.parser>
 
