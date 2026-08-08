@@ -35,6 +35,14 @@ export const categorizeHeapSnapshotConstructorForOrigin = (
   return spec.categorizeHeapSnapshotConstructor?.(name)
 }
 
+export const hasRuntimeInsertedArcsForOrigin = (
+  entry: DeepReadonly<ProfileEntry>,
+  origin: Origin,
+): boolean => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.hasRuntimeInsertedArcs?.(entry) ?? false
+}
+
 export const matchEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
   origin: Origin,

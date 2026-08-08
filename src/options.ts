@@ -2,6 +2,7 @@ import type { Format } from './formats/index.ts'
 import type { DeepReadonly } from './helpers/types.ts'
 import { fileReferenceId, makeFileReference } from './location.ts'
 import type { SourceLocation } from './location.ts'
+import type { AggregatedCallGraphFunction } from './modalities/call-graph/aggregate.ts'
 import type { AggregatedHeapSnapshotNode } from './modalities/heap-snapshot/aggregate.ts'
 import type { AggregatedSamplingProfileFunction } from './modalities/sampling-profile/aggregate.ts'
 import {
@@ -80,7 +81,9 @@ export type EntryMatch = {
 
 /** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
-  AggregatedSamplingProfileFunction | AggregatedHeapSnapshotNode
+  | AggregatedSamplingProfileFunction
+  | AggregatedCallGraphFunction
+  | AggregatedHeapSnapshotNode
 
 /** The context in which a profile is being converted to Markdown. */
 export type ProfileToMdContext = {

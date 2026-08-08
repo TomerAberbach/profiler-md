@@ -6,11 +6,17 @@ import { OriginDetector } from './index.ts'
 export const determineOrigin = ({
   format,
   entries,
+  hint,
 }: {
   format: Format
   entries: readonly ProfileEntry[]
+  /** A parser origin hint applied before the entries. */
+  hint?: string
 }): Origin => {
   const detector = new OriginDetector({ format, origin: null })
+  if (hint !== undefined) {
+    detector.hint(hint)
+  }
   detector.addAll(entries)
   return detector.resolve()
 }
