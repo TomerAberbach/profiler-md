@@ -59,7 +59,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame.
+Call stacks ranked by time spent in their leaf frame. `…` stands for frames the entry filter hides.
 
 Common call stack: `typeCheckProject` (`tsc-workload.mjs:3:33`)
 
@@ -70,4 +70,4 @@ Common call stack: `typeCheckProject` (`tsc-workload.mjs:3:33`)
 |  1.4% |  75.9ms |      58 | `bound require`                                                                                                               |
 |  0.7% |  38.6ms |      31 | `parseJsonConfigFileContentWorker` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`) |
 |  0.1% |   3.6ms |       3 | `getParsedCommandLineOfConfigFile` (`node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`) |
-| <0.1% |   1.4ms |       1 | `bound require` ← `bound require`                                                                                             |
+| <0.1% |   1.4ms |       1 | `bound require` ← … ← `bound require`                                                                                         |

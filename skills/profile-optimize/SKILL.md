@@ -1,6 +1,7 @@
 ---
 name: profile-optimize
-description: Generate a performance profile, identify hotspots, and optimize.
+description: |
+  Generate a performance profile, identify hotspots, and optimize.
 argument-hint: '[what to focus on]'
 allowed-tools: Bash(profiler-md *)
 ---
@@ -18,7 +19,8 @@ Focus: $ARGUMENTS
    `profiler-md path/to/profile`, and read the full report, focusing on:
    - Hottest functions: self % shows where time is spent or memory is allocated,
      not just passed through
-   - Hottest call stacks: the full call path to the hot functions
+   - Hottest call stacks: the call path to the hot functions, with `…` for
+     frames the entry filter hides
 3. Identify the hottest 1-3 functions by self % and read their source:
    - Native functions are often unavoidable but may indicate unnecessary work
      (e.g. parsing the same data twice, creating many intermediate arrays)
