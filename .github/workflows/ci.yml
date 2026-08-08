@@ -53,7 +53,7 @@ jobs:
         run: pnpm knip
 
       - name: Test
-        run: pnpm coverage
+        run: pnpm test
 
       - name: Check readme
         run: pnpm check-readme
