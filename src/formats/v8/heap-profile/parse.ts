@@ -109,13 +109,20 @@ const nodeToStackFrame = (node: V8HeapProfileNode) => {
  * with the raw `VMState` tag (see v8's `sampling-heap-profiler.cc`). Mapped to
  * the lowercase labels the V8 CPU profiler uses (`(garbage collector)`) so both
  * profile kinds format and categorize consistently.
+ *
+ * The three stages of V8's compilation pipeline share the `(compiler)` label,
+ * the granularity every other runtime reports compilation at. `(ATOMICS_WAIT)`
+ * becomes `(idle)` because a thread blocked in `Atomics.wait` is running
+ * nothing. `(V8 API)` names no activity, because it records only that the
+ * sample fell inside V8's embedder API. It keeps its own label and categorizes
+ * by location like any other frame V8 wrote no location for.
  */
 const VM_STATE_FRAME_NAMES: ReadonlyMap<string, string> = new Map([
   [`(GC)`, `(garbage collector)`],
-  [`(PARSER)`, `(parser)`],
+  [`(PARSER)`, `(compiler)`],
   [`(COMPILER)`, `(compiler)`],
-  [`(BYTECODE_COMPILER)`, `(bytecode compiler)`],
-  [`(ATOMICS_WAIT)`, `(atomics wait)`],
+  [`(BYTECODE_COMPILER)`, `(compiler)`],
+  [`(ATOMICS_WAIT)`, `(idle)`],
   [`(IDLE)`, `(idle)`],
   [`(V8 API)`, `(v8 api)`],
 ])

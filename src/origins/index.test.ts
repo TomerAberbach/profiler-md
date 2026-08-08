@@ -6,7 +6,7 @@ import {
   injectedInputs,
   readInput,
 } from '../formats/testing.ts'
-import { normalizeProfileToMdOptions } from '../options.ts'
+import { FUNCTION_CATEGORIES, normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import {
   categorizeHeapSnapshotConstructorForOrigin,
@@ -17,12 +17,15 @@ import type { Origin } from './index.ts'
 vi.setConfig({ testTimeout: 125_000 })
 
 /**
- * Echoes a profile's resolved origin as the category of every entry, so the
- * origin `categorizeEntries` received is observable in the categories.
+ * Records the origin `categorizeFunctions` receives into {@link origins}, one
+ * entry per profile it is called for.
  */
-const echoOriginOptions = (): NormalizedProfileToMdOptions =>
+const recordOriginOptions = (origins: Origin[]): NormalizedProfileToMdOptions =>
   normalizeProfileToMdOptions({
-    categorizeEntries: (entries, { origin }) => entries.map(() => origin),
+    categorizeFunctions: (entries, { origin }) => {
+      origins.push(origin)
+      return entries.map(() => `ours`)
+    },
   })
 
 const format = injectedFormat()
@@ -55,37 +58,54 @@ if (inputFilenames.length > 0) {
       },
     )
   })
+
+  describe(`assigned categories`, () => {
+    // `FunctionCategory` is closed so that formatting can partition by category,
+    // but the origins reach it through casts that types alone don't cover
+    // (`syntheticFrameCategory` promotes a frame's `(label)` to a category).
+    test.each(inputFilenames)(
+      `%s categorizes every function canonically`,
+      filename => {
+        const inputs = aggregateInput(
+          readInput(filename),
+          normalizeProfileToMdOptions(),
+        )
+
+        const categories = new Set(
+          inputs.flatMap(input =>
+            input.type === `sampling-profile` || input.type === `call-graph`
+              ? input.functions.map(func => func.category)
+              : [],
+          ),
+        )
+        expect(
+          [...categories].filter(category => !CATEGORIES.has(category)),
+        ).toEqual([])
+      },
+    )
+  })
 }
+
+const CATEGORIES: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
 
 if (format === undefined) {
   describe(`origin threading`, () => {
     const nodeInput = (): Uint8Array =>
       readInput(`javascript.node.base.cpuprofile`)
 
-    test(`an explicit origin overrides detection and reaches categorizeEntries`, () => {
-      const options = echoOriginOptions()
+    test(`an explicit origin overrides detection and reaches categorizeFunctions`, () => {
+      const detectedOrigins: Origin[] = []
+      aggregateInput(nodeInput(), recordOriginOptions(detectedOrigins))
+      expect(detectedOrigins).toEqual([`node`])
 
-      const [detected] = aggregateInput(nodeInput(), options)
-      const [forced] = aggregateInput(
-        { data: nodeInput(), origin: `deno` },
-        options,
-      )
-      if (
-        detected?.type !== `sampling-profile` ||
-        forced?.type !== `sampling-profile`
-      ) {
-        throw new Error(`expected both inputs to be profiles`)
-      }
-
-      expect(new Set(detected.functions.map(func => func.category))).toEqual(
-        new Set([`node`]),
-      )
-
-      // Forcing the origin changes only this profile's categories, not the
+      // Forcing the origin affects only the profile it was forced for, not the
       // independently detected one above.
-      expect(new Set(forced.functions.map(func => func.category))).toEqual(
-        new Set([`deno`]),
+      const forcedOrigins: Origin[] = []
+      aggregateInput(
+        { data: nodeInput(), origin: `deno` },
+        recordOriginOptions(forcedOrigins),
       )
+      expect(forcedOrigins).toEqual([`deno`])
     })
   })
 

@@ -2,6 +2,7 @@ import { HashInterner } from '../../helpers/intern.ts'
 import type { SourceLocation } from '../../location.ts'
 import type {
   AggregationProfileToMdOptions,
+  FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
 import type { OriginDetector } from '../../origins/index.ts'
@@ -403,7 +404,7 @@ class SamplesAggregator {
       location,
       // Categories are assigned at the end of `aggregate`, in one pass over the
       // full set of functions.
-      category: ``,
+      category: `unknown`,
       selfSampleCount: 0,
       totalSampleCount: 0,
       selfValues: new Float64Array(this.#metrics.length),
@@ -444,7 +445,7 @@ class SamplesAggregator {
    * Assigns each function's category and builds the profile's category metrics.
    *
    * Categorization runs here, at the end of aggregation, so it sees the full
-   * set of functions, from which {@link ProfileToMdOptions.categorizeEntries}
+   * set of functions, from which {@link ProfileToMdOptions.categorizeFunctions}
    * can determine the origin (when the context's origin is `null`) before
    * categorizing.
    *
@@ -457,7 +458,10 @@ class SamplesAggregator {
   #categorize(
     functions: AggregatedSamplingProfileFunction[],
   ): Map<string, AggregatedSamplingProfileCategoryMetrics> {
-    const categories = this.#options.categorizeEntries(functions, this.#context)
+    const categories = this.#options.categorizeFunctions(
+      functions,
+      this.#context,
+    )
     const categoryToMetrics = new Map<
       string,
       AggregatedSamplingProfileCategoryMetrics
@@ -615,7 +619,7 @@ export type AggregatedSamplingProfileFunction = {
   location?: SourceLocation
 
   /** The category of functions this function belongs to. */
-  category: string
+  category: FunctionCategory
 
   /**
    * The number of samples taken directly within the function's body, excluding

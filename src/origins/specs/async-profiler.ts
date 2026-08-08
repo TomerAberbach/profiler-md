@@ -1,6 +1,6 @@
 import {
   categorizeJvmEntry,
-  hotspotStubCategory,
+  hotspotRuntimeCategory,
   isJvmStdlibNameStackFrame,
   isNativeLibraryStackFrame,
   jvmMatchEntry,
@@ -17,7 +17,7 @@ export const asyncProfilerOriginSpec = {
   // into Java stacks (JFR written by the JDK's recorder is Java-only).
   isMarkerEntry: entry =>
     isJvmStdlibNameStackFrame(entry.name) ||
-    hotspotStubCategory(entry) !== undefined ||
+    hotspotRuntimeCategory(entry) !== undefined ||
     isNativeLibraryStackFrame(entry),
   categorizeEntry: categorizeJvmEntry,
   matchEntry: jvmMatchEntry,

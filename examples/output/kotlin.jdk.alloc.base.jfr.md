@@ -465,7 +465,7 @@ Allocated 684 MiB over 867 samples (808 KiB per sample).
 | -------- | ----: | -------: | ------: |
 | stdlib   | 77.7% |  531 MiB |     554 |
 | ours     | 22.3% |  153 MiB |     303 |
-| native   | <0.1% | 28.9 KiB |      10 |
+| unknown  | <0.1% | 28.9 KiB |      10 |
 
 ## Hottest functions
 

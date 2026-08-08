@@ -5,7 +5,8 @@ Collected 129 samples.
 | Category    |     % | Samples |
 | ----------- | ----: | ------: |
 | third-party | 79.1% |     102 |
-| stdlib      | 20.9% |      27 |
+| unknown     | 11.6% |      15 |
+| stdlib      |  9.3% |      12 |
 
 ## Hottest functions
 

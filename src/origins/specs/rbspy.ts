@@ -1,7 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { locationlessStdlibCategory } from '../categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { normalizeSpeedscopeExecutingLine } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
@@ -23,7 +22,7 @@ export const rbspyOriginSpec = {
     cFunctionCategory(entry) ??
     rubyGemCategory(entry) ??
     rubyStdlibCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
+    unattributedRubyCategory(entry) ??
     `ours`,
   normalizeStackFrame: (input, format) => {
     if (input.location) {
@@ -80,16 +79,36 @@ const METHOD_FILE_LINE = / - .+:\d+$/u
 /** Rbspy's marker for a native (C) method, which carries no Ruby location. */
 const C_FUNCTION = `[c function]`
 
-/** Categorizes rbspy's native `[c function]` frames as `stdlib`. */
+/**
+ * Categorizes rbspy's native `[c function]` frames as `native`.
+ *
+ * The marker means the method's body is compiled C with no Ruby source. That is
+ * all rbspy records, so the method may belong to core Ruby or to a gem's
+ * extension.
+ */
 const cFunctionCategory = ({
   name,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
-  name?.includes(C_FUNCTION) ? `stdlib` : undefined
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name?.includes(C_FUNCTION) ? `native` : undefined
+
+/**
+ * Categorizes a remaining location-less frame as `unknown`.
+ *
+ * Rbspy records a file for every Ruby method and writes `unknown` for one it
+ * could not attribute, such as a method defined by `class_eval`. Stripping
+ * that placeholder leaves no location, so by this point in the chain the frame
+ * is Ruby source rbspy could not place rather than the compiled code
+ * `[c function]` marks.
+ */
+const unattributedRubyCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  location ? undefined : `unknown`
 
 /** Categorizes frames from an installed gem as `third-party`. */
 const rubyGemCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location && fileReferencePath(location).includes(`/gems/`)
     ? `third-party`
     : undefined
@@ -97,7 +116,7 @@ const rubyGemCategory = ({
 /** Categorizes frames from the Ruby standard library as `stdlib`. */
 const rubyStdlibCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }

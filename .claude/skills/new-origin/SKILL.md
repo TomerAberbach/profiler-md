@@ -39,7 +39,14 @@ $ARGUMENTS
    - `title` when generated docs should show a display name other than the ID
      (e.g. `Node.js` for `node`)
    - `categorizeEntry`: compose from the `src/origins/categorize.ts` helpers
-     plus profiler-specific rules
+     plus profiler-specific rules, following the categorizing principles in
+     `CLAUDE.md`. Order the chain so every rule with positive evidence runs
+     before `locationlessCategory`, the fallback for a frame the profiler
+     attributed to no source file. Write a rule only for a shape a committed
+     input contains, and map the profiler's own vocabulary onto the categories
+     rather than adding one: an activity the profiler names as a pseudo-frame
+     maps in the format's parser (see `VM_STATE_FRAME_NAMES` in
+     `src/formats/v8/heap-profile/parse.ts`)
    - `categorizeHeapSnapshotConstructor` when the origin writes heap snapshots
    - `normalizeStackFrame` when the profiler packs a frame's location into its
      name (see `packedLocationNormalizer`)

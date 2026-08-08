@@ -41,11 +41,18 @@ describe(`categorizeEntry`, () => {
       `encoding/json.(*decodeState).value`,
       `../../nix/store/abc-go-1.26.3/share/go/src/encoding/json/decode.go`,
     ],
-    [`runtime.goexit`, undefined],
-    [`gosave_systemstack_switch`, undefined],
   ])(`the standard-library %s function is stdlib`, (name, path) => {
     expect(categorizeEntry(relativeEntry(name, path))).toBe(`stdlib`)
   })
+
+  // Go compiles ahead of time with full symbol information, so a frame with no
+  // location is a raw address the profiler never symbolized.
+  test.each([`runtime.goexit`, `gosave_systemstack_switch`])(
+    `the unsymbolized %s frame is native`,
+    name => {
+      expect(categorizeEntry(relativeEntry(name, undefined))).toBe(`native`)
+    },
+  )
 
   test(`domain-prefixed modules are third-party`, () => {
     expect(

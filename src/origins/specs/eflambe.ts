@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { locationlessStdlibCategory } from '../categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -19,7 +19,10 @@ export const eflambeOriginSpec = {
   formats: [`collapsed`],
   isMarkerEntry: entry => isBeamStackFrame(entry.name),
   categorizeEntry: entry =>
-    beamModuleCategory(entry) ?? locationlessStdlibCategory(entry) ?? `ours`,
+    sleepCategory(entry) ??
+    beamModuleCategory(entry) ??
+    locationlessCategory(entry) ??
+    `ours`,
   normalizeStackFrame: input => {
     // A located frame (e.g. from a structured format) already has everything it
     // needs; only a bare `module:function/arity` name needs splitting.
@@ -72,6 +75,22 @@ const BEAM_PROCESS_ID = /^<\d+\.\d+\.\d+>$/u
 const ERLANG_MFA = /^[a-z]\w*:.+\/\d+$/u
 
 /**
+ * Categorizes eflambe's `sleep` marker as `idle`.
+ *
+ * Eflambe appends it as the leaf when the process was scheduled out, so it
+ * marks no function and the samples under it measure time the process ran
+ * nothing. A module-qualified `sleep` (`timer:sleep/1`) is a real function and
+ * keeps its module, so only the bare name matches.
+ */
+const sleepCategory = ({
+  name,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name === SCHEDULED_OUT_FRAME ? `idle` : undefined
+
+/** Eflambe's leaf marker for a process scheduled out. */
+const SCHEDULED_OUT_FRAME = `sleep`
+
+/**
  * Categorizes a frame by its BEAM module (the location lifted out by
  * `normalizeStackFrame`): OTP and Elixir-core modules, plus the `eflambe` profiler's
  * own frames, are `stdlib`; any other module is `ours`.
@@ -81,7 +100,7 @@ const ERLANG_MFA = /^[a-z]\w*:.+\/\d+$/u
  */
 const beamModuleCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }

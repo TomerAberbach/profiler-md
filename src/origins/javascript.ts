@@ -10,11 +10,8 @@ import globals from 'globals'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
-import {
-  locationlessStdlibCategory,
-  syntheticFrameCategory,
-} from './categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { locationlessCategory, syntheticFrameCategory } from './categorize.ts'
 
 /**
  * The categorization rules shared by the origins that observe V8 running
@@ -24,20 +21,103 @@ import {
  */
 export const v8JavaScriptCategory = (
   entry: DeepReadonly<ProfileEntry>,
-): EntryCategory | undefined =>
+): FunctionCategory | undefined =>
   syntheticFrameCategory(entry) ??
   v8RegExpCategory(entry) ??
-  locationlessStdlibCategory(entry) ??
+  ecmaScriptBuiltinCategory(entry) ??
+  locationlessCategory(entry) ??
   nodeModulesCategory(entry)
 
 /**
  * Categorizes V8's regular-expression frames, labelled `RegExp: <source>`, as
  * `regexp`.
  */
-const v8RegExpCategory = ({
+export const v8RegExpCategory = ({
   name,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   name?.startsWith(`RegExp: `) ? `regexp` : undefined
+
+/**
+ * Categorizes a frame the engine implements itself, named after a global the
+ * language defines or a method on one, as `stdlib`.
+ *
+ * A JavaScript engine records a script location for every function the profiled
+ * program defines, so a frame with no location is one the engine implements in
+ * its own compiled code. That makes matching a bare name safe only here. The
+ * engine's other location-less frames, the DOM and the host's APIs, fall
+ * through to `native`, separating the language's own library from the
+ * browser's.
+ *
+ * This also categorizes a runtime function sharing a built-in's name as
+ * `stdlib` (Bun's module `resolve`, rather than `Promise.resolve`). The name is
+ * the only evidence for either, and both are library code the runtime ships.
+ */
+export const ecmaScriptBuiltinCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  !location && name !== undefined && getBuiltinNames().has(name)
+    ? `stdlib`
+    : undefined
+
+/**
+ * The names of the globals the language defines and of the methods on them,
+ * derived from the running engine rather than listed, so the set matches
+ * whatever the engine defines.
+ *
+ * Built on first use, since walking the globals costs time wasted on an input
+ * with no JavaScript frames.
+ */
+const getBuiltinNames = (): ReadonlySet<string> => {
+  if (builtinNames) {
+    return builtinNames
+  }
+
+  const names = new Set<string>()
+  const addMethodNames = (object: object | undefined): void => {
+    if (!object) {
+      return
+    }
+    for (const key of Object.getOwnPropertyNames(object)) {
+      if (
+        typeof Object.getOwnPropertyDescriptor(object, key)?.value ===
+        `function`
+      ) {
+        names.add(key)
+      }
+    }
+  }
+
+  for (const name of Object.keys(globals.builtin)) {
+    const value = (globalThis as Record<string, unknown>)[name]
+    if (typeof value === `function`) {
+      names.add(name)
+      addMethodNames(value)
+      addMethodNames(value.prototype as object | undefined)
+    }
+  }
+
+  // The iterator prototypes are intrinsics with no global of their own, so
+  // `next` and the other protocol methods are reachable only through an
+  // instance.
+  for (const iterator of ITERATORS) {
+    const prototype = Object.getPrototypeOf(iterator) as object
+    addMethodNames(prototype)
+    addMethodNames(Object.getPrototypeOf(prototype) as object)
+  }
+
+  builtinNames = names
+  return names
+}
+
+let builtinNames: ReadonlySet<string> | undefined
+
+/** One iterator per intrinsic iterator prototype the language defines. */
+const ITERATORS = [
+  [][Symbol.iterator](),
+  ``[Symbol.iterator](),
+  new Map()[Symbol.iterator](),
+]
 
 /**
  * Returns whether {@link location}'s path lies within a `node_modules/`
@@ -62,7 +142,7 @@ export const hasNodeModulesPath = (
  */
 export const nodeModulesCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined =>
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   hasNodeModulesPath(location) ? `third-party` : undefined
 
 /**

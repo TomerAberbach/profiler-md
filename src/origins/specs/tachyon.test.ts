@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 
@@ -74,7 +74,7 @@ describe(`categorizeEntry`, () => {
   test.each<{
     description: string
     entry: ProfileEntry
-    expected: EntryCategory
+    expected: FunctionCategory
   }>([
     {
       description: `frozen bootstrap modules are stdlib`,

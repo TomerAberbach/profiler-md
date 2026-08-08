@@ -6,9 +6,9 @@ Took 2.69s over 3,134 samples (858.4µs per sample).
 | ----------------- | ----: | ------: | ------: |
 | third-party       | 88.6% |   2.38s |   2,890 |
 | garbage collector |  6.6% | 177.0ms |     144 |
-| stdlib            |  4.7% | 125.5ms |      94 |
+| stdlib            |  4.1% | 111.0ms |      82 |
+| native            |  0.5% |  14.5ms |      15 |
 | regexp            |  0.1% |   3.3ms |       3 |
-| program           | <0.1% |  42.0µs |       3 |
 
 ## Hottest functions
 
@@ -22,7 +22,6 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.4% |   9.8ms |       1 | `post`                                      | `node:inspector:118:7`                                                                    |
 |  0.1% |   3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                               |
 | <0.1% |   1.3ms |       1 | `createProgram`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
-| <0.1% |  42.0µs |       3 | `(program)`                                 | `<unknown>`                                                                               |
 
 #### Lines
 
@@ -67,7 +66,6 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.4% |  10.3ms |       2 | `(anonymous)`                               | `cpuprofile-run.mjs:16:15`                                                                |
 |  0.4% |  10.3ms |       2 | `post`                                      | `cpuprofile-run.mjs:15:14`                                                                |
 |  0.1% |   3.3ms |       3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                               |
-| <0.1% |  42.0µs |       3 | `(program)`                                 | `<unknown>`                                                                               |
 
 #### Callees
 

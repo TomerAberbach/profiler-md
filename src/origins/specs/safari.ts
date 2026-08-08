@@ -1,11 +1,9 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
 import type { ProfileEntry } from '../../options.ts'
+import { locationlessCategory, syntheticFrameCategory } from '../categorize.ts'
 import {
-  locationlessStdlibCategory,
-  syntheticFrameCategory,
-} from '../categorize.ts'
-import {
+  ecmaScriptBuiltinCategory,
   javaScriptConstructorCategory,
   nodeModulesCategory,
 } from '../javascript.ts'
@@ -35,7 +33,8 @@ export const safariOriginSpec = {
   isMarkerEntry: isInjectedScript,
   categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
+    ecmaScriptBuiltinCategory(entry) ??
+    locationlessCategory(entry) ??
     nodeModulesCategory(entry) ??
     (isInjectedScript(entry) || isBundledAccessoryScript(entry)
       ? `stdlib`

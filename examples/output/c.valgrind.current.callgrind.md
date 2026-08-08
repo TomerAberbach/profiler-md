@@ -2,11 +2,10 @@
 
 Recorded 39,558,041 instructions.
 
-| Category   |      % | Instructions |
-| ---------- | -----: | -----------: |
-| ours       | 100.0% |   39,550,417 |
-| stdlib     |  <0.1% |        7,569 |
-| below main |  <0.1% |           55 |
+| Category |      % | Instructions |
+| -------- | -----: | -----------: |
+| ours     | 100.0% |   39,550,472 |
+| native   |  <0.1% |        7,569 |
 
 ## Hottest functions
 

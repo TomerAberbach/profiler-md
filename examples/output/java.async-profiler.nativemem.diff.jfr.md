@@ -14,52 +14,52 @@ Allocated 243 MiB → 246 MiB (+2.365 MiB, +1.0%) over 84,474 samples → 82,
 
 Functions with the largest increase in total native bytes allocated in the function and all its callees.
 
-| Change |       Delta |            % |                Size |         Samples | Function                                                                                                               | Location                                                               |
-| -----: | ----------: | -----------: | ------------------: | --------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| +53.6% | +47.687 KiB | <0.1% → 0.1% |    89 KiB → 137 KiB |       130 → 185 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
-|  +1.6% | +45.149 KiB |         1.2% | 2.84 MiB → 2.88 MiB |   5,978 → 5,981 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
-|  +1.5% | +44.928 KiB |         1.2% | 2.99 MiB → 3.03 MiB |   6,645 → 6,644 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +1.5% | +44.928 KiB |         1.2% |    2.96 MiB → 3 MiB |   6,434 → 6,433 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +1.5% | +44.928 KiB |         1.2% |    2.96 MiB → 3 MiB |   6,434 → 6,433 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700111efe0` |
-|  +1.5% | +44.786 KiB |         1.2% | 2.96 MiB → 3.01 MiB |   6,528 → 6,524 | `foreach(Function1)`                                                                                                   | `scala.collection.immutable.List`                                      |
-|  +0.5% |     +44 KiB |  3.9% → 3.8% |  9.4 MiB → 9.44 MiB |          29,499 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +0.4% | +42.941 KiB |         4.5% |              11 MiB | 37,403 → 37,426 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
-|  +0.4% | +42.941 KiB |         4.5% |              11 MiB | 37,403 → 37,426 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
-|  +0.4% | +42.923 KiB |         4.4% | 10.7 MiB → 10.8 MiB | 34,080 → 34,102 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
-|  +8.7% | +42.773 KiB |         0.2% |   493 KiB → 535 KiB |       552 → 599 | `DeoptimizationBlob`                                                                                                   | `<unknown>`                                                            |
-|  +0.4% | +41.863 KiB |         4.3% |            10.5 MiB | 32,792 → 32,791 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
-|  +0.4% | +41.832 KiB |         4.3% |            10.5 MiB | 32,957 → 32,954 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
-|  +1.4% | +38.791 KiB |         1.1% | 2.75 MiB → 2.79 MiB |   5,057 → 5,062 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
-|  +5.3% | +37.014 KiB |         0.3% |   699 KiB → 736 KiB |   1,449 → 1,512 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
-|  +6.4% | +36.958 KiB |         0.2% |   574 KiB → 611 KiB |   1,156 → 1,178 | `join()`                                                                                                               | `java.util.concurrent.ForkJoinTask`                                    |
-| +14.5% | +35.458 KiB |         0.1% |   245 KiB → 280 KiB |   1,920 → 1,939 | `doPrivileged(PrivilegedAction)`                                                                                       | `java.security.AccessController`                                       |
-| +67.1% | +35.054 KiB |        <0.1% | 52.2 KiB → 87.3 KiB |       155 → 164 | `afterOperationSetUp(String, int, boolean)`                                                                            | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`               |
-| +67.1% | +35.054 KiB |        <0.1% | 52.2 KiB → 87.3 KiB |       155 → 164 | `notifyAfterOperationSetUp(String, int, boolean)`                                                                      | `org.renaissance.harness.EventDispatcher`                              |
-| +73.1% | +35.054 KiB |        <0.1% |     48 KiB → 83 KiB |       108 → 117 | `runFinalization()`                                                                                                    | `java.lang.Runtime`                                                    |
+|  Change |        Delta |             % |                Size |         Samples | Function                                   | Location       |
+| ------: | -----------: | ------------: | ------------------: | --------------: | ------------------------------------------ | -------------- |
+|   +2.1% |   +2.358 MiB | 46.1% → 46.6% |   112 MiB → 115 MiB |   2,563 → 2,569 | `Compile::Compile`                         | `libjvm.dylib` |
+|   +2.1% |   +2.358 MiB | 46.1% → 46.6% |   112 MiB → 115 MiB |   2,563 → 2,569 | `C2Compiler::compile_method`               | `libjvm.dylib` |
+|   +1.8% |   +2.053 MiB | 46.9% → 47.3% |   114 MiB → 116 MiB | 10,091 → 10,080 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+|   +1.8% |   +2.053 MiB | 47.0% → 47.3% |   114 MiB → 116 MiB | 10,139 → 10,128 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
+|   +4.1% |   +1.354 MiB | 13.6% → 14.0% | 33.2 MiB → 34.5 MiB |       480 → 504 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
+|   +3.1% |   +1.307 MiB | 17.2% → 17.6% | 41.9 MiB → 43.2 MiB |   1,198 → 1,210 | `Compile::Code_Gen`                        | `libjvm.dylib` |
+|   +2.4% |   +1.207 MiB | 21.0% → 21.3% | 51.1 MiB → 52.3 MiB |       482 → 506 | `PhaseIdealLoop::Dominators`               | `libjvm.dylib` |
+|   +4.0% |   +1.058 MiB | 10.9% → 11.2% | 26.6 MiB → 27.6 MiB |       321 → 333 | `PhaseIFG::init`                           | `libjvm.dylib` |
+|   +3.1% |  +873.89 KiB | 11.4% → 11.6% | 27.7 MiB → 28.6 MiB |       354 → 365 | `Compile::optimize_loops`                  | `libjvm.dylib` |
+|   +1.0% | +662.914 KiB |         26.0% | 63.2 MiB → 63.9 MiB |       870 → 860 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
+|   +1.0% | +630.898 KiB |         25.8% | 62.8 MiB → 63.4 MiB |       855 → 844 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib` |
+|   +1.0% | +630.898 KiB |         25.8% | 62.8 MiB → 63.4 MiB |       855 → 844 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib` |
+|   +0.9% | +597.664 KiB |         27.0% | 65.8 MiB → 66.4 MiB |       957 → 940 | `Compile::Optimize`                        | `libjvm.dylib` |
+|   +3.0% | +175.679 KiB |   2.3% → 2.4% | 5.71 MiB → 5.88 MiB |       132 → 141 | `PhaseLive::compute`                       | `libjvm.dylib` |
+| +133.3% | +127.984 KiB |  <0.1% → 0.1% |    96 KiB → 224 KiB |           3 → 7 | `GraphKit::make_load`                      | `libjvm.dylib` |
+| +100.0% | +127.984 KiB |          0.1% |   128 KiB → 256 KiB |           4 → 8 | `GraphKit::access_load_at`                 | `libjvm.dylib` |
+|   +6.5% |  +114.14 KiB |          0.7% | 1.72 MiB → 1.83 MiB |         37 → 41 | `Matcher::find_shared`                     | `libjvm.dylib` |
+|  +77.1% |  +98.695 KiB |          0.1% |   128 KiB → 227 KiB |           4 → 6 | `ConnectionGraph::do_analysis`             | `libjvm.dylib` |
+| +300.0% |  +96.031 KiB |  <0.1% → 0.1% |    32 KiB → 128 KiB |           1 → 3 | `ConnectionGraph::create_split_phi`        | `libjvm.dylib` |
+| +300.0% |  +96.031 KiB |  <0.1% → 0.1% |    32 KiB → 128 KiB |           1 → 3 | `ConnectionGraph::split_memory_phi`        | `libjvm.dylib` |
 
 #### Improvements
 
 Functions with the largest decrease in total native bytes allocated in the function and all its callees.
 
-|  Change |       Delta |            % |                Size |         Samples | Function                                                         | Location                                                                              |
-| ------: | ----------: | -----------: | ------------------: | --------------: | ---------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-|   -6.2% | -30.992 KiB |         0.2% |   498 KiB → 467 KiB |   6,805 → 6,802 | `InterpreterRuntime::_new`                                       | `libjvm.dylib`                                                                        |
-|  -25.9% | -12.792 KiB |        <0.1% | 49.3 KiB → 36.5 KiB |        104 → 88 | `collectClusters(int[])`                                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
-|  -15.0% | -10.595 KiB |        <0.1% | 70.7 KiB → 60.1 KiB |       124 → 104 | `average(List)`                                                  | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                                |
-|  -10.2% |  -9.511 KiB |        <0.1% |   93 KiB → 83.5 KiB |       157 → 161 | `fork()`                                                         | `java.util.concurrent.ForkJoinTask`                                                   |
-|   -2.4% |  -6.748 KiB |         0.1% |   281 KiB → 274 KiB |       358 → 331 | `vectorSum()`                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
-|   -2.4% |  -6.748 KiB |         0.1% |   281 KiB → 274 KiB |       358 → 331 | `computeDirectly()`                                              | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
-|   -0.1% |  -6.444 KiB |  4.0% → 3.9% |            9.68 MiB | 25,523 → 25,503 | `loadClass(String)`                                              | `java.lang.ClassLoader`                                                               |
-|   -6.5% |  -5.511 KiB |        <0.1% |   84.5 KiB → 79 KiB |       170 → 161 | `computeDirectly()`                                              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
-|  -64.2% |  -4.029 KiB |        <0.1% | 6.27 KiB → 2.24 KiB |         73 → 28 | `accept(Object, Object)`                                         | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001186fd8`                |
-|  -62.8% |  -4.029 KiB |        <0.1% | 6.42 KiB → 2.39 KiB |         76 → 31 | `forEach(BiConsumer)`                                            | `java.util.HashMap`                                                                   |
-|  -63.4% |  -3.886 KiB |        <0.1% | 6.13 KiB → 2.24 KiB |         70 → 28 | `lambda$merge$7(Map, Object, List)`                              | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
-|   -0.6% |  -2.541 KiB |         0.2% |   430 KiB → 427 KiB |   4,236 → 4,238 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives`                                                |
-|   -8.3% |  -2.041 KiB |        <0.1% | 24.5 KiB → 22.5 KiB |       274 → 263 | `lambda$generateData$5(int, int, Random[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
-|  -79.6% |  -2.033 KiB |        <0.1% |    2.55 KiB → 534 B |         18 → 13 | `computeIfAbsent(Object, Function)`                              | `java.util.HashMap`                                                                   |
-| removed |  -2.015 KiB | <0.1% → 0.0% |      2.02 KiB → 0 B |           1 → 0 | `g1_post_barrier_slow`                                           | `<unknown>`                                                                           |
-|  -98.4% |  -1.984 KiB |        <0.1% |     2.02 KiB → 32 B |           4 → 2 | `lambda$collectClusters$0(Double[])`                             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
-|  -98.4% |  -1.984 KiB |        <0.1% |     2.02 KiB → 32 B |           4 → 2 | `apply(Object)`                                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000007001186d88` |
-|  -88.3% |  -1.921 KiB |        <0.1% |    2.18 KiB → 260 B |           6 → 8 | `printf(Locale, String, Object[])`                               | `java.io.PrintStream`                                                                 |
-|  -88.3% |  -1.921 KiB |        <0.1% |    2.18 KiB → 260 B |           6 → 8 | `printAfterSuccessMessage(int, long)`                            | `org.renaissance.harness.ExecutionDriver`                                             |
-|   -6.8% |  -1.704 KiB |        <0.1% |   25 KiB → 23.3 KiB |       282 → 276 | `apply(int)`                                                     | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011258d8`                |
+|  Change |        Delta |            % |                Size |       Samples | Function                                       | Location       |
+| ------: | -----------: | -----------: | ------------------: | ------------: | ---------------------------------------------- | -------------- |
+|  -20.1% | -351.685 KiB |  0.7% → 0.6% | 1.71 MiB → 1.37 MiB | 4,084 → 4,042 | `Compilation::compile_java_method`             | `libjvm.dylib` |
+|  -15.4% | -315.638 KiB |  0.8% → 0.7% |    2 MiB → 1.69 MiB | 6,142 → 6,121 | `Compilation::compile_method`                  | `libjvm.dylib` |
+|  -15.4% | -315.638 KiB |  0.8% → 0.7% |    2 MiB → 1.69 MiB | 6,142 → 6,121 | `Compilation::Compilation`                     | `libjvm.dylib` |
+|  -23.7% | -287.804 KiB |  0.5% → 0.4% |  1.19 MiB → 928 KiB |       38 → 28 | `PhaseIdealLoop::loop_predication_impl`        | `libjvm.dylib` |
+|  -23.7% | -287.789 KiB |  0.5% → 0.4% |  1.19 MiB → 927 KiB |       39 → 30 | `Compilation::emit_lir`                        | `libjvm.dylib` |
+|  -25.0% | -223.835 KiB |  0.4% → 0.3% |   895 KiB → 672 KiB |       28 → 21 | `LinearScan::do_linear_scan`                   | `libjvm.dylib` |
+|  -21.4% | -191.859 KiB |  0.4% → 0.3% |   896 KiB → 704 KiB |       28 → 22 | `PhaseIdealLoop::split_if_with_blocks`         | `libjvm.dylib` |
+|  -26.3% | -159.976 KiB |         0.2% |   608 KiB → 448 KiB |       18 → 12 | `PhaseIdealLoop::clone_loop`                   | `libjvm.dylib` |
+|  -55.5% | -159.945 KiB |         0.1% |   288 KiB → 128 KiB |         8 → 4 | `PhaseIdealLoop::do_unroll`                    | `libjvm.dylib` |
+|   -6.9% | -159.921 KiB |         0.9% | 2.25 MiB → 2.09 MiB |       71 → 66 | `Matcher::match_tree`                          | `libjvm.dylib` |
+|  -25.0% | -128.046 KiB |         0.2% |   512 KiB → 384 KiB |       14 → 11 | `PhaseMacroExpand::expand_macro_nodes`         | `libjvm.dylib` |
+|  -14.3% | -128.039 KiB |  0.4% → 0.3% |   896 KiB → 768 KiB |       28 → 23 | `PhaseIdealLoop::loop_predication_impl_helper` | `libjvm.dylib` |
+|   -7.5% | -127.992 KiB |  0.7% → 0.6% | 1.66 MiB → 1.53 MiB |       53 → 46 | `PhaseIdealLoop::set_idom`                     | `libjvm.dylib` |
+| removed | -127.968 KiB |  0.1% → 0.0% |       128 KiB → 0 B |         3 → 0 | `PhaseIdealLoop::clone_loop_handle_data_uses`  | `libjvm.dylib` |
+|  -21.0% |  -127.96 KiB |         0.2% |   608 KiB → 480 KiB |       19 → 14 | `PhaseIdealLoop::is_counted_loop`              | `libjvm.dylib` |
+|  -12.1% | -127.945 KiB |         0.4% |  1.03 MiB → 928 KiB |       32 → 28 | `Matcher::ReduceInst`                          | `libjvm.dylib` |
+|  -44.4% | -127.906 KiB |         0.1% |   288 KiB → 160 KiB |         9 → 5 | `Compile::call_generator`                      | `libjvm.dylib` |
+|   -1.7% | -102.031 KiB |         2.3% | 5.71 MiB → 5.61 MiB |     132 → 129 | `Matcher::xform`                               | `libjvm.dylib` |
+|  -60.0% |  -96.031 KiB | 0.1% → <0.1% |    160 KiB → 64 KiB |         4 → 2 | `PhaseMacroExpand::expand_allocate_common`     | `libjvm.dylib` |
+|  -42.9% |  -96.031 KiB |         0.1% |   224 KiB → 128 KiB |         6 → 4 | `PhaseIterGVN::transform`                      | `libjvm.dylib` |

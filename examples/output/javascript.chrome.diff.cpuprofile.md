@@ -5,9 +5,8 @@ Took 415.8ms → 420.7ms (+4.92ms, +1.2%) over 281 samples → 282 samples (1.5m
 | Category          | Change |   Delta |             % |              Time |   Samples |
 | ----------------- | -----: | ------: | ------------: | ----------------: | --------: |
 | ours              |  +0.1% | +0.17ms | 54.2% → 53.7% | 225.5ms → 225.7ms | 154 → 152 |
-| program           |  -0.2% | -0.17ms | 16.7% → 16.5% |   69.6ms → 69.4ms |        46 |
+| native            |  -3.3% | -3.79ms | 27.8% → 26.6% | 115.5ms → 111.7ms |   77 → 75 |
 | regexp            | +10.9% | +4.87ms | 10.7% → 11.8% |   44.7ms → 49.5ms |   30 → 33 |
-| stdlib            |  -7.9% | -3.63ms | 11.0% → 10.1% |   45.9ms → 42.3ms |   31 → 29 |
 | garbage collector | +11.4% | +2.37ms |   5.0% → 5.5% |   20.9ms → 23.2ms |   14 → 15 |
 | idle              | +14.1% | +1.29ms |   2.2% → 2.5% |    9.2ms → 10.5ms |     6 → 7 |
 
@@ -36,7 +35,6 @@ Functions with the largest decrease in time spent directly in the function body,
 |   -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>`          |
 | removed | -1.50ms |   0.4% → 0.0% |     1.5ms → 0ms |   1 → 0 | `scoreStatus`   | `workload.mjs:11:23` |
 |   -2.8% | -0.25ms |   2.2% → 2.1% |   9.1ms → 8.8ms |       6 | `(anonymous)`   | `run.mjs:1:1`        |
-|   -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>`          |
 
 ### Total time
 
@@ -61,4 +59,3 @@ Functions with the largest decrease in total time spent in the function and all 
 | Change |   Delta |             % |            Time | Samples | Function        | Location    |
 | -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
 |  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
-|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |

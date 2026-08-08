@@ -421,9 +421,10 @@ describe(`convert`, () => {
   })
 
   test(`categorizes sentinel and RegExp functions`, () => {
-    // Sentinel functions like `(garbage collector)` and `(program)` have no URL.
-    // Their category is their name without the surrounding parentheses.
-    // Functions starting with `RegExp: ` are categorized as `regexp`.
+    // A sentinel function like `(garbage collector)` has no URL, and names its
+    // category inside the parentheses. `(program)` names where V8 was rather
+    // than what it was doing, so it categorizes by its (absent) location like
+    // any other frame. Functions starting with `RegExp: ` are `regexp`.
     const profile = {
       head: makeV8HeapProfileRoot([
         {
@@ -486,7 +487,7 @@ describe(`convert`, () => {
           Size: `300 B`,
           Samples: `1`,
         },
-        { Category: `program`, '%': `33.3%`, Size: `200 B`, Samples: `1` },
+        { Category: `native`, '%': `33.3%`, Size: `200 B`, Samples: `1` },
         { Category: `regexp`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
       ],
     ])
@@ -551,9 +552,9 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `v8 api`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
+        { Category: `native`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
         {
-          Category: `bytecode compiler`,
+          Category: `compiler`,
           '%': `33.3%`,
           Size: `200 B`,
           Samples: `1`,
@@ -649,21 +650,23 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntries groups entries by custom category`, () => {
+  test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
-        categorizeEntries: entries =>
-          entries.map(entry => (entry.name === `funcA` ? `team-a` : `team-b`)),
+        categorizeFunctions: entries =>
+          entries.map(entry =>
+            entry.name === `funcA` ? `ours` : `third-party`,
+          ),
       }),
     )
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `team-b`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
-        { Category: `team-a`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
+        { Category: `third-party`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
+        { Category: `ours`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
       ],
     ])
   })

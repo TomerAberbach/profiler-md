@@ -32,7 +32,7 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(relativeEntry(`sum`, `/app/main.jl`))).toBe(`ours`)
   })
 
-  test(`a locationless entity is stdlib`, () => {
-    expect(categorizeEntry(relativeEntry(`Task`))).toBe(`stdlib`)
+  test(`a locationless entity is native`, () => {
+    expect(categorizeEntry(relativeEntry(`Task`))).toBe(`native`)
   })
 })

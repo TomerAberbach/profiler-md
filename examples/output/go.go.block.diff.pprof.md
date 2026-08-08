@@ -24,11 +24,13 @@ Functions with the largest increase in time blocked directly in the function bod
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-|  Change |    Delta |             % |           Time | Samples | Function                  | Location                                                                                         |
-| ------: | -------: | ------------: | -------------: | ------: | ------------------------- | ------------------------------------------------------------------------------------------------ |
-|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |       1 | `sync.(*WaitGroup).Wait`  | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`       |
-|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |       1 | `main.workload`           | `profile.go:16`                                                                                  |
-| +117.6% |  +0.01ms |         <0.1% | 6.6µs → 14.4µs |      10 | `encoding/json.Unmarshal` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+|  Change |    Delta |             % |           Time | Samples | Function                       | Location                                                                                         |
+| ------: | -------: | ------------: | -------------: | ------: | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |       1 | `sync.(*WaitGroup).Wait`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`       |
+|   +2.7% | +34.59ms | 89.7% → 92.4% |  1.26s → 1.30s |       1 | `main.workload`                | `profile.go:16`                                                                                  |
+| +117.6% |  +0.01ms |         <0.1% | 6.6µs → 14.4µs |      10 | `runtime.gcBgMarkStartWorkers` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1672`         |
+| +117.6% |  +0.01ms |         <0.1% | 6.6µs → 14.4µs |      10 | `runtime.gcStart`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:733`          |
+| +117.6% |  +0.01ms |         <0.1% | 6.6µs → 14.4µs |      10 | `encoding/json.Unmarshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
 #### Improvements
 

@@ -85,7 +85,7 @@ each callback option is exported so a custom callback can build on it:
 ```js
 import { openAsBlob } from 'node:fs'
 import {
-  defaultCategorizeEntries,
+  defaultCategorizeFunctions,
   defaultMatchEntry,
   defaultShowEntry,
   diffProfilesAsync,
@@ -106,8 +106,8 @@ const options = {
     }
     return defaultMatchEntry(entry, context)
   },
-  categorizeEntries: (entries, context) => {
-    const categories = defaultCategorizeEntries(entries, context)
+  categorizeFunctions: (entries, context) => {
+    const categories = defaultCategorizeFunctions(entries, context)
     return entries.map((entry, index) =>
       // Treat an additional vendor directory as third-party.
       entry.location?.url?.pathname.includes(`/vendor/`)

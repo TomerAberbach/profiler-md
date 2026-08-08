@@ -5,7 +5,8 @@ Collected 25,768 samples.
 | Category |     % | Samples |
 | -------- | ----: | ------: |
 | ours     | 91.9% |  23,677 |
-| stdlib   |  8.1% |   2,091 |
+| stdlib   |  5.9% |   1,521 |
+| idle     |  2.2% |     570 |
 
 ## Hottest functions
 

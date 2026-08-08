@@ -622,21 +622,23 @@ describe(`options`, () => {
     ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
   })
 
-  test(`categorizeEntries groups entries by custom category`, () => {
+  test(`categorizeFunctions overrides the detected categories`, () => {
     const md = convertJsonToMd(
       v8CpuProfileConverter,
       structuredClone(baseProfile),
       normalizeProfileToMdOptions({
         baseURL: `/project`,
-        categorizeEntries: entries =>
-          entries.map(entry => (entry.name === `funcA` ? `team-a` : `team-b`)),
+        categorizeFunctions: entries =>
+          entries.map(entry =>
+            entry.name === `funcA` ? `ours` : `third-party`,
+          ),
       }),
     )
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `team-b`, '%': `75.0%`, Time: `0.3ms`, Samples: `3` },
-        { Category: `team-a`, '%': `25.0%`, Time: `0.1ms`, Samples: `1` },
+        { Category: `third-party`, '%': `75.0%`, Time: `0.3ms`, Samples: `3` },
+        { Category: `ours`, '%': `25.0%`, Time: `0.1ms`, Samples: `1` },
       ],
     ])
   })

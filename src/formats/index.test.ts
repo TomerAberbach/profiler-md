@@ -536,7 +536,7 @@ describe(`profileToMd`, () => {
       `javascript.node.base.cpuprofile`,
       `python.py-spy.cpu.base.collapsed`,
     ])(
-      `auto-detection of %s propagates a throwing categorizeEntries`,
+      `auto-detection of %s propagates a throwing categorizeFunctions`,
       filename => {
         // Errors raised after a format is detected are real errors, not
         // detection misses, so they must surface, not be swallowed into an
@@ -546,7 +546,7 @@ describe(`profileToMd`, () => {
         expect(() =>
           profileToMd(content, {
             baseURL: null,
-            categorizeEntries: () => {
+            categorizeFunctions: () => {
               throw new Error(`categorize failed`)
             },
           }),
@@ -554,7 +554,7 @@ describe(`profileToMd`, () => {
       },
     )
 
-    test(`throws when categorizeEntries returns a misaligned array`, () => {
+    test(`throws when categorizeFunctions returns a misaligned array`, () => {
       expect(() =>
         profileToMd(
           { data: baseCpuProfile, format: `v8-cpu-profile` },
@@ -562,7 +562,7 @@ describe(`profileToMd`, () => {
             baseURL: null,
             // One fewer category than entries, so the result no longer aligns
             // with the entries by index.
-            categorizeEntries: entries => entries.slice(1).map(() => `ours`),
+            categorizeFunctions: entries => entries.slice(1).map(() => `ours`),
           },
         ),
       ).toThrow(/one category per entry/u)

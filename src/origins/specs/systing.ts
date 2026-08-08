@@ -1,6 +1,6 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { systemDirectoryCategory } from '../categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { locationlessCategory, systemDirectoryCategory } from '../categorize.ts'
 import { pythonStdlibCategory, pythonThirdPartyCategory } from '../cpython.ts'
 import type { OriginSpec } from '../origin.ts'
 import { zigStdlibCategory } from '../zig.ts'
@@ -26,7 +26,8 @@ export const systingOriginSpec = {
     // a runtime internal: any native code without debug info (the app's own
     // stripped binary as much as a system library) symbolizes without a
     // source location. `native` states exactly that.
-    (entry.location ? `ours` : `native`),
+    locationlessCategory(entry) ??
+    `ours`,
   normalizeStackFrame: input => {
     // A located frame can't be packed (systing always packs); guard anyway
     // per the normalizeStackFrame contract.
@@ -117,16 +118,15 @@ const PYTHON_FRAME_LINE =
 const PYTHON_FRAME = /^(?<func>.+) \(python\) \[(?<file>[^\][:]+)\]$/u
 
 /**
- * Categorizes frames by systing's bracketed label modules, which survive
- * normalization inside the `name (module)` form: kernel code (including
- * the kernel-provided vDSO), gVisor sandbox machinery, and JIT-compiled
- * regions no runtime symbolizer resolved. An `([exited])` frame — the process
- * was gone before symbolization — stays `native` like any other unresolved
- * native code.
+ * Categorizes frames by systing's bracketed label modules, which normalization
+ * keeps inside the `name (module)` form: kernel code (including the
+ * kernel-provided vDSO and gVisor's userspace kernel), and JIT-compiled regions
+ * no runtime symbolizer resolved. An `([exited])` frame, whose process exited
+ * before symbolization, stays `native` like any other unresolved native code.
  */
 const labelModuleCategory = ({
   name,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   const label = name && LABEL_MODULE.exec(name)?.groups!.label
   if (!label) {
     return undefined
@@ -134,8 +134,13 @@ const labelModuleCategory = ({
   if (label === `kernel` || label === `vdso`) {
     return `kernel`
   }
-  if (label.startsWith(`gvisor:`)) {
-    return `sandbox`
+  // GVisor's Sentry implements the guest's syscalls in userspace, so its
+  // trampolines and sysmsg stubs are the kernel doing the guest's work.
+  // `[gvisor:guest]` marks pages of the sandboxed program's own address space
+  // that the host symbolizer could not attribute, which fall through to
+  // `native` like any other unresolved mapping.
+  if (label === `gvisor:runtime`) {
+    return `kernel`
   }
   if (label.startsWith(`jit:`)) {
     return `jit`

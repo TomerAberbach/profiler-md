@@ -293,7 +293,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Recorded 850 instructions.`])
 
     // `memcpy` has no source file (`???`), so its location falls back to its
-    // ELF object, which also categorizes it as stdlib by system path. Its self
+    // ELF object, a shared library, which categorizes it as native. Its self
     // cost line's line 0 means "no line information".
     expect(categoryTables(md)).toEqual([
       [
@@ -303,7 +303,7 @@ describe(`convert`, () => {
           Instructions: `700`,
         },
         {
-          Category: `stdlib`,
+          Category: `native`,
           '%': `17.6%`,
           Instructions: `150`,
         },

@@ -3,8 +3,8 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
 import type {
-  EntryCategory,
   EntryMatch,
+  FunctionCategory,
   ProfileEntry,
   ProfileToMdContext,
   UnresolvedProfileToMdContext,
@@ -25,7 +25,7 @@ export type Origin = SpecificOriginSpec[`id`]
 export const categorizeEntryForOrigin = (
   entry: DeepReadonly<ProfileEntry>,
   origin: Origin,
-): EntryCategory => originToSpec.get(origin)!.categorizeEntry(entry)
+): FunctionCategory => originToSpec.get(origin)!.categorizeEntry(entry)
 
 export const categorizeHeapSnapshotConstructorForOrigin = (
   name: string,

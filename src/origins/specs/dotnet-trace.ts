@@ -1,7 +1,7 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { fileReferencePath } from '../../location.ts'
-import type { EntryCategory, ProfileEntry } from '../../options.ts'
-import { locationlessStdlibCategory } from '../categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../../options.ts'
+import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -23,7 +23,7 @@ import type { OriginSpec } from '../origin.ts'
  * `normalizeStackFrame` drops those: they aren't functions, and dropping `CPU_TIME`
  * returns each sample's self time to the method that was executing.
  * `UNMANAGED_CODE_TIME` stays: it's genuine native execution outside the
- * managed stack, kept as a location-less (`stdlib`) frame the way rbspy keeps
+ * managed stack, kept as a location-less (`native`) frame the way rbspy keeps
  * `[c function]`.
  */
 export const dotnetTraceOriginSpec = {
@@ -32,7 +32,8 @@ export const dotnetTraceOriginSpec = {
   isMarkerEntry: entry => isDotnetTraceStackFrame(entry.name),
   categorizeEntry: entry =>
     dotnetNamespaceCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
+    unknownAssemblyCategory(entry) ??
+    locationlessCategory(entry) ??
     `ours`,
   normalizeStackFrame: input => {
     if (input.location) {
@@ -44,9 +45,8 @@ export const dotnetTraceOriginSpec = {
       return null
     }
 
-    // `?` is TraceEvent's unknown assembly (a bare `?!?` frame), which carries
-    // no location; leave it location-less so it categorizes as a native
-    // internal.
+    // `?` is TraceEvent's unknown assembly (a bare `?!?` frame), which has no
+    // location. Leave it location-less so it categorizes as `unknown`.
     const bang = name.indexOf(`!`)
     if (bang <= 0 || name.startsWith(`?!`)) {
       return input
@@ -130,6 +130,23 @@ const PROCESS_FRAME = /^Process(?:32|64)? Process\(\d+\)/u
 const THREAD_FRAME = /^Thread \(\d+\)$/u
 
 /**
+ * Categorizes TraceEvent's unknown-assembly frame as `unknown`.
+ *
+ * A `?!?` frame is TraceEvent reporting that it resolved neither the assembly
+ * nor the method, so it records nothing about what the code is.
+ * `UNMANAGED_CODE_TIME`, also location-less, does record something: time in
+ * CoreCLR's own compiled code outside the managed stack, which falls through to
+ * `native`.
+ */
+const unknownAssemblyCategory = ({
+  name,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  name?.startsWith(UNKNOWN_ASSEMBLY_PREFIX) === true ? `unknown` : undefined
+
+/** TraceEvent's marker for an assembly it could not resolve. */
+const UNKNOWN_ASSEMBLY_PREFIX = `?!`
+
+/**
  * Categorizes a frame by its declaring type (the location lifted out by
  * `normalizeStackFrame`): .NET runtime and framework namespaces are `stdlib`; any
  * other namespace is `ours`.
@@ -139,7 +156,7 @@ const THREAD_FRAME = /^Thread \(\d+\)$/u
  */
 const dotnetNamespaceCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }

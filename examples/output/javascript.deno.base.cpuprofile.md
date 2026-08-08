@@ -5,9 +5,10 @@ Took 3.32s over 3,926 samples (845.9µs per sample).
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
 | third-party       | 88.4% |   2.93s |   3,628 |
-| stdlib            |  7.1% | 235.8ms |     169 |
+| stdlib            |  4.5% | 150.6ms |     100 |
 | garbage collector |  3.5% | 117.0ms |      96 |
-| program           |  0.9% |  29.2ms |      30 |
+| native            |  3.4% | 112.0ms |      97 |
+| unknown           |  0.1% |   2.4ms |       2 |
 | regexp            | <0.1% |   1.3ms |       2 |
 | ours              | <0.1% |   1.3ms |       1 |
 
@@ -20,7 +21,6 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |     % |    Time | Samples | Function                                         | Location                           |
 | ----: | ------: | ------: | ------------------------------------------------ | ---------------------------------- |
 |  3.5% | 117.0ms |      96 | `(garbage collector)`                            | `<unknown>`                        |
-|  0.9% |  29.2ms |      30 | `(program)`                                      | `<unknown>`                        |
 |  0.8% |  28.2ms |       1 | `post`                                           | `ext:deno_node/inspector.js:179:7` |
 | <0.1% |   1.3ms |       1 | `typeCheckProject`                               | `tsc-workload.mjs:3:33`            |
 | <0.1% |   1.2ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>`                        |
@@ -64,7 +64,6 @@ Functions ranked by total time spent in the function and all its callees.
 | 15.5% | 514.6ms |     551 | `createProgram`                                  | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 |  3.8% | 126.7ms |     100 | `require`                                        | `node:module:1752:35`                                                                                                                                   |
 |  3.5% | 117.0ms |      96 | `(garbage collector)`                            | `<unknown>`                                                                                                                                             |
-|  0.9% |  29.2ms |      30 | `(program)`                                      | `<unknown>`                                                                                                                                             |
 |  0.8% |  28.2ms |       1 | `post`                                           | `ext:deno_node/inspector.js:179:7`                                                                                                                      |
 |  0.8% |  28.2ms |       1 | `(anonymous)`                                    | `cpuprofile-run.mjs:16:15`                                                                                                                              |
 |  0.8% |  28.2ms |       1 | `post`                                           | `cpuprofile-run.mjs:15:14`                                                                                                                              |

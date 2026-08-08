@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import type { EntryCategory } from '../../options.ts'
+import type { FunctionCategory } from '../../options.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
 import { systingOriginSpec } from './systing.ts'
 
@@ -127,11 +127,13 @@ describe(`categorizeEntry`, () => {
 
   // Normalization keeps systing's `name (module)` rendering for source-less
   // frames, so the label module is the category signal.
-  test.each<[string, EntryCategory]>([
+  test.each<[string, FunctionCategory]>([
     [`do_syscall_64 ([kernel])`, `kernel`],
     [`__vdso_clock_gettime ([vdso])`, `kernel`],
-    [`unknown ([gvisor:runtime])`, `sandbox`],
-    [`unknown ([gvisor:guest])`, `sandbox`],
+    // GVisor's Sentry implements the guest's syscalls, so it is kernel work.
+    [`unknown ([gvisor:runtime])`, `kernel`],
+    // Guest memory is the sandboxed program's own unattributed code.
+    [`unknown ([gvisor:guest])`, `native`],
     [`unknown ([jit:node])`, `jit`],
   ])(`the %s label module marks %s`, (name, expected) => {
     expect(categorizeEntry(relativeEntry(name))).toBe(expected)
@@ -146,7 +148,7 @@ describe(`categorizeEntry`, () => {
   })
 
   // Pystack frames follow the shared CPython path rules.
-  test.each<[string, EntryCategory]>([
+  test.each<[string, FunctionCategory]>([
     [
       `file:///opt/venv/lib/python3.11/site-packages/django/core/handlers/base.py`,
       `third-party`,

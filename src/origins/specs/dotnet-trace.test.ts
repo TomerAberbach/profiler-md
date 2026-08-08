@@ -186,10 +186,14 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(typeEntry(`Run`, `SystemUtils`))).toBe(`ours`)
   })
 
-  test.each([`UNMANAGED_CODE_TIME`, `?!?`])(
-    `the location-less %s frame is stdlib`,
-    name => {
-      expect(categorizeEntry(named(name))).toBe(`stdlib`)
-    },
-  )
+  // CoreCLR's own compiled code, outside the managed stack.
+  test(`the location-less UNMANAGED_CODE_TIME frame is native`, () => {
+    expect(categorizeEntry(named(`UNMANAGED_CODE_TIME`))).toBe(`native`)
+  })
+
+  // TraceEvent resolved neither the assembly nor the method, which says
+  // nothing about what the code is.
+  test(`the unknown-assembly ?!? frame is unknown`, () => {
+    expect(categorizeEntry(named(`?!?`))).toBe(`unknown`)
+  })
 })

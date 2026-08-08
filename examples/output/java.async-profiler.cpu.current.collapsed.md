@@ -5,8 +5,9 @@ Collected 4,711 samples.
 | Category |     % | Samples |
 | -------- | ----: | ------: |
 | ours     | 60.1% |   2,829 |
-| native   | 24.4% |   1,151 |
+| native   | 23.3% |   1,099 |
 | stdlib   | 14.5% |     685 |
+| compiler |  1.1% |      52 |
 | jit      |  1.0% |      46 |
 
 ## Hottest functions
@@ -32,11 +33,11 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  0.1% |       3 | `get`                      | `java.util.ArrayList`                                      |
 | <0.1% |       2 | `forEach`                  | `java.util.HashMap`                                        |
 | <0.1% |       2 | `lambda$generateData$3`    | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% |       2 | `PhaseChaitin::Split`      | `<unknown>`                                                |
 | <0.1% |       2 | `createSubtask`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% |       2 | `PhaseChaitin::elide_copy` | `<unknown>`                                                |
+| <0.1% |       2 | `PhaseCCP::transform`      | `<unknown>`                                                |
 | <0.1% |       2 | `lambda$collectClusters$0` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       1 | `join`                     | `java.util.concurrent.ForkJoinTask`                        |
-| <0.1% |       1 | `combineResults`           | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
-| <0.1% |       1 | `lambda$merge$6`           | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 
 #### Callers
 
@@ -131,35 +132,35 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ------- | ---------------------------------------------------------------------- |
 | 100.0% |       2 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000401125b10` |
 
+##### `PhaseChaitin::Split` (`<unknown>`)
+
+|      % | Samples | Caller                            | Location    |
+| -----: | ------: | --------------------------------- | ----------- |
+| 100.0% |       2 | `PhaseChaitin::Register_Allocate` | `<unknown>` |
+
 ##### `createSubtask` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |      % | Samples | Caller    | Location                                               |
 | -----: | ------: | --------- | ------------------------------------------------------ |
 | 100.0% |       2 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
 
+##### `PhaseChaitin::elide_copy` (`<unknown>`)
+
+|      % | Samples | Caller                                     | Location    |
+| -----: | ------: | ------------------------------------------ | ----------- |
+| 100.0% |       2 | `PhaseChaitin::post_allocate_copy_removal` | `<unknown>` |
+
+##### `PhaseCCP::transform` (`<unknown>`)
+
+|      % | Samples | Caller                   | Location    |
+| -----: | ------: | ------------------------ | ----------- |
+| 100.0% |       2 | `PhaseCCP::do_transform` | `<unknown>` |
+
 ##### `lambda$collectClusters$0` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
 
 |      % | Samples | Caller  | Location                                                                              |
 | -----: | ------: | ------- | ------------------------------------------------------------------------------------- |
 | 100.0% |       2 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x0000000401186b38` |
-
-##### `join` (`java.util.concurrent.ForkJoinTask`)
-
-|      % | Samples | Caller    | Location                                               |
-| -----: | ------: | --------- | ------------------------------------------------------ |
-| 100.0% |       1 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `combineResults` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
-
-|      % | Samples | Caller    | Location                                               |
-| -----: | ------: | --------- | ------------------------------------------------------ |
-| 100.0% |       1 | `compute` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
-
-##### `lambda$merge$6` (`org.renaissance.jdk.concurrent.JavaKMeans`)
-
-|      % | Samples | Caller  | Location                                                               |
-| -----: | ------: | ------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 | `apply` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000401187218` |
 
 ### Total samples
 

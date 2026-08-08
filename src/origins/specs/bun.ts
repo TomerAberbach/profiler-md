@@ -1,9 +1,10 @@
 import {
-  locationlessStdlibCategory,
+  locationlessCategory,
   protocolCategory,
   syntheticFrameCategory,
 } from '../categorize.ts'
 import {
+  ecmaScriptBuiltinCategory,
   javaScriptConstructorCategory,
   nodeModulesCategory,
 } from '../javascript.ts'
@@ -26,7 +27,8 @@ export const bunOriginSpec = {
     (JSC_MODULE_LOADER_BUILTINS.has(name) || BUN_RUNTIME_CLASSES.has(name)),
   categorizeEntry: entry =>
     syntheticFrameCategory(entry) ??
-    locationlessStdlibCategory(entry) ??
+    ecmaScriptBuiltinCategory(entry) ??
+    locationlessCategory(entry) ??
     nodeModulesCategory(entry) ??
     protocolCategory(entry, `stdlib`, BUN_STDLIB_PROTOCOLS) ??
     `ours`,

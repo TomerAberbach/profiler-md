@@ -41,9 +41,46 @@ export const normalizeProfileInput = <Data>(
     ? { data: input.data, format: input.format, origin: input.origin }
     : { data: input, format: undefined, origin: undefined }
 
-/** The category of code an entry originated from. */
-export type EntryCategory =
-  `ours` | `native` | `stdlib` | `third-party` | (string & {})
+/**
+ * The category of code a function originated from.
+ *
+ * A closed set, so a category names the same thing whichever origin wrote the
+ * input and formatting can partition by it. The first three record where the
+ * code came from, the next two what the profiler could determine about a frame
+ * with no source file, and the rest name a runtime activity.
+ *
+ * These boundaries decide most assignments:
+ *
+ * - `stdlib` requires positive evidence that the code is the language's or
+ *   runtime's own library: a standard-library path, module specifier,
+ *   namespace, or package prefix. A missing source file is never evidence for
+ *   `stdlib`
+ * - `native` is compiled code the profiler attributed to no source file, plus
+ *   code located in a shared library or in a runtime's own C/C++ sources.
+ *   `unknown` is a frame the profiler could not identify, a weaker claim,
+ *   because the code may be a function in the profiled language
+ * - `compiler` is the runtime producing executable code, and `jit` is a frame
+ *   executing code the runtime generated. Where a frame both executes generated
+ *   code and does the work of a named activity, the activity takes precedence,
+ *   so a garbage collection write barrier compiled inline is
+ *   `garbage collector`
+ */
+export type FunctionCategory = (typeof FUNCTION_CATEGORIES)[number]
+
+/** Every category {@link FunctionCategory} allows. */
+export const FUNCTION_CATEGORIES = [
+  `ours`,
+  `third-party`,
+  `stdlib`,
+  `native`,
+  `unknown`,
+  `garbage collector`,
+  `compiler`,
+  `jit`,
+  `regexp`,
+  `kernel`,
+  `idle`,
+] as const
 
 /** A single entry in a formatted profile. */
 export type ProfileEntry = {
@@ -163,8 +200,11 @@ export type ProfileToMdOptions = {
   ) => EntryMatch | undefined
 
   /**
-   * Returns a category string per entry of a profile, as an array aligned with
-   * {@link entries} (index `i` categorizes entry `i`).
+   * Returns a {@link FunctionCategory} per entry of a profile, as an array
+   * aligned with {@link entries} (index `i` categorizes entry `i`).
+   *
+   * The categories are a closed set, so a category names the same thing
+   * whichever origin wrote the input.
    *
    * Used to compute:
    * - A category breakdown in the Markdown output
@@ -178,12 +218,12 @@ export type ProfileToMdOptions = {
    * Doesn't apply to heap snapshots because they record their own node
    * categories.
    *
-   * Defaults to {@link defaultCategorizeEntries}.
+   * Defaults to {@link defaultCategorizeFunctions}.
    */
-  categorizeEntries?: (
+  categorizeFunctions?: (
     entries: readonly DeepReadonly<ProfileEntry>[],
     context: ProfileToMdContext,
-  ) => readonly EntryCategory[]
+  ) => readonly FunctionCategory[]
 
   /**
    * Whether to include the given entry in the Markdown output.
@@ -201,10 +241,10 @@ export type NormalizedProfileToMdOptions = {
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
   entryMatchKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
-  categorizeEntries: (
+  categorizeFunctions: (
     entries: readonly ProfileEntry[],
     context: ProfileToMdContext,
-  ) => readonly EntryCategory[]
+  ) => readonly FunctionCategory[]
   showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
 }
 
@@ -235,7 +275,7 @@ export const normalizeProfileToMdOptions = ({
   baseURL,
   sourceMaps = [],
   matchEntry = defaultMatchEntry,
-  categorizeEntries = defaultCategorizeEntries,
+  categorizeFunctions = defaultCategorizeFunctions,
   showEntry = defaultShowEntry,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
   topN,
@@ -244,11 +284,11 @@ export const normalizeProfileToMdOptions = ({
   entryMatchKey: cacheEntryFunction((entry, context) =>
     entryMatchKey(entry, context, matchEntry),
   ),
-  categorizeEntries: (entries, context) => {
-    const categories = categorizeEntries(entries, context)
+  categorizeFunctions: (entries, context) => {
+    const categories = categorizeFunctions(entries, context)
     if (categories.length !== entries.length) {
       throw new ProfilerMdError(
-        `categorizeEntries must return one category per entry, aligned by ` +
+        `categorizeFunctions must return one category per entry, aligned by ` +
           `index, got: ${categories.length} categories for ${entries.length} entries`,
       )
     }
@@ -349,14 +389,14 @@ export const defaultMatchEntry = (
 ): EntryMatch | undefined => matchEntryForOrigin(entry, origin)
 
 /**
- * The default {@link ProfileToMdOptions.categorizeEntries}.
+ * The default {@link ProfileToMdOptions.categorizeFunctions}.
  *
  * Applies the library's origin-aware categorization to each entry.
  */
-export const defaultCategorizeEntries = (
+export const defaultCategorizeFunctions = (
   entries: readonly DeepReadonly<ProfileEntry>[],
   { origin }: ProfileToMdContext,
-): EntryCategory[] =>
+): FunctionCategory[] =>
   entries.map(entry => categorizeEntryForOrigin(entry, origin))
 
 /**
@@ -381,8 +421,9 @@ export const isSyntheticEntry = ({
   name === `(root)` || name === `<root>` || name === `(module)`
 
 /**
- * Returns true if the entry corresponds to an external function (`native`,
- * `stdlib`, or `third-party`) that's never directly called by `ours` code.
+ * Returns true if the entry corresponds to a function outside the profiled
+ * program (`native`, `unknown`, `stdlib`, or `third-party`) that's never
+ * directly called by `ours` code.
  *
  * These entries are typically implementation details of external code.
  * Excluding them from the Markdown leaves only your code and the public API
@@ -395,7 +436,7 @@ export const isExternalImplementationDetailEntry = (
     return false
   }
 
-  if (!EXTERNAL_ENTRY_CATEGORIES.has(entry.category)) {
+  if (!EXTERNAL_FUNCTION_CATEGORIES.has(entry.category)) {
     return false
   }
 
@@ -408,8 +449,12 @@ export const isExternalImplementationDetailEntry = (
   return true
 }
 
-const EXTERNAL_ENTRY_CATEGORIES: ReadonlySet<EntryCategory> = new Set([
+const EXTERNAL_FUNCTION_CATEGORIES: ReadonlySet<FunctionCategory> = new Set([
   `native`,
+  // A frame the profiler could not identify may be outside the profiled
+  // program, and the caller check below still shows it wherever `ours` code
+  // reaches it.
+  `unknown`,
   `stdlib`,
   `third-party`,
 ])

@@ -6,10 +6,10 @@ Took 2.49s over 2,659 samples (939.9µs per sample).
 | ----------------- | ----: | ------: | ------: |
 | third-party       | 87.4% |   2.18s |   2,410 |
 | garbage collector |  7.6% | 191.0ms |     156 |
-| stdlib            |  4.8% | 119.5ms |      88 |
+| stdlib            |  3.9% |  96.8ms |      70 |
+| native            |  0.9% |  22.7ms |      20 |
 | regexp            |  0.1% |   2.5ms |       2 |
 | ours              |  0.1% |   1.3ms |       1 |
-| program           | <0.1% |   0.1ms |       2 |
 
 ## Hottest functions
 
@@ -25,7 +25,6 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   1.3ms |       1 | `createProgram`                                 | `node_modules/typescript/lib/typescript.js:120478:25` |
 |  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>`                                           |
 | <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
-| <0.1% |   0.1ms |       2 | `(program)`                                     | `<unknown>`                                           |
 
 #### Lines
 
@@ -83,7 +82,6 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.4% |  10.1ms |       1 | `post`                                          | `cpuprofile-run.mjs:15:14`                            |
 |  0.1% |   1.3ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`     | `<unknown>`                                           |
 | <0.1% |   1.2ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
-| <0.1% |   0.1ms |       2 | `(program)`                                     | `<unknown>`                                           |
 
 #### Callees
 

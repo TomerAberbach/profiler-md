@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
 import picomatch from 'picomatch'
-import { defaultCategorizeEntries, defaultMatchEntry } from '../index.ts'
+import { defaultCategorizeFunctions, defaultMatchEntry } from '../index.ts'
 import type { ProfileToMdOptions, SourceMap } from '../index.ts'
 import {
   fileReferenceId,
@@ -35,7 +35,7 @@ export const buildOptions = async ({
       : baseURL,
   sourceMaps: await loadSourceMaps(sourceMaps),
   matchEntry: buildMatchEntry(match),
-  categorizeEntries: buildCategorizeEntries(thirdParty),
+  categorizeFunctions: buildCategorizeFunctions(thirdParty),
 })
 
 const buildMatchEntry = (
@@ -60,16 +60,16 @@ const buildMatchEntry = (
   }
 }
 
-const buildCategorizeEntries = (
+const buildCategorizeFunctions = (
   thirdPartyPatterns: readonly string[],
-): ProfileToMdOptions[`categorizeEntries`] => {
+): ProfileToMdOptions[`categorizeFunctions`] => {
   if (thirdPartyPatterns.length === 0) {
     return undefined
   }
 
   const isThirdParty = picomatch([...thirdPartyPatterns], { dot: true })
   return (entries, context) => {
-    const categories = defaultCategorizeEntries(entries, context)
+    const categories = defaultCategorizeFunctions(entries, context)
     return entries.map((entry, index) =>
       entry.location && isThirdParty(fileReferencePath(entry.location))
         ? `third-party`

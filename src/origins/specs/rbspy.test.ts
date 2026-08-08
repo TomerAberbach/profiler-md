@@ -148,8 +148,8 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(located(name, path))).toBe(`stdlib`)
   })
 
-  test(`native [c function] frames are stdlib`, () => {
-    expect(categorizeEntry(named(`(unknown) [c function]`))).toBe(`stdlib`)
+  test(`native [c function] frames are native`, () => {
+    expect(categorizeEntry(named(`(unknown) [c function]`))).toBe(`native`)
   })
 
   test(`application code is ours`, () => {

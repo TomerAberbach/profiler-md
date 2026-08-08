@@ -275,6 +275,29 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
 
+### Categorizing
+
+- `FunctionCategory` is a closed set. Add a category only when the distinction
+  it names exists across languages and its name states what it means without
+  knowing which profiler wrote the input. One naming a stack position
+  (`below main`) or an engine (`v8 api`) fails both
+- Categorize from what the profiler states, never from what it omits. `stdlib`
+  requires positive evidence that the code is the language's or runtime's own
+  library: a path, module specifier, namespace, or package prefix. A frame the
+  profiler attributed to no source file is `native`, and one it could not
+  identify is `unknown`, so keep that distinction wherever a profiler draws it
+- `compiler` is the runtime producing executable code, and `jit` a frame
+  executing code the runtime generated. A named activity takes precedence over
+  `jit`, so a garbage collection write barrier compiled inline is
+  `garbage collector`
+- Match on a name alone only behind a guard that excludes the profiled program's
+  own code, and state it: a JavaScript engine locates every function the program
+  defines, so a missing location is that guard
+- Write a rule only for a shape a committed input contains. Measure one matching
+  a long tail of symbols, and record what it matches and misses in its doc
+  comment (e.g. `HOTSPOT_COMPILER` in `src/origins/jvm.ts`)
+- `src/origins/categorize.test.ts` holds the cross-origin invariants
+
 ### Aggregating
 
 - NEVER sort, filter by `topN`, or apply any other formatting logic

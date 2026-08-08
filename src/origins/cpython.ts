@@ -5,16 +5,16 @@
 
 import type { DeepReadonly } from '../helpers/types.ts'
 import { fileReferencePath } from '../location.ts'
-import type { EntryCategory, ProfileEntry } from '../options.ts'
-import { locationlessStdlibCategory } from './categorize.ts'
+import type { FunctionCategory, ProfileEntry } from '../options.ts'
+import { locationlessCategory } from './categorize.ts'
 
 /** The full categorization shared by the CPython-observing origins. */
 export const categorizeCPythonEntry = (
   entry: DeepReadonly<ProfileEntry>,
-): EntryCategory =>
+): FunctionCategory =>
   pythonThirdPartyCategory(entry) ??
   pythonStdlibCategory(entry) ??
-  locationlessStdlibCategory(entry) ??
+  locationlessCategory(entry) ??
   `ours`
 
 /**
@@ -23,7 +23,7 @@ export const categorizeCPythonEntry = (
  */
 export const pythonStdlibCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }
@@ -36,7 +36,7 @@ export const pythonStdlibCategory = ({
 /** Categorizes Python frames from an installed-package directory as `third-party`. */
 export const pythonThirdPartyCategory = ({
   location,
-}: DeepReadonly<ProfileEntry>): EntryCategory | undefined => {
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
   if (!location) {
     return undefined
   }

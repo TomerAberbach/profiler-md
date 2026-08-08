@@ -6,9 +6,9 @@ Took 2.49s → 2.69s (+191.17ms, +7.6%) over 2,659 samples → 3,134 samples (93
 | ----------------- | ------: | --------: | ------------: | ----------------: | ------------: |
 | third-party       |   +9.1% | +199.54ms | 87.4% → 88.6% |     2.18s → 2.38s | 2,410 → 2,890 |
 | garbage collector |   -7.3% |  -13.91ms |   7.6% → 6.6% | 191.0ms → 177.0ms |     156 → 144 |
-| stdlib            |   +5.1% |   +6.04ms |   4.8% → 4.7% | 119.5ms → 125.5ms |       88 → 94 |
+| stdlib            |  +14.7% |  +14.25ms |   3.9% → 4.1% |  96.8ms → 111.0ms |       70 → 82 |
+| native            |  -36.3% |   -8.25ms |   0.9% → 0.5% |   22.7ms → 14.5ms |       20 → 15 |
 | regexp            |  +32.2% |   +0.79ms |          0.1% |     2.5ms → 3.3ms |         2 → 3 |
-| program           |  -49.4% |   -0.04ms |         <0.1% |    0.1ms → 42.0µs |         2 → 3 |
 | ours              | removed |   -1.25ms |   0.1% → 0.0% |       1.3ms → 0ms |         1 → 0 |
 
 ## Hottest functions
@@ -35,7 +35,6 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.25ms |  0.1% → 0.0% |       1.3ms → 0ms |     1 → 0 | `createProgram`                                 | `node_modules/typescript/lib/typescript.js:120478:25` |
 | removed |  -1.21ms | <0.1% → 0.0% |       1.2ms → 0ms |     1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
 |   -3.3% |  -0.33ms |         0.4% |    10.1ms → 9.8ms |         1 | `post`                                          | `node:inspector:118:7`                                |
-|  -49.4% |  -0.04ms |        <0.1% |    0.1ms → 42.0µs |     2 → 3 | `(program)`                                     | `<unknown>`                                           |
 
 ### Total time
 
@@ -67,4 +66,3 @@ Functions with the largest decrease in total time spent in the function and all 
 | removed |  -11.17ms |  0.4% → 0.0% |      11.2ms → 0ms |     9 → 0 | `getParsedCommandLineOfConfigFile`              | `node_modules/typescript/lib/typescript.js:36594:44`  |
 |   -3.6% |   -3.75ms |  4.2% → 3.7% | 104.0ms → 100.3ms |   83 → 80 | `require`                                       | `node:internal/modules/helpers:146:19`                |
 | removed |   -1.21ms | <0.1% → 0.0% |       1.2ms → 0ms |     1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
-|  -49.4% |   -0.04ms |        <0.1% |    0.1ms → 42.0µs |     2 → 3 | `(program)`                                     | `<unknown>`                                           |

@@ -2,6 +2,7 @@ import { stronglyConnectedComponents } from '../../helpers/graph.ts'
 import type { SourceLocation } from '../../location.ts'
 import type {
   AggregationProfileToMdOptions,
+  FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
 import { hasRuntimeInsertedArcsForOrigin } from '../../origins/index.ts'
@@ -152,7 +153,7 @@ class FunctionsAggregator {
       location,
       // `aggregate` assigns categories at the end, in one pass over the full
       // set of functions.
-      category: ``,
+      category: `unknown`,
       selfValues: new Float64Array(this.#metrics.length),
       totalValues: new Float64Array(this.#metrics.length),
       lineToMetrics: new Map(),
@@ -317,14 +318,17 @@ class FunctionsAggregator {
    * Assigns each function's category and builds the graph's category metrics
    * from the functions' self values, like the sampling aggregator's
    * categorization. It runs at the end so
-   * {@link ProfileToMdOptions.categorizeEntries} receives the full set of
+   * {@link ProfileToMdOptions.categorizeFunctions} receives the full set of
    * functions. Skips a function with no recorded self cost so it can't
    * introduce an otherwise-empty category.
    */
   #categorize(
     functions: AggregatedCallGraphFunction[],
   ): Map<string, AggregatedCallGraphCategoryMetrics> {
-    const categories = this.#options.categorizeEntries(functions, this.#context)
+    const categories = this.#options.categorizeFunctions(
+      functions,
+      this.#context,
+    )
     const categoryToMetrics = new Map<
       string,
       AggregatedCallGraphCategoryMetrics
@@ -423,7 +427,7 @@ export type AggregatedCallGraphFunction = {
   location?: SourceLocation
 
   /** The category of functions this function belongs to. */
-  category: string
+  category: FunctionCategory
 
   /**
    * For each metric in {@link AggregatedCallGraph.metrics}, the cost recorded

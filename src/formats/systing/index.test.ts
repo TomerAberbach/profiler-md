@@ -188,7 +188,7 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`frame vocabulary categorizes: kernel, sandbox, jit, native, ours`, () => {
+  test(`frame vocabulary categorizes: kernel, jit, native, ours`, () => {
     const md = convertBytesToMd(
       systingConverter,
       makeSysting([
@@ -211,20 +211,16 @@ describe(`convert`, () => {
       options(),
     )
 
+    // GVisor's Sentry is a userspace kernel, so its frame counts in the kernel
+    // row.
     // Equal shares keep first-sample order.
     expect(categoryTables(md)).toEqual([
       [
         {
           Category: `kernel`,
-          '%': `20.0%`,
-          Time: `1.0ms`,
-          Samples: `1`,
-        },
-        {
-          Category: `sandbox`,
-          '%': `20.0%`,
-          Time: `1.0ms`,
-          Samples: `1`,
+          '%': `40.0%`,
+          Time: `2.0ms`,
+          Samples: `2`,
         },
         {
           Category: `jit`,

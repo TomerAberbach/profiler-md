@@ -4,8 +4,9 @@ Took 1.33s over 133 samples (10.0ms per sample).
 
 | Category    |     % |    Time | Samples |
 | ----------- | ----: | ------: | ------: |
-| stdlib      | 66.4% | 885.6ms |      89 |
+| native      | 63.5% | 847.6ms |      85 |
 | third-party | 33.6% | 448.9ms |      44 |
+| stdlib      |  2.8% |  37.9ms |       4 |
 
 ## Hottest functions
 

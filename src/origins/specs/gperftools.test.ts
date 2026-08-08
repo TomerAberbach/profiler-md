@@ -16,10 +16,22 @@ describe(`detection`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = gperftoolsOriginSpec
 
-  test(`a system-directory source is stdlib`, () => {
+  // A shared library under `/usr/lib/` may be the C standard library, the
+  // dynamic loader, or any installed dependency, and the path doesn't
+  // distinguish them.
+  test(`a system-library source is native`, () => {
     expect(
       categorizeEntry(
         relativeEntry(`malloc`, `/usr/lib/system/libsystem_malloc.dylib`),
+      ),
+    ).toBe(`native`)
+  })
+
+  // A toolchain header is the standard library's own source.
+  test(`a system-include source is stdlib`, () => {
+    expect(
+      categorizeEntry(
+        relativeEntry(`std::string::size`, `/usr/include/c++/12/string`),
       ),
     ).toBe(`stdlib`)
   })
@@ -36,7 +48,7 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(relativeEntry(`main`, `/app/main.cc`))).toBe(`ours`)
   })
 
-  test(`a locationless frame is stdlib`, () => {
-    expect(categorizeEntry(relativeEntry(`__libc_start_main`))).toBe(`stdlib`)
+  test(`a locationless frame is native`, () => {
+    expect(categorizeEntry(relativeEntry(`__libc_start_main`))).toBe(`native`)
   })
 })
