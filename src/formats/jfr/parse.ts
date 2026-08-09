@@ -4,7 +4,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
@@ -231,6 +231,7 @@ const jfrToProfiles = ({
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
+      countMetric: SAMPLES,
       observations: kindObservations(kindEvents, metric, stackTraces),
     })
   }

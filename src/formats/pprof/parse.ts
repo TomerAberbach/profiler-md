@@ -3,7 +3,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
@@ -37,6 +37,7 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
       ...(originHint && { originHint }),
       frames,
       metrics,
+      countMetric: SAMPLES,
       observations,
     },
   ]

@@ -24,20 +24,16 @@ import type { Table } from './table.ts'
 
 /** The document title for an input with the given metrics. */
 export const formatTitle = (metrics: Metric[]): string =>
-  metrics.length === 0
-    ? `Profile`
-    : capitalizeFirst(
-        `${formatConjunction(
-          metrics.map(metric => metric.phrases.titleNoun),
-        )} profile`,
-      )
+  capitalizeFirst(
+    `${formatConjunction(metrics.map(metric => metric.phrases.titleNoun))} profile`,
+  )
 
 /**
  * Formats a Markdown section per measure in {@link measures} via
  * {@link formatSections}, wrapping each measure's sections in a heading with
  * the metric's name when there are multiple measures.
  */
-export const formatMeasureSections = <M extends { metric: Metric | null }>(
+export const formatMeasureSections = <M extends { metric: Metric }>(
   measures: M[],
   headingLevel: number,
   formatSections: (measure: M, headingLevel: number) => RootContent[],
@@ -49,7 +45,7 @@ export const formatMeasureSections = <M extends { metric: Metric | null }>(
           [
             heading(
               headingLevel,
-              capitalizeFirst(measure.metric!.phrases.titleNoun),
+              capitalizeFirst(measure.metric.phrases.titleNoun),
             ),
           ],
           formatSections(measure, headingLevel + 1),
@@ -63,14 +59,10 @@ export const formatMeasureSections = <M extends { metric: Metric | null }>(
  * ` in any sample`) and may be empty.
  */
 export const formatZeroTotalNote = (
-  metric: Metric | null,
+  metric: Metric,
   scope: string,
 ): RootContent =>
-  paragraph(
-    metric === null
-      ? `No samples were collected.`
-      : `No ${metric.phrases.pastParticipleVerbPhrase}${scope}.`,
-  )
+  paragraph(`No ${metric.phrases.pastParticipleVerbPhrase}${scope}.`)
 
 /**
  * The note shown when the entry filter would hide every function, e.g. a

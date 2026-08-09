@@ -3,6 +3,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
+import { SAMPLES } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -129,6 +130,7 @@ class CollapsedProfileBuilder {
         type: `call-stack-profile`,
         frames: this.#frames,
         metrics: [],
+        countMetric: SAMPLES,
         observations: this.#observations,
       },
     ]

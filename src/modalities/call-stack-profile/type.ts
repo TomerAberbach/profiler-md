@@ -32,6 +32,16 @@ export type CallStackProfile = {
   /** @see {@link AggregatedCallStackProfile.metrics} */
   metrics: Metric[]
 
+  /**
+   * @see {@link AggregatedCallStackProfile.countMetric}
+   *
+   * Every parser states this, including `SAMPLES` for a profiler that samples
+   * the call stack periodically, so no format inherits an answer it was never
+   * checked against. An origin overrides it with `OriginSpec.countMetric`,
+   * where the format's emitters disagree.
+   */
+  countMetric: Metric | null
+
   /** The observations as a lazily-consumed iterable. */
   observations: Iterable<Observation>
 

@@ -56,7 +56,7 @@ ambiguous.
 
 | Term         | Definition                                                                                                | Aliases to avoid      |
 | ------------ | --------------------------------------------------------------------------------------------------------- | --------------------- |
-| **Metric**   | A measured dimension with a unit: time, size, or a custom count (e.g. instructions)                       | dimension, value type |
+| **Metric**   | A measured dimension with a unit: time, size, or a count (e.g. instructions)                              | dimension, value type |
 | **Value**    | A numeric measurement for one metric, summed across the observations or costs it aggregates               | measurement           |
 | **Self**     | Aggregated from a function's body, excluding its callees                                                  | exclusive             |
 | **Total**    | Aggregated from a function's body and its transitive callees                                              | inclusive, cumulative |
@@ -67,11 +67,12 @@ ambiguous.
 
 ## Call stack profile
 
-| Term               | Definition                                                                           | Aliases to avoid                 |
-| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------- |
-| **Observation**    | One record: a call stack, a value per metric, and how many occurrences it stands for | sample, record, event            |
-| **Rate**           | The average metric value per counted unit, computed as total value ÷ total count     | sampling rate, sampling interval |
-| **Executing line** | The line a frame was at when recorded, not its function's definition line            | sampled line                     |
+| Term               | Definition                                                                                          | Aliases to avoid                 |
+| ------------------ | --------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **Observation**    | One record: a call stack, a value per metric, and how many occurrences it stands for                | sample, record, event            |
+| **Count metric**   | What one unit of a profile's count measures: a sample, an entry, an allocated object, a microsecond | unit                             |
+| **Rate**           | The average metric value per counted unit, computed as total value ÷ total count                    | sampling rate, sampling interval |
+| **Executing line** | The line a frame was at when recorded, not its function's definition line                           | sampled line                     |
 
 ### Call stacks
 
@@ -145,9 +146,12 @@ ambiguous.
   **self** and **total** **values** per **metric**, deriving them from
   **observations** in one and from recorded costs in the other
 - A **call stack profile** with no **metrics** still has one **measure**: its
-  count
+  count, measured by its **count metric**
+- A **call stack profile** whose **count metric** measures a quantity formats
+  its counts as that quantity and states no rate, because a quantity has no unit
+  to state a rate per
 - A **call graph** contains **functions** connected by **arcs**. It has at least
-  one **metric** because it has no count to fall back on
+  one **metric** because it counts nothing to fall back on
 - A **heap snapshot** contains **nodes** connected by **edges**
 - A **node**'s **retained size** is computed via the **dominator** graph
 - An **entity** aggregates one or more **nodes**; a constructor **entity**'s

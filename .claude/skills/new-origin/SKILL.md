@@ -52,6 +52,11 @@ $ARGUMENTS
      name (see `packedLocationNormalizer`)
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
+   - `countMetric` when what one of the origin's per-sample counts measures
+     differs from what the format's other emitters count. It overrides the same
+     field the format's parser sets. For example, eflambe writes one collapsed
+     count per microsecond of traced time, where every other collapsed emitter
+     writes one per sample. See the counting principles in `CLAUDE.md`
 
    Register it in `originSpecs` (in `src/origins/specs/index.ts`), ordered by
    global detection priority: within a format the detector tries candidates in

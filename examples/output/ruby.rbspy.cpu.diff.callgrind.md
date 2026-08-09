@@ -14,7 +14,7 @@ Collected 129 samples → 126 samples (-3 samples, -2.3%).
 
 #### Improvements
 
-Functions with the largest decrease in total samples collected in the function and all its callees.
+Functions with the largest decrease in total samples taken in the function and all its callees.
 
 | Change | Delta |             % |   Samples | Function           | Location                                              |
 | -----: | ----: | ------------: | --------: | ------------------ | ----------------------------------------------------- |

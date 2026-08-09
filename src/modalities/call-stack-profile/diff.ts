@@ -5,8 +5,8 @@ import type {
 } from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
-import type { DiffMetric } from '../metric.ts'
-import { matchDiffedMetrics } from '../metric.ts'
+import type { DiffMetric, Metric } from '../metric.ts'
+import { matchDiffedMetrics, metricsEqual } from '../metric.ts'
 import type {
   AggregatedCallStackProfile,
   AggregatedCallStackProfileCategoryMetrics,
@@ -38,8 +38,15 @@ export type AggregatedCallStackProfileDiff = {
   /** The current profile. */
   current: AggregatedCallStackProfile
 
-  /** Metrics sampled in both the base and current profiles. */
+  /** Metrics recorded in both the base and current profiles. */
   metrics: DiffMetric[]
+
+  /**
+   * What one count of both profiles measures, or `null` when one counts
+   * nothing or the two count different things. The two can differ because a
+   * diff pairs inputs written in any two formats.
+   */
+  countMetric: Metric | null
 
   /**
    * Function category to that category's metrics in each profile. Each side's
@@ -53,6 +60,38 @@ export type AggregatedCallStackProfileDiff = {
   /** Functions called in either profile, matched across the two. */
   functions: AggregatedCallStackProfileFunctionDiff[]
 }
+
+/**
+ * What one count of both profiles measures. The diff reports it only when the
+ * two count the same thing.
+ *
+ * Throws when the two count different things and share no metric, because the
+ * diff would then have nothing to rank.
+ */
+const matchDiffedCountMetrics = (
+  base: AggregatedCallStackProfile,
+  current: AggregatedCallStackProfile,
+  ranksByCount: boolean,
+): Metric | null => {
+  const { countMetric } = base
+  if (
+    countMetric &&
+    current.countMetric &&
+    metricsEqual(countMetric, current.countMetric)
+  ) {
+    return countMetric
+  }
+
+  if (ranksByCount) {
+    throw new ProfilerMdError(
+      `cannot diff profiles with no metrics in common that count different things, got: ${describeCounts(base)} and ${describeCounts(current)}`,
+    )
+  }
+  return null
+}
+
+const describeCounts = ({ countMetric }: AggregatedCallStackProfile): string =>
+  countMetric ? countMetric.phrases.columnNoun : `nothing`
 
 /**
  * Diffs {@link base} and {@link current} by matching up their metrics,
@@ -70,7 +109,7 @@ export const diffAggregatedCallStackProfiles = (
     metrics.length === 0 &&
     (base.metrics.length > 0 || current.metrics.length > 0)
   ) {
-    // Two metric-less profiles are comparable by sample count alone, so an
+    // Two metric-less profiles are comparable by count alone, so an
     // empty match is only an error when a side has metrics.
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
@@ -90,6 +129,7 @@ export const diffAggregatedCallStackProfiles = (
     base,
     current,
     metrics,
+    countMetric: matchDiffedCountMetrics(base, current, metrics.length === 0),
     categoryToMetrics: matchDiffedMaps(
       base.categoryToMetrics,
       current.categoryToMetrics,

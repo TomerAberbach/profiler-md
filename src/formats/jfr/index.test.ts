@@ -70,7 +70,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -285,7 +285,7 @@ describe(`convert`, () => {
     expect(
       profileTitles(convertBytesToMd(jfrConverter, bytes, options)),
     ).toEqual([
-      `Profile`,
+      `Sampling profile`,
       `Allocated heap profile`,
       `Retained heap profile`,
       `Allocated native memory profile`,
@@ -387,7 +387,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -642,7 +642,7 @@ describe(`malformed recordings`, () => {
 
     // The malformed lock event produces no lock-contention profile, and both
     // cpu samples are still counted.
-    expect(profileTitles(md)).toEqual([`Profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {

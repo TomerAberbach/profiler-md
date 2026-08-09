@@ -37,12 +37,7 @@ import {
   showDiffEntity,
 } from '../format.ts'
 import type { Category } from '../format.ts'
-import {
-  formatProseValue,
-  formatProseValueDelta,
-  measureColumnNoun,
-  measureRankedByPhrase,
-} from '../measure.ts'
+import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
@@ -60,6 +55,7 @@ import {
   measuresOf,
   selfValueOf,
   totalValueOf,
+  zeroTotalScope,
 } from './measure.ts'
 import type { DiffMeasure, Measure } from './measure.ts'
 import {
@@ -84,15 +80,16 @@ export const formatCallStackProfile = (
     showsAnyEntry,
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
+  const measures = measuresOf(profile)
   return [
-    heading(headingLevel, formatTitle(profile.metrics)),
-    ...formatOverallSummary(profile),
+    heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
+    ...formatOverallSummary(profile, measures),
     ...formatMeasureSections(
-      measuresOf(profile),
+      measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
         if (measure.total === 0) {
-          return [formatZeroTotalNote(measure.metric, ` in any sample`)]
+          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
         }
 
         return [
@@ -152,16 +149,19 @@ export const formatCallStackProfileDiff = (
   options: FormattingProfileToMdOptions,
 ): RootContent[] => {
   const headingLevel = 1
-  const metrics = diff.metrics.map(({ metric }) => metric)
+  const measures = diffMeasuresOf(diff)
   return [
-    heading(headingLevel, `${formatTitle(metrics)} diff`),
-    ...formatDiffSummary(diff),
+    heading(
+      headingLevel,
+      `${formatTitle(measures.map(({ metric }) => metric))} diff`,
+    ),
+    ...formatDiffSummary(diff, measures),
     ...formatMeasureSections(
-      diffMeasuresOf(diff),
+      measures,
       headingLevel + 1,
       (measure, sectionHeadingLevel) => {
         if (measure.base.total === 0 && measure.current.total === 0) {
-          return [formatZeroTotalNote(measure.metric, ` in any sample`)]
+          return [formatZeroTotalNote(measure.metric, zeroTotalScope(measure))]
         }
 
         const { sectionOptions, notes } = resolveEntryFilter({
@@ -187,19 +187,32 @@ export const formatCallStackProfileDiff = (
 
 const formatOverallSummary = (
   profile: AggregatedCallStackProfile,
+  measures: Measure[],
 ): RootContent[] => [
-  paragraph(formatSummaryLine(profile)),
-  ...formatCategoryTable(profile),
+  paragraph(formatSummaryLine(profile, measures)),
+  ...formatCategoryTable(profile, measures),
 ]
 
-const formatSummaryLine = ({
-  metrics,
-  totalCount,
-  totalValues,
-  rates,
-}: AggregatedCallStackProfile): string => {
+/**
+ * The profile's totals, followed by the counts they were recorded over and the
+ * rate per counted unit.
+ *
+ * A profile whose counts measure nothing reports its totals alone. A profile
+ * whose only measure is its counts reports the counts alone.
+ */
+const formatSummaryLine = (
+  {
+    metrics,
+    countMetric,
+    totalCount,
+    totalValues,
+    rates,
+  }: AggregatedCallStackProfile,
+  measures: Measure[],
+): string => {
   if (metrics.length === 0) {
-    return `Collected ${formatCount(totalCount, `sample`)}.`
+    const { metric } = measures[0]!
+    return `${capitalizeFirst(metric.phrases.pastTenseVerb)} ${formatProseValue(totalCount, metric)}.`
   }
 
   const totalsSummary = capitalizeFirst(
@@ -213,22 +226,30 @@ const formatSummaryLine = ({
       ),
     ),
   )
-  const samplingRatesSummary = `(${formatConjunction(
-    Array.from(rates, (rate, index) => formatRate(rate, metrics[index]!)),
-  )} per sample)`
+  if (!countMetric) {
+    return `${totalsSummary}.`
+  }
 
-  return `${totalsSummary} over ${formatCount(
-    totalCount,
-    `sample`,
-  )} ${samplingRatesSummary}.`
+  const counted = formatProseValue(totalCount, countMetric)
+  // Only a count of things has a noun for one of them to state a rate per.
+  if (countMetric.type !== `count`) {
+    return `${totalsSummary} over ${counted}.`
+  }
+
+  const ratesSummary = `(${formatConjunction(
+    Array.from(rates, (rate, index) => formatRate(rate, metrics[index]!)),
+  )} per ${countMetric.proseUnit})`
+
+  return `${totalsSummary} over ${counted} ${ratesSummary}.`
 }
 
 const formatCategoryTable = (
   profile: AggregatedCallStackProfile,
+  measures: Measure[],
 ): RootContent[] => {
-  const { metrics, categoryToMetrics } = profile
-  // The first metric, or raw sample count when metric-less, determines sorting and %.
-  const primaryMeasure = measuresOf(profile)[0]!
+  const { metrics, countMetric, categoryToMetrics } = profile
+  // The first measure determines sorting and %.
+  const primaryMeasure = measures[0]!
   const hottestCategories = [...categoryToMetrics].sort(
     ([, metrics1], [, metrics2]) =>
       primaryMeasure.valueOf(metrics2.values, metrics2.count) -
@@ -242,7 +263,7 @@ const formatCategoryTable = (
   const firstTotal = primaryMeasure.total
   return [
     formatTable(
-      categoryColumns(metrics),
+      categoryColumns(metrics, countMetric),
       hottestCategories.map(([category, stats]) => ({
         category,
         stats,
@@ -345,9 +366,9 @@ const formatHottestSelfFunctions = ({
   )
 
   return [
-    heading(headingLevel, `Self ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Self ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by ${measureRankedByPhrase(metric)} directly in the function body, excluding callees.`,
+      `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
     ),
     ...formatRankingTables({
       ranking,
@@ -359,7 +380,7 @@ const formatHottestSelfFunctions = ({
       [
         heading(headingLevel + 1, `Lines`),
         paragraph(
-          `Lines ranked by contribution to each function's self ${measureColumnNoun(metric)}.`,
+          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
         ),
       ],
       hottestLinesSections,
@@ -368,7 +389,7 @@ const formatHottestSelfFunctions = ({
       [
         heading(headingLevel + 1, `Callers`),
         paragraph(
-          `Callers ranked by contribution to each function's self ${measureColumnNoun(metric)}. Inlining can make caller attribution imprecise.`,
+          `Callers ranked by contribution to each function's self ${metric.phrases.columnNoun}. Inlining can make caller attribution imprecise.`,
         ),
       ],
       hottestCallersSections,
@@ -390,7 +411,7 @@ const formatFunctionTable = ({
   options: FormattingProfileToMdOptions
 }): RootContent =>
   formatTable(
-    functionColumns(measure.metric, `Function`, options),
+    functionColumns(measure, `Function`, options),
     functions.map(func => ({
       func,
       value: valueOf(func),
@@ -423,7 +444,7 @@ const formatHottestLines = ({
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      lineColumns(measure.metric, func, options),
+      lineColumns(measure, func, options),
       hottestLines.map(([line, stats]) => ({
         line,
         value: measure.valueOf(stats.values, stats.count),
@@ -458,11 +479,10 @@ const formatHottestCallers = ({
     return []
   }
 
-  const { metric } = measure
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionColumns(metric, `Caller`, options),
+      functionColumns(measure, `Caller`, options),
       hottestCallers.map(entry => ({
         func: entry.caller,
         value: selfValueOf(measure, entry),
@@ -512,9 +532,9 @@ const formatHottestTotalFunctions = ({
   )
 
   return [
-    heading(headingLevel, `Total ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by total ${measureRankedByPhrase(metric)} in the function and all its callees.`,
+      `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees.`,
     ),
     ...formatRankingTables({
       ranking,
@@ -526,7 +546,7 @@ const formatHottestTotalFunctions = ({
       [
         heading(headingLevel + 1, `Callees`),
         paragraph(
-          `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
+          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.`,
         ),
       ],
       calleeSections,
@@ -558,11 +578,10 @@ const formatHottestCallees = ({
     return []
   }
 
-  const { metric } = measure
   return [
     formatFunctionHeading(headingLevel, func, options),
     formatTable(
-      functionColumns(metric, `Callee`, options),
+      functionColumns(measure, `Callee`, options),
       hottestCallees.map(entry => ({
         func: entry.callee,
         value: totalValueOf(measure, entry),
@@ -605,7 +624,7 @@ const formatHottestCallStacks = ({
     heading(headingLevel, `Hottest call stacks`),
     paragraph([
       text(
-        `Call stacks ranked by ${measureRankedByPhrase(metric)} in their leaf frame.`,
+        `Call stacks ranked by ${metric.phrases.pastParticipleVerbPhrase} in their leaf frame.`,
       ),
       ...(hidesAnyFrame
         ? phrasing` ${inlineCode(`…`)} stands for frames the entry filter hides.`
@@ -619,7 +638,7 @@ const formatHottestCallStacks = ({
         ]
       : []),
     formatTable(
-      callStackColumns(metric, commonCallStack, options),
+      callStackColumns(measure, commonCallStack, options),
       hottestCallStacks.map(callStack => ({
         frames: callStack.frames,
         value: selfValueOf(measure, callStack),
@@ -777,28 +796,37 @@ const addSelfMetrics = (
 
 const formatDiffSummary = (
   diff: AggregatedCallStackProfileDiff,
+  measures: DiffMeasure[],
 ): RootContent[] => [
-  paragraph(formatDiffSummaryLine(diff)),
-  ...formatDiffCategoryTable(diff),
+  paragraph(formatDiffSummaryLine(diff, measures)),
+  ...formatDiffCategoryTable(diff, measures),
 ]
 
 const formatDiffSummaryLine = (
-  diff: AggregatedCallStackProfileDiff,
+  { base, current, metrics, countMetric }: AggregatedCallStackProfileDiff,
+  measures: DiffMeasure[],
 ): string => {
-  if (diff.metrics.length === 0) {
-    const baseSamples = diff.base.totalCount
-    const currentSamples = diff.current.totalCount
-    return `${formatArrow(
-      formatCount(baseSamples, `sample`),
-      formatCount(currentSamples, `sample`),
-    )}${formatChange(baseSamples, currentSamples, magnitude =>
-      formatCount(magnitude, `sample`),
-    )}.`
+  if (metrics.length === 0) {
+    const { metric } = measures[0]!
+    const baseCount = base.totalCount
+    const currentCount = current.totalCount
+    const counted = `${formatArrow(
+      formatProseValue(baseCount, metric),
+      formatProseValue(currentCount, metric),
+    )}${formatChange(baseCount, currentCount, magnitude =>
+      formatProseValueDelta(magnitude, metric),
+    )}`
+    // A count of things contains their noun ("129 samples"), while a count
+    // measuring a quantity requires the metric's verb to state what the
+    // quantity is of.
+    return metric.type === `count`
+      ? `${counted}.`
+      : `${capitalizeFirst(metric.phrases.pastTenseVerb)} ${counted}.`
   }
 
-  const valueParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
-    const baseValue = diff.base.totalValues[baseIndex]!
-    const currentValue = diff.current.totalValues[currentIndex]!
+  const valueParts = metrics.map(({ metric, baseIndex, currentIndex }) => {
+    const baseValue = base.totalValues[baseIndex]!
+    const currentValue = current.totalValues[currentIndex]!
     return `${metric.phrases.pastTenseVerb} ${formatArrow(
       formatProseValue(baseValue, metric),
       formatProseValue(currentValue, metric),
@@ -806,13 +834,27 @@ const formatDiffSummaryLine = (
       formatProseValueDelta(magnitude, metric),
     )}`
   })
-  const rateParts = diff.metrics.map(({ metric, baseIndex, currentIndex }) => {
-    const baseRate = formatRate(diff.base.rates[baseIndex]!, metric)
-    const currentRate = formatRate(diff.current.rates[currentIndex]!, metric)
+  const rateParts = metrics.map(({ metric, baseIndex, currentIndex }) => {
+    const baseRate = formatRate(base.rates[baseIndex]!, metric)
+    const currentRate = formatRate(current.rates[currentIndex]!, metric)
     return formatArrow(baseRate, currentRate)
   })
 
-  return `${capitalizeFirst(formatConjunction(valueParts))} over ${formatArrow(formatCount(diff.base.totalCount, `sample`), formatCount(diff.current.totalCount, `sample`))} (${formatConjunction(rateParts)} per sample).`
+  const totalsSummary = capitalizeFirst(formatConjunction(valueParts))
+  if (!countMetric) {
+    return `${totalsSummary}.`
+  }
+
+  const counted = formatArrow(
+    formatProseValue(base.totalCount, countMetric),
+    formatProseValue(current.totalCount, countMetric),
+  )
+  // Only a count of things has a noun for one of them to state a rate per.
+  if (countMetric.type !== `count`) {
+    return `${totalsSummary} over ${counted}.`
+  }
+
+  return `${totalsSummary} over ${counted} (${formatConjunction(rateParts)} per ${countMetric.proseUnit}).`
 }
 
 const formatRate = (samplingRate: number, metric: Metric): string => {
@@ -821,21 +863,22 @@ const formatRate = (samplingRate: number, metric: Metric): string => {
       return formatMicroseconds(samplingRate * 1000 * metric.milliseconds)
     case `size`:
       return formatBytes(samplingRate * metric.bytes)
-    case `custom`:
+    case `count`:
       return formatCount(samplingRate, metric.proseUnit)
   }
 }
 
 const formatDiffCategoryTable = (
   diff: AggregatedCallStackProfileDiff,
+  measures: DiffMeasure[],
 ): RootContent[] => {
   if (diff.categoryToMetrics.size === 0) {
     return []
   }
 
   const metrics = diff.metrics.map(({ metric }) => metric)
-  // The first metric, or raw sample count when metric-less, determines sorting and %.
-  const primaryMeasure = diffMeasuresOf(diff)[0]!
+  // The first measure determines sorting and %.
+  const primaryMeasure = measures[0]!
   const categoryValue = (
     metrics: AggregatedCallStackProfileCategoryMetrics | undefined,
   ): number =>
@@ -853,7 +896,7 @@ const formatDiffCategoryTable = (
   const currentTotal = primaryMeasure.current.total
   return [
     formatDiffTable(
-      categoryColumns(metrics),
+      categoryColumns(metrics, diff.countMetric),
       categories.map(([category, { base, current }]) => ({
         base: base && {
           category,
@@ -927,24 +970,24 @@ const formatDiffFunctions = ({
 type DiffFunctionDirection = {
   valueOf: (side: Measure, func: AggregatedCallStackProfileFunction) => number
   countOf: (func: AggregatedCallStackProfileFunction) => number
-  titleOf: (metric: Metric | null) => string
-  descriptionOf: (metric: Metric | null) => string
+  titleOf: (metric: Metric) => string
+  descriptionOf: (metric: Metric) => string
 }
 
 const SELF_DIRECTION: DiffFunctionDirection = {
   valueOf: selfValueOf,
   countOf: func => func.selfCount,
-  titleOf: metric => `Self ${measureColumnNoun(metric)}`,
+  titleOf: metric => `Self ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
-    `${measureRankedByPhrase(metric)} directly in the function body, excluding callees`,
+    `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
 }
 
 const TOTAL_DIRECTION: DiffFunctionDirection = {
   valueOf: totalValueOf,
   countOf: func => func.totalCount,
-  titleOf: metric => `Total ${measureColumnNoun(metric)}`,
+  titleOf: metric => `Total ${metric.phrases.columnNoun}`,
   descriptionOf: metric =>
-    `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
+    `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
 }
 
 const formatDiffDirectionFunctions = ({
@@ -1001,7 +1044,7 @@ const formatDiffDirectionFunctions = ({
     headingLevel,
     title: titleOf(metric),
     description: descriptionOf(metric),
-    columns: functionColumns(metric, `Function`, options),
+    columns: functionColumns(measure, `Function`, options),
     hasActive,
     regressions,
     improvements,

@@ -2,7 +2,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../../modalities/call-stack-profile/index.ts'
-import { BYTES } from '../../../modalities/metric.ts'
+import { BYTES, SAMPLES } from '../../../modalities/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -56,6 +56,7 @@ export const parseV8HeapProfile = (
       type: `call-stack-profile`,
       frames,
       metrics: [BYTES],
+      countMetric: SAMPLES,
       observations: heapObservations(profile, idToIndex, indexToParentIndex),
     },
   ]

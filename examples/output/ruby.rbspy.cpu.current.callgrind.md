@@ -12,7 +12,7 @@ Collected 126 samples.
 
 ### Total samples
 
-Functions ranked by total samples collected in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
+Functions ranked by total samples taken in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
 
 |     % | Samples | Function            | Location                                              |
 | ----: | ------: | ------------------- | ----------------------------------------------------- |
@@ -22,7 +22,7 @@ Functions ranked by total samples collected in the function and all its callees.
 
 #### Callers
 
-Callers ranked by the samples collected in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
+Callers ranked by the samples taken in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
 
 ##### `<top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`)
 

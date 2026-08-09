@@ -1,4 +1,4 @@
-# Instructions profile
+# Instruction profile
 
 Recorded 39,556,676 instructions.
 

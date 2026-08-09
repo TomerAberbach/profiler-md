@@ -284,6 +284,27 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
 
+### Counting
+
+- Decide what one unit of `Observation.count` counts from the profiler's source
+  or spec, never the field's name: a profiler that samples the call stack on a
+  schedule counts samples, and one that records an event per allocation or per
+  contention counts those events. State the answer with
+  `CallStackProfile.countMetric`
+- Pass `countMetricOf('<singular noun>')` when the profiler counts occurrences
+  of something else. The noun titles a metric-less profile, heads its count
+  column, and follows the rate, so pick what one occurrence is. "object"
+  produces "over 78 objects" and "1.69 MiB per object"
+- Pass a time or size metric when one count measures a quantity rather than
+  counting anything, so the counts format as that quantity and state no rate
+- Pass `null` when the counts measure nothing, so the profile reports its
+  metrics alone: a count the parser reconstructed (speedscope's evented
+  profiles), or a missing count
+- Where a format's emitters disagree on what one count measures, the origin
+  overrides the same field with `OriginSpec.countMetric`
+- NEVER count what the profiler did not record. Dropping the count costs a
+  column; keeping it states a rate nothing measured
+
 ### Categorizing
 
 - `FunctionCategory` is a closed set. Add a category only when the distinction

@@ -1,4 +1,4 @@
-# Instructions profile diff
+# Instruction profile diff
 
 Recorded 39,556,676 instructions → 39,558,041 instructions (+1,365 instructions, ~0%).
 

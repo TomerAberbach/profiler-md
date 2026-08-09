@@ -37,7 +37,8 @@ Considerations that inform the decision:
 
 - **Does the logic's correctness depend on knowing the origin or format?** If
   the same bytes mean different things per origin (e.g. a speedscope `line` as
-  definition vs. executing line), the logic is origin or format knowledge and
+  definition vs. executing line, or a collapsed count as one sample vs.
+  eflambe's one microsecond), the logic is origin or format knowledge and
   belongs there. If the rule holds without knowing who emitted the profile,
   encoding it in an origin or format overstates its specificity
 

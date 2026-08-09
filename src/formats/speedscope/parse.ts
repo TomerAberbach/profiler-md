@@ -2,7 +2,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A unique location within a function. */
@@ -163,6 +163,7 @@ const sampledProfile = (
   type: `call-stack-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  countMetric: SAMPLES,
   observations: sampledObservations(profile),
 })
 
@@ -193,6 +194,7 @@ const eventedProfile = (
   type: `call-stack-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  countMetric: SAMPLES,
   observations: eventedObservations(profile),
 })
 

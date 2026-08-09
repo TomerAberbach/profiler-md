@@ -8,6 +8,7 @@ import {
   selfSamplesTables,
   selfTimeTables,
 } from '../modalities/call-stack-profile/testing.ts'
+import { SAMPLES } from '../modalities/metric.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
@@ -779,12 +780,14 @@ describe(`origin detection`, () => {
         { name: `com/example/Main.main` },
       ],
       metrics: [],
+      countMetric: SAMPLES,
       observations: [{ values: [], frameIndices: [0, 1] }],
     }
     const markerlessProfile: CallStackProfile = {
       type: `call-stack-profile`,
       frames: [{ name: `com/example/Widget.render` }],
       metrics: [],
+      countMetric: SAMPLES,
       observations: [{ values: [], frameIndices: [0] }],
     }
     const converter: JsonFormatConverter = {
