@@ -72,6 +72,7 @@
     "test": "vitest",
     "coverage": "vitest --coverage",
     "bench": "./scripts/bench",
+    "categories": "node scripts/categories.ts",
     "build": "tsdown",
     "generate-inputs": "./scripts/generate-inputs",
     "update-readme": "node scripts/update-readme.ts",
