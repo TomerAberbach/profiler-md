@@ -3,8 +3,12 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
-import type { Metric } from '../../modalities/metric.ts'
+import {
+  countMetricOf,
+  determineMetric,
+  SAMPLES,
+} from '../../modalities/metric.ts'
+import type { CountMetric, Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
@@ -12,10 +16,7 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
   const string = makeStringReader(profile)
 
   const originHint = pprofOriginHint(profile, string)
-  const { metrics, metricValueIndices, countValueIndex } = parseSampleTypes(
-    profile,
-    string,
-  )
+  const layouts = parseValueLayouts(profile, string)
   const { frames, frameIndexByFunctionId } = parseFunctionStackFrames(
     profile,
     string,
@@ -24,23 +25,29 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
     profile,
     frameIndexByFunctionId,
   )
-  const observations = parseObservations(
-    profile,
-    framesByLocationId,
-    metricValueIndices,
-    countValueIndex,
-  )
 
-  return [
-    {
+  return layouts.map(
+    ({ metrics, countMetric, metricValueIndices, countValueIndex }) => ({
       type: `call-stack-profile`,
       ...(originHint && { originHint }),
       frames,
       metrics,
-      countMetric: SAMPLES,
-      observations,
-    },
-  ]
+      countMetric,
+      observations: parseObservations(
+        profile,
+        framesByLocationId,
+        metricValueIndices,
+        countValueIndex,
+      ),
+    }),
+  )
+}
+
+type StringReader = (index: number | bigint) => string
+
+const makeStringReader = (profile: PprofProto): StringReader => {
+  const { strings } = profile.stringTable
+  return index => strings[Number(index)] ?? ``
 }
 
 /**
@@ -52,9 +59,8 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
  *   signal handler internals (`CpuProfiler::prof_handler`, `tcmalloc::*`).
  *   `jeprof` converts a jemalloc dump the same way, so it also resolves to
  *   gperftools unless the user specifies the origin
- * - `threadcreate` is a Go `runtime/pprof` profile type, and its captures'
- *   stacks are unsymbolized thread-spawn sites carrying none of Go's frame
- *   markers
+ * - `threadcreate` is a Go `runtime/pprof` profile type, and its samples' stacks
+ *   are unsymbolized thread-spawn sites containing none of Go's frame markers
  */
 const pprofOriginHint = (
   profile: PprofProto,
@@ -74,41 +80,221 @@ const pprofOriginHint = (
 const GPERFTOOLS_FRAME_FILTER =
   /CpuProfiler::prof_handler|ProfileData::prof_handler|tcmalloc::/u
 
-type StringReader = (index: number | bigint) => string
-
-const makeStringReader = (profile: PprofProto): StringReader => {
-  const { strings } = profile.stringTable
-  return index => strings[Number(index)] ?? ``
+/** One sample type, with its index into a sample's parallel value list. */
+type ValueType = {
+  /** The position of this type's value in every sample's value list. */
+  index: number
+  /** The sample type's name, such as `alloc_objects` or `cpu`. */
+  name: string
+  /** The sample type's unit, such as `count`, `bytes`, or `nanoseconds`. */
+  unit: string
 }
 
 /**
- * Every value type except a plain sample count becomes a metric; remember each
- * one's index into a sample's parallel value list. The first count-typed value
- * is how many sampled occurrences a record aggregates (pprof merges identical
- * stacks into one record), so it feeds the sample count rather than a metric.
+ * How one profile reads a sample's values: which of them are metrics, and which
+ * counts the occurrences the sample aggregates.
  */
+type ValueLayout = {
+  /** The metric each of `metricValueIndices` measures, in the same order. */
+  metrics: Metric[]
+  /** What one unit of the count measures, or `null` when there is no count. */
+  countMetric: CountMetric | null
+  /** The value indices the metrics are read from, in `metrics` order. */
+  metricValueIndices: number[]
+  /**
+   * The value index the count is read from, or `undefined` when no value type
+   * states how many occurrences a sample aggregates, leaving each sample to
+   * count as one.
+   */
+  countValueIndex: number | undefined
+}
+
+/**
+ * The value types split into one profile each.
+ *
+ * A count of occurrences is how many of them a record aggregates, because pprof
+ * merges identical stacks into one record. Its type names what one occurrence
+ * is. Every other value type becomes a metric.
+ *
+ * Counts of occurrences count different things, so each pairs with the metrics
+ * it was counted over in a profile of its own.
+ */
+const parseValueLayouts = (
+  profile: PprofProto,
+  string: StringReader,
+): ValueLayout[] => {
+  const valueTypes = parseSampleTypes(profile, string)
+
+  if (valueTypes.filter(isOccurrenceCountValueType).length < 2) {
+    return [layoutOf(valueTypes)]
+  }
+
+  const groups = groupValueTypesByCount(valueTypes)
+  if (groups) {
+    // A group with no count of its own reports its metrics alone, because
+    // another group's count already states what a record is.
+    return groups.map(group =>
+      group.some(isOccurrenceCountValueType)
+        ? layoutOf(group)
+        : layoutWithCountsAsMetrics(group),
+    )
+  }
+
+  // A group holds several counts, so which one each metric was measured over is
+  // unknown.
+  return [layoutWithCountsAsMetrics(valueTypes)]
+}
+
+/** Each sample type, with its type name and unit read from the string table. */
 const parseSampleTypes = (
   profile: PprofProto,
   string: StringReader,
-): {
-  metrics: Metric[]
-  metricValueIndices: number[]
-  countValueIndex: number | undefined
-} => {
-  const metrics: Metric[] = []
-  const metricValueIndices: number[] = []
-  let countValueIndex: number | undefined
-  for (const [index, { type, unit }] of profile.sampleType.entries()) {
-    const unitName = string(unit)
-    if (unitName.toLowerCase() === `count`) {
-      countValueIndex ??= index
-      continue
-    }
-    metricValueIndices.push(index)
-    metrics.push(determineMetric({ name: string(type), unit: unitName }))
+): ValueType[] =>
+  profile.sampleType.map(({ type, unit }, index) => ({
+    index,
+    name: string(type),
+    unit: string(unit),
+  }))
+
+/**
+ * Whether a value type counts occurrences of something this package has a noun
+ * for, rather than measuring a quantity in an unspecified unit.
+ */
+const isOccurrenceCountValueType = (valueType: ValueType): boolean =>
+  isCountValueType(valueType) && countedAs(valueType.name) !== undefined
+
+const isCountValueType = ({ unit }: ValueType): boolean =>
+  unit.toLowerCase() === `count`
+
+/**
+ * What a count-typed sample type counts, by its type name, or `undefined` for a
+ * name this package has no noun for.
+ *
+ * The `alloc_` and `inuse_` prefixes state when the same entity was counted,
+ * not what it is.
+ */
+const countedAs = (type: string): CountMetric | undefined => {
+  const name = type.toLowerCase().replace(/^(?:alloc|inuse)_/u, ``)
+  if (SAMPLE_TYPE_NAMES.has(name)) {
+    return SAMPLES
   }
-  return { metrics, metricValueIndices, countValueIndex }
+  const noun = COUNT_TYPE_NOUNS.get(name)
+  return noun === undefined ? undefined : countMetricOf(noun)
 }
+
+/** The type names for a count of call stack samples. */
+const SAMPLE_TYPE_NAMES: ReadonlySet<string> = new Set([
+  `sample`,
+  `samples`,
+  `event`,
+  `events`,
+])
+
+/**
+ * The singular noun for what one unit of each known count-typed sample type
+ * counts.
+ */
+const COUNT_TYPE_NOUNS: ReadonlyMap<string, string> = new Map([
+  [`objects`, `object`],
+  [`allocs`, `allocation`],
+  [`contentions`, `contention`],
+  [`goroutine`, `goroutine`],
+  [`threadcreate`, `thread creation`],
+])
+
+/**
+ * The layout of one profile's value types.
+ *
+ * Without a count, each record counts as one sample.
+ */
+const layoutOf = (valueTypes: ValueType[]): ValueLayout => {
+  const countValueType = recordCountValueTypeOf(valueTypes)
+  return {
+    ...metricsOf(valueTypes.filter(valueType => valueType !== countValueType)),
+    countMetric: countValueType
+      ? (countedAs(countValueType.name) ??
+        countMetricNamed(countValueType.name))
+      : SAMPLES,
+    countValueIndex: countValueType?.index,
+  }
+}
+
+/**
+ * The value type whose count is how many occurrences a record aggregates.
+ *
+ * A count of occurrences takes precedence over a count in an unrecognized name,
+ * which measures a quantity of its own wherever a recognized count states what
+ * a record is: `perf_data_converter` writes a hardware event's total beside its
+ * `sample` count. With no recognized count, the first count states what a
+ * record is, since a profile counting nothing would report no records.
+ */
+const recordCountValueTypeOf = (
+  valueTypes: ValueType[],
+): ValueType | undefined => {
+  const counts = valueTypes.filter(isCountValueType)
+  return counts.find(isOccurrenceCountValueType) ?? counts[0]
+}
+
+/** The metric each value type measures, with its index into a sample's values. */
+const metricsOf = (
+  valueTypes: ValueType[],
+): Pick<ValueLayout, `metrics` | `metricValueIndices`> => ({
+  metrics: valueTypes.map(({ name, unit }) => determineMetric({ name, unit })),
+  metricValueIndices: valueTypes.map(({ index }) => index),
+})
+
+/**
+ * The metric for a count named after the emitter's own type name, for a name
+ * this package has no singular noun for.
+ *
+ * Prose counts bare units, because the emitter's name states no grammatical
+ * number to inflect from. Pluralizing it reads as "78 objectses".
+ */
+const countMetricNamed = (name: string): CountMetric => ({
+  type: `count`,
+  proseUnit: `count`,
+  phrases: {
+    titleNoun: name,
+    columnNoun: name,
+    pastTenseVerb: `recorded`,
+    pastParticipleVerbPhrase: `${name} recorded`,
+  },
+})
+
+/**
+ * The value types grouped by their type name's prefix. Go and gperftools name a
+ * heap profile's types `alloc_objects`, `alloc_space`, `inuse_objects`, and
+ * `inuse_space`, so the prefix states which count each size was measured over.
+ *
+ * A count with no metric beside it forms a group of its own, so a count the
+ * prefixes pair with nothing is still reported.
+ *
+ * Returns `undefined` when a group holds several counts, a layout the prefixes
+ * fail to explain.
+ */
+const groupValueTypesByCount = (
+  valueTypes: ValueType[],
+): ValueType[][] | undefined => {
+  const groups = [...Map.groupBy(valueTypes, namePrefix).values()]
+  return groups.every(
+    group => group.filter(isOccurrenceCountValueType).length <= 1,
+  )
+    ? groups
+    : undefined
+}
+
+const namePrefix = ({ name }: ValueType): string =>
+  name.toLowerCase().split(`_`)[0]!
+
+/**
+ * The layout with every count reported as a measured quantity rather than as a
+ * record count, leaving the profile with no rate to state.
+ */
+const layoutWithCountsAsMetrics = (valueTypes: ValueType[]): ValueLayout => ({
+  ...metricsOf(valueTypes),
+  countMetric: null,
+  countValueIndex: undefined,
+})
 
 /**
  * Each function is a frame; its dense index is its id. IDs are keyed raw
@@ -139,12 +325,20 @@ const parseFunctionStackFrames = (
   return { frames, frameIndexByFunctionId }
 }
 
+/**
+ * Normalizes a pprof line to `undefined` when unknown: proto3 has no field
+ * presence for scalars, so an unset `Function.start_line` or `Line.line`
+ * decodes to `0`.
+ */
+const knownPprofLine = (line: number | undefined): number | undefined =>
+  line !== undefined && line > 0 ? line : undefined
+
 type LocationStackFrame = { frame: number; line: number }
 
 /**
  * Each location resolves to its frame indices and lines, dropping any frame
- * whose function is absent from the table (unsymbolized) rather than carrying
- * a dangling reference into aggregation.
+ * whose function is absent from the table (unsymbolized) rather than passing a
+ * reference to a missing function into aggregation.
  */
 const resolveLocationStackFrames = (
   profile: PprofProto,
@@ -163,48 +357,63 @@ const resolveLocationStackFrames = (
   return framesByLocationId
 }
 
-const parseObservations = (
+/** Each profile reads the samples again, so no profile stores its own copy. */
+function* parseObservations(
   profile: PprofProto,
   framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
   metricValueIndices: number[],
   countValueIndex: number | undefined,
-): Observation[] => {
-  const observations: Observation[] = []
+): Iterable<Observation> {
   for (const { locationId, value } of profile.sample) {
-    const frameIndices: number[] = []
-    let calleeLine: number | undefined
-    for (const id of locationId) {
-      // Drop references to locations absent from the table.
-      for (const { frame, line } of framesByLocationId.get(id) ?? []) {
-        frameIndices.push(frame)
-        calleeLine ??= line
-      }
-    }
+    const { frameIndices, calleeLine } = resolveCallStack(
+      locationId,
+      framesByLocationId,
+    )
     if (frameIndices.length === 0) {
       continue
     }
+    const recordedCount =
+      countValueIndex === undefined ? 1 : Number(value[countValueIndex]!)
     // A record's metric values are totals across its aggregated occurrences,
     // and the aggregator scales values by the count, so divide them back to
-    // per-occurrence. A missing or zero count (some producers zero it while a
-    // metric value remains) still describes at least one occurrence.
-    const rawCount =
-      countValueIndex === undefined ? 1 : Number(value[countValueIndex]!)
-    const count = rawCount > 0 ? rawCount : 1
-    observations.push({
-      values: metricValueIndices.map(index => Number(value[index]!) / count),
+    // per-occurrence. A count of zero still describes one occurrence wherever a
+    // metric value remains, because some producers zero the count.
+    const count = recordedCount > 0 ? recordedCount : 1
+    const values = metricValueIndices.map(
+      index => Number(value[index]!) / count,
+    )
+    // A record the count counted none of and measured nothing in stands for no
+    // occurrence. A heap profile's `inuse_objects` and `inuse_space` are both
+    // zero for every allocation freed before the dump.
+    if (recordedCount <= 0 && values.every(value => value === 0)) {
+      continue
+    }
+    yield {
+      values,
       frameIndices,
       // The leaf's line 0 means unknown, not a fallback to deeper lines.
       line: knownPprofLine(calleeLine),
       count,
-    })
+    }
   }
-  return observations
 }
 
 /**
- * Normalizes a pprof line to `undefined` when unknown: proto3 has no field
- * presence for scalars, so an unset `Function.start_line` or `Line.line`
- * decodes to `0`.
+ * A sample's locations expanded to the frame indices of its call stack, with
+ * the leaf frame's line, dropping references to locations absent from the
+ * table.
  */
-const knownPprofLine = (line: number | undefined): number | undefined =>
-  line !== undefined && line > 0 ? line : undefined
+const resolveCallStack = (
+  locationId: readonly (number | bigint)[],
+  framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
+): { frameIndices: number[]; calleeLine: number | undefined } => {
+  const frameIndices: number[] = []
+  let calleeLine: number | undefined
+  for (const id of locationId) {
+    for (const { frame, line } of framesByLocationId.get(id) ?? []) {
+      frameIndices.push(frame)
+      calleeLine ??= line
+    }
+  }
+  return { frameIndices, calleeLine }
+}

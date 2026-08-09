@@ -1,11 +1,19 @@
 import { describe, expect, test } from 'vitest'
 import { streamOf } from '../../helpers/testing.ts'
 import {
+  selfSamplesTables,
+  selfSizeTables,
   selfTimeTables,
   totalTimeTables,
 } from '../../modalities/call-stack-profile/testing.ts'
 import { defaultShowEntry, normalizeProfileToMdOptions } from '../../options.ts'
-import { callersTables, linesTables, summaryLines } from '../../testing.ts'
+import {
+  callersTables,
+  categoryTables,
+  linesTables,
+  profileTitles,
+  summaryLines,
+} from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
@@ -119,6 +127,289 @@ describe(`convert`, () => {
           Location: `src/a.ts:1`,
         },
       ],
+    ])
+  })
+
+  test.each([
+    { type: `samples`, summary: `Collected 3 samples.` },
+    { type: `events`, summary: `Collected 3 samples.` },
+    { type: `objects`, summary: `Recorded 3 objects.` },
+    { type: `alloc_objects`, summary: `Recorded 3 objects.` },
+    { type: `inuse_objects`, summary: `Recorded 3 objects.` },
+    { type: `allocs`, summary: `Recorded 3 allocations.` },
+    { type: `contentions`, summary: `Recorded 3 contentions.` },
+    { type: `goroutine`, summary: `Recorded 3 goroutines.` },
+    { type: `threadcreate`, summary: `Recorded 3 thread creations.` },
+    // An origin names its own count types, so an unknown one counts bare units
+    // under that name.
+    { type: `widgets`, summary: `Recorded 3 counts.` },
+  ])(`names what a $type count counts`, ({ type, summary }) => {
+    const data = makePprof({
+      valueTypes: [{ type, unit: `count` }],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [3] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([summary])
+  })
+
+  test(`splits each count and the metrics it was counted over into a profile`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `alloc_objects`, unit: `count` },
+        { type: `alloc_space`, unit: `bytes` },
+        { type: `inuse_objects`, unit: `count` },
+        { type: `inuse_space`, unit: `bytes` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [8, 4096, 2, 512] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Allocated 4\u00A0KiB over 8 objects (512\u00A0B per object).`,
+      `Retained 512\u00A0B over 2 objects (256\u00A0B per object).`,
+    ])
+    expect(selfSizeTables(md, `Allocated heap profile`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `4 KiB`,
+          Objects: `8`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+    expect(selfSizeTables(md, `Retained heap profile`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `512 B`,
+          Objects: `2`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`splits a count the prefixes pair with no metric into a profile of its own`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `samples`, unit: `count` },
+        { type: `objects`, unit: `count` },
+        { type: `space`, unit: `bytes` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [3, 8, 4096] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    // Which count the size was measured over is unknown, so it states no rate.
+    expect(summaryLines(md)).toEqual([
+      `Collected 3 samples.`,
+      `Recorded 8 objects.`,
+      `Allocated 4\u00A0KiB.`,
+    ])
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Samples: `3`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+    expect(selfSizeTables(md, `Heap profile`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `4 KiB`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`reports every count as a metric when a prefix groups several`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `alloc_objects`, unit: `count` },
+        { type: `alloc_allocs`, unit: `count` },
+        { type: `alloc_space`, unit: `bytes` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [8, 3, 4096] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    // Which count each was measured over is unknown, so neither counts records.
+    expect(summaryLines(md)).toEqual([
+      `Recorded 8 counts, recorded 3 counts, and allocated 4\u00A0KiB.`,
+    ])
+    expect(categoryTables(md)).toEqual([
+      [
+        {
+          Category: `Ours`,
+          '%': `100.0%`,
+          Alloc_objects: `8`,
+          Alloc_allocs: `3`,
+          Size: `4 KiB`,
+        },
+      ],
+    ])
+  })
+
+  test(`counts records with a recognized count beside an unrecognized one`, () => {
+    // `perf_data_converter` writes a hardware event's total beside its sample
+    // count.
+    const data = makePprof({
+      valueTypes: [
+        { type: `sample`, unit: `count` },
+        { type: `cycles`, unit: `count` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [3, 900_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Recorded 900,000 counts over 3 samples (300,000 counts per sample).`,
+    ])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `Ours`, '%': `100.0%`, Cycles: `900,000`, Samples: `3` }],
+    ])
+  })
+
+  test(`keeps a record the count counted none of but a metric measured`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `samples`, unit: `count` },
+        { type: `cpu`, unit: `nanoseconds` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [0, 5_000_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Took 5.0ms over 1 sample (5.0ms per sample).`,
+    ])
+  })
+
+  test(`drops a record the count counted none of and no metric measured`, () => {
+    const data = makePprof({
+      valueTypes: [
+        { type: `inuse_objects`, unit: `count` },
+        { type: `inuse_space`, unit: `bytes` },
+      ],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+        { id: 2, name: `funcB`, filename: `/project/src/b.ts`, startLine: 1 },
+      ],
+      locations: [
+        { id: 1, lines: [{ functionId: 1, line: 5 }] },
+        { id: 2, lines: [{ functionId: 2, line: 5 }] },
+      ],
+      samples: [
+        { locationIds: [1], values: [2, 512] },
+        { locationIds: [2], values: [0, 0] },
+      ],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Retained 512\u00A0B over 2 objects (256\u00A0B per object).`,
+    ])
+    expect(selfSizeTables(md, `Retained heap profile`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `512 B`,
+          Objects: `2`,
+          Function: `funcA`,
+          Location: `src/a.ts:1`,
+        },
+      ],
+    ])
+  })
+
+  test(`names an unrecognized count after the emitter's own type name`, () => {
+    const data = makePprof({
+      valueTypes: [{ type: `widgets`, unit: `count` }],
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.ts`, startLine: 1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: 5 }] }],
+      samples: [{ locationIds: [1], values: [3] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(profileTitles(md)).toEqual([`Widgets profile`])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `Ours`, '%': `100.0%`, Widgets: `3` }],
     ])
   })
 

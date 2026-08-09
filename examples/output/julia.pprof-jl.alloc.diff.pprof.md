@@ -1,8 +1,8 @@
 # Heap profile diff
 
-Allocated 81.4 KiB → 84.7 KiB (+3.333 KiB, +4.1%) over 3,515 samples → 3,493 samples (23.7 B → 24.8 B per sample).
+Allocated 81.4 KiB → 84.7 KiB (+3.333 KiB, +4.1%) over 3,515 allocations → 3,493 allocations (23.7 B → 24.8 B per allocation).
 
-| Category | Change |      Delta |      % |                Size |       Samples |
+| Category | Change |      Delta |      % |                Size |   Allocations |
 | -------- | -----: | ---------: | -----: | ------------------: | ------------: |
 | Native   |  +4.1% | +3.333 KiB | 100.0% | 81.4 KiB → 84.7 KiB | 3,515 → 3,493 |
 
@@ -14,7 +14,7 @@ Allocated 81.4 KiB → 84.7 KiB (+3.333 KiB, +4.1%) over 3,515 samples → 3,
 
 Functions with the largest increase in total bytes allocated in the function and all its callees.
 
-| Change |      Delta |             % |                Size |       Samples | Function                                                                     | Location                                                                                                         |
+| Change |      Delta |             % |                Size |   Allocations | Function                                                                     | Location                                                                                                         |
 | -----: | ---------: | ------------: | ------------------: | ------------: | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 |  +4.1% | +3.333 KiB |        100.0% | 81.4 KiB → 84.7 KiB | 3,515 → 3,493 | `write`                                                                      | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:37`                      |
 |  +4.1% | +3.333 KiB |        100.0% | 81.4 KiB → 84.7 KiB | 3,515 → 3,493 | `parse_workload`                                                             | `profile.jl:13`                                                                                                  |

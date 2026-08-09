@@ -1,23 +1,21 @@
-# Allocated heap and retained heap profile diff
+# Allocated heap profile diff
 
-Allocated 76.8 MiB → 80.3 MiB (+3.472 MiB, +4.5%) and retained 5.81 MiB over 113,988 samples → 87,110 samples (707 B → 966 B and 53.5 B → 70 B per sample).
+Allocated 76.8 MiB → 80.3 MiB (+3.472 MiB, +4.5%) over 113,988 objects → 87,110 objects (707 B → 966 B per object).
 
-| Category         | Change |       Delta |             % |           Allocated | Retained |          Samples |
-| ---------------- | -----: | ----------: | ------------: | ------------------: | -------: | ---------------: |
-| Standard library |  +4.9% |  +3.453 MiB | 92.1% → 92.4% | 70.8 MiB → 74.2 MiB | 8.97 KiB | 108,838 → 81,478 |
-| Ours             |  +0.3% | +19.855 KiB |   7.9% → 7.6% | 6.06 MiB → 6.08 MiB |  5.8 MiB |    5,150 → 5,632 |
+| Category         | Change |       Delta |             % |                Size |          Objects |
+| ---------------- | -----: | ----------: | ------------: | ------------------: | ---------------: |
+| Standard library |  +4.9% |  +3.453 MiB | 92.1% → 92.4% | 70.8 MiB → 74.2 MiB | 108,838 → 81,478 |
+| Ours             |  +0.3% | +19.855 KiB |   7.9% → 7.6% | 6.06 MiB → 6.08 MiB |    5,150 → 5,632 |
 
-## Allocated heap
+## Hottest functions
 
-### Hottest functions
+### Self size
 
-#### Self size
-
-##### Regressions
+#### Regressions
 
 Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
 
-|  Change |       Delta |             % |                Size |       Samples | Function                                                                         | Location                                                                   |
+|  Change |       Delta |             % |                Size |       Objects | Function                                                                         | Location                                                                   |
 | ------: | ----------: | ------------: | ------------------: | ------------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |   +8.5% |  +5.362 MiB | 81.9% → 85.0% | 62.9 MiB → 68.3 MiB | 9,072 → 9,870 | `$sSw8allocate9byteCount9alignmentSwSi_SitFZ`                                    | `<compiler-generated>`                                                     |
 | +103.3% | +33.468 KiB |  <0.1% → 0.1% | 32.4 KiB → 65.9 KiB |   399 → 1,215 | `$s10Foundation12NSEnumeratorC8IteratorV4nextypSgyF`                             | `src/Sources/profile/main.swift`                                           |
@@ -25,26 +23,26 @@ Functions with the largest increase in bytes allocated directly in the function 
 |     new |  +1.875 KiB |  0.0% → <0.1% |      0 B → 1.88 KiB |        0 → 48 | `$ss27_allocateUninitializedArrayySayxG_BptBwlF11SwiftSyntax08RawTokenE0VSg_Tg5` | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
 | +120.5% |      +376 B |         <0.1% |       312 B → 688 B |         3 → 5 | `__swift_instantiateConcreteTypeFromMangledName`                                 | `<compiler-generated>`                                                     |
 
-###### Standard library
+##### Standard library
 
-| Change |      Delta |             % |                Size |       Samples | Function                                                                         | Location                                                                   |
+| Change |      Delta |             % |                Size |       Objects | Function                                                                         | Location                                                                   |
 | -----: | ---------: | ------------: | ------------------: | ------------: | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |  +8.5% | +5.362 MiB | 81.9% → 85.0% | 62.9 MiB → 68.3 MiB | 9,072 → 9,870 | `$sSw8allocate9byteCount9alignmentSwSi_SitFZ`                                    | `<compiler-generated>`                                                     |
 |    new | +1.875 KiB |  0.0% → <0.1% |      0 B → 1.88 KiB |        0 → 48 | `$ss27_allocateUninitializedArrayySayxG_BptBwlF11SwiftSyntax08RawTokenE0VSg_Tg5` | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift` |
 
-###### Ours
+##### Ours
 
-|  Change |       Delta |            % |                Size |     Samples | Function                                             | Location                         |
+|  Change |       Delta |            % |                Size |     Objects | Function                                             | Location                         |
 | ------: | ----------: | -----------: | ------------------: | ----------: | ---------------------------------------------------- | -------------------------------- |
 | +103.3% | +33.468 KiB | <0.1% → 0.1% | 32.4 KiB → 65.9 KiB | 399 → 1,215 | `$s10Foundation12NSEnumeratorC8IteratorV4nextypSgyF` | `src/Sources/profile/main.swift` |
 |   +0.3% | +18.815 KiB |  7.6% → 7.3% |  5.8 MiB → 5.82 MiB |   304 → 600 | `profile_main`                                       | `src/Sources/profile/main.swift` |
 | +120.5% |      +376 B |        <0.1% |       312 B → 688 B |       3 → 5 | `__swift_instantiateConcreteTypeFromMangledName`     | `<compiler-generated>`           |
 
-##### Improvements
+#### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
 
-| Change |       Delta |           % |                Size |         Samples | Function                                                                                                                                           | Location               |
+| Change |       Delta |           % |                Size |         Objects | Function                                                                                                                                           | Location               |
 | -----: | ----------: | ----------: | ------------------: | --------------: | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | -33.7% |  -1.305 MiB | 5.1% → 3.2% | 3.88 MiB → 2.57 MiB | 85,668 → 62,088 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm` | `Attributes.swift.o`   |
 | -14.2% | -32.607 KiB | 0.3% → 0.2% |   229 KiB → 197 KiB |   4,434 → 3,804 | `$s11SwiftSyntax0B0V4InfoCyA2E0C4ImplOcfC`                                                                                                         | `<compiler-generated>` |
@@ -52,28 +50,28 @@ Functions with the largest decrease in bytes allocated directly in the function 
 | -60.0% |    -1,008 B |       <0.1% |    1.64 KiB → 672 B |         30 → 12 | `$ss32_copyCollectionToContiguousArrayys0dE0Vy7ElementQzGxSlRzlF11SwiftSyntax0H27ArenaAllocatedBufferPointerVyAG14RawTriviaPieceOG_Tg5`            | `<compiler-generated>` |
 | -37.6% |      -193 B |       <0.1% |       513 B → 320 B |           8 → 6 | `$s10Foundation12NSEnumeratorC8IteratorV4nextypSgyF`                                                                                               | `<compiler-generated>` |
 
-###### Standard library
+##### Standard library
 
-| Change |       Delta |           % |                Size |         Samples | Function                                                                                                                                           | Location               |
+| Change |       Delta |           % |                Size |         Objects | Function                                                                                                                                           | Location               |
 | -----: | ----------: | ----------: | ------------------: | --------------: | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
 | -33.7% |  -1.305 MiB | 5.1% → 3.2% | 3.88 MiB → 2.57 MiB | 85,668 → 62,088 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm` | `Attributes.swift.o`   |
 | -78.9% | -18.457 KiB |       <0.1% | 23.4 KiB → 4.92 KiB |       570 → 120 | `$ss27_allocateUninitializedArrayySayxG_BptBwlF11SwiftParser0E0V9LookaheadV13SkippingState33_8B04AB4096AC45820073D65E009E045BLLO_Tg5`              | `<compiler-generated>` |
 | -60.0% |    -1,008 B |       <0.1% |    1.64 KiB → 672 B |         30 → 12 | `$ss32_copyCollectionToContiguousArrayys0dE0Vy7ElementQzGxSlRzlF11SwiftSyntax0H27ArenaAllocatedBufferPointerVyAG14RawTriviaPieceOG_Tg5`            | `<compiler-generated>` |
 
-###### Ours
+##### Ours
 
-| Change |       Delta |           % |              Size |       Samples | Function                                             | Location               |
+| Change |       Delta |           % |              Size |       Objects | Function                                             | Location               |
 | -----: | ----------: | ----------: | ----------------: | ------------: | ---------------------------------------------------- | ---------------------- |
 | -14.2% | -32.607 KiB | 0.3% → 0.2% | 229 KiB → 197 KiB | 4,434 → 3,804 | `$s11SwiftSyntax0B0V4InfoCyA2E0C4ImplOcfC`           | `<compiler-generated>` |
 | -37.6% |      -193 B |       <0.1% |     513 B → 320 B |         8 → 6 | `$s10Foundation12NSEnumeratorC8IteratorV4nextypSgyF` | `<compiler-generated>` |
 
-#### Total size
+### Total size
 
-##### Regressions
+#### Regressions
 
 Functions with the largest increase in total bytes allocated in the function and all its callees.
 
-|  Change |      Delta |             % |                Size |          Samples | Function                                                                                                                                                        | Location                                                                       |
+|  Change |      Delta |             % |                Size |          Objects | Function                                                                                                                                                        | Location                                                                       |
 | ------: | ---------: | ------------: | ------------------: | ---------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  +21.6% | +7.027 MiB | 42.3% → 49.2% | 32.5 MiB → 39.5 MiB |  46,758 → 36,480 | `$s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF`                                                    | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`      |
 |  +20.4% | +6.725 MiB | 42.9% → 49.4% |   33 MiB → 39.7 MiB |  37,218 → 32,958 | `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF`                                     | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`      |
@@ -96,9 +94,9 @@ Functions with the largest increase in total bytes allocated in the function and
 |   +7.5% | +4.291 MiB | 74.9% → 77.0% | 57.6 MiB → 61.9 MiB |  99,534 → 63,630 | `$s11SwiftParser0B0V16parseMemberBlock10introducer0A6Syntax03RawdeG0VAF0h5TokenG0VSg_tF`                                                                        | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`     |
 |  +15.8% | +4.274 MiB | 35.1% → 38.9% |   27 MiB → 31.2 MiB |  54,804 → 32,772 | `$s11SwiftParser0B0V23parseBindingDeclaration__16inMemberDeclList0A6Syntax011RawVariablehJ0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVSbtF`               | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`     |
 
-###### Standard library
+##### Standard library
 
-|   Change |        Delta |             % |                Size |       Samples | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Location                                                                   |
+|   Change |        Delta |             % |                Size |       Objects | Function                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Location                                                                   |
 | -------: | -----------: | ------------: | ------------------: | ------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
 |    +8.5% |   +5.362 MiB | 81.9% → 85.0% | 62.9 MiB → 68.3 MiB | 9,072 → 9,870 | `$sSw8allocate9byteCount9alignmentSwSi_SitFZ`                                                                                                                                                                                                                                                                                                                                                                                                                                  | `<compiler-generated>`                                                     |
 |  +542.3% | +250.125 KiB |   0.1% → 0.4% |  46.1 KiB → 296 KiB |   726 → 3,366 | `$sSa6appendyyxnF11SwiftSyntax03RawC0V_Tg5`                                                                                                                                                                                                                                                                                                                                                                                                                                    | `<compiler-generated>`                                                     |
@@ -121,9 +119,9 @@ Functions with the largest increase in total bytes allocated in the function and
 |      new |       +240 B |  0.0% → <0.1% |         0 B → 240 B |         0 → 6 | `$sSa6appendyyxnF11SwiftSyntax033RawMultipleTrailingClosureElementC0V_Tg5`                                                                                                                                                                                                                                                                                                                                                                                                     | `<compiler-generated>`                                                     |
 |      new |       +240 B |  0.0% → <0.1% |         0 B → 240 B |         0 → 6 | `$sSa6appendyyxnF11SwiftSyntax012RawCatchItemC0V_Tg5`                                                                                                                                                                                                                                                                                                                                                                                                                          | `<compiler-generated>`                                                     |
 
-###### Ours
+##### Ours
 
-|  Change |      Delta |             % |                Size |          Samples | Function                                                                                                                                                        | Location                                                                       |
+|  Change |      Delta |             % |                Size |          Objects | Function                                                                                                                                                        | Location                                                                       |
 | ------: | ---------: | ------------: | ------------------: | ---------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  +21.6% | +7.027 MiB | 42.3% → 49.2% | 32.5 MiB → 39.5 MiB |  46,758 → 36,480 | `$s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF`                                                    | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`      |
 |  +20.4% | +6.725 MiB | 42.9% → 49.4% |   33 MiB → 39.7 MiB |  37,218 → 32,958 | `$s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF`                                     | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`      |
@@ -146,11 +144,11 @@ Functions with the largest increase in total bytes allocated in the function and
 |  +15.8% | +4.274 MiB | 35.1% → 38.9% |   27 MiB → 31.2 MiB |  54,804 → 32,772 | `$s11SwiftParser0B0V23parseBindingDeclaration__16inMemberDeclList0A6Syntax011RawVariablehJ0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVSbtF`               | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift`     |
 |  +32.7% | +4.235 MiB | 16.9% → 21.4% |   13 MiB → 17.2 MiB |    9,234 → 9,468 | `$s11SwiftParser0B0V22parsePostfixExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF`                                             | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift`      |
 
-##### Improvements
+#### Improvements
 
 Functions with the largest decrease in total bytes allocated in the function and all its callees.
 
-| Change |      Delta |             % |                Size |         Samples | Function                                                                                                                                                                                                                                                                                                                                                                                                                                            | Location                                                                                        |
+| Change |      Delta |             % |                Size |         Objects | Function                                                                                                                                                                                                                                                                                                                                                                                                                                            | Location                                                                                        |
 | -----: | ---------: | ------------: | ------------------: | --------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | -52.7% | -8.642 MiB |  21.4% → 9.7% | 16.4 MiB → 7.76 MiB |   2,184 → 1,290 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` | `AbsolutePosition.swift.o`                                                                      |
 | -16.0% | -5.429 MiB | 44.3% → 35.6% |   34 MiB → 28.6 MiB | 42,564 → 32,454 | `$s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF`                                                                                                                                                                                                                                                                                                                                    | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`                          |
@@ -173,9 +171,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 | -58.0% | -2.381 MiB |   5.3% → 2.1% |  4.1 MiB → 1.72 MiB |       468 → 306 | `$s11SwiftSyntax014RawLabeledExprB0V_5label_5colon_10expression_13trailingComma_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c5TokenB0VSgAknKxAknkA0B5ArenaChtcAA0ceB12NodeProtocolRzlufC`                                                                                                                                                                                                                                                                  | `src/.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesJKLMN.swift` |
 | -49.9% | -2.199 MiB |   5.7% → 2.8% | 4.41 MiB → 2.21 MiB |       858 → 840 | `$s11SwiftParser0B0V15parseSimpleType16allowMemberTypes16forAttributeName0A6Syntax03RaweL0VSb_SbtF`                                                                                                                                                                                                                                                                                                                                                 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift`                             |
 
-###### Standard library
+##### Standard library
 
-|  Change |        Delta |            % |                Size |         Samples | Function                                                                                                                                                                               | Location                                                             |
+|  Change |        Delta |            % |                Size |         Objects | Function                                                                                                                                                                               | Location                                                             |
 | ------: | -----------: | -----------: | ------------------: | --------------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
 |  -33.7% |   -1.305 MiB |  5.1% → 3.2% | 3.88 MiB → 2.57 MiB | 85,668 → 62,088 | `$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF11SwiftSyntax08RawTokenQ0V_Tg5Tm`                                     | `Attributes.swift.o`                                                 |
 |  -87.8% | -598.406 KiB |  0.9% → 0.1% |  682 KiB → 83.3 KiB |     2,298 → 354 | `$sSa6appendyyxnF11SwiftSyntax017RawSwitchCaseListC0V7ElementO_Tg5`                                                                                                                    | `<compiler-generated>`                                               |
@@ -198,9 +196,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -78.9% |  -18.457 KiB |        <0.1% | 23.4 KiB → 4.92 KiB |       570 → 120 | `$ss27_allocateUninitializedArrayySayxG_BptBwlF11SwiftParser0E0V9LookaheadV13SkippingState33_8B04AB4096AC45820073D65E009E045BLLO_Tg5`                                                  | `<compiler-generated>`                                               |
 |  -46.9% |   -5.718 KiB |        <0.1% | 12.2 KiB → 6.47 KiB |       300 → 162 | `$sSlsE3mapySayqd__Gqd__7ElementQzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lFSay11SwiftSyntax03RawE0VG_AF0f5ArraybE0Vs5NeverOTg5`                                                                | `<compiler-generated>`                                               |
 
-###### Ours
+##### Ours
 
-| Change |      Delta |             % |                Size |         Samples | Function                                                                                                                                                                                                                                                                                                                                                                                                                                            | Location                                                                                        |
+| Change |      Delta |             % |                Size |         Objects | Function                                                                                                                                                                                                                                                                                                                                                                                                                                            | Location                                                                                        |
 | -----: | ---------: | ------------: | ------------------: | --------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | -52.7% | -8.642 MiB |  21.4% → 9.7% | 16.4 MiB → 7.76 MiB |   2,184 → 1,290 | `$s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0B5ArenaChySryACSgGXEtFZ04$s11a9Syntax027c61AccessorEffectSpecifiersB0V_14asyncSpecifier_12throwsClause_5n22AcA0c15UnexpectedNodesx14VSg_AA0c5Tokenx16VSgAiA0c6Throwsjx9VSgAiA0B5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VSgAsA0c12ThrowsClauseB0VSgASTf1nnnncn_nTf4nnnndnnnnn_nTm` | `AbsolutePosition.swift.o`                                                                      |
 | -16.0% | -5.429 MiB | 44.3% → 35.6% |   34 MiB → 28.6 MiB | 42,564 → 32,454 | `$s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF`                                                                                                                                                                                                                                                                                                                                    | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift`                          |
@@ -223,14 +221,21 @@ Functions with the largest decrease in total bytes allocated in the function and
 | -49.9% | -2.199 MiB |   5.7% → 2.8% | 4.41 MiB → 2.21 MiB |       858 → 840 | `$s11SwiftParser0B0V15parseSimpleType16allowMemberTypes16forAttributeName0A6Syntax03RaweL0VSb_SbtF`                                                                                                                                                                                                                                                                                                                                                 | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift`                             |
 | -75.6% | -2.195 MiB |   3.8% → 0.9% |   2.9 MiB → 724 KiB |       486 → 168 | `$s11SwiftParser0B0V15parseResultType0A6Syntax03RaweF0VyF`                                                                                                                                                                                                                                                                                                                                                                                          | `src/.build/checkouts/swift-syntax/Sources/SwiftParser/Types.swift`                             |
 
-## Retained heap
+# Retained heap profile diff
 
-### Hottest functions
+Retained 5.81 MiB over 312 objects (19.1 KiB per object).
 
-#### Self size
+| Category         | Change | Delta |     % |     Size | Objects |
+| ---------------- | -----: | ----: | ----: | -------: | ------: |
+| Ours             |   0.0% |   0 B | 99.8% |  5.8 MiB |     311 |
+| Standard library |   0.0% |   0 B |  0.2% | 8.97 KiB |       1 |
+
+## Hottest functions
+
+### Self size
 
 No function differed in bytes retained directly in the function body, excluding callees.
 
-#### Total size
+### Total size
 
 No function differed in total bytes retained in the function and all its callees.

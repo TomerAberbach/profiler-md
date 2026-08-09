@@ -1,8 +1,8 @@
 # Heap profile
 
-Allocated 732 MiB over 7,784,774 samples (98.6 B per sample).
+Allocated 732 MiB over 7,784,774 objects (98.6 B per object).
 
-| Category         |     % |     Size |   Samples |
+| Category         |     % |     Size |   Objects |
 | ---------------- | ----: | -------: | --------: |
 | Third-party      | 78.8% |  577 MiB | 6,943,710 |
 | Standard library | 20.9% |  153 MiB |   841,063 |
@@ -14,7 +14,7 @@ Allocated 732 MiB over 7,784,774 samples (98.6 B per sample).
 
 Functions ranked by total bytes allocated in the function and all its callees.
 
-|     % |     Size |   Samples | Function                           | Location                                               |
+|     % |     Size |   Objects | Function                           | Location                                               |
 | ----: | -------: | --------: | ---------------------------------- | ------------------------------------------------------ |
 | 77.5% |  567 MiB | 5,868,039 | `typeCheckProject`                 | `tsc-workload.mjs`                                     |
 | 77.0% |  564 MiB | 5,802,917 | `(anonymous)`                      | `datadog-pprof-heap.mjs:1:1`                           |
@@ -30,7 +30,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `typeCheckProject` (`tsc-workload.mjs`)
 
-|     % |     Size |   Samples | Callee                             | Location                                    |
+|     % |     Size |   Objects | Callee                             | Location                                    |
 | ----: | -------: | --------: | ---------------------------------- | ------------------------------------------- |
 | 59.8% |  339 MiB | 3,529,104 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js` |
 | 37.5% |  213 MiB | 2,233,556 | `createProgram`                    | `node_modules/typescript/lib/typescript.js` |
@@ -39,7 +39,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `(anonymous)` (`datadog-pprof-heap.mjs:1:1`)
 
-|     % |     Size |   Samples | Callee             | Location                                               |
+|     % |     Size |   Objects | Callee             | Location                                               |
 | ----: | -------: | --------: | ------------------ | ------------------------------------------------------ |
 | 99.7% |  562 MiB | 5,802,916 | `typeCheckProject` | `tsc-workload.mjs`                                     |
 |  0.3% | 1.46 MiB |         1 | `profile`          | `node_modules/@datadog/pprof/out/src/heap-profiler.js` |
@@ -48,7 +48,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes allocated in their leaf frame.
 
-|     % |     Size |   Samples | Call stack                                                                                                                                                                |
+|     % |     Size |   Objects | Call stack                                                                                                                                                                |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 45.7% |  334 MiB | 3,463,981 | `getSemanticDiagnostics` (`node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof-heap.mjs:1:1`)           |
 | 29.0% |  213 MiB | 2,233,556 | `createProgram` (`node_modules/typescript/lib/typescript.js`) ← `typeCheckProject` (`tsc-workload.mjs`) ← `(anonymous)` (`datadog-pprof-heap.mjs:1:1`)                    |

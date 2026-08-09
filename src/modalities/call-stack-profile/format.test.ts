@@ -14,6 +14,7 @@ import {
   summaryLines,
 } from '../../testing.ts'
 import {
+  BYTES,
   countMetricOf,
   determineMetric,
   MEGABYTES,
@@ -402,7 +403,7 @@ describe(`formatCallStackProfile`, () => {
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(md).toContain(
-      `The entry filter hides every sampled function, so all functions are shown.`,
+      `The entry filter hides every recorded function, so all functions are shown.`,
     )
     expect(callStackTables(md)).toEqual([
       [
@@ -432,7 +433,7 @@ describe(`formatCallStackProfile`, () => {
     const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(md).toContain(
-      `The entry filter hides every sampled function, so all functions are shown.`,
+      `The entry filter hides every recorded function, so all functions are shown.`,
     )
     expect(callStackTables(md)).toEqual([
       [
@@ -887,6 +888,35 @@ describe(`formatCallStackProfileDiff`, () => {
     expect(lines).toHaveLength(1)
     expect(lines[0]).toMatch(/^Took/u)
     expect(lines[0]).toMatch(/→/u)
+  })
+
+  test(`dashes the rate of a side that counted nothing`, () => {
+    const base = makeAggregatedCallStackProfile(
+      [BYTES],
+      [],
+      undefined,
+      countMetricOf(`object`),
+    )
+    const current = makeAggregatedCallStackProfile(
+      [BYTES],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          selfCount: 2,
+          selfValues: [512],
+        },
+      ],
+      undefined,
+      countMetricOf(`object`),
+    )
+
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
+
+    expect(summaryLines(md)).toEqual([
+      `Allocated 0\u00A0B → 512\u00A0B (+512\u00A0B, new) over 0 objects → 2 objects (— → 256\u00A0B per object).`,
+    ])
   })
 
   test(`includes category table with delta and change`, () => {

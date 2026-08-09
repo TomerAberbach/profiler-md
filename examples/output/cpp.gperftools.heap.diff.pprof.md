@@ -1,19 +1,19 @@
-# Allocated heap and retained heap profile diff
+# Allocated heap profile diff
 
-Allocated 120 MiB and retained 0 B over 1,998,001 samples (62.9 B and 0 B per sample).
+Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 
-| Category         | Change | Delta |      % | Allocated | Retained |   Samples |
-| ---------------- | -----: | ----: | -----: | --------: | -------: | --------: |
-| Standard library |   0.0% |   0 B | 100.0% |   120 MiB |      0 B | 1,998,001 |
+| Category         | Change | Delta |      % |    Size |   Objects |
+| ---------------- | -----: | ----: | -----: | ------: | --------: |
+| Standard library |   0.0% |   0 B | 100.0% | 120 MiB | 1,998,001 |
 
-## Allocated heap
+## Hottest functions
 
-### Hottest functions
-
-#### Total size
+### Total size
 
 No function differed in total bytes allocated in the function and all its callees.
 
-## Retained heap
+# Retained heap profile diff
 
-No bytes retained in any sample.
+Retained 0 B over 0 objects.
+
+No bytes retained in any object.
