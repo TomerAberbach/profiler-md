@@ -3,7 +3,6 @@ import { makeAggregatedCallStackProfile } from './modalities/call-stack-profile/
 import { makeAggregatedHeapSnapshotConstructor } from './modalities/heap-snapshot/testing.ts'
 import {
   defaultShowEntry,
-  isExternalImplementationDetailEntry,
   isSyntheticEntry,
   normalizeProfileInput,
   normalizeProfileToMdOptions,
@@ -166,132 +165,12 @@ describe(`isSyntheticEntry`, () => {
  */
 const nodeContext = { format: `v8-cpu-profile`, origin: `node` } as const
 
-describe(`isExternalImplementationDetailEntry`, () => {
-  test(`returns false for an 'ours' function`, () => {
-    const [ourFunc] = makeAggregatedCallStackProfile(
-      [],
-      [
-        {
-          name: `ourFunc`,
-          url: `/project/main.ts`,
-          selfValues: [],
-          selfCount: 1,
-        },
-      ],
-      nodeContext,
-    ).functions
-
-    expect(isExternalImplementationDetailEntry(ourFunc!)).toBe(false)
-  })
-
-  test(`returns false for an external function called by 'ours' code`, () => {
-    const [, libFunc] = makeAggregatedCallStackProfile(
-      [],
-      [
-        {
-          name: `ourFunc`,
-          url: `/project/main.ts`,
-          selfValues: [],
-          selfCount: 1,
-        },
-        {
-          name: `libFunc`,
-          url: `/project/node_modules/lib/index.js`,
-          selfValues: [],
-          selfCount: 1,
-          stack: [1, 0],
-        },
-      ],
-      nodeContext,
-    ).functions
-
-    expect(isExternalImplementationDetailEntry(libFunc!)).toBe(false)
-  })
-
-  test(`returns true for an external function called only by external code`, () => {
-    const libHelper = makeAggregatedCallStackProfile(
-      [],
-      [
-        {
-          name: `ourFunc`,
-          url: `/project/main.ts`,
-          selfValues: [],
-          selfCount: 1,
-        },
-        {
-          name: `libFunc`,
-          url: `/project/node_modules/lib/index.js`,
-          selfValues: [],
-          selfCount: 1,
-          stack: [1, 0],
-        },
-        {
-          name: `libHelper`,
-          url: `/project/node_modules/lib/helper.js`,
-          selfValues: [],
-          selfCount: 1,
-          stack: [2, 1, 0],
-        },
-      ],
-      nodeContext,
-    ).functions[2]
-
-    expect(isExternalImplementationDetailEntry(libHelper!)).toBe(true)
-  })
-
-  test(`returns true for an external function with no callers`, () => {
-    const [libFunc] = makeAggregatedCallStackProfile(
-      [],
-      [
-        {
-          name: `libFunc`,
-          url: `/project/node_modules/lib/index.js`,
-          selfValues: [],
-          selfCount: 1,
-        },
-      ],
-      nodeContext,
-    ).functions
-
-    expect(isExternalImplementationDetailEntry(libFunc!)).toBe(true)
-  })
-
-  test(`returns false for a locationless function called by 'ours' code`, () => {
-    const [, nativeCall] = makeAggregatedCallStackProfile(
-      [],
-      [
-        {
-          name: `ourFunc`,
-          url: `/project/main.ts`,
-          selfValues: [],
-          selfCount: 1,
-        },
-        {
-          name: `nativeCall`,
-          selfValues: [],
-          selfCount: 1,
-          stack: [1, 0],
-        },
-      ],
-      nodeContext,
-    ).functions
-
-    expect(isExternalImplementationDetailEntry(nativeCall!)).toBe(false)
-  })
-
-  test(`returns false for a snapshot node`, () => {
-    expect(
-      isExternalImplementationDetailEntry(makeSnapshotNode(`Buffer`)),
-    ).toBe(false)
-  })
-})
-
 describe(`defaultShowEntry`, () => {
   test(`hides synthetic entries`, () => {
     expect(defaultShowEntry(makeSnapshotNode(`(root)`))).toBe(false)
   })
 
-  test(`hides external implementation detail entries`, () => {
+  test(`shows a third-party entry no 'ours' frame calls`, () => {
     const [libFunc] = makeAggregatedCallStackProfile(
       [],
       [
@@ -305,7 +184,7 @@ describe(`defaultShowEntry`, () => {
       nodeContext,
     ).functions
 
-    expect(defaultShowEntry(libFunc!)).toBe(false)
+    expect(defaultShowEntry(libFunc!)).toBe(true)
   })
 
   test(`shows 'ours' entries`, () => {

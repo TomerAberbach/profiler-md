@@ -371,6 +371,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ------ | ----------------- |
 | 100.0% | 5.0ms |       5 | `main` | `out/profile.f90` |
 
+##### `main` (`out/profile.f90`)
+
+|      % |  Time | Samples | Caller   | Location    |
+| -----: | ----: | ------: | -------- | ----------- |
+| 100.0% | 4.0ms |       4 | `_start` | `<unknown>` |
+
 ##### `__json_value_module_MOD_pop_char` (`src/json-fortran/src/json_value_module.F90`)
 
 |     % |  Time | Samples | Caller                                 | Location                                     |
@@ -388,28 +394,28 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 Functions ranked by total time spent in the function and all its callees.
 
-|      % |    Time | Samples | Function                                           | Location                                           |
-| -----: | ------: | ------: | -------------------------------------------------- | -------------------------------------------------- |
-| 100.0% |   3.95s |   3,956 | `main`                                             | `out/profile.f90`                                  |
-|  99.9% |   3.95s |   3,952 | `MAIN__`                                           | `out/profile.f90`                                  |
-|  96.8% |   3.82s |   3,829 | `__json_value_module_MOD_json_parse_file`          | `src/json-fortran/src/json_value_module.F90`       |
-|  96.8% |   3.82s |   3,829 | `__json_file_module_MOD_json_file_load`            | `src/json-fortran/src/json_file_module.F90`        |
-|  94.4% |   3.73s |   3,736 | `__json_value_module_MOD_parse_object`             | `src/json-fortran/src/json_value_module.F90`       |
-|  94.4% |   3.73s |   3,734 | `__json_value_module_MOD_parse_array`              | `src/json-fortran/src/json_value_module.F90`       |
-|  55.0% |   2.17s |   2,176 | `__json_value_module_MOD_pop_char.part.0`          | `src/json-fortran/src/json_value_module.F90`       |
-|  44.5% |   1.76s |   1,760 | `__json_value_module_MOD_parse_string`             | `src/json-fortran/src/json_value_module.F90`       |
-|  31.1% |   1.23s |   1,232 | `__json_value_module_MOD_parse_value`              | `src/json-fortran/src/json_value_module.F90`       |
-|  11.7% | 463.0ms |     463 | `__json_value_module_MOD_parse_number`             | `src/json-fortran/src/json_value_module.F90`       |
-|   9.1% | 361.0ms |     361 | `__json_value_module_MOD_string_to_int`            | `src/json-fortran/src/json_value_module.F90`       |
-|   7.8% | 310.0ms |     310 | `__json_string_utilities_MOD_string_to_integer`    | `src/json-fortran/src/json_string_utilities.F90`   |
-|   2.5% |  99.0ms |      99 | `__json_value_module_MOD_json_value_create`        | `src/json-fortran/src/json_value_module.F90`       |
-|   2.4% |  94.0ms |      94 | `__json_value_module_MOD_json_value_destroy`       | `src/json-fortran/src/json_value_module.F90`       |
-|   2.4% |  94.0ms |      94 | `__json_file_module_MOD_json_file_destroy`         | `src/json-fortran/src/json_file_module.F90`        |
-|   2.0% |  81.0ms |      81 | `_init`                                            | `<unknown>`                                        |
-|   1.9% |  76.0ms |      76 | `__json_value_module_MOD_parse_for_chars`          | `src/json-fortran/src/json_value_module.F90`       |
-|   0.6% |  24.0ms |      24 | `__json_file_module_MOD_json_file_get_string`      | `src/json-fortran/src/json_file_module.F90`        |
-|   0.5% |  21.0ms |      21 | `__json_value_module_MOD_json_get_string_by_path`  | `src/json-fortran/src/json_get_scalar_by_path.inc` |
-|   0.5% |  20.0ms |      20 | `__json_value_module_MOD_json_get_by_path_default` | `src/json-fortran/src/json_value_module.F90`       |
+|      % |    Time | Samples | Function                                          | Location                                           |
+| -----: | ------: | ------: | ------------------------------------------------- | -------------------------------------------------- |
+| 100.0% |   3.95s |   3,956 | `main`                                            | `out/profile.f90`                                  |
+| 100.0% |   3.95s |   3,956 | `_start`                                          | `<unknown>`                                        |
+|  99.9% |   3.95s |   3,952 | `MAIN__`                                          | `out/profile.f90`                                  |
+|  96.8% |   3.82s |   3,829 | `__json_value_module_MOD_json_parse_file`         | `src/json-fortran/src/json_value_module.F90`       |
+|  96.8% |   3.82s |   3,829 | `__json_file_module_MOD_json_file_load`           | `src/json-fortran/src/json_file_module.F90`        |
+|  94.4% |   3.73s |   3,736 | `__json_value_module_MOD_parse_object`            | `src/json-fortran/src/json_value_module.F90`       |
+|  94.4% |   3.73s |   3,734 | `__json_value_module_MOD_parse_array`             | `src/json-fortran/src/json_value_module.F90`       |
+|  55.0% |   2.17s |   2,176 | `__json_value_module_MOD_pop_char.part.0`         | `src/json-fortran/src/json_value_module.F90`       |
+|  44.5% |   1.76s |   1,760 | `__json_value_module_MOD_parse_string`            | `src/json-fortran/src/json_value_module.F90`       |
+|  31.1% |   1.23s |   1,232 | `__json_value_module_MOD_parse_value`             | `src/json-fortran/src/json_value_module.F90`       |
+|  11.7% | 463.0ms |     463 | `__json_value_module_MOD_parse_number`            | `src/json-fortran/src/json_value_module.F90`       |
+|   9.1% | 361.0ms |     361 | `__json_value_module_MOD_string_to_int`           | `src/json-fortran/src/json_value_module.F90`       |
+|   7.8% | 310.0ms |     310 | `__json_string_utilities_MOD_string_to_integer`   | `src/json-fortran/src/json_string_utilities.F90`   |
+|   2.5% |  99.0ms |      99 | `__json_value_module_MOD_json_value_create`       | `src/json-fortran/src/json_value_module.F90`       |
+|   2.4% |  94.0ms |      94 | `__json_value_module_MOD_json_value_destroy`      | `src/json-fortran/src/json_value_module.F90`       |
+|   2.4% |  94.0ms |      94 | `__json_file_module_MOD_json_file_destroy`        | `src/json-fortran/src/json_file_module.F90`        |
+|   2.0% |  81.0ms |      81 | `_init`                                           | `<unknown>`                                        |
+|   1.9% |  76.0ms |      76 | `__json_value_module_MOD_parse_for_chars`         | `src/json-fortran/src/json_value_module.F90`       |
+|   0.6% |  24.0ms |      24 | `__json_file_module_MOD_json_file_get_string`     | `src/json-fortran/src/json_file_module.F90`        |
+|   0.5% |  21.0ms |      21 | `__json_value_module_MOD_json_get_string_by_path` | `src/json-fortran/src/json_get_scalar_by_path.inc` |
 
 #### Categories
 
@@ -440,9 +446,10 @@ Functions ranked by total time spent in the function and all its callees.
 
 ##### Native
 
-|    % |   Time | Samples | Function | Location    |
-| ---: | -----: | ------: | -------- | ----------- |
-| 2.0% | 81.0ms |      81 | `_init`  | `<unknown>` |
+|      % |   Time | Samples | Function | Location    |
+| -----: | -----: | ------: | -------- | ----------- |
+| 100.0% |  3.95s |   3,956 | `_start` | `<unknown>` |
+|   2.0% | 81.0ms |      81 | `_init`  | `<unknown>` |
 
 #### Callees
 
@@ -453,6 +460,12 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |     % |  Time | Samples | Callee   | Location          |
 | ----: | ----: | ------: | -------- | ----------------- |
 | 99.9% | 3.95s |   3,952 | `MAIN__` | `out/profile.f90` |
+
+##### `_start` (`<unknown>`)
+
+|      % |  Time | Samples | Callee | Location          |
+| -----: | ----: | ------: | ------ | ----------------- |
+| 100.0% | 3.95s |   3,956 | `main` | `out/profile.f90` |
 
 ##### `MAIN__` (`out/profile.f90`)
 
@@ -580,7 +593,7 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `MAIN__` (`out/profile.f90`) ← `main`
+Common call stack: `MAIN__` (`out/profile.f90`) ← `main` ← `_start`
 
 |    % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ---: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

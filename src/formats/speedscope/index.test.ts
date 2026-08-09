@@ -231,8 +231,7 @@ describe(`convert`, () => {
       }),
     )
 
-    // The stdlib marker frame is hidden by the default entry filter (stdlib
-    // never called by `ours` code), but still counts toward the totals.
+    // The stdlib marker frame ranks alongside the project's own function.
     expect(selfTimeTables(md)).toEqual([
       [
         {
@@ -241,6 +240,13 @@ describe(`convert`, () => {
           Samples: `2`,
           Function: `_addtoken`,
           Location: `src/parse.py`,
+        },
+        {
+          '%': `25.0%`,
+          Time: `10.0ms`,
+          Samples: `1`,
+          Function: `loads`,
+          Location: `../usr/lib/python3.11/json/decoder.py`,
         },
       ],
     ])

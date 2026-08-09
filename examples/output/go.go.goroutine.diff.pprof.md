@@ -8,6 +8,10 @@ Recorded 1 goroutine.
 
 ## Hottest functions
 
+### Self goroutines
+
+No function differed in goroutines recorded directly in the function body, excluding callees.
+
 ### Total goroutines
 
 No function differed in total goroutines recorded in the function and all its callees.

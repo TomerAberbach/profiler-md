@@ -16,6 +16,29 @@ Collected 175 samples → 184 samples (+9 samples, +5.1%).
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
+|  Change | Delta |             % | Samples | Function                                           | Location                     |
+| ------: | ----: | ------------: | ------: | -------------------------------------------------- | ---------------------------- |
+| +128.6% |    +9 |   4.0% → 8.7% |  7 → 16 | `generate_comments`                                | `black/comments.py`          |
+| +200.0% |    +6 |   1.7% → 4.9% |   3 → 9 | `(anonymous)`                                      | `<unknown>`                  |
+|  +22.2% |    +4 | 10.3% → 12.0% | 18 → 22 | `_addtoken`                                        | `blib2to3/pgen2/parse.py`    |
+| +400.0% |    +4 |   0.6% → 2.7% |   1 → 5 | `pop`                                              | `blib2to3/pgen2/parse.py`    |
+| +400.0% |    +4 |   0.6% → 2.7% |   1 → 5 | `<genexpr>`                                        | `blib2to3/pgen2/tokenize.py` |
+|     new |    +3 |   0.0% → 1.6% |   0 → 3 | `visit_stmt`                                       | `black/linegen.py`           |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `__next__`                                         | `blib2to3/pgen2/driver.py`   |
+| +200.0% |    +2 |   0.6% → 1.6% |   1 → 3 | `__str__`                                          | `black/lines.py`             |
+| +200.0% |    +2 |   0.6% → 1.6% |   1 → 3 | `prefix`                                           | `blib2to3/pytree.py`         |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `convert_one_fmt_off_pair`                         | `black/comments.py`          |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `leaves`                                           | `blib2to3/pytree.py`         |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `<lambda>`                                         | `black/lines.py`             |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `contains_implicit_multiline_string_with_comments` | `black/lines.py`             |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `is_vararg`                                        | `black/nodes.py`             |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `update_sibling_maps`                              | `blib2to3/pytree.py`         |
+|     new |    +2 |   0.0% → 1.1% |   0 → 2 | `remove`                                           | `blib2to3/pytree.py`         |
+|  +50.0% |    +1 |   1.1% → 1.6% |   2 → 3 | `transform_line`                                   | `black/linegen.py`           |
+|     new |    +1 |   0.0% → 0.5% |   0 → 1 | `visit_suite`                                      | `black/linegen.py`           |
+|     new |    +1 |   0.0% → 0.5% |   0 → 1 | `parse_string`                                     | `blib2to3/pgen2/driver.py`   |
+|  +20.0% |    +1 |   2.9% → 3.3% |   5 → 6 | `append`                                           | `black/lines.py`             |
+
 ##### Ours
 
 |  Change | Delta |             % | Samples | Function                                           | Location                     |
@@ -40,6 +63,18 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |   0.0% → 0.5% |   0 → 1 | `parse_string`                                     | `blib2to3/pgen2/driver.py`   |
 |  +20.0% |    +1 |   2.9% → 3.3% |   5 → 6 | `append`                                           | `black/lines.py`             |
 |  +33.3% |    +1 |   1.7% → 2.2% |   3 → 4 | `__init__`                                         | `blib2to3/pytree.py`         |
+
+##### Unknown
+
+|  Change | Delta |           % | Samples | Function      | Location    |
+| ------: | ----: | ----------: | ------: | ------------- | ----------- |
+| +200.0% |    +6 | 1.7% → 4.9% |   3 → 9 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+| Change | Delta |           % | Samples | Function         | Location                        |
+| -----: | ----: | ----------: | ------: | ---------------- | ------------------------------- |
+|    new |    +1 | 0.0% → 0.5% |   0 → 1 | `_load_unlocked` | `<frozen importlib._bootstrap>` |
 
 #### Improvements
 
@@ -76,6 +111,29 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
+|  Change | Delta |             % |   Samples | Function                                           | Location                     |
+| ------: | ----: | ------------: | --------: | -------------------------------------------------- | ---------------------------- |
+|  +24.3% |   +17 | 40.0% → 47.3% |   70 → 87 | `check_stability_and_equivalence`                  | `black/__init__.py`          |
+|  +31.4% |   +16 | 29.1% → 36.4% |   51 → 67 | `assert_stable`                                    | `black/__init__.py`          |
+| +100.0% |   +10 |  5.7% → 10.9% |   10 → 20 | `generate_comments`                                | `black/comments.py`          |
+| +200.0% |    +6 |   1.7% → 4.9% |     3 → 9 | `(anonymous)`                                      | `<unknown>`                  |
+|  +50.0% |    +5 |   5.7% → 8.2% |   10 → 15 | `transform_line`                                   | `black/linegen.py`           |
+| +500.0% |    +5 |   0.6% → 3.3% |     1 → 6 | `maybe_empty_lines`                                | `black/lines.py`             |
+|   +2.4% |    +4 | 96.6% → 94.0% | 169 → 173 | `format_file_contents`                             | `black/__init__.py`          |
+|   +2.4% |    +4 | 96.6% → 94.0% | 169 → 173 | `format_file_in_place`                             | `black/__init__.py`          |
+| +200.0% |    +4 |   1.1% → 3.3% |     2 → 6 | `normalize_invisible_parens`                       | `black/linegen.py`           |
+| +400.0% |    +4 |   0.6% → 2.7% |     1 → 5 | `<genexpr>`                                        | `blib2to3/pgen2/tokenize.py` |
+| +400.0% |    +4 |   0.6% → 2.7% |     1 → 5 | `is_fstring_start`                                 | `blib2to3/pgen2/tokenize.py` |
+| +400.0% |    +4 |   0.6% → 2.7% |     1 → 5 | `_maybe_empty_lines`                               | `black/lines.py`             |
+|     new |    +4 |   0.0% → 2.2% |     0 → 4 | `contains_implicit_multiline_string_with_comments` | `black/lines.py`             |
+|   +2.0% |    +3 | 85.7% → 83.2% | 150 → 153 | `_format_str_once`                                 | `black/__init__.py`          |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `reformat_one`                                     | `black/__init__.py`          |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `main`                                             | `black/__init__.py`          |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `new_func`                                         | `click/decorators.py`        |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `invoke`                                           | `click/core.py`              |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `main`                                             | `click/core.py`              |
+|   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `__call__`                                         | `click/core.py`              |
+
 ##### Ours
 
 |  Change | Delta |             % |   Samples | Function                                           | Location                     |
@@ -100,6 +158,19 @@ Functions with the largest increase in total samples taken in the function and a
 |   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `main`                                             | `click/core.py`              |
 |   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `__call__`                                         | `click/core.py`              |
 |   +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `patched_main`                                     | `black/__init__.py`          |
+
+##### Unknown
+
+|  Change | Delta |           % | Samples | Function      | Location    |
+| ------: | ----: | ----------: | ------: | ------------- | ----------- |
+| +200.0% |    +6 | 1.7% → 4.9% |   3 → 9 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+| Change | Delta |             % |   Samples | Function              | Location         |
+| -----: | ----: | ------------: | --------: | --------------------- | ---------------- |
+|  +1.8% |    +3 | 97.1% → 94.0% | 170 → 173 | `_run_code`           | `<frozen runpy>` |
+|  +1.7% |    +3 | 98.3% → 95.1% | 172 → 175 | `_run_module_as_main` | `<frozen runpy>` |
 
 #### Improvements
 
@@ -129,3 +200,9 @@ Functions with the largest decrease in total samples taken in the function and a
 |  -60.0% |    -3 |   2.9% → 1.1% |   5 → 2 | `is_split_before_delimiter` | `black/brackets.py`        |
 | removed |    -3 |   1.7% → 0.0% |   3 → 0 | `is_one_sequence_between`   | `black/nodes.py`           |
 |   -4.3% |    -2 | 26.9% → 24.5% | 47 → 45 | `addtoken`                  | `blib2to3/pgen2/parse.py`  |
+
+##### Standard library
+
+|  Change | Delta |           % | Samples | Function           | Location                        |
+| ------: | ----: | ----------: | ------: | ------------------ | ------------------------------- |
+| removed |    -1 | 0.6% → 0.0% |   1 → 0 | `_handle_fromlist` | `<frozen importlib._bootstrap>` |

@@ -619,7 +619,14 @@ describe(`options`, () => {
 
     expect(
       selfTimeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
+    ).toEqual([
+      [
+        expect.stringMatching(/^\//u),
+        expect.stringMatching(/^\//u),
+        // A built-in module has no file path to make absolute.
+        `node:internal/modules/esm/loader:1:1`,
+      ],
+    ])
   })
 
   test(`categorizeFunctions overrides the detected categories`, () => {

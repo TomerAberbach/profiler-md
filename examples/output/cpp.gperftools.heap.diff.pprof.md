@@ -8,6 +8,10 @@ Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 
 ## Hottest functions
 
+### Self size
+
+No function differed in bytes allocated directly in the function body, excluding callees.
+
 ### Total size
 
 No function differed in total bytes allocated in the function and all its callees.

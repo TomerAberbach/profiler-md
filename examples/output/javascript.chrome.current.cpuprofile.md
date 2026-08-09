@@ -19,6 +19,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
 | 47.6% | 200.1ms |     135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.5% |  69.4ms |      46 | `(program)`                    | `<unknown>`          |
 | 11.8% |  49.5ms |      33 | `RegExp: \s+`                  | `<unknown>`          |
 | 10.1% |  42.3ms |      29 | `createElement`                | `<unknown>`          |
 |  5.5% |  23.2ms |      15 | `(garbage collector)`          | `<unknown>`          |
@@ -36,17 +37,18 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  4.0% |  16.8ms |      11 | `tokenize`                     | `workload.mjs:10:20` |
 |  2.1% |   8.8ms |       6 | `(anonymous)`                  | `run.mjs:1:1`        |
 
+##### Native
+
+|     % |   Time | Samples | Function        | Location    |
+| ----: | -----: | ------: | --------------- | ----------- |
+| 16.5% | 69.4ms |      46 | `(program)`     | `<unknown>` |
+| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+
 ##### Regular expression
 
 |     % |   Time | Samples | Function      | Location    |
 | ----: | -----: | ------: | ------------- | ----------- |
 | 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
-
-##### Native
-
-|     % |   Time | Samples | Function        | Location    |
-| ----: | -----: | ------: | --------------- | ----------- |
-| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
 
 ##### Garbage collector
 
@@ -131,6 +133,7 @@ Functions ranked by total time spent in the function and all its callees.
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
 | 75.5% | 317.5ms |     214 | `(anonymous)`                  | `run.mjs:1:1`        |
 | 73.4% | 308.7ms |     208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.5% |  69.4ms |      46 | `(program)`                    | `<unknown>`          |
 | 15.8% |  66.3ms |      44 | `tokenize`                     | `workload.mjs:10:20` |
 | 15.8% |  66.3ms |      44 | `scoreStatus`                  | `workload.mjs:11:23` |
 | 11.8% |  49.5ms |      33 | `RegExp: \s+`                  | `<unknown>`          |
@@ -149,17 +152,18 @@ Functions ranked by total time spent in the function and all its callees.
 | 15.8% |  66.3ms |      44 | `tokenize`                     | `workload.mjs:10:20` |
 | 15.8% |  66.3ms |      44 | `scoreStatus`                  | `workload.mjs:11:23` |
 
+##### Native
+
+|     % |   Time | Samples | Function        | Location    |
+| ----: | -----: | ------: | --------------- | ----------- |
+| 16.5% | 69.4ms |      46 | `(program)`     | `<unknown>` |
+| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+
 ##### Regular expression
 
 |     % |   Time | Samples | Function      | Location    |
 | ----: | -----: | ------: | ------------- | ----------- |
 | 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
-
-##### Native
-
-|     % |   Time | Samples | Function        | Location    |
-| ----: | -----: | ------: | --------------- | ----------- |
-| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
 
 ##### Garbage collector
 
