@@ -12,7 +12,9 @@ memory from those still live at the end. This is what `memray flamegraph` and
 `memray flamegraph --leaks` report.
 
 The measures count different allocations, so a capture converts to a profile
-each, and a sample is one allocation that measure counts.
+each, counting each stack's allocations under that measure. Because memray
+records every allocation, the output states bytes per allocation rather than a
+sampling rate.
 
 A capture written with `--aggregate` states each stack's peak and leaked totals
 instead of every allocation, and converts to the same profile without the

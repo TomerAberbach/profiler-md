@@ -1,12 +1,12 @@
 # Peak memory profile diff
 
-Held 72.4 MiB over 23,696 samples (3.13 KiB per sample).
+Held 72.4 MiB over 23,696 allocations (3.13 KiB per allocation).
 
-| Category         | Change | Delta |     % |     Size | Samples |
-| ---------------- | -----: | ----: | ----: | -------: | ------: |
-| Ours             |   0.0% |   0 B | 71.8% |   52 MiB |  21,382 |
-| Standard library |   0.0% |   0 B | 26.4% | 19.1 MiB |   2,080 |
-| Third-party      |   0.0% |   0 B |  1.8% | 1.27 MiB |     234 |
+| Category         | Change | Delta |     % |     Size | Allocations |
+| ---------------- | -----: | ----: | ----: | -------: | ----------: |
+| Ours             |   0.0% |   0 B | 71.8% |   52 MiB |      21,382 |
+| Standard library |   0.0% |   0 B | 26.4% | 19.1 MiB |       2,080 |
+| Third-party      |   0.0% |   0 B |  1.8% | 1.27 MiB |         234 |
 
 ## Hottest functions
 
@@ -18,7 +18,7 @@ Functions with the largest increase in bytes held at peak memory directly in the
 
 ##### Ours
 
-|    Change |  Delta |             % |                Size |         Samples | Function                           | Location                      |
+|    Change |  Delta |             % |                Size |     Allocations | Function                           | Location                      |
 | --------: | -----: | ------------: | ------------------: | --------------: | ---------------------------------- | ----------------------------- |
 |     +5.5% | +1 MiB | 25.2% → 26.5% | 18.2 MiB → 19.2 MiB | 20,790 → 20,791 | `mark`                             | `black/brackets.py:70`        |
 |    +46.7% | +1 MiB |   3.0% → 4.3% | 2.14 MiB → 3.14 MiB |       197 → 198 | `update_sibling_maps`              | `blib2to3/pytree.py:369`      |
@@ -35,14 +35,14 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 
 ##### Ours
 
-|  Change |  Delta |            % |             Size | Samples | Function                               | Location                      |
-| ------: | -----: | -----------: | ---------------: | ------: | -------------------------------------- | ----------------------------- |
-|  -66.7% | -2 MiB |  4.1% → 1.4% |    3 MiB → 1 MiB |   4 → 2 | `visit_default`                        | `black/linegen.py:134`        |
-| removed | -2 MiB |  2.8% → 0.0% |      2 MiB → 0 B |   2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
-| removed | -1 MiB |  1.4% → 0.0% |      1 MiB → 0 B |   1 → 0 | `__init__`                             | `blib2to3/pytree.py:400`      |
-|  -99.9% | -1 MiB | 1.4% → <0.1% | 1 MiB → 1.11 KiB |   2 → 1 | `maybe_empty_lines`                    | `black/lines.py:560`          |
-|  -33.3% | -1 MiB |  4.1% → 2.8% |    3 MiB → 2 MiB |   3 → 2 | `generate_comments`                    | `black/comments.py:52`        |
-| removed | -1 MiB |  1.4% → 0.0% |      1 MiB → 0 B |   1 → 0 | `contains_uncollapsable_type_comments` | `black/lines.py:276`          |
+|  Change |  Delta |            % |             Size | Allocations | Function                               | Location                      |
+| ------: | -----: | -----------: | ---------------: | ----------: | -------------------------------------- | ----------------------------- |
+|  -66.7% | -2 MiB |  4.1% → 1.4% |    3 MiB → 1 MiB |       4 → 2 | `visit_default`                        | `black/linegen.py:134`        |
+| removed | -2 MiB |  2.8% → 0.0% |      2 MiB → 0 B |       2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
+| removed | -1 MiB |  1.4% → 0.0% |      1 MiB → 0 B |       1 → 0 | `__init__`                             | `blib2to3/pytree.py:400`      |
+|  -99.9% | -1 MiB | 1.4% → <0.1% | 1 MiB → 1.11 KiB |       2 → 1 | `maybe_empty_lines`                    | `black/lines.py:560`          |
+|  -33.3% | -1 MiB |  4.1% → 2.8% |    3 MiB → 2 MiB |       3 → 2 | `generate_comments`                    | `black/comments.py:52`        |
+| removed | -1 MiB |  1.4% → 0.0% |      1 MiB → 0 B |       1 → 0 | `contains_uncollapsable_type_comments` | `black/lines.py:276`          |
 
 ### Total size
 
@@ -52,7 +52,7 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 
 ##### Ours
 
-|     Change |  Delta |             % |                Size |         Samples | Function                     | Location                      |
+|     Change |  Delta |             % |                Size |     Allocations | Function                     | Location                      |
 | ---------: | -----: | ------------: | ------------------: | --------------: | ---------------------------- | ----------------------------- |
 |     +10.4% | +2 MiB | 26.6% → 29.4% | 19.3 MiB → 21.3 MiB | 20,884 → 20,886 | `append`                     | `black/lines.py:63`           |
 |      +5.5% | +1 MiB | 25.2% → 26.5% | 18.2 MiB → 19.2 MiB | 20,790 → 20,791 | `mark`                       | `black/brackets.py:70`        |
@@ -81,7 +81,7 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 ##### Ours
 
-|  Change |  Delta |             % |                Size |         Samples | Function                               | Location                      |
+|  Change |  Delta |             % |                Size |     Allocations | Function                               | Location                      |
 | ------: | -----: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------------- |
 | removed | -2 MiB |   2.8% → 0.0% |         2 MiB → 0 B |           2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
 |   -5.9% | -1 MiB | 23.3% → 22.0% | 16.9 MiB → 15.9 MiB | 10,808 → 10,807 | `visit_power`                          | `black/linegen.py:341`        |
@@ -96,9 +96,9 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 # Leaked memory profile diff
 
-Leaked 57.1 MiB → 58.1 MiB (+1 MiB, +1.8%) over 22,684 samples → 22,685 samples (2.58 KiB → 2.62 KiB per sample).
+Leaked 57.1 MiB → 58.1 MiB (+1 MiB, +1.8%) over 22,684 allocations → 22,685 allocations (2.58 KiB → 2.62 KiB per allocation).
 
-| Category         | Change |  Delta |             % |                Size |         Samples |
+| Category         | Change |  Delta |             % |                Size |     Allocations |
 | ---------------- | -----: | -----: | ------------: | ------------------: | --------------: |
 | Ours             |  +2.0% | +1 MiB | 89.1% → 89.3% | 50.9 MiB → 51.9 MiB | 21,386 → 21,387 |
 | Standard library |   0.0% |    0 B |   8.7% → 8.6% |            4.97 MiB |           1,068 |
@@ -114,7 +114,7 @@ Functions with the largest increase in bytes never freed directly in the functio
 
 ##### Ours
 
-|    Change |  Delta |             % |                Size |         Samples | Function                           | Location                      |
+|    Change |  Delta |             % |                Size |     Allocations | Function                           | Location                      |
 | --------: | -----: | ------------: | ------------------: | --------------: | ---------------------------------- | ----------------------------- |
 |    +11.6% | +2 MiB | 30.2% → 33.1% | 17.2 MiB → 19.2 MiB | 20,789 → 20,791 | `mark`                             | `black/brackets.py:70`        |
 | +87381.3% | +1 MiB |  <0.1% → 1.7% |    1.17 KiB → 1 MiB |           2 → 3 | `addtoken`                         | `blib2to3/pgen2/parse.py:242` |
@@ -131,14 +131,14 @@ Functions with the largest decrease in bytes never freed directly in the functio
 
 ##### Ours
 
-|  Change |  Delta |            % |             Size | Samples | Function                               | Location                      |
-| ------: | -----: | -----------: | ---------------: | ------: | -------------------------------------- | ----------------------------- |
-|  -66.7% | -2 MiB |  5.3% → 1.7% |    3 MiB → 1 MiB |   4 → 2 | `visit_default`                        | `black/linegen.py:134`        |
-| removed | -2 MiB |  3.5% → 0.0% |      2 MiB → 0 B |   2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
-|  -99.9% | -1 MiB | 1.8% → <0.1% | 1 MiB → 1.11 KiB |   2 → 1 | `maybe_empty_lines`                    | `black/lines.py:560`          |
-|  -33.3% | -1 MiB |  5.3% → 3.4% |    3 MiB → 2 MiB |   3 → 2 | `generate_comments`                    | `black/comments.py:52`        |
-| removed | -1 MiB |  1.8% → 0.0% |      1 MiB → 0 B |   1 → 0 | `contains_uncollapsable_type_comments` | `black/lines.py:276`          |
-| removed | -1 MiB |  1.8% → 0.0% |      1 MiB → 0 B |   1 → 0 | `__init__`                             | `blib2to3/pytree.py:400`      |
+|  Change |  Delta |            % |             Size | Allocations | Function                               | Location                      |
+| ------: | -----: | -----------: | ---------------: | ----------: | -------------------------------------- | ----------------------------- |
+|  -66.7% | -2 MiB |  5.3% → 1.7% |    3 MiB → 1 MiB |       4 → 2 | `visit_default`                        | `black/linegen.py:134`        |
+| removed | -2 MiB |  3.5% → 0.0% |      2 MiB → 0 B |       2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
+|  -99.9% | -1 MiB | 1.8% → <0.1% | 1 MiB → 1.11 KiB |       2 → 1 | `maybe_empty_lines`                    | `black/lines.py:560`          |
+|  -33.3% | -1 MiB |  5.3% → 3.4% |    3 MiB → 2 MiB |       3 → 2 | `generate_comments`                    | `black/comments.py:52`        |
+| removed | -1 MiB |  1.8% → 0.0% |      1 MiB → 0 B |       1 → 0 | `contains_uncollapsable_type_comments` | `black/lines.py:276`          |
+| removed | -1 MiB |  1.8% → 0.0% |      1 MiB → 0 B |       1 → 0 | `__init__`                             | `blib2to3/pytree.py:400`      |
 
 ### Total size
 
@@ -146,7 +146,7 @@ Functions with the largest decrease in bytes never freed directly in the functio
 
 Functions with the largest increase in total bytes never freed in the function and all its callees.
 
-| Change |  Delta |             % |                Size |         Samples | Function               | Location                                                       |
+| Change |  Delta |             % |                Size |     Allocations | Function               | Location                                                       |
 | -----: | -----: | ------------: | ------------------: | --------------: | ---------------------- | -------------------------------------------------------------- |
 | +16.4% | +3 MiB | 32.0% → 36.7% | 18.3 MiB → 21.3 MiB | 20,883 → 20,886 | `append`               | `black/lines.py:63`                                            |
 |  +6.0% | +2 MiB | 58.6% → 61.0% | 33.4 MiB → 35.4 MiB | 21,084 → 21,086 | `visit`                | `black/nodes.py:163`                                           |
@@ -171,7 +171,7 @@ Functions with the largest increase in total bytes never freed in the function a
 
 ##### Ours
 
-|     Change |  Delta |             % |                Size |         Samples | Function                     | Location                 |
+|     Change |  Delta |             % |                Size |     Allocations | Function                     | Location                 |
 | ---------: | -----: | ------------: | ------------------: | --------------: | ---------------------------- | ------------------------ |
 |     +16.4% | +3 MiB | 32.0% → 36.7% | 18.3 MiB → 21.3 MiB | 20,883 → 20,886 | `append`                     | `black/lines.py:63`      |
 |      +6.0% | +2 MiB | 58.6% → 61.0% | 33.4 MiB → 35.4 MiB | 21,084 → 21,086 | `visit`                      | `black/nodes.py:163`     |
@@ -196,7 +196,7 @@ Functions with the largest increase in total bytes never freed in the function a
 
 ##### Standard library
 
-| Change |  Delta |             % |                Size |         Samples | Function           | Location             |
+| Change |  Delta |             % |                Size |     Allocations | Function           | Location             |
 | -----: | -----: | ------------: | ------------------: | --------------: | ------------------ | -------------------- |
 |  +1.8% | +1 MiB |        100.0% | 57.1 MiB → 58.1 MiB | 22,683 → 22,684 | `run_module`       | `<frozen runpy>:201` |
 |  +1.9% | +1 MiB | 90.5% → 90.7% | 51.6 MiB → 52.6 MiB | 21,189 → 21,190 | `_run_code`        | `<frozen runpy>:65`  |
@@ -204,7 +204,7 @@ Functions with the largest increase in total bytes never freed in the function a
 
 ##### Third-party
 
-| Change |  Delta |             % |                Size |         Samples | Function       | Location                                                       |
+| Change |  Delta |             % |                Size |     Allocations | Function       | Location                                                       |
 | -----: | -----: | ------------: | ------------------: | --------------: | -------------- | -------------------------------------------------------------- |
 |  +1.8% | +1 MiB |        100.0% | 57.1 MiB → 58.1 MiB | 22,684 → 22,685 | `_run_tracker` | `/venv/lib/python3.11/site-packages/memray/commands/run.py:40` |
 |  +1.9% | +1 MiB | 90.5% → 90.6% | 51.6 MiB → 52.6 MiB | 21,166 → 21,167 | `new_func`     | `/venv/lib/python3.11/site-packages/click/decorators.py:33`    |
@@ -219,7 +219,7 @@ Functions with the largest decrease in total bytes never freed in the function a
 
 ##### Ours
 
-|  Change |  Delta |             % |                Size |         Samples | Function                               | Location                      |
+|  Change |  Delta |             % |                Size |     Allocations | Function                               | Location                      |
 | ------: | -----: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------------- |
 | removed | -2 MiB |   3.5% → 0.0% |         2 MiB → 0 B |           2 → 0 | `push`                                 | `blib2to3/pgen2/parse.py:386` |
 |  -24.5% | -1 MiB |   7.2% → 5.3% | 4.08 MiB → 3.08 MiB |         19 → 18 | `transform_line`                       | `black/linegen.py:601`        |

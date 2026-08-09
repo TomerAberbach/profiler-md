@@ -185,12 +185,12 @@ describe(`convert`, () => {
       `Leaked memory profile`,
     ])
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 samples (2\u00A0KiB per sample).`,
-      `Leaked 1.5\u00A0KiB over 2 samples (768\u00A0B per sample).`,
+      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
     ])
     expect(categoryTables(md)).toEqual([
-      [{ Category: `Ours`, '%': `100.0%`, Size: `4 KiB`, Samples: `2` }],
-      [{ Category: `Ours`, '%': `100.0%`, Size: `1.5 KiB`, Samples: `2` }],
+      [{ Category: `Ours`, '%': `100.0%`, Size: `4 KiB`, Allocations: `2` }],
+      [{ Category: `Ours`, '%': `100.0%`, Size: `1.5 KiB`, Allocations: `2` }],
     ])
 
     // At the peak both allocations are live and `cold` holds the larger one.
@@ -199,14 +199,14 @@ describe(`convert`, () => {
         {
           '%': `75.0%`,
           Size: `3 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `cold`,
           Location: `cold.py:20`,
         },
         {
           '%': `25.0%`,
           Size: `1 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -219,14 +219,14 @@ describe(`convert`, () => {
         {
           '%': `66.7%`,
           Size: `1 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
         {
           '%': `33.3%`,
           Size: `512 B`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `cold`,
           Location: `cold.py:20`,
         },
@@ -258,17 +258,17 @@ describe(`convert`, () => {
     )
 
     // `cold` holds no bytes, so the sizes the table ranks by leave it out, but
-    // its allocation is one of the samples the profile counts.
+    // the profile still counts its allocation.
     expect(summaryLines(md)).toEqual([
-      `Held 2\u00A0KiB over 2 samples (1\u00A0KiB per sample).`,
-      `Leaked 2\u00A0KiB over 2 samples (1\u00A0KiB per sample).`,
+      `Held 2\u00A0KiB over 2 allocations (1\u00A0KiB per allocation).`,
+      `Leaked 2\u00A0KiB over 2 allocations (1\u00A0KiB per allocation).`,
     ])
     expect(selfSizeTables(md, PEAK)).toEqual([
       [
         {
           '%': `100.0%`,
           Size: `2 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -303,7 +303,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `2 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -314,14 +314,14 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `2 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
         {
           '%': `100.0%`,
           Size: `2 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `cold`,
           Location: `cold.py:20`,
         },
@@ -361,8 +361,8 @@ describe(`convert`, () => {
     // The 4 KiB allocation is the peak, and the 1 KiB one that reused its
     // address is what leaked.
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 1 sample (4\u00A0KiB per sample).`,
-      `Leaked 1\u00A0KiB over 1 sample (1\u00A0KiB per sample).`,
+      `Held 4\u00A0KiB over 1 allocation (4\u00A0KiB per allocation).`,
+      `Leaked 1\u00A0KiB over 1 allocation (1\u00A0KiB per allocation).`,
     ])
   })
 
@@ -395,8 +395,8 @@ describe(`convert`, () => {
 
     // The peak is the 1 KiB allocation alone, since the 8 B one displaced it.
     expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB over 1 sample (1\u00A0KiB per sample).`,
-      `Leaked 8\u00A0B over 1 sample (8\u00A0B per sample).`,
+      `Held 1\u00A0KiB over 1 allocation (1\u00A0KiB per allocation).`,
+      `Leaked 8\u00A0B over 1 allocation (8\u00A0B per allocation).`,
     ])
   })
 
@@ -428,8 +428,8 @@ describe(`convert`, () => {
 
     // The two mappings cover 4 KiB together, not the 6 KiB they total.
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 samples (2\u00A0KiB per sample).`,
-      `Leaked 4\u00A0KiB over 2 samples (2\u00A0KiB per sample).`,
+      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+      `Leaked 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
     ])
   })
 
@@ -460,10 +460,10 @@ describe(`convert`, () => {
     )
 
     // The two halves the unmapping left are two mappings by the end, so the
-    // leaked memory counts one sample each.
+    // leaked memory counts one allocation each.
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 1 sample (4\u00A0KiB per sample).`,
-      `Leaked 3\u00A0KiB over 2 samples (1.5\u00A0KiB per sample).`,
+      `Held 4\u00A0KiB over 1 allocation (4\u00A0KiB per allocation).`,
+      `Leaked 3\u00A0KiB over 2 allocations (1.5\u00A0KiB per allocation).`,
     ])
   })
 
@@ -492,7 +492,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `1 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -541,8 +541,18 @@ describe(`convert`, () => {
     // table splits its size across the two lines it was executing.
     expect(linesTables(md, `hot`)).toEqual([
       [
-        { '%': `75.0%`, Size: `3 KiB`, Samples: `1`, Location: `hot.py:25` },
-        { '%': `25.0%`, Size: `1 KiB`, Samples: `1`, Location: `hot.py:15` },
+        {
+          '%': `75.0%`,
+          Size: `3 KiB`,
+          Allocations: `1`,
+          Location: `hot.py:25`,
+        },
+        {
+          '%': `25.0%`,
+          Size: `1 KiB`,
+          Allocations: `1`,
+          Location: `hot.py:15`,
+        },
       ],
     ])
   })
@@ -580,22 +590,22 @@ describe(`convert`, () => {
 
     // The same totals a capture of every allocation replays to.
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 samples (2\u00A0KiB per sample).`,
-      `Leaked 1.5\u00A0KiB over 2 samples (768\u00A0B per sample).`,
+      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
     ])
     expect(selfSizeTables(md, PEAK)).toEqual([
       [
         {
           '%': `75.0%`,
           Size: `3 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `cold`,
           Location: `cold.py:20`,
         },
         {
           '%': `25.0%`,
           Size: `1 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -637,15 +647,15 @@ describe(`convert`, () => {
     )
 
     expect(summaryLines(md)).toEqual([
-      `Held 1\u00A0KiB over 4 samples (256\u00A0B per sample).`,
-      `Leaked 768\u00A0B over 3 samples (256\u00A0B per sample).`,
+      `Held 1\u00A0KiB over 4 allocations (256\u00A0B per allocation).`,
+      `Leaked 768\u00A0B over 3 allocations (256\u00A0B per allocation).`,
     ])
     expect(selfSizeTables(md, PEAK)).toEqual([
       [
         {
           '%': `100.0%`,
           Size: `1 KiB`,
-          Samples: `4`,
+          Allocations: `4`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -656,14 +666,14 @@ describe(`convert`, () => {
         {
           '%': `66.7%`,
           Size: `512 B`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
         {
           '%': `33.3%`,
           Size: `256 B`,
-          Samples: `2`,
+          Allocations: `2`,
           Function: `cold`,
           Location: `cold.py:20`,
         },
@@ -696,7 +706,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `1 KiB`,
-          Samples: `1`,
+          Allocations: `1`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -747,15 +757,15 @@ describe(`convert`, () => {
     // The malloc and the mapping are live together at the peak, and the two
     // halves of the mapping are what leaked.
     expect(summaryLines(md)).toEqual([
-      `Held 5\u00A0KiB over 2 samples (2.5\u00A0KiB per sample).`,
-      `Leaked 3\u00A0KiB over 2 samples (1.5\u00A0KiB per sample).`,
+      `Held 5\u00A0KiB over 2 allocations (2.5\u00A0KiB per allocation).`,
+      `Leaked 3\u00A0KiB over 2 allocations (1.5\u00A0KiB per allocation).`,
     ])
     expect(selfSizeTables(md, LEAKED)).toEqual([
       [
         {
           '%': `100.0%`,
           Size: `3 KiB`,
-          Samples: `2`,
+          Allocations: `2`,
           Function: `hot`,
           Location: `hot.py:10`,
         },
@@ -793,8 +803,8 @@ describe(`convert`, () => {
       `Leaked memory profile diff`,
     ])
     expect(summaryLines(md)).toEqual([
-      `Held 29\u00A0B over 1 sample → 7 samples (29\u00A0B → 4.14\u00A0B per sample).`,
-      `Leaked 29\u00A0B over 1 sample → 7 samples (29\u00A0B → 4.14\u00A0B per sample).`,
+      `Held 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
+      `Leaked 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
     ])
     expect(regressionsTables(md, `Self size`)).toEqual([])
     expect(improvementsTables(md, `Self size`)).toEqual([])
@@ -809,8 +819,8 @@ describe(`convert`, () => {
     )
 
     expect(summaryLines(md)).toEqual([
-      `Held 4\u00A0KiB over 2 samples (2\u00A0KiB per sample).`,
-      `Leaked 1.5\u00A0KiB over 2 samples (768\u00A0B per sample).`,
+      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
     ])
   })
 })

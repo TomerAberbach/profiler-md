@@ -4,7 +4,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
+import { countMetricOf, determineMetric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -19,7 +19,7 @@ import { FormatParseError } from '../error.ts'
  * to whatever stack the pushes and pops have built up for its thread.
  *
  * The two measures count different allocations, so each is its own profile,
- * whose observations are the allocations that measure counts.
+ * counting each stack's allocations under that measure.
  *
  * A capture holds no aggregate totals, so both measures are computed by
  * replaying the stream: the peak from the live allocations at the moment total
@@ -418,14 +418,14 @@ class Capture {
         type: `call-stack-profile`,
         frames,
         metrics: [PEAK_METRIC],
-        countMetric: SAMPLES,
+        countMetric: ALLOCATIONS,
         observations: this.#observations(`peak`),
       },
       {
         type: `call-stack-profile`,
         frames,
         metrics: [LEAKED_METRIC],
-        countMetric: SAMPLES,
+        countMetric: ALLOCATIONS,
         observations: this.#observations(`leaked`),
       },
     ]
@@ -696,8 +696,7 @@ class Capture {
 
   /**
    * The observations of one measure's profile: each stack's bytes, over the
-   * allocations that measure counts for it, as a pprof heap profile counts its
-   * records by the objects allocated.
+   * allocations that measure counts for it.
    */
   *#observations(measure: `peak` | `leaked`): Iterable<Observation> {
     const bytesKey = measure === `peak` ? `peakBytes` : `leakedBytes`
@@ -708,8 +707,8 @@ class Capture {
       const count = usage[countKey]
 
       // A stack the other measure counts alone. A stack this one counts holds
-      // no bytes when every allocation it made was of no size, and those
-      // allocations still count toward the profile's observations.
+      // no bytes when every allocation it made was of no size, and the profile
+      // still counts those allocations.
       if (bytes === 0 && count === 0) {
         continue
       }
@@ -1149,6 +1148,12 @@ class LiveAllocations {
  */
 const hashAddress = (address: number): number =>
   Math.imul(address >>> 0, 0x9e_37_79_b1) >>> 0
+
+/**
+ * Memray hooks the allocator, so a stack's count is the number of allocations
+ * recorded for it rather than a number of samples.
+ */
+const ALLOCATIONS = countMetricOf(`allocation`)
 
 /** Bytes live at the moment the capture's total memory was highest. */
 const PEAK_METRIC = determineMetric({ name: `peak_space`, unit: `bytes` })
