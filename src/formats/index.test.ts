@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
@@ -67,6 +67,29 @@ const jsonInputs = [...inputSets.json]
 const binaryInputs = [...inputSets.binary]
 const allInputs = [...jsonInputs, ...binaryInputs]
 
+/**
+ * The input the input-type matrix converts, or none in the `unit` project.
+ * Reading bytes handed to the pipeline as a string, a `Blob`, or a stream
+ * happens above the converter and is the same for every format. The matrix
+ * takes the project's smallest input because converting every committed one
+ * would run gigabytes through the pipeline several times over.
+ */
+const smallest = (filenames: string[]): string[] =>
+  filenames.length === 0
+    ? []
+    : [
+        filenames.reduce((smallest, filename) =>
+          statSync(inputPath(filename)).size <
+          statSync(inputPath(smallest)).size
+            ? filename
+            : smallest,
+        ),
+      ]
+
+const smallestJsonInput = smallest(jsonInputs)
+const smallestBinaryInput = smallest(binaryInputs)
+const smallestInput = smallest(allInputs)
+
 // Some real captures legitimately have no samples (e.g. a lock profile that saw
 // no contention), so the pipeline yields the no-data message instead of a
 // heading. Either outcome means the format was detected and conversion ran end
@@ -96,36 +119,30 @@ if (format === undefined) {
 }
 
 describe(`profileToMd`, () => {
-  if (jsonInputs.length > 0) {
-    describe.each(jsonInputs)(`auto-detects %s`, filename => {
-      const content = readInput(filename)
+  if (allInputs.length > 0) {
+    // Every committed input converts end to end.
+    test.each(allInputs)(`auto-detects %s`, filename => {
+      const md = profileToMd(readInput(filename), { baseURL: null })
 
-      test(`from string`, () => {
-        const md = profileToMd(content.toString(`utf8`), { baseURL: null })
-
-        expect(md).toMatch(MARKDOWN_REGEX)
-      })
-
-      test(`from Uint8Array`, () => {
-        const md = profileToMd(content, { baseURL: null })
-
-        expect(md).toMatch(MARKDOWN_REGEX)
-      })
+      expect(md).toMatch(MARKDOWN_REGEX)
     })
   }
 
-  if (binaryInputs.length > 0) {
-    describe.each(binaryInputs)(`auto-detects %s`, filename => {
-      const content = readInput(filename)
-
-      test(`from Uint8Array`, () => {
-        const md = profileToMd(content, { baseURL: null })
-
-        expect(md).toMatch(MARKDOWN_REGEX)
+  if (smallestJsonInput.length > 0) {
+    test.each(smallestJsonInput)(`converts %s from a string`, filename => {
+      const md = profileToMd(readInput(filename).toString(`utf8`), {
+        baseURL: null,
       })
 
-      test(`from one-shot Iterable<Uint8Array>`, () => {
-        const bytes = new Uint8Array(content)
+      expect(md).toMatch(MARKDOWN_REGEX)
+    })
+  }
+
+  if (smallestBinaryInput.length > 0) {
+    test.each(smallestBinaryInput)(
+      `converts %s from a one-shot Iterable<Uint8Array>`,
+      filename => {
+        const bytes = new Uint8Array(readInput(filename))
         const iterable = (function* () {
           yield bytes
         })()
@@ -133,8 +150,8 @@ describe(`profileToMd`, () => {
         const md = profileToMd(iterable, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
-      })
-    })
+      },
+    )
   }
 
   if (format === undefined) {
@@ -571,8 +588,8 @@ describe(`profileToMd`, () => {
 })
 
 describe(`profileToMdAsync`, () => {
-  if (allInputs.length > 0) {
-    describe.each(allInputs)(`auto-detects %s`, filename => {
+  if (smallestInput.length > 0) {
+    describe.each(smallestInput)(`auto-detects %s`, filename => {
       const content = readInput(filename)
 
       test(`from Blob`, async () => {
@@ -1113,9 +1130,9 @@ describe(`diffProfiles`, () => {
 
 // Registered conditionally because this suite has no input-independent tests,
 // so it would be empty in the `unit` project.
-if (allInputs.length > 0) {
+if (smallestInput.length > 0) {
   describe(`diffProfilesAsync`, () => {
-    test.each(allInputs)(`diffs %s Blob inputs`, async filename => {
+    test.each(smallestInput)(`diffs %s Blob inputs`, async filename => {
       const content = readInput(filename)
 
       const md = await diffProfilesAsync(
