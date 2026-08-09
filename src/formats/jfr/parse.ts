@@ -1091,8 +1091,10 @@ class JfrParser {
  * Resolves one chunk's constant-pool references into the global sequential
  * indices accumulated across every chunk. Methods and stacks recur across
  * chunks under different chunk-local pool keys, so each resolved entity is
- * merged into the shared tables by stable identity; resolution is lazy and
- * cached per chunk-local key.
+ * merged into the shared tables by stable identity. Resolution is lazy, and a
+ * resolved index replaces the raw pool entry, so a repeat reference costs one
+ * map lookup. A raw entry is always an array or an object, so a number is a
+ * resolved index.
  */
 class ChunkResolver {
   readonly #symbolPool: Map<number, unknown>
@@ -1108,8 +1110,6 @@ class ChunkResolver {
   readonly #methodIndexByIdentity: Map<string, number>
   readonly #internStack: (stack: JfrStackTrace) => number
 
-  readonly #methodKeyToIndex = new Map<number, number>()
-  readonly #stackKeyToIndex = new Map<number, number>()
   #emptyStackIndex: number | undefined
 
   public constructor(
@@ -1139,14 +1139,12 @@ class ChunkResolver {
    * `undefined` when the pool has no entry for the key.
    */
   public resolveStack(key: number): number | undefined {
-    let index = this.#stackKeyToIndex.get(key)
-    if (index !== undefined) {
-      return index
-    }
-
     const raw = this.#stackPool.get(key)
     if (raw === undefined) {
       return undefined
+    }
+    if (typeof raw === `number`) {
+      return raw
     }
 
     // Stack traces are stored as a flat array of interleaved
@@ -1174,8 +1172,8 @@ class ChunkResolver {
       frameCount === 0
         ? undefined
         : validLineNumber(flat ? flat[1] : objectFrames![0]!.lineNumber)
-    index = this.#internStack({ methodIds, leafLine })
-    this.#stackKeyToIndex.set(key, index)
+    const index = this.#internStack({ methodIds, leafLine })
+    this.#stackPool.set(key, index)
     return index
   }
 
@@ -1195,12 +1193,12 @@ class ChunkResolver {
 
   /** Resolves a referenced method to a global sequential index, lazily. */
   #resolveMethod(key: number): number {
-    let index = this.#methodKeyToIndex.get(key)
-    if (index !== undefined) {
-      return index
+    const raw = this.#methodPool.get(key)
+    if (typeof raw === `number`) {
+      return raw
     }
 
-    const method = this.#methodPool.get(key) as
+    const method = raw as
       { type?: unknown; name?: unknown; descriptor?: unknown } | undefined
     const declaringClass = method
       ? (this.#classPool.get(method.type as number) as
@@ -1215,7 +1213,7 @@ class ChunkResolver {
     // The full descriptor is part of the identity so overloads (and bridge
     // methods differing only by return type) stay distinct.
     const identity = `${className}\n${bareName}\n${descriptor}`
-    index = this.#methodIndexByIdentity.get(identity)
+    let index = this.#methodIndexByIdentity.get(identity)
     if (index === undefined) {
       index = this.#methods.length
       this.#methods.push({
@@ -1225,7 +1223,7 @@ class ChunkResolver {
       })
       this.#methodIndexByIdentity.set(identity, index)
     }
-    this.#methodKeyToIndex.set(key, index)
+    this.#methodPool.set(key, index)
     return index
   }
 
