@@ -114,9 +114,10 @@ export const parseSpeedscope = (
 
 /**
  * Maps a self-identifying {@link SpeedscopeProfile.exporter} to its origin.
- * Excimer writes a bare `Excimer`; dotnet-trace writes its exporting library
- * with a version suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`).
- * py-spy and rbspy omit the field, so they rely on their frame markers.
+ * Excimer and pyinstrument write their bare names, `Excimer` and
+ * `pyinstrument`. dotnet-trace writes its exporting library with a version
+ * suffix (`Microsoft.Diagnostics.Tracing.TraceEvent@3.0.7.0`). py-spy and rbspy
+ * omit the field, so they rely on their frame markers.
  */
 const exporterOriginHint = (
   exporter: string | undefined,
@@ -126,6 +127,9 @@ const exporterOriginHint = (
   }
   if (exporter === `Excimer`) {
     return `excimer`
+  }
+  if (exporter === `pyinstrument`) {
+    return `pyinstrument`
   }
   if (exporter.startsWith(`Microsoft.Diagnostics.Tracing.TraceEvent`)) {
     return `dotnet-trace`

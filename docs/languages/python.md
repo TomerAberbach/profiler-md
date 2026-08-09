@@ -1,6 +1,7 @@
 # Python
 
 Python profiling uses [py-spy](https://github.com/benfred/py-spy),
+[pyinstrument](https://github.com/joerick/pyinstrument),
 [memray](https://github.com/bloomberg/memray), or
 [systing](https://github.com/josefbacik/systing).
 
@@ -56,6 +57,44 @@ py-spy dump --pid <pid> --locals
 | `--native`          | off          | Profile native Cython or C extensions                    |
 | `--nonblocking`     | off          | Sample without pausing the process (less accurate)       |
 | `--subprocesses`    | off          | Also profile subprocesses of the target                  |
+
+## In-process wall-clock profiling
+
+[pyinstrument](https://github.com/joerick/pyinstrument) samples the call stack
+from inside the interpreter, so it needs no ptrace access and profiles
+wall-clock time. Its speedscope renderer writes a format this tool reads.
+
+```sh
+# Profile a script
+pyinstrument -r speedscope -o profile.speedscope.json script.py
+
+# Profile a console script, such as the one an installed package provides
+pyinstrument -r speedscope -o profile.speedscope.json "$(which black)" file.py
+
+# Keep every frame instead of those above the 1% threshold
+pyinstrument --show-all -r speedscope -o profile.speedscope.json script.py
+```
+
+Run a console script by its path rather than as `python -m package`. Under `-m`,
+pyinstrument trims the leading `runpy` frames by descending into the first child
+of each. That child is the import subtree rather than the module body, so the
+export covers only the imports. `--show-all` can trim the run the same way.
+
+By default the export keeps the frames above 1% of the total and folds the rest
+into the self time of the frame that called them.
+
+### pyinstrument CLI flags
+
+| Flag                  | Default | Description                                                   |
+| --------------------- | ------- | ------------------------------------------------------------- |
+| `-r` / `--renderer`   | `text`  | Output format. `speedscope` writes the format this tool reads |
+| `-o` / `--outfile`    | —       | Output file path                                              |
+| `-m`                  | —       | Run a library module as a script                              |
+| `-i` / `--interval`   | `0.001` | Minimum seconds between stack samples                         |
+| `--show-all`          | off     | Keep every frame, including the standard library's            |
+| `--hide`              | —       | Glob matching the file paths whose frames to hide             |
+| `-t` / `--timeline`   | off     | Keep call ordering instead of condensing repeated calls       |
+| `--use-timing-thread` | off     | Time the sampling interval on a separate thread               |
 
 ## Memory profiling
 
