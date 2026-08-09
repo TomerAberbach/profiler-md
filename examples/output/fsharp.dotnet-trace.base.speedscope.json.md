@@ -1,13 +1,13 @@
 # Sampling profile
 
-Took 10.81s over 9,201 samples (1.2ms per sample).
+Took 10.81s.
 
-| Category         |     % |   Time | Samples |
-| ---------------- | ----: | -----: | ------: |
-| Native           | 98.7% | 10.67s |   5,767 |
-| Standard library |  0.6% | 68.4ms |   3,168 |
-| Unknown          |  0.6% | 64.5ms |      60 |
-| Ours             | <0.1% |  5.4ms |     206 |
+| Category         |     % |   Time |
+| ---------------- | ----: | -----: |
+| Native           | 98.7% | 10.67s |
+| Standard library |  0.6% | 68.4ms |
+| Unknown          |  0.6% | 64.5ms |
+| Ours             | <0.1% |  5.4ms |
 
 ## Hottest functions
 
@@ -15,36 +15,36 @@ Took 10.81s over 9,201 samples (1.2ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
-|     % |   Time | Samples | Function                                                                                                                                    | Location                                                                   |
-| ----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| 98.7% | 10.67s |   5,767 | `UNMANAGED_CODE_TIME`                                                                                                                       | `<unknown>`                                                                |
-|  0.1% |  5.6ms |      81 | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                                       |
-| <0.1% |  4.0ms |       3 | `ToUnionParseResults()`                                                                                                                     | `Argu.CliParser+CliParseResultAggregator`                                  |
-| <0.1% |  4.0ms |       3 | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                               |
-| <0.1% |  2.6ms |       1 | `StartsWith(String, StringComparison)`                                                                                                      | `System.String`                                                            |
-| <0.1% |  1.4ms |   1,712 | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`                   |
-| <0.1% |  1.3ms |       1 | `ToArray()`                                                                                                                                 | ``System.Collections.Generic.List`1[System.__Canon]``                      |
-| <0.1% |  1.3ms |       2 | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                                  |
-| <0.1% |  1.3ms |       1 | ``AddMany(IEnumerable`1<!0>)``                                                                                                              | ``Microsoft.FSharp.Core.CompilerServices.ListCollector`1[System.__Canon]`` |
-| <0.1% |  0.1µs |     755 | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                       | `Microsoft.FSharp.Reflection.FSharpType`                                   |
-| <0.1% | <0.1µs |      13 | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                          | `Microsoft.FSharp.Quotations.PatternsModule`                               |
-| <0.1% | <0.1µs |     183 | `main(String[])`                                                                                                                            | `Profile`                                                                  |
-| <0.1% | <0.1µs |       4 | `postProcess@648(UnionArgInfo)`                                                                                                             | `Argu.PreCompute`                                                          |
-| <0.1% | <0.1µs |       1 | `.ctor(String, RegexOptions, TimeSpan, CultureInfo)`                                                                                        | `System.Text.RegularExpressions.Regex`                                     |
-| <0.1% | <0.1µs |       2 | `checkUnionArgInfo(UnionArgInfo)`                                                                                                           | `Argu.PreCompute`                                                          |
-| <0.1% | <0.1µs |       2 | ``ToArray(IEnumerable`1<!!0>)``                                                                                                             | `Microsoft.FSharp.Collections.SeqModule`                                   |
-| <0.1% | <0.1µs |       1 | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                   | `Argu.KeyValueParser`                                                      |
-| <0.1% | <0.1µs |       2 | ``preComputeUnionCaseArgInfo(FSharpList`1<Type>, FSharpOption`1<HelpParam>, FSharpFunc`2<Unit, UnionArgInfo>, UnionCaseInfo)``              | `Argu.PreCompute`                                                          |
-| <0.1% | <0.1µs |       1 | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)`                                                            | `Argu.CliParser`                                                           |
-| <0.1% | <0.1µs |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                           |
+|     % |   Time | Function                                                                                                                                    | Location                                                                   |
+| ----: | -----: | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| 98.7% | 10.67s | `UNMANAGED_CODE_TIME`                                                                                                                       | `<unknown>`                                                                |
+|  0.1% |  5.6ms | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                                       |
+| <0.1% |  4.0ms | `ToUnionParseResults()`                                                                                                                     | `Argu.CliParser+CliParseResultAggregator`                                  |
+| <0.1% |  4.0ms | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                               |
+| <0.1% |  2.6ms | `StartsWith(String, StringComparison)`                                                                                                      | `System.String`                                                            |
+| <0.1% |  1.4ms | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`                   |
+| <0.1% |  1.3ms | `ToArray()`                                                                                                                                 | ``System.Collections.Generic.List`1[System.__Canon]``                      |
+| <0.1% |  1.3ms | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                                  |
+| <0.1% |  1.3ms | ``AddMany(IEnumerable`1<!0>)``                                                                                                              | ``Microsoft.FSharp.Core.CompilerServices.ListCollector`1[System.__Canon]`` |
+| <0.1% |  0.1µs | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                       | `Microsoft.FSharp.Reflection.FSharpType`                                   |
+| <0.1% | <0.1µs | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                          | `Microsoft.FSharp.Quotations.PatternsModule`                               |
+| <0.1% | <0.1µs | `main(String[])`                                                                                                                            | `Profile`                                                                  |
+| <0.1% | <0.1µs | `postProcess@648(UnionArgInfo)`                                                                                                             | `Argu.PreCompute`                                                          |
+| <0.1% | <0.1µs | `.ctor(String, RegexOptions, TimeSpan, CultureInfo)`                                                                                        | `System.Text.RegularExpressions.Regex`                                     |
+| <0.1% | <0.1µs | `checkUnionArgInfo(UnionArgInfo)`                                                                                                           | `Argu.PreCompute`                                                          |
+| <0.1% | <0.1µs | ``ToArray(IEnumerable`1<!!0>)``                                                                                                             | `Microsoft.FSharp.Collections.SeqModule`                                   |
+| <0.1% | <0.1µs | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                   | `Argu.KeyValueParser`                                                      |
+| <0.1% | <0.1µs | ``preComputeUnionCaseArgInfo(FSharpList`1<Type>, FSharpOption`1<HelpParam>, FSharpFunc`2<Unit, UnionArgInfo>, UnionCaseInfo)``              | `Argu.PreCompute`                                                          |
+| <0.1% | <0.1µs | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)`                                                            | `Argu.CliParser`                                                           |
+| <0.1% | <0.1µs | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                           |
 
 #### Categories
 
 ##### Native
 
-|     % |   Time | Samples | Function              | Location    |
-| ----: | -----: | ------: | --------------------- | ----------- |
-| 98.7% | 10.67s |   5,767 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+|     % |   Time | Function              | Location    |
+| ----: | -----: | --------------------- | ----------- |
+| 98.7% | 10.67s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callers
 
@@ -52,151 +52,151 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `UNMANAGED_CODE_TIME` (`<unknown>`)
 
-|     % |  Time | Samples | Caller                                                   | Location                                                 |
-| ----: | ----: | ------: | -------------------------------------------------------- | -------------------------------------------------------- |
-| 35.4% | 3.78s |   1,950 | `MakeGenericType(Type[])`                                | `System.RuntimeType`                                     |
-|  0.1% | 6.8ms |       4 | `main(String[])`                                         | `Profile`                                                |
-| <0.1% | 4.0ms |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)`     | `Argu.CliParser`                                         |
-| <0.1% | 2.7ms |       2 | ``add(IComparer`1<!!0>, !!0, !!1, MapTree`2<!!0, !!1>)`` | `Microsoft.FSharp.Collections.MapTreeModule`             |
-| <0.1% | 2.7ms |       2 | `Invoke(BindingEnv)`                                     | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+|     % |  Time | Caller                                                   | Location                                                 |
+| ----: | ----: | -------------------------------------------------------- | -------------------------------------------------------- |
+| 35.4% | 3.78s | `MakeGenericType(Type[])`                                | `System.RuntimeType`                                     |
+|  0.1% | 6.8ms | `main(String[])`                                         | `Profile`                                                |
+| <0.1% | 4.0ms | `parseCommandLineInner(CliParseState, UnionArgInfo)`     | `Argu.CliParser`                                         |
+| <0.1% | 2.7ms | ``add(IComparer`1<!!0>, !!0, !!1, MapTree`2<!!0, !!1>)`` | `Microsoft.FSharp.Collections.MapTreeModule`             |
+| <0.1% | 2.7ms | `Invoke(BindingEnv)`                                     | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
 
 ##### `MakeGenericType(Type[])` (`System.RuntimeType`)
 
-|      % |   Time | Samples | Caller               | Location                                                 |
-| -----: | -----: | ------: | -------------------- | -------------------------------------------------------- |
-| 100.0% |  5.6ms |      73 | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
-|  <0.1% | <0.1µs |       3 | `main(String[])`     | `Profile`                                                |
+|      % |   Time | Caller               | Location                                                 |
+| -----: | -----: | -------------------- | -------------------------------------------------------- |
+| 100.0% |  5.6ms | `Invoke(BindingEnv)` | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+|  <0.1% | <0.1µs | `main(String[])`     | `Profile`                                                |
 
 ##### `ToUnionParseResults()` (`Argu.CliParser+CliParseResultAggregator`)
 
-|      % |  Time | Samples | Caller                                                                                                                                      | Location                                  |
-| -----: | ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 100.0% | 4.0ms |       3 | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]`` |
+|      % |  Time | Caller                                                                                                                                      | Location                                  |
+| -----: | ----: | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 100.0% | 4.0ms | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]`` |
 
 ##### `u_Expr(InputState)` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
-|     % |  Time | Samples | Caller               | Location                                     |
-| ----: | ----: | ------: | -------------------- | -------------------------------------------- |
-| 33.2% | 1.3ms |       1 | `u_Expr(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule` |
+|     % |  Time | Caller               | Location                                     |
+| ----: | ----: | -------------------- | -------------------------------------------- |
+| 33.2% | 1.3ms | `u_Expr(InputState)` | `Microsoft.FSharp.Quotations.PatternsModule` |
 
 ##### `StartsWith(String, StringComparison)` (`System.String`)
 
-|      % |  Time | Samples | Caller                               | Location                                          |
-| -----: | ----: | ------: | ------------------------------------ | ------------------------------------------------- |
-| 100.0% | 2.6ms |       1 | `TryGetPrefix(String, String&, !0&)` | ``Argu.Utils+PrefixDictionary`1[System.__Canon]`` |
+|      % |  Time | Caller                               | Location                                          |
+| -----: | ----: | ------------------------------------ | ------------------------------------------------- |
+| 100.0% | 2.6ms | `TryGetPrefix(String, String&, !0&)` | ``Argu.Utils+PrefixDictionary`1[System.__Canon]`` |
 
 ##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)
 
-|     % |  Time | Samples | Caller           | Location  |
-| ----: | ----: | ------: | ---------------- | --------- |
-| <0.1% | 0.5µs |   1,691 | `main(String[])` | `Profile` |
+|     % |  Time | Caller           | Location  |
+| ----: | ----: | ---------------- | --------- |
+| <0.1% | 0.5µs | `main(String[])` | `Profile` |
 
 ##### `ToArray()` (``System.Collections.Generic.List`1[System.__Canon]``)
 
-|      % |  Time | Samples | Caller                  | Location                                  |
-| -----: | ----: | ------: | ----------------------- | ----------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ToUnionParseResults()` | `Argu.CliParser+CliParseResultAggregator` |
+|      % |  Time | Caller                  | Location                                  |
+| -----: | ----: | ----------------------- | ----------------------------------------- |
+| 100.0% | 1.3ms | `ToUnionParseResults()` | `Argu.CliParser+CliParseResultAggregator` |
 
 ##### ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)
 
-|      % |  Time | Samples | Caller           | Location  |
-| -----: | ----: | ------: | ---------------- | --------- |
-| 100.0% | 1.3ms |       2 | `main(String[])` | `Profile` |
+|      % |  Time | Caller           | Location  |
+| -----: | ----: | ---------------- | --------- |
+| 100.0% | 1.3ms | `main(String[])` | `Profile` |
 
 ##### ``AddMany(IEnumerable`1<!0>)`` (``Microsoft.FSharp.Core.CompilerServices.ListCollector`1[System.__Canon]``)
 
-|      % |  Time | Samples | Caller                  | Location                                  |
-| -----: | ----: | ------: | ----------------------- | ----------------------------------------- |
-| 100.0% | 1.3ms |       1 | `ToUnionParseResults()` | `Argu.CliParser+CliParseResultAggregator` |
+|      % |  Time | Caller                  | Location                                  |
+| -----: | ----: | ----------------------- | ----------------------------------------- |
+| 100.0% | 1.3ms | `ToUnionParseResults()` | `Argu.CliParser+CliParseResultAggregator` |
 
 ##### `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
-|      % |   Time | Samples | Caller                                                               | Location                                 |
-| -----: | -----: | ------: | -------------------------------------------------------------------- | ---------------------------------------- |
-| 100.0% | <0.1µs |      13 | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.FSharpExpr` |
+|      % |   Time | Caller                                                               | Location                                 |
+| -----: | -----: | -------------------------------------------------------------------- | ---------------------------------------- |
+| 100.0% | <0.1µs | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.FSharpExpr` |
 
 ##### `postProcess@648(UnionArgInfo)` (`Argu.PreCompute`)
 
-|      % |   Time | Samples | Caller                            | Location          |
-| -----: | -----: | ------: | --------------------------------- | ----------------- |
-| 100.0% | <0.1µs |       4 | `checkUnionArgInfo(UnionArgInfo)` | `Argu.PreCompute` |
+|      % |   Time | Caller                            | Location          |
+| -----: | -----: | --------------------------------- | ----------------- |
+| 100.0% | <0.1µs | `checkUnionArgInfo(UnionArgInfo)` | `Argu.PreCompute` |
 
 ##### `.ctor(String, RegexOptions, TimeSpan, CultureInfo)` (`System.Text.RegularExpressions.Regex`)
 
-|      % |   Time | Samples | Caller     | Location                              |
-| -----: | -----: | ------: | ---------- | ------------------------------------- |
-| 100.0% | <0.1µs |       1 | `.cctor()` | `<StartupCode$Argu>.$Argu.PreCompute` |
+|      % |   Time | Caller     | Location                              |
+| -----: | -----: | ---------- | ------------------------------------- |
+| 100.0% | <0.1µs | `.cctor()` | `<StartupCode$Argu>.$Argu.PreCompute` |
 
 ##### `checkUnionArgInfo(UnionArgInfo)` (`Argu.PreCompute`)
 
-|      % |   Time | Samples | Caller         | Location                                                         |
-| -----: | -----: | ------: | -------------- | ---------------------------------------------------------------- |
-| 100.0% | <0.1µs |       2 | `Invoke(Unit)` | `<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]` |
+|      % |   Time | Caller         | Location                                                         |
+| -----: | -----: | -------------- | ---------------------------------------------------------------- |
+| 100.0% | <0.1µs | `Invoke(Unit)` | `<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]` |
 
 ##### ``ToArray(IEnumerable`1<!!0>)`` (`Microsoft.FSharp.Collections.SeqModule`)
 
-|     % |   Time | Samples | Caller         | Location                                         |
-| ----: | -----: | ------: | -------------- | ------------------------------------------------ |
-| 35.4% | <0.1µs |       1 | `Invoke(Unit)` | `Argu.PreCompute+Helpers+groupedSwitchRegex@229` |
+|     % |   Time | Caller         | Location                                         |
+| ----: | -----: | -------------- | ------------------------------------------------ |
+| 35.4% | <0.1µs | `Invoke(Unit)` | `Argu.PreCompute+Helpers+groupedSwitchRegex@229` |
 
 ##### `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)` (`Argu.KeyValueParser`)
 
-|      % |   Time | Samples | Caller                                                                                                                                      | Location                                  |
-| -----: | -----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 100.0% | <0.1µs |       1 | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]`` |
+|      % |   Time | Caller                                                                                                                                      | Location                                  |
+| -----: | -----: | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 100.0% | <0.1µs | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]`` |
 
 ##### ``preComputeUnionCaseArgInfo(FSharpList`1<Type>, FSharpOption`1<HelpParam>, FSharpFunc`2<Unit, UnionArgInfo>, UnionCaseInfo)`` (`Argu.PreCompute`)
 
-|      % |   Time | Samples | Caller                  | Location                         |
-| -----: | -----: | ------: | ----------------------- | -------------------------------- |
-| 100.0% | <0.1µs |       2 | `Invoke(UnionCaseInfo)` | `Argu.PreCompute+caseInfo@576-2` |
+|      % |   Time | Caller                  | Location                         |
+| -----: | -----: | ----------------------- | -------------------------------- |
+| 100.0% | <0.1µs | `Invoke(UnionCaseInfo)` | `Argu.PreCompute+caseInfo@576-2` |
 
 ##### `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)` (`Argu.CliParser`)
 
-|      % |   Time | Samples | Caller                                               | Location         |
-| -----: | -----: | ------: | ---------------------------------------------------- | ---------------- |
-| 100.0% | <0.1µs |       1 | `parseCommandLineInner(CliParseState, UnionArgInfo)` | `Argu.CliParser` |
+|      % |   Time | Caller                                               | Location         |
+| -----: | -----: | ---------------------------------------------------- | ---------------- |
+| 100.0% | <0.1µs | `parseCommandLineInner(CliParseState, UnionArgInfo)` | `Argu.CliParser` |
 
 ##### `parseCommandLineInner(CliParseState, UnionArgInfo)` (`Argu.CliParser`)
 
-|      % |   Time | Samples | Caller                                                                                                   | Location         |
-| -----: | -----: | ------: | -------------------------------------------------------------------------------------------------------- | ---------------- |
-| 100.0% | <0.1µs |       1 | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])`` | `Argu.CliParser` |
+|      % |   Time | Caller                                                                                                   | Location         |
+| -----: | -----: | -------------------------------------------------------------------------------------------------------- | ---------------- |
+| 100.0% | <0.1µs | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])`` | `Argu.CliParser` |
 
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
 
-|     % |    Time | Samples | Function                                                                                                                                    | Location                                                         |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| 99.8% |  10.79s |   9,189 | `main(String[])`                                                                                                                            | `Profile`                                                        |
-| 98.7% |  10.67s |   5,767 | `UNMANAGED_CODE_TIME`                                                                                                                       | `<unknown>`                                                      |
-| 95.1% |  10.28s |   8,510 | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`         |
-| 56.8% |   6.14s |   4,513 | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                       | `Microsoft.FSharp.Reflection.FSharpType`                         |
-| 41.4% |   4.47s |   2,507 | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                             |
-|  4.0% | 431.0ms |     411 | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                          | `Microsoft.FSharp.Quotations.PatternsModule`                     |
-|  3.6% | 384.3ms |     366 | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                        | `Microsoft.FSharp.Quotations.FSharpExpr`                         |
-|  0.6% |  65.4ms |      82 | `CreateValue()`                                                                                                                             | ``System.Lazy`1[System.__Canon]``                                |
-|  0.6% |  61.4ms |      80 | ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)``             | ``Argu.ArgumentParser`1[System.__Canon]``                        |
-|  0.5% |  56.1ms |      73 | `Invoke(Unit)`                                                                                                                              | `<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]` |
-|  0.5% |  55.8ms |      53 | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                        |
-|  0.4% |  42.8ms |      57 | `checkUnionArgInfo(UnionArgInfo)`                                                                                                           | `Argu.PreCompute`                                                |
-|  0.4% |  41.5ms |      54 | `postProcess@648(UnionArgInfo)`                                                                                                             | `Argu.PreCompute`                                                |
-|  0.3% |  29.2ms |      32 | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                   | `Argu.KeyValueParser`                                            |
-|  0.3% |  27.9ms |      30 | `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)`                                                                                | `Argu.KeyValueParser`                                            |
-|  0.2% |  26.5ms |      27 | `get_AppSettings()`                                                                                                                         | `System.Configuration.ConfigurationManager`                      |
-|  0.2% |  26.5ms |      27 | `GetValue(String)`                                                                                                                          | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`  |
-|  0.2% |  18.5ms |      14 | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                 |
-|  0.2% |  18.5ms |      14 | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])``                                    | `Argu.CliParser`                                                 |
-|  0.2% |  17.3ms |      13 | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                     |
+|     % |    Time | Function                                                                                                                                    | Location                                                         |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 99.8% |  10.79s | `main(String[])`                                                                                                                            | `Profile`                                                        |
+| 98.7% |  10.67s | `UNMANAGED_CODE_TIME`                                                                                                                       | `<unknown>`                                                      |
+| 95.1% |  10.28s | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`         |
+| 56.8% |   6.14s | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)``                                                                                       | `Microsoft.FSharp.Reflection.FSharpType`                         |
+| 41.4% |   4.47s | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                             |
+|  4.0% | 431.0ms | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                          | `Microsoft.FSharp.Quotations.PatternsModule`                     |
+|  3.6% | 384.3ms | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                        | `Microsoft.FSharp.Quotations.FSharpExpr`                         |
+|  0.6% |  65.4ms | `CreateValue()`                                                                                                                             | ``System.Lazy`1[System.__Canon]``                                |
+|  0.6% |  61.4ms | ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)``             | ``Argu.ArgumentParser`1[System.__Canon]``                        |
+|  0.5% |  56.1ms | `Invoke(Unit)`                                                                                                                              | `<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]` |
+|  0.5% |  55.8ms | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                        |
+|  0.4% |  42.8ms | `checkUnionArgInfo(UnionArgInfo)`                                                                                                           | `Argu.PreCompute`                                                |
+|  0.4% |  41.5ms | `postProcess@648(UnionArgInfo)`                                                                                                             | `Argu.PreCompute`                                                |
+|  0.3% |  29.2ms | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                   | `Argu.KeyValueParser`                                            |
+|  0.3% |  27.9ms | `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)`                                                                                | `Argu.KeyValueParser`                                            |
+|  0.2% |  26.5ms | `get_AppSettings()`                                                                                                                         | `System.Configuration.ConfigurationManager`                      |
+|  0.2% |  26.5ms | `GetValue(String)`                                                                                                                          | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`  |
+|  0.2% |  18.5ms | `parseCommandLineInner(CliParseState, UnionArgInfo)`                                                                                        | `Argu.CliParser`                                                 |
+|  0.2% |  18.5ms | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])``                                    | `Argu.CliParser`                                                 |
+|  0.2% |  17.3ms | `u_Expr(InputState)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule`                     |
 
 #### Categories
 
 ##### Native
 
-|     % |   Time | Samples | Function              | Location    |
-| ----: | -----: | ------: | --------------------- | ----------- |
-| 98.7% | 10.67s |   5,767 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+|     % |   Time | Function              | Location    |
+| ----: | -----: | --------------------- | ----------- |
+| 98.7% | 10.67s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 #### Callees
 
@@ -204,113 +204,113 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `main(String[])` (`Profile`)
 
-|     % |    Time | Samples | Callee                                                                                                                                      | Location                                                 |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| 91.5% |   9.87s |   8,203 | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
-|  3.6% | 384.3ms |     366 | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                        | `Microsoft.FSharp.Quotations.FSharpExpr`                 |
-|  3.1% | 333.8ms |     232 | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                     |
-|  0.6% |  61.4ms |      80 | ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)``             | ``Argu.ArgumentParser`1[System.__Canon]``                |
-|  0.5% |  55.8ms |      53 | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                |
+|     % |    Time | Callee                                                                                                                                      | Location                                                 |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| 91.5% |   9.87s | `Invoke(BindingEnv)`                                                                                                                        | `Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965` |
+|  3.6% | 384.3ms | `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])`                                                                        | `Microsoft.FSharp.Quotations.FSharpExpr`                 |
+|  3.1% | 333.8ms | `MakeGenericType(Type[])`                                                                                                                   | `System.RuntimeType`                                     |
+|  0.6% |  61.4ms | ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)``             | ``Argu.ArgumentParser`1[System.__Canon]``                |
+|  0.5% |  55.8ms | ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` | ``Argu.ArgumentParser`1[System.__Canon]``                |
 
 ##### `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)
 
-|     % |  Time | Samples | Callee                    | Location             |
-| ----: | ----: | ------: | ------------------------- | -------------------- |
-| 35.2% | 3.62s |   1,908 | `MakeGenericType(Type[])` | `System.RuntimeType` |
-| <0.1% | 2.7ms |       2 | `UNMANAGED_CODE_TIME`     | `<unknown>`          |
+|     % |  Time | Callee                    | Location             |
+| ----: | ----: | ------------------------- | -------------------- |
+| 35.2% | 3.62s | `MakeGenericType(Type[])` | `System.RuntimeType` |
+| <0.1% | 2.7ms | `UNMANAGED_CODE_TIME`     | `<unknown>`          |
 
 ##### `MakeGenericType(Type[])` (`System.RuntimeType`)
 
-|     % |  Time | Samples | Callee                | Location    |
-| ----: | ----: | ------: | --------------------- | ----------- |
-| 84.5% | 3.78s |   1,950 | `UNMANAGED_CODE_TIME` | `<unknown>` |
+|     % |  Time | Callee                | Location    |
+| ----: | ----: | --------------------- | ----------- |
+| 84.5% | 3.78s | `UNMANAGED_CODE_TIME` | `<unknown>` |
 
 ##### `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)
 
-|      % |    Time | Samples | Callee                                                             | Location                                     |
-| -----: | ------: | ------: | ------------------------------------------------------------------ | -------------------------------------------- |
-| 100.0% | 384.3ms |     366 | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.PatternsModule` |
+|      % |    Time | Callee                                                             | Location                                     |
+| -----: | ------: | ------------------------------------------------------------------ | -------------------------------------------- |
+| 100.0% | 384.3ms | `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` | `Microsoft.FSharp.Quotations.PatternsModule` |
 
 ##### ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)
 
-|     % |   Time | Samples | Callee                       | Location                          |
-| ----: | -----: | ------: | ---------------------------- | --------------------------------- |
-| 91.4% | 56.1ms |      73 | `CreateValue()`              | ``System.Lazy`1[System.__Canon]`` |
-|  8.6% |  5.3ms |       7 | `getDefaultCharacterWidth()` | `Argu.Utils`                      |
+|     % |   Time | Callee                       | Location                          |
+| ----: | -----: | ---------------------------- | --------------------------------- |
+| 91.4% | 56.1ms | `CreateValue()`              | ``System.Lazy`1[System.__Canon]`` |
+|  8.6% |  5.3ms | `getDefaultCharacterWidth()` | `Argu.Utils`                      |
 
 ##### `Invoke(Unit)` (`<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]`)
 
-|     % |   Time | Samples | Callee                            | Location                          |
-| ----: | -----: | ------: | --------------------------------- | --------------------------------- |
-| 76.3% | 42.8ms |      57 | `checkUnionArgInfo(UnionArgInfo)` | `Argu.PreCompute`                 |
-| 23.7% | 13.3ms |      16 | `CreateValue()`                   | ``System.Lazy`1[System.__Canon]`` |
+|     % |   Time | Callee                            | Location                          |
+| ----: | -----: | --------------------------------- | --------------------------------- |
+| 76.3% | 42.8ms | `checkUnionArgInfo(UnionArgInfo)` | `Argu.PreCompute`                 |
+| 23.7% | 13.3ms | `CreateValue()`                   | ``System.Lazy`1[System.__Canon]`` |
 
 ##### ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)
 
-|     % |   Time | Samples | Callee                                                                                                                                             | Location                                  |
-| ----: | -----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| 52.3% | 29.2ms |      32 | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                          | `Argu.KeyValueParser`                     |
-| 33.2% | 18.5ms |      14 | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])``                                           | `Argu.CliParser`                          |
-|  7.2% |  4.0ms |       3 | `ToUnionParseResults()`                                                                                                                            | `Argu.CliParser+CliParseResultAggregator` |
-|  2.4% |  1.3ms |       1 | ``postProcessResults(UnionArgInfo, bool, FSharpOption`1<FSharpChoice`2<UnionCaseParseResult[], Exception>[]>, FSharpOption`1<UnionParseResults>)`` | `Argu.CommonParsers`                      |
-|  2.4% |  1.3ms |       1 | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)`                                                                   | `Argu.CliParser`                          |
+|     % |   Time | Callee                                                                                                                                             | Location                                  |
+| ----: | -----: | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 52.3% | 29.2ms | `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)`                                                                                          | `Argu.KeyValueParser`                     |
+| 33.2% | 18.5ms | ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])``                                           | `Argu.CliParser`                          |
+|  7.2% |  4.0ms | `ToUnionParseResults()`                                                                                                                            | `Argu.CliParser+CliParseResultAggregator` |
+|  2.4% |  1.3ms | ``postProcessResults(UnionArgInfo, bool, FSharpOption`1<FSharpChoice`2<UnionCaseParseResult[], Exception>[]>, FSharpOption`1<UnionParseResults>)`` | `Argu.CommonParsers`                      |
+|  2.4% |  1.3ms | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)`                                                                   | `Argu.CliParser`                          |
 
 ##### `checkUnionArgInfo(UnionArgInfo)` (`Argu.PreCompute`)
 
-|     % |   Time | Samples | Callee                          | Location          |
-| ----: | -----: | ------: | ------------------------------- | ----------------- |
-| 96.9% | 41.5ms |      54 | `postProcess@648(UnionArgInfo)` | `Argu.PreCompute` |
-|  3.1% |  1.3ms |       1 | `UNMANAGED_CODE_TIME`           | `<unknown>`       |
+|     % |   Time | Callee                          | Location          |
+| ----: | -----: | ------------------------------- | ----------------- |
+| 96.9% | 41.5ms | `postProcess@648(UnionArgInfo)` | `Argu.PreCompute` |
+|  3.1% |  1.3ms | `UNMANAGED_CODE_TIME`           | `<unknown>`       |
 
 ##### `postProcess@648(UnionArgInfo)` (`Argu.PreCompute`)
 
-|     % |   Time | Samples | Callee                                                   | Location                                 |
-| ----: | -----: | ------: | -------------------------------------------------------- | ---------------------------------------- |
-| 58.2% | 24.2ms |      30 | `CreateValue()`                                          | ``System.Lazy`1[System.__Canon]``        |
-| 32.1% | 13.3ms |      17 | ``TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)`` | `Microsoft.FSharp.Collections.SeqModule` |
-|  6.5% |  2.7ms |       2 | `get_Value()`                                            | ``System.Lazy`1[System.Boolean]``        |
-|  3.2% |  1.3ms |       1 | ``Append(IEnumerable`1<!!0>, IEnumerable`1<!!0>)``       | `Microsoft.FSharp.Collections.SeqModule` |
+|     % |   Time | Callee                                                   | Location                                 |
+| ----: | -----: | -------------------------------------------------------- | ---------------------------------------- |
+| 58.2% | 24.2ms | `CreateValue()`                                          | ``System.Lazy`1[System.__Canon]``        |
+| 32.1% | 13.3ms | ``TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)`` | `Microsoft.FSharp.Collections.SeqModule` |
+|  6.5% |  2.7ms | `get_Value()`                                            | ``System.Lazy`1[System.Boolean]``        |
+|  3.2% |  1.3ms | ``Append(IEnumerable`1<!!0>, IEnumerable`1<!!0>)``       | `Microsoft.FSharp.Collections.SeqModule` |
 
 ##### `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)` (`Argu.KeyValueParser`)
 
-|     % |   Time | Samples | Callee                                                       | Location                                   |
-| ----: | -----: | ------: | ------------------------------------------------------------ | ------------------------------------------ |
-| 95.5% | 27.9ms |      30 | `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)` | `Argu.KeyValueParser`                      |
-|  4.5% |  1.3ms |       1 | `.ctor(UnionArgInfo)`                                        | `Argu.KeyValueParser+KeyValueParseResults` |
+|     % |   Time | Callee                                                       | Location                                   |
+| ----: | -----: | ------------------------------------------------------------ | ------------------------------------------ |
+| 95.5% | 27.9ms | `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)` | `Argu.KeyValueParser`                      |
+|  4.5% |  1.3ms | `.ctor(UnionArgInfo)`                                        | `Argu.KeyValueParser+KeyValueParseResults` |
 
 ##### `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)` (`Argu.KeyValueParser`)
 
-|     % |   Time | Samples | Callee                | Location                                                        |
-| ----: | -----: | ------: | --------------------- | --------------------------------------------------------------- |
-| 95.1% | 26.5ms |      27 | `GetValue(String)`    | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader` |
-|  4.9% |  1.4ms |       1 | `UNMANAGED_CODE_TIME` | `<unknown>`                                                     |
+|     % |   Time | Callee                | Location                                                        |
+| ----: | -----: | --------------------- | --------------------------------------------------------------- |
+| 95.1% | 26.5ms | `GetValue(String)`    | `Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader` |
+|  4.9% |  1.4ms | `UNMANAGED_CODE_TIME` | `<unknown>`                                                     |
 
 ##### `GetValue(String)` (`Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`)
 
-|      % |   Time | Samples | Callee              | Location                                    |
-| -----: | -----: | ------: | ------------------- | ------------------------------------------- |
-| 100.0% | 26.5ms |      27 | `get_AppSettings()` | `System.Configuration.ConfigurationManager` |
+|      % |   Time | Callee              | Location                                    |
+| -----: | -----: | ------------------- | ------------------------------------------- |
+| 100.0% | 26.5ms | `get_AppSettings()` | `System.Configuration.ConfigurationManager` |
 
 ##### `parseCommandLineInner(CliParseState, UnionArgInfo)` (`Argu.CliParser`)
 
-|     % |   Time | Samples | Callee                                                                           | Location                                  |
-| ----: | -----: | ------: | -------------------------------------------------------------------------------- | ----------------------------------------- |
-| 64.5% | 12.0ms |      10 | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)` | `Argu.CliParser`                          |
-| 21.4% |  4.0ms |       1 | `UNMANAGED_CODE_TIME`                                                            | `<unknown>`                               |
-| 14.1% |  2.6ms |       2 | `ToUnionParseResults()`                                                          | `Argu.CliParser+CliParseResultAggregator` |
+|     % |   Time | Callee                                                                           | Location                                  |
+| ----: | -----: | -------------------------------------------------------------------------------- | ----------------------------------------- |
+| 64.5% | 12.0ms | `parseCommandLinePartial(CliParseState, UnionArgInfo, CliParseResultAggregator)` | `Argu.CliParser`                          |
+| 21.4% |  4.0ms | `UNMANAGED_CODE_TIME`                                                            | `<unknown>`                               |
+| 14.1% |  2.6ms | `ToUnionParseResults()`                                                          | `Argu.CliParser+CliParseResultAggregator` |
 
 ##### ``parseCommandLine(UnionArgInfo, String, FSharpOption`1<String>, int32, IExiter, bool, bool, String[])`` (`Argu.CliParser`)
 
-|      % |   Time | Samples | Callee                                               | Location         |
-| -----: | -----: | ------: | ---------------------------------------------------- | ---------------- |
-| 100.0% | 18.5ms |      14 | `parseCommandLineInner(CliParseState, UnionArgInfo)` | `Argu.CliParser` |
+|      % |   Time | Callee                                               | Location         |
+| -----: | -----: | ---------------------------------------------------- | ---------------- |
+| 100.0% | 18.5ms | `parseCommandLineInner(CliParseState, UnionArgInfo)` | `Argu.CliParser` |
 
 ##### `u_Expr(InputState)` (`Microsoft.FSharp.Quotations.PatternsModule`)
 
-|     % |  Time | Samples | Callee                | Location                                     |
-| ----: | ----: | ------: | --------------------- | -------------------------------------------- |
-| 38.6% | 6.7ms |       5 | `u_Expr(InputState)`  | `Microsoft.FSharp.Quotations.PatternsModule` |
-|  7.9% | 1.4ms |       1 | `UNMANAGED_CODE_TIME` | `<unknown>`                                  |
+|     % |  Time | Callee                | Location                                     |
+| ----: | ----: | --------------------- | -------------------------------------------- |
+| 38.6% | 6.7ms | `u_Expr(InputState)`  | `Microsoft.FSharp.Quotations.PatternsModule` |
+|  7.9% | 1.4ms | `UNMANAGED_CODE_TIME` | `<unknown>`                                  |
 
 ## Hottest call stacks
 
@@ -318,25 +318,25 @@ Call stacks ranked by time spent in their leaf frame. `…` stands for frames th
 
 Common call stack: `main(String[])` (`Profile`)
 
-|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ----: | ------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 54.6% |   5.89s |   3,165 | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                    |
-| 29.5% |   3.18s |   1,538 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)`                                                                                                                                                                                                                                                                                                                                                                 |
-|  2.2% | 233.7ms |     166 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                        |
-|  2.0% | 214.4ms |     147 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  1.5% | 167.1ms |     119 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)`                                                                                                                                                                                                                                                                                                                                                             |
-|  1.4% | 153.9ms |      87 | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                          |
-|  1.2% | 132.0ms |      93 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                    |
-|  1.1% | 119.4ms |      82 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  1.0% | 109.4ms |      77 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                            |
-|  1.0% | 103.1ms |      72 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                        |
-|  0.9% | 101.3ms |      56 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                               |
-|  0.4% |  41.7ms |      55 | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                      |
-|  0.2% |  26.5ms |      17 | `UNMANAGED_CODE_TIME` ← … ← `get_AppSettings()` (`System.Configuration.ConfigurationManager`) ← `GetValue(String)` (`Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`) ← `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)` (`Argu.KeyValueParser`) ← `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)` ← ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)                     |
-|  0.2% |  25.6ms |      30 | `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                                           |
-|  0.2% |  24.1ms |   1,189 | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                |
-|  0.2% |  22.7ms |      13 | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)                                                                                                                                                                                                            |
-|  0.1% |  14.8ms |       9 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)                                                                                                                                                                                                                                         |
-|  0.1% |  13.6ms |      10 | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                                          |
-|  0.1% |  12.1ms |       6 | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                       |
-|  0.1% |  10.7ms |       8 | `UNMANAGED_CODE_TIME` ← … ← ``TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)`` (`Microsoft.FSharp.Collections.SeqModule`) ← `postProcess@648(UnionArgInfo)` (`Argu.PreCompute`) ← `checkUnionArgInfo(UnionArgInfo)` ← `Invoke(Unit)` (`<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]`) ← … ← `CreateValue()` (``System.Lazy`1[System.__Canon]``) ← ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``) |
+|     % |    Time | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 54.6% |   5.89s | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                    |
+| 29.5% |   3.18s | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)`                                                                                                                                                                                                                                                                                                                                                                 |
+|  2.2% | 233.7ms | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                        |
+|  2.0% | 214.4ms | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  1.5% | 167.1ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)`                                                                                                                                                                                                                                                                                                                                                             |
+|  1.4% | 153.9ms | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                          |
+|  1.2% | 132.0ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                    |
+|  1.1% | 119.4ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|  1.0% | 109.4ms | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                            |
+|  1.0% | 103.1ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                                        |
+|  0.9% | 101.3ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                               |
+|  0.4% |  41.7ms | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                      |
+|  0.2% |  26.5ms | `UNMANAGED_CODE_TIME` ← … ← `get_AppSettings()` (`System.Configuration.ConfigurationManager`) ← `GetValue(String)` (`Argu.AppSettingsConfigurationReader.Argu.IConfigurationReader`) ← `parseKeyValuePartial(KeyValueParseState, UnionCaseArgInfo)` (`Argu.KeyValueParser`) ← `parseKeyValueConfig(IConfigurationReader, UnionArgInfo)` ← ``Parse(FSharpOption`1<String[]>, FSharpOption`1<IConfigurationReader>, FSharpOption`1<bool>, FSharpOption`1<bool>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``)                     |
+|  0.2% |  25.6ms | `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                                           |
+|  0.2% |  24.1ms | ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`)                                                                                                                                                                                                                                                                                                                                                                |
+|  0.2% |  22.7ms | `UNMANAGED_CODE_TIME` ← … ← ``GetUnionCases(Type, FSharpOption`1<BindingFlags>)`` (`Microsoft.FSharp.Reflection.FSharpType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)                                                                                                                                                                                                            |
+|  0.1% |  14.8ms | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`)                                                                                                                                                                                                                                         |
+|  0.1% |  13.6ms | `UNMANAGED_CODE_TIME` ← … ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← … ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                                          |
+|  0.1% |  12.1ms | `UNMANAGED_CODE_TIME` ← `MakeGenericType(Type[])` (`System.RuntimeType`) ← `Invoke(BindingEnv)` (`Microsoft.FSharp.Quotations.PatternsModule+u_Expr@1965`) ← … ← `Invoke(BindingEnv)` ← … ← `deserialize(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.PatternsModule`) ← `Deserialize40(Type, Type[], Type[], FSharpExpr[], unsigned int8[])` (`Microsoft.FSharp.Quotations.FSharpExpr`)                                                                                                                       |
+|  0.1% |  10.7ms | `UNMANAGED_CODE_TIME` ← … ← ``TryFind(FSharpFunc`2<!!0, bool>, IEnumerable`1<!!0>)`` (`Microsoft.FSharp.Collections.SeqModule`) ← `postProcess@648(UnionArgInfo)` (`Argu.PreCompute`) ← `checkUnionArgInfo(UnionArgInfo)` ← `Invoke(Unit)` (`<StartupCode$Argu>.$ArgumentParser+-cctor@87-1[System.__Canon]`) ← … ← `CreateValue()` (``System.Lazy`1[System.__Canon]``) ← ``.ctor(FSharpOption`1<String>, FSharpOption`1<String>, FSharpOption`1<int32>, FSharpOption`1<IExiter>, FSharpOption`1<bool>)`` (``Argu.ArgumentParser`1[System.__Canon]``) |

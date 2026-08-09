@@ -158,19 +158,18 @@ describe(`convert`, () => {
     )
 
     // Main: self=10ms, total=15ms; work: self=5ms, total=5ms
+    expect(summaryLines(md)).toEqual([`Took 15.0ms.`])
     expect(selfTimeTables(md)).toEqual([
       [
         {
           '%': `66.7%`,
           Time: `10.0ms`,
-          Samples: `2`,
           Function: `main`,
           Location: `src/index.ts:1`,
         },
         {
           '%': `33.3%`,
           Time: `5.0ms`,
-          Samples: `1`,
           Function: `work`,
           Location: `src/index.ts:10`,
         },
@@ -365,7 +364,6 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Time: `15.0ms`,
-          Samples: `3`,
           Function: `factorial`,
           Location: `src/index.ts:1`,
         },
