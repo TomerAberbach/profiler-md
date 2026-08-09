@@ -80,6 +80,7 @@
     "check-demo": "node scripts/update-demo.ts --check",
     "update-examples": "node scripts/update-examples.ts",
     "check-examples": "node scripts/update-examples.ts --check",
+    "check": "pnpm build && pnpm lint --no-fix && pnpm format --no-write --check && pnpm typecheck && pnpm knip && pnpm test --run && pnpm check-readme && pnpm check-demo && pnpm check-examples",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",

@@ -37,29 +37,5 @@ jobs:
           cache: true
           run_install: true
 
-      - name: Build
-        run: pnpm build
-
-      - name: Lint
-        run: pnpm lint --no-fix
-
-      - name: Format
-        run: pnpm format --no-write --check
-
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Knip
-        run: pnpm knip
-
-      - name: Test
-        run: pnpm test
-
-      - name: Check readme
-        run: pnpm check-readme
-
-      - name: Check demo
-        run: pnpm check-demo
-
-      - name: Check examples
-        run: pnpm check-examples
+      - name: Check
+        run: pnpm check
