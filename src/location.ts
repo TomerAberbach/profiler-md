@@ -2,36 +2,89 @@ import type { DeepReadonly } from './helpers/types.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
 import { sourceMapSourceLocation } from './source-map.ts'
 
-/** A file reference, potentially with line and column information. */
-export type SourceLocation = FileReference & {
-  /** The 1-based line number in the file. */
+/** A source reference, potentially with line and column information. */
+export type SourceLocation = SourceReference & {
+  /** The 1-based line number in the referenced source. */
   line?: number
 
-  /** The 1-based column number in the file. */
+  /** The 1-based column number in the referenced source. */
   column?: number
 }
 
-export const fileReferenceId = (
-  fileReference: DeepReadonly<FileReference>,
-): string =>
-  fileReference.type === `absolute`
-    ? fileReference.url.href
-    : fileReference.path
+export const sourceReferenceId = (
+  sourceReference: DeepReadonly<SourceReference>,
+): string => {
+  switch (sourceReference.type) {
+    case `absolute`:
+      return sourceReference.url.href
+    case `relative`:
+      return sourceReference.path
+    case `logical`:
+      return sourceReference.name
+  }
+}
 
-export const fileReferencePath = (
-  fileReference: DeepReadonly<FileReference>,
+/**
+ * Returns which kind of reference {@link sourceReference} is: `file` for an
+ * absolute URL or relative path, `logical` for a named class, module,
+ * namespace, assembly, or library.
+ *
+ * References of different kinds with equal {@link sourceReferenceId}s reference
+ * different sources, so a key built from that ID includes this.
+ */
+export const sourceReferenceKind = (
+  sourceReference: DeepReadonly<SourceReference>,
+): `file` | `logical` =>
+  sourceReference.type === `logical` ? `logical` : `file`
+
+/**
+ * Returns a file reference's path or a logical reference's name, the
+ * form categorization rules match against. An absolute URL reduces to its
+ * pathname so a rule written for a path applies whether or not the reference
+ * carries a protocol and host.
+ */
+export const sourceReferencePathOrName = (
+  sourceReference: DeepReadonly<SourceReference>,
 ): string =>
-  fileReference.type === `absolute`
-    ? fileReference.url.pathname
-    : fileReference.path
+  sourceReference.type === `absolute`
+    ? sourceReference.url.pathname
+    : sourceReferenceId(sourceReference)
+
+/**
+ * Returns a logical reference's name, or `undefined` for a file reference. A
+ * rule reading the shape of such a name (a namespace root, a module name) takes
+ * its input from here, so a path never reaches it.
+ */
+export const logicalReferenceName = (
+  sourceReference: DeepReadonly<SourceReference>,
+): string | undefined =>
+  sourceReference.type === `logical` ? sourceReference.name : undefined
+
+/** Returns whether the two references reference the same source. */
+export const isSameSourceReference = (
+  sourceReference1: DeepReadonly<SourceReference>,
+  sourceReference2: DeepReadonly<SourceReference>,
+): boolean =>
+  sourceReferenceKind(sourceReference1) ===
+    sourceReferenceKind(sourceReference2) &&
+  sourceReferenceId(sourceReference1) === sourceReferenceId(sourceReference2)
+
+/** A reference to where a function is defined: a file or a logical name. */
+export type SourceReference = FileReference | LogicalReference
 
 export type FileReference =
   { type: `absolute`; url: URL } | { type: `relative`; path: string }
 
+/**
+ * A named class, module, namespace, assembly, or native library (e.g.
+ * `java.util.HashMap`).
+ */
+export type LogicalReference = { type: `logical`; name: string }
+
 export const makeFileReference = (
   urlOrPath: string,
 ): FileReference | undefined => {
-  if (!urlOrPath || UNKNOWN_URL_OR_PATH.test(urlOrPath)) {
+  if (!urlOrPath || UNKNOWN_LOCATION.test(urlOrPath)) {
     return undefined
   }
 
@@ -54,22 +107,52 @@ export const makeFileReference = (
   }
 }
 
-// Profilers indicate unknown locations in many different ways.
-const UNKNOWN_URL_OR_PATH = /^(?:unknown|nothing|\?+)$/iu
+const makeLogicalReference = (name: string): LogicalReference | undefined => {
+  if (!name || UNKNOWN_LOGICAL_NAME.test(name)) {
+    return undefined
+  }
 
-export type SourceLocationInput = {
-  /** A string parseable into a {@link URL} or file path. */
-  urlOrPath: string
+  return { type: `logical`, name }
+}
 
-  /** The 1-based line number in the file at {@link urlOrPath}. */
+// Profilers indicate unknown file locations in many ways.
+const UNKNOWN_LOCATION = /^(?:unknown|nothing|\?+)$/iu
+
+// A `?`-sequence cannot be a logical name, but `unknown` and `nothing` can
+// (a default-package class, an Erlang module), so only a `?`-sequence marks an
+// unknown logical reference.
+const UNKNOWN_LOGICAL_NAME = /^\?+$/u
+
+export type SourceLocationInput = (
+  | {
+      type: `file`
+
+      /** A string parseable into a {@link URL} or file path. */
+      urlOrPath: string
+    }
+  | {
+      type: `logical`
+
+      /**
+       * The name of a class, module, namespace, assembly, or native library.
+       */
+      name: string
+    }
+) & {
+  /** The 1-based line number in the referenced source. */
   line?: number
 
-  /** The 1-based column number in the file at {@link urlOrPath}. */
+  /** The 1-based column number in the referenced source. */
   column?: number
 }
 
+/** Returns the raw reference string of {@link location}. */
+export const sourceLocationInputString = (
+  location: SourceLocationInput,
+): string => (location.type === `file` ? location.urlOrPath : location.name)
+
 /**
- * Builds a {@link SourceLocation} from a raw file reference and optional
+ * Builds a {@link SourceLocation} from a raw source reference and optional
  * line/column, returning `undefined` when there's no usable location.
  */
 export const makeSourceLocation = (
@@ -79,27 +162,30 @@ export const makeSourceLocation = (
     return undefined
   }
 
-  const fileReference = makeFileReference(location.urlOrPath)
-  if (!fileReference) {
+  const sourceReference =
+    location.type === `file`
+      ? makeFileReference(location.urlOrPath)
+      : makeLogicalReference(location.name)
+  if (!sourceReference) {
     return undefined
   }
 
-  return fileReferenceToSourceLocation(fileReference, location)
+  return sourceReferenceToSourceLocation(sourceReference, location)
 }
 
-export const fileReferenceToSourceLocation = (
-  fileReference: FileReference,
+export const sourceReferenceToSourceLocation = (
+  sourceReference: SourceReference,
   {
     line,
     column,
   }: {
-    /** The 1-based line number in the file. */
+    /** The 1-based line number in the referenced source. */
     line?: number
 
-    /** The 1-based column number in the file. */
+    /** The 1-based column number in the referenced source. */
     column?: number
   },
-): SourceLocation => ({ ...fileReference, line, column })
+): SourceLocation => ({ ...sourceReference, line, column })
 
 /**
  * Whether a base URL can be inferred from {@link location}: an absolute
@@ -126,9 +212,7 @@ export const formatSourceLocation = (
   location = sourceMapSourceLocation(location, options)
 
   let path: string
-  if (location.type === `relative`) {
-    ;({ path } = location)
-  } else {
+  if (location.type === `absolute`) {
     const { baseURL } = options
     if (baseURL === undefined) {
       path =
@@ -154,6 +238,8 @@ export const formatSourceLocation = (
     } else {
       path = location.url.href
     }
+  } else {
+    path = sourceReferenceId(location)
   }
 
   if (location.line !== undefined) {

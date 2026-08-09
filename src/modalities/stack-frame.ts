@@ -1,4 +1,4 @@
-import { makeSourceLocation } from '../location.ts'
+import { makeSourceLocation, sourceLocationInputString } from '../location.ts'
 import type { SourceLocation, SourceLocationInput } from '../location.ts'
 import type { ProfileToMdContext } from '../options.ts'
 import { normalizeStackFrameForContext } from '../origins/index.ts'
@@ -161,9 +161,9 @@ export type StackFrameFunction = {
   location: SourceLocation | undefined
 
   /**
-   * The function's identity key: its normalized name and location (URL/path,
-   * plus definition line and column). Two frames that parse to the same key
-   * are the same function.
+   * The function's identity key: its normalized name and location (the
+   * reference kind and its URL, path, or logical name, plus definition line
+   * and column). Two frames that parse to the same key are the same function.
    *
    * The location's own line/column are part of the identity, but a frame's
    * executing line ({@link StackFrame.line}) is not; that contributes
@@ -185,4 +185,4 @@ export const parseStackFrameFunction = (
 const functionIdentityKey = ({ name = ``, location }: StackFrame): string =>
   location === undefined
     ? name
-    : `${name}\0${location.urlOrPath}\0${location.line ?? ``}\0${location.column ?? ``}`
+    : `${name}\0${location.type}\0${sourceLocationInputString(location)}\0${location.line ?? ``}\0${location.column ?? ``}`

@@ -38,7 +38,10 @@ export const asyncProfilerOriginSpec = {
 
     return {
       name: name.slice(lastDot + 1),
-      location: { urlOrPath: name.slice(0, lastDot).replaceAll(`/`, `.`) },
+      location: {
+        type: `logical`,
+        name: name.slice(0, lastDot).replaceAll(`/`, `.`),
+      },
     }
   },
 } as const satisfies OriginSpec

@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
-import { fileReferenceId } from '../location.ts'
+import { sourceReferenceId } from '../location.ts'
 import type { SamplingProfile } from '../modalities/sampling-profile/index.ts'
 import {
   selfSamplesTables,
@@ -1064,7 +1064,7 @@ describe(`diffProfiles`, () => {
           matchEntry: entry =>
             entry.location
               ? {
-                  location: fileReferenceId(entry.location).replace(
+                  location: sourceReferenceId(entry.location).replace(
                     /a-\d+\.ts$/u,
                     `a.ts`,
                   ),

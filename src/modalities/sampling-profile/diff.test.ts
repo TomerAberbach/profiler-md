@@ -58,6 +58,34 @@ describe(`diffAggregatedSamplingProfiles`, () => {
     expect(funcA.current).toBeUndefined()
   })
 
+  test(`function in a file does not match one in a module of the same name`, () => {
+    const base = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [{ name: `sort`, url: `lists`, selfValues: [100], selfSampleCount: 5 }],
+    )
+    const current = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `sort`,
+          logicalName: `lists`,
+          selfValues: [100],
+          selfSampleCount: 5,
+        },
+      ],
+    )
+
+    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+
+    expect(diff.functions).toHaveLength(2)
+    expect(diff.functions.map(fn => [!!fn.base, !!fn.current])).toEqual(
+      expect.arrayContaining([
+        [true, false],
+        [false, true],
+      ]),
+    )
+  })
+
   test(`function only in current has no base side`, () => {
     const base = makeAggregatedSamplingProfile([MICROSECONDS], [])
     const current = makeAggregatedSamplingProfile(

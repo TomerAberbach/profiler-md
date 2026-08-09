@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { logicalReferenceName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -62,7 +62,7 @@ export const dotnetTraceOriginSpec = {
       // A type-less function; the assembly is the best location available.
       return {
         name: path + signature,
-        location: { urlOrPath: name.slice(0, bang).toLowerCase() },
+        location: { type: `logical`, name: name.slice(0, bang).toLowerCase() },
       }
     }
     // A constructor frame is `Type..ctor()`; keep the leading dot with the
@@ -73,7 +73,7 @@ export const dotnetTraceOriginSpec = {
 
     return {
       name: path.slice(dot + 1) + signature,
-      location: { urlOrPath: path.slice(0, dot) },
+      location: { type: `logical`, name: path.slice(0, dot) },
     }
   },
 } as const satisfies OriginSpec
@@ -149,7 +149,8 @@ const UNKNOWN_ASSEMBLY_PREFIX = `?!`
 /**
  * Categorizes a frame by its declaring type (the location lifted out by
  * `normalizeStackFrame`): .NET runtime and framework namespaces are `stdlib`; any
- * other namespace is `ours`.
+ * other namespace is `ours`. A frame located in a file instead carries a path,
+ * which says nothing about a namespace, so it falls through.
  *
  * NuGet dependencies (e.g. `Newtonsoft.Json`) carry no marker distinguishing
  * them from application namespaces, so they fall to `ours`.
@@ -157,12 +158,11 @@ const UNKNOWN_ASSEMBLY_PREFIX = `?!`
 const dotnetNamespaceCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
-  if (!location) {
+  const namespace = location && logicalReferenceName(location)
+  if (namespace === undefined) {
     return undefined
   }
-  return DOTNET_STDLIB_NAMESPACE.test(fileReferencePath(location))
-    ? `stdlib`
-    : `ours`
+  return DOTNET_STDLIB_NAMESPACE.test(namespace) ? `stdlib` : `ours`
 }
 
 /**

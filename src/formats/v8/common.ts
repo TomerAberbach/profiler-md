@@ -32,6 +32,7 @@ export const callFrameToStackFrame = (callFrame: V8CallFrame): StackFrame => {
     name: functionName,
     location: url
       ? {
+          type: `file`,
           urlOrPath: url,
           line: lineNumber < 0 ? undefined : lineNumber + 1,
           column: columnNumber < 0 ? undefined : columnNumber + 1,

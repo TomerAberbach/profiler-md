@@ -8,7 +8,7 @@
 
 import globals from 'globals'
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferencePath } from '../location.ts'
+import { sourceReferencePathOrName } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
@@ -130,7 +130,7 @@ export const hasNodeModulesPath = (
   if (!location) {
     return false
   }
-  const path = fileReferencePath(location)
+  const path = sourceReferencePathOrName(location)
   return path.startsWith(`node_modules/`) || path.includes(`/node_modules/`)
 }
 

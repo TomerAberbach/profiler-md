@@ -2,7 +2,7 @@ import type { PhrasingContent } from 'mdast'
 import { capitalizeFirst } from '../../helpers/format.ts'
 import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
-import { fileReferenceId, formatSourceLocation } from '../../location.ts'
+import { formatSourceLocation, isSameSourceReference } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { NamedFunction } from '../format.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
@@ -177,10 +177,10 @@ export const formatCallStack = (
 
 /**
  * Formats {@link frame}'s location, shortened to its line and column when
- * {@link previousFunction} is in the same file.
+ * {@link previousFunction} is in the same source.
  *
  * An ellipsis prints no location, so a shortened location after one still
- * refers to the last printed file.
+ * refers to the last printed source.
  */
 const formatFrameLocation = (
   frame: AggregatedSamplingProfileFunction,
@@ -191,10 +191,11 @@ const formatFrameLocation = (
     return []
   }
 
-  const previousFileId = previousFunction?.location
-    ? fileReferenceId(previousFunction.location)
-    : undefined
-  if (!previousFileId || fileReferenceId(frame.location) !== previousFileId) {
+  const { location: previousLocation } = previousFunction ?? {}
+  if (
+    !previousLocation ||
+    !isSameSourceReference(frame.location, previousLocation)
+  ) {
     return [
       ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
     ]

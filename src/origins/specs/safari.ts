@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { sourceReferencePathOrName } from '../../location.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { locationlessCategory, syntheticFrameCategory } from '../categorize.ts'
 import {
@@ -24,7 +24,7 @@ const isInjectedScript = ({
 }: DeepReadonly<ProfileEntry>): boolean =>
   name?.startsWith(INJECTED_SCRIPT_MARKER) === true ||
   (location !== undefined &&
-    fileReferencePath(location).includes(INJECTED_SCRIPT_MARKER))
+    sourceReferencePathOrName(location).includes(INJECTED_SCRIPT_MARKER))
 
 export const safariOriginSpec = {
   id: `safari`,

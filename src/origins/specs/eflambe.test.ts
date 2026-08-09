@@ -1,13 +1,14 @@
 import { describe, expect, test } from 'vitest'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
 
-/** A frame as it looks after normalization: a relative module location. */
+/** A frame as it looks after normalization: a logical module location. */
 const moduleEntry = (name: string, module: string): ProfileEntry => ({
   id: 1,
   name,
-  location: { type: `relative`, path: module },
+  location: { type: `logical`, name: module },
 })
 
 const named = (name: string): ProfileEntry => ({ id: 1, name })
@@ -34,14 +35,14 @@ describe(`normalizeStackFrame`, () => {
   test(`lifts an Elixir module out of the name as the location, stripping the Elixir. prefix`, () => {
     expect(normalizeStackFrame({ name: `Elixir.Jason:encode!/1` })).toEqual({
       name: `encode!/1`,
-      location: { urlOrPath: `Jason` },
+      location: { type: `logical`, name: `Jason` },
     })
   })
 
   test(`lifts an Erlang module out of the name as the location`, () => {
     expect(normalizeStackFrame({ name: `lists:reverse/1` })).toEqual({
       name: `reverse/1`,
-      location: { urlOrPath: `lists` },
+      location: { type: `logical`, name: `lists` },
     })
   })
 
@@ -50,7 +51,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `json:-do_encode_map/2-lc$^0/1-0-/2` }),
     ).toEqual({
       name: `-do_encode_map/2-lc$^0/1-0-/2`,
-      location: { urlOrPath: `json` },
+      location: { type: `logical`, name: `json` },
     })
   })
 
@@ -61,9 +62,9 @@ describe(`normalizeStackFrame`, () => {
   })
 
   test(`leaves an already-located frame unchanged`, () => {
-    const input = {
+    const input: StackFrame = {
       name: `lists:reverse/1`,
-      location: { urlOrPath: `lists.erl` },
+      location: { type: `file`, urlOrPath: `lists.erl` },
     }
     expect(normalizeStackFrame(input)).toBe(input)
   })

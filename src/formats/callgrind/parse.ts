@@ -1,5 +1,6 @@
 import plur from 'plur'
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
+import type { SourceLocationInput } from '../../location.ts'
 import type {
   CallGraph,
   CallGraphFunction,
@@ -659,8 +660,10 @@ const callgrindStackFrame = (func: CallgrindFunction): StackFrame => ({
 /** Callgrind's recursion-separation suffix, e.g. `_dl_start'2`. */
 const RECURSION_SUFFIX = /'\d+$/u
 
-const locationOf = (file: string): { urlOrPath: string } | undefined =>
-  file === `` || file === UNKNOWN ? undefined : { urlOrPath: file }
+const locationOf = (file: string): SourceLocationInput | undefined =>
+  file === `` || file === UNKNOWN
+    ? undefined
+    : { type: `file`, urlOrPath: file }
 
 const UNKNOWN = `???`
 

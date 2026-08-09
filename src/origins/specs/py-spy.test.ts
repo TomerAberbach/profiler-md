@@ -48,7 +48,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
     ).toEqual({
       name: `parse`,
-      location: { urlOrPath: `black/parsing.py` },
+      location: { type: `file`, urlOrPath: `black/parsing.py` },
       line: 42,
     })
   })
@@ -61,7 +61,7 @@ describe(`normalizeStackFrame`, () => {
       ),
     ).toEqual({
       name: `<module>`,
-      location: { urlOrPath: `<frozen importlib._bootstrap>` },
+      location: { type: `file`, urlOrPath: `<frozen importlib._bootstrap>` },
       line: 1080,
     })
   })
@@ -79,13 +79,13 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame(
         {
           name: `parse`,
-          location: { urlOrPath: `black/parsing.py`, line: 42 },
+          location: { type: `file`, urlOrPath: `black/parsing.py`, line: 42 },
         },
         `speedscope`,
       ),
     ).toEqual({
       name: `parse`,
-      location: { urlOrPath: `black/parsing.py` },
+      location: { type: `file`, urlOrPath: `black/parsing.py` },
       line: 42,
     })
   })

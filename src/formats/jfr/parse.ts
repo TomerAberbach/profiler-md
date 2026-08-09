@@ -240,7 +240,9 @@ const jfrToProfiles = ({
 
 const methodToStackFrame = (method: JfrMethod): StackFrame => ({
   name: method.name,
-  location: method.className ? { urlOrPath: method.className } : undefined,
+  location: method.className
+    ? { type: `logical`, name: method.className }
+    : undefined,
 })
 
 function* kindSamples(

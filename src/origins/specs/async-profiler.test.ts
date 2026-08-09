@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { determineOrigin, relativeEntry } from '../testing.ts'
+import { determineOrigin, logicalEntry } from '../testing.ts'
 import { asyncProfilerOriginSpec } from './async-profiler.ts'
 
 describe(`detection`, () => {
@@ -12,7 +12,7 @@ describe(`detection`, () => {
     expect(
       determineOrigin({
         format: `collapsed`,
-        entries: [relativeEntry(name)],
+        entries: [logicalEntry(name)],
       }),
     ).toBe(`async-profiler`)
   })
@@ -23,7 +23,7 @@ describe(`detection`, () => {
       expect(
         determineOrigin({
           format: `jfr`,
-          entries: [relativeEntry(name)],
+          entries: [logicalEntry(name)],
         }),
       ).toBe(`async-profiler`)
     },
@@ -34,8 +34,8 @@ describe(`detection`, () => {
       determineOrigin({
         format: `jfr`,
         entries: [
-          relativeEntry(`put(Object, Object)`, `java.util.HashMap`),
-          relativeEntry(`__psynch_cvwait`, `libsystem_kernel.dylib`),
+          logicalEntry(`put(Object, Object)`, `java.util.HashMap`),
+          logicalEntry(`__psynch_cvwait`, `libsystem_kernel.dylib`),
         ],
       }),
     ).toBe(`async-profiler`)
@@ -45,7 +45,7 @@ describe(`detection`, () => {
     expect(
       determineOrigin({
         format: `jfr`,
-        entries: [relativeEntry(`load()`, `com.acme.so.Helper.dylib`)],
+        entries: [logicalEntry(`load()`, `com.acme.so.Helper.dylib`)],
       }),
     ).toBe(`jdk`)
   })
@@ -57,7 +57,7 @@ describe(`normalizeStackFrame`, () => {
   test(`turns the slashed class into a dotted location`, () => {
     expect(normalizeStackFrame({ name: `java/util/HashMap.put` })).toEqual({
       name: `put`,
-      location: { urlOrPath: `java.util.HashMap` },
+      location: { type: `logical`, name: `java.util.HashMap` },
     })
   })
 
@@ -66,7 +66,7 @@ describe(`normalizeStackFrame`, () => {
       normalizeStackFrame({ name: `java/lang/System$Logger$Level.valueOf` }),
     ).toEqual({
       name: `valueOf`,
-      location: { urlOrPath: `java.lang.System$Logger$Level` },
+      location: { type: `logical`, name: `java.lang.System$Logger$Level` },
     })
   })
 
@@ -84,7 +84,7 @@ describe(`categorizeEntry`, () => {
   test.each([`libjvm.dylib`, `libsystem_kernel.dylib`, `libc.so.6`])(
     `the %s shared library is native`,
     path => {
-      expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`native`)
+      expect(categorizeEntry(logicalEntry(`f`, path))).toBe(`native`)
     },
   )
 
@@ -92,7 +92,7 @@ describe(`categorizeEntry`, () => {
     // A wall profile's native module, distinguished from a default-package
     // class by the missing method signature.
     expect(
-      categorizeEntry(relativeEntry(`__CFRunLoopRun`, `CoreFoundation`)),
+      categorizeEntry(logicalEntry(`__CFRunLoopRun`, `CoreFoundation`)),
     ).toBe(`native`)
   })
 
@@ -102,11 +102,11 @@ describe(`categorizeEntry`, () => {
     `I2C/C2I adapters(0xba)`,
     `zero_blocks`,
   ])(`the HotSpot %s stub is jit`, name => {
-    expect(categorizeEntry(relativeEntry(name))).toBe(`jit`)
+    expect(categorizeEntry(logicalEntry(name))).toBe(`jit`)
   })
 
   test(`HotSpot GC barrier stubs are the garbage collector`, () => {
-    expect(categorizeEntry(relativeEntry(`g1_post_barrier_slow`))).toBe(
+    expect(categorizeEntry(logicalEntry(`g1_post_barrier_slow`))).toBe(
       `garbage collector`,
     )
   })
@@ -116,7 +116,7 @@ describe(`categorizeEntry`, () => {
     [`LinearScan::do_linear_scan`, `libjvm.dylib`],
     [`Compile::Optimize`, undefined],
   ])(`the HotSpot compiler frame %s is compiler`, (name, path) => {
-    expect(categorizeEntry(relativeEntry(name, path))).toBe(`compiler`)
+    expect(categorizeEntry(logicalEntry(name, path))).toBe(`compiler`)
   })
 
   // The compiler rules match a bare symbol, which a Java method name can
@@ -127,7 +127,7 @@ describe(`categorizeEntry`, () => {
     [`TypeAdapter`, `com.google.gson.TypeAdapter`],
     [`GraphBuilder`, `com.acme.GraphBuilder`],
   ])(`the Java method %s is ours, not compiler`, (name, path) => {
-    const entry = relativeEntry(name, path)
+    const entry = logicalEntry(name, path)
     expect(categorizeEntry(entry)).toBe(`ours`)
     expect(asyncProfilerOriginSpec.isMarkerEntry(entry)).toBe(false)
   })

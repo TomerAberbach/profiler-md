@@ -1,6 +1,6 @@
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferenceId } from '../location.ts'
+import { sourceReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
@@ -191,7 +191,7 @@ export const packedLocationNormalizer =
     const { func, file, line } = frame.groups!
     return {
       name: func!,
-      location: { urlOrPath: file! },
+      location: { type: `file`, urlOrPath: file! },
       line: Number(line),
     }
   }
@@ -227,7 +227,7 @@ export const matchEntryFromRules =
 
     let location
     if (originalLocation) {
-      const id = fileReferenceId(originalLocation)
+      const id = sourceReferenceId(originalLocation)
       let normalizedId = id
       for (const [regex, replacement] of locationRules) {
         normalizedId = normalizedId.replace(regex, replacement)
@@ -265,11 +265,8 @@ export const normalizeSpeedscopeExecutingLine = (
   if (format !== `speedscope` || input.location?.line === undefined) {
     return input
   }
-  return {
-    name: input.name,
-    location: { urlOrPath: input.location.urlOrPath },
-    line: input.location.line,
-  }
+  const { line, column: _, ...location } = input.location
+  return { name: input.name, location, line }
 }
 
 /**

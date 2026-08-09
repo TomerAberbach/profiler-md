@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { matchEntryForOrigin } from '../index.ts'
-import { determineOrigin, relativeEntry } from '../testing.ts'
+import { determineOrigin, logicalEntry } from '../testing.ts'
 import { jdkOriginSpec } from './jdk.ts'
 
 describe(`detection`, () => {
@@ -13,8 +13,8 @@ describe(`detection`, () => {
       determineOrigin({
         format: `jfr`,
         entries: [
-          relativeEntry(`put(Object, Object)`, `java.util.HashMap`),
-          relativeEntry(`main(String[])`, `Main`),
+          logicalEntry(`put(Object, Object)`, `java.util.HashMap`),
+          logicalEntry(`main(String[])`, `Main`),
         ],
       }),
     ).toBe(`jdk`)
@@ -31,13 +31,11 @@ describe(`categorizeEntry`, () => {
     `sun.nio.ch.FileChannelImpl`,
     `com.sun.crypto.provider.AESCrypt`,
   ])(`the standard-library %s class is stdlib`, path => {
-    expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`stdlib`)
+    expect(categorizeEntry(logicalEntry(`f`, path))).toBe(`stdlib`)
   })
 
   test(`a default-package class with a method signature is ours`, () => {
-    expect(categorizeEntry(relativeEntry(`main(String[])`, `Main`))).toBe(
-      `ours`,
-    )
+    expect(categorizeEntry(logicalEntry(`main(String[])`, `Main`))).toBe(`ours`)
   })
 
   test.each([
@@ -49,13 +47,13 @@ describe(`categorizeEntry`, () => {
     `org.codehaus.groovy.runtime.callsite.PojoMetaMethodSite`,
     `org.apache.groovy.json.internal.JsonParserCharArray`,
   ])(`the %s language-runtime class is stdlib`, path => {
-    expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`stdlib`)
+    expect(categorizeEntry(logicalEntry(`f`, path))).toBe(`stdlib`)
   })
 
   test.each([`kotlinfoo.Bar`, `groovyfoo.Bar`])(
     `the %s class prefixed by but not inside a runtime package stays ours`,
     path => {
-      expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`ours`)
+      expect(categorizeEntry(logicalEntry(`f`, path))).toBe(`ours`)
     },
   )
 
@@ -65,7 +63,7 @@ describe(`categorizeEntry`, () => {
   test.each([`org.renaissance.core.Launcher`, `com.acme.so.Helper`])(
     `the application %s class is ours`,
     path => {
-      expect(categorizeEntry(relativeEntry(`f`, path))).toBe(`ours`)
+      expect(categorizeEntry(logicalEntry(`f`, path))).toBe(`ours`)
     },
   )
 })
@@ -74,7 +72,7 @@ describe(`matchEntry`, () => {
   test(`strips a lambda runtime address from the location`, () => {
     expect(
       matchEntryForOrigin(
-        relativeEntry(
+        logicalEntry(
           `apply(Object, Object)`,
           `JavaKMeans$$Lambda.0x000000b801205218`,
         ),
@@ -85,7 +83,7 @@ describe(`matchEntry`, () => {
 
   test(`strips an adapter runtime address from the name`, () => {
     expect(
-      matchEntryForOrigin(relativeEntry(`I2C/C2I adapters(0xba)`), `jdk`),
+      matchEntryForOrigin(logicalEntry(`I2C/C2I adapters(0xba)`), `jdk`),
     ).toEqual({ name: `I2C/C2I adapters` })
   })
 })

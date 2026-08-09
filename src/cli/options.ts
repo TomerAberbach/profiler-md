@@ -6,9 +6,9 @@ import picomatch from 'picomatch'
 import { defaultCategorizeFunctions, defaultMatchEntry } from '../index.ts'
 import type { ProfileToMdOptions, SourceMap } from '../index.ts'
 import {
-  fileReferenceId,
-  fileReferencePath,
   makeFileReference,
+  sourceReferenceId,
+  sourceReferencePathOrName,
 } from '../location.ts'
 import type { RegexReplacement } from './cli.ts'
 
@@ -52,7 +52,7 @@ const buildMatchEntry = (
 
     let location =
       defaultMatchEntry(entry, context)?.location ??
-      fileReferenceId(entry.location)
+      sourceReferenceId(entry.location)
     for (const [regex, replacement] of matches) {
       location = location.replace(regex, replacement)
     }
@@ -71,7 +71,7 @@ const buildCategorizeFunctions = (
   return (entries, context) => {
     const categories = defaultCategorizeFunctions(entries, context)
     return entries.map((entry, index) =>
-      entry.location && isThirdParty(fileReferencePath(entry.location))
+      entry.location && isThirdParty(sourceReferencePathOrName(entry.location))
         ? `third-party`
         : categories[index]!,
     )

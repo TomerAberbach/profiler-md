@@ -51,7 +51,7 @@ export const systingOriginSpec = {
         const { module, file, line } = location.groups!
         return {
           name: LABEL.test(module!) ? `${func!} (${module!})` : func!,
-          location: { urlOrPath: file! },
+          location: { type: `file`, urlOrPath: file! },
           line: line === undefined ? undefined : Number(line),
         }
       }
@@ -69,7 +69,7 @@ export const systingOriginSpec = {
       const { func, file, line } = python.groups!
       return {
         name: func!,
-        location: { urlOrPath: file! },
+        location: { type: `file`, urlOrPath: file! },
         line: line === undefined ? undefined : Number(line),
       }
     }

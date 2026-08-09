@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import { matchEntryFromRules } from '../origin.ts'
@@ -58,7 +58,7 @@ export const pprofRsOriginSpec = {
 const rustStdlibCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && RUST_STDLIB_PATH.test(fileReferencePath(location))
+  location && RUST_STDLIB_PATH.test(sourceReferencePathOrName(location))
     ? `stdlib`
     : undefined
 
@@ -76,7 +76,7 @@ const RUST_STDLIB_PATH = new RegExp(
 const cargoRegistryCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && fileReferencePath(location).includes(`/registry/src/`)
+  location && sourceReferencePathOrName(location).includes(`/registry/src/`)
     ? `third-party`
     : undefined
 

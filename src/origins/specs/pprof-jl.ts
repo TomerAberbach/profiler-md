@@ -1,5 +1,5 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
-import { fileReferencePath } from '../../location.ts'
+import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
@@ -20,7 +20,7 @@ export const pprofJlOriginSpec = {
   // there.
   isMarkerEntry: entry =>
     entry.location !== undefined &&
-    fileReferencePath(entry.location).includes(`/share/julia/`),
+    sourceReferencePathOrName(entry.location).includes(`/share/julia/`),
   categorizeEntry: entry =>
     juliaInstallCategory(entry) ??
     juliaDepotPackageCategory(entry) ??
@@ -41,7 +41,7 @@ export const pprofJlOriginSpec = {
 const juliaInstallCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && fileReferencePath(location).includes(`/share/julia/`)
+  location && sourceReferencePathOrName(location).includes(`/share/julia/`)
     ? `stdlib`
     : undefined
 
@@ -56,7 +56,7 @@ const juliaDepotPackageCategory = ({
   if (!location) {
     return undefined
   }
-  const path = fileReferencePath(location)
+  const path = sourceReferencePathOrName(location)
   return path.includes(`/packages/`) && path.endsWith(`.jl`)
     ? `third-party`
     : undefined
@@ -71,7 +71,7 @@ const juliaDepotPackageCategory = ({
 const juliaRuntimeNativeCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && JULIA_NATIVE_SOURCE.test(fileReferencePath(location))
+  location && JULIA_NATIVE_SOURCE.test(sourceReferencePathOrName(location))
     ? `native`
     : undefined
 

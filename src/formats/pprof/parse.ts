@@ -129,6 +129,7 @@ const parseFunctionStackFrames = (
     frames.push({
       name: string(func.name) || string(func.systemName),
       location: {
+        type: `file`,
         urlOrPath: string(func.filename),
         line: knownPprofLine(Number(func.startLine)),
       },

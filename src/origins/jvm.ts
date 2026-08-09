@@ -4,7 +4,7 @@
  */
 
 import type { DeepReadonly } from '../helpers/types.ts'
-import { fileReferencePath } from '../location.ts'
+import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { locationlessCategory } from './categorize.ts'
 import { matchEntryFromRules } from './origin.ts'
@@ -59,7 +59,7 @@ export const isJvmStdlibNameStackFrame = (name: string | undefined): boolean =>
 const jvmStdlibCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && JVM_STDLIB_PACKAGE.test(fileReferencePath(location))
+  location && JVM_STDLIB_PACKAGE.test(sourceReferencePathOrName(location))
     ? `stdlib`
     : undefined
 
@@ -127,9 +127,9 @@ const isHotspotNativeStackFrame = ({
   if (!location) {
     return true
   }
-  const path = fileReferencePath(location)
+  const pathOrName = sourceReferencePathOrName(location)
   return (
-    (NATIVE_LIBRARY.test(path) || !path.includes(`.`)) &&
+    (NATIVE_LIBRARY.test(pathOrName) || !pathOrName.includes(`.`)) &&
     !(name ?? ``).includes(`(`)
   )
 }
@@ -204,14 +204,14 @@ export const isNativeLibraryStackFrame = ({
   location,
 }: DeepReadonly<ProfileEntry>): boolean =>
   location !== undefined &&
-  NATIVE_LIBRARY.test(fileReferencePath(location)) &&
+  NATIVE_LIBRARY.test(sourceReferencePathOrName(location)) &&
   !(name ?? ``).includes(`(`)
 
 /** Categorizes native shared-library frames as `native`. */
 const nativeLibraryCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && NATIVE_LIBRARY.test(fileReferencePath(location))
+  location && NATIVE_LIBRARY.test(sourceReferencePathOrName(location))
     ? `native`
     : undefined
 
@@ -243,7 +243,7 @@ const nativeModuleCategory = ({
   location,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
   location &&
-  !fileReferencePath(location).includes(`.`) &&
+  !sourceReferencePathOrName(location).includes(`.`) &&
   !(name ?? ``).includes(`(`)
     ? `native`
     : undefined

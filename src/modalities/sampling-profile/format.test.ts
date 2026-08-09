@@ -14,6 +14,7 @@ import { formatSamplingProfile, formatSamplingProfileDiff } from './format.ts'
 import {
   callStackTables,
   makeAggregatedSamplingProfile,
+  selfTimeTables,
   totalTimeTables,
 } from './testing.ts'
 
@@ -471,6 +472,81 @@ describe(`formatSamplingProfile`, () => {
 
     expect(md).toContain(`No bytes retained in any sample.`)
     expect(md).not.toContain(`Hottest`)
+  })
+
+  test(`keeps a call stack's module location after a file of the same name`, () => {
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `leaf`,
+          url: `lists`,
+          selfSampleCount: 5,
+          selfValues: [200],
+          stack: [0, 1],
+        },
+        {
+          name: `caller`,
+          logicalName: `lists`,
+          selfSampleCount: 0,
+          selfValues: [0],
+        },
+      ],
+    )
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+
+    expect(callStackTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.2ms`,
+          Samples: `5`,
+          'Call stack': `leaf (lists) ← caller (lists)`,
+        },
+      ],
+    ])
+  })
+
+  test(`keeps a function in a file and one in a module of the same name apart`, () => {
+    const profile = makeAggregatedSamplingProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `sort`,
+          url: `lists`,
+          selfSampleCount: 5,
+          selfValues: [200],
+        },
+        {
+          name: `sort`,
+          logicalName: `lists`,
+          selfSampleCount: 5,
+          selfValues: [100],
+        },
+      ],
+    )
+
+    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Time: `0.2ms`,
+          Samples: `5`,
+          Function: `sort`,
+          Location: `lists`,
+        },
+        {
+          '%': `33.3%`,
+          Time: `0.1ms`,
+          Samples: `5`,
+          Function: `sort`,
+          Location: `lists`,
+        },
+      ],
+    ])
   })
 })
 

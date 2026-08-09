@@ -1,4 +1,4 @@
-import { fileReferenceId } from '../../location.ts'
+import { sourceReferenceId, sourceReferenceKind } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type {
   AggregationProfileToMdOptions,
@@ -186,7 +186,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     location?: SourceLocation,
   ): void {
     const key = location
-      ? `${name}|${fileReferenceId(location)}:${location.line}:${location.column}`
+      ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
       : name
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let closureIndex = this.#keyToClosureIndex.get(key)
