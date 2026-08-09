@@ -2,9 +2,9 @@
 
 Blocked 1.4ms → 4.0ms (+2.56ms, +178.0%) over 30 samples → 41 samples (47.9µs → 97.5µs per sample).
 
-| Category |  Change |   Delta |      % |          Time | Samples |
-| -------- | ------: | ------: | -----: | ------------: | ------: |
-| stdlib   | +178.0% | +2.56ms | 100.0% | 1.4ms → 4.0ms | 30 → 41 |
+| Category         |  Change |   Delta |      % |          Time | Samples |
+| ---------------- | ------: | ------: | -----: | ------------: | ------: |
+| Standard library | +178.0% | +2.56ms | 100.0% | 1.4ms → 4.0ms | 30 → 41 |
 
 ## Hottest functions
 

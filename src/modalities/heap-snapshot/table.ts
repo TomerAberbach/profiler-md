@@ -1,6 +1,7 @@
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import { formatCategory } from '../format.ts'
 import {
   bytesCell,
   codeCell,
@@ -84,7 +85,10 @@ export type CategoryRow = SizeRow & {
 
 /** The columns of the overall largest node categories table. */
 export const categoryColumns: Table<CategoryRow> = [
-  { header: `Category`, cellOf: row => textCell(row.category) },
+  {
+    header: `Category`,
+    cellOf: row => textCell(formatCategory(row.category)),
+  },
   ...sizeColumns(`Size`),
   {
     header: { content: `Nodes`, align: `right` },
@@ -127,19 +131,19 @@ export const instanceColumns: Table<InstanceRow> = [
   { header: `Path`, cellOf: row => codeCell(row.retainerPath) },
 ]
 
-/** A closure's row on one side, with its example path and path count resolved. */
-export type ClosureRow = SizeRow & {
+/** A function's row on one side, with its example path and path count resolved. */
+export type FunctionRow = SizeRow & {
   entity: LabeledEntity
   instanceCount: number
   pathCount: number
   examplePath: string
 }
 
-/** The columns of the largest closures table. */
-export const closureColumns = (
+/** The columns of the largest functions table. */
+export const functionColumns = (
   hasLocation: boolean,
   options: FormattingProfileToMdOptions,
-): Table<ClosureRow> => [
+): Table<FunctionRow> => [
   ...sizeColumns(`Retained`),
   {
     header: { content: `Instances`, align: `right` },
@@ -159,7 +163,7 @@ export type NodeRow = SizeRow & {
   path: string
 }
 
-/** The columns of a closure's largest retained nodes table. */
+/** The columns of a function's largest retained nodes table. */
 export const retainedColumns: Table<NodeRow> = [
   ...sizeColumns(`Self`),
   {

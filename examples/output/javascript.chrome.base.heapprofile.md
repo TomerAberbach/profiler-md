@@ -2,13 +2,13 @@
 
 Allocated 5.18 MiB over 221 samples (24 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| ours     | 61.6% | 3.19 MiB |     197 |
-| stdlib   | 17.2% |  913 KiB |       2 |
-| native   | 14.9% |  788 KiB |       1 |
-| compiler |  4.5% |  241 KiB |      15 |
-| unknown  |  1.8% | 96.2 KiB |       6 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Ours             | 61.6% | 3.19 MiB |     197 |
+| Standard library | 17.2% |  913 KiB |       2 |
+| Native           | 14.9% |  788 KiB |       1 |
+| Compiler         |  4.5% |  241 KiB |      15 |
+| Unknown          |  1.8% | 96.2 KiB |       6 |
 
 ## Hottest functions
 

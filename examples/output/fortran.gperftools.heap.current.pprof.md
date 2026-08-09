@@ -4,7 +4,7 @@ Allocated 41.2 MiB and retained 894 KiB over 434,604 samples (99.4 B and 2.11
 
 | Category |      % | Allocated | Retained | Samples |
 | -------- | -----: | --------: | -------: | ------: |
-| ours     | 100.0% |  41.2 MiB |  894 KiB | 434,604 |
+| Ours     | 100.0% |  41.2 MiB |  894 KiB | 434,604 |
 
 ## Allocated heap
 

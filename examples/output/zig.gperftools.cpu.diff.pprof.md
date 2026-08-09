@@ -2,9 +2,9 @@
 
 Took 5.82s → 6.04s (+222.00ms, +3.8%) over 5,822 samples → 6,044 samples (1.0ms per sample).
 
-| Category | Change |     Delta |      % |          Time |       Samples |
-| -------- | -----: | --------: | -----: | ------------: | ------------: |
-| stdlib   |  +3.8% | +222.00ms | 100.0% | 5.82s → 6.04s | 5,822 → 6,044 |
+| Category         | Change |     Delta |      % |          Time |       Samples |
+| ---------------- | -----: | --------: | -----: | ------------: | ------------: |
+| Standard library |  +3.8% | +222.00ms | 100.0% | 5.82s → 6.04s | 5,822 → 6,044 |
 
 ## Hottest functions
 

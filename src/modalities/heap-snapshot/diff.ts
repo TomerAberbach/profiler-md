@@ -6,9 +6,9 @@ import type {
 import type { Diff } from '../diff.ts'
 import { matchDiffedMaps } from '../diff.ts'
 import type {
-  AggregatedClosure,
-  AggregatedConstructor,
   AggregatedHeapSnapshot,
+  AggregatedHeapSnapshotConstructor,
+  AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
@@ -63,8 +63,8 @@ export type AggregatedHeapSnapshotDiff = {
   /** Constructors present in either snapshot, matched across the two. */
   constructors: AggregatedHeapSnapshotEntityDiff[]
 
-  /** Closures present in either snapshot, matched across the two. */
-  closures: AggregatedHeapSnapshotEntityDiff[]
+  /** Functions present in either snapshot, matched across the two. */
+  functions: AggregatedHeapSnapshotEntityDiff[]
 
   /**
    * Strings present in either snapshot, matched across the two by value, with
@@ -78,7 +78,7 @@ export type AggregatedHeapSnapshotDiff = {
 
 /**
  * Diffs {@link base} and {@link current} by matching up their categories,
- * constructors, closures, and strings.
+ * constructors, functions, and strings.
  */
 export const diffAggregatedHeapSnapshots = (
   base: AggregatedHeapSnapshot,
@@ -103,12 +103,12 @@ export const diffAggregatedHeapSnapshots = (
       ]),
     ),
   ),
-  closures: entityDiffsFromMatches(
-    // Each side's closures are keyed under that side's own context, since
+  functions: entityDiffsFromMatches(
+    // Each side's functions are keyed under that side's own context, since
     // match normalization is origin-aware.
     matchDiffedMaps(
-      mergeClosures(base.closures, base.context, options),
-      mergeClosures(current.closures, current.context, options),
+      mergeFunctions(base.functions, base.context, options),
+      mergeFunctions(current.functions, current.context, options),
     ),
   ),
   strings: entityDiffsFromMatches(
@@ -124,7 +124,7 @@ const diffedConstructor = ({
   selfSize,
   retainedSize,
   instances,
-}: AggregatedConstructor): DiffedHeapSnapshotEntity => ({
+}: AggregatedHeapSnapshotConstructor): DiffedHeapSnapshotEntity => ({
   type: `node`,
   id,
   name,
@@ -137,37 +137,37 @@ const diffedConstructor = ({
 })
 
 /**
- * Merges closures sharing the same match key so the same closure matches across
- * snapshots even when its definition shifted between builds.
+ * Merges functions sharing the same match key so the same function matches
+ * across snapshots even when its definition shifted between builds.
  */
-const mergeClosures = (
-  closures: AggregatedClosure[],
+const mergeFunctions = (
+  functions: AggregatedHeapSnapshotFunction[],
   context: ProfileToMdContext,
   options: FormattingProfileToMdOptions,
 ): Map<string, DiffedHeapSnapshotEntity> => {
-  const keyToClosure = new Map<string, DiffedHeapSnapshotEntity>()
-  for (const closure of closures) {
-    const key = options.entryMatchKey(closure, context)
-    const merged = keyToClosure.get(key)
+  const keyToFunction = new Map<string, DiffedHeapSnapshotEntity>()
+  for (const fn of functions) {
+    const key = options.entryMatchKey(fn, context)
+    const merged = keyToFunction.get(key)
     if (merged) {
-      merged.selfSize += closure.selfSize
-      merged.retainedSize += closure.retainedSize
-      merged.instanceCount += closure.instanceIds.length
-      merged.instanceIds.push(...closure.instanceIds)
+      merged.selfSize += fn.selfSize
+      merged.retainedSize += fn.retainedSize
+      merged.instanceCount += fn.instanceIds.length
+      merged.instanceIds.push(...fn.instanceIds)
     } else {
-      keyToClosure.set(key, {
+      keyToFunction.set(key, {
         type: `node`,
-        id: closure.largestInstanceId,
-        name: closure.name,
-        location: closure.location,
-        selfSize: closure.selfSize,
-        retainedSize: closure.retainedSize,
-        instanceCount: closure.instanceIds.length,
-        instanceIds: [...closure.instanceIds],
+        id: fn.largestInstanceId,
+        name: fn.name,
+        location: fn.location,
+        selfSize: fn.selfSize,
+        retainedSize: fn.retainedSize,
+        instanceCount: fn.instanceIds.length,
+        instanceIds: [...fn.instanceIds],
       })
     }
   }
-  return keyToClosure
+  return keyToFunction
 }
 
 /**

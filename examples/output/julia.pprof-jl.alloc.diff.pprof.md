@@ -4,7 +4,7 @@ Allocated 81.4 KiB → 84.7 KiB (+3.333 KiB, +4.1%) over 3,515 samples → 3,
 
 | Category | Change |      Delta |      % |                Size |       Samples |
 | -------- | -----: | ---------: | -----: | ------------------: | ------------: |
-| native   |  +4.1% | +3.333 KiB | 100.0% | 81.4 KiB → 84.7 KiB | 3,515 → 3,493 |
+| Native   |  +4.1% | +3.333 KiB | 100.0% | 81.4 KiB → 84.7 KiB | 3,515 → 3,493 |
 
 ## Hottest functions
 

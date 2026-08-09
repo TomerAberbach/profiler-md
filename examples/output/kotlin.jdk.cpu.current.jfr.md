@@ -2,10 +2,10 @@
 
 Collected 113 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| stdlib   | 51.3% |      58 |
-| ours     | 48.7% |      55 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Standard library | 51.3% |      58 |
+| Ours             | 48.7% |      55 |
 
 ## Hottest functions
 
@@ -448,11 +448,11 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 684 MiB over 869 samples (805 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 77.1% |  527 MiB |     551 |
-| ours     | 22.9% |  156 MiB |     310 |
-| unknown  | <0.1% | 29.1 KiB |       8 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 77.1% |  527 MiB |     551 |
+| Ours             | 22.9% |  156 MiB |     310 |
+| Unknown          | <0.1% | 29.1 KiB |       8 |
 
 ## Hottest functions
 
@@ -952,10 +952,10 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 Retained 18.7 MiB over 203 samples (94.3 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 93.5% | 17.5 MiB |     188 |
-| ours     |  6.5% | 1.22 MiB |      15 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 93.5% | 17.5 MiB |     188 |
+| Ours             |  6.5% | 1.22 MiB |      15 |
 
 ## Hottest functions
 
@@ -1264,9 +1264,9 @@ Call stacks ranked by bytes retained in their leaf frame. `…` stands for frame
 
 Blocked 492.7ms over 2 samples (246.4ms per sample).
 
-| Category |      % |    Time | Samples |
-| -------- | -----: | ------: | ------: |
-| stdlib   | 100.0% | 492.7ms |       2 |
+| Category         |      % |    Time | Samples |
+| ---------------- | -----: | ------: | ------: |
+| Standard library | 100.0% | 492.7ms |       2 |
 
 The entry filter hides every sampled function, so all functions are shown.
 

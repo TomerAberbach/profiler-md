@@ -58,7 +58,7 @@ diffs.
   functions and call stacks by whatever was sampled (time, allocations, locks…)
 - **Heap analysis:** self and
   [dominator](<https://en.wikipedia.org/wiki/Dominator_(graph_theory)>)-based
-  retained sizes, retainer paths, and the largest constructors, closures, and
+  retained sizes, retainer paths, and the largest constructors, functions, and
   strings
 - **Diffing:** ranked regressions and improvements between two profiles or two
   heap snapshots, ignoring run-varying identifiers like build hashes

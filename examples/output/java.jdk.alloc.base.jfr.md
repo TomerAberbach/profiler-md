@@ -2,10 +2,10 @@
 
 Collected 1,682 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| ours     | 90.7% |   1,526 |
-| stdlib   |  9.3% |     156 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Ours             | 90.7% |   1,526 |
+| Standard library |  9.3% |     156 |
 
 ## Hottest functions
 
@@ -370,11 +370,11 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 37.2 GiB over 1,980 samples (19.2 MiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 94.6% | 35.2 GiB |   1,868 |
-| ours     |  5.4% | 2.01 GiB |     111 |
-| unknown  | <0.1% | 2.02 KiB |       1 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 94.6% | 35.2 GiB |   1,868 |
+| Ours             |  5.4% | 2.01 GiB |     111 |
+| Unknown          | <0.1% | 2.02 KiB |       1 |
 
 ## Hottest functions
 
@@ -704,10 +704,10 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 Retained 2.56 MiB over 10 samples (262 KiB per sample).
 
-| Category |      % |     Size | Samples |
-| -------- | -----: | -------: | ------: |
-| stdlib   | 100.0% | 2.56 MiB |       9 |
-| ours     |  <0.1% |     40 B |       1 |
+| Category         |      % |     Size | Samples |
+| ---------------- | -----: | -------: | ------: |
+| Standard library | 100.0% | 2.56 MiB |       9 |
+| Ours             |  <0.1% |     40 B |       1 |
 
 ## Hottest functions
 
@@ -883,9 +883,9 @@ Common call stack: `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
 Blocked 7.01s over 54 samples (129.8ms per sample).
 
-| Category |      % |  Time | Samples |
-| -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 7.01s |      54 |
+| Category         |      % |  Time | Samples |
+| ---------------- | -----: | ----: | ------: |
+| Standard library | 100.0% | 7.01s |      54 |
 
 ## Hottest functions
 

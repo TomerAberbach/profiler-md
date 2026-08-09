@@ -59,7 +59,7 @@ function juliaTypeCategory(
   // A function's type is written `typeof(f)`, and a closure's generated name
   // contains Julia's `var"#...#"` escape for a non-identifier binding.
   return declaredType.startsWith(`typeof(`) || declaredType.includes(`var"#`)
-    ? `closure`
+    ? `function`
     : undefined
 }
 
@@ -81,14 +81,13 @@ const JULIA_TYPE_CATEGORIES = new Map<string, HeapSnapshotNodeCategory>([
   [`Symbol`, `symbol`],
   [`Regex`, `regexp`],
   [`Base.Regex`, `regexp`],
-  [`BigInt`, `bigint`],
+  [`BigInt`, `big number`],
+  [`BigFloat`, `big number`],
   [`Base.BitSet`, `array`],
   [`Core.SimpleVector`, `array`],
 
   // Numbers, whose bit widths Julia spells out in the type name.
-  ...([`Bool`, `Char`, `BigFloat`] as const).map(
-    name => [name, `number`] as const,
-  ),
+  ...([`Bool`, `Char`] as const).map(name => [name, `number`] as const),
   ...([8, 16, 32, 64, 128] as const).flatMap(
     bits =>
       [
@@ -169,7 +168,7 @@ const JULIA_TYPE_CONSTRUCTOR_CATEGORIES = new Map<
   [`Ptr`, `native`],
   [`Core.LLVMPtr`, `native`],
   [`Core.AddrSpace`, `internal`],
-  [`Base.ComposedFunction`, `closure`],
+  [`Base.ComposedFunction`, `function`],
 ])
 
 /**

@@ -55,13 +55,13 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
   readonly #immediateDominatorGraph: ImmediateDominatorGraph
   readonly #nodeOrdinalToRetainedSize: Float64Array
 
-  readonly #constructors: AggregatedConstructor[] = []
+  readonly #constructors: AggregatedHeapSnapshotConstructor[] = []
   readonly #nameToConstructorIndex = new Map<string, number>()
   readonly #nodeOrdinalToConstructorIndex: Int32Array
 
-  readonly #closures: AggregatedClosure[] = []
-  readonly #keyToClosureIndex = new Map<string, number>()
-  readonly #nodeOrdinalToClosureIndex: Int32Array
+  readonly #functions: AggregatedHeapSnapshotFunction[] = []
+  readonly #keyToFunctionIndex = new Map<string, number>()
+  readonly #nodeOrdinalToFunctionIndex: Int32Array
 
   readonly #strings: AggregatedHeapSnapshotNode[] = []
 
@@ -96,7 +96,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     )
 
     this.#nodeOrdinalToConstructorIndex = new Int32Array(nodeCount).fill(-1)
-    this.#nodeOrdinalToClosureIndex = new Int32Array(nodeCount).fill(-1)
+    this.#nodeOrdinalToFunctionIndex = new Int32Array(nodeCount).fill(-1)
 
     let nodeOrdinal = 0
     for (const node of nodes) {
@@ -110,8 +110,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
             node.nameLocation,
           )
           break
-        case `closure`:
-          this.#addClosureNode(nodeOrdinal, node.name, node.location)
+        case `function`:
+          this.#addFunctionNode(nodeOrdinal, node.name, node.location)
           break
         case `string`:
           this.#addStringNode(nodeOrdinal, node.name)
@@ -122,7 +122,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       nodeOrdinal++
     }
 
-    this.#entries = [...this.#constructors, ...this.#closures].map(entity => ({
+    this.#entries = [...this.#constructors, ...this.#functions].map(entity => ({
       id: entity.id,
       name: entity.name,
       location: entityLocation(entity),
@@ -148,7 +148,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     const selfSize = this.#selfSizeOf(nodeOrdinal)
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
     let constructorIndex = this.#nameToConstructorIndex.get(name)
-    let constructor: AggregatedConstructor
+    let constructor: AggregatedHeapSnapshotConstructor
     if (constructorIndex === undefined) {
       constructorIndex = this.#constructors.length
       constructor = {
@@ -180,7 +180,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     this.#nodeOrdinalToConstructorIndex[nodeOrdinal] = constructorIndex
   }
 
-  #addClosureNode(
+  #addFunctionNode(
     nodeOrdinal: number,
     name: string,
     location?: SourceLocation,
@@ -189,10 +189,10 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       ? `${name}|${sourceReferenceKind(location)}|${sourceReferenceId(location)}:${location.line}:${location.column}`
       : name
     const retainedSize = this.#nodeOrdinalToRetainedSize[nodeOrdinal]!
-    let closureIndex = this.#keyToClosureIndex.get(key)
-    if (closureIndex === undefined) {
-      closureIndex = this.#closures.length
-      this.#closures.push({
+    let functionIndex = this.#keyToFunctionIndex.get(key)
+    if (functionIndex === undefined) {
+      functionIndex = this.#functions.length
+      this.#functions.push({
         type: `node`,
         id: nodeOrdinal,
         name,
@@ -202,18 +202,16 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
         largestInstanceId: nodeOrdinal,
         instanceIds: [],
       })
-      this.#keyToClosureIndex.set(key, closureIndex)
+      this.#keyToFunctionIndex.set(key, functionIndex)
     }
 
-    const closure = this.#closures[closureIndex]!
-    closure.selfSize += this.#selfSizeOf(nodeOrdinal)
-    closure.instanceIds.push(nodeOrdinal)
-    if (
-      retainedSize > this.#nodeOrdinalToRetainedSize[closure.largestInstanceId]!
-    ) {
-      closure.largestInstanceId = nodeOrdinal
+    const fn = this.#functions[functionIndex]!
+    fn.selfSize += this.#selfSizeOf(nodeOrdinal)
+    fn.instanceIds.push(nodeOrdinal)
+    if (retainedSize > this.#nodeOrdinalToRetainedSize[fn.largestInstanceId]!) {
+      fn.largestInstanceId = nodeOrdinal
     }
-    this.#nodeOrdinalToClosureIndex[nodeOrdinal] = closureIndex
+    this.#nodeOrdinalToFunctionIndex[nodeOrdinal] = functionIndex
   }
 
   #addStringNode(nodeOrdinal: number, name?: string): void {
@@ -240,8 +238,8 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
     attributeCategoryRetainedSizes(
       this.#nodeOrdinalToRetainedSize,
       this.#immediateDominatorGraph,
-      this.#nodeOrdinalToClosureIndex,
-      this.#closures,
+      this.#nodeOrdinalToFunctionIndex,
+      this.#functions,
     )
 
     return {
@@ -252,7 +250,7 @@ export class HeapSnapshotAggregator implements InputAggregator<AggregatedHeapSna
       edgeCount: this.#edgeCount,
       nodeCategoryToStats: this.#nodeCategoryStats.aggregate(context.origin),
       constructors: this.#constructors,
-      closures: this.#closures,
+      functions: this.#functions,
       strings: this.#strings,
       retainerPathOf: (nodeOrdinal, options) =>
         computeRetainerPath(
@@ -582,7 +580,7 @@ export type AggregatedHeapSnapshotNode = {
   location?: SourceLocation
 }
 
-export type AggregatedConstructor = AggregatedHeapSnapshotNode & {
+export type AggregatedHeapSnapshotConstructor = AggregatedHeapSnapshotNode & {
   /** A human readable label for this constructor. */
   name: string
 
@@ -590,8 +588,8 @@ export type AggregatedConstructor = AggregatedHeapSnapshotNode & {
   instances: AggregatedHeapSnapshotNode[]
 }
 
-export type AggregatedClosure = AggregatedHeapSnapshotNode & {
-  /** A human readable label for this closure. */
+export type AggregatedHeapSnapshotFunction = AggregatedHeapSnapshotNode & {
+  /** A human readable label for this function. */
   name: string
 
   /** Node ordinal of the instance with the largest individual retained size. */
@@ -624,8 +622,8 @@ export type AggregatedHeapSnapshot = {
   /** Size and count stats by node category. */
   nodeCategoryToStats: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
 
-  constructors: AggregatedConstructor[]
-  closures: AggregatedClosure[]
+  constructors: AggregatedHeapSnapshotConstructor[]
+  functions: AggregatedHeapSnapshotFunction[]
   strings: AggregatedHeapSnapshotNode[]
 
   retainerPathOf: (

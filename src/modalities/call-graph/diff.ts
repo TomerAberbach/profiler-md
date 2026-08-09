@@ -1,5 +1,8 @@
 import { ProfilerMdError } from '../../error.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  FunctionCategory,
+} from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
 import type { DiffMetric } from '../metric.ts'
@@ -42,7 +45,10 @@ export type AggregatedCallGraphDiff = {
    * Function category to that category's metrics in each call graph. Each
    * side's values are indexed like {@link AggregatedCallGraphFunctionDiff}'s.
    */
-  categoryToMetrics: Map<string, Diff<AggregatedCallGraphCategoryMetrics>>
+  categoryToMetrics: Map<
+    FunctionCategory,
+    Diff<AggregatedCallGraphCategoryMetrics>
+  >
 
   /** Functions in either call graph, matched across the two. */
   functions: AggregatedCallGraphFunctionDiff[]

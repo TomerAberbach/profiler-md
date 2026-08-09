@@ -58,8 +58,12 @@ export type HeapSnapshot = {
  * A closed set, so a category names the same thing whichever engine wrote the
  * snapshot and formatting can partition by it. V8 declares its own names for
  * most of these in `meta.node_types`. JavaScriptCore derives them from a node's
- * flags. `internal` covers V8's `hidden` and JavaScriptCore's `internal`, which
- * name the same bookkeeping nodes.
+ * flags. Where an engine's name is its own, the category takes the name every
+ * language shares: `internal` covers V8's `hidden` and JavaScriptCore's
+ * `internal`, `function` covers V8's `closure` whether or not the function
+ * captures anything, and `big number` covers V8's `bigint` along with any
+ * arbitrary-precision number a runtime allocates on the heap, such as Julia's
+ * `BigFloat`.
  */
 export type HeapSnapshotNodeCategory =
   (typeof HEAP_SNAPSHOT_NODE_CATEGORIES)[number]
@@ -71,11 +75,11 @@ export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
   `string`,
   `concatenated string`,
   `sliced string`,
-  `closure`,
+  `function`,
   `code`,
   `regexp`,
   `number`,
-  `bigint`,
+  `big number`,
   `symbol`,
   `native`,
   `object shape`,
@@ -116,12 +120,12 @@ export type HeapSnapshotNode = {
       nameLocation?: FileReference
     }
   | {
-      type: `closure`
+      type: `function`
 
-      /** A human readable label for this closure. */
+      /** A human readable label for this function. */
       name: string
 
-      /** The exact location where the closure was defined. */
+      /** The exact location where the function was defined. */
       location?: SourceLocation
     }
   | {

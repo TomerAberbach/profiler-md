@@ -103,7 +103,7 @@ test(`a newline in a function name normalizes to a space without breaking struct
     Location: `<unknown>`,
   }
   expect(categoryTables(md)).toEqual([
-    [{ Category: `native`, '%': `100.0%`, Time: `10.0ms`, Samples: `1` }],
+    [{ Category: `Native`, '%': `100.0%`, Time: `10.0ms`, Samples: `1` }],
   ])
   expect(selfTimeTables(md)).toEqual([[functionRow]])
   expect(totalTimeTables(md)).toEqual([[functionRow]])

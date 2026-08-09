@@ -4,19 +4,19 @@ Allocated 1011 KiB → 1012 KiB (+496 B, ~0%) across 33,183 → 34,798 nodes 
 
 | Category            | Change |  Delta |             % |              Size |       Nodes |
 | ------------------- | -----: | -----: | ------------: | ----------------: | ----------: |
-| internal            |   0.0% |    0 B | 28.3% → 28.2% |           286 KiB |       9,074 |
-| object shape        |   0.0% |    0 B |         16.1% |           163 KiB |       2,580 |
-| string              |   0.0% |    0 B |         13.5% |           136 KiB |       6,591 |
-| array               |   0.0% |    0 B |         12.3% |           124 KiB |       1,453 |
-| object              |   0.0% |    0 B |          8.0% |            81 KiB |       1,857 |
-| closure             |   0.0% |    0 B |          7.9% |          79.5 KiB |       2,849 |
-| native              |  +0.6% | +496 B |   7.5% → 7.6% | 76 KiB → 76.4 KiB | 995 → 2,610 |
-| code                |   0.0% |    0 B |          5.5% |          55.7 KiB |       6,594 |
-| number              |   0.0% |    0 B |          0.6% |          5.65 KiB |         934 |
-| concatenated string |   0.0% |    0 B |          0.4% |          4.06 KiB |         208 |
-| regexp              |   0.0% |    0 B |         <0.1% |              28 B |           1 |
-| synthetic           |      — |    0 B |          0.0% |               0 B |          31 |
-| symbol              |      — |    0 B |          0.0% |               0 B |          16 |
+| Internal            |   0.0% |    0 B | 28.3% → 28.2% |           286 KiB |       9,074 |
+| Object shape        |   0.0% |    0 B |         16.1% |           163 KiB |       2,580 |
+| String              |   0.0% |    0 B |         13.5% |           136 KiB |       6,591 |
+| Array               |   0.0% |    0 B |         12.3% |           124 KiB |       1,453 |
+| Object              |   0.0% |    0 B |          8.0% |            81 KiB |       1,857 |
+| Function            |   0.0% |    0 B |          7.9% |          79.5 KiB |       2,849 |
+| Native              |  +0.6% | +496 B |   7.5% → 7.6% | 76 KiB → 76.4 KiB | 995 → 2,610 |
+| Code                |   0.0% |    0 B |          5.5% |          55.7 KiB |       6,594 |
+| Number              |   0.0% |    0 B |          0.6% |          5.65 KiB |         934 |
+| Concatenated string |   0.0% |    0 B |          0.4% |          4.06 KiB |         208 |
+| Regular expression  |   0.0% |    0 B |         <0.1% |              28 B |           1 |
+| Synthetic           |      — |    0 B |          0.0% |               0 B |          31 |
+| Symbol              |      — |    0 B |          0.0% |               0 B |          16 |
 
 ## Largest constructors
 
@@ -65,9 +65,9 @@ Constructors with the largest decrease in retained size.
 | -26.4% |  -5.156 KiB | 1.9% → 1.4% | 19.5 KiB → 14.4 KiB |       100 | `<h2>`                     | `<unknown>` |
 | -15.0% |      -240 B | 0.2% → 0.1% | 1.56 KiB → 1.33 KiB |         8 | `<span class="hashtag">`   | `<unknown>` |
 
-## Largest closures
+## Largest functions
 
-No closure differed in bytes that would be freed if the closure were garbage collected.
+No function differed in bytes that would be freed if the function were garbage collected.
 
 ## Largest strings
 

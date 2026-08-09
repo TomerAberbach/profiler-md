@@ -4,9 +4,9 @@ Took 12.09s → 12.08s (-12.00ms, -0.1%) over 12,092 samples → 12,080 samples 
 
 | Category | Change |    Delta |             % |              Time |         Samples |
 | -------- | -----: | -------: | ------------: | ----------------: | --------------: |
-| ours     |  -0.3% | -33.00ms | 90.2% → 90.0% |   10.91s → 10.87s | 10,910 → 10,877 |
-| kernel   |  -1.8% | -17.00ms |   7.8% → 7.6% | 940.0ms → 923.0ms |       940 → 923 |
-| native   | +15.7% | +38.00ms |   2.0% → 2.3% | 242.0ms → 280.0ms |       242 → 280 |
+| Ours     |  -0.3% | -33.00ms | 90.2% → 90.0% |   10.91s → 10.87s | 10,910 → 10,877 |
+| Kernel   |  -1.8% | -17.00ms |   7.8% → 7.6% | 940.0ms → 923.0ms |       940 → 923 |
+| Native   | +15.7% | +38.00ms |   2.0% → 2.3% | 242.0ms → 280.0ms |       242 → 280 |
 
 ## Hottest functions
 
@@ -128,7 +128,7 @@ Slept 69 times → 71 times (+2 times, +2.9%) over 69 samples → 71 samples (1 
 
 | Category | Change | Delta |      % |  Sleeps | Samples |
 | -------- | -----: | ----: | -----: | ------: | ------: |
-| kernel   |  +2.9% |    +2 | 100.0% | 69 → 71 | 69 → 71 |
+| Kernel   |  +2.9% |    +2 | 100.0% | 69 → 71 | 69 → 71 |
 
 ## Hottest functions
 
@@ -197,7 +197,7 @@ Slept 84 times → 87 times (+3 times, +3.6%) over 84 samples → 87 samples (1 
 
 | Category | Change | Delta |      % |  Sleeps | Samples |
 | -------- | -----: | ----: | -----: | ------: | ------: |
-| kernel   |  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 |
+| Kernel   |  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 |
 
 ## Hottest functions
 

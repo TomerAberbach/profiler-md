@@ -4,21 +4,21 @@ Allocated 5.15 MiB across 68,760 nodes and 286,440 edges.
 
 | Category            |     % |     Size |  Nodes |
 | ------------------- | ----: | -------: | -----: |
-| code                | 41.5% | 2.14 MiB | 22,401 |
-| array               | 15.5% |  816 KiB |  2,953 |
-| string              | 13.6% |  718 KiB | 17,123 |
-| object shape        | 10.1% |  531 KiB |  5,846 |
-| closure             |  6.8% |  359 KiB |  6,197 |
-| object              |  5.9% |  309 KiB |  4,021 |
-| internal            |  5.4% |  287 KiB |  8,256 |
-| concatenated string |  0.4% | 21.2 KiB |    679 |
-| native              |  0.4% | 20.3 KiB |    126 |
-| number              |  0.2% |  8.5 KiB |    544 |
-| sliced string       |  0.1% | 6.63 KiB |    212 |
-| symbol              |  0.1% | 6.52 KiB |    278 |
-| regexp              |  0.1% | 3.34 KiB |     61 |
-| synthetic           |  0.1% | 3.05 KiB |     34 |
-| bigint              | <0.1% |    672 B |     29 |
+| Code                | 41.5% | 2.14 MiB | 22,401 |
+| Array               | 15.5% |  816 KiB |  2,953 |
+| String              | 13.6% |  718 KiB | 17,123 |
+| Object shape        | 10.1% |  531 KiB |  5,846 |
+| Function            |  6.8% |  359 KiB |  6,197 |
+| Object              |  5.9% |  309 KiB |  4,021 |
+| Internal            |  5.4% |  287 KiB |  8,256 |
+| Concatenated string |  0.4% | 21.2 KiB |    679 |
+| Native              |  0.4% | 20.3 KiB |    126 |
+| Number              |  0.2% |  8.5 KiB |    544 |
+| Sliced string       |  0.1% | 6.63 KiB |    212 |
+| Symbol              |  0.1% | 6.52 KiB |    278 |
+| Regular expression  |  0.1% | 3.34 KiB |     61 |
+| Synthetic           |  0.1% | 3.05 KiB |     34 |
+| Big number          | <0.1% |    672 B |     29 |
 
 ## Largest constructors
 
@@ -441,9 +441,9 @@ Instances ranked by contribution to each constructor's retained size.
 |  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array`                                |
 |  2.4% | 256 B |         1 | `.backing_store ArrayBuffer ← .buffer Int8Array ← .unhexTable system / Context` |
 
-## Largest closures
+## Largest functions
 
-Closures ranked by bytes that would be freed if the closure were garbage collected.
+Functions ranked by bytes that would be freed if the function were garbage collected.
 
 |    % | Retained | Instances | Paths | Name                   | Location                                       | Example path                                                                                                                      |
 | ---: | -------: | --------: | ----: | ---------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -470,7 +470,7 @@ Closures ranked by bytes that would be freed if the closure were garbage collect
 
 ### Retained
 
-Nodes ranked by contribution to each closure's retained size.
+Nodes ranked by contribution to each function's retained size.
 
 #### `BuiltinModule` (`node:internal/bootstrap/realm:239:14`)
 

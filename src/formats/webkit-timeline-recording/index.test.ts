@@ -309,8 +309,8 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `third-party`, '%': `66.7%`, Time: `20.0ms`, Samples: `1` },
-        { Category: `ours`, '%': `33.3%`, Time: `10.0ms`, Samples: `1` },
+        { Category: `Third-party`, '%': `66.7%`, Time: `20.0ms`, Samples: `1` },
+        { Category: `Ours`, '%': `33.3%`, Time: `10.0ms`, Samples: `1` },
       ],
     ])
   })
@@ -481,8 +481,8 @@ describe(`options`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `third-party`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
-        { Category: `ours`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
+        { Category: `Third-party`, '%': `85.7%`, Time: `30.0ms`, Samples: `2` },
+        { Category: `Ours`, '%': `14.3%`, Time: `5.0ms`, Samples: `1` },
       ],
     ])
   })

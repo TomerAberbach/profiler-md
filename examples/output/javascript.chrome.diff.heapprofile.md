@@ -2,13 +2,13 @@
 
 Allocated 5.18 MiB → 5.21 MiB (+32.042 KiB, +0.6%) over 221 samples → 223 samples (24 KiB → 23.9 KiB per sample).
 
-| Category | Change |       Delta |             % |                Size |   Samples |
-| -------- | -----: | ----------: | ------------: | ------------------: | --------: |
-| ours     |  +1.0% | +32.632 KiB | 61.6% → 61.8% | 3.19 MiB → 3.22 MiB | 197 → 199 |
-| stdlib   |  -0.1% |      -872 B | 17.2% → 17.1% |   913 KiB → 912 KiB |         2 |
-| native   |   0.0% |         0 B | 14.9% → 14.8% |             788 KiB |         1 |
-| compiler | -19.9% | -47.996 KiB |   4.5% → 3.6% |   241 KiB → 193 KiB |   15 → 12 |
-| unknown  | +50.2% | +48.257 KiB |   1.8% → 2.7% |  96.2 KiB → 144 KiB |     6 → 9 |
+| Category         | Change |       Delta |             % |                Size |   Samples |
+| ---------------- | -----: | ----------: | ------------: | ------------------: | --------: |
+| Ours             |  +1.0% | +32.632 KiB | 61.6% → 61.8% | 3.19 MiB → 3.22 MiB | 197 → 199 |
+| Standard library |  -0.1% |      -872 B | 17.2% → 17.1% |   913 KiB → 912 KiB |         2 |
+| Native           |   0.0% |         0 B | 14.9% → 14.8% |             788 KiB |         1 |
+| Compiler         | -19.9% | -47.996 KiB |   4.5% → 3.6% |   241 KiB → 193 KiB |   15 → 12 |
+| Unknown          | +50.2% | +48.257 KiB |   1.8% → 2.7% |  96.2 KiB → 144 KiB |     6 → 9 |
 
 ## Hottest functions
 

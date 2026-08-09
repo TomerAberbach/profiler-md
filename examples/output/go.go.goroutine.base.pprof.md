@@ -2,9 +2,9 @@
 
 Collected 1 sample.
 
-| Category |      % | Samples |
-| -------- | -----: | ------: |
-| stdlib   | 100.0% |       1 |
+| Category         |      % | Samples |
+| ---------------- | -----: | ------: |
+| Standard library | 100.0% |       1 |
 
 ## Hottest functions
 

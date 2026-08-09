@@ -2,13 +2,13 @@
 
 Collected 1,322 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| compiler | 46.3% |     612 |
-| native   | 38.6% |     510 |
-| ours     |  9.8% |     130 |
-| stdlib   |  4.5% |      59 |
-| jit      |  0.8% |      11 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Compiler         | 46.3% |     612 |
+| Native           | 38.6% |     510 |
+| Ours             |  9.8% |     130 |
+| Standard library |  4.5% |      59 |
+| JIT              |  0.8% |      11 |
 
 ## Hottest functions
 
@@ -372,10 +372,10 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 24.1 MiB over 1,351 samples (18.2 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 93.1% | 22.4 MiB |   1,025 |
-| ours     |  6.9% | 1.65 MiB |     326 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 93.1% | 22.4 MiB |   1,025 |
+| Ours             |  6.9% | 1.65 MiB |     326 |
 
 ## Hottest functions
 

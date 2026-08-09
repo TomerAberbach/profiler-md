@@ -11,10 +11,10 @@ import {
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshot, formatHeapSnapshotDiff } from './format.ts'
 import {
-  makeAggregatedClosure,
-  makeAggregatedConstructor,
   makeAggregatedHeapSnapshot,
-  makeAggregatedString,
+  makeAggregatedHeapSnapshotConstructor,
+  makeAggregatedHeapSnapshotFunction,
+  makeAggregatedHeapSnapshotString,
   makeSourceLocation,
   retainedSizeTables,
   selfSizeTables,
@@ -26,7 +26,7 @@ describe(`formatHeapSnapshot`, () => {
   test(`shows all nodes when a custom showEntry would hide every one`, () => {
     const snapshot = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Widget`,
           selfSize: 100,
           retainedSize: 150,
@@ -123,7 +123,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `object`,
+          Category: `Object`,
           Change: `+50.0%`,
           Delta: `+512 B`,
           '%': `100.0%`,
@@ -131,7 +131,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           Nodes: `10 → 12`,
         },
         {
-          Category: `string`,
+          Category: `String`,
           Change: `removed`,
           Delta: `-100 B`,
           '%': `9.8% → 0.0%`,
@@ -145,13 +145,13 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`lists constructor regressions and improvements for self and retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Grew`,
           selfSize: 100,
           retainedSize: 100,
           instanceCount: 1,
         }),
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Removed`,
           selfSize: 50,
           retainedSize: 50,
@@ -161,13 +161,13 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Grew`,
           selfSize: 200,
           retainedSize: 200,
           instanceCount: 2,
         }),
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Added`,
           selfSize: 30,
           retainedSize: 30,
@@ -217,16 +217,16 @@ describe(`formatHeapSnapshotDiff`, () => {
     ])
   })
 
-  test(`lists closure regressions and improvements by retained size`, () => {
+  test(`lists function regressions and improvements by retained size`, () => {
     const base = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `grewFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 5, 10),
           selfSize: 64,
           retainedSize: 100,
         }),
-        makeAggregatedClosure({
+        makeAggregatedHeapSnapshotFunction({
           name: `shrankFn`,
           location: makeSourceLocation(`file:///project/src/b.ts`, 1, 1),
           selfSize: 64,
@@ -235,15 +235,15 @@ describe(`formatHeapSnapshotDiff`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `grewFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 7, 10),
           selfSize: 64,
           retainedSize: 300,
           instanceCount: 2,
         }),
-        makeAggregatedClosure({
+        makeAggregatedHeapSnapshotFunction({
           name: `shrankFn`,
           location: makeSourceLocation(`file:///project/src/b.ts`, 1, 1),
           selfSize: 64,
@@ -255,7 +255,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `+200.0%`,
@@ -270,7 +270,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest closures`)).toEqual([
+    expect(improvementsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `-75.0%`,
@@ -289,12 +289,14 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`lists string regressions and improvements by size`, () => {
     const base = makeAggregatedHeapSnapshot({
-      strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
+      strings: [
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 50 }),
+      ],
     })
     const current = makeAggregatedHeapSnapshot({
       strings: [
-        makeAggregatedString({ value: `hello`, selfSize: 80 }),
-        makeAggregatedString({ value: `hello`, selfSize: 80 }),
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 80 }),
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 80 }),
       ],
     })
 
@@ -319,15 +321,15 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`omits the location column when nothing has a location`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Grew`,
           selfSize: 100,
           retainedSize: 100,
           instanceCount: 1,
         }),
       ],
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 64,
           retainedSize: 100,
@@ -336,15 +338,15 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Grew`,
           selfSize: 200,
           retainedSize: 200,
           instanceCount: 1,
         }),
       ],
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 64,
           retainedSize: 200,
@@ -367,7 +369,7 @@ describe(`formatHeapSnapshotDiff`, () => {
         },
       ],
     ])
-    expect(regressionsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `+100.0%`,
@@ -386,7 +388,7 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`omits entities hidden by showEntry without hiding entities from the other snapshot`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Hidden`,
           selfSize: 100,
           retainedSize: 100,
@@ -396,13 +398,13 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Hidden`,
           selfSize: 200,
           retainedSize: 200,
           instanceCount: 1,
         }),
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Shown`,
           selfSize: 50,
           retainedSize: 50,
@@ -436,7 +438,7 @@ describe(`formatHeapSnapshotDiff`, () => {
   test(`shows all nodes when a custom showEntry would hide every one`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Widget`,
           selfSize: 100,
           retainedSize: 100,
@@ -446,7 +448,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `Widget`,
           selfSize: 200,
           retainedSize: 200,
@@ -486,21 +488,23 @@ describe(`formatHeapSnapshotDiff`, () => {
       edgeCount: 2,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           selfSize: 200,
           retainedSize: 250,
           instanceCount: 2,
         }),
       ],
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 64,
           retainedSize: 100,
         }),
       ],
-      strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
+      strings: [
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 50 }),
+      ],
     })
 
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
@@ -521,7 +525,7 @@ describe(`formatHeapSnapshotDiff`, () => {
       `No constructor differed in bytes allocated for its instances and all nodes that would be freed if its instances were garbage collected.`,
     )
     expect(md).toContain(
-      `No closure differed in bytes that would be freed if the closure were garbage collected.`,
+      `No function differed in bytes that would be freed if the function were garbage collected.`,
     )
     expect(md).toContain(`No string differed in bytes allocated for it.`)
 
@@ -529,7 +533,7 @@ describe(`formatHeapSnapshotDiff`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `object`,
+          Category: `Object`,
           Change: `0.0%`,
           Delta: `0 B`,
           '%': `66.7%`,
@@ -542,14 +546,14 @@ describe(`formatHeapSnapshotDiff`, () => {
 
   test(`omits each entity section a non-diff snapshot would omit instead of noting it`, () => {
     // Only constructors are present, so a non-diff snapshot would omit the
-    // closures and strings sections entirely.
+    // functions and strings sections entirely.
     const snapshot = makeAggregatedHeapSnapshot({
       totalSize: 300,
       nodeCount: 3,
       edgeCount: 2,
       nodeCategoryToStats: new Map([[`object`, { size: 200, nodeCount: 2 }]]),
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           selfSize: 200,
           retainedSize: 250,
@@ -561,11 +565,11 @@ describe(`formatHeapSnapshotDiff`, () => {
     const diff = diffAggregatedHeapSnapshots(snapshot, snapshot, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    // The empty closures and strings sections are dropped rather than noted as
+    // The empty functions and strings sections are dropped rather than noted as
     // unchanged, while the present constructors section keeps its note.
-    expect(md).not.toMatch(/^## Largest closures$/mu)
+    expect(md).not.toMatch(/^## Largest functions$/mu)
     expect(md).not.toMatch(/^## Largest strings$/mu)
-    expect(md).not.toContain(`No closure differed`)
+    expect(md).not.toContain(`No function differed`)
     expect(md).not.toContain(`No string differed`)
     expect(md).toContain(
       `No constructor differed in bytes allocated for its instances, excluding nodes kept reachable by them.`,

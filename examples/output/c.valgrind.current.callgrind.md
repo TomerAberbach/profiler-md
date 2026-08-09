@@ -4,8 +4,8 @@ Recorded 39,558,041 instructions.
 
 | Category |      % | Instructions |
 | -------- | -----: | -----------: |
-| ours     | 100.0% |   39,550,472 |
-| native   |  <0.1% |        7,569 |
+| Ours     | 100.0% |   39,550,472 |
+| Native   |  <0.1% |        7,569 |
 
 ## Hottest functions
 

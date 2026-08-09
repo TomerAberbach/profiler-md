@@ -4,11 +4,11 @@ Took 2.31s over 3,159 samples (734.2µs per sample).
 
 | Category          |     % |    Time | Samples |
 | ----------------- | ----: | ------: | ------: |
-| third-party       | 87.1% |   2.02s |   2,930 |
-| garbage collector |  5.8% | 134.3ms |     110 |
-| stdlib            |  4.2% |  98.4ms |      59 |
-| native            |  2.7% |  63.1ms |      58 |
-| unknown           |  0.1% |   2.5ms |       2 |
+| Third-party       | 87.1% |   2.02s |   2,930 |
+| Garbage collector |  5.8% | 134.3ms |     110 |
+| Standard library  |  4.2% |  98.4ms |      59 |
+| Native            |  2.7% |  63.1ms |      58 |
+| Unknown           |  0.1% |   2.5ms |       2 |
 
 ## Hottest functions
 

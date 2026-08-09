@@ -18,6 +18,8 @@ import { join } from 'node:path'
 import { openInputAsBlob } from '../src/cli/input.ts'
 import { profileToMdAsync } from '../src/formats/index.ts'
 import type { DeepReadonly } from '../src/helpers/types.ts'
+import { formatCategory } from '../src/modalities/format.ts'
+import type { Category } from '../src/modalities/format.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../src/modalities/heap-snapshot/type.ts'
 import type { FunctionCategory, ProfileEntry } from '../src/options.ts'
 import {
@@ -29,7 +31,7 @@ const OUTPUT_DIRECTORY = `examples/output`
 const INPUT_DIRECTORY = `examples/input`
 
 /** The categories the report checks each modality's examples against. */
-const MODALITY_TO_CATEGORIES = new Map<string, readonly string[]>([
+const MODALITY_TO_CATEGORIES = new Map<string, readonly Category[]>([
   [`function`, FUNCTION_CATEGORIES],
   [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES],
 ])
@@ -81,10 +83,10 @@ const isHeapSnapshot = (output: string): boolean =>
   output.startsWith(`# Heap snapshot`)
 
 /** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[a-z][a-z0-9 -]*?) +\|/u
+const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
 
 /**
- * The categories {@link output} emits.
+ * The categories {@link output} emits, by their displayed name.
  *
  * Read from the generated Markdown rather than by re-running the pipeline, so
  * the report covers every modality through the table each one writes.
@@ -130,9 +132,9 @@ const printUnemittedCategories = (
   modality: string,
   categoryToFilenames: Map<string, string[]>,
 ): void => {
-  const unemitted = MODALITY_TO_CATEGORIES.get(modality)!.filter(
-    category => !categoryToFilenames.has(category),
-  )
+  const unemitted = MODALITY_TO_CATEGORIES.get(modality)!
+    .map(category => formatCategory(category))
+    .filter(category => !categoryToFilenames.has(category))
   if (unemitted.length > 0) {
     console.log(`  no example emits: ${unemitted.join(`, `)}`)
   }

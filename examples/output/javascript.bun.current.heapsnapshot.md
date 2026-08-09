@@ -2,20 +2,20 @@
 
 Allocated 1.48 MiB across 16,601 nodes and 44,305 edges.
 
-| Category     |     % |     Size | Nodes |
-| ------------ | ----: | -------: | ----: |
-| code         | 45.8% |  693 KiB | 3,192 |
-| string       | 23.6% |  356 KiB | 6,272 |
-| object shape | 12.6% |  190 KiB | 1,738 |
-| object       |  7.5% |  114 KiB | 1,471 |
-| internal     |  5.0% | 75.4 KiB |   960 |
-| closure      |  4.3% |   65 KiB | 1,811 |
-| array        |  1.1% | 16.8 KiB | 1,073 |
-| symbol       |  0.1% |  1.2 KiB |    77 |
-| native       | <0.1% |    387 B |     3 |
-| regexp       | <0.1% |     64 B |     2 |
-| bigint       | <0.1% |     32 B |     1 |
-| synthetic    |  0.0% |      0 B |     1 |
+| Category           |     % |     Size | Nodes |
+| ------------------ | ----: | -------: | ----: |
+| Code               | 45.8% |  693 KiB | 3,192 |
+| String             | 23.6% |  356 KiB | 6,272 |
+| Object shape       | 12.6% |  190 KiB | 1,738 |
+| Object             |  7.5% |  114 KiB | 1,471 |
+| Internal           |  5.0% | 75.4 KiB |   960 |
+| Function           |  4.3% |   65 KiB | 1,811 |
+| Array              |  1.1% | 16.8 KiB | 1,073 |
+| Symbol             |  0.1% |  1.2 KiB |    77 |
+| Native             | <0.1% |    387 B |     3 |
+| Regular expression | <0.1% |     64 B |     2 |
+| Big number         | <0.1% |     32 B |     1 |
+| Synthetic          |  0.0% |      0 B |     1 |
 
 ## Largest constructors
 
@@ -352,9 +352,9 @@ Instances ranked by contribution to each constructor's retained size.
 | 67.4% | 1.27 KiB |         1 | `. Structure` |
 | 32.6% |    632 B |         1 | `(GC root)`   |
 
-## Largest closures
+## Largest functions
 
-Closures ranked by bytes that would be freed if the closure were garbage collected.
+Functions ranked by bytes that would be freed if the function were garbage collected.
 
 |    % | Retained | Instances | Paths | Name                 | Example path                                                                        |
 | ---: | -------: | --------: | ----: | -------------------- | ----------------------------------------------------------------------------------- |
@@ -381,7 +381,7 @@ Closures ranked by bytes that would be freed if the closure were garbage collect
 
 ### Retained
 
-Nodes ranked by contribution to each closure's retained size.
+Nodes ranked by contribution to each function's retained size.
 
 #### `Function`
 

@@ -3,7 +3,11 @@ import { capitalizeFirst } from '../../helpers/format.ts'
 import { inlineCode, phrasing, text } from '../../helpers/markdown.ts'
 import type { Header } from '../../helpers/markdown.ts'
 import { formatSourceLocation, isSameSourceReference } from '../../location.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  FunctionCategory,
+} from '../../options.ts'
+import { formatCategory } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
 import type { Metric } from '../metric.ts'
@@ -215,7 +219,7 @@ const formatFrameLocation = (
  * that side's {@link total}.
  */
 export type CategoryRow = {
-  category: string
+  category: FunctionCategory
   stats: AggregatedSamplingProfileCategoryMetrics
   /** Maps each metric column to its index in {@link stats}. */
   indices: number[]
@@ -234,7 +238,10 @@ export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
       : row.stats.values[row.indices[0]!]!
 
   return [
-    { header: `Category`, cellOf: row => textCell(row.category) },
+    {
+      header: `Category`,
+      cellOf: row => textCell(formatCategory(row.category)),
+    },
     {
       header: { content: `%`, align: `right` },
       changeDeltaBefore: true,

@@ -2,10 +2,10 @@
 
 Allocated 22.3 MiB over 1,235 samples (18.5 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 95.8% | 21.4 MiB |     936 |
-| ours     |  4.2% |  960 KiB |     299 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 95.8% | 21.4 MiB |     936 |
+| Ours             |  4.2% |  960 KiB |     299 |
 
 ## Hottest functions
 
@@ -461,10 +461,10 @@ Common call stack: `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
 Retained 7.58 MiB over 336 samples (23.1 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 90.0% | 6.83 MiB |     260 |
-| ours     | 10.0% |  773 KiB |      76 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 90.0% | 6.83 MiB |     260 |
+| Ours             | 10.0% |  773 KiB |      76 |
 
 ## Hottest functions
 

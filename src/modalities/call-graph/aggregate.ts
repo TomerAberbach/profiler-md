@@ -324,13 +324,13 @@ class FunctionsAggregator {
    */
   #categorize(
     functions: AggregatedCallGraphFunction[],
-  ): Map<string, AggregatedCallGraphCategoryMetrics> {
+  ): Map<FunctionCategory, AggregatedCallGraphCategoryMetrics> {
     const categories = this.#options.categorizeFunctions(
       functions,
       this.#context,
     )
     const categoryToMetrics = new Map<
-      string,
+      FunctionCategory,
       AggregatedCallGraphCategoryMetrics
     >()
 
@@ -470,7 +470,7 @@ export type AggregatedCallGraph = {
   totalValues: Float64Array
 
   /** Function category to the summed self values of that category. */
-  categoryToMetrics: Map<string, AggregatedCallGraphCategoryMetrics>
+  categoryToMetrics: Map<FunctionCategory, AggregatedCallGraphCategoryMetrics>
 
   /** Aggregated data for all functions in this call graph. */
   functions: AggregatedCallGraphFunction[]

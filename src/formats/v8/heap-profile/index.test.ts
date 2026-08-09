@@ -414,8 +414,8 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `ours`, '%': `71.4%`, Size: `1.22 KiB`, Samples: `2` },
-        { Category: `third-party`, '%': `28.6%`, Size: `500 B`, Samples: `1` },
+        { Category: `Ours`, '%': `71.4%`, Size: `1.22 KiB`, Samples: `2` },
+        { Category: `Third-party`, '%': `28.6%`, Size: `500 B`, Samples: `1` },
       ],
     ])
   })
@@ -482,13 +482,18 @@ describe(`convert`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `garbage collector`,
+          Category: `Garbage collector`,
           '%': `50.0%`,
           Size: `300 B`,
           Samples: `1`,
         },
-        { Category: `native`, '%': `33.3%`, Size: `200 B`, Samples: `1` },
-        { Category: `regexp`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
+        { Category: `Native`, '%': `33.3%`, Size: `200 B`, Samples: `1` },
+        {
+          Category: `Regular expression`,
+          '%': `16.7%`,
+          Size: `100 B`,
+          Samples: `1`,
+        },
       ],
     ])
   })
@@ -552,15 +557,15 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `native`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
+        { Category: `Native`, '%': `50.0%`, Size: `300 B`, Samples: `1` },
         {
-          Category: `compiler`,
+          Category: `Compiler`,
           '%': `33.3%`,
           Size: `200 B`,
           Samples: `1`,
         },
         {
-          Category: `garbage collector`,
+          Category: `Garbage collector`,
           '%': `16.7%`,
           Size: `100 B`,
           Samples: `1`,
@@ -665,8 +670,8 @@ describe(`options`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `third-party`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
-        { Category: `ours`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
+        { Category: `Third-party`, '%': `83.3%`, Size: `500 B`, Samples: `3` },
+        { Category: `Ours`, '%': `16.7%`, Size: `100 B`, Samples: `1` },
       ],
     ])
   })

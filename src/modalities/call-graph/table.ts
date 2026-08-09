@@ -1,5 +1,9 @@
 import { formatSourceLocation } from '../../location.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  FunctionCategory,
+} from '../../options.ts'
+import { formatCategory } from '../format.ts'
 import type { NamedFunction } from '../format.ts'
 import { metricCell, metricColumnNouns } from '../measure.ts'
 import type { Metric } from '../metric.ts'
@@ -120,7 +124,7 @@ export const lineColumns = (
  * that side's {@link total}.
  */
 export type CategoryRow = {
-  category: string
+  category: FunctionCategory
   stats: AggregatedCallGraphCategoryMetrics
   /** Maps each metric column to its index in {@link stats}. */
   indices: number[]
@@ -131,7 +135,10 @@ export type CategoryRow = {
 export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
   const columnNouns = metricColumnNouns(metrics)
   return [
-    { header: `Category`, cellOf: row => textCell(row.category) },
+    {
+      header: `Category`,
+      cellOf: row => textCell(formatCategory(row.category)),
+    },
     {
       header: { content: `%`, align: `right` },
       changeDeltaBefore: true,

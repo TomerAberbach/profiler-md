@@ -27,9 +27,9 @@ import {
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
 import type {
-  AggregatedClosure,
-  AggregatedConstructor,
   AggregatedHeapSnapshot,
+  AggregatedHeapSnapshotConstructor,
+  AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
 } from './aggregate.ts'
 import type {
@@ -39,14 +39,14 @@ import type {
 } from './diff.ts'
 import {
   categoryColumns,
-  closureColumns,
   constructorColumns,
   displayName,
+  functionColumns,
   instanceColumns,
   retainedColumns,
   stringColumns,
 } from './table.ts'
-import type { ClosureRow, NodeRow } from './table.ts'
+import type { FunctionRow, NodeRow } from './table.ts'
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
@@ -57,8 +57,8 @@ export const formatHeapSnapshot = (
     options,
     showsAnyEntry:
       snapshot.constructors.some(options.showEntry) ||
-      snapshot.closures.some(closure =>
-        options.showEntry({ ...closure, id: closure.largestInstanceId }),
+      snapshot.functions.some(fn =>
+        options.showEntry({ ...fn, id: fn.largestInstanceId }),
       ),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
@@ -71,7 +71,7 @@ export const formatHeapSnapshot = (
       hasLocation,
       options: sectionOptions,
     }),
-    ...formatLargestClosures({
+    ...formatLargestFunctions({
       snapshot,
       hasLocation,
       options: sectionOptions,
@@ -82,7 +82,7 @@ export const formatHeapSnapshot = (
 
 /**
  * The note shown when the entry filter would hide every constructor and
- * closure.
+ * function.
  */
 const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every node, so all nodes are shown.`
 
@@ -249,7 +249,7 @@ const formatLargestConstructorInstances = ({
   hasLocation,
   options,
 }: {
-  constructor: AggregatedConstructor
+  constructor: AggregatedHeapSnapshotConstructor
   snapshot: AggregatedHeapSnapshot
   sizeOf: (node: AggregatedHeapSnapshotNode) => number
   hasLocation: boolean
@@ -327,7 +327,7 @@ type InstanceGroup = {
   size: number
 }
 
-const formatLargestClosures = ({
+const formatLargestFunctions = ({
   snapshot,
   hasLocation,
   options,
@@ -336,45 +336,45 @@ const formatLargestClosures = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { totalSize, closures, retainerPathOf } = snapshot
+  const { totalSize, functions, retainerPathOf } = snapshot
 
-  const largestClosures = selectTopN(
-    closures.filter(closure =>
-      options.showEntry({ ...closure, id: closure.largestInstanceId }),
+  const largestFunctions = selectTopN(
+    functions.filter(fn =>
+      options.showEntry({ ...fn, id: fn.largestInstanceId }),
     ),
     options.topN,
-    closure => closure.retainedSize,
+    fn => fn.retainedSize,
   )
-  if (largestClosures.length === 0) {
+  if (largestFunctions.length === 0) {
     return []
   }
 
-  const retainedSections = largestClosures.flatMap(closure =>
-    formatClosureRetainedObjects({ closure, snapshot, hasLocation, options }),
+  const retainedSections = largestFunctions.flatMap(fn =>
+    formatFunctionRetainedObjects({ fn, snapshot, hasLocation, options }),
   )
 
   return [
-    ...formatLargestClosuresHeading({ isEmptyDiff: false }),
+    ...formatLargestFunctionsHeading({ isEmptyDiff: false }),
     formatTable(
-      closureColumns(hasLocation, options),
-      largestClosures.map(closure => ({
-        entity: closure,
-        size: closure.retainedSize,
+      functionColumns(hasLocation, options),
+      largestFunctions.map(fn => ({
+        entity: fn,
+        size: fn.retainedSize,
         total: totalSize,
-        instanceCount: closure.instanceIds.length,
+        instanceCount: fn.instanceIds.length,
         pathCount: new Set(
-          closure.instanceIds.map(nodeOrdinal =>
+          fn.instanceIds.map(nodeOrdinal =>
             retainerPathOf(nodeOrdinal, options),
           ),
         ).size,
-        examplePath: retainerPathOf(closure.largestInstanceId, options),
+        examplePath: retainerPathOf(fn.largestInstanceId, options),
       })),
     ),
     ...formatSectionGroup(
       [
         heading(3, `Retained`),
         paragraph(
-          `Nodes ranked by contribution to each closure's retained size.`,
+          `Nodes ranked by contribution to each function's retained size.`,
         ),
       ],
       retainedSections,
@@ -382,19 +382,19 @@ const formatLargestClosures = ({
   ]
 }
 
-const formatClosureRetainedObjects = ({
-  closure,
+const formatFunctionRetainedObjects = ({
+  fn,
   snapshot: { retainedNodesOf, retainerPathOf },
   hasLocation,
   options,
 }: {
-  closure: AggregatedClosure
+  fn: AggregatedHeapSnapshotFunction
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const retainedNodes = selectTopN(
-    collectShownRetainedNodes(closure, retainedNodesOf, options),
+    collectShownRetainedNodes(fn, retainedNodesOf, options),
     Math.ceil(options.topN / 4),
     node => node.selfSize,
   )
@@ -403,13 +403,13 @@ const formatClosureRetainedObjects = ({
   }
 
   return [
-    formatEntityHeading(4, closure, hasLocation, options),
+    formatEntityHeading(4, fn, hasLocation, options),
     formatTable(
       retainedColumns,
       retainedNodes.map(node => ({
         name: node.name,
         size: node.selfSize,
-        total: closure.retainedSize,
+        total: fn.retainedSize,
         path: retainerPathOf(node.id, options),
       })),
     ),
@@ -417,17 +417,17 @@ const formatClosureRetainedObjects = ({
 }
 
 /**
- * The shown nodes retained by the closure's instances, deduplicated across
+ * The shown nodes retained by the function's instances, deduplicated across
  * instances.
  */
 const collectShownRetainedNodes = (
-  closure: AggregatedClosure,
+  fn: AggregatedHeapSnapshotFunction,
   retainedNodesOf: AggregatedHeapSnapshot[`retainedNodesOf`],
   options: FormattingProfileToMdOptions,
 ): AggregatedHeapSnapshotNode[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
   const retainedNodes: AggregatedHeapSnapshotNode[] = []
-  for (const instanceId of closure.instanceIds) {
+  for (const instanceId of fn.instanceIds) {
     for (const node of retainedNodesOf(instanceId, options)) {
       const seen = instanceIdToSeen.ensureCapacity(node.id + 1)
       if (seen[node.id]) {
@@ -482,7 +482,7 @@ export const formatHeapSnapshotDiff = (
     options,
     showsAnyEntry:
       diff.constructors.some(entity => showDiffEntity(entity, options)) ||
-      diff.closures.some(entity => showDiffEntity(entity, options)),
+      diff.functions.some(entity => showDiffEntity(entity, options)),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
   return [
@@ -490,7 +490,7 @@ export const formatHeapSnapshotDiff = (
     ...formatDiffSummary(diff),
     ...notes,
     ...formatDiffConstructors({ diff, hasLocation, options: sectionOptions }),
-    ...formatDiffClosures({ diff, hasLocation, options: sectionOptions }),
+    ...formatDiffFunctions({ diff, hasLocation, options: sectionOptions }),
     ...formatDiffStrings({ diff, options: sectionOptions }),
   ]
 }
@@ -625,7 +625,7 @@ const formatDiffSizeConstructors = ({
   })
 }
 
-const formatDiffClosures = ({
+const formatDiffFunctions = ({
   diff,
   hasLocation,
   options,
@@ -635,7 +635,7 @@ const formatDiffClosures = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const { regressions, improvements, hasActive } = selectDiffEntities(
-    diff.closures.map(entity => ({
+    diff.functions.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
       currentValue: entity.current ? entity.current.retainedSize : 0,
@@ -644,28 +644,28 @@ const formatDiffClosures = ({
   )
 
   const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
-    base: base && closureRowOf(base, diff.base, options),
-    current: current && closureRowOf(current, diff.current, options),
+    base: base && functionRowOf(base, diff.base, options),
+    current: current && functionRowOf(current, diff.current, options),
   })
 
   return formatDiffEntitySections({
-    formatHeader: formatLargestClosuresHeading,
+    formatHeader: formatLargestFunctionsHeading,
     headingLevel: 3,
-    plural: `Closures`,
+    plural: `Functions`,
     description: `retained size`,
-    columns: closureColumns(hasLocation, options),
+    columns: functionColumns(hasLocation, options),
     hasActive,
     regressions: regressions.map(({ entity }) => rowOf(entity)),
     improvements: improvements.map(({ entity }) => rowOf(entity)),
   })
 }
 
-/** Resolves a diffed closure entity's row using one side's snapshot. */
-const closureRowOf = (
+/** Resolves a diffed function entity's row using one side's snapshot. */
+const functionRowOf = (
   entity: DiffedHeapSnapshotEntity,
   { retainerPathOf, totalSize }: AggregatedHeapSnapshot,
   options: FormattingProfileToMdOptions,
-): ClosureRow => ({
+): FunctionRow => ({
   entity,
   size: entity.retainedSize,
   total: totalSize,
@@ -779,28 +779,28 @@ const formatDiffEntitySections = <Row>({
  */
 const hasAnyLocation = ({
   constructors,
-  closures,
+  functions,
 }: {
   constructors: { location?: SourceLocation }[]
-  closures: { location?: SourceLocation }[]
+  functions: { location?: SourceLocation }[]
 }): boolean =>
   constructors.some(constructor => constructor.location) ||
-  closures.some(closure => closure.location)
+  functions.some(fn => fn.location)
 
 /**
- * The heading for the largest closures section, with a ranking sentence or, for
+ * The heading for the largest functions section, with a ranking sentence or, for
  * an unchanged diff, a merged "did not differ" note.
  */
-const formatLargestClosuresHeading = ({
+const formatLargestFunctionsHeading = ({
   isEmptyDiff,
 }: {
   isEmptyDiff: boolean
 }): RootContent[] => [
-  heading(2, `Largest closures`),
+  heading(2, `Largest functions`),
   paragraph(
     isEmptyDiff
-      ? `No closure differed in bytes that would be freed if the closure were garbage collected.`
-      : `Closures ranked by bytes that would be freed if the closure were garbage collected.`,
+      ? `No function differed in bytes that would be freed if the function were garbage collected.`
+      : `Functions ranked by bytes that would be freed if the function were garbage collected.`,
   ),
 ]
 

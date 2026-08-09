@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import {
-  closureTables,
+  functionTables,
   largestStringsTables,
   selfSizeInstancesTables,
   selfSizeTables,
@@ -218,11 +218,11 @@ describe(`convert`, () => {
     // Category table
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `object`, '%': `47.4%`, Size: `200 B`, Nodes: `1` },
-        { Category: `string`, '%': `26.1%`, Size: `110 B`, Nodes: `2` },
-        { Category: `closure`, '%': `15.2%`, Size: `64 B`, Nodes: `1` },
-        { Category: `code`, '%': `11.4%`, Size: `48 B`, Nodes: `1` },
-        { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `2` },
+        { Category: `Object`, '%': `47.4%`, Size: `200 B`, Nodes: `1` },
+        { Category: `String`, '%': `26.1%`, Size: `110 B`, Nodes: `2` },
+        { Category: `Function`, '%': `15.2%`, Size: `64 B`, Nodes: `1` },
+        { Category: `Code`, '%': `11.4%`, Size: `48 B`, Nodes: `1` },
+        { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `2` },
       ],
     ])
 
@@ -244,8 +244,8 @@ describe(`convert`, () => {
       [{ '%': `100.0%`, Size: `200 B`, Instances: `1`, Path: `(GC root)` }],
     ])
 
-    // Closure table
-    expect(closureTables(md)).toEqual([
+    // Function table
+    expect(functionTables(md)).toEqual([
       [
         {
           '%': `15.2%`,
@@ -291,9 +291,9 @@ describe(`convert`, () => {
     // `Array` instance is an array.
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `array`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
-        { Category: `object`, '%': `33.3%`, Size: `100 B`, Nodes: `1` },
-        { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+        { Category: `Array`, '%': `66.7%`, Size: `200 B`, Nodes: `1` },
+        { Category: `Object`, '%': `33.3%`, Size: `100 B`, Nodes: `1` },
+        { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
   })
@@ -311,8 +311,8 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `object`, '%': `100.0%`, Size: `300 B`, Nodes: `2` },
-        { Category: `synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+        { Category: `Object`, '%': `100.0%`, Size: `300 B`, Nodes: `2` },
+        { Category: `Synthetic`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
   })
@@ -342,7 +342,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(closureTables(md)).toEqual([
+    expect(functionTables(md)).toEqual([
       [
         {
           '%': `15.2%`,
@@ -375,9 +375,9 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`matchEntry matches closures whose locations differ across snapshots`, () => {
-    // The closure's script path carries a per-build suffix, so by default the
-    // two sides don't match and the closure shows as a removed/new pair.
+  test(`matchEntry matches functions whose locations differ across snapshots`, () => {
+    // The function's script path carries a per-build suffix, so by default the
+    // two sides don't match and the function shows as a removed/new pair.
     const base = JSON.stringify(
       makeClosureSnapshot(`file:///project/src/a-111.ts`),
     )
@@ -396,7 +396,7 @@ describe(`convert`, () => {
       { baseURL: `/project`, matchEntry: () => ({ location: `src/a.ts` }) },
     )
 
-    const newClosure = {
+    const newFunction = {
       Change: `new`,
       Delta: `+64 B`,
       '%': `0.0% → 15.2%`,
@@ -407,7 +407,7 @@ describe(`convert`, () => {
       Location: `src/a-222.ts:6:11`,
       'Example path': `(GC root)`,
     }
-    const removedClosure = {
+    const removedFunction = {
       Change: `removed`,
       Delta: `-64 B`,
       '%': `15.2% → 0.0%`,
@@ -418,15 +418,15 @@ describe(`convert`, () => {
       Location: `src/a-111.ts:6:11`,
       'Example path': `(GC root)`,
     }
-    expect(regressionsTables(unmatchedMd, `Largest closures`)).toEqual([
-      [newClosure],
+    expect(regressionsTables(unmatchedMd, `Largest functions`)).toEqual([
+      [newFunction],
     ])
-    expect(improvementsTables(unmatchedMd, `Largest closures`)).toEqual([
-      [removedClosure],
+    expect(improvementsTables(unmatchedMd, `Largest functions`)).toEqual([
+      [removedFunction],
     ])
-    // With the hook the closure matches across the snapshots and has no delta.
-    expect(regressionsTables(matchedMd, `Largest closures`)).toEqual([])
-    expect(improvementsTables(matchedMd, `Largest closures`)).toEqual([])
+    // With the hook the function matches across the snapshots and has no delta.
+    expect(regressionsTables(matchedMd, `Largest functions`)).toEqual([])
+    expect(improvementsTables(matchedMd, `Largest functions`)).toEqual([])
   })
 
   test(`weak edges are not followed for retainer paths`, () => {

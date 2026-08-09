@@ -4,8 +4,8 @@ Took 4.04s over 4,047 samples (1.0ms per sample).
 
 | Category |     % |   Time | Samples |
 | -------- | ----: | -----: | ------: |
-| ours     | 98.3% |  3.98s |   3,980 |
-| native   |  1.7% | 67.0ms |      67 |
+| Ours     | 98.3% |  3.98s |   3,980 |
+| Native   |  1.7% | 67.0ms |      67 |
 
 ## Hottest functions
 

@@ -644,7 +644,7 @@ describe(`formatSamplingProfileDiff`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `ours`,
+          Category: `Ours`,
           Change: `+100.0%`,
           Delta: `+0.10ms`,
           '%': `100.0%`,
@@ -857,7 +857,7 @@ describe(`formatSamplingProfileDiff`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `ours`,
+          Category: `Ours`,
           Change: `0.0%`,
           Delta: `0ms`,
           '%': `100.0%`,

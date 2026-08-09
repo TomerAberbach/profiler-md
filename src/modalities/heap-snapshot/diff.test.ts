@@ -10,10 +10,10 @@ import {
 import { diffAggregatedHeapSnapshots } from './diff.ts'
 import { formatHeapSnapshotDiff } from './format.ts'
 import {
-  makeAggregatedClosure,
-  makeAggregatedConstructor,
   makeAggregatedHeapSnapshot,
-  makeAggregatedString,
+  makeAggregatedHeapSnapshotConstructor,
+  makeAggregatedHeapSnapshotFunction,
+  makeAggregatedHeapSnapshotString,
   makeSourceLocation,
 } from './testing.ts'
 
@@ -23,7 +23,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   test(`reports a constructor only in base as removed`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           selfSize: 200,
           retainedSize: 250,
@@ -55,7 +55,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const base = makeAggregatedHeapSnapshot()
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           selfSize: 200,
           retainedSize: 250,
@@ -85,7 +85,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
   test(`matches constructors by name despite differing locations`, () => {
     const base = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 1, 1),
           selfSize: 100,
@@ -96,7 +96,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       constructors: [
-        makeAggregatedConstructor({
+        makeAggregatedHeapSnapshotConstructor({
           name: `MyClass`,
           location: makeSourceLocation(`file:///project/src/b.ts`, 9, 9),
           selfSize: 200,
@@ -125,10 +125,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(improvementsTables(md, `Self size`)).toEqual([])
   })
 
-  test(`matches closures by name and file despite differing line and column`, () => {
+  test(`matches functions by name and file despite differing line and column`, () => {
     const base = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 5, 10),
           selfSize: 64,
@@ -137,8 +137,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 25, 3),
           selfSize: 128,
@@ -150,7 +150,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `+200.0%`,
@@ -165,11 +165,11 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest closures`)).toEqual([])
+    expect(improvementsTables(md, `Largest functions`)).toEqual([])
   })
 
-  test(`keys each side's closures under that snapshot's own context`, () => {
-    // Match normalization is origin-aware, so each side's closures must be
+  test(`keys each side's functions under that snapshot's own context`, () => {
+    // Match normalization is origin-aware, so each side's functions must be
     // keyed under the context that side was aggregated with, not a shared one.
     const observedContexts: ProfileToMdContext[] = []
     const options = resolveProfileToMdOptions({
@@ -181,8 +181,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
     const base = makeAggregatedHeapSnapshot({
       context: { format: `v8-heap-snapshot`, origin: `node` },
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 64,
           retainedSize: 100,
@@ -191,8 +191,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     })
     const current = makeAggregatedHeapSnapshot({
       context: { format: `jsc-heap-snapshot`, origin: `safari` },
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 128,
           retainedSize: 300,
@@ -208,10 +208,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     ])
   })
 
-  test(`does not match closures with the same name in different files`, () => {
+  test(`does not match functions with the same name in different files`, () => {
     const base = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 5, 10),
           selfSize: 64,
@@ -220,8 +220,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/b.ts`, 5, 10),
           selfSize: 64,
@@ -233,7 +233,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `new`,
@@ -248,7 +248,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest closures`)).toEqual([
+    expect(improvementsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `removed`,
@@ -265,17 +265,17 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     ])
   })
 
-  test(`merges same-side closures sharing a name and file`, () => {
+  test(`merges same-side functions sharing a name and file`, () => {
     const base = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 5, 10),
           selfSize: 64,
           retainedSize: 100,
           instanceCount: 2,
         }),
-        makeAggregatedClosure({
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           location: makeSourceLocation(`file:///project/src/a.ts`, 25, 3),
           selfSize: 36,
@@ -289,8 +289,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest closures`)).toEqual([])
-    expect(improvementsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([])
+    expect(improvementsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `removed`,
@@ -307,10 +307,10 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     ])
   })
 
-  test(`matches closures without locations by name`, () => {
+  test(`matches functions without locations by name`, () => {
     const base = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 64,
           retainedSize: 100,
@@ -318,8 +318,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
       ],
     })
     const current = makeAggregatedHeapSnapshot({
-      closures: [
-        makeAggregatedClosure({
+      functions: [
+        makeAggregatedHeapSnapshotFunction({
           name: `myFn`,
           selfSize: 128,
           retainedSize: 200,
@@ -330,7 +330,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest closures`)).toEqual([
+    expect(regressionsTables(md, `Largest functions`)).toEqual([
       [
         {
           Change: `+100.0%`,
@@ -344,19 +344,21 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest closures`)).toEqual([])
+    expect(improvementsTables(md, `Largest functions`)).toEqual([])
   })
 
   test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
     const base = makeAggregatedHeapSnapshot({
       strings: [
-        makeAggregatedString({ value: `hello`, selfSize: 50 }),
-        makeAggregatedString({ value: `hello`, selfSize: 30 }),
-        makeAggregatedString({ selfSize: 999 }),
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 50 }),
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 30 }),
+        makeAggregatedHeapSnapshotString({ selfSize: 999 }),
       ],
     })
     const current = makeAggregatedHeapSnapshot({
-      strings: [makeAggregatedString({ value: `hello`, selfSize: 50 })],
+      strings: [
+        makeAggregatedHeapSnapshotString({ value: `hello`, selfSize: 50 }),
+      ],
     })
 
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
@@ -393,7 +395,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `string`,
+          Category: `String`,
           Change: `new`,
           Delta: `+50 B`,
           '%': `0.0% → 100.0%`,
@@ -401,7 +403,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
           Nodes: `0 → 1`,
         },
         {
-          Category: `object`,
+          Category: `Object`,
           Change: `removed`,
           Delta: `-200 B`,
           '%': `100.0% → 0.0%`,

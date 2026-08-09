@@ -2,12 +2,12 @@
 
 Collected 133 samples.
 
-| Category    |     % | Samples |
-| ----------- | ----: | ------: |
-| native      | 63.9% |      85 |
-| third-party | 30.1% |      40 |
-| stdlib      |  3.0% |       4 |
-| unknown     |  3.0% |       4 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Native           | 63.9% |      85 |
+| Third-party      | 30.1% |      40 |
+| Standard library |  3.0% |       4 |
+| Unknown          |  3.0% |       4 |
 
 ## Hottest functions
 

@@ -210,7 +210,7 @@ const CATEGORY_TO_CLASS_NAMES = {
     `BigInt64Array`,
     `BigUint64Array`,
   ],
-  closure: [
+  function: [
     `Function`,
     `GeneratorFunction`,
     `AsyncFunction`,

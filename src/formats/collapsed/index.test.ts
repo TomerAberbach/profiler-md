@@ -169,7 +169,7 @@ describe(`convert`, () => {
 
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
     expect(categoryTables(md)).toEqual([
-      [{ Category: `ours`, '%': `100.0%`, Samples: `15` }],
+      [{ Category: `Ours`, '%': `100.0%`, Samples: `15` }],
     ])
     expect(selfSamplesTables(md)).toEqual([
       [
@@ -200,8 +200,8 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `third-party`, '%': `60.0%`, Samples: `6` },
-        { Category: `stdlib`, '%': `40.0%`, Samples: `4` },
+        { Category: `Third-party`, '%': `60.0%`, Samples: `6` },
+        { Category: `Standard library`, '%': `40.0%`, Samples: `4` },
       ],
     ])
     expect(selfSamplesTables(md)).toEqual([
@@ -237,8 +237,8 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
-        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+        { Category: `Standard library`, '%': `60.0%`, Samples: `6` },
+        { Category: `Ours`, '%': `40.0%`, Samples: `4` },
       ],
     ])
     expect(selfSamplesTables(md)).toEqual([
@@ -275,8 +275,8 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `stdlib`, '%': `60.0%`, Samples: `6` },
-        { Category: `ours`, '%': `40.0%`, Samples: `4` },
+        { Category: `Standard library`, '%': `60.0%`, Samples: `6` },
+        { Category: `Ours`, '%': `40.0%`, Samples: `4` },
       ],
     ])
     expect(selfSamplesTables(md)).toEqual([

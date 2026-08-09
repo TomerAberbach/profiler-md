@@ -4,9 +4,9 @@ Took 5.63s over 563 samples (10.0ms per sample).
 
 | Category          |     % |   Time | Samples |
 | ----------------- | ----: | -----: | ------: |
-| stdlib            | 99.1% |  5.58s |     558 |
-| garbage collector |  0.7% | 40.0ms |       4 |
-| ours              |  0.2% | 10.0ms |       1 |
+| Standard library  | 99.1% |  5.58s |     558 |
+| Garbage collector |  0.7% | 40.0ms |       4 |
+| Ours              |  0.2% | 10.0ms |       1 |
 
 ## Hottest functions
 

@@ -2,10 +2,10 @@
 
 Allocated 1.67 GiB (-2.123 MiB, -0.1%) and retained 2.09 MiB → 1.59 MiB (-516.607 KiB, -24.1%) over 21,825,387 samples → 21,882,356 samples (82.4 B → 82.1 B and 0.101 B → 0.0761 B per sample).
 
-| Category | Change |      Delta |      % |         Allocated |            Retained |                 Samples |
-| -------- | -----: | ---------: | -----: | ----------------: | ------------------: | ----------------------: |
-| stdlib   |  -0.1% | -2.115 MiB | 100.0% |          1.67 GiB | 2.09 MiB → 1.59 MiB | 21,824,618 → 21,882,100 |
-| ours     | -66.7% | -8.015 KiB |  <0.1% | 12 KiB → 4.01 KiB |                 0 B |               769 → 256 |
+| Category         | Change |      Delta |      % |         Allocated |            Retained |                 Samples |
+| ---------------- | -----: | ---------: | -----: | ----------------: | ------------------: | ----------------------: |
+| Standard library |  -0.1% | -2.115 MiB | 100.0% |          1.67 GiB | 2.09 MiB → 1.59 MiB | 21,824,618 → 21,882,100 |
+| Ours             | -66.7% | -8.015 KiB |  <0.1% | 12 KiB → 4.01 KiB |                 0 B |               769 → 256 |
 
 ## Allocated heap
 

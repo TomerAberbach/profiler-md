@@ -2,11 +2,11 @@
 
 Collected 19,789 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| stdlib   | 99.7% |  19,738 |
-| ours     |  0.2% |      31 |
-| idle     |  0.1% |      20 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Standard library | 99.7% |  19,738 |
+| Ours             |  0.2% |      31 |
+| Idle             |  0.1% |      20 |
 
 ## Hottest functions
 

@@ -2,9 +2,9 @@
 
 Took 6.04s over 6,044 samples (1.0ms per sample).
 
-| Category |      % |  Time | Samples |
-| -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 6.04s |   6,044 |
+| Category         |      % |  Time | Samples |
+| ---------------- | -----: | ----: | ------: |
+| Standard library | 100.0% | 6.04s |   6,044 |
 
 ## Hottest functions
 

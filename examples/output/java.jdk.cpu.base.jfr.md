@@ -2,10 +2,10 @@
 
 Collected 1,684 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| ours     | 92.5% |   1,558 |
-| stdlib   |  7.5% |     126 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Ours             | 92.5% |   1,558 |
+| Standard library |  7.5% |     126 |
 
 ## Hottest functions
 
@@ -378,11 +378,11 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 37.8 GiB over 1,988 samples (19.5 MiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 95.5% | 36.1 GiB |   1,893 |
-| ours     |  4.5% | 1.72 GiB |      94 |
-| unknown  | <0.1% | 1.86 KiB |       1 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 95.5% | 36.1 GiB |   1,893 |
+| Ours             |  4.5% | 1.72 GiB |      94 |
+| Unknown          | <0.1% | 1.86 KiB |       1 |
 
 ## Hottest functions
 
@@ -712,9 +712,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 Retained 2.56 MiB over 9 samples (291 KiB per sample).
 
-| Category |      % |     Size | Samples |
-| -------- | -----: | -------: | ------: |
-| stdlib   | 100.0% | 2.56 MiB |       9 |
+| Category         |      % |     Size | Samples |
+| ---------------- | -----: | -------: | ------: |
+| Standard library | 100.0% | 2.56 MiB |       9 |
 
 ## Hottest functions
 
@@ -882,9 +882,9 @@ Common call stack: `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
 Blocked 7.30s over 61 samples (119.7ms per sample).
 
-| Category |      % |  Time | Samples |
-| -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 7.30s |      61 |
+| Category         |      % |  Time | Samples |
+| ---------------- | -----: | ----: | ------: |
+| Standard library | 100.0% | 7.30s |      61 |
 
 ## Hottest functions
 

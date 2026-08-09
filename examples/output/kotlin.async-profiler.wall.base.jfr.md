@@ -2,13 +2,13 @@
 
 Collected 2,694 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| native   | 94.3% |   2,540 |
-| compiler |  4.2% |     112 |
-| ours     |  1.0% |      28 |
-| stdlib   |  0.4% |      11 |
-| jit      |  0.1% |       3 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Native           | 94.3% |   2,540 |
+| Compiler         |  4.2% |     112 |
+| Ours             |  1.0% |      28 |
+| Standard library |  0.4% |      11 |
+| JIT              |  0.1% |       3 |
 
 ## Hottest functions
 

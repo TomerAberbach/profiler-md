@@ -4,9 +4,9 @@ Took 12.09s over 12,092 samples (1.0ms per sample).
 
 | Category |     % |    Time | Samples |
 | -------- | ----: | ------: | ------: |
-| ours     | 90.2% |  10.91s |  10,910 |
-| kernel   |  7.8% | 940.0ms |     940 |
-| native   |  2.0% | 242.0ms |     242 |
+| Ours     | 90.2% |  10.91s |  10,910 |
+| Kernel   |  7.8% | 940.0ms |     940 |
+| Native   |  2.0% | 242.0ms |     242 |
 
 ## Hottest functions
 
@@ -444,7 +444,7 @@ Slept 69 times over 69 samples (1 time per sample).
 
 | Category |      % | Sleeps | Samples |
 | -------- | -----: | -----: | ------: |
-| kernel   | 100.0% |     69 |      69 |
+| Kernel   | 100.0% |     69 |      69 |
 
 ## Hottest functions
 
@@ -658,7 +658,7 @@ Slept 84 times over 84 samples (1 time per sample).
 
 | Category |      % | Sleeps | Samples |
 | -------- | -----: | -----: | ------: |
-| kernel   | 100.0% |     84 |      84 |
+| Kernel   | 100.0% |     84 |      84 |
 
 ## Hottest functions
 
