@@ -1,4 +1,9 @@
-import { allTablesAfterHeading, parseMd } from '../../helpers/testing.ts'
+import {
+  allTablesAfterHeading,
+  allTablesAfterHeadingContaining,
+  nodesUnderHeading,
+  parseMd,
+} from '../../helpers/testing.ts'
 import type { Table } from '../../helpers/testing.ts'
 import type { SourceLocationInput } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
@@ -84,6 +89,24 @@ export const selfSleepsTables = (md: string): Table[] =>
 
 export const totalSleepsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Total sleeps`)
+
+/**
+ * The `Self size` tables under {@link section}, the heading separating the size
+ * metrics an input records several of, whether as one profile's measures or as
+ * a profile each (e.g. `Peak memory profile`).
+ */
+export const selfSizeTables = (md: string, section: string): Table[] =>
+  allTablesAfterHeadingContaining(
+    nodesUnderHeading(parseMd(md), section),
+    `Self size`,
+  )
+
+/** The `Total size` counterpart of {@link selfSizeTables}. */
+export const totalSizeTables = (md: string, section: string): Table[] =>
+  allTablesAfterHeadingContaining(
+    nodesUnderHeading(parseMd(md), section),
+    `Total size`,
+  )
 
 export const callStackTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Hottest call stacks`)

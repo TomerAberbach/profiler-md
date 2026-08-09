@@ -3,6 +3,7 @@ import { collapsedConverter } from './collapsed/index.ts'
 import type { FormatConverter } from './converter.ts'
 import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
+import { memrayConverter } from './memray/index.ts'
 import { pprofConverter } from './pprof/index.ts'
 import { speedscopeConverter } from './speedscope/index.ts'
 import { systingConverter } from './systing/index.ts'
@@ -17,6 +18,7 @@ export const formatConverters = {
   collapsed: collapsedConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
+  memray: memrayConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,
   systing: systingConverter,

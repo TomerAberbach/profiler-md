@@ -150,8 +150,8 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                        Base profile to diff
   CURRENT                     Current profile to diff against the base
 
-Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown, valgrind
+Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, memray, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, memray, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, rbspy, safari, systing, tachyon, unknown, valgrind
 Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
 ```
 
@@ -274,6 +274,7 @@ third-party tools can often convert others.
 <td><a href="docs/languages/python.md">Python</a></td>
 <td>
 <details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Python py-spy CPU (<a href="examples/output/python.py-spy.cpu.base.collapsed.md">base</a>, <a href="examples/output/python.py-spy.cpu.current.collapsed.md">current</a>, <a href="examples/output/python.py-spy.cpu.diff.collapsed.md">diff</a>)</li><li>Python py-spy wall (<a href="examples/output/python.py-spy.wall.base.collapsed.md">base</a>, <a href="examples/output/python.py-spy.wall.current.collapsed.md">current</a>, <a href="examples/output/python.py-spy.wall.diff.collapsed.md">diff</a>)</li></ul></details>
+<details><summary><a href="docs/formats/memray.md">memray</a></summary><ul><li>Python memray (<a href="examples/output/python.memray.base.memray.bin.md">base</a>, <a href="examples/output/python.memray.current.memray.bin.md">current</a>, <a href="examples/output/python.memray.diff.memray.bin.md">diff</a>)</li><li>Python memray aggregated (<a href="examples/output/python.memray.aggregated.base.memray.bin.md">base</a>, <a href="examples/output/python.memray.aggregated.current.memray.bin.md">current</a>, <a href="examples/output/python.memray.aggregated.diff.memray.bin.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/speedscope.md">Speedscope</a></summary><ul><li>Python py-spy CPU (<a href="examples/output/python.py-spy.cpu.base.speedscope.json.md">base</a>, <a href="examples/output/python.py-spy.cpu.current.speedscope.json.md">current</a>, <a href="examples/output/python.py-spy.cpu.diff.speedscope.json.md">diff</a>)</li></ul></details>
 <div><a href="docs/formats/systing.md">systing</a></div>
 </td>

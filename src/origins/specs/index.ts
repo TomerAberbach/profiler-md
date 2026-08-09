@@ -8,6 +8,7 @@ import { excimerOriginSpec } from './excimer.ts'
 import { goOriginSpec } from './go.ts'
 import { gperftoolsOriginSpec } from './gperftools.ts'
 import { jdkOriginSpec } from './jdk.ts'
+import { memrayOriginSpec } from './memray.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
 import { pprofJlOriginSpec } from './pprof-jl.ts'
@@ -60,5 +61,6 @@ export const originSpecs = [
   // hint, or an explicit origin; their position has no effect.
   gperftoolsOriginSpec,
   excimerOriginSpec,
+  memrayOriginSpec,
   unknownOriginSpec,
 ]
