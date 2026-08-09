@@ -9,6 +9,7 @@ source scripts/inputs/_common.sh
 
 PY_SPY_VERSION="0.4.0"
 MEMRAY_VERSION="1.19.3"
+PYINSTRUMENT_VERSION="5.1.3"
 BLACK_VERSION="24.8.0"
 
 # Black formats CPython's own _pydecimal.py as a real, sizeable workload. Fetch
@@ -114,6 +115,53 @@ run_memray_for_role() {
   memray_rundir[$role]=$dir
 }
 
+# pyinstrument samples from inside the interpreter and exports speedscope with
+# its default frame selection, which keeps the frames above pyinstrument's 1%
+# threshold and absorbs the rest into their parents. --show-all keeps every
+# frame, but it sometimes exports a tree covering a few milliseconds instead
+# of the whole run, so no input uses it.
+#
+# Black is installed from a checkout for the same reason memray's capture
+# installs one, and because pyinstrument hides installed-package frames by
+# default.
+declare -A pyinstrument_rundir=()
+run_pyinstrument_for_role() {
+  local role=$1
+  [[ -n "${pyinstrument_rundir[$role]:-}" ]] && return 0
+  local dir="$WORKDIR/python-pyinstrument-$role"
+  mkdir -p "$dir"
+  fetch_pydecimal || return 1
+  cp "$TARGET" "$dir/_pydecimal.py" || return 1
+
+  notice "Profiling black with pyinstrument ($role)"
+  docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends python3 python3-venv python3-pip git
+
+      git clone --quiet --depth 1 --branch "$BLACK_VERSION" \
+        https://github.com/psf/black /src/black
+
+      python3 -m venv /venv
+      /venv/bin/pip install --quiet "pyinstrument==$PYINSTRUMENT_VERSION"
+      /venv/bin/pip install --quiet -e /src/black
+
+      # The capture formats a fresh copy of the input so Black always has work.
+      #
+      # Black runs as its console script rather than as "-m black". Under
+      # "-m", pyinstrument trims the leading runpy frames by descending into
+      # the first child of each. That child is the import subtree rather than
+      # the module body, so the speedscope export covers only the imports.
+      cp /out/_pydecimal.py /tmp/work.py
+      /venv/bin/pyinstrument -r speedscope -o /out/default.speedscope.json \
+        /venv/bin/black /tmp/work.py
+    ' -e PYINSTRUMENT_VERSION="$PYINSTRUMENT_VERSION" \
+    -e BLACK_VERSION="$BLACK_VERSION" || return 1
+
+  pyinstrument_rundir[$role]=$dir
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=in-container filename
 copy_python_profile() {
   local out=$1 role=$2 name=$3
@@ -126,6 +174,13 @@ copy_memray_capture() {
   local out=$1 role=$2 name=$3
   run_memray_for_role "$role" || return 1
   cp "${memray_rundir[$role]}/$name" "$out"
+}
+
+# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+copy_pyinstrument_profile() {
+  local out=$1 role=$2 name=$3
+  run_pyinstrument_for_role "$role" || return 1
+  cp "${pyinstrument_rundir[$role]}/$name" "$out"
 }
 
 # These captures need a running Docker daemon.
@@ -142,6 +197,8 @@ for role in base current; do
     copy_memray_capture "$role" default.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.aggregated.$role.memray.bin" \
     copy_memray_capture "$role" aggregated.memray.bin
+  try emit "$GENERATED_INPUTS/python.pyinstrument.$role.speedscope.json" \
+    copy_pyinstrument_profile "$role" default.speedscope.json
 done
 
 verify_pairs

@@ -15,6 +15,7 @@ import { pprofJlOriginSpec } from './pprof-jl.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { profileJlOriginSpec } from './profile-jl.ts'
 import { pySpyOriginSpec } from './py-spy.ts'
+import { pyinstrumentOriginSpec } from './pyinstrument.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 import { safariOriginSpec } from './safari.ts'
 import { systingOriginSpec } from './systing.ts'
@@ -44,6 +45,10 @@ export const originSpecs = [
   goOriginSpec,
   pprofJlOriginSpec,
   profileJlOriginSpec,
+  // Before py-spy, whose marker accepts any CPython install-layout location
+  // that pyinstrument's speedscope frames also have. Otherwise pyinstrument's
+  // origin hint would lose to that marker.
+  pyinstrumentOriginSpec,
   pySpyOriginSpec,
   tachyonOriginSpec,
   asyncProfilerOriginSpec,
