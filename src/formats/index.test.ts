@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
@@ -30,6 +30,7 @@ import {
   injectedInputs,
   inputPath,
   readInput,
+  smallestInput,
 } from './testing.ts'
 import {
   makeV8CallFrame,
@@ -67,28 +68,14 @@ const jsonInputs = [...inputSets.json]
 const binaryInputs = [...inputSets.binary]
 const allInputs = [...jsonInputs, ...binaryInputs]
 
-/**
- * The input the input-type matrix converts, or none in the `unit` project.
- * Reading bytes handed to the pipeline as a string, a `Blob`, or a stream
- * happens above the converter and is the same for every format. The matrix
- * takes the project's smallest input because converting every committed one
- * would run gigabytes through the pipeline several times over.
- */
-const smallest = (filenames: string[]): string[] =>
-  filenames.length === 0
-    ? []
-    : [
-        filenames.reduce((smallest, filename) =>
-          statSync(inputPath(filename)).size <
-          statSync(inputPath(smallest)).size
-            ? filename
-            : smallest,
-        ),
-      ]
-
-const smallestJsonInput = smallest(jsonInputs)
-const smallestBinaryInput = smallest(binaryInputs)
-const smallestInput = smallest(allInputs)
+// The inputs the input-type matrix converts, or none in the `unit` project.
+// Reading bytes handed to the pipeline as a string, a `Blob`, or a stream
+// happens above the converter and is the same for every format. The matrix
+// takes the project's smallest input because converting every committed one
+// would run gigabytes through the pipeline several times over.
+const smallestJsonInput = smallestInput(jsonInputs)
+const smallestBinaryInput = smallestInput(binaryInputs)
+const smallestAnyInput = smallestInput(allInputs)
 
 // Some real captures legitimately have no samples (e.g. a lock profile that saw
 // no contention), so the pipeline yields the no-data message instead of a
@@ -588,8 +575,8 @@ describe(`profileToMd`, () => {
 })
 
 describe(`profileToMdAsync`, () => {
-  if (smallestInput.length > 0) {
-    describe.each(smallestInput)(`auto-detects %s`, filename => {
+  if (smallestAnyInput.length > 0) {
+    describe.each(smallestAnyInput)(`auto-detects %s`, filename => {
       const content = readInput(filename)
 
       test(`from Blob`, async () => {
@@ -1130,9 +1117,9 @@ describe(`diffProfiles`, () => {
 
 // Registered conditionally because this suite has no input-independent tests,
 // so it would be empty in the `unit` project.
-if (smallestInput.length > 0) {
+if (smallestAnyInput.length > 0) {
   describe(`diffProfilesAsync`, () => {
-    test.each(smallestInput)(`diffs %s Blob inputs`, async filename => {
+    test.each(smallestAnyInput)(`diffs %s Blob inputs`, async filename => {
       const content = readInput(filename)
 
       const md = await diffProfilesAsync(

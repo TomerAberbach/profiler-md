@@ -1,5 +1,13 @@
 import { spawn } from 'node:child_process'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  closeSync,
+  mkdtempSync,
+  openSync,
+  readFileSync,
+  readSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
@@ -9,6 +17,7 @@ import {
   injectedFormat,
   injectedInputs,
   inputPath,
+  smallestInput,
 } from '../formats/testing.ts'
 import { languageExtensionToPrimary } from './languages.ts'
 
@@ -22,9 +31,34 @@ const inputFilenames = injectedInputs()
 // samples (e.g. a lock profile that saw no contention) — the no-data message.
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
 
+/** Whether a file starts with the gzip magic number. */
+const isGzipped = (filename: string): boolean => {
+  const magic = Buffer.alloc(2)
+  const file = openSync(inputPath(filename), `r`)
+  try {
+    readSync(file, magic, 0, 2, 0)
+  } finally {
+    closeSync(file)
+  }
+  return magic[0] === 0x1f && magic[1] === 0x8b
+}
+
+/**
+ * The inputs the CLI converts: the smallest of each compression scheme the
+ * project's inputs use. Reading a file and decompressing its bytes is
+ * format-agnostic work the CLI does itself. Below that is the API, which the
+ * format and origin suites already run over every committed input, so spawning
+ * the CLI for each one would repeat gigabytes of conversion in a subprocess.
+ */
+const cliInputFilenames = [true, false].flatMap(gzipped =>
+  smallestInput(
+    inputFilenames.filter(filename => isGzipped(filename) === gzipped),
+  ),
+)
+
 // Registered conditionally because the `unit` project receives no inputs.
-if (inputFilenames.length > 0) {
-  test.concurrent.each(inputFilenames)(
+if (cliInputFilenames.length > 0) {
+  test.concurrent.each(cliInputFilenames)(
     `outputs markdown from a %s file`,
     async filename => {
       const { status, stdout } = await runCli([inputPath(filename)])

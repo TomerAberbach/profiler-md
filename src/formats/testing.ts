@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { inject } from 'vitest'
@@ -55,6 +55,23 @@ export const readInput = (filename: string): Buffer => {
   const data = readFileSync(inputPath(filename))
   return data[0] === 0x1f && data[1] === 0x8b ? gunzipSync(data) : data
 }
+
+/**
+ * The smallest of the given inputs, as a single-element array, or an empty
+ * array when there are none. A `test.each` over the result registers nothing in
+ * the `unit` project, which receives no inputs.
+ */
+export const smallestInput = (filenames: string[]): string[] =>
+  filenames.length === 0
+    ? []
+    : [
+        filenames.reduce((smallest, filename) =>
+          statSync(inputPath(filename)).size <
+          statSync(inputPath(smallest)).size
+            ? filename
+            : smallest,
+        ),
+      ]
 
 export const convertJsonToMd = (
   converter: JsonFormatConverter,
