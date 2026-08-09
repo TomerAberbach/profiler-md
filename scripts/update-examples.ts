@@ -15,6 +15,7 @@ const execFileAsync = promisify(execFile)
 
 const check = process.argv.includes(`--check`)
 
+const compileCachePath = join(`node_modules`, `.cache`, `node-compile-cache`)
 const inputFilenames = readdirSync(`examples/input`)
 
 // Inputs named `<name>.base.<ext>` and `<name>.current.<ext>` are also diffed
@@ -89,7 +90,13 @@ const updateExample = limitConcur(
     const { stdout: markdown } = await execFileAsync(
       `node`,
       [`src/cli/index.ts`, `--base-url`, `auto`, ...inputPaths],
-      { encoding: `utf8`, maxBuffer: 64 * 1024 * 1024 },
+      {
+        encoding: `utf8`,
+        maxBuffer: 64 * 1024 * 1024,
+        // Reuse compiled bytecode across the spawned CLI processes, roughly
+        // halving each one's startup.
+        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath },
+      },
     )
     const elapsed = performance.now() - start
 
