@@ -297,9 +297,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 1.32 MiB → 958 KiB (-393.906 KiB, -29.1%) over 677 samples → 655 samples (2 KiB → 1.46 KiB per sample).
+Retained 1.32 MiB → 958 KiB (-393.906 KiB, -29.1%) over 677 objects → 655 objects (2 KiB → 1.46 KiB per object).
 
-| Category         | Change |        Delta |      % |               Size |   Samples |
+| Category         | Change |        Delta |      % |               Size |   Objects |
 | ---------------- | -----: | -----------: | -----: | -----------------: | --------: |
 | Standard library | -29.1% | -393.875 KiB | 100.0% | 1.32 MiB → 958 KiB | 673 → 652 |
 | Ours             | -26.7% |        -32 B |  <0.1% |       120 B → 88 B |     4 → 3 |
@@ -314,7 +314,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-| Change | Delta |            % |       Size | Samples | Function                        | Location                               |
+| Change | Delta |            % |       Size | Objects | Function                        | Location                               |
 | -----: | ----: | -----------: | ---------: | ------: | ------------------------------- | -------------------------------------- |
 |    new | +64 B | 0.0% → <0.1% | 0 B → 64 B |   0 → 2 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -322,7 +322,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change | Delta |            % |       Size | Samples | Function                                                   | Location                               |
+|  Change | Delta |            % |       Size | Objects | Function                                                   | Location                               |
 | ------: | ----: | -----------: | ---------: | ------: | ---------------------------------------------------------- | -------------------------------------- |
 | removed | -96 B | <0.1% → 0.0% | 96 B → 0 B |   2 → 0 | `<init>()`                                                 | `java.util.HashSet`                    |
 | removed | -64 B | <0.1% → 0.0% | 64 B → 0 B |   2 → 0 | `writeViolation(Writer, Violation, String)`                | `org.codenarc.report.TextReportWriter` |
@@ -330,14 +330,14 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change | Delta |            % |       Size | Samples | Function                                                   | Location                               |
+|  Change | Delta |            % |       Size | Objects | Function                                                   | Location                               |
 | ------: | ----: | -----------: | ---------: | ------: | ---------------------------------------------------------- | -------------------------------------- |
 | removed | -64 B | <0.1% → 0.0% | 64 B → 0 B |   2 → 0 | `writeViolation(Writer, Violation, String)`                | `org.codenarc.report.TextReportWriter` |
 | removed | -32 B | <0.1% → 0.0% | 32 B → 0 B |   1 → 0 | `createViolationForImport(SourceCode, ImportNode, String)` | `org.codenarc.rule.AbstractRule`       |
 
 ##### Standard library
 
-|  Change | Delta |            % |       Size | Samples | Function   | Location            |
+|  Change | Delta |            % |       Size | Objects | Function   | Location            |
 | ------: | ----: | -----------: | ---------: | ------: | ---------- | ------------------- |
 | removed | -96 B | <0.1% → 0.0% | 96 B → 0 B |   2 → 0 | `<init>()` | `java.util.HashSet` |
 
@@ -347,7 +347,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|  Change |       Delta |            % |               Size | Samples | Function                                                      | Location                                                           |
+|  Change |       Delta |            % |               Size | Objects | Function                                                      | Location                                                           |
 | ------: | ----------: | -----------: | -----------------: | ------: | ------------------------------------------------------------- | ------------------------------------------------------------------ |
 |     new | +10.937 KiB |  0.0% → 1.1% |     0 B → 10.9 KiB | 0 → 281 | `linkToCallSite(Object, int, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00`                |
 |     new | +10.937 KiB |  0.0% → 1.1% |     0 B → 10.9 KiB | 0 → 281 | `linkToCallSite(Object, int, int, Object)`                    | `java.lang.invoke.LambdaForm$MH.0x00000003013f5400`                |
@@ -372,7 +372,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |      Delta |            % |                Size |   Samples | Function                                             | Location                                                                       |
+|  Change |      Delta |            % |                Size |   Objects | Function                                             | Location                                                                       |
 | ------: | ---------: | -----------: | ------------------: | --------: | ---------------------------------------------------- | ------------------------------------------------------------------------------ |
 |     new | +4.046 KiB |  0.0% → 0.4% |      0 B → 4.05 KiB |     0 → 2 | `<init>(String)`                                     | `org.codenarc.rule.groovyism.ExplicitTypeInstantiationAstVisitor`              |
 |     new | +4.015 KiB |  0.0% → 0.4% |      0 B → 4.02 KiB |     0 → 1 | `$getStaticMetaClass()`                              | `org.codenarc.rule.groovyism.ExplicitArrayListInstantiationRule$1`             |
@@ -397,7 +397,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Standard library
 
-|  Change |       Delta |            % |                Size | Samples | Function                                                      | Location                                            |
+|  Change |       Delta |            % |                Size | Objects | Function                                                      | Location                                            |
 | ------: | ----------: | -----------: | ------------------: | ------: | ------------------------------------------------------------- | --------------------------------------------------- |
 |     new | +10.937 KiB |  0.0% → 1.1% |      0 B → 10.9 KiB | 0 → 281 | `linkToCallSite(Object, int, Object, Object)`                 | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
 |     new | +10.937 KiB |  0.0% → 1.1% |      0 B → 10.9 KiB | 0 → 281 | `linkToCallSite(Object, int, int, Object)`                    | `java.lang.invoke.LambdaForm$MH.0x00000003013f5400` |
@@ -424,7 +424,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |               Size |   Samples | Function                                                 | Location                                                                    |
+|  Change |        Delta |             % |               Size |   Objects | Function                                                 | Location                                                                    |
 | ------: | -----------: | ------------: | -----------------: | --------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
 |  -92.9% | -394.695 KiB |  31.4% → 3.1% | 425 KiB → 30.1 KiB | 373 → 327 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
 |  -92.9% |  -394.57 KiB |  31.4% → 3.1% | 425 KiB → 30.1 KiB | 370 → 327 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
@@ -449,7 +449,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-| Change |        Delta |            % |                Size |   Samples | Function                                         | Location                                                                    |
+| Change |        Delta |            % |                Size |   Objects | Function                                         | Location                                                                    |
 | -----: | -----------: | -----------: | ------------------: | --------: | ------------------------------------------------ | --------------------------------------------------------------------------- |
 | -92.3% | -394.226 KiB | 31.6% → 3.4% |  427 KiB → 32.8 KiB | 405 → 362 | `execute()`                                      | `org.codenarc.CodeNarcRunner`                                               |
 | -89.9% | -394.054 KiB | 32.4% → 4.6% |    438 KiB → 44 KiB | 674 → 650 | `main(String[])`                                 | `org.codenarc.CodeNarc`                                                     |
@@ -474,7 +474,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Standard library
 
-|  Change |        Delta |             % |                Size |   Samples | Function                                                         | Location                                                |
+|  Change |        Delta |             % |                Size |   Objects | Function                                                         | Location                                                |
 | ------: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------- | ------------------------------------------------------- |
 |  -92.9% | -394.695 KiB |  31.4% → 3.1% |  425 KiB → 30.1 KiB | 373 → 327 | `linkToCallSite(Object, Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                      |
 |  -92.9% |  -394.57 KiB |  31.4% → 3.1% |  425 KiB → 30.1 KiB | 370 → 327 | `linkToCallSite(Object, Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                      |

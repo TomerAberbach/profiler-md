@@ -164,9 +164,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 8.47 MiB → 6.33 MiB (-2.138 MiB, -25.3%) over 320 samples → 193 samples (27.1 KiB → 33.6 KiB per sample).
+Retained 8.47 MiB → 6.33 MiB (-2.138 MiB, -25.3%) over 320 objects → 193 objects (27.1 KiB → 33.6 KiB per object).
 
-| Category         | Change |      Delta |              % |                Size |   Samples |
+| Category         | Change |      Delta |              % |                Size |   Objects |
 | ---------------- | -----: | ---------: | -------------: | ------------------: | --------: |
 | Standard library | -25.2% | -2.131 MiB | 99.9% → 100.0% | 8.46 MiB → 6.33 MiB | 271 → 145 |
 | Ours             | -79.9% |  -7.57 KiB |   0.1% → <0.1% | 9.48 KiB → 1.91 KiB |   49 → 48 |
@@ -181,7 +181,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-| Change |  Delta |            % |                Size | Samples | Function                     | Location                                                  |
+| Change |  Delta |            % |                Size | Objects | Function                     | Location                                                  |
 | -----: | -----: | -----------: | ------------------: | ------: | ---------------------------- | --------------------------------------------------------- |
 |  +7.5% | +120 B |        <0.1% | 1.56 KiB → 1.68 KiB | 40 → 43 | `lambda$generateData$4(int)` | `org.renaissance.jdk.concurrent.JavaKMeans`               |
 |    new |  +56 B | 0.0% → <0.1% |          0 B → 56 B |   0 → 1 | `vectorSum()`                | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask` |
@@ -192,7 +192,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change |      Delta |            % |                Size |  Samples | Function                  | Location                                                   |
+|  Change |      Delta |            % |                Size |  Objects | Function                  | Location                                                   |
 | ------: | ---------: | -----------: | ------------------: | -------: | ------------------------- | ---------------------------------------------------------- |
 | removed | -7.687 KiB |  0.1% → 0.0% |      7.69 KiB → 0 B |    4 → 0 | `findNearestCentroid()`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 |  -25.6% |     -816 B |        <0.1% | 3.12 KiB → 2.32 KiB | 133 → 99 | `valueOf(double)`         | `java.lang.Double`                                         |
@@ -201,7 +201,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change |      Delta |            % |           Size | Samples | Function                  | Location                                                   |
+|  Change |      Delta |            % |           Size | Objects | Function                  | Location                                                   |
 | ------: | ---------: | -----------: | -------------: | ------: | ------------------------- | ---------------------------------------------------------- |
 | removed | -7.687 KiB |  0.1% → 0.0% | 7.69 KiB → 0 B |   4 → 0 | `findNearestCentroid()`   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
 | removed |     -112 B | <0.1% → 0.0% |    112 B → 0 B |   2 → 0 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
@@ -209,7 +209,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Standard library
 
-| Change |  Delta |     % |                Size |  Samples | Function          | Location           |
+| Change |  Delta |     % |                Size |  Objects | Function          | Location           |
 | -----: | -----: | ----: | ------------------: | -------: | ----------------- | ------------------ |
 | -25.6% | -816 B | <0.1% | 3.12 KiB → 2.32 KiB | 133 → 99 | `valueOf(double)` | `java.lang.Double` |
 
@@ -219,7 +219,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |                Size | Samples | Function                                                      | Location                                                               |
+|  Change |        Delta |             % |                Size | Objects | Function                                                      | Location                                                               |
 | ------: | -----------: | ------------: | ------------------: | ------: | ------------------------------------------------------------- | ---------------------------------------------------------------------- |
 |  +18.3% | +504.203 KiB | 31.9% → 50.4% |  2.7 MiB → 3.19 MiB | 18 → 14 | `invoke()`                                                    | `java.util.concurrent.ForkJoinTask`                                    |
 |  +18.3% |  +504.14 KiB | 31.9% → 50.4% |  2.7 MiB → 3.19 MiB | 17 → 12 | `lambda$run$0(int, List, int)`                                | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
@@ -244,7 +244,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |       Delta |             % |                Size | Samples | Function                                        | Location                                                               |
+|  Change |       Delta |             % |                Size | Objects | Function                                        | Location                                                               |
 | ------: | ----------: | ------------: | ------------------: | ------: | ----------------------------------------------- | ---------------------------------------------------------------------- |
 |  +18.3% | +504.14 KiB | 31.9% → 50.4% |  2.7 MiB → 3.19 MiB | 17 → 12 | `lambda$run$0(int, List, int)`                  | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |  +18.3% | +504.14 KiB | 31.9% → 50.4% |  2.7 MiB → 3.19 MiB | 17 → 12 | `call()`                                        | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000000801183d68` |
@@ -265,7 +265,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Standard library
 
-| Change |        Delta |             % |               Size | Samples | Function                                                      | Location                               |
+| Change |        Delta |             % |               Size | Objects | Function                                                      | Location                               |
 | -----: | -----------: | ------------: | -----------------: | ------: | ------------------------------------------------------------- | -------------------------------------- |
 | +18.3% | +504.203 KiB | 31.9% → 50.4% | 2.7 MiB → 3.19 MiB | 18 → 14 | `invoke()`                                                    | `java.util.concurrent.ForkJoinTask`    |
 | +16.8% | +207.539 KiB | 14.2% → 22.2% | 1.2 MiB → 1.41 MiB | 98 → 29 | `join()`                                                      | `java.util.concurrent.ForkJoinTask`    |
@@ -278,7 +278,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |                Size |   Samples | Function                                                                                                               | Location                                                               |
+|  Change |        Delta |             % |                Size |   Objects | Function                                                                                                               | Location                                                               |
 | ------: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 |  -36.1% |   -1.978 MiB | 64.6% → 55.2% |  5.47 MiB → 3.5 MiB |   90 → 25 | `addAll(Collection)`                                                                                                   | `java.util.ArrayList`                                                  |
 |  -30.6% |   -1.883 MiB | 72.6% → 67.4% | 6.15 MiB → 4.26 MiB |  137 → 41 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
@@ -303,7 +303,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |        Delta |             % |                Size |   Samples | Function                                                                                                               | Location                                                               |
+|  Change |        Delta |             % |                Size |   Objects | Function                                                                                                               | Location                                                               |
 | ------: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 |  -30.6% |   -1.883 MiB | 72.6% → 67.4% | 6.15 MiB → 4.26 MiB |  137 → 41 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
 |  -30.5% |   -1.868 MiB | 72.4% → 67.3% | 6.13 MiB → 4.26 MiB |  111 → 34 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
@@ -328,7 +328,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Standard library
 
-|  Change |        Delta |             % |                Size |   Samples | Function                            | Location                             |
+|  Change |        Delta |             % |                Size |   Objects | Function                            | Location                             |
 | ------: | -----------: | ------------: | ------------------: | --------: | ----------------------------------- | ------------------------------------ |
 |  -36.1% |   -1.978 MiB | 64.6% → 55.2% |  5.47 MiB → 3.5 MiB |   90 → 25 | `addAll(Collection)`                | `java.util.ArrayList`                |
 |  -30.5% |   -1.868 MiB | 72.4% → 67.3% | 6.13 MiB → 4.26 MiB |  111 → 34 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                  |

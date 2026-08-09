@@ -531,9 +531,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 267 KiB → 82.3 KiB (-184.742 KiB, -69.2%) over 118 samples → 111 samples (2.26 KiB → 759 B per sample).
+Retained 267 KiB → 82.3 KiB (-184.742 KiB, -69.2%) over 118 objects → 111 objects (2.26 KiB → 759 B per object).
 
-| Category         |  Change |        Delta |            % |               Size |   Samples |
+| Category         |  Change |        Delta |            % |               Size |   Objects |
 | ---------------- | ------: | -----------: | -----------: | -----------------: | --------: |
 | Standard library |  -69.2% | -184.679 KiB |       100.0% | 267 KiB → 82.3 KiB | 116 → 111 |
 | Ours             | removed |        -64 B | <0.1% → 0.0% |         64 B → 0 B |     2 → 0 |
@@ -548,7 +548,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change | Delta |            % |       Size | Samples | Function                        | Location                               |
+|  Change | Delta |            % |       Size | Objects | Function                        | Location                               |
 | ------: | ----: | -----------: | ---------: | ------: | ------------------------------- | -------------------------------------- |
 | removed | -64 B | <0.1% → 0.0% | 64 B → 0 B |   2 → 0 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -558,7 +558,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|    Change |       Delta |             % |                Size | Samples | Function                                        | Location                                                                   |
+|    Change |       Delta |             % |                Size | Objects | Function                                        | Location                                                                   |
 | --------: | ----------: | ------------: | ------------------: | ------: | ----------------------------------------------- | -------------------------------------------------------------------------- |
 |  +2042.5% | +67.976 KiB |  1.2% → 86.7% | 3.33 KiB → 71.3 KiB | 16 → 19 | `doCall(Object)`                                | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
 |  +1880.5% | +67.875 KiB |  1.4% → 86.9% | 3.61 KiB → 71.5 KiB | 20 → 22 | `applyTo(SourceCode)`                           | `org.codenarc.rule.AbstractRule`                                           |
@@ -583,7 +583,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|    Change |       Delta |            % |                Size | Samples | Function                                         | Location                                                                   |
+|    Change |       Delta |            % |                Size | Objects | Function                                         | Location                                                                   |
 | --------: | ----------: | -----------: | ------------------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------- |
 |  +2042.5% | +67.976 KiB | 1.2% → 86.7% | 3.33 KiB → 71.3 KiB | 16 → 19 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
 |  +1880.5% | +67.875 KiB | 1.4% → 86.9% | 3.61 KiB → 71.5 KiB | 20 → 22 | `applyTo(SourceCode)`                            | `org.codenarc.rule.AbstractRule`                                           |
@@ -610,7 +610,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |                Size | Samples | Function                                                 | Location                                                           |
+|  Change |        Delta |             % |                Size | Objects | Function                                                 | Location                                                           |
 | ------: | -----------: | ------------: | ------------------: | ------: | -------------------------------------------------------- | ------------------------------------------------------------------ |
 |  -99.2% | -254.617 KiB |  96.1% → 2.5% |  257 KiB → 2.05 KiB | 18 → 23 | `init()`                                                 | `org.codenarc.source.AbstractSourceCode`                           |
 |  -71.1% | -188.625 KiB | 99.4% → 93.3% |  265 KiB → 76.8 KiB | 91 → 81 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                 |
@@ -635,7 +635,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |        Delta |            % |                Size | Samples | Function                                          | Location                                                           |
+|  Change |        Delta |            % |                Size | Objects | Function                                          | Location                                                           |
 | ------: | -----------: | -----------: | ------------------: | ------: | ------------------------------------------------- | ------------------------------------------------------------------ |
 |  -99.2% | -254.617 KiB | 96.1% → 2.5% |  257 KiB → 2.05 KiB | 18 → 23 | `init()`                                          | `org.codenarc.source.AbstractSourceCode`                           |
 | removed |   -2.015 KiB |  0.8% → 0.0% |      2.02 KiB → 0 B |   1 → 0 | `getAstVisitor()`                                 | `org.codenarc.rule.convention.HashtableIsObsoleteRule`             |

@@ -729,9 +729,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Retained heap profile
 
-Retained 958 KiB over 655 samples (1.46 KiB per sample).
+Retained 958 KiB over 655 objects (1.46 KiB per object).
 
-| Category         |      % |    Size | Samples |
+| Category         |      % |    Size | Objects |
 | ---------------- | -----: | ------: | ------: |
 | Standard library | 100.0% | 958 KiB |     652 |
 | Ours             |  <0.1% |    88 B |       3 |
@@ -742,7 +742,7 @@ Retained 958 KiB over 655 samples (1.46 KiB per sample).
 
 Functions ranked by bytes retained directly in the function body, excluding callees.
 
-|     % | Size | Samples | Function                        | Location                                                             |
+|     % | Size | Objects | Function                        | Location                                                             |
 | ----: | ---: | ------: | ------------------------------- | -------------------------------------------------------------------- |
 | <0.1% | 64 B |       2 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor`                               |
 | <0.1% | 24 B |       1 | `<init>()`                      | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor` |
@@ -752,14 +752,14 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 ##### Ours
 
-|     % | Size | Samples | Function                        | Location                                                             |
+|     % | Size | Objects | Function                        | Location                                                             |
 | ----: | ---: | ------: | ------------------------------- | -------------------------------------------------------------------- |
 | <0.1% | 64 B |       2 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor`                               |
 | <0.1% | 24 B |       1 | `<init>()`                      | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor` |
 
 ##### Standard library
 
-|     % | Size | Samples | Function       | Location            |
+|     % | Size | Objects | Function       | Location            |
 | ----: | ---: | ------: | -------------- | ------------------- |
 | <0.1% | 16 B |       1 | `valueOf(int)` | `java.lang.Integer` |
 
@@ -769,19 +769,19 @@ Lines ranked by contribution to each function's self size.
 
 ##### `addViolation(ASTNode, String)` (`org.codenarc.rule.AbstractAstVisitor`)
 
-|      % | Size | Samples | Location                                   |
+|      % | Size | Objects | Location                                   |
 | -----: | ---: | ------: | ------------------------------------------ |
 | 100.0% | 64 B |       2 | `org.codenarc.rule.AbstractAstVisitor:107` |
 
 ##### `<init>()` (`org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor`)
 
-|      % | Size | Samples | Location                                                                |
+|      % | Size | Objects | Location                                                                |
 | -----: | ---: | ------: | ----------------------------------------------------------------------- |
 | 100.0% | 24 B |       1 | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor:33` |
 
 ##### `valueOf(int)` (`java.lang.Integer`)
 
-|      % | Size | Samples | Location                 |
+|      % | Size | Objects | Location                 |
 | -----: | ---: | ------: | ------------------------ |
 | 100.0% | 16 B |       1 | `java.lang.Integer:1083` |
 
@@ -791,13 +791,13 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `<init>()` (`org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor`)
 
-|      % | Size | Samples | Caller                          | Location                                                             |
+|      % | Size | Objects | Caller                          | Location                                                             |
 | -----: | ---: | ------: | ------------------------------- | -------------------------------------------------------------------- |
 | 100.0% | 24 B |       1 | `<init>(ExpressionCollector$1)` | `org.codenarc.source.ExpressionCollector$ExpressionCollectorVisitor` |
 
 ##### `valueOf(int)` (`java.lang.Integer`)
 
-|      % | Size | Samples | Caller                          | Location                               |
+|      % | Size | Objects | Caller                          | Location                               |
 | -----: | ---: | ------: | ------------------------------- | -------------------------------------- |
 | 100.0% | 16 B |       1 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -805,7 +805,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 Functions ranked by total bytes retained in the function and all its callees.
 
-|     % |     Size | Samples | Function                                                 | Location                                                                            |
+|     % |     Size | Objects | Function                                                 | Location                                                                            |
 | ----: | -------: | ------: | -------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | 95.4% |  914 KiB |       4 | `loadClass(String)`                                      | `java.lang.ClassLoader`                                                             |
 |  4.6% |   44 KiB |     650 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                                  |
@@ -832,7 +832,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Ours
 
-|    % |     Size | Samples | Function                                          | Location                                                                            |
+|    % |     Size | Objects | Function                                          | Location                                                                            |
 | ---: | -------: | ------: | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | 4.6% |   44 KiB |     650 | `main(String[])`                                  | `org.codenarc.CodeNarc`                                                             |
 | 4.6% | 43.8 KiB |     646 | `execute(String[])`                               | `org.codenarc.CodeNarc`                                                             |
@@ -857,7 +857,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Standard library
 
-|     % |     Size | Samples | Function                                                      | Location                                            |
+|     % |     Size | Objects | Function                                                      | Location                                            |
 | ----: | -------: | ------: | ------------------------------------------------------------- | --------------------------------------------------- |
 | 95.4% |  914 KiB |       4 | `loadClass(String)`                                           | `java.lang.ClassLoader`                             |
 |  4.6% |   44 KiB |     650 | `linkToCallSite(Object, Object, Object)`                      | `java.lang.invoke.Invokers$Holder`                  |
@@ -886,13 +886,13 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `main(String[])` (`org.codenarc.CodeNarc`)
 
-|      % |   Size | Samples | Callee                                   | Location                           |
+|      % |   Size | Objects | Callee                                   | Location                           |
 | -----: | -----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 44 KiB |     650 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `execute(String[])` (`org.codenarc.CodeNarc`)
 
-|     % |     Size | Samples | Callee                                             | Location                                            |
+|     % |     Size | Objects | Callee                                             | Location                                            |
 | ----: | -------: | ------: | -------------------------------------------------- | --------------------------------------------------- |
 | 75.0% | 32.9 KiB |     364 | `linkToCallSite(Object, Object)`                   | `java.lang.invoke.Invokers$Holder`                  |
 | 25.0% | 10.9 KiB |     281 | `linkToCallSite(Object, Object, int, int, Object)` | `java.lang.invoke.LambdaForm$MH.0x0000000301940400` |
@@ -900,7 +900,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `execute()` (`org.codenarc.CodeNarcRunner`)
 
-|     % |     Size | Samples | Callee                                           | Location                           |
+|     % |     Size | Objects | Callee                                           | Location                           |
 | ----: | -------: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 70.3% |   23 KiB |     218 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 | 21.8% | 7.15 KiB |     110 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
@@ -908,119 +908,119 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
 
-|     % |     Size | Samples | Callee                                           | Location                           |
+|     % |     Size | Objects | Callee                                           | Location                           |
 | ----: | -------: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 99.6% | 22.9 KiB |     216 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 |  0.4% |     88 B |       1 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
 
-|      % |     Size | Samples | Callee                                                   | Location                           |
+|      % |     Size | Objects | Callee                                                   | Location                           |
 | -----: | -------: | ------: | -------------------------------------------------------- | ---------------------------------- |
 | 100.0% |   23 KiB |     217 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 |  99.6% | 22.9 KiB |     216 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 
 ##### `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
 
-|      % |   Size | Samples | Callee                                   | Location                           |
+|      % |   Size | Objects | Callee                                   | Location                           |
 | -----: | -----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 23 KiB |     217 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
 
-|      % |   Size | Samples | Callee                                           | Location                           |
+|      % |   Size | Objects | Callee                                           | Location                           |
 | -----: | -----: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 100.0% | 23 KiB |     217 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
 
-|     % |     Size | Samples | Callee                                           | Location                           |
+|     % |     Size | Objects | Callee                                           | Location                           |
 | ----: | -------: | ------: | ------------------------------------------------ | ---------------------------------- |
 | 59.2% | 13.6 KiB |     121 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 | 40.8% | 9.34 KiB |      95 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `init()` (`org.codenarc.source.AbstractSourceCode`)
 
-|     % |     Size | Samples | Callee                                   | Location                           |
+|     % |     Size | Objects | Callee                                   | Location                           |
 | ----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 77.2% | 10.4 KiB |     119 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 | 22.8% | 3.08 KiB |       1 | `linkToCallSite(Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
 
 ##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
 
-|      % |     Size | Samples | Callee                           | Location                           |
+|      % |     Size | Objects | Callee                           | Location                           |
 | -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
 | 100.0% | 13.5 KiB |     120 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |     Size | Samples | Callee     | Location                                 |
+|      % |     Size | Objects | Callee     | Location                                 |
 | -----: | -------: | ------: | ---------- | ---------------------------------------- |
 | 100.0% | 13.5 KiB |     120 | `getAst()` | `org.codenarc.source.AbstractSourceCode` |
 
 ##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |     Size | Samples | Callee   | Location                                    |
+|      % |     Size | Objects | Callee   | Location                                    |
 | -----: | -------: | ------: | -------- | ------------------------------------------- |
 | 100.0% | 13.5 KiB |     120 | `init()` | `org.codenarc.analyzer.SuppressionAnalyzer` |
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 13.5 KiB |     120 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`)
 
-|      % |     Size | Samples | Callee                                        | Location                                            |
+|      % |     Size | Objects | Callee                                        | Location                                            |
 | -----: | -------: | ------: | --------------------------------------------- | --------------------------------------------------- |
 | 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, int, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
 
 ##### `getNumberOfViolationsWithPriority(int)` (`org.codenarc.results.DirectoryResults`)
 
-|      % |     Size | Samples | Callee                                            | Location                                |
+|      % |     Size | Objects | Callee                                            | Location                                |
 | -----: | -------: | ------: | ------------------------------------------------- | --------------------------------------- |
 | 100.0% | 10.9 KiB |     281 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.DirectoryResults` |
 
 ##### `checkMaxViolations(Results, int, int)` (`org.codenarc.CodeNarc`)
 
-|      % |     Size | Samples | Callee                                     | Location                                            |
+|      % |     Size | Objects | Callee                                     | Location                                            |
 | -----: | -------: | ------: | ------------------------------------------ | --------------------------------------------------- |
 | 100.0% | 10.9 KiB |     281 | `linkToCallSite(Object, int, int, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013f5400` |
 
 ##### `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.FileResults`)
 
-|      % |     Size | Samples | Callee                                        | Location                                            |
+|      % |     Size | Objects | Callee                                        | Location                                            |
 | -----: | -------: | ------: | --------------------------------------------- | --------------------------------------------------- |
 | 100.0% | 10.9 KiB |     280 | `linkToCallSite(Object, int, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x00000003013dac00` |
 
 ##### `getNumberOfViolationsWithPriority(int)` (`org.codenarc.results.FileResults`)
 
-|      % |     Size | Samples | Callee                                            | Location                           |
+|      % |     Size | Objects | Callee                                            | Location                           |
 | -----: | -------: | ------: | ------------------------------------------------- | ---------------------------------- |
 | 100.0% | 10.9 KiB |     280 | `getNumberOfViolationsWithPriority(int, boolean)` | `org.codenarc.results.FileResults` |
 
 ##### `doCall(Object)` (`org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`)
 
-|      % |     Size | Samples | Callee                           | Location                           |
+|      % |     Size | Objects | Callee                           | Location                           |
 | -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
 | 100.0% | 10.8 KiB |     275 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
 
-|    % | Size | Samples | Callee                            | Location                                          |
+|    % | Size | Objects | Callee                            | Location                                          |
 | ---: | ---: | ------: | --------------------------------- | ------------------------------------------------- |
 | 1.8% | 32 B |       1 | `visitAnnotations(AnnotatedNode)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport` |
 
 ##### `visitMethod(MethodNode)` (`org.codehaus.groovy.ast.ClassCodeVisitorSupport`)
 
-|     % |     Size | Samples | Callee                                          | Location                                                     |
+|     % |     Size | Objects | Callee                                          | Location                                                     |
 | ----: | -------: | ------: | ----------------------------------------------- | ------------------------------------------------------------ |
 | 93.4% | 1.66 KiB |      23 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`            |
 |  3.5% |     64 B |       1 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.convention.NoDefAstVisitor`               |
@@ -1033,7 +1033,7 @@ Call stacks ranked by bytes retained in their leaf frame. `…` stands for frame
 
 Common call stack: `main(String[])` (`org.codenarc.CodeNarc`)
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |  0.9% | 8.41 KiB |      81 | `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `init()` (`org.codenarc.source.AbstractSourceCode`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `getAst()` (`org.codenarc.source.AbstractSourceCode`) ← `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`) ← `isRuleSuppressed(Rule)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |  0.7% | 6.94 KiB |     173 | `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.FileResults$_getNumberOfViolationsWithPriority_closure1`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.FileResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← `getNumberOfViolationsWithPriority(int)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.results.DirectoryResults$_getNumberOfViolationsWithPriority_closure3`) ← … ← `linkToCallSite(Object, int, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013dac00`) ← `getNumberOfViolationsWithPriority(int, boolean)` (`org.codenarc.results.DirectoryResults`) ← … ← `linkToCallSite(Object, int, int, Object)` (`java.lang.invoke.LambdaForm$MH.0x00000003013f5400`) ← `checkMaxViolations(Results, int, int)` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, int, int, Object)` (`java.lang.invoke.LambdaForm$MH.0x0000000301940400`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)                                                                                                                                                                                                                                                                                                                                                                                                                                                 |

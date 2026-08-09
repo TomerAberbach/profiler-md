@@ -910,9 +910,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Retained heap profile
 
-Retained 2.85 MiB over 11 samples (265 KiB per sample).
+Retained 2.85 MiB over 11 objects (265 KiB per object).
 
-| Category         |      % |     Size | Samples |
+| Category         |      % |     Size | Objects |
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 2.85 MiB |      11 |
 
@@ -926,7 +926,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 ##### Standard library
 
-|     % | Size | Samples | Function          | Location           |
+|     % | Size | Objects | Function          | Location           |
 | ----: | ---: | ------: | ----------------- | ------------------ |
 | <0.1% | 96 B |       4 | `valueOf(double)` | `java.lang.Double` |
 
@@ -936,7 +936,7 @@ Lines ranked by contribution to each function's self size.
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|      % | Size | Samples | Location               |
+|      % | Size | Objects | Location               |
 | -----: | ---: | ------: | ---------------------- |
 | 100.0% | 96 B |       4 | `java.lang.Double:773` |
 
@@ -946,7 +946,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `valueOf(double)` (`java.lang.Double`)
 
-|      % | Size | Samples | Caller                                           | Location                                    |
+|      % | Size | Objects | Caller                                           | Location                                    |
 | -----: | ---: | ------: | ------------------------------------------------ | ------------------------------------------- |
 | 100.0% | 96 B |       4 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
@@ -954,7 +954,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 Functions ranked by total bytes retained in the function and all its callees.
 
-|     % |     Size | Samples | Function                                                                                                               | Location                                                               |
+|     % |     Size | Objects | Function                                                                                                               | Location                                                               |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | 81.2% | 2.31 MiB |       8 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
 | 81.2% | 2.31 MiB |       8 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
@@ -981,7 +981,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Standard library
 
-|     % |     Size | Samples | Function                            | Location                             |
+|     % |     Size | Objects | Function                            | Location                             |
 | ----: | -------: | ------: | ----------------------------------- | ------------------------------------ |
 | 81.2% | 2.31 MiB |       8 | `invoke(Object, Object[])`          | `java.lang.reflect.Method`           |
 | 72.4% | 2.06 MiB |       5 | `collect(Collector)`                | `java.util.stream.ReferencePipeline` |
@@ -1002,32 +1002,32 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
-|     % |     Size | Samples | Callee              | Location                                    |
+|     % |     Size | Objects | Callee              | Location                                    |
 | ----: | -------: | ------: | ------------------- | ------------------------------------------- |
 | 89.2% | 2.06 MiB |       7 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
 | 10.8% |  255 KiB |       1 | `loadClass(String)` | `java.lang.ClassLoader`                     |
 
 ##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Samples | Callee                     | Location                   |
+|      % |     Size | Objects | Callee                     | Location                   |
 | -----: | -------: | ------: | -------------------------- | -------------------------- |
 | 100.0% | 2.31 MiB |       8 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
 
 ##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Samples | Callee                                                      | Location                        |
+|      % |     Size | Objects | Callee                                                      | Location                        |
 | -----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------- |
 | 100.0% | 2.31 MiB |       8 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.core.Launcher`)
 
-|      % |     Size | Samples | Callee                                 | Location                        |
+|      % |     Size | Objects | Callee                                 | Location                        |
 | -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
 | 100.0% | 2.31 MiB |       8 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |     Size | Samples | Callee                                                                        | Location                                    |
+|      % |     Size | Objects | Callee                                                                        | Location                                    |
 | -----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
 |  <0.1% |    112 B |       1 | `<clinit>()`                                                                  | `scala.Predef$`                             |
@@ -1035,85 +1035,85 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % |     Size | Samples | Callee               | Location                             |
+|      % |     Size | Objects | Callee               | Location                             |
 | -----: | -------: | ------: | -------------------- | ------------------------------------ |
 | 100.0% | 2.06 MiB |       5 | `collect(Collector)` | `java.util.stream.ReferencePipeline` |
 
 ##### `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`)
 
-|      % |     Size | Samples | Callee                        | Location                                    |
+|      % |     Size | Objects | Callee                        | Location                                    |
 | -----: | -------: | ------: | ----------------------------- | ------------------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `generateData(int, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`)
 
-|      % |     Size | Samples | Callee                             | Location                                  |
+|      % |     Size | Objects | Callee                             | Location                                  |
 | -----: | -------: | ------: | ---------------------------------- | ----------------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `setUpBeforeAll(BenchmarkContext)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |     Size | Samples | Callee               | Location                                  |
+|      % |     Size | Objects | Callee               | Location                                  |
 | -----: | -------: | ------: | -------------------- | ----------------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
 
 ##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798`)
 
-|      % |     Size | Samples | Callee                                                                                                                 | Location                                    |
+|      % |     Size | Objects | Callee                                                                                                                 | Location                                    |
 | -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |     Size | Samples | Callee               | Location                          |
+|      % |     Size | Objects | Callee               | Location                          |
 | -----: | -------: | ------: | -------------------- | --------------------------------- |
 | 100.0% | 2.06 MiB |       5 | `foreach(Function1)` | `scala.collection.immutable.List` |
 
 ##### `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % |    Size | Samples | Callee               | Location              |
+|      % |    Size | Objects | Callee               | Location              |
 | -----: | ------: | ------: | -------------------- | --------------------- |
 | 100.0% | 293 KiB |       2 | `addAll(Collection)` | `java.util.ArrayList` |
 
 ##### `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204fd0`)
 
-|      % |    Size | Samples | Callee                       | Location                                    |
+|      % |    Size | Objects | Callee                       | Location                                    |
 | -----: | ------: | ------: | ---------------------------- | ------------------------------------------- |
 | 100.0% | 293 KiB |       2 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `merge(Object, Object, BiFunction)` (`java.util.HashMap`)
 
-|      % |    Size | Samples | Callee                  | Location                                                               |
+|      % |    Size | Objects | Callee                  | Location                                                               |
 | -----: | ------: | ------: | ----------------------- | ---------------------------------------------------------------------- |
 | 100.0% | 293 KiB |       2 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204fd0` |
 
 ##### `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % |    Size | Samples | Callee                              | Location            |
+|      % |    Size | Objects | Callee                              | Location            |
 | -----: | ------: | ------: | ----------------------------------- | ------------------- |
 | 100.0% | 293 KiB |       2 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
 
 ##### `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204d88`)
 
-|      % |    Size | Samples | Callee                              | Location                                    |
+|      % |    Size | Objects | Callee                              | Location                                    |
 | -----: | ------: | ------: | ----------------------------------- | ------------------------------------------- |
 | 100.0% | 293 KiB |       2 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `forEach(BiConsumer)` (`java.util.HashMap`)
 
-|      % |    Size | Samples | Callee                   | Location                                                               |
+|      % |    Size | Objects | Callee                   | Location                                                               |
 | -----: | ------: | ------: | ------------------------ | ---------------------------------------------------------------------- |
 | 100.0% | 293 KiB |       2 | `accept(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204d88` |
 
 ##### `<clinit>()` (`scala.Predef$`)
 
-|      % |  Size | Samples | Callee              | Location                |
+|      % |  Size | Objects | Callee              | Location                |
 | -----: | ----: | ------: | ------------------- | ----------------------- |
 | 100.0% | 112 B |       1 | `loadClass(String)` | `java.lang.ClassLoader` |
 
 ##### `apply(Function0)` (`scala.util.Try$`)
 
-|      % | Size | Samples | Callee    | Location                                                               |
+|      % | Size | Objects | Callee    | Location                                                               |
 | -----: | ---: | ------: | --------- | ---------------------------------------------------------------------- |
 | 100.0% | 24 B |       1 | `apply()` | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000700117e000` |
 
@@ -1121,7 +1121,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes retained in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 72.4% | 2.06 MiB |       1 | `collect(Collector)` (`java.util.stream.ReferencePipeline`) ← `generateData(int, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `setUpBeforeAll(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`) ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798`) ← … ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 10.0% |  293 KiB |       2 | `addAll(Collection)` (`java.util.ArrayList`) ← `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204fd0`) ← `merge(Object, Object, BiFunction)` (`java.util.HashMap`) ← `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204d88`) ← `forEach(BiConsumer)` (`java.util.HashMap`) ← `merge(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `combineResults(Map, Map)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`) ← `combineResults(Object, Object)` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -1132,11 +1132,11 @@ Call stacks ranked by bytes retained in their leaf frame. `…` stands for frame
 
 # Lock contention profile
 
-Blocked 7.18s over 59 samples (121.8ms per sample).
+Blocked 7.18s over 59 contentions (121.8ms per contention).
 
-| Category         |      % |  Time | Samples |
-| ---------------- | -----: | ----: | ------: |
-| Standard library | 100.0% | 7.18s |      59 |
+| Category         |      % |  Time | Contentions |
+| ---------------- | -----: | ----: | ----------: |
+| Standard library | 100.0% | 7.18s |          59 |
 
 ## Hottest functions
 
@@ -1144,28 +1144,28 @@ Blocked 7.18s over 59 samples (121.8ms per sample).
 
 Functions ranked by total time blocked in the function and all its callees.
 
-|     % |   Time | Samples | Function                                                                                                               | Location                                                               |
-| ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 84.0% |  6.03s |      16 | `get()`                                                                                                                | `java.util.concurrent.ForkJoinTask`                                    |
-| 84.0% |  6.03s |      16 | `run(int, List, int)`                                                                                                  | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-| 84.0% |  6.03s |      16 | `$anonfun$1(int)`                                                                                                      | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-| 84.0% |  6.03s |      16 | `$anonfun$adapted$1(Object)`                                                                                           | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-| 84.0% |  6.03s |      16 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`   |
-| 84.0% |  6.03s |      16 | `map(Function1)`                                                                                                       | `scala.collection.immutable.Range`                                     |
-| 84.0% |  6.03s |      16 | `run(BenchmarkContext)`                                                                                                | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-| 84.0% |  6.03s |      16 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
-| 84.0% |  6.03s |      16 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
-| 84.0% |  6.03s |      16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-| 84.0% |  6.03s |      16 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798` |
-| 84.0% |  6.03s |      16 | `foreach(Function1)`                                                                                                   | `scala.collection.immutable.List`                                      |
-| 84.0% |  6.03s |      16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
-| 84.0% |  6.03s |      16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
-| 84.0% |  6.03s |      16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
-| 84.0% |  6.03s |      16 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
-| 84.0% |  6.03s |      16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
-| 84.0% |  6.03s |      16 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
-| 84.0% |  6.03s |      16 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
-|  0.5% | 36.8ms |       1 | `join()`                                                                                                               | `java.util.concurrent.ForkJoinTask`                                    |
+|     % |   Time | Contentions | Function                                                                                                               | Location                                                               |
+| ----: | -----: | ----------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 84.0% |  6.03s |          16 | `get()`                                                                                                                | `java.util.concurrent.ForkJoinTask`                                    |
+| 84.0% |  6.03s |          16 | `run(int, List, int)`                                                                                                  | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 84.0% |  6.03s |          16 | `$anonfun$1(int)`                                                                                                      | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+| 84.0% |  6.03s |          16 | `$anonfun$adapted$1(Object)`                                                                                           | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+| 84.0% |  6.03s |          16 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`   |
+| 84.0% |  6.03s |          16 | `map(Function1)`                                                                                                       | `scala.collection.immutable.Range`                                     |
+| 84.0% |  6.03s |          16 | `run(BenchmarkContext)`                                                                                                | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+| 84.0% |  6.03s |          16 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
+| 84.0% |  6.03s |          16 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
+| 84.0% |  6.03s |          16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+| 84.0% |  6.03s |          16 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798` |
+| 84.0% |  6.03s |          16 | `foreach(Function1)`                                                                                                   | `scala.collection.immutable.List`                                      |
+| 84.0% |  6.03s |          16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
+| 84.0% |  6.03s |          16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
+| 84.0% |  6.03s |          16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
+| 84.0% |  6.03s |          16 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
+| 84.0% |  6.03s |          16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
+| 84.0% |  6.03s |          16 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
+| 84.0% |  6.03s |          16 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+|  0.5% | 36.8ms |           1 | `join()`                                                                                                               | `java.util.concurrent.ForkJoinTask`                                    |
 
 #### Callees
 
@@ -1173,105 +1173,105 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `run(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % |  Time | Samples | Callee  | Location                            |
-| -----: | ----: | ------: | ------- | ----------------------------------- |
-| 100.0% | 6.03s |      16 | `get()` | `java.util.concurrent.ForkJoinTask` |
+|      % |  Time | Contentions | Callee  | Location                            |
+| -----: | ----: | ----------: | ------- | ----------------------------------- |
+| 100.0% | 6.03s |          16 | `get()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `$anonfun$1(int)` (`org.renaissance.jdk.concurrent.FjKmeans`)
 
-|      % |  Time | Samples | Callee                | Location                                    |
-| -----: | ----: | ------: | --------------------- | ------------------------------------------- |
-| 100.0% | 6.03s |      16 | `run(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % |  Time | Contentions | Callee                | Location                                    |
+| -----: | ----: | ----------: | --------------------- | ------------------------------------------- |
+| 100.0% | 6.03s |          16 | `run(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ##### `$anonfun$adapted$1(Object)` (`org.renaissance.jdk.concurrent.FjKmeans`)
 
-|      % |  Time | Samples | Callee            | Location                                  |
-| -----: | ----: | ------: | ----------------- | ----------------------------------------- |
-| 100.0% | 6.03s |      16 | `$anonfun$1(int)` | `org.renaissance.jdk.concurrent.FjKmeans` |
+|      % |  Time | Contentions | Callee            | Location                                  |
+| -----: | ----: | ----------: | ----------------- | ----------------------------------------- |
+| 100.0% | 6.03s |          16 | `$anonfun$1(int)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
 ##### `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`)
 
-|      % |  Time | Samples | Callee                       | Location                                  |
-| -----: | ----: | ------: | ---------------------------- | ----------------------------------------- |
-| 100.0% | 6.03s |      16 | `$anonfun$adapted$1(Object)` | `org.renaissance.jdk.concurrent.FjKmeans` |
+|      % |  Time | Contentions | Callee                       | Location                                  |
+| -----: | ----: | ----------: | ---------------------------- | ----------------------------------------- |
+| 100.0% | 6.03s |          16 | `$anonfun$adapted$1(Object)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
 ##### `map(Function1)` (`scala.collection.immutable.Range`)
 
-|      % |  Time | Samples | Callee          | Location                                                             |
-| -----: | ----: | ------: | --------------- | -------------------------------------------------------------------- |
-| 100.0% | 6.03s |      16 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70` |
+|      % |  Time | Contentions | Callee          | Location                                                             |
+| -----: | ----: | ----------: | --------------- | -------------------------------------------------------------------- |
+| 100.0% | 6.03s |          16 | `apply(Object)` | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70` |
 
 ##### `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`)
 
-|      % |  Time | Samples | Callee           | Location                           |
-| -----: | ----: | ------: | ---------------- | ---------------------------------- |
-| 100.0% | 6.03s |      16 | `map(Function1)` | `scala.collection.immutable.Range` |
+|      % |  Time | Contentions | Callee           | Location                           |
+| -----: | ----: | ----------: | ---------------- | ---------------------------------- |
+| 100.0% | 6.03s |          16 | `map(Function1)` | `scala.collection.immutable.Range` |
 
 ##### `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`)
 
-|      % |  Time | Samples | Callee                  | Location                                  |
-| -----: | ----: | ------: | ----------------------- | ----------------------------------------- |
-| 100.0% | 6.03s |      16 | `run(BenchmarkContext)` | `org.renaissance.jdk.concurrent.FjKmeans` |
+|      % |  Time | Contentions | Callee                  | Location                                  |
+| -----: | ----: | ----------: | ----------------------- | ----------------------------------------- |
+| 100.0% | 6.03s |          16 | `run(BenchmarkContext)` | `org.renaissance.jdk.concurrent.FjKmeans` |
 
 ##### `executeBenchmark()` (`org.renaissance.harness.ExecutionDriver`)
 
-|      % |  Time | Samples | Callee                  | Location                                  |
-| -----: | ----: | ------: | ----------------------- | ----------------------------------------- |
-| 100.0% | 6.03s |      16 | `executeOperation(int)` | `org.renaissance.harness.ExecutionDriver` |
+|      % |  Time | Contentions | Callee                  | Location                                  |
+| -----: | ----: | ----------: | ----------------------- | ----------------------------------------- |
+| 100.0% | 6.03s |          16 | `executeOperation(int)` | `org.renaissance.harness.ExecutionDriver` |
 
 ##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |  Time | Samples | Callee               | Location                                  |
-| -----: | ----: | ------: | -------------------- | ----------------------------------------- |
-| 100.0% | 6.03s |      16 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
+|      % |  Time | Contentions | Callee               | Location                                  |
+| -----: | ----: | ----------: | -------------------- | ----------------------------------------- |
+| 100.0% | 6.03s |          16 | `executeBenchmark()` | `org.renaissance.harness.ExecutionDriver` |
 
 ##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798`)
 
-|      % |  Time | Samples | Callee                                                                                                                 | Location                                    |
-| -----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% | 6.03s |      16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
+|      % |  Time | Contentions | Callee                                                                                                                 | Location                                    |
+| -----: | ----: | ----------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 6.03s |          16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |  Time | Samples | Callee               | Location                          |
-| -----: | ----: | ------: | -------------------- | --------------------------------- |
-| 100.0% | 6.03s |      16 | `foreach(Function1)` | `scala.collection.immutable.List` |
+|      % |  Time | Contentions | Callee               | Location                          |
+| -----: | ----: | ----------: | -------------------- | --------------------------------- |
+| 100.0% | 6.03s |          16 | `foreach(Function1)` | `scala.collection.immutable.List` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
 
-|      % |  Time | Samples | Callee                                                                        | Location                                    |
-| -----: | ----: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
-| 100.0% | 6.03s |      16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+|      % |  Time | Contentions | Callee                                                                        | Location                                    |
+| -----: | ----: | ----------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 6.03s |          16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
 
-|      % |  Time | Samples | Callee           | Location                                    |
-| -----: | ----: | ------: | ---------------- | ------------------------------------------- |
-| 100.0% | 6.03s |      16 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite$` |
+|      % |  Time | Contentions | Callee           | Location                                    |
+| -----: | ----: | ----------: | ---------------- | ------------------------------------------- |
+| 100.0% | 6.03s |          16 | `main(String[])` | `org.renaissance.harness.RenaissanceSuite$` |
 
 ##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |  Time | Samples | Callee                     | Location                   |
-| -----: | ----: | ------: | -------------------------- | -------------------------- |
-| 100.0% | 6.03s |      16 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+|      % |  Time | Contentions | Callee                     | Location                   |
+| -----: | ----: | ----------: | -------------------------- | -------------------------- |
+| 100.0% | 6.03s |          16 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
 
 ##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
 
-|      % |  Time | Samples | Callee                                                      | Location                        |
-| -----: | ----: | ------: | ----------------------------------------------------------- | ------------------------------- |
-| 100.0% | 6.03s |      16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
+|      % |  Time | Contentions | Callee                                                      | Location                        |
+| -----: | ----: | ----------: | ----------------------------------------------------------- | ------------------------------- |
+| 100.0% | 6.03s |          16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 
 ##### `main(String[])` (`org.renaissance.core.Launcher`)
 
-|      % |  Time | Samples | Callee                                 | Location                        |
-| -----: | ----: | ------: | -------------------------------------- | ------------------------------- |
-| 100.0% | 6.03s |      16 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+|      % |  Time | Contentions | Callee                                 | Location                        |
+| -----: | ----: | ----------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 6.03s |          16 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
 
 ## Hottest call stacks
 
 Call stacks ranked by time blocked in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |   Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ----: | -----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 84.0% |  6.03s |      16 | `get()` (`java.util.concurrent.ForkJoinTask`) ← `run(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `$anonfun$1(int)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`) ← `map(Function1)` (`scala.collection.immutable.Range`) ← `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798`) ← … ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-|  0.5% | 36.8ms |       1 | `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|     % |   Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----: | -----: | ----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 84.0% |  6.03s |          16 | `get()` (`java.util.concurrent.ForkJoinTask`) ← `run(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `$anonfun$1(int)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `$anonfun$adapted$1(Object)` ← `apply(Object)` (`org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`) ← `map(Function1)` (`scala.collection.immutable.Range`) ← `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798`) ← … ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
+|  0.5% | 36.8ms |           1 | `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |

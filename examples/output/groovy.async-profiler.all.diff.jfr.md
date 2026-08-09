@@ -747,11 +747,11 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Lock contention profile diff
 
-Blocked 2.3ms → 4.2ms (+1.90ms, +84.0%) over 35 samples → 32 samples (64.7µs → 130.1µs per sample).
+Blocked 2.3ms → 4.2ms (+1.90ms, +84.0%) over 35 contentions → 32 contentions (64.7µs → 130.1µs per contention).
 
-| Category         | Change |   Delta |      % |          Time | Samples |
-| ---------------- | -----: | ------: | -----: | ------------: | ------: |
-| Standard library | +84.0% | +1.90ms | 100.0% | 2.3ms → 4.2ms | 35 → 32 |
+| Category         | Change |   Delta |      % |          Time | Contentions |
+| ---------------- | -----: | ------: | -----: | ------------: | ----------: |
+| Standard library | +84.0% | +1.90ms | 100.0% | 2.3ms → 4.2ms |     35 → 32 |
 
 ## Hottest functions
 
@@ -761,47 +761,47 @@ Blocked 2.3ms → 4.2ms (+1.90ms, +84.0%) over 35 samples → 32 samples (64.7µ
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-|   Change |   Delta |             % |          Time | Samples | Function                                                 | Location                                                                    |
-| -------: | ------: | ------------: | ------------: | ------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
-|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms | 17 → 14 | `collectViolations(SourceCode, RuleSet)`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms | 17 → 14 | `processFile(String, DirectoryResults, RuleSet)`         | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms | 17 → 14 | `doCall(Object)`                                         | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms | 17 → 14 | `processDirectory(String, RuleSet)`                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms | 17 → 14 | `analyze(RuleSet)`                                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `linkToCallSite(Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                          |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                          |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `execute()`                                              | `org.codenarc.CodeNarcRunner`                                               |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `execute(String[])`                                      | `org.codenarc.CodeNarc`                                                     |
-|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms | 18 → 14 | `main(String[])`                                         | `org.codenarc.CodeNarc`                                                     |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `visitConstructorOrMethod(MethodNode, boolean)`          | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `visitMethod(MethodNode)`                                | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `visitMethod(MethodNode)`                                | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `visitClass(ClassNode)`                                  | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `visitClass(ClassNode)`                                  | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `applyTo(SourceCode, List)`                              | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |   3 → 4 | `applyTo(SourceCode)`                                    | `org.codenarc.rule.AbstractRule`                                            |
-|  +382.8% | +0.65ms |  7.6% → 19.8% | 0.2ms → 0.8ms |   7 → 6 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+|   Change |   Delta |             % |          Time | Contentions | Function                                                 | Location                                                                    |
+| -------: | ------: | ------------: | ------------: | ----------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
+|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms |     17 → 14 | `collectViolations(SourceCode, RuleSet)`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
+|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms |     17 → 14 | `processFile(String, DirectoryResults, RuleSet)`         | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms |     17 → 14 | `doCall(Object)`                                         | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
+|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms |     17 → 14 | `processDirectory(String, RuleSet)`                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  +216.2% | +0.99ms | 20.3% → 34.9% | 0.5ms → 1.5ms |     17 → 14 | `analyze(RuleSet)`                                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `linkToCallSite(Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                          |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                          |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `execute()`                                              | `org.codenarc.CodeNarcRunner`                                               |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `execute(String[])`                                      | `org.codenarc.CodeNarc`                                                     |
+|  +194.4% | +0.96ms | 21.8% → 34.9% | 0.5ms → 1.5ms |     18 → 14 | `main(String[])`                                         | `org.codenarc.CodeNarc`                                                     |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `visitConstructorOrMethod(MethodNode, boolean)`          | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `visitMethod(MethodNode)`                                | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `visitMethod(MethodNode)`                                | `org.codenarc.rule.AbstractAstVisitor`                                      |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `visitClass(ClassNode)`                                  | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                           |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `visitClass(ClassNode)`                                  | `org.codenarc.rule.AbstractAstVisitor`                                      |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `applyTo(SourceCode, List)`                              | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
+| +1070.8% | +0.69ms |  2.9% → 18.2% | 0.1ms → 0.8ms |       3 → 4 | `applyTo(SourceCode)`                                    | `org.codenarc.rule.AbstractRule`                                            |
+|  +382.8% | +0.65ms |  7.6% → 19.8% | 0.2ms → 0.8ms |       7 → 6 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
 
 #### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 
-|  Change |   Delta |           % |         Time | Samples | Function                                             | Location                                                                |
-| ------: | ------: | ----------: | -----------: | ------: | ---------------------------------------------------- | ----------------------------------------------------------------------- |
-|  -55.0% | -0.08ms | 6.5% → 1.6% |        0.1ms |   5 → 2 | `linkToCallSite(Object, Object, long, Object)`       | `java.lang.invoke.LambdaForm$MH.0x0000000401323400`                     |
-| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |   1 → 0 | `visitStatement(Statement)`                          | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`          |
-| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |   1 → 0 | `super$3$applyTo(SourceCode, List)`                  | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                |
-| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |   1 → 0 | `applyTo(SourceCode, List)`                          | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeViolation(Writer, Violation, String)`          | `org.codenarc.report.TextReportWriter`                                  |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `doCall(Object)`                                     | `org.codenarc.report.TextReportWriter$_writeFileViolations_closure6`    |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeFileViolations(Writer, FileResults)`           | `org.codenarc.report.TextReportWriter`                                  |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `doCall(Object)`                                     | `org.codenarc.report.TextReportWriter$_writePackageViolations_closure2` |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writePackageViolations(Writer, Results)`            | `org.codenarc.report.TextReportWriter`                                  |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeReport(Writer, AnalysisContext, Results)`      | `org.codenarc.report.TextReportWriter`                                  |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeReportToStandardOut(AnalysisContext, Results)` | `org.codenarc.report.AbstractReportWriter`                              |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeReport(AnalysisContext, Results)`              | `org.codenarc.report.AbstractReportWriter`                              |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `doCall(Object)`                                     | `org.codenarc.CodeNarcRunner$_writeReports_closure8`                    |
-| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |   1 → 0 | `writeReports(AnalysisContext, Results)`             | `org.codenarc.CodeNarcRunner`                                           |
-| removed | -0.01ms | 0.6% → 0.0% | 13.3µs → 0ms |   1 → 0 | `visitBinaryExpression(BinaryExpression)`            | `org.codenarc.rule.convention.ParameterReassignmentAstVisitor`          |
+|  Change |   Delta |           % |         Time | Contentions | Function                                             | Location                                                                |
+| ------: | ------: | ----------: | -----------: | ----------: | ---------------------------------------------------- | ----------------------------------------------------------------------- |
+|  -55.0% | -0.08ms | 6.5% → 1.6% |        0.1ms |       5 → 2 | `linkToCallSite(Object, Object, long, Object)`       | `java.lang.invoke.LambdaForm$MH.0x0000000401323400`                     |
+| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |       1 → 0 | `visitStatement(Statement)`                          | `org.codenarc.rule.unnecessary.UnnecessarySemicolonAstVisitor`          |
+| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |       1 → 0 | `super$3$applyTo(SourceCode, List)`                  | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                |
+| removed | -0.03ms | 1.5% → 0.0% | 34.2µs → 0ms |       1 → 0 | `applyTo(SourceCode, List)`                          | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`                |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeViolation(Writer, Violation, String)`          | `org.codenarc.report.TextReportWriter`                                  |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `doCall(Object)`                                     | `org.codenarc.report.TextReportWriter$_writeFileViolations_closure6`    |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeFileViolations(Writer, FileResults)`           | `org.codenarc.report.TextReportWriter`                                  |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `doCall(Object)`                                     | `org.codenarc.report.TextReportWriter$_writePackageViolations_closure2` |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writePackageViolations(Writer, Results)`            | `org.codenarc.report.TextReportWriter`                                  |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeReport(Writer, AnalysisContext, Results)`      | `org.codenarc.report.TextReportWriter`                                  |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeReportToStandardOut(AnalysisContext, Results)` | `org.codenarc.report.AbstractReportWriter`                              |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeReport(AnalysisContext, Results)`              | `org.codenarc.report.AbstractReportWriter`                              |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `doCall(Object)`                                     | `org.codenarc.CodeNarcRunner$_writeReports_closure8`                    |
+| removed | -0.03ms | 1.5% → 0.0% | 34.0µs → 0ms |       1 → 0 | `writeReports(AnalysisContext, Results)`             | `org.codenarc.CodeNarcRunner`                                           |
+| removed | -0.01ms | 0.6% → 0.0% | 13.3µs → 0ms |       1 → 0 | `visitBinaryExpression(BinaryExpression)`            | `org.codenarc.rule.convention.ParameterReassignmentAstVisitor`          |

@@ -573,11 +573,11 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Lock contention profile diff
 
-Blocked 2.7ms → 1.6ms (-1.11ms, -41.1%) over 28 samples → 9 samples (96.7µs → 177.2µs per sample).
+Blocked 2.7ms → 1.6ms (-1.11ms, -41.1%) over 28 contentions → 9 contentions (96.7µs → 177.2µs per contention).
 
-| Category         | Change |   Delta |      % |          Time | Samples |
-| ---------------- | -----: | ------: | -----: | ------------: | ------: |
-| Standard library | -41.1% | -1.11ms | 100.0% | 2.7ms → 1.6ms |  28 → 9 |
+| Category         | Change |   Delta |      % |          Time | Contentions |
+| ---------------- | -----: | ------: | -----: | ------------: | ----------: |
+| Standard library | -41.1% | -1.11ms | 100.0% | 2.7ms → 1.6ms |      28 → 9 |
 
 ## Hottest functions
 
@@ -587,32 +587,32 @@ Blocked 2.7ms → 1.6ms (-1.11ms, -41.1%) over 28 samples → 9 samples (96.7µs
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-|  Change |   Delta |            % |          Time | Samples | Function                          | Location                                                               |
-| ------: | ------: | -----------: | ------------: | ------: | --------------------------------- | ---------------------------------------------------------------------- |
-| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |   3 → 1 | `invoke()`                        | `java.util.concurrent.ForkJoinTask`                                    |
-| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |   3 → 1 | `lambda$run$0(int, List, int)`    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |   3 → 1 | `call()`                          | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
-|  +75.4% | +0.05ms |  2.7% → 8.0% |         0.1ms |   5 → 4 | `walkFileTree(Path, FileVisitor)` | `java.nio.file.Files`                                                  |
+|  Change |   Delta |            % |          Time | Contentions | Function                          | Location                                                               |
+| ------: | ------: | -----------: | ------------: | ----------: | --------------------------------- | ---------------------------------------------------------------------- |
+| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |       3 → 1 | `invoke()`                        | `java.util.concurrent.ForkJoinTask`                                    |
+| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |       3 → 1 | `lambda$run$0(int, List, int)`    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| +173.3% | +0.23ms | 4.9% → 22.9% | 0.1ms → 0.4ms |       3 → 1 | `call()`                          | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
+|  +75.4% | +0.05ms |  2.7% → 8.0% |         0.1ms |       5 → 4 | `walkFileTree(Path, FileVisitor)` | `java.nio.file.Files`                                                  |
 
 #### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 
-|  Change |   Delta |             % |          Time | Samples | Function                                 | Location                                                   |
-| ------: | ------: | ------------: | ------------: | ------: | ---------------------------------------- | ---------------------------------------------------------- |
-|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |  22 → 4 | `computeClusterAverages()`               | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |  22 → 4 | `computeDirectly()`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |  22 → 4 | `compute()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
-|  -51.5% | -0.74ms | 52.8% → 43.5% | 1.4ms → 0.7ms |  11 → 2 | `join()`                                 | `java.util.concurrent.ForkJoinTask`                        |
-| removed | -0.70ms |  25.7% → 0.0% |   0.7ms → 0ms |  18 → 0 | `boxed(double[])`                        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-|  -30.0% | -0.63ms | 77.5% → 92.0% | 2.1ms → 1.5ms |   9 → 5 | `loadClass(String)`                      | `java.lang.ClassLoader`                                    |
-|  -23.4% | -0.37ms | 59.2% → 77.0% | 1.6ms → 1.2ms |       4 | `average(List)`                          | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
-| removed | -0.30ms |  11.1% → 0.0% |   0.3ms → 0ms |   5 → 0 | `stream(double[])`                       | `java.util.Arrays`                                         |
-| removed | -0.19ms |   7.2% → 0.0% |   0.2ms → 0ms |   7 → 0 | `toArray(IntFunction)`                   | `java.util.stream.ReferencePipeline`                       |
-| removed | -0.05ms |   1.7% → 0.0% |  47.0µs → 0ms |   3 → 0 | `boxed()`                                | `java.util.stream.DoublePipeline`                          |
-|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |   6 → 5 | `deleteRecursively(Path, boolean)`       | `org.renaissance.core.DirUtils`                            |
-|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |   6 → 5 | `deleteRecursively(Path)`                | `org.renaissance.core.DirUtils`                            |
-|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |   6 → 5 | `lambda$createScratchDirectory$1(Path)`  | `org.renaissance.core.DirUtils`                            |
-|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |   6 → 5 | `run()`                                  | `org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68` |
-| removed | -0.01ms |   0.2% → 0.0% |   6.0µs → 0ms |   1 → 0 | `visitFile(Path, BasicFileAttributes)`   | `org.renaissance.core.DirUtils$1`                          |
-| removed | -0.01ms |   0.2% → 0.0% |   6.0µs → 0ms |   1 → 0 | `visitFile(Object, BasicFileAttributes)` | `org.renaissance.core.DirUtils$1`                          |
+|  Change |   Delta |             % |          Time | Contentions | Function                                 | Location                                                   |
+| ------: | ------: | ------------: | ------------: | ----------: | ---------------------------------------- | ---------------------------------------------------------- |
+|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |      22 → 4 | `computeClusterAverages()`               | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |      22 → 4 | `computeDirectly()`                      | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -46.6% | -1.07ms | 84.9% → 77.0% | 2.3ms → 1.2ms |      22 → 4 | `compute()`                              | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`     |
+|  -51.5% | -0.74ms | 52.8% → 43.5% | 1.4ms → 0.7ms |      11 → 2 | `join()`                                 | `java.util.concurrent.ForkJoinTask`                        |
+| removed | -0.70ms |  25.7% → 0.0% |   0.7ms → 0ms |      18 → 0 | `boxed(double[])`                        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+|  -30.0% | -0.63ms | 77.5% → 92.0% | 2.1ms → 1.5ms |       9 → 5 | `loadClass(String)`                      | `java.lang.ClassLoader`                                    |
+|  -23.4% | -0.37ms | 59.2% → 77.0% | 1.6ms → 1.2ms |           4 | `average(List)`                          | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| removed | -0.30ms |  11.1% → 0.0% |   0.3ms → 0ms |       5 → 0 | `stream(double[])`                       | `java.util.Arrays`                                         |
+| removed | -0.19ms |   7.2% → 0.0% |   0.2ms → 0ms |       7 → 0 | `toArray(IntFunction)`                   | `java.util.stream.ReferencePipeline`                       |
+| removed | -0.05ms |   1.7% → 0.0% |  47.0µs → 0ms |       3 → 0 | `boxed()`                                | `java.util.stream.DoublePipeline`                          |
+|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |       6 → 5 | `deleteRecursively(Path, boolean)`       | `org.renaissance.core.DirUtils`                            |
+|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |       6 → 5 | `deleteRecursively(Path)`                | `org.renaissance.core.DirUtils`                            |
+|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |       6 → 5 | `lambda$createScratchDirectory$1(Path)`  | `org.renaissance.core.DirUtils`                            |
+|  -10.2% | -0.04ms | 15.1% → 23.0% |         0.4ms |       6 → 5 | `run()`                                  | `org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68` |
+| removed | -0.01ms |   0.2% → 0.0% |   6.0µs → 0ms |       1 → 0 | `visitFile(Path, BasicFileAttributes)`   | `org.renaissance.core.DirUtils$1`                          |
+| removed | -0.01ms |   0.2% → 0.0% |   6.0µs → 0ms |       1 → 0 | `visitFile(Object, BasicFileAttributes)` | `org.renaissance.core.DirUtils$1`                          |

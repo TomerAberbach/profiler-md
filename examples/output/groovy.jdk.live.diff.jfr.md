@@ -526,9 +526,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 325 KiB → 8.95 KiB (-316.515 KiB, -97.3%) over 117 samples → 114 samples (2.78 KiB → 80.4 B per sample).
+Retained 325 KiB → 8.95 KiB (-316.515 KiB, -97.3%) over 117 objects → 114 objects (2.78 KiB → 80.4 B per object).
 
-| Category         | Change |        Delta |      % |               Size |   Samples |
+| Category         | Change |        Delta |      % |               Size |   Objects |
 | ---------------- | -----: | -----------: | -----: | -----------------: | --------: |
 | Standard library | -97.3% | -316.515 KiB | 100.0% | 325 KiB → 8.95 KiB | 117 → 114 |
 
@@ -540,7 +540,7 @@ Retained 325 KiB → 8.95 KiB (-316.515 KiB, -97.3%) over 117 samples → 114
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|   Change |     Delta |            % |                Size | Samples | Function                                                  | Location                                                           |
+|   Change |     Delta |            % |                Size | Objects | Function                                                  | Location                                                           |
 | -------: | --------: | -----------: | ------------------: | ------: | --------------------------------------------------------- | ------------------------------------------------------------------ |
 |      new | +2.39 KiB | 0.0% → 26.7% |      0 B → 2.39 KiB |  0 → 21 | `linkToCallSite(Object, Object)`                          | `java.lang.invoke.LambdaForm$MH.0x000000a801134800`                |
 |   +55.6% |    +672 B | 0.4% → 20.5% | 1.18 KiB → 1.84 KiB | 20 → 19 | `doCall(Object)`                                          | `org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2` |
@@ -567,7 +567,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |                Size | Samples | Function                                 | Location                                                                   |
+|  Change |        Delta |             % |                Size | Objects | Function                                 | Location                                                                   |
 | ------: | -----------: | ------------: | ------------------: | ------: | ---------------------------------------- | -------------------------------------------------------------------------- |
 |  -98.1% | -317.335 KiB | 99.4% → 69.8% |  324 KiB → 6.24 KiB | 87 → 80 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                         |
 |  -99.3% | -281.304 KiB | 87.1% → 23.7% |  283 KiB → 2.12 KiB |      24 | `init()`                                 | `org.codenarc.source.AbstractSourceCode`                                   |
