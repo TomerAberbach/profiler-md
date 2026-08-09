@@ -304,7 +304,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Write a rule only for a shape a committed input contains. Measure one matching
   a long tail of symbols, and record what it matches and misses in its doc
   comment (e.g. `HOTSPOT_COMPILER` in `src/origins/jvm.ts`)
-- `src/origins/categorize.test.ts` holds the cross-origin invariants
+- `src/origins/categorize.test.ts` holds the cross-origin invariants, and
+  `src/categories.test.ts` requires an example to emit every category, or a
+  listed reason why nothing reaches it
 
 ### Aggregating
 
