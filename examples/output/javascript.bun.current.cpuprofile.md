@@ -2,12 +2,12 @@
 
 Took 5.58s over 4,226 samples (1.3ms per sample).
 
-| Category    |     % |    Time | Samples |
-| ----------- | ----: | ------: | ------: |
-| third-party | 91.7% |   5.11s |   3,906 |
-| stdlib      |  5.5% | 304.7ms |     197 |
-| native      |  2.8% | 158.8ms |     122 |
-| unknown     | <0.1% |   1.2ms |       1 |
+| Category         |     % |    Time | Samples |
+| ---------------- | ----: | ------: | ------: |
+| Third-party      | 91.7% |   5.11s |   3,906 |
+| Standard library |  5.5% | 304.7ms |     197 |
+| Native           |  2.8% | 158.8ms |     122 |
+| Unknown          | <0.1% |   1.2ms |       1 |
 
 ## Hottest functions
 

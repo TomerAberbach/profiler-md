@@ -4,12 +4,12 @@
 
 | Category          |  Change | Delta |             % |       Samples |
 | ----------------- | ------: | ----: | ------------: | ------------: |
-| ours              |   -3.0% |   -93 | 59.7% → 58.8% | 3,098 → 3,005 |
-| native            |   +6.6% |   +80 | 23.3% → 25.2% | 1,207 → 1,287 |
-| stdlib            |   -6.8% |   -51 | 14.5% → 13.7% |     752 → 701 |
-| jit               |   -9.0% |    -6 |   1.3% → 1.2% |       67 → 61 |
-| compiler          |  -14.5% |    -9 |   1.2% → 1.0% |       62 → 53 |
-| garbage collector | removed |    -2 |  <0.1% → 0.0% |         2 → 0 |
+| Ours              |   -3.0% |   -93 | 59.7% → 58.8% | 3,098 → 3,005 |
+| Native            |   +6.6% |   +80 | 23.3% → 25.2% | 1,207 → 1,287 |
+| Standard library  |   -6.8% |   -51 | 14.5% → 13.7% |     752 → 701 |
+| JIT               |   -9.0% |    -6 |   1.3% → 1.2% |       67 → 61 |
+| Compiler          |  -14.5% |    -9 |   1.2% → 1.0% |       62 → 53 |
+| Garbage collector | removed |    -2 |  <0.1% → 0.0% |         2 → 0 |
 
 ## Hottest functions
 
@@ -129,10 +129,10 @@ Functions with the largest decrease in total samples taken in the function and a
 
 Allocated 3.07 GiB → 3.03 GiB (-41.263 MiB, -1.3%) over 75,095 samples → 74,967 samples (42.8 KiB → 42.4 KiB per sample).
 
-| Category | Change |        Delta |     % |                Size |         Samples |
-| -------- | -----: | -----------: | ----: | ------------------: | --------------: |
-| stdlib   |  -1.3% |  -41.393 MiB | 99.8% | 3.06 GiB → 3.02 GiB | 69,874 → 69,639 |
-| ours     |  +2.0% | +132.726 KiB |  0.2% | 6.61 MiB → 6.74 MiB |   5,221 → 5,328 |
+| Category         | Change |        Delta |     % |                Size |         Samples |
+| ---------------- | -----: | -----------: | ----: | ------------------: | --------------: |
+| Standard library |  -1.3% |  -41.393 MiB | 99.8% | 3.06 GiB → 3.02 GiB | 69,874 → 69,639 |
+| Ours             |  +2.0% | +132.726 KiB |  0.2% | 6.61 MiB → 6.74 MiB |   5,221 → 5,328 |
 
 ## Hottest functions
 
@@ -231,9 +231,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 Blocked 2.7ms → 1.6ms (-1.11ms, -41.1%) over 28 samples → 9 samples (96.7µs → 177.2µs per sample).
 
-| Category | Change |   Delta |      % |          Time | Samples |
-| -------- | -----: | ------: | -----: | ------------: | ------: |
-| stdlib   | -41.1% | -1.11ms | 100.0% | 2.7ms → 1.6ms |  28 → 9 |
+| Category         | Change |   Delta |      % |          Time | Samples |
+| ---------------- | -----: | ------: | -----: | ------------: | ------: |
+| Standard library | -41.1% | -1.11ms | 100.0% | 2.7ms → 1.6ms |  28 → 9 |
 
 ## Hottest functions
 

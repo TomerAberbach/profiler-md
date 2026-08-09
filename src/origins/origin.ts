@@ -87,8 +87,9 @@ export type OriginSpec = {
    * language itself defines), or `undefined` to keep the category the format
    * derived.
    *
-   * Applies to constructors alone: a closure's name is a function name and a
-   * string's is its value, either of which a class name can collide with.
+   * Applies to constructors alone: a function node's name is a function name
+   * and a string's is its value, either of which a class name can collide
+   * with.
    *
    * Defaults to keeping the format's category when omitted.
    */

@@ -14,8 +14,10 @@ import type { SourceLocation } from '../location.ts'
 import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
+  FunctionCategory,
 } from '../options.ts'
 import type { Diff } from './diff.ts'
+import type { HeapSnapshotNodeCategory } from './heap-snapshot/type.ts'
 import type { Metric } from './metric.ts'
 import { formatDiffTable } from './table.ts'
 import type { Table } from './table.ts'
@@ -76,6 +78,47 @@ export const formatZeroTotalNote = (
  * runtime dump, a lock profile parked in the JDK).
  */
 export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
+
+/**
+ * The name displayed for {@link category}, from either modality's set of
+ * categories.
+ *
+ * A category's value is an identifier, so its displayed name capitalizes it and
+ * spells out the abbreviations and run-together words a reader would otherwise
+ * expand. Categories both modalities define share a name.
+ */
+export const formatCategory = (category: Category): string =>
+  CATEGORY_NAMES[category]
+
+/** A category from either modality's set of categories. */
+export type Category = FunctionCategory | HeapSnapshotNodeCategory
+
+const CATEGORY_NAMES: Record<Category, string> = {
+  ours: `Ours`,
+  'third-party': `Third-party`,
+  stdlib: `Standard library`,
+  native: `Native`,
+  unknown: `Unknown`,
+  'garbage collector': `Garbage collector`,
+  compiler: `Compiler`,
+  jit: `JIT`,
+  kernel: `Kernel`,
+  idle: `Idle`,
+  object: `Object`,
+  array: `Array`,
+  string: `String`,
+  'concatenated string': `Concatenated string`,
+  'sliced string': `Sliced string`,
+  function: `Function`,
+  code: `Code`,
+  regexp: `Regular expression`,
+  number: `Number`,
+  'big number': `Big number`,
+  symbol: `Symbol`,
+  'object shape': `Object shape`,
+  internal: `Internal`,
+  synthetic: `Synthetic`,
+}
 
 /** A function with a display name and optional location. */
 export type NamedFunction = {

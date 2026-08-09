@@ -194,7 +194,7 @@ function* v8SnapshotNodes(
         yield {
           category,
           declaredType,
-          type: `closure`,
+          type: `function`,
           name: nodeName(nodeOrdinal, snapshot, fieldLayout).name,
           location: nodeOrdinalToLocation[nodeOrdinal],
         }
@@ -783,11 +783,11 @@ const V8_NODE_TYPE_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>([
   [`string`, `string`],
   [`concatenated string`, `concatenated string`],
   [`sliced string`, `sliced string`],
-  [`closure`, `closure`],
+  [`closure`, `function`],
   [`code`, `code`],
   [`regexp`, `regexp`],
   [`number`, `number`],
-  [`bigint`, `bigint`],
+  [`bigint`, `big number`],
   [`symbol`, `symbol`],
   [`native`, `native`],
   [`object shape`, `object shape`],

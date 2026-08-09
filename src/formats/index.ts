@@ -693,7 +693,7 @@ const collectInferableURLs = (
         }
         break
       case `heap-snapshot`:
-        for (const entity of [...input.constructors, ...input.closures]) {
+        for (const entity of [...input.constructors, ...input.functions]) {
           collect(entityLocation(entity))
         }
         break

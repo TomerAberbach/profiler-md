@@ -2,10 +2,10 @@
 
 Collected 368 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| stdlib   | 96.7% |     356 |
-| ours     |  3.3% |      12 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Standard library | 96.7% |     356 |
+| Ours             |  3.3% |      12 |
 
 ## Hottest functions
 
@@ -320,11 +320,11 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 12 GiB over 6,318 samples (1.94 MiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 99.1% | 11.9 GiB |   6,212 |
-| ours     |  0.9% |  107 MiB |      55 |
-| unknown  | <0.1% | 37.4 KiB |      51 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 99.1% | 11.9 GiB |   6,212 |
+| Ours             |  0.9% |  107 MiB |      55 |
+| Unknown          | <0.1% | 37.4 KiB |      51 |
 
 ## Hottest functions
 
@@ -727,10 +727,10 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 Retained 263 KiB over 105 samples (2.5 KiB per sample).
 
-| Category |      % |    Size | Samples |
-| -------- | -----: | ------: | ------: |
-| stdlib   | 100.0% | 263 KiB |     104 |
-| ours     |  <0.1% |    96 B |       1 |
+| Category         |      % |    Size | Samples |
+| ---------------- | -----: | ------: | ------: |
+| Standard library | 100.0% | 263 KiB |     104 |
+| Ours             |  <0.1% |    96 B |       1 |
 
 ## Hottest functions
 

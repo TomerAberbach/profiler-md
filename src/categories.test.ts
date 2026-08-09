@@ -1,6 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, test } from 'vitest'
+import { formatCategory } from './modalities/format.ts'
+import type { Category } from './modalities/format.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from './modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES } from './options.ts'
 
@@ -26,9 +28,9 @@ const UNEMITTED_CATEGORIES: ReadonlyMap<string, string> = new Map([
 const OUTPUT_DIRECTORY = `examples/output`
 
 /** A row of an emitted `| Category | … |` table, which every modality writes. */
-const CATEGORY_ROW = /^\| (?<category>[a-z][a-z0-9 -]*?) +\|/u
+const CATEGORY_ROW = /^\| (?<category>[A-Z][A-Za-z0-9 -]*?) +\|/u
 
-/** The categories {@link output} emits. */
+/** The categories {@link output} emits, by their displayed name. */
 const emittedCategories = (output: string): string[] => {
   const categories: string[] = []
   let inCategoryTable = false
@@ -83,14 +85,14 @@ const emittedCategoriesByModality = (): Map<string, Map<string, string>> => {
 }
 
 describe.each([
-  [`function`, FUNCTION_CATEGORIES as readonly string[]],
-  [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES as readonly string[]],
+  [`function`, FUNCTION_CATEGORIES as readonly Category[]],
+  [`heap snapshot node`, HEAP_SNAPSHOT_NODE_CATEGORIES as readonly Category[]],
 ])(`every %s category`, (modality, categories) => {
   const emitted = emittedCategoriesByModality().get(modality)!
 
   test.each(categories)(`%s is emitted by an example, or listed`, category => {
     const reason = UNEMITTED_CATEGORIES.get(`${modality} ${category}`)
-    const filename = emitted.get(category)
+    const filename = emitted.get(formatCategory(category))
 
     if (reason === undefined) {
       expect(

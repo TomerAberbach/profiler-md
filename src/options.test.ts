@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { makeAggregatedConstructor } from './modalities/heap-snapshot/testing.ts'
+import { makeAggregatedHeapSnapshotConstructor } from './modalities/heap-snapshot/testing.ts'
 import { makeAggregatedSamplingProfile } from './modalities/sampling-profile/testing.ts'
 import {
   defaultShowEntry,
@@ -118,7 +118,7 @@ describe(`normalizeProfileToMdOptions`, () => {
 })
 
 const makeSnapshotNode = (name: string) =>
-  makeAggregatedConstructor({
+  makeAggregatedHeapSnapshotConstructor({
     name,
     selfSize: 0,
     retainedSize: 0,

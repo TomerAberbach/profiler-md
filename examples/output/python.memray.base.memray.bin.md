@@ -2,11 +2,11 @@
 
 Held 72.4 MiB over 23,696 samples (3.13 KiB per sample).
 
-| Category    |     % |     Size | Samples |
-| ----------- | ----: | -------: | ------: |
-| ours        | 71.8% |   52 MiB |  21,382 |
-| stdlib      | 26.4% | 19.1 MiB |   2,080 |
-| third-party |  1.8% | 1.27 MiB |     234 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Ours             | 71.8% |   52 MiB |  21,382 |
+| Standard library | 26.4% | 19.1 MiB |   2,080 |
+| Third-party      |  1.8% | 1.27 MiB |     234 |
 
 ## Hottest functions
 
@@ -496,11 +496,11 @@ Call stacks ranked by bytes held at peak memory in their leaf frame. `…` stand
 
 Leaked 57.1 MiB over 22,684 samples (2.58 KiB per sample).
 
-| Category    |     % |     Size | Samples |
-| ----------- | ----: | -------: | ------: |
-| ours        | 89.1% | 50.9 MiB |  21,386 |
-| stdlib      |  8.7% | 4.97 MiB |   1,068 |
-| third-party |  2.2% | 1.23 MiB |     230 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Ours             | 89.1% | 50.9 MiB |  21,386 |
+| Standard library |  8.7% | 4.97 MiB |   1,068 |
+| Third-party      |  2.2% | 1.23 MiB |     230 |
 
 ## Hottest functions
 

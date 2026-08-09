@@ -298,12 +298,12 @@ describe(`convert`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `ours`,
+          Category: `Ours`,
           '%': `82.4%`,
           Instructions: `700`,
         },
         {
-          Category: `native`,
+          Category: `Native`,
           '%': `17.6%`,
           Instructions: `150`,
         },

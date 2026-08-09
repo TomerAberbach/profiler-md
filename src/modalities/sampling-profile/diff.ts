@@ -1,5 +1,8 @@
 import { ProfilerMdError } from '../../error.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  FunctionCategory,
+} from '../../options.ts'
 import type { Diff } from '../diff.ts'
 import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
 import type { DiffMetric } from '../metric.ts'
@@ -42,7 +45,10 @@ export type AggregatedSamplingProfileDiff = {
    * Function category to that category's metrics in each profile. Each side's
    * values are indexed like {@link AggregatedSamplingProfileFunctionDiff}'s.
    */
-  categoryToMetrics: Map<string, Diff<AggregatedSamplingProfileCategoryMetrics>>
+  categoryToMetrics: Map<
+    FunctionCategory,
+    Diff<AggregatedSamplingProfileCategoryMetrics>
+  >
 
   /** Functions called in either profile, matched across the two. */
   functions: AggregatedSamplingProfileFunctionDiff[]

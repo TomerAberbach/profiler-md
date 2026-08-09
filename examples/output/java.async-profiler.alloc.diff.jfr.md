@@ -2,10 +2,10 @@
 
 Allocated 3.07 GiB → 3.08 GiB (+7.767 MiB, +0.2%) over 75,363 samples → 75,256 samples (42.7 KiB → 42.9 KiB per sample).
 
-| Category | Change |        Delta |     % |                Size |         Samples |
-| -------- | -----: | -----------: | ----: | ------------------: | --------------: |
-| stdlib   |  +0.3% |     +8.1 MiB | 99.8% | 3.06 GiB → 3.07 GiB | 69,924 → 70,011 |
-| ours     |  -4.9% | -341.539 KiB |  0.2% |  6.83 MiB → 6.5 MiB |   5,439 → 5,245 |
+| Category         | Change |        Delta |     % |                Size |         Samples |
+| ---------------- | -----: | -----------: | ----: | ------------------: | --------------: |
+| Standard library |  +0.3% |     +8.1 MiB | 99.8% | 3.06 GiB → 3.07 GiB | 69,924 → 70,011 |
+| Ours             |  -4.9% | -341.539 KiB |  0.2% |  6.83 MiB → 6.5 MiB |   5,439 → 5,245 |
 
 ## Hottest functions
 

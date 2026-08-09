@@ -1,7 +1,7 @@
 import dedent from 'dedent'
 import { describe, expect, test } from 'vitest'
 import {
-  closureTables,
+  functionTables,
   largestStringsTables,
   retainedSizeInstancesTables,
   retainedSizeTables,
@@ -145,16 +145,16 @@ describe(`retainedSizeTables`, () => {
   })
 })
 
-describe(`closureTables`, () => {
+describe(`functionTables`, () => {
   test(`returns [] when heading is absent`, () => {
-    const tables = closureTables(`# Snapshot\n`)
+    const tables = functionTables(`# Snapshot\n`)
 
     expect(tables).toStrictEqual([])
   })
 
   test(`returns parsed rows when heading is present`, () => {
-    const tables = closureTables(dedent`
-      ## Largest closures
+    const tables = functionTables(dedent`
+      ## Largest functions
 
       | Name | Size |
       | --- | --- |
@@ -165,10 +165,10 @@ describe(`closureTables`, () => {
   })
 
   test(`returns one table per matching heading`, () => {
-    const tables = closureTables(dedent`
+    const tables = functionTables(dedent`
       # Snapshot 1
 
-      ## Largest closures
+      ## Largest functions
 
       | Name | Size |
       | --- | --- |
@@ -176,7 +176,7 @@ describe(`closureTables`, () => {
 
       # Snapshot 2
 
-      ## Largest closures
+      ## Largest functions
 
       | Name | Size |
       | --- | --- |

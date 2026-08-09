@@ -2,9 +2,9 @@
 
 Blocked 1.4ms over 30 samples (47.9µs per sample).
 
-| Category |      % |  Time | Samples |
-| -------- | -----: | ----: | ------: |
-| stdlib   | 100.0% | 1.4ms |      30 |
+| Category         |      % |  Time | Samples |
+| ---------------- | -----: | ----: | ------: |
+| Standard library | 100.0% | 1.4ms |      30 |
 
 ## Hottest functions
 

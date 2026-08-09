@@ -2,11 +2,11 @@
 
 19,789 samples.
 
-| Category | Change | Delta |     % | Samples |
-| -------- | -----: | ----: | ----: | ------: |
-| stdlib   |   0.0% |     0 | 99.7% |  19,738 |
-| ours     |   0.0% |     0 |  0.2% |      31 |
-| idle     |   0.0% |     0 |  0.1% |      20 |
+| Category         | Change | Delta |     % | Samples |
+| ---------------- | -----: | ----: | ----: | ------: |
+| Standard library |   0.0% |     0 | 99.7% |  19,738 |
+| Ours             |   0.0% |     0 |  0.2% |      31 |
+| Idle             |   0.0% |     0 |  0.1% |      20 |
 
 ## Hottest functions
 

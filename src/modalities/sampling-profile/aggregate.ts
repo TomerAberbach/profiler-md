@@ -457,13 +457,13 @@ class SamplesAggregator {
    */
   #categorize(
     functions: AggregatedSamplingProfileFunction[],
-  ): Map<string, AggregatedSamplingProfileCategoryMetrics> {
+  ): Map<FunctionCategory, AggregatedSamplingProfileCategoryMetrics> {
     const categories = this.#options.categorizeFunctions(
       functions,
       this.#context,
     )
     const categoryToMetrics = new Map<
-      string,
+      FunctionCategory,
       AggregatedSamplingProfileCategoryMetrics
     >()
 
@@ -715,7 +715,10 @@ export type AggregatedSamplingProfile = {
    * Function category to values and sample count for calls of functions with
    * that category.
    */
-  categoryToMetrics: Map<string, AggregatedSamplingProfileCategoryMetrics>
+  categoryToMetrics: Map<
+    FunctionCategory,
+    AggregatedSamplingProfileCategoryMetrics
+  >
 
   /** Aggregated data for all functions called in this profile. */
   functions: AggregatedSamplingProfileFunction[]

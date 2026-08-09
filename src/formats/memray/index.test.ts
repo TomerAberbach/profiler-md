@@ -189,8 +189,8 @@ describe(`convert`, () => {
       `Leaked 1.5\u00A0KiB over 2 samples (768\u00A0B per sample).`,
     ])
     expect(categoryTables(md)).toEqual([
-      [{ Category: `ours`, '%': `100.0%`, Size: `4 KiB`, Samples: `2` }],
-      [{ Category: `ours`, '%': `100.0%`, Size: `1.5 KiB`, Samples: `2` }],
+      [{ Category: `Ours`, '%': `100.0%`, Size: `4 KiB`, Samples: `2` }],
+      [{ Category: `Ours`, '%': `100.0%`, Size: `1.5 KiB`, Samples: `2` }],
     ])
 
     // At the peak both allocations are live and `cold` holds the larger one.

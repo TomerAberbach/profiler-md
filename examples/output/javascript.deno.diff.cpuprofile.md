@@ -2,15 +2,15 @@
 
 Took 3.32s → 2.31s (-1.001s, -30.2%) over 3,926 samples → 3,159 samples (845.9µs → 734.2µs per sample).
 
-| Category          |  Change |     Delta |             % |              Time |       Samples |
-| ----------------- | ------: | --------: | ------------: | ----------------: | ------------: |
-| third-party       |  -31.2% | -915.20ms | 88.4% → 87.1% |     2.93s → 2.02s | 3,628 → 2,930 |
-| garbage collector |  +14.7% |  +17.25ms |   3.5% → 5.8% | 117.0ms → 134.3ms |      96 → 110 |
-| stdlib            |  -34.7% |  -52.26ms |   4.5% → 4.2% |  150.6ms → 98.4ms |      100 → 59 |
-| native            |  -43.7% |  -48.90ms |   3.4% → 2.7% |  112.0ms → 63.1ms |       97 → 58 |
-| unknown           |   +4.9% |   +0.12ms |          0.1% |     2.4ms → 2.5ms |             2 |
-| ours              | removed |   -1.26ms |  <0.1% → 0.0% |       1.3ms → 0ms |         1 → 0 |
-| regexp            | removed |   -1.30ms |  <0.1% → 0.0% |       1.3ms → 0ms |         2 → 0 |
+| Category           |  Change |     Delta |             % |              Time |       Samples |
+| ------------------ | ------: | --------: | ------------: | ----------------: | ------------: |
+| Third-party        |  -31.2% | -915.20ms | 88.4% → 87.1% |     2.93s → 2.02s | 3,628 → 2,930 |
+| Garbage collector  |  +14.7% |  +17.25ms |   3.5% → 5.8% | 117.0ms → 134.3ms |      96 → 110 |
+| Standard library   |  -34.7% |  -52.26ms |   4.5% → 4.2% |  150.6ms → 98.4ms |      100 → 59 |
+| Native             |  -43.7% |  -48.90ms |   3.4% → 2.7% |  112.0ms → 63.1ms |       97 → 58 |
+| Unknown            |   +4.9% |   +0.12ms |          0.1% |     2.4ms → 2.5ms |             2 |
+| Ours               | removed |   -1.26ms |  <0.1% → 0.0% |       1.3ms → 0ms |         1 → 0 |
+| Regular expression | removed |   -1.30ms |  <0.1% → 0.0% |       1.3ms → 0ms |         2 → 0 |
 
 ## Hottest functions
 

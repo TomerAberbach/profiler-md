@@ -4,7 +4,7 @@ Allocated 1.11 GiB → 1.15 GiB (+34.571 MiB, +3.0%) over 169,916 samples →
 
 | Category | Change |       Delta |      % |                Size |           Samples |
 | -------- | -----: | ----------: | -----: | ------------------: | ----------------: |
-| native   |  +3.0% | +34.571 MiB | 100.0% | 1.11 GiB → 1.15 GiB | 169,916 → 170,620 |
+| Native   |  +3.0% | +34.571 MiB | 100.0% | 1.11 GiB → 1.15 GiB | 169,916 → 170,620 |
 
 ## Hottest functions
 

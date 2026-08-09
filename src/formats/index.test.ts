@@ -868,7 +868,7 @@ describe(`diffProfiles`, () => {
       expect(categoryTables(md)).toEqual([
         [
           {
-            Category: `ours`,
+            Category: `Ours`,
             Change: `+50.0%`,
             Delta: `+0.08ms`,
             '%': `100.0%`,
@@ -977,7 +977,7 @@ describe(`diffProfiles`, () => {
       expect(categoryTables(md)).toEqual([
         [
           {
-            Category: `object`,
+            Category: `Object`,
             Change: `+120.0%`,
             Delta: `+180 B`,
             '%': `100.0%`,
@@ -985,7 +985,7 @@ describe(`diffProfiles`, () => {
             Nodes: `2 → 3`,
           },
           {
-            Category: `synthetic`,
+            Category: `Synthetic`,
             Change: `—`,
             Delta: `0 B`,
             '%': `0.0%`,

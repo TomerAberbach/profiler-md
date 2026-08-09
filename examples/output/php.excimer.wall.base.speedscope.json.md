@@ -4,7 +4,7 @@ Took 151.0ms over 1 sample (151.0ms per sample).
 
 | Category |      % |    Time | Samples |
 | -------- | -----: | ------: | ------: |
-| ours     | 100.0% | 151.0ms |       1 |
+| Ours     | 100.0% | 151.0ms |       1 |
 
 ## Hottest functions
 

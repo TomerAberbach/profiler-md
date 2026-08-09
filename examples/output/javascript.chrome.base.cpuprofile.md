@@ -2,13 +2,13 @@
 
 Took 415.8ms over 281 samples (1.5ms per sample).
 
-| Category          |     % |    Time | Samples |
-| ----------------- | ----: | ------: | ------: |
-| ours              | 54.2% | 225.5ms |     154 |
-| native            | 27.8% | 115.5ms |      77 |
-| regexp            | 10.7% |  44.7ms |      30 |
-| garbage collector |  5.0% |  20.9ms |      14 |
-| idle              |  2.2% |   9.2ms |       6 |
+| Category           |     % |    Time | Samples |
+| ------------------ | ----: | ------: | ------: |
+| Ours               | 54.2% | 225.5ms |     154 |
+| Native             | 27.8% | 115.5ms |      77 |
+| Regular expression | 10.7% |  44.7ms |      30 |
+| Garbage collector  |  5.0% |  20.9ms |      14 |
+| Idle               |  2.2% |   9.2ms |       6 |
 
 ## Hottest functions
 

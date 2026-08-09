@@ -4,7 +4,7 @@ Allocated 1.57 GiB over 625,321 samples (2.64 KiB per sample).
 
 | Category |      % |     Size | Samples |
 | -------- | -----: | -------: | ------: |
-| native   | 100.0% | 1.57 GiB | 625,321 |
+| Native   | 100.0% | 1.57 GiB | 625,321 |
 
 ## Hottest functions
 

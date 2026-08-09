@@ -4,7 +4,7 @@ Collected 13 samples.
 
 | Category |      % | Samples |
 | -------- | -----: | ------: |
-| unknown  | 100.0% |      13 |
+| Unknown  | 100.0% |      13 |
 
 The entry filter hides every sampled function, so all functions are shown.
 

@@ -2,10 +2,10 @@
 
 367 samples → 311 samples (-56 samples, -15.3%).
 
-| Category | Change | Delta |             % |   Samples |
-| -------- | -----: | ----: | ------------: | --------: |
-| stdlib   | -14.5% |   -52 | 97.5% → 98.4% | 358 → 306 |
-| ours     | -44.4% |    -4 |   2.5% → 1.6% |     9 → 5 |
+| Category         | Change | Delta |             % |   Samples |
+| ---------------- | -----: | ----: | ------------: | --------: |
+| Standard library | -14.5% |   -52 | 97.5% → 98.4% | 358 → 306 |
+| Ours             | -44.4% |    -4 |   2.5% → 1.6% |     9 → 5 |
 
 ## Hottest functions
 
@@ -103,11 +103,11 @@ Functions with the largest decrease in total samples taken in the function and a
 
 Allocated 11.9 GiB → 11.8 GiB (-141.696 MiB, -1.2%) over 6,323 samples → 6,315 samples (1.93 MiB → 1.91 MiB per sample).
 
-| Category | Change |        Delta |             % |                Size |       Samples |
-| -------- | -----: | -----------: | ------------: | ------------------: | ------------: |
-| stdlib   |  -1.1% | -132.669 MiB | 99.1% → 99.2% | 11.8 GiB → 11.7 GiB | 6,223 → 6,219 |
-| ours     |  -8.5% |   -9.026 MiB |   0.9% → 0.8% |  106 MiB → 97.2 MiB |       53 → 50 |
-| unknown  |  -1.3% |       -464 B |         <0.1% |   34.4 KiB → 34 KiB |       47 → 46 |
+| Category         | Change |        Delta |             % |                Size |       Samples |
+| ---------------- | -----: | -----------: | ------------: | ------------------: | ------------: |
+| Standard library |  -1.1% | -132.669 MiB | 99.1% → 99.2% | 11.8 GiB → 11.7 GiB | 6,223 → 6,219 |
+| Ours             |  -8.5% |   -9.026 MiB |   0.9% → 0.8% |  106 MiB → 97.2 MiB |       53 → 50 |
+| Unknown          |  -1.3% |       -464 B |         <0.1% |   34.4 KiB → 34 KiB |       47 → 46 |
 
 ## Hottest functions
 
@@ -227,10 +227,10 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 Retained 267 KiB → 82.3 KiB (-184.742 KiB, -69.2%) over 118 samples → 111 samples (2.26 KiB → 759 B per sample).
 
-| Category |  Change |        Delta |            % |               Size |   Samples |
-| -------- | ------: | -----------: | -----------: | -----------------: | --------: |
-| stdlib   |  -69.2% | -184.679 KiB |       100.0% | 267 KiB → 82.3 KiB | 116 → 111 |
-| ours     | removed |        -64 B | <0.1% → 0.0% |         64 B → 0 B |     2 → 0 |
+| Category         |  Change |        Delta |            % |               Size |   Samples |
+| ---------------- | ------: | -----------: | -----------: | -----------------: | --------: |
+| Standard library |  -69.2% | -184.679 KiB |       100.0% | 267 KiB → 82.3 KiB | 116 → 111 |
+| Ours             | removed |        -64 B | <0.1% → 0.0% |         64 B → 0 B |     2 → 0 |
 
 ## Hottest functions
 

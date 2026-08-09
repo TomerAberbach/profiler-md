@@ -4,9 +4,9 @@ Took 5.39s → 5.63s (+240.00ms, +4.5%) over 539 samples → 563 samples (10.0ms
 
 | Category          | Change |     Delta |           % |            Time |   Samples |
 | ----------------- | -----: | --------: | ----------: | --------------: | --------: |
-| stdlib            |  +4.5% | +240.00ms |       99.1% |   5.34s → 5.58s | 534 → 558 |
-| garbage collector | +33.3% |  +10.00ms | 0.6% → 0.7% | 30.0ms → 40.0ms |     3 → 4 |
-| ours              | -50.0% |  -10.00ms | 0.4% → 0.2% | 20.0ms → 10.0ms |     2 → 1 |
+| Standard library  |  +4.5% | +240.00ms |       99.1% |   5.34s → 5.58s | 534 → 558 |
+| Garbage collector | +33.3% |  +10.00ms | 0.6% → 0.7% | 30.0ms → 40.0ms |     3 → 4 |
+| Ours              | -50.0% |  -10.00ms | 0.4% → 0.2% | 20.0ms → 10.0ms |     2 → 1 |
 
 ## Hottest functions
 

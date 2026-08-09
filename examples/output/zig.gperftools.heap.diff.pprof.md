@@ -2,9 +2,9 @@
 
 Allocated 89.2 MiB → 80.4 MiB (-8.82 MiB, -9.9%) and retained 0 B over 29,595 samples → 41,370 samples (3.09 KiB → 1.99 KiB and 0 B per sample).
 
-| Category | Change |     Delta |      % |           Allocated | Retained |         Samples |
-| -------- | -----: | --------: | -----: | ------------------: | -------: | --------------: |
-| stdlib   |  -9.9% | -8.82 MiB | 100.0% | 89.2 MiB → 80.4 MiB |      0 B | 29,595 → 41,370 |
+| Category         | Change |     Delta |      % |           Allocated | Retained |         Samples |
+| ---------------- | -----: | --------: | -----: | ------------------: | -------: | --------------: |
+| Standard library |  -9.9% | -8.82 MiB | 100.0% | 89.2 MiB → 80.4 MiB |      0 B | 29,595 → 41,370 |
 
 ## Allocated heap
 

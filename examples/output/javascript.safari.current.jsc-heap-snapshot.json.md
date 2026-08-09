@@ -2,18 +2,18 @@
 
 Allocated 10.4 MiB across 109,640 nodes and 307,962 edges.
 
-| Category     |     % |     Size |  Nodes |
-| ------------ | ----: | -------: | -----: |
-| string       | 32.5% | 3.39 MiB | 19,426 |
-| code         | 28.9% | 3.01 MiB | 16,246 |
-| object shape | 12.5% |  1.3 MiB | 12,177 |
-| internal     |  9.8% | 1.03 MiB | 20,174 |
-| object       |  8.6% |  920 KiB | 16,441 |
-| closure      |  4.1% |  436 KiB | 13,484 |
-| array        |  2.5% |  270 KiB | 11,204 |
-| regexp       |  1.0% |  108 KiB |    453 |
-| symbol       | <0.1% |    448 B |     28 |
-| native       | <0.1% |    231 B |      7 |
+| Category           |     % |     Size |  Nodes |
+| ------------------ | ----: | -------: | -----: |
+| String             | 32.5% | 3.39 MiB | 19,426 |
+| Code               | 28.9% | 3.01 MiB | 16,246 |
+| Object shape       | 12.5% |  1.3 MiB | 12,177 |
+| Internal           |  9.8% | 1.03 MiB | 20,174 |
+| Object             |  8.6% |  920 KiB | 16,441 |
+| Function           |  4.1% |  436 KiB | 13,484 |
+| Array              |  2.5% |  270 KiB | 11,204 |
+| Regular expression |  1.0% |  108 KiB |    453 |
+| Symbol             | <0.1% |    448 B |     28 |
+| Native             | <0.1% |    231 B |      7 |
 
 ## Largest constructors
 

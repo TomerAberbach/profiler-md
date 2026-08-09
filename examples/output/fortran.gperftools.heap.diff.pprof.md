@@ -4,7 +4,7 @@ Allocated 47.7 MiB → 41.2 MiB (-6.472 MiB, -13.6%) and retained 894 KiB ov
 
 | Category | Change |      Delta |      % |           Allocated | Retained |           Samples |
 | -------- | -----: | ---------: | -----: | ------------------: | -------: | ----------------: |
-| ours     | -13.6% | -6.472 MiB | 100.0% | 47.7 MiB → 41.2 MiB |  894 KiB | 450,137 → 434,604 |
+| Ours     | -13.6% | -6.472 MiB | 100.0% | 47.7 MiB → 41.2 MiB |  894 KiB | 450,137 → 434,604 |
 
 ## Allocated heap
 

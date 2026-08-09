@@ -103,7 +103,7 @@ ambiguous.
 | **Internal node** | A VM bookkeeping node that never points to user code, trimmed from retainer paths                 | hidden node                 |
 | **Entity**        | A named aggregated unit of a heap snapshot (e.g. constructor)                                     | entry, object               |
 | **Instance**      | One heap object of a constructor; instances sharing a retainer path form an instance group        | object, occurrence          |
-| **Retained node** | A node a closure or instance exclusively dominates, ranked by self size in output                 | retained object             |
+| **Retained node** | A node a function or instance exclusively dominates, ranked by self size in output                | retained object             |
 | **Largest**       | Describes the entities with the highest size in a heap snapshot                                   | top, hottest                |
 
 ## Diffing

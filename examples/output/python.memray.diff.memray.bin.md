@@ -2,11 +2,11 @@
 
 Held 72.4 MiB over 23,696 samples (3.13 KiB per sample).
 
-| Category    | Change | Delta |     % |     Size | Samples |
-| ----------- | -----: | ----: | ----: | -------: | ------: |
-| ours        |   0.0% |   0 B | 71.8% |   52 MiB |  21,382 |
-| stdlib      |   0.0% |   0 B | 26.4% | 19.1 MiB |   2,080 |
-| third-party |   0.0% |   0 B |  1.8% | 1.27 MiB |     234 |
+| Category         | Change | Delta |     % |     Size | Samples |
+| ---------------- | -----: | ----: | ----: | -------: | ------: |
+| Ours             |   0.0% |   0 B | 71.8% |   52 MiB |  21,382 |
+| Standard library |   0.0% |   0 B | 26.4% | 19.1 MiB |   2,080 |
+| Third-party      |   0.0% |   0 B |  1.8% | 1.27 MiB |     234 |
 
 ## Hottest functions
 
@@ -90,11 +90,11 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 Leaked 57.1 MiB → 58.1 MiB (+1 MiB, +1.8%) over 22,684 samples → 22,685 samples (2.58 KiB → 2.62 KiB per sample).
 
-| Category    | Change |  Delta |             % |                Size |         Samples |
-| ----------- | -----: | -----: | ------------: | ------------------: | --------------: |
-| ours        |  +2.0% | +1 MiB | 89.1% → 89.3% | 50.9 MiB → 51.9 MiB | 21,386 → 21,387 |
-| stdlib      |   0.0% |    0 B |   8.7% → 8.6% |            4.97 MiB |           1,068 |
-| third-party |   0.0% |    0 B |   2.2% → 2.1% |            1.23 MiB |             230 |
+| Category         | Change |  Delta |             % |                Size |         Samples |
+| ---------------- | -----: | -----: | ------------: | ------------------: | --------------: |
+| Ours             |  +2.0% | +1 MiB | 89.1% → 89.3% | 50.9 MiB → 51.9 MiB | 21,386 → 21,387 |
+| Standard library |   0.0% |    0 B |   8.7% → 8.6% |            4.97 MiB |           1,068 |
+| Third-party      |   0.0% |    0 B |   2.2% → 2.1% |            1.23 MiB |             230 |
 
 ## Hottest functions
 

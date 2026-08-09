@@ -217,25 +217,25 @@ describe(`convert`, () => {
     expect(categoryTables(md)).toEqual([
       [
         {
-          Category: `kernel`,
+          Category: `Kernel`,
           '%': `40.0%`,
           Time: `2.0ms`,
           Samples: `2`,
         },
         {
-          Category: `jit`,
+          Category: `JIT`,
           '%': `20.0%`,
           Time: `1.0ms`,
           Samples: `1`,
         },
         {
-          Category: `native`,
+          Category: `Native`,
           '%': `20.0%`,
           Time: `1.0ms`,
           Samples: `1`,
         },
         {
-          Category: `ours`,
+          Category: `Ours`,
           '%': `20.0%`,
           Time: `1.0ms`,
           Samples: `1`,

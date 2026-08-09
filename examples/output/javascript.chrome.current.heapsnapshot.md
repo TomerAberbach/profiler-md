@@ -4,19 +4,19 @@ Allocated 1012 KiB across 34,798 nodes and 149,397 edges.
 
 | Category            |     % |     Size | Nodes |
 | ------------------- | ----: | -------: | ----: |
-| internal            | 28.2% |  286 KiB | 9,074 |
-| object shape        | 16.1% |  163 KiB | 2,580 |
-| string              | 13.5% |  136 KiB | 6,591 |
-| array               | 12.3% |  124 KiB | 1,453 |
-| object              |  8.0% |   81 KiB | 1,857 |
-| closure             |  7.9% | 79.5 KiB | 2,849 |
-| native              |  7.6% | 76.4 KiB | 2,610 |
-| code                |  5.5% | 55.7 KiB | 6,594 |
-| number              |  0.6% | 5.65 KiB |   934 |
-| concatenated string |  0.4% | 4.06 KiB |   208 |
-| regexp              | <0.1% |     28 B |     1 |
-| synthetic           |  0.0% |      0 B |    31 |
-| symbol              |  0.0% |      0 B |    16 |
+| Internal            | 28.2% |  286 KiB | 9,074 |
+| Object shape        | 16.1% |  163 KiB | 2,580 |
+| String              | 13.5% |  136 KiB | 6,591 |
+| Array               | 12.3% |  124 KiB | 1,453 |
+| Object              |  8.0% |   81 KiB | 1,857 |
+| Function            |  7.9% | 79.5 KiB | 2,849 |
+| Native              |  7.6% | 76.4 KiB | 2,610 |
+| Code                |  5.5% | 55.7 KiB | 6,594 |
+| Number              |  0.6% | 5.65 KiB |   934 |
+| Concatenated string |  0.4% | 4.06 KiB |   208 |
+| Regular expression  | <0.1% |     28 B |     1 |
+| Synthetic           |  0.0% |      0 B |    31 |
+| Symbol              |  0.0% |      0 B |    16 |
 
 ## Largest constructors
 
@@ -398,9 +398,9 @@ Instances ranked by contribution to each constructor's retained size.
 | -----: | -------: | --------: | ------------------- |
 | 100.0% | 4.48 KiB |         3 | `.prototype Locale` |
 
-## Largest closures
+## Largest functions
 
-Closures ranked by bytes that would be freed if the closure were garbage collected.
+Functions ranked by bytes that would be freed if the function were garbage collected.
 
 |    % | Retained | Instances | Paths | Name                   | Location                         | Example path                                                                                                                         |
 | ---: | -------: | --------: | ----: | ---------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -427,7 +427,7 @@ Closures ranked by bytes that would be freed if the closure were garbage collect
 
 ### Retained
 
-Nodes ranked by contribution to each closure's retained size.
+Nodes ranked by contribution to each function's retained size.
 
 #### `safe` (`extensions::SafeBuiltins:26:22`)
 

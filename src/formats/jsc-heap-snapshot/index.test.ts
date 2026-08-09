@@ -110,10 +110,10 @@ describe(`convert`, () => {
 
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `object`, '%': `60.9%`, Size: `280 B`, Nodes: `2` },
-        { Category: `closure`, '%': `26.1%`, Size: `120 B`, Nodes: `1` },
-        { Category: `string`, '%': `13.0%`, Size: `60 B`, Nodes: `1` },
-        { Category: `internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
+        { Category: `Object`, '%': `60.9%`, Size: `280 B`, Nodes: `2` },
+        { Category: `Function`, '%': `26.1%`, Size: `120 B`, Nodes: `1` },
+        { Category: `String`, '%': `13.0%`, Size: `60 B`, Nodes: `1` },
+        { Category: `Internal`, '%': `0.0%`, Size: `0 B`, Nodes: `1` },
       ],
     ])
     expect(selfSizeTables(md)).toEqual([

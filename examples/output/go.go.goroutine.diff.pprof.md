@@ -2,9 +2,9 @@
 
 1 sample.
 
-| Category | Change | Delta |      % | Samples |
-| -------- | -----: | ----: | -----: | ------: |
-| stdlib   |   0.0% |     0 | 100.0% |       1 |
+| Category         | Change | Delta |      % | Samples |
+| ---------------- | -----: | ----: | -----: | ------: |
+| Standard library |   0.0% |     0 | 100.0% |       1 |
 
 ## Hottest functions
 

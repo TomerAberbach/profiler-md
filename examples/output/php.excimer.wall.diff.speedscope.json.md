@@ -4,7 +4,7 @@ Took 151.0ms → 141.0ms (-10.00ms, -6.6%) over 1 sample (151.0ms → 141.0ms pe
 
 | Category | Change |    Delta |      % |              Time | Samples |
 | -------- | -----: | -------: | -----: | ----------------: | ------: |
-| ours     |  -6.6% | -10.00ms | 100.0% | 151.0ms → 141.0ms |       1 |
+| Ours     |  -6.6% | -10.00ms | 100.0% | 151.0ms → 141.0ms |       1 |
 
 ## Hottest functions
 

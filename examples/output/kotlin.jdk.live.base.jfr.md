@@ -2,10 +2,10 @@
 
 Collected 117 samples.
 
-| Category |     % | Samples |
-| -------- | ----: | ------: |
-| stdlib   | 50.4% |      59 |
-| ours     | 49.6% |      58 |
+| Category         |     % | Samples |
+| ---------------- | ----: | ------: |
+| Standard library | 50.4% |      59 |
+| Ours             | 49.6% |      58 |
 
 ## Hottest functions
 
@@ -430,11 +430,11 @@ Call stacks ranked by samples taken in their leaf frame. `…` stands for frames
 
 Allocated 684 MiB over 865 samples (809 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 77.1% |  527 MiB |     541 |
-| ours     | 22.9% |  157 MiB |     315 |
-| unknown  | <0.1% | 29.3 KiB |       9 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 77.1% |  527 MiB |     541 |
+| Ours             | 22.9% |  157 MiB |     315 |
+| Unknown          | <0.1% | 29.3 KiB |       9 |
 
 ## Hottest functions
 
@@ -929,10 +929,10 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 Retained 19 MiB over 200 samples (97.3 KiB per sample).
 
-| Category |     % |     Size | Samples |
-| -------- | ----: | -------: | ------: |
-| stdlib   | 94.0% | 17.9 MiB |     183 |
-| ours     |  6.0% | 1.14 MiB |      17 |
+| Category         |     % |     Size | Samples |
+| ---------------- | ----: | -------: | ------: |
+| Standard library | 94.0% | 17.9 MiB |     183 |
+| Ours             |  6.0% | 1.14 MiB |      17 |
 
 ## Hottest functions
 
@@ -1268,9 +1268,9 @@ Call stacks ranked by bytes retained in their leaf frame. `…` stands for frame
 
 Blocked 84.2ms over 1 sample (84.2ms per sample).
 
-| Category |      % |   Time | Samples |
-| -------- | -----: | -----: | ------: |
-| stdlib   | 100.0% | 84.2ms |       1 |
+| Category         |      % |   Time | Samples |
+| ---------------- | -----: | -----: | ------: |
+| Standard library | 100.0% | 84.2ms |       1 |
 
 The entry filter hides every sampled function, so all functions are shown.
 

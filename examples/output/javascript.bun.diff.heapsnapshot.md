@@ -2,20 +2,20 @@
 
 Allocated 1.48 MiB (-2.937 KiB, -0.2%) across 16,629 → 16,601 nodes and 44,433 → 44,305 edges.
 
-| Category     | Change |      Delta |             % |                Size |         Nodes |
-| ------------ | -----: | ---------: | ------------: | ------------------: | ------------: |
-| code         |   0.0% |        0 B | 45.7% → 45.8% |             693 KiB |         3,192 |
-| string       |   0.0% |        0 B | 23.5% → 23.6% |             356 KiB |         6,272 |
-| object shape |  -1.5% | -2.843 KiB | 12.7% → 12.6% |   193 KiB → 190 KiB | 1,764 → 1,738 |
-| object       |   0.0% |        0 B |          7.5% |             114 KiB |         1,471 |
-| internal     |  -0.1% |      -96 B |          5.0% | 75.5 KiB → 75.4 KiB |     962 → 960 |
-| closure      |   0.0% |        0 B |          4.3% |              65 KiB |         1,811 |
-| array        |   0.0% |        0 B |          1.1% |            16.8 KiB |         1,073 |
-| symbol       |   0.0% |        0 B |          0.1% |             1.2 KiB |            77 |
-| native       |   0.0% |        0 B |         <0.1% |               387 B |             3 |
-| regexp       |   0.0% |        0 B |         <0.1% |                64 B |             2 |
-| bigint       |   0.0% |        0 B |         <0.1% |                32 B |             1 |
-| synthetic    |      — |        0 B |          0.0% |                 0 B |             1 |
+| Category           | Change |      Delta |             % |                Size |         Nodes |
+| ------------------ | -----: | ---------: | ------------: | ------------------: | ------------: |
+| Code               |   0.0% |        0 B | 45.7% → 45.8% |             693 KiB |         3,192 |
+| String             |   0.0% |        0 B | 23.5% → 23.6% |             356 KiB |         6,272 |
+| Object shape       |  -1.5% | -2.843 KiB | 12.7% → 12.6% |   193 KiB → 190 KiB | 1,764 → 1,738 |
+| Object             |   0.0% |        0 B |          7.5% |             114 KiB |         1,471 |
+| Internal           |  -0.1% |      -96 B |          5.0% | 75.5 KiB → 75.4 KiB |     962 → 960 |
+| Function           |   0.0% |        0 B |          4.3% |              65 KiB |         1,811 |
+| Array              |   0.0% |        0 B |          1.1% |            16.8 KiB |         1,073 |
+| Symbol             |   0.0% |        0 B |          0.1% |             1.2 KiB |            77 |
+| Native             |   0.0% |        0 B |         <0.1% |               387 B |             3 |
+| Regular expression |   0.0% |        0 B |         <0.1% |                64 B |             2 |
+| Big number         |   0.0% |        0 B |         <0.1% |                32 B |             1 |
+| Synthetic          |      — |        0 B |          0.0% |                 0 B |             1 |
 
 ## Largest constructors
 
@@ -39,9 +39,9 @@ Constructors with the largest decrease in retained size.
 | -93.2% |     -880 B | 0.1% → <0.1% |        944 B → 64 B |         1 | `FixedCircularBuffer` |
 | -42.6% |     -416 B | 0.1% → <0.1% |       976 B → 560 B |         1 | `FixedQueue`          |
 
-## Largest closures
+## Largest functions
 
-No closure differed in bytes that would be freed if the closure were garbage collected.
+No function differed in bytes that would be freed if the function were garbage collected.
 
 ## Largest strings
 

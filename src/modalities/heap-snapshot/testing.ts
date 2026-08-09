@@ -10,9 +10,9 @@ import { makeFileReference } from '../../location.ts'
 import type { SourceLocation } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import type {
-  AggregatedClosure,
-  AggregatedConstructor,
   AggregatedHeapSnapshot,
+  AggregatedHeapSnapshotConstructor,
+  AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
@@ -24,9 +24,9 @@ export const makeAggregatedHeapSnapshot = ({
   edgeCount = 0,
   nodeCategoryToStats = new Map<HeapSnapshotNodeCategory, NodeCategoryStats>(),
   constructors = [],
-  closures = [],
+  functions = [],
   strings = [],
-  totalSize = [...constructors, ...closures, ...strings].reduce(
+  totalSize = [...constructors, ...functions, ...strings].reduce(
     (totalSize, node) => totalSize + node.selfSize,
     0,
   ),
@@ -36,8 +36,8 @@ export const makeAggregatedHeapSnapshot = ({
   nodeCount?: number
   edgeCount?: number
   nodeCategoryToStats?: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
-  constructors?: AggregatedConstructor[]
-  closures?: AggregatedClosure[]
+  constructors?: AggregatedHeapSnapshotConstructor[]
+  functions?: AggregatedHeapSnapshotFunction[]
   strings?: AggregatedHeapSnapshotNode[]
 } = {}): AggregatedHeapSnapshot => ({
   type: `heap-snapshot`,
@@ -47,7 +47,7 @@ export const makeAggregatedHeapSnapshot = ({
   edgeCount,
   nodeCategoryToStats,
   constructors,
-  closures,
+  functions,
   strings,
   retainerPathOf: () => `(GC root)`,
   retainedNodesOf: () => [],
@@ -65,7 +65,7 @@ export const makeSourceLocation = (
   return { ...fileReference, line, column }
 }
 
-export const makeAggregatedConstructor = ({
+export const makeAggregatedHeapSnapshotConstructor = ({
   name,
   location,
   selfSize,
@@ -77,7 +77,7 @@ export const makeAggregatedConstructor = ({
   selfSize: number
   retainedSize: number
   instanceCount: number
-}): AggregatedConstructor => ({
+}): AggregatedHeapSnapshotConstructor => ({
   type: `node`,
   id: 0,
   name,
@@ -93,7 +93,7 @@ export const makeAggregatedConstructor = ({
   })),
 })
 
-export const makeAggregatedClosure = ({
+export const makeAggregatedHeapSnapshotFunction = ({
   name,
   location,
   selfSize,
@@ -105,7 +105,7 @@ export const makeAggregatedClosure = ({
   selfSize: number
   retainedSize: number
   instanceCount?: number
-}): AggregatedClosure => ({
+}): AggregatedHeapSnapshotFunction => ({
   type: `node`,
   id: 0,
   name,
@@ -116,7 +116,7 @@ export const makeAggregatedClosure = ({
   instanceIds: Array.from({ length: instanceCount }, (_, index) => index),
 })
 
-export const makeAggregatedString = ({
+export const makeAggregatedHeapSnapshotString = ({
   value,
   selfSize,
 }: {
@@ -160,8 +160,8 @@ export const retainedSizeInstancesTables = (
   return allTablesAfterHeadingContaining(instancesUnder, name)
 }
 
-export const closureTables = (md: string): Table[] =>
-  allTablesAfterHeading(parseMd(md), `Largest closures`)
+export const functionTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Largest functions`)
 
 export const largestStringsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest strings`)
