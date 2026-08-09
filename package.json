@@ -81,7 +81,9 @@
     "check-demo": "node scripts/update-demo.ts --check",
     "update-examples": "node scripts/update-examples.ts",
     "check-examples": "node scripts/update-examples.ts --check",
-    "check": "pnpm build && pnpm lint --no-fix && pnpm format --no-write --check && pnpm typecheck && pnpm knip && pnpm test --run && pnpm check-readme && pnpm check-demo && pnpm check-examples",
+    "check": "run-p -lc check:heavy check:light",
+    "check:heavy": "run-s \"test --run\" check-examples",
+    "check:light": "run-s -c build typecheck \"lint --no-fix\" \"format --no-write --check\" knip check-readme check-demo",
     "prepublishOnly": "pnpm build"
   },
   "prettier": "@tomer/prettier-config",
@@ -121,6 +123,7 @@
     "limit-concur": "^4.0.0",
     "mdast-util-gfm": "^3.1.0",
     "micromark-extension-gfm": "^3.0.0",
+    "npm-run-all2": "^9.0.3",
     "prettier": "^3.9.6",
     "publint": "^0.3.22",
     "rollup-plugin-tree-shakeable": "^2.0.0",
