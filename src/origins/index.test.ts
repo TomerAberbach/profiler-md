@@ -35,44 +35,34 @@ const inputFilenames = injectedInputs()
 // Registered conditionally because this suite would be empty in the `unit`
 // project, which receives no inputs.
 if (inputFilenames.length > 0) {
-  describe(`detected input origins`, () => {
-    // Every committed input must resolve to the origin in its filename: a
-    // capture that doesn't detect needs a marker entry, a parser origin hint,
-    // or a more realistic workload before it's committed.
+  // Aggregating an input is the most expensive step of the suite, so the
+  // origin and category assertions share one aggregation per input.
+  describe(`aggregated inputs`, () => {
     test.each(inputFilenames)(
-      `%s resolves to its profiler's origin`,
+      `%s resolves to its profiler's origin and categorizes canonically`,
       filename => {
         const inputs = aggregateInput(
           readInput(filename),
           normalizeProfileToMdOptions(),
         )
 
-        // A multi-profile input aggregates each profile under its own
-        // context, so each must resolve to the filename's origin. An input
-        // holding no profiling data aggregates to nothing and has no origin
-        // to check.
+        // Every committed input must resolve to the origin in its filename: one
+        // that doesn't needs a marker entry, a parser origin hint, or a more
+        // realistic workload before it's committed. A multi-profile input
+        // aggregates each profile under its own context, so each must resolve
+        // to the filename's origin. An input with no profiling data aggregates
+        // to nothing and has no origin to check.
         const { origin } = parseExampleFilename(filename)
         const unexpectedOrigins = inputs
           .map(input => input.context.origin)
           .filter(resolved => resolved !== origin)
         expect(new Set(unexpectedOrigins)).toEqual(new Set())
-      },
-    )
-  })
 
-  describe(`assigned categories`, () => {
-    // `FunctionCategory` is closed so that formatting can partition by category,
-    // but the origins reach it through casts that types alone don't cover
-    // (`syntheticFrameCategory` promotes a frame's `(label)` to a category).
-    test.each(inputFilenames)(
-      `%s categorizes every function canonically`,
-      filename => {
-        const inputs = aggregateInput(
-          readInput(filename),
-          normalizeProfileToMdOptions(),
-        )
-
-        const categories = new Set(
+        // `FunctionCategory` is closed so that formatting can partition by
+        // category, but the origins reach it through casts that types alone
+        // don't check. `syntheticFrameCategory` promotes a frame's `(label)` to
+        // a category.
+        const functionCategories = new Set(
           inputs.flatMap(input =>
             input.type === `sampling-profile` || input.type === `call-graph`
               ? input.functions.map(func => func.category)
@@ -80,23 +70,16 @@ if (inputFilenames.length > 0) {
           ),
         )
         expect(
-          [...categories].filter(category => !CATEGORIES.has(category)),
+          [...functionCategories].filter(
+            category => !FUNCTION_CATEGORY_SET.has(category),
+          ),
         ).toEqual([])
-      },
-    )
 
-    // A format declaring its own node type names (Julia writes Julia's types
-    // into V8's `meta.node_types`) reaches the categories through its origin,
-    // and types can't check that mapping against the names a capture contains.
-    test.each(inputFilenames)(
-      `%s categorizes every heap snapshot node canonically`,
-      filename => {
-        const inputs = aggregateInput(
-          readInput(filename),
-          normalizeProfileToMdOptions(),
-        )
-
-        const categories = new Set(
+        // Julia writes Julia's types into V8's `meta.node_types`. A format
+        // declaring its own node type names reaches the categories through its
+        // origin, and types can't check that mapping against the names an input
+        // contains.
+        const nodeCategories = new Set(
           inputs.flatMap(input =>
             input.type === `heap-snapshot`
               ? [...input.nodeCategoryToStats.keys()]
@@ -104,15 +87,17 @@ if (inputFilenames.length > 0) {
           ),
         )
         expect(
-          [...categories].filter(category => !NODE_CATEGORIES.has(category)),
+          [...nodeCategories].filter(
+            category => !NODE_CATEGORY_SET.has(category),
+          ),
         ).toEqual([])
       },
     )
   })
 }
 
-const CATEGORIES: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
-const NODE_CATEGORIES: ReadonlySet<string> = new Set(
+const FUNCTION_CATEGORY_SET: ReadonlySet<string> = new Set(FUNCTION_CATEGORIES)
+const NODE_CATEGORY_SET: ReadonlySet<string> = new Set(
   HEAP_SNAPSHOT_NODE_CATEGORIES,
 )
 
