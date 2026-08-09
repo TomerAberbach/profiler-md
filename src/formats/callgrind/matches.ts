@@ -1,9 +1,9 @@
-import { decodeUtf8Lines } from '../../helpers/bytes.ts'
+import { decodeUtf8Lines, hasLeadingNulByte } from '../../helpers/bytes.ts'
 
 export const matchesCallgrind = (bytes: Uint8Array): boolean => {
   // A NUL byte never appears in callgrind text, so it identifies a binary
   // input that decodes as valid UTF-8.
-  if (bytes.includes(0)) {
+  if (hasLeadingNulByte(bytes)) {
     return false
   }
 

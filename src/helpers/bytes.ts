@@ -99,6 +99,19 @@ export async function* decodeUtf8LinesAsync(
   yield* decoder.flush()
 }
 
+/**
+ * Whether a NUL byte appears within the input's leading bytes.
+ *
+ * Text never contains a NUL, while a binary input stores one within its first
+ * bytes, in a magic number, a length field, or padding. Bounding the scan
+ * rejects a binary input at constant cost instead of reading a large text
+ * input end to end.
+ */
+export const hasLeadingNulByte = (bytes: Uint8Array): boolean =>
+  bytes.subarray(0, NUL_SCAN_LENGTH).includes(0)
+
+const NUL_SCAN_LENGTH = 4096
+
 /** A streaming UTF-8 and line-splitting decoder. */
 class Utf8LineDecoder {
   // A streaming decoder must be exclusive to this instance, since it buffers
