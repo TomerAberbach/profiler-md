@@ -349,11 +349,11 @@ Functions with the largest decrease in total time spent in the function and all 
 
 # Uninterruptible sleep profile diff
 
-Slept 69 times → 71 times (+2 times, +2.9%) over 69 samples → 71 samples (1 time per sample).
+Slept 69 times → 71 times (+2 times, +2.9%).
 
-| Category | Change | Delta |      % |  Sleeps | Samples |
-| -------- | -----: | ----: | -----: | ------: | ------: |
-| Kernel   |  +2.9% |    +2 | 100.0% | 69 → 71 | 69 → 71 |
+| Category | Change | Delta |      % |  Sleeps |
+| -------- | -----: | ----: | -----: | ------: |
+| Kernel   |  +2.9% |    +2 | 100.0% | 69 → 71 |
 
 ## Hottest functions
 
@@ -365,9 +365,9 @@ Functions with the largest increase in uninterruptible sleeps entered directly i
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Samples | Function                    | Location    |
-| -----: | ----: | -----: | ------: | ------: | --------------------------- | ----------- |
-|  +2.9% |    +2 | 100.0% | 69 → 71 | 69 → 71 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| Change | Delta |      % |  Sleeps | Function                    | Location    |
+| -----: | ----: | -----: | ------: | --------------------------- | ----------- |
+|  +2.9% |    +2 | 100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
@@ -375,53 +375,53 @@ Functions with the largest increase in uninterruptible sleeps entered directly i
 
 Functions with the largest increase in total uninterruptible sleeps entered in the function and all its callees.
 
-|  Change | Delta |             % |  Sleeps | Samples | Function                                    | Location            |
-| ------: | ----: | ------------: | ------: | ------: | ------------------------------------------- | ------------------- |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>`         |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `schedule ([kernel])`                       | `<unknown>`         |
-|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `POOL_create_advanced`                      | `pool.c`            |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `ZSTDMT_createCCtx_advanced`                | `zstdmt_compress.c` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `ZSTD_CCtx_init_compressStream2`            | `zstd_compress.c`   |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `FIO_compressFilename`                      | `fileio.c`          |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `main`                                      | `zstdcli.c`         |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>`         |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>`         |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>`         |
+|  Change | Delta |             % |  Sleeps | Function                                    | Location            |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- | ------------------- |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>`         |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `schedule ([kernel])`                       | `<unknown>`         |
+|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>`         |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>`         |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>`         |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `POOL_create_advanced`                      | `pool.c`            |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTDMT_createCCtx_advanced`                | `zstdmt_compress.c` |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTD_CCtx_init_compressStream2`            | `zstd_compress.c`   |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename`                      | `fileio.c`          |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `main`                                      | `zstdcli.c`         |
+|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
+|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>`         |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>`         |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>`         |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>`         |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>`         |
 
 ##### Kernel
 
-|  Change | Delta |             % |  Sleeps | Samples | Function                                    | Location    |
-| ------: | ----: | ------------: | ------: | ------: | ------------------------------------------- | ----------- |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>` |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | 69 → 71 | `schedule ([kernel])`                       | `<unknown>` |
-|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>` |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `netfs_read_to_pagecache ([kernel])`        | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `netfs_read_folio ([kernel])`               | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `filemap_read_folio ([kernel])`             | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `filemap_fault ([kernel])`                  | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `__do_fault ([kernel])`                     | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `do_fault ([kernel])`                       | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 |   8 → 9 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
+|  Change | Delta |             % |  Sleeps | Function                                    | Location    |
+| ------: | ----: | ------------: | ------: | ------------------------------------------- | ----------- |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>` |
+|   +2.9% |    +2 |        100.0% | 69 → 71 | `schedule ([kernel])`                       | `<unknown>` |
+|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>` |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>` |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>` |
+|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
+|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>` |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>` |
+|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `netfs_read_to_pagecache ([kernel])`        | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `netfs_read_folio ([kernel])`               | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `filemap_read_folio ([kernel])`             | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `filemap_fault ([kernel])`                  | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `__do_fault ([kernel])`                     | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `do_fault ([kernel])`                       | `<unknown>` |
+|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
 
 #### Improvements
 
@@ -429,29 +429,29 @@ Functions with the largest decrease in total uninterruptible sleeps entered in t
 
 ##### Kernel
 
-| Change | Delta |             % |  Sleeps | Samples | Function                               | Location    |
-| -----: | ----: | ------------: | ------: | ------: | -------------------------------------- | ----------- |
-|  -1.8% |    -1 | 82.6% → 78.9% | 57 → 56 | 57 → 56 | `p9_client_rpc ([kernel])`             | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | 15 → 14 | `p9_client_walk ([kernel])`            | `<unknown>` |
-|  -5.3% |    -1 | 27.5% → 25.4% | 19 → 18 | 19 → 18 | `v9fs_vfs_lookup ([kernel])`           | `<unknown>` |
-|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | 43 → 42 | `path_openat ([kernel])`               | `<unknown>` |
-|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | 43 → 42 | `do_filp_open ([kernel])`              | `<unknown>` |
-|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | 13 → 12 | `do_open_execat ([kernel])`            | `<unknown>` |
-|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | 13 → 12 | `open_exec ([kernel])`                 | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | 15 → 14 | `load_elf_binary ([kernel])`           | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | 15 → 14 | `bprm_execve ([kernel])`               | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | 15 → 14 | `do_execveat_common ([kernel])`        | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | 15 → 14 | `__x64_sys_execve ([kernel])`          | `<unknown>` |
-| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 |   8 → 7 | `v9fs_vfs_atomic_open_dotl ([kernel])` | `<unknown>` |
-| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 |   8 → 7 | `lookup_open.isra.0 ([kernel])`        | `<unknown>` |
+| Change | Delta |             % |  Sleeps | Function                               | Location    |
+| -----: | ----: | ------------: | ------: | -------------------------------------- | ----------- |
+|  -1.8% |    -1 | 82.6% → 78.9% | 57 → 56 | `p9_client_rpc ([kernel])`             | `<unknown>` |
+|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `p9_client_walk ([kernel])`            | `<unknown>` |
+|  -5.3% |    -1 | 27.5% → 25.4% | 19 → 18 | `v9fs_vfs_lookup ([kernel])`           | `<unknown>` |
+|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `path_openat ([kernel])`               | `<unknown>` |
+|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `do_filp_open ([kernel])`              | `<unknown>` |
+|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `do_open_execat ([kernel])`            | `<unknown>` |
+|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `open_exec ([kernel])`                 | `<unknown>` |
+|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `load_elf_binary ([kernel])`           | `<unknown>` |
+|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `bprm_execve ([kernel])`               | `<unknown>` |
+|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `do_execveat_common ([kernel])`        | `<unknown>` |
+|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `__x64_sys_execve ([kernel])`          | `<unknown>` |
+| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `v9fs_vfs_atomic_open_dotl ([kernel])` | `<unknown>` |
+| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `lookup_open.isra.0 ([kernel])`        | `<unknown>` |
 
 # Interruptible sleep profile diff
 
-Slept 84 times → 87 times (+3 times, +3.6%) over 84 samples → 87 samples (1 time per sample).
+Slept 84 times → 87 times (+3 times, +3.6%).
 
-| Category | Change | Delta |      % |  Sleeps | Samples |
-| -------- | -----: | ----: | -----: | ------: | ------: |
-| Kernel   |  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 |
+| Category | Change | Delta |      % |  Sleeps |
+| -------- | -----: | ----: | -----: | ------: |
+| Kernel   |  +3.6% |    +3 | 100.0% | 84 → 87 |
 
 ## Hottest functions
 
@@ -463,9 +463,9 @@ Functions with the largest increase in interruptible sleeps entered directly in 
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Samples | Function                    | Location    |
-| -----: | ----: | -----: | ------: | ------: | --------------------------- | ----------- |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| Change | Delta |      % |  Sleeps | Function                    | Location    |
+| -----: | ----: | -----: | ------: | --------------------------- | ----------- |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
@@ -473,37 +473,37 @@ Functions with the largest increase in interruptible sleeps entered directly in 
 
 Functions with the largest increase in total interruptible sleeps entered in the function and all its callees.
 
-| Change | Delta |             % |  Sleeps | Samples | Function                                    | Location            |
-| -----: | ----: | ------------: | ------: | ------: | ------------------------------------------- | ------------------- |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `schedule ([kernel])`                       | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | 84 → 87 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
-|  +2.6% |    +2 | 90.5% → 89.7% | 76 → 78 | 76 → 78 | `POOL_thread`                               | `pool.c`            |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 |   8 → 9 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 |   8 → 9 | `FIO_compressFilename`                      | `fileio.c`          |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 |   8 → 9 | `main`                                      | `zstdcli.c`         |
-| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 |   6 → 7 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
-| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 |   6 → 7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
+| Change | Delta |             % |  Sleeps | Function                                    | Location            |
+| -----: | ----: | ------------: | ------: | ------------------------------------------- | ------------------- |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `schedule ([kernel])`                       | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
+|  +2.6% |    +2 | 90.5% → 89.7% | 76 → 78 | `POOL_thread`                               | `pool.c`            |
+| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
+| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename`                      | `fileio.c`          |
+| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `main`                                      | `zstdcli.c`         |
+| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
+| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Samples | Function                                    | Location    |
-| -----: | ----: | -----: | ------: | ------: | ------------------------------------------- | ----------- |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `schedule ([kernel])`                       | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+| Change | Delta |      % |  Sleeps | Function                                    | Location    |
+| -----: | ----: | -----: | ------: | ------------------------------------------- | ----------- |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `schedule ([kernel])`                       | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
+|  +3.6% |    +3 | 100.0% | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |

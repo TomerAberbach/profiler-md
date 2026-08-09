@@ -1,6 +1,6 @@
 # Leaked goroutine profile diff
 
-3 leaked goroutines.
+Recorded 3 leaked goroutines.
 
 | Category         | Change | Delta |      % | Leaked goroutines |
 | ---------------- | -----: | ----: | -----: | ----------------: |

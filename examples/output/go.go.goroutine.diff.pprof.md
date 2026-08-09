@@ -1,6 +1,6 @@
 # Goroutine profile diff
 
-1 goroutine.
+Recorded 1 goroutine.
 
 | Category         | Change | Delta |      % | Goroutines |
 | ---------------- | -----: | ----: | -----: | ---------: |

@@ -84,7 +84,7 @@ const matchDiffedCountMetrics = (
 
   if (ranksByCount) {
     throw new ProfilerMdError(
-      `cannot diff profiles with no metrics in common that count different things, got: ${describeCounts(base)} and ${describeCounts(current)}`,
+      `cannot diff profiles with no metrics in common that count different things, got: ${describeCounts(base, current)} and ${describeCounts(current, base)}`,
     )
   }
   return null
@@ -93,15 +93,20 @@ const matchDiffedCountMetrics = (
 // A count metric's column noun names the counted thing ("samples", "objects").
 // A time or size count metric measures a quantity instead, so its title noun
 // ("wall time") names that quantity where its column noun ("time") would name
-// only the unit.
-const describeCounts = ({
-  countMetric,
-}: AggregatedCallStackProfile): string => {
+// only the unit. Two profiles counting different things can share a column
+// noun ("sleeps"), which their title nouns ("interruptible sleep") separate.
+const describeCounts = (
+  { countMetric }: AggregatedCallStackProfile,
+  { countMetric: otherCountMetric }: AggregatedCallStackProfile,
+): string => {
   if (!countMetric) {
     return `nothing`
   }
   const { titleNoun, columnNoun } = countMetric.phrases
-  return countMetric.type === `count` ? columnNoun : titleNoun
+  return countMetric.type === `count` &&
+    columnNoun !== otherCountMetric?.phrases.columnNoun
+    ? columnNoun
+    : titleNoun
 }
 
 /**

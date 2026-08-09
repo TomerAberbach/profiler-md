@@ -1,6 +1,6 @@
 # Thread creation profile diff
 
-13 thread creations.
+Recorded 13 thread creations.
 
 | Category | Change | Delta |      % | Thread creations |
 | -------- | -----: | ----: | -----: | ---------------: |

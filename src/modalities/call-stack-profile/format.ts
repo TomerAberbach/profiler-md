@@ -817,12 +817,7 @@ const formatDiffSummaryLine = (
     )}${formatChange(baseCount, currentCount, magnitude =>
       formatProseValueDelta(magnitude, metric),
     )}`
-    // A count of things contains their noun ("129 samples"), while a count
-    // measuring a quantity requires the metric's verb to state what the
-    // quantity is of.
-    return metric.type === `count`
-      ? `${counted}.`
-      : `${capitalizeFirst(metric.phrases.pastTenseVerb)} ${counted}.`
+    return `${capitalizeFirst(metric.phrases.pastTenseVerb)} ${counted}.`
   }
 
   const valueParts = metrics.map(({ metric, baseIndex, currentIndex }) => {
