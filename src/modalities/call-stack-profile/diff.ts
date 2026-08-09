@@ -90,8 +90,19 @@ const matchDiffedCountMetrics = (
   return null
 }
 
-const describeCounts = ({ countMetric }: AggregatedCallStackProfile): string =>
-  countMetric ? countMetric.phrases.columnNoun : `nothing`
+// A count metric's column noun names the counted thing ("samples", "objects").
+// A time or size count metric measures a quantity instead, so its title noun
+// ("wall time") names that quantity where its column noun ("time") would name
+// only the unit.
+const describeCounts = ({
+  countMetric,
+}: AggregatedCallStackProfile): string => {
+  if (!countMetric) {
+    return `nothing`
+  }
+  const { titleNoun, columnNoun } = countMetric.phrases
+  return countMetric.type === `count` ? columnNoun : titleNoun
+}
 
 /**
  * Diffs {@link base} and {@link current} by matching up their metrics,

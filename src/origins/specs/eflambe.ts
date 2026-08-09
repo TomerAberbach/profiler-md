@@ -1,12 +1,23 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
+import { determineMetric } from '../../modalities/metric.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
- * The BEAM virtual machine, observed by stack samplers such as `eflambe` for
- * Erlang and Elixir.
+ * Eflambe traces every call and, between two trace events, appends the current
+ * stack once per microsecond elapsed, so one collapsed count is one microsecond
+ * of wall time on that stack rather than one observation of it.
+ *
+ * The `wall` name titles the profile by what the trace measured, where a bare
+ * time unit would title it `sampling`. The traced time includes the sleeping
+ * eflambe records as its own frame.
+ */
+const TRACED_TIME = determineMetric({ name: `wall`, unit: `microseconds` })
+
+/**
+ * The BEAM virtual machine, observed by `eflambe` for Erlang and Elixir.
  *
  * BEAM collapsed frames are `module:function/arity` (e.g. `lists:reverse/1`,
  * `Elixir.Enum:reduce/3`) with the module standing in for a source location,
@@ -18,6 +29,7 @@ export const eflambeOriginSpec = {
   id: `eflambe`,
   formats: [`collapsed`],
   isMarkerEntry: entry => isBeamStackFrame(entry.name),
+  countMetric: format => (format === `collapsed` ? TRACED_TIME : undefined),
   categorizeEntry: entry =>
     sleepCategory(entry) ??
     beamModuleCategory(entry) ??
@@ -78,9 +90,9 @@ const ERLANG_MFA = /^[a-z]\w*:.+\/\d+$/u
  * Categorizes eflambe's `sleep` marker as `idle`.
  *
  * Eflambe appends it as the leaf when the process was scheduled out, so it
- * marks no function and the samples under it measure time the process ran
- * nothing. A module-qualified `sleep` (`timer:sleep/1`) is a real function and
- * keeps its module, so only the bare name matches.
+ * marks no function and the time under it is time the process ran no code. A
+ * module-qualified `sleep` (`timer:sleep/1`) is a real function and keeps its
+ * module, so only the bare name matches.
  */
 const sleepCategory = ({
   name,

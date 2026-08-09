@@ -3,17 +3,21 @@
 Elixir and Erlang profiling uses
 [eflambe](https://github.com/Stratus3D/eflambe).
 
-## CPU profiling
+## Wall-clock profiling
 
 Traces function calls and writes them as collapsed stacks. Useful for finding
-CPU hot spots.
+hot spots, including time spent sleeping, which eflambe records as its own
+frame.
 
 eflambe's default `brendan_gregg` format is collapsed stacks. Add `eflambe` to
 your dependencies, then profile a specific function.
 
-**Keep the call small.** eflambe traces _every_ function call. It doesn't
-sample, so output grows with the number of calls. A single invocation over a
-large input can produce hundreds of MB.
+Each line's count is one microsecond of wall time on its stack, not one sample,
+because eflambe derives the counts from the trace's timestamps.
+
+**Keep the call small.** eflambe traces every function call. It doesn't sample,
+so output grows with the number of calls. A single invocation over a large input
+can produce hundreds of MB.
 
 ### Elixir
 

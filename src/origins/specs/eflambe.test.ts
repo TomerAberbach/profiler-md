@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest'
+import { collapsedConverter } from '../../formats/collapsed/index.ts'
+import { makeCollapsed } from '../../formats/collapsed/testing.ts'
+import { convertBytesToMd } from '../../formats/testing.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { normalizeProfileToMdOptions } from '../../options.ts'
 import type { ProfileEntry } from '../../options.ts'
+import { profileTitles, summaryLines } from '../../testing.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { eflambeOriginSpec } from './eflambe.ts'
 
@@ -27,6 +32,34 @@ describe(`detection`, () => {
       ).toBe(`eflambe`)
     },
   )
+})
+
+describe(`countMetric`, () => {
+  const options = normalizeProfileToMdOptions({ baseURL: `/project` })
+
+  test(`counts a collapsed count as a microsecond of wall time`, () => {
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([
+        `<0.94.0>;Elixir.Profile:run/1 1500`,
+        `<0.94.0>;Elixir.Profile:run/1;Elixir.Jason:encode!/1 500`,
+      ]),
+      options,
+    )
+
+    expect(profileTitles(md)).toEqual([`Wall time profile`])
+    expect(summaryLines(md)).toEqual([`Took 2.0ms.`])
+  })
+
+  test(`leaves another origin's collapsed counts as samples`, () => {
+    const md = convertBytesToMd(
+      collapsedConverter,
+      makeCollapsed([`run (script.py:1);work (script.py:5) 1500`]),
+      options,
+    )
+
+    expect(summaryLines(md)).toEqual([`Collected 1,500 samples.`])
+  })
 })
 
 describe(`normalizeStackFrame`, () => {
