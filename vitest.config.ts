@@ -17,8 +17,12 @@ const inputProcessingFiles = [
  * The input bytes one project should process. A format holding more splits
  * across several projects, so its inputs never run one at a time in a single
  * worker however large they grow.
+ *
+ * Every project transforms and imports the module graph again. This budget
+ * yields roughly one partition per core, and more partitions would pay that
+ * fixed cost again without running more tests at once.
  */
-const PROJECT_INPUT_BYTES = 64 * 1024 * 1024
+const PROJECT_INPUT_BYTES = 512 * 1024 * 1024
 
 const inputDirectory = path.join(import.meta.dirname, `examples/input`)
 
