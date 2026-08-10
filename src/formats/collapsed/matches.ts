@@ -1,10 +1,10 @@
-import { decodeUtf8Lines } from '../../helpers/bytes.ts'
+import { decodeUtf8Lines, hasLeadingNulByte } from '../../helpers/bytes.ts'
 import { parseCollapsedLine } from './parse.ts'
 
 export const matchesCollapsed = (bytes: Uint8Array): boolean => {
   // A NUL byte never appears in real collapsed text and reveals a binary input
   // that decodes as valid UTF-8.
-  if (bytes.includes(0)) {
+  if (hasLeadingNulByte(bytes)) {
     return false
   }
 
