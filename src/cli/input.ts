@@ -51,11 +51,17 @@ const decompressBlob = async (
 ): Promise<Blob> => {
   try {
     if (filePath?.endsWith(`.br`)) {
-      return await decompressStream(data, createBrotliDecompress())
+      return await decompressStream(
+        data,
+        createBrotliDecompress({ chunkSize: DECOMPRESS_CHUNK_SIZE }),
+      )
     }
     const header = new Uint8Array(await data.slice(0, 2).arrayBuffer())
     if (header[0] === 0x1f && header[1] === 0x8b) {
-      return await decompressStream(data, createGunzip())
+      return await decompressStream(
+        data,
+        createGunzip({ chunkSize: DECOMPRESS_CHUNK_SIZE }),
+      )
     }
     return data
   } catch (error) {
@@ -69,6 +75,14 @@ const decompressBlob = async (
 
 const reasonOf = (error: unknown): string =>
   error instanceof Error ? error.message : String(error)
+
+/**
+ * The output buffer size for the decompression transforms. With zlib's 16 KiB
+ * default, a transform emits a large decompressed input as thousands of
+ * chunks, each a separate event-loop hop. A larger buffer keeps the hop count
+ * small for the cost of one buffer's memory.
+ */
+const DECOMPRESS_CHUNK_SIZE = 4 * 1024 * 1024
 
 const decompressStream = async (
   data: Blob,
