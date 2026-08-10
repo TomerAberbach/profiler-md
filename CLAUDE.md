@@ -9,89 +9,89 @@ friendly Markdown.
 profiler-md
 ├── src/
 │   │
-│   ├── index.ts              # API entry point
+│   ├── index.ts                  # API entry point
 │   │
 │   ├── cli/
-│   │   ├── index.ts          # CLI entry point that orchestrates the run
-│   │   ├── cli.ts            # Optique flag/usage/topic definitions
-│   │   ├── input.ts          # Reads stdin or file, decompresses gzip/brotli
-│   │   ├── options.ts        # Builds API options from CLI flags
-│   │   ├── output.ts         # Writes Markdown to file or stdout (optionally paged)
-│   │   ├── pager.ts          # Spawns $PAGER or `less` for stdout output
-│   │   ├── highlight.ts      # ANSI Markdown syntax highlighting for stdout
-│   │   ├── theme-kindling.ts # Custom Shiki theme for syntax highlighting
-│   │   ├── logo.ts           # ASCII art logo printed to stderr by --version
-│   │   ├── ansis.ts          # ANSI color helpers (respects TTY/no-color)
-│   │   ├── help.ts           # Prints CLI help and per-topic docs
-│   │   ├── languages.ts      # Language display metadata
-│   │   ├── examples.ts       # Parses metadata from examples/ filenames
-│   │   └── error.ts          # CliError class and top-level error reporting
+│   │   ├── index.ts              # CLI entry point that orchestrates the run
+│   │   ├── cli.ts                # Optique flag/usage/topic definitions
+│   │   ├── input.ts              # Reads stdin or file, decompresses gzip/brotli
+│   │   ├── options.ts            # Builds API options from CLI flags
+│   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
+│   │   ├── pager.ts              # Spawns $PAGER or `less` for stdout output
+│   │   ├── highlight.ts          # ANSI Markdown syntax highlighting for stdout
+│   │   ├── theme-kindling.ts     # Custom Shiki theme for syntax highlighting
+│   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
+│   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color)
+│   │   ├── help.ts               # Prints CLI help and per-topic docs
+│   │   ├── languages.ts          # Language display metadata
+│   │   ├── examples.ts           # Parses metadata from examples/ filenames
+│   │   └── error.ts              # CliError class and top-level error reporting
 │   │
-│   ├── formats/              # Individual profile format implementations
-│   │   ├── converter.ts      # Format converter types
-│   │   ├── registry.ts       # Format converter registry
-│   │   ├── index.ts          # profileToMd(Async)/diffProfiles(Async) and format auto-detection
-│   │   ├── **/<name>/        # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
-│   │   │   ├── matches.ts    # Cheap auto-detection check for the format
-│   │   │   ├── parse.ts      # Parses input into a modality's parsed type
-│   │   │   ├── index.ts      # Exports the format's converter
-│   │   │   └── testing.ts    # Test-only utilities specific to this format (optional)
-│   │   └── testing.ts        # Test-only utilities for running a converter and reading example inputs
+│   ├── formats/                  # Individual profile format implementations
+│   │   ├── converter.ts          # Format converter types
+│   │   ├── registry.ts           # Format converter registry
+│   │   ├── index.ts              # profileToMd(Async)/diffProfiles(Async) and format auto-detection
+│   │   ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
+│   │   │   ├── matches.ts        # Cheap auto-detection check for the format
+│   │   │   ├── parse.ts          # Parses input into a modality's parsed type
+│   │   │   ├── index.ts          # Exports the format's converter
+│   │   │   └── testing.ts        # Test-only utilities specific to this format (optional)
+│   │   └── testing.ts            # Test-only utilities for running a converter and reading example inputs
 │   │
-│   ├── origins/              # Profiler detection and categorization
-│   │   ├── origin.ts         # OriginSpec type + match and frame-normalization helpers
-│   │   ├── categorize.ts     # Generic categorization rule helpers
-│   │   ├── jvm.ts            # JVM runtime conventions shared across origins
-│   │   ├── javascript.ts     # JavaScript ecosystem conventions shared across origins
-│   │   ├── cpython.ts        # CPython interpreter conventions shared across origins
+│   ├── origins/                  # Profiler detection and categorization
+│   │   ├── origin.ts             # OriginSpec type + match and frame-normalization helpers
+│   │   ├── categorize.ts         # Generic categorization rule helpers
+│   │   ├── jvm.ts                # JVM runtime conventions shared across origins
+│   │   ├── javascript.ts         # JavaScript ecosystem conventions shared across origins
+│   │   ├── cpython.ts            # CPython interpreter conventions shared across origins
 │   │   ├── specs/
-│   │   │   ├── <name>.ts     # One file per origin (e.g. node, node-pprof, jdk)
-│   │   │   └── index.ts      # Exports originSpecs in detection-priority order
-│   │   ├── index.ts          # Origin registry and derived detector
-│   │   └── testing.ts        # Test-only origin detection and entry construction helpers
+│   │   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jdk)
+│   │   │   └── index.ts          # Exports originSpecs in detection-priority order
+│   │   ├── index.ts              # Origin registry and derived detector
+│   │   └── testing.ts            # Test-only origin detection and entry construction helpers
 │   │
-│   ├── modalities/           # Individual modality implementations
-│   │   ├── aggregator.ts     # Uniform per-input aggregator contract all modalities implement
-│   │   ├── diff.ts           # Base/current diffing primitives
-│   │   ├── stack-frame.ts    # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
-│   │   ├── metric.ts         # Recorded metric types and inference logic
-│   │   ├── measure.ts        # Metric phrasing and cell formatting shared across modalities
-│   │   ├── table.ts          # Table cell/column types + Markdown table/diff-table formatting
-│   │   ├── format.ts         # Formatting helpers shared across modalities
-│   │   ├── call-stack-profile/ # Common call stack profile conversion logic
-│   │   │   ├── type.ts       # Parsed call stack profile types
-│   │   │   ├── aggregate.ts  # Observation aggregation over frames
-│   │   │   ├── diff.ts       # Aggregated call stack profile diffing logic
-│   │   │   ├── measure.ts    # Profile-resolved measure views with count fallback
-│   │   │   ├── table.ts      # The call stack profile formatter's table columns
-│   │   │   ├── format.ts     # Call stack profile and diff to Markdown formatting
-│   │   │   ├── index.ts      # Barrel file
-│   │   │   └── testing.ts    # Test-only utilities specific to this module
-│   │   ├── call-graph/       # Common weighted call graph conversion logic
-│   │   │   ├── type.ts       # Parsed call graph types
-│   │   │   ├── aggregate.ts  # Function-node merging, cycle-safe totals, and categorization
-│   │   │   ├── diff.ts       # Aggregated call graph diffing logic
-│   │   │   ├── table.ts      # The call graph formatter's table columns
-│   │   │   ├── format.ts     # Call graph and diff to Markdown formatting
-│   │   │   ├── index.ts      # Barrel file
-│   │   │   └── testing.ts    # Test-only utilities specific to this module
-│   │   └── heap-snapshot/    # Common heap snapshot conversion logic
-│   │       ├── type.ts       # Parsed heap snapshot types
-│   │       ├── graph.ts      # Node adjacency graph in CSR format
-│   │       ├── retained.ts   # Retained size computation
-│   │       ├── aggregate.ts  # Heap snapshot aggregation over classified nodes
-│   │       ├── diff.ts       # Aggregated heap snapshot diffing logic
-│   │       ├── table.ts      # The heap snapshot formatter's table columns
-│   │       ├── format.ts     # Heap snapshot and diff to Markdown formatting
-│   │       ├── index.ts      # Barrel file
-│   │       └── testing.ts    # Test-only utilities specific to this module
+│   ├── modalities/               # Individual modality implementations
+│   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
+│   │   ├── diff.ts               # Base/current diffing primitives
+│   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
+│   │   ├── metric.ts             # Recorded metric types and inference logic
+│   │   ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
+│   │   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
+│   │   ├── format.ts             # Formatting helpers shared across modalities
+│   │   ├── call-stack-profile/   # Common call stack profile conversion logic
+│   │   │   ├── type.ts           # Parsed call stack profile types
+│   │   │   ├── aggregate.ts      # Observation aggregation over frames
+│   │   │   ├── diff.ts           # Aggregated call stack profile diffing logic
+│   │   │   ├── measure.ts        # Profile-resolved measure views with count fallback
+│   │   │   ├── table.ts          # The call stack profile formatter's table columns
+│   │   │   ├── format.ts         # Call stack profile and diff to Markdown formatting
+│   │   │   ├── index.ts          # Barrel file
+│   │   │   └── testing.ts        # Test-only utilities specific to this module
+│   │   ├── call-graph/           # Common weighted call graph conversion logic
+│   │   │   ├── type.ts           # Parsed call graph types
+│   │   │   ├── aggregate.ts      # Function-node merging, cycle-safe totals, and categorization
+│   │   │   ├── diff.ts           # Aggregated call graph diffing logic
+│   │   │   ├── table.ts          # The call graph formatter's table columns
+│   │   │   ├── format.ts         # Call graph and diff to Markdown formatting
+│   │   │   ├── index.ts          # Barrel file
+│   │   │   └── testing.ts        # Test-only utilities specific to this module
+│   │   └── heap-snapshot/        # Common heap snapshot conversion logic
+│   │       ├── type.ts           # Parsed heap snapshot types
+│   │       ├── graph.ts          # Node adjacency graph in CSR format
+│   │       ├── retained.ts       # Retained size computation
+│   │       ├── aggregate.ts      # Heap snapshot aggregation over classified nodes
+│   │       ├── diff.ts           # Aggregated heap snapshot diffing logic
+│   │       ├── table.ts          # The heap snapshot formatter's table columns
+│   │       ├── format.ts         # Heap snapshot and diff to Markdown formatting
+│   │       ├── index.ts          # Barrel file
+│   │       └── testing.ts        # Test-only utilities specific to this module
 │   │
-│   ├── options.ts            # API option types and normalization logic
-│   ├── location.ts           # URL, file path, and line:column location logic
-│   ├── source-map.ts         # Source map resolution logic
-│   ├── testing.ts            # Test-only option resolution and cross-modality Markdown assertion helpers
+│   ├── options.ts                # API option types and normalization logic
+│   ├── location.ts               # URL, file path, and line:column location logic
+│   ├── source-map.ts             # Source map resolution logic
+│   ├── testing.ts                # Test-only option resolution and cross-modality Markdown assertion helpers
 │   │
-│   └── helpers/              # Truly generic (non-profiling) utility functions
+│   └── helpers/                  # Truly generic (non-profiling) utility functions
 │       ├── array.ts
 │       ├── bytes.ts
 │       ├── graph.ts
@@ -104,35 +104,36 @@ profiler-md
 │       └── types.ts
 │
 ├── docs/
-│   ├── api.md                # Programmatic API guide linked from the readme
-│   ├── languages/            # Per-language generation instructions (`profiler-md --help <language>`)
-│   └── formats/              # Per-format descriptions (`profiler-md --help <format>`)
+│   ├── api.md                    # Programmatic API guide linked from the readme
+│   ├── languages/                # Per-language generation instructions (`profiler-md --help <language>`)
+│   └── formats/                  # Per-format descriptions (`profiler-md --help <format>`)
 │
 ├── skills/
-│   └── profile-optimize/     # Agent skill published with the package
+│   └── profile-optimize/         # Agent skill published with the package
 │
 ├── .claude/
-│   ├── dimensions.md         # Where behavior belongs across format/modality/origin
-│   ├── hooks/lint-format.sh  # Lints and formats each written file
-│   └── skills/               # Repo-only agent skills (new-format, new-modality, new-origin, new-input, bench)
+│   ├── dimensions.md             # Where behavior belongs across format/modality/origin
+│   ├── hooks/lint-format.sh      # Lints and formats each written file
+│   └── skills/                   # Repo-only agent skills (new-format, new-modality, new-origin, new-input, bench)
 │
-├── scripts/                  # Bash and TypeScript scripts
-│   ├── bench                 # Benchmark the CLI with the given arguments
-│   ├── generate-inputs       # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
-│   ├── inputs/               # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
-│   ├── update-examples.ts    # Update examples/output/ from examples/input/
-│   ├── update-readme.ts      # Update the readme (CLI help + language matrix) from src/cli/languages.ts
-│   └── update-demo.ts        # Record assets/demo.gif with vhs and embed its input digest
+├── scripts/                      # Bash and TypeScript scripts
+│   ├── bench                     # Benchmark the CLI with the given arguments
+│   ├── generate-inputs           # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
+│   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
+│   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
+│   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
+│   ├── update-readme.ts          # Update the readme (CLI help + language matrix) from src/cli/languages.ts
+│   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
 │
 ├── assets/
-│   ├── demo.tape             # vhs script for the readme demo
-│   ├── demo.gif              # Recorded from demo.tape with `pnpm update-demo`
-│   └── logo.svg              # Readme logo
+│   ├── demo.tape                 # vhs script for the readme demo
+│   ├── demo.gif                  # Recorded from demo.tape with `pnpm update-demo`
+│   └── logo.svg                  # Readme logo
 │
-├── examples/                 # Filenames are `<lang>.<origin>.<config?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
-│   ├── input/                # Profile and snapshot inputs for testing and docs
-│   └── output/               # Markdown generated from examples/input/* with `pnpm update-examples`
-└── readme.md                 # CLI and matrix sections generated with `pnpm update-readme`
+├── examples/                     # Filenames are `<lang>.<origin>.<config?>.<base|current|diff>.<ext>`, parsed by src/cli/examples.ts
+│   ├── input/                    # Profile and snapshot inputs for testing and docs
+│   └── output/                   # Markdown generated from examples/input/* with `pnpm update-examples`
+└── readme.md                     # CLI and matrix sections generated with `pnpm update-readme`
 ```
 
 ## Development
