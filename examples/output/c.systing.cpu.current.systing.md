@@ -37,6 +37,66 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.2% |  19.0ms |      19 | `ZSTD_encodeSequences_bmi2`          | `zstd_compress_sequences.c` |
 |  0.1% |  17.0ms |      17 | `ZSTD_insertBt1`                     | `zstd_opt.c`                |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                            | Location                    |
+| ----: | ------: | ------: | ----------------------------------- | --------------------------- |
+| 65.5% |   7.91s |   7,914 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
+| 17.0% |   2.05s |   2,056 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
+|  2.6% | 314.0ms |     314 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
+|  2.3% | 273.0ms |     273 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
+|  1.0% | 117.0ms |     117 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
+|  0.8% |  94.0ms |      94 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
+|  0.2% |  19.0ms |      19 | `ZSTD_encodeSequences_bmi2`         | `zstd_compress_sequences.c` |
+|  0.1% |  17.0ms |      17 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
+|  0.1% |  16.0ms |      16 | `HIST_count_parallel_wksp`          | `hist.c`                    |
+|  0.1% |  11.0ms |      11 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
+|  0.1% |  10.0ms |      10 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
+|  0.1% |   9.0ms |       9 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
+| <0.1% |   6.0ms |       6 | `FSE_buildCTable_wksp`              | `fse_compress.c`            |
+| <0.1% |   5.0ms |       5 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
+| <0.1% |   5.0ms |       5 | `FSE_normalizeCount`                | `fse_compress.c`            |
+| <0.1% |   3.0ms |       3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
+| <0.1% |   2.0ms |       2 | `FSE_compress_usingCTable_generic`  | `fse_compress.c`            |
+| <0.1% |   1.0ms |       1 | `HIST_count_simple`                 | `hist.c`                    |
+| <0.1% |   1.0ms |       1 | `ZSTD_compressContinue_internal`    | `zstd_compress.c`           |
+| <0.1% |   1.0ms |       1 | `HUF_writeCTable_wksp`              | `huf_compress.c`            |
+
+##### Kernel
+
+|     % |    Time | Samples | Function                                       | Location    |
+| ----: | ------: | ------: | ---------------------------------------------- | ----------- |
+|  1.9% | 234.0ms |     234 | `alloc_pages_mpol_noprof ([kernel])`           | `<unknown>` |
+|  1.1% | 130.0ms |     130 | `do_anonymous_page ([kernel])`                 | `<unknown>` |
+|  0.8% |  96.0ms |      96 | `do_user_addr_fault ([kernel])`                | `<unknown>` |
+|  0.6% |  72.0ms |      72 | `exc_page_fault ([kernel])`                    | `<unknown>` |
+|  0.6% |  71.0ms |      71 | `__handle_mm_fault ([kernel])`                 | `<unknown>` |
+|  0.5% |  62.0ms |      62 | `handle_mm_fault ([kernel])`                   | `<unknown>` |
+|  0.3% |  38.0ms |      38 | `asm_exc_page_fault ([kernel])`                | `<unknown>` |
+|  0.2% |  26.0ms |      26 | `__alloc_pages_noprof ([kernel])`              | `<unknown>` |
+|  0.2% |  25.0ms |      25 | `vfs_read ([kernel])`                          | `<unknown>` |
+|  0.2% |  25.0ms |      25 | `folio_add_new_anon_rmap ([kernel])`           | `<unknown>` |
+|  0.2% |  19.0ms |      19 | `folio_alloc_mpol_noprof ([kernel])`           | `<unknown>` |
+|  0.1% |  16.0ms |      16 | `__mem_cgroup_charge ([kernel])`               | `<unknown>` |
+|  0.1% |  16.0ms |      16 | `lock_vma_under_rcu ([kernel])`                | `<unknown>` |
+|  0.1% |  13.0ms |      13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>` |
+|  0.1% |  13.0ms |      13 | `vma_alloc_folio_noprof ([kernel])`            | `<unknown>` |
+| <0.1% |   5.0ms |       5 | `mas_walk ([kernel])`                          | `<unknown>` |
+| <0.1% |   4.0ms |       4 | `handle_softirqs ([kernel])`                   | `<unknown>` |
+| <0.1% |   4.0ms |       4 | `futex_wake ([kernel])`                        | `<unknown>` |
+| <0.1% |   4.0ms |       4 | `shmem_file_read_iter ([kernel])`              | `<unknown>` |
+| <0.1% |   3.0ms |       3 | `__folio_mod_stat ([kernel])`                  | `<unknown>` |
+
+##### Native
+
+|     % |    Time | Samples | Function                          | Location    |
+| ----: | ------: | ------: | --------------------------------- | ----------- |
+|  2.3% | 275.0ms |     275 | `unknown (libc.so.6)`             | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `fstatat (libc.so.6)`             | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -98,6 +158,94 @@ Lines ranked by contribution to each function's self time.
 | ----: | -----: | ------: | ---------------- |
 | 58.8% | 10.0ms |      10 | `zstd_opt.c:518` |
 | 41.2% |  7.0ms |       7 | `zstd_opt.c:489` |
+
+##### `HIST_count_parallel_wksp` (`hist.c`)
+
+|     % |   Time | Samples | Location     |
+| ----: | -----: | ------: | ------------ |
+| 87.5% | 14.0ms |      14 | `hist.c:94`  |
+| 12.5% |  2.0ms |       2 | `hist.c:122` |
+
+##### `ZSTD_updateStats` (`zstd_opt.c`)
+
+|     % |  Time | Samples | Location         |
+| ----: | ----: | ------: | ---------------- |
+| 81.8% | 9.0ms |       9 | `zstd_opt.c:361` |
+|  9.1% | 1.0ms |       1 | `zstd_opt.c:364` |
+|  9.1% | 1.0ms |       1 | `zstd_opt.c:370` |
+
+##### `HUF_buildCTable_wksp` (`huf_compress.c`)
+
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 50.0% | 5.0ms |       5 | `huf_compress.c:788` |
+| 30.0% | 3.0ms |       3 | `huf_compress.c:778` |
+| 10.0% | 1.0ms |       1 | `huf_compress.c:785` |
+| 10.0% | 1.0ms |       1 | `huf_compress.c:782` |
+
+##### `ZSTD_seqToCodes` (`zstd_compress.c`)
+
+|     % |  Time | Samples | Location               |
+| ----: | ----: | ------: | ---------------------- |
+| 55.6% | 5.0ms |       5 | `zstd_compress.c:2695` |
+| 22.2% | 2.0ms |       2 | `zstd_compress.c:2697` |
+| 22.2% | 2.0ms |       2 | `zstd_compress.c:2693` |
+
+##### `FSE_buildCTable_wksp` (`fse_compress.c`)
+
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 33.3% | 2.0ms |       2 | `fse_compress.c:190` |
+| 16.7% | 1.0ms |       1 | `fse_compress.c:179` |
+| 16.7% | 1.0ms |       1 | `fse_compress.c:161` |
+| 16.7% | 1.0ms |       1 | `fse_compress.c:103` |
+| 16.7% | 1.0ms |       1 | `fse_compress.c:172` |
+
+##### `ZSTD_XXH64_update` (`xxhash.h`)
+
+|      % |  Time | Samples | Location        |
+| -----: | ----: | ------: | --------------- |
+| 100.0% | 5.0ms |       5 | `xxhash.h:3556` |
+
+##### `FSE_normalizeCount` (`fse_compress.c`)
+
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 40.0% | 2.0ms |       2 | `fse_compress.c:468` |
+| 20.0% | 1.0ms |       1 | `fse_compress.c:487` |
+| 20.0% | 1.0ms |       1 | `fse_compress.c:498` |
+| 20.0% | 1.0ms |       1 | `fse_compress.c:486` |
+
+##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Location               |
+| -----: | ----: | ------: | ---------------------- |
+| 100.0% | 3.0ms |       3 | `zstd_compress.c:3822` |
+
+##### `FSE_compress_usingCTable_generic` (`fse_compress.c`)
+
+|     % |  Time | Samples | Location             |
+| ----: | ----: | ------: | -------------------- |
+| 50.0% | 1.0ms |       1 | `fse_compress.c:588` |
+| 50.0% | 1.0ms |       1 | `fse_compress.c:607` |
+
+##### `HIST_count_simple` (`hist.c`)
+
+|      % |  Time | Samples | Location    |
+| -----: | ----: | ------: | ----------- |
+| 100.0% | 1.0ms |       1 | `hist.c:42` |
+
+##### `ZSTD_compressContinue_internal` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Location               |
+| -----: | ----: | ------: | ---------------------- |
+| 100.0% | 1.0ms |       1 | `zstd_compress.c:4712` |
+
+##### `HUF_writeCTable_wksp` (`huf_compress.c`)
+
+|      % |  Time | Samples | Location             |
+| -----: | ----: | ------: | -------------------- |
+| 100.0% | 1.0ms |       1 | `huf_compress.c:269` |
 
 #### Callers
 
@@ -234,6 +382,152 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | -----: | ------: | ------------------------------- | ------------ |
 | 100.0% | 17.0ms |      17 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
 
+##### `HIST_count_parallel_wksp` (`hist.c`)
+
+|     % |   Time | Samples | Caller                              | Location          |
+| ----: | -----: | ------: | ----------------------------------- | ----------------- |
+| 62.5% | 10.0ms |      10 | `ZSTD_buildSequencesStatistics`     | `zstd_compress.c` |
+| 37.5% |  6.0ms |       6 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c` |
+
+##### `__mem_cgroup_charge ([kernel])` (`<unknown>`)
+
+|      % |   Time | Samples | Caller                         | Location    |
+| -----: | -----: | ------: | ------------------------------ | ----------- |
+| 100.0% | 16.0ms |      16 | `do_anonymous_page ([kernel])` | `<unknown>` |
+
+##### `lock_vma_under_rcu ([kernel])` (`<unknown>`)
+
+|      % |   Time | Samples | Caller                          | Location    |
+| -----: | -----: | ------: | ------------------------------- | ----------- |
+| 100.0% | 16.0ms |      16 | `do_user_addr_fault ([kernel])` | `<unknown>` |
+
+##### `count_memcg_events_mm.constprop.0 ([kernel])` (`<unknown>`)
+
+|      % |   Time | Samples | Caller                       | Location    |
+| -----: | -----: | ------: | ---------------------------- | ----------- |
+| 100.0% | 13.0ms |      13 | `handle_mm_fault ([kernel])` | `<unknown>` |
+
+##### `vma_alloc_folio_noprof ([kernel])` (`<unknown>`)
+
+|      % |   Time | Samples | Caller                         | Location    |
+| -----: | -----: | ------: | ------------------------------ | ----------- |
+| 100.0% | 13.0ms |      13 | `do_anonymous_page ([kernel])` | `<unknown>` |
+
+##### `ZSTD_updateStats` (`zstd_opt.c`)
+
+|     % |   Time | Samples | Caller                        | Location          |
+| ----: | -----: | ------: | ----------------------------- | ----------------- |
+| 90.9% | 10.0ms |      10 | `ZSTD_buildSeqStore`          | `zstd_compress.c` |
+|  9.1% |  1.0ms |       1 | `ZSTD_compressBlock_btultra2` | `zstd_opt.c`      |
+
+##### `HUF_buildCTable_wksp` (`huf_compress.c`)
+
+|     % |  Time | Samples | Caller                        | Location          |
+| ----: | ----: | ------: | ----------------------------- | ----------------- |
+| 60.0% | 6.0ms |       6 | `HUF_optimalTableLog`         | `huf_compress.c`  |
+| 30.0% | 3.0ms |       3 | `ZSTD_buildBlockEntropyStats` | `zstd_compress.c` |
+| 10.0% | 1.0ms |       1 | `HUF_compress_internal`       | `huf_compress.c`  |
+
+##### `ZSTD_seqToCodes` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                          | Location          |
+| -----: | ----: | ------: | ------------------------------- | ----------------- |
+| 100.0% | 9.0ms |       9 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
+
+##### `FSE_buildCTable_wksp` (`fse_compress.c`)
+
+|     % |  Time | Samples | Caller                 | Location                    |
+| ----: | ----: | ------: | ---------------------- | --------------------------- |
+| 50.0% | 3.0ms |       3 | `HUF_writeCTable_wksp` | `huf_compress.c`            |
+| 50.0% | 3.0ms |       3 | `ZSTD_buildCTable`     | `zstd_compress_sequences.c` |
+
+##### `ZSTD_XXH64_update` (`xxhash.h`)
+
+|     % |  Time | Samples | Caller                           | Location            |
+| ----: | ----: | ------: | -------------------------------- | ------------------- |
+| 80.0% | 4.0ms |       4 | `ZSTDMT_compressionJob`          | `zstdmt_compress.c` |
+| 20.0% | 1.0ms |       1 | `ZSTD_compressContinue_internal` | `zstd_compress.c`   |
+
+##### `FSE_normalizeCount` (`fse_compress.c`)
+
+|     % |  Time | Samples | Caller                | Location                    |
+| ----: | ----: | ------: | --------------------- | --------------------------- |
+| 40.0% | 2.0ms |       2 | `HUF_optimalTableLog` | `huf_compress.c`            |
+| 40.0% | 2.0ms |       2 | `ZSTD_NCountCost`     | `zstd_compress_sequences.c` |
+| 20.0% | 1.0ms |       1 | `ZSTD_buildCTable`    | `zstd_compress_sequences.c` |
+
+##### `mas_walk ([kernel])` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                          | Location    |
+| -----: | ----: | ------: | ------------------------------- | ----------- |
+| 100.0% | 5.0ms |       5 | `lock_vma_under_rcu ([kernel])` | `<unknown>` |
+
+##### `handle_softirqs ([kernel])` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                    | Location    |
+| -----: | ----: | ------: | ------------------------- | ----------- |
+| 100.0% | 4.0ms |       4 | `irq_exit_rcu ([kernel])` | `<unknown>` |
+
+##### `futex_wake ([kernel])` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 4.0ms |       4 | `do_futex ([kernel])` | `<unknown>` |
+
+##### `shmem_file_read_iter ([kernel])` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 4.0ms |       4 | `vfs_read ([kernel])` | `<unknown>` |
+
+##### `ZSTD_estimateBlockSize_symbolType` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                                               | Location          |
+| -----: | ----: | ------: | ---------------------------------------------------- | ----------------- |
+| 100.0% | 3.0ms |       3 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c` |
+
+##### `__folio_mod_stat ([kernel])` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                               | Location    |
+| -----: | ----: | ------: | ------------------------------------ | ----------- |
+| 100.0% | 3.0ms |       3 | `folio_add_new_anon_rmap ([kernel])` | `<unknown>` |
+
+##### `FSE_compress_usingCTable_generic` (`fse_compress.c`)
+
+|      % |  Time | Samples | Caller                 | Location         |
+| -----: | ----: | ------: | ---------------------- | ---------------- |
+| 100.0% | 2.0ms |       2 | `HUF_writeCTable_wksp` | `huf_compress.c` |
+
+##### `HIST_count_simple` (`hist.c`)
+
+|      % |  Time | Samples | Caller              | Location     |
+| -----: | ----: | ------: | ------------------- | ------------ |
+| 100.0% | 1.0ms |       1 | `ZSTD_rescaleFreqs` | `zstd_opt.c` |
+
+##### `ZSTD_compressContinue_internal` (`zstd_compress.c`)
+
+|      % |  Time | Samples | Caller                         | Location          |
+| -----: | ----: | ------: | ------------------------------ | ----------------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_compressContinue_public` | `zstd_compress.c` |
+
+##### `HUF_writeCTable_wksp` (`huf_compress.c`)
+
+|      % |  Time | Samples | Caller                  | Location         |
+| -----: | ----: | ------: | ----------------------- | ---------------- |
+| 100.0% | 1.0ms |       1 | `HUF_compress_internal` | `huf_compress.c` |
+
+##### `fstatat (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Caller            | Location |
+| -----: | ----: | ------: | ----------------- | -------- |
+| 100.0% | 1.0ms |       1 | `UTIL_isSameFile` | `util.c` |
+
+##### `pthread_cond_signal (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                  | Location            |
+| -----: | ----: | ------: | ----------------------- | ------------------- |
+| 100.0% | 1.0ms |       1 | `ZSTDMT_compressionJob` | `zstdmt_compress.c` |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
@@ -260,6 +554,72 @@ Functions ranked by total time spent in the function and all its callees.
 |  2.6% | 314.0ms |     314 | `ZSTD_insertAndFindFirstIndexHash3`    | `zstd_opt.c`        |
 |  2.4% | 291.0ms |     291 | `vma_alloc_folio_noprof ([kernel])`    | `<unknown>`         |
 |  2.3% | 278.0ms |     278 | `folio_alloc_mpol_noprof ([kernel])`   | `<unknown>`         |
+
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                               | Location            |
+| ----: | ------: | ------: | -------------------------------------- | ------------------- |
+| 98.6% |  11.90s |  11,906 | `POOL_thread`                          | `pool.c`            |
+| 98.1% |  11.85s |  11,850 | `ZSTDMT_compressionJob`                | `zstdmt_compress.c` |
+| 90.1% |  10.88s |  10,886 | `ZSTD_compressContinue_internal`       | `zstd_compress.c`   |
+| 90.1% |  10.88s |  10,886 | `ZSTD_compressContinue_public`         | `zstd_compress.c`   |
+| 89.4% |  10.79s |  10,799 | `ZSTD_buildSeqStore`                   | `zstd_compress.c`   |
+| 84.7% |  10.23s |  10,232 | `ZSTD_compressBlock_opt2`              | `zstd_opt.c`        |
+| 65.7% |   7.93s |   7,932 | `ZSTD_btGetAllMatches_noDict_3`        | `zstd_opt.c`        |
+|  7.9% | 956.0ms |     956 | `ZSTD_resetCCtx_internal`              | `zstd_compress.c`   |
+|  7.9% | 956.0ms |     956 | `ZSTD_compressBegin_internal`          | `zstd_compress.c`   |
+|  7.9% | 956.0ms |     956 | `ZSTD_compressBegin_advanced_internal` | `zstd_compress.c`   |
+|  2.6% | 314.0ms |     314 | `ZSTD_insertAndFindFirstIndexHash3`    | `zstd_opt.c`        |
+|  2.3% | 273.0ms |     273 | `ZSTD_litLengthPrice`                  | `zstd_opt.c`        |
+|  1.9% | 225.0ms |     225 | `ZSTD_compressBlock_btultra2`          | `zstd_opt.c`        |
+|  1.2% | 141.0ms |     141 | `FIO_compressFilename`                 | `fileio.c`          |
+|  1.2% | 141.0ms |     141 | `main`                                 | `zstdcli.c`         |
+|  1.1% | 135.0ms |     135 | `FIO_compressFilename_srcFile`         | `fileio.c`          |
+|  1.1% | 130.0ms |     130 | `ZSTD_compressStream2`                 | `zstd_compress.c`   |
+|  1.0% | 117.0ms |     117 | `ZSTD_rawLiteralsCost`                 | `zstd_opt.c`        |
+|  0.8% |  94.0ms |      94 | `ZSTD_optLdm_processMatchCandidate`    | `zstd_opt.c`        |
+|  0.5% |  55.0ms |      55 | `AIO_ReadPool_executeReadJob`          | `fileio_asyncio.c`  |
+
+##### Kernel
+
+|    % |    Time | Samples | Function                                    | Location    |
+| ---: | ------: | ------: | ------------------------------------------- | ----------- |
+| 7.1% | 853.0ms |     853 | `asm_exc_page_fault ([kernel])`             | `<unknown>` |
+| 6.7% | 815.0ms |     815 | `exc_page_fault ([kernel])`                 | `<unknown>` |
+| 6.2% | 743.0ms |     743 | `do_user_addr_fault ([kernel])`             | `<unknown>` |
+| 5.1% | 622.0ms |     622 | `handle_mm_fault ([kernel])`                | `<unknown>` |
+| 4.5% | 547.0ms |     547 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
+| 3.9% | 468.0ms |     468 | `do_anonymous_page ([kernel])`              | `<unknown>` |
+| 2.4% | 291.0ms |     291 | `vma_alloc_folio_noprof ([kernel])`         | `<unknown>` |
+| 2.3% | 278.0ms |     278 | `folio_alloc_mpol_noprof ([kernel])`        | `<unknown>` |
+| 2.2% | 261.0ms |     261 | `alloc_pages_mpol_noprof ([kernel])`        | `<unknown>` |
+| 0.7% |  82.0ms |      82 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+| 0.7% |  81.0ms |      81 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
+| 0.5% |  55.0ms |      55 | `vfs_read ([kernel])`                       | `<unknown>` |
+| 0.5% |  55.0ms |      55 | `ksys_read ([kernel])`                      | `<unknown>` |
+| 0.2% |  28.0ms |      28 | `folio_add_new_anon_rmap ([kernel])`        | `<unknown>` |
+| 0.2% |  28.0ms |      28 | `shmem_file_read_iter ([kernel])`           | `<unknown>` |
+| 0.2% |  27.0ms |      27 | `__alloc_pages_noprof ([kernel])`           | `<unknown>` |
+| 0.2% |  22.0ms |      22 | `lock_vma_under_rcu ([kernel])`             | `<unknown>` |
+| 0.2% |  20.0ms |      20 | `copy_page_to_iter ([kernel])`              | `<unknown>` |
+| 0.1% |  17.0ms |      17 | `_copy_to_iter ([kernel])`                  | `<unknown>` |
+| 0.1% |  16.0ms |      16 | `__mem_cgroup_charge ([kernel])`            | `<unknown>` |
+
+##### Native
+
+|     % |   Time | Samples | Function                          | Location    |
+| ----: | -----: | ------: | --------------------------------- | ----------- |
+| 99.8% | 12.05s |  12,050 | `unknown (libc.so.6)`             | `<unknown>` |
+|  0.5% | 55.0ms |      55 | `fread (libc.so.6)`               | `<unknown>` |
+| <0.1% |  6.0ms |       6 | `malloc (libc.so.6)`              | `<unknown>` |
+| <0.1% |  6.0ms |       6 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
+| <0.1% |  4.0ms |       4 | `pthread_create (libc.so.6)`      | `<unknown>` |
+| <0.1% |  1.0ms |       1 | `fstatat (libc.so.6)`             | `<unknown>` |
+| <0.1% |  1.0ms |       1 | `__libc_calloc (libc.so.6)`       | `<unknown>` |
+| <0.1% |  1.0ms |       1 | `0x20000`                         | `<unknown>` |
+| <0.1% |  1.0ms |       1 | `pthread_cond_wait (libc.so.6)`   | `<unknown>` |
 
 #### Callees
 
@@ -410,6 +770,166 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | ------: | ------: | ------------------------------------ | ----------- |
 | 93.2% | 259.0ms |     259 | `alloc_pages_mpol_noprof ([kernel])` | `<unknown>` |
 
+##### `alloc_pages_mpol_noprof ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                            | Location    |
+| ----: | -----: | ------: | --------------------------------- | ----------- |
+| 10.3% | 27.0ms |      27 | `__alloc_pages_noprof ([kernel])` | `<unknown>` |
+
+##### `ZSTD_compressBlock_btultra2` (`zstd_opt.c`)
+
+|     % |    Time | Samples | Callee                          | Location     |
+| ----: | ------: | ------: | ------------------------------- | ------------ |
+| 88.9% | 200.0ms |     200 | `ZSTD_compressBlock_opt2`       | `zstd_opt.c` |
+|  6.2% |  14.0ms |      14 | `ZSTD_litLengthPrice`           | `zstd_opt.c` |
+|  2.2% |   5.0ms |       5 | `ZSTD_btGetAllMatches_noDict_3` | `zstd_opt.c` |
+|  1.8% |   4.0ms |       4 | `ZSTD_rawLiteralsCost`          | `zstd_opt.c` |
+|  0.4% |   1.0ms |       1 | `ZSTD_updateStats`              | `zstd_opt.c` |
+
+##### `FIO_compressFilename` (`fileio.c`)
+
+|     % |    Time | Samples | Callee                         | Location   |
+| ----: | ------: | ------: | ------------------------------ | ---------- |
+| 95.7% | 135.0ms |     135 | `FIO_compressFilename_srcFile` | `fileio.c` |
+|  4.3% |   6.0ms |       6 | `FIO_createCResources`         | `fileio.c` |
+
+##### `main` (`zstdcli.c`)
+
+|      % |    Time | Samples | Callee                 | Location   |
+| -----: | ------: | ------: | ---------------------- | ---------- |
+| 100.0% | 141.0ms |     141 | `FIO_compressFilename` | `fileio.c` |
+
+##### `FIO_compressFilename_srcFile` (`fileio.c`)
+
+|     % |    Time | Samples | Callee                    | Location           |
+| ----: | ------: | ------: | ------------------------- | ------------------ |
+| 96.3% | 130.0ms |     130 | `ZSTD_compressStream2`    | `zstd_compress.c`  |
+|  3.0% |   4.0ms |       4 | `AIO_ReadPool_fillBuffer` | `fileio_asyncio.c` |
+|  0.7% |   1.0ms |       1 | `FIO_openDstFile`         | `fileio.c`         |
+
+##### `ZSTD_compressStream2` (`zstd_compress.c`)
+
+|     % |    Time | Samples | Callee                           | Location          |
+| ----: | ------: | ------: | -------------------------------- | ----------------- |
+| 98.5% | 128.0ms |     128 | `unknown (libc.so.6)`            | `<unknown>`       |
+|  1.5% |   2.0ms |       2 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c` |
+
+##### `entry_SYSCALL_64_after_hwframe ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                     | Location    |
+| ----: | -----: | ------: | -------------------------- | ----------- |
+| 98.8% | 81.0ms |      81 | `do_syscall_64 ([kernel])` | `<unknown>` |
+
+##### `do_syscall_64 ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                        | Location    |
+| ----: | -----: | ------: | ----------------------------- | ----------- |
+| 67.9% | 55.0ms |      55 | `ksys_read ([kernel])`        | `<unknown>` |
+|  7.4% |  6.0ms |       6 | `__x64_sys_execve ([kernel])` | `<unknown>` |
+|  7.4% |  6.0ms |       6 | `__x64_sys_futex ([kernel])`  | `<unknown>` |
+|  4.9% |  4.0ms |       4 | `__x64_sys_openat ([kernel])` | `<unknown>` |
+|  4.9% |  4.0ms |       4 | `vm_mmap_pgoff ([kernel])`    | `<unknown>` |
+
+##### `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`)
+
+|      % |   Time | Samples | Callee              | Location    |
+| -----: | -----: | ------: | ------------------- | ----------- |
+| 100.0% | 55.0ms |      55 | `fread (libc.so.6)` | `<unknown>` |
+
+##### `vfs_read ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                            | Location    |
+| ----: | -----: | ------: | --------------------------------- | ----------- |
+| 50.9% | 28.0ms |      28 | `shmem_file_read_iter ([kernel])` | `<unknown>` |
+|  3.6% |  2.0ms |       2 | `pipe_read ([kernel])`            | `<unknown>` |
+
+##### `ksys_read ([kernel])` (`<unknown>`)
+
+|      % |   Time | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% | 55.0ms |      55 | `vfs_read ([kernel])` | `<unknown>` |
+
+##### `fread (libc.so.6)` (`<unknown>`)
+
+|      % |   Time | Samples | Callee                | Location    |
+| -----: | -----: | ------: | --------------------- | ----------- |
+| 100.0% | 55.0ms |      55 | `unknown (libc.so.6)` | `<unknown>` |
+
+##### `folio_add_new_anon_rmap ([kernel])` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                        | Location    |
+| ----: | ----: | ------: | ----------------------------- | ----------- |
+| 10.7% | 3.0ms |       3 | `__folio_mod_stat ([kernel])` | `<unknown>` |
+
+##### `shmem_file_read_iter ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                           | Location    |
+| ----: | -----: | ------: | -------------------------------- | ----------- |
+| 71.4% | 20.0ms |      20 | `copy_page_to_iter ([kernel])`   | `<unknown>` |
+| 14.3% |  4.0ms |       4 | `shmem_get_folio_gfp ([kernel])` | `<unknown>` |
+
+##### `__alloc_pages_noprof ([kernel])` (`<unknown>`)
+
+|    % |  Time | Samples | Callee                              | Location    |
+| ---: | ----: | ------: | ----------------------------------- | ----------- |
+| 3.7% | 1.0ms |       1 | `get_page_from_freelist ([kernel])` | `<unknown>` |
+
+##### `lock_vma_under_rcu ([kernel])` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                                       | Location    |
+| ----: | ----: | ------: | -------------------------------------------- | ----------- |
+| 22.7% | 5.0ms |       5 | `mas_walk ([kernel])`                        | `<unknown>` |
+|  4.5% | 1.0ms |       1 | `asm_sysvec_apic_timer_interrupt ([kernel])` | `<unknown>` |
+
+##### `copy_page_to_iter ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                     | Location    |
+| ----: | -----: | ------: | -------------------------- | ----------- |
+| 85.0% | 17.0ms |      17 | `_copy_to_iter ([kernel])` | `<unknown>` |
+
+##### `_copy_to_iter ([kernel])` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                          | Location    |
+| ----: | -----: | ------: | ------------------------------- | ----------- |
+| 82.4% | 14.0ms |      14 | `asm_exc_page_fault ([kernel])` | `<unknown>` |
+
+##### `malloc (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 6.0ms |       6 | `unknown (libc.so.6)` | `<unknown>` |
+
+##### `pthread_cond_signal (libc.so.6)` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                                      | Location    |
+| ----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 83.3% | 5.0ms |       5 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+
+##### `pthread_create (libc.so.6)` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                                      | Location    |
+| ----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 50.0% | 2.0ms |       2 | `unknown (libc.so.6)`                       | `<unknown>` |
+| 25.0% | 1.0ms |       1 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+
+##### `__libc_calloc (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `unknown (libc.so.6)` | `<unknown>` |
+
+##### `0x20000` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                       | Location    |
+| -----: | ----: | ------: | ---------------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `pthread_create (libc.so.6)` | `<unknown>` |
+
+##### `pthread_cond_wait (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                | Location    |
+| -----: | ----: | ------: | --------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `unknown (libc.so.6)` | `<unknown>` |
+
 ## Hottest call stacks
 
 Call stacks ranked by time spent in their leaf frame. `…` stands for frames the entry filter hides.
@@ -453,6 +973,10 @@ Slept 71 times over 71 samples (1 time per sample).
 
 Functions ranked by uninterruptible sleeps entered directly in the function body, excluding callees.
 
+#### Categories
+
+##### Kernel
+
 |      % | Sleeps | Samples | Function                    | Location    |
 | -----: | -----: | ------: | --------------------------- | ----------- |
 | 100.0% |     71 |      71 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
@@ -470,6 +994,10 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 ### Total sleeps
 
 Functions ranked by total uninterruptible sleeps entered in the function and all its callees.
+
+#### Categories
+
+##### Kernel
 
 |      % | Sleeps | Samples | Function                                       | Location    |
 | -----: | -----: | ------: | ---------------------------------------------- | ----------- |
@@ -667,6 +1195,10 @@ Slept 87 times over 87 samples (1 time per sample).
 
 Functions ranked by interruptible sleeps entered directly in the function body, excluding callees.
 
+#### Categories
+
+##### Kernel
+
 |      % | Sleeps | Samples | Function                    | Location    |
 | -----: | -----: | ------: | --------------------------- | ----------- |
 | 100.0% |     87 |      87 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
@@ -706,6 +1238,23 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 |   8.0% |      7 |       7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
 |   2.3% |      2 |       2 | `POOL_add`                                  | `pool.c`            |
 |   2.3% |      2 |       2 | `AIO_ReadPool_setFile`                      | `fileio_asyncio.c`  |
+
+#### Categories
+
+##### Kernel
+
+|      % | Sleeps | Samples | Function                                    | Location    |
+| -----: | -----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% |     87 |      87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
+| 100.0% |     87 |      87 | `__schedule ([kernel])`                     | `<unknown>` |
+| 100.0% |     87 |      87 | `schedule ([kernel])`                       | `<unknown>` |
+| 100.0% |     87 |      87 | `futex_wait_queue ([kernel])`               | `<unknown>` |
+| 100.0% |     87 |      87 | `__futex_wait ([kernel])`                   | `<unknown>` |
+| 100.0% |     87 |      87 | `futex_wait ([kernel])`                     | `<unknown>` |
+| 100.0% |     87 |      87 | `do_futex ([kernel])`                       | `<unknown>` |
+| 100.0% |     87 |      87 | `__x64_sys_futex ([kernel])`                | `<unknown>` |
+| 100.0% |     87 |      87 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
+| 100.0% |     87 |      87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
 
 #### Callees
 

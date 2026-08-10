@@ -122,33 +122,38 @@ $ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 ```sh
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
-       ORIGIN] [-o/--output FILE] [--top-n N] [--base-url STRING] [--source-maps
-       GLOB...] [--match REGEX=REPLACEMENT...] [--third-party GLOB...] [
-       --no-pager] [--color/--no-color] ([FILE] | BASE CURRENT)
+       ORIGIN] [-o/--output FILE] [--top-n N] [--min-category-share FRACTION] [
+       --base-url STRING] [--source-maps GLOB...] [--match REGEX=REPLACEMENT...]
+       [--third-party GLOB...] [--no-pager] [--color/--no-color] ([FILE] | BASE
+       CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
-  -h, --help [TOPIC]          Show this help message or topic docs
-  -f, --format FORMAT         Input profile format (default: auto)
-  -r, --origin ORIGIN         Input profile origin (default: auto)
-  -o, --output FILE           Output file (default: - for stdout)
-  --top-n N                   Top entries to show (default: 20)
-  --base-url STRING           Base URL or path to show paths relative to, or 
-                              "auto" to infer the common ancestor directory 
-                              (default: cwd)
-  --source-maps GLOB          Source maps (JSON or inline) to apply to profile 
-                              locations (repeatable)
-  --match REGEX=REPLACEMENT   Treat locations matching REGEX as REPLACEMENT 
-                              when matching entries across diffed profiles 
-                              (repeatable)
-  --third-party GLOB          Additional URLs, paths, or names (e.g. a JVM 
-                              class) to consider third-party (repeatable)
-  --no-pager                  Disable stdout paging (default: auto)
-  --color, --no-color         Enable or disable ANSI syntax highlighting 
-                              (default: auto)
-  FILE                        Profile to convert (default: stdin)
-  BASE                        Base profile to diff
-  CURRENT                     Current profile to diff against the base
+  -h, --help [TOPIC]             Show this help message or topic docs
+  -f, --format FORMAT            Input profile format (default: auto)
+  -r, --origin ORIGIN            Input profile origin (default: auto)
+  -o, --output FILE              Output file (default: - for stdout)
+  --top-n N                      Top entries to show in each ranking, including 
+                                 each category subsection (default: 20)
+  --min-category-share FRACTION  Share of a profile a category must account for 
+                                 to get its own subsection, between 0 and 1 
+                                 (default: 0.01)
+  --base-url STRING              Base URL or path to show paths relative to, or 
+                                 "auto" to infer the common ancestor directory 
+                                 (default: cwd)
+  --source-maps GLOB             Source maps (JSON or inline) to apply to 
+                                 profile locations (repeatable)
+  --match REGEX=REPLACEMENT      Treat locations matching REGEX as REPLACEMENT 
+                                 when matching entries across diffed profiles 
+                                 (repeatable)
+  --third-party GLOB             Additional URLs, paths, or names (e.g. a JVM 
+                                 class) to consider third-party (repeatable)
+  --no-pager                     Disable stdout paging (default: auto)
+  --color, --no-color            Enable or disable ANSI syntax highlighting 
+                                 (default: auto)
+  FILE                           Profile to convert (default: stdin)
+  BASE                           Base profile to diff
+  CURRENT                        Current profile to diff against the base
 
 Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, memray, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, memray, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, systing, tachyon, unknown, valgrind

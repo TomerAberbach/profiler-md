@@ -15,6 +15,10 @@ Took 1.79s over 179 samples (10.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |    % |   Time | Samples | Function   | Location   |
 | ---: | -----: | ------: | ---------- | ---------- |
 | 0.6% | 10.0ms |       1 | `__init__` | `<string>` |
@@ -32,6 +36,10 @@ Lines ranked by contribution to each function's self time.
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
+
+#### Categories
+
+##### Ours
 
 |    % |   Time | Samples | Function   | Location   |
 | ---: | -----: | ------: | ---------- | ---------- |

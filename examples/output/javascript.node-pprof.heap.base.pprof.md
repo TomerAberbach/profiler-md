@@ -14,6 +14,10 @@ Allocated 927 MiB over 10,093,789 samples (96.3 B per sample).
 
 Functions ranked by bytes allocated directly in the function body, excluding callees.
 
+#### Categories
+
+##### Third-party
+
 |    % |    Size | Samples | Function        | Location                                    |
 | ---: | ------: | ------: | --------------- | ------------------------------------------- |
 | 0.1% | 512 KiB |   5,958 | `createProgram` | `node_modules/typescript/lib/typescript.js` |
@@ -49,6 +53,17 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 48.4% |  449 MiB | 4,946,952 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js`            |
 | 29.1% |  270 MiB | 2,922,784 | `createProgram`                    | `node_modules/typescript/lib/typescript.js`            |
 |  1.4% | 13.2 MiB |    92,999 | `require`                          | `node:internal/modules/helpers`                        |
+|  0.2% | 1.46 MiB |         1 | `profile`                          | `node_modules/@datadog/pprof/out/src/heap-profiler.js` |
+|  0.1% |  514 KiB |       163 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js`            |
+
+#### Categories
+
+##### Third-party
+
+|     % |     Size |   Samples | Function                           | Location                                               |
+| ----: | -------: | --------: | ---------------------------------- | ------------------------------------------------------ |
+| 48.4% |  449 MiB | 4,946,952 | `getSemanticDiagnostics`           | `node_modules/typescript/lib/typescript.js`            |
+| 29.1% |  270 MiB | 2,922,784 | `createProgram`                    | `node_modules/typescript/lib/typescript.js`            |
 |  0.2% | 1.46 MiB |         1 | `profile`                          | `node_modules/@datadog/pprof/out/src/heap-profiler.js` |
 |  0.1% |  514 KiB |       163 | `getParsedCommandLineOfConfigFile` | `node_modules/typescript/lib/typescript.js`            |
 

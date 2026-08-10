@@ -16,6 +16,8 @@
 
 Functions with the largest increase in samples taken directly in the function body, excluding callees.
 
+##### Ours
+
 |  Change | Delta |             % | Samples | Function                                           | Location                     |
 | ------: | ----: | ------------: | ------: | -------------------------------------------------- | ---------------------------- |
 | +800.0% |    +8 |   0.5% → 4.6% |   1 → 9 | `push`                                             | `blib2to3/pgen2/parse.py`    |
@@ -42,6 +44,8 @@ Functions with the largest increase in samples taken directly in the function bo
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+
+##### Ours
 
 |  Change | Delta |           % | Samples | Function                     | Location                     |
 | ------: | ----: | ----------: | ------: | ---------------------------- | ---------------------------- |
@@ -72,6 +76,8 @@ Functions with the largest decrease in samples taken directly in the function bo
 
 Functions with the largest increase in total samples taken in the function and all its callees.
 
+##### Ours
+
 |  Change | Delta |             % |   Samples | Function                          | Location                   |
 | ------: | ----: | ------------: | --------: | --------------------------------- | -------------------------- |
 |  +39.3% |   +24 | 32.3% → 43.4% |   61 → 85 | `check_stability_and_equivalence` | `black/__init__.py`        |
@@ -98,6 +104,8 @@ Functions with the largest increase in total samples taken in the function and a
 #### Improvements
 
 Functions with the largest decrease in total samples taken in the function and all its callees.
+
+##### Ours
 
 |  Change | Delta |             % |   Samples | Function                            | Location                     |
 | ------: | ----: | ------------: | --------: | ----------------------------------- | ---------------------------- |

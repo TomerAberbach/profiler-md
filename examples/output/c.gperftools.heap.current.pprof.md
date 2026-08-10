@@ -33,6 +33,33 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>`         |
 | <0.1% |     96 B |       2 | `ZSTDMT_createCCtxPool`       | `zstdmt_compress.c` |
 
+##### Categories
+
+###### Ours
+
+|     % |     Size | Samples | Function                      | Location            |
+| ----: | -------: | ------: | ----------------------------- | ------------------- |
+| 37.3% | 49.2 MiB |       1 | `ZSTD_resetCCtx_internal`     | `zstd_compress.c`   |
+| 12.2% | 16.1 MiB |       1 | `ZSTDMT_getBuffer`            | `zstdmt_compress.c` |
+|  1.9% | 2.51 MiB |      40 | `AIO_IOPool_init`             | `fileio_asyncio.c`  |
+| <0.1% | 4.46 KiB |       2 | `FIO_openDstFile`             | `fileio.c`          |
+| <0.1% |    4 KiB |       1 | `AIO_ReadPool_executeReadJob` | `fileio_asyncio.c`  |
+| <0.1% | 1.78 KiB |       1 | `ZSTDMT_createJobsTable`      | `zstdmt_compress.c` |
+| <0.1% |    472 B |       1 | `FIO_openSrcFile`             | `fileio.c`          |
+| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool`     | `zstdmt_compress.c` |
+| <0.1% |     96 B |       2 | `ZSTDMT_createCCtxPool`       | `zstdmt_compress.c` |
+
+###### Native
+
+|     % |     Size | Samples | Function                      | Location    |
+| ----: | -------: | ------: | ----------------------------- | ----------- |
+| 48.5% |   64 MiB |       1 | `ZSTDMT_initCStream_internal` | `<unknown>` |
+|  0.2% |  256 KiB |       2 | `AIO_ReadPool_create`         | `<unknown>` |
+| <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx`             | `<unknown>` |
+| <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx_advanced`    | `<unknown>` |
+| <0.1% | 3.05 KiB |       1 | `ZSTDMT_createCCtx_advanced`  | `<unknown>` |
+| <0.1% |    192 B |       1 | `AIO_WritePool_create`        | `<unknown>` |
+
 ##### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
@@ -154,6 +181,43 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx`                      | `<unknown>`         |
 | <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx_advanced`             | `<unknown>`         |
 | <0.1% | 4.46 KiB |       2 | `FIO_openDstFile`                      | `fileio.c`          |
+
+##### Categories
+
+###### Ours
+
+|     % |     Size | Samples | Function                         | Location            |
+| ----: | -------: | ------: | -------------------------------- | ------------------- |
+| 49.4% | 65.3 MiB |       3 | `POOL_thread`                    | `pool.c`            |
+| 49.4% | 65.3 MiB |       2 | `ZSTDMT_compressionJob`          | `zstdmt_compress.c` |
+| 48.5% |   64 MiB |      17 | `FIO_compressFilename_srcFile`   | `fileio.c`          |
+| 48.5% |   64 MiB |      14 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c`   |
+| 37.3% | 49.2 MiB |       1 | `ZSTD_resetCCtx_internal`        | `zstd_compress.c`   |
+| 37.3% | 49.2 MiB |       1 | `ZSTD_compressBegin_internal`    | `zstd_compress.c`   |
+| 12.2% | 16.1 MiB |       1 | `ZSTDMT_getBuffer`               | `zstdmt_compress.c` |
+|  2.1% | 2.76 MiB |      52 | `FIO_createCResources`           | `fileio.c`          |
+|  1.9% | 2.51 MiB |      48 | `AIO_IOPool_init`                | `fileio_asyncio.c`  |
+| <0.1% | 5.23 KiB |       3 | `ZSTDMT_createCCtxPool`          | `zstdmt_compress.c` |
+| <0.1% | 4.46 KiB |       2 | `FIO_openDstFile`                | `fileio.c`          |
+| <0.1% |    4 KiB |       1 | `AIO_ReadPool_executeReadJob`    | `fileio_asyncio.c`  |
+| <0.1% | 1.78 KiB |       1 | `ZSTDMT_createJobsTable`         | `zstdmt_compress.c` |
+| <0.1% |    472 B |       1 | `FIO_openSrcFile`                | `fileio.c`          |
+| <0.1% |    288 B |       4 | `ZSTDMT_createBufferPool`        | `zstdmt_compress.c` |
+
+###### Native
+
+|     % |     Size | Samples | Function                               | Location    |
+| ----: | -------: | ------: | -------------------------------------- | ----------- |
+| 50.6% | 66.8 MiB |      75 | `_start`                               | `<unknown>` |
+| 48.5% |   64 MiB |      14 | `ZSTD_compressStream2`                 | `<unknown>` |
+| 48.5% |   64 MiB |       1 | `ZSTDMT_initCStream_internal`          | `<unknown>` |
+| 37.3% | 49.2 MiB |       1 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
+|  1.1% |  1.5 MiB |      26 | `AIO_ReadPool_create`                  | `<unknown>` |
+|  1.0% | 1.26 MiB |      25 | `AIO_WritePool_create`                 | `<unknown>` |
+| <0.1% | 10.9 KiB |      13 | `ZSTDMT_createCCtx_advanced`           | `<unknown>` |
+| <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx`                      | `<unknown>` |
+| <0.1% | 5.13 KiB |       1 | `ZSTD_createCCtx_advanced`             | `<unknown>` |
+| <0.1% | 1.38 KiB |       8 | `POOL_create`                          | `<unknown>` |
 
 ##### Callees
 

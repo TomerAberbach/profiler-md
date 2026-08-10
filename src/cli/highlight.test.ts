@@ -244,6 +244,56 @@ describe(`heat intensity`, () => {
       expect(maxRed(highlighted, 8)).toBe(defaultHeadingRed)
     })
 
+    test(`a closed section's names stay available to a following sibling`, async () => {
+      const markdown = [
+        `### Functions`,
+        ``,
+        `#### Categories`,
+        ``,
+        `##### stdlib`,
+        ``,
+        `| Name   | %    | Location |`,
+        `| ------ | ---- | -------- |`,
+        `| \`func\` | 100% | a.ts     |`,
+        ``,
+        `#### Callers`,
+        ``,
+        `##### \`func\` (a.ts)`,
+      ].join(`\n`)
+
+      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+      expect(maxRed(highlighted, 12)).toBe(246)
+    })
+
+    test(`a closed section's names don't reach a later section measuring a different total`, async () => {
+      const markdown = [
+        `# Profile`,
+        ``,
+        `## Allocated heap`,
+        ``,
+        `### Functions`,
+        ``,
+        `#### Categories`,
+        ``,
+        `##### stdlib`,
+        ``,
+        `| Name   | %    | Location |`,
+        `| ------ | ---- | -------- |`,
+        `| \`func\` | 100% | a.ts     |`,
+        ``,
+        `## Retained heap`,
+        ``,
+        `### Functions`,
+        ``,
+        `##### \`func\` (a.ts)`,
+      ].join(`\n`)
+
+      const highlighted = await highlight(markdown, highlightMarkdownOptions)
+
+      expect(maxRed(highlighted, 18)).toBe(defaultHeadingRed)
+    })
+
     test(`both tables in the same H3 scope populate the lookup map`, async () => {
       const markdown = [
         `### Functions`,

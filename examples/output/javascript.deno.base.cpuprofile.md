@@ -26,6 +26,20 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | <0.1% |   1.2ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>`                        |
 | <0.1% |   0.1ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>`                        |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 3.5% | 117.0ms |      96 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |   Time | Samples | Function | Location                           |
+| ---: | -----: | ------: | -------- | ---------------------------------- |
+| 0.8% | 28.2ms |       1 | `post`   | `ext:deno_node/inspector.js:179:7` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -70,6 +84,21 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.3% |  10.0ms |       9 | `getParsedCommandLineOfConfigFile`               | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
 | <0.1% |   1.2ms |       1 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>`                                                                                                                                             |
 | <0.1% |   0.1ms |       1 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>`                                                                                                                                             |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 3.5% | 117.0ms |      96 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |    Time | Samples | Function  | Location                           |
+| ---: | ------: | ------: | --------- | ---------------------------------- |
+| 3.8% | 126.7ms |     100 | `require` | `node:module:1752:35`              |
+| 0.8% |  28.2ms |       1 | `post`    | `ext:deno_node/inspector.js:179:7` |
 
 #### Callees
 

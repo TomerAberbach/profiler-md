@@ -16,6 +16,8 @@ Held 72.4 MiB over 23,696 samples (3.13 KiB per sample).
 
 Functions with the largest increase in bytes held at peak memory directly in the function body, excluding callees.
 
+##### Ours
+
 |    Change |  Delta |             % |                Size |         Samples | Function                           | Location                      |
 | --------: | -----: | ------------: | ------------------: | --------------: | ---------------------------------- | ----------------------------- |
 |     +5.5% | +1 MiB | 25.2% → 26.5% | 18.2 MiB → 19.2 MiB | 20,790 → 20,791 | `mark`                             | `black/brackets.py:70`        |
@@ -31,6 +33,8 @@ Functions with the largest increase in bytes held at peak memory directly in the
 
 Functions with the largest decrease in bytes held at peak memory directly in the function body, excluding callees.
 
+##### Ours
+
 |  Change |  Delta |            % |             Size | Samples | Function                               | Location                      |
 | ------: | -----: | -----------: | ---------------: | ------: | -------------------------------------- | ----------------------------- |
 |  -66.7% | -2 MiB |  4.1% → 1.4% |    3 MiB → 1 MiB |   4 → 2 | `visit_default`                        | `black/linegen.py:134`        |
@@ -45,6 +49,8 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 #### Regressions
 
 Functions with the largest increase in total bytes held at peak memory in the function and all its callees.
+
+##### Ours
 
 |     Change |  Delta |             % |                Size |         Samples | Function                     | Location                      |
 | ---------: | -----: | ------------: | ------------------: | --------------: | ---------------------------- | ----------------------------- |
@@ -72,6 +78,8 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 #### Improvements
 
 Functions with the largest decrease in total bytes held at peak memory in the function and all its callees.
+
+##### Ours
 
 |  Change |  Delta |             % |                Size |         Samples | Function                               | Location                      |
 | ------: | -----: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------------- |
@@ -104,6 +112,8 @@ Leaked 57.1 MiB → 58.1 MiB (+1 MiB, +1.8%) over 22,684 samples → 22,685 s
 
 Functions with the largest increase in bytes never freed directly in the function body, excluding callees.
 
+##### Ours
+
 |    Change |  Delta |             % |                Size |         Samples | Function                           | Location                      |
 | --------: | -----: | ------------: | ------------------: | --------------: | ---------------------------------- | ----------------------------- |
 |    +11.6% | +2 MiB | 30.2% → 33.1% | 17.2 MiB → 19.2 MiB | 20,789 → 20,791 | `mark`                             | `black/brackets.py:70`        |
@@ -118,6 +128,8 @@ Functions with the largest increase in bytes never freed directly in the functio
 #### Improvements
 
 Functions with the largest decrease in bytes never freed directly in the function body, excluding callees.
+
+##### Ours
 
 |  Change |  Delta |            % |             Size | Samples | Function                               | Location                      |
 | ------: | -----: | -----------: | ---------------: | ------: | -------------------------------------- | ----------------------------- |
@@ -157,9 +169,36 @@ Functions with the largest increase in total bytes never freed in the function a
 |  +33.3% | +1 MiB |   5.3% → 6.9% |       3 MiB → 4 MiB |           4 → 5 | `normalize_invisible_parens` | `black/linegen.py:1328`                                 |
 | +146.6% | +1 MiB |   1.2% → 2.9% |  698 KiB → 1.68 MiB |       900 → 901 | `visit_STRING`               | `black/linegen.py:413`                                  |
 
+##### Ours
+
+|     Change |  Delta |             % |                Size |         Samples | Function                     | Location                 |
+| ---------: | -----: | ------------: | ------------------: | --------------: | ---------------------------- | ------------------------ |
+|     +16.4% | +3 MiB | 32.0% → 36.7% | 18.3 MiB → 21.3 MiB | 20,883 → 20,886 | `append`                     | `black/lines.py:63`      |
+|      +6.0% | +2 MiB | 58.6% → 61.0% | 33.4 MiB → 35.4 MiB | 21,084 → 21,086 | `visit`                      | `black/nodes.py:163`     |
+|      +6.0% | +2 MiB | 58.6% → 61.0% | 33.4 MiB → 35.4 MiB | 21,082 → 21,084 | `visit_default`              | `black/nodes.py:187`     |
+|      +6.0% | +2 MiB | 58.6% → 61.0% | 33.4 MiB → 35.4 MiB | 21,082 → 21,084 | `visit_default`              | `black/linegen.py:134`   |
+|      +6.0% | +2 MiB | 58.1% → 60.6% | 33.2 MiB → 35.2 MiB | 20,711 → 20,713 | `visit_stmt`                 | `black/linegen.py:199`   |
+|      +6.1% | +2 MiB | 57.4% → 59.8% | 32.7 MiB → 34.7 MiB | 20,144 → 20,146 | `visit_suite`                | `black/linegen.py:288`   |
+|      +6.1% | +2 MiB | 57.5% → 60.0% | 32.8 MiB → 34.8 MiB | 20,270 → 20,272 | `visit_funcdef`              | `black/linegen.py:254`   |
+|     +11.6% | +2 MiB | 30.2% → 33.1% | 17.2 MiB → 19.2 MiB | 20,789 → 20,791 | `mark`                       | `black/brackets.py:70`   |
+|      +1.9% | +1 MiB | 90.4% → 90.6% | 51.6 MiB → 52.6 MiB | 21,151 → 21,152 | `format_file_contents`       | `black/__init__.py:1054` |
+|      +1.9% | +1 MiB | 90.4% → 90.6% | 51.6 MiB → 52.6 MiB | 21,152 → 21,153 | `format_file_in_place`       | `black/__init__.py:917`  |
+|      +1.9% | +1 MiB | 90.4% → 90.6% | 51.6 MiB → 52.6 MiB | 21,159 → 21,160 | `reformat_one`               | `black/__init__.py:860`  |
+|      +1.9% | +1 MiB | 90.5% → 90.6% | 51.6 MiB → 52.6 MiB | 21,164 → 21,165 | `main`                       | `black/__init__.py:244`  |
+|      +1.9% | +1 MiB | 90.5% → 90.7% | 51.6 MiB → 52.6 MiB | 21,189 → 21,190 | `patched_main`               | `black/__init__.py:1594` |
+|      +1.9% | +1 MiB | 90.5% → 90.7% | 51.6 MiB → 52.6 MiB | 21,189 → 21,190 | `<module>`                   | `black/__main__.py:1`    |
+|      +4.4% | +1 MiB | 40.0% → 41.0% | 22.8 MiB → 23.8 MiB | 13,401 → 13,402 | `visit_simple_stmt`          | `black/linegen.py:295`   |
+|      +2.0% | +1 MiB | 86.9% → 87.1% | 49.6 MiB → 50.6 MiB | 21,145 → 21,146 | `_format_str_once`           | `black/__init__.py:1236` |
+|      +2.9% | +1 MiB | 59.7% → 60.4% | 34.1 MiB → 35.1 MiB |         92 → 93 | `format_str`                 | `black/__init__.py:1189` |
+|     +33.3% | +1 MiB |   5.3% → 6.9% |       3 MiB → 4 MiB |           4 → 5 | `normalize_invisible_parens` | `black/linegen.py:1328`  |
+|    +146.6% | +1 MiB |   1.2% → 2.9% |  698 KiB → 1.68 MiB |       900 → 901 | `visit_STRING`               | `black/linegen.py:413`   |
+| +108999.6% | +1 MiB |  <0.1% → 1.7% |       962 B → 1 MiB |           1 → 2 | `_maybe_empty_lines`         | `black/lines.py:610`     |
+
 #### Improvements
 
 Functions with the largest decrease in total bytes never freed in the function and all its callees.
+
+##### Ours
 
 |  Change |  Delta |             % |                Size |         Samples | Function                               | Location                      |
 | ------: | -----: | ------------: | ------------------: | --------------: | -------------------------------------- | ----------------------------- |

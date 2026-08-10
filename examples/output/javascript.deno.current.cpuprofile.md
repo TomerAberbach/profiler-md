@@ -22,6 +22,20 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 1.2% |  28.1ms |       1 | `post`                | `ext:deno_node/inspector.js:179:7`                                                                                                                      |
 | 0.1% |   1.2ms |       1 | `createProgram`       | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 5.8% | 134.3ms |     110 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |   Time | Samples | Function | Location                           |
+| ---: | -----: | ------: | -------- | ---------------------------------- |
+| 1.2% | 28.1ms |       1 | `post`   | `ext:deno_node/inspector.js:179:7` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -64,6 +78,21 @@ Functions ranked by total time spent in the function and all its callees.
 |  1.2% |  28.9ms |       2 | `(anonymous)`                      | `cpuprofile-run.mjs:16:15`                                                                                                                              |
 |  1.2% |  28.9ms |       2 | `post`                             | `cpuprofile-run.mjs:15:14`                                                                                                                              |
 |  0.4% |  10.0ms |       9 | `getParsedCommandLineOfConfigFile` | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
+
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function              | Location    |
+| ---: | ------: | ------: | --------------------- | ----------- |
+| 5.8% | 134.3ms |     110 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+|    % |   Time | Samples | Function  | Location                           |
+| ---: | -----: | ------: | --------- | ---------------------------------- |
+| 1.8% | 41.7ms |      33 | `require` | `node:module:1752:35`              |
+| 1.2% | 28.9ms |       2 | `post`    | `ext:deno_node/inspector.js:179:7` |
 
 #### Callees
 

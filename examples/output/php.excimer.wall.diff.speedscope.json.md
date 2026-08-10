@@ -14,6 +14,8 @@ Took 151.0ms → 141.0ms (-10.00ms, -6.6%) over 1 sample (151.0ms → 141.0ms pe
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
+##### Ours
+
 | Change |    Delta |      % |              Time | Samples | Function      | Location      |
 | -----: | -------: | -----: | ----------------: | ------: | ------------- | ------------- |
 |  -6.6% | -10.00ms | 100.0% | 151.0ms → 141.0ms |       1 | `(anonymous)` | `profile.php` |
@@ -23,6 +25,8 @@ Functions with the largest decrease in time spent directly in the function body,
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
+
+##### Ours
 
 | Change |    Delta |      % |              Time | Samples | Function      | Location      |
 | -----: | -------: | -----: | ----------------: | ------: | ------------- | ------------- |

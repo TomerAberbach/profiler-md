@@ -12,6 +12,10 @@ Blocked 1.40s over 12 samples (117.5ms per sample).
 
 Functions ranked by time blocked directly in the function body, excluding callees.
 
+#### Categories
+
+##### Standard library
+
 |     % |  Time | Samples | Function                 | Location                                                                                   |
 | ----: | ----: | ------: | ------------------------ | ------------------------------------------------------------------------------------------ |
 | 92.4% | 1.30s |       1 | `sync.(*WaitGroup).Wait` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160` |
@@ -50,6 +54,16 @@ Functions ranked by total time blocked in the function and all its callees.
 |  <0.1% |  14.4µs |      10 | `runtime.gcStart`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:733`          |
 |  <0.1% |  14.4µs |      10 | `encoding/json.Unmarshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 |  <0.1% |  14.4µs |      10 | `main.workload.func1`          | `profile.go:25`                                                                                  |
+
+#### Categories
+
+##### Standard library
+
+|     % |    Time | Samples | Function                       | Location                                                                                         |
+| ----: | ------: | ------: | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 92.4% |   1.30s |       1 | `sync.(*WaitGroup).Wait`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`       |
+|  7.6% | 106.7ms |       1 | `runtime/pprof.StopCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950`  |
+| <0.1% |  14.4µs |      10 | `encoding/json.Unmarshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
 #### Callees
 

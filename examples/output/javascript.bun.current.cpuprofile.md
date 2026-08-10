@@ -15,6 +15,10 @@ Took 5.58s over 4,226 samples (1.3ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Third-party
+
 |     % |  Time | Samples | Function        | Location                                                                                  |
 | ----: | ----: | ------: | --------------- | ----------------------------------------------------------------------------------------- |
 | <0.1% | 1.1ms |       1 | `createProgram` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
@@ -39,6 +43,17 @@ Functions ranked by total time spent in the function and all its callees.
 | 84.1% |   4.69s |   3,587 | `getDiagnosticsHelper`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
 | 13.5% | 753.2ms |     535 | `createProgram`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 |  1.4% |  77.3ms |      59 | `bound require`                    | `<unknown>`                                                                               |
+|  0.7% |  38.6ms |      31 | `parseJsonConfigFileContentWorker` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`  |
+|  0.1% |   3.6ms |       3 | `getParsedCommandLineOfConfigFile` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
+
+#### Categories
+
+##### Third-party
+
+|     % |    Time | Samples | Function                           | Location                                                                                  |
+| ----: | ------: | ------: | ---------------------------------- | ----------------------------------------------------------------------------------------- |
+| 84.1% |   4.69s |   3,587 | `getDiagnosticsHelper`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
+| 13.5% | 753.2ms |     535 | `createProgram`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 |  0.7% |  38.6ms |      31 | `parseJsonConfigFileContentWorker` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:40560:46`  |
 |  0.1% |   3.6ms |       3 | `getParsedCommandLineOfConfigFile` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46`  |
 

@@ -36,6 +36,39 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   4.0ms |       4 | `__json_value_module_MOD_json_get_string`       | `src/json-fortran/src/json_value_module.F90`     |
 |  0.1% |   3.0ms |       3 | `__json_value_module_MOD_to_logical`            | `src/json-fortran/src/json_value_module.F90`     |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                                        | Location                                         |
+| ----: | ------: | ------: | ----------------------------------------------- | ------------------------------------------------ |
+| 56.4% |   2.28s |   2,281 | `__json_value_module_MOD_pop_char.part.0`       | `src/json-fortran/src/json_value_module.F90`     |
+| 11.1% | 448.0ms |     448 | `__json_value_module_MOD_parse_string`          | `src/json-fortran/src/json_value_module.F90`     |
+|  9.2% | 372.0ms |     372 | `__json_value_module_MOD_parse_object`          | `src/json-fortran/src/json_value_module.F90`     |
+|  8.1% | 328.0ms |     328 | `__json_string_utilities_MOD_string_to_integer` | `src/json-fortran/src/json_string_utilities.F90` |
+|  3.2% | 130.0ms |     130 | `__json_value_module_MOD_parse_value`           | `src/json-fortran/src/json_value_module.F90`     |
+|  2.3% |  93.0ms |      93 | `__json_value_module_MOD_json_value_create`     | `src/json-fortran/src/json_value_module.F90`     |
+|  2.2% |  88.0ms |      88 | `__json_value_module_MOD_json_parse_file`       | `src/json-fortran/src/json_value_module.F90`     |
+|  1.2% |  50.0ms |      50 | `__json_value_module_MOD_string_to_int`         | `src/json-fortran/src/json_value_module.F90`     |
+|  1.2% |  48.0ms |      48 | `__json_value_module_MOD_json_value_destroy`    | `src/json-fortran/src/json_value_module.F90`     |
+|  0.8% |  31.0ms |      31 | `__json_value_module_MOD_destroy_json_data`     | `src/json-fortran/src/json_value_module.F90`     |
+|  0.5% |  20.0ms |      20 | `__json_string_utilities_MOD_unescape_string`   | `src/json-fortran/src/json_string_utilities.F90` |
+|  0.5% |  19.0ms |      19 | `__json_value_module_MOD_parse_number`          | `src/json-fortran/src/json_value_module.F90`     |
+|  0.3% |  13.0ms |      13 | `__json_value_module_MOD_parse_array`           | `src/json-fortran/src/json_value_module.F90`     |
+|  0.3% |  11.0ms |      11 | `__json_value_module_MOD_parse_for_chars`       | `src/json-fortran/src/json_value_module.F90`     |
+|  0.2% |  10.0ms |      10 | `__json_value_module_MOD_json_value_add_member` | `src/json-fortran/src/json_value_module.F90`     |
+|  0.2% |   8.0ms |       8 | `MAIN__`                                        | `out/profile.f90`                                |
+|  0.1% |   6.0ms |       6 | `__json_value_module_MOD_json_info`             | `src/json-fortran/src/json_value_module.F90`     |
+|  0.1% |   4.0ms |       4 | `__json_value_module_MOD_json_get_string`       | `src/json-fortran/src/json_value_module.F90`     |
+|  0.1% |   3.0ms |       3 | `__json_value_module_MOD_to_logical`            | `src/json-fortran/src/json_value_module.F90`     |
+|  0.1% |   3.0ms |       3 | `__json_value_module_MOD_to_string`             | `src/json-fortran/src/json_value_module.F90`     |
+
+##### Native
+
+|    % |   Time | Samples | Function | Location    |
+| ---: | -----: | ------: | -------- | ----------- |
+| 1.7% | 67.0ms |      67 | `_init`  | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -201,6 +234,13 @@ Lines ranked by contribution to each function's self time.
 | 66.7% | 2.0ms |       2 | `src/json-fortran/src/json_value_module.F90:10672` |
 | 33.3% | 1.0ms |       1 | `src/json-fortran/src/json_value_module.F90:10671` |
 
+##### `__json_value_module_MOD_to_string` (`src/json-fortran/src/json_value_module.F90`)
+
+|     % |  Time | Samples | Location                                           |
+| ----: | ----: | ------: | -------------------------------------------------- |
+| 66.7% | 2.0ms |       2 | `src/json-fortran/src/json_value_module.F90:10755` |
+| 33.3% | 1.0ms |       1 | `src/json-fortran/src/json_value_module.F90:10800` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self time. Inlining can make caller attribution imprecise.
@@ -346,6 +386,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | -------------------------------------- | -------------------------------------------- |
 | 100.0% | 3.0ms |       3 | `__json_value_module_MOD_parse_object` | `src/json-fortran/src/json_value_module.F90` |
 
+##### `__json_value_module_MOD_to_string` (`src/json-fortran/src/json_value_module.F90`)
+
+|      % |  Time | Samples | Caller                                | Location                                     |
+| -----: | ----: | ------: | ------------------------------------- | -------------------------------------------- |
+| 100.0% | 3.0ms |       3 | `__json_value_module_MOD_parse_value` | `src/json-fortran/src/json_value_module.F90` |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
@@ -372,6 +418,39 @@ Functions ranked by total time spent in the function and all its callees.
 |   0.8% |  31.0ms |      31 | `__json_value_module_MOD_destroy_json_data`       | `src/json-fortran/src/json_value_module.F90`       |
 |   0.6% |  26.0ms |      26 | `__json_file_module_MOD_json_file_get_string`     | `src/json-fortran/src/json_file_module.F90`        |
 |   0.6% |  25.0ms |      25 | `__json_value_module_MOD_json_get_string_by_path` | `src/json-fortran/src/json_get_scalar_by_path.inc` |
+
+#### Categories
+
+##### Ours
+
+|      % |    Time | Samples | Function                                          | Location                                           |
+| -----: | ------: | ------: | ------------------------------------------------- | -------------------------------------------------- |
+| 100.0% |   4.04s |   4,047 | `MAIN__`                                          | `out/profile.f90`                                  |
+| 100.0% |   4.04s |   4,047 | `main`                                            | `out/profile.f90`                                  |
+|  97.2% |   3.93s |   3,935 | `__json_value_module_MOD_json_parse_file`         | `src/json-fortran/src/json_value_module.F90`       |
+|  97.2% |   3.93s |   3,935 | `__json_file_module_MOD_json_file_load`           | `src/json-fortran/src/json_file_module.F90`        |
+|  94.6% |   3.82s |   3,829 | `__json_value_module_MOD_parse_object`            | `src/json-fortran/src/json_value_module.F90`       |
+|  94.4% |   3.82s |   3,820 | `__json_value_module_MOD_parse_array`             | `src/json-fortran/src/json_value_module.F90`       |
+|  56.4% |   2.28s |   2,281 | `__json_value_module_MOD_pop_char.part.0`         | `src/json-fortran/src/json_value_module.F90`       |
+|  44.4% |   1.79s |   1,796 | `__json_value_module_MOD_parse_string`            | `src/json-fortran/src/json_value_module.F90`       |
+|  31.9% |   1.29s |   1,291 | `__json_value_module_MOD_parse_value`             | `src/json-fortran/src/json_value_module.F90`       |
+|  11.1% | 448.0ms |     448 | `__json_value_module_MOD_parse_number`            | `src/json-fortran/src/json_value_module.F90`       |
+|   9.0% | 366.0ms |     366 | `__json_value_module_MOD_string_to_int`           | `src/json-fortran/src/json_value_module.F90`       |
+|   8.1% | 328.0ms |     328 | `__json_string_utilities_MOD_string_to_integer`   | `src/json-fortran/src/json_string_utilities.F90`   |
+|   2.3% |  93.0ms |      93 | `__json_value_module_MOD_json_value_create`       | `src/json-fortran/src/json_value_module.F90`       |
+|   1.9% |  78.0ms |      78 | `__json_value_module_MOD_json_value_destroy`      | `src/json-fortran/src/json_value_module.F90`       |
+|   1.9% |  78.0ms |      78 | `__json_file_module_MOD_json_file_destroy`        | `src/json-fortran/src/json_file_module.F90`        |
+|   1.7% |  70.0ms |      70 | `__json_value_module_MOD_parse_for_chars`         | `src/json-fortran/src/json_value_module.F90`       |
+|   0.8% |  31.0ms |      31 | `__json_value_module_MOD_destroy_json_data`       | `src/json-fortran/src/json_value_module.F90`       |
+|   0.6% |  26.0ms |      26 | `__json_file_module_MOD_json_file_get_string`     | `src/json-fortran/src/json_file_module.F90`        |
+|   0.6% |  25.0ms |      25 | `__json_value_module_MOD_json_get_string_by_path` | `src/json-fortran/src/json_get_scalar_by_path.inc` |
+|   0.5% |  20.0ms |      20 | `__json_string_utilities_MOD_unescape_string`     | `src/json-fortran/src/json_string_utilities.F90`   |
+
+##### Native
+
+|    % |   Time | Samples | Function | Location    |
+| ---: | -----: | ------: | -------- | ----------- |
+| 1.7% | 67.0ms |      67 | `_init`  | `<unknown>` |
 
 #### Callees
 

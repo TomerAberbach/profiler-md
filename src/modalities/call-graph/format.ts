@@ -590,7 +590,8 @@ const formatDiffDirectionFunctions = ({
     description,
     columns: functionColumns(metric, `Function`, options),
     hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
+    regressions,
+    improvements,
+    rowOf: ({ entity }) => rowOf(entity),
   })
 }

@@ -39,6 +39,77 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | <0.1% |       2 | `apply(Object, Object)`              | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0` |
 | <0.1% |       2 | `lambda$collectClusters$0(Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                                         | Location                                                                              |
+| ----: | ------: | ------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| 20.8% |   1,061 | `accumulate(Double[], double[])`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| 18.2% |     932 | `distance(Double[], Double[])`                   | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  9.5% |     486 | `vectorSum()`                                    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+|  7.6% |     388 | `findNearestCentroid()`                          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  2.2% |     111 | `collectClusters(int[])`                         | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  0.1% |       6 | `createSubtask(int, int)`                        | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+|  0.1% |       4 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| <0.1% |       2 | `compute()`                                      | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                                |
+| <0.1% |       2 | `combineResults(Object, Object)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+| <0.1% |       2 | `apply(Object, Object)`                          | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0`                |
+| <0.1% |       2 | `lambda$collectClusters$0(Double[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+| <0.1% |       2 | `apply(Object)`                                  | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000c801186b38` |
+| <0.1% |       2 | `forkThreshold()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+| <0.1% |       2 | `<init>(JavaKMeans, int, int)`                   | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                                |
+| <0.1% |       1 | `lambda$generateData$3(int, int, Random[], int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                                           |
+| <0.1% |       1 | `forkThreshold()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`                             |
+| <0.1% |       1 | `<init>(JavaKMeans, List, List, int, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                            |
+
+##### Standard library
+
+|     % | Samples | Function                            | Location                            |
+| ----: | ------: | ----------------------------------- | ----------------------------------- |
+|  2.7% |     139 | `computeIfAbsent(Object, Function)` | `java.util.HashMap`                 |
+|  2.7% |     139 | `doubleValue()`                     | `java.lang.Double`                  |
+|  0.3% |      14 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                 |
+|  0.1% |       6 | `forEach(BiConsumer)`               | `java.util.HashMap`                 |
+| <0.1% |       1 | `join()`                            | `java.util.concurrent.ForkJoinTask` |
+| <0.1% |       1 | `addAll(Collection)`                | `java.util.ArrayList`               |
+| <0.1% |       1 | `values()`                          | `java.util.HashMap`                 |
+| <0.1% |       1 | `stream(double[])`                  | `java.util.Arrays`                  |
+| <0.1% |       1 | `put(Object, Object)`               | `java.util.HashMap`                 |
+
+##### JIT
+
+|     % | Samples | Function                   | Location    |
+| ----: | ------: | -------------------------- | ----------- |
+|  1.2% |      59 | `zero_blocks`              | `<unknown>` |
+| <0.1% |       1 | `vtable stub`              | `<unknown>` |
+| <0.1% |       1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
+
+##### Compiler
+
+|     % | Samples | Function                                      | Location       |
+| ----: | ------: | --------------------------------------------- | -------------- |
+|  0.1% |       3 | `PhaseCFG::schedule_local`                    | `libjvm.dylib` |
+| <0.1% |       2 | `PhaseChaitin::build_ifg_physical`            | `libjvm.dylib` |
+| <0.1% |       2 | `PhaseOutput::BuildOopMaps`                   | `libjvm.dylib` |
+| <0.1% |       1 | `ciTypeFlow::df_flow_types`                   | `libjvm.dylib` |
+| <0.1% |       1 | `NodeHash::hash_find`                         | `libjvm.dylib` |
+| <0.1% |       1 | `PhaseChaitin::merge_multidefs`               | `libjvm.dylib` |
+| <0.1% |       1 | `Scheduling::ComputeRegisterAntidependencies` | `libjvm.dylib` |
+| <0.1% |       1 | `Matcher::match_tree`                         | `libjvm.dylib` |
+| <0.1% |       1 | `Matcher::xform`                              | `libjvm.dylib` |
+| <0.1% |       1 | `CallStaticJavaNode::Opcode`                  | `libjvm.dylib` |
+| <0.1% |       1 | `IndexSet::IndexSet`                          | `libjvm.dylib` |
+| <0.1% |       1 | `PhaseIdealLoop::build_loop_early`            | `libjvm.dylib` |
+| <0.1% |       1 | `RegMask::is_UP`                              | `libjvm.dylib` |
+| <0.1% |       1 | `AddNode::Value`                              | `libjvm.dylib` |
+| <0.1% |       1 | `PhaseRenumberLive::update_embedded_ids`      | `libjvm.dylib` |
+| <0.1% |       1 | `CodeBuffer::finalize_oop_references`         | `libjvm.dylib` |
+| <0.1% |       1 | `PhaseIdealLoop::build_loop_late`             | `libjvm.dylib` |
+| <0.1% |       1 | `branchNode::is_block_proj`                   | `libjvm.dylib` |
+| <0.1% |       1 | `ciTypeFlow::build_loop_tree`                 | `libjvm.dylib` |
+| <0.1% |       1 | `unnecessary_membar_acquireNode::out_RegMask` | `libjvm.dylib` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self samples.
@@ -146,6 +217,66 @@ Lines ranked by contribution to each function's self samples.
 |      % | Samples | Location                                                       |
 | -----: | ------: | -------------------------------------------------------------- |
 | 100.0% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:215` |
+
+##### `forkThreshold()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Location                                                       |
+| -----: | ------: | -------------------------------------------------------------- |
+| 100.0% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:198` |
+
+##### `<init>(JavaKMeans, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|      % | Samples | Location                                                   |
+| -----: | ------: | ---------------------------------------------------------- |
+| 100.0% |       2 | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask:137` |
+
+##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Location                                       |
+| -----: | ------: | ---------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans:86` |
+
+##### `forkThreshold()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask:389` |
+
+##### `<init>(JavaKMeans, List, List, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Location                                                       |
+| -----: | ------: | -------------------------------------------------------------- |
+| 100.0% |       1 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask:190` |
+
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Location                                |
+| -----: | ------: | --------------------------------------- |
+| 100.0% |       1 | `java.util.concurrent.ForkJoinTask:650` |
+
+##### `addAll(Collection)` (`java.util.ArrayList`)
+
+|      % | Samples | Location                  |
+| -----: | ------: | ------------------------- |
+| 100.0% |       1 | `java.util.ArrayList:759` |
+
+##### `values()` (`java.util.HashMap`)
+
+|      % | Samples | Location                 |
+| -----: | ------: | ------------------------ |
+| 100.0% |       1 | `java.util.HashMap:1042` |
+
+##### `stream(double[])` (`java.util.Arrays`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       1 | `java.util.Arrays:5619` |
+
+##### `put(Object, Object)` (`java.util.HashMap`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       1 | `java.util.HashMap:618` |
 
 #### Callers
 
@@ -261,6 +392,169 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------- | ------------------------------------------------------------------------------------- |
 | 100.0% |       2 | `apply(Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000c801186b38` |
 
+##### `apply(Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000c801186b38`)
+
+|      % | Samples | Caller                              | Location            |
+| -----: | ------: | ----------------------------------- | ------------------- |
+| 100.0% |       2 | `computeIfAbsent(Object, Function)` | `java.util.HashMap` |
+
+##### `forkThreshold()` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       2 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `<init>(JavaKMeans, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
+
+|     % | Samples | Caller                                     | Location                                                   |
+| ----: | ------: | ------------------------------------------ | ---------------------------------------------------------- |
+| 50.0% |       1 | `<init>(JavaKMeans, List, int, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| 50.0% |       1 | `<init>(JavaKMeans, List, List, int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `lambda$generateData$3(int, int, Random[], int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Caller       | Location                                                               |
+| -----: | ------: | ------------ | ---------------------------------------------------------------------- |
+| 100.0% |       1 | `apply(int)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801125b10` |
+
+##### `forkThreshold()` (`org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`)
+
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `<init>(JavaKMeans, List, List, int, int)` (`org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`)
+
+|      % | Samples | Caller                    | Location                                                   |
+| -----: | ------: | ------------------------- | ---------------------------------------------------------- |
+| 100.0% |       1 | `createSubtask(int, int)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+
+##### `join()` (`java.util.concurrent.ForkJoinTask`)
+
+|      % | Samples | Caller      | Location                                               |
+| -----: | ------: | ----------- | ------------------------------------------------------ |
+| 100.0% |       1 | `compute()` | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask` |
+
+##### `addAll(Collection)` (`java.util.ArrayList`)
+
+|      % | Samples | Caller                       | Location                                    |
+| -----: | ------: | ---------------------------- | ------------------------------------------- |
+| 100.0% |       1 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `values()` (`java.util.HashMap`)
+
+|      % | Samples | Caller                    | Location                                               |
+| -----: | ------: | ------------------------- | ------------------------------------------------------ |
+| 100.0% |       1 | `<init>(JavaKMeans, Map)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `stream(double[])` (`java.util.Arrays`)
+
+|      % | Samples | Caller            | Location                                               |
+| -----: | ------: | ----------------- | ------------------------------------------------------ |
+| 100.0% |       1 | `boxed(double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `put(Object, Object)` (`java.util.HashMap`)
+
+|      % | Samples | Caller                     | Location                                               |
+| -----: | ------: | -------------------------- | ------------------------------------------------------ |
+| 100.0% |       1 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+
+##### `vtable stub` (`<unknown>`)
+
+|      % | Samples | Caller   | Location                            |
+| -----: | ------: | -------- | ----------------------------------- |
+| 100.0% |       1 | `join()` | `java.util.concurrent.ForkJoinTask` |
+
+##### `ciTypeFlow::df_flow_types` (`libjvm.dylib`)
+
+|      % | Samples | Caller                   | Location       |
+| -----: | ------: | ------------------------ | -------------- |
+| 100.0% |       1 | `ciTypeFlow::flow_types` | `libjvm.dylib` |
+
+##### `NodeHash::hash_find` (`libjvm.dylib`)
+
+|      % | Samples | Caller                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseIdealLoop::split_thru_phi` | `libjvm.dylib` |
+
+##### `PhaseChaitin::merge_multidefs` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
+##### `Scheduling::ComputeRegisterAntidependencies` (`libjvm.dylib`)
+
+|      % | Samples | Caller                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |       1 | `Scheduling::DoScheduling` | `libjvm.dylib` |
+
+##### `Matcher::match_tree` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location       |
+| -----: | ------: | ---------------- | -------------- |
+| 100.0% |       1 | `Matcher::xform` | `libjvm.dylib` |
+
+##### `Matcher::xform` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location       |
+| -----: | ------: | ---------------- | -------------- |
+| 100.0% |       1 | `Matcher::match` | `libjvm.dylib` |
+
+##### `CallStaticJavaNode::Opcode` (`libjvm.dylib`)
+
+|      % | Samples | Caller          | Location       |
+| -----: | ------: | --------------- | -------------- |
+| 100.0% |       1 | `IfNode::Ideal` | `libjvm.dylib` |
+
+##### `IndexSet::IndexSet` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseChaitin::build_ifg_physical` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::build_loop_early` (`libjvm.dylib`)
+
+|      % | Samples | Caller                               | Location       |
+| -----: | ------: | ------------------------------------ | -------------- |
+| 100.0% |       1 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `RegMask::is_UP` (`libjvm.dylib`)
+
+|      % | Samples | Caller                         | Location       |
+| -----: | ------: | ------------------------------ | -------------- |
+| 100.0% |       1 | `PhaseChaitin::raise_pressure` | `libjvm.dylib` |
+
+##### `PhaseRenumberLive::update_embedded_ids` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                 | Location       |
+| -----: | ------: | -------------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::build_loop_late` (`libjvm.dylib`)
+
+|      % | Samples | Caller                               | Location       |
+| -----: | ------: | ------------------------------------ | -------------- |
+| 100.0% |       1 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `branchNode::is_block_proj` (`libjvm.dylib`)
+
+|      % | Samples | Caller                             | Location       |
+| -----: | ------: | ---------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseChaitin::build_ifg_physical` | `libjvm.dylib` |
+
+##### `ciTypeFlow::build_loop_tree` (`libjvm.dylib`)
+
+|      % | Samples | Caller                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |       1 | `ciTypeFlow::df_flow_types` | `libjvm.dylib` |
+
+##### `unnecessary_membar_acquireNode::out_RegMask` (`libjvm.dylib`)
+
+|      % | Samples | Caller                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |       1 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
@@ -287,6 +581,92 @@ Functions ranked by total samples taken in the function and all its callees.
 |  7.8% |     399 | `combineResults(Map, Map)`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  7.6% |     386 | `forEach(BiConsumer)`               | `java.util.HashMap`                                                    |
 |  7.4% |     380 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                                                    |
+
+#### Categories
+
+##### Ours
+
+|     % | Samples | Function                            | Location                                                               |
+| ----: | ------: | ----------------------------------- | ---------------------------------------------------------------------- |
+| 88.2% |   4,504 | `compute()`                         | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| 37.0% |   1,889 | `computeDirectly()`                 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 34.4% |   1,756 | `vectorSum()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 34.4% |   1,756 | `computeDirectly()`                 | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 27.4% |   1,399 | `findNearestCentroid()`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 23.2% |   1,185 | `accumulate(Double[], double[])`    | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`              |
+| 18.5% |     947 | `distance(Double[], Double[])`      | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 15.3% |     780 | `computeClusterAverages()`          | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 15.3% |     780 | `computeDirectly()`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 15.1% |     772 | `average(List)`                     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+|  9.6% |     491 | `collectClusters(int[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  9.2% |     472 | `lambda$run$0(int, List, int)`      | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  9.2% |     472 | `call()`                            | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
+|  7.9% |     401 | `merge(Map, Map)`                   | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  7.9% |     401 | `combineResults(Object, Object)`    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  7.8% |     399 | `combineResults(Map, Map)`          | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  7.4% |     380 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  7.4% |     380 | `accept(Object, Object)`            | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186d88` |
+|  5.8% |     295 | `apply(Object, Object)`             | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0` |
+|  5.7% |     293 | `lambda$merge$6(List, List)`        | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+
+##### Standard library
+
+|     % | Samples | Function                                | Location                             |
+| ----: | ------: | --------------------------------------- | ------------------------------------ |
+| 85.2% |   4,352 | `join()`                                | `java.util.concurrent.ForkJoinTask`  |
+| 21.0% |   1,074 | `invoke()`                              | `java.util.concurrent.ForkJoinTask`  |
+|  7.6% |     386 | `forEach(BiConsumer)`                   | `java.util.HashMap`                  |
+|  7.4% |     380 | `merge(Object, Object, BiFunction)`     | `java.util.HashMap`                  |
+|  4.2% |     213 | `addAll(Collection)`                    | `java.util.ArrayList`                |
+|  3.5% |     181 | `get(int)`                              | `java.util.ArrayList`                |
+|  3.3% |     166 | `add(Object)`                           | `java.util.ArrayList`                |
+|  3.2% |     164 | `computeIfAbsent(Object, Function)`     | `java.util.HashMap`                  |
+|  2.7% |     139 | `doubleValue()`                         | `java.lang.Double`                   |
+|  1.6% |      80 | `<init>(Collection)`                    | `java.util.ArrayList`                |
+|  0.6% |      33 | `invoke(Object, Object[])`              | `java.lang.reflect.Method`           |
+|  0.4% |      18 | `loadClass(String)`                     | `java.lang.ClassLoader`              |
+|  0.3% |      17 | `foreach(Function1)`                    | `scala.collection.immutable.List`    |
+|  0.2% |      11 | `<init>(Map)`                           | `java.util.HashMap`                  |
+|  0.2% |       8 | `toArray(IntFunction)`                  | `java.util.stream.ReferencePipeline` |
+|  0.1% |       7 | `fork()`                                | `java.util.concurrent.ForkJoinTask`  |
+|  0.1% |       7 | `copy(InputStream, Path, CopyOption[])` | `java.nio.file.Files`                |
+|  0.1% |       7 | `collect(Collector)`                    | `java.util.stream.ReferencePipeline` |
+|  0.1% |       6 | `<clinit>()`                            | `scala.Predef$`                      |
+|  0.1% |       4 | `boxed()`                               | `java.util.stream.DoublePipeline`    |
+
+##### JIT
+
+|     % | Samples | Function                   | Location    |
+| ----: | ------: | -------------------------- | ----------- |
+|  1.2% |      59 | `zero_blocks`              | `<unknown>` |
+| <0.1% |       1 | `I2C/C2I adapters(0xbba)`  | `<unknown>` |
+| <0.1% |       1 | `vtable stub`              | `<unknown>` |
+| <0.1% |       1 | `I2C/C2I adapters(0xbbab)` | `<unknown>` |
+
+##### Compiler
+
+|    % | Samples | Function                                   | Location       |
+| ---: | ------: | ------------------------------------------ | -------------- |
+| 1.6% |      81 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib` |
+| 1.4% |      69 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+| 1.0% |      50 | `Compile::Compile`                         | `libjvm.dylib` |
+| 1.0% |      50 | `C2Compiler::compile_method`               | `libjvm.dylib` |
+| 0.5% |      24 | `Compile::Code_Gen`                        | `libjvm.dylib` |
+| 0.3% |      17 | `Compilation::compile_method`              | `libjvm.dylib` |
+| 0.3% |      17 | `Compilation::Compilation`                 | `libjvm.dylib` |
+| 0.3% |      16 | `Compile::Optimize`                        | `libjvm.dylib` |
+| 0.3% |      14 | `Compilation::compile_java_method`         | `libjvm.dylib` |
+| 0.2% |      12 | `CompileQueue::get`                        | `libjvm.dylib` |
+| 0.2% |      11 | `PhaseChaitin::Register_Allocate`          | `libjvm.dylib` |
+| 0.2% |       9 | `PhaseIdealLoop::build_and_optimize`       | `libjvm.dylib` |
+| 0.2% |       9 | `PhaseIdealLoop::PhaseIdealLoop`           | `libjvm.dylib` |
+| 0.2% |       9 | `PhaseIdealLoop::optimize`                 | `libjvm.dylib` |
+| 0.1% |       7 | `Compilation::emit_lir`                    | `libjvm.dylib` |
+| 0.1% |       6 | `Compile::optimize_loops`                  | `libjvm.dylib` |
+| 0.1% |       5 | `ciTypeFlow::df_flow_types`                | `libjvm.dylib` |
+| 0.1% |       5 | `ciTypeFlow::flow_types`                   | `libjvm.dylib` |
+| 0.1% |       5 | `ciTypeFlow::do_flow`                      | `libjvm.dylib` |
+| 0.1% |       5 | `ciMethod::get_flow_analysis`              | `libjvm.dylib` |
 
 #### Callees
 
@@ -430,6 +810,189 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 77.6% |     295 | `apply(Object, Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0` |
 |  7.9% |      30 | `zero_blocks`           | `<unknown>`                                                            |
 
+##### `lambda$merge$7(Map, Object, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|      % | Samples | Callee                              | Location            |
+| -----: | ------: | ----------------------------------- | ------------------- |
+| 100.0% |     380 | `merge(Object, Object, BiFunction)` | `java.util.HashMap` |
+
+##### `accept(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186d88`)
+
+|      % | Samples | Callee                              | Location                                    |
+| -----: | ------: | ----------------------------------- | ------------------------------------------- |
+| 100.0% |     380 | `lambda$merge$7(Map, Object, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `apply(Object, Object)` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0`)
+
+|     % | Samples | Callee                       | Location                                    |
+| ----: | ------: | ---------------------------- | ------------------------------------------- |
+| 99.3% |     293 | `lambda$merge$6(List, List)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+
+##### `lambda$merge$6(List, List)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
+
+|     % | Samples | Callee               | Location              |
+| ----: | ------: | -------------------- | --------------------- |
+| 72.7% |     213 | `addAll(Collection)` | `java.util.ArrayList` |
+| 27.3% |      80 | `<init>(Collection)` | `java.util.ArrayList` |
+
+##### `computeIfAbsent(Object, Function)` (`java.util.HashMap`)
+
+|    % | Samples | Callee          | Location                                                                              |
+| ---: | ------: | --------------- | ------------------------------------------------------------------------------------- |
+| 2.4% |       4 | `apply(Object)` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000c801186b38` |
+
+##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                     | Location       |
+| ----: | ------: | ------------------------------------------ | -------------- |
+| 85.2% |      69 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib` |
+| 14.8% |      12 | `CompileQueue::get`                        | `libjvm.dylib` |
+
+##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
+
+|     % | Samples | Callee                          | Location       |
+| ----: | ------: | ------------------------------- | -------------- |
+| 72.5% |      50 | `C2Compiler::compile_method`    | `libjvm.dylib` |
+|  1.4% |       1 | `ciEnv::get_method_from_handle` | `libjvm.dylib` |
+
+##### `Compile::Compile` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                   | Location       |
+| ----: | ------: | ---------------------------------------- | -------------- |
+| 48.0% |      24 | `Compile::Code_Gen`                      | `libjvm.dylib` |
+| 32.0% |      16 | `Compile::Optimize`                      | `libjvm.dylib` |
+|  2.0% |       1 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
+
+##### `C2Compiler::compile_method` (`libjvm.dylib`)
+
+|      % | Samples | Callee             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |      50 | `Compile::Compile` | `libjvm.dylib` |
+
+##### `Compile::Code_Gen` (`libjvm.dylib`)
+
+|     % | Samples | Callee                            | Location       |
+| ----: | ------: | --------------------------------- | -------------- |
+| 45.8% |      11 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+| 20.8% |       5 | `Matcher::match`                  | `libjvm.dylib` |
+| 16.7% |       4 | `PhaseOutput::Output`             | `libjvm.dylib` |
+| 12.5% |       3 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
+|  4.2% |       1 | `PhaseOutput::install_code`       | `libjvm.dylib` |
+
+##### `Compilation::compile_method` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                               | Location       |
+| ----: | ------: | ---------------------------------------------------- | -------------- |
+| 82.4% |      14 | `Compilation::compile_java_method`                   | `libjvm.dylib` |
+| 11.8% |       2 | `ciEnv::register_method`                             | `libjvm.dylib` |
+|  5.9% |       1 | `DebugInformationRecorder::DebugInformationRecorder` | `libjvm.dylib` |
+
+##### `Compilation::Compilation` (`libjvm.dylib`)
+
+|      % | Samples | Callee                        | Location       |
+| -----: | ------: | ----------------------------- | -------------- |
+| 100.0% |      17 | `Compilation::compile_method` | `libjvm.dylib` |
+
+##### `Compile::Optimize` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                 | Location       |
+| ----: | ------: | -------------------------------------- | -------------- |
+| 37.5% |       6 | `Compile::optimize_loops`              | `libjvm.dylib` |
+| 18.8% |       3 | `PhaseIterGVN::optimize`               | `libjvm.dylib` |
+| 18.8% |       3 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
+|  6.3% |       1 | `PhaseRenumberLive::PhaseRenumberLive` | `libjvm.dylib` |
+|  6.3% |       1 | `PhaseIterGVN::PhaseIterGVN`           | `libjvm.dylib` |
+
+##### `Compilation::compile_java_method` (`libjvm.dylib`)
+
+|     % | Samples | Callee                        | Location       |
+| ----: | ------: | ----------------------------- | -------------- |
+| 50.0% |       7 | `Compilation::emit_lir`       | `libjvm.dylib` |
+| 35.7% |       5 | `Compilation::build_hir`      | `libjvm.dylib` |
+| 14.3% |       2 | `Compilation::emit_code_body` | `libjvm.dylib` |
+
+##### `CompileQueue::get` (`libjvm.dylib`)
+
+|    % | Samples | Callee                           | Location       |
+| ---: | ------: | -------------------------------- | -------------- |
+| 8.3% |       1 | `CompilationPolicy::select_task` | `libjvm.dylib` |
+
+##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                        | Location       |
+| ----: | ------: | --------------------------------------------- | -------------- |
+| 45.5% |       5 | `PhaseChaitin::build_ifg_physical`            | `libjvm.dylib` |
+| 27.3% |       3 | `PhaseChaitin::gather_lrg_masks`              | `libjvm.dylib` |
+|  9.1% |       1 | `PhaseChaitin::merge_multidefs`               | `libjvm.dylib` |
+|  9.1% |       1 | `unnecessary_membar_acquireNode::out_RegMask` | `libjvm.dylib` |
+|  9.1% |       1 | `PhaseChaitin::Split`                         | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                 | Location       |
+| ----: | ------: | -------------------------------------- | -------------- |
+| 22.2% |       2 | `PhaseIdealLoop::build_loop_early`     | `libjvm.dylib` |
+| 22.2% |       2 | `PhaseIdealLoop::build_loop_late`      | `libjvm.dylib` |
+| 22.2% |       2 | `PhaseIdealLoop::Dominators`           | `libjvm.dylib` |
+| 11.1% |       1 | `PhaseIdealLoop::split_if_with_blocks` | `libjvm.dylib` |
+| 11.1% |       1 | `Node_Array::grow`                     | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
+
+|      % | Samples | Callee                               | Location       |
+| -----: | ------: | ------------------------------------ | -------------- |
+| 100.0% |       9 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
+
+|      % | Samples | Callee                           | Location       |
+| -----: | ------: | -------------------------------- | -------------- |
+| 100.0% |       9 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
+
+##### `Compilation::emit_lir` (`libjvm.dylib`)
+
+|     % | Samples | Callee                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 57.1% |       4 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
+| 42.9% |       3 | `BlockList::iterate_forward` | `libjvm.dylib` |
+
+##### `Compile::optimize_loops` (`libjvm.dylib`)
+
+|      % | Samples | Callee                     | Location       |
+| -----: | ------: | -------------------------- | -------------- |
+| 100.0% |       6 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
+
+##### `ciTypeFlow::df_flow_types` (`libjvm.dylib`)
+
+|     % | Samples | Callee                        | Location       |
+| ----: | ------: | ----------------------------- | -------------- |
+| 60.0% |       3 | `ciTypeFlow::flow_block`      | `libjvm.dylib` |
+| 20.0% |       1 | `ciTypeFlow::build_loop_tree` | `libjvm.dylib` |
+
+##### `ciTypeFlow::flow_types` (`libjvm.dylib`)
+
+|      % | Samples | Callee                      | Location       |
+| -----: | ------: | --------------------------- | -------------- |
+| 100.0% |       5 | `ciTypeFlow::df_flow_types` | `libjvm.dylib` |
+
+##### `ciTypeFlow::do_flow` (`libjvm.dylib`)
+
+|      % | Samples | Callee                   | Location       |
+| -----: | ------: | ------------------------ | -------------- |
+| 100.0% |       5 | `ciTypeFlow::flow_types` | `libjvm.dylib` |
+
+##### `ciMethod::get_flow_analysis` (`libjvm.dylib`)
+
+|      % | Samples | Callee                | Location       |
+| -----: | ------: | --------------------- | -------------- |
+| 100.0% |       5 | `ciTypeFlow::do_flow` | `libjvm.dylib` |
+
+##### `boxed()` (`java.util.stream.DoublePipeline`)
+
+|     % | Samples | Callee                                                        | Location                               |
+| ----: | ------: | ------------------------------------------------------------- | -------------------------------------- |
+| 25.0% |       1 | `linkMethodHandleConstant(Class, int, Class, String, Object)` | `java.lang.invoke.MethodHandleNatives` |
+
 ## Hottest call stacks
 
 Call stacks ranked by samples taken in their leaf frame. `…` stands for frames the entry filter hides.
@@ -488,6 +1051,30 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | <0.1% |    720 B |      15 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |    624 B |      13 | `computeClusterAverages()`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |    480 B |      20 | `range(int, int)`                    | `java.util.stream.IntStream`                               |
+| <0.1% |    168 B |       3 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |     96 B |       3 | `lambda$run$0(int, List, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% |     80 B |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |     72 B |       3 | `<init>(JavaKMeans, Map)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |     56 B |       2 | `collectGarbage(String)`             | `org.renaissance.harness.ExecutionPlugins$ForceGcPlugin`   |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                             | Location                                                   |
+| ----: | -------: | ------: | ------------------------------------ | ---------------------------------------------------------- |
+|  0.2% | 6.66 MiB |   3,545 | `findNearestCentroid()`              | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% | 17.1 KiB |     364 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| <0.1% | 15.1 KiB |     277 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% | 9.61 KiB |     205 | `collectClusters(int[])`             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% | 7.82 KiB |     143 | `add(double[], double[])`            | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| <0.1% | 7.82 KiB |     143 | `vectorSum()`                        | `org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask`  |
+| <0.1% |    6 KiB |     128 | `merge(Map, Map)`                    | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% | 5.37 KiB |     229 | `lambda$merge$6(List, List)`         | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% | 4.92 KiB |     210 | `lambda$collectClusters$0(Double[])` | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+| <0.1% | 1.68 KiB |      43 | `lambda$generateData$4(int)`         | `org.renaissance.jdk.concurrent.JavaKMeans`                |
+| <0.1% |    720 B |      15 | `createSubtask(int, int)`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
+| <0.1% |    624 B |      13 | `computeClusterAverages()`           | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |    168 B |       3 | `div(double[], int)`                 | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
 | <0.1% |     96 B |       3 | `lambda$run$0(int, List, int)`       | `org.renaissance.jdk.concurrent.JavaKMeans`                |
 | <0.1% |     80 B |       2 | `lambda$boxed$0(int)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`     |
@@ -758,6 +1345,33 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  0.2% | 6.66 MiB |   3,545 | `findNearestCentroid()`                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
 |  0.2% | 5.29 MiB |     401 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher`                                        |
 
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                                                                                                               | Location                                                               |
+| ----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| 99.8% | 3.02 GiB |  74,559 | `compute()`                                                                                                            | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| 99.5% | 3.01 GiB |  56,907 | `merge(Map, Map)`                                                                                                      | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 99.5% | 3.01 GiB |  56,898 | `combineResults(Map, Map)`                                                                                             | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 99.5% | 3.01 GiB |  56,898 | `combineResults(Object, Object)`                                                                                       | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+| 99.5% | 3.01 GiB |  56,432 | `lambda$merge$7(Map, Object, List)`                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 99.5% | 3.01 GiB |  56,432 | `accept(Object, Object)`                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186d88` |
+| 99.5% | 3.01 GiB |  56,429 | `lambda$merge$6(List, List)`                                                                                           | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 99.5% | 3.01 GiB |  56,429 | `apply(Object, Object)`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801186fd0` |
+| 62.7% |  1.9 GiB |  15,055 | `lambda$run$0(int, List, int)`                                                                                         | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 62.7% |  1.9 GiB |  15,055 | `call()`                                                                                                               | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
+|  0.4% | 11.3 MiB |  16,673 | `computeDirectly()`                                                                                                    | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  0.2% | 6.66 MiB |   3,545 | `findNearestCentroid()`                                                                                                | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`             |
+|  0.2% | 5.29 MiB |     401 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
+|  0.2% | 5.29 MiB |     401 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+|  0.2% | 5.29 MiB |     399 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
+|  0.2% | 5.29 MiB |     398 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
+|  0.2% | 5.27 MiB |     397 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  0.2% | 4.87 MiB |     365 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  0.2% | 4.87 MiB |     365 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000c80111efe0` |
+|  0.2% | 4.87 MiB |     365 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
+
 #### Callees
 
 Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -856,6 +1470,54 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------- |
 | 100.0% | 5.29 MiB |     399 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher` |
 |  <0.1% |    192 B |       2 | `createScratchRoot(Path, boolean)`                          | `org.renaissance.core.Launcher` |
+
+##### `main(String[])` (`org.renaissance.core.Launcher`)
+
+|      % |     Size | Samples | Callee                                 | Location                        |
+| -----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 100.0% | 5.29 MiB |     401 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
+
+##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
+
+|      % |     Size | Samples | Callee                     | Location                   |
+| -----: | -------: | ------: | -------------------------- | -------------------------- |
+| 100.0% | 5.29 MiB |     399 | `invoke(Object, Object[])` | `java.lang.reflect.Method` |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
+
+|     % |     Size | Samples | Callee              | Location                                    |
+| ----: | -------: | ------: | ------------------- | ------------------------------------------- |
+| 99.7% | 5.27 MiB |     397 | `main(String[])`    | `org.renaissance.harness.RenaissanceSuite$` |
+|  0.3% |   16 KiB |       1 | `loadClass(String)` | `java.lang.ClassLoader`                     |
+
+##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|     % |     Size | Samples | Callee                                                                        | Location                                    |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
+| 92.4% | 4.87 MiB |     365 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
+|  2.5% |  136 KiB |       6 | `<clinit>()`                                                                  | `scala.Predef$`                             |
+|  1.4% |   77 KiB |       3 | `apply(Seq)`                                                                  | `scala.collection.immutable.Map$`           |
+|  1.4% |   74 KiB |       6 | `loadClass(String)`                                                           | `java.lang.ClassLoader`                     |
+|  1.0% | 54.4 KiB |       5 | `parse(String[])`                                                             | `org.renaissance.harness.ConfigParser`      |
+
+##### `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|     % |     Size | Samples | Callee                                                                                       | Location                                  |
+| ----: | -------: | ------: | -------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| 99.8% | 4.86 MiB |     364 | `executeBenchmark()`                                                                         | `org.renaissance.harness.ExecutionDriver` |
+|  0.2% | 8.02 KiB |       1 | `create(BenchmarkSuite, BenchmarkDescriptor, EventDispatcher, Plugin$ExecutionPolicy, long)` | `org.renaissance.harness.ExecutionDriver` |
+
+##### `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000c80111efe0`)
+
+|      % |     Size | Samples | Callee                                                                                                                 | Location                                    |
+| -----: | -------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 100.0% | 4.87 MiB |     365 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$` |
+
+##### `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`)
+
+|      % |     Size | Samples | Callee               | Location                          |
+| -----: | -------: | ------: | -------------------- | --------------------------------- |
+| 100.0% | 4.87 MiB |     365 | `foreach(Function1)` | `scala.collection.immutable.List` |
 
 ## Hottest call stacks
 

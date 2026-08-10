@@ -26,6 +26,40 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  2.5% |  10.5ms |       7 | `(idle)`                       | `<unknown>`          |
 |  2.1% |   8.8ms |       6 | `(anonymous)`                  | `run.mjs:1:1`        |
 
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                       | Location             |
+| ----: | ------: | ------: | ------------------------------ | -------------------- |
+| 47.6% | 200.1ms |     135 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+|  4.0% |  16.8ms |      11 | `tokenize`                     | `workload.mjs:10:20` |
+|  2.1% |   8.8ms |       6 | `(anonymous)`                  | `run.mjs:1:1`        |
+
+##### Regular expression
+
+|     % |   Time | Samples | Function      | Location    |
+| ----: | -----: | ------: | ------------- | ----------- |
+| 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
+
+##### Native
+
+|     % |   Time | Samples | Function        | Location    |
+| ----: | -----: | ------: | --------------- | ----------- |
+| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+
+##### Garbage collector
+
+|    % |   Time | Samples | Function              | Location    |
+| ---: | -----: | ------: | --------------------- | ----------- |
+| 5.5% | 23.2ms |      15 | `(garbage collector)` | `<unknown>` |
+
+##### Idle
+
+|    % |   Time | Samples | Function | Location    |
+| ---: | -----: | ------: | -------- | ----------- |
+| 2.5% | 10.5ms |       7 | `(idle)` | `<unknown>` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -103,6 +137,41 @@ Functions ranked by total time spent in the function and all its callees.
 | 10.1% |  42.3ms |      29 | `createElement`                | `<unknown>`          |
 |  5.5% |  23.2ms |      15 | `(garbage collector)`          | `<unknown>`          |
 |  2.5% |  10.5ms |       7 | `(idle)`                       | `<unknown>`          |
+
+#### Categories
+
+##### Ours
+
+|     % |    Time | Samples | Function                       | Location             |
+| ----: | ------: | ------: | ------------------------------ | -------------------- |
+| 75.5% | 317.5ms |     214 | `(anonymous)`                  | `run.mjs:1:1`        |
+| 73.4% | 308.7ms |     208 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 15.8% |  66.3ms |      44 | `tokenize`                     | `workload.mjs:10:20` |
+| 15.8% |  66.3ms |      44 | `scoreStatus`                  | `workload.mjs:11:23` |
+
+##### Regular expression
+
+|     % |   Time | Samples | Function      | Location    |
+| ----: | -----: | ------: | ------------- | ----------- |
+| 11.8% | 49.5ms |      33 | `RegExp: \s+` | `<unknown>` |
+
+##### Native
+
+|     % |   Time | Samples | Function        | Location    |
+| ----: | -----: | ------: | --------------- | ----------- |
+| 10.1% | 42.3ms |      29 | `createElement` | `<unknown>` |
+
+##### Garbage collector
+
+|    % |   Time | Samples | Function              | Location    |
+| ---: | -----: | ------: | --------------------- | ----------- |
+| 5.5% | 23.2ms |      15 | `(garbage collector)` | `<unknown>` |
+
+##### Idle
+
+|    % |   Time | Samples | Function | Location    |
+| ---: | -----: | ------: | -------- | ----------- |
+| 2.5% | 10.5ms |       7 | `(idle)` | `<unknown>` |
 
 #### Callees
 

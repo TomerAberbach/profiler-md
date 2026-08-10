@@ -1,8 +1,10 @@
+import type { Node } from 'mdast'
 import { nodeText } from './helpers/markdown.ts'
 import {
   allTablesAfterHeadingContaining,
   nextTable,
   nodesUnderHeading,
+  nodesUnderHeadingIn,
   parseMd,
   rowsFromTable,
 } from './helpers/testing.ts'
@@ -81,6 +83,47 @@ export const regressionsTables = (md: string, section: string): Table[] => {
 export const improvementsTables = (md: string, section: string): Table[] => {
   const under = nodesUnderHeading(parseMd(md), section)
   return allTablesAfterHeadingContaining(under, `Improvements`)
+}
+
+/**
+ * Each category subsection's table under {@link section}, keyed by category, so
+ * an assertion checks which categories the section broke down as well as their
+ * rows.
+ */
+export const categorySectionTables = (
+  md: string,
+  section: string,
+): Record<string, Table> =>
+  categoryTablesIn(
+    nodesUnderHeadingIn(nodesUnderHeading(parseMd(md), section), `Categories`),
+  )
+
+/**
+ * Each category subsection's table under {@link ranking} (a diff's
+ * `Regressions` or `Improvements`) in {@link section}, keyed by category.
+ */
+export const categoryRankingTables = (
+  md: string,
+  section: string,
+  ranking: string,
+): Record<string, Table> =>
+  categoryTablesIn(
+    nodesUnderHeadingIn(nodesUnderHeading(parseMd(md), section), ranking),
+  )
+
+const categoryTablesIn = (nodes: readonly Node[]): Record<string, Table> => {
+  const tables: Record<string, Table> = {}
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i]!
+    if (node.type !== `heading`) {
+      continue
+    }
+    const table = nextTable(nodes, i + 1)
+    if (table) {
+      tables[nodeText(node)] = rowsFromTable(table)
+    }
+  }
+  return tables
 }
 
 export const callersTables = (md: string, fn: string): Table[] => {

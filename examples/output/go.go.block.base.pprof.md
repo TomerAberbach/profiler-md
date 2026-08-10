@@ -12,6 +12,10 @@ Blocked 1.41s over 14 samples (101.0ms per sample).
 
 Functions ranked by time blocked directly in the function body, excluding callees.
 
+#### Categories
+
+##### Standard library
+
 |     % |  Time | Samples | Function                 | Location                                                                                   |
 | ----: | ----: | ------: | ------------------------ | ------------------------------------------------------------------------------------------ |
 | 89.7% | 1.26s |       1 | `sync.(*WaitGroup).Wait` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160` |
@@ -51,6 +55,17 @@ Functions ranked by total time blocked in the function and all its callees.
 |  <0.1% |   6.6µs |      10 | `runtime.gcBgMarkStartWorkers` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1672`         |
 |  <0.1% |   6.6µs |      10 | `runtime.gcStart`              | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:733`          |
 |  <0.1% |   6.6µs |      10 | `encoding/json.Unmarshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
+
+#### Categories
+
+##### Standard library
+
+|     % |    Time | Samples | Function                       | Location                                                                                         |
+| ----: | ------: | ------: | ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| 89.7% |   1.26s |       1 | `sync.(*WaitGroup).Wait`       | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/waitgroup.go:160`       |
+| 10.3% | 145.1ms |       1 | `runtime/pprof.StopCPUProfile` | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:950`  |
+| <0.1% |  30.9µs |       2 | `encoding/json.Marshal`        | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205` |
+| <0.1% |   6.6µs |      10 | `encoding/json.Unmarshal`      | `/nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102` |
 
 #### Callees
 

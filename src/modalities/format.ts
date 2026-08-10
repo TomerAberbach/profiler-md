@@ -149,7 +149,7 @@ export const formatFunctionHeading = (
  * the section stays, with a "did not differ" note. When no functions are
  * active (the section a non-diff input would have omitted), it is omitted.
  */
-export const formatDiffFunctionSections = <Row>({
+export const formatDiffFunctionSections = <Entity, Row>({
   headingLevel,
   title,
   description,
@@ -157,32 +157,41 @@ export const formatDiffFunctionSections = <Row>({
   hasActive,
   regressions,
   improvements,
+  categoryRankings = [],
+  rowOf,
 }: {
   headingLevel: number
   title: string
   description: string
   columns: Table<Row>
   hasActive: boolean
-  regressions: Diff<Row>[]
-  improvements: Diff<Row>[]
+  regressions: Entity[]
+  improvements: Entity[]
+  categoryRankings?: DiffCategoryRanking<Entity>[]
+  rowOf: (entity: Entity) => Diff<Row>
 }): RootContent[] => {
-  const sections: RootContent[] = []
-
-  if (regressions.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Regressions`),
-      paragraph(`Functions with the largest increase in ${description}.`),
-      formatDiffTable(columns, regressions),
-    )
-  }
-
-  if (improvements.length > 0) {
-    sections.push(
-      heading(headingLevel + 1, `Improvements`),
-      paragraph(`Functions with the largest decrease in ${description}.`),
-      formatDiffTable(columns, improvements),
-    )
-  }
+  const sections = [
+    ...formatDiffRankingSections({
+      headingLevel,
+      subtitle: `Regressions`,
+      sentence: `Functions with the largest increase in ${description}.`,
+      columns,
+      entities: regressions,
+      categoryRankings,
+      entitiesOf: ranking => ranking.regressions,
+      rowOf,
+    }),
+    ...formatDiffRankingSections({
+      headingLevel,
+      subtitle: `Improvements`,
+      sentence: `Functions with the largest decrease in ${description}.`,
+      columns,
+      entities: improvements,
+      categoryRankings,
+      entitiesOf: ranking => ranking.improvements,
+      rowOf,
+    }),
+  ]
 
   if (sections.length === 0) {
     if (!hasActive) {
@@ -192,6 +201,106 @@ export const formatDiffFunctionSections = <Row>({
   }
 
   return formatSectionGroup([heading(headingLevel, title)], sections)
+}
+
+/**
+ * One ranking's subsection: the {@link subtitle} heading, the {@link sentence}
+ * introducing it, and the tables ranking {@link entities}.
+ */
+const formatDiffRankingSections = <Entity, Row>({
+  headingLevel,
+  subtitle,
+  sentence,
+  columns,
+  entities,
+  categoryRankings,
+  entitiesOf,
+  rowOf,
+}: {
+  headingLevel: number
+  subtitle: string
+  sentence: string
+  columns: Table<Row>
+  entities: Entity[]
+  categoryRankings: DiffCategoryRanking<Entity>[]
+  entitiesOf: (ranking: DiffCategoryRanking<Entity>) => Entity[]
+  rowOf: (entity: Entity) => Diff<Row>
+}): RootContent[] =>
+  entities.length === 0
+    ? []
+    : [
+        heading(headingLevel + 1, subtitle),
+        paragraph(sentence),
+        ...formatDiffRankingTables({
+          headingLevel: headingLevel + 2,
+          columns,
+          entities,
+          categoryEntities: categoryRankings.map(ranking => ({
+            category: ranking.category,
+            entities: entitiesOf(ranking),
+          })),
+          rowOf,
+        }),
+      ]
+
+/**
+ * The table ranking {@link entities}, followed by the per-category tables
+ * repeating that ranking within each category.
+ *
+ * A category ranking exactly {@link entities} repeats the overall table, which
+ * then shows once, under the heading naming the category every entity falls in.
+ */
+const formatDiffRankingTables = <Entity, Row>({
+  headingLevel,
+  columns,
+  entities,
+  categoryEntities,
+  rowOf,
+}: {
+  headingLevel: number
+  columns: Table<Row>
+  entities: Entity[]
+  categoryEntities: { category: Category; entities: Entity[] }[]
+  rowOf: (entity: Entity) => Diff<Row>
+}): RootContent[] => [
+  ...(isRepeatedByCategory(
+    entities,
+    categoryEntities.map(({ entities }) => entities),
+  )
+    ? []
+    : [formatDiffTable(columns, entities.map(rowOf))]),
+  ...categoryEntities.flatMap(({ category, entities }) =>
+    entities.length === 0
+      ? []
+      : [
+          heading(headingLevel, formatCategory(category)),
+          formatDiffTable(columns, entities.map(rowOf)),
+        ],
+  ),
+]
+
+/**
+ * Whether one of {@link categoryRankings} ranks exactly {@link ranking}'s
+ * entries, whose subsection then repeats the ranking's own table.
+ *
+ * A ranking whose entries all fall in one category has such a subsection, so
+ * the table is shown once, under the heading naming that category.
+ */
+export const isRepeatedByCategory = <Entity>(
+  ranking: readonly Entity[],
+  categoryRankings: readonly (readonly Entity[])[],
+): boolean =>
+  categoryRankings.some(
+    entries =>
+      entries.length === ranking.length &&
+      entries.every((entry, index) => entry === ranking[index]),
+  )
+
+/** One category's own regressions and improvements within a diff ranking. */
+export type DiffCategoryRanking<Item> = {
+  category: Category
+  regressions: Item[]
+  improvements: Item[]
 }
 
 /**
@@ -239,32 +348,60 @@ export type ActiveDiffEntity<Entity> = {
 /**
  * Selects the top regressed and improved entities from {@link candidates},
  * keeping only those active on at least one side and shown by {@link options}.
+ *
+ * {@link categories} additionally selects the top of each category, ranked the
+ * same way among that category's own entities.
  */
 export const selectDiffEntities = <
   Entity extends Diff<DeepReadonly<AggregatedProfileEntry>>,
 >(
   candidates: ActiveDiffEntity<Entity>[],
   options: FormattingProfileToMdOptions,
+  categories?: {
+    categories: Category[]
+    categoryOf: (entity: Entity) => Category
+  },
 ): {
   hasActive: boolean
   regressions: ActiveDiffEntity<Entity>[]
   improvements: ActiveDiffEntity<Entity>[]
+  categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
 } => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) && showDiffEntity(entity, options),
   )
-  return {
-    hasActive: active.length > 0,
-    regressions: selectTopN(
-      active.filter(({ baseValue, currentValue }) => currentValue > baseValue),
+  const regressed = active.filter(
+    ({ baseValue, currentValue }) => currentValue > baseValue,
+  )
+  const improved = active.filter(
+    ({ baseValue, currentValue }) => currentValue < baseValue,
+  )
+  const topRegressions = (entities: ActiveDiffEntity<Entity>[]) =>
+    selectTopN(
+      entities,
       options.topN,
       ({ baseValue, currentValue }) => currentValue - baseValue,
-    ),
-    improvements: selectTopN(
-      active.filter(({ baseValue, currentValue }) => currentValue < baseValue),
+    )
+  const topImprovements = (entities: ActiveDiffEntity<Entity>[]) =>
+    selectTopN(
+      entities,
       options.topN,
       ({ baseValue, currentValue }) => baseValue - currentValue,
-    ),
+    )
+
+  return {
+    hasActive: active.length > 0,
+    regressions: topRegressions(regressed),
+    improvements: topImprovements(improved),
+    categoryRankings: (categories?.categories ?? []).map(category => {
+      const inCategory = ({ entity }: ActiveDiffEntity<Entity>) =>
+        categories!.categoryOf(entity) === category
+      return {
+        category,
+        regressions: topRegressions(regressed.filter(inCategory)),
+        improvements: topImprovements(improved.filter(inCategory)),
+      }
+    }),
   }
 }

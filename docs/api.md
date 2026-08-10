@@ -93,8 +93,12 @@ import {
 } from 'profiler-md'
 
 const options = {
-  // Show top 10 functions instead of the default 20.
+  // Show the top 10 functions of each ranking instead of the default 20.
   topN: 10,
+  // Break a ranking down by category, one subsection per category accounting
+  // for at least 5% of the shown functions instead of the default 1%. Pass 0 to
+  // break down every category.
+  minCategoryShare: 0.05,
   // Make paths relative to a custom base URL or directory, or pass `auto` to
   // infer the profiled files' common ancestor directory.
   baseURL: `/path/to/project`,

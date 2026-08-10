@@ -16,6 +16,8 @@ Allocated 47.7 MiB → 41.2 MiB (-6.472 MiB, -13.6%) and retained 894 KiB ov
 
 Functions with the largest increase in bytes allocated directly in the function body, excluding callees.
 
+###### Ours
+
 |   Change |        Delta |             % |                Size |           Samples | Function                                      | Location                                         |
 | -------: | -----------: | ------------: | ------------------: | ----------------: | --------------------------------------------- | ------------------------------------------------ |
 |  +672.2% |     +605 KiB |   0.2% → 1.6% |    90 KiB → 695 KiB |       360 → 2,780 | `__json_value_module_MOD_parse_number`        | `src/json-fortran/src/json_value_module.F90`     |
@@ -29,6 +31,8 @@ Functions with the largest increase in bytes allocated directly in the function 
 ##### Improvements
 
 Functions with the largest decrease in bytes allocated directly in the function body, excluding callees.
+
+###### Ours
 
 |  Change |        Delta |             % |                Size |         Samples | Function                                        | Location                                         |
 | ------: | -----------: | ------------: | ------------------: | --------------: | ----------------------------------------------- | ------------------------------------------------ |
@@ -45,6 +49,8 @@ Functions with the largest decrease in bytes allocated directly in the function 
 ##### Regressions
 
 Functions with the largest increase in total bytes allocated in the function and all its callees.
+
+###### Ours
 
 |   Change |        Delta |             % |                Size |           Samples | Function                                              | Location                                         |
 | -------: | -----------: | ------------: | ------------------: | ----------------: | ----------------------------------------------------- | ------------------------------------------------ |
@@ -74,6 +80,26 @@ Functions with the largest decrease in total bytes allocated in the function and
 |  -62.4% | -689.797 KiB |   2.3% → 1.0% |  1.08 MiB → 416 KiB |     2,430 → 1,132 | `__json_value_module_MOD_json_get_string_by_path`  | `src/json-fortran/src/json_get_scalar_by_path.inc` |
 |  -62.4% | -689.797 KiB |   2.3% → 1.0% |  1.08 MiB → 416 KiB |     2,430 → 1,132 | `__json_file_module_MOD_json_file_get_string`      | `src/json-fortran/src/json_file_module.F90`        |
 |   -5.0% | -532.817 KiB | 21.8% → 24.0% | 10.4 MiB → 9.88 MiB | 125,670 → 124,287 | `_start`                                           | `<unknown>`                                        |
+|  -50.3% | -421.235 KiB |   1.7% → 1.0% |   837 KiB → 416 KiB |     1,515 → 1,114 | `__json_value_module_MOD_json_get_by_path_default` | `src/json-fortran/src/json_value_module.F90`       |
+|  -50.3% | -421.235 KiB |   1.7% → 1.0% |   837 KiB → 416 KiB |     1,515 → 1,114 | `__json_value_module_MOD_json_get_by_path`         | `src/json-fortran/src/json_value_module.F90`       |
+| removed | -268.562 KiB |   0.6% → 0.0% |       269 KiB → 0 B |           897 → 0 | `__json_value_module_MOD_json_get_string`          | `src/json-fortran/src/json_value_module.F90`       |
+|   -0.1% |  -13.993 KiB | 27.3% → 31.6% |              13 MiB | 159,966 → 156,448 | `main`                                             | `out/profile.f90`                                  |
+|  -42.5% |   -3.969 KiB |         <0.1% | 9.34 KiB → 5.37 KiB |          218 → 57 | `__json_value_module_MOD_pop_char.part.0`          | `src/json-fortran/src/json_value_module.F90`       |
+|  -18.2% |   -1.381 KiB |         <0.1% | 7.59 KiB → 6.21 KiB |     7,769 → 6,354 | `__json_value_module_MOD_to_string`                | `src/json-fortran/src/json_value_module.F90`       |
+|  -85.2% |       -736 B |         <0.1% |       864 B → 128 B |             9 → 1 | `__json_string_utilities_MOD_string_to_real`       | `src/json-fortran/src/json_string_utilities.F90`   |
+|  -85.2% |       -736 B |         <0.1% |       864 B → 128 B |             9 → 1 | `__json_value_module_MOD_string_to_dble`           | `src/json-fortran/src/json_value_module.F90`       |
+
+###### Ours
+
+|  Change |        Delta |             % |                Size |           Samples | Function                                           | Location                                           |
+| ------: | -----------: | ------------: | ------------------: | ----------------: | -------------------------------------------------- | -------------------------------------------------- |
+|  -31.2% |   -7.315 MiB | 49.2% → 39.1% | 23.4 MiB → 16.1 MiB |   34,143 → 28,063 | `__json_string_utilities_MOD_string_to_integer`    | `src/json-fortran/src/json_string_utilities.F90`   |
+|  -30.5% |   -6.904 MiB | 47.5% → 38.2% | 22.6 MiB → 15.7 MiB |   32,572 → 26,893 | `__json_value_module_MOD_string_to_int`            | `src/json-fortran/src/json_value_module.F90`       |
+|  -27.6% |   -6.314 MiB | 47.9% → 40.2% | 22.9 MiB → 16.5 MiB |   52,056 → 48,798 | `__json_value_module_MOD_parse_number`             | `src/json-fortran/src/json_value_module.F90`       |
+|  -13.6% |   -6.182 MiB | 95.1% → 95.0% | 45.3 MiB → 39.1 MiB | 447,567 → 433,143 | `__json_value_module_MOD_parse_object`             | `src/json-fortran/src/json_value_module.F90`       |
+|  -16.1% | -710.896 KiB |   9.1% → 8.8% | 4.32 MiB → 3.63 MiB |   77,828 → 62,332 | `__json_value_module_MOD_parse_value`              | `src/json-fortran/src/json_value_module.F90`       |
+|  -62.4% | -689.797 KiB |   2.3% → 1.0% |  1.08 MiB → 416 KiB |     2,430 → 1,132 | `__json_value_module_MOD_json_get_string_by_path`  | `src/json-fortran/src/json_get_scalar_by_path.inc` |
+|  -62.4% | -689.797 KiB |   2.3% → 1.0% |  1.08 MiB → 416 KiB |     2,430 → 1,132 | `__json_file_module_MOD_json_file_get_string`      | `src/json-fortran/src/json_file_module.F90`        |
 |  -50.3% | -421.235 KiB |   1.7% → 1.0% |   837 KiB → 416 KiB |     1,515 → 1,114 | `__json_value_module_MOD_json_get_by_path_default` | `src/json-fortran/src/json_value_module.F90`       |
 |  -50.3% | -421.235 KiB |   1.7% → 1.0% |   837 KiB → 416 KiB |     1,515 → 1,114 | `__json_value_module_MOD_json_get_by_path`         | `src/json-fortran/src/json_value_module.F90`       |
 | removed | -268.562 KiB |   0.6% → 0.0% |       269 KiB → 0 B |           897 → 0 | `__json_value_module_MOD_json_get_string`          | `src/json-fortran/src/json_value_module.F90`       |

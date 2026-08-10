@@ -16,6 +16,8 @@ Took 499.0ms → 517.0ms (+18.00ms, +3.6%) over 499 samples → 517 samples (1.0
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
+##### Ours
+
 |  Change |    Delta |           % |            Time | Samples | Function                                                                               | Location                           |
 | ------: | -------: | ----------: | --------------: | ------: | -------------------------------------------------------------------------------------- | ---------------------------------- |
 | +154.5% | +17.00ms | 2.2% → 5.4% | 11.0ms → 28.0ms | 11 → 28 | `fmt::v11::detail::parse_replacement_field`                                            | `src/fmt/include/fmt/base.h`       |
@@ -66,11 +68,38 @@ Functions with the largest decrease in time spent directly in the function body,
 |  -50.0% | -1.00ms | 0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::context::context`                                                               | `src/fmt/include/fmt/base.h`       |
 |  -50.0% | -1.00ms | 0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::detail::format_float()::{lambda(unsigned int, char*)#1}::operator()`            | `src/fmt/include/fmt/format.h`     |
 
+##### Ours
+
+|  Change |   Delta |           % |            Time | Samples | Function                                                                                   | Location                           |
+| ------: | ------: | ----------: | --------------: | ------: | ------------------------------------------------------------------------------------------ | ---------------------------------- |
+|  -53.8% | -7.00ms | 2.6% → 1.2% |  13.0ms → 6.0ms |  13 → 6 | `fmt::v11::detail::format_handler::on_replacement_field`                                   | `src/fmt/include/fmt/format.h`     |
+|  -17.5% | -7.00ms | 8.0% → 6.4% | 40.0ms → 33.0ms | 40 → 33 | `fmt::v11::detail::parse_format_specs`                                                     | `src/fmt/include/fmt/base.h`       |
+|  -26.3% | -5.00ms | 3.8% → 2.7% | 19.0ms → 14.0ms | 19 → 14 | `fmt::v11::detail::parse_format_string`                                                    | `src/fmt/include/fmt/base.h`       |
+|  -38.5% | -5.00ms | 2.6% → 1.5% |  13.0ms → 8.0ms |  13 → 8 | `fmt::v11::detail::do_write_float`                                                         | `src/fmt/include/fmt/format.h`     |
+|  -30.8% | -4.00ms | 2.6% → 1.7% |  13.0ms → 9.0ms |  13 → 9 | `fmt::v11::detail::format_float`                                                           | `src/fmt/include/fmt/format.h`     |
+| removed | -4.00ms | 0.8% → 0.0% |     4.0ms → 0ms |   4 → 0 | `fmt::v11::to_string`                                                                      | `src/fmt/include/fmt/format.h`     |
+|  -80.0% | -4.00ms | 1.0% → 0.2% |   5.0ms → 1.0ms |   5 → 1 | `fmt::v11::detail::do_count_digits`                                                        | `src/fmt/include/fmt/format.h`     |
+|  -25.0% | -3.00ms | 2.4% → 1.7% |  12.0ms → 9.0ms |  12 → 9 | `fmt::v11::detail::buffer::try_reserve`                                                    | `src/fmt/include/fmt/base.h`       |
+|  -75.0% | -3.00ms | 0.8% → 0.2% |   4.0ms → 1.0ms |   4 → 1 | `fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()` | `src/fmt/include/fmt/format.h`     |
+|  -25.0% | -3.00ms | 2.4% → 1.7% |  12.0ms → 9.0ms |  12 → 9 | `fmt::v11::detail::parse_nonnegative_int`                                                  | `src/fmt/include/fmt/base.h`       |
+|  -40.0% | -2.00ms | 1.0% → 0.6% |   5.0ms → 3.0ms |   5 → 3 | `fmt::v11::detail::format_handler::on_text`                                                | `src/fmt/include/fmt/format.h`     |
+|   -5.0% | -2.00ms | 8.0% → 7.4% | 40.0ms → 38.0ms | 40 → 38 | `fmt::v11::vformat[abi:cxx11]`                                                             | `src/fmt/include/fmt/format-inl.h` |
+|   -8.0% | -2.00ms | 5.0% → 4.4% | 25.0ms → 23.0ms | 25 → 23 | `fmt::v11::detail::format_handler::on_format_specs`                                        | `src/fmt/include/fmt/format.h`     |
+|  -66.7% | -2.00ms | 0.6% → 0.2% |   3.0ms → 1.0ms |   3 → 1 | `fmt::v11::detail::buffer::buffer`                                                         | `src/fmt/include/fmt/base.h`       |
+|  -28.6% | -2.00ms | 1.4% → 1.0% |   7.0ms → 5.0ms |   7 → 5 | `fmt::v11::basic_specs::localized`                                                         | `src/fmt/include/fmt/base.h`       |
+|   -2.4% | -1.00ms | 8.4% → 7.9% | 42.0ms → 41.0ms | 42 → 41 | `fmt::v11::detail::buffer::append`                                                         | `src/fmt/include/fmt/base.h`       |
+|  -50.0% | -1.00ms | 0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::detail::copy`                                                                   | `src/fmt/include/fmt/base.h`       |
+|  -50.0% | -1.00ms | 0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::context::context`                                                               | `src/fmt/include/fmt/base.h`       |
+|  -50.0% | -1.00ms | 0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::detail::format_float()::{lambda(unsigned int, char*)#1}::operator()`            | `src/fmt/include/fmt/format.h`     |
+|  -20.0% | -1.00ms | 1.0% → 0.8% |   5.0ms → 4.0ms |   5 → 4 | `fmt::v11::detail::to_unsigned`                                                            | `src/fmt/include/fmt/base.h`       |
+
 ### Total time
 
 #### Regressions
 
 Functions with the largest increase in total time spent in the function and all its callees.
+
+##### Ours
 
 |  Change |    Delta |             % |              Time |   Samples | Function                                                                               | Location                           |
 | ------: | -------: | ------------: | ----------------: | --------: | -------------------------------------------------------------------------------------- | ---------------------------------- |
@@ -121,3 +150,28 @@ Functions with the largest decrease in total time spent in the function and all 
 | -13.3% | -2.00ms |   3.0% → 2.5% | 15.0ms → 13.0ms | 15 → 13 | `fmt::v11::detail::parse_width`                                                 | `src/fmt/include/fmt/base.h`             |
 | -28.6% | -2.00ms |   1.4% → 1.0% |   7.0ms → 5.0ms |   7 → 5 | `fmt::v11::basic_specs::localized`                                              | `src/fmt/include/fmt/base.h`             |
 | -50.0% | -1.00ms |   0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::context::context`                                                    | `src/fmt/include/fmt/base.h`             |
+
+##### Ours
+
+| Change |   Delta |             % |            Time | Samples | Function                                                                        | Location                       |
+| -----: | ------: | ------------: | --------------: | ------: | ------------------------------------------------------------------------------- | ------------------------------ |
+| -12.0% | -6.00ms |  10.0% → 8.5% | 50.0ms → 44.0ms | 50 → 44 | `fmt::v11::detail::format_handler::on_replacement_field`                        | `src/fmt/include/fmt/format.h` |
+| -33.3% | -6.00ms |   3.6% → 2.3% | 18.0ms → 12.0ms | 18 → 12 | `fmt::v11::to_string`                                                           | `src/fmt/include/fmt/format.h` |
+|  -7.7% | -4.00ms |  10.4% → 9.3% | 52.0ms → 48.0ms | 52 → 48 | `fmt::v11::detail::copy`                                                        | `src/fmt/include/fmt/base.h`   |
+| -80.0% | -4.00ms |   1.0% → 0.2% |   5.0ms → 1.0ms |   5 → 1 | `fmt::v11::detail::format_float()::{lambda(unsigned int, char*)#1}::operator()` | `src/fmt/include/fmt/format.h` |
+| -80.0% | -4.00ms |   1.0% → 0.2% |   5.0ms → 1.0ms |   5 → 1 | `fmt::v11::detail::do_count_digits`                                             | `src/fmt/include/fmt/format.h` |
+| -80.0% | -4.00ms |   1.0% → 0.2% |   5.0ms → 1.0ms |   5 → 1 | `fmt::v11::detail::count_digits`                                                | `src/fmt/include/fmt/format.h` |
+|  -6.0% | -3.00ms |  10.0% → 9.1% | 50.0ms → 47.0ms | 50 → 47 | `fmt::v11::detail::buffer::append`                                              | `src/fmt/include/fmt/base.h`   |
+| -10.7% | -3.00ms |   5.6% → 4.8% | 28.0ms → 25.0ms | 28 → 25 | `fmt::v11::detail::format_float`                                                | `src/fmt/include/fmt/format.h` |
+| -25.0% | -3.00ms |   2.4% → 1.7% |  12.0ms → 9.0ms |  12 → 9 | `fmt::v11::detail::buffer::try_reserve`                                         | `src/fmt/include/fmt/base.h`   |
+| -60.0% | -3.00ms |   1.0% → 0.4% |   5.0ms → 2.0ms |   5 → 2 | `fmt::v11::detail::size_padding::size_padding`                                  | `src/fmt/include/fmt/format.h` |
+| -25.0% | -3.00ms |   2.4% → 1.7% |  12.0ms → 9.0ms |  12 → 9 | `fmt::v11::detail::parse_nonnegative_int`                                       | `src/fmt/include/fmt/base.h`   |
+|  -8.3% | -2.00ms |   4.8% → 4.3% | 24.0ms → 22.0ms | 24 → 22 | `fmt::v11::detail::format_handler::on_text`                                     | `src/fmt/include/fmt/format.h` |
+| -66.7% | -2.00ms |   0.6% → 0.2% |   3.0ms → 1.0ms |   3 → 1 | `fmt::v11::detail::buffer::buffer`                                              | `src/fmt/include/fmt/base.h`   |
+| -66.7% | -2.00ms |   0.6% → 0.2% |   3.0ms → 1.0ms |   3 → 1 | `fmt::v11::basic_memory_buffer::basic_memory_buffer`                            | `src/fmt/include/fmt/format.h` |
+|  -2.9% | -2.00ms | 13.8% → 13.0% | 69.0ms → 67.0ms | 69 → 67 | `fmt::v11::detail::parse_format_specs`                                          | `src/fmt/include/fmt/base.h`   |
+| -13.3% | -2.00ms |   3.0% → 2.5% | 15.0ms → 13.0ms | 15 → 13 | `fmt::v11::detail::parse_width`                                                 | `src/fmt/include/fmt/base.h`   |
+| -28.6% | -2.00ms |   1.4% → 1.0% |   7.0ms → 5.0ms |   7 → 5 | `fmt::v11::basic_specs::localized`                                              | `src/fmt/include/fmt/base.h`   |
+| -50.0% | -1.00ms |   0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::context::context`                                                    | `src/fmt/include/fmt/base.h`   |
+| -20.0% | -1.00ms |   1.0% → 0.8% |   5.0ms → 4.0ms |   5 → 4 | `fmt::v11::detail::to_unsigned`                                                 | `src/fmt/include/fmt/base.h`   |
+| -50.0% | -1.00ms |   0.4% → 0.2% |   2.0ms → 1.0ms |   2 → 1 | `fmt::v11::context::out`                                                        | `src/fmt/include/fmt/base.h`   |

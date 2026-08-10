@@ -12,6 +12,10 @@ Took 151.0ms over 1 sample (151.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |      % |    Time | Samples | Function      | Location      |
 | -----: | ------: | ------: | ------------- | ------------- |
 | 100.0% | 151.0ms |       1 | `(anonymous)` | `profile.php` |
@@ -19,6 +23,10 @@ Functions ranked by time spent directly in the function body, excluding callees.
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
+
+#### Categories
+
+##### Ours
 
 |      % |    Time | Samples | Function      | Location      |
 | -----: | ------: | ------: | ------------- | ------------- |

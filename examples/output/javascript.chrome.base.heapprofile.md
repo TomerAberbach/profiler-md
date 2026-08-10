@@ -23,6 +23,27 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 |  4.5% |  241 KiB |      15 | `(compiler)`                   | `<unknown>`         |
 |  0.3% | 16.9 KiB |       1 | `split`                        | `<unknown>`         |
 
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                       | Location            |
+| ----: | -------: | ------: | ------------------------------ | ------------------- |
+| 61.6% | 3.19 MiB |     197 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
+
+##### Standard library
+
+|     % |     Size | Samples | Function | Location    |
+| ----: | -------: | ------: | -------- | ----------- |
+| 16.9% |  896 KiB |       1 | `set`    | `<unknown>` |
+|  0.3% | 16.9 KiB |       1 | `split`  | `<unknown>` |
+
+##### Compiler
+
+|    % |    Size | Samples | Function     | Location    |
+| ---: | ------: | ------: | ------------ | ----------- |
+| 4.5% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
@@ -51,6 +72,29 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  0.3% | 16.9 KiB |       1 | `split`                        | `<unknown>`          |
 |  0.3% | 16.9 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
 |  0.3% | 16.9 KiB |       1 | `scoreStatus`                  | `workload.mjs:11:23` |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                       | Location             |
+| ----: | -------: | ------: | ------------------------------ | -------------------- |
+| 78.8% | 4.08 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+|  0.3% | 16.9 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
+|  0.3% | 16.9 KiB |       1 | `scoreStatus`                  | `workload.mjs:11:23` |
+
+##### Standard library
+
+|     % |     Size | Samples | Function | Location    |
+| ----: | -------: | ------: | -------- | ----------- |
+| 16.9% |  896 KiB |       1 | `set`    | `<unknown>` |
+|  0.3% | 16.9 KiB |       1 | `split`  | `<unknown>` |
+
+##### Compiler
+
+|    % |    Size | Samples | Function     | Location    |
+| ---: | ------: | ------: | ------------ | ----------- |
+| 4.5% | 241 KiB |      15 | `(compiler)` | `<unknown>` |
 
 #### Callees
 

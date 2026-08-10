@@ -29,6 +29,15 @@ Functions with the largest increase in wall time spent directly in the function 
 |     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: {(\d+)}`                                | `<unknown>`                                                                     |
 |     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: import\|require`                        | `<unknown>`                                                                     |
 
+##### Regular expression
+
+|  Change |    Delta |            % |           Time | Samples | Function                                         | Location    |
+| ------: | -------: | -----------: | -------------: | ------: | ------------------------------------------------ | ----------- |
+|     new | +11.27ms |  0.0% → 0.1% |   0ms → 11.3ms |   0 → 9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>` |
+| +166.7% |  +6.26ms | <0.1% → 0.1% | 3.8ms → 10.0ms |   3 → 8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>` |
+|     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: {(\d+)}`                                | `<unknown>` |
+|     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: import\|require`                        | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in wall time spent directly in the function body, excluding callees.
@@ -40,6 +49,19 @@ Functions with the largest decrease in wall time spent directly in the function 
 | removed |   -3.76ms | <0.1% → 0.0% |   3.8ms → 0ms |         3 → 0 | `createProgram`                                    | `node_modules/typescript/lib/typescript.js` |
 | removed |   -3.76ms | <0.1% → 0.0% |   3.8ms → 0ms |         3 → 0 | `RegExp: ^\/\/\/?\s*@(ts-expect-error\|ts-ignore)` | `<unknown>`                                 |
 | removed |   -1.25ms | <0.1% → 0.0% |   1.3ms → 0ms |         1 → 0 | `createRequire`                                    | `node:internal/modules/cjs/loader`          |
+
+##### Garbage collector
+
+| Change |     Delta |            % |          Time |       Samples | Function              | Location    |
+| -----: | --------: | -----------: | ------------: | ------------: | --------------------- | ----------- |
+|  -9.0% | -174.03ms | 11.4% → 9.6% | 1.93s → 1.75s | 1,542 → 1,403 | `(garbage collector)` | `<unknown>` |
+
+##### Regular expression
+
+|  Change |   Delta |            % |        Time | Samples | Function                                           | Location    |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------------- | ----------- |
+| removed | -7.51ms | <0.1% → 0.0% | 7.5ms → 0ms |   6 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+`    | `<unknown>` |
+| removed | -3.76ms | <0.1% → 0.0% | 3.8ms → 0ms |   3 → 0 | `RegExp: ^\/\/\/?\s*@(ts-expect-error\|ts-ignore)` | `<unknown>` |
 
 ### Total time
 
@@ -62,6 +84,15 @@ Functions with the largest increase in total wall time spent in the function and
 |     new |  +1.25ms |  0.0% → <0.1% |     0ms → 1.3ms |           0 → 1 | `RegExp: {(\d+)}`                                | `<unknown>`                                                                     |
 |     new |  +1.25ms |  0.0% → <0.1% |     0ms → 1.3ms |           0 → 1 | `RegExp: import\|require`                        | `<unknown>`                                                                     |
 
+##### Regular expression
+
+|  Change |    Delta |            % |           Time | Samples | Function                                         | Location    |
+| ------: | -------: | -----------: | -------------: | ------: | ------------------------------------------------ | ----------- |
+|     new | +11.27ms |  0.0% → 0.1% |   0ms → 11.3ms |   0 → 9 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>` |
+| +166.7% |  +6.26ms | <0.1% → 0.1% | 3.8ms → 10.0ms |   3 → 8 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>` |
+|     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: {(\d+)}`                                | `<unknown>` |
+|     new |  +1.25ms | 0.0% → <0.1% |    0ms → 1.3ms |   0 → 1 | `RegExp: import\|require`                        | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in total wall time spent in the function and all its callees.
@@ -78,3 +109,16 @@ Functions with the largest decrease in total wall time spent in the function and
 | removed |   -1.25ms | <0.1% → 0.0% |      1.3ms → 0ms |         1 → 0 | `stop`                                             | `node_modules/@datadog/pprof/out/src/time-profiler.js` |
 | removed |   -1.25ms | <0.1% → 0.0% |      1.3ms → 0ms |         1 → 0 | `createRequire`                                    | `node:internal/modules/cjs/loader`                     |
 | removed |   -1.25ms | <0.1% → 0.0% |      1.3ms → 0ms |         1 → 0 | `getSyntacticDiagnostics`                          | `node_modules/typescript/lib/typescript.js`            |
+
+##### Garbage collector
+
+| Change |     Delta |            % |          Time |       Samples | Function              | Location    |
+| -----: | --------: | -----------: | ------------: | ------------: | --------------------- | ----------- |
+|  -9.0% | -174.03ms | 11.4% → 9.6% | 1.93s → 1.75s | 1,542 → 1,403 | `(garbage collector)` | `<unknown>` |
+
+##### Regular expression
+
+|  Change |   Delta |            % |        Time | Samples | Function                                           | Location    |
+| ------: | ------: | -----------: | ----------: | ------: | -------------------------------------------------- | ----------- |
+| removed | -7.51ms | <0.1% → 0.0% | 7.5ms → 0ms |   6 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+`    | `<unknown>` |
+| removed | -3.76ms | <0.1% → 0.0% | 3.8ms → 0ms |   3 → 0 | `RegExp: ^\/\/\/?\s*@(ts-expect-error\|ts-ignore)` | `<unknown>` |

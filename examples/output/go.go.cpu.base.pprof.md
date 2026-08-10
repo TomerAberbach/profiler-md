@@ -22,6 +22,23 @@ Functions ranked by time spent directly in the function body, excluding callees.
 | 0.2% | 10.0ms |       1 | `cmpbody`                | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35` |
 | 0.2% | 10.0ms |       1 | `aeshashbody`            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:762`             |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |   Time | Samples | Function                 | Location                                                                                    |
+| ---: | -----: | ------: | ------------------------ | ------------------------------------------------------------------------------------------- |
+| 0.2% | 10.0ms |       1 | `runtime.gcDrain`        | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1239` |
+| 0.2% | 10.0ms |       1 | `runtime.gcBgMarkWorker` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`     |
+| 0.2% | 10.0ms |       1 | `runtime.gcstopm`        | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3296`    |
+
+##### Ours
+
+|    % |   Time | Samples | Function      | Location                                                                                                |
+| ---: | -----: | ------: | ------------- | ------------------------------------------------------------------------------------------------------- |
+| 0.2% | 10.0ms |       1 | `cmpbody`     | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35` |
+| 0.2% | 10.0ms |       1 | `aeshashbody` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:762`             |
+
 #### Lines
 
 Lines ranked by contribution to each function's self time.
@@ -93,6 +110,42 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.2% |  10.0ms |       1 | `runtime.gcMarkTermination`                | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1344`                 |
 |  0.2% |  10.0ms |       1 | `runtime.gcMarkDone`                       | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`                 |
 
+#### Categories
+
+##### Garbage collector
+
+|    % |    Time | Samples | Function                                               | Location                                                                                    |
+| ---: | ------: | ------: | ------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| 7.8% | 420.0ms |      42 | `runtime.gcstopm`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:3296`    |
+| 7.1% | 380.0ms |      38 | `runtime.gcDrain`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1239` |
+| 7.1% | 380.0ms |      38 | `runtime.gcBgMarkWorker.func2`                         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1847`     |
+| 5.2% | 280.0ms |      28 | `runtime.gcBgMarkWorker`                               | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750`     |
+| 4.3% | 230.0ms |      23 | `runtime.gcDrainMarkWorkerDedicated`                   | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1173` |
+| 2.8% | 150.0ms |      15 | `runtime.gcDrainMarkWorkerIdle`                        | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1167` |
+| 2.6% | 140.0ms |      14 | `runtime.(*sweepLocked).sweep`                         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:505` |
+| 2.4% | 130.0ms |      13 | `runtime.gcStart.func2`                                | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:834`      |
+| 1.3% |  70.0ms |       7 | `runtime.sweepone`                                     | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:359` |
+| 1.3% |  70.0ms |       7 | `runtime.bgsweep`                                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcsweep.go:272` |
+| 0.7% |  40.0ms |       4 | `runtime.gcMarkDone.forEachP.func5`                    | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2112`    |
+| 0.6% |  30.0ms |       3 | `runtime.gcMarkTermination.forEachP.func7`             | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:2112`    |
+| 0.2% |  10.0ms |       1 | `runtime.gcMarkDone.func2`                             | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1083`     |
+| 0.2% |  10.0ms |       1 | `runtime.gcMarkTermination`                            | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1344`     |
+| 0.2% |  10.0ms |       1 | `runtime.gcMarkDone`                                   | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1015`     |
+| 0.2% |  10.0ms |       1 | `runtime.(*sweepLocked).sweep.(*mheap).freeSpan.func2` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mheap.go:1667`   |
+| 0.2% |  10.0ms |       1 | `runtime.gcMarkTermination.func4`                      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1545`     |
+| 0.2% |  10.0ms |       1 | `runtime.gcStart.func4`                                | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:947`      |
+| 0.2% |  10.0ms |       1 | `runtime.gcDrainN`                                     | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1392` |
+| 0.2% |  10.0ms |       1 | `runtime.gcAssistAlloc1`                               | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:711`  |
+
+##### Ours
+
+|     % |    Time | Samples | Function              | Location                                                                                                |
+| ----: | ------: | ------: | --------------------- | ------------------------------------------------------------------------------------------------------- |
+| 16.0% | 860.0ms |      86 | `main.workload.func1` | `Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/profile.go:25`                  |
+|  0.2% |  10.0ms |       1 | `cmpbody`             | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/bytealg/compare_arm64.s:35` |
+|  0.2% |  10.0ms |       1 | `aeshashbody`         | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:762`             |
+|  0.2% |  10.0ms |       1 | `gcWriteBarrier`      | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1475`            |
+
 #### Callees
 
 Callees ranked by contribution to each function's total time. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -152,6 +205,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |   Time | Samples | Callee                      | Location                                                                                |
 | -----: | -----: | ------: | --------------------------- | --------------------------------------------------------------------------------------- |
 | 100.0% | 10.0ms |       1 | `runtime.gcMarkTermination` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1344` |
+
+##### `runtime.gcAssistAlloc1` (`nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:711`)
+
+|      % |   Time | Samples | Callee             | Location                                                                                    |
+| -----: | -----: | ------: | ------------------ | ------------------------------------------------------------------------------------------- |
+| 100.0% | 10.0ms |       1 | `runtime.gcDrainN` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgcmark.go:1392` |
+
+##### `gcWriteBarrier` (`nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:1475`)
+
+|      % |   Time | Samples | Callee               | Location                                                                                  |
+| -----: | -----: | ------: | -------------------- | ----------------------------------------------------------------------------------------- |
+| 100.0% | 10.0ms |       1 | `runtime.wbBufFlush` | `nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mwbbuf.go:166` |
 
 ## Hottest call stacks
 

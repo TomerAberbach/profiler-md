@@ -14,6 +14,10 @@ Took 1.31s over 131 samples (10.0ms per sample).
 
 Functions ranked by time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Native
+
 |     % |    Time | Samples | Function                 | Location    |
 | ----: | ------: | ------: | ------------------------ | ----------- |
 | 67.5% | 887.6ms |      89 | `(unknown) [c function]` | `(unknown)` |
@@ -43,6 +47,14 @@ Functions ranked by total time spent in the function and all its callees.
 |   0.9% |  11.6ms |       2 | `(anonymous)`              | `<internal:gem_prelude>`                                              |
 |   0.8% |  10.3ms |       1 | `block in dir`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
 |   0.7% |   9.7ms |       1 | `block in execute_runners` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`          |
+
+#### Categories
+
+##### Native
+
+|      % |  Time | Samples | Function                 | Location    |
+| -----: | ----: | ------: | ------------------------ | ----------- |
+| 100.0% | 1.31s |     131 | `(unknown) [c function]` | `(unknown)` |
 
 #### Callees
 

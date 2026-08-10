@@ -25,6 +25,30 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | <0.1% |       4 | `#write#57`        | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:40`           |
 | <0.1% |       2 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:532` |
 
+#### Categories
+
+##### Standard library
+
+|     % | Samples | Function           | Location                                                                                              |
+| ----: | ------: | ------------------ | ----------------------------------------------------------------------------------------------------- |
+|  0.4% |     115 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl`     |
+|  0.2% |      44 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:533` |
+|  0.1% |      17 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:544` |
+|  0.1% |      16 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:539` |
+| <0.1% |       2 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:532` |
+
+##### Ours
+
+|    % | Samples | Function         | Location        |
+| ---: | ------: | ---------------- | --------------- |
+| 0.5% |     123 | `parse_workload` | `profile.jl:13` |
+
+##### Third-party
+
+|     % | Samples | Function    | Location                                                                                    |
+| ----: | ------: | ----------- | ------------------------------------------------------------------------------------------- |
+| <0.1% |       4 | `#write#57` | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:40` |
+
 #### Lines
 
 Lines ranked by contribution to each function's self samples.
@@ -130,6 +154,36 @@ Functions ranked by total samples taken in the function and all its callees.
 |  0.1% |      17 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:539`             |
 |  0.1% |      14 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:532`             |
 | <0.1% |      13 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:541`             |
+
+#### Categories
+
+##### Standard library
+
+|     % | Samples | Function           | Location                                                                                                          |
+| ----: | ------: | ------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| 96.7% |  25,426 | `macro expansion`  | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/stdlib/v1.12/Profile/src/Profile.jl:60` |
+|  1.0% |     271 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:534`             |
+|  0.4% |     115 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl`                 |
+|  0.2% |      44 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:533`             |
+|  0.1% |      30 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:537`             |
+|  0.1% |      17 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:544`             |
+|  0.1% |      17 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:539`             |
+|  0.1% |      14 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:532`             |
+| <0.1% |      13 | `length_continued` | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/strings/string.jl:541`             |
+
+##### Ours
+
+|     % | Samples | Function         | Location        |
+| ----: | ------: | ---------------- | --------------- |
+| 96.7% |  25,426 | `parse_workload` | `profile.jl:13` |
+| 96.7% |  25,426 | `capture_cpu`    | `profile.jl:24` |
+
+##### Third-party
+
+|     % | Samples | Function    | Location                                                                                    |
+| ----: | ------: | ----------- | ------------------------------------------------------------------------------------------- |
+| 88.9% |  23,376 | `#write#57` | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/write.jl:40` |
+|  5.3% |   1,406 | `read`      | `/Users/tomer/.cache/profiler-md-fixtures/julia-depot/packages/JSON3/jSAdy/src/read.jl:30`  |
 
 #### Callees
 

@@ -16,6 +16,8 @@ Took 1.33s → 1.31s (-20.04ms, -1.5%) over 133 samples → 131 samples (10.0ms 
 
 Functions with the largest increase in wall time spent directly in the function body, excluding callees.
 
+##### Native
+
 | Change |    Delta |             % |              Time | Samples | Function                 | Location    |
 | -----: | -------: | ------------: | ----------------: | ------: | ------------------------ | ----------- |
 |  +4.7% | +39.95ms | 63.5% → 67.5% | 847.6ms → 887.6ms | 85 → 89 | `(unknown) [c function]` | `(unknown)` |
@@ -43,3 +45,9 @@ Functions with the largest decrease in total wall time spent in the function and
 |  -5.9% | -11.37ms | 14.6% → 13.9% | 194.2ms → 182.9ms |   19 → 18 | `do_parse`               | `(eval)`                                 |
 | -25.9% |  -7.28ms |   2.1% → 1.6% |   28.1ms → 20.8ms |     3 → 2 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 | -11.7% |  -1.54ms |   1.0% → 0.9% |   13.2ms → 11.6ms |         2 | `(anonymous)`            | `<internal:gem_prelude>`                 |
+
+##### Native
+
+| Change |    Delta |      % |          Time |   Samples | Function                 | Location    |
+| -----: | -------: | -----: | ------------: | --------: | ------------------------ | ----------- |
+|  -1.5% | -20.04ms | 100.0% | 1.33s → 1.31s | 133 → 131 | `(unknown) [c function]` | `(unknown)` |

@@ -24,6 +24,12 @@ Functions with the largest increase in time spent directly in the function body,
 | +160.0% | +2.00ms |         0.1% | 1.3ms → 3.3ms |   1 → 3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>`                                                                               |
 |     new | +1.29ms | 0.0% → <0.1% |   0ms → 1.3ms |   0 → 1 | `createProgram`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
+##### Regular expression
+
+|  Change |   Delta |    % |          Time | Samples | Function                                    | Location    |
+| ------: | ------: | ---: | ------------: | ------: | ------------------------------------------- | ----------- |
+| +160.0% | +2.00ms | 0.1% | 1.3ms → 3.3ms |   1 → 3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
@@ -35,6 +41,24 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.25ms |  0.1% → 0.0% |       1.3ms → 0ms |     1 → 0 | `createProgram`                                 | `node_modules/typescript/lib/typescript.js:120478:25` |
 | removed |  -1.21ms | <0.1% → 0.0% |       1.2ms → 0ms |     1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
 |   -3.3% |  -0.33ms |         0.4% |    10.1ms → 9.8ms |         1 | `post`                                          | `node:inspector:118:7`                                |
+
+##### Garbage collector
+
+| Change |    Delta |           % |              Time |   Samples | Function              | Location    |
+| -----: | -------: | ----------: | ----------------: | --------: | --------------------- | ----------- |
+|  -7.3% | -13.91ms | 7.6% → 6.6% | 191.0ms → 177.0ms | 156 → 144 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+| Change |   Delta |    % |           Time | Samples | Function | Location               |
+| -----: | ------: | ---: | -------------: | ------: | -------- | ---------------------- |
+|  -3.3% | -0.33ms | 0.4% | 10.1ms → 9.8ms |       1 | `post`   | `node:inspector:118:7` |
+
+##### Regular expression
+
+|  Change |   Delta |            % |        Time | Samples | Function                                        | Location    |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------- | ----------- |
+| removed | -1.21ms | <0.1% → 0.0% | 1.2ms → 0ms |   1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>` |
 
 ### Total time
 
@@ -54,6 +78,18 @@ Functions with the largest increase in total time spent in the function and all 
 |   +1.6% |   +0.17ms |          0.4% | 10.1ms → 10.3ms |         1 → 2 | `(anonymous)`                               | `cpuprofile-run.mjs:16:15`                                                                |
 |   +1.6% |   +0.17ms |          0.4% | 10.1ms → 10.3ms |         1 → 2 | `post`                                      | `cpuprofile-run.mjs:15:14`                                                                |
 
+##### Standard library
+
+| Change |   Delta |    % |            Time | Samples | Function | Location               |
+| -----: | ------: | ---: | --------------: | ------: | -------- | ---------------------- |
+|  +1.6% | +0.17ms | 0.4% | 10.1ms → 10.3ms |   1 → 2 | `post`   | `node:inspector:118:7` |
+
+##### Regular expression
+
+|  Change |   Delta |    % |          Time | Samples | Function                                    | Location    |
+| ------: | ------: | ---: | ------------: | ------: | ------------------------------------------- | ----------- |
+| +160.0% | +2.00ms | 0.1% | 1.3ms → 3.3ms |   1 → 3 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)` | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
@@ -66,3 +102,21 @@ Functions with the largest decrease in total time spent in the function and all 
 | removed |  -11.17ms |  0.4% → 0.0% |      11.2ms → 0ms |     9 → 0 | `getParsedCommandLineOfConfigFile`              | `node_modules/typescript/lib/typescript.js:36594:44`  |
 |   -3.6% |   -3.75ms |  4.2% → 3.7% | 104.0ms → 100.3ms |   83 → 80 | `require`                                       | `node:internal/modules/helpers:146:19`                |
 | removed |   -1.21ms | <0.1% → 0.0% |       1.2ms → 0ms |     1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>`                                           |
+
+##### Garbage collector
+
+| Change |    Delta |           % |              Time |   Samples | Function              | Location    |
+| -----: | -------: | ----------: | ----------------: | --------: | --------------------- | ----------- |
+|  -7.3% | -13.91ms | 7.6% → 6.6% | 191.0ms → 177.0ms | 156 → 144 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+| Change |   Delta |           % |              Time | Samples | Function  | Location                               |
+| -----: | ------: | ----------: | ----------------: | ------: | --------- | -------------------------------------- |
+|  -3.6% | -3.75ms | 4.2% → 3.7% | 104.0ms → 100.3ms | 83 → 80 | `require` | `node:internal/modules/helpers:146:19` |
+
+##### Regular expression
+
+|  Change |   Delta |            % |        Time | Samples | Function                                        | Location    |
+| ------: | ------: | -----------: | ----------: | ------: | ----------------------------------------------- | ----------- |
+| removed | -1.21ms | <0.1% → 0.0% | 1.2ms → 0ms |   1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_. ]+` | `<unknown>` |

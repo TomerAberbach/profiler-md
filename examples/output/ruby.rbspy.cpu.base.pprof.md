@@ -14,6 +14,10 @@ Took 1.33s over 133 samples (10.0ms per sample).
 
 Functions ranked by wall time spent directly in the function body, excluding callees.
 
+#### Categories
+
+##### Native
+
 |     % |    Time | Samples | Function                 | Location    |
 | ----: | ------: | ------: | ------------------------ | ----------- |
 | 63.5% | 847.6ms |      85 | `(unknown) [c function]` | `(unknown)` |
@@ -40,6 +44,14 @@ Functions ranked by total wall time spent in the function and all its callees.
 |  14.6% | 194.2ms |      19 | `do_parse`               | `(eval)`                                 |
 |   2.1% |  28.1ms |       3 | `activate_bin_path`      | `../../lib/ruby/vendor_ruby/rubygems.rb` |
 |   1.0% |  13.2ms |       2 | `(anonymous)`            | `<internal:gem_prelude>`                 |
+
+#### Categories
+
+##### Native
+
+|      % |  Time | Samples | Function                 | Location    |
+| -----: | ----: | ------: | ------------------------ | ----------- |
+| 100.0% | 1.33s |     133 | `(unknown) [c function]` | `(unknown)` |
 
 #### Callees
 

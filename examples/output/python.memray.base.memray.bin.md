@@ -37,6 +37,48 @@ Functions ranked by bytes held at peak memory directly in the function body, exc
 |  0.3% |  222 KiB |       1 | `decode`                               | `<frozen codecs>:319`           |
 |  0.1% | 75.7 KiB |      79 | `__new__`                              | `<frozen abc>:105`              |
 
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                               | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 25.2% | 18.2 MiB |  20,790 | `mark`                                 | `black/brackets.py:70`          |
+|  8.3% |    6 MiB |       6 | `changed`                              | `blib2to3/pytree.py:171`        |
+|  6.9% |    5 MiB |       5 | `__new__`                              | `blib2to3/pytree.py:81`         |
+|  4.1% |    3 MiB |       8 | `transform_line`                       | `black/linegen.py:601`          |
+|  4.1% |    3 MiB |       4 | `visit_default`                        | `black/linegen.py:134`          |
+|  4.1% |    3 MiB |       3 | `generate_comments`                    | `black/comments.py:52`          |
+|  3.0% | 2.14 MiB |     197 | `update_sibling_maps`                  | `blib2to3/pytree.py:369`        |
+|  2.8% |    2 MiB |       2 | `convert`                              | `blib2to3/pytree.py:486`        |
+|  2.8% |    2 MiB |       2 | `push`                                 | `blib2to3/pgen2/parse.py:386`   |
+|  1.4% | 1.01 MiB |       6 | `make_grammar`                         | `blib2to3/pgen2/pgen.py:49`     |
+|  1.4% |    1 MiB |       5 | `visit`                                | `black/nodes.py:163`            |
+|  1.4% |    1 MiB |       2 | `maybe_empty_lines`                    | `black/lines.py:560`            |
+|  1.4% |    1 MiB |       1 | `_addtoken`                            | `blib2to3/pgen2/parse.py:290`   |
+|  1.4% |    1 MiB |       1 | `contains_uncollapsable_type_comments` | `black/lines.py:276`            |
+|  1.4% |    1 MiB |       1 | `__init__`                             | `<string>:2`                    |
+|  1.4% |    1 MiB |       1 | `__init__`                             | `blib2to3/pytree.py:400`        |
+|  0.3% |  225 KiB |       5 | `_format_str_once`                     | `black/__init__.py:1236`        |
+|  0.1% | 57.2 KiB |      65 | `normalize_string_prefix`              | `black/strings.py:143`          |
+|  0.1% | 41.5 KiB |      16 | `copy`                                 | `blib2to3/pgen2/grammar.py:131` |
+| <0.1% |   32 KiB |       1 | `classify`                             | `blib2to3/pgen2/parse.py:336`   |
+
+##### Standard library
+
+|     % |     Size | Samples | Function                | Location                                       |
+| ----: | -------: | ------: | ----------------------- | ---------------------------------------------- |
+| 22.0% |   16 MiB |   1,014 | `parse`                 | `/usr/lib/python3.11/ast.py:33`                |
+|  0.3% |  222 KiB |       1 | `decode`                | `<frozen codecs>:319`                          |
+|  0.1% | 75.7 KiB |      79 | `__new__`               | `<frozen abc>:105`                             |
+| <0.1% | 24.1 KiB |      27 | `__new__`               | `/usr/lib/python3.11/enum.py:488`              |
+| <0.1% |   12 KiB |       3 | `inner`                 | `/usr/lib/python3.11/typing.py:338`            |
+| <0.1% | 1.37 KiB |       1 | `python_implementation` | `/usr/lib/python3.11/platform.py:1106`         |
+| <0.1% |    960 B |       1 | `_find_and_load`        | `<frozen importlib._bootstrap>:1167`           |
+| <0.1% |    698 B |       1 | `compile`               | `/usr/lib/python3.11/re/__init__.py:225`       |
+| <0.1% |    560 B |       1 | `getLogger`             | `/usr/lib/python3.11/logging/__init__.py:2081` |
+| <0.1% |    552 B |       1 | `detect_encoding`       | `/usr/lib/python3.11/tokenize.py:299`          |
+
 #### Lines
 
 Lines ranked by contribution to each function's self size.
@@ -182,6 +224,68 @@ Lines ranked by contribution to each function's self size.
 | -----: | -------: | ------: | ------------------ |
 | 100.0% | 75.7 KiB |      79 | `<frozen abc>:106` |
 
+##### `normalize_string_prefix` (`black/strings.py:143`)
+
+|      % |     Size | Samples | Location               |
+| -----: | -------: | ------: | ---------------------- |
+| 100.0% | 57.2 KiB |      65 | `black/strings.py:158` |
+
+##### `copy` (`blib2to3/pgen2/grammar.py:131`)
+
+|     % |     Size | Samples | Location                        |
+| ----: | -------: | ------: | ------------------------------- |
+| 88.2% | 36.6 KiB |      12 | `blib2to3/pgen2/grammar.py:145` |
+|  7.6% | 3.16 KiB |       2 | `blib2to3/pgen2/grammar.py:146` |
+|  4.2% | 1.75 KiB |       2 | `blib2to3/pgen2/grammar.py:147` |
+
+##### `classify` (`blib2to3/pgen2/parse.py:336`)
+
+|      % |   Size | Samples | Location                      |
+| -----: | -----: | ------: | ----------------------------- |
+| 100.0% | 32 KiB |       1 | `blib2to3/pgen2/parse.py:343` |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+|      % |     Size | Samples | Location                          |
+| -----: | -------: | ------: | --------------------------------- |
+| 100.0% | 24.1 KiB |      27 | `/usr/lib/python3.11/enum.py:554` |
+
+##### `inner` (`/usr/lib/python3.11/typing.py:338`)
+
+|      % |   Size | Samples | Location                            |
+| -----: | -----: | ------: | ----------------------------------- |
+| 100.0% | 12 KiB |       3 | `/usr/lib/python3.11/typing.py:341` |
+
+##### `python_implementation` (`/usr/lib/python3.11/platform.py:1106`)
+
+|      % |     Size | Samples | Location                               |
+| -----: | -------: | ------: | -------------------------------------- |
+| 100.0% | 1.37 KiB |       1 | `/usr/lib/python3.11/platform.py:1117` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>:1167`)
+
+|      % |  Size | Samples | Location                             |
+| -----: | ----: | ------: | ------------------------------------ |
+| 100.0% | 960 B |       1 | `<frozen importlib._bootstrap>:1178` |
+
+##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
+
+|      % |  Size | Samples | Location                                 |
+| -----: | ----: | ------: | ---------------------------------------- |
+| 100.0% | 698 B |       1 | `/usr/lib/python3.11/re/__init__.py:227` |
+
+##### `getLogger` (`/usr/lib/python3.11/logging/__init__.py:2081`)
+
+|      % |  Size | Samples | Location                                       |
+| -----: | ----: | ------: | ---------------------------------------------- |
+| 100.0% | 560 B |       1 | `/usr/lib/python3.11/logging/__init__.py:2089` |
+
+##### `detect_encoding` (`/usr/lib/python3.11/tokenize.py:299`)
+
+|      % |  Size | Samples | Location                              |
+| -----: | ----: | ------: | ------------------------------------- |
+| 100.0% | 552 B |       1 | `/usr/lib/python3.11/tokenize.py:375` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
@@ -310,6 +414,57 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | ----: | -------: | ------: | ---------- | ------------------ |
 | 23.1% | 17.5 KiB |      18 | `<module>` | `black/trans.py:1` |
 
+##### `normalize_string_prefix` (`black/strings.py:143`)
+
+|      % |     Size | Samples | Caller         | Location               |
+| -----: | -------: | ------: | -------------- | ---------------------- |
+| 100.0% | 57.2 KiB |      65 | `visit_STRING` | `black/linegen.py:413` |
+
+##### `copy` (`blib2to3/pgen2/grammar.py:131`)
+
+|      % |     Size | Samples | Caller       | Location                 |
+| -----: | -------: | ------: | ------------ | ------------------------ |
+| 100.0% | 41.5 KiB |      16 | `initialize` | `blib2to3/pygram.py:165` |
+
+##### `classify` (`blib2to3/pgen2/parse.py:336`)
+
+|      % |   Size | Samples | Caller     | Location                      |
+| -----: | -----: | ------: | ---------- | ----------------------------- |
+| 100.0% | 32 KiB |       1 | `addtoken` | `blib2to3/pgen2/parse.py:242` |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+|     % |     Size | Samples | Caller     | Location              |
+| ----: | -------: | ------: | ---------- | --------------------- |
+| 31.7% | 7.64 KiB |       9 | `<module>` | `black/mode.py:1`     |
+| 10.1% | 2.44 KiB |       3 | `<module>` | `black/__init__.py:1` |
+|  7.0% | 1.69 KiB |       2 | `<module>` | `black/report.py:1`   |
+|  7.0% | 1.69 KiB |       2 | `<module>` | `black/linegen.py:1`  |
+
+##### `inner` (`/usr/lib/python3.11/typing.py:338`)
+
+|     % |     Size | Samples | Caller | Location            |
+| ----: | -------: | ------: | ------ | ------------------- |
+| 75.3% | 9.02 KiB |       1 | `Line` | `black/lines.py:49` |
+
+##### `python_implementation` (`/usr/lib/python3.11/platform.py:1106`)
+
+|      % |     Size | Samples | Caller     | Location              |
+| -----: | -------: | ------: | ---------- | --------------------- |
+| 100.0% | 1.37 KiB |       1 | `<module>` | `black/__init__.py:1` |
+
+##### `getLogger` (`/usr/lib/python3.11/logging/__init__.py:2081`)
+
+|      % |  Size | Samples | Caller         | Location                       |
+| -----: | ----: | ------: | -------------- | ------------------------------ |
+| 100.0% | 560 B |       1 | `load_grammar` | `blib2to3/pgen2/driver.py:246` |
+
+##### `detect_encoding` (`/usr/lib/python3.11/tokenize.py:299`)
+
+|      % |  Size | Samples | Caller         | Location                 |
+| -----: | ----: | ------: | -------------- | ------------------------ |
+| 100.0% | 552 B |       1 | `decode_bytes` | `black/__init__.py:1290` |
+
 ### Total size
 
 Functions ranked by total bytes held at peak memory in the function and all its callees.
@@ -336,6 +491,54 @@ Functions ranked by total bytes held at peak memory in the function and all its 
 | 25.2% | 18.2 MiB |  20,790 | `mark`                            | `black/brackets.py:70`                                  |
 | 23.3% | 16.9 MiB |  10,808 | `visit_power`                     | `black/linegen.py:341`                                  |
 | 22.0% |   16 MiB |   1,015 | `check_stability_and_equivalence` | `black/__init__.py:1037`                                |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                          | Location                 |
+| ----: | -------: | ------: | --------------------------------- | ------------------------ |
+| 92.5% |   67 MiB |  22,200 | `patched_main`                    | `black/__init__.py:1594` |
+| 92.5% |   67 MiB |  22,200 | `<module>`                        | `black/__main__.py:1`    |
+| 92.4% | 66.9 MiB |  22,172 | `main`                            | `black/__init__.py:244`  |
+| 92.4% | 66.9 MiB |  22,168 | `reformat_one`                    | `black/__init__.py:860`  |
+| 92.4% | 66.9 MiB |  22,165 | `format_file_in_place`            | `black/__init__.py:917`  |
+| 92.1% | 66.7 MiB |  22,162 | `format_file_contents`            | `black/__init__.py:1054` |
+| 70.1% | 50.8 MiB |  21,147 | `format_str`                      | `black/__init__.py:1189` |
+| 70.1% | 50.8 MiB |  21,146 | `_format_str_once`                | `black/__init__.py:1236` |
+| 47.6% | 34.4 MiB |  21,085 | `visit`                           | `black/nodes.py:163`     |
+| 47.6% | 34.4 MiB |  21,083 | `visit_default`                   | `black/linegen.py:134`   |
+| 47.6% | 34.4 MiB |  21,083 | `visit_default`                   | `black/nodes.py:187`     |
+| 47.2% | 34.2 MiB |  20,712 | `visit_stmt`                      | `black/linegen.py:199`   |
+| 46.7% | 33.8 MiB |  20,271 | `visit_funcdef`                   | `black/linegen.py:254`   |
+| 46.6% | 33.7 MiB |  20,145 | `visit_suite`                     | `black/linegen.py:288`   |
+| 32.9% | 23.8 MiB |  13,402 | `visit_simple_stmt`               | `black/linegen.py:295`   |
+| 26.6% | 19.3 MiB |  20,884 | `append`                          | `black/lines.py:63`      |
+| 25.2% | 18.2 MiB |  20,790 | `mark`                            | `black/brackets.py:70`   |
+| 23.3% | 16.9 MiB |  10,808 | `visit_power`                     | `black/linegen.py:341`   |
+| 22.0% |   16 MiB |   1,015 | `check_stability_and_equivalence` | `black/__init__.py:1037` |
+| 22.0% |   16 MiB |   1,014 | `_parse_single_version`           | `black/parsing.py:117`   |
+
+##### Standard library
+
+|     % |     Size | Samples | Function                | Location                                       |
+| ----: | -------: | ------: | ----------------------- | ---------------------------------------------- |
+| 22.0% |   16 MiB |   1,014 | `parse`                 | `/usr/lib/python3.11/ast.py:33`                |
+|  7.5% | 5.45 MiB |   1,487 | `_find_and_load`        | `<frozen importlib._bootstrap>:1167`           |
+|  0.4% |  333 KiB |     341 | `_handle_fromlist`      | `<frozen importlib._bootstrap>:1209`           |
+|  0.3% |  222 KiB |       1 | `decode`                | `<frozen codecs>:319`                          |
+|  0.1% | 75.7 KiB |      79 | `__new__`               | `<frozen abc>:105`                             |
+|  0.1% | 47.8 KiB |      25 | `compile`               | `/usr/lib/python3.11/re/__init__.py:225`       |
+| <0.1% | 32.5 KiB |      38 | `__new__`               | `/usr/lib/python3.11/enum.py:488`              |
+| <0.1% | 13.6 KiB |       5 | `inner`                 | `/usr/lib/python3.11/typing.py:338`            |
+| <0.1% | 9.23 KiB |      10 | `dataclass`             | `/usr/lib/python3.11/dataclasses.py:1192`      |
+| <0.1% | 6.95 KiB |       6 | `__new__`               | `/usr/lib/python3.11/typing.py:2815`           |
+| <0.1% | 4.63 KiB |       4 | `NamedTemporaryFile`    | `/usr/lib/python3.11/tempfile.py:677`          |
+| <0.1% | 2.18 KiB |       1 | `_subx`                 | `/usr/lib/python3.11/re/__init__.py:315`       |
+| <0.1% | 1.37 KiB |       1 | `python_implementation` | `/usr/lib/python3.11/platform.py:1106`         |
+| <0.1% |    710 B |       1 | `__new__`               | `/usr/lib/python3.11/pathlib.py:869`           |
+| <0.1% |    560 B |       1 | `getLogger`             | `/usr/lib/python3.11/logging/__init__.py:2081` |
+| <0.1% |    552 B |       1 | `detect_encoding`       | `/usr/lib/python3.11/tokenize.py:299`          |
 
 #### Callees
 
@@ -465,6 +668,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | -----: | ------: | ------------------- | ------------------------ |
 | 100.0% | 16 MiB |   1,014 | `assert_equivalent` | `black/__init__.py:1524` |
 
+##### `_parse_single_version` (`black/parsing.py:117`)
+
+|      % |   Size | Samples | Callee  | Location                        |
+| -----: | -----: | ------: | ------- | ------------------------------- |
+| 100.0% | 16 MiB |   1,014 | `parse` | `/usr/lib/python3.11/ast.py:33` |
+
 ## Hottest call stacks
 
 Call stacks ranked by bytes held at peak memory in their leaf frame. `…` stands for frames the entry filter hides.
@@ -530,6 +739,47 @@ Functions ranked by bytes never freed directly in the function body, excluding c
 |  0.1% | 75.7 KiB |      79 | `__new__`                              | `<frozen abc>:105`              |
 |  0.1% | 57.2 KiB |      65 | `normalize_string_prefix`              | `black/strings.py:143`          |
 |  0.1% | 41.5 KiB |      16 | `copy`                                 | `blib2to3/pgen2/grammar.py:131` |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                               | Location                        |
+| ----: | -------: | ------: | -------------------------------------- | ------------------------------- |
+| 30.2% | 17.2 MiB |  20,789 | `mark`                                 | `black/brackets.py:70`          |
+| 10.5% |    6 MiB |       6 | `changed`                              | `blib2to3/pytree.py:171`        |
+|  8.8% |    5 MiB |       5 | `__new__`                              | `blib2to3/pytree.py:81`         |
+|  5.4% | 3.07 MiB |       9 | `transform_line`                       | `black/linegen.py:601`          |
+|  5.3% |    3 MiB |       4 | `visit_default`                        | `black/linegen.py:134`          |
+|  5.3% |    3 MiB |       3 | `generate_comments`                    | `black/comments.py:52`          |
+|  3.8% | 2.14 MiB |     197 | `update_sibling_maps`                  | `blib2to3/pytree.py:369`        |
+|  3.5% |    2 MiB |       2 | `convert`                              | `blib2to3/pytree.py:486`        |
+|  3.5% |    2 MiB |       2 | `push`                                 | `blib2to3/pgen2/parse.py:386`   |
+|  1.8% | 1.01 MiB |       6 | `make_grammar`                         | `blib2to3/pgen2/pgen.py:49`     |
+|  1.8% |    1 MiB |       5 | `visit`                                | `black/nodes.py:163`            |
+|  1.8% |    1 MiB |       2 | `maybe_empty_lines`                    | `black/lines.py:560`            |
+|  1.8% |    1 MiB |       1 | `contains_uncollapsable_type_comments` | `black/lines.py:276`            |
+|  1.8% |    1 MiB |       1 | `__init__`                             | `<string>:2`                    |
+|  1.8% |    1 MiB |       1 | `_addtoken`                            | `blib2to3/pgen2/parse.py:290`   |
+|  1.8% |    1 MiB |       1 | `__init__`                             | `blib2to3/pytree.py:400`        |
+|  0.1% | 57.2 KiB |      65 | `normalize_string_prefix`              | `black/strings.py:143`          |
+|  0.1% | 41.5 KiB |      16 | `copy`                                 | `blib2to3/pgen2/grammar.py:131` |
+|  0.1% |   32 KiB |       1 | `classify`                             | `blib2to3/pgen2/parse.py:336`   |
+| <0.1% | 25.3 KiB |      40 | `make_first`                           | `blib2to3/pgen2/pgen.py:74`     |
+
+##### Standard library
+
+|     % |     Size | Samples | Function                | Location                                       |
+| ----: | -------: | ------: | ----------------------- | ---------------------------------------------- |
+|  3.5% | 2.01 MiB |       3 | `parse`                 | `/usr/lib/python3.11/ast.py:33`                |
+|  0.1% | 75.7 KiB |      79 | `__new__`               | `<frozen abc>:105`                             |
+| <0.1% | 24.1 KiB |      27 | `__new__`               | `/usr/lib/python3.11/enum.py:488`              |
+| <0.1% |   12 KiB |       3 | `inner`                 | `/usr/lib/python3.11/typing.py:338`            |
+| <0.1% | 1.37 KiB |       1 | `python_implementation` | `/usr/lib/python3.11/platform.py:1106`         |
+| <0.1% |    960 B |       1 | `_find_and_load`        | `<frozen importlib._bootstrap>:1167`           |
+| <0.1% |    698 B |       1 | `compile`               | `/usr/lib/python3.11/re/__init__.py:225`       |
+| <0.1% |    560 B |       1 | `getLogger`             | `/usr/lib/python3.11/logging/__init__.py:2081` |
+| <0.1% |    552 B |       1 | `detect_encoding`       | `/usr/lib/python3.11/tokenize.py:299`          |
 
 #### Lines
 
@@ -673,6 +923,60 @@ Lines ranked by contribution to each function's self size.
 |  7.6% | 3.16 KiB |       2 | `blib2to3/pgen2/grammar.py:146` |
 |  4.2% | 1.75 KiB |       2 | `blib2to3/pgen2/grammar.py:147` |
 
+##### `classify` (`blib2to3/pgen2/parse.py:336`)
+
+|      % |   Size | Samples | Location                      |
+| -----: | -----: | ------: | ----------------------------- |
+| 100.0% | 32 KiB |       1 | `blib2to3/pgen2/parse.py:343` |
+
+##### `make_first` (`blib2to3/pgen2/pgen.py:74`)
+
+|      % |     Size | Samples | Location                    |
+| -----: | -------: | ------: | --------------------------- |
+| 100.0% | 25.3 KiB |      40 | `blib2to3/pgen2/pgen.py:81` |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+|      % |     Size | Samples | Location                          |
+| -----: | -------: | ------: | --------------------------------- |
+| 100.0% | 24.1 KiB |      27 | `/usr/lib/python3.11/enum.py:554` |
+
+##### `inner` (`/usr/lib/python3.11/typing.py:338`)
+
+|      % |   Size | Samples | Location                            |
+| -----: | -----: | ------: | ----------------------------------- |
+| 100.0% | 12 KiB |       3 | `/usr/lib/python3.11/typing.py:341` |
+
+##### `python_implementation` (`/usr/lib/python3.11/platform.py:1106`)
+
+|      % |     Size | Samples | Location                               |
+| -----: | -------: | ------: | -------------------------------------- |
+| 100.0% | 1.37 KiB |       1 | `/usr/lib/python3.11/platform.py:1117` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>:1167`)
+
+|      % |  Size | Samples | Location                             |
+| -----: | ----: | ------: | ------------------------------------ |
+| 100.0% | 960 B |       1 | `<frozen importlib._bootstrap>:1178` |
+
+##### `compile` (`/usr/lib/python3.11/re/__init__.py:225`)
+
+|      % |  Size | Samples | Location                                 |
+| -----: | ----: | ------: | ---------------------------------------- |
+| 100.0% | 698 B |       1 | `/usr/lib/python3.11/re/__init__.py:227` |
+
+##### `getLogger` (`/usr/lib/python3.11/logging/__init__.py:2081`)
+
+|      % |  Size | Samples | Location                                       |
+| -----: | ----: | ------: | ---------------------------------------------- |
+| 100.0% | 560 B |       1 | `/usr/lib/python3.11/logging/__init__.py:2089` |
+
+##### `detect_encoding` (`/usr/lib/python3.11/tokenize.py:299`)
+
+|      % |  Size | Samples | Location                              |
+| -----: | ----: | ------: | ------------------------------------- |
+| 100.0% | 552 B |       1 | `/usr/lib/python3.11/tokenize.py:375` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
@@ -801,6 +1105,51 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 | -----: | -------: | ------: | ------------ | ------------------------ |
 | 100.0% | 41.5 KiB |      16 | `initialize` | `blib2to3/pygram.py:165` |
 
+##### `classify` (`blib2to3/pgen2/parse.py:336`)
+
+|      % |   Size | Samples | Caller     | Location                      |
+| -----: | -----: | ------: | ---------- | ----------------------------- |
+| 100.0% | 32 KiB |       1 | `addtoken` | `blib2to3/pgen2/parse.py:242` |
+
+##### `make_first` (`blib2to3/pgen2/pgen.py:74`)
+
+|      % |     Size | Samples | Caller         | Location                    |
+| -----: | -------: | ------: | -------------- | --------------------------- |
+| 100.0% | 25.3 KiB |      40 | `make_grammar` | `blib2to3/pgen2/pgen.py:49` |
+
+##### `__new__` (`/usr/lib/python3.11/enum.py:488`)
+
+|     % |     Size | Samples | Caller     | Location              |
+| ----: | -------: | ------: | ---------- | --------------------- |
+| 31.7% | 7.64 KiB |       9 | `<module>` | `black/mode.py:1`     |
+| 10.1% | 2.44 KiB |       3 | `<module>` | `black/__init__.py:1` |
+|  7.0% | 1.69 KiB |       2 | `<module>` | `black/report.py:1`   |
+|  7.0% | 1.69 KiB |       2 | `<module>` | `black/linegen.py:1`  |
+
+##### `inner` (`/usr/lib/python3.11/typing.py:338`)
+
+|     % |     Size | Samples | Caller | Location            |
+| ----: | -------: | ------: | ------ | ------------------- |
+| 75.3% | 9.02 KiB |       1 | `Line` | `black/lines.py:49` |
+
+##### `python_implementation` (`/usr/lib/python3.11/platform.py:1106`)
+
+|      % |     Size | Samples | Caller     | Location              |
+| -----: | -------: | ------: | ---------- | --------------------- |
+| 100.0% | 1.37 KiB |       1 | `<module>` | `black/__init__.py:1` |
+
+##### `getLogger` (`/usr/lib/python3.11/logging/__init__.py:2081`)
+
+|      % |  Size | Samples | Caller         | Location                       |
+| -----: | ----: | ------: | -------------- | ------------------------------ |
+| 100.0% | 560 B |       1 | `load_grammar` | `blib2to3/pgen2/driver.py:246` |
+
+##### `detect_encoding` (`/usr/lib/python3.11/tokenize.py:299`)
+
+|      % |  Size | Samples | Caller         | Location                 |
+| -----: | ----: | ------: | -------------- | ------------------------ |
+| 100.0% | 552 B |       1 | `decode_bytes` | `black/__init__.py:1290` |
+
 ### Total size
 
 Functions ranked by total bytes never freed in the function and all its callees.
@@ -827,6 +1176,53 @@ Functions ranked by total bytes never freed in the function and all its callees.
 | 30.7% | 17.5 MiB |  21,059 | `check_stability_and_equivalence` | `black/__init__.py:1037`                                |
 | 30.2% | 17.2 MiB |  20,789 | `mark`                            | `black/brackets.py:70`                                  |
 | 29.6% | 16.9 MiB |  10,808 | `visit_power`                     | `black/linegen.py:341`                                  |
+
+#### Categories
+
+##### Ours
+
+|     % |     Size | Samples | Function                          | Location                 |
+| ----: | -------: | ------: | --------------------------------- | ------------------------ |
+| 90.5% | 51.6 MiB |  21,189 | `patched_main`                    | `black/__init__.py:1594` |
+| 90.5% | 51.6 MiB |  21,189 | `<module>`                        | `black/__main__.py:1`    |
+| 90.5% | 51.6 MiB |  21,164 | `main`                            | `black/__init__.py:244`  |
+| 90.4% | 51.6 MiB |  21,159 | `reformat_one`                    | `black/__init__.py:860`  |
+| 90.4% | 51.6 MiB |  21,152 | `format_file_in_place`            | `black/__init__.py:917`  |
+| 90.4% | 51.6 MiB |  21,151 | `format_file_contents`            | `black/__init__.py:1054` |
+| 86.9% | 49.6 MiB |  21,145 | `_format_str_once`                | `black/__init__.py:1236` |
+| 59.7% | 34.1 MiB |      92 | `format_str`                      | `black/__init__.py:1189` |
+| 58.6% | 33.4 MiB |  21,084 | `visit`                           | `black/nodes.py:163`     |
+| 58.6% | 33.4 MiB |  21,082 | `visit_default`                   | `black/nodes.py:187`     |
+| 58.6% | 33.4 MiB |  21,082 | `visit_default`                   | `black/linegen.py:134`   |
+| 58.1% | 33.2 MiB |  20,711 | `visit_stmt`                      | `black/linegen.py:199`   |
+| 57.5% | 32.8 MiB |  20,270 | `visit_funcdef`                   | `black/linegen.py:254`   |
+| 57.4% | 32.7 MiB |  20,144 | `visit_suite`                     | `black/linegen.py:288`   |
+| 40.0% | 22.8 MiB |  13,401 | `visit_simple_stmt`               | `black/linegen.py:295`   |
+| 32.0% | 18.3 MiB |  20,883 | `append`                          | `black/lines.py:63`      |
+| 30.7% | 17.5 MiB |  21,059 | `check_stability_and_equivalence` | `black/__init__.py:1037` |
+| 30.2% | 17.2 MiB |  20,789 | `mark`                            | `black/brackets.py:70`   |
+| 29.6% | 16.9 MiB |  10,808 | `visit_power`                     | `black/linegen.py:341`   |
+| 27.2% | 15.5 MiB |  21,054 | `assert_stable`                   | `black/__init__.py:1557` |
+
+##### Standard library
+
+|     % |     Size | Samples | Function                | Location                                       |
+| ----: | -------: | ------: | ----------------------- | ---------------------------------------------- |
+|  9.5% | 5.42 MiB |   1,486 | `_find_and_load`        | `<frozen importlib._bootstrap>:1167`           |
+|  3.5% | 2.01 MiB |       3 | `parse`                 | `/usr/lib/python3.11/ast.py:33`                |
+|  0.6% |  333 KiB |     341 | `_handle_fromlist`      | `<frozen importlib._bootstrap>:1209`           |
+|  0.1% | 75.7 KiB |      79 | `__new__`               | `<frozen abc>:105`                             |
+|  0.1% | 47.8 KiB |      25 | `compile`               | `/usr/lib/python3.11/re/__init__.py:225`       |
+|  0.1% | 32.5 KiB |      38 | `__new__`               | `/usr/lib/python3.11/enum.py:488`              |
+| <0.1% | 13.6 KiB |       5 | `inner`                 | `/usr/lib/python3.11/typing.py:338`            |
+| <0.1% | 9.23 KiB |      10 | `dataclass`             | `/usr/lib/python3.11/dataclasses.py:1192`      |
+| <0.1% | 6.95 KiB |       6 | `__new__`               | `/usr/lib/python3.11/typing.py:2815`           |
+| <0.1% | 4.63 KiB |       4 | `NamedTemporaryFile`    | `/usr/lib/python3.11/tempfile.py:677`          |
+| <0.1% | 2.18 KiB |       1 | `_subx`                 | `/usr/lib/python3.11/re/__init__.py:315`       |
+| <0.1% | 1.37 KiB |       1 | `python_implementation` | `/usr/lib/python3.11/platform.py:1106`         |
+| <0.1% |    710 B |       1 | `__new__`               | `/usr/lib/python3.11/pathlib.py:869`           |
+| <0.1% |    560 B |       1 | `getLogger`             | `/usr/lib/python3.11/logging/__init__.py:2081` |
+| <0.1% |    552 B |       1 | `detect_encoding`       | `/usr/lib/python3.11/tokenize.py:299`          |
 
 #### Callees
 
@@ -958,6 +1354,12 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 |      % |     Size | Samples | Callee          | Location               |
 | -----: | -------: | ------: | --------------- | ---------------------- |
 | 100.0% | 16.9 MiB |  10,807 | `visit_default` | `black/linegen.py:134` |
+
+##### `assert_stable` (`black/__init__.py:1557`)
+
+|      % |     Size | Samples | Callee             | Location                 |
+| -----: | -------: | ------: | ------------------ | ------------------------ |
+| 100.0% | 15.5 MiB |  21,054 | `_format_str_once` | `black/__init__.py:1236` |
 
 ## Hottest call stacks
 

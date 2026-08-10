@@ -122,6 +122,19 @@ if (format === undefined) {
   })
 
   test.concurrent(
+    `--min-category-share limits which categories get a subsection`,
+    async () => {
+      const [{ stdout: everyCategory }, { stdout: noCategory }] =
+        await Promise.all([
+          runCli([cpuProfilePath, `--min-category-share`, `0`]),
+          runCli([cpuProfilePath, `--min-category-share`, `1`]),
+        ])
+
+      expect(everyCategory.length).toBeGreaterThan(noCategory.length)
+    },
+  )
+
+  test.concurrent(
     `--base-url makes file paths relative to the given directory`,
     async () => {
       // The inputs were captured under random nix temp dirs, so their frame

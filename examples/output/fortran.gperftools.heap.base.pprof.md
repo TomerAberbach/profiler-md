@@ -14,6 +14,10 @@ Allocated 47.7 MiB and retained 894 KiB over 450,137 samples (111 B and 2.03�
 
 Functions ranked by bytes allocated directly in the function body, excluding callees.
 
+##### Categories
+
+###### Ours
+
 |     % |     Size | Samples | Function                                          | Location                                           |
 | ----: | -------: | ------: | ------------------------------------------------- | -------------------------------------------------- |
 | 49.2% | 23.4 MiB |  34,087 | `__json_string_utilities_MOD_string_to_integer`   | `src/json-fortran/src/json_string_utilities.F90`   |
@@ -302,6 +306,33 @@ Functions ranked by total bytes allocated in the function and all its callees.
 |  0.3% |  149 KiB |  19,115 | `__json_value_module_MOD_to_integer`               | `src/json-fortran/src/json_value_module.F90`       |
 |  0.2% |  102 KiB |  26,216 | `__json_value_module_MOD_to_logical`               | `src/json-fortran/src/json_value_module.F90`       |
 
+##### Categories
+
+###### Ours
+
+|     % |     Size | Samples | Function                                           | Location                                           |
+| ----: | -------: | ------: | -------------------------------------------------- | -------------------------------------------------- |
+| 95.1% | 45.3 MiB | 447,567 | `__json_value_module_MOD_parse_object`             | `src/json-fortran/src/json_value_module.F90`       |
+| 49.2% | 23.4 MiB |  34,143 | `__json_string_utilities_MOD_string_to_integer`    | `src/json-fortran/src/json_string_utilities.F90`   |
+| 47.9% | 22.9 MiB |  52,056 | `__json_value_module_MOD_parse_number`             | `src/json-fortran/src/json_value_module.F90`       |
+| 47.5% | 22.6 MiB |  32,572 | `__json_value_module_MOD_string_to_int`            | `src/json-fortran/src/json_value_module.F90`       |
+| 35.2% | 16.8 MiB | 238,054 | `__json_value_module_MOD_parse_array`              | `src/json-fortran/src/json_value_module.F90`       |
+| 29.9% | 14.2 MiB | 133,404 | `__json_value_module_MOD_json_value_create`        | `src/json-fortran/src/json_value_module.F90`       |
+| 28.1% | 13.4 MiB | 169,249 | `MAIN__`                                           | `out/profile.f90`                                  |
+| 27.9% | 13.3 MiB | 184,850 | `__json_value_module_MOD_json_parse_file`          | `src/json-fortran/src/json_value_module.F90`       |
+| 27.3% |   13 MiB | 159,966 | `main`                                             | `out/profile.f90`                                  |
+| 27.2% | 12.9 MiB | 177,529 | `__json_file_module_MOD_json_file_load`            | `src/json-fortran/src/json_file_module.F90`        |
+| 10.7% | 5.12 MiB |  70,140 | `__json_value_module_MOD_parse_string`             | `src/json-fortran/src/json_value_module.F90`       |
+|  9.1% | 4.32 MiB |  77,828 | `__json_value_module_MOD_parse_value`              | `src/json-fortran/src/json_value_module.F90`       |
+|  2.3% | 1.08 MiB |   2,430 | `__json_value_module_MOD_json_get_string_by_path`  | `src/json-fortran/src/json_get_scalar_by_path.inc` |
+|  2.3% | 1.08 MiB |   2,430 | `__json_file_module_MOD_json_file_get_string`      | `src/json-fortran/src/json_file_module.F90`        |
+|  1.7% |  837 KiB |   1,515 | `__json_value_module_MOD_json_get_by_path_default` | `src/json-fortran/src/json_value_module.F90`       |
+|  1.7% |  837 KiB |   1,515 | `__json_value_module_MOD_json_get_by_path`         | `src/json-fortran/src/json_value_module.F90`       |
+|  0.6% |  269 KiB |     897 | `__json_value_module_MOD_json_get_string`          | `src/json-fortran/src/json_value_module.F90`       |
+|  0.3% |  149 KiB |  19,115 | `__json_value_module_MOD_to_integer`               | `src/json-fortran/src/json_value_module.F90`       |
+|  0.2% |  102 KiB |  26,216 | `__json_value_module_MOD_to_logical`               | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% | 19.1 KiB |     178 | `__json_string_utilities_MOD_unescape_string`      | `src/json-fortran/src/json_string_utilities.F90`   |
+
 ##### Callees
 
 Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
@@ -459,6 +490,10 @@ Call stacks ranked by bytes allocated in their leaf frame.
 #### Self size
 
 Functions ranked by bytes retained directly in the function body, excluding callees.
+
+##### Categories
+
+###### Ours
 
 |     % |     Size | Samples | Function                                          | Location                                           |
 | ----: | -------: | ------: | ------------------------------------------------- | -------------------------------------------------- |
@@ -679,6 +714,33 @@ Functions ranked by total bytes retained in the function and all its callees.
 | <0.1% |    269 B |      10 | `__json_file_module_MOD_initialize_json_core_in_file` | `src/json-fortran/src/json_file_module.F90`      |
 | <0.1% |     52 B |   7,769 | `__json_value_module_MOD_to_string`                   | `src/json-fortran/src/json_value_module.F90`     |
 | <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`         | `src/json-fortran/src/json_value_module.F90`     |
+
+##### Categories
+
+###### Ours
+
+|     % |     Size | Samples | Function                                              | Location                                           |
+| ----: | -------: | ------: | ----------------------------------------------------- | -------------------------------------------------- |
+| 85.6% |  766 KiB | 447,567 | `__json_value_module_MOD_parse_object`                | `src/json-fortran/src/json_value_module.F90`       |
+| 68.3% |  611 KiB | 133,404 | `__json_value_module_MOD_json_value_create`           | `src/json-fortran/src/json_value_module.F90`       |
+| 51.6% |  462 KiB | 184,850 | `__json_value_module_MOD_json_parse_file`             | `src/json-fortran/src/json_value_module.F90`       |
+| 50.0% |  447 KiB | 177,529 | `__json_file_module_MOD_json_file_load`               | `src/json-fortran/src/json_file_module.F90`        |
+| 48.5% |  433 KiB | 169,249 | `MAIN__`                                              | `out/profile.f90`                                  |
+| 46.6% |  417 KiB | 159,966 | `main`                                                | `out/profile.f90`                                  |
+| 45.6% |  408 KiB | 238,054 | `__json_value_module_MOD_parse_array`                 | `src/json-fortran/src/json_value_module.F90`       |
+|  9.5% | 84.8 KiB |  77,828 | `__json_value_module_MOD_parse_value`                 | `src/json-fortran/src/json_value_module.F90`       |
+|  1.1% | 9.78 KiB |  70,140 | `__json_value_module_MOD_parse_string`                | `src/json-fortran/src/json_value_module.F90`       |
+|  0.8% | 7.55 KiB |  52,056 | `__json_value_module_MOD_parse_number`                | `src/json-fortran/src/json_value_module.F90`       |
+|  0.8% |  6.8 KiB |  19,115 | `__json_value_module_MOD_to_integer`                  | `src/json-fortran/src/json_value_module.F90`       |
+|  0.5% | 4.29 KiB |  26,216 | `__json_value_module_MOD_to_logical`                  | `src/json-fortran/src/json_value_module.F90`       |
+|  0.1% |    776 B |  34,143 | `__json_string_utilities_MOD_string_to_integer`       | `src/json-fortran/src/json_string_utilities.F90`   |
+|  0.1% |    760 B |  32,572 | `__json_value_module_MOD_string_to_int`               | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% |    448 B |     218 | `__json_value_module_MOD_pop_char.part.0`             | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% |    269 B |      10 | `__json_value_module_MOD_json_initialize`             | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% |    269 B |      10 | `__json_file_module_MOD_initialize_json_core_in_file` | `src/json-fortran/src/json_file_module.F90`        |
+| <0.1% |     52 B |   7,769 | `__json_value_module_MOD_to_string`                   | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% |      3 B |       1 | `__json_value_module_MOD_json_prepare_parser`         | `src/json-fortran/src/json_value_module.F90`       |
+| <0.1% |      1 B |   2,430 | `__json_value_module_MOD_json_get_string_by_path`     | `src/json-fortran/src/json_get_scalar_by_path.inc` |
 
 ##### Callees
 

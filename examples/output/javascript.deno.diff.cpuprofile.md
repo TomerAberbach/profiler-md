@@ -25,6 +25,12 @@ Functions with the largest increase in time spent directly in the function body,
 | +14.7% | +17.25ms | 3.5% → 5.8% | 117.0ms → 134.3ms | 96 → 110 | `(garbage collector)` | `<unknown>`                                                                                                                                             |
 |    new |  +1.25ms | 0.0% → 0.1% |       0ms → 1.2ms |    0 → 1 | `createProgram`       | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113744:27` |
 
+##### Garbage collector
+
+| Change |    Delta |           % |              Time |  Samples | Function              | Location    |
+| -----: | -------: | ----------: | ----------------: | -------: | --------------------- | ----------- |
+| +14.7% | +17.25ms | 3.5% → 5.8% | 117.0ms → 134.3ms | 96 → 110 | `(garbage collector)` | `<unknown>` |
+
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
@@ -35,6 +41,12 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed | -1.24ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>`                        |
 |   -0.2% | -0.07ms |  0.8% → 1.2% | 28.2ms → 28.1ms |       1 | `post`                                           | `ext:deno_node/inspector.js:179:7` |
 | removed | -0.06ms | <0.1% → 0.0% |     0.1ms → 0ms |   1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>`                        |
+
+##### Standard library
+
+| Change |   Delta |           % |            Time | Samples | Function | Location                           |
+| -----: | ------: | ----------: | --------------: | ------: | -------- | ---------------------------------- |
+|  -0.2% | -0.07ms | 0.8% → 1.2% | 28.2ms → 28.1ms |       1 | `post`   | `ext:deno_node/inspector.js:179:7` |
 
 ### Total time
 
@@ -50,6 +62,18 @@ Functions with the largest increase in total time spent in the function and all 
 |  +2.3% |  +0.64ms | 0.8% → 1.2% |   28.2ms → 28.9ms |    1 → 2 | `post`                             | `cpuprofile-run.mjs:15:14`                                                                                                                             |
 |  +0.2% |  +0.02ms | 0.3% → 0.4% |            10.0ms |        9 | `getParsedCommandLineOfConfigFile` | `/private/tmp/nix-shell.RhDkiq/profiler-md-fixtures.0q5jPY/zod/node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:39863:46` |
 
+##### Garbage collector
+
+| Change |    Delta |           % |              Time |  Samples | Function              | Location    |
+| -----: | -------: | ----------: | ----------------: | -------: | --------------------- | ----------- |
+| +14.7% | +17.25ms | 3.5% → 5.8% | 117.0ms → 134.3ms | 96 → 110 | `(garbage collector)` | `<unknown>` |
+
+##### Standard library
+
+| Change |   Delta |           % |            Time | Samples | Function | Location                           |
+| -----: | ------: | ----------: | --------------: | ------: | -------- | ---------------------------------- |
+|  +2.3% | +0.64ms | 0.8% → 1.2% | 28.2ms → 28.9ms |   1 → 2 | `post`   | `ext:deno_node/inspector.js:179:7` |
+
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
@@ -63,3 +87,9 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -67.1% |  -85.04ms |   3.8% → 1.8% |  126.7ms → 41.7ms |      100 → 33 | `require`                                        | `node:module:1752:35`                                                                                                                                   |
 | removed |   -1.24ms |  <0.1% → 0.0% |       1.2ms → 0ms |         1 → 0 | `RegExp: (?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)`      | `<unknown>`                                                                                                                                             |
 | removed |   -0.06ms |  <0.1% → 0.0% |       0.1ms → 0ms |         1 → 0 | `RegExp: [^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+` | `<unknown>`                                                                                                                                             |
+
+##### Standard library
+
+| Change |    Delta |           % |             Time |  Samples | Function  | Location              |
+| -----: | -------: | ----------: | ---------------: | -------: | --------- | --------------------- |
+| -67.1% | -85.04ms | 3.8% → 1.8% | 126.7ms → 41.7ms | 100 → 33 | `require` | `node:module:1752:35` |

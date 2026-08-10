@@ -16,6 +16,8 @@ Held 78.6 MiB over 22,694 samples (3.55 KiB per sample).
 
 Functions with the largest increase in bytes held at peak memory directly in the function body, excluding callees.
 
+##### Ours
+
 |    Change |  Delta |             % |                Size |         Samples | Function              | Location                 |
 | --------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------ |
 |   +200.0% | +2 MiB |   1.3% → 3.8% |       1 MiB → 3 MiB |           1 → 3 | `prefix`              | `blib2to3/pytree.py:480` |
@@ -30,6 +32,8 @@ Functions with the largest increase in bytes held at peak memory directly in the
 
 Functions with the largest decrease in bytes held at peak memory directly in the function body, excluding callees.
 
+##### Ours
+
 |  Change |  Delta |            % |          Size | Samples | Function                         | Location                |
 | ------: | -----: | -----------: | ------------: | ------: | -------------------------------- | ----------------------- |
 |  -75.0% | -3 MiB |  5.1% → 1.3% | 4 MiB → 1 MiB |   4 → 1 | `__init__`                       | `<string>:2`            |
@@ -43,6 +47,8 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 #### Regressions
 
 Functions with the largest increase in total bytes held at peak memory in the function and all its callees.
+
+##### Ours
 
 |   Change |  Delta |             % |                Size |         Samples | Function                    | Location                 |
 | -------: | -----: | ------------: | ------------------: | --------------: | --------------------------- | ------------------------ |
@@ -68,6 +74,8 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 #### Improvements
 
 Functions with the largest decrease in total bytes held at peak memory in the function and all its callees.
+
+##### Ours
 
 |  Change |  Delta |            % |                Size |   Samples | Function                            | Location                 |
 | ------: | -----: | -----------: | ------------------: | --------: | ----------------------------------- | ------------------------ |
@@ -104,6 +112,8 @@ Leaked 55.9 MiB over 22,489 samples (2.55 KiB per sample).
 
 Functions with the largest increase in bytes never freed directly in the function body, excluding callees.
 
+##### Ours
+
 |    Change |  Delta |             % |                Size |         Samples | Function              | Location                 |
 | --------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------ |
 |   +200.0% | +2 MiB |   1.8% → 5.4% |       1 MiB → 3 MiB |           1 → 3 | `generate_comments`   | `black/comments.py:52`   |
@@ -117,6 +127,8 @@ Functions with the largest increase in bytes never freed directly in the functio
 #### Improvements
 
 Functions with the largest decrease in bytes never freed directly in the function body, excluding callees.
+
+##### Ours
 
 |  Change |  Delta |             % |                Size | Samples | Function                         | Location                 |
 | ------: | -----: | ------------: | ------------------: | ------: | -------------------------------- | ------------------------ |
@@ -132,6 +144,8 @@ Functions with the largest decrease in bytes never freed directly in the functio
 #### Regressions
 
 Functions with the largest increase in total bytes never freed in the function and all its callees.
+
+##### Ours
 
 |   Change |  Delta |             % |                Size |         Samples | Function                    | Location                 |
 | -------: | -----: | ------------: | ------------------: | --------------: | --------------------------- | ------------------------ |
@@ -158,6 +172,8 @@ Functions with the largest increase in total bytes never freed in the function a
 #### Improvements
 
 Functions with the largest decrease in total bytes never freed in the function and all its callees.
+
+##### Ours
 
 |  Change |  Delta |             % |                Size |         Samples | Function                            | Location                 |
 | ------: | -----: | ------------: | ------------------: | --------------: | ----------------------------------- | ------------------------ |
