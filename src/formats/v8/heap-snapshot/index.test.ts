@@ -536,6 +536,44 @@ describe(`convert`, () => {
     ])
   })
 
+  test(`rejects an edges array that isn't a multiple of the edge field count`, () => {
+    // `meta.edge_fields` declares 3 fields per edge, so a trailing partial
+    // record contradicts the declared layout.
+    const snapshot = makeV8Snapshot({
+      nodeCount: 2,
+      edgeCount: 1,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }), // Root
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 3,
+          selfSize: 100,
+          edgeCount: 0,
+        }), // Object
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+        EDGE_TYPE_HIDDEN,
+      ],
+      strings: [``, `MyClass`],
+    })
+
+    expect(() =>
+      convertJsonToMd(
+        v8HeapSnapshotConverter,
+        snapshot,
+        normalizeProfileToMdOptions(),
+      ),
+    ).toThrow(`edges length is not a multiple of the 3 edge fields, got: 4`)
+  })
+
   test(`string nodes appear in the Largest strings section`, () => {
     const snapshot = makeV8Snapshot({
       nodeCount: 2,
