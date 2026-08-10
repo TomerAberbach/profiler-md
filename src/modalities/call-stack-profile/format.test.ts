@@ -5,8 +5,10 @@ import {
   categoryRankingTables,
   categorySectionTables,
   categoryTables,
+  diffRankingTable,
   improvementsTables,
   profileTitles,
+  rankingTable,
   regressionsTables,
   resolveProfileToMdOptions,
   summaryLines,
@@ -592,6 +594,29 @@ describe(`formatCallStackProfile`, () => {
         formatCallStackProfile(makeMixedProfile(), defaultOptions),
       )
 
+      expect(rankingTable(md, `Self time`)).toEqual([
+        {
+          '%': `60.5%`,
+          Time: `0.6ms`,
+          Samples: `60`,
+          Function: `ourFunc`,
+          Location: `src/a.ts`,
+        },
+        {
+          '%': `39.4%`,
+          Time: `0.4ms`,
+          Samples: `39`,
+          Function: `libFunc`,
+          Location: `node_modules/lib/index.js`,
+        },
+        {
+          '%': `0.1%`,
+          Time: `1.0µs`,
+          Samples: `1`,
+          Function: `nativeCall`,
+          Location: `<unknown>`,
+        },
+      ])
       expect(categorySectionTables(md, `Self time`)).toEqual({
         Ours: [
           {
@@ -679,6 +704,7 @@ describe(`formatCallStackProfile`, () => {
         formatCallStackProfile(profile, defaultOptions),
       )
 
+      expect(rankingTable(md, `Self time`)).toBeUndefined()
       expect(categorySectionTables(md, `Self time`)).toEqual({
         Ours: [
           {
@@ -1260,6 +1286,34 @@ describe(`formatCallStackProfileDiff`, () => {
       })
     })
 
+    test(`ranks a diff's entries above their category subsections`, () => {
+      const md = diffMixedProfiles([60, 39, 1], [30, 70, 10])
+
+      expect(diffRankingTable(md, `Self time`, `Regressions`)).toEqual([
+        {
+          '%': `39.0% → 63.6%`,
+          Change: `+79.5%`,
+          Delta: `+0.31ms`,
+          Time: `0.4ms → 0.7ms`,
+          Samples: `39 → 70`,
+          Function: `libFunc`,
+          Location: `node_modules/lib/index.js`,
+        },
+        {
+          '%': `1.0% → 9.1%`,
+          Change: `+900.0%`,
+          Delta: `+0.09ms`,
+          Time: `10.0µs → 0.1ms`,
+          Samples: `1 → 10`,
+          Function: `nativeCall`,
+          Location: `<unknown>`,
+        },
+      ])
+      expect(
+        Object.keys(categoryRankingTables(md, `Self time`, `Regressions`)),
+      ).toEqual([`Third-party`, `Native`])
+    })
+
     test(`admits a category by its larger side`, () => {
       // The dependency's share drops from 39.0% to under 1%, so only its base
       // side meets the threshold.
@@ -1273,6 +1327,7 @@ describe(`formatCallStackProfileDiff`, () => {
     test(`splits a ranking whose entries all fall in one category`, () => {
       const md = diffMixedProfiles([100, 0, 0], [50, 0, 0])
 
+      expect(diffRankingTable(md, `Self time`, `Improvements`)).toBeUndefined()
       expect(categoryRankingTables(md, `Self time`, `Improvements`)).toEqual({
         Ours: [
           {

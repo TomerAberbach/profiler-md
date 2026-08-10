@@ -14,10 +14,14 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
   callersTables,
+  categoryRankingTables,
+  categorySectionTables,
   categoryTables,
+  diffRankingTable,
   improvementsTables,
   linesTables,
   profileTitles,
+  rankingTable,
   regressionsTables,
   summaryLines,
 } from '../../testing.ts'
@@ -1098,5 +1102,203 @@ describe(`convert`, () => {
         },
       ],
     ])
+  })
+})
+
+describe(`category subsections`, () => {
+  // Aggregated as the generic origin, which categorizes an installed system
+  // library path as `stdlib` and the rest as `ours`.
+  const categoryOptions = normalizeProfileToMdOptions({
+    baseURL: `/app`,
+    showEntry: () => true,
+  })
+
+  const md = convertBytesToMd(
+    callgrindConverter,
+    makeCallgrind([
+      `events: Ir`,
+      `fl=/app/a.c`,
+      `fn=main`,
+      `1 600`,
+      `fl=/usr/lib/libc.so`,
+      `fn=malloc`,
+      `1 390`,
+      `fl=/usr/include/c++/12/vector`,
+      `fn=reserve`,
+      `1 10`,
+    ]),
+    categoryOptions,
+  )
+
+  const OURS_ROWS = [
+    {
+      '%': `60.0%`,
+      Instructions: `600`,
+      Function: `main`,
+      Location: `a.c`,
+    },
+  ]
+  const NATIVE_ROWS = [
+    {
+      '%': `39.0%`,
+      Instructions: `390`,
+      Function: `malloc`,
+      Location: `../usr/lib/libc.so`,
+    },
+  ]
+  const STDLIB_ROWS = [
+    {
+      '%': `1.0%`,
+      Instructions: `10`,
+      Function: `reserve`,
+      Location: `../usr/include/c++/12/vector`,
+    },
+  ]
+
+  test(`splits the self ranking into a subsection per covered category`, () => {
+    expect(rankingTable(md, `Self instructions`)).toEqual([
+      ...OURS_ROWS,
+      ...NATIVE_ROWS,
+      ...STDLIB_ROWS,
+    ])
+    expect(categorySectionTables(md, `Self instructions`)).toEqual({
+      Ours: OURS_ROWS,
+      Native: NATIVE_ROWS,
+      'Standard library': STDLIB_ROWS,
+    })
+  })
+
+  test(`splits the total ranking into the same categories`, () => {
+    expect(rankingTable(md, `Total instructions`)).toEqual([
+      ...OURS_ROWS,
+      ...NATIVE_ROWS,
+      ...STDLIB_ROWS,
+    ])
+    expect(categorySectionTables(md, `Total instructions`)).toEqual({
+      Ours: OURS_ROWS,
+      Native: NATIVE_ROWS,
+      'Standard library': STDLIB_ROWS,
+    })
+  })
+
+  test(`splits a ranking whose functions all fall in one category`, () => {
+    const singleCategoryMd = convertBytesToMd(
+      callgrindConverter,
+      makeCallgrind([`events: Ir`, `fl=/app/a.c`, `fn=main`, `1 600`]),
+      categoryOptions,
+    )
+
+    expect(rankingTable(singleCategoryMd, `Self instructions`)).toBeUndefined()
+    expect(
+      categorySectionTables(singleCategoryMd, `Self instructions`),
+    ).toEqual({
+      Ours: [
+        {
+          '%': `100.0%`,
+          Instructions: `600`,
+          Function: `main`,
+          Location: `a.c`,
+        },
+      ],
+    })
+  })
+
+  describe(`in a diff`, () => {
+    const graph = (mainSelf: number, mallocSelf: number) =>
+      makeCallgrind([
+        `events: Ir`,
+        `fl=/app/a.c`,
+        `fn=main`,
+        `1 ${mainSelf}`,
+        `fl=/usr/lib/libc.so`,
+        `fn=malloc`,
+        `1 ${mallocSelf}`,
+        `fl=/usr/include/c++/12/vector`,
+        `fn=reserve`,
+        `1 10`,
+      ])
+
+    const diffMd = diffProfiles(
+      { data: graph(600, 390), format: `callgrind` },
+      { data: graph(300, 700), format: `callgrind` },
+      { baseURL: `/app`, showEntry: () => true },
+    )
+
+    test(`splits each ranking into a subsection per covered category`, () => {
+      expect(
+        categoryRankingTables(diffMd, `Self instructions`, `Regressions`),
+      ).toEqual({
+        Native: [
+          {
+            Change: `+79.5%`,
+            Delta: `+310`,
+            '%': `39.0% → 69.3%`,
+            Instructions: `390 → 700`,
+            Function: `malloc`,
+            Location: `../usr/lib/libc.so`,
+          },
+        ],
+      })
+      expect(
+        categoryRankingTables(diffMd, `Self instructions`, `Improvements`),
+      ).toEqual({
+        Ours: [
+          {
+            Change: `-50.0%`,
+            Delta: `-300`,
+            '%': `60.0% → 29.7%`,
+            Instructions: `600 → 300`,
+            Function: `main`,
+            Location: `a.c`,
+          },
+        ],
+      })
+    })
+
+    test(`splits a ranking whose functions all fall in one category`, () => {
+      const singleCategoryMd = diffProfiles(
+        {
+          data: makeCallgrind([
+            `events: Ir`,
+            `fl=/app/a.c`,
+            `fn=main`,
+            `1 600`,
+          ]),
+          format: `callgrind`,
+        },
+        {
+          data: makeCallgrind([
+            `events: Ir`,
+            `fl=/app/a.c`,
+            `fn=main`,
+            `1 300`,
+          ]),
+          format: `callgrind`,
+        },
+        { baseURL: `/app`, showEntry: () => true },
+      )
+
+      expect(
+        diffRankingTable(singleCategoryMd, `Self instructions`, `Improvements`),
+      ).toBeUndefined()
+      expect(
+        categoryRankingTables(
+          singleCategoryMd,
+          `Self instructions`,
+          `Improvements`,
+        ),
+      ).toEqual({
+        Ours: [
+          {
+            Change: `-50.0%`,
+            Delta: `-300`,
+            '%': `100.0%`,
+            Instructions: `600 → 300`,
+            Function: `main`,
+            Location: `a.c`,
+          },
+        ],
+      })
+    })
   })
 })

@@ -86,6 +86,31 @@ export const improvementsTables = (md: string, section: string): Table[] => {
 }
 
 /**
+ * The table ranking {@link section}'s own entries, above its category
+ * subsections, or `undefined` when a category subsection repeats it.
+ */
+export const rankingTable = (md: string, section: string): Table | undefined =>
+  tableBeforeSubsections(nodesUnderHeading(parseMd(md), section))
+
+/**
+ * The table ranking the entries of {@link ranking} (a diff's `Regressions` or
+ * `Improvements`) in {@link section}, as in {@link rankingTable}.
+ */
+export const diffRankingTable = (
+  md: string,
+  section: string,
+  ranking: string,
+): Table | undefined =>
+  tableBeforeSubsections(
+    nodesUnderHeadingIn(nodesUnderHeading(parseMd(md), section), ranking),
+  )
+
+const tableBeforeSubsections = (nodes: readonly Node[]): Table | undefined => {
+  const table = nextTable(nodes, 0)
+  return table && rowsFromTable(table)
+}
+
+/**
  * Each category subsection's table under {@link section}, keyed by category, so
  * an assertion checks which categories the section broke down as well as their
  * rows.

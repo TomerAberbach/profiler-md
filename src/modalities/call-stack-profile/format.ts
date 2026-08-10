@@ -19,16 +19,19 @@ import {
   text,
 } from '../../helpers/markdown.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
-import { subsectionCategories, subsectionDiffCategories } from '../category.ts'
+import {
+  formatRankingTables,
+  rankFunctions,
+  subsectionCategories,
+  subsectionDiffCategories,
+} from '../category.ts'
 import {
   ENTRY_FILTER_DISABLED_NOTE,
-  formatCategory,
   formatDiffFunctionSections,
   formatFunctionHeading,
   formatMeasureSections,
   formatTitle,
   formatZeroTotalNote,
-  isRepeatedByCategory,
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
@@ -348,10 +351,8 @@ const formatHottestSelfFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      measure,
-      valueOf,
-      countOf,
-      options,
+      formatFunctionTable: functions =>
+        formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
     }),
     ...formatSectionGroup(
@@ -374,136 +375,6 @@ const formatHottestSelfFunctions = ({
     ),
   ]
 }
-
-/** One category's own ranking of {@link functions}. */
-type CategoryRanking = {
-  category: Category
-  functions: AggregatedCallStackProfileFunction[]
-}
-
-/** The functions a ranking displays, overall and within each category. */
-type FunctionRanking = {
-  hottestFunctions: AggregatedCallStackProfileFunction[]
-  categoryRankings: CategoryRanking[]
-  displayedFunctions: AggregatedCallStackProfileFunction[]
-}
-
-/**
- * Ranks {@link functions} by {@link valueOf}, overall and within each of
- * {@link categories}, keeping the top {@link topN} of each.
- *
- * Every ranked function gets the same breakdowns, whichever ranking displayed
- * it, so {@link FunctionRanking.displayedFunctions} contains each of them once,
- * ordered as the rankings above them are.
- */
-const rankFunctions = ({
-  functions,
-  categories,
-  valueOf,
-  topN,
-}: {
-  functions: AggregatedCallStackProfileFunction[]
-  categories: Category[]
-  valueOf: (func: AggregatedCallStackProfileFunction) => number
-  topN: number
-}): FunctionRanking => {
-  const hottestFunctions = selectTopN(functions, topN, valueOf)
-  const categoryRankings = categories.map(category => ({
-    category,
-    functions: selectTopN(
-      functions.filter(func => func.category === category),
-      topN,
-      valueOf,
-    ),
-  }))
-  const displayedFunctions = [
-    ...new Set([
-      ...hottestFunctions,
-      ...categoryRankings.flatMap(({ functions }) => functions),
-    ]),
-  ].sort((func1, func2) => valueOf(func2) - valueOf(func1))
-  return { hottestFunctions, categoryRankings, displayedFunctions }
-}
-
-/**
- * The table ranking {@link FunctionRanking.hottestFunctions}, followed by the
- * per-category subsections repeating that ranking within each category.
- *
- * A category subsection ranking exactly the hottest functions repeats the
- * overall table, which then shows once, under the heading naming the category
- * every function falls in.
- */
-const formatRankingTables = ({
-  ranking: { hottestFunctions, categoryRankings },
-  measure,
-  valueOf,
-  countOf,
-  options,
-  headingLevel,
-}: {
-  ranking: FunctionRanking
-  measure: Measure
-  valueOf: (func: AggregatedCallStackProfileFunction) => number
-  countOf: (func: AggregatedCallStackProfileFunction) => number
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] => [
-  ...(isRepeatedByCategory(
-    hottestFunctions,
-    categoryRankings.map(({ functions }) => functions),
-  )
-    ? []
-    : [
-        formatFunctionTable({
-          functions: hottestFunctions,
-          measure,
-          valueOf,
-          countOf,
-          options,
-        }),
-      ]),
-  ...formatCategoryRankings({
-    categoryRankings,
-    measure,
-    valueOf,
-    countOf,
-    options,
-    headingLevel,
-  }),
-]
-
-const formatCategoryRankings = ({
-  categoryRankings,
-  measure,
-  valueOf,
-  countOf,
-  options,
-  headingLevel,
-}: {
-  categoryRankings: CategoryRanking[]
-  measure: Measure
-  valueOf: (func: AggregatedCallStackProfileFunction) => number
-  countOf: (func: AggregatedCallStackProfileFunction) => number
-  options: FormattingProfileToMdOptions
-  headingLevel: number
-}): RootContent[] =>
-  formatSectionGroup(
-    [heading(headingLevel, `Categories`)],
-    categoryRankings.flatMap(({ category, functions }) =>
-      functions.length === 0
-        ? []
-        : [
-            heading(headingLevel + 1, formatCategory(category)),
-            formatFunctionTable({
-              functions,
-              measure,
-              valueOf,
-              countOf,
-              options,
-            }),
-          ],
-    ),
-  )
 
 const formatFunctionTable = ({
   functions,
@@ -647,10 +518,8 @@ const formatHottestTotalFunctions = ({
     ),
     ...formatRankingTables({
       ranking,
-      measure,
-      valueOf,
-      countOf,
-      options,
+      formatFunctionTable: functions =>
+        formatFunctionTable({ functions, measure, valueOf, countOf, options }),
       headingLevel: headingLevel + 1,
     }),
     ...formatSectionGroup(

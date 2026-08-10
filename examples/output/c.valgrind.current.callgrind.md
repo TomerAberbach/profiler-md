@@ -13,6 +13,10 @@ Recorded 39,558,041 instructions.
 
 Functions ranked by instructions recorded directly in the function body, excluding callees.
 
+#### Categories
+
+##### Ours
+
 |     % | Instructions | Function                                          | Location                                            |
 | ----: | -----------: | ------------------------------------------------- | --------------------------------------------------- |
 | 30.6% |   12,117,184 | `ZSTD_encodeSequences`                            | `lib//common/bitstream.h`                           |
@@ -235,6 +239,10 @@ Lines ranked by contribution to each function's self instructions.
 ### Total instructions
 
 Functions ranked by total instructions recorded in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
+
+#### Categories
+
+##### Ours
 
 |     % | Instructions | Function                        | Location                                  |
 | ----: | -----------: | ------------------------------- | ----------------------------------------- |

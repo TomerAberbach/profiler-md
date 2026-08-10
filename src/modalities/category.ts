@@ -3,6 +3,12 @@
  * that categorize functions.
  */
 
+import type { RootContent } from 'mdast'
+import { selectTopN } from '../helpers/heap.ts'
+import { formatSectionGroup, heading } from '../helpers/markdown.ts'
+import { formatCategory, isRepeatedByCategory } from './format.ts'
+import type { Category } from './format.ts'
+
 /**
  * The categories {@link entries} break down into, ordered by descending share
  * of the total.
@@ -76,6 +82,87 @@ export const subsectionDiffCategories = <Entry, Category extends string>({
     ),
     minCategoryShare,
   )
+
+/** The functions a ranking displays, overall and within each category. */
+export type FunctionRanking<Func> = {
+  hottestFunctions: Func[]
+  categoryRankings: { category: Category; functions: Func[] }[]
+  displayedFunctions: Func[]
+}
+
+/**
+ * Ranks {@link functions} by {@link valueOf}, overall and within each of
+ * {@link categories}, keeping the top {@link topN} of each.
+ *
+ * Every ranked function has the same breakdowns below it, whichever ranking
+ * displays it, so {@link FunctionRanking.displayedFunctions} contains each
+ * function once, sorted by {@link valueOf} like the rankings above it.
+ */
+export const rankFunctions = <Func extends { category: Category }>({
+  functions,
+  categories,
+  valueOf,
+  topN,
+}: {
+  functions: Func[]
+  categories: Category[]
+  valueOf: (func: Func) => number
+  topN: number
+}): FunctionRanking<Func> => {
+  const hottestFunctions = selectTopN(functions, topN, valueOf)
+  const categoryRankings = categories.map(category => ({
+    category,
+    functions: selectTopN(
+      functions.filter(func => func.category === category),
+      topN,
+      valueOf,
+    ),
+  }))
+  const displayedFunctions = [
+    ...new Set([
+      ...hottestFunctions,
+      ...categoryRankings.flatMap(({ functions }) => functions),
+    ]),
+  ].sort((func1, func2) => valueOf(func2) - valueOf(func1))
+  return { hottestFunctions, categoryRankings, displayedFunctions }
+}
+
+/**
+ * The table ranking {@link FunctionRanking.hottestFunctions}, followed by the
+ * per-category subsections repeating that ranking within each category.
+ * {@link formatFunctionTable} builds every table.
+ *
+ * A category subsection ranking exactly the hottest functions repeats the
+ * overall table, so the table shows once, under the heading naming that
+ * category.
+ */
+export const formatRankingTables = <Func>({
+  ranking: { hottestFunctions, categoryRankings },
+  formatFunctionTable,
+  headingLevel,
+}: {
+  ranking: FunctionRanking<Func>
+  formatFunctionTable: (functions: Func[]) => RootContent
+  headingLevel: number
+}): RootContent[] => [
+  ...(isRepeatedByCategory(
+    hottestFunctions,
+    categoryRankings.map(({ functions }) => functions),
+  )
+    ? []
+    : [formatFunctionTable(hottestFunctions)]),
+  ...formatSectionGroup(
+    [heading(headingLevel, `Categories`)],
+    categoryRankings.flatMap(({ category, functions }) =>
+      functions.length === 0
+        ? []
+        : [
+            heading(headingLevel + 1, formatCategory(category)),
+            formatFunctionTable(functions),
+          ],
+    ),
+  ),
+]
 
 /** Per-category sums of one side's values, with the total they sum to. */
 type CategorySums<Category extends string> = {
