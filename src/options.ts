@@ -8,8 +8,8 @@ import {
 } from './location.ts'
 import type { SourceLocation } from './location.ts'
 import type { AggregatedCallGraphFunction } from './modalities/call-graph/aggregate.ts'
+import type { AggregatedCallStackProfileFunction } from './modalities/call-stack-profile/aggregate.ts'
 import type { AggregatedHeapSnapshotNode } from './modalities/heap-snapshot/aggregate.ts'
-import type { AggregatedSamplingProfileFunction } from './modalities/sampling-profile/aggregate.ts'
 import {
   categorizeEntryForOrigin,
   matchEntryForOrigin,
@@ -124,7 +124,7 @@ export type EntryMatch = {
 
 /** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
-  | AggregatedSamplingProfileFunction
+  | AggregatedCallStackProfileFunction
   | AggregatedCallGraphFunction
   | AggregatedHeapSnapshotNode
 

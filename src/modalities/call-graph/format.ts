@@ -49,7 +49,7 @@ import {
 /**
  * What a call-graph section ranks, percentages, and tabulates by: a metric at
  * a given index in {@link AggregatedCallGraph.metrics}. A call graph has at
- * least one metric, so unlike a sampling profile's measures, these need no
+ * least one metric, so unlike a call stack profile's measures, these need no
  * sample-count fallback.
  */
 type Measure = { metric: Metric; index: number }

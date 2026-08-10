@@ -79,11 +79,11 @@ $ARGUMENTS
      `VM_STATE_FRAME_NAMES` in `src/formats/v8/heap-profile/parse.ts`) rather
      than widening `FunctionCategory`, whose members must hold across languages
      (see the categorizing principles in `CLAUDE.md`)
-     - A sampling profile parses into a `SamplingProfile` (frames, metrics,
-       lazily-generated samples; see `src/modalities/sampling-profile/type.ts`).
-       Map the format's units to metrics via `determineMetric`; a lone
-       sample-count metric should populate `Sample.sampleCount` with no metrics
-       instead
+     - A call stack profile parses into a `CallStackProfile` (frames, metrics,
+       lazily-generated observations; see
+       `src/modalities/call-stack-profile/type.ts`). Map the format's units to
+       metrics via `determineMetric`; a lone count metric should populate
+       `Observation.count` with no metrics instead
      - A heap snapshot parses into a `HeapSnapshot` (node adjacency graph,
        lazily-classified nodes; see `src/modalities/heap-snapshot/type.ts`)
      - `parse` returns a list of them (`ParsedInput[]`), which may mix

@@ -14,8 +14,8 @@ import type { Metric } from '../metric.ts'
 import { codeCell, countCell, percentCell, textCell } from '../table.ts'
 import type { Column, Table } from '../table.ts'
 import type {
-  AggregatedSamplingProfileCategoryMetrics,
-  AggregatedSamplingProfileFunction,
+  AggregatedCallStackProfileCategoryMetrics,
+  AggregatedCallStackProfileFunction,
 } from './aggregate.ts'
 
 /** The `Samples` header shared by the metric tables. */
@@ -26,7 +26,7 @@ type MeasureRow = {
   /** The row's measure value: metric value or sample count. */
   value: number
 
-  sampleCount: number
+  count: number
 
   /** The total the row's `%` is computed against. */
   total: number
@@ -57,7 +57,7 @@ const measureColumns = (metric: Metric | null): Table<MeasureRow> => [
   {
     header: samplesHeader,
     primary: metric === null,
-    cellOf: row => countCell(row.sampleCount),
+    cellOf: row => countCell(row.count),
   },
 ]
 
@@ -119,7 +119,7 @@ export const HIDDEN_FRAMES = { type: `hidden` } as const
  * shown function, or {@link HIDDEN_FRAMES}.
  */
 export type ShownFrame =
-  AggregatedSamplingProfileFunction | typeof HIDDEN_FRAMES
+  AggregatedCallStackProfileFunction | typeof HIDDEN_FRAMES
 
 /** Whether two shown frames are the same function, or both hidden. */
 export const sameShownFrame = (left: ShownFrame, right: ShownFrame): boolean =>
@@ -164,7 +164,7 @@ export const formatCallStack = (
   frames: ShownFrame[],
   options: FormattingProfileToMdOptions,
 ): PhrasingContent[] => {
-  let previousFunction: AggregatedSamplingProfileFunction | undefined
+  let previousFunction: AggregatedCallStackProfileFunction | undefined
   return frames.flatMap((frame, index) => {
     const parts: PhrasingContent[] = index === 0 ? [] : [text(` ← `)]
     if (frame.type === `hidden`) {
@@ -187,8 +187,8 @@ export const formatCallStack = (
  * refers to the last printed source.
  */
 const formatFrameLocation = (
-  frame: AggregatedSamplingProfileFunction,
-  previousFunction: AggregatedSamplingProfileFunction | undefined,
+  frame: AggregatedCallStackProfileFunction,
+  previousFunction: AggregatedCallStackProfileFunction | undefined,
   options: FormattingProfileToMdOptions,
 ): PhrasingContent[] => {
   if (!frame.location) {
@@ -220,7 +220,7 @@ const formatFrameLocation = (
  */
 export type CategoryRow = {
   category: FunctionCategory
-  stats: AggregatedSamplingProfileCategoryMetrics
+  stats: AggregatedCallStackProfileCategoryMetrics
   /** Maps each metric column to its index in {@link stats}. */
   indices: number[]
   total: number
@@ -233,9 +233,7 @@ export type CategoryRow = {
 export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
   const columnNouns = metricColumnNouns(metrics)
   const primaryValueOf = (row: CategoryRow): number =>
-    metrics.length === 0
-      ? row.stats.sampleCount
-      : row.stats.values[row.indices[0]!]!
+    metrics.length === 0 ? row.stats.count : row.stats.values[row.indices[0]!]!
 
   return [
     {
@@ -256,7 +254,7 @@ export const categoryColumns = (metrics: Metric[]): Table<CategoryRow> => {
     {
       header: samplesHeader,
       primary: metrics.length === 0,
-      cellOf: row => countCell(row.stats.sampleCount),
+      cellOf: row => countCell(row.stats.count),
     },
   ]
 }

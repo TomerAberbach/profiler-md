@@ -4,7 +4,7 @@ import { diffProfiles } from '../../index.ts'
 import {
   selfSizeTables,
   totalSizeTables,
-} from '../../modalities/sampling-profile/testing.ts'
+} from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   categoryTables,

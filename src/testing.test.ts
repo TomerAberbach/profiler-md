@@ -17,12 +17,15 @@ describe(`profileTitles`, () => {
 
   test(`returns H1 text values`, () => {
     const titles = profileTitles(dedent`
-      # SamplingProfile One
+      # CallStackProfile One
 
-      # SamplingProfile Two
+      # CallStackProfile Two
     `)
 
-    expect(titles).toStrictEqual([`SamplingProfile One`, `SamplingProfile Two`])
+    expect(titles).toStrictEqual([
+      `CallStackProfile One`,
+      `CallStackProfile Two`,
+    ])
   })
 
   test(`ignores H2 and H3 headings`, () => {
@@ -47,11 +50,11 @@ describe(`summaryLines`, () => {
 
   test(`returns first paragraph after each H1`, () => {
     const lines = summaryLines(dedent`
-      # SamplingProfile One
+      # CallStackProfile One
 
       Summary one.
 
-      # SamplingProfile Two
+      # CallStackProfile Two
 
       Summary two.
     `)
@@ -61,7 +64,7 @@ describe(`summaryLines`, () => {
 
   test(`skips H1 immediately followed by a heading`, () => {
     const lines = summaryLines(dedent`
-      # SamplingProfile One
+      # CallStackProfile One
 
       ## Subheading
 
@@ -87,7 +90,7 @@ describe(`categoryTables`, () => {
 
   test(`returns [] when H1 has no table`, () => {
     const tables = categoryTables(dedent`
-      # SamplingProfile
+      # CallStackProfile
 
       Just text.
     `)
@@ -97,7 +100,7 @@ describe(`categoryTables`, () => {
 
   test(`returns parsed rows from the table immediately after each H1`, () => {
     const tables = categoryTables(dedent`
-      # SamplingProfile
+      # CallStackProfile
 
       | Category | Count |
       | --- | --- |
@@ -109,7 +112,7 @@ describe(`categoryTables`, () => {
 
   test(`does not pick up a table under a sub-heading`, () => {
     const tables = categoryTables(dedent`
-      # SamplingProfile
+      # CallStackProfile
 
       ## Section
 
@@ -123,13 +126,13 @@ describe(`categoryTables`, () => {
 
   test(`multiple H1s each contribute one table`, () => {
     const tables = categoryTables(dedent`
-      # SamplingProfile A
+      # CallStackProfile A
 
       | Category | Count |
       | --- | --- |
       | A | 1 |
 
-      # SamplingProfile B
+      # CallStackProfile B
 
       | Category | Count |
       | --- | --- |

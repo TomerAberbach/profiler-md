@@ -6,7 +6,7 @@ import { callStackTables, selfTimeTables, totalTimeTables } from './testing.ts'
 describe(`selfTimeTables`, () => {
   test(`returns [] when heading is absent`, () => {
     const tables = selfTimeTables(dedent`
-      # SamplingProfile
+      # CallStackProfile
 
       No table.
     `)
@@ -28,7 +28,7 @@ describe(`selfTimeTables`, () => {
 
   test(`returns one table per matching heading`, () => {
     const tables = selfTimeTables(dedent`
-      # SamplingProfile 1
+      # CallStackProfile 1
 
       ## Self time
 
@@ -36,7 +36,7 @@ describe(`selfTimeTables`, () => {
       | --- | --- |
       | foo | 100ms |
 
-      # SamplingProfile 2
+      # CallStackProfile 2
 
       ## Self time
 
@@ -54,7 +54,7 @@ describe(`selfTimeTables`, () => {
 
 describe(`totalTimeTables`, () => {
   test(`returns [] when heading is absent`, () => {
-    const tables = totalTimeTables(`# SamplingProfile\n`)
+    const tables = totalTimeTables(`# CallStackProfile\n`)
 
     expect(tables).toStrictEqual([])
   })
@@ -73,7 +73,7 @@ describe(`totalTimeTables`, () => {
 
   test(`returns one table per matching heading`, () => {
     const tables = totalTimeTables(dedent`
-      # SamplingProfile 1
+      # CallStackProfile 1
 
       ## Total time
 
@@ -81,7 +81,7 @@ describe(`totalTimeTables`, () => {
       | --- | --- |
       | foo | 50ms |
 
-      # SamplingProfile 2
+      # CallStackProfile 2
 
       ## Total time
 
@@ -99,7 +99,7 @@ describe(`totalTimeTables`, () => {
 
 describe(`callStackTables`, () => {
   test(`returns [] when heading is absent`, () => {
-    const tables = callStackTables(`# SamplingProfile\n`)
+    const tables = callStackTables(`# CallStackProfile\n`)
 
     expect(tables).toStrictEqual([])
   })
@@ -118,7 +118,7 @@ describe(`callStackTables`, () => {
 
   test(`returns one table per matching heading`, () => {
     const tables = callStackTables(dedent`
-      # SamplingProfile 1
+      # CallStackProfile 1
 
       ## Hottest call stacks
 
@@ -126,7 +126,7 @@ describe(`callStackTables`, () => {
       | --- | --- |
       | a > b | 10ms |
 
-      # SamplingProfile 2
+      # CallStackProfile 2
 
       ## Hottest call stacks
 

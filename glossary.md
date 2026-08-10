@@ -5,17 +5,17 @@ parsed representations of format-specific types), defer to their canonical
 naming. Prose can also use aliases for explanations that would otherwise be
 ambiguous.
 
-| Term                 | Definition                                                                                  | Aliases to avoid       |
-| -------------------- | ------------------------------------------------------------------------------------------- | ---------------------- |
-| **Input**            | A profiler output passed to the tool; qualified by pipeline stage (raw, parsed, aggregated) | file, fixture, payload |
-| **Format**           | A supported input type (e.g. V8 CPU profile)                                                | —                      |
-| **Converter**        | A format's registered logic: detection plus parsing of its input to the uniform parsed form | parser, plugin         |
-| **Modality**         | A data structure a format captures (e.g. heap snapshot)                                     | shape, kind            |
-| **Sampling profile** | The modality produced by sampling a program's call stack at regular intervals               | profile, snapshot      |
-| **Call graph**       | The modality produced by recording per-function costs and caller→callee arcs                | profile                |
-| **Heap snapshot**    | The modality produced by capturing the program's state at a single point in time            | snapshot, profile      |
-| **Origin**           | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)           | source, emitter, tool  |
-| **Language**         | A programming language whose profilers emit a format                                        | runtime                |
+| Term                   | Definition                                                                                   | Aliases to avoid          |
+| ---------------------- | -------------------------------------------------------------------------------------------- | ------------------------- |
+| **Input**              | A profiler output passed to the tool; qualified by pipeline stage (raw, parsed, aggregated)  | file, fixture, payload    |
+| **Format**             | A supported input type (e.g. V8 CPU profile)                                                 | —                         |
+| **Converter**          | A format's registered logic: detection plus parsing of its input to the uniform parsed form  | parser, plugin            |
+| **Modality**           | A data structure a format captures (e.g. heap snapshot)                                      | shape, kind               |
+| **Call stack profile** | The modality whose records each carry a whole call stack, however the profiler produced them | sampling profile, profile |
+| **Call graph**         | The modality produced by recording per-function costs and caller→callee arcs                 | profile                   |
+| **Heap snapshot**      | The modality produced by capturing the program's state at a single point in time             | snapshot, profile         |
+| **Origin**             | The registered profiler tool or runtime that wrote an input (e.g. async-profiler)            | source, emitter, tool     |
+| **Language**           | A programming language whose profilers emit a format                                         | runtime                   |
 
 ## Conversion pipeline
 
@@ -37,7 +37,7 @@ ambiguous.
 | Term                | Definition                                                                                     | Aliases to avoid |
 | ------------------- | ---------------------------------------------------------------------------------------------- | ---------------- |
 | **Synthetic entry** | A profiler-invented entry (e.g. `(root)`, `(garbage collector)`) that exists in no source file | fake, artificial |
-| **Measure**         | A quantity a section ranks and tabulates by: a metric, or the sample count when there is none  | metric, value    |
+| **Measure**         | A quantity a section ranks and tabulates by: a metric, or the count when there is none         | metric, value    |
 | **Top N**           | The per-ranking display count; a truncation limit, not a synonym for hottest/largest           | —                |
 
 ## Code location
@@ -52,35 +52,35 @@ ambiguous.
 
 ## Costs and functions
 
-| Term         | Definition                                                                                           | Aliases to avoid      |
-| ------------ | ---------------------------------------------------------------------------------------------------- | --------------------- |
-| **Metric**   | A measured dimension with a unit: time, size, or a custom count (e.g. instructions)                  | dimension, value type |
-| **Value**    | A numeric measurement for one metric, summed across the samples or costs it aggregates               | measurement           |
-| **Self**     | Aggregated from a function's body, excluding its callees                                             | exclusive             |
-| **Total**    | Aggregated from a function's body and its transitive callees                                         | inclusive, cumulative |
-| **Function** | A unique function, identified by name and location, aggregating every sample or cost recorded for it | node, call frame      |
-| **Caller**   | A function that calls another                                                                        | parent                |
-| **Callee**   | A function another calls                                                                             | child                 |
-| **Hottest**  | Describes the entities with the highest measure in a sampling profile or call graph                  | top                   |
+| Term         | Definition                                                                                                | Aliases to avoid      |
+| ------------ | --------------------------------------------------------------------------------------------------------- | --------------------- |
+| **Metric**   | A measured dimension with a unit: time, size, or a custom count (e.g. instructions)                       | dimension, value type |
+| **Value**    | A numeric measurement for one metric, summed across the observations or costs it aggregates               | measurement           |
+| **Self**     | Aggregated from a function's body, excluding its callees                                                  | exclusive             |
+| **Total**    | Aggregated from a function's body and its transitive callees                                              | inclusive, cumulative |
+| **Function** | A unique function, identified by name and location, aggregating every observation or cost recorded for it | node, call frame      |
+| **Caller**   | A function that calls another                                                                             | parent                |
+| **Callee**   | A function another calls                                                                                  | child                 |
+| **Hottest**  | Describes the entities with the highest measure in a call stack profile or call graph                     | top                   |
 
-## Sampling profile
+## Call stack profile
 
-| Term               | Definition                                                                              | Aliases to avoid   |
-| ------------------ | --------------------------------------------------------------------------------------- | ------------------ |
-| **Sample**         | A single observation: a set of metric values plus the call stack active at that instant | observation, event |
-| **Sampling rate**  | The average metric value per sample, computed as total value ÷ total sample count       | sampling interval  |
-| **Executing line** | The line a frame was at when sampled, not its function's definition line                | sampled line       |
+| Term               | Definition                                                                           | Aliases to avoid                 |
+| ------------------ | ------------------------------------------------------------------------------------ | -------------------------------- |
+| **Observation**    | One record: a call stack, a value per metric, and how many occurrences it stands for | sample, record, event            |
+| **Rate**           | The average metric value per counted unit, computed as total value ÷ total count     | sampling rate, sampling interval |
+| **Executing line** | The line a frame was at when recorded, not its function's definition line            | sampled line                     |
 
 ### Call stacks
 
-| Term             | Definition                                                                                        | Aliases to avoid        |
-| ---------------- | ------------------------------------------------------------------------------------------------- | ----------------------- |
-| **Call stack**   | A unique callee-to-caller sequence of functions, aggregating all samples with that exact sequence | stack                   |
-| **Stack frame**  | A function's position within a specific call stack                                                | call frame              |
-| **Pseudo-frame** | A profiler-inserted stack entry that is not a function, dropped during normalization              | scaffolding, wrapper    |
-| **Leaf frame**   | The first frame in a call stack (callee-to-caller order); the function executing at sample time   | top frame, bottom frame |
-| **Root frame**   | The last frame in a call stack (callee-to-caller order); the outermost caller                     | top frame, bottom frame |
-| **Frame pair**   | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution      | edge, call edge         |
+| Term             | Definition                                                                                             | Aliases to avoid        |
+| ---------------- | ------------------------------------------------------------------------------------------------------ | ----------------------- |
+| **Call stack**   | A unique callee-to-caller sequence of functions, aggregating all observations with that exact sequence | stack                   |
+| **Stack frame**  | A function's position within a specific call stack                                                     | call frame              |
+| **Pseudo-frame** | A profiler-inserted stack entry that is not a function, dropped during normalization                   | scaffolding, wrapper    |
+| **Leaf frame**   | The first frame in a call stack (callee-to-caller order); the function executing when it was recorded  | top frame, bottom frame |
+| **Root frame**   | The last frame in a call stack (callee-to-caller order); the outermost caller                          | top frame, bottom frame |
+| **Frame pair**   | An adjacent caller–callee pairing within a call stack; the unit of caller/callee attribution           | edge, call edge         |
 
 ## Call graph
 
@@ -135,17 +135,17 @@ ambiguous.
   spec
 - An **origin** with no **marker entries** still registers; its inputs resolve
   to the **fallback origin** unless the user specifies the origin
-- A **sampling profile** contains many **samples**
-- A **sample** has one **call stack** and one **value** per **metric**
+- A **call stack profile** contains many **observations**
+- An **observation** has one **call stack** and one **value** per **metric**
 - A **call stack** is an ordered list of **frames** and each **frame** is a
   **function**
-- A **sampling profile** and a **call graph** aggregate **functions** with
+- A **call stack profile** and a **call graph** aggregate **functions** with
   **self** and **total** **values** per **metric**, deriving them from
-  **samples** in one and from recorded costs in the other
-- A **sampling profile** with no **metrics** still has one **measure**: its
-  sample count
+  **observations** in one and from recorded costs in the other
+- A **call stack profile** with no **metrics** still has one **measure**: its
+  count
 - A **call graph** contains **functions** connected by **arcs**. It has at least
-  one **metric** because it has no sample count to fall back on
+  one **metric** because it has no count to fall back on
 - A **heap snapshot** contains **nodes** connected by **edges**
 - A **node**'s **retained size** is computed via the **dominator** graph
 - An **entity** aggregates one or more **nodes**; a constructor **entity**'s

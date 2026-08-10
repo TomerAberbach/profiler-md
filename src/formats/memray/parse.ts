@@ -1,10 +1,10 @@
 import { HashInterner } from '../../helpers/intern.ts'
 import { decompressLz4Frame, isLz4Frame } from '../../helpers/lz4.ts'
-import { determineMetric } from '../../modalities/metric.ts'
 import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
+import { determineMetric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -19,7 +19,7 @@ import { FormatParseError } from '../error.ts'
  * to whatever stack the pushes and pops have built up for its thread.
  *
  * The two measures count different allocations, so each is its own profile,
- * whose samples are the allocations that measure counts.
+ * whose observations are the allocations that measure counts.
  *
  * A capture holds no aggregate totals, so both measures are computed by
  * replaying the stream: the peak from the live allocations at the moment total
@@ -32,7 +32,7 @@ import { FormatParseError } from '../error.ts'
  *
  * @see https://github.com/bloomberg/memray/tree/main/src/memray/_memray
  */
-export const parseMemray = (input: Uint8Array): SamplingProfile[] => {
+export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
   const bytes = isLz4Frame(input) ? decompress(input) : input
   const reader = new ByteReader(bytes)
   const header = readHeader(reader)
@@ -409,22 +409,22 @@ class Capture {
    * memory live at the peak and the memory never freed, each counting the
    * allocations that measure attributes to a stack.
    */
-  public toProfiles(): SamplingProfile[] {
+  public toProfiles(): CallStackProfile[] {
     const frames = this.#stackTree.frames.map(frame =>
       this.#toStackFrame(frame),
     )
     return [
       {
-        type: `sampling-profile`,
+        type: `call-stack-profile`,
         frames,
         metrics: [PEAK_METRIC],
-        samples: this.#samples(`peak`),
+        observations: this.#observations(`peak`),
       },
       {
-        type: `sampling-profile`,
+        type: `call-stack-profile`,
         frames,
         metrics: [LEAKED_METRIC],
-        samples: this.#samples(`leaked`),
+        observations: this.#observations(`leaked`),
       },
     ]
   }
@@ -693,11 +693,11 @@ class Capture {
   }
 
   /**
-   * The samples of one measure's profile: each stack's bytes, over the
+   * The observations of one measure's profile: each stack's bytes, over the
    * allocations that measure counts for it, as a pprof heap profile counts its
-   * samples by the objects allocated.
+   * records by the objects allocated.
    */
-  *#samples(measure: `peak` | `leaked`): Iterable<Sample> {
+  *#observations(measure: `peak` | `leaked`): Iterable<Observation> {
     const bytesKey = measure === `peak` ? `peakBytes` : `leakedBytes`
     const countKey = measure === `peak` ? `peakCount` : `leakedCount`
 
@@ -707,7 +707,7 @@ class Capture {
 
       // A stack the other measure counts alone. A stack this one counts holds
       // no bytes when every allocation it made was of no size, and those
-      // allocations still count toward the profile's samples.
+      // allocations still count toward the profile's observations.
       if (bytes === 0 && count === 0) {
         continue
       }
@@ -718,14 +718,14 @@ class Capture {
       // multiply back to a total off by an ulp, which a diff reports as a
       // change.
       const frameIndices = this.#framesOf(stack)
-      yield { id: stack, values: [bytes], frameIndices, sampleCount: 1 }
+      yield { id: stack, values: [bytes], frameIndices, count: 1 }
 
       if (count > 1) {
         yield {
           id: stack,
           values: [0],
           frameIndices,
-          sampleCount: count - 1,
+          count: count - 1,
         }
       }
     }

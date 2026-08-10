@@ -1,4 +1,4 @@
-# Sampling profile diff
+# Profile diff
 
 117 samples → 120 samples (+3 samples, +2.6%).
 

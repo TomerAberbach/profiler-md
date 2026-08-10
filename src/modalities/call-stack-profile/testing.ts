@@ -10,10 +10,10 @@ import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import type { Metric } from '../metric.ts'
 import type { StackFrame } from '../stack-frame.ts'
-import { SamplingProfileAggregator } from './aggregate.ts'
-import type { AggregatedSamplingProfile } from './aggregate.ts'
+import { CallStackProfileAggregator } from './aggregate.ts'
+import type { AggregatedCallStackProfile } from './aggregate.ts'
 
-export const makeAggregatedSamplingProfile = (
+export const makeAggregatedCallStackProfile = (
   metrics: Metric[],
   functions: {
     name: string
@@ -22,32 +22,32 @@ export const makeAggregatedSamplingProfile = (
     logicalName?: string
     line?: number
     selfValues: number[]
-    selfSampleCount: number
-    /** Leaf-to-caller frame indices of each sample; defaults to the function alone. */
+    selfCount: number
+    /** Leaf-to-caller frame indices of each record; defaults to the function alone. */
     stack?: number[]
   }[],
   // The forced origin is immaterial for entries with no origin-specific
   // signal; tests exercising origin-aware match normalization pass the
   // relevant context.
   context?: ProfileToMdContext,
-): AggregatedSamplingProfile => {
+): AggregatedCallStackProfile => {
   const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const frames: StackFrame[] = functions.map(func => ({
     name: func.name,
     location: makeLocationInput(func),
   }))
-  const samples = functions.flatMap((func, index) =>
-    Array.from({ length: func.selfSampleCount }, () => ({
-      values: func.selfValues.map(value => value / func.selfSampleCount),
+  const observations = functions.flatMap((func, index) =>
+    Array.from({ length: func.selfCount }, () => ({
+      values: func.selfValues.map(value => value / func.selfCount),
       frameIndices: func.stack ?? [index],
     })),
   )
 
-  return new SamplingProfileAggregator({
-    type: `sampling-profile`,
+  return new CallStackProfileAggregator({
+    type: `call-stack-profile`,
     frames,
     metrics,
-    samples,
+    observations,
   }).aggregate(
     options,
     context ?? { format: `v8-cpu-profile`, origin: `unknown` },

@@ -1,4 +1,4 @@
-# Sampling profile
+# Profile
 
 Collected 19,789 samples.
 

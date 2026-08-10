@@ -8,9 +8,9 @@ import { matchDiffedEntries, matchDiffedMaps } from '../diff.ts'
 import type { DiffMetric } from '../metric.ts'
 import { matchDiffedMetrics } from '../metric.ts'
 import type {
-  AggregatedSamplingProfile,
-  AggregatedSamplingProfileCategoryMetrics,
-  AggregatedSamplingProfileFunction,
+  AggregatedCallStackProfile,
+  AggregatedCallStackProfileCategoryMetrics,
+  AggregatedCallStackProfileFunction,
 } from './aggregate.ts'
 
 /**
@@ -21,37 +21,37 @@ import type {
  * function is present in it, and from the base profile otherwise.
  *
  * Each side's values are indexed by that side's profile's
- * {@link AggregatedSamplingProfile.metrics}; read them using
+ * {@link AggregatedCallStackProfile.metrics}; read them using
  * {@link DiffMetric.baseIndex} and {@link DiffMetric.currentIndex}.
  */
-export type AggregatedSamplingProfileFunctionDiff = Pick<
-  AggregatedSamplingProfileFunction,
+export type AggregatedCallStackProfileFunctionDiff = Pick<
+  AggregatedCallStackProfileFunction,
   `name` | `location` | `category`
 > &
-  Diff<AggregatedSamplingProfileFunction>
+  Diff<AggregatedCallStackProfileFunction>
 
 /** A diff of two aggregated profiles. */
-export type AggregatedSamplingProfileDiff = {
+export type AggregatedCallStackProfileDiff = {
   /** The base profile. */
-  base: AggregatedSamplingProfile
+  base: AggregatedCallStackProfile
 
   /** The current profile. */
-  current: AggregatedSamplingProfile
+  current: AggregatedCallStackProfile
 
   /** Metrics sampled in both the base and current profiles. */
   metrics: DiffMetric[]
 
   /**
    * Function category to that category's metrics in each profile. Each side's
-   * values are indexed like {@link AggregatedSamplingProfileFunctionDiff}'s.
+   * values are indexed like {@link AggregatedCallStackProfileFunctionDiff}'s.
    */
   categoryToMetrics: Map<
     FunctionCategory,
-    Diff<AggregatedSamplingProfileCategoryMetrics>
+    Diff<AggregatedCallStackProfileCategoryMetrics>
   >
 
   /** Functions called in either profile, matched across the two. */
-  functions: AggregatedSamplingProfileFunctionDiff[]
+  functions: AggregatedCallStackProfileFunctionDiff[]
 }
 
 /**
@@ -60,11 +60,11 @@ export type AggregatedSamplingProfileDiff = {
  *
  * Throws if the profiles have no metrics in common.
  */
-export const diffAggregatedSamplingProfiles = (
-  base: AggregatedSamplingProfile,
-  current: AggregatedSamplingProfile,
+export const diffAggregatedCallStackProfiles = (
+  base: AggregatedCallStackProfile,
+  current: AggregatedCallStackProfile,
   options: FormattingProfileToMdOptions,
-): AggregatedSamplingProfileDiff => {
+): AggregatedCallStackProfileDiff => {
   const metrics = matchDiffedMetrics(base.metrics, current.metrics)
   if (
     metrics.length === 0 &&

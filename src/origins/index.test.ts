@@ -64,7 +64,7 @@ if (inputFilenames.length > 0) {
         // a category.
         const functionCategories = new Set(
           inputs.flatMap(input =>
-            input.type === `sampling-profile` || input.type === `call-graph`
+            input.type === `call-stack-profile` || input.type === `call-graph`
               ? input.functions.map(func => func.category)
               : [],
           ),

@@ -4,18 +4,18 @@ import type {
   CallGraph,
 } from '../modalities/call-graph/index.ts'
 import type {
+  AggregatedCallStackProfile,
+  CallStackProfile,
+} from '../modalities/call-stack-profile/index.ts'
+import type {
   AggregatedHeapSnapshot,
   HeapSnapshot,
 } from '../modalities/heap-snapshot/index.ts'
-import type {
-  AggregatedSamplingProfile,
-  SamplingProfile,
-} from '../modalities/sampling-profile/index.ts'
 
-export type ParsedInput = SamplingProfile | CallGraph | HeapSnapshot
+export type ParsedInput = CallStackProfile | CallGraph | HeapSnapshot
 
 export type AggregatedInput =
-  AggregatedSamplingProfile | AggregatedCallGraph | AggregatedHeapSnapshot
+  AggregatedCallStackProfile | AggregatedCallGraph | AggregatedHeapSnapshot
 
 type FormatMeta = {
   /** The format's display name. */

@@ -1,13 +1,13 @@
 import { Profile as PprofProto } from 'pprof-format'
+import type {
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
-import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
-export const parsePprof = (bytes: Uint8Array): SamplingProfile[] => {
+export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
   const profile = PprofProto.decode(bytes)
   const string = makeStringReader(profile)
 
@@ -24,7 +24,7 @@ export const parsePprof = (bytes: Uint8Array): SamplingProfile[] => {
     profile,
     frameIndexByFunctionId,
   )
-  const samples = parseSamples(
+  const observations = parseObservations(
     profile,
     framesByLocationId,
     metricValueIndices,
@@ -33,11 +33,11 @@ export const parsePprof = (bytes: Uint8Array): SamplingProfile[] => {
 
   return [
     {
-      type: `sampling-profile`,
+      type: `call-stack-profile`,
       ...(originHint && { originHint }),
       frames,
       metrics,
-      samples,
+      observations,
     },
   ]
 }
@@ -162,13 +162,13 @@ const resolveLocationStackFrames = (
   return framesByLocationId
 }
 
-const parseSamples = (
+const parseObservations = (
   profile: PprofProto,
   framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
   metricValueIndices: number[],
   countValueIndex: number | undefined,
-): Sample[] => {
-  const samples: Sample[] = []
+): Observation[] => {
+  const observations: Observation[] = []
   for (const { locationId, value } of profile.sample) {
     const frameIndices: number[] = []
     let calleeLine: number | undefined
@@ -183,23 +183,21 @@ const parseSamples = (
       continue
     }
     // A record's metric values are totals across its aggregated occurrences,
-    // and the aggregator scales values by the sample count, so divide them
-    // back to per-occurrence. A missing or zero count (some producers zero it
-    // while a metric value remains) still describes at least one occurrence.
-    const count =
+    // and the aggregator scales values by the count, so divide them back to
+    // per-occurrence. A missing or zero count (some producers zero it while a
+    // metric value remains) still describes at least one occurrence.
+    const rawCount =
       countValueIndex === undefined ? 1 : Number(value[countValueIndex]!)
-    const sampleCount = count > 0 ? count : 1
-    samples.push({
-      values: metricValueIndices.map(
-        index => Number(value[index]!) / sampleCount,
-      ),
+    const count = rawCount > 0 ? rawCount : 1
+    observations.push({
+      values: metricValueIndices.map(index => Number(value[index]!) / count),
       frameIndices,
       // The leaf's line 0 means unknown, not a fallback to deeper lines.
       line: knownPprofLine(calleeLine),
-      sampleCount,
+      count,
     })
   }
-  return samples
+  return observations
 }
 
 /**

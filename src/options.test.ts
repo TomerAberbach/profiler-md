@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
+import { makeAggregatedCallStackProfile } from './modalities/call-stack-profile/testing.ts'
 import { makeAggregatedHeapSnapshotConstructor } from './modalities/heap-snapshot/testing.ts'
-import { makeAggregatedSamplingProfile } from './modalities/sampling-profile/testing.ts'
 import {
   defaultShowEntry,
   isExternalImplementationDetailEntry,
@@ -150,14 +150,14 @@ const nodeContext = { format: `v8-cpu-profile`, origin: `node` } as const
 
 describe(`isExternalImplementationDetailEntry`, () => {
   test(`returns false for an 'ours' function`, () => {
-    const [ourFunc] = makeAggregatedSamplingProfile(
+    const [ourFunc] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `ourFunc`,
           url: `/project/main.ts`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
       ],
       nodeContext,
@@ -167,20 +167,20 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns false for an external function called by 'ours' code`, () => {
-    const [, libFunc] = makeAggregatedSamplingProfile(
+    const [, libFunc] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `ourFunc`,
           url: `/project/main.ts`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
         {
           name: `libFunc`,
           url: `/project/node_modules/lib/index.js`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
           stack: [1, 0],
         },
       ],
@@ -191,27 +191,27 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns true for an external function called only by external code`, () => {
-    const libHelper = makeAggregatedSamplingProfile(
+    const libHelper = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `ourFunc`,
           url: `/project/main.ts`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
         {
           name: `libFunc`,
           url: `/project/node_modules/lib/index.js`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
           stack: [1, 0],
         },
         {
           name: `libHelper`,
           url: `/project/node_modules/lib/helper.js`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
           stack: [2, 1, 0],
         },
       ],
@@ -222,14 +222,14 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns true for an external function with no callers`, () => {
-    const [libFunc] = makeAggregatedSamplingProfile(
+    const [libFunc] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `libFunc`,
           url: `/project/node_modules/lib/index.js`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
       ],
       nodeContext,
@@ -239,19 +239,19 @@ describe(`isExternalImplementationDetailEntry`, () => {
   })
 
   test(`returns false for a locationless function called by 'ours' code`, () => {
-    const [, nativeCall] = makeAggregatedSamplingProfile(
+    const [, nativeCall] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `ourFunc`,
           url: `/project/main.ts`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
         {
           name: `nativeCall`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
           stack: [1, 0],
         },
       ],
@@ -274,14 +274,14 @@ describe(`defaultShowEntry`, () => {
   })
 
   test(`hides external implementation detail entries`, () => {
-    const [libFunc] = makeAggregatedSamplingProfile(
+    const [libFunc] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `libFunc`,
           url: `/project/node_modules/lib/index.js`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
       ],
       nodeContext,
@@ -291,14 +291,14 @@ describe(`defaultShowEntry`, () => {
   })
 
   test(`shows 'ours' entries`, () => {
-    const [ourFunc] = makeAggregatedSamplingProfile(
+    const [ourFunc] = makeAggregatedCallStackProfile(
       [],
       [
         {
           name: `ourFunc`,
           url: `/project/main.ts`,
           selfValues: [],
-          selfSampleCount: 1,
+          selfCount: 1,
         },
       ],
       nodeContext,

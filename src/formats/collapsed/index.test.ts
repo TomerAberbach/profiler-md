@@ -3,7 +3,7 @@ import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   selfSamplesTables,
   totalSamplesTables,
-} from '../../modalities/sampling-profile/testing.ts'
+} from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
@@ -73,7 +73,7 @@ describe(`convert`, () => {
 
     // Collapsed stacks have no metric, so the profile is ranked by sample count
     // alone with no redundant value column.
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
+    expect(profileTitles(md)).toEqual([`Profile`])
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
 
     // `work` is the hottest self (leaf of the reversed stack) with the summed

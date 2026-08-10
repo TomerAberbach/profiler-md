@@ -1,11 +1,11 @@
 import { ByteQueue } from '../../helpers/bytes.ts'
 import { HashInterner } from '../../helpers/intern.ts'
+import type {
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
-import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /**
@@ -13,7 +13,7 @@ import type { StackFrame } from '../../modalities/stack-frame.ts'
  *
  * - `cpu`: CPU/wall sampling (`jdk.ExecutionSample`, `jdk.NativeMethodSample`,
  *   async-profiler's `profiler.WallClockSample`). Carries no weight; ranked by
- *   sample count, each event contributing {@link JfrSampleEvent.sampleCount}
+ *   sample count, each event contributing {@link JfrSampleEvent.count}
  *   samples. Wall-clock samples rank by count too: their `timeSpan` is zero for
  *   most uncoalesced samples, so weighting by it would understate where
  *   wall-clock time goes.
@@ -47,7 +47,7 @@ type JfrMethod = {
 
 /**
  * A unique call stack referenced by sample events. Only the leaf frame's line
- * is kept: it's the only line the uniform {@link Sample} carries, so non-leaf
+ * is kept: it's the only line the uniform {@link Observation} carries, so non-leaf
  * lines would be dropped anyway, and eliding them avoids a per-frame object.
  */
 type JfrStackTrace = {
@@ -80,7 +80,7 @@ type JfrSampleEvent = {
    * coalesced events (async-profiler's `profiler.WallClockSample`) report a
    * batched count.
    */
-  sampleCount: number
+  count: number
 }
 
 /** Parsed representation of a Java Flight Recorder recording. */
@@ -119,7 +119,7 @@ type Jfr = {
  *
  * @see https://github.com/openjdk/jdk/tree/master/src/jdk.jfr/share/classes/jdk/jfr/internal/consumer
  */
-export const parseJfr = (bytes: Uint8Array): SamplingProfile[] => {
+export const parseJfr = (bytes: Uint8Array): CallStackProfile[] => {
   const parser = new JfrParser()
   for (const chunk of jfrChunks(bytes)) {
     parser.parseChunk(chunk)
@@ -134,7 +134,7 @@ export const parseJfr = (bytes: Uint8Array): SamplingProfile[] => {
  */
 export const parseJfrAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<SamplingProfile[]> => {
+): Promise<CallStackProfile[]> => {
   const parser = new JfrParser()
   for await (const chunk of jfrChunksAsync(stream)) {
     parser.parseChunk(chunk)
@@ -210,7 +210,7 @@ const jfrToProfiles = ({
   stackTraces,
   events,
   isAsyncProfiler,
-}: Jfr): SamplingProfile[] => {
+}: Jfr): CallStackProfile[] => {
   // Methods are a dense table whose index is the method id, shared across every
   // kind's profile as its distinct frames.
   const frames = methods.map(methodToStackFrame)
@@ -220,18 +220,18 @@ const jfrToProfiles = ({
   // A single recording can mix CPU, allocation, and lock events, so emit one
   // profile per kind that's present (all sharing `frames`), like multi-metric
   // pprof.
-  const profiles: SamplingProfile[] = []
+  const profiles: CallStackProfile[] = []
   for (const { kind, metric } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
     }
     profiles.push({
-      type: `sampling-profile`,
+      type: `call-stack-profile`,
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
-      samples: kindSamples(kindEvents, metric, stackTraces),
+      observations: kindObservations(kindEvents, metric, stackTraces),
     })
   }
 
@@ -245,11 +245,11 @@ const methodToStackFrame = (method: JfrMethod): StackFrame => ({
     : undefined,
 })
 
-function* kindSamples(
+function* kindObservations(
   events: JfrSampleEvent[],
   metric: Metric | undefined,
   stackTraces: JfrStackTrace[],
-): Iterable<Sample> {
+): Iterable<Observation> {
   for (const event of events) {
     const { methodIds, leafLine } = stackTraces[event.stackTraceId]!
     yield {
@@ -257,7 +257,7 @@ function* kindSamples(
       values: metric ? [event.weight] : [],
       frameIndices: methodIds,
       line: leafLine,
-      sampleCount: event.sampleCount,
+      count: event.count,
     }
   }
 }
@@ -419,7 +419,7 @@ type RawEvent = {
   kind: JfrSampleKind
   stackKey: number
   weight: number
-  sampleCount: number
+  count: number
   allocFamily?: AllocFamily
 }
 
@@ -476,8 +476,8 @@ class JfrParser {
       sameMethodIds(stack.methodIds, key.methodIds),
   )
 
-  // Sample events, with legacy TLAB allocation events kept apart so they can be
-  // dropped when the modern unified sampled event is also present.
+  // Sample events, with legacy TLAB allocation events kept apart so they can
+  // be dropped when the modern unified sampled event is also present.
   readonly #events: JfrSampleEvent[] = []
   readonly #tlabEvents: JfrSampleEvent[] = []
 
@@ -792,7 +792,7 @@ class JfrParser {
   ): RawEvent {
     let stackKey = 0
     let rawWeight = 1
-    let sampleCount = 1
+    let count = 1
     for (const field of type.fields) {
       const value = this.#readValue(field)
       switch (field.name) {
@@ -803,7 +803,7 @@ class JfrParser {
           rawWeight = value as number
           break
         case countField:
-          sampleCount = value as number
+          count = value as number
           break
       }
     }
@@ -813,7 +813,7 @@ class JfrParser {
     const weight = weightInTicks
       ? this.#ticksToNanoseconds(rawWeight)
       : rawWeight
-    return { kind, stackKey, weight, sampleCount, allocFamily }
+    return { kind, stackKey, weight, count, allocFamily }
   }
 
   #ticksToNanoseconds(ticks: number): number {
@@ -1032,17 +1032,11 @@ class JfrParser {
     rawEvents: RawEvent[],
   ): void {
     const resolver = this.#chunkResolver(pools)
-    for (const {
-      kind,
-      stackKey,
-      weight,
-      sampleCount,
-      allocFamily,
-    } of rawEvents) {
+    for (const { kind, stackKey, weight, count, allocFamily } of rawEvents) {
       const stackTraceId =
         resolver.resolveStack(stackKey) ?? resolver.emptyStack()
 
-      const event: JfrSampleEvent = { kind, stackTraceId, weight, sampleCount }
+      const event: JfrSampleEvent = { kind, stackTraceId, weight, count }
       if (allocFamily === `tlab`) {
         this.#tlabEvents.push(event)
       } else {

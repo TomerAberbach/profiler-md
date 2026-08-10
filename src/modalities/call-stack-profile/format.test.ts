@@ -9,11 +9,11 @@ import {
   summaryLines,
 } from '../../testing.ts'
 import { determineMetric, MEGABYTES, MICROSECONDS } from '../metric.ts'
-import { diffAggregatedSamplingProfiles } from './diff.ts'
-import { formatSamplingProfile, formatSamplingProfileDiff } from './format.ts'
+import { diffAggregatedCallStackProfiles } from './diff.ts'
+import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
 import {
   callStackTables,
-  makeAggregatedSamplingProfile,
+  makeAggregatedCallStackProfile,
   selfTimeTables,
   totalTimeTables,
 } from './testing.ts'
@@ -29,41 +29,41 @@ const ELLIPSIS_NOTE = `\`…\` stands for frames the entry filter hides.`
 /** The gperftools in-use metric, all zeros when nothing was live at dump time. */
 const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
 
-describe(`formatSamplingProfile`, () => {
+describe(`formatCallStackProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `hotLeaf`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1],
         },
         {
           name: `hotCaller`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `coldLeaf`,
           url: `file:///project/src/c.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [0],
           stack: [2, 3],
         },
         {
           name: `coldCaller`,
           url: `file:///project/src/d.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -82,26 +82,26 @@ describe(`formatSamplingProfile`, () => {
     // default filter hides external implementation details (extLeaf, called
     // only by stdlib) but must keep extMid: it's the external API surface ours
     // code calls directly, even though it has zero self samples.
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `extLeaf`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1, 2],
         },
-        { name: `extMid`, selfSampleCount: 0, selfValues: [0] },
+        { name: `extMid`, selfCount: 0, selfValues: [0] },
         {
           name: `main`,
           url: `file:///project/src/main.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(totalTimeTables(md)).toEqual([
       [
@@ -128,32 +128,32 @@ describe(`formatSamplingProfile`, () => {
     // Two stacks share the visible suffix extApi ← main but end in different
     // hidden stdlib leaves. Without merging they'd render as two identical
     // rows, each carrying only its own slice of the value.
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `extLeafA`,
-          selfSampleCount: 3,
+          selfCount: 3,
           selfValues: [180],
           stack: [0, 2, 3],
         },
         {
           name: `extLeafB`,
-          selfSampleCount: 2,
+          selfCount: 2,
           selfValues: [120],
           stack: [1, 2, 3],
         },
-        { name: `extApi`, selfSampleCount: 0, selfValues: [0] },
+        { name: `extApi`, selfCount: 0, selfValues: [0] },
         {
           name: `main`,
           url: `file:///project/src/main.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -168,26 +168,26 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`marks hidden frames between two shown frames with an ellipsis`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1, 2],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
@@ -197,7 +197,7 @@ describe(`formatSamplingProfile`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -216,32 +216,32 @@ describe(`formatSamplingProfile`, () => {
     // One stack reaches funcC through a hidden frame and the other calls it
     // directly, so the ellipsis prints on the row instead of in the common
     // call stack.
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 6,
+          selfCount: 6,
           selfValues: [360],
           stack: [0, 1, 2],
         },
         {
           name: `hiddenMid`,
           url: `file:///project/src/mid.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 3,
+          selfCount: 3,
           selfValues: [180],
           stack: [3, 2],
         },
@@ -252,7 +252,7 @@ describe(`formatSamplingProfile`, () => {
       showEntry: entry => !entry.name?.startsWith(`hidden`),
     })
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(md).toContain(`Common call stack: \`funcC\` (\`src/c.ts\`)`)
     expect(callStackTables(md)).toEqual([
@@ -275,28 +275,28 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`shortens a location across an ellipsis`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1, 2],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `funcC`,
           url: `file:///project/src/a.ts`,
           line: 42,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
@@ -306,7 +306,7 @@ describe(`formatSamplingProfile`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -321,32 +321,32 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`drops hidden frames below the leaf and above the root without an ellipsis`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `hiddenLeaf`,
           url: `file:///project/src/leaf.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1, 2, 3],
         },
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
         {
           name: `hiddenRoot`,
           url: `file:///project/src/root.ts`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
@@ -356,7 +356,7 @@ describe(`formatSamplingProfile`, () => {
       showEntry: entry => !entry.name?.startsWith(`hidden`),
     })
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -376,20 +376,20 @@ describe(`formatSamplingProfile`, () => {
     // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
     // default filter would hide everything, emptying the body, so it is
     // disabled with a note instead.
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `extLeaf`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300],
           stack: [0, 1],
         },
-        { name: `extRoot`, selfSampleCount: 0, selfValues: [0] },
+        { name: `extRoot`, selfCount: 0, selfValues: [0] },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -407,11 +407,11 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`shows all functions when a custom showEntry would hide every one`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
-        { name: `funcA`, selfSampleCount: 5, selfValues: [300], stack: [0, 1] },
-        { name: `funcB`, selfSampleCount: 0, selfValues: [0] },
+        { name: `funcA`, selfCount: 5, selfValues: [300], stack: [0, 1] },
+        { name: `funcB`, selfCount: 0, selfValues: [0] },
       ],
     )
     const options = resolveProfileToMdOptions({
@@ -419,7 +419,7 @@ describe(`formatSamplingProfile`, () => {
       showEntry: () => false,
     })
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, options))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(md).toContain(
       `The entry filter hides every sampled function, so all functions are shown.`,
@@ -437,64 +437,64 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`notes a metric with no recorded values in place of its sections`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [300, 0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
   })
 
   test(`notes a single metric with no recorded values in place of all sections`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(md).toContain(`No bytes retained in any sample.`)
     expect(md).not.toContain(`Hottest`)
   })
 
   test(`keeps a call stack's module location after a file of the same name`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `leaf`,
           url: `lists`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [200],
           stack: [0, 1],
         },
         {
           name: `caller`,
           logicalName: `lists`,
-          selfSampleCount: 0,
+          selfCount: 0,
           selfValues: [0],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -509,25 +509,25 @@ describe(`formatSamplingProfile`, () => {
   })
 
   test(`keeps a function in a file and one in a module of the same name apart`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `sort`,
           url: `lists`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [200],
         },
         {
           name: `sort`,
           logicalName: `lists`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
       ],
     )
 
-    const md = mdastToMarkdown(formatSamplingProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
 
     expect(selfTimeTables(md)).toEqual([
       [
@@ -550,63 +550,63 @@ describe(`formatSamplingProfile`, () => {
   })
 })
 
-describe(`formatSamplingProfileDiff`, () => {
+describe(`formatCallStackProfileDiff`, () => {
   test(`produces expected title`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 10,
+          selfCount: 10,
           selfValues: [200],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(profileTitles(md)).toEqual([`CPU profile diff`])
   })
 
   test(`includes base and current summary lines`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 10,
+          selfCount: 10,
           selfValues: [200],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     const lines = summaryLines(md)
     expect(lines).toHaveLength(1)
@@ -615,31 +615,31 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`includes category table with delta and change`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 10,
+          selfCount: 10,
           selfValues: [200],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(categoryTables(md)).toEqual([
       [
@@ -656,47 +656,47 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`lists regressions and improvements per direction`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
-          selfSampleCount: 3,
+          selfCount: 3,
           selfValues: [60],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 10,
+          selfCount: 10,
           selfValues: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
-          selfSampleCount: 2,
+          selfCount: 2,
           selfValues: [40],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     // FuncA grew (regression); funcC is new (regression); funcB was removed
     // (improvement). funcA and funcB are leaves, so self and total match.
@@ -742,40 +742,40 @@ describe(`formatSamplingProfileDiff`, () => {
     // FuncB exists only in the base profile and funcC only in the current
     // profile, so they have the same profile-local function ID; hiding funcB
     // must not hide funcC.
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 20,
-          selfSampleCount: 3,
+          selfCount: 3,
           selfValues: [60],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 10,
+          selfCount: 10,
           selfValues: [200],
         },
         {
           name: `funcC`,
           url: `file:///project/src/c.ts`,
           line: 30,
-          selfSampleCount: 2,
+          selfCount: 2,
           selfValues: [40],
         },
       ],
@@ -785,8 +785,8 @@ describe(`formatSamplingProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcB`,
     })
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
     expect(regressionsTables(md, `Self time`)).toEqual([
@@ -815,25 +815,25 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(
+    const diff = diffAggregatedCallStackProfiles(
       profile,
       profile,
       defaultOptions,
     )
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     // The unchanged total reads as a measurement, so it omits the change suffix
     // a zero delta would otherwise produce.
@@ -869,21 +869,21 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [0],
         },
       ],
@@ -896,46 +896,46 @@ describe(`formatSamplingProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedSamplingProfiles(
+    const diff = diffAggregatedCallStackProfiles(
       profile,
       profile,
       defaultOptions,
     )
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## Hottest functions$/mu)
     expect(md).not.toContain(`No function differed`)
   })
 
   test(`notes the unchanged metric while detailing the changed one in a multi-metric diff`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100, 100],
         },
       ],
     )
     // Only the CPU metric changes; the heap metric is identical on both sides.
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           line: 10,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [200, 100],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
@@ -949,31 +949,31 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100, 0],
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS, RETAINED_BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [200, 0],
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, defaultOptions))
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, defaultOptions))
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toContain(`## Retained heap\n\nNo bytes retained in any sample.`)
@@ -981,19 +981,19 @@ describe(`formatSamplingProfileDiff`, () => {
   })
 
   test(`omits a metric's heading when hidden entries leave it without sections`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS, MEGABYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [100, 100],
         },
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
-          selfSampleCount: 5,
+          selfCount: 5,
           selfValues: [0, 100],
         },
       ],
@@ -1006,12 +1006,12 @@ describe(`formatSamplingProfileDiff`, () => {
       showEntry: entry => entry.name !== `funcA`,
     })
 
-    const diff = diffAggregatedSamplingProfiles(
+    const diff = diffAggregatedCallStackProfiles(
       profile,
       profile,
       defaultOptions,
     )
-    const md = mdastToMarkdown(formatSamplingProfileDiff(diff, options))
+    const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)

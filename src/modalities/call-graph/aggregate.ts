@@ -457,7 +457,7 @@ export type AggregatedCallGraphFunction = {
 export type AggregatedCallGraph = {
   type: `call-graph`
 
-  /** @see {@link AggregatedSamplingProfile.context} */
+  /** @see {@link AggregatedCallStackProfile.context} */
   context: ProfileToMdContext
 
   /** Metrics recorded in this call graph. */

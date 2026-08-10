@@ -12,12 +12,12 @@ import type { StackFrame } from '../stack-frame.ts'
 export type CallGraph = {
   type: `call-graph`
 
-  /** @see {@link SamplingProfile.originHint} */
+  /** @see {@link CallStackProfile.originHint} */
   originHint?: string
 
   /**
    * The metrics each cost vector is indexed by. Always at least one: unlike a
-   * sampling profile, a call graph has no sample count to fall back on.
+   * call stack profile, a call graph has no count to fall back on.
    */
   metrics: Metric[]
 

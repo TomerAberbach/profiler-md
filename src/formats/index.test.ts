@@ -3,11 +3,11 @@ import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { sourceReferenceId } from '../location.ts'
-import type { SamplingProfile } from '../modalities/sampling-profile/index.ts'
+import type { CallStackProfile } from '../modalities/call-stack-profile/index.ts'
 import {
   selfSamplesTables,
   selfTimeTables,
-} from '../modalities/sampling-profile/testing.ts'
+} from '../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,
@@ -772,20 +772,20 @@ describe(`origin detection`, () => {
     // whole file, so the second sub-profile's collapsed name still splits into
     // method and declaring class under the `async-profiler` origin detected
     // from the first.
-    const markerProfile: SamplingProfile = {
-      type: `sampling-profile`,
+    const markerProfile: CallStackProfile = {
+      type: `call-stack-profile`,
       frames: [
         { name: `java/util/HashMap.put` },
         { name: `com/example/Main.main` },
       ],
       metrics: [],
-      samples: [{ values: [], frameIndices: [0, 1] }],
+      observations: [{ values: [], frameIndices: [0, 1] }],
     }
-    const markerlessProfile: SamplingProfile = {
-      type: `sampling-profile`,
+    const markerlessProfile: CallStackProfile = {
+      type: `call-stack-profile`,
       frames: [{ name: `com/example/Widget.render` }],
       metrics: [],
-      samples: [{ values: [], frameIndices: [0] }],
+      observations: [{ values: [], frameIndices: [0] }],
     }
     const converter: JsonFormatConverter = {
       title: `Multi-profile test format`,
@@ -1028,7 +1028,7 @@ describe(`diffProfiles`, () => {
     // The default `matchEntry`'s origin-aware normalization (stripping an
     // origin's run-varying identifiers so functions match across builds) is
     // covered at a lower level by `src/origins/index.test.ts` and
-    // `src/modalities/sampling-profile/diff.test.ts`, since no committed input pair
+    // `src/modalities/call-stack-profile/diff.test.ts`, since no committed input pair
     // exhibits a differing build hash.
 
     test(`matchEntry matches functions whose locations differ across profiles`, () => {
@@ -1107,10 +1107,10 @@ describe(`diffProfiles`, () => {
 
       expect(() =>
         diffProfiles(profileContent, snapshotContent, { baseURL: null }),
-      ).toThrow(/cannot diff a sampling profile against a heap snapshot/u)
+      ).toThrow(/cannot diff a call stack profile against a heap snapshot/u)
       expect(() =>
         diffProfiles(snapshotContent, profileContent, { baseURL: null }),
-      ).toThrow(/cannot diff a heap snapshot against a sampling profile/u)
+      ).toThrow(/cannot diff a heap snapshot against a call stack profile/u)
     })
   }
 })
