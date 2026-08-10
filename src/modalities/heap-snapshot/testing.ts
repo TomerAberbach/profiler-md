@@ -16,7 +16,63 @@ import type {
   AggregatedHeapSnapshotNode,
   NodeCategoryStats,
 } from './aggregate.ts'
+import { computeStartOffsets } from './graph.ts'
+import type { NodeAdjacencyGraph } from './graph.ts'
 import type { HeapSnapshotNodeCategory } from './type.ts'
+
+/**
+ * Builds a node adjacency graph from `[fromOrdinal, toOrdinal]` edges. A node's
+ * successors and predecessors follow the order of the edges that connect them,
+ * and each edge's index is its position in `edges`.
+ */
+export const makeNodeAdjacencyGraph = (
+  nodeCount: number,
+  edges: readonly (readonly [number, number])[],
+): NodeAdjacencyGraph => {
+  const ordinalToSuccessorCount = new Int32Array(nodeCount)
+  const ordinalToPredecessorCount = new Int32Array(nodeCount)
+  for (const [fromOrdinal, toOrdinal] of edges) {
+    ordinalToSuccessorCount[fromOrdinal]!++
+    ordinalToPredecessorCount[toOrdinal]!++
+  }
+
+  const ordinalToSuccessorStartOffset = computeStartOffsets(
+    ordinalToSuccessorCount,
+  )
+  const ordinalToPredecessorStartOffset = computeStartOffsets(
+    ordinalToPredecessorCount,
+  )
+  const offsetToSuccessorOrdinal = new Int32Array(edges.length)
+  const offsetToSuccessorEdgeIndex = new Int32Array(edges.length)
+  const offsetToPredecessorOrdinal = new Int32Array(edges.length)
+  const offsetToPredecessorEdgeIndex = new Int32Array(edges.length)
+  const ordinalToSuccessorOffset = ordinalToSuccessorStartOffset.slice(
+    0,
+    nodeCount,
+  )
+  const ordinalToPredecessorOffset = ordinalToPredecessorStartOffset.slice(
+    0,
+    nodeCount,
+  )
+  for (const [edgeIndex, [fromOrdinal, toOrdinal]] of edges.entries()) {
+    const successorOffset = ordinalToSuccessorOffset[fromOrdinal]!++
+    offsetToSuccessorOrdinal[successorOffset] = toOrdinal
+    offsetToSuccessorEdgeIndex[successorOffset] = edgeIndex
+
+    const predecessorOffset = ordinalToPredecessorOffset[toOrdinal]!++
+    offsetToPredecessorOrdinal[predecessorOffset] = fromOrdinal
+    offsetToPredecessorEdgeIndex[predecessorOffset] = edgeIndex
+  }
+
+  return {
+    ordinalToSuccessorStartOffset,
+    offsetToSuccessorOrdinal,
+    offsetToSuccessorEdgeIndex,
+    ordinalToPredecessorStartOffset,
+    offsetToPredecessorOrdinal,
+    offsetToPredecessorEdgeIndex,
+  }
+}
 
 export const makeAggregatedHeapSnapshot = ({
   context = { format: `v8-heap-snapshot`, origin: `node` },
