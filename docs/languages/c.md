@@ -1,7 +1,8 @@
 # C/C++
 
 C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools),
-[Valgrind's Callgrind](https://valgrind.org/docs/manual/cl-manual.html), or
+[Valgrind's Callgrind](https://valgrind.org/docs/manual/cl-manual.html),
+[Linux `perf`](https://perfwiki.github.io/main/), or
 [systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
@@ -203,6 +204,43 @@ gcc -O2 -g -fno-omit-frame-pointer -o program program.c
 | `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                      |
 | `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                  |
 | `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                    |
+
+## Linux perf profiling
+
+[Linux `perf`](https://perfwiki.github.io/main/) samples any native program
+through the kernel's `perf_event` counters, across user and kernel code, and
+writes `perf.data` itself. It needs a Linux kernel and a
+`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
+below for kernel stacks).
+
+Build with frame pointers so perf's unwinder can walk the stack:
+
+```sh
+gcc -O2 -g -fno-omit-frame-pointer -o program program.c    # C
+g++ -O2 -g -fno-omit-frame-pointer -o program program.cpp  # C++
+```
+
+```sh
+# Sample a command at 999 Hz, recording call chains
+perf record -F 999 -g -o perf.data -- ./program args
+
+# Or sample a running process for 30 seconds
+perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
+```
+
+### CLI flags
+
+| Flag           | Default     | Description                                                          |
+| -------------- | ----------- | -------------------------------------------------------------------- |
+| `-F`           | `4000`      | Samples per second                                                   |
+| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
+| `-g`           | off         | Record call chains                                                   |
+| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
+| `-o`           | `perf.data` | Output path                                                          |
+| `-a`           | off         | Sample every CPU on the system rather than one command               |
+
+A `perf.data` file holds addresses rather than function names. See
+`profiler-md --help perf` for how frames are named and how to symbolize them.
 
 ## Tips
 

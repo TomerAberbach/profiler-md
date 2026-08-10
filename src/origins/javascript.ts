@@ -1,11 +1,3 @@
-/**
- * JavaScript ecosystem conventions shared by the origins that observe a
- * JavaScript engine (V8's `RegExp:` frames, the npm package layout every
- * JavaScript runtime installs dependencies into, and the classes the language
- * and the web platform define, which every engine names the same in its heap
- * snapshots).
- */
-
 import globals from 'globals'
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'

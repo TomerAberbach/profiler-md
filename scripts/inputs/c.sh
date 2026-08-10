@@ -201,6 +201,58 @@ capture_callgrind() {
   cp "$dir/callgrind.out" "$out"
 }
 
+# capture_fn for emit: $1=out  $2=role
+#   Records the same zstd compression with Linux perf, which writes perf.data
+#   itself. Runs in its own container so regenerating it skips the other
+#   captures.
+capture_perf() {
+  local out=$1 role=$2
+  local dir="$WORKDIR/c-perf-$role"
+  mkdir -p "$dir"
+
+  notice "Profiling zstd with perf ($role)"
+
+  # perf_event_open goes to the real kernel, so the container must be
+  # `--privileged` (Docker's default seccomp profile blocks the syscall) and
+  # the platform cannot be emulated. DOCKER_PLATFORM is the host's, so
+  # docker_capture's default already runs natively.
+  docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        linux-perf build-essential git ca-certificates curl unzip
+
+      # Kernel stacks need a paranoia level that permits them. Without it
+      # the capture is user-space only rather than failing.
+      sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
+
+      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+
+      # Frame pointers so perf can walk the stack without the debug info its
+      # dwarf unwinder would copy whole stacks to reach.
+      make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
+      ZSTD=/src/zstd/zstd
+      [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+
+      # The same real compression input as the gperftools captures (see the
+      # extraction notes there).
+      mkdir -p /work
+      INPUT=/work/input.bin
+      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      unzip -p /work/dickens.zip dickens >/work/dickens.full
+      head -c 4194304 /work/dickens.full >"$INPUT"
+      rm -f /work/dickens.full
+
+      # cpu-clock rather than the default cycles: the VM the container runs in
+      # exposes no PMU, so the hardware counter would fall back anyway.
+      perf record -F 999 -e cpu-clock --call-graph fp -o /out/cpu.perf.data \
+        -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+    ' --privileged -e ROLE="$role"
+
+  cp "$dir/cpu.perf.data" "$out"
+}
+
 # These captures need a running Docker daemon.
 ensure_docker
 
@@ -209,6 +261,7 @@ for role in base current; do
   try emit "$GENERATED_INPUTS/c.gperftools.heap.$role.pprof" copy_c_profile "$role" heap
   try emit "$GENERATED_INPUTS/c.systing.cpu.$role.systing"   copy_systing_profile "$role"
   try emit "$GENERATED_INPUTS/c.valgrind.$role.callgrind"    capture_callgrind "$role"
+  try emit "$GENERATED_INPUTS/c.perf.cpu.$role.perf.data"    capture_perf "$role"
 done
 
 verify_pairs

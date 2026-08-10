@@ -1,8 +1,3 @@
-/**
- * CPython interpreter conventions shared by the origins that observe Python
- * code, each carrying them in differently-shaped frame strings.
- */
-
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'

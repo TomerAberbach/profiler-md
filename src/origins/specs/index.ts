@@ -12,6 +12,7 @@ import { jdkOriginSpec } from './jdk.ts'
 import { memrayOriginSpec } from './memray.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
+import { perfOriginSpec } from './perf.ts'
 import { pprofJlOriginSpec } from './pprof-jl.ts'
 import { pprofRsOriginSpec } from './pprof-rs.ts'
 import { profileJlOriginSpec } from './profile-jl.ts'
@@ -19,6 +20,7 @@ import { pySpyOriginSpec } from './py-spy.ts'
 import { pyinstrumentOriginSpec } from './pyinstrument.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 import { safariOriginSpec } from './safari.ts'
+import { simpleperfOriginSpec } from './simpleperf.ts'
 import { systingOriginSpec } from './systing.ts'
 import { tachyonOriginSpec } from './tachyon.ts'
 import { unknownOriginSpec } from './unknown.ts'
@@ -69,5 +71,7 @@ export const originSpecs = [
   excimerOriginSpec,
   memrayOriginSpec,
   ghcOriginSpec,
+  simpleperfOriginSpec,
+  perfOriginSpec,
   unknownOriginSpec,
 ]

@@ -1,6 +1,11 @@
 import { fc, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
-import { ByteQueue, decodeUtf8Lines, decodeUtf8LinesAsync } from './bytes.ts'
+import {
+  ByteQueue,
+  decodeUtf8Lines,
+  decodeUtf8LinesAsync,
+  startsWith,
+} from './bytes.ts'
 import { chunk, streamOf } from './testing.ts'
 
 const lines = (text: string, chunkSize?: number): string[] => [
@@ -119,6 +124,32 @@ describe(`decodeUtf8LinesAsync`, () => {
 })
 
 const bytes = (...values: number[]): Uint8Array => new Uint8Array(values)
+
+describe(`startsWith`, () => {
+  test.prop([fc.uint8Array(), fc.nat()])(
+    `accepts a prefix of the bytes themselves`,
+    (data, length) => {
+      expect(startsWith(data, data.subarray(0, length))).toBe(true)
+    },
+  )
+
+  test.prop([fc.uint8Array(), fc.uint8Array({ minLength: 1 })])(
+    `rejects a prefix longer than the bytes`,
+    (data, extra) => {
+      expect(startsWith(data, new Uint8Array([...data, ...extra]))).toBe(false)
+    },
+  )
+
+  test.prop([fc.uint8Array({ minLength: 1 })])(
+    `rejects a prefix differing in its last byte`,
+    data => {
+      const differing = Uint8Array.from(data)
+      differing[differing.length - 1] = differing.at(-1)! ^ 1
+
+      expect(startsWith(data, differing)).toBe(false)
+    },
+  )
+})
 
 const queueOf = (...parts: Uint8Array[]): ByteQueue => {
   const queue = new ByteQueue()
