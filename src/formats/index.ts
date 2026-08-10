@@ -20,6 +20,12 @@ import {
   formatCallGraph,
   formatCallGraphDiff,
 } from '../modalities/call-graph/index.ts'
+import { diffAggregatedCallStackProfiles } from '../modalities/call-stack-profile/diff.ts'
+import {
+  formatCallStackProfile,
+  formatCallStackProfileDiff,
+} from '../modalities/call-stack-profile/format.ts'
+import { CallStackProfileAggregator } from '../modalities/call-stack-profile/index.ts'
 import {
   entityLocation,
   HeapSnapshotAggregator,
@@ -29,12 +35,6 @@ import {
   formatHeapSnapshot,
   formatHeapSnapshotDiff,
 } from '../modalities/heap-snapshot/format.ts'
-import { diffAggregatedSamplingProfiles } from '../modalities/sampling-profile/diff.ts'
-import {
-  formatSamplingProfile,
-  formatSamplingProfileDiff,
-} from '../modalities/sampling-profile/format.ts'
-import { SamplingProfileAggregator } from '../modalities/sampling-profile/index.ts'
 import type {
   AggregationProfileToMdOptions,
   AsyncProfileData,
@@ -459,8 +459,8 @@ const aggregateParsedInputs = (
 ): AggregatedInput[] => {
   const aggregators = parsed.map(input => {
     switch (input.type) {
-      case `sampling-profile`:
-        return new SamplingProfileAggregator(input)
+      case `call-stack-profile`:
+        return new CallStackProfileAggregator(input)
       case `call-graph`:
         return new CallGraphAggregator(input)
       case `heap-snapshot`:
@@ -557,8 +557,8 @@ export const formatAggregatedInputs = (
   const formattingOptions = makeFormattingProfileToMdOptions(options, inputs)
   const contents = inputs.flatMap(input => {
     switch (input.type) {
-      case `sampling-profile`:
-        return formatSamplingProfile(input, formattingOptions)
+      case `call-stack-profile`:
+        return formatCallStackProfile(input, formattingOptions)
       case `call-graph`:
         return formatCallGraph(input, formattingOptions)
       case `heap-snapshot`:
@@ -595,11 +595,11 @@ const formatAggregatedDiff = (
   const contents = base.flatMap((baseInput, index) => {
     const currentInput = current[index]!
     if (
-      baseInput.type === `sampling-profile` &&
-      currentInput.type === `sampling-profile`
+      baseInput.type === `call-stack-profile` &&
+      currentInput.type === `call-stack-profile`
     ) {
-      return formatSamplingProfileDiff(
-        diffAggregatedSamplingProfiles(
+      return formatCallStackProfileDiff(
+        diffAggregatedCallStackProfiles(
           baseInput,
           currentInput,
           formattingOptions,
@@ -681,7 +681,7 @@ const collectInferableURLs = (
 
   for (const input of inputs) {
     switch (input.type) {
-      case `sampling-profile`:
+      case `call-stack-profile`:
       case `call-graph`:
         for (const func of input.functions) {
           // Onky `ours`-categorized functions contribute, because a

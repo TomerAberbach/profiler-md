@@ -1,8 +1,8 @@
-import { BYTES } from '../../../modalities/metric.ts'
 import type {
-  Sample,
-  SamplingProfile,
-} from '../../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+} from '../../../modalities/call-stack-profile/index.ts'
+import { BYTES } from '../../../modalities/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -47,16 +47,16 @@ type V8HeapProfileSample = {
 
 export const parseV8HeapProfile = (
   profile: V8HeapProfile,
-): SamplingProfile[] => {
+): CallStackProfile[] => {
   const { flatNodes, idToIndex, indexToParentIndex } = flattenCallTree(profile)
   const frames = flatNodes.map(nodeToStackFrame)
 
   return [
     {
-      type: `sampling-profile`,
+      type: `call-stack-profile`,
       frames,
       metrics: [BYTES],
-      samples: heapSamples(profile, idToIndex, indexToParentIndex),
+      observations: heapObservations(profile, idToIndex, indexToParentIndex),
     },
   ]
 }
@@ -127,11 +127,11 @@ const VM_STATE_FRAME_NAMES: ReadonlyMap<string, string> = new Map([
   [`(V8 API)`, `(v8 api)`],
 ])
 
-function* heapSamples(
+function* heapObservations(
   profile: V8HeapProfile,
   idToIndex: number[],
   indexToParentIndex: number[],
-): Iterable<Sample> {
+): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   for (const { size, nodeId } of profile.samples) {
     const nodeIndex = idToIndex[nodeId]

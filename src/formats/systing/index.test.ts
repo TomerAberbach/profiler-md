@@ -5,7 +5,7 @@ import {
   selfTimeTables,
   totalSleepsTables,
   totalTimeTables,
-} from '../../modalities/sampling-profile/testing.ts'
+} from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
@@ -464,7 +464,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
+    expect(profileTitles(md)).toEqual([`Profile`])
     expect(summaryLines(md)).toEqual([`Collected 3 samples.`])
   })
 

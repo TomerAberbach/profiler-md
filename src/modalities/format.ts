@@ -25,7 +25,7 @@ import type { Table } from './table.ts'
 /** The document title for an input with the given metrics. */
 export const formatTitle = (metrics: Metric[]): string =>
   metrics.length === 0
-    ? `Sampling profile`
+    ? `Profile`
     : capitalizeFirst(
         `${formatConjunction(
           metrics.map(metric => metric.phrases.titleNoun),
@@ -59,7 +59,7 @@ export const formatMeasureSections = <M extends { metric: Metric | null }>(
 /**
  * The note shown in place of a measure's sections when the input recorded no
  * value for it, e.g. a heap profile dumped when nothing was retained.
- * {@link scope} qualifies where nothing was recorded (a sampling profile's
+ * {@link scope} qualifies where nothing was recorded (a call stack profile's
  * ` in any sample`) and may be empty.
  */
 export const formatZeroTotalNote = (

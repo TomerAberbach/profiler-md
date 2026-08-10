@@ -1,12 +1,12 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
 import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
-export const parseCollapsed = (bytes: Uint8Array): SamplingProfile[] => {
+export const parseCollapsed = (bytes: Uint8Array): CallStackProfile[] => {
   const builder = new CollapsedProfileBuilder()
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
@@ -16,7 +16,7 @@ export const parseCollapsed = (bytes: Uint8Array): SamplingProfile[] => {
 
 export const parseCollapsedAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<SamplingProfile[]> => {
+): Promise<CallStackProfile[]> => {
   const builder = new CollapsedProfileBuilder()
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
@@ -39,7 +39,7 @@ type InternedStack = {
 class CollapsedProfileBuilder {
   readonly #indexByFrame = new Map<string, number>()
   readonly #frames: StackFrame[] = []
-  readonly #samples: Sample[] = []
+  readonly #observations: Observation[] = []
 
   // Consecutive lines commonly share a long stack prefix, so each shared
   // leading frame reuses the previous line's interned index instead of
@@ -65,12 +65,12 @@ class CollapsedProfileBuilder {
       frameIndices[i] = indices[frameCount - 1 - i]!
     }
 
-    this.#samples.push({
+    this.#observations.push({
       // Collapsed stacks carry only a unitless sample count, so the profile
       // has no metrics and ranks by count alone.
       values: [],
       frameIndices,
-      sampleCount: parsed.count,
+      count: parsed.count,
     })
   }
 
@@ -123,13 +123,13 @@ class CollapsedProfileBuilder {
     return index
   }
 
-  public build(): SamplingProfile[] {
+  public build(): CallStackProfile[] {
     return [
       {
-        type: `sampling-profile`,
+        type: `call-stack-profile`,
         frames: this.#frames,
         metrics: [],
-        samples: this.#samples,
+        observations: this.#observations,
       },
     ]
   }

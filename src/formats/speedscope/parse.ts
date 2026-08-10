@@ -1,8 +1,8 @@
-import { determineMetric } from '../../modalities/metric.ts'
 import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
+import { determineMetric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A unique location within a function. */
@@ -99,7 +99,7 @@ export type SpeedscopeProfile = {
 
 export const parseSpeedscope = (
   profile: SpeedscopeProfile,
-): SamplingProfile[] => {
+): CallStackProfile[] => {
   const originHint = exporterOriginHint(profile.exporter)
   // Speedscope samples reference frames by their index in the shared table, so
   // it doubles as the distinct frames, shared across the file's profiles.
@@ -140,8 +140,9 @@ const exporterOriginHint = (
 // The `line`/`col` are read as the function's definition position, matching
 // speedscope's own importer, which keys each frames-array entry as a distinct
 // frame. Some profilers (py-spy, rbspy) instead emit one frame per *sampled*
-// line; their origins' `normalizeStackFrame` reinterprets the line as the executing
-// line (see `normalizeSpeedscopeExecutingLine` in `src/origins/origin.ts`).
+// line; their origins' `normalizeStackFrame` reinterprets the line as the
+// executing line (see `normalizeSpeedscopeExecutingLine` in
+// `src/origins/origin.ts`).
 const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => ({
   name: frame.name,
   location: frame.file
@@ -158,27 +159,29 @@ const frameToStackFrame = (frame: SpeedscopeFrame): StackFrame => ({
 const sampledProfile = (
   frames: StackFrame[],
   profile: SpeedscopeSampledProfile,
-): SamplingProfile => ({
-  type: `sampling-profile`,
+): CallStackProfile => ({
+  type: `call-stack-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
-  samples: sampledSamples(profile),
+  observations: sampledObservations(profile),
 })
 
-function* sampledSamples(profile: SpeedscopeSampledProfile): Iterable<Sample> {
+function* sampledObservations(
+  profile: SpeedscopeSampledProfile,
+): Iterable<Observation> {
   for (let index = 0; index < profile.samples.length; index++) {
     const weight = profile.weights[index]!
     if (weight < 0) {
       continue
     }
-    // A zero-weight or empty-stack sample still counts as a sample: dropping
-    // it would make the sample count (and, for an empty stack, the total
-    // value) disagree with other presentations of the same recording. The
-    // aggregator attributes an empty stack to a shared anonymous function.
+    // A zero-weight or empty-stack record still counts: dropping it would
+    // make the count (and, for an empty stack, the total value) disagree with
+    // other presentations of the same recording. The aggregator attributes an
+    // empty stack to a shared anonymous function.
     const frameIndices = profile.samples[index]!
     // Speedscope uses caller-to-callee order, but we use callee-to-caller.
     // The parsed JSON is the converter's own, read exactly once here, so
-    // reverse in place rather than copying every sample's stack.
+    // reverse in place rather than copying every record's stack.
     yield { values: [weight], frameIndices: frameIndices.reverse() }
   }
 }
@@ -186,21 +189,23 @@ function* sampledSamples(profile: SpeedscopeSampledProfile): Iterable<Sample> {
 const eventedProfile = (
   frames: StackFrame[],
   profile: SpeedscopeEventedProfile,
-): SamplingProfile => ({
-  type: `sampling-profile`,
+): CallStackProfile => ({
+  type: `call-stack-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
-  samples: eventedSamples(profile),
+  observations: eventedObservations(profile),
 })
 
 /**
- * Reconstructs samples from open/close events: each frame's self time (the gap
- * since its last child closed) becomes one sample of the current stack.
+ * Reconstructs observations from open/close events: each frame's self time (the
+ * gap since its last child closed) becomes one record of the current stack.
  */
-function* eventedSamples(profile: SpeedscopeEventedProfile): Iterable<Sample> {
+function* eventedObservations(
+  profile: SpeedscopeEventedProfile,
+): Iterable<Observation> {
   const stack: { frame: number; lastChildClosed: number }[] = []
 
-  function* emitTopSelfTime(at: number): Iterable<Sample> {
+  function* emitTopSelfTime(at: number): Iterable<Observation> {
     if (stack.length === 0) {
       return
     }

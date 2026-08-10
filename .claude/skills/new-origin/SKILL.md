@@ -32,7 +32,7 @@ $ARGUMENTS
      (`isMarkerEntry: () => false`, like `gperftools`) and check whether the
      format's own metadata identifies the writer (a recorder's event-type
      definitions, a self-identification field like speedscope's `exporter`): if
-     so, have the format's parser set `SamplingProfile.originHint` (see the
+     so, have the format's parser set `CallStackProfile.originHint` (see the
      pprof and jfr parsers). Without either, its inputs resolve to the format's
      fallback origin unless the user specifies the origin, and future detection
      can be added without a breaking change

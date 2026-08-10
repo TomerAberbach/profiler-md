@@ -1,14 +1,14 @@
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
+import type {
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
 import { determineMetric } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
-import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
-export const parseSysting = (bytes: Uint8Array): SamplingProfile[] => {
+export const parseSysting = (bytes: Uint8Array): CallStackProfile[] => {
   const builder = new SystingProfileBuilder()
   for (const line of decodeUtf8Lines(bytes)) {
     builder.addLine(line)
@@ -18,7 +18,7 @@ export const parseSysting = (bytes: Uint8Array): SamplingProfile[] => {
 
 export const parseSystingAsync = async (
   stream: ReadableStream<Uint8Array>,
-): Promise<SamplingProfile[]> => {
+): Promise<CallStackProfile[]> => {
   const builder = new SystingProfileBuilder()
   for await (const line of decodeUtf8LinesAsync(stream)) {
     builder.addLine(line)
@@ -104,7 +104,7 @@ const eventTypeKinds = (
  * record: `f` interned frame, `s` interned stack (frame ids leaf-first), `x`
  * sample tally, and `p`/`t` process/thread metadata (unused here).
  *
- * Produces one {@link SamplingProfile} per stack event type present, sharing one
+ * Produces one {@link CallStackProfile} per stack event type present, sharing one
  * frames array: CPU samples weighted by the header's sample period, and sleep
  * events as pure occurrence counts.
  */
@@ -115,7 +115,7 @@ class SystingProfileBuilder {
   /** Export stack id → the stack's frame indices, leaf-first. */
   readonly #stacks = new Map<number, number[]>()
   /** Per event kind, the samples seen so far. */
-  readonly #samples = new Map<SystingEventKind, Sample[]>()
+  readonly #observations = new Map<SystingEventKind, Observation[]>()
   #header: SystingHeader | undefined
   /** Event type id → kind, per the header's `event_types` legend. */
   #eventTypeKinds: ReadonlyMap<number, SystingEventKind> =
@@ -175,7 +175,7 @@ class SystingProfileBuilder {
         // ["x", utid, stackId, eventType, count]; the thread id goes unused
         // like the `t` records it references.
         const sample = record as [string, number, number, number, number]
-        this.#addSample(sample[2], sample[3], sample[4])
+        this.#addObservation(sample[2], sample[3], sample[4])
         break
       }
       // P (process) and t (thread) records aren't used: profiles have no
@@ -208,7 +208,7 @@ class SystingProfileBuilder {
     )
   }
 
-  #addSample(stackId: number, eventType: number, count: number): void {
+  #addObservation(stackId: number, eventType: number, count: number): void {
     const kind = this.#eventTypeKinds.get(eventType)
     // An event type outside the legend's known names is a future stack event;
     // skip its samples like unknown record tags.
@@ -219,39 +219,39 @@ class SystingProfileBuilder {
     if (!frameIndices) {
       throw new FormatParseError(`sample references undefined stack ${stackId}`)
     }
-    let samples = this.#samples.get(kind)
-    if (!samples) {
-      samples = []
-      this.#samples.set(kind, samples)
+    let observations = this.#observations.get(kind)
+    if (!observations) {
+      observations = []
+      this.#observations.set(kind, observations)
     }
-    samples.push({
+    observations.push({
       id: stackId,
       values: kind === `cpu` ? this.#cpuValues : SLEEP_SAMPLE_VALUES,
       // Export stacks are already leaf-first (callee to caller), the
       // aggregator's order; parseSystingHeader rejects any other declared
       // stack_order.
       frameIndices,
-      sampleCount: count,
+      count,
     })
   }
 
-  public build(): SamplingProfile[] {
+  public build(): CallStackProfile[] {
     if (!this.#header) {
       throw new FormatParseError(`empty input`)
     }
 
-    const profiles: SamplingProfile[] = []
+    const profiles: CallStackProfile[] = []
     for (const kind of EVENT_KINDS) {
-      const samples = this.#samples.get(kind)
-      if (!samples) {
+      const observations = this.#observations.get(kind)
+      if (!observations) {
         continue
       }
       const metric = kind === `cpu` ? this.#cpuMetric : SLEEP_METRICS.get(kind)
       profiles.push({
-        type: `sampling-profile`,
+        type: `call-stack-profile`,
         frames: this.#frames,
         metrics: metric ? [metric] : [],
-        samples,
+        observations,
       })
     }
     return profiles

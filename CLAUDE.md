@@ -58,13 +58,13 @@ profiler-md
 │   │   ├── measure.ts        # Metric phrasing and cell formatting shared across modalities
 │   │   ├── table.ts          # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts         # Formatting helpers shared across modalities
-│   │   ├── sampling-profile/ # Common sampling profile conversion logic
-│   │   │   ├── type.ts       # Parsed sampling profile types
-│   │   │   ├── aggregate.ts  # Sample aggregation over frames
-│   │   │   ├── diff.ts       # Aggregated sampling profile diffing logic
-│   │   │   ├── measure.ts    # Sampling-profile-resolved measure views with sample-count fallback
-│   │   │   ├── table.ts      # The sampling profile formatter's table columns
-│   │   │   ├── format.ts     # Sampling profile and diff to Markdown formatting
+│   │   ├── call-stack-profile/ # Common call stack profile conversion logic
+│   │   │   ├── type.ts       # Parsed call stack profile types
+│   │   │   ├── aggregate.ts  # Observation aggregation over frames
+│   │   │   ├── diff.ts       # Aggregated call stack profile diffing logic
+│   │   │   ├── measure.ts    # Profile-resolved measure views with count fallback
+│   │   │   ├── table.ts      # The call stack profile formatter's table columns
+│   │   │   ├── format.ts     # Call stack profile and diff to Markdown formatting
 │   │   │   ├── index.ts      # Barrel file
 │   │   │   └── testing.ts    # Test-only utilities specific to this module
 │   │   ├── call-graph/       # Common weighted call graph conversion logic
@@ -183,7 +183,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Most tests run profile to Markdown conversion end-to-end
   - Assert on the Markdown output, not on intermediate data structures, using
     the Markdown assertion helpers in the colocated `testing.ts` files (e.g.
-    `src/modalities/sampling-profile/testing.ts`)
+    `src/modalities/call-stack-profile/testing.ts`)
   - Fully assert on Markdown tables with `toEqual` and complete expected rows.
     NEVER index into tables or rows (e.g. `tables[0]`, `rows[0]`) or assert on
     individual cells, which would miss extra tables, rows, or cells

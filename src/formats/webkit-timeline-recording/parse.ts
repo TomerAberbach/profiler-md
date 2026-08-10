@@ -1,8 +1,8 @@
-import { SECONDS } from '../../modalities/metric.ts'
 import type {
-  Sample,
-  SamplingProfile,
-} from '../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+} from '../../modalities/call-stack-profile/index.ts'
+import { SECONDS } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A function observed in a WebKit timeline recording call stack. */
@@ -64,16 +64,16 @@ export type WebKitTimelineRecording = {
 
 export const parseWebKitTimelineRecording = ({
   recording: { sampleStackTraces, sampleDurations },
-}: WebKitTimelineRecording): SamplingProfile[] => {
+}: WebKitTimelineRecording): CallStackProfile[] => {
   const { frames, intern } = createStackFrameInterner()
-  const samples: Sample[] = []
+  const observations: Observation[] = []
   for (let index = 0; index < sampleStackTraces.length; index++) {
     const { stackFrames } = sampleStackTraces[index]!
     if (stackFrames.length === 0) {
       continue
     }
 
-    samples.push({
+    observations.push({
       values: [sampleDurations[index]!],
       // WebKit's stack frames are already in callee-to-caller order.
       frameIndices: stackFrames.map(intern),
@@ -81,11 +81,13 @@ export const parseWebKitTimelineRecording = ({
     })
   }
 
-  return [{ type: `sampling-profile`, frames, metrics: [SECONDS], samples }]
+  return [
+    { type: `call-stack-profile`, frames, metrics: [SECONDS], observations },
+  ]
 }
 
 /**
- * Frames are inlined per sample rather than in a shared table, so dedup them
+ * Frames are inlined per record rather than in a shared table, so dedup them
  * by identity; a frame's index is its position in `frames`.
  */
 const createStackFrameInterner = (): {

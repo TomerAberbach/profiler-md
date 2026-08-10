@@ -954,7 +954,7 @@ describe(`convert`, () => {
     expect(profileTitles(md)).toEqual([`Exotic happenings profile`])
   })
 
-  test(`renders a lone samples event as a sampling profile`, () => {
+  test(`renders a lone samples event as a count-ranked profile`, () => {
     // Sampling profilers exporting callgrind (e.g. rbspy) count samples.
     const md = convertBytesToMd(
       callgrindConverter,

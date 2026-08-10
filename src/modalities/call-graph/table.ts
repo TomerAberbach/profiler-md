@@ -22,8 +22,8 @@ type MeasureRow = {
 
 /**
  * The leading `%` and metric value columns shared by the measure tables. A
- * call graph records metric values only, so unlike a sampling profile's
- * tables, these have no `Samples` column.
+ * call graph records metric values only, so unlike a call stack profile's
+ * tables, these have no count column.
  */
 const measureColumns = (metric: Metric): Table<MeasureRow> => [
   {

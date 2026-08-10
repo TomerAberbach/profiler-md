@@ -62,7 +62,7 @@ export type OriginSpec = {
    * When no entry carries origin-level evidence but the format's own metadata
    * identifies the writer (a recorder's event-type definitions, a
    * self-identification field), the format's parser sets a
-   * `SamplingProfile.originHint` instead, which detection treats like a marker entry
+   * `CallStackProfile.originHint` instead, which detection treats like a marker entry
    * of that origin. The hint doesn't survive format conversion, so it
    * supplements markers rather than replacing them.
    *

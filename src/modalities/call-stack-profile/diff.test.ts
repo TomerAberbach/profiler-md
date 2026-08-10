@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'vitest'
 import { resolveProfileToMdOptions } from '../../testing.ts'
 import { BYTES, MICROSECONDS, MILLISECONDS } from '../metric.ts'
-import { diffAggregatedSamplingProfiles } from './diff.ts'
-import { makeAggregatedSamplingProfile } from './testing.ts'
+import { diffAggregatedCallStackProfiles } from './diff.ts'
+import { makeAggregatedCallStackProfile } from './testing.ts'
 
 const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 
-describe(`diffAggregatedSamplingProfiles`, () => {
+describe(`diffAggregatedCallStackProfiles`, () => {
   test(`identical profiles produce zero deltas`, () => {
-    const profile = makeAggregatedSamplingProfile(
+    const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
@@ -16,12 +16,12 @@ describe(`diffAggregatedSamplingProfiles`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           selfValues: [100],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(
+    const diff = diffAggregatedCallStackProfiles(
       profile,
       profile,
       defaultOptions,
@@ -38,44 +38,44 @@ describe(`diffAggregatedSamplingProfiles`, () => {
   })
 
   test(`function only in base has no current side`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile([MICROSECONDS], [])
+    const current = makeAggregatedCallStackProfile([MICROSECONDS], [])
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     const funcA = diff.functions.find(fn => fn.name === `funcA`)!
-    expect(funcA.base?.selfSampleCount).toBe(5)
+    expect(funcA.base?.selfCount).toBe(5)
     expect(funcA.current).toBeUndefined()
   })
 
   test(`function in a file does not match one in a module of the same name`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
-      [{ name: `sort`, url: `lists`, selfValues: [100], selfSampleCount: 5 }],
+      [{ name: `sort`, url: `lists`, selfValues: [100], selfCount: 5 }],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `sort`,
           logicalName: `lists`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(diff.functions.map(fn => [!!fn.base, !!fn.current])).toEqual(
@@ -87,87 +87,87 @@ describe(`diffAggregatedSamplingProfiles`, () => {
   })
 
   test(`function only in current has no base side`, () => {
-    const base = makeAggregatedSamplingProfile([MICROSECONDS], [])
-    const current = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile([MICROSECONDS], [])
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcB`,
           url: `file:///project/src/b.ts`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     const funcB = diff.functions.find(fn => fn.name === `funcB`)!
     expect(funcB.base).toBeUndefined()
-    expect(funcB.current?.selfSampleCount).toBe(10)
+    expect(funcB.current?.selfCount).toBe(10)
   })
 
   test(`intersects metrics with partial overlap`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS, BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [100, 500],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.metrics).toHaveLength(1)
     expect(diff.metrics[0]!.metric.type).toBe(`time`)
   })
 
   test(`throws on no matching metrics`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [BYTES],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [500],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
     expect(() =>
-      diffAggregatedSamplingProfiles(base, current, defaultOptions),
+      diffAggregatedCallStackProfiles(base, current, defaultOptions),
     ).toThrow(`no metrics in common`)
   })
 
   test(`matches functions by name + URL ignoring line/column`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
@@ -175,11 +175,11 @@ describe(`diffAggregatedSamplingProfiles`, () => {
           url: `file:///project/src/a.ts`,
           line: 10,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
@@ -187,16 +187,16 @@ describe(`diffAggregatedSamplingProfiles`, () => {
           url: `file:///project/src/a.ts`,
           line: 20,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
-    expect(diff.functions[0]!.base?.selfSampleCount).toBe(5)
-    expect(diff.functions[0]!.current?.selfSampleCount).toBe(10)
+    expect(diff.functions[0]!.base?.selfCount).toBe(5)
+    expect(diff.functions[0]!.current?.selfCount).toBe(10)
   })
 
   test(`matches functions whose locations differ only by a build hash under the pprof-rs origin`, () => {
@@ -205,50 +205,50 @@ describe(`diffAggregatedSamplingProfiles`, () => {
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const rustc = (hash: string) =>
       `file:///rustc/${hash}/library/std/src/rt.rs`
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `parse`,
           url: cargo(`a`.repeat(16)),
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
         {
           name: `rt`,
           url: rustc(`a`.repeat(40)),
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
       context,
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `parse`,
           url: cargo(`b`.repeat(16)),
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
         {
           name: `rt`,
           url: rustc(`b`.repeat(40)),
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
       context,
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const name of [`parse`, `rt`]) {
       const fn = diff.functions.find(func => func.name === name)!
-      expect(fn.base?.selfSampleCount).toBe(5)
-      expect(fn.current?.selfSampleCount).toBe(10)
+      expect(fn.base?.selfCount).toBe(5)
+      expect(fn.current?.selfCount).toBe(10)
     }
   })
 
@@ -256,38 +256,38 @@ describe(`diffAggregatedSamplingProfiles`, () => {
     const cargo = (hash: string) =>
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const context = { format: `v8-cpu-profile`, origin: `node` } as const
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `parse`,
           url: cargo(`a`.repeat(16)),
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
       context,
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `parse`,
           url: cargo(`b`.repeat(16)),
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
       context,
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(
       diff.functions.map(func => ({
-        base: func.base?.selfSampleCount,
-        current: func.current?.selfSampleCount,
+        base: func.base?.selfCount,
+        current: func.current?.selfCount,
       })),
     ).toEqual(
       expect.arrayContaining([
@@ -304,33 +304,33 @@ describe(`diffAggregatedSamplingProfiles`, () => {
         url: `file:///julia/base/int.jl`,
         line: 87,
         selfValues: [counts[0]],
-        selfSampleCount: counts[0],
+        selfCount: counts[0],
       },
       {
         name: `+`,
         url: `file:///julia/base/int.jl`,
         line: 1013,
         selfValues: [counts[1]],
-        selfSampleCount: counts[1],
+        selfCount: counts[1],
       },
     ]
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       methods([322, 50]),
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       methods([333, 60]),
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     expect(
       diff.functions.map(func => ({
         line: func.location?.line,
-        base: func.base?.selfSampleCount,
-        current: func.current?.selfSampleCount,
+        base: func.base?.selfCount,
+        current: func.current?.selfCount,
       })),
     ).toEqual(
       expect.arrayContaining([
@@ -344,29 +344,29 @@ describe(`diffAggregatedSamplingProfiles`, () => {
     // Base saw one method (line 36); current saw two (36 and 35). Line 36 must
     // pair with line 36, leaving line 35 as genuinely new — not pair 36 with
     // 35 by order and report 36 as removed.
-    const method = (line: number, sampleCount: number) => ({
+    const method = (line: number, count: number) => ({
       name: `mapfoldl_impl`,
       url: `file:///julia/base/reduce.jl`,
       line,
-      selfValues: [sampleCount],
-      selfSampleCount: sampleCount,
+      selfValues: [count],
+      selfCount: count,
     })
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [method(36, 5514)],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [method(36, 5680), method(35, 12)],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(
       diff.functions.map(func => ({
         line: func.location?.line,
-        base: func.base?.selfSampleCount,
-        current: func.current?.selfSampleCount,
+        base: func.base?.selfCount,
+        current: func.current?.selfCount,
       })),
     ).toEqual(
       expect.arrayContaining([
@@ -381,139 +381,139 @@ describe(`diffAggregatedSamplingProfiles`, () => {
     // Hidden lambda classes and HotSpot transition stubs embed a per-run
     // runtime address; the default `matchEntry` strips it so the same frame
     // matches across runs instead of diffing as a removed+new pair.
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `apply(Object, Object)`,
           url: `JavaKMeans$$Lambda.0x000000b801205218`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
         {
           name: `I2C/C2I adapters(0xba)`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
       { format: `jfr`, origin: `jdk` },
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `apply(Object, Object)`,
           url: `JavaKMeans$$Lambda.0x000000c001204fd0`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
         {
           name: `I2C/C2I adapters(0xaabb)`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
       { format: `jfr`, origin: `jdk` },
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(2)
     for (const func of diff.functions) {
-      expect(func.base?.selfSampleCount).toBe(5)
-      expect(func.current?.selfSampleCount).toBe(10)
+      expect(func.base?.selfCount).toBe(5)
+      expect(func.current?.selfCount).toBe(10)
     }
   })
 
   test(`matches functions without locations by name`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `(garbage collector)`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `(garbage collector)`,
           selfValues: [50],
-          selfSampleCount: 3,
+          selfCount: 3,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.functions).toHaveLength(1)
     expect(diff.functions[0]!.name).toBe(`(garbage collector)`)
-    expect(diff.functions[0]!.base?.selfSampleCount).toBe(5)
-    expect(diff.functions[0]!.current?.selfSampleCount).toBe(3)
+    expect(diff.functions[0]!.base?.selfCount).toBe(5)
+    expect(diff.functions[0]!.current?.selfCount).toBe(3)
   })
 
   test(`merges category metrics from both profiles`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [200],
-          selfSampleCount: 10,
+          selfCount: 10,
         },
       ],
     )
 
-    const diff = diffAggregatedSamplingProfiles(base, current, defaultOptions)
+    const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
     expect(diff.categoryToMetrics.size).toBeGreaterThan(0)
     const ours = diff.categoryToMetrics.get(`ours`)
     expect(ours).toBeDefined()
-    expect(ours!.base?.sampleCount).toBe(5)
-    expect(ours!.current?.sampleCount).toBe(10)
+    expect(ours!.base?.count).toBe(5)
+    expect(ours!.current?.count).toBe(10)
   })
 
   test(`throws on metrics with matching types but different units`, () => {
-    const base = makeAggregatedSamplingProfile(
+    const base = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
-    const current = makeAggregatedSamplingProfile(
+    const current = makeAggregatedCallStackProfile(
       [MILLISECONDS],
       [
         {
           name: `funcA`,
           url: `file:///project/src/a.ts`,
           selfValues: [100],
-          selfSampleCount: 5,
+          selfCount: 5,
         },
       ],
     )
 
     expect(() =>
-      diffAggregatedSamplingProfiles(base, current, defaultOptions),
+      diffAggregatedCallStackProfiles(base, current, defaultOptions),
     ).toThrow(`no metrics in common`)
   })
 })

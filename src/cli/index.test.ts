@@ -378,7 +378,7 @@ if (format === undefined) {
         inputPath(`javascript.node.base.cpuprofile`),
         inputPath(`javascript.node.base.heapsnapshot`),
       ],
-      expectedStderr: `cannot diff a sampling profile against a heap snapshot`,
+      expectedStderr: `cannot diff a call stack profile against a heap snapshot`,
       expectedStatus: 1,
     },
     {

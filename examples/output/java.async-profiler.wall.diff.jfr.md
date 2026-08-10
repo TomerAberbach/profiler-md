@@ -1,4 +1,4 @@
-# Sampling profile diff
+# Profile diff
 
 5,140 samples → 4,878 samples (-262 samples, -5.1%).
 

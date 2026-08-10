@@ -1,9 +1,9 @@
-import { MICROSECONDS } from '../../../modalities/metric.ts'
 import type {
-  Sample,
-  SampleLineMetrics,
-  SamplingProfile,
-} from '../../../modalities/sampling-profile/index.ts'
+  CallStackProfile,
+  Observation,
+  ObservationLineMetrics,
+} from '../../../modalities/call-stack-profile/index.ts'
+import { MICROSECONDS } from '../../../modalities/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -50,7 +50,9 @@ export type V8CpuProfileNode = {
   }[]
 }
 
-export const parseV8CpuProfile = (profile: V8CpuProfile): SamplingProfile[] => {
+export const parseV8CpuProfile = (
+  profile: V8CpuProfile,
+): CallStackProfile[] => {
   const idToIndex = reindexNodes(profile)
   const indexToParentIndex = makeIndexToParentIndex(profile, idToIndex)
 
@@ -64,10 +66,10 @@ export const parseV8CpuProfile = (profile: V8CpuProfile): SamplingProfile[] => {
 
   return [
     {
-      type: `sampling-profile`,
+      type: `call-stack-profile`,
       frames,
       metrics: [MICROSECONDS],
-      samples: cpuSamples(
+      observations: cpuObservations(
         profile,
         idToIndex,
         indexToParentIndex,
@@ -114,12 +116,12 @@ const makeIndexToParentIndex = (
   return indexToParentIndex
 }
 
-function* cpuSamples(
+function* cpuObservations(
   profile: V8CpuProfile,
   idToIndex: number[],
   indexToParentIndex: Int32Array,
   indexToSelfTime: Float64Array,
-): Iterable<Sample> {
+): Iterable<Observation> {
   const resolveFrameIndices = makeStackFrameIndicesResolver(indexToParentIndex)
   for (let index = 0; index < profile.samples.length; index++) {
     const nodeIndex = idToIndex[profile.samples[index]!]
@@ -143,7 +145,7 @@ function* cpuSamples(
 function* cpuLineMetrics(
   profile: V8CpuProfile,
   indexToSelfTime: Float64Array,
-): Iterable<SampleLineMetrics> {
+): Iterable<ObservationLineMetrics> {
   for (const node of profile.nodes) {
     if (!node.positionTicks) {
       continue
@@ -154,7 +156,7 @@ function* cpuLineMetrics(
       frame: node.id,
       lines: node.positionTicks.map(({ line, ticks }) => ({
         line,
-        sampleCount: ticks,
+        count: ticks,
         values: [Math.round((selfTime * ticks) / node.hitCount)],
       })),
     }

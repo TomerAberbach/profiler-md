@@ -1,4 +1,4 @@
-# Sampling profile diff
+# Profile diff
 
 1 sample.
 

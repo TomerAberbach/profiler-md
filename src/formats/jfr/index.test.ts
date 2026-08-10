@@ -2,13 +2,13 @@ import { describe, expect, test } from 'vitest'
 import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
+  selfSamplesTables,
+  selfTimeTables,
+} from '../../modalities/call-stack-profile/testing.ts'
+import {
   selfSizeTables,
   totalSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
-import {
-  selfSamplesTables,
-  selfTimeTables,
-} from '../../modalities/sampling-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import { callersTables, linesTables, profileTitles } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
@@ -70,7 +70,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
+    expect(profileTitles(md)).toEqual([`Profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -285,7 +285,7 @@ describe(`convert`, () => {
     expect(
       profileTitles(convertBytesToMd(jfrConverter, bytes, options)),
     ).toEqual([
-      `Sampling profile`,
+      `Profile`,
       `Allocated heap profile`,
       `Retained heap profile`,
       `Allocated native memory profile`,
@@ -387,7 +387,7 @@ describe(`convert`, () => {
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
 
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
+    expect(profileTitles(md)).toEqual([`Profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -642,7 +642,7 @@ describe(`malformed recordings`, () => {
 
     // The malformed lock event produces no lock-contention profile, and both
     // cpu samples are still counted.
-    expect(profileTitles(md)).toEqual([`Sampling profile`])
+    expect(profileTitles(md)).toEqual([`Profile`])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
