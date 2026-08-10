@@ -447,6 +447,13 @@ class JfrParser {
   #stackTraceFramesField: Field | undefined
   #frameMethodIndex = -1
   #frameLineIndex = -1
+  /**
+   * The frame fields' kinds when every one is a varint or byte, so frame
+   * reading decodes them in a loop over locals instead of a call and a switch
+   * per field. Undefined when a frame field is a float, double, string, or
+   * nested object.
+   */
+  #frameFieldKinds: Uint8Array | undefined
 
   // Accumulated across all chunks, with chunk-local IDs remapped to these
   // global sequential indices. Methods and stacks recur across chunks under
@@ -560,6 +567,7 @@ class JfrParser {
     this.#stackTraceFramesField = undefined
     this.#frameMethodIndex = -1
     this.#frameLineIndex = -1
+    this.#frameFieldKinds = undefined
 
     const typeId = this.#typeIdsByName.get(`jdk.types.StackTrace`)
     const type = typeId === undefined ? undefined : this.#types.get(typeId)
@@ -593,6 +601,16 @@ class JfrParser {
     this.#stackTraceFramesField = framesField
     this.#frameMethodIndex = methodIndex
     this.#frameLineIndex = lineIndex
+    if (
+      frameType.fields.every(
+        field => field.kind === FIELD_VARINT || field.kind === FIELD_BYTE,
+      )
+    ) {
+      this.#frameFieldKinds = Uint8Array.from(
+        frameType.fields,
+        field => field.kind,
+      )
+    }
   }
 
   /**
@@ -879,6 +897,67 @@ class JfrParser {
   /** Reads the frame array of a stack trace as interleaved method/line pairs. */
   #readFrames(): number[] {
     const length = this.#readVarint()
+    const kinds = this.#frameFieldKinds
+    // Each field occupies at least one byte, so a length claiming more frames
+    // than the remaining bytes could hold is malformed. The generic loop reads
+    // the same trailing garbage without preallocating on the claimed length.
+    if (
+      kinds === undefined ||
+      length * kinds.length > this.#bytes.length - this.#position
+    ) {
+      return this.#readFramesGeneric(length)
+    }
+
+    const bytes = this.#bytes
+    const fieldCount = kinds.length
+    const methodIndex = this.#frameMethodIndex
+    const lineIndex = this.#frameLineIndex
+    const frames = new Array<number>(length * 2)
+    // A local read cursor (committed back once at the end) and an inline copy
+    // of `#readVarint`'s decoding remove the private-field accesses and
+    // out-of-line calls from this per-field loop, the hottest in the parser.
+    let position = this.#position
+    for (let i = 0; i < length; i++) {
+      let method = 0
+      let lineNumber = 0
+      for (let k = 0; k < fieldCount; k++) {
+        let value = bytes[position++]!
+        if (kinds[k] === FIELD_VARINT && (value & 0x80) !== 0) {
+          let result = value & 0x7f
+          let multiplier = 128
+          for (let j = 1; j < 9; j++) {
+            const byte = bytes[position++]!
+            if (j === 8) {
+              result += byte * multiplier
+              break
+            }
+            result += (byte & 0x7f) * multiplier
+            if ((byte & 0x80) === 0) {
+              break
+            }
+            multiplier *= 128
+          }
+          value = result
+        }
+        if (k === methodIndex) {
+          method = value
+        } else if (k === lineIndex) {
+          lineNumber = value
+        }
+      }
+      frames[i * 2] = method
+      frames[i * 2 + 1] = lineNumber
+    }
+    this.#position = position
+    return frames
+  }
+
+  /**
+   * Reads frames one field at a time through the generic single-value reader,
+   * for a frame type with a non-numeric field or a length the chunk's
+   * remaining bytes can't hold.
+   */
+  #readFramesGeneric(length: number): number[] {
     const frameFields = this.#stackTraceFramesField!.nested!.fields
     const methodIndex = this.#frameMethodIndex
     const lineIndex = this.#frameLineIndex
