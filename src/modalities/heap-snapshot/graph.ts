@@ -82,6 +82,9 @@ export type ImmediateDominatorGraph = {
   /**
    * Node ordinal at each DFS traversal index, enabling bottom-up tree walks by
    * iterating in reverse.
+   *
+   * Only nodes reachable from the root have a DFS index, so its length is the
+   * reachable node count rather than the node count.
    */
   dfsIndexToOrdinal: Int32Array
 
@@ -112,10 +115,14 @@ export type ImmediateDominatorGraph = {
 /**
  * Computes the immediate dominators of every node.
  *
- * Uses the Lengauer-Tarjan dominator tree algorithm.
+ * Uses the semi-NCA dominator tree algorithm: Lengauer-Tarjan semidominators,
+ * then immediate dominators from ancestor walks instead of buckets. After the
+ * DFS, every table is indexed by DFS index rather than node ordinal. The
+ * semidominator pass then reads each node's predecessor list contiguously, and
+ * its ancestor walks read only the compact DFS-indexed arrays.
  *
  * @see https://en.wikipedia.org/wiki/Dominator_(graph_theory)
- * @see https://www.cs.princeton.edu/courses/archive/fall03/cs528/handouts/a%20fast%20algorithm%20for%20finding.pdf
+ * @see https://www.cs.princeton.edu/techreports/2005/737.pdf
  */
 export const computeImmediateDominatorGraph = (
   nodeCount: number,
@@ -126,24 +133,25 @@ export const computeImmediateDominatorGraph = (
     offsetToPredecessorOrdinal,
   }: NodeAdjacencyGraph,
 ): ImmediateDominatorGraph => {
-  // Lengauer-Tarjan dominator tree. Node 0 is the GC root super-node.
+  // Node 0 is the GC root super-node.
   const ordinalToImmediateDominatorOrdinal = new Int32Array(nodeCount).fill(-1)
   const dfsIndexToOrdinal = new Int32Array(nodeCount)
 
-  // Step 1: Iterative DFS from node 0, assigning DFS indices.
-  const ordinalToParentOrdinal = new Int32Array(nodeCount).fill(-1)
+  // Step 1: Iterative DFS from node 0, assigning DFS indices and recording
+  // each node's parent as a DFS index.
   const ordinalToDfsIndex = new Int32Array(nodeCount).fill(-1)
-  const ordinalToSemidominatorDfsIndex = new Int32Array(nodeCount)
+  const dfsIndexToParentDfsIndex = new Int32Array(nodeCount)
   ordinalToDfsIndex[0] = 0
   dfsIndexToOrdinal[0] = 0
-  const dfsStackOrdinals = new Int32Array(nodeCount)
+  const dfsStackDfsIndices = new Int32Array(nodeCount)
   const dfsStackOffsets = new Int32Array(nodeCount)
   dfsStackOffsets[0] = ordinalToSuccessorStartOffset[0]!
   let dfsIndex = 1
   let dfsStackSize = 1
   do {
     const topOffset = dfsStackSize - 1
-    const nodeOrdinal = dfsStackOrdinals[topOffset]!
+    const nodeDfsIndex = dfsStackDfsIndices[topOffset]!
+    const nodeOrdinal = dfsIndexToOrdinal[nodeDfsIndex]!
     const nextOffset = dfsStackOffsets[topOffset]!
     const endOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
 
@@ -159,131 +167,115 @@ export const computeImmediateDominatorGraph = (
       continue
     }
 
-    ordinalToParentOrdinal[childOrdinal] = nodeOrdinal
     ordinalToDfsIndex[childOrdinal] = dfsIndex
-    ordinalToSemidominatorDfsIndex[childOrdinal] = dfsIndex
     dfsIndexToOrdinal[dfsIndex] = childOrdinal
-    dfsIndex++
-    dfsStackOrdinals[dfsStackSize] = childOrdinal
+    dfsIndexToParentDfsIndex[dfsIndex] = nodeDfsIndex
+    dfsStackDfsIndices[dfsStackSize] = dfsIndex
     dfsStackOffsets[dfsStackSize] = ordinalToSuccessorStartOffset[childOrdinal]!
+    dfsIndex++
     dfsStackSize++
   } while (dfsStackSize > 0)
   const reachableCount = dfsIndex
 
-  const ancestorNodeOrdinalPath = new Int32Array(nodeCount)
-  const ordinalToForestAncestorOrdinal = new Int32Array(nodeCount).fill(-1)
-  const ordinalToMinSemiAncestorOrdinal = new Int32Array(nodeCount)
-  for (let i = 0; i < nodeCount; i++) {
-    ordinalToMinSemiAncestorOrdinal[i] = i
-  }
-  const compressAncestorPath = (startNodeOrdinal: number): void => {
-    let pathLength = 0
-    let nodeOrdinal = startNodeOrdinal
-    while (
-      ordinalToForestAncestorOrdinal[nodeOrdinal] !== -1 &&
-      ordinalToForestAncestorOrdinal[
-        ordinalToForestAncestorOrdinal[nodeOrdinal]!
-      ] !== -1
+  // Step 2: Rewrite the predecessor lists into DFS-index space, dropping
+  // unreachable predecessors. Appending in DFS order builds the CSR lists in
+  // one pass, and the semidominator pass then reads them forward.
+  const dfsIndexToPredecessorStartOffset = new Int32Array(reachableCount + 1)
+  const offsetToPredecessorDfsIndex = new Int32Array(
+    ordinalToPredecessorStartOffset[nodeCount]!,
+  )
+  let predecessorCount = 0
+  for (let toDfsIndex = 0; toDfsIndex < reachableCount; toDfsIndex++) {
+    const nodeOrdinal = dfsIndexToOrdinal[toDfsIndex]!
+    const endOffset = ordinalToPredecessorStartOffset[nodeOrdinal + 1]!
+    for (
+      let offset = ordinalToPredecessorStartOffset[nodeOrdinal]!;
+      offset < endOffset;
+      offset++
     ) {
-      ancestorNodeOrdinalPath[pathLength++] = nodeOrdinal
-      nodeOrdinal = ordinalToForestAncestorOrdinal[nodeOrdinal]!
+      const predecessorDfsIndex =
+        ordinalToDfsIndex[offsetToPredecessorOrdinal[offset]!]!
+      if (predecessorDfsIndex !== -1) {
+        offsetToPredecessorDfsIndex[predecessorCount++] = predecessorDfsIndex
+      }
+    }
+    dfsIndexToPredecessorStartOffset[toDfsIndex + 1] = predecessorCount
+  }
+
+  // Step 3: Compute semidominators with path-compressed ancestor walks, all in
+  // DFS-index space. `semi` values are DFS indices, and `label` contains the
+  // node with the smallest semidominator on each compressed forest path.
+  const semi = new Int32Array(reachableCount)
+  const label = new Int32Array(reachableCount)
+  for (let i = 0; i < reachableCount; i++) {
+    semi[i] = i
+    label[i] = i
+  }
+  const ancestor = new Int32Array(reachableCount).fill(-1)
+  const compressionPath = new Int32Array(reachableCount)
+  const compressAncestorPath = (startDfsIndex: number): void => {
+    let pathLength = 0
+    let current = startDfsIndex
+    while (ancestor[current] !== -1 && ancestor[ancestor[current]!]! !== -1) {
+      compressionPath[pathLength++] = current
+      current = ancestor[current]!
     }
 
     for (let pathIndex = pathLength - 1; pathIndex >= 0; pathIndex--) {
-      const pathNodeOrdinal = ancestorNodeOrdinalPath[pathIndex]!
-      const ancestorOrdinal = ordinalToForestAncestorOrdinal[pathNodeOrdinal]!
-      if (
-        ordinalToSemidominatorDfsIndex[
-          ordinalToMinSemiAncestorOrdinal[ancestorOrdinal]!
-        ]! <
-        ordinalToSemidominatorDfsIndex[
-          ordinalToMinSemiAncestorOrdinal[pathNodeOrdinal]!
-        ]!
-      ) {
-        ordinalToMinSemiAncestorOrdinal[pathNodeOrdinal] =
-          ordinalToMinSemiAncestorOrdinal[ancestorOrdinal]!
+      const pathDfsIndex = compressionPath[pathIndex]!
+      const pathAncestor = ancestor[pathDfsIndex]!
+      if (semi[label[pathAncestor]!]! < semi[label[pathDfsIndex]!]!) {
+        label[pathDfsIndex] = label[pathAncestor]!
       }
-      ordinalToForestAncestorOrdinal[pathNodeOrdinal] =
-        ordinalToForestAncestorOrdinal[ancestorOrdinal]!
+      ancestor[pathDfsIndex] = ancestor[pathAncestor]!
     }
   }
-  const minSemiAncestorOrdinal = (nodeOrdinal: number): number => {
-    if (ordinalToForestAncestorOrdinal[nodeOrdinal] === -1) {
-      return nodeOrdinal
+  const minSemiAncestor = (dfsIndex: number): number => {
+    if (ancestor[dfsIndex] === -1) {
+      return dfsIndex
     }
-    compressAncestorPath(nodeOrdinal)
-    return ordinalToMinSemiAncestorOrdinal[nodeOrdinal]!
+    compressAncestorPath(dfsIndex)
+    return label[dfsIndex]!
   }
 
-  // Steps 2 & 3: Compute semidominators; derive initial immediate dominators
-  // from buckets.
-  const pendingHeadOrdinals = new Int32Array(nodeCount).fill(-1)
-  const pendingNextOrdinals = new Int32Array(nodeCount).fill(-1)
-  for (let dfsIndex = reachableCount - 1; dfsIndex >= 1; dfsIndex--) {
-    const nodeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    const predecessorStartOffset = ordinalToPredecessorStartOffset[nodeOrdinal]!
-    const predecessorEndOffset =
-      ordinalToPredecessorStartOffset[nodeOrdinal + 1]!
+  for (
+    let nodeDfsIndex = reachableCount - 1;
+    nodeDfsIndex >= 1;
+    nodeDfsIndex--
+  ) {
+    const endOffset = dfsIndexToPredecessorStartOffset[nodeDfsIndex + 1]!
     for (
-      let predecessorOffset = predecessorStartOffset;
-      predecessorOffset < predecessorEndOffset;
-      predecessorOffset++
+      let offset = dfsIndexToPredecessorStartOffset[nodeDfsIndex]!;
+      offset < endOffset;
+      offset++
     ) {
-      const predecessorOrdinal = offsetToPredecessorOrdinal[predecessorOffset]!
-      const predecessorDfsIndex = ordinalToDfsIndex[predecessorOrdinal]
-      if (predecessorDfsIndex === -1) {
-        continue
-      }
-
-      const minAncestorOrdinal = minSemiAncestorOrdinal(predecessorOrdinal)
-      if (
-        ordinalToSemidominatorDfsIndex[minAncestorOrdinal]! <
-        ordinalToSemidominatorDfsIndex[nodeOrdinal]!
-      ) {
-        ordinalToSemidominatorDfsIndex[nodeOrdinal] =
-          ordinalToSemidominatorDfsIndex[minAncestorOrdinal]!
+      const predecessorDfsIndex = offsetToPredecessorDfsIndex[offset]!
+      const candidate = semi[minSemiAncestor(predecessorDfsIndex)]!
+      if (candidate < semi[nodeDfsIndex]!) {
+        semi[nodeDfsIndex] = candidate
       }
     }
-
-    // Add nodeOrdinal to the pending bucket of its semidominator.
-    const semiBucketOrdinal =
-      dfsIndexToOrdinal[ordinalToSemidominatorDfsIndex[nodeOrdinal]!]!
-    pendingNextOrdinals[nodeOrdinal] = pendingHeadOrdinals[semiBucketOrdinal]!
-    pendingHeadOrdinals[semiBucketOrdinal] = nodeOrdinal
-
-    ordinalToForestAncestorOrdinal[nodeOrdinal] =
-      ordinalToParentOrdinal[nodeOrdinal]!
-
-    // Process the pending bucket of the parent node.
-    const parentOrdinal = ordinalToParentOrdinal[nodeOrdinal]!
-    let pendingOrdinal = pendingHeadOrdinals[parentOrdinal]!
-    pendingHeadOrdinals[parentOrdinal] = -1
-    while (pendingOrdinal !== -1) {
-      const nextPending = pendingNextOrdinals[pendingOrdinal]!
-      const ancestorOrdinal = minSemiAncestorOrdinal(pendingOrdinal)
-      ordinalToImmediateDominatorOrdinal[pendingOrdinal] =
-        ordinalToSemidominatorDfsIndex[ancestorOrdinal]! <
-        ordinalToSemidominatorDfsIndex[pendingOrdinal]!
-          ? ancestorOrdinal
-          : parentOrdinal
-      pendingOrdinal = nextPending
-    }
+    ancestor[nodeDfsIndex] = dfsIndexToParentDfsIndex[nodeDfsIndex]!
   }
 
-  // Step 4: Adjust immediate dominators that were set to a semidominator proxy.
-  for (let dfsIndex = 1; dfsIndex < reachableCount; dfsIndex++) {
-    const nodeOrdinal = dfsIndexToOrdinal[dfsIndex]!
-    if (
-      ordinalToImmediateDominatorOrdinal[nodeOrdinal]! !==
-      dfsIndexToOrdinal[ordinalToSemidominatorDfsIndex[nodeOrdinal]!]!
-    ) {
-      ordinalToImmediateDominatorOrdinal[nodeOrdinal] =
-        ordinalToImmediateDominatorOrdinal[
-          ordinalToImmediateDominatorOrdinal[nodeOrdinal]!
-        ]!
+  // Step 4: Derive immediate dominators in preorder. A node's immediate
+  // dominator is the first node at or before its semidominator on its parent's
+  // dominator chain. Earlier nodes' entries are already final.
+  const dfsIndexToImmediateDominator = new Int32Array(reachableCount)
+  for (let nodeDfsIndex = 1; nodeDfsIndex < reachableCount; nodeDfsIndex++) {
+    let candidate = dfsIndexToParentDfsIndex[nodeDfsIndex]!
+    const nodeSemi = semi[nodeDfsIndex]!
+    while (candidate > nodeSemi) {
+      candidate = dfsIndexToImmediateDominator[candidate]!
     }
+    dfsIndexToImmediateDominator[nodeDfsIndex] = candidate
   }
+
   ordinalToImmediateDominatorOrdinal[0] = 0
+  for (let nodeDfsIndex = 1; nodeDfsIndex < reachableCount; nodeDfsIndex++) {
+    ordinalToImmediateDominatorOrdinal[dfsIndexToOrdinal[nodeDfsIndex]!] =
+      dfsIndexToOrdinal[dfsIndexToImmediateDominator[nodeDfsIndex]!]!
+  }
 
   const dominatorOrdinalToDominateeCount = new Int32Array(nodeCount)
   for (let nodeOrdinal = 1; nodeOrdinal < nodeCount; nodeOrdinal++) {
@@ -314,7 +306,7 @@ export const computeImmediateDominatorGraph = (
   }
 
   return {
-    dfsIndexToOrdinal,
+    dfsIndexToOrdinal: dfsIndexToOrdinal.subarray(0, reachableCount),
     ordinalToImmediateDominatorOrdinal,
     immediateDominateeOrdinalToStartOffset,
     offsetToImmediateDominateeOrdinal,
