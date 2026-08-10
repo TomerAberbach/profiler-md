@@ -120,7 +120,6 @@
     "dedent": "^1.7.2",
     "eslint": "^10.8.0",
     "knip": "^6.29.0",
-    "limit-concur": "^4.0.0",
     "mdast-util-gfm": "^3.1.0",
     "micromark-extension-gfm": "^3.0.0",
     "npm-run-all2": "^9.0.3",
