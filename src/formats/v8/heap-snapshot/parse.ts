@@ -12,6 +12,7 @@ import type {
   NodeAdjacencyGraph,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
+import { FormatParseError } from '../../error.ts'
 
 /**
  * @see https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/profiler/heap-snapshot-generator.cc
@@ -216,141 +217,96 @@ function* v8SnapshotNodes(
 }
 
 const computeNodeAdjacencyGraph = (
-  snapshot: V8HeapSnapshot,
+  { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
   fieldLayout: FieldLayout,
 ): NodeAdjacencyGraph => {
-  const { ordinalToSuccessorCount, ordinalToPredecessorCount } =
-    countRetainingEdges(snapshot, fieldLayout)
+  const { nodeFieldCount, nodeEdgeCountOffset, edgeFieldCount } = fieldLayout
+  const { edgeTypeOffset, edgeToNodeOffset, edgeTypeWeak } = fieldLayout
+
+  if (edges.length % edgeFieldCount !== 0) {
+    throw new FormatParseError(
+      `edges length is not a multiple of the ${edgeFieldCount} edge fields, got: ${edges.length}`,
+    )
+  }
+
+  // Decode the plain JSON `nodes` and `edges` arrays once, recording each
+  // retaining (non-weak) edge's successor and edge index in discovery order.
+  // Discovery order groups edges by their node, so these arrays are the
+  // successor CSR lists. The second pass scatters the predecessor side,
+  // reading these arrays back sequentially instead of re-decoding.
+  const totalEdgeCount = edges.length / edgeFieldCount
+  let offsetToSuccessorOrdinal = new Int32Array(totalEdgeCount)
+  let offsetToSuccessorEdgeIndex = new Int32Array(totalEdgeCount)
+  const ordinalToSuccessorCount = new Int32Array(nodeCount)
+  const ordinalToPredecessorCount = new Int32Array(nodeCount)
+  let retainingEdgeCount = 0
+  let nodeEdgesStartIndex = 0
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const nodeIndex = nodeOrdinal * nodeFieldCount
+    const nodeEdgeCount = nodes[nodeIndex + nodeEdgeCountOffset]!
+    for (let edgeOrdinal = 0; edgeOrdinal < nodeEdgeCount; edgeOrdinal++) {
+      const edgeIndex = nodeEdgesStartIndex + edgeOrdinal * edgeFieldCount
+      const edgeType = edges[edgeIndex + edgeTypeOffset]!
+      if (edgeType === edgeTypeWeak) {
+        continue
+      }
+
+      const successorOrdinal =
+        edges[edgeIndex + edgeToNodeOffset]! / nodeFieldCount
+      ordinalToSuccessorCount[nodeOrdinal]!++
+      ordinalToPredecessorCount[successorOrdinal]!++
+      offsetToSuccessorOrdinal[retainingEdgeCount] = successorOrdinal
+      offsetToSuccessorEdgeIndex[retainingEdgeCount] = edgeIndex
+      retainingEdgeCount++
+    }
+    nodeEdgesStartIndex += nodeEdgeCount * edgeFieldCount
+  }
+  if (retainingEdgeCount < totalEdgeCount) {
+    // Weak edges left unused entries at the end, so copy to an exact-size
+    // array to free them.
+    offsetToSuccessorOrdinal = offsetToSuccessorOrdinal.slice(
+      0,
+      retainingEdgeCount,
+    )
+    offsetToSuccessorEdgeIndex = offsetToSuccessorEdgeIndex.slice(
+      0,
+      retainingEdgeCount,
+    )
+  }
+
   const ordinalToSuccessorStartOffset = computeStartOffsets(
     ordinalToSuccessorCount,
   )
   const ordinalToPredecessorStartOffset = computeStartOffsets(
     ordinalToPredecessorCount,
   )
-  const {
-    offsetToSuccessorOrdinal,
-    offsetToSuccessorEdgeIndex,
-    offsetToPredecessorOrdinal,
-    offsetToPredecessorEdgeIndex,
-  } = computeAdjacencyLists(
-    snapshot,
-    fieldLayout,
-    ordinalToSuccessorStartOffset,
-    ordinalToPredecessorStartOffset,
-    ordinalToSuccessorCount,
-    ordinalToPredecessorCount,
-  )
 
-  return {
-    ordinalToSuccessorStartOffset,
-    offsetToSuccessorOrdinal,
-    offsetToSuccessorEdgeIndex,
-    ordinalToPredecessorStartOffset,
-    offsetToPredecessorOrdinal,
-    offsetToPredecessorEdgeIndex,
-  }
-}
-
-/**
- * Counts each node's outgoing (successor) and incoming (predecessor) edges,
- * excluding weak edges since they don't affect retainment.
- */
-const countRetainingEdges = (
-  { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-): {
-  ordinalToSuccessorCount: Int32Array
-  ordinalToPredecessorCount: Int32Array
-} => {
-  const ordinalToSuccessorCount = new Int32Array(nodeCount)
-  const ordinalToPredecessorCount = new Int32Array(nodeCount)
-  let nodeEdgesStartIndex = 0
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-    const nodeEdgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    for (let edgeOrdinal = 0; edgeOrdinal < nodeEdgeCount; edgeOrdinal++) {
-      const edgeIndex =
-        nodeEdgesStartIndex + edgeOrdinal * fieldLayout.edgeFieldCount
-      const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
-      if (edgeType === fieldLayout.edgeTypeWeak) {
-        continue
-      }
-
-      const successorOrdinal =
-        edges[edgeIndex + fieldLayout.edgeToNodeOffset]! /
-        fieldLayout.nodeFieldCount
-      ordinalToSuccessorCount[nodeOrdinal]!++
-      ordinalToPredecessorCount[successorOrdinal]!++
-    }
-    nodeEdgesStartIndex += nodeEdgeCount * fieldLayout.edgeFieldCount
-  }
-  return { ordinalToSuccessorCount, ordinalToPredecessorCount }
-}
-
-/**
- * Fills the CSR successor and predecessor lists, excluding weak edges since
- * they don't affect retainment.
- *
- * Zeroes and reuses the count arrays as write cursors rather than allocating
- * fresh ones.
- */
-const computeAdjacencyLists = (
-  { snapshot: { node_count: nodeCount }, nodes, edges }: V8HeapSnapshot,
-  fieldLayout: FieldLayout,
-  ordinalToSuccessorStartOffset: Int32Array,
-  ordinalToPredecessorStartOffset: Int32Array,
-  ordinalToSuccessorCursor: Int32Array,
-  ordinalToPredecessorCursor: Int32Array,
-): {
-  offsetToSuccessorOrdinal: Int32Array
-  offsetToSuccessorEdgeIndex: Int32Array
-  offsetToPredecessorOrdinal: Int32Array
-  offsetToPredecessorEdgeIndex: Int32Array
-} => {
-  const totalEdges = ordinalToSuccessorStartOffset[nodeCount]!
-  const offsetToSuccessorOrdinal = new Int32Array(totalEdges)
-  const offsetToSuccessorEdgeIndex = new Int32Array(totalEdges)
-  const offsetToPredecessorOrdinal = new Int32Array(totalEdges)
-  const offsetToPredecessorEdgeIndex = new Int32Array(totalEdges)
-
-  ordinalToSuccessorCursor.fill(0)
+  // Scatter the predecessor CSR lists, reusing the predecessor count array as
+  // write cursors rather than allocating a new one.
+  const offsetToPredecessorOrdinal = new Int32Array(retainingEdgeCount)
+  const offsetToPredecessorEdgeIndex = new Int32Array(retainingEdgeCount)
+  const ordinalToPredecessorCursor = ordinalToPredecessorCount
   ordinalToPredecessorCursor.fill(0)
-  let nodeEdgesStartIndex = 0
+  let successorOffset = 0
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
-    const nodeEdgeCount = nodes[nodeIndex + fieldLayout.nodeEdgeCountOffset]!
-    for (let edgeOrdinal = 0; edgeOrdinal < nodeEdgeCount; edgeOrdinal++) {
-      const edgeIndex =
-        nodeEdgesStartIndex + edgeOrdinal * fieldLayout.edgeFieldCount
-      const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
-      if (edgeType === fieldLayout.edgeTypeWeak) {
-        continue
-      }
-
-      const successorOrdinal =
-        edges[edgeIndex + fieldLayout.edgeToNodeOffset]! /
-        fieldLayout.nodeFieldCount
-
-      const successorOffset =
-        ordinalToSuccessorStartOffset[nodeOrdinal]! +
-        ordinalToSuccessorCursor[nodeOrdinal]!
-      offsetToSuccessorOrdinal[successorOffset] = successorOrdinal
-      offsetToSuccessorEdgeIndex[successorOffset] = edgeIndex
-      ordinalToSuccessorCursor[nodeOrdinal]!++
-
+    const successorEndOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
+    for (; successorOffset < successorEndOffset; successorOffset++) {
+      const successorOrdinal = offsetToSuccessorOrdinal[successorOffset]!
       const predecessorOffset =
         ordinalToPredecessorStartOffset[successorOrdinal]! +
         ordinalToPredecessorCursor[successorOrdinal]!
       offsetToPredecessorOrdinal[predecessorOffset] = nodeOrdinal
-      offsetToPredecessorEdgeIndex[predecessorOffset] = edgeIndex
+      offsetToPredecessorEdgeIndex[predecessorOffset] =
+        offsetToSuccessorEdgeIndex[successorOffset]!
       ordinalToPredecessorCursor[successorOrdinal]!++
     }
-    nodeEdgesStartIndex += nodeEdgeCount * fieldLayout.edgeFieldCount
   }
 
   return {
+    ordinalToSuccessorStartOffset,
     offsetToSuccessorOrdinal,
     offsetToSuccessorEdgeIndex,
+    ordinalToPredecessorStartOffset,
     offsetToPredecessorOrdinal,
     offsetToPredecessorEdgeIndex,
   }
