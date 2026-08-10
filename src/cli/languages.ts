@@ -110,6 +110,12 @@ const languageMetas = [
     },
   ],
   [
+    `swift`,
+    {
+      name: `Swift`,
+    },
+  ],
+  [
     `zig`,
     {
       name: `Zig`,

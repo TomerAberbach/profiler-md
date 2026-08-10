@@ -1,5 +1,6 @@
 import { categorizeGenericEntry } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
+import { swiftStdlibCategory } from '../swift.ts'
 import { zigStdlibCategory } from '../zig.ts'
 
 /**
@@ -19,5 +20,7 @@ export const gperftoolsOriginSpec = {
   formats: [`pprof`],
   isMarkerEntry: () => false,
   categorizeEntry: entry =>
-    zigStdlibCategory(entry) ?? categorizeGenericEntry(entry),
+    zigStdlibCategory(entry) ??
+    swiftStdlibCategory(entry) ??
+    categorizeGenericEntry(entry),
 } as const satisfies OriginSpec
