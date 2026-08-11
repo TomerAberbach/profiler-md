@@ -176,7 +176,11 @@ const countedAs = (type: string): CountMetric | undefined => {
     return SAMPLES
   }
   const noun = COUNT_TYPE_NOUNS.get(name)
-  return noun === undefined ? undefined : countMetricOf(noun)
+  // Every name in the table counts something the profiled program spends,
+  // allocates, or blocks on, so fewer is an improvement.
+  return noun === undefined
+    ? undefined
+    : countMetricOf(noun, { improvement: `decrease` })
 }
 
 /** The type names for a count of call stack samples. */

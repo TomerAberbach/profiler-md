@@ -6,18 +6,19 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
-  improvementsTables,
   profileTitles,
   rankingTable,
-  regressionsTables,
+  rankingTables,
   resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
 import { countMetricOf } from '../metric.ts'
+import type { Metric } from '../metric.ts'
 import {
   BYTES_METRIC,
   MEGABYTES_METRIC,
   MICROSECONDS_METRIC,
+  parseMetric,
   RETAINED_HEAP_METRIC,
 } from '../metrics.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
@@ -36,6 +37,44 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
  * contains a hidden frame.
  */
 const ELLIPSIS_NOTE = `\`…\` stands for frames the entry filter hides.`
+
+/**
+ * A diff in {@link metric} of one function whose value doubled and one whose
+ * value fell, so both of its rankings have a row.
+ */
+const formatDiffOfMetric = (metric: Metric): string => {
+  const profileOf = (funcAValue: number, funcBValue: number) =>
+    makeAggregatedCallStackProfile(
+      [metric],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          line: 10,
+          selfCount: funcAValue / 20,
+          selfValues: [funcAValue],
+        },
+        {
+          name: `funcB`,
+          url: `file:///project/src/b.ts`,
+          line: 20,
+          selfCount: funcBValue / 20,
+          selfValues: [funcBValue],
+        },
+      ],
+    )
+
+  return mdastToMarkdown(
+    formatCallStackProfileDiff(
+      diffAggregatedCallStackProfiles(
+        profileOf(100, 60),
+        profileOf(200, 20),
+        defaultOptions,
+      ),
+      defaultOptions,
+    ),
+  )
+}
 
 describe(`formatCallStackProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
@@ -727,7 +766,7 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
       undefined,
-      countMetricOf(`entry`),
+      countMetricOf(`entry`, { improvement: `decrease` }),
     )
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
@@ -752,7 +791,7 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
       undefined,
-      countMetricOf(`goroutine`),
+      countMetricOf(`goroutine`, { improvement: `decrease` }),
     )
 
     const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
@@ -867,7 +906,7 @@ describe(`formatCallStackProfileDiff`, () => {
       [BYTES_METRIC],
       [],
       undefined,
-      countMetricOf(`object`),
+      countMetricOf(`object`, { improvement: `decrease` }),
     )
     const current = makeAggregatedCallStackProfile(
       [BYTES_METRIC],
@@ -880,7 +919,7 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
       undefined,
-      countMetricOf(`object`),
+      countMetricOf(`object`, { improvement: `decrease` }),
     )
 
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
@@ -1009,10 +1048,102 @@ describe(`formatCallStackProfileDiff`, () => {
       },
     ]
 
-    expect(regressionsTables(md, `Self time`)).toEqual([expectedRegressions])
-    expect(improvementsTables(md, `Self time`)).toEqual([expectedImprovements])
-    expect(regressionsTables(md, `Total time`)).toEqual([expectedRegressions])
-    expect(improvementsTables(md, `Total time`)).toEqual([expectedImprovements])
+    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
+      expectedRegressions,
+    ])
+    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([
+      expectedImprovements,
+    ])
+    expect(rankingTables(md, `Total time`, `Regressions`)).toEqual([
+      expectedRegressions,
+    ])
+    expect(rankingTables(md, `Total time`, `Improvements`)).toEqual([
+      expectedImprovements,
+    ])
+  })
+
+  test(`names each ranking after its change when the metric's improvement direction is unknown`, () => {
+    const md = formatDiffOfMetric(
+      parseMetric({ name: `weight`, unit: `weight` }),
+    )
+
+    expect(rankingTables(md, `Self weight`, `Increases`)).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+100`,
+          '%': `62.5% → 90.9%`,
+          Weight: `100 → 200`,
+          Samples: `5 → 10`,
+          Function: `funcA`,
+          Location: `src/a.ts:10`,
+        },
+      ],
+    ])
+    expect(rankingTables(md, `Self weight`, `Decreases`)).toEqual([
+      [
+        {
+          Change: `-66.7%`,
+          Delta: `-40`,
+          '%': `37.5% → 9.1%`,
+          Weight: `60 → 20`,
+          Samples: `3 → 1`,
+          Function: `funcB`,
+          Location: `src/b.ts:20`,
+        },
+      ],
+    ])
+    expect(rankingTables(md, `Self weight`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Self weight`, `Improvements`)).toEqual([])
+    expect(md).toContain(
+      `Functions with the largest increase in weight recorded directly in the function body, excluding callees.`,
+    )
+    expect(md.indexOf(`#### Increases`)).toBeLessThan(
+      md.indexOf(`#### Decreases`),
+    )
+  })
+
+  test(`ranks a decrease as a regression when a higher value is an improvement`, () => {
+    const md = formatDiffOfMetric(
+      parseMetric({
+        name: `request`,
+        unit: `request`,
+        improvement: `increase`,
+      }),
+    )
+
+    expect(rankingTables(md, `Self request`, `Regressions`)).toEqual([
+      [
+        {
+          Change: `-66.7%`,
+          Delta: `-40`,
+          '%': `37.5% → 9.1%`,
+          Request: `60 → 20`,
+          Samples: `3 → 1`,
+          Function: `funcB`,
+          Location: `src/b.ts:20`,
+        },
+      ],
+    ])
+    expect(rankingTables(md, `Self request`, `Improvements`)).toEqual([
+      [
+        {
+          Change: `+100.0%`,
+          Delta: `+100`,
+          '%': `62.5% → 90.9%`,
+          Request: `100 → 200`,
+          Samples: `5 → 10`,
+          Function: `funcA`,
+          Location: `src/a.ts:10`,
+        },
+      ],
+    ])
+    expect(md).toContain(
+      `Functions with the largest decrease in request recorded directly in the function body, excluding callees.`,
+    )
+    expect(md.indexOf(`#### Regressions`)).toBeLessThan(
+      md.indexOf(`#### Improvements`),
+    )
   })
 
   test(`omits functions hidden by showEntry without hiding functions from the other profile`, () => {
@@ -1066,7 +1197,7 @@ describe(`formatCallStackProfileDiff`, () => {
     const md = mdastToMarkdown(formatCallStackProfileDiff(diff, options))
 
     expect(md).not.toContain(`funcB`)
-    expect(regressionsTables(md, `Self time`)).toEqual([
+    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
       [
         {
           Change: `+100.0%`,
@@ -1088,7 +1219,7 @@ describe(`formatCallStackProfileDiff`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Self time`)).toEqual([])
+    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
   })
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
@@ -1121,8 +1252,8 @@ describe(`formatCallStackProfileDiff`, () => {
     // The sections are still formatted, with a note in place of empty tables so
     // the output doesn't look broken.
     expect(md).toMatch(/^## Hottest functions$/mu)
-    expect(regressionsTables(md, `Self time`)).toEqual([])
-    expect(improvementsTables(md, `Self time`)).toEqual([])
+    expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
     expect(md).toContain(
       `No function differed in time spent directly in the function body, excluding callees.`,
     )
@@ -1216,7 +1347,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
     expect(md).toMatch(/^## CPU$/mu)
     expect(md).toMatch(/^## Heap$/mu)
-    expect(regressionsTables(md, `Self time`)).not.toEqual([])
+    expect(rankingTables(md, `Self time`, `Regressions`)).not.toEqual([])
     expect(md).toContain(
       `No function differed in bytes allocated directly in the function body, excluding callees.`,
     )

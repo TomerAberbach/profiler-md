@@ -271,10 +271,10 @@ function* kindObservations(
 }
 
 /** One object sampled at allocation and still live when the recording ended. */
-const OBJECTS = countMetricOf(`object`)
+const OBJECTS = countMetricOf(`object`, { improvement: `decrease` })
 
 /** One acquisition of a contended monitor, or one park. */
-const CONTENTIONS = countMetricOf(`contention`)
+const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
 
 /**
  * The metric and count metric for each sample kind, in the order profiles are

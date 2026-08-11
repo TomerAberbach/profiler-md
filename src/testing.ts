@@ -75,15 +75,19 @@ export const categoryTables = (md: string): Table[] => {
   return results
 }
 
-export const regressionsTables = (md: string, section: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), section)
-  return allTablesAfterHeadingContaining(under, `Regressions`)
-}
-
-export const improvementsTables = (md: string, section: string): Table[] => {
-  const under = nodesUnderHeading(parseMd(md), section)
-  return allTablesAfterHeadingContaining(under, `Improvements`)
-}
+/**
+ * The tables under {@link ranking} (a diff's `Regressions`, `Improvements`,
+ * `Increases`, or `Decreases` heading) in {@link section}.
+ */
+export const rankingTables = (
+  md: string,
+  section: string,
+  ranking: string,
+): Table[] =>
+  allTablesAfterHeadingContaining(
+    nodesUnderHeading(parseMd(md), section),
+    ranking,
+  )
 
 /**
  * The table ranking {@link section}'s own entries, above its category

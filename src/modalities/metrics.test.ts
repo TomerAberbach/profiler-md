@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { parseMetric } from './metrics.ts'
+import { countMetricOf } from './metric.ts'
+import { NANOSECONDS_METRIC, parseMetric, SAMPLES } from './metrics.ts'
 
 describe(`parseMetric`, () => {
   it(`returns named size metric for alloc_space`, () => {
@@ -118,5 +119,41 @@ describe(`parseMetric`, () => {
       proseUnit: `time`,
       phrases: { titleNoun: `count`, columnNoun: `counts` },
     })
+  })
+
+  it.each([
+    { scenario: `a time unit`, unit: `nanoseconds`, improvement: `decrease` },
+    { scenario: `a size unit`, unit: `bytes`, improvement: `decrease` },
+    {
+      scenario: `an unrecognized unit`,
+      unit: `widgets`,
+      improvement: `unknown`,
+    },
+    { scenario: `the "none" unit`, unit: `none`, improvement: `unknown` },
+  ])(
+    `derives $improvement as the improvement for $scenario`,
+    ({ unit, improvement }) => {
+      expect(parseMetric({ name: `foo`, unit }).improvement).toBe(improvement)
+    },
+  )
+
+  it(`takes the improvement direction the caller states over the unit's`, () => {
+    const metric = parseMetric({
+      name: `cache hit`,
+      unit: `hit`,
+      improvement: `increase`,
+    })
+
+    expect(metric.improvement).toBe(`increase`)
+  })
+})
+
+describe(`improvement direction`, () => {
+  it(`is a decrease for a count of what a profiler recorded`, () => {
+    expect(
+      countMetricOf(`contention`, { improvement: `decrease` }).improvement,
+    ).toBe(`decrease`)
+    expect(SAMPLES.improvement).toBe(`decrease`)
+    expect(NANOSECONDS_METRIC.improvement).toBe(`decrease`)
   })
 })

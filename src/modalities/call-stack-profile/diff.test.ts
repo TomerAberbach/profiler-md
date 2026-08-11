@@ -184,7 +184,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       [],
       [func],
       undefined,
-      countMetricOf(`entry`),
+      countMetricOf(`entry`, { improvement: `decrease` }),
     )
 
     expect(() =>
@@ -209,7 +209,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       [BYTES_METRIC],
       [func],
       undefined,
-      countMetricOf(`entry`),
+      countMetricOf(`entry`, { improvement: `decrease` }),
     )
 
     expect(

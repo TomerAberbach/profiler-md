@@ -1022,7 +1022,7 @@ const formatDiffDirectionFunctions = ({
     side: Measure,
     func?: AggregatedCallStackProfileFunction,
   ) => (func === undefined ? 0 : valueOf(side, func))
-  const { regressions, improvements, hasActive, categoryRankings } =
+  const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.functions.map(func => ({
         entity: func,
@@ -1055,10 +1055,11 @@ const formatDiffDirectionFunctions = ({
     headingLevel,
     title: titleOf(metric),
     description: descriptionOf(metric),
+    improvement: metric.improvement,
     columns: functionColumns(measure, `Function`, options),
     hasActive,
-    regressions,
-    improvements,
+    increases,
+    decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
   })

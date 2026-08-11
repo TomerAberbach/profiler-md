@@ -710,7 +710,9 @@ const callgrindEventMetric = (
 
   const singular = KNOWN_EVENTS.get(name)
   if (singular) {
-    return countMetricOf(singular)
+    // Each known event counts work the program made the machine do, so fewer
+    // is an improvement.
+    return countMetricOf(singular, { improvement: `decrease` })
   }
 
   const displayName = longName ?? name

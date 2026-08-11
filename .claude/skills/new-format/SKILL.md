@@ -96,12 +96,11 @@ $ARGUMENTS
        `parseMetric` only where the input names its own unit. For a lone count
        metric, populate `Observation.count` with no metrics instead. State what
        one of those counts measures with `countMetric`, from the answer in step
-       4: `SAMPLES` when the profiler samples,
-       `countMetricOf('<singular noun>')` when it counts occurrences of
-       something else, a time or size metric when a count measures a quantity,
-       and `null` when they measure nothing. Where the emitters disagree, leave
-       the format's own answer and let the dissenting origin override it with
-       `OriginSpec.countMetric`
+       4: `SAMPLES` when the profiler samples, `countMetricOf(...)` when it
+       counts occurrences of something else, a time or size metric when a count
+       measures a quantity, and `null` when they measure nothing. Where the
+       emitters disagree, leave the format's own answer and let the dissenting
+       origin override it with `OriginSpec.countMetric`
      - A heap snapshot parses into a `HeapSnapshot` (node adjacency graph,
        lazily-classified nodes; see `src/modalities/heap-snapshot/type.ts`)
      - `parse` returns a list of them (`ParsedInput[]`), which may mix

@@ -510,6 +510,117 @@ describe(`diff table intensity`, () => {
     expect(maxRed(highlighted, 2)).toBe(defaultRowRed)
   })
 
+  /** A diff table under {@link ranking}'s heading, as a diff's rankings are. */
+  const rankingSection = (ranking: string, rows: string[]): string =>
+    [`#### ${ranking}`, ``, diffTable(rows)].join(`\n`)
+
+  test(`a decrease under Regressions is red-tinted`, async () => {
+    // A metric a higher value is better for ranks its decreases as
+    // regressions, and a regression is red however its delta is signed.
+    const highlighted = await highlight(
+      rankingSection(`Regressions`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 4)).toBe(215)
+  })
+
+  test(`an increase under Improvements is green-tinted`, async () => {
+    const highlighted = await highlight(
+      rankingSection(`Improvements`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxGreen(highlighted, 4)).toBe(203)
+  })
+
+  test(`rows under Increases and Decreases are untinted`, async () => {
+    // The metric's improvement direction is unknown, so neither ranking's rows
+    // are colored as better or worse.
+    const highlighted = await highlight(
+      [
+        rankingSection(`Increases`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
+        rankingSection(`Decreases`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+      ].join(`\n\n`),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
+    expect(maxGreen(highlighted, 10)).toBe(defaultRowGreen)
+  })
+
+  test(`a summary table is untinted in a document whose metric's improvement direction is unknown`, async () => {
+    // No ranking heading covers the summary table, and the document's
+    // `Increases` heading states that its changes are neither better nor worse.
+    const highlighted = await highlight(
+      [
+        `# Weight profile diff`,
+        ``,
+        diffTable([`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
+        ``,
+        rankingSection(`Increases`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
+      ].join(`\n`),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 4)).toBe(defaultRowRed)
+  })
+
+  test(`a summary table is tinted by what its profile's rankings call an increase`, async () => {
+    // The `Regressions` ranking covers a decrease, so a decrease is a
+    // regression throughout the profile, including in the summary table above
+    // it that no ranking heading covers.
+    const highlighted = await highlight(
+      [
+        `# Throughput profile diff`,
+        ``,
+        diffTable([`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+        ``,
+        rankingSection(`Regressions`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+      ].join(`\n`),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 4)).toBe(215)
+  })
+
+  test(`each profile's summary table takes what its own rankings call an increase`, async () => {
+    const highlighted = await highlight(
+      [
+        `# Throughput profile diff`,
+        ``,
+        diffTable([`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+        ``,
+        rankingSection(`Regressions`, [`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+        ``,
+        `# CPU profile diff`,
+        ``,
+        diffTable([`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+        ``,
+        rankingSection(`Regressions`, [`| +100.0% |  +16ms  | 1.6% → 3.2% |`]),
+      ].join(`\n`),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxRed(highlighted, 4)).toBe(215)
+    expect(maxGreen(highlighted, 16)).toBe(203)
+  })
+
+  test(`a summary table with no ranking after it is tinted by the sign of its deltas`, async () => {
+    const highlighted = await highlight(
+      [
+        `# CPU profile diff`,
+        ``,
+        diffTable([`| -50.0%  |  -16ms  | 3.2% → 1.6% |`]),
+        ``,
+        `No function differed in time spent.`,
+      ].join(`\n`),
+      highlightMarkdownOptions,
+    )
+
+    expect(maxGreen(highlighted, 4)).toBe(203)
+  })
+
   test(`diff table rows don't propagate intensity to matching headings`, async () => {
     const markdown = [
       `### Regressions`,

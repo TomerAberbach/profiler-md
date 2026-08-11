@@ -26,12 +26,15 @@ import {
 } from '../category.ts'
 import type { Diff } from '../diff.ts'
 import {
+  diffRankings,
+  diffRankingSentence,
   formatDiffRankingSections,
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
 import type { DiffCategoryRanking } from '../format.ts'
+import { BYTES_METRIC } from '../metrics.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
 import type {
@@ -656,7 +659,7 @@ const formatDiffSizeConstructors = ({
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
-  const { regressions, improvements, hasActive, categoryRankings } =
+  const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.constructors.map(entity => ({
         entity,
@@ -686,8 +689,8 @@ const formatDiffSizeConstructors = ({
     description,
     columns: constructorColumns(hasLocation, options),
     hasActive,
-    regressions,
-    improvements,
+    increases,
+    decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
   })
@@ -702,7 +705,7 @@ const formatDiffFunctions = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { regressions, improvements, hasActive } = selectDiffEntities(
+  const { increases, decreases, hasActive } = selectDiffEntities(
     diff.functions.map(entity => ({
       entity,
       baseValue: entity.base ? entity.base.retainedSize : 0,
@@ -723,8 +726,8 @@ const formatDiffFunctions = ({
     description: `retained size`,
     columns: functionColumns(hasLocation, options),
     hasActive,
-    regressions,
-    improvements,
+    increases,
+    decreases,
     rowOf: ({ entity }) => rowOf(entity),
   })
 }
@@ -764,7 +767,7 @@ const formatDiffStrings = ({
     minCategoryShare: options.minCategoryShare,
   })
 
-  const { regressions, improvements, hasActive, categoryRankings } =
+  const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.strings.map(entity => ({
         entity,
@@ -788,8 +791,8 @@ const formatDiffStrings = ({
     // Diffed strings are matched by value, so they always have a value.
     columns: stringColumns(true),
     hasActive,
-    regressions,
-    improvements,
+    increases,
+    decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
   })
@@ -808,8 +811,11 @@ const nodeRowOf = (
 })
 
 /**
- * Assembles the regressions and improvements subsections for one diffed entity
- * table from its row records, with rows under the given table {@link columns}.
+ * Assembles the increase and decrease subsections for one diffed entity table
+ * from its row records, with rows under the given table {@link columns}.
+ *
+ * Every heap snapshot ranking measures bytes, so a decrease is an improvement
+ * in all of them.
  */
 const formatDiffEntitySections = <Entity, Row>({
   formatHeader,
@@ -818,8 +824,8 @@ const formatDiffEntitySections = <Entity, Row>({
   description,
   columns,
   hasActive,
-  regressions,
-  improvements,
+  increases,
+  decreases,
   categoryRankings = [],
   rowOf,
 }: {
@@ -829,33 +835,27 @@ const formatDiffEntitySections = <Entity, Row>({
   description: string
   columns: Table<Row>
   hasActive: boolean
-  regressions: Entity[]
-  improvements: Entity[]
+  increases: Entity[]
+  decreases: Entity[]
   categoryRankings?: DiffCategoryRanking<Entity>[]
   rowOf: (entity: Entity) => Diff<Row>
 }): RootContent[] => {
-  const sections = [
-    ...formatDiffRankingSections({
-      headingLevel,
-      subtitle: `Regressions`,
-      sentence: `${plural} with the largest increase in ${description}.`,
-      columns,
-      entities: regressions,
-      categoryRankings,
-      entitiesOf: ranking => ranking.regressions,
-      rowOf,
-    }),
-    ...formatDiffRankingSections({
-      headingLevel,
-      subtitle: `Improvements`,
-      sentence: `${plural} with the largest decrease in ${description}.`,
-      columns,
-      entities: improvements,
-      categoryRankings,
-      entitiesOf: ranking => ranking.improvements,
-      rowOf,
-    }),
-  ]
+  const sections = diffRankings(BYTES_METRIC.improvement).flatMap(
+    ({ change, title: subtitle }) =>
+      formatDiffRankingSections({
+        headingLevel,
+        subtitle,
+        sentence: diffRankingSentence(plural, change, description),
+        columns,
+        entities: change === `increase` ? increases : decreases,
+        categoryRankings,
+        entitiesOf: categoryRanking =>
+          change === `increase`
+            ? categoryRanking.increases
+            : categoryRanking.decreases,
+        rowOf,
+      }),
+  )
 
   // With active entities but no change, keep the section and let the header note
   // it didn't differ. With nothing active (the section a non-diff snapshot

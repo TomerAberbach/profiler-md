@@ -54,16 +54,17 @@ ambiguous.
 
 ## Costs and functions
 
-| Term         | Definition                                                                                                | Aliases to avoid      |
-| ------------ | --------------------------------------------------------------------------------------------------------- | --------------------- |
-| **Metric**   | A measured dimension with a unit: time, size, or a count (e.g. instructions)                              | dimension, value type |
-| **Value**    | A numeric measurement for one metric, summed across the observations or costs it aggregates               | measurement           |
-| **Self**     | Aggregated from a function's body, excluding its callees                                                  | exclusive             |
-| **Total**    | Aggregated from a function's body and its transitive callees                                              | inclusive, cumulative |
-| **Function** | A unique function, identified by name and location, aggregating every observation or cost recorded for it | node, call frame      |
-| **Caller**   | A function that calls another                                                                             | parent                |
-| **Callee**   | A function another calls                                                                                  | child                 |
-| **Hottest**  | Describes the entities with the highest measure in a call stack profile or call graph                     | top                   |
+| Term                      | Definition                                                                                                | Aliases to avoid      |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------- |
+| **Metric**                | A measured dimension with a unit: time, size, or a count (e.g. instructions)                              | dimension, value type |
+| **Improvement direction** | Which direction of change in a metric's value is an improvement: a decrease, an increase, or unknown      | polarity, goodness    |
+| **Value**                 | A numeric measurement for one metric, summed across the observations or costs it aggregates               | measurement           |
+| **Self**                  | Aggregated from a function's body, excluding its callees                                                  | exclusive             |
+| **Total**                 | Aggregated from a function's body and its transitive callees                                              | inclusive, cumulative |
+| **Function**              | A unique function, identified by name and location, aggregating every observation or cost recorded for it | node, call frame      |
+| **Caller**                | A function that calls another                                                                             | parent                |
+| **Callee**                | A function another calls                                                                                  | child                 |
+| **Hottest**               | Describes the entities with the highest measure in a call stack profile or call graph                     | top                   |
 
 ## Call stack profile
 
@@ -118,8 +119,8 @@ ambiguous.
 | **Current**     | The side a diff compares to                                                      | after, new, right   |
 | **Entry match** | Normalized name and location overrides an entry's match key is built from        | match normalization |
 | **Match key**   | The normalized name + location key that pairs an entry across a diff's two sides | id, entry key       |
-| **Regression**  | A diffed entity whose measure worsened from base to current                      | increase            |
-| **Improvement** | A diffed entity whose measure improved from base to current                      | progression         |
+| **Regression**  | A diffed entity whose measure moved against its metric's improvement direction   | increase            |
+| **Improvement** | A diffed entity whose measure moved along its metric's improvement direction     | progression         |
 
 ## Examples and inputs
 
@@ -158,3 +159,6 @@ ambiguous.
   nodes are its **instances**
 - A **diff** pairs each **base** entity with a **current** entity by **match
   key**; an unpaired entity is new or removed
+- A **metric** states its **improvement direction**, by which a **diff** ranks
+  its **regressions** and **improvements**. A **diff** of a **metric** whose
+  direction is unknown ranks increases and decreases instead

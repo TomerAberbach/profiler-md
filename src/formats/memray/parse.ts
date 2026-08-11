@@ -1157,7 +1157,7 @@ const hashAddress = (address: number): number =>
  * Memray hooks the allocator, so a stack's count is the number of allocations
  * recorded for it rather than a number of samples.
  */
-const ALLOCATIONS = countMetricOf(`allocation`)
+const ALLOCATIONS = countMetricOf(`allocation`, { improvement: `decrease` })
 
 /**
  * Returns the 1-based line {@link instructionOffset} is on, from the code
