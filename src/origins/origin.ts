@@ -3,6 +3,7 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferenceId } from '../location.ts'
 import type { SourceLocation } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
+import type { Metric } from '../modalities/metric.ts'
 import type { StackFrame } from '../modalities/stack-frame.ts'
 import type { EntryMatch, FunctionCategory, ProfileEntry } from '../options.ts'
 
@@ -109,6 +110,17 @@ export type OriginSpec = {
   categorizeHeapSnapshotDeclaredType?: (
     declaredType: string,
   ) => HeapSnapshotNodeCategory | undefined
+
+  /**
+   * What one unit of {@link format}'s per-sample count measures, overriding
+   * the format's own answer for an origin that counts something else. For
+   * example, eflambe writes one collapsed count per microsecond of traced
+   * time, where every other collapsed emitter writes one per sample.
+   *
+   * This is the same field as `CallStackProfile.countMetric`. A format whose
+   * emitters agree sets it in the parser instead.
+   */
+  countMetric?: (format: Format) => Metric | undefined
 
   /**
    * Returns whether this origin's runtime makes {@link entry}'s outgoing call

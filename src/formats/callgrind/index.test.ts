@@ -293,7 +293,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Instructions profile`])
+    expect(profileTitles(md)).toEqual([`Instruction profile`])
     expect(summaryLines(md)).toEqual([`Recorded 850 instructions.`])
 
     // `memcpy` has no source file (`???`), so its location falls back to its
@@ -884,7 +884,7 @@ describe(`convert`, () => {
       options,
     )
 
-    expect(profileTitles(md)).toEqual([`Instructions and data reads profile`])
+    expect(profileTitles(md)).toEqual([`Instruction and data read profile`])
     expect(summaryLines(md)).toEqual([
       `Recorded 150 instructions and recorded 40 data reads.`,
     ])
@@ -1074,7 +1074,7 @@ describe(`convert`, () => {
       { baseURL: `/`, showEntry: () => true },
     )
 
-    expect(profileTitles(md)).toEqual([`Instructions profile diff`])
+    expect(profileTitles(md)).toEqual([`Instruction profile diff`])
     expect(summaryLines(md)).toEqual([
       `Recorded 300 instructions → 380 instructions (+80 instructions, +26.7%).`,
     ])

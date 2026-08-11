@@ -10,14 +10,6 @@ import type { Metric } from './metric.ts'
 import { numberCell } from './table.ts'
 import type { Cell } from './table.ts'
 
-/** The noun used in headings, e.g. "time", "size", "count", or "samples". */
-export const measureColumnNoun = (metric: Metric | null): string =>
-  metric === null ? `samples` : metric.phrases.columnNoun
-
-/** The phrase used in "ranked by ___", e.g. "time spent" or "samples taken". */
-export const measureRankedByPhrase = (metric: Metric | null): string =>
-  metric === null ? `samples taken` : metric.phrases.pastParticipleVerbPhrase
-
 /**
  * The header noun for each metric's column. Two metrics sharing a noun
  * (allocated and retained heap are both "Size") would produce
@@ -51,9 +43,8 @@ export const metricCell = (value: number, metric: Metric): Cell =>
 /**
  * Formats a single metric value (e.g. as milliseconds, bytes, or a count).
  *
- * A custom metric formats as a bare count: it appears in table cells whose
- * column header already names the unit, so repeating it per cell would be
- * redundant. Prose uses {@link formatProseValue} instead.
+ * A count metric formats as a bare count, since the column header above the
+ * cell already names the unit. Prose uses {@link formatProseValue} instead.
  */
 const formatValue = (value: number, metric: Metric): string => {
   switch (metric.type) {
@@ -61,7 +52,7 @@ const formatValue = (value: number, metric: Metric): string => {
       return formatMilliseconds(value * metric.milliseconds)
     case `size`:
       return formatBytes(value * metric.bytes)
-    case `custom`:
+    case `count`:
       return formatCount(value)
   }
 }
@@ -73,22 +64,22 @@ const formatValueDelta = (value: number, metric: Metric): string => {
       return formatMillisecondsDelta(value * metric.milliseconds)
     case `size`:
       return formatBytesDelta(value * metric.bytes)
-    case `custom`:
+    case `count`:
       return formatCount(value)
   }
 }
 
 /**
- * Formats a metric value for prose, where no column header names a custom
+ * Formats a metric value for prose, where no column header names a count
  * metric's unit, so the unit noun follows the count.
  */
 export const formatProseValue = (value: number, metric: Metric): string =>
-  metric.type === `custom`
+  metric.type === `count`
     ? formatCount(value, metric.proseUnit)
     : formatValue(value, metric)
 
 /** The delta-precision counterpart to {@link formatProseValue}. */
 export const formatProseValueDelta = (value: number, metric: Metric): string =>
-  metric.type === `custom`
+  metric.type === `count`
     ? formatCount(value, metric.proseUnit)
     : formatValueDelta(value, metric)

@@ -5,6 +5,7 @@ import type {
   FunctionCategory,
   ProfileToMdContext,
 } from '../../options.ts'
+import { countMetricForOrigin } from '../../origins/index.ts'
 import type { OriginDetector } from '../../origins/index.ts'
 import type { InputAggregator } from '../aggregator.ts'
 import type { Metric } from '../metric.ts'
@@ -41,11 +42,15 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ): AggregatedCallStackProfile {
-    const { metrics, frames, observations, lineMetrics } = this.#profile
+    const { metrics, countMetric, frames, observations, lineMetrics } =
+      this.#profile
 
     const functions = StackFrameTable.for(frames).resolve(context)
     const aggregator = new ObservationsAggregator(
       metrics,
+      // The origin's answer overrides the format's, where the format's
+      // emitters disagree on what one count unit is.
+      countMetricForOrigin(context.format, context.origin) ?? countMetric,
       functions,
       options,
       context,
@@ -63,10 +68,11 @@ export class CallStackProfileAggregator implements InputAggregator<AggregatedCal
 /** Aggregates a profile's observations over its normalized distinct frames. */
 class ObservationsAggregator {
   readonly #metrics: Metric[]
+  readonly #countMetric: Metric | null
 
   /**
-   * The normalized distinct frames' functions. {@link Observation.frameIndices}
-   * are indices into the table.
+   * The normalized distinct frames' functions. {@link Observation.frameIndices} are
+   * indices into the table.
    */
   readonly #functions: StackFrameFunctionTable
   readonly #options: AggregationProfileToMdOptions
@@ -102,11 +108,14 @@ class ObservationsAggregator {
   public constructor(
     /** @see {@link AggregatedCallStackProfile.metrics} */
     metrics: Metric[],
+    /** @see {@link AggregatedCallStackProfile.countMetric} */
+    countMetric: Metric | null,
     functions: StackFrameFunctionTable,
     options: AggregationProfileToMdOptions,
     context: ProfileToMdContext,
   ) {
     this.#metrics = metrics
+    this.#countMetric = countMetric
     this.#functions = functions
     this.#options = options
     this.#context = context
@@ -436,6 +445,7 @@ class ObservationsAggregator {
       type: `call-stack-profile`,
       context: this.#context,
       metrics: this.#metrics,
+      countMetric: this.#countMetric,
       totalCount: this.#totalCount,
       totalValues: this.#totalValues,
       rates,
@@ -705,7 +715,22 @@ export type AggregatedCallStackProfile = {
   /** Metrics recorded in this profile. */
   metrics: Metric[]
 
-  /** The number of observations recorded within this profile. */
+  /**
+   * What one unit of {@link Observation.count} measures: a periodic sample of
+   * the call stack, an entry into a function, an allocated object, a
+   * microsecond of traced time.
+   *
+   * With a count metric, the output formats the count as a count and states a
+   * rate per one of the things counted. With a time or size metric, the output
+   * formats the count as that quantity and states no rate, since a quantity
+   * has no unit to state a rate per.
+   *
+   * `null` when the counts measure nothing, so the profile reports its metrics
+   * alone.
+   */
+  countMetric: Metric | null
+
+  /** The number of counted units recorded within this profile. */
   totalCount: number
 
   /**
@@ -717,6 +742,8 @@ export type AggregatedCallStackProfile = {
   /**
    * For each metric in {@link AggregatedCallStackProfile.metrics}, the average
    * metric value per counted unit (total value ÷ total count).
+   *
+   * Meaningless, and unreported, for a profile whose counts measure nothing.
    */
   rates: Float64Array
 

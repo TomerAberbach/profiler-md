@@ -30,12 +30,7 @@ import {
   showDiffEntity,
 } from '../format.ts'
 import type { Category } from '../format.ts'
-import {
-  formatProseValue,
-  formatProseValueDelta,
-  measureColumnNoun,
-  measureRankedByPhrase,
-} from '../measure.ts'
+import { formatProseValue, formatProseValueDelta } from '../measure.ts'
 import type { Metric } from '../metric.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type {
@@ -227,9 +222,9 @@ const formatHottestSelfFunctions = ({
     )
 
   return [
-    heading(headingLevel, `Self ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Self ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by ${measureRankedByPhrase(metric)} directly in the function body, excluding callees.`,
+      `Functions ranked by ${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees.`,
     ),
     ...formatRankingTables({
       ranking,
@@ -247,7 +242,7 @@ const formatHottestSelfFunctions = ({
       [
         heading(headingLevel + 1, `Lines`),
         paragraph(
-          `Lines ranked by contribution to each function's self ${measureColumnNoun(metric)}.`,
+          `Lines ranked by contribution to each function's self ${metric.phrases.columnNoun}.`,
         ),
       ],
       hottestLinesSections,
@@ -360,9 +355,9 @@ const formatHottestTotalFunctions = ({
   )
 
   return [
-    heading(headingLevel, `Total ${measureColumnNoun(metric)}`),
+    heading(headingLevel, `Total ${metric.phrases.columnNoun}`),
     paragraph(
-      `Functions ranked by total ${measureRankedByPhrase(metric)} in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.`,
+      `Functions ranked by total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.`,
     ),
     ...formatRankingTables({
       ranking,
@@ -380,7 +375,7 @@ const formatHottestTotalFunctions = ({
       [
         heading(headingLevel + 1, `Callers`),
         paragraph(
-          `Callers ranked by the ${measureRankedByPhrase(metric)} in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
+          `Callers ranked by the ${metric.phrases.pastParticipleVerbPhrase} in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
         ),
       ],
       callerSections,
@@ -389,7 +384,7 @@ const formatHottestTotalFunctions = ({
       [
         heading(headingLevel + 1, `Callees`),
         paragraph(
-          `Callees ranked by contribution to each function's total ${measureColumnNoun(metric)}. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
+          `Callees ranked by contribution to each function's total ${metric.phrases.columnNoun}. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.`,
         ),
       ],
       calleeSections,
@@ -646,12 +641,12 @@ const formatDiffDirectionFunctions = ({
   const [title, description] =
     direction === `self`
       ? ([
-          `Self ${measureColumnNoun(metric)}`,
-          `${measureRankedByPhrase(metric)} directly in the function body, excluding callees`,
+          `Self ${metric.phrases.columnNoun}`,
+          `${metric.phrases.pastParticipleVerbPhrase} directly in the function body, excluding callees`,
         ] as const)
       : ([
-          `Total ${measureColumnNoun(metric)}`,
-          `total ${measureRankedByPhrase(metric)} in the function and all its callees`,
+          `Total ${metric.phrases.columnNoun}`,
+          `total ${metric.phrases.pastParticipleVerbPhrase} in the function and all its callees`,
         ] as const)
 
   return formatDiffFunctionSections({

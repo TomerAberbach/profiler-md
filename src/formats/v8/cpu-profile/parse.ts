@@ -3,7 +3,7 @@ import type {
   Observation,
   ObservationLineMetrics,
 } from '../../../modalities/call-stack-profile/index.ts'
-import { MICROSECONDS } from '../../../modalities/metric.ts'
+import { MICROSECONDS, SAMPLES } from '../../../modalities/metric.ts'
 import {
   callFrameToStackFrame,
   makeStackFrameIndicesResolver,
@@ -69,6 +69,7 @@ export const parseV8CpuProfile = (
       type: `call-stack-profile`,
       frames,
       metrics: [MICROSECONDS],
+      countMetric: SAMPLES,
       observations: cpuObservations(
         profile,
         idToIndex,

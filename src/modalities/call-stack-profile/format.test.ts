@@ -13,7 +13,12 @@ import {
   resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
-import { determineMetric, MEGABYTES, MICROSECONDS } from '../metric.ts'
+import {
+  countMetricOf,
+  determineMetric,
+  MEGABYTES,
+  MICROSECONDS,
+} from '../metric.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
 import {
@@ -735,6 +740,88 @@ describe(`formatCallStackProfile`, () => {
         `Native`,
       ])
     })
+  })
+
+  test(`names a profile's counts by what one of them is`, () => {
+    const profile = makeAggregatedCallStackProfile(
+      [MEGABYTES],
+      [
+        {
+          name: `allocate`,
+          url: `file:///project/src/a.ts`,
+          selfCount: 4,
+          selfValues: [8],
+        },
+      ],
+      undefined,
+      countMetricOf(`entry`),
+    )
+
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
+
+    expect(summaryLines(md)).toEqual([
+      `Allocated 8\u00A0MiB over 4 entries (2\u00A0MiB per entry).`,
+    ])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `Ours`, '%': `100.0%`, Size: `8 MiB`, Entries: `4` }],
+    ])
+  })
+
+  test(`ranks a metric-less profile by its counts`, () => {
+    const profile = makeAggregatedCallStackProfile(
+      [],
+      [
+        {
+          name: `spawn`,
+          url: `file:///project/src/a.ts`,
+          selfCount: 3,
+          selfValues: [],
+        },
+      ],
+      undefined,
+      countMetricOf(`goroutine`),
+    )
+
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
+
+    expect(profileTitles(md)).toEqual([`Goroutine profile`])
+    expect(summaryLines(md)).toEqual([`Recorded 3 goroutines.`])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `Ours`, '%': `100.0%`, Goroutines: `3` }],
+    ])
+  })
+
+  test(`omits the count column and the rate when the counts measure nothing`, () => {
+    const profile = makeAggregatedCallStackProfile(
+      [MICROSECONDS],
+      [
+        {
+          name: `funcA`,
+          url: `file:///project/src/a.ts`,
+          selfCount: 5,
+          selfValues: [300],
+        },
+      ],
+      undefined,
+      null,
+    )
+
+    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
+
+    expect(summaryLines(md)).toEqual([`Took 0.3ms.`])
+    expect(categoryTables(md)).toEqual([
+      [{ Category: `Ours`, '%': `100.0%`, Time: `0.3ms` }],
+    ])
+    expect(selfTimeTables(md)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Function: `funcA`,
+          Location: `src/a.ts`,
+        },
+      ],
+    ])
   })
 })
 

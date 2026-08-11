@@ -73,7 +73,7 @@ describe(`convert`, () => {
 
     // Collapsed stacks have no metric, so the profile is ranked by sample count
     // alone with no redundant value column.
-    expect(profileTitles(md)).toEqual([`Profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(summaryLines(md)).toEqual([`Collected 15 samples.`])
 
     // `work` is the hottest self (leaf of the reversed stack) with the summed

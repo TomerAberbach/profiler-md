@@ -3,7 +3,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
@@ -251,6 +251,7 @@ class SystingProfileBuilder {
         type: `call-stack-profile`,
         frames: this.#frames,
         metrics: metric ? [metric] : [],
+        countMetric: SAMPLES,
         observations,
       })
     }
@@ -268,7 +269,7 @@ const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
   [
     `uninterruptible_sleep`,
     {
-      type: `custom`,
+      type: `count`,
       proseUnit: `time`,
       phrases: {
         titleNoun: `uninterruptible sleep`,
@@ -281,7 +282,7 @@ const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
   [
     `interruptible_sleep`,
     {
-      type: `custom`,
+      type: `count`,
       proseUnit: `time`,
       phrases: {
         titleNoun: `interruptible sleep`,

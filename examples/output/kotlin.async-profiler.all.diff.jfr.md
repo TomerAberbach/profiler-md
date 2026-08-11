@@ -1,4 +1,4 @@
-# Profile diff
+# Sampling profile diff
 
 1,322 samples.
 

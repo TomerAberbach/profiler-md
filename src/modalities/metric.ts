@@ -1,3 +1,5 @@
+import plur from 'plur'
+
 /** Phrases that can be used in prose related to a metric. */
 type MetricPhrases = {
   /** A noun to use in headings, like "CPU", "heap", etc. */
@@ -33,7 +35,7 @@ export type Metric = (
        * {@link MetricPhrases.columnNoun} (a plural noun, e.g. `instructions`)
        * names the unit in table headers.
        */
-      type: `custom`
+      type: `count`
 
       /**
        * The singular noun following a count in prose, pluralized by the count
@@ -44,6 +46,52 @@ export type Metric = (
     }
 ) & { phrases: MetricPhrases }
 
+/** A metric formatted as a bare count. */
+export type CountMetric = Extract<Metric, { type: `count` }>
+
+/**
+ * The metric for a count of things, named by the singular noun for one of them
+ * (e.g. `entry`, `object`, `contention`).
+ *
+ * A profiler that counts occurrences of a named event instead of sampling the
+ * call stack records them under that event's noun, so the output states no
+ * rate per a sample the profiler never took.
+ */
+export const countMetricOf = (noun: string): CountMetric => {
+  const plural = plur(noun, 2)
+  return {
+    type: `count`,
+    proseUnit: noun,
+    phrases: {
+      titleNoun: noun,
+      columnNoun: plural,
+      pastTenseVerb: `recorded`,
+      pastParticipleVerbPhrase: `${plural} recorded`,
+    },
+  }
+}
+
+/** What one count measures for a profiler that samples the call stack. */
+export const SAMPLES: CountMetric = {
+  type: `count`,
+  proseUnit: `sample`,
+  phrases: {
+    titleNoun: `sampling`,
+    columnNoun: `samples`,
+    pastTenseVerb: `collected`,
+    pastParticipleVerbPhrase: `samples taken`,
+  },
+}
+
+/**
+ * The metric for an emitter's own unit and value-type names.
+ *
+ * An unrecognized unit becomes a count in that unit, phrased from the names
+ * verbatim, since a string the emitter chose states no grammatical
+ * number to inflect from. Prose pluralizes `proseUnit`, so an already-plural
+ * unit reads as "78 cycleses". Pass {@link countMetricOf} a singular noun
+ * instead, wherever the noun is one this package chose.
+ */
 export const determineMetric = ({
   name,
   unit,
@@ -52,7 +100,7 @@ export const determineMetric = ({
   unit: string
 }): Metric => {
   const metric = UNIT_TO_METRIC.get(unit.toLowerCase()) ?? {
-    type: `custom`,
+    type: `count`,
     proseUnit: unit,
     phrases: {
       titleNoun: name,
@@ -144,7 +192,7 @@ export const metricsEqual = (left: Metric, right: Metric): boolean => {
       return left.milliseconds === (right as typeof left).milliseconds
     case `size`:
       return left.bytes === (right as typeof left).bytes
-    case `custom`:
+    case `count`:
       return left.proseUnit === (right as typeof left).proseUnit
   }
 }
@@ -245,7 +293,7 @@ const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
   [
     `none`,
     {
-      type: `custom`,
+      type: `count`,
       proseUnit: `time`,
       phrases: {
         titleNoun: `count`,

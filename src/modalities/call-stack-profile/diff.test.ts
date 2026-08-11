@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { resolveProfileToMdOptions } from '../../testing.ts'
-import { BYTES, MICROSECONDS, MILLISECONDS } from '../metric.ts'
+import {
+  BYTES,
+  countMetricOf,
+  MICROSECONDS,
+  MILLISECONDS,
+  SAMPLES,
+} from '../metric.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { makeAggregatedCallStackProfile } from './testing.ts'
 
@@ -164,6 +170,52 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     expect(() =>
       diffAggregatedCallStackProfiles(base, current, defaultOptions),
     ).toThrow(`no metrics in common`)
+  })
+
+  test(`throws on metric-less profiles counting different things`, () => {
+    const func = {
+      name: `funcA`,
+      url: `file:///project/src/a.ts`,
+      selfValues: [],
+      selfCount: 5,
+    }
+    const base = makeAggregatedCallStackProfile([], [func], undefined, SAMPLES)
+    const current = makeAggregatedCallStackProfile(
+      [],
+      [func],
+      undefined,
+      countMetricOf(`entry`),
+    )
+
+    expect(() =>
+      diffAggregatedCallStackProfiles(base, current, defaultOptions),
+    ).toThrow(`count different things, got: samples and entries`)
+  })
+
+  test(`drops the count metric of metric-ful profiles counting different things`, () => {
+    const func = {
+      name: `funcA`,
+      url: `file:///project/src/a.ts`,
+      selfValues: [100],
+      selfCount: 5,
+    }
+    const base = makeAggregatedCallStackProfile(
+      [BYTES],
+      [func],
+      undefined,
+      SAMPLES,
+    )
+    const current = makeAggregatedCallStackProfile(
+      [BYTES],
+      [func],
+      undefined,
+      countMetricOf(`entry`),
+    )
+
+    expect(
+      diffAggregatedCallStackProfiles(base, current, defaultOptions)
+        .countMetric,
+    ).toBeNull()
   })
 
   test(`matches functions by name + URL ignoring line/column`, () => {

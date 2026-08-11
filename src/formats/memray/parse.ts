@@ -4,7 +4,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -418,12 +418,14 @@ class Capture {
         type: `call-stack-profile`,
         frames,
         metrics: [PEAK_METRIC],
+        countMetric: SAMPLES,
         observations: this.#observations(`peak`),
       },
       {
         type: `call-stack-profile`,
         frames,
         metrics: [LEAKED_METRIC],
+        countMetric: SAMPLES,
         observations: this.#observations(`leaked`),
       },
     ]

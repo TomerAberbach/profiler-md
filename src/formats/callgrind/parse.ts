@@ -1,11 +1,14 @@
-import plur from 'plur'
 import { decodeUtf8Lines, decodeUtf8LinesAsync } from '../../helpers/bytes.ts'
 import type { SourceLocationInput } from '../../location.ts'
 import type {
   CallGraph,
   CallGraphFunction,
 } from '../../modalities/call-graph/index.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import {
+  countMetricOf,
+  determineMetric,
+  SAMPLES,
+} from '../../modalities/metric.ts'
 import type { Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
@@ -689,10 +692,10 @@ const callgrindEventMetric = (
   nanosecondSystemTime: boolean,
 ): Metric => {
   // A sampling profiler exporting callgrind (e.g. rbspy) counts samples as
-  // its only event. Custom phrases make the output read like a sampling
-  // profile: "Sampling profile", "Collected 129 samples."
+  // its only event, so the output reads like a sampling profile: "Sampling
+  // profile", "Collected 129 samples."
   if (name.toLowerCase() === `samples`) {
-    return SAMPLES_METRIC
+    return SAMPLES
   }
 
   const systemTimePhrases = SYSTEM_TIME_EVENTS.get(name)
@@ -706,32 +709,11 @@ const callgrindEventMetric = (
 
   const singular = KNOWN_EVENTS.get(name)
   if (singular) {
-    const displayName = plur(singular, 2)
-    return {
-      type: `custom`,
-      proseUnit: singular,
-      phrases: {
-        titleNoun: displayName,
-        columnNoun: displayName,
-        pastTenseVerb: `recorded`,
-        pastParticipleVerbPhrase: `${displayName} recorded`,
-      },
-    }
+    return countMetricOf(singular)
   }
 
   const displayName = longName ?? name
   return determineMetric({ name: displayName, unit: displayName })
-}
-
-const SAMPLES_METRIC: Metric = {
-  type: `custom`,
-  proseUnit: `sample`,
-  phrases: {
-    titleNoun: `sampling`,
-    columnNoun: `samples`,
-    pastTenseVerb: `collected`,
-    pastParticipleVerbPhrase: `samples collected`,
-  },
 }
 
 /** The event `--collect-systime=nsec` adds to `sysCount` and `sysTime`. */

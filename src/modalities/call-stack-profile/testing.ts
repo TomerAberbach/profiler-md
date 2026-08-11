@@ -8,6 +8,7 @@ import type { Table } from '../../helpers/testing.ts'
 import type { SourceLocationInput } from '../../location.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import { resolveProfileToMdOptions } from '../../testing.ts'
+import { SAMPLES } from '../metric.ts'
 import type { Metric } from '../metric.ts'
 import type { StackFrame } from '../stack-frame.ts'
 import { CallStackProfileAggregator } from './aggregate.ts'
@@ -30,6 +31,8 @@ export const makeAggregatedCallStackProfile = (
   // signal; tests exercising origin-aware match normalization pass the
   // relevant context.
   context?: ProfileToMdContext,
+  /** Defaults to `SAMPLES`. Pass `null` for counts that measure nothing. */
+  countMetric: Metric | null = SAMPLES,
 ): AggregatedCallStackProfile => {
   const options = resolveProfileToMdOptions({ baseURL: `/project` })
   const frames: StackFrame[] = functions.map(func => ({
@@ -47,6 +50,7 @@ export const makeAggregatedCallStackProfile = (
     type: `call-stack-profile`,
     frames,
     metrics,
+    countMetric,
     observations,
   }).aggregate(
     options,

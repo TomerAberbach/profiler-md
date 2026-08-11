@@ -464,7 +464,7 @@ describe(`convert`, () => {
       options(),
     )
 
-    expect(profileTitles(md)).toEqual([`Profile`])
+    expect(profileTitles(md)).toEqual([`Sampling profile`])
     expect(summaryLines(md)).toEqual([`Collected 3 samples.`])
   })
 
