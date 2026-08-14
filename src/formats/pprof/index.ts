@@ -14,6 +14,7 @@ export const pprofConverter = {
     `julia`,
     `ruby`,
     `rust`,
+    `swift`,
     `zig`,
   ],
   // The pprof project defines `profile.proto`, not the profilers that emit it,

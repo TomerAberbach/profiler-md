@@ -47,7 +47,7 @@ export const sourceReferencePathOrName = (
   sourceReference: DeepReadonly<SourceReference>,
 ): string =>
   sourceReference.type === `absolute`
-    ? sourceReference.url.pathname
+    ? decodePathname(sourceReference.url.pathname)
     : sourceReferenceId(sourceReference)
 
 /**
@@ -215,25 +215,20 @@ export const formatSourceLocation = (
   if (location.type === `absolute`) {
     const { baseURL } = options
     if (baseURL === undefined) {
-      path =
-        location.url.protocol === `file:`
-          ? location.url.pathname
-          : location.url.href
+      path = absoluteURLPath(location.url)
     } else if (isSameOrigin(baseURL, location.url)) {
       // Keep the query so scripts distinguished only by it (e.g.
       // `load.php?modules=...`) stay distinct.
       path =
-        relativeURLPath(baseURL.pathname, location.url.pathname) +
-        location.url.search
+        decodePathname(
+          relativeURLPath(baseURL.pathname, location.url.pathname),
+        ) + location.url.search
       // A path that goes up more than two levels above the base URL is a
       // system or toolchain file, not code near the project; `/nix/store/...`
       // reads better than a long `../` prefix that only reflects how deep the
       // base URL is.
       if (TOO_MANY_UPS.test(path)) {
-        path =
-          location.url.protocol === `file:`
-            ? location.url.pathname
-            : location.url.href
+        path = absoluteURLPath(location.url)
       }
     } else {
       path = location.url.href
@@ -250,6 +245,31 @@ export const formatSourceLocation = (
   }
 
   return path || `<unknown>`
+}
+
+/**
+ * A non-`file:` URL's protocol and host state where the source came from.
+ */
+const absoluteURLPath = (url: URL): string =>
+  url.protocol === `file:` ? decodePathname(url.pathname) : url.href
+
+/**
+ * `new URL` escapes every character outside the path's allowed set, so without
+ * decoding, a path with a space, a non-ASCII letter, or angle brackets reads as
+ * those escapes.
+ *
+ * An invalid escape is part of the path itself.
+ */
+const decodePathname = (pathname: string): string => {
+  if (!pathname.includes(`%`)) {
+    return pathname
+  }
+
+  try {
+    return decodeURIComponent(pathname)
+  } catch {
+    return pathname
+  }
 }
 
 const isSameOrigin = (url1: URL, url2: URL): boolean => {

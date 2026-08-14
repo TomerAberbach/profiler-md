@@ -157,7 +157,7 @@ Converts performance profiles to human and LLM friendly Markdown.
 
 Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, memray, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, memray, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, systing, tachyon, unknown, valgrind
-Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, zig
+Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
 ```
 
 <!-- CLI_HELP END -->
@@ -298,6 +298,12 @@ third-party tools can often convert others.
 <td>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Rust pprof-rs CPU (<a href="examples/output/rust.pprof-rs.cpu.base.pprof.md">base</a>, <a href="examples/output/rust.pprof-rs.cpu.current.pprof.md">current</a>, <a href="examples/output/rust.pprof-rs.cpu.diff.pprof.md">diff</a>)</li></ul></details>
 <div><a href="docs/formats/systing.md">systing</a></div>
+</td>
+</tr>
+<tr>
+<td><a href="docs/languages/swift.md">Swift</a></td>
+<td>
+<details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Swift gperftools CPU (<a href="examples/output/swift.gperftools.cpu.base.pprof.md">base</a>, <a href="examples/output/swift.gperftools.cpu.current.pprof.md">current</a>, <a href="examples/output/swift.gperftools.cpu.diff.pprof.md">diff</a>)</li><li>Swift gperftools heap (<a href="examples/output/swift.gperftools.heap.base.pprof.md">base</a>, <a href="examples/output/swift.gperftools.heap.current.pprof.md">current</a>, <a href="examples/output/swift.gperftools.heap.diff.pprof.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 <tr>

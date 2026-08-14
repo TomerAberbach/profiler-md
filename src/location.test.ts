@@ -96,6 +96,24 @@ test(`baseURL: null shows absolute pathname for file URLs`, () => {
   )
 })
 
+test(`decodes the percent-escapes of an absolute file path`, () => {
+  expect(
+    format({ url: `file:///project/<compiler-generated>`, baseURL: null }),
+  ).toBe(`/project/<compiler-generated>`)
+})
+
+test(`decodes the percent-escapes of a path relative to baseURL`, () => {
+  expect(
+    format({ url: `file:///project/my src/a b.ts`, baseURL: `/project` }),
+  ).toBe(`my src/a b.ts`)
+})
+
+test(`leaves a path with an invalid percent-escape alone`, () => {
+  expect(format({ url: `file:///project/a%zz.ts`, baseURL: null })).toBe(
+    `/project/a%zz.ts`,
+  )
+})
+
 test(`baseURL: null shows full href for HTTP URLs`, () => {
   expect(
     format({ url: `https://example.com/src/file.ts`, baseURL: null }),
