@@ -492,9 +492,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 19.5 MiB → 19.6 MiB (+154.945 KiB, +0.8%) over 207 samples → 203 samples (96.4 KiB → 99.1 KiB per sample).
+Retained 19.5 MiB → 19.6 MiB (+154.945 KiB, +0.8%) over 207 objects → 203 objects (96.4 KiB → 99.1 KiB per object).
 
-| Category         | Change |        Delta |             % |                Size |   Samples |
+| Category         | Change |        Delta |             % |                Size |   Objects |
 | ---------------- | -----: | -----------: | ------------: | ------------------: | --------: |
 | Standard library |  +2.1% | +390.945 KiB | 92.9% → 94.1% | 18.1 MiB → 18.5 MiB | 182 → 193 |
 | Ours             | -16.6% |     -236 KiB |   7.1% → 5.9% | 1.39 MiB → 1.16 MiB |   25 → 10 |
@@ -507,7 +507,7 @@ Retained 19.5 MiB → 19.6 MiB (+154.945 KiB, +0.8%) over 207 samples → 203
 
 Functions with the largest increase in bytes retained directly in the function body, excluding callees.
 
-| Change |      Delta |            % |           Size | Samples | Function                                                                                                                    | Location                                                                |
+| Change |      Delta |            % |           Size | Objects | Function                                                                                                                    | Location                                                                |
 | -----: | ---------: | -----------: | -------------: | ------: | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 |    new | +4.343 KiB | 0.0% → <0.1% | 0 B → 4.34 KiB |   0 → 1 | `lambda$static$0(int)`                                                                                                      | `com.intellij.psi.tree.IElementType`                                    |
 |    new |     +424 B | 0.0% → <0.1% |    0 B → 424 B |   0 → 2 | `copyOf(Object[], int)`                                                                                                     | `java.util.Arrays`                                                      |
@@ -518,7 +518,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-| Change |      Delta |            % |           Size | Samples | Function                                                                                                                    | Location                                                                |
+| Change |      Delta |            % |           Size | Objects | Function                                                                                                                    | Location                                                                |
 | -----: | ---------: | -----------: | -------------: | ------: | --------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 |    new | +4.343 KiB | 0.0% → <0.1% | 0 B → 4.34 KiB |   0 → 1 | `lambda$static$0(int)`                                                                                                      | `com.intellij.psi.tree.IElementType`                                    |
 |    new |     +144 B | 0.0% → <0.1% |    0 B → 144 B |   0 → 1 | `createCandidate(CallInfo, FirBasedSymbol, ExplicitReceiverKind, FirScope, FirExpression, FirExpression, boolean, boolean)` | `org.jetbrains.kotlin.fir.resolve.calls.candidate.CandidateFactory`     |
@@ -528,7 +528,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change |        Delta |            % |                Size | Samples | Function                                                                                                                                                                                                                         | Location                                                                       |
+|  Change |        Delta |            % |                Size | Objects | Function                                                                                                                                                                                                                         | Location                                                                       |
 | ------: | -----------: | -----------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  -13.3% | -181.531 KiB |  6.8% → 5.9% | 1.33 MiB → 1.15 MiB |   8 → 6 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                                                                                            | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`              |
 | removed |  -57.679 KiB |  0.3% → 0.0% |      57.7 KiB → 0 B |   1 → 0 | `forceCapacity(int[], int, int)`                                                                                                                                                                                                 | `it.unimi.dsi.fastutil.ints.IntArrays`                                         |
@@ -549,7 +549,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change |        Delta |            % |                Size | Samples | Function                                                                                                                                                                                                                         | Location                                                                       |
+|  Change |        Delta |            % |                Size | Objects | Function                                                                                                                                                                                                                         | Location                                                                       |
 | ------: | -----------: | -----------: | ------------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  -13.3% | -181.531 KiB |  6.8% → 5.9% | 1.33 MiB → 1.15 MiB |   8 → 6 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                                                                                            | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`              |
 | removed |  -57.679 KiB |  0.3% → 0.0% |      57.7 KiB → 0 B |   1 → 0 | `forceCapacity(int[], int, int)`                                                                                                                                                                                                 | `it.unimi.dsi.fastutil.ints.IntArrays`                                         |
@@ -573,7 +573,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-| Change |        Delta |             % |                Size |   Samples | Function                                                                                                               | Location                                                                                          |
+| Change |        Delta |             % |                Size |   Objects | Function                                                                                                               | Location                                                                                          |
 | -----: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 |  +2.0% | +360.906 KiB | 90.9% → 92.0% | 17.7 MiB → 18.1 MiB | 182 → 179 | `main(String[])`                                                                                                       | `org.jetbrains.kotlin.preloading.Preloader`                                                       |
 |  +2.0% | +360.765 KiB | 90.9% → 92.0% | 17.7 MiB → 18.1 MiB | 184 → 179 | `run(String[])`                                                                                                        | `org.jetbrains.kotlin.preloading.Preloader`                                                       |
@@ -598,7 +598,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-| Change |        Delta |             % |                Size |   Samples | Function                                                                                                               | Location                                                                                          |
+| Change |        Delta |             % |                Size |   Objects | Function                                                                                                               | Location                                                                                          |
 | -----: | -----------: | ------------: | ------------------: | --------: | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 |  +2.0% | +360.906 KiB | 90.9% → 92.0% | 17.7 MiB → 18.1 MiB | 182 → 179 | `main(String[])`                                                                                                       | `org.jetbrains.kotlin.preloading.Preloader`                                                       |
 |  +2.0% | +360.765 KiB | 90.9% → 92.0% | 17.7 MiB → 18.1 MiB | 184 → 179 | `run(String[])`                                                                                                        | `org.jetbrains.kotlin.preloading.Preloader`                                                       |
@@ -627,7 +627,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |        Delta |            % |                Size | Samples | Function                                                                                                                                                                    | Location                                                                                     |
+|  Change |        Delta |            % |                Size | Objects | Function                                                                                                                                                                    | Location                                                                                     |
 | ------: | -----------: | -----------: | ------------------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 |  -93.8% | -186.226 KiB |  1.0% → 0.1% |  199 KiB → 12.3 KiB |  20 → 8 | `invokeToplevel(CompilerPhase, PhaseConfig, LoggingContext, Object)`                                                                                                        | `org.jetbrains.kotlin.config.phaser.CompilerPhaseKt`                                         |
 |  -93.8% | -186.226 KiB |  1.0% → 0.1% |  199 KiB → 12.3 KiB |  20 → 8 | `runPhasedPipeline(ArgumentsPipelineArtifact)`                                                                                                                              | `org.jetbrains.kotlin.cli.pipeline.AbstractCliPipeline`                                      |
@@ -652,11 +652,11 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 # Lock contention profile diff
 
-Blocked 486.7ms → 538.7ms (+52.05ms, +10.7%) over 2 samples → 3 samples (243.3ms → 179.6ms per sample).
+Blocked 486.7ms → 538.7ms (+52.05ms, +10.7%) over 2 contentions → 3 contentions (243.3ms → 179.6ms per contention).
 
-| Category         | Change |    Delta |      % |              Time | Samples |
-| ---------------- | -----: | -------: | -----: | ----------------: | ------: |
-| Standard library | +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 |
+| Category         | Change |    Delta |      % |              Time | Contentions |
+| ---------------- | -----: | -------: | -----: | ----------------: | ----------: |
+| Standard library | +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 |
 
 The entry filter hides every recorded function, so all functions are shown.
 
@@ -670,9 +670,9 @@ Functions with the largest increase in time blocked directly in the function bod
 
 ##### Standard library
 
-| Change |    Delta |      % |              Time | Samples | Function              | Location                   |
-| -----: | -------: | -----: | ----------------: | ------: | --------------------- | -------------------------- |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+| Change |    Delta |      % |              Time | Contentions | Function              | Location                   |
+| -----: | -------: | -----: | ----------------: | ----------: | --------------------- | -------------------------- |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 ### Total time
 
@@ -682,15 +682,15 @@ Functions with the largest increase in total time blocked in the function and al
 
 ##### Standard library
 
-| Change |    Delta |      % |              Time | Samples | Function                    | Location                                                                |
-| -----: | -------: | -----: | ----------------: | ------: | --------------------------- | ----------------------------------------------------------------------- |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `park(boolean, long)`       | `jdk.internal.misc.Unsafe`                                              |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `parkNanos(Object, long)`   | `java.util.concurrent.locks.LockSupport`                                |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `await(long, TimeUnit)`     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `await(long)`               | `java.lang.ref.ReferenceQueue`                                          |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `remove0(long)`             | `java.lang.ref.ReferenceQueue`                                          |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `remove(long)`              | `java.lang.ref.ReferenceQueue`                                          |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `run()`                     | `jdk.internal.ref.CleanerImpl`                                          |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `runWith(Object, Runnable)` | `java.lang.Thread`                                                      |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `run()`                     | `java.lang.Thread`                                                      |
-| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |   2 → 3 | `run()`                     | `jdk.internal.misc.InnocuousThread`                                     |
+| Change |    Delta |      % |              Time | Contentions | Function                    | Location                                                                |
+| -----: | -------: | -----: | ----------------: | ----------: | --------------------------- | ----------------------------------------------------------------------- |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `park(boolean, long)`       | `jdk.internal.misc.Unsafe`                                              |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `parkNanos(Object, long)`   | `java.util.concurrent.locks.LockSupport`                                |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `await(long, TimeUnit)`     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `await(long)`               | `java.lang.ref.ReferenceQueue`                                          |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `remove0(long)`             | `java.lang.ref.ReferenceQueue`                                          |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `remove(long)`              | `java.lang.ref.ReferenceQueue`                                          |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `run()`                     | `jdk.internal.ref.CleanerImpl`                                          |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `runWith(Object, Runnable)` | `java.lang.Thread`                                                      |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `run()`                     | `java.lang.Thread`                                                      |
+| +10.7% | +52.05ms | 100.0% | 486.7ms → 538.7ms |       2 → 3 | `run()`                     | `jdk.internal.misc.InnocuousThread`                                     |

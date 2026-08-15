@@ -1548,11 +1548,11 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Lock contention profile
 
-Blocked 1.6ms over 9 samples (177.2µs per sample).
+Blocked 1.6ms over 9 contentions (177.2µs per contention).
 
-| Category         |      % |  Time | Samples |
-| ---------------- | -----: | ----: | ------: |
-| Standard library | 100.0% | 1.6ms |       9 |
+| Category         |      % |  Time | Contentions |
+| ---------------- | -----: | ----: | ----------: |
+| Standard library | 100.0% | 1.6ms |           9 |
 
 ## Hottest functions
 
@@ -1560,22 +1560,22 @@ Blocked 1.6ms over 9 samples (177.2µs per sample).
 
 Functions ranked by total time blocked in the function and all its callees.
 
-|     % |  Time | Samples | Function                                | Location                                                               |
-| ----: | ----: | ------: | --------------------------------------- | ---------------------------------------------------------------------- |
-| 92.0% | 1.5ms |       5 | `loadClass(String)`                     | `java.lang.ClassLoader`                                                |
-| 77.0% | 1.2ms |       4 | `average(List)`                         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| 77.0% | 1.2ms |       4 | `computeClusterAverages()`              | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| 77.0% | 1.2ms |       4 | `computeDirectly()`                     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| 77.0% | 1.2ms |       4 | `compute()`                             | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
-| 43.5% | 0.7ms |       2 | `join()`                                | `java.util.concurrent.ForkJoinTask`                                    |
-| 23.0% | 0.4ms |       5 | `deleteRecursively(Path, boolean)`      | `org.renaissance.core.DirUtils`                                        |
-| 23.0% | 0.4ms |       5 | `deleteRecursively(Path)`               | `org.renaissance.core.DirUtils`                                        |
-| 23.0% | 0.4ms |       5 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils`                                        |
-| 23.0% | 0.4ms |       5 | `run()`                                 | `org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`             |
-| 22.9% | 0.4ms |       1 | `invoke()`                              | `java.util.concurrent.ForkJoinTask`                                    |
-| 22.9% | 0.4ms |       1 | `lambda$run$0(int, List, int)`          | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-| 22.9% | 0.4ms |       1 | `call()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
-|  8.0% | 0.1ms |       4 | `walkFileTree(Path, FileVisitor)`       | `java.nio.file.Files`                                                  |
+|     % |  Time | Contentions | Function                                | Location                                                               |
+| ----: | ----: | ----------: | --------------------------------------- | ---------------------------------------------------------------------- |
+| 92.0% | 1.5ms |           5 | `loadClass(String)`                     | `java.lang.ClassLoader`                                                |
+| 77.0% | 1.2ms |           4 | `average(List)`                         | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 77.0% | 1.2ms |           4 | `computeClusterAverages()`              | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 77.0% | 1.2ms |           4 | `computeDirectly()`                     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| 77.0% | 1.2ms |           4 | `compute()`                             | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| 43.5% | 0.7ms |           2 | `join()`                                | `java.util.concurrent.ForkJoinTask`                                    |
+| 23.0% | 0.4ms |           5 | `deleteRecursively(Path, boolean)`      | `org.renaissance.core.DirUtils`                                        |
+| 23.0% | 0.4ms |           5 | `deleteRecursively(Path)`               | `org.renaissance.core.DirUtils`                                        |
+| 23.0% | 0.4ms |           5 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils`                                        |
+| 23.0% | 0.4ms |           5 | `run()`                                 | `org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`             |
+| 22.9% | 0.4ms |           1 | `invoke()`                              | `java.util.concurrent.ForkJoinTask`                                    |
+| 22.9% | 0.4ms |           1 | `lambda$run$0(int, List, int)`          | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| 22.9% | 0.4ms |           1 | `call()`                                | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68` |
+|  8.0% | 0.1ms |           4 | `walkFileTree(Path, FileVisitor)`       | `java.nio.file.Files`                                                  |
 
 #### Callees
 
@@ -1583,75 +1583,75 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |  Time | Samples | Callee              | Location                |
-| -----: | ----: | ------: | ------------------- | ----------------------- |
-| 100.0% | 1.2ms |       4 | `loadClass(String)` | `java.lang.ClassLoader` |
+|      % |  Time | Contentions | Callee              | Location                |
+| -----: | ----: | ----------: | ------------------- | ----------------------- |
+| 100.0% | 1.2ms |           4 | `loadClass(String)` | `java.lang.ClassLoader` |
 
 ##### `computeClusterAverages()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |  Time | Samples | Callee          | Location                                               |
-| -----: | ----: | ------: | --------------- | ------------------------------------------------------ |
-| 100.0% | 1.2ms |       4 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|      % |  Time | Contentions | Callee          | Location                                               |
+| -----: | ----: | ----------: | --------------- | ------------------------------------------------------ |
+| 100.0% | 1.2ms |           4 | `average(List)` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `computeDirectly()` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`)
 
-|      % |  Time | Samples | Callee                     | Location                                               |
-| -----: | ----: | ------: | -------------------------- | ------------------------------------------------------ |
-| 100.0% | 1.2ms |       4 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-| 100.0% | 1.2ms |       4 | `computeDirectly()`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|      % |  Time | Contentions | Callee                     | Location                                               |
+| -----: | ----: | ----------: | -------------------------- | ------------------------------------------------------ |
+| 100.0% | 1.2ms |           4 | `computeClusterAverages()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+| 100.0% | 1.2ms |           4 | `computeDirectly()`        | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
 
 ##### `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)
 
-|      % |  Time | Samples | Callee              | Location                                               |
-| -----: | ----: | ------: | ------------------- | ------------------------------------------------------ |
-| 100.0% | 1.2ms |       4 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
-|  56.5% | 0.7ms |       2 | `join()`            | `java.util.concurrent.ForkJoinTask`                    |
+|      % |  Time | Contentions | Callee              | Location                                               |
+| -----: | ----: | ----------: | ------------------- | ------------------------------------------------------ |
+| 100.0% | 1.2ms |           4 | `computeDirectly()` | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask` |
+|  56.5% | 0.7ms |           2 | `join()`            | `java.util.concurrent.ForkJoinTask`                    |
 
 ##### `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`)
 
-|     % |  Time | Samples | Callee                            | Location                |
-| ----: | ----: | ------: | --------------------------------- | ----------------------- |
-| 65.5% | 0.2ms |       1 | `loadClass(String)`               | `java.lang.ClassLoader` |
-| 34.5% | 0.1ms |       4 | `walkFileTree(Path, FileVisitor)` | `java.nio.file.Files`   |
+|     % |  Time | Contentions | Callee                            | Location                |
+| ----: | ----: | ----------: | --------------------------------- | ----------------------- |
+| 65.5% | 0.2ms |           1 | `loadClass(String)`               | `java.lang.ClassLoader` |
+| 34.5% | 0.1ms |           4 | `walkFileTree(Path, FileVisitor)` | `java.nio.file.Files`   |
 
 ##### `deleteRecursively(Path)` (`org.renaissance.core.DirUtils`)
 
-|      % |  Time | Samples | Callee                             | Location                        |
-| -----: | ----: | ------: | ---------------------------------- | ------------------------------- |
-| 100.0% | 0.4ms |       5 | `deleteRecursively(Path, boolean)` | `org.renaissance.core.DirUtils` |
+|      % |  Time | Contentions | Callee                             | Location                        |
+| -----: | ----: | ----------: | ---------------------------------- | ------------------------------- |
+| 100.0% | 0.4ms |           5 | `deleteRecursively(Path, boolean)` | `org.renaissance.core.DirUtils` |
 
 ##### `lambda$createScratchDirectory$1(Path)` (`org.renaissance.core.DirUtils`)
 
-|      % |  Time | Samples | Callee                    | Location                        |
-| -----: | ----: | ------: | ------------------------- | ------------------------------- |
-| 100.0% | 0.4ms |       5 | `deleteRecursively(Path)` | `org.renaissance.core.DirUtils` |
+|      % |  Time | Contentions | Callee                    | Location                        |
+| -----: | ----: | ----------: | ------------------------- | ------------------------------- |
+| 100.0% | 0.4ms |           5 | `deleteRecursively(Path)` | `org.renaissance.core.DirUtils` |
 
 ##### `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`)
 
-|      % |  Time | Samples | Callee                                  | Location                        |
-| -----: | ----: | ------: | --------------------------------------- | ------------------------------- |
-| 100.0% | 0.4ms |       5 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils` |
+|      % |  Time | Contentions | Callee                                  | Location                        |
+| -----: | ----: | ----------: | --------------------------------------- | ------------------------------- |
+| 100.0% | 0.4ms |           5 | `lambda$createScratchDirectory$1(Path)` | `org.renaissance.core.DirUtils` |
 
 ##### `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`)
 
-|      % |  Time | Samples | Callee     | Location                            |
-| -----: | ----: | ------: | ---------- | ----------------------------------- |
-| 100.0% | 0.4ms |       1 | `invoke()` | `java.util.concurrent.ForkJoinTask` |
+|      % |  Time | Contentions | Callee     | Location                            |
+| -----: | ----: | ----------: | ---------- | ----------------------------------- |
+| 100.0% | 0.4ms |           1 | `invoke()` | `java.util.concurrent.ForkJoinTask` |
 
 ##### `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68`)
 
-|      % |  Time | Samples | Callee                         | Location                                    |
-| -----: | ----: | ------: | ------------------------------ | ------------------------------------------- |
-| 100.0% | 0.4ms |       1 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
+|      % |  Time | Contentions | Callee                         | Location                                    |
+| -----: | ----: | ----------: | ------------------------------ | ------------------------------------------- |
+| 100.0% | 0.4ms |           1 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
 ## Hottest call stacks
 
 Call stacks ranked by time blocked in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |  Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 33.5% | 0.5ms |       2 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 22.9% | 0.4ms |       1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `invoke()` (`java.util.concurrent.ForkJoinTask`) ← `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68`) |
-| 20.5% | 0.3ms |       1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                       |
-| 15.1% | 0.2ms |       1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|  8.0% | 0.1ms |       4 | `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|     % |  Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----: | ----: | ----------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 33.5% | 0.5ms |           2 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 22.9% | 0.4ms |           1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `invoke()` (`java.util.concurrent.ForkJoinTask`) ← `lambda$run$0(int, List, int)` (`org.renaissance.jdk.concurrent.JavaKMeans`) ← `call()` (`org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801183d68`) |
+| 20.5% | 0.3ms |           1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `average(List)` (`org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`) ← `computeClusterAverages()` ← `computeDirectly()` ← `computeDirectly()` ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`) ← … ← `join()` (`java.util.concurrent.ForkJoinTask`) ← `compute()` (`org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`)                                                                                                                                                                                                                                                                                                                                                       |
+| 15.1% | 0.2ms |           1 | `loadClass(String)` (`java.lang.ClassLoader`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|  8.0% | 0.1ms |           4 | `walkFileTree(Path, FileVisitor)` (`java.nio.file.Files`) ← `deleteRecursively(Path, boolean)` (`org.renaissance.core.DirUtils`) ← `deleteRecursively(Path)` ← `lambda$createScratchDirectory$1(Path)` ← `run()` (`org.renaissance.core.DirUtils$$Lambda.0x000000c801003a68`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |

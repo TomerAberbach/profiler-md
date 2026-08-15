@@ -4,8 +4,12 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
-import type { Metric } from '../../modalities/metric.ts'
+import {
+  countMetricOf,
+  determineMetric,
+  SAMPLES,
+} from '../../modalities/metric.ts'
+import type { CountMetric, Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /**
@@ -221,7 +225,7 @@ const jfrToProfiles = ({
   // profile per kind that's present (all sharing `frames`), like multi-metric
   // pprof.
   const profiles: CallStackProfile[] = []
-  for (const { kind, metric } of KINDS) {
+  for (const { kind, metric, countMetric } of KINDS) {
     const kindEvents = byKind.get(kind)
     if (!kindEvents) {
       continue
@@ -231,7 +235,7 @@ const jfrToProfiles = ({
       ...(isAsyncProfiler && { originHint: `async-profiler` }),
       frames,
       metrics: metric ? [metric] : [],
-      countMetric: SAMPLES,
+      countMetric,
       observations: kindObservations(kindEvents, metric, stackTraces),
     })
   }
@@ -281,17 +285,35 @@ const LIVE_METRIC = determineMetric({ name: `inuse_space`, unit: `bytes` })
 /** Lock samples are weighted by blocked time in nanoseconds. */
 const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
 
+/** One object sampled at allocation and still live when the recording ended. */
+const OBJECTS = countMetricOf(`object`)
+
+/** One acquisition of a contended monitor, or one park. */
+const CONTENTIONS = countMetricOf(`contention`)
+
 /**
- * The metric for each sample kind, in the order profiles are emitted. CPU/wall
- * samples carry no value in JFR, so that profile has no metric and is ranked
- * purely by sample count.
+ * The metric and count metric for each sample kind, in the order profiles are
+ * emitted. CPU/wall samples record no value in JFR, so that profile has no
+ * metric and is ranked by its sample count.
+ *
+ * Allocation events sample: `jdk.ObjectAllocationSample` stands in for the
+ * allocations since the previous one, a TLAB event fires per TLAB refill or
+ * per allocation outside one, and async-profiler's `--alloc <bytes>` and
+ * `--nativemem <bytes>` set a sampling interval for the heap and
+ * `profiler.Malloc` events. Live-object and lock events each record one
+ * occurrence of what their kind names, so their rate is per object or per
+ * contention rather than per sample.
  */
-const KINDS: { kind: JfrSampleKind; metric: Metric | undefined }[] = [
-  { kind: `cpu`, metric: undefined },
-  { kind: `alloc`, metric: ALLOC_METRIC },
-  { kind: `live`, metric: LIVE_METRIC },
-  { kind: `nativemem`, metric: NATIVEMEM_METRIC },
-  { kind: `lock`, metric: LOCK_METRIC },
+const KINDS: {
+  kind: JfrSampleKind
+  metric: Metric | undefined
+  countMetric: CountMetric
+}[] = [
+  { kind: `cpu`, metric: undefined, countMetric: SAMPLES },
+  { kind: `alloc`, metric: ALLOC_METRIC, countMetric: SAMPLES },
+  { kind: `live`, metric: LIVE_METRIC, countMetric: OBJECTS },
+  { kind: `nativemem`, metric: NATIVEMEM_METRIC, countMetric: SAMPLES },
+  { kind: `lock`, metric: LOCK_METRIC, countMetric: CONTENTIONS },
 ]
 
 type Field = {

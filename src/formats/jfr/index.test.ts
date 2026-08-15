@@ -10,7 +10,12 @@ import {
   totalSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { callersTables, linesTables, profileTitles } from '../../testing.ts'
+import {
+  callersTables,
+  linesTables,
+  profileTitles,
+  summaryLines,
+} from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { jfrConverter } from './index.ts'
 import { makeJfr } from './testing.ts'
@@ -222,11 +227,35 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Time: `3.0ms`,
-          Samples: `1`,
+          Contentions: `1`,
           Function: `lock`,
           Location: `com.example.L`,
         },
       ],
+    ])
+  })
+
+  test(`names what each kind counts`, () => {
+    const bytes = makeJfr({
+      methods: [{ name: `run`, className: `com.example.A` }],
+      stackTraces: [{ frames: [{ method: 0, line: 3 }] }],
+      events: [
+        { type: `cpu`, stack: 0 },
+        { type: `alloc-tlab`, stack: 0, weight: 1024 },
+        { type: `liveobject`, stack: 0, weight: 512 },
+        { type: `nativemem`, stack: 0, weight: 256 },
+        { type: `lock`, stack: 0, weight: 3_000_000 },
+      ],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(summaryLines(md)).toEqual([
+      `Collected 1 sample.`,
+      `Allocated 1\u00A0KiB over 1 sample (1\u00A0KiB per sample).`,
+      `Retained 512\u00A0B over 1 object (512\u00A0B per object).`,
+      `Allocated 256\u00A0B over 1 sample (256\u00A0B per sample).`,
+      `Blocked 3.0ms over 1 contention (3.0ms per contention).`,
     ])
   })
 
@@ -261,7 +290,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Size: `3 KiB`,
-          Samples: `2`,
+          Objects: `2`,
           Function: `allocate`,
           Location: `com.example.A`,
         },
@@ -416,7 +445,7 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Time: `5.0ms`,
-          Samples: `1`,
+          Contentions: `1`,
           Function: `park`,
           Location: `com.example.L`,
         },

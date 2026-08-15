@@ -1445,9 +1445,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Retained heap profile
 
-Retained 19.5 MiB over 207 samples (96.4 KiB per sample).
+Retained 19.5 MiB over 207 objects (96.4 KiB per object).
 
-| Category         |     % |     Size | Samples |
+| Category         |     % |     Size | Objects |
 | ---------------- | ----: | -------: | ------: |
 | Standard library | 92.9% | 18.1 MiB |     182 |
 | Ours             |  7.1% | 1.39 MiB |      25 |
@@ -1458,7 +1458,7 @@ Retained 19.5 MiB over 207 samples (96.4 KiB per sample).
 
 Functions ranked by bytes retained directly in the function body, excluding callees.
 
-|     % |     Size | Samples | Function                                                                                                                                                                                                                         | Location                                                                       |
+|     % |     Size | Objects | Function                                                                                                                                                                                                                         | Location                                                                       |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  6.8% | 1.33 MiB |       8 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                                                                                            | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`              |
 |  0.3% | 57.7 KiB |       1 | `forceCapacity(int[], int, int)`                                                                                                                                                                                                 | `it.unimi.dsi.fastutil.ints.IntArrays`                                         |
@@ -1481,7 +1481,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 ##### Ours
 
-|     % |     Size | Samples | Function                                                                                                                                                                                                                         | Location                                                                       |
+|     % |     Size | Objects | Function                                                                                                                                                                                                                         | Location                                                                       |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 |  6.8% | 1.33 MiB |       8 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                                                                                            | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`              |
 |  0.3% | 57.7 KiB |       1 | `forceCapacity(int[], int, int)`                                                                                                                                                                                                 | `it.unimi.dsi.fastutil.ints.IntArrays`                                         |
@@ -1505,91 +1505,91 @@ Lines ranked by contribution to each function's self size.
 
 ##### `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)` (`org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`)
 
-|      % |     Size | Samples | Location                                                             |
+|      % |     Size | Objects | Location                                                             |
 | -----: | -------: | ------: | -------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |       8 | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt:51` |
 
 ##### `forceCapacity(int[], int, int)` (`it.unimi.dsi.fastutil.ints.IntArrays`)
 
-|      % |     Size | Samples | Location                                   |
+|      % |     Size | Objects | Location                                   |
 | -----: | -------: | ------: | ------------------------------------------ |
 | 100.0% | 57.7 KiB |       1 | `it.unimi.dsi.fastutil.ints.IntArrays:125` |
 
 ##### `<init>()` (`org.jetbrains.kotlin.fir.analysis.CheckersComponent`)
 
-|      % |  Size | Samples | Location                                                 |
+|      % |  Size | Objects | Location                                                 |
 | -----: | ----: | ------: | -------------------------------------------------------- |
 | 100.0% | 344 B |       1 | `org.jetbrains.kotlin.fir.analysis.CheckersComponent:38` |
 
 ##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Type$1`)
 
-|      % |  Size | Samples | Location                                             |
+|      % |  Size | Objects | Location                                             |
 | -----: | ----: | ------: | ---------------------------------------------------- |
 | 100.0% | 288 B |       3 | `org.jetbrains.kotlin.metadata.ProtoBuf$Type$1:5079` |
 
 ##### `doGenerate(ReifiedTypeParametersUsages)` (`org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`)
 
-|      % |  Size | Samples | Location                                                      |
+|      % |  Size | Objects | Location                                                      |
 | -----: | ----: | ------: | ------------------------------------------------------------- |
 | 100.0% | 120 B |       1 | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen:68` |
 
 ##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
-|      % |  Size | Samples | Location                                                  |
+|      % |  Size | Objects | Location                                                  |
 | -----: | ----: | ------: | --------------------------------------------------------- |
 | 100.0% | 112 B |       1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1:16780` |
 
 ##### `visitMethodInsn(int, String, String, String, boolean)` (`org.jetbrains.org.objectweb.asm.tree.MethodNode`)
 
-|      % |  Size | Samples | Location                                              |
+|      % |  Size | Objects | Location                                              |
 | -----: | ----: | ------: | ----------------------------------------------------- |
 | 100.0% | 112 B |       2 | `org.jetbrains.org.objectweb.asm.tree.MethodNode:379` |
 
 ##### `createSimpleFunction(int, int, IrDeclarationOrigin, Name, DescriptorVisibility, boolean, boolean, IrType, Modality, IrSimpleFunctionSymbol, boolean, boolean, boolean, boolean, boolean, DeserializedContainerSource, boolean)` (`org.jetbrains.kotlin.ir.declarations.IrFactory`)
 
-|      % |  Size | Samples | Location                                             |
+|      % |  Size | Objects | Location                                             |
 | -----: | ----: | ------: | ---------------------------------------------------- |
 | 100.0% | 104 B |       1 | `org.jetbrains.kotlin.ir.declarations.IrFactory:182` |
 
 ##### `getInstance(String)` (`java.security.MessageDigest`)
 
-|      % | Size | Samples | Location                          |
+|      % | Size | Objects | Location                          |
 | -----: | ---: | ------: | --------------------------------- |
 | 100.0% | 96 B |       1 | `java.security.MessageDigest:185` |
 
 ##### `<init>()` (`org.jetbrains.org.objectweb.asm.ByteVector`)
 
-|      % | Size | Samples | Location                                        |
+|      % | Size | Objects | Location                                        |
 | -----: | ---: | ------: | ----------------------------------------------- |
 | 100.0% | 80 B |       1 | `org.jetbrains.org.objectweb.asm.ByteVector:46` |
 
 ##### `transformArguments(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentListImpl`)
 
-|      % | Size | Samples | Location                                                                    |
+|      % | Size | Objects | Location                                                                    |
 | -----: | ---: | ------: | --------------------------------------------------------------------------- |
 | 100.0% | 64 B |       1 | `org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentListImpl:121` |
 
 ##### `getLabel()` (`org.jetbrains.org.objectweb.asm.tree.LabelNode`)
 
-|      % | Size | Samples | Location                                            |
+|      % | Size | Objects | Location                                            |
 | -----: | ---: | ------: | --------------------------------------------------- |
 | 100.0% | 56 B |       1 | `org.jetbrains.org.objectweb.asm.tree.LabelNode:61` |
 
 ##### `buildPartial()` (`org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$Builder`)
 
-|      % | Size | Samples | Location                                                         |
+|      % | Size | Objects | Location                                                         |
 | -----: | ---: | ------: | ---------------------------------------------------------------- |
 | 100.0% | 40 B |       1 | `org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$Builder:4452` |
 
 ##### `<init>(Object, Object)` (`org.jetbrains.kotlin.util.WeakPair`)
 
-|      % | Size | Samples | Location                                |
+|      % | Size | Objects | Location                                |
 | -----: | ---: | ------: | --------------------------------------- |
 | 100.0% | 32 B |       1 | `org.jetbrains.kotlin.util.WeakPair:11` |
 
 ##### `build()` (`org.jetbrains.kotlin.fir.types.builder.FirResolvedTypeRefBuilder`)
 
-|      % | Size | Samples | Location                                                              |
+|      % | Size | Objects | Location                                                              |
 | -----: | ---: | ------: | --------------------------------------------------------------------- |
 | 100.0% | 32 B |       1 | `org.jetbrains.kotlin.fir.types.builder.FirResolvedTypeRefBuilder:36` |
 
@@ -1599,97 +1599,97 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 ##### `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)` (`org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`)
 
-|      % |     Size | Samples | Caller           | Location                                                                                     |
+|      % |     Size | Objects | Caller           | Location                                                                                     |
 | -----: | -------: | ------: | ---------------- | -------------------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |       8 | `invoke(Object)` | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt$$Lambda.0x00000003013f7650` |
 
 ##### `forceCapacity(int[], int, int)` (`it.unimi.dsi.fastutil.ints.IntArrays`)
 
-|      % |     Size | Samples | Caller      | Location                                  |
+|      % |     Size | Objects | Caller      | Location                                  |
 | -----: | -------: | ------: | ----------- | ----------------------------------------- |
 | 100.0% | 57.7 KiB |       1 | `grow(int)` | `it.unimi.dsi.fastutil.ints.IntArrayList` |
 
 ##### `<init>()` (`org.jetbrains.kotlin.fir.analysis.CheckersComponent`)
 
-|      % |  Size | Samples | Caller                                                 | Location                                                  |
+|      % |  Size | Objects | Caller                                                 | Location                                                  |
 | -----: | ----: | ------: | ------------------------------------------------------ | --------------------------------------------------------- |
 | 100.0% | 344 B |       1 | `registerCliCompilerOnlyResolveComponents(FirSession)` | `org.jetbrains.kotlin.fir.session.ComponentsContainersKt` |
 
 ##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Type$1`)
 
-|      % |  Size | Samples | Caller                                                      | Location                                        |
+|      % |  Size | Objects | Caller                                                      | Location                                        |
 | -----: | ----: | ------: | ----------------------------------------------------------- | ----------------------------------------------- |
 | 100.0% | 288 B |       3 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Type$1` |
 
 ##### `doGenerate(ReifiedTypeParametersUsages)` (`org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen`)
 
-|      % |  Size | Samples | Caller                                  | Location                                                   |
+|      % |  Size | Objects | Caller                                  | Location                                                   |
 | -----: | ----: | ------: | --------------------------------------- | ---------------------------------------------------------- |
 | 100.0% | 120 B |       1 | `generate(ReifiedTypeParametersUsages)` | `org.jetbrains.kotlin.backend.jvm.codegen.FunctionCodegen` |
 
 ##### `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` (`org.jetbrains.kotlin.metadata.ProtoBuf$Function$1`)
 
-|      % |  Size | Samples | Caller                                                      | Location                                            |
+|      % |  Size | Objects | Caller                                                      | Location                                            |
 | -----: | ----: | ------: | ----------------------------------------------------------- | --------------------------------------------------- |
 | 100.0% | 112 B |       1 | `parsePartialFrom(CodedInputStream, ExtensionRegistryLite)` | `org.jetbrains.kotlin.metadata.ProtoBuf$Function$1` |
 
 ##### `$values()` (`org.jetbrains.kotlin.ir.overrides.IrExternalOverridabilityCondition$Contract`)
 
-|      % |  Size | Samples | Caller       | Location                                                                       |
+|      % |  Size | Objects | Caller       | Location                                                                       |
 | -----: | ----: | ------: | ------------ | ------------------------------------------------------------------------------ |
 | 100.0% | 112 B |       1 | `<clinit>()` | `org.jetbrains.kotlin.ir.overrides.IrExternalOverridabilityCondition$Contract` |
 
 ##### `visitMethodInsn(int, String, String, String, boolean)` (`org.jetbrains.org.objectweb.asm.tree.MethodNode`)
 
-|      % |  Size | Samples | Caller                                                  | Location                                        |
+|      % |  Size | Objects | Caller                                                  | Location                                        |
 | -----: | ----: | ------: | ------------------------------------------------------- | ----------------------------------------------- |
 | 100.0% | 112 B |       2 | `visitMethodInsn(int, String, String, String, boolean)` | `org.jetbrains.org.objectweb.asm.MethodVisitor` |
 
 ##### `createSimpleFunction(int, int, IrDeclarationOrigin, Name, DescriptorVisibility, boolean, boolean, IrType, Modality, IrSimpleFunctionSymbol, boolean, boolean, boolean, boolean, boolean, DeserializedContainerSource, boolean)` (`org.jetbrains.kotlin.ir.declarations.IrFactory`)
 
-|      % |  Size | Samples | Caller                                                                                                                                                                                                                                                           | Location                                         |
+|      % |  Size | Objects | Caller                                                                                                                                                                                                                                                           | Location                                         |
 | -----: | ----: | ------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
 | 100.0% | 104 B |       1 | `createSimpleFunction$default(IrFactory, int, int, IrDeclarationOrigin, Name, DescriptorVisibility, boolean, boolean, IrType, Modality, IrSimpleFunctionSymbol, boolean, boolean, boolean, boolean, boolean, DeserializedContainerSource, boolean, int, Object)` | `org.jetbrains.kotlin.ir.declarations.IrFactory` |
 
 ##### `getInstance(String)` (`java.security.MessageDigest`)
 
-|      % | Size | Samples | Caller              | Location                                                        |
+|      % | Size | Objects | Caller              | Location                                                        |
 | -----: | ---: | ------: | ------------------- | --------------------------------------------------------------- |
 | 100.0% | 96 B |       1 | `md5base64(String)` | `org.jetbrains.kotlin.codegen.state.InlineClassManglingUtilsKt` |
 
 ##### `<init>()` (`org.jetbrains.org.objectweb.asm.ByteVector`)
 
-|      % | Size | Samples | Caller                                          | Location                                           |
+|      % | Size | Objects | Caller                                          | Location                                           |
 | -----: | ---: | ------: | ----------------------------------------------- | -------------------------------------------------- |
 | 100.0% | 80 B |       1 | `create(SymbolTable, String, AnnotationWriter)` | `org.jetbrains.org.objectweb.asm.AnnotationWriter` |
 
 ##### `transformArguments(FirTransformer, Object)` (`org.jetbrains.kotlin.fir.expressions.impl.FirResolvedArgumentListImpl`)
 
-|      % | Size | Samples | Caller                                                              | Location                                                                                  |
+|      % | Size | Objects | Caller                                                              | Location                                                                                  |
 | -----: | ---: | ------: | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | 100.0% | 64 B |       1 | `transformArgumentList(FirCall, ExpectedArgumentType$ArgumentsMap)` | `org.jetbrains.kotlin.fir.resolve.transformers.FirCallCompletionResultsWriterTransformer` |
 
 ##### `getLabel()` (`org.jetbrains.org.objectweb.asm.tree.LabelNode`)
 
-|      % | Size | Samples | Caller                  | Location                                         |
+|      % | Size | Objects | Caller                  | Location                                         |
 | -----: | ---: | ------: | ----------------------- | ------------------------------------------------ |
 | 100.0% | 56 B |       1 | `accept(MethodVisitor)` | `org.jetbrains.org.objectweb.asm.tree.LabelNode` |
 
 ##### `buildPartial()` (`org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$Builder`)
 
-|      % | Size | Samples | Caller    | Location                                                    |
+|      % | Size | Objects | Caller    | Location                                                    |
 | -----: | ---: | ------: | --------- | ----------------------------------------------------------- |
 | 100.0% | 40 B |       1 | `build()` | `org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$Builder` |
 
 ##### `<init>(Object, Object)` (`org.jetbrains.kotlin.util.WeakPair`)
 
-|      % | Size | Samples | Caller                                                        | Location                                                |
+|      % | Size | Objects | Caller                                                        | Location                                                |
 | -----: | ---: | ------: | ------------------------------------------------------------- | ------------------------------------------------------- |
 | 100.0% | 32 B |       1 | `fullyExpandedType(ConeClassLikeType, FirSession, Function1)` | `org.jetbrains.kotlin.fir.resolve.TypeExpansionUtilsKt` |
 
 ##### `build()` (`org.jetbrains.kotlin.fir.types.builder.FirResolvedTypeRefBuilder`)
 
-|      % | Size | Samples | Caller                                                                                          | Location                                                                   |
+|      % | Size | Objects | Caller                                                                                          | Location                                                                   |
 | -----: | ---: | ------: | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | 100.0% | 32 B |       1 | `deserializeAnnotation(FirSession, ProtoBuf$Annotation, NameResolver, AnnotationUseSiteTarget)` | `org.jetbrains.kotlin.fir.deserialization.AnnotationDeserializationUtilKt` |
 
@@ -1697,7 +1697,7 @@ Callers ranked by contribution to each function's self size. Inlining can make c
 
 Functions ranked by total bytes retained in the function and all its callees.
 
-|     % |     Size | Samples | Function                                                                           | Location                                                                                                        |
+|     % |     Size | Objects | Function                                                                           | Location                                                                                                        |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 90.9% | 17.7 MiB |     184 | `run(String[])`                                                                    | `org.jetbrains.kotlin.preloading.Preloader`                                                                     |
 | 90.9% | 17.7 MiB |     182 | `main(String[])`                                                                   | `org.jetbrains.kotlin.preloading.Preloader`                                                                     |
@@ -1724,7 +1724,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Ours
 
-|     % |     Size | Samples | Function                                                                           | Location                                                                                                        |
+|     % |     Size | Objects | Function                                                                           | Location                                                                                                        |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 90.9% | 17.7 MiB |     184 | `run(String[])`                                                                    | `org.jetbrains.kotlin.preloading.Preloader`                                                                     |
 | 90.9% | 17.7 MiB |     182 | `main(String[])`                                                                   | `org.jetbrains.kotlin.preloading.Preloader`                                                                     |
@@ -1753,65 +1753,65 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
-|     % |     Size | Samples | Callee                                                                       | Location                                               |
+|     % |     Size | Objects | Callee                                                                       | Location                                               |
 | ----: | -------: | ------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
 | 77.8% | 13.8 MiB |     165 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
 | 22.2% | 3.93 MiB |      19 | `invoke(Object, Object[])`                                                   | `java.lang.reflect.Method`                             |
 
 ##### `main(String[])` (`org.jetbrains.kotlin.preloading.Preloader`)
 
-|      % |     Size | Samples | Callee          | Location                                    |
+|      % |     Size | Objects | Callee          | Location                                    |
 | -----: | -------: | ------: | --------------- | ------------------------------------------- |
 | 100.0% | 17.7 MiB |     182 | `run(String[])` | `org.jetbrains.kotlin.preloading.Preloader` |
 
 ##### `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
 
-|     % |     Size | Samples | Callee                | Location                        |
+|     % |     Size | Objects | Callee                | Location                        |
 | ----: | -------: | ------: | --------------------- | ------------------------------- |
 | 98.2% | 13.5 MiB |     164 | `toByteArray()`       | `java.io.ByteArrayOutputStream` |
 |  1.8% |  256 KiB |       1 | `put(Object, Object)` | `java.util.HashMap`             |
 
 ##### `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`)
 
-|      % |     Size | Samples | Callee                                                                       | Location                                               |
+|      % |     Size | Objects | Callee                                                                       | Location                                               |
 | -----: | -------: | ------: | ---------------------------------------------------------------------------- | ------------------------------------------------------ |
 | 100.0% | 13.8 MiB |     165 | `loadAllClassesFromJars(Collection, int, ClassHandler)`                      | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
 |   3.7% |  520 KiB |       5 | `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` | `org.jetbrains.kotlin.preloading.ClassPreloadingUtils` |
 
 ##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`)
 
-|     % |     Size | Samples | Callee                          | Location                                                |
+|     % |     Size | Objects | Callee                          | Location                                                |
 | ----: | -------: | ------: | ------------------------------- | ------------------------------------------------------- |
 | 98.4% | 3.92 MiB |       4 | `<init>()`                      | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`            |
 |  1.6% |   65 KiB |      19 | `doMain(CLICompiler, String[])` | `org.jetbrains.kotlin.cli.common.CLICompiler$Companion` |
 
 ##### `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
-|      % |     Size | Samples | Callee           | Location                                               |
+|      % |     Size | Objects | Callee           | Location                                               |
 | -----: | -------: | ------: | ---------------- | ------------------------------------------------------ |
 | 100.0% | 3.99 MiB |      23 | `main(String[])` | `org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion` |
 
 ##### `getResource(String)` (`org.jetbrains.kotlin.preloading.MemoryBasedClassLoader`)
 
-|      % |     Size | Samples | Callee                | Location                |
+|      % |     Size | Objects | Callee                | Location                |
 | -----: | -------: | ------: | --------------------- | ----------------------- |
 | 100.0% | 3.92 MiB |       4 | `getResource(String)` | `java.lang.ClassLoader` |
 
 ##### `<init>()` (`org.jetbrains.kotlin.cli.common.CLICompiler`)
 
-|      % |     Size | Samples | Callee                | Location                                                 |
+|      % |     Size | Objects | Callee                | Location                                                 |
 | -----: | -------: | ------: | --------------------- | -------------------------------------------------------- |
 | 100.0% | 3.92 MiB |       4 | `getResource(String)` | `org.jetbrains.kotlin.preloading.MemoryBasedClassLoader` |
 
 ##### `<init>()` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`)
 
-|      % |     Size | Samples | Callee     | Location                                      |
+|      % |     Size | Objects | Callee     | Location                                      |
 | -----: | -------: | ------: | ---------- | --------------------------------------------- |
 | 100.0% | 3.92 MiB |       4 | `<init>()` | `org.jetbrains.kotlin.cli.common.CLICompiler` |
 
 ##### `getValue(Object, Object)` (`org.jetbrains.kotlin.fir.caches.FirThreadUnsafeCache`)
 
-|     % |     Size | Samples | Callee                   | Location                                                                                                                                            |
+|     % |     Size | Objects | Callee                   | Location                                                                                                                                            |
 | ----: | -------: | ------: | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 99.9% | 1.33 MiB |      12 | `invoke(Object, Object)` | `org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2`                                     |
 | 97.2% |  1.3 MiB |      10 | `invoke(Object, Object)` | `org.jetbrains.kotlin.fir.resolve.providers.FirCachedSymbolNamesProvider$topLevelCallableNamesByPackage_delegate$lambda$0$$inlined$createCache$1`   |
@@ -1821,63 +1821,63 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `computePackagePartInfo(FqName, String)` (`org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                                               | Location                                                            |
+|      % |     Size | Objects | Callee                                               | Location                                                            |
 | -----: | -------: | ------: | ---------------------------------------------------- | ------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      11 | `findKotlinClassOrContent(ClassId, MetadataVersion)` | `org.jetbrains.kotlin.load.kotlin.VirtualFileFinder`                |
 |  <0.1% |    112 B |       1 | `readPackageDataFrom(String[], String[])`            | `org.jetbrains.kotlin.metadata.jvm.deserialization.JvmProtoBufUtil` |
 
 ##### `computePackagePartsInfos(FqName)` (`org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                                   | Location                                                                        |
+|      % |     Size | Objects | Callee                                   | Location                                                                        |
 | -----: | -------: | ------: | ---------------------------------------- | ------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `computePackagePartInfo(FqName, String)` | `org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider` |
 
 ##### `tryComputePackagePartInfos(FqName)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                             | Location                                                                        |
+|      % |     Size | Objects | Callee                             | Location                                                                        |
 | -----: | -------: | ------: | ---------------------------------- | ------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `computePackagePartsInfos(FqName)` | `org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider` |
 
 ##### `access$tryComputePackagePartInfos(AbstractFirDeserializedSymbolProvider, FqName)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                               | Location                                                                         |
+|      % |     Size | Objects | Callee                               | Location                                                                         |
 | -----: | -------: | ------: | ------------------------------------ | -------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `tryComputePackagePartInfos(FqName)` | `org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider` |
 
 ##### `invoke(Object, Void)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2`)
 
-|      % |     Size | Samples | Callee                                                                             | Location                                                                         |
+|      % |     Size | Objects | Callee                                                                             | Location                                                                         |
 | -----: | -------: | ------: | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `access$tryComputePackagePartInfos(AbstractFirDeserializedSymbolProvider, FqName)` | `org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider` |
 
 ##### `invoke(Object, Object)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2`)
 
-|      % |     Size | Samples | Callee                 | Location                                                                                                        |
+|      % |     Size | Objects | Callee                 | Location                                                                                                        |
 | -----: | -------: | ------: | ---------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `invoke(Object, Void)` | `org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider$special$$inlined$createCache$2` |
 
 ##### `getPackageParts(FqName)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                     | Location                                               |
+|      % |     Size | Objects | Callee                     | Location                                               |
 | -----: | -------: | ------: | -------------------------- | ------------------------------------------------------ |
 | 100.0% | 1.33 MiB |      12 | `getValue(Object, Object)` | `org.jetbrains.kotlin.fir.caches.FirThreadUnsafeCache` |
 
 ##### `access$getPackageParts(AbstractFirDeserializedSymbolProvider, FqName)` (`org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider`)
 
-|      % |     Size | Samples | Callee                    | Location                                                                         |
+|      % |     Size | Objects | Callee                    | Location                                                                         |
 | -----: | -------: | ------: | ------------------------- | -------------------------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      12 | `getPackageParts(FqName)` | `org.jetbrains.kotlin.fir.deserialization.AbstractFirDeserializedSymbolProvider` |
 
 ##### `create$lambda$0(VirtualFile, byte[], MetadataVersion)` (`org.jetbrains.kotlin.load.kotlin.VirtualFileKotlinClass$Factory`)
 
-|     % |    Size | Samples | Callee                                       | Location                                                |
+|     % |    Size | Objects | Callee                                       | Location                                                |
 | ----: | ------: | ------: | -------------------------------------------- | ------------------------------------------------------- |
 | 90.1% | 1.2 MiB |       7 | `contentsToByteArray(boolean)`               | `com.intellij.openapi.vfs.VirtualFile`                  |
 |  9.9% | 134 KiB |       4 | `create(byte[], MetadataVersion, Function4)` | `org.jetbrains.kotlin.load.kotlin.FileBasedKotlinClass` |
 
 ##### `invoke()` (`org.jetbrains.kotlin.load.kotlin.VirtualFileKotlinClass$Factory$$Lambda.0x00000003015e9818`)
 
-|      % |     Size | Samples | Callee                                                  | Location                                                          |
+|      % |     Size | Objects | Callee                                                  | Location                                                          |
 | -----: | -------: | ------: | ------------------------------------------------------- | ----------------------------------------------------------------- |
 | 100.0% | 1.33 MiB |      11 | `create$lambda$0(VirtualFile, byte[], MetadataVersion)` | `org.jetbrains.kotlin.load.kotlin.VirtualFileKotlinClass$Factory` |
 
@@ -1885,7 +1885,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes retained in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 66.9% |   13 MiB |     159 | `toByteArray()` (`java.io.ByteArrayOutputStream`) ← `loadAllClassesFromJars(Collection, int, ClassHandler)` (`org.jetbrains.kotlin.preloading.ClassPreloadingUtils`) ← `preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)` ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | 20.1% | 3.92 MiB |       4 | `getResource(String)` (`java.lang.ClassLoader`) ← `getResource(String)` (`org.jetbrains.kotlin.preloading.MemoryBasedClassLoader`) ← `<init>()` (`org.jetbrains.kotlin.cli.common.CLICompiler`) ← `<init>()` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`) ← `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion`) ← `main(String[])` (`org.jetbrains.kotlin.cli.jvm.K2JVMCompiler`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `run(String[])` (`org.jetbrains.kotlin.preloading.Preloader`) ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
@@ -1910,11 +1910,11 @@ Call stacks ranked by bytes retained in their leaf frame. `…` stands for frame
 
 # Lock contention profile
 
-Blocked 486.7ms over 2 samples (243.3ms per sample).
+Blocked 486.7ms over 2 contentions (243.3ms per contention).
 
-| Category         |      % |    Time | Samples |
-| ---------------- | -----: | ------: | ------: |
-| Standard library | 100.0% | 486.7ms |       2 |
+| Category         |      % |    Time | Contentions |
+| ---------------- | -----: | ------: | ----------: |
+| Standard library | 100.0% | 486.7ms |           2 |
 
 The entry filter hides every recorded function, so all functions are shown.
 
@@ -1928,9 +1928,9 @@ Functions ranked by time blocked directly in the function body, excluding callee
 
 ##### Standard library
 
-|      % |    Time | Samples | Function              | Location                   |
-| -----: | ------: | ------: | --------------------- | -------------------------- |
-| 100.0% | 486.7ms |       2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+|      % |    Time | Contentions | Function              | Location                   |
+| -----: | ------: | ----------: | --------------------- | -------------------------- |
+| 100.0% | 486.7ms |           2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 #### Callers
 
@@ -1938,9 +1938,9 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 
 ##### `park(boolean, long)` (`jdk.internal.misc.Unsafe`)
 
-|      % |    Time | Samples | Caller                    | Location                                 |
-| -----: | ------: | ------: | ------------------------- | ---------------------------------------- |
-| 100.0% | 486.7ms |       2 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
+|      % |    Time | Contentions | Caller                    | Location                                 |
+| -----: | ------: | ----------: | ------------------------- | ---------------------------------------- |
+| 100.0% | 486.7ms |           2 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
 
 ### Total time
 
@@ -1950,18 +1950,18 @@ Functions ranked by total time blocked in the function and all its callees.
 
 ##### Standard library
 
-|      % |    Time | Samples | Function                    | Location                                                                |
-| -----: | ------: | ------: | --------------------------- | ----------------------------------------------------------------------- |
-| 100.0% | 486.7ms |       2 | `park(boolean, long)`       | `jdk.internal.misc.Unsafe`                                              |
-| 100.0% | 486.7ms |       2 | `parkNanos(Object, long)`   | `java.util.concurrent.locks.LockSupport`                                |
-| 100.0% | 486.7ms |       2 | `await(long, TimeUnit)`     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
-| 100.0% | 486.7ms |       2 | `await(long)`               | `java.lang.ref.ReferenceQueue`                                          |
-| 100.0% | 486.7ms |       2 | `remove0(long)`             | `java.lang.ref.ReferenceQueue`                                          |
-| 100.0% | 486.7ms |       2 | `remove(long)`              | `java.lang.ref.ReferenceQueue`                                          |
-| 100.0% | 486.7ms |       2 | `run()`                     | `jdk.internal.ref.CleanerImpl`                                          |
-| 100.0% | 486.7ms |       2 | `runWith(Object, Runnable)` | `java.lang.Thread`                                                      |
-| 100.0% | 486.7ms |       2 | `run()`                     | `java.lang.Thread`                                                      |
-| 100.0% | 486.7ms |       2 | `run()`                     | `jdk.internal.misc.InnocuousThread`                                     |
+|      % |    Time | Contentions | Function                    | Location                                                                |
+| -----: | ------: | ----------: | --------------------------- | ----------------------------------------------------------------------- |
+| 100.0% | 486.7ms |           2 | `park(boolean, long)`       | `jdk.internal.misc.Unsafe`                                              |
+| 100.0% | 486.7ms |           2 | `parkNanos(Object, long)`   | `java.util.concurrent.locks.LockSupport`                                |
+| 100.0% | 486.7ms |           2 | `await(long, TimeUnit)`     | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| 100.0% | 486.7ms |           2 | `await(long)`               | `java.lang.ref.ReferenceQueue`                                          |
+| 100.0% | 486.7ms |           2 | `remove0(long)`             | `java.lang.ref.ReferenceQueue`                                          |
+| 100.0% | 486.7ms |           2 | `remove(long)`              | `java.lang.ref.ReferenceQueue`                                          |
+| 100.0% | 486.7ms |           2 | `run()`                     | `jdk.internal.ref.CleanerImpl`                                          |
+| 100.0% | 486.7ms |           2 | `runWith(Object, Runnable)` | `java.lang.Thread`                                                      |
+| 100.0% | 486.7ms |           2 | `run()`                     | `java.lang.Thread`                                                      |
+| 100.0% | 486.7ms |           2 | `run()`                     | `jdk.internal.misc.InnocuousThread`                                     |
 
 #### Callees
 
@@ -1969,62 +1969,62 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`)
 
-|      % |    Time | Samples | Callee                | Location                   |
-| -----: | ------: | ------: | --------------------- | -------------------------- |
-| 100.0% | 486.7ms |       2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+|      % |    Time | Contentions | Callee                | Location                   |
+| -----: | ------: | ----------: | --------------------- | -------------------------- |
+| 100.0% | 486.7ms |           2 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
 
 ##### `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`)
 
-|      % |    Time | Samples | Callee                    | Location                                 |
-| -----: | ------: | ------: | ------------------------- | ---------------------------------------- |
-| 100.0% | 486.7ms |       2 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
+|      % |    Time | Contentions | Callee                    | Location                                 |
+| -----: | ------: | ----------: | ------------------------- | ---------------------------------------- |
+| 100.0% | 486.7ms |           2 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
 
 ##### `await(long)` (`java.lang.ref.ReferenceQueue`)
 
-|      % |    Time | Samples | Callee                  | Location                                                                |
-| -----: | ------: | ------: | ----------------------- | ----------------------------------------------------------------------- |
-| 100.0% | 486.7ms |       2 | `await(long, TimeUnit)` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+|      % |    Time | Contentions | Callee                  | Location                                                                |
+| -----: | ------: | ----------: | ----------------------- | ----------------------------------------------------------------------- |
+| 100.0% | 486.7ms |           2 | `await(long, TimeUnit)` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
 
 ##### `remove0(long)` (`java.lang.ref.ReferenceQueue`)
 
-|      % |    Time | Samples | Callee        | Location                       |
-| -----: | ------: | ------: | ------------- | ------------------------------ |
-| 100.0% | 486.7ms |       2 | `await(long)` | `java.lang.ref.ReferenceQueue` |
+|      % |    Time | Contentions | Callee        | Location                       |
+| -----: | ------: | ----------: | ------------- | ------------------------------ |
+| 100.0% | 486.7ms |           2 | `await(long)` | `java.lang.ref.ReferenceQueue` |
 
 ##### `remove(long)` (`java.lang.ref.ReferenceQueue`)
 
-|      % |    Time | Samples | Callee          | Location                       |
-| -----: | ------: | ------: | --------------- | ------------------------------ |
-| 100.0% | 486.7ms |       2 | `remove0(long)` | `java.lang.ref.ReferenceQueue` |
+|      % |    Time | Contentions | Callee          | Location                       |
+| -----: | ------: | ----------: | --------------- | ------------------------------ |
+| 100.0% | 486.7ms |           2 | `remove0(long)` | `java.lang.ref.ReferenceQueue` |
 
 ##### `run()` (`jdk.internal.ref.CleanerImpl`)
 
-|      % |    Time | Samples | Callee         | Location                       |
-| -----: | ------: | ------: | -------------- | ------------------------------ |
-| 100.0% | 486.7ms |       2 | `remove(long)` | `java.lang.ref.ReferenceQueue` |
+|      % |    Time | Contentions | Callee         | Location                       |
+| -----: | ------: | ----------: | -------------- | ------------------------------ |
+| 100.0% | 486.7ms |           2 | `remove(long)` | `java.lang.ref.ReferenceQueue` |
 
 ##### `runWith(Object, Runnable)` (`java.lang.Thread`)
 
-|      % |    Time | Samples | Callee  | Location                       |
-| -----: | ------: | ------: | ------- | ------------------------------ |
-| 100.0% | 486.7ms |       2 | `run()` | `jdk.internal.ref.CleanerImpl` |
+|      % |    Time | Contentions | Callee  | Location                       |
+| -----: | ------: | ----------: | ------- | ------------------------------ |
+| 100.0% | 486.7ms |           2 | `run()` | `jdk.internal.ref.CleanerImpl` |
 
 ##### `run()` (`java.lang.Thread`)
 
-|      % |    Time | Samples | Callee                      | Location           |
-| -----: | ------: | ------: | --------------------------- | ------------------ |
-| 100.0% | 486.7ms |       2 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+|      % |    Time | Contentions | Callee                      | Location           |
+| -----: | ------: | ----------: | --------------------------- | ------------------ |
+| 100.0% | 486.7ms |           2 | `runWith(Object, Runnable)` | `java.lang.Thread` |
 
 ##### `run()` (`jdk.internal.misc.InnocuousThread`)
 
-|      % |    Time | Samples | Callee  | Location           |
-| -----: | ------: | ------: | ------- | ------------------ |
-| 100.0% | 486.7ms |       2 | `run()` | `java.lang.Thread` |
+|      % |    Time | Contentions | Callee  | Location           |
+| -----: | ------: | ----------: | ------- | ------------------ |
+| 100.0% | 486.7ms |           2 | `run()` | `java.lang.Thread` |
 
 ## Hottest call stacks
 
 Call stacks ranked by time blocked in their leaf frame.
 
-|      % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| -----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% | 486.7ms |       2 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`) |
+|      % |    Time | Contentions | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -----: | ------: | ----------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% | 486.7ms |           2 | `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`) |

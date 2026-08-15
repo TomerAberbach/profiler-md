@@ -309,9 +309,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 9.91 MiB → 7.58 MiB (-2.327 MiB, -23.5%) over 384 samples → 336 samples (26.4 KiB → 23.1 KiB per sample).
+Retained 9.91 MiB → 7.58 MiB (-2.327 MiB, -23.5%) over 384 objects → 336 objects (26.4 KiB → 23.1 KiB per object).
 
-| Category         | Change |       Delta |             % |                Size |   Samples |
+| Category         | Change |       Delta |             % |                Size |   Objects |
 | ---------------- | -----: | ----------: | ------------: | ------------------: | --------: |
 | Standard library | -24.8% |  -2.249 MiB | 91.6% → 90.0% | 9.08 MiB → 6.83 MiB | 296 → 260 |
 | Ours             |  -9.4% | -80.312 KiB |  8.4% → 10.0% |   853 KiB → 773 KiB |   88 → 76 |
@@ -324,7 +324,7 @@ Retained 9.91 MiB → 7.58 MiB (-2.327 MiB, -23.5%) over 384 samples → 336 
 
 Functions with the largest increase in bytes retained directly in the function body, excluding callees.
 
-|  Change |      Delta |            % |           Size | Samples | Function                                                                                                                         | Location                                                                   |
+|  Change |      Delta |            % |           Size | Objects | Function                                                                                                                         | Location                                                                   |
 | ------: | ---------: | -----------: | -------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |     new | +48.21 KiB |  0.0% → 0.6% | 0 B → 48.2 KiB |   0 → 1 | `<init>(int)`                                                                                                                    | `org.jetbrains.org.objectweb.asm.ByteVector`                               |
 |     new | +1.015 KiB | 0.0% → <0.1% | 0 B → 1.02 KiB |   0 → 1 | `<init>()`                                                                                                                       | `org.jetbrains.kotlin.codegen.optimization.NegatedJumpsMethodTransformer`  |
@@ -349,7 +349,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change |      Delta |            % |           Size | Samples | Function                                                                                                                         | Location                                                                   |
+|  Change |      Delta |            % |           Size | Objects | Function                                                                                                                         | Location                                                                   |
 | ------: | ---------: | -----------: | -------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |     new | +48.21 KiB |  0.0% → 0.6% | 0 B → 48.2 KiB |   0 → 1 | `<init>(int)`                                                                                                                    | `org.jetbrains.org.objectweb.asm.ByteVector`                               |
 |     new | +1.015 KiB | 0.0% → <0.1% | 0 B → 1.02 KiB |   0 → 1 | `<init>()`                                                                                                                       | `org.jetbrains.kotlin.codegen.optimization.NegatedJumpsMethodTransformer`  |
@@ -376,7 +376,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change |       Delta |            % |              Size | Samples | Function                                                                                                                                                      | Location                                                                                  |
+|  Change |       Delta |            % |              Size | Objects | Function                                                                                                                                                      | Location                                                                                  |
 | ------: | ----------: | -----------: | ----------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 |   -8.5% | -66.687 KiB |  7.7% → 9.3% | 786 KiB → 720 KiB |   5 → 3 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                         | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`                         |
 | removed | -57.679 KiB |  0.6% → 0.0% |    57.7 KiB → 0 B |   1 → 0 | `forceCapacity(int[], int, int)`                                                                                                                              | `it.unimi.dsi.fastutil.ints.IntArrays`                                                    |
@@ -401,7 +401,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change |       Delta |            % |              Size | Samples | Function                                                                                                                                                      | Location                                                                                  |
+|  Change |       Delta |            % |              Size | Objects | Function                                                                                                                                                      | Location                                                                                  |
 | ------: | ----------: | -----------: | ----------------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 |   -8.5% | -66.687 KiB |  7.7% → 9.3% | 786 KiB → 720 KiB |   5 → 3 | `contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)`                                                                         | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt`                         |
 | removed | -57.679 KiB |  0.6% → 0.0% |    57.7 KiB → 0 B |   1 → 0 | `forceCapacity(int[], int, int)`                                                                                                                              | `it.unimi.dsi.fastutil.ints.IntArrays`                                                    |
@@ -432,7 +432,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|      Change |        Delta |            % |           Size | Samples | Function                                                                                              | Location                                                                                                                  |
+|      Change |        Delta |            % |           Size | Objects | Function                                                                                              | Location                                                                                                                  |
 | ----------: | -----------: | -----------: | -------------: | ------: | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | +3070266.7% | +719.593 KiB | <0.1% → 9.3% | 24 B → 720 KiB |   1 → 3 | `invoke(Object)`                                                                                      | `org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt$$Lambda.0x0000007001394428`                              |
 |         new |   +48.21 KiB |  0.0% → 0.6% | 0 B → 48.2 KiB |   0 → 1 | `<init>(int)`                                                                                         | `org.jetbrains.org.objectweb.asm.ByteVector`                                                                              |
@@ -459,7 +459,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |                Size |   Samples | Function                                                                                           | Location                                                                                     |
+|  Change |        Delta |             % |                Size |   Objects | Function                                                                                           | Location                                                                                     |
 | ------: | -----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 |  -23.5% |   -2.327 MiB |        100.0% | 9.91 MiB → 7.58 MiB | 384 → 336 | `run(String[])`                                                                                    | `org.jetbrains.kotlin.preloading.Preloader`                                                  |
 |  -23.5% |   -2.327 MiB |        100.0% | 9.91 MiB → 7.58 MiB | 384 → 336 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.preloading.Preloader`                                                  |
@@ -484,7 +484,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |        Delta |             % |                Size |   Samples | Function                                                                                           | Location                                                                                     |
+|  Change |        Delta |             % |                Size |   Objects | Function                                                                                           | Location                                                                                     |
 | ------: | -----------: | ------------: | ------------------: | --------: | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 |  -23.5% |   -2.327 MiB |        100.0% | 9.91 MiB → 7.58 MiB | 384 → 336 | `run(String[])`                                                                                    | `org.jetbrains.kotlin.preloading.Preloader`                                                  |
 |  -23.5% |   -2.327 MiB |        100.0% | 9.91 MiB → 7.58 MiB | 384 → 336 | `main(String[])`                                                                                   | `org.jetbrains.kotlin.preloading.Preloader`                                                  |

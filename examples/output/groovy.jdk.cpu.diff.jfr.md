@@ -552,9 +552,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 69.3 KiB → 9.88 KiB (-59.375 KiB, -85.7%) over 95 samples → 105 samples (747 B → 96.4 B per sample).
+Retained 69.3 KiB → 9.88 KiB (-59.375 KiB, -85.7%) over 95 objects → 105 objects (747 B → 96.4 B per object).
 
-| Category         |  Change |       Delta |            % |                Size |  Samples |
+| Category         |  Change |       Delta |            % |                Size |  Objects |
 | ---------------- | ------: | ----------: | -----------: | ------------------: | -------: |
 | Standard library |  -85.7% | -59.343 KiB |       100.0% | 69.2 KiB → 9.88 KiB | 94 → 105 |
 | Ours             | removed |       -32 B | <0.1% → 0.0% |          32 B → 0 B |    1 → 0 |
@@ -569,7 +569,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change | Delta |            % |       Size | Samples | Function                        | Location                               |
+|  Change | Delta |            % |       Size | Objects | Function                        | Location                               |
 | ------: | ----: | -----------: | ---------: | ------: | ------------------------------- | -------------------------------------- |
 | removed | -32 B | <0.1% → 0.0% | 32 B → 0 B |   1 → 0 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -579,7 +579,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|   Change |      Delta |            % |                Size | Samples | Function                                         | Location                                                                   |
+|   Change |      Delta |            % |                Size | Objects | Function                                         | Location                                                                   |
 | -------: | ---------: | -----------: | ------------------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------- |
 |  +345.3% | +4.343 KiB | 1.8% → 56.7% |  1.26 KiB → 5.6 KiB | 24 → 32 | `linkToCallSite(Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                         |
 |  +916.7% | +4.296 KiB | 0.7% → 48.2% |    480 B → 4.77 KiB |  8 → 16 | `init()`                                         | `org.codenarc.analyzer.SuppressionAnalyzer`                                |
@@ -604,7 +604,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|   Change |      Delta |            % |                Size | Samples | Function                                        | Location                                                                   |
+|   Change |      Delta |            % |                Size | Objects | Function                                        | Location                                                                   |
 | -------: | ---------: | -----------: | ------------------: | ------: | ----------------------------------------------- | -------------------------------------------------------------------------- |
 |  +916.7% | +4.296 KiB | 0.7% → 48.2% |    480 B → 4.77 KiB |  8 → 16 | `init()`                                        | `org.codenarc.analyzer.SuppressionAnalyzer`                                |
 |  +916.7% | +4.296 KiB | 0.7% → 48.2% |    480 B → 4.77 KiB |  8 → 16 | `isRuleSuppressed(Rule)`                        | `org.codenarc.analyzer.SuppressionAnalyzer`                                |
@@ -631,7 +631,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |       Delta |             % |                Size | Samples | Function                                                         | Location                                                                     |
+|  Change |       Delta |             % |                Size | Objects | Function                                                         | Location                                                                     |
 | ------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | removed | -64.101 KiB |  92.6% → 0.0% |      64.1 KiB → 0 B |   2 → 0 | `validateXml(String)`                                            | `org.codenarc.ruleset.XmlReaderRuleSet`                                      |
 |  -99.9% | -63.953 KiB |  92.4% → 0.6% |       64 KiB → 64 B |   1 → 2 | `<init>(Reader)`                                                 | `org.codenarc.ruleset.XmlReaderRuleSet`                                      |
@@ -656,7 +656,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |       Delta |            % |           Size | Samples | Function                                                | Location                                                                                 |
+|  Change |       Delta |            % |           Size | Objects | Function                                                | Location                                                                                 |
 | ------: | ----------: | -----------: | -------------: | ------: | ------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | removed | -64.101 KiB | 92.6% → 0.0% | 64.1 KiB → 0 B |   2 → 0 | `validateXml(String)`                                   | `org.codenarc.ruleset.XmlReaderRuleSet`                                                  |
 |  -99.9% | -63.953 KiB | 92.4% → 0.6% |  64 KiB → 64 B |   1 → 2 | `<init>(Reader)`                                        | `org.codenarc.ruleset.XmlReaderRuleSet`                                                  |

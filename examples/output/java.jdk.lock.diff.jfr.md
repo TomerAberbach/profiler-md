@@ -379,9 +379,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 2.57 MiB → 2.75 MiB (+184.023 KiB, +7.0%) over 13 samples → 10 samples (202 KiB → 282 KiB per sample).
+Retained 2.57 MiB → 2.75 MiB (+184.023 KiB, +7.0%) over 13 objects → 10 objects (202 KiB → 282 KiB per object).
 
-| Category         | Change |        Delta |      % |                Size | Samples |
+| Category         | Change |        Delta |      % |                Size | Objects |
 | ---------------- | -----: | -----------: | -----: | ------------------: | ------: |
 | Standard library |  +7.0% | +184.007 KiB | 100.0% | 2.57 MiB → 2.75 MiB |  12 → 9 |
 | Ours             | +66.7% |        +16 B |  <0.1% |         24 B → 40 B |       1 |
@@ -396,7 +396,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-| Change | Delta |            % |       Size | Samples | Function                     | Location                                    |
+| Change | Delta |            % |       Size | Objects | Function                     | Location                                    |
 | -----: | ----: | -----------: | ---------: | ------: | ---------------------------- | ------------------------------------------- |
 |    new | +40 B | 0.0% → <0.1% | 0 B → 40 B |   0 → 1 | `lambda$generateData$4(int)` | `org.renaissance.jdk.concurrent.JavaKMeans` |
 
@@ -404,20 +404,20 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest decrease in bytes retained directly in the function body, excluding callees.
 
-|  Change | Delta |            % |        Size | Samples | Function            | Location             |
+|  Change | Delta |            % |        Size | Objects | Function            | Location             |
 | ------: | ----: | -----------: | ----------: | ------: | ------------------- | -------------------- |
 | removed | -24 B | <0.1% → 0.0% |  24 B → 0 B |   1 → 0 | `opt(String, Read)` | `scopt.OptionParser` |
 |  -25.0% | -24 B |        <0.1% | 96 B → 72 B |   4 → 3 | `valueOf(double)`   | `java.lang.Double`   |
 
 ##### Standard library
 
-| Change | Delta |     % |        Size | Samples | Function          | Location           |
+| Change | Delta |     % |        Size | Objects | Function          | Location           |
 | -----: | ----: | ----: | ----------: | ------: | ----------------- | ------------------ |
 | -25.0% | -24 B | <0.1% | 96 B → 72 B |   4 → 3 | `valueOf(double)` | `java.lang.Double` |
 
 ##### Ours
 
-|  Change | Delta |            % |       Size | Samples | Function            | Location             |
+|  Change | Delta |            % |       Size | Objects | Function            | Location             |
 | ------: | ----: | -----------: | ---------: | ------: | ------------------- | -------------------- |
 | removed | -24 B | <0.1% → 0.0% | 24 B → 0 B |   1 → 0 | `opt(String, Read)` | `scopt.OptionParser` |
 
@@ -427,7 +427,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-| Change |       Delta |             % |          Size | Samples | Function                                | Location                                                               |
+| Change |       Delta |             % |          Size | Objects | Function                                | Location                                                               |
 | -----: | ----------: | ------------: | ------------: | ------: | --------------------------------------- | ---------------------------------------------------------------------- |
 |    new | +194.64 KiB |   0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `addAll(Collection)`                    | `java.util.ArrayList`                                                  |
 |    new | +194.64 KiB |   0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `lambda$merge$6(List, List)`            | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
@@ -452,7 +452,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Standard library
 
-| Change |       Delta |             % |          Size | Samples | Function                            | Location                             |
+| Change |       Delta |             % |          Size | Objects | Function                            | Location                             |
 | -----: | ----------: | ------------: | ------------: | ------: | ----------------------------------- | ------------------------------------ |
 |    new | +194.64 KiB |   0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `addAll(Collection)`                | `java.util.ArrayList`                |
 |    new | +194.64 KiB |   0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `merge(Object, Object, BiFunction)` | `java.util.HashMap`                  |
@@ -466,7 +466,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-| Change |       Delta |            % |          Size | Samples | Function                                       | Location                                                               |
+| Change |       Delta |            % |          Size | Objects | Function                                       | Location                                                               |
 | -----: | ----------: | -----------: | ------------: | ------: | ---------------------------------------------- | ---------------------------------------------------------------------- |
 |    new | +194.64 KiB |  0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `lambda$merge$6(List, List)`                   | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
 |    new | +194.64 KiB |  0.0% → 6.9% | 0 B → 195 KiB |   0 → 1 | `apply(Object, Object)`                        | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001204fd0` |
@@ -493,7 +493,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |       Delta |             % |                Size | Samples | Function                                                         | Location                                                               |
+|  Change |       Delta |             % |                Size | Objects | Function                                                         | Location                                                               |
 | ------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | removed | -10.179 KiB |   0.4% → 0.0% |      10.2 KiB → 0 B |   2 → 0 | `parse(Seq, Object)`                                             | `scopt.OptionParser`                                                   |
 | removed | -10.179 KiB |   0.4% → 0.0% |      10.2 KiB → 0 B |   2 → 0 | `parse(String[])`                                                | `org.renaissance.harness.ConfigParser`                                 |
@@ -518,7 +518,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Standard library
 
-|  Change |       Delta |             % |                Size | Samples | Function                                                         | Location                               |
+|  Change |       Delta |             % |                Size | Objects | Function                                                         | Location                               |
 | ------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
 |   -0.4% | -10.085 KiB | 90.3% → 84.0% | 2.32 MiB → 2.31 MiB |  10 → 8 | `invoke(Object, Object[])`                                       | `java.lang.reflect.Method`             |
 | removed |  -8.015 KiB |   0.3% → 0.0% |      8.02 KiB → 0 B |   1 → 0 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
@@ -527,7 +527,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |       Delta |             % |                Size | Samples | Function                                                    | Location                                                               |
+|  Change |       Delta |             % |                Size | Objects | Function                                                    | Location                                                               |
 | ------: | ----------: | ------------: | ------------------: | ------: | ----------------------------------------------------------- | ---------------------------------------------------------------------- |
 | removed | -10.179 KiB |   0.4% → 0.0% |      10.2 KiB → 0 B |   2 → 0 | `parse(Seq, Object)`                                        | `scopt.OptionParser`                                                   |
 | removed | -10.179 KiB |   0.4% → 0.0% |      10.2 KiB → 0 B |   2 → 0 | `parse(String[])`                                           | `org.renaissance.harness.ConfigParser`                                 |
@@ -548,11 +548,11 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 # Lock contention profile diff
 
-Blocked 7.03s → 7.44s (+416.73ms, +5.9%) over 54 samples → 58 samples (130.2ms → 128.4ms per sample).
+Blocked 7.03s → 7.44s (+416.73ms, +5.9%) over 54 contentions → 58 contentions (130.2ms → 128.4ms per contention).
 
-| Category         | Change |     Delta |      % |          Time | Samples |
-| ---------------- | -----: | --------: | -----: | ------------: | ------: |
-| Standard library |  +5.9% | +416.73ms | 100.0% | 7.03s → 7.44s | 54 → 58 |
+| Category         | Change |     Delta |      % |          Time | Contentions |
+| ---------------- | -----: | --------: | -----: | ------------: | ----------: |
+| Standard library |  +5.9% | +416.73ms | 100.0% | 7.03s → 7.44s |     54 → 58 |
 
 ## Hottest functions
 
@@ -562,39 +562,39 @@ Blocked 7.03s → 7.44s (+416.73ms, +5.9%) over 54 samples → 58 samples (130.2
 
 Functions with the largest increase in total time blocked in the function and all its callees.
 
-| Change |    Delta |             % |          Time | Samples | Function                                                                                                               | Location                                                               |
-| -----: | -------: | ------------: | ------------: | ------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `get()`                                                                                                                | `java.util.concurrent.ForkJoinTask`                                    |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `run(int, List, int)`                                                                                                  | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `$anonfun$1(int)`                                                                                                      | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `$anonfun$adapted$1(Object)`                                                                                           | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`   |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `map(Function1)`                                                                                                       | `scala.collection.immutable.Range`                                     |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `run(BenchmarkContext)`                                                                                                | `org.renaissance.jdk.concurrent.FjKmeans`                              |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798` |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `foreach(Function1)`                                                                                                   | `scala.collection.immutable.List`                                      |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
-|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |      16 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
+| Change |    Delta |             % |          Time | Contentions | Function                                                                                                               | Location                                                               |
+| -----: | -------: | ------------: | ------------: | ----------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `get()`                                                                                                                | `java.util.concurrent.ForkJoinTask`                                    |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `run(int, List, int)`                                                                                                  | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `$anonfun$1(int)`                                                                                                      | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `$anonfun$adapted$1(Object)`                                                                                           | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `apply(Object)`                                                                                                        | `org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x00000070011f6c70`   |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `map(Function1)`                                                                                                       | `scala.collection.immutable.Range`                                     |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `run(BenchmarkContext)`                                                                                                | `org.renaissance.jdk.concurrent.FjKmeans`                              |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `executeOperation(int)`                                                                                                | `org.renaissance.harness.ExecutionDriver`                              |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `executeBenchmark()`                                                                                                   | `org.renaissance.harness.ExecutionDriver`                              |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `applyVoid(Object)`                                                                                                    | `org.renaissance.harness.RenaissanceSuite$$$Lambda.0x0000007001198798` |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `foreach(Function1)`                                                                                                   | `scala.collection.immutable.List`                                      |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)`                                          | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite$`                            |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `main(String[])`                                                                                                       | `org.renaissance.harness.RenaissanceSuite`                             |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `invoke(Object, Object[])`                                                                                             | `java.lang.reflect.Method`                                             |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])`                                                            | `org.renaissance.core.Launcher`                                        |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `launchHarnessClass(String, String[])`                                                                                 | `org.renaissance.core.Launcher`                                        |
+|  +0.3% | +19.29ms | 87.9% → 83.2% | 6.17s → 6.19s |          16 | `main(String[])`                                                                                                       | `org.renaissance.core.Launcher`                                        |
 
 #### Improvements
 
 Functions with the largest decrease in total time blocked in the function and all its callees.
 
-|  Change |    Delta |           % |         Time | Samples | Function                       | Location                                                               |
-| ------: | -------: | ----------: | -----------: | ------: | ------------------------------ | ---------------------------------------------------------------------- |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `join()`                       | `java.util.concurrent.ForkJoinTask`                                    |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `compute()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `invoke()`                     | `java.util.concurrent.ForkJoinTask`                                    |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `average(List)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `computeClusterAverages()`     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `computeDirectly()`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
-| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |   1 → 0 | `call()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011ffbc0` |
+|  Change |    Delta |           % |         Time | Contentions | Function                       | Location                                                               |
+| ------: | -------: | ----------: | -----------: | ----------: | ------------------------------ | ---------------------------------------------------------------------- |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `join()`                       | `java.util.concurrent.ForkJoinTask`                                    |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `compute()`                    | `org.renaissance.jdk.concurrent.JavaKMeans$RangedTask`                 |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `invoke()`                     | `java.util.concurrent.ForkJoinTask`                                    |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `average(List)`                | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `computeClusterAverages()`     | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `computeDirectly()`            | `org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask`                 |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `lambda$run$0(int, List, int)` | `org.renaissance.jdk.concurrent.JavaKMeans`                            |
+| removed | -10.87ms | 0.2% → 0.0% | 10.9ms → 0ms |       1 → 0 | `call()`                       | `org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011ffbc0` |

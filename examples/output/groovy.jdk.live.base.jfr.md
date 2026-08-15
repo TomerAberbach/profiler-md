@@ -1066,9 +1066,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Retained heap profile
 
-Retained 325 KiB over 117 samples (2.78 KiB per sample).
+Retained 325 KiB over 117 objects (2.78 KiB per object).
 
-| Category         |      % |    Size | Samples |
+| Category         |      % |    Size | Objects |
 | ---------------- | -----: | ------: | ------: |
 | Standard library | 100.0% | 325 KiB |     117 |
 
@@ -1078,7 +1078,7 @@ Retained 325 KiB over 117 samples (2.78 KiB per sample).
 
 Functions ranked by total bytes retained in the function and all its callees.
 
-|     % |     Size | Samples | Function                                         | Location                                                                   |
+|     % |     Size | Objects | Function                                         | Location                                                                   |
 | ----: | -------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------- |
 | 99.4% |  324 KiB |      87 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                         |
 | 87.1% |  283 KiB |      24 | `init()`                                         | `org.codenarc.source.AbstractSourceCode`                                   |
@@ -1107,13 +1107,13 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `init()` (`org.codenarc.source.AbstractSourceCode`)
 
-|      % |    Size | Samples | Callee                                   | Location                           |
+|      % |    Size | Objects | Callee                                   | Location                           |
 | -----: | ------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 283 KiB |      24 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
 
-|     % |     Size | Samples | Callee                      | Location                                                 |
+|     % |     Size | Objects | Callee                      | Location                                                 |
 | ----: | -------: | ------: | --------------------------- | -------------------------------------------------------- |
 | 99.7% | 38.4 KiB |      31 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractAstVisitorRule`               |
 |  0.2% |     64 B |       1 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractSharedAstVisitorRule`         |
@@ -1121,7 +1121,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
 
-|     % |     Size | Samples | Callee                  | Location                                                               |
+|     % |     Size | Objects | Callee                  | Location                                                               |
 | ----: | -------: | ------: | ----------------------- | ---------------------------------------------------------------------- |
 | 97.1% | 37.3 KiB |      13 | `getAstVisitor()`       | `org.codenarc.rule.AbstractAstVisitorRule`                             |
 |  2.1% |    816 B |      15 | `visitClass(ClassNode)` | `org.codenarc.rule.AbstractAstVisitor`                                 |
@@ -1131,73 +1131,73 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 38.1 KiB |      24 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `getAstVisitor()` (`org.codenarc.rule.AbstractAstVisitorRule`)
 
-|      % |     Size | Samples | Callee          | Location          |
+|      % |     Size | Objects | Callee          | Location          |
 | -----: | -------: | ------: | --------------- | ----------------- |
 | 100.0% | 37.3 KiB |      13 | `newInstance()` | `java.lang.Class` |
 
 ##### `$getStaticMetaClass()` (`org.codenarc.rule.basic.ExplicitGarbageCollectionAstVisitor`)
 
-|      % |   Size | Samples | Callee           | Location                                   |
+|      % |   Size | Objects | Callee           | Location                                   |
 | -----: | -----: | ------: | ---------------- | ------------------------------------------ |
 | 100.0% | 32 KiB |       2 | `getMetaClass()` | `org.codehaus.groovy.reflection.ClassInfo` |
 
 ##### `<init>()` (`org.codenarc.rule.basic.ExplicitGarbageCollectionAstVisitor`)
 
-|      % |   Size | Samples | Callee                  | Location                                                      |
+|      % |   Size | Objects | Callee                  | Location                                                      |
 | -----: | -----: | ------: | ----------------------- | ------------------------------------------------------------- |
 | 100.0% | 32 KiB |       2 | `$getStaticMetaClass()` | `org.codenarc.rule.basic.ExplicitGarbageCollectionAstVisitor` |
 
 ##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
 
-|      % |     Size | Samples | Callee                           | Location                           |
+|      % |     Size | Objects | Callee                           | Location                           |
 | -----: | -------: | ------: | -------------------------------- | ---------------------------------- |
 | 100.0% | 27.1 KiB |      16 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |     Size | Samples | Callee     | Location                                 |
+|      % |     Size | Objects | Callee     | Location                                 |
 | -----: | -------: | ------: | ---------- | ---------------------------------------- |
 | 100.0% | 4.56 KiB |      13 | `getAst()` | `org.codenarc.source.AbstractSourceCode` |
 
 ##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |     Size | Samples | Callee   | Location                                    |
+|      % |     Size | Objects | Callee   | Location                                    |
 | -----: | -------: | ------: | -------- | ------------------------------------------- |
 | 100.0% | 4.51 KiB |      12 | `init()` | `org.codenarc.analyzer.SuppressionAnalyzer` |
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 4.11 KiB |       4 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `$getStaticMetaClass()` (`org.codenarc.rule.groovyism.ExplicitCallToLeftShiftMethodAstVisitor`)
 
-|      % |     Size | Samples | Callee           | Location                                   |
+|      % |     Size | Objects | Callee           | Location                                   |
 | -----: | -------: | ------: | ---------------- | ------------------------------------------ |
 | 100.0% | 4.04 KiB |       2 | `getMetaClass()` | `org.codehaus.groovy.reflection.ClassInfo` |
 
 ##### `<init>(String, int)` (`org.codenarc.rule.groovyism.ExplicitCallToMethodAstVisitor`)
 
-|      % |     Size | Samples | Callee                  | Location                                                              |
+|      % |     Size | Objects | Callee                  | Location                                                              |
 | -----: | -------: | ------: | ----------------------- | --------------------------------------------------------------------- |
 | 100.0% | 4.04 KiB |       2 | `$getStaticMetaClass()` | `org.codenarc.rule.groovyism.ExplicitCallToLeftShiftMethodAstVisitor` |
 
 ##### `<init>(String)` (`org.codenarc.rule.groovyism.ExplicitCallToMethodAstVisitor`)
 
-|      % |     Size | Samples | Callee                | Location                                                     |
+|      % |     Size | Objects | Callee                | Location                                                     |
 | -----: | -------: | ------: | --------------------- | ------------------------------------------------------------ |
 | 100.0% | 4.04 KiB |       2 | `<init>(String, int)` | `org.codenarc.rule.groovyism.ExplicitCallToMethodAstVisitor` |
 
 ##### `<init>()` (`org.codenarc.rule.groovyism.ExplicitCallToLeftShiftMethodAstVisitor`)
 
-|      % |     Size | Samples | Callee           | Location                                                     |
+|      % |     Size | Objects | Callee           | Location                                                     |
 | -----: | -------: | ------: | ---------------- | ------------------------------------------------------------ |
 | 100.0% | 4.04 KiB |       2 | `<init>(String)` | `org.codenarc.rule.groovyism.ExplicitCallToMethodAstVisitor` |
 
@@ -1205,7 +1205,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes retained in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | ----: | -------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 78.8% |  256 KiB |       8 | `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `init()` (`org.codenarc.source.AbstractSourceCode`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 |  9.8% |   32 KiB |       2 | `getMetaClass()` (`org.codehaus.groovy.reflection.ClassInfo`) ← `$getStaticMetaClass()` (`org.codenarc.rule.basic.ExplicitGarbageCollectionAstVisitor`) ← `<init>()` ← … ← `newInstance()` (`java.lang.Class`) ← `getAstVisitor()` (`org.codenarc.rule.AbstractAstVisitorRule`) ← `applyTo(SourceCode, List)` ← `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)                                                                                                                                                                                                                                                                           |

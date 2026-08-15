@@ -287,9 +287,12 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Counting
 
 - Decide what one unit of `Observation.count` counts from the profiler's source
-  or spec, never the field's name: a profiler that samples the call stack on a
-  schedule counts samples, and one that records an event per allocation or per
-  contention counts those events. State the answer with
+  or spec, never the field's name. The test is coverage, not what one record
+  describes: a count measures occurrences only when the profiler recorded every
+  occurrence, and samples otherwise. A profiler that samples the call stack on a
+  schedule counts samples, and one that records every allocation or every
+  contention counts those events. One that records an event per allocation, but
+  only for a subset of allocations, counts samples. State the answer with
   `CallStackProfile.countMetric`
 - Pass `countMetricOf('<singular noun>')` when the profiler counts occurrences
   of something else. The noun titles a metric-less profile, heads its count

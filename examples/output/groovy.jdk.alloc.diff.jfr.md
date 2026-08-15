@@ -536,9 +536,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 55.7 KiB → 28.1 KiB (-27.664 KiB, -49.6%) over 109 samples → 117 samples (523 B → 246 B per sample).
+Retained 55.7 KiB → 28.1 KiB (-27.664 KiB, -49.6%) over 109 objects → 117 objects (523 B → 246 B per object).
 
-| Category         | Change |       Delta |              % |              Size |   Samples |
+| Category         | Change |       Delta |              % |              Size |   Objects |
 | ---------------- | -----: | ----------: | -------------: | ----------------: | --------: |
 | Standard library | -49.7% | -27.695 KiB | 100.0% → 99.9% | 55.7 KiB → 28 KiB | 109 → 116 |
 | Ours             |    new |       +32 B |    0.0% → 0.1% |        0 B → 32 B |     0 → 1 |
@@ -553,7 +553,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 ##### Ours
 
-| Change | Delta |           % |       Size | Samples | Function                        | Location                               |
+| Change | Delta |           % |       Size | Objects | Function                        | Location                               |
 | -----: | ----: | ----------: | ---------: | ------: | ------------------------------- | -------------------------------------- |
 |    new | +32 B | 0.0% → 0.1% | 0 B → 32 B |   0 → 1 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -563,7 +563,7 @@ Functions with the largest increase in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|    Change |       Delta |             % |                Size | Samples | Function                                                         | Location                                                                   |
+|    Change |       Delta |             % |                Size | Objects | Function                                                         | Location                                                                   |
 | --------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | +13436.8% | +19.945 KiB |  0.3% → 71.6% |    152 B → 20.1 KiB |   3 → 4 | `doCall(Object)`                                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1` |
 |   +185.9% | +13.406 KiB | 12.9% → 73.5% | 7.21 KiB → 20.6 KiB |      13 | `getAst()`                                                       | `org.codenarc.source.AbstractSourceCode`                                   |
@@ -588,7 +588,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|    Change |       Delta |             % |                Size | Samples | Function                                                         | Location                                                                                                  |
+|    Change |       Delta |             % |                Size | Objects | Function                                                         | Location                                                                                                  |
 | --------: | ----------: | ------------: | ------------------: | ------: | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | +13436.8% | +19.945 KiB |  0.3% → 71.6% |    152 B → 20.1 KiB |   3 → 4 | `doCall(Object)`                                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`                                |
 |   +185.9% | +13.406 KiB | 12.9% → 73.5% | 7.21 KiB → 20.6 KiB |      13 | `getAst()`                                                       | `org.codenarc.source.AbstractSourceCode`                                                                  |
@@ -615,7 +615,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |       Delta |             % |                Size | Samples | Function                                                                    | Location                                                                   |
+|  Change |       Delta |             % |                Size | Objects | Function                                                                    | Location                                                                   |
 | ------: | ----------: | ------------: | ------------------: | ------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |  -99.2% | -32.023 KiB |  58.0% → 1.0% |    32.3 KiB → 280 B |   4 → 6 | `main(String[])`                                                            | `org.codenarc.CodeNarc`                                                    |
 |  -53.4% | -27.437 KiB | 92.3% → 85.5% |   51.4 KiB → 24 KiB | 78 → 81 | `linkToCallSite(Object, Object, Object)`                                    | `java.lang.invoke.Invokers$Holder`                                         |
@@ -640,7 +640,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |       Delta |            % |                Size | Samples | Function                                                                    | Location                                                                   |
+|  Change |       Delta |            % |                Size | Objects | Function                                                                    | Location                                                                   |
 | ------: | ----------: | -----------: | ------------------: | ------: | --------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 |  -99.2% | -32.023 KiB | 58.0% → 1.0% |    32.3 KiB → 280 B |   4 → 6 | `main(String[])`                                                            | `org.codenarc.CodeNarc`                                                    |
 | removed |   -8.32 KiB | 14.9% → 0.0% |      8.32 KiB → 0 B |   1 → 0 | `getFormattedTimestamp()`                                                   | `org.codenarc.report.AbstractReportWriter`                                 |

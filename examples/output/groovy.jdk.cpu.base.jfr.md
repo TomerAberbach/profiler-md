@@ -1113,9 +1113,9 @@ Call stacks ranked by bytes allocated in their leaf frame. `…` stands for fram
 
 # Retained heap profile
 
-Retained 69.3 KiB over 95 samples (747 B per sample).
+Retained 69.3 KiB over 95 objects (747 B per object).
 
-| Category         |      % |     Size | Samples |
+| Category         |      % |     Size | Objects |
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 69.2 KiB |      94 |
 | Ours             |  <0.1% |     32 B |       1 |
@@ -1130,7 +1130,7 @@ Functions ranked by bytes retained directly in the function body, excluding call
 
 ##### Ours
 
-|     % | Size | Samples | Function                        | Location                               |
+|     % | Size | Objects | Function                        | Location                               |
 | ----: | ---: | ------: | ------------------------------- | -------------------------------------- |
 | <0.1% | 32 B |       1 | `addViolation(ASTNode, String)` | `org.codenarc.rule.AbstractAstVisitor` |
 
@@ -1140,7 +1140,7 @@ Lines ranked by contribution to each function's self size.
 
 ##### `addViolation(ASTNode, String)` (`org.codenarc.rule.AbstractAstVisitor`)
 
-|      % | Size | Samples | Location                                   |
+|      % | Size | Objects | Location                                   |
 | -----: | ---: | ------: | ------------------------------------------ |
 | 100.0% | 32 B |       1 | `org.codenarc.rule.AbstractAstVisitor:107` |
 
@@ -1148,7 +1148,7 @@ Lines ranked by contribution to each function's self size.
 
 Functions ranked by total bytes retained in the function and all its callees.
 
-|     % |     Size | Samples | Function                                         | Location                                                                   |
+|     % |     Size | Objects | Function                                         | Location                                                                   |
 | ----: | -------: | ------: | ------------------------------------------------ | -------------------------------------------------------------------------- |
 | 97.8% | 67.8 KiB |      66 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                         |
 | 92.6% | 64.1 KiB |       2 | `validateXml(String)`                            | `org.codenarc.ruleset.XmlReaderRuleSet`                                    |
@@ -1175,7 +1175,7 @@ Functions ranked by total bytes retained in the function and all its callees.
 
 ##### Ours
 
-|     % |     Size | Samples | Function                                    | Location                                                                   |
+|     % |     Size | Objects | Function                                    | Location                                                                   |
 | ----: | -------: | ------: | ------------------------------------------- | -------------------------------------------------------------------------- |
 | 92.6% | 64.1 KiB |       2 | `validateXml(String)`                       | `org.codenarc.ruleset.XmlReaderRuleSet`                                    |
 | 92.4% |   64 KiB |       1 | `<init>(Reader)`                            | `org.codenarc.ruleset.XmlReaderRuleSet`                                    |
@@ -1204,45 +1204,45 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `validateXml(String)` (`org.codenarc.ruleset.XmlReaderRuleSet`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 64.1 KiB |       2 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `<init>(Reader)` (`org.codenarc.ruleset.XmlReaderRuleSet`)
 
-|      % |   Size | Samples | Callee                                   | Location                           |
+|      % |   Size | Objects | Callee                                   | Location                           |
 | -----: | -----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 64 KiB |       1 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `assertClassImplementsRuleInterface(Class)` (`org.codenarc.ruleset.RuleSetUtil`)
 
-|      % |     Size | Samples | Callee                           | Location                                            |
+|      % |     Size | Objects | Callee                           | Location                                            |
 | -----: | -------: | ------: | -------------------------------- | --------------------------------------------------- |
 | 100.0% | 1.25 KiB |      22 | `linkToCallSite(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000e001134800` |
 
 ##### `doCall(Object)` (`org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`)
 
-|      % |     Size | Samples | Callee                                   | Location                           |
+|      % |     Size | Objects | Callee                                   | Location                           |
 | -----: | -------: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 1.25 KiB |      22 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `init()` (`org.codenarc.source.AbstractSourceCode`)
 
-|     % |  Size | Samples | Callee                                                           | Location                           |
+|     % |  Size | Objects | Callee                                                           | Location                           |
 | ----: | ----: | ------: | ---------------------------------------------------------------- | ---------------------------------- |
 | 85.2% | 784 B |      14 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder` |
 | 14.8% | 136 B |       2 | `linkToCallSite(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
 
-|     % |  Size | Samples | Callee                              | Location                                   |
+|     % |  Size | Objects | Callee                              | Location                                   |
 | ----: | ----: | ------: | ----------------------------------- | ------------------------------------------ |
 | 94.8% | 736 B |      14 | `applyTo(SourceCode, List)`         | `org.codenarc.rule.AbstractAstVisitorRule` |
 |  5.2% |  40 B |       1 | `shouldApplyThisRuleTo(SourceCode)` | `org.codenarc.rule.AbstractRule`           |
 
 ##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
 
-|     % |  Size | Samples | Callee                  | Location                                                |
+|     % |  Size | Objects | Callee                  | Location                                                |
 | ----: | ----: | ------: | ----------------------- | ------------------------------------------------------- |
 | 70.7% | 520 B |      10 | `visitClass(ClassNode)` | `org.codenarc.rule.AbstractAstVisitor`                  |
 | 21.7% | 160 B |       3 | `getAstVisitor()`       | `org.codenarc.rule.AbstractAstVisitorRule`              |
@@ -1250,19 +1250,19 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
 
-|      % |  Size | Samples | Callee                                   | Location                           |
+|      % |  Size | Objects | Callee                                   | Location                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 640 B |      12 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
 
-|      % |  Size | Samples | Callee                           | Location                           |
+|      % |  Size | Objects | Callee                           | Location                           |
 | -----: | ----: | ------: | -------------------------------- | ---------------------------------- |
 | 100.0% | 528 B |       9 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `visitClass(ClassNode)` (`org.codenarc.rule.AbstractAstVisitor`)
 
-|     % |  Size | Samples | Callee                    | Location                                                            |
+|     % |  Size | Objects | Callee                    | Location                                                            |
 | ----: | ----: | ------: | ------------------------- | ------------------------------------------------------------------- |
 | 61.5% | 320 B |       7 | `visitClass(ClassNode)`   | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                   |
 | 21.5% | 112 B |       1 | `visitClassEx(ClassNode)` | `org.codenarc.rule.unnecessary.UnnecessaryPublicModifierAstVisitor` |
@@ -1271,26 +1271,26 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |  Size | Samples | Callee     | Location                                 |
+|      % |  Size | Objects | Callee     | Location                                 |
 | -----: | ----: | ------: | ---------- | ---------------------------------------- |
 | 100.0% | 480 B |       8 | `getAst()` | `org.codenarc.source.AbstractSourceCode` |
 
 ##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
 
-|      % |  Size | Samples | Callee   | Location                                    |
+|      % |  Size | Objects | Callee   | Location                                    |
 | -----: | ----: | ------: | -------- | ------------------------------------------- |
 | 100.0% | 480 B |       8 | `init()` | `org.codenarc.analyzer.SuppressionAnalyzer` |
 
 ##### `main(String[])` (`org.codenarc.CodeNarc`)
 
-|     % |  Size | Samples | Callee                                                        | Location                               |
+|     % |  Size | Objects | Callee                                                        | Location                               |
 | ----: | ----: | ------: | ------------------------------------------------------------- | -------------------------------------- |
 | 90.5% | 304 B |       6 | `linkToCallSite(Object, Object, Object)`                      | `java.lang.invoke.Invokers$Holder`     |
 |  9.5% |  32 B |       1 | `linkMethodHandleConstant(Class, int, Class, String, Object)` | `java.lang.invoke.MethodHandleNatives` |
 
 ##### `visitMethod(MethodNode)` (`org.codenarc.rule.AbstractAstVisitor`)
 
-|     % |  Size | Samples | Callee                      | Location                                                 |
+|     % |  Size | Objects | Callee                      | Location                                                 |
 | ----: | ----: | ------: | --------------------------- | -------------------------------------------------------- |
 | 45.2% | 112 B |       2 | `visitMethodEx(MethodNode)` | `org.codenarc.rule.design.ToStringReturnsNullAstVisitor` |
 | 45.2% | 112 B |       3 | `visitMethod(MethodNode)`   | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`        |
@@ -1298,38 +1298,38 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `<clinit>()` (`org.codenarc.CodeNarc`)
 
-|      % |  Size | Samples | Callee       | Location              |
+|      % |  Size | Objects | Callee       | Location              |
 | -----: | ----: | ------: | ------------ | --------------------- |
 | 100.0% | 232 B |       4 | `<clinit>()` | `groovy.lang.Closure` |
 
 ##### `getAstVisitor()` (`org.codenarc.rule.AbstractAstVisitorRule`)
 
-|      % |  Size | Samples | Callee          | Location          |
+|      % |  Size | Objects | Callee          | Location          |
 | -----: | ----: | ------: | --------------- | ----------------- |
 | 100.0% | 160 B |       3 | `newInstance()` | `java.lang.Class` |
 
 ##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
 
-|      % |  Size | Samples | Callee                                   | Location                           |
+|      % |  Size | Objects | Callee                                   | Location                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 152 B |       2 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `addViolation(ASTNode, String)` (`org.codenarc.rule.AbstractAstVisitor`)
 
-|     % | Size | Samples | Callee                                            | Location                               |
+|     % | Size | Objects | Callee                                            | Location                               |
 | ----: | ---: | ------: | ------------------------------------------------- | -------------------------------------- |
 | 63.2% | 96 B |       2 | `sourceLineTrimmed(ASTNode)`                      | `org.codenarc.rule.AbstractAstVisitor` |
 | 15.8% | 24 B |       1 | `findFirstNonAnnotationLine(ASTNode, SourceCode)` | `org.codenarc.util.AstUtil`            |
 
 ##### `<init>(List)` (`org.codenarc.ruleset.ListRuleSet`)
 
-|      % |  Size | Samples | Callee                                   | Location                           |
+|      % |  Size | Objects | Callee                                   | Location                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 120 B |       1 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
 ##### `buildRuleSet()` (`org.codenarc.CodeNarcRunner`)
 
-|      % |  Size | Samples | Callee                                   | Location                           |
+|      % |  Size | Objects | Callee                                   | Location                           |
 | -----: | ----: | ------: | ---------------------------------------- | ---------------------------------- |
 | 100.0% | 120 B |       1 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
 
@@ -1337,7 +1337,7 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes retained in their leaf frame. `…` stands for frames the entry filter hides.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|     % |     Size | Objects | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----: | -------: | ------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 92.4% |   64 KiB |       1 | `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `validateXml(String)` (`org.codenarc.ruleset.XmlReaderRuleSet`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `<init>(Reader)` (`org.codenarc.ruleset.XmlReaderRuleSet`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 |  1.8% | 1.25 KiB |      22 | `getMetaClass()` (`org.codehaus.groovy.reflection.ClassInfo`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000e001134800`) ← `assertClassImplementsRuleInterface(Class)` (`org.codenarc.ruleset.RuleSetUtil`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.ruleset.XmlReaderRuleSet$_loadRuleElements_closure2`)                                                                                                                                                                                                                                                                                                                                                                                                                                                         |

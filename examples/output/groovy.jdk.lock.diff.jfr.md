@@ -521,9 +521,9 @@ Functions with the largest decrease in total bytes allocated in the function and
 
 # Retained heap profile diff
 
-Retained 263 KiB → 18.4 KiB (-244.578 KiB, -93.0%) over 105 samples → 115 samples (2.5 KiB → 164 B per sample).
+Retained 263 KiB → 18.4 KiB (-244.578 KiB, -93.0%) over 105 objects → 115 objects (2.5 KiB → 164 B per object).
 
-| Category         |  Change |        Delta |            % |               Size |   Samples |
+| Category         |  Change |        Delta |            % |               Size |   Objects |
 | ---------------- | ------: | -----------: | -----------: | -----------------: | --------: |
 | Standard library |  -93.0% | -244.484 KiB |       100.0% | 263 KiB → 18.4 KiB | 104 → 115 |
 | Ours             | removed |        -96 B | <0.1% → 0.0% |         96 B → 0 B |     1 → 0 |
@@ -538,7 +538,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 ##### Ours
 
-|  Change | Delta |            % |       Size | Samples | Function   | Location                |
+|  Change | Delta |            % |       Size | Objects | Function   | Location                |
 | ------: | ----: | -----------: | ---------: | ------: | ---------- | ----------------------- |
 | removed | -96 B | <0.1% → 0.0% | 96 B → 0 B |   1 → 0 | `<init>()` | `org.codenarc.CodeNarc` |
 
@@ -548,7 +548,7 @@ Functions with the largest decrease in bytes retained directly in the function b
 
 Functions with the largest increase in total bytes retained in the function and all its callees.
 
-|   Change |      Delta |            % |                Size | Samples | Function                                | Location                                                                   |
+|   Change |      Delta |            % |                Size | Objects | Function                                | Location                                                                   |
 | -------: | ---------: | -----------: | ------------------: | ------: | --------------------------------------- | -------------------------------------------------------------------------- |
 |  +206.1% |  +5.25 KiB | 1.0% → 42.3% |  2.55 KiB → 7.8 KiB | 40 → 53 | `getMetaClass()`                        | `org.codehaus.groovy.reflection.ClassInfo`                                 |
 |  +310.8% | +4.953 KiB | 0.6% → 35.5% | 1.59 KiB → 6.55 KiB | 18 → 27 | `doCall(Object)`                        | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
@@ -573,7 +573,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 ##### Ours
 
-|   Change |      Delta |            % |                Size | Samples | Function                                      | Location                                                                   |
+|   Change |      Delta |            % |                Size | Objects | Function                                      | Location                                                                   |
 | -------: | ---------: | -----------: | ------------------: | ------: | --------------------------------------------- | -------------------------------------------------------------------------- |
 |  +310.8% | +4.953 KiB | 0.6% → 35.5% | 1.59 KiB → 6.55 KiB | 18 → 27 | `doCall(Object)`                              | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3` |
 |  +292.1% | +4.906 KiB | 0.6% → 35.8% | 1.68 KiB → 6.59 KiB | 19 → 27 | `applyTo(SourceCode, List)`                   | `org.codenarc.rule.AbstractAstVisitorRule`                                 |
@@ -600,7 +600,7 @@ Functions with the largest increase in total bytes retained in the function and 
 
 Functions with the largest decrease in total bytes retained in the function and all its callees.
 
-|  Change |        Delta |             % |               Size | Samples | Function                                                         | Location                                                                                 |
+|  Change |        Delta |             % |               Size | Objects | Function                                                         | Location                                                                                 |
 | ------: | -----------: | ------------: | -----------------: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 |  -98.5% | -253.406 KiB | 97.8% → 20.4% | 257 KiB → 3.75 KiB |      20 | `init()`                                                         | `org.codenarc.source.AbstractSourceCode`                                                 |
 |  -96.4% |  -251.14 KiB | 99.0% → 50.6% | 260 KiB → 9.31 KiB | 69 → 80 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                                       |
@@ -625,7 +625,7 @@ Functions with the largest decrease in total bytes retained in the function and 
 
 ##### Ours
 
-|  Change |        Delta |             % |               Size | Samples | Function                                                         | Location                                                                                 |
+|  Change |        Delta |             % |               Size | Objects | Function                                                         | Location                                                                                 |
 | ------: | -----------: | ------------: | -----------------: | ------: | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 |  -98.5% | -253.406 KiB | 97.8% → 20.4% | 257 KiB → 3.75 KiB |      20 | `init()`                                                         | `org.codenarc.source.AbstractSourceCode`                                                 |
 | removed |       -648 B |   0.2% → 0.0% |        648 B → 0 B |   2 → 0 | `visitMethodCallExpression(MethodCallExpression)`                | `org.codenarc.rule.unnecessary.UnnecessaryParenthesesForMethodCallWithClosureAstVisitor` |
