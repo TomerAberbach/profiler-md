@@ -107,6 +107,27 @@ f, _ := os.Create("goroutine.pprof")
 pprof.Lookup("goroutine").WriteTo(f, 0)
 ```
 
+## Goroutine leak profiling
+
+Captures stack traces of leaked goroutines: goroutines blocked on a channel,
+mutex, or other concurrency primitive that no runnable goroutine can reach.
+Requires Go 1.27, though Go 1.26 supports it behind
+`GOEXPERIMENT=goroutineleakprofile`. Writing the profile first runs a garbage
+collection cycle that detects the leaks.
+
+### CLI
+
+```sh
+curl -o goroutineleak.pprof 'http://localhost:6060/debug/pprof/goroutineleak'
+```
+
+### Programmatic API
+
+```go
+f, _ := os.Create("goroutineleak.pprof")
+pprof.Lookup("goroutineleak").WriteTo(f, 0)
+```
+
 ## Block profiling
 
 Captures stack traces that led to blocking on synchronization primitives

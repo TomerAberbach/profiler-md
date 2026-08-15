@@ -139,6 +139,7 @@ describe(`convert`, () => {
     { type: `allocs`, summary: `Recorded 3 allocations.` },
     { type: `contentions`, summary: `Recorded 3 contentions.` },
     { type: `goroutine`, summary: `Recorded 3 goroutines.` },
+    { type: `goroutineleak`, summary: `Recorded 3 leaked goroutines.` },
     { type: `threadcreate`, summary: `Recorded 3 thread creations.` },
     // An origin names its own count types, so an unknown one counts bare units
     // under that name.
