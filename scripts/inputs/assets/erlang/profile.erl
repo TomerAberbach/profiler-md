@@ -8,7 +8,7 @@ doc(Path) ->
     [Status | _] = maps:get(<<"statuses">>, decode(Bin)),
     Status.
 
-%% The traced entry point. eflambe samples this call's stack; the frames land in
+%% The traced entry point. eflambe traces this call's stack; the frames land in
 %% the collapsed output as `profile:run/1;json:encode/1` etc.
 run(Doc) ->
     lists:foldl(

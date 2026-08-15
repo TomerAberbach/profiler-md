@@ -104,7 +104,7 @@ record_eflambe() {
 }
 
 for role in base current; do
-  try emit "$GENERATED_INPUTS/elixir.eflambe.cpu.$role.collapsed" record_eflambe "$role"
+  try emit "$GENERATED_INPUTS/elixir.eflambe.wall.$role.collapsed" record_eflambe "$role"
 done
 
 verify_pairs

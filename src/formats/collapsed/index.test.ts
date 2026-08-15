@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   selfSamplesTables,
+  selfTimeTables,
   totalSamplesTables,
 } from '../../modalities/call-stack-profile/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
@@ -234,24 +235,25 @@ describe(`convert`, () => {
       normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
     )
 
-    expect(summaryLines(md)).toEqual([`Collected 10 samples.`])
+    // The counts are microseconds of eflambe's traced wall time, not samples.
+    expect(summaryLines(md)).toEqual([`Took 10.0µs.`])
     expect(categoryTables(md)).toEqual([
       [
-        { Category: `Standard library`, '%': `60.0%`, Samples: `6` },
-        { Category: `Ours`, '%': `40.0%`, Samples: `4` },
+        { Category: `Standard library`, '%': `60.0%`, Time: `6.0µs` },
+        { Category: `Ours`, '%': `40.0%`, Time: `4.0µs` },
       ],
     ])
-    expect(selfSamplesTables(md)).toEqual([
+    expect(selfTimeTables(md)).toEqual([
       [
         {
           '%': `60.0%`,
-          Samples: `6`,
+          Time: `6.0µs`,
           Function: `reduce/3`,
           Location: `Enum`,
         },
         {
           '%': `40.0%`,
-          Samples: `4`,
+          Time: `4.0µs`,
           Function: `encode!/1`,
           Location: `Jason`,
         },

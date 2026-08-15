@@ -229,7 +229,7 @@ third-party tools can often convert others.
 <tr>
 <td><a href="docs/languages/elixir.md">Elixir⁠/⁠Erlang</a></td>
 <td>
-<details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Elixir eflambe CPU (<a href="examples/output/elixir.eflambe.cpu.base.collapsed.md">base</a>, <a href="examples/output/elixir.eflambe.cpu.current.collapsed.md">current</a>, <a href="examples/output/elixir.eflambe.cpu.diff.collapsed.md">diff</a>)</li><li>Erlang eflambe CPU (<a href="examples/output/erlang.eflambe.cpu.base.collapsed.md">base</a>, <a href="examples/output/erlang.eflambe.cpu.current.collapsed.md">current</a>, <a href="examples/output/erlang.eflambe.cpu.diff.collapsed.md">diff</a>)</li></ul></details>
+<details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>Elixir eflambe wall (<a href="examples/output/elixir.eflambe.wall.base.collapsed.md">base</a>, <a href="examples/output/elixir.eflambe.wall.current.collapsed.md">current</a>, <a href="examples/output/elixir.eflambe.wall.diff.collapsed.md">diff</a>)</li><li>Erlang eflambe wall (<a href="examples/output/erlang.eflambe.wall.base.collapsed.md">base</a>, <a href="examples/output/erlang.eflambe.wall.current.collapsed.md">current</a>, <a href="examples/output/erlang.eflambe.wall.diff.collapsed.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 <tr>
