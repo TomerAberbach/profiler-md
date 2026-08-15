@@ -78,6 +78,7 @@ const isOrigin = (token: string): token is Origin =>
 
 const configNames: Record<string, string> = {
   cpu: `CPU`,
+  goroutineleak: `goroutine leak`,
 }
 
 const languageNames: ReadonlyMap<string, string> = new Map(

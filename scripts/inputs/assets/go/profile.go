@@ -43,6 +43,27 @@ func workload(data []byte) {
 	runtime.KeepAlive(shared)
 }
 
+// The senders that lose the race to the unbuffered channel block forever.
+// Nothing references the channel once this returns, so the runtime's goroutine
+// leak detection reports them.
+func leakWorkers(data []byte) int {
+	var v any
+	if err := json.Unmarshal(data, &v); err != nil {
+		panic(err)
+	}
+	results := make(chan int)
+	for w := 0; w < 4; w++ {
+		go func() {
+			b, err := json.Marshal(v)
+			if err != nil {
+				panic(err)
+			}
+			results <- len(b)
+		}()
+	}
+	return <-results
+}
+
 func writeProfile(dir, name string) {
 	p := pprof.Lookup(name)
 	if p == nil {
@@ -83,14 +104,16 @@ func main() {
 		panic(err)
 	}
 	workload(data)
+	runtime.KeepAlive(leakWorkers(data))
 	pprof.StopCPUProfile()
 	cpu.Close()
 
 	runtime.GC()
 
 	// Predefined profiles. "heap" reports in-use memory; "allocs" reports total
-	// allocations (heap-alloc).
-	for _, name := range []string{"heap", "allocs", "goroutine", "block", "mutex", "threadcreate"} {
+	// allocations (heap-alloc). "goroutineleak" runs a leak-detecting GC cycle
+	// itself before writing.
+	for _, name := range []string{"heap", "allocs", "goroutine", "goroutineleak", "block", "mutex", "threadcreate"} {
 		writeProfile(dir, name)
 	}
 }

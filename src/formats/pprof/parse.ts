@@ -199,6 +199,7 @@ const COUNT_TYPE_NOUNS: ReadonlyMap<string, string> = new Map([
   [`allocs`, `allocation`],
   [`contentions`, `contention`],
   [`goroutine`, `goroutine`],
+  [`goroutineleak`, `leaked goroutine`],
   [`threadcreate`, `thread creation`],
 ])
 

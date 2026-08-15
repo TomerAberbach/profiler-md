@@ -3,11 +3,16 @@
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
-CONFIGS=(cpu heap heap-alloc goroutine block mutex threadcreate)
+CONFIGS=(cpu heap heap-alloc goroutine goroutineleak block mutex threadcreate)
 declare -A CONFIG_TO_PROFILE=(
   [cpu]=cpu [heap]=heap [heap-alloc]=allocs [goroutine]=goroutine
-  [block]=block [mutex]=mutex [threadcreate]=threadcreate
+  [goroutineleak]=goroutineleak [block]=block [mutex]=mutex
+  [threadcreate]=threadcreate
 )
+
+# Go 1.26 has the goroutineleak profile behind an experiment. Go 1.27 ships it
+# by default and rejects the experiment's name, so delete this on upgrade.
+export GOEXPERIMENT=goroutineleakprofile
 
 profile="$REPO/scripts/inputs/assets/go/profile.go"
 
