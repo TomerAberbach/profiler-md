@@ -66,10 +66,10 @@ export const formatZeroTotalNote = (
 
 /**
  * The note shown when the entry filter would hide every function, e.g. a
- * profile sampled entirely inside external code with no frame of ours (a
+ * profile recorded entirely inside external code with no frame of ours (a
  * runtime dump, a lock profile parked in the JDK).
  */
-export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every sampled function, so all functions are shown.`
+export const ENTRY_FILTER_DISABLED_NOTE = `The entry filter hides every recorded function, so all functions are shown.`
 
 /**
  * The name displayed for {@link category}, from either modality's set of

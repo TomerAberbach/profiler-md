@@ -231,8 +231,9 @@ const formatSummaryLine = (
   }
 
   const counted = formatProseValue(totalCount, countMetric)
-  // Only a count of things has a noun for one of them to state a rate per.
-  if (countMetric.type !== `count`) {
+  // Only a count of things has a noun for one of them to state a rate per, and
+  // a profile that counted none of them has no rate either.
+  if (countMetric.type !== `count` || totalCount === 0) {
     return `${totalsSummary} over ${counted}.`
   }
 
@@ -834,11 +835,12 @@ const formatDiffSummaryLine = (
       formatProseValueDelta(magnitude, metric),
     )}`
   })
-  const rateParts = metrics.map(({ metric, baseIndex, currentIndex }) => {
-    const baseRate = formatRate(base.rates[baseIndex]!, metric)
-    const currentRate = formatRate(current.rates[currentIndex]!, metric)
-    return formatArrow(baseRate, currentRate)
-  })
+  const rateParts = metrics.map(({ metric, baseIndex, currentIndex }) =>
+    formatArrow(
+      formatSideRate(base, baseIndex, metric),
+      formatSideRate(current, currentIndex, metric),
+    ),
+  )
 
   const totalsSummary = capitalizeFirst(formatConjunction(valueParts))
   if (!countMetric) {
@@ -849,13 +851,27 @@ const formatDiffSummaryLine = (
     formatProseValue(base.totalCount, countMetric),
     formatProseValue(current.totalCount, countMetric),
   )
-  // Only a count of things has a noun for one of them to state a rate per.
-  if (countMetric.type !== `count`) {
+  // Only a count of things has a noun for one of them to state a rate per, and
+  // sides that both counted none of them have no rate either.
+  if (
+    countMetric.type !== `count` ||
+    (base.totalCount === 0 && current.totalCount === 0)
+  ) {
     return `${totalsSummary} over ${counted}.`
   }
 
   return `${totalsSummary} over ${counted} (${formatConjunction(rateParts)} per ${countMetric.proseUnit}).`
 }
+
+/**
+ * One side's rate, or a dash where that side counted nothing to average over,
+ * so the other side's rate still states what it measured.
+ */
+const formatSideRate = (
+  { totalCount, rates }: AggregatedCallStackProfile,
+  index: number,
+  metric: Metric,
+): string => (totalCount === 0 ? `—` : formatRate(rates[index]!, metric))
 
 const formatRate = (samplingRate: number, metric: Metric): string => {
   switch (metric.type) {

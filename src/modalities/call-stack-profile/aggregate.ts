@@ -434,8 +434,12 @@ class ObservationsAggregator {
     this.#propagateCallStackMetrics()
 
     const rates = new Float64Array(this.#metrics.length)
-    for (let i = 0; i < rates.length; i++) {
-      rates[i] = this.#totalValues[i]! / this.#totalCount
+    // A profile that counted nothing has no rate to average, so its rates stay
+    // zero.
+    if (this.#totalCount > 0) {
+      for (let i = 0; i < rates.length; i++) {
+        rates[i] = this.#totalValues[i]! / this.#totalCount
+      }
     }
 
     const functions = [...this.#keyToFunction.values()]
@@ -743,7 +747,8 @@ export type AggregatedCallStackProfile = {
    * For each metric in {@link AggregatedCallStackProfile.metrics}, the average
    * metric value per counted unit (total value ÷ total count).
    *
-   * Meaningless, and unreported, for a profile whose counts measure nothing.
+   * Meaningless, and unreported, for a profile whose counts measure nothing or
+   * that counted nothing.
    */
   rates: Float64Array
 

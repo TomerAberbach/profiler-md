@@ -1,19 +1,19 @@
-# Sampling profile diff
+# Thread creation profile diff
 
-13 samples.
+13 thread creations.
 
-| Category | Change | Delta |      % | Samples |
-| -------- | -----: | ----: | -----: | ------: |
-| Unknown  |   0.0% |     0 | 100.0% |      13 |
+| Category | Change | Delta |      % | Thread creations |
+| -------- | -----: | ----: | -----: | ---------------: |
+| Unknown  |   0.0% |     0 | 100.0% |               13 |
 
-The entry filter hides every sampled function, so all functions are shown.
+The entry filter hides every recorded function, so all functions are shown.
 
 ## Hottest functions
 
-### Self samples
+### Self thread creations
 
-No function differed in samples taken directly in the function body, excluding callees.
+No function differed in thread creations recorded directly in the function body, excluding callees.
 
-### Total samples
+### Total thread creations
 
-No function differed in total samples taken in the function and all its callees.
+No function differed in total thread creations recorded in the function and all its callees.

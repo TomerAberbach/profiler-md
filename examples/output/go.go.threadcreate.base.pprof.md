@@ -1,63 +1,63 @@
-# Sampling profile
+# Thread creation profile
 
-Collected 13 samples.
+Recorded 13 thread creations.
 
-| Category |      % | Samples |
-| -------- | -----: | ------: |
-| Unknown  | 100.0% |      13 |
+| Category |      % | Thread creations |
+| -------- | -----: | ---------------: |
+| Unknown  | 100.0% |               13 |
 
-The entry filter hides every sampled function, so all functions are shown.
+The entry filter hides every recorded function, so all functions are shown.
 
 ## Hottest functions
 
-### Self samples
+### Self thread creations
 
-Functions ranked by samples taken directly in the function body, excluding callees.
+Functions ranked by thread creations recorded directly in the function body, excluding callees.
 
 #### Categories
 
 ##### Unknown
 
-|      % | Samples | Function      | Location    |
-| -----: | ------: | ------------- | ----------- |
-| 100.0% |      13 | `(anonymous)` | `<unknown>` |
+|      % | Thread creations | Function      | Location    |
+| -----: | ---------------: | ------------- | ----------- |
+| 100.0% |               13 | `(anonymous)` | `<unknown>` |
 
 #### Callers
 
-Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+Callers ranked by contribution to each function's self thread creations. Inlining can make caller attribution imprecise.
 
 ##### `(anonymous)` (`<unknown>`)
 
-|      % | Samples | Caller        | Location    |
-| -----: | ------: | ------------- | ----------- |
-| 100.0% |      13 | `(anonymous)` | `<unknown>` |
+|      % | Thread creations | Caller        | Location    |
+| -----: | ---------------: | ------------- | ----------- |
+| 100.0% |               13 | `(anonymous)` | `<unknown>` |
 
-### Total samples
+### Total thread creations
 
-Functions ranked by total samples taken in the function and all its callees.
+Functions ranked by total thread creations recorded in the function and all its callees.
 
 #### Categories
 
 ##### Unknown
 
-|      % | Samples | Function      | Location    |
-| -----: | ------: | ------------- | ----------- |
-| 100.0% |      13 | `(anonymous)` | `<unknown>` |
+|      % | Thread creations | Function      | Location    |
+| -----: | ---------------: | ------------- | ----------- |
+| 100.0% |               13 | `(anonymous)` | `<unknown>` |
 
 #### Callees
 
-Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+Callees ranked by contribution to each function's total thread creations. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
 
 ##### `(anonymous)` (`<unknown>`)
 
-|      % | Samples | Callee        | Location    |
-| -----: | ------: | ------------- | ----------- |
-| 100.0% |      13 | `(anonymous)` | `<unknown>` |
+|      % | Thread creations | Callee        | Location    |
+| -----: | ---------------: | ------------- | ----------- |
+| 100.0% |               13 | `(anonymous)` | `<unknown>` |
 
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame.
+Call stacks ranked by thread creations recorded in their leaf frame.
 
-|      % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| -----: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 100.0% |      13 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` |
+|      % | Thread creations | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| -----: | ---------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 100.0% |               13 | `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` ← `(anonymous)` |

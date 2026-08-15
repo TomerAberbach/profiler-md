@@ -716,7 +716,7 @@ Blocked 510.6ms → 492.7ms (-17.91ms, -3.5%) over 3 samples → 2 samples (170.
 | ---------------- | -----: | -------: | -----: | ----------------: | ------: |
 | Standard library |  -3.5% | -17.91ms | 100.0% | 510.6ms → 492.7ms |   3 → 2 |
 
-The entry filter hides every sampled function, so all functions are shown.
+The entry filter hides every recorded function, so all functions are shown.
 
 ## Hottest functions
 

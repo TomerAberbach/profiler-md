@@ -1,13 +1,13 @@
-# Sampling profile diff
+# Goroutine profile diff
 
-1 sample.
+1 goroutine.
 
-| Category         | Change | Delta |      % | Samples |
-| ---------------- | -----: | ----: | -----: | ------: |
-| Standard library |   0.0% |     0 | 100.0% |       1 |
+| Category         | Change | Delta |      % | Goroutines |
+| ---------------- | -----: | ----: | -----: | ---------: |
+| Standard library |   0.0% |     0 | 100.0% |          1 |
 
 ## Hottest functions
 
-### Total samples
+### Total goroutines
 
-No function differed in total samples taken in the function and all its callees.
+No function differed in total goroutines recorded in the function and all its callees.
