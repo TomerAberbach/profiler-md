@@ -3,8 +3,14 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
 import type { CountMetric, Metric } from '../../modalities/metric.ts'
+import {
+  CPU_CYCLES_METRIC,
+  INTERRUPTIBLE_SLEEPS_METRIC,
+  NANOSECONDS_METRIC,
+  SAMPLES,
+  UNINTERRUPTIBLE_SLEEPS_METRIC,
+} from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -269,32 +275,8 @@ class SystingProfileBuilder {
  */
 const SLEEP_COUNT_METRICS: ReadonlyMap<SystingEventKind, CountMetric> = new Map(
   [
-    [
-      `uninterruptible_sleep`,
-      {
-        type: `count`,
-        proseUnit: `time`,
-        phrases: {
-          titleNoun: `uninterruptible sleep`,
-          columnNoun: `sleeps`,
-          pastTenseVerb: `slept`,
-          pastParticipleVerbPhrase: `uninterruptible sleeps entered`,
-        },
-      },
-    ],
-    [
-      `interruptible_sleep`,
-      {
-        type: `count`,
-        proseUnit: `time`,
-        phrases: {
-          titleNoun: `interruptible sleep`,
-          columnNoun: `sleeps`,
-          pastTenseVerb: `slept`,
-          pastParticipleVerbPhrase: `interruptible sleeps entered`,
-        },
-      },
-    ],
+    [`uninterruptible_sleep`, UNINTERRUPTIBLE_SLEEPS_METRIC],
+    [`interruptible_sleep`, INTERRUPTIBLE_SLEEPS_METRIC],
   ],
 )
 
@@ -308,10 +290,10 @@ const NO_VALUES: number[] = []
  */
 const cpuMetric = (header: SystingHeader): Metric | undefined => {
   if (header.sample_event === `cpu-clock`) {
-    return determineMetric({ name: `cpu`, unit: `nanoseconds` })
+    return NANOSECONDS_METRIC
   }
   if (header.sample_event === `cpu-cycles`) {
-    return determineMetric({ name: `CPU cycles`, unit: `cycle` })
+    return CPU_CYCLES_METRIC
   }
   return undefined
 }

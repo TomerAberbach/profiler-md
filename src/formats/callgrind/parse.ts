@@ -4,12 +4,14 @@ import type {
   CallGraph,
   CallGraphFunction,
 } from '../../modalities/call-graph/index.ts'
+import { countMetricOf, metricWithPhrases } from '../../modalities/metric.ts'
+import type { Metric, MetricPhrases } from '../../modalities/metric.ts'
 import {
-  countMetricOf,
-  determineMetric,
+  MILLISECONDS_METRIC,
+  NANOSECONDS_METRIC,
+  parseMetric,
   SAMPLES,
-} from '../../modalities/metric.ts'
-import type { Metric } from '../../modalities/metric.ts'
+} from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -698,13 +700,12 @@ const callgrindEventMetric = (
     return SAMPLES
   }
 
-  const systemTimePhrases = SYSTEM_TIME_EVENTS.get(name)
+  const systemTimePhrases = SYSTEM_TIME_PHRASES.get(name)
   if (systemTimePhrases) {
-    return {
-      type: `time`,
-      milliseconds: nanosecondSystemTime ? 1e-6 : 1,
-      phrases: systemTimePhrases,
-    }
+    return metricWithPhrases(
+      nanosecondSystemTime ? NANOSECONDS_METRIC : MILLISECONDS_METRIC,
+      systemTimePhrases,
+    )
   }
 
   const singular = KNOWN_EVENTS.get(name)
@@ -713,7 +714,7 @@ const callgrindEventMetric = (
   }
 
   const displayName = longName ?? name
-  return determineMetric({ name: displayName, unit: displayName })
+  return parseMetric({ name: displayName, unit: displayName })
 }
 
 /** The event `--collect-systime=nsec` adds to `sysCount` and `sysTime`. */
@@ -726,7 +727,7 @@ const SYSTEM_CPU_TIME_EVENT = `sysCpuTime`
  * other setting is read as the `yes`/`msec` default's milliseconds. That
  * misreads an explicit `--collect-systime=usec` by a factor of 1000.
  */
-const SYSTEM_TIME_EVENTS: ReadonlyMap<string, Metric[`phrases`]> = new Map([
+const SYSTEM_TIME_PHRASES: ReadonlyMap<string, MetricPhrases> = new Map([
   [
     `sysTime`,
     {

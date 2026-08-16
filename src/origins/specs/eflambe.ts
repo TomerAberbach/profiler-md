@@ -1,20 +1,9 @@
 import type { DeepReadonly } from '../../helpers/types.ts'
 import { logicalReferenceName } from '../../location.ts'
-import { determineMetric } from '../../modalities/metric.ts'
+import { WALL_TIME_METRIC } from '../../modalities/metrics.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
 import type { OriginSpec } from '../origin.ts'
-
-/**
- * Eflambe traces every call and, between two trace events, appends the current
- * stack once per microsecond elapsed, so one collapsed count is one microsecond
- * of wall time on that stack rather than one observation of it.
- *
- * The `wall` name titles the profile by what the trace measured, where a bare
- * time unit would title it `sampling`. The traced time includes the sleeping
- * eflambe records as its own frame.
- */
-const TRACED_TIME = determineMetric({ name: `wall`, unit: `microseconds` })
 
 /**
  * The BEAM virtual machine, observed by `eflambe` for Erlang and Elixir.
@@ -22,14 +11,19 @@ const TRACED_TIME = determineMetric({ name: `wall`, unit: `microseconds` })
  * BEAM collapsed frames are `module:function/arity` (e.g. `lists:reverse/1`,
  * `Elixir.Enum:reduce/3`) with the module standing in for a source location,
  * rooted at a process id like `<0.94.0>`. Neither Erlang nor Elixir carries a
- * file path, so its `normalizeStackFrame` lifts the module out of the name to act as
- * the location, JFR-style.
+ * file path, so its `normalizeStackFrame` lifts the module out of the name to
+ * act as the location, JFR-style.
  */
 export const eflambeOriginSpec = {
   id: `eflambe`,
   formats: [`collapsed`],
   isMarkerEntry: entry => isBeamStackFrame(entry.name),
-  countMetric: format => (format === `collapsed` ? TRACED_TIME : undefined),
+  countMetric: format =>
+    // Eflambe traces every call and, between two trace events, appends the
+    // current stack once per microsecond elapsed, so one collapsed count is one
+    // microsecond of wall time on that stack rather than one observation of it.
+    // The traced time includes the sleeping eflambe records as its own frame.
+    format === `collapsed` ? WALL_TIME_METRIC : undefined,
   categorizeEntry: entry =>
     sleepCategory(entry) ??
     beamModuleCategory(entry) ??

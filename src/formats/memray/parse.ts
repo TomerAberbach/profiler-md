@@ -4,7 +4,11 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { countMetricOf, determineMetric } from '../../modalities/metric.ts'
+import { countMetricOf } from '../../modalities/metric.ts'
+import {
+  LEAKED_MEMORY_METRIC,
+  PEAK_MEMORY_METRIC,
+} from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -417,14 +421,14 @@ class Capture {
       {
         type: `call-stack-profile`,
         frames,
-        metrics: [PEAK_METRIC],
+        metrics: [PEAK_MEMORY_METRIC],
         countMetric: ALLOCATIONS,
         observations: this.#observations(`peak`),
       },
       {
         type: `call-stack-profile`,
         frames,
-        metrics: [LEAKED_METRIC],
+        metrics: [LEAKED_MEMORY_METRIC],
         countMetric: ALLOCATIONS,
         observations: this.#observations(`leaked`),
       },
@@ -1154,12 +1158,6 @@ const hashAddress = (address: number): number =>
  * recorded for it rather than a number of samples.
  */
 const ALLOCATIONS = countMetricOf(`allocation`)
-
-/** Bytes live at the moment the capture's total memory was highest. */
-const PEAK_METRIC = determineMetric({ name: `peak_space`, unit: `bytes` })
-
-/** Bytes still live when the capture ended. */
-const LEAKED_METRIC = determineMetric({ name: `leaked_space`, unit: `bytes` })
 
 /**
  * Returns the 1-based line {@link instructionOffset} is on, from the code
