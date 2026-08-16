@@ -587,7 +587,7 @@ const formatDiffFunctions = ({
   )
 }
 
-/** The Self or Total regressions/improvements subsections of a diff. */
+/** The Self or Total diff subsections ranking each direction of change. */
 const formatDiffDirectionFunctions = ({
   diff,
   measure,
@@ -612,7 +612,7 @@ const formatDiffDirectionFunctions = ({
       ? 0
       : (direction === `self` ? func.selfValues : func.totalValues)[index]!
 
-  const { regressions, improvements, hasActive, categoryRankings } =
+  const { increases, decreases, hasActive, categoryRankings } =
     selectDiffEntities(
       diff.functions.map(func => ({
         entity: func,
@@ -653,10 +653,11 @@ const formatDiffDirectionFunctions = ({
     headingLevel,
     title,
     description,
+    improvement: metric.improvement,
     columns: functionColumns(metric, `Function`, options),
     hasActive,
-    regressions,
-    improvements,
+    increases,
+    decreases,
     categoryRankings,
     rowOf: ({ entity }) => rowOf(entity),
   })

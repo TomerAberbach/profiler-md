@@ -22,8 +22,8 @@ describe(`metricsEqual`, () => {
     },
     {
       scenario: `custom metrics with the same unit and phrases`,
-      left: countMetricOf(`widget`),
-      right: countMetricOf(`widget`),
+      left: countMetricOf(`widget`, { improvement: `decrease` }),
+      right: countMetricOf(`widget`, { improvement: `decrease` }),
     },
   ])(`returns true for $scenario`, ({ left, right }) => {
     expect(metricsEqual(left, right)).toBe(true)
@@ -47,8 +47,13 @@ describe(`metricsEqual`, () => {
     },
     {
       scenario: `custom metrics with different units`,
-      left: countMetricOf(`widget`),
-      right: countMetricOf(`gadget`),
+      left: countMetricOf(`widget`, { improvement: `decrease` }),
+      right: countMetricOf(`gadget`, { improvement: `decrease` }),
+    },
+    {
+      scenario: `the same unit and phrases but different improvement directions`,
+      left: countMetricOf(`widget`, { improvement: `decrease` }),
+      right: countMetricOf(`widget`, { improvement: `increase` }),
     },
   ])(`returns false for $scenario`, ({ left, right }) => {
     expect(metricsEqual(left, right)).toBe(false)

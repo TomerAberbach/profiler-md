@@ -88,17 +88,109 @@ const computeLineToIntensity = async (
 
   const lineToIntensity = new Map<number, number>()
   const sections: HeadingSection[] = []
+  const unranked: UnrankedDiffRows = { rows: [], increaseSign: null }
   for (const node of root.children) {
     if (node.type === `heading`) {
-      visitHeading(node, sections, lineToIntensity)
+      visitHeading(node, sections, unranked, lineToIntensity)
     } else if (node.type === `table`) {
       // Tables cannot cross heading boundaries, so the innermost section is
       // still current when the table is reached.
-      visitTable(node, sections.at(-1), lineToIntensity)
+      visitTable(node, sections.at(-1), unranked, lineToIntensity)
     }
   }
+  tintHeldRows(unranked, lineToIntensity)
 
   return lineToIntensity
+}
+
+/**
+ * What a diff row's change is: `1` where it is a regression, `-1` where it is
+ * an improvement, and `0` where its metric's improvement direction is unknown,
+ * so the ranking covering it calls it neither.
+ */
+type RegressionSign = 1 | -1 | 0
+
+/**
+ * The regression sign each ranking heading a diff emits states about the rows
+ * under it, whatever the sign of their deltas.
+ */
+const RANKING_REGRESSION_SIGNS: ReadonlyMap<string, RegressionSign> = new Map([
+  [`Regressions`, 1],
+  [`Improvements`, -1],
+  [`Increases`, 0],
+  [`Decreases`, 0],
+])
+
+/**
+ * What an increase is in a profile whose rankings state nothing about one,
+ * which happens when no ranking has rows to state it with. A profiler records
+ * what a program consumed, so an increase is a regression.
+ */
+const DEFAULT_INCREASE_SIGN: RegressionSign = 1
+
+/**
+ * The diff rows no ranking heading covers, which is every summary table, held
+ * until the profile's rankings state what an increase in it is. A summary table
+ * precedes the rankings measuring the same thing, so its rows are tinted once
+ * those rankings are reached.
+ */
+type UnrankedDiffRows = {
+  rows: RelativeDiffRow[]
+
+  /** The regression sign of an increase, null until a ranking states it. */
+  increaseSign: RegressionSign | null
+}
+
+/** One diff row's line and its delta as a share of the profile total. */
+type RelativeDiffRow = { lineIndex: number; relativeDelta: number }
+
+/**
+ * Holds {@link rows} until a ranking states what an increase is, or tints them
+ * where one already has.
+ */
+const holdRows = (
+  unranked: UnrankedDiffRows,
+  rows: RelativeDiffRow[],
+  lineToIntensity: Map<number, number>,
+): void => {
+  unranked.rows.push(...rows)
+  if (unranked.increaseSign !== null) {
+    tintHeldRows(unranked, lineToIntensity)
+  }
+}
+
+/**
+ * Records what a ranking states an increase is, tinting the rows held for it. A
+ * ranking with no row to state it passes null, leaving the held rows for a
+ * later one.
+ */
+const stateIncreaseSign = (
+  unranked: UnrankedDiffRows,
+  increaseSign: RegressionSign | null,
+  lineToIntensity: Map<number, number>,
+): void => {
+  if (increaseSign === null) {
+    return
+  }
+  unranked.increaseSign = increaseSign
+  tintHeldRows(unranked, lineToIntensity)
+}
+
+/**
+ * Tints the held rows by what the profile's rankings stated an increase is, or
+ * by the sign of their deltas where the rankings stated nothing.
+ */
+const tintHeldRows = (
+  unranked: UnrankedDiffRows,
+  lineToIntensity: Map<number, number>,
+): void => {
+  const increaseSign = unranked.increaseSign ?? DEFAULT_INCREASE_SIGN
+  if (increaseSign !== 0) {
+    for (const { lineIndex, relativeDelta } of unranked.rows) {
+      setIntensity(lineToIntensity, lineIndex, increaseSign * relativeDelta)
+    }
+  }
+  unranked.rows.length = 0
 }
 
 type HeadingSection = {
@@ -113,6 +205,12 @@ type HeadingSection = {
 
   /** Maps `name (location)` keys to intensities for child heading lookups. */
   nameLocationToIntensity: Map<string, NameIntensity>
+
+  /**
+   * The regression sign of this scope's diff rows, from the nearest ranking
+   * heading at or above it, or null where no ranking heading covers them.
+   */
+  regressionSign: RegressionSign | null
 }
 
 /**
@@ -127,9 +225,22 @@ type NameIntensity = {
 const visitHeading = (
   heading: Heading,
   sections: HeadingSection[],
+  unranked: UnrankedDiffRows,
   lineToIntensity: Map<number, number>,
 ): void => {
   closeDeeperSections(sections, heading.depth)
+
+  const rankingSign = RANKING_REGRESSION_SIGNS.get(nodeText(heading))
+  if (heading.depth === PROFILE_HEADING_DEPTH) {
+    // Each profile's rankings state what an increase is in its own metric, so
+    // the rows held for the profile above take what its rankings stated.
+    tintHeldRows(unranked, lineToIntensity)
+    unranked.increaseSign = null
+  } else if (rankingSign === 0) {
+    // A ranking naming the change itself states that the metric's improvement
+    // direction is unknown, whatever rows it covers.
+    stateIncreaseSign(unranked, 0, lineToIntensity)
+  }
 
   const key = headingNameLocationKey(heading)
   const intensity = key === null ? null : lookupAncestorIntensity(sections, key)
@@ -137,12 +248,16 @@ const visitHeading = (
     level: heading.depth,
     intensity,
     nameLocationToIntensity: new Map(),
+    regressionSign: rankingSign ?? sections.at(-1)?.regressionSign ?? null,
   })
   if (intensity !== null) {
     // ATX headings, the only kind the serializer emits, are single-line.
     lineToIntensity.set(heading.position!.start.line - 1, intensity)
   }
 }
+
+/** The heading level opening one profile's section of the output. */
+const PROFILE_HEADING_DEPTH = 1
 
 /**
  * Closes the heading sections at or deeper than {@link depth}. e.g. an H3
@@ -210,6 +325,7 @@ const lookupAncestorIntensity = (
 const visitTable = (
   table: Table,
   headingSection: HeadingSection | undefined,
+  unranked: UnrankedDiffRows,
   lineToIntensity: Map<number, number>,
 ): void => {
   const [headerRow, ...dataRows] = table.children
@@ -230,44 +346,73 @@ const visitTable = (
         delta: deltaColumnIndex,
         percent: percentColumnIndex,
       },
+      headingSection?.regressionSign ?? null,
+      unranked,
       lineToIntensity,
     )
   } else if (percentColumnIndex !== -1) {
-    // Column index of the backtick-quoted name cell, lazily detected from the
-    // first data row that has one.
-    let nameColumnIndex = -1
+    visitPercentTable(
+      dataRows,
+      { percent: percentColumnIndex, location: locationColumnIndex },
+      headingSection,
+      lineToIntensity,
+    )
+  }
+}
 
-    for (const row of dataRows) {
-      const cells = row.children
-      const percentageCell = cells[percentColumnIndex]
-      if (percentageCell === undefined) {
-        continue
-      }
-      const percentage = parsePercent(nodeText(percentageCell))
-      if (percentage === null) {
-        continue
-      }
+type PercentColumnIndexes = {
+  percent: number
+  location: number
+}
 
-      const intensity = (headingSection?.intensity ?? 1) * percentage
-      if (locationColumnIndex !== -1 && headingSection !== undefined) {
-        if (nameColumnIndex === -1) {
-          nameColumnIndex = cells.findIndex(
-            cell =>
-              cell.children.length === 1 &&
-              cell.children[0]!.type === `inlineCode`,
-          )
-        }
-        const nameCell = cells[nameColumnIndex]
-        const locationCell = cells[locationColumnIndex]
-        if (nameCell !== undefined && locationCell !== undefined) {
-          headingSection.nameLocationToIntensity.set(
-            nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
-            { intensity, registeredLevel: headingSection.level },
-          )
-        }
-      }
-      lineToIntensity.set(row.position!.start.line - 1, intensity)
+/**
+ * Tints each row by its `%` cell, scaled by the intensity its heading section
+ * inherited, so a row's tint is proportional to its share of the profile.
+ *
+ * A row naming a function registers its intensity under the section's
+ * `name (location)` key, from which a later heading for that function takes its
+ * own tint.
+ */
+const visitPercentTable = (
+  dataRows: Table[`children`],
+  columnIndexes: PercentColumnIndexes,
+  headingSection: HeadingSection | undefined,
+  lineToIntensity: Map<number, number>,
+): void => {
+  // Column index of the backtick-quoted name cell, lazily detected from the
+  // first data row that has one.
+  let nameColumnIndex = -1
+
+  for (const row of dataRows) {
+    const cells = row.children
+    const percentageCell = cells[columnIndexes.percent]
+    if (percentageCell === undefined) {
+      continue
     }
+    const percentage = parsePercent(nodeText(percentageCell))
+    if (percentage === null) {
+      continue
+    }
+
+    const intensity = (headingSection?.intensity ?? 1) * percentage
+    if (columnIndexes.location !== -1 && headingSection !== undefined) {
+      if (nameColumnIndex === -1) {
+        nameColumnIndex = cells.findIndex(
+          cell =>
+            cell.children.length === 1 &&
+            cell.children[0]!.type === `inlineCode`,
+        )
+      }
+      const nameCell = cells[nameColumnIndex]
+      const locationCell = cells[columnIndexes.location]
+      if (nameCell !== undefined && locationCell !== undefined) {
+        headingSection.nameLocationToIntensity.set(
+          nameLocationKey(nodeText(nameCell), nodeText(locationCell)),
+          { intensity, registeredLevel: headingSection.level },
+        )
+      }
+    }
+    lineToIntensity.set(row.position!.start.line - 1, intensity)
   }
 }
 
@@ -282,6 +427,71 @@ type DiffColumnIndexes = {
  * absolute scale non-diff tables get from their `%` column, so a row's tint is
  * proportional to how much of the profile its change moved.
  *
+ * A row is tinted red where its change is a regression and green where it is an
+ * improvement, which {@link regressionSign} states for the rows a ranking
+ * heading covers. Where a ranking calls a change neither, the rows stay
+ * untinted. Rows no ranking covers are held until a ranking states what an
+ * increase is, which its own rows reveal: the delta sign a `Regressions`
+ * heading covers is the sign a regression has throughout the profile.
+ */
+const visitDiffTable = (
+  dataRows: Table[`children`],
+  columnIndexes: DiffColumnIndexes,
+  regressionSign: RegressionSign | null,
+  unranked: UnrankedDiffRows,
+  lineToIntensity: Map<number, number>,
+): void => {
+  if (regressionSign === 0) {
+    return
+  }
+
+  const rows = relativeDiffRows(dataRows, columnIndexes)
+  if (regressionSign === null) {
+    holdRows(unranked, rows, lineToIntensity)
+    return
+  }
+
+  stateIncreaseSign(
+    unranked,
+    statedIncreaseSign(rows, regressionSign),
+    lineToIntensity,
+  )
+  for (const { lineIndex, relativeDelta } of rows) {
+    setIntensity(
+      lineToIntensity,
+      lineIndex,
+      regressionSign * Math.abs(relativeDelta),
+    )
+  }
+}
+
+/**
+ * What a ranking's rows state an increase is: a regression where the ranking
+ * calls a positive delta one, or null where the ranking has no changed row to
+ * state it with.
+ */
+const statedIncreaseSign = (
+  rows: readonly RelativeDiffRow[],
+  regressionSign: 1 | -1,
+): RegressionSign | null => {
+  const row = rows.find(({ relativeDelta }) => relativeDelta !== 0)
+  return row === undefined
+    ? null
+    : ((regressionSign * Math.sign(row.relativeDelta)) as RegressionSign)
+}
+
+const setIntensity = (
+  lineToIntensity: Map<number, number>,
+  lineIndex: number,
+  intensity: number,
+): void => {
+  lineToIntensity.set(lineIndex, Math.max(-1, Math.min(1, intensity)))
+}
+
+/**
+ * Reads a diff table's changed rows into their line indexes and their deltas as
+ * shares of the profile total, or an empty array where no row implies a total.
+ *
  * The total isn't printed, but each row implies it: `Change` is
  * `delta ÷ base value` and `%` holds the base and current shares of their
  * totals, so `|delta ÷ Change| ÷ base%` recovers the base total (for `new` and
@@ -289,12 +499,11 @@ type DiffColumnIndexes = {
  * estimate divides by rounded percentages, so take it from the row with the
  * largest share, where rounding error is proportionally smallest.
  */
-const visitDiffTable = (
+const relativeDiffRows = (
   dataRows: Table[`children`],
   columnIndexes: DiffColumnIndexes,
-  lineToIntensity: Map<number, number>,
-): void => {
-  const pendingDiffRows: PendingDiffRow[] = []
+): RelativeDiffRow[] => {
+  const changedRows: { lineIndex: number; delta: number }[] = []
   let bestCandidate: TotalCandidate | null = null
   for (const row of dataRows) {
     const diffRow = parseDiffRow(row, columnIndexes)
@@ -302,10 +511,7 @@ const visitDiffTable = (
       continue
     }
     if (diffRow.delta !== 0) {
-      pendingDiffRows.push({
-        lineIndex: diffRow.lineIndex,
-        delta: diffRow.delta,
-      })
+      changedRows.push({ lineIndex: diffRow.lineIndex, delta: diffRow.delta })
     }
     if (
       diffRow.candidate !== null &&
@@ -315,16 +521,15 @@ const visitDiffTable = (
     }
   }
   if (bestCandidate === null) {
-    return
+    return []
   }
 
   const total = bestCandidate.value / bestCandidate.percent
-  for (const { lineIndex, delta } of pendingDiffRows) {
-    lineToIntensity.set(lineIndex, Math.max(-1, Math.min(1, delta / total)))
-  }
+  return changedRows.map(({ lineIndex, delta }) => ({
+    lineIndex,
+    relativeDelta: delta / total,
+  }))
 }
-
-type PendingDiffRow = { lineIndex: number; delta: number }
 
 /**
  * Reads one diff row's cells into its line index, parsed delta, and

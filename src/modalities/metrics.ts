@@ -1,10 +1,16 @@
 import { metricWithPhrases } from './metric.ts'
-import type { CountMetric, Metric, MetricPhrases } from './metric.ts'
+import type {
+  CountMetric,
+  Metric,
+  MetricImprovement,
+  MetricPhrases,
+} from './metric.ts'
 
 /** What one count measures for a profiler that samples the call stack. */
 export const SAMPLES: CountMetric = {
   type: `count`,
   proseUnit: `sample`,
+  improvement: `decrease`,
   phrases: {
     titleNoun: `sampling`,
     columnNoun: `samples`,
@@ -17,6 +23,9 @@ export const SAMPLES: CountMetric = {
 const OCCURRENCES_METRIC: CountMetric = {
   type: `count`,
   proseUnit: `time`,
+  // An emitter stating its values have no unit states nothing about what they
+  // measure, so a diff ranks neither direction of change as better or worse.
+  improvement: `unknown`,
   phrases: {
     titleNoun: `count`,
     columnNoun: `counts`,
@@ -47,42 +56,50 @@ const HEAP_PHRASES: MetricPhrases = {
 export const NANOSECONDS_METRIC: Metric = {
   type: `time`,
   milliseconds: 1e-6,
+  improvement: `decrease`,
   phrases: CPU_TIME_PHRASES,
 }
 export const MICROSECONDS_METRIC: Metric = {
   type: `time`,
   milliseconds: 0.001,
+  improvement: `decrease`,
   phrases: CPU_TIME_PHRASES,
 }
 export const MILLISECONDS_METRIC: Metric = {
   type: `time`,
   milliseconds: 1,
+  improvement: `decrease`,
   phrases: CPU_TIME_PHRASES,
 }
 export const SECONDS_METRIC: Metric = {
   type: `time`,
   milliseconds: 1000,
+  improvement: `decrease`,
   phrases: CPU_TIME_PHRASES,
 }
 
 export const BYTES_METRIC: Metric = {
   type: `size`,
   bytes: 1,
+  improvement: `decrease`,
   phrases: HEAP_PHRASES,
 }
 const KILOBYTES_METRIC: Metric = {
   type: `size`,
   bytes: 1 << 10,
+  improvement: `decrease`,
   phrases: HEAP_PHRASES,
 }
 export const MEGABYTES_METRIC: Metric = {
   type: `size`,
   bytes: 1 << 20,
+  improvement: `decrease`,
   phrases: HEAP_PHRASES,
 }
 const GIGABYTES_METRIC: Metric = {
   type: `size`,
   bytes: 1 << 30,
+  improvement: `decrease`,
   phrases: HEAP_PHRASES,
 }
 
@@ -165,6 +182,7 @@ export const LEAKED_MEMORY_METRIC: Metric = metricWithPhrases(BYTES_METRIC, {
 export const CPU_CYCLES_METRIC: CountMetric = {
   type: `count`,
   proseUnit: `cycle`,
+  improvement: `decrease`,
   phrases: {
     titleNoun: `CPU cycles`,
     columnNoun: `CPU cycles`,
@@ -177,6 +195,7 @@ export const CPU_CYCLES_METRIC: CountMetric = {
 export const UNINTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
   type: `count`,
   proseUnit: `time`,
+  improvement: `decrease`,
   phrases: {
     titleNoun: `uninterruptible sleep`,
     columnNoun: `sleeps`,
@@ -189,6 +208,7 @@ export const UNINTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
 export const INTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
   type: `count`,
   proseUnit: `time`,
+  improvement: `decrease`,
   phrases: {
     titleNoun: `interruptible sleep`,
     columnNoun: `sleeps`,
@@ -205,17 +225,26 @@ export const INTERRUPTIBLE_SLEEPS_METRIC: CountMetric = {
  * missing from {@link UNIT_METRICS} becomes a count in that unit, named
  * verbatim, because a string the emitter chose states no grammatical number to
  * inflect from.
+ *
+ * Such a unit also states nothing about which direction of change is an
+ * improvement, so pass {@link MetricImprovement} wherever the emitter's own
+ * documentation states what its values measure.
  */
 export const parseMetric = ({
   name,
   unit,
+  improvement,
 }: {
   name: string
   unit: string
+
+  /** Overrides the direction derived from {@link unit}. */
+  improvement?: MetricImprovement
 }): Metric => {
-  const metric = UNIT_METRICS.get(unit.toLowerCase()) ?? {
+  const metric: Metric = UNIT_METRICS.get(unit.toLowerCase()) ?? {
     type: `count`,
     proseUnit: unit,
+    improvement: `unknown`,
     phrases: {
       titleNoun: name,
       columnNoun: name,
@@ -224,7 +253,10 @@ export const parseMetric = ({
     },
   }
   const phrases = NAME_PHRASES.get(metric.type)?.get(name.toLowerCase())
-  return phrases ? metricWithPhrases(metric, phrases) : metric
+  return {
+    ...(phrases ? metricWithPhrases(metric, phrases) : metric),
+    improvement: improvement ?? metric.improvement,
+  }
 }
 
 /**

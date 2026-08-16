@@ -18,7 +18,7 @@ import type {
 } from '../options.ts'
 import type { Diff } from './diff.ts'
 import type { HeapSnapshotNodeCategory } from './heap-snapshot/type.ts'
-import type { Metric } from './metric.ts'
+import type { Metric, MetricImprovement } from './metric.ts'
 import { formatDiffTable } from './table.ts'
 import type { Table } from './table.ts'
 
@@ -133,9 +133,55 @@ export const formatFunctionHeading = (
   )
 
 /**
- * Assembles the regressions and improvements subsections for one function
- * direction (self or total) under a {@link title} heading, with rows under the
- * given table {@link columns}.
+ * The two rankings a diff shows for a measure in {@link improvement}'s metric,
+ * in the order they are shown: what the metric's improvement direction calls
+ * worse first, or the increases first where that direction is unknown.
+ *
+ * A heading names the change itself wherever that direction is unknown, so
+ * the output never calls a change an improvement it cannot measure as one.
+ */
+export const diffRankings = (
+  improvement: MetricImprovement,
+): [DiffRanking, DiffRanking] => {
+  switch (improvement) {
+    case `decrease`:
+      return [
+        { change: `increase`, title: `Regressions` },
+        { change: `decrease`, title: `Improvements` },
+      ]
+    case `increase`:
+      return [
+        { change: `decrease`, title: `Regressions` },
+        { change: `increase`, title: `Improvements` },
+      ]
+    case `unknown`:
+      return [
+        { change: `increase`, title: `Increases` },
+        { change: `decrease`, title: `Decreases` },
+      ]
+  }
+}
+
+/** One of a diff's two rankings: the change it ranks, and its heading. */
+export type DiffRanking = {
+  change: DiffChange
+  title: string
+}
+
+/** A direction of change between a diff's two sides. */
+export type DiffChange = `increase` | `decrease`
+
+/** The sentence introducing a ranking of {@link change}s in {@link description}. */
+export const diffRankingSentence = (
+  plural: string,
+  change: DiffChange,
+  description: string,
+): string => `${plural} with the largest ${change} in ${description}.`
+
+/**
+ * Assembles the increase and decrease subsections for one function direction
+ * (self or total) under a {@link title} heading, with rows under the given
+ * table {@link columns}.
  *
  * When nothing differed but {@link hasActive} functions exist on either side,
  * the section stays, with a "did not differ" note. When no functions are
@@ -145,45 +191,41 @@ export const formatDiffFunctionSections = <Entity, Row>({
   headingLevel,
   title,
   description,
+  improvement,
   columns,
   hasActive,
-  regressions,
-  improvements,
+  increases,
+  decreases,
   categoryRankings = [],
   rowOf,
 }: {
   headingLevel: number
   title: string
   description: string
+  improvement: MetricImprovement
   columns: Table<Row>
   hasActive: boolean
-  regressions: Entity[]
-  improvements: Entity[]
+  increases: Entity[]
+  decreases: Entity[]
   categoryRankings?: DiffCategoryRanking<Entity>[]
   rowOf: (entity: Entity) => Diff<Row>
 }): RootContent[] => {
-  const sections = [
-    ...formatDiffRankingSections({
-      headingLevel: headingLevel + 1,
-      subtitle: `Regressions`,
-      sentence: `Functions with the largest increase in ${description}.`,
-      columns,
-      entities: regressions,
-      categoryRankings,
-      entitiesOf: ranking => ranking.regressions,
-      rowOf,
-    }),
-    ...formatDiffRankingSections({
-      headingLevel: headingLevel + 1,
-      subtitle: `Improvements`,
-      sentence: `Functions with the largest decrease in ${description}.`,
-      columns,
-      entities: improvements,
-      categoryRankings,
-      entitiesOf: ranking => ranking.improvements,
-      rowOf,
-    }),
-  ]
+  const sections = diffRankings(improvement).flatMap(
+    ({ change, title: subtitle }) =>
+      formatDiffRankingSections({
+        headingLevel: headingLevel + 1,
+        subtitle,
+        sentence: diffRankingSentence(`Functions`, change, description),
+        columns,
+        entities: change === `increase` ? increases : decreases,
+        categoryRankings,
+        entitiesOf: categoryRanking =>
+          change === `increase`
+            ? categoryRanking.increases
+            : categoryRanking.decreases,
+        rowOf,
+      }),
+  )
 
   if (sections.length === 0) {
     if (!hasActive) {
@@ -289,11 +331,11 @@ export const isRepeatedByCategory = <Entity>(
       entries.every((entry, index) => entry === ranking[index]),
   )
 
-/** One category's own regressions and improvements within a diff ranking. */
+/** One category's own increases and decreases within a diff ranking. */
 export type DiffCategoryRanking<Item> = {
   category: Category
-  regressions: Item[]
-  improvements: Item[]
+  increases: Item[]
+  decreases: Item[]
 }
 
 /**
@@ -339,8 +381,10 @@ export type ActiveDiffEntity<Entity> = {
 }
 
 /**
- * Selects the top regressed and improved entities from {@link candidates},
- * keeping only those active on at least one side and shown by {@link options}.
+ * Selects the entities whose measure increased and decreased the most from
+ * {@link candidates}, keeping only those active on at least one side and shown
+ * by {@link options}. {@link diffRankings} states which of the two a metric
+ * counts as a regression.
  *
  * {@link categories} additionally selects the top of each category, ranked the
  * same way among that category's own entities.
@@ -356,27 +400,27 @@ export const selectDiffEntities = <
   },
 ): {
   hasActive: boolean
-  regressions: ActiveDiffEntity<Entity>[]
-  improvements: ActiveDiffEntity<Entity>[]
+  increases: ActiveDiffEntity<Entity>[]
+  decreases: ActiveDiffEntity<Entity>[]
   categoryRankings: DiffCategoryRanking<ActiveDiffEntity<Entity>>[]
 } => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
       (baseValue > 0 || currentValue > 0) && showDiffEntity(entity, options),
   )
-  const regressed = active.filter(
+  const increased = active.filter(
     ({ baseValue, currentValue }) => currentValue > baseValue,
   )
-  const improved = active.filter(
+  const decreased = active.filter(
     ({ baseValue, currentValue }) => currentValue < baseValue,
   )
-  const topRegressions = (entities: ActiveDiffEntity<Entity>[]) =>
+  const topIncreases = (entities: ActiveDiffEntity<Entity>[]) =>
     selectTopN(
       entities,
       options.topN,
       ({ baseValue, currentValue }) => currentValue - baseValue,
     )
-  const topImprovements = (entities: ActiveDiffEntity<Entity>[]) =>
+  const topDecreases = (entities: ActiveDiffEntity<Entity>[]) =>
     selectTopN(
       entities,
       options.topN,
@@ -385,15 +429,15 @@ export const selectDiffEntities = <
 
   return {
     hasActive: active.length > 0,
-    regressions: topRegressions(regressed),
-    improvements: topImprovements(improved),
+    increases: topIncreases(increased),
+    decreases: topDecreases(decreased),
     categoryRankings: (categories?.categories ?? []).map(category => {
       const inCategory = ({ entity }: ActiveDiffEntity<Entity>) =>
         categories!.categoryOf(entity) === category
       return {
         category,
-        regressions: topRegressions(regressed.filter(inCategory)),
-        improvements: topImprovements(improved.filter(inCategory)),
+        increases: topIncreases(increased.filter(inCategory)),
+        decreases: topDecreases(decreased.filter(inCategory)),
       }
     }),
   }

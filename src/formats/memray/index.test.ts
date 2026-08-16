@@ -8,10 +8,9 @@ import {
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   categoryTables,
-  improvementsTables,
   linesTables,
   profileTitles,
-  regressionsTables,
+  rankingTables,
   summaryLines,
 } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
@@ -806,8 +805,8 @@ describe(`convert`, () => {
       `Held 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
       `Leaked 29\u00A0B over 1 allocation → 7 allocations (29\u00A0B → 4.14\u00A0B per allocation).`,
     ])
-    expect(regressionsTables(md, `Self size`)).toEqual([])
-    expect(improvementsTables(md, `Self size`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
   test(`converts a compressed capture from a stream`, async () => {

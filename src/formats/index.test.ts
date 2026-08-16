@@ -10,12 +10,7 @@ import {
 } from '../modalities/call-stack-profile/testing.ts'
 import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
-import {
-  categoryTables,
-  improvementsTables,
-  profileTitles,
-  regressionsTables,
-} from '../testing.ts'
+import { categoryTables, profileTitles, rankingTables } from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
 import { FormatDetectError } from './error.ts'
 import {
@@ -909,10 +904,14 @@ describe(`diffProfiles`, () => {
         Function: `funcB`,
         Location: `src/b.ts:1:1`,
       }
-      expect(regressionsTables(md, `Self time`)).toEqual([[funcA, funcC]])
-      expect(improvementsTables(md, `Self time`)).toEqual([[funcB]])
-      expect(regressionsTables(md, `Total time`)).toEqual([[funcA, funcC]])
-      expect(improvementsTables(md, `Total time`)).toEqual([[funcB]])
+      expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
+        [funcA, funcC],
+      ])
+      expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([[funcB]])
+      expect(rankingTables(md, `Total time`, `Regressions`)).toEqual([
+        [funcA, funcC],
+      ])
+      expect(rankingTables(md, `Total time`, `Improvements`)).toEqual([[funcB]])
     })
 
     test(`baseURL: 'auto' infers one common ancestor across both diff sides`, () => {
@@ -941,7 +940,7 @@ describe(`diffProfiles`, () => {
         { baseURL: `auto` },
       )
 
-      expect(regressionsTables(md, `Self time`)).toEqual([
+      expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
         [
           {
             Change: `new`,
@@ -954,7 +953,7 @@ describe(`diffProfiles`, () => {
           },
         ],
       ])
-      expect(improvementsTables(md, `Self time`)).toEqual([
+      expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([
         [
           {
             Change: `removed`,
@@ -1022,10 +1021,18 @@ describe(`diffProfiles`, () => {
         Instances: `1 → 0`,
         Constructor: `Removed`,
       }
-      expect(regressionsTables(md, `Self size`)).toEqual([[grew, added]])
-      expect(improvementsTables(md, `Self size`)).toEqual([[removed]])
-      expect(regressionsTables(md, `Retained size`)).toEqual([[grew, added]])
-      expect(improvementsTables(md, `Retained size`)).toEqual([[removed]])
+      expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+        [grew, added],
+      ])
+      expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
+        [removed],
+      ])
+      expect(rankingTables(md, `Retained size`, `Regressions`)).toEqual([
+        [grew, added],
+      ])
+      expect(rankingTables(md, `Retained size`, `Improvements`)).toEqual([
+        [removed],
+      ])
     })
 
     // The default `matchEntry`'s origin-aware normalization (stripping an
@@ -1080,7 +1087,7 @@ describe(`diffProfiles`, () => {
         },
       )
 
-      expect(regressionsTables(md, `Self time`)).toEqual([
+      expect(rankingTables(md, `Self time`, `Regressions`)).toEqual([
         [
           {
             Change: `+100.0%`,
@@ -1093,7 +1100,7 @@ describe(`diffProfiles`, () => {
           },
         ],
       ])
-      expect(improvementsTables(md, `Self time`)).toEqual([])
+      expect(rankingTables(md, `Self time`, `Improvements`)).toEqual([])
     })
 
     test(`reports when there is no profiling data`, () => {

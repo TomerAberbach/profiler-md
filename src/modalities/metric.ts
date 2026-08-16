@@ -15,6 +15,17 @@ export type MetricPhrases = {
   pastParticipleVerbPhrase: string
 }
 
+/**
+ * Which direction of change in a metric's value is an improvement.
+ *
+ * A profiler records what a program consumed, so a smaller value is a better
+ * one for every unit this package recognizes. `increase` is for a metric
+ * measuring something a program produces, and `unknown` for a metric whose
+ * emitter named a unit this package cannot classify, where a diff states the
+ * direction of each change and calls neither better or worse.
+ */
+export type MetricImprovement = `decrease` | `increase` | `unknown`
+
 /** A metric measured in a profile. */
 export type Metric = (
   | {
@@ -44,7 +55,12 @@ export type Metric = (
        */
       proseUnit: string
     }
-) & { phrases: MetricPhrases }
+) & {
+  phrases: MetricPhrases
+
+  /** Which direction of change in this metric's value is an improvement. */
+  improvement: MetricImprovement
+}
 
 /** A metric formatted as a bare count. */
 export type CountMetric = Extract<Metric, { type: `count` }>
@@ -55,6 +71,18 @@ export const metricWithPhrases = <M extends Metric>(
   phrases: MetricPhrases,
 ): M => ({ ...metric, phrases })
 
+/** Options for {@link countMetricOf}. */
+export type CountMetricOptions = {
+  /**
+   * Which direction of change in the count is an improvement.
+   *
+   * What one occurrence is decides it: an occurrence the profiled program
+   * incurs is a cost, so fewer of them is an improvement, while an occurrence
+   * it achieves (a cache hit, a completed request) improves as it grows.
+   */
+  improvement: MetricImprovement
+}
+
 /**
  * The metric for a count of things, named by the singular noun for one of them
  * (e.g. `entry`, `object`, `contention`), phrased as "recorded".
@@ -63,11 +91,15 @@ export const metricWithPhrases = <M extends Metric>(
  * call stack records them under that event's noun, so the output states no
  * rate per a sample the profiler never took.
  */
-export const countMetricOf = (noun: string): CountMetric => {
+export const countMetricOf = (
+  noun: string,
+  { improvement }: CountMetricOptions,
+): CountMetric => {
   const plural = plur(noun, 2)
   return {
     type: `count`,
     proseUnit: noun,
+    improvement,
     phrases: {
       titleNoun: noun,
       columnNoun: plural,
@@ -77,9 +109,20 @@ export const countMetricOf = (noun: string): CountMetric => {
   }
 }
 
-/** Returns whether two metrics measure the same thing in the same unit. */
+/**
+ * Returns whether two metrics measure the same thing in the same unit, and rank
+ * a change in it the same way.
+ *
+ * Two metrics disagreeing on which direction is an improvement measure
+ * different things, whatever their units, since a diff pairing them would rank
+ * every change by one side's direction alone.
+ */
 export const metricsEqual = (left: Metric, right: Metric): boolean => {
-  if (left.type !== right.type || !phrasesEqual(left.phrases, right.phrases)) {
+  if (
+    left.type !== right.type ||
+    left.improvement !== right.improvement ||
+    !phrasesEqual(left.phrases, right.phrases)
+  ) {
     return false
   }
 

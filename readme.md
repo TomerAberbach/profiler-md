@@ -61,7 +61,8 @@ diffs.
   retained sizes, retainer paths, and the largest constructors, functions, and
   strings
 - **Diffing:** ranked regressions and improvements between two profiles or two
-  heap snapshots, ignoring run-varying identifiers like build hashes
+  heap snapshots, ignoring run-varying identifiers like build hashes, and
+  ranking increases and decreases where a metric's unit states neither as better
 - **Source maps:** resolves minified and transpiled locations back to original
   sources
 - **Zero config:** auto-detects the format and profiler, decompresses

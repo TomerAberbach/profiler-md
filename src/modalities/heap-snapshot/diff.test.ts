@@ -3,8 +3,7 @@ import { mdastToMarkdown } from '../../helpers/markdown.ts'
 import type { ProfileToMdContext } from '../../options.ts'
 import {
   categoryTables,
-  improvementsTables,
-  regressionsTables,
+  rankingTables,
   resolveProfileToMdOptions,
 } from '../../testing.ts'
 import { diffAggregatedHeapSnapshots } from './diff.ts'
@@ -36,8 +35,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Self size`)).toEqual([])
-    expect(improvementsTables(md, `Self size`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([
       [
         {
           Change: `removed`,
@@ -67,7 +66,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Self size`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
       [
         {
           Change: `new`,
@@ -79,7 +78,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Self size`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
   test(`matches constructors by name despite differing locations`, () => {
@@ -109,7 +108,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Self size`)).toEqual([
+    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
       [
         {
           Change: `+100.0%`,
@@ -122,7 +121,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Self size`)).toEqual([])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
   test(`matches functions by name and file despite differing line and column`, () => {
@@ -150,7 +149,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest functions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
       [
         {
           Change: `+200.0%`,
@@ -165,7 +164,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest functions`)).toEqual([])
+    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([])
   })
 
   test(`keys each side's functions under that snapshot's own context`, () => {
@@ -233,7 +232,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest functions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
       [
         {
           Change: `new`,
@@ -248,7 +247,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest functions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([
       [
         {
           Change: `removed`,
@@ -289,8 +288,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest functions`)).toEqual([])
-    expect(improvementsTables(md, `Largest functions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([
       [
         {
           Change: `removed`,
@@ -330,7 +329,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest functions`)).toEqual([
+    expect(rankingTables(md, `Largest functions`, `Regressions`)).toEqual([
       [
         {
           Change: `+100.0%`,
@@ -344,7 +343,7 @@ describe(`diffAggregatedHeapSnapshots`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Largest functions`)).toEqual([])
+    expect(rankingTables(md, `Largest functions`, `Improvements`)).toEqual([])
   })
 
   test(`groups strings by value, merging duplicates and excluding unnamed strings`, () => {
@@ -364,8 +363,8 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     const diff = diffAggregatedHeapSnapshots(base, current, defaultOptions)
     const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, defaultOptions))
 
-    expect(regressionsTables(md, `Largest strings`)).toEqual([])
-    expect(improvementsTables(md, `Largest strings`)).toEqual([
+    expect(rankingTables(md, `Largest strings`, `Regressions`)).toEqual([])
+    expect(rankingTables(md, `Largest strings`, `Improvements`)).toEqual([
       [
         {
           Change: `-37.5%`,

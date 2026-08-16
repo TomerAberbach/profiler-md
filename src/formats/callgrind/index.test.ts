@@ -18,11 +18,10 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
-  improvementsTables,
   linesTables,
   profileTitles,
   rankingTable,
-  regressionsTables,
+  rankingTables,
   summaryLines,
 } from '../../testing.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
@@ -1078,7 +1077,7 @@ describe(`convert`, () => {
     expect(summaryLines(md)).toEqual([
       `Recorded 300 instructions → 380 instructions (+80 instructions, +26.7%).`,
     ])
-    expect(regressionsTables(md, `Self instructions`)).toEqual([
+    expect(rankingTables(md, `Self instructions`, `Regressions`)).toEqual([
       [
         {
           Change: `+50.0%`,
@@ -1090,7 +1089,7 @@ describe(`convert`, () => {
         },
       ],
     ])
-    expect(improvementsTables(md, `Self instructions`)).toEqual([
+    expect(rankingTables(md, `Self instructions`, `Improvements`)).toEqual([
       [
         {
           Change: `-20.0%`,

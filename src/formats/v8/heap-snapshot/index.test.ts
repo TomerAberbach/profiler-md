@@ -6,11 +6,7 @@ import {
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import {
-  categoryTables,
-  improvementsTables,
-  regressionsTables,
-} from '../../../testing.ts'
+import { categoryTables, rankingTables } from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
@@ -418,15 +414,19 @@ describe(`convert`, () => {
       Location: `src/a-111.ts:6:11`,
       'Example path': `(GC root)`,
     }
-    expect(regressionsTables(unmatchedMd, `Largest functions`)).toEqual([
-      [newFunction],
-    ])
-    expect(improvementsTables(unmatchedMd, `Largest functions`)).toEqual([
-      [removedFunction],
-    ])
+    expect(
+      rankingTables(unmatchedMd, `Largest functions`, `Regressions`),
+    ).toEqual([[newFunction]])
+    expect(
+      rankingTables(unmatchedMd, `Largest functions`, `Improvements`),
+    ).toEqual([[removedFunction]])
     // With the hook the function matches across the snapshots and has no delta.
-    expect(regressionsTables(matchedMd, `Largest functions`)).toEqual([])
-    expect(improvementsTables(matchedMd, `Largest functions`)).toEqual([])
+    expect(
+      rankingTables(matchedMd, `Largest functions`, `Regressions`),
+    ).toEqual([])
+    expect(
+      rankingTables(matchedMd, `Largest functions`, `Improvements`),
+    ).toEqual([])
   })
 
   test(`weak edges are not followed for retainer paths`, () => {

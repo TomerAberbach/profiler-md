@@ -296,10 +296,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   contention counts those events. One that records an event per allocation, but
   only for a subset of allocations, counts samples. State the answer with
   `CallStackProfile.countMetric`
-- Pass `countMetricOf('<singular noun>')` when the profiler counts occurrences
-  of something else. The noun titles a metric-less profile, heads its count
-  column, and follows the rate, so pick what one occurrence is. "object"
-  produces "over 78 objects" and "1.69 MiB per object"
+- Pass `countMetricOf(...)` when the profiler counts occurrences of something
+  else. The noun titles a metric-less profile, heads its count column, and
+  follows the rate, so pick what one occurrence is. "object" produces "over 78
+  objects" and "1.69 MiB per object". The direction states whether the program
+  incurs the occurrence (a cost, so `decrease`) or achieves it (`increase`)
 - Pass a time or size metric when one count measures a quantity rather than
   counting anything, so the counts format as that quantity and state no rate
 - Pass `null` when the counts measure nothing, so the profile reports its
@@ -309,6 +310,18 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   overrides the same field with `OriginSpec.countMetric`
 - NEVER count what the profiler did not record. Dropping the count costs a
   column; keeping it states a rate nothing measured
+
+### Ranking change
+
+- State every metric's `improvement`, the direction of change a diff calls an
+  improvement. A duration, a size, and a count of what a profiler recorded are
+  costs, so a decrease improves them
+- Pass `improvement` to `parseMetric` wherever the emitter's own documentation
+  states what a unit this package does not recognize measures. A unit left
+  unclassified is `unknown`, and a diff of it ranks `Increases` and `Decreases`
+  instead of `Regressions` and `Improvements`
+- NEVER call a change the metric does not measure better or worse. A wrong call
+  reads as a finding; an unranked change reads as a number
 
 ### Categorizing
 
@@ -349,6 +362,6 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 
 - Use heaps to avoid fully sorting data when possible
 - `src/cli/highlight.ts` heat-tints stdout by re-parsing the emitted Markdown
-  (column headers like `%`, `Delta`, and `Location`, and `name (location)`
-  heading keys), so a change to table or heading structure may require updating
-  it
+  (column headers like `%`, `Delta`, and `Location`, `name (location)` heading
+  keys, and the ranking headings a diff sorts its rows under), so a change to
+  table or heading structure may require updating it

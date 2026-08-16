@@ -2,9 +2,8 @@ import dedent from 'dedent'
 import { describe, expect, test } from 'vitest'
 import {
   categoryTables,
-  improvementsTables,
   profileTitles,
-  regressionsTables,
+  rankingTables,
   summaryLines,
 } from './testing.ts'
 
@@ -146,9 +145,9 @@ describe(`categoryTables`, () => {
   })
 })
 
-describe(`regressionsTables`, () => {
+describe(`rankingTables`, () => {
   test(`returns [] when the section heading is absent`, () => {
-    const tables = regressionsTables(
+    const tables = rankingTables(
       dedent`
         ### Regressions
 
@@ -157,13 +156,14 @@ describe(`regressionsTables`, () => {
         | foo | +1ms |
       `,
       `Self time`,
+      `Regressions`,
     )
 
     expect(tables).toStrictEqual([])
   })
 
   test(`returns [] when the section has no Regressions sub-heading`, () => {
-    const tables = regressionsTables(
+    const tables = rankingTables(
       dedent`
         ### Self time
 
@@ -174,13 +174,14 @@ describe(`regressionsTables`, () => {
         | foo | -1ms |
       `,
       `Self time`,
+      `Regressions`,
     )
 
     expect(tables).toStrictEqual([])
   })
 
   test(`returns parsed rows from the Regressions table within the section`, () => {
-    const tables = regressionsTables(
+    const tables = rankingTables(
       dedent`
         ### Self time
 
@@ -193,13 +194,14 @@ describe(`regressionsTables`, () => {
         | foo | +1ms |
       `,
       `Self time`,
+      `Regressions`,
     )
 
     expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `+1ms` }]])
   })
 
   test(`does not cross into the next section`, () => {
-    const tables = regressionsTables(
+    const tables = rankingTables(
       dedent`
         ### Self time
 
@@ -218,15 +220,14 @@ describe(`regressionsTables`, () => {
         | bar | +2ms |
       `,
       `Self time`,
+      `Regressions`,
     )
 
     expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `+1ms` }]])
   })
-})
 
-describe(`improvementsTables`, () => {
   test(`returns [] when the section has no Improvements sub-heading`, () => {
-    const tables = improvementsTables(
+    const tables = rankingTables(
       dedent`
         ### Self time
 
@@ -237,13 +238,14 @@ describe(`improvementsTables`, () => {
         | foo | +1ms |
       `,
       `Self time`,
+      `Improvements`,
     )
 
     expect(tables).toStrictEqual([])
   })
 
   test(`returns parsed rows from the Improvements table within the section`, () => {
-    const tables = improvementsTables(
+    const tables = rankingTables(
       dedent`
         ### Total time
 
@@ -256,6 +258,7 @@ describe(`improvementsTables`, () => {
         | foo | -1ms |
       `,
       `Total time`,
+      `Improvements`,
     )
 
     expect(tables).toStrictEqual([[{ Function: `foo`, Delta: `-1ms` }]])
