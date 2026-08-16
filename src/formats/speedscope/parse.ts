@@ -194,7 +194,10 @@ const eventedProfile = (
   type: `call-stack-profile`,
   frames,
   metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
-  countMetric: SAMPLES,
+  // The records below are reconstructed intervals rather than anything the
+  // profiler recorded, so counting them would report a rate per record it
+  // never measured.
+  countMetric: null,
   observations: eventedObservations(profile),
 })
 
