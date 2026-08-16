@@ -3,12 +3,9 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import {
-  countMetricOf,
-  determineMetric,
-  SAMPLES,
-} from '../../modalities/metric.ts'
+import { countMetricOf } from '../../modalities/metric.ts'
 import type { CountMetric, Metric } from '../../modalities/metric.ts'
+import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
@@ -214,7 +211,9 @@ const layoutOf = (valueTypes: ValueType[]): ValueLayout => {
     ...metricsOf(valueTypes.filter(valueType => valueType !== countValueType)),
     countMetric: countValueType
       ? (countedAs(countValueType.name) ??
-        countMetricNamed(countValueType.name))
+        // The unit is `count`, so the parsed metric is a count metric named
+        // after the emitter's own type name.
+        (parseMetric(countValueType) as CountMetric))
       : SAMPLES,
     countValueIndex: countValueType?.index,
   }
@@ -240,26 +239,8 @@ const recordCountValueTypeOf = (
 const metricsOf = (
   valueTypes: ValueType[],
 ): Pick<ValueLayout, `metrics` | `metricValueIndices`> => ({
-  metrics: valueTypes.map(({ name, unit }) => determineMetric({ name, unit })),
+  metrics: valueTypes.map(({ name, unit }) => parseMetric({ name, unit })),
   metricValueIndices: valueTypes.map(({ index }) => index),
-})
-
-/**
- * The metric for a count named after the emitter's own type name, for a name
- * this package has no singular noun for.
- *
- * Prose counts bare units, because the emitter's name states no grammatical
- * number to inflect from. Pluralizing it reads as "78 objectses".
- */
-const countMetricNamed = (name: string): CountMetric => ({
-  type: `count`,
-  proseUnit: `count`,
-  phrases: {
-    titleNoun: name,
-    columnNoun: name,
-    pastTenseVerb: `recorded`,
-    pastParticipleVerbPhrase: `${name} recorded`,
-  },
 })
 
 /**

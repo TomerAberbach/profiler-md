@@ -13,13 +13,13 @@ import {
   resolveProfileToMdOptions,
   summaryLines,
 } from '../../testing.ts'
+import { countMetricOf } from '../metric.ts'
 import {
-  BYTES,
-  countMetricOf,
-  determineMetric,
-  MEGABYTES,
-  MICROSECONDS,
-} from '../metric.ts'
+  BYTES_METRIC,
+  MEGABYTES_METRIC,
+  MICROSECONDS_METRIC,
+  RETAINED_HEAP_METRIC,
+} from '../metrics.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { formatCallStackProfile, formatCallStackProfileDiff } from './format.ts'
 import {
@@ -37,13 +37,10 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
  */
 const ELLIPSIS_NOTE = `\`…\` stands for frames the entry filter hides.`
 
-/** The gperftools in-use metric, all zeros when nothing was live at dump time. */
-const RETAINED_BYTES = determineMetric({ name: `inuse_space`, unit: `bytes` })
-
 describe(`formatCallStackProfile`, () => {
   test(`omits zero-valued call stacks from the hottest call stacks table`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `hotLeaf`,
@@ -92,7 +89,7 @@ describe(`formatCallStackProfile`, () => {
     // Main (ours) → extMid (stdlib, never a leaf) → extLeaf (stdlib). extMid
     // is sampled in no leaf frame, so only its callee's time places it.
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `extLeaf`,
@@ -144,7 +141,7 @@ describe(`formatCallStackProfile`, () => {
     // leaves the entry filter hides. Without merging they'd render as two
     // identical rows, each carrying only its own slice of the value.
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `extLeafA`,
@@ -188,7 +185,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`marks hidden frames between two shown frames with an ellipsis`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -236,7 +233,7 @@ describe(`formatCallStackProfile`, () => {
     // directly, so the ellipsis prints on the row instead of in the common
     // call stack.
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -295,7 +292,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`shortens a location across an ellipsis`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -341,7 +338,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`drops hidden frames below the leaf and above the root without an ellipsis`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `hiddenLeaf`,
@@ -394,7 +391,7 @@ describe(`formatCallStackProfile`, () => {
     // A filter matching no sampled function would empty the body, so it is
     // disabled with a note instead.
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         { name: `funcA`, selfCount: 5, selfValues: [300], stack: [0, 1] },
         { name: `funcB`, selfCount: 0, selfValues: [0] },
@@ -424,7 +421,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`notes a metric with no recorded values in place of its sections`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS, RETAINED_BYTES],
+      [MICROSECONDS_METRIC, RETAINED_HEAP_METRIC],
       [
         {
           name: `funcA`,
@@ -443,7 +440,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`notes a single metric with no recorded values in place of all sections`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [RETAINED_BYTES],
+      [RETAINED_HEAP_METRIC],
       [
         {
           name: `funcA`,
@@ -462,7 +459,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`keeps a call stack's module location after a file of the same name`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `leaf`,
@@ -496,7 +493,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`keeps a function in a file and one in a module of the same name apart`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `sort`,
@@ -543,7 +540,7 @@ describe(`formatCallStackProfile`, () => {
      */
     const makeMixedProfile = () =>
       makeAggregatedCallStackProfile(
-        [MICROSECONDS],
+        [MICROSECONDS_METRIC],
         [
           {
             name: `ourFunc`,
@@ -670,7 +667,7 @@ describe(`formatCallStackProfile`, () => {
 
     test(`splits a ranking whose entries all fall in one category`, () => {
       const profile = makeAggregatedCallStackProfile(
-        [MICROSECONDS],
+        [MICROSECONDS_METRIC],
         [
           {
             name: `ourFunc`,
@@ -720,7 +717,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`names a profile's counts by what one of them is`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MEGABYTES],
+      [MEGABYTES_METRIC],
       [
         {
           name: `allocate`,
@@ -769,7 +766,7 @@ describe(`formatCallStackProfile`, () => {
 
   test(`omits the count column and the rate when the counts measure nothing`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -804,7 +801,7 @@ describe(`formatCallStackProfile`, () => {
 describe(`formatCallStackProfileDiff`, () => {
   test(`produces expected title`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -815,7 +812,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -834,7 +831,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`includes base and current summary lines`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -845,7 +842,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -867,13 +864,13 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`dashes the rate of a side that counted nothing`, () => {
     const base = makeAggregatedCallStackProfile(
-      [BYTES],
+      [BYTES_METRIC],
       [],
       undefined,
       countMetricOf(`object`),
     )
     const current = makeAggregatedCallStackProfile(
-      [BYTES],
+      [BYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -896,7 +893,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`includes category table with delta and change`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -907,7 +904,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -937,7 +934,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`lists regressions and improvements per direction`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -956,7 +953,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -1023,7 +1020,7 @@ describe(`formatCallStackProfileDiff`, () => {
     // profile, so they have the same profile-local function ID; hiding funcB
     // must not hide funcC.
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -1042,7 +1039,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -1096,7 +1093,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`notes that each function section is unchanged when nothing changed`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -1150,7 +1147,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`omits each function section a non-diff profile would omit instead of noting it`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -1189,7 +1186,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`notes the unchanged metric while detailing the changed one in a multi-metric diff`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS, MEGABYTES],
+      [MICROSECONDS_METRIC, MEGABYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -1202,7 +1199,7 @@ describe(`formatCallStackProfileDiff`, () => {
     )
     // Only the CPU metric changes; the heap metric is identical on both sides.
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS, MEGABYTES],
+      [MICROSECONDS_METRIC, MEGABYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -1230,7 +1227,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`notes a metric with no recorded values on either side in place of its sections`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS, RETAINED_BYTES],
+      [MICROSECONDS_METRIC, RETAINED_HEAP_METRIC],
       [
         {
           name: `funcA`,
@@ -1241,7 +1238,7 @@ describe(`formatCallStackProfileDiff`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS, RETAINED_BYTES],
+      [MICROSECONDS_METRIC, RETAINED_HEAP_METRIC],
       [
         {
           name: `funcA`,
@@ -1262,7 +1259,7 @@ describe(`formatCallStackProfileDiff`, () => {
 
   test(`omits a metric's heading when hidden entries leave it without sections`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS, MEGABYTES],
+      [MICROSECONDS_METRIC, MEGABYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -1305,7 +1302,7 @@ describe(`formatCallStackProfileDiff`, () => {
      */
     const makeMixedProfile = (selfValues: [number, number, number]) =>
       makeAggregatedCallStackProfile(
-        [MICROSECONDS],
+        [MICROSECONDS_METRIC],
         [
           {
             name: `ourFunc`,
@@ -1441,7 +1438,7 @@ describe(`formatCallStackProfileDiff`, () => {
       // than the threshold.
       const churning = (firstSamples: number, secondSamples: number) =>
         makeAggregatedCallStackProfile(
-          [MICROSECONDS],
+          [MICROSECONDS_METRIC],
           [
             {
               name: `ourFunc`,

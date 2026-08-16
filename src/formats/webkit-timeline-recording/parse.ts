@@ -2,7 +2,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { SAMPLES, SECONDS } from '../../modalities/metric.ts'
+import { SAMPLES, SECONDS_METRIC } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A function observed in a WebKit timeline recording call stack. */
@@ -85,7 +85,7 @@ export const parseWebKitTimelineRecording = ({
     {
       type: `call-stack-profile`,
       frames,
-      metrics: [SECONDS],
+      metrics: [SECONDS_METRIC],
       countMetric: SAMPLES,
       observations,
     },

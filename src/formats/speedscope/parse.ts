@@ -2,7 +2,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
+import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /** A unique location within a function. */
@@ -162,7 +162,7 @@ const sampledProfile = (
 ): CallStackProfile => ({
   type: `call-stack-profile`,
   frames,
-  metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
   countMetric: SAMPLES,
   observations: sampledObservations(profile),
 })
@@ -193,7 +193,7 @@ const eventedProfile = (
 ): CallStackProfile => ({
   type: `call-stack-profile`,
   frames,
-  metrics: [determineMetric({ name: profile.unit, unit: profile.unit })],
+  metrics: [parseMetric({ name: profile.unit, unit: profile.unit })],
   // The records below are reconstructed intervals rather than anything the
   // profiler recorded, so counting them would report a rate per record it
   // never measured.

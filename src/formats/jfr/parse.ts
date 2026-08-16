@@ -4,12 +4,15 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import {
-  countMetricOf,
-  determineMetric,
-  SAMPLES,
-} from '../../modalities/metric.ts'
+import { countMetricOf } from '../../modalities/metric.ts'
 import type { CountMetric, Metric } from '../../modalities/metric.ts'
+import {
+  ALLOCATED_HEAP_METRIC,
+  ALLOCATED_NATIVE_MEMORY_METRIC,
+  LOCK_CONTENTION_TIME_METRIC,
+  RETAINED_HEAP_METRIC,
+  SAMPLES,
+} from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 
 /**
@@ -267,24 +270,6 @@ function* kindObservations(
   }
 }
 
-/** Heap allocation samples are weighted by allocated bytes. */
-const ALLOC_METRIC = determineMetric({ name: `alloc_space`, unit: `bytes` })
-
-/** Native memory allocation samples are weighted by allocated bytes. */
-const NATIVEMEM_METRIC = determineMetric({
-  name: `nativemem_space`,
-  unit: `bytes`,
-})
-
-/**
- * Live-object samples are weighted by the sampled object's size in bytes;
- * they measure heap still retained when the recording was captured.
- */
-const LIVE_METRIC = determineMetric({ name: `inuse_space`, unit: `bytes` })
-
-/** Lock samples are weighted by blocked time in nanoseconds. */
-const LOCK_METRIC = determineMetric({ name: `block_time`, unit: `nanoseconds` })
-
 /** One object sampled at allocation and still live when the recording ended. */
 const OBJECTS = countMetricOf(`object`)
 
@@ -310,10 +295,18 @@ const KINDS: {
   countMetric: CountMetric
 }[] = [
   { kind: `cpu`, metric: undefined, countMetric: SAMPLES },
-  { kind: `alloc`, metric: ALLOC_METRIC, countMetric: SAMPLES },
-  { kind: `live`, metric: LIVE_METRIC, countMetric: OBJECTS },
-  { kind: `nativemem`, metric: NATIVEMEM_METRIC, countMetric: SAMPLES },
-  { kind: `lock`, metric: LOCK_METRIC, countMetric: CONTENTIONS },
+  { kind: `alloc`, metric: ALLOCATED_HEAP_METRIC, countMetric: SAMPLES },
+  { kind: `live`, metric: RETAINED_HEAP_METRIC, countMetric: OBJECTS },
+  {
+    kind: `nativemem`,
+    metric: ALLOCATED_NATIVE_MEMORY_METRIC,
+    countMetric: SAMPLES,
+  },
+  {
+    kind: `lock`,
+    metric: LOCK_CONTENTION_TIME_METRIC,
+    countMetric: CONTENTIONS,
+  },
 ]
 
 type Field = {

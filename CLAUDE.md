@@ -54,7 +54,8 @@ profiler-md
 │   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
 │   │   ├── diff.ts               # Base/current diffing primitives
 │   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
-│   │   ├── metric.ts             # Recorded metric types and inference logic
+│   │   ├── metric.ts             # Recorded metric types, constructors, and equality
+│   │   ├── metrics.ts            # The named metric constants, and parsing of emitter unit/name strings to them
 │   │   ├── measure.ts            # Metric phrasing and cell formatting shared across modalities
 │   │   ├── table.ts              # Table cell/column types + Markdown table/diff-table formatting
 │   │   ├── format.ts             # Formatting helpers shared across modalities

@@ -8,7 +8,7 @@ import {
   selfSamplesTables,
   selfTimeTables,
 } from '../modalities/call-stack-profile/testing.ts'
-import { SAMPLES } from '../modalities/metric.ts'
+import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import {
   categoryTables,

@@ -1,7 +1,7 @@
 import plur from 'plur'
 
 /** Phrases that can be used in prose related to a metric. */
-type MetricPhrases = {
+export type MetricPhrases = {
   /** A noun to use in headings, like "CPU", "heap", etc. */
   titleNoun: string
 
@@ -49,9 +49,15 @@ export type Metric = (
 /** A metric formatted as a bare count. */
 export type CountMetric = Extract<Metric, { type: `count` }>
 
+/** Returns {@link metric} rephrased, keeping its type and unit. */
+export const metricWithPhrases = <M extends Metric>(
+  metric: M,
+  phrases: MetricPhrases,
+): M => ({ ...metric, phrases })
+
 /**
  * The metric for a count of things, named by the singular noun for one of them
- * (e.g. `entry`, `object`, `contention`).
+ * (e.g. `entry`, `object`, `contention`), phrased as "recorded".
  *
  * A profiler that counts occurrences of a named event instead of sampling the
  * call stack records them under that event's noun, so the output states no
@@ -69,116 +75,6 @@ export const countMetricOf = (noun: string): CountMetric => {
       pastParticipleVerbPhrase: `${plural} recorded`,
     },
   }
-}
-
-/** What one count measures for a profiler that samples the call stack. */
-export const SAMPLES: CountMetric = {
-  type: `count`,
-  proseUnit: `sample`,
-  phrases: {
-    titleNoun: `sampling`,
-    columnNoun: `samples`,
-    pastTenseVerb: `collected`,
-    pastParticipleVerbPhrase: `samples taken`,
-  },
-}
-
-/**
- * The metric for an emitter's own unit and value-type names.
- *
- * An unrecognized unit becomes a count in that unit, phrased from the names
- * verbatim, since a string the emitter chose states no grammatical
- * number to inflect from. Prose pluralizes `proseUnit`, so an already-plural
- * unit reads as "78 cycleses". Pass {@link countMetricOf} a singular noun
- * instead, wherever the noun is one this package chose.
- */
-export const determineMetric = ({
-  name,
-  unit,
-}: {
-  name: string
-  unit: string
-}): Metric => {
-  const metric = UNIT_TO_METRIC.get(unit.toLowerCase()) ?? {
-    type: `count`,
-    proseUnit: unit,
-    phrases: {
-      titleNoun: name,
-      columnNoun: name,
-      pastTenseVerb: `recorded`,
-      pastParticipleVerbPhrase: `${name} recorded`,
-    },
-  }
-
-  const phrases = METRIC_TYPE_AND_NAME_TO_PHRASES.get(metric.type)?.get(
-    name.toLowerCase(),
-  )
-  if (phrases) {
-    return { ...metric, phrases }
-  }
-
-  return metric
-}
-
-const TIME_PHRASES: MetricPhrases = {
-  titleNoun: `CPU`,
-  columnNoun: `time`,
-  pastTenseVerb: `took`,
-  pastParticipleVerbPhrase: `time spent`,
-}
-const SAMPLING_TIME_PHRASES: MetricPhrases = {
-  titleNoun: `sampling`,
-  columnNoun: `time`,
-  pastTenseVerb: `took`,
-  pastParticipleVerbPhrase: `time spent`,
-}
-const SIZE_PHRASES: MetricPhrases = {
-  titleNoun: `heap`,
-  columnNoun: `size`,
-  pastTenseVerb: `allocated`,
-  pastParticipleVerbPhrase: `bytes allocated`,
-}
-
-export const NANOSECONDS: Metric = {
-  type: `time`,
-  milliseconds: 1e-6,
-  phrases: TIME_PHRASES,
-}
-export const MICROSECONDS: Metric = {
-  type: `time`,
-  milliseconds: 0.001,
-  phrases: TIME_PHRASES,
-}
-export const MILLISECONDS: Metric = {
-  type: `time`,
-  milliseconds: 1,
-  phrases: TIME_PHRASES,
-}
-export const SECONDS: Metric = {
-  type: `time`,
-  milliseconds: 1000,
-  phrases: TIME_PHRASES,
-}
-
-export const BYTES: Metric = {
-  type: `size`,
-  bytes: 1,
-  phrases: SIZE_PHRASES,
-}
-const KILOBYTES: Metric = {
-  type: `size`,
-  bytes: 1 << 10,
-  phrases: SIZE_PHRASES,
-}
-export const MEGABYTES: Metric = {
-  type: `size`,
-  bytes: 1 << 20,
-  phrases: SIZE_PHRASES,
-}
-const GIGABYTES: Metric = {
-  type: `size`,
-  bytes: 1 << 30,
-  phrases: SIZE_PHRASES,
 }
 
 /** Returns whether two metrics measure the same thing in the same unit. */
@@ -244,156 +140,3 @@ export const matchDiffedMetrics = (
   }
   return matchedMetrics
 }
-
-const UNIT_TO_METRIC: ReadonlyMap<string, Metric> = new Map<string, Metric>([
-  [`nanoseconds`, NANOSECONDS],
-  [`nanosecond`, NANOSECONDS],
-  [`nanos`, NANOSECONDS],
-  [`ns`, NANOSECONDS],
-
-  [`microseconds`, MICROSECONDS],
-  [`microsecond`, MICROSECONDS],
-  [`micros`, MICROSECONDS],
-  [`us`, MICROSECONDS],
-  [`μs`, MICROSECONDS],
-
-  [`milliseconds`, MILLISECONDS],
-  [`millisecond`, MILLISECONDS],
-  [`millis`, MILLISECONDS],
-  [`ms`, MILLISECONDS],
-
-  [`seconds`, SECONDS],
-  [`second`, SECONDS],
-  [`secs`, SECONDS],
-  [`sec`, SECONDS],
-  [`s`, SECONDS],
-
-  [`bytes`, BYTES],
-  [`byte`, BYTES],
-  [`b`, BYTES],
-
-  [`kilobytes`, KILOBYTES],
-  [`kilobyte`, KILOBYTES],
-  [`kbytes`, KILOBYTES],
-  [`kbyte`, KILOBYTES],
-  [`kb`, KILOBYTES],
-
-  [`megabytes`, MEGABYTES],
-  [`megabyte`, MEGABYTES],
-  [`mbytes`, MEGABYTES],
-  [`mbyte`, MEGABYTES],
-  [`mb`, MEGABYTES],
-
-  [`gigabytes`, GIGABYTES],
-  [`gigabyte`, GIGABYTES],
-  [`gbytes`, GIGABYTES],
-  [`gbyte`, GIGABYTES],
-  [`gb`, GIGABYTES],
-
-  [
-    `none`,
-    {
-      type: `count`,
-      proseUnit: `time`,
-      phrases: {
-        titleNoun: `count`,
-        columnNoun: `counts`,
-        pastTenseVerb: `recorded`,
-        pastParticipleVerbPhrase: `count recorded`,
-      },
-    },
-  ],
-])
-
-const METRIC_TYPE_AND_NAME_TO_PHRASES: ReadonlyMap<
-  Metric[`type`],
-  ReadonlyMap<string, MetricPhrases>
-> = new Map([
-  [
-    `time`,
-    new Map<string, MetricPhrases>([
-      // A name that is just a time unit says nothing about what was measured,
-      // so just call it a "sampling" profile.
-      ...[...UNIT_TO_METRIC]
-        .filter(([, metric]) => metric.type === `time`)
-        .map(([alias]) => [alias, SAMPLING_TIME_PHRASES] as const),
-      [
-        `block_time`,
-        {
-          titleNoun: `lock contention`,
-          columnNoun: `time`,
-          pastTenseVerb: `blocked`,
-          pastParticipleVerbPhrase: `time blocked`,
-        },
-      ],
-      [
-        `delay`,
-        {
-          titleNoun: `contention`,
-          columnNoun: `time`,
-          pastTenseVerb: `blocked`,
-          pastParticipleVerbPhrase: `time blocked`,
-        },
-      ],
-      [
-        `wall`,
-        {
-          titleNoun: `wall time`,
-          columnNoun: `time`,
-          pastTenseVerb: `took`,
-          pastParticipleVerbPhrase: `wall time spent`,
-        },
-      ],
-    ]),
-  ],
-  [
-    `size`,
-    new Map<string, MetricPhrases>([
-      [
-        `alloc_space`,
-        {
-          titleNoun: `allocated heap`,
-          columnNoun: `size`,
-          pastTenseVerb: `allocated`,
-          pastParticipleVerbPhrase: `bytes allocated`,
-        },
-      ],
-      [
-        `inuse_space`,
-        {
-          titleNoun: `retained heap`,
-          columnNoun: `size`,
-          pastTenseVerb: `retained`,
-          pastParticipleVerbPhrase: `bytes retained`,
-        },
-      ],
-      [
-        `nativemem_space`,
-        {
-          titleNoun: `allocated native memory`,
-          columnNoun: `size`,
-          pastTenseVerb: `allocated`,
-          pastParticipleVerbPhrase: `native bytes allocated`,
-        },
-      ],
-      [
-        `peak_space`,
-        {
-          titleNoun: `peak memory`,
-          columnNoun: `size`,
-          pastTenseVerb: `held`,
-          pastParticipleVerbPhrase: `bytes held at peak memory`,
-        },
-      ],
-      [
-        `leaked_space`,
-        {
-          titleNoun: `leaked memory`,
-          columnNoun: `size`,
-          pastTenseVerb: `leaked`,
-          pastParticipleVerbPhrase: `bytes never freed`,
-        },
-      ],
-    ]),
-  ],
-])

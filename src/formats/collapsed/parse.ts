@@ -3,7 +3,7 @@ import type {
   CallStackProfile,
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
-import { SAMPLES } from '../../modalities/metric.ts'
+import { SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 

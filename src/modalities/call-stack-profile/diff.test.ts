@@ -1,12 +1,12 @@
 import { describe, expect, test } from 'vitest'
 import { resolveProfileToMdOptions } from '../../testing.ts'
+import { countMetricOf } from '../metric.ts'
 import {
-  BYTES,
-  countMetricOf,
-  MICROSECONDS,
-  MILLISECONDS,
+  BYTES_METRIC,
+  MICROSECONDS_METRIC,
+  MILLISECONDS_METRIC,
   SAMPLES,
-} from '../metric.ts'
+} from '../metrics.ts'
 import { diffAggregatedCallStackProfiles } from './diff.ts'
 import { makeAggregatedCallStackProfile } from './testing.ts'
 
@@ -15,7 +15,7 @@ const defaultOptions = resolveProfileToMdOptions({ baseURL: `/project` })
 describe(`diffAggregatedCallStackProfiles`, () => {
   test(`identical profiles produce zero deltas`, () => {
     const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -45,7 +45,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`function only in base has no current side`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -55,7 +55,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
         },
       ],
     )
-    const current = makeAggregatedCallStackProfile([MICROSECONDS], [])
+    const current = makeAggregatedCallStackProfile([MICROSECONDS_METRIC], [])
 
     const diff = diffAggregatedCallStackProfiles(base, current, defaultOptions)
 
@@ -66,11 +66,11 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`function in a file does not match one in a module of the same name`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [{ name: `sort`, url: `lists`, selfValues: [100], selfCount: 5 }],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `sort`,
@@ -93,9 +93,9 @@ describe(`diffAggregatedCallStackProfiles`, () => {
   })
 
   test(`function only in current has no base side`, () => {
-    const base = makeAggregatedCallStackProfile([MICROSECONDS], [])
+    const base = makeAggregatedCallStackProfile([MICROSECONDS_METRIC], [])
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcB`,
@@ -115,7 +115,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`intersects metrics with partial overlap`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS, BYTES],
+      [MICROSECONDS_METRIC, BYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -126,7 +126,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -145,7 +145,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`throws on no matching metrics`, () => {
     const base = makeAggregatedCallStackProfile(
-      [BYTES],
+      [BYTES_METRIC],
       [
         {
           name: `funcA`,
@@ -156,7 +156,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -200,13 +200,13 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       selfCount: 5,
     }
     const base = makeAggregatedCallStackProfile(
-      [BYTES],
+      [BYTES_METRIC],
       [func],
       undefined,
       SAMPLES,
     )
     const current = makeAggregatedCallStackProfile(
-      [BYTES],
+      [BYTES_METRIC],
       [func],
       undefined,
       countMetricOf(`entry`),
@@ -220,7 +220,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`matches functions by name + URL ignoring line/column`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -232,7 +232,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -258,7 +258,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     const rustc = (hash: string) =>
       `file:///rustc/${hash}/library/std/src/rt.rs`
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `parse`,
@@ -276,7 +276,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       context,
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `parse`,
@@ -309,7 +309,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       `file:///app/target/release/build/web-compiler-${hash}/out/parser.rs`
     const context = { format: `v8-cpu-profile`, origin: `node` } as const
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `parse`,
@@ -321,7 +321,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       context,
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `parse`,
@@ -367,11 +367,11 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       },
     ]
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       methods([322, 50]),
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       methods([333, 60]),
     )
 
@@ -404,11 +404,11 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       selfCount: count,
     })
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [method(36, 5514)],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [method(36, 5680), method(35, 12)],
     )
 
@@ -434,7 +434,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
     // runtime address; the default `matchEntry` strips it so the same frame
     // matches across runs instead of diffing as a removed+new pair.
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `apply(Object, Object)`,
@@ -451,7 +451,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       { format: `jfr`, origin: `jdk` },
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `apply(Object, Object)`,
@@ -479,7 +479,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`matches functions without locations by name`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `(garbage collector)`,
@@ -489,7 +489,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `(garbage collector)`,
@@ -509,7 +509,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`merges category metrics from both profiles`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -520,7 +520,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -542,7 +542,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
 
   test(`throws on metrics with matching types but different units`, () => {
     const base = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
+      [MICROSECONDS_METRIC],
       [
         {
           name: `funcA`,
@@ -553,7 +553,7 @@ describe(`diffAggregatedCallStackProfiles`, () => {
       ],
     )
     const current = makeAggregatedCallStackProfile(
-      [MILLISECONDS],
+      [MILLISECONDS_METRIC],
       [
         {
           name: `funcA`,
