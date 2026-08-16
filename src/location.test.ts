@@ -256,6 +256,23 @@ describe(`makeFileReference`, () => {
   })
 
   test.each([
+    [`/project/src/./file.ts`, `file:///project/src/file.ts`],
+    [`/project/src/../file.ts`, `file:///project/file.ts`],
+    // Node.js 22's URL parser keeps a dot segment that follows a segment
+    // starting with a dot, so this case passes only because
+    // `makeFileReference` resolves dot segments itself.
+    [`/project/.cache/./file.ts`, `file:///project/.cache/file.ts`],
+    [`/../file.ts`, `file:///file.ts`],
+    [`/project/src/.`, `file:///project/src/`],
+    [`https://example.com/a/./file.ts`, `https://example.com/a/file.ts`],
+  ])(`resolves the dot segments of %s`, (urlOrPath, expected) => {
+    expect(makeFileReference(urlOrPath)).toStrictEqual({
+      type: `absolute`,
+      url: new URL(expected),
+    })
+  })
+
+  test.each([
     [`empty string`, ``],
     [`unknown`, `unknown`],
     [`uppercase UNKNOWN`, `UNKNOWN`],

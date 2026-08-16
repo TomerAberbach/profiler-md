@@ -90,7 +90,10 @@ export const makeFileReference = (
 
   if (urlOrPath.startsWith(`/`)) {
     try {
-      return { type: `absolute`, url: new URL(`file://${urlOrPath}`) }
+      return {
+        type: `absolute`,
+        url: withoutDotSegments(new URL(`file://${urlOrPath}`)),
+      }
     } catch {
       return { type: `relative`, path: urlOrPath }
     }
@@ -101,10 +104,50 @@ export const makeFileReference = (
   }
 
   try {
-    return { type: `absolute`, url: new URL(urlOrPath) }
+    return { type: `absolute`, url: withoutDotSegments(new URL(urlOrPath)) }
   } catch {
     return { type: `relative`, path: urlOrPath }
   }
+}
+
+/**
+ * Resolves the `.` and `..` segments the URL parser leaves in a path.
+ *
+ * Node.js 22 bundles a URL parser that keeps a dot segment when an earlier
+ * segment starts with a dot (`/a/.x/./y`), so resolving the segments here
+ * keeps a location's formatting identical across Node.js versions. Every
+ * version resolves a percent-encoded dot segment, so only a literal one
+ * remains.
+ */
+const withoutDotSegments = (url: URL): URL => {
+  // An opaque path (`node:fs`) has no segments to resolve.
+  const { pathname } = url
+  if (!pathname.startsWith(`/`) || !pathname.includes(`/.`)) {
+    return url
+  }
+
+  const segments: string[] = []
+  let endsWithDotSegment = false
+  for (const segment of pathname.split(`/`)) {
+    endsWithDotSegment = true
+    if (segment === `..`) {
+      // The root has no parent to ascend to.
+      if (segments.length > 1) {
+        segments.pop()
+      }
+    } else if (segment !== `.`) {
+      segments.push(segment)
+      endsWithDotSegment = false
+    }
+  }
+  // A trailing dot segment names a directory, so the path keeps its trailing
+  // slash.
+  if (endsWithDotSegment) {
+    segments.push(``)
+  }
+
+  url.pathname = segments.join(`/`)
+  return url
 }
 
 const makeLogicalReference = (name: string): LogicalReference | undefined => {
