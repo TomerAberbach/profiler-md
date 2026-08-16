@@ -1,12 +1,12 @@
 # Peak memory profile diff
 
-Held 78.6 MiB over 22,694 samples (3.55 KiB per sample).
+Held 78.6 MiB over 22,694 allocations (3.55 KiB per allocation).
 
-| Category         | Change | Delta |     % |     Size | Samples |
-| ---------------- | -----: | ----: | ----: | -------: | ------: |
-| Ours             |   0.0% |   0 B | 81.6% | 64.2 MiB |  21,445 |
-| Standard library |   0.0% |   0 B | 16.7% | 13.2 MiB |   1,015 |
-| Third-party      |   0.0% |   0 B |  1.6% | 1.27 MiB |     234 |
+| Category         | Change | Delta |     % |     Size | Allocations |
+| ---------------- | -----: | ----: | ----: | -------: | ----------: |
+| Ours             |   0.0% |   0 B | 81.6% | 64.2 MiB |      21,445 |
+| Standard library |   0.0% |   0 B | 16.7% | 13.2 MiB |       1,015 |
+| Third-party      |   0.0% |   0 B |  1.6% | 1.27 MiB |         234 |
 
 ## Hottest functions
 
@@ -18,7 +18,7 @@ Functions with the largest increase in bytes held at peak memory directly in the
 
 ##### Ours
 
-|    Change |  Delta |             % |                Size |         Samples | Function              | Location                 |
+|    Change |  Delta |             % |                Size |     Allocations | Function              | Location                 |
 | --------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------ |
 |   +200.0% | +2 MiB |   1.3% → 3.8% |       1 MiB → 3 MiB |           1 → 3 | `prefix`              | `blib2to3/pytree.py:480` |
 |    +32.8% | +1 MiB |   3.9% → 5.1% | 3.05 MiB → 4.05 MiB |         59 → 60 | `_stringify_ast`      | `black/parsing.py:174`   |
@@ -34,13 +34,13 @@ Functions with the largest decrease in bytes held at peak memory directly in the
 
 ##### Ours
 
-|  Change |  Delta |            % |          Size | Samples | Function                         | Location                |
-| ------: | -----: | -----------: | ------------: | ------: | -------------------------------- | ----------------------- |
-|  -75.0% | -3 MiB |  5.1% → 1.3% | 4 MiB → 1 MiB |   4 → 1 | `__init__`                       | `<string>:2`            |
-| -100.0% | -2 MiB | 2.5% → <0.1% | 2 MiB → 702 B |   3 → 1 | `visit_default`                  | `black/linegen.py:134`  |
-|  -33.3% | -1 MiB |  3.8% → 2.5% | 3 MiB → 2 MiB |   3 → 2 | `_stringify_ast_with_new_parent` | `black/parsing.py:166`  |
-| removed | -1 MiB |  1.3% → 0.0% |   1 MiB → 0 B |   1 → 0 | `__str__`                        | `black/lines.py:490`    |
-|  -14.3% | -1 MiB |  8.9% → 7.6% | 7 MiB → 6 MiB |   7 → 6 | `__new__`                        | `blib2to3/pytree.py:81` |
+|  Change |  Delta |            % |          Size | Allocations | Function                         | Location                |
+| ------: | -----: | -----------: | ------------: | ----------: | -------------------------------- | ----------------------- |
+|  -75.0% | -3 MiB |  5.1% → 1.3% | 4 MiB → 1 MiB |       4 → 1 | `__init__`                       | `<string>:2`            |
+| -100.0% | -2 MiB | 2.5% → <0.1% | 2 MiB → 702 B |       3 → 1 | `visit_default`                  | `black/linegen.py:134`  |
+|  -33.3% | -1 MiB |  3.8% → 2.5% | 3 MiB → 2 MiB |       3 → 2 | `_stringify_ast_with_new_parent` | `black/parsing.py:166`  |
+| removed | -1 MiB |  1.3% → 0.0% |   1 MiB → 0 B |       1 → 0 | `__str__`                        | `black/lines.py:490`    |
+|  -14.3% | -1 MiB |  8.9% → 7.6% | 7 MiB → 6 MiB |       7 → 6 | `__new__`                        | `blib2to3/pytree.py:81` |
 
 ### Total size
 
@@ -50,7 +50,7 @@ Functions with the largest increase in total bytes held at peak memory in the fu
 
 ##### Ours
 
-|   Change |  Delta |             % |                Size |         Samples | Function                    | Location                 |
+|   Change |  Delta |             % |                Size |     Allocations | Function                    | Location                 |
 | -------: | -----: | ------------: | ------------------: | --------------: | --------------------------- | ------------------------ |
 |   +16.5% | +4 MiB | 30.9% → 36.0% | 24.3 MiB → 28.3 MiB | 20,889 → 20,893 | `append`                    | `black/lines.py:63`      |
 |    +8.2% | +3 MiB | 46.4% → 50.2% | 36.4 MiB → 39.4 MiB | 21,085 → 21,088 | `visit_default`             | `black/linegen.py:134`   |
@@ -77,32 +77,32 @@ Functions with the largest decrease in total bytes held at peak memory in the fu
 
 ##### Ours
 
-|  Change |  Delta |            % |                Size |   Samples | Function                            | Location                 |
-| ------: | -----: | -----------: | ------------------: | --------: | ----------------------------------- | ------------------------ |
-|  -75.0% | -3 MiB |  5.1% → 1.3% |       4 MiB → 1 MiB |     4 → 1 | `__init__`                          | `<string>:2`             |
-|  -99.6% | -3 MiB | 3.8% → <0.1% | 3.01 MiB → 12.2 KiB |   15 → 12 | `transform_line`                    | `black/linegen.py:601`   |
-|  -66.7% | -2 MiB |  3.8% → 1.3% |       3 MiB → 1 MiB |     3 → 1 | `line`                              | `black/linegen.py:109`   |
-|  -99.6% | -2 MiB | 2.6% → <0.1% |  2.01 MiB → 8.6 KiB |    10 → 8 | `run_transformer`                   | `black/linegen.py:1755`  |
-| removed | -2 MiB |  2.5% → 0.0% |         2 MiB → 0 B |     2 → 0 | `visit_INDENT`                      | `black/linegen.py:179`   |
-|  -92.9% | -1 MiB |  1.4% → 0.1% |   1.08 MiB → 78 KiB | 105 → 104 | `visit_test`                        | `black/linegen.py:160`   |
-| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |     1 → 0 | `__str__`                           | `black/lines.py:490`     |
-| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |     1 → 0 | `line_to_string`                    | `black/lines.py:1073`    |
-|  -14.3% | -1 MiB |  8.9% → 7.6% |       7 MiB → 6 MiB |     7 → 6 | `__new__`                           | `blib2to3/pytree.py:81`  |
-|  -99.9% | -1 MiB | 1.3% → <0.1% |       1 MiB → 802 B |     2 → 1 | `_hugging_power_ops_line_to_string` | `black/linegen.py:590`   |
-|  -99.9% | -1 MiB | 1.3% → <0.1% |    1 MiB → 1.39 KiB |     2 → 1 | `split_wrapper`                     | `black/linegen.py:1162`  |
-| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |     1 → 0 | `clone`                             | `blib2to3/pytree.py:452` |
-| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |     1 → 0 | `hug_power_op`                      | `black/trans.py:85`      |
-| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |     1 → 0 | `delimiter_split`                   | `black/linegen.py:1203`  |
+|  Change |  Delta |            % |                Size | Allocations | Function                            | Location                 |
+| ------: | -----: | -----------: | ------------------: | ----------: | ----------------------------------- | ------------------------ |
+|  -75.0% | -3 MiB |  5.1% → 1.3% |       4 MiB → 1 MiB |       4 → 1 | `__init__`                          | `<string>:2`             |
+|  -99.6% | -3 MiB | 3.8% → <0.1% | 3.01 MiB → 12.2 KiB |     15 → 12 | `transform_line`                    | `black/linegen.py:601`   |
+|  -66.7% | -2 MiB |  3.8% → 1.3% |       3 MiB → 1 MiB |       3 → 1 | `line`                              | `black/linegen.py:109`   |
+|  -99.6% | -2 MiB | 2.6% → <0.1% |  2.01 MiB → 8.6 KiB |      10 → 8 | `run_transformer`                   | `black/linegen.py:1755`  |
+| removed | -2 MiB |  2.5% → 0.0% |         2 MiB → 0 B |       2 → 0 | `visit_INDENT`                      | `black/linegen.py:179`   |
+|  -92.9% | -1 MiB |  1.4% → 0.1% |   1.08 MiB → 78 KiB |   105 → 104 | `visit_test`                        | `black/linegen.py:160`   |
+| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |       1 → 0 | `__str__`                           | `black/lines.py:490`     |
+| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |       1 → 0 | `line_to_string`                    | `black/lines.py:1073`    |
+|  -14.3% | -1 MiB |  8.9% → 7.6% |       7 MiB → 6 MiB |       7 → 6 | `__new__`                           | `blib2to3/pytree.py:81`  |
+|  -99.9% | -1 MiB | 1.3% → <0.1% |       1 MiB → 802 B |       2 → 1 | `_hugging_power_ops_line_to_string` | `black/linegen.py:590`   |
+|  -99.9% | -1 MiB | 1.3% → <0.1% |    1 MiB → 1.39 KiB |       2 → 1 | `split_wrapper`                     | `black/linegen.py:1162`  |
+| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |       1 → 0 | `clone`                             | `blib2to3/pytree.py:452` |
+| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |       1 → 0 | `hug_power_op`                      | `black/trans.py:85`      |
+| removed | -1 MiB |  1.3% → 0.0% |         1 MiB → 0 B |       1 → 0 | `delimiter_split`                   | `black/linegen.py:1203`  |
 
 # Leaked memory profile diff
 
-Leaked 55.9 MiB over 22,489 samples (2.55 KiB per sample).
+Leaked 55.9 MiB over 22,489 allocations (2.55 KiB per allocation).
 
-| Category         | Change | Delta |     % |     Size | Samples |
-| ---------------- | -----: | ----: | ----: | -------: | ------: |
-| Ours             |   0.0% |   0 B | 85.6% | 47.9 MiB |  21,383 |
-| Standard library |   0.0% |   0 B | 12.2% | 6.83 MiB |     876 |
-| Third-party      |   0.0% |   0 B |  2.2% | 1.23 MiB |     230 |
+| Category         | Change | Delta |     % |     Size | Allocations |
+| ---------------- | -----: | ----: | ----: | -------: | ----------: |
+| Ours             |   0.0% |   0 B | 85.6% | 47.9 MiB |      21,383 |
+| Standard library |   0.0% |   0 B | 12.2% | 6.83 MiB |         876 |
+| Third-party      |   0.0% |   0 B |  2.2% | 1.23 MiB |         230 |
 
 ## Hottest functions
 
@@ -114,7 +114,7 @@ Functions with the largest increase in bytes never freed directly in the functio
 
 ##### Ours
 
-|    Change |  Delta |             % |                Size |         Samples | Function              | Location                 |
+|    Change |  Delta |             % |                Size |     Allocations | Function              | Location                 |
 | --------: | -----: | ------------: | ------------------: | --------------: | --------------------- | ------------------------ |
 |   +200.0% | +2 MiB |   1.8% → 5.4% |       1 MiB → 3 MiB |           1 → 3 | `generate_comments`   | `black/comments.py:52`   |
 |     +6.2% | +1 MiB | 29.0% → 30.8% | 16.2 MiB → 17.2 MiB | 20,788 → 20,789 | `mark`                | `black/brackets.py:70`   |
@@ -130,14 +130,14 @@ Functions with the largest decrease in bytes never freed directly in the functio
 
 ##### Ours
 
-|  Change |  Delta |             % |                Size | Samples | Function                         | Location                 |
-| ------: | -----: | ------------: | ------------------: | ------: | -------------------------------- | ------------------------ |
-| -100.0% | -2 MiB |  3.6% → <0.1% |       2 MiB → 702 B |   3 → 1 | `visit_default`                  | `black/linegen.py:134`   |
-| removed | -2 MiB |   3.6% → 0.0% |         2 MiB → 0 B |   2 → 0 | `__init__`                       | `<string>:2`             |
-|  -49.9% | -1 MiB |   3.6% → 1.8% |       2 MiB → 1 MiB |   6 → 5 | `__init__`                       | `blib2to3/pytree.py:248` |
-|  -93.0% | -1 MiB |   1.9% → 0.1% | 1.07 MiB → 76.5 KiB |   7 → 6 | `transform_line`                 | `black/linegen.py:601`   |
-| removed | -1 MiB |   1.8% → 0.0% |         1 MiB → 0 B |   1 → 0 | `_stringify_ast_with_new_parent` | `black/parsing.py:166`   |
-|  -14.3% | -1 MiB | 12.5% → 10.7% |       7 MiB → 6 MiB |   7 → 6 | `__new__`                        | `blib2to3/pytree.py:81`  |
+|  Change |  Delta |             % |                Size | Allocations | Function                         | Location                 |
+| ------: | -----: | ------------: | ------------------: | ----------: | -------------------------------- | ------------------------ |
+| -100.0% | -2 MiB |  3.6% → <0.1% |       2 MiB → 702 B |       3 → 1 | `visit_default`                  | `black/linegen.py:134`   |
+| removed | -2 MiB |   3.6% → 0.0% |         2 MiB → 0 B |       2 → 0 | `__init__`                       | `<string>:2`             |
+|  -49.9% | -1 MiB |   3.6% → 1.8% |       2 MiB → 1 MiB |       6 → 5 | `__init__`                       | `blib2to3/pytree.py:248` |
+|  -93.0% | -1 MiB |   1.9% → 0.1% | 1.07 MiB → 76.5 KiB |       7 → 6 | `transform_line`                 | `black/linegen.py:601`   |
+| removed | -1 MiB |   1.8% → 0.0% |         1 MiB → 0 B |       1 → 0 | `_stringify_ast_with_new_parent` | `black/parsing.py:166`   |
+|  -14.3% | -1 MiB | 12.5% → 10.7% |       7 MiB → 6 MiB |       7 → 6 | `__new__`                        | `blib2to3/pytree.py:81`  |
 
 ### Total size
 
@@ -147,7 +147,7 @@ Functions with the largest increase in total bytes never freed in the function a
 
 ##### Ours
 
-|   Change |  Delta |             % |                Size |         Samples | Function                    | Location                 |
+|   Change |  Delta |             % |                Size |     Allocations | Function                    | Location                 |
 | -------: | -----: | ------------: | ------------------: | --------------: | --------------------------- | ------------------------ |
 |   +18.8% | +4 MiB | 38.1% → 45.2% | 21.3 MiB → 25.3 MiB | 20,886 → 20,890 | `append`                    | `black/lines.py:63`      |
 |   +14.8% | +4 MiB | 48.4% → 55.6% | 27.1 MiB → 31.1 MiB |         85 → 89 | `format_str`                | `black/__init__.py:1189` |
@@ -175,7 +175,7 @@ Functions with the largest decrease in total bytes never freed in the function a
 
 ##### Ours
 
-|  Change |  Delta |             % |                Size |         Samples | Function                            | Location                 |
+|  Change |  Delta |             % |                Size |     Allocations | Function                            | Location                 |
 | ------: | -----: | ------------: | ------------------: | --------------: | ----------------------------------- | ------------------------ |
 |  -19.5% | -4 MiB | 36.7% → 29.6% | 20.5 MiB → 16.5 MiB | 21,059 → 21,055 | `assert_stable`                     | `black/__init__.py:1557` |
 |  -16.3% | -4 MiB | 43.9% → 36.7% | 24.5 MiB → 20.5 MiB | 21,066 → 21,062 | `check_stability_and_equivalence`   | `black/__init__.py:1037` |
