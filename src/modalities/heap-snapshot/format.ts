@@ -18,12 +18,20 @@ import {
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
 import type { FormattingProfileToMdOptions } from '../../options.ts'
+import {
+  formatRankingTables,
+  rankEntities,
+  subsectionCategories,
+  subsectionDiffCategories,
+} from '../category.ts'
 import type { Diff } from '../diff.ts'
 import {
+  formatDiffRankingSections,
   resolveEntryFilter,
   selectDiffEntities,
   showDiffEntity,
 } from '../format.ts'
+import type { DiffCategoryRanking } from '../format.ts'
 import { formatDiffTable, formatTable } from '../table.ts'
 import type { Table } from '../table.ts'
 import type {
@@ -31,6 +39,7 @@ import type {
   AggregatedHeapSnapshotConstructor,
   AggregatedHeapSnapshotFunction,
   AggregatedHeapSnapshotNode,
+  AggregatedHeapSnapshotString,
 } from './aggregate.ts'
 import type {
   AggregatedHeapSnapshotDiff,
@@ -47,6 +56,7 @@ import {
   stringColumns,
 } from './table.ts'
 import type { FunctionRow, NodeRow } from './table.ts'
+import type { HeapSnapshotNodeCategory } from './type.ts'
 
 export const formatHeapSnapshot = (
   snapshot: AggregatedHeapSnapshot,
@@ -125,24 +135,37 @@ const formatLargestConstructors = ({
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
   options: FormattingProfileToMdOptions
-}): RootContent[] =>
-  formatSectionGroup(
+}): RootContent[] => {
+  // Resolved once for both rankings: a category qualifies for a subsection by
+  // its share of the shown constructors' summed self size, which the ranking it
+  // appears under doesn't change.
+  const categories = subsectionCategories({
+    entries: snapshot.constructors.filter(options.showEntry),
+    selfValueOf: constructor => constructor.selfSize,
+    categoryOf: constructor => constructor.category,
+    minCategoryShare: options.minCategoryShare,
+  })
+
+  return formatSectionGroup(
     [heading(2, `Largest constructors`)],
     [
       ...formatLargestSizeConstructors({
         snapshot,
         hasLocation,
+        categories,
         options,
         size: SELF_SIZE,
       }),
       ...formatLargestSizeConstructors({
         snapshot,
         hasLocation,
+        categories,
         options,
         size: RETAINED_SIZE,
       }),
     ],
   )
+}
 
 /**
  * The size accessor, heading, and phrasing for one constructor size (self or
@@ -190,46 +213,55 @@ const RETAINED_SIZE: ConstructorSize = {
 const formatLargestSizeConstructors = ({
   snapshot,
   hasLocation,
+  categories,
   options,
   size: { sizeOf, formatHeader, description },
 }: {
   snapshot: AggregatedHeapSnapshot
   hasLocation: boolean
+  categories: HeapSnapshotNodeCategory[]
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
   const { totalSize, constructors } = snapshot
 
-  const largestConstructors = selectTopN(
-    constructors.filter(options.showEntry),
-    options.topN,
-    sizeOf,
-  )
-  if (largestConstructors.length === 0) {
+  const ranking = rankEntities({
+    entities: constructors.filter(options.showEntry),
+    categories,
+    valueOf: sizeOf,
+    topN: options.topN,
+  })
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
-  const largestInstanceSections = largestConstructors.flatMap(constructor =>
-    formatLargestConstructorInstances({
-      constructor,
-      snapshot,
-      sizeOf,
-      hasLocation,
-      options,
-    }),
+  const largestInstanceSections = ranking.displayedEntities.flatMap(
+    constructor =>
+      formatLargestConstructorInstances({
+        constructor,
+        snapshot,
+        sizeOf,
+        hasLocation,
+        options,
+      }),
   )
 
   return [
     ...formatHeader({ isEmptyDiff: false }),
-    formatTable(
-      constructorColumns(hasLocation, options),
-      largestConstructors.map(constructor => ({
-        entity: constructor,
-        size: sizeOf(constructor),
-        total: totalSize,
-        instanceCount: constructor.instances.length,
-      })),
-    ),
+    ...formatRankingTables({
+      ranking,
+      formatEntityTable: entities =>
+        formatTable(
+          constructorColumns(hasLocation, options),
+          entities.map(constructor => ({
+            entity: constructor,
+            size: sizeOf(constructor),
+            total: totalSize,
+            instanceCount: constructor.instances.length,
+          })),
+        ),
+      headingLevel: 4,
+    }),
     ...formatSectionGroup(
       [
         heading(4, `Instances`),
@@ -449,27 +481,42 @@ const formatLargestStrings = ({
   snapshot: AggregatedHeapSnapshot
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const largestStrings = selectTopN(
-    strings,
-    options.topN,
-    string => string.selfSize,
-  )
-  if (largestStrings.length === 0) {
+  const selfSizeOf = (string: AggregatedHeapSnapshotString) => string.selfSize
+  const ranking = rankEntities({
+    entities: strings,
+    categories: subsectionCategories({
+      entries: strings,
+      selfValueOf: selfSizeOf,
+      categoryOf: string => string.category,
+      minCategoryShare: options.minCategoryShare,
+    }),
+    valueOf: selfSizeOf,
+    topN: options.topN,
+  })
+  if (ranking.rankedEntities.length === 0) {
     return []
   }
 
-  const hasValues = largestStrings.some(string => string.name !== undefined)
+  // Resolved across every displayed string, so all the tables share a column.
+  const hasValues = ranking.displayedEntities.some(
+    string => string.name !== undefined,
+  )
   return [
     ...formatLargestStringsHeading({ isEmptyDiff: false }),
-    formatTable(
-      stringColumns(hasValues),
-      largestStrings.map(string => ({
-        name: string.name,
-        size: string.selfSize,
-        total: totalSize,
-        path: retainerPathOf(string.id, options),
-      })),
-    ),
+    ...formatRankingTables({
+      ranking,
+      formatEntityTable: entities =>
+        formatTable(
+          stringColumns(hasValues),
+          entities.map(string => ({
+            name: string.name,
+            size: string.selfSize,
+            total: totalSize,
+            path: retainerPathOf(string.id, options),
+          })),
+        ),
+      headingLevel: 3,
+    }),
   ]
 }
 
@@ -562,44 +609,63 @@ const formatDiffConstructors = ({
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
   options: FormattingProfileToMdOptions
-}): RootContent[] =>
-  formatSectionGroup(
+}): RootContent[] => {
+  // Resolved once for both rankings, like a single snapshot's, and over the
+  // same constructors each side of the diff shows.
+  const categories = subsectionDiffCategories({
+    entries: diff.constructors.filter(entity =>
+      showDiffEntity(entity, options),
+    ),
+    baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
+    currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
+    categoryOf: entity => entity.category ?? `object`,
+    minCategoryShare: options.minCategoryShare,
+  })
+
+  return formatSectionGroup(
     [heading(2, `Largest constructors`)],
     [
       ...formatDiffSizeConstructors({
         diff,
         hasLocation,
+        categories,
         options,
         size: SELF_SIZE,
       }),
       ...formatDiffSizeConstructors({
         diff,
         hasLocation,
+        categories,
         options,
         size: RETAINED_SIZE,
       }),
     ],
   )
+}
 
 const formatDiffSizeConstructors = ({
   diff,
   hasLocation,
+  categories,
   options,
   size: { sizeOf, formatHeader, description },
 }: {
   diff: AggregatedHeapSnapshotDiff
   hasLocation: boolean
+  categories: HeapSnapshotNodeCategory[]
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
-  const { regressions, improvements, hasActive } = selectDiffEntities(
-    diff.constructors.map(entity => ({
-      entity,
-      baseValue: entity.base ? sizeOf(entity.base) : 0,
-      currentValue: entity.current ? sizeOf(entity.current) : 0,
-    })),
-    options,
-  )
+  const { regressions, improvements, hasActive, categoryRankings } =
+    selectDiffEntities(
+      diff.constructors.map(entity => ({
+        entity,
+        baseValue: entity.base ? sizeOf(entity.base) : 0,
+        currentValue: entity.current ? sizeOf(entity.current) : 0,
+      })),
+      options,
+      { categories, categoryOf: entity => entity.category ?? `object` },
+    )
 
   const sideRowOf = (total: number, entity?: DiffedHeapSnapshotEntity) =>
     entity && {
@@ -620,8 +686,10 @@ const formatDiffSizeConstructors = ({
     description,
     columns: constructorColumns(hasLocation, options),
     hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
+    regressions,
+    improvements,
+    categoryRankings,
+    rowOf: ({ entity }) => rowOf(entity),
   })
 }
 
@@ -655,8 +723,9 @@ const formatDiffFunctions = ({
     description: `retained size`,
     columns: functionColumns(hasLocation, options),
     hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
+    regressions,
+    improvements,
+    rowOf: ({ entity }) => rowOf(entity),
   })
 }
 
@@ -683,14 +752,28 @@ const formatDiffStrings = ({
   diff: AggregatedHeapSnapshotDiff
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { regressions, improvements, hasActive } = selectDiffEntities(
-    diff.strings.map(entity => ({
-      entity,
-      baseValue: entity.base ? entity.base.selfSize : 0,
-      currentValue: entity.current ? entity.current.selfSize : 0,
-    })),
-    options,
-  )
+  // A string is categorized by its representation in the heap, which the
+  // snapshot always records.
+  const categoryOf = (entity: AggregatedHeapSnapshotEntityDiff) =>
+    entity.category ?? `string`
+  const categories = subsectionDiffCategories({
+    entries: diff.strings.filter(entity => showDiffEntity(entity, options)),
+    baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
+    currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
+    categoryOf,
+    minCategoryShare: options.minCategoryShare,
+  })
+
+  const { regressions, improvements, hasActive, categoryRankings } =
+    selectDiffEntities(
+      diff.strings.map(entity => ({
+        entity,
+        baseValue: entity.base ? entity.base.selfSize : 0,
+        currentValue: entity.current ? entity.current.selfSize : 0,
+      })),
+      options,
+      { categories, categoryOf },
+    )
 
   const rowOf = ({ base, current }: AggregatedHeapSnapshotEntityDiff) => ({
     base: base && nodeRowOf(base, diff.base, options),
@@ -705,8 +788,10 @@ const formatDiffStrings = ({
     // Diffed strings are matched by value, so they always have a value.
     columns: stringColumns(true),
     hasActive,
-    regressions: regressions.map(({ entity }) => rowOf(entity)),
-    improvements: improvements.map(({ entity }) => rowOf(entity)),
+    regressions,
+    improvements,
+    categoryRankings,
+    rowOf: ({ entity }) => rowOf(entity),
   })
 }
 
@@ -726,7 +811,7 @@ const nodeRowOf = (
  * Assembles the regressions and improvements subsections for one diffed entity
  * table from its row records, with rows under the given table {@link columns}.
  */
-const formatDiffEntitySections = <Row>({
+const formatDiffEntitySections = <Entity, Row>({
   formatHeader,
   headingLevel,
   plural,
@@ -735,6 +820,8 @@ const formatDiffEntitySections = <Row>({
   hasActive,
   regressions,
   improvements,
+  categoryRankings = [],
+  rowOf,
 }: {
   formatHeader: (options: { isEmptyDiff: boolean }) => RootContent[]
   headingLevel: number
@@ -742,26 +829,33 @@ const formatDiffEntitySections = <Row>({
   description: string
   columns: Table<Row>
   hasActive: boolean
-  regressions: Diff<Row>[]
-  improvements: Diff<Row>[]
+  regressions: Entity[]
+  improvements: Entity[]
+  categoryRankings?: DiffCategoryRanking<Entity>[]
+  rowOf: (entity: Entity) => Diff<Row>
 }): RootContent[] => {
-  const sections: RootContent[] = []
-
-  if (regressions.length > 0) {
-    sections.push(
-      heading(headingLevel, `Regressions`),
-      paragraph(`${plural} with the largest increase in ${description}.`),
-      formatDiffTable(columns, regressions),
-    )
-  }
-
-  if (improvements.length > 0) {
-    sections.push(
-      heading(headingLevel, `Improvements`),
-      paragraph(`${plural} with the largest decrease in ${description}.`),
-      formatDiffTable(columns, improvements),
-    )
-  }
+  const sections = [
+    ...formatDiffRankingSections({
+      headingLevel,
+      subtitle: `Regressions`,
+      sentence: `${plural} with the largest increase in ${description}.`,
+      columns,
+      entities: regressions,
+      categoryRankings,
+      entitiesOf: ranking => ranking.regressions,
+      rowOf,
+    }),
+    ...formatDiffRankingSections({
+      headingLevel,
+      subtitle: `Improvements`,
+      sentence: `${plural} with the largest decrease in ${description}.`,
+      columns,
+      entities: improvements,
+      categoryRankings,
+      entitiesOf: ranking => ranking.improvements,
+      rowOf,
+    }),
+  ]
 
   // With active entities but no change, keep the section and let the header note
   // it didn't differ. With nothing active (the section a non-diff snapshot

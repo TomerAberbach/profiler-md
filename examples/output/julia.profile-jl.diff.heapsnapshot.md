@@ -26,6 +26,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 Constructors with the largest decrease in self size.
 
+##### Object
+
 | Change |  Delta |    % |     Size | Instances | Constructor                       |
 | -----: | -----: | ---: | -------: | --------: | --------------------------------- |
 |    ~0% | -128 B | 6.4% | 9.88 MiB |   120,343 | `<generic memory - inline alloc>` |
@@ -37,6 +39,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 #### Improvements
 
 Constructors with the largest decrease in retained size.
+
+##### Object
 
 | Change |  Delta |    % |     Size | Instances | Constructor                       |
 | -----: | -----: | ---: | -------: | --------: | --------------------------------- |

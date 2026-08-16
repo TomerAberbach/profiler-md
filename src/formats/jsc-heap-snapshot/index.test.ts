@@ -5,7 +5,7 @@ import {
   selfSizeTables,
 } from '../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../options.ts'
-import { categoryTables } from '../../testing.ts'
+import { categorySectionTables, categoryTables } from '../../testing.ts'
 import { convertJsonToMd } from '../testing.ts'
 import { jscHeapSnapshotConverter } from './index.ts'
 import {
@@ -221,6 +221,50 @@ describe(`convert`, () => {
     expect(
       largestStringsTables(md).map(table => table.map(row => row.Path)),
     ).toEqual([[`Structure`]])
+  })
+
+  test(`categorizes a constructor whose nodes all report zero self size by its first node`, () => {
+    const snapshot = makeJSCSnapshot({
+      nodes: [
+        ...makeJSCNode({ id: 0, size: 0, nameIndex: 0, flags: NODE_INTERNAL }),
+        ...makeJSCNode({ id: 1, size: 0, nameIndex: 1 }),
+        ...makeJSCNode({
+          id: 2,
+          size: 0,
+          nameIndex: 1,
+          flags: NODE_INTERNAL,
+        }),
+        ...makeJSCNode({ id: 3, size: 1000, nameIndex: 2 }),
+        ...makeJSCNode({ id: 4, size: 300, nameIndex: 3 }),
+      ],
+      nodeClassNames: [`<root>`, `Widget`, `Payload`, `string`],
+      edges: [
+        ...makeJSCEdge({ from: 0, to: 1, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 0, to: 2, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 0, to: 3, type: EDGE_PROPERTY, nameIndex: 0 }),
+        ...makeJSCEdge({ from: 1, to: 4, type: EDGE_PROPERTY, nameIndex: 0 }),
+      ],
+      edgeNames: [`ref`],
+    })
+
+    const md = convertJsonToMd(
+      jscHeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    // `Widget` holds no bytes of its own, so no node of it outweighs another.
+    expect(categorySectionTables(md, `Retained size`)).toEqual({
+      Object: [
+        {
+          '%': `76.9%`,
+          Size: `1000 B`,
+          Instances: `1`,
+          Constructor: `Payload`,
+        },
+        { '%': `23.1%`, Size: `300 B`, Instances: `2`, Constructor: `Widget` },
+      ],
+    })
   })
 
   test(`out-of-bounds edge ordinal does not crash`, () => {

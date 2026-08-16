@@ -30,6 +30,18 @@ Constructors with the largest increase in self size.
 |  +0.7% | +1.421 KiB | 13.3% → 13.4% | 199 KiB → 200 KiB | 1,816 → 1,829 | `Structure`     |
 |  +0.3% |      +48 B |          1.2% |          18.3 KiB |     390 → 391 | `PropertyTable` |
 
+##### Object shape
+
+| Change |      Delta |             % |              Size |     Instances | Constructor |
+| -----: | ---------: | ------------: | ----------------: | ------------: | ----------- |
+|  +0.7% | +1.421 KiB | 13.3% → 13.4% | 199 KiB → 200 KiB | 1,816 → 1,829 | `Structure` |
+
+##### Internal
+
+| Change | Delta |    % |     Size | Instances | Constructor     |
+| -----: | ----: | ---: | -------: | --------: | --------------- |
+|  +0.3% | +48 B | 1.2% | 18.3 KiB | 390 → 391 | `PropertyTable` |
+
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
@@ -48,6 +60,38 @@ Constructors with the largest increase in retained size.
 |   +0.3% |      +48 B |          1.2% | 18.1 KiB → 18.2 KiB |     390 → 391 | `PropertyTable`       |
 |     ~0% |       +3 B |          1.3% |            18.8 KiB |             1 | `Process`             |
 
+##### Code
+
+| Change |      Delta |             % |              Size | Instances | Constructor          |
+| -----: | ---------: | ------------: | ----------------: | --------: | -------------------- |
+|  +0.3% | +1.467 KiB | 31.8% → 31.9% | 474 KiB → 476 KiB |       931 | `FunctionExecutable` |
+
+##### Object shape
+
+| Change |      Delta |             % |              Size |     Instances | Constructor |
+| -----: | ---------: | ------------: | ----------------: | ------------: | ----------- |
+|  +0.6% | +1.453 KiB | 15.5% → 15.6% | 231 KiB → 232 KiB | 1,816 → 1,829 | `Structure` |
+
+##### Object
+
+|  Change |  Delta |            % |             Size | Instances | Constructor           |
+| ------: | -----: | -----------: | ---------------: | --------: | --------------------- |
+|  +51.1% | +384 B | <0.1% → 0.1% | 752 B → 1.11 KiB |         1 | `FixedQueue`          |
+| +150.0% | +384 B |        <0.1% |    256 B → 640 B |         1 | `FixedCircularBuffer` |
+|     ~0% |   +3 B |         1.3% |         18.8 KiB |         1 | `Process`             |
+
+##### Internal
+
+| Change | Delta |    % |                Size | Instances | Constructor     |
+| -----: | ----: | ---: | ------------------: | --------: | --------------- |
+|  +0.3% | +48 B | 1.2% | 18.1 KiB → 18.2 KiB | 390 → 391 | `PropertyTable` |
+
+##### Array
+
+| Change |  Delta |     % |    Size | Instances | Constructor |
+| -----: | -----: | ----: | ------: | --------: | ----------- |
+|  +0.1% | +387 B | 29.9% | 446 KiB |     1,077 | `Array`     |
+
 #### Improvements
 
 Constructors with the largest decrease in retained size.
@@ -57,3 +101,16 @@ Constructors with the largest decrease in retained size.
 |  -6.8% | -90.746 KiB | 89.1% → 82.9% |  1.3 MiB → 1.21 MiB |         1 | `GlobalObject`      |
 |  -1.9% | -11.593 KiB | 41.3% → 40.5% |   615 KiB → 603 KiB |     1,373 | `Object`            |
 |  -4.0% |      -880 B |          1.4% | 21.5 KiB → 20.7 KiB |       105 | `StructureRareData` |
+
+##### Object
+
+| Change |       Delta |             % |               Size | Instances | Constructor    |
+| -----: | ----------: | ------------: | -----------------: | --------: | -------------- |
+|  -6.8% | -90.746 KiB | 89.1% → 82.9% | 1.3 MiB → 1.21 MiB |         1 | `GlobalObject` |
+|  -1.9% | -11.593 KiB | 41.3% → 40.5% |  615 KiB → 603 KiB |     1,373 | `Object`       |
+
+##### Internal
+
+| Change |  Delta |    % |                Size | Instances | Constructor         |
+| -----: | -----: | ---: | ------------------: | --------: | ------------------- |
+|  -4.0% | -880 B | 1.4% | 21.5 KiB → 20.7 KiB |       105 | `StructureRareData` |

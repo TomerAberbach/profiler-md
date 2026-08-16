@@ -32,6 +32,30 @@ Constructors with the largest increase in self size.
 |    ~0% |      +224 B |       12.5% |             1.3 MiB | 12,175 → 12,177 | `Structure`         |
 |    ~0% |       +37 B |        4.1% |             434 KiB |          13,414 | `Function`          |
 
+##### Code
+
+| Change |       Delta |           % |              Size | Instances | Constructor         |
+| -----: | ----------: | ----------: | ----------------: | --------: | ------------------- |
+|  +2.2% | +11.824 KiB | 5.0% → 5.1% | 533 KiB → 545 KiB | 162 → 165 | `FunctionCodeBlock` |
+
+##### Object shape
+
+| Change |  Delta |     % |    Size |       Instances | Constructor |
+| -----: | -----: | ----: | ------: | --------------: | ----------- |
+|    ~0% | +224 B | 12.5% | 1.3 MiB | 12,175 → 12,177 | `Structure` |
+
+##### Internal
+
+| Change |      Delta |    % |                Size | Instances | Constructor        |
+| -----: | ---------: | ---: | ------------------: | --------: | ------------------ |
+| +16.4% | +2.968 KiB | 0.2% | 18.1 KiB → 21.1 KiB | 232 → 270 | `FunctionRareData` |
+
+##### Function
+
+| Change | Delta |    % |    Size | Instances | Constructor |
+| -----: | ----: | ---: | ------: | --------: | ----------- |
+|    ~0% | +37 B | 4.1% | 434 KiB |    13,414 | `Function`  |
+
 #### Improvements
 
 Constructors with the largest decrease in self size.
@@ -40,6 +64,18 @@ Constructors with the largest decrease in self size.
 | -----: | ---------: | ----: | ------------------: | ------------: | --------------------------- |
 |  -0.1% | -1.085 KiB |  9.0% |   962 KiB → 961 KiB | 1,660 → 1,658 | `UnlinkedFunctionCodeBlock` |
 |  -0.4% |      -16 B | <0.1% | 4.41 KiB → 4.39 KiB |     282 → 281 | `StructureChain`            |
+
+##### Code
+
+| Change |      Delta |    % |              Size |     Instances | Constructor                 |
+| -----: | ---------: | ---: | ----------------: | ------------: | --------------------------- |
+|  -0.1% | -1.085 KiB | 9.0% | 962 KiB → 961 KiB | 1,660 → 1,658 | `UnlinkedFunctionCodeBlock` |
+
+##### Internal
+
+| Change | Delta |     % |                Size | Instances | Constructor      |
+| -----: | ----: | ----: | ------------------: | --------: | ---------------- |
+|  -0.4% | -16 B | <0.1% | 4.41 KiB → 4.39 KiB | 282 → 281 | `StructureChain` |
 
 ### Retained size
 
@@ -65,6 +101,39 @@ Constructors with the largest increase in retained size.
 |  +0.3% |       +98 B |          0.3% | 32.2 KiB → 32.3 KiB |        20 | `Map`                  |
 |  +1.2% |       +48 B |         <0.1% | 3.85 KiB → 3.89 KiB |         4 | `CharacterData`        |
 
+##### Code
+
+| Change |       Delta |             % |                Size | Instances | Constructor          |
+| -----: | ----------: | ------------: | ------------------: | --------: | -------------------- |
+|  +2.2% | +44.456 KiB | 18.9% → 19.3% | 1.97 MiB → 2.01 MiB |     7,600 | `FunctionExecutable` |
+|  +2.2% | +11.825 KiB |   5.0% → 5.1% |   535 KiB → 547 KiB | 162 → 165 | `FunctionCodeBlock`  |
+
+##### Internal
+
+| Change |       Delta |           % |              Size | Instances | Constructor            |
+| -----: | ----------: | ----------: | ----------------: | --------: | ---------------------- |
+|  +3.2% | +25.972 KiB | 7.6% → 7.8% | 811 KiB → 837 KiB |     2,030 | `JSLexicalEnvironment` |
+|  +6.7% | +13.175 KiB | 1.8% → 2.0% | 197 KiB → 210 KiB | 232 → 270 | `FunctionRareData`     |
+|    ~0% |      +112 B | 4.3% → 4.2% |           454 KiB |       893 | `StructureRareData`    |
+
+##### Object
+
+| Change |  Delta |     % |                Size | Instances | Constructor          |
+| -----: | -----: | ----: | ------------------: | --------: | -------------------- |
+|  +4.0% | +560 B |  0.1% | 13.7 KiB → 14.2 KiB |        14 | `Node`               |
+|  +0.4% | +256 B |  0.5% | 56.5 KiB → 56.7 KiB |        10 | `Element`            |
+|  +0.3% | +256 B |  0.8% | 83.3 KiB → 83.5 KiB |       205 | `HTMLElement`        |
+|  +2.5% | +160 B |  0.1% | 6.35 KiB → 6.51 KiB |        14 | `EventTarget`        |
+|  +5.8% | +144 B | <0.1% | 2.44 KiB → 2.58 KiB |        23 | `HTMLHeadingElement` |
+|  +0.3% |  +98 B |  0.3% | 32.2 KiB → 32.3 KiB |        20 | `Map`                |
+|  +1.2% |  +48 B | <0.1% | 3.85 KiB → 3.89 KiB |         4 | `CharacterData`      |
+
+##### Function
+
+| Change |       Delta |             % |                Size | Instances | Constructor |
+| -----: | ----------: | ------------: | ------------------: | --------: | ----------- |
+|  +0.7% | +20.129 KiB | 27.9% → 28.1% | 2.91 MiB → 2.93 MiB |    13,414 | `Function`  |
+
 #### Improvements
 
 Constructors with the largest decrease in retained size.
@@ -80,3 +149,37 @@ Constructors with the largest decrease in retained size.
 |  -4.2% |      -160 B |         <0.1% | 3.71 KiB → 3.55 KiB |               1 | `Range`                      |
 |  -0.1% |       -48 B |          0.4% | 43.5 KiB → 43.4 KiB |           1,330 | `DOMRect`                    |
 |  -0.4% |       -16 B |         <0.1% | 4.41 KiB → 4.39 KiB |       282 → 281 | `StructureChain`             |
+
+##### Code
+
+| Change |      Delta |     % |     Size |     Instances | Constructor                  |
+| -----: | ---------: | ----: | -------: | ------------: | ---------------------------- |
+|  -0.1% | -1.351 KiB | 15.6% | 1.62 MiB |         6,041 | `UnlinkedFunctionExecutable` |
+|  -0.1% | -1.261 KiB | 11.2% | 1.17 MiB | 1,660 → 1,658 | `UnlinkedFunctionCodeBlock`  |
+
+##### Object shape
+
+| Change |      Delta |             % |     Size |       Instances | Constructor |
+| -----: | ---------: | ------------: | -------: | --------------: | ----------- |
+|  -0.2% | -3.481 KiB | 17.8% → 17.7% | 1.85 MiB | 12,175 → 12,177 | `Structure` |
+
+##### Internal
+
+| Change | Delta |     % |                Size | Instances | Constructor      |
+| -----: | ----: | ----: | ------------------: | --------: | ---------------- |
+|  -0.4% | -16 B | <0.1% | 4.41 KiB → 4.39 KiB | 282 → 281 | `StructureChain` |
+
+##### Object
+
+| Change |       Delta |             % |                Size | Instances | Constructor |
+| -----: | ----------: | ------------: | ------------------: | --------: | ----------- |
+|  -2.1% | -22.077 KiB |   9.7% → 9.5% | 1.01 MiB → 1015 KiB |        14 | `Window`    |
+|    ~0% |  -1.354 KiB | 55.3% → 55.2% |            5.76 MiB |    11,833 | `Object`    |
+|  -4.2% |      -160 B |         <0.1% | 3.71 KiB → 3.55 KiB |         1 | `Range`     |
+|  -0.1% |       -48 B |          0.4% | 43.5 KiB → 43.4 KiB |     1,330 | `DOMRect`   |
+
+##### Array
+
+| Change |  Delta |    % |              Size | Instances | Constructor |
+| -----: | -----: | ---: | ----------------: | --------: | ----------- |
+|  -0.1% | -708 B | 6.1% | 650 KiB → 649 KiB |     7,409 | `Array`     |

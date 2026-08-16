@@ -46,6 +46,39 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |     65 B |         1 | `ModuleNamespaceObject`             |
 | <0.1% |     64 B |         2 | `Promise (fulfilled)`               |
 
+#### Categories
+
+##### Object
+
+|     % |     Size | Instances | Constructor                         |
+| ----: | -------: | --------: | ----------------------------------- |
+|  6.4% | 96.7 KiB |     1,367 | `Object`                            |
+|  0.7% | 10.3 KiB |         1 | `GlobalObject`                      |
+|  0.1% | 1.19 KiB |         1 | `InternalModuleRegistry`            |
+|  0.1% | 1.14 KiB |         2 | `NodeJSFS`                          |
+|  0.1% |    779 B |         3 | `FileSink`                          |
+| <0.1% |    659 B |         2 | `FileInternalReadableStreamSource`  |
+| <0.1% |    329 B |        10 | `Map`                               |
+| <0.1% |    256 B |         8 | `Promise (fulfilled: Object)`       |
+| <0.1% |    242 B |         2 | `WriteStream`                       |
+| <0.1% |    213 B |         1 | `url `                              |
+| <0.1% |    128 B |         4 | `Promise (fulfilled: JSSourceCode)` |
+| <0.1% |    108 B |         3 | `Set`                               |
+| <0.1% |     89 B |         2 | `ReadableStream`                    |
+| <0.1% |     89 B |         1 | `ReadStream`                        |
+| <0.1% |     70 B |         1 | `String`                            |
+| <0.1% |     65 B |         1 | `ModuleNamespaceObject`             |
+| <0.1% |     64 B |         2 | `Promise (fulfilled)`               |
+| <0.1% |     62 B |         1 | `Math`                              |
+| <0.1% |     54 B |         1 | `Prototype`                         |
+| <0.1% |     50 B |         2 | `Iterator`                          |
+
+##### Code
+
+|    % |     Size | Instances | Constructor    |
+| ---: | -------: | --------: | -------------- |
+| 1.8% | 27.5 KiB |         4 | `ModuleRecord` |
+
 #### Instances
 
 Instances ranked by contribution to each constructor's self size.
@@ -186,6 +219,25 @@ Instances ranked by contribution to each constructor's self size.
 | -----: | ---: | --------: | ----------- |
 | 100.0% | 64 B |         2 | `(GC root)` |
 
+##### `Math`
+
+|      % | Size | Instances | Path                 |
+| -----: | ---: | --------: | -------------------- |
+| 100.0% | 62 B |         1 | `.Math GlobalObject` |
+
+##### `Prototype`
+
+|      % | Size | Instances | Path             |
+| -----: | ---: | --------: | ---------------- |
+| 100.0% | 54 B |         1 | `. GlobalObject` |
+
+##### `Iterator`
+
+|     % | Size | Instances | Path                           |
+| ----: | ---: | --------: | ------------------------------ |
+| 62.0% | 31 B |         1 | `. GlobalObject`               |
+| 38.0% | 19 B |         1 | `. Structure ← . GlobalObject` |
+
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
@@ -212,6 +264,39 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 2.17 KiB |         1 | `EventEmitter`                     |
 |  0.1% | 1.96 KiB |         3 | `FileSink`                         |
 |  0.1% | 1.89 KiB |         2 | `FileInternalReadableStreamSource` |
+
+#### Categories
+
+##### Object
+
+|     % |     Size | Instances | Constructor                        |
+| ----: | -------: | --------: | ---------------------------------- |
+| 83.7% | 1.24 MiB |         1 | `GlobalObject`                     |
+| 40.2% |  609 KiB |     1,367 | `Object`                           |
+|  3.5% | 52.3 KiB |         1 | `InternalModuleRegistry`           |
+|  3.4% | 51.8 KiB |         1 | `url `                             |
+|  1.1% | 16.8 KiB |        10 | `Map`                              |
+|  1.0% | 14.9 KiB |         1 | `ReadStream`                       |
+|  0.6% | 8.66 KiB |         2 | `WriteStream`                      |
+|  0.3% |  4.9 KiB |         1 | `console`                          |
+|  0.3% | 4.88 KiB |         1 | `Prototype`                        |
+|  0.3% | 4.87 KiB |         1 | `Math`                             |
+|  0.3% | 4.46 KiB |         1 | `String`                           |
+|  0.3% | 4.22 KiB |         2 | `ReadableStream`                   |
+|  0.2% | 2.98 KiB |         2 | `Iterator`                         |
+|  0.2% | 2.96 KiB |         2 | `NodeJSFS`                         |
+|  0.2% | 2.35 KiB |         2 | `ArrayBuffer`                      |
+|  0.1% | 2.17 KiB |         1 | `EventEmitter`                     |
+|  0.1% | 1.96 KiB |         3 | `FileSink`                         |
+|  0.1% | 1.89 KiB |         2 | `FileInternalReadableStreamSource` |
+|  0.1% | 1.23 KiB |         1 | `Stats`                            |
+|  0.1% | 1.16 KiB |         1 | `AsyncDisposableStack`             |
+
+##### Code
+
+|    % | Size | Instances | Constructor    |
+| ---: | ---: | --------: | -------------- |
+| 0.0% |  0 B |         4 | `ModuleRecord` |
 
 #### Instances
 
@@ -351,6 +436,24 @@ Instances ranked by contribution to each constructor's retained size.
 | ----: | -------: | --------: | ------------- |
 | 67.4% | 1.27 KiB |         1 | `. Structure` |
 | 32.6% |    632 B |         1 | `(GC root)`   |
+
+##### `Stats`
+
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 1.23 KiB |         1 | `(GC root)` |
+
+##### `AsyncDisposableStack`
+
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 1.16 KiB |         1 | `(GC root)` |
+
+##### `ModuleRecord`
+
+|    % |     Size | Instances | Path        |
+| ---: | -------: | --------: | ----------- |
+| 0.0% | 27.5 KiB |         4 | `(GC root)` |
 
 ## Largest functions
 
@@ -583,6 +686,10 @@ Nodes ranked by contribution to each function's retained size.
 ## Largest strings
 
 Strings ranked by bytes allocated for them.
+
+### Categories
+
+#### String
 
 |     % |  Size | Value                                                    | Path                                                                                                                                                     |
 | ----: | ----: | -------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |

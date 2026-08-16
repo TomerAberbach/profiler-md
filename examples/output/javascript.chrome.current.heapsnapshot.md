@@ -47,6 +47,65 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |    304 B |         2 | `PerformanceResourceTiming`   | `<unknown>` |
 | <0.1% |    212 B |         3 | `MutationObserver`            | `<unknown>` |
 
+#### Categories
+
+##### Object
+
+|     % |     Size | Instances | Constructor        | Location           |
+| ----: | -------: | --------: | ------------------ | ------------------ |
+|  7.0% | 71.3 KiB |     1,464 | `Object`           | `<unknown>`        |
+|  0.3% | 2.65 KiB |       113 | `system / Context` | `<unknown>`        |
+|  0.1% |   1020 B |        37 | `Error`            | `<unknown>`        |
+|  0.1% |   1008 B |        36 | `TypedArray`       | `<unknown>`        |
+| <0.1% |    176 B |         5 | `Generator`        | `workload.mjs:1:1` |
+| <0.1% |    132 B |         6 | `Map`              | `<unknown>`        |
+| <0.1% |    116 B |         5 | `Set`              | `<unknown>`        |
+| <0.1% |    104 B |         4 | `Promise`          | `<unknown>`        |
+| <0.1% |    100 B |         4 | `WeakSet`          | `<unknown>`        |
+| <0.1% |    100 B |         4 | `WeakMap`          | `<unknown>`        |
+| <0.1% |     84 B |         3 | `AsyncGenerator`   | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Map Iterator`     | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Set Iterator`     | `<unknown>`        |
+| <0.1% |     84 B |         3 | `String Iterator`  | `<unknown>`        |
+| <0.1% |     84 B |         3 | `JSON`             | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Tag`              | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Math`             | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Reflect`          | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Intl`             | `<unknown>`        |
+| <0.1% |     84 B |         3 | `Atomics`          | `<unknown>`        |
+
+##### Native
+
+|     % |     Size | Instances | Constructor                                  | Location    |
+| ----: | -------: | --------: | -------------------------------------------- | ----------- |
+|  1.6% | 16.3 KiB |       208 | `Text`                                       | `<unknown>` |
+|  1.3% | 13.3 KiB |       154 | `system / ExternalStringData`                | `<unknown>` |
+|  1.2% | 11.7 KiB |       100 | `<p>`                                        | `<unknown>` |
+|  1.2% | 11.7 KiB |       100 | `<article class="status">`                   | `<unknown>` |
+|  1.2% | 11.7 KiB |       100 | `<h2>`                                       | `<unknown>` |
+|  0.3% |  3.2 KiB |         3 | `HTMLDocument`                               | `<unknown>` |
+|  0.1% |   1016 B |        10 | `Window`                                     | `<unknown>` |
+|  0.1% |    968 B |         1 | `Performance`                                | `<unknown>` |
+|  0.1% |    960 B |         8 | `<span class="hashtag">`                     | `<unknown>` |
+|  0.1% |    824 B |         1 | `StyleEngine`                                | `<unknown>` |
+| <0.1% |    416 B |         1 | `JSModuleScript`                             | `<unknown>` |
+| <0.1% |    400 B |         1 | `Navigator`                                  | `<unknown>` |
+| <0.1% |    328 B |         1 | `FontFaceSet`                                | `<unknown>` |
+| <0.1% |    304 B |         2 | `PerformanceResourceTiming`                  | `<unknown>` |
+| <0.1% |    212 B |         3 | `MutationObserver`                           | `<unknown>` |
+| <0.1% |    208 B |         1 | `ScriptedAnimationController`                | `<unknown>` |
+| <0.1% |    200 B |         1 | `IntersectionObserver`                       | `<unknown>` |
+| <0.1% |    192 B |         1 | `NavigationHistoryEntry`                     | `<unknown>` |
+| <0.1% |    184 B |         1 | `<script type="module" src="/workload.mjs">` | `<unknown>` |
+| <0.1% |    184 B |         1 | `PerformanceNavigationTiming`                | `<unknown>` |
+
+##### Array
+
+|     % |     Size | Instances | Constructor      | Location    |
+| ----: | -------: | --------: | ---------------- | ----------- |
+|  1.6% | 16.6 KiB |     1,060 | `Array`          | `<unknown>` |
+| <0.1% |     84 B |         3 | `Array Iterator` | `<unknown>` |
+
 #### Instances
 
 Instances ranked by contribution to each constructor's self size.
@@ -209,6 +268,156 @@ Instances ranked by contribution to each constructor's self size.
 | 13.2% |  28 B |         1 | `(GC root)`            |
 |  7.5% |  16 B |         1 | `.375 array`           |
 
+##### `ScriptedAnimationController` (`<unknown>`)
+
+|      % |  Size | Instances | Path                |
+| -----: | ----: | --------: | ------------------- |
+| 100.0% | 208 B |         1 | `[18] HTMLDocument` |
+
+##### `IntersectionObserver` (`<unknown>`)
+
+|      % |  Size | Instances | Path                                                      |
+| -----: | ----: | --------: | --------------------------------------------------------- |
+| 100.0% | 200 B |         1 | `[2] InternalNode ← [1] InternalNode ← [31] HTMLDocument` |
+
+##### `NavigationHistoryEntry` (`<unknown>`)
+
+|      % |  Size | Instances | Path         |
+| -----: | ----: | --------: | ------------ |
+| 100.0% | 192 B |         1 | `[6] Window` |
+
+##### `<script type="module" src="/workload.mjs">` (`<unknown>`)
+
+|      % |  Size | Instances | Path         |
+| -----: | ----: | --------: | ------------ |
+| 100.0% | 184 B |         1 | `[1] <head>` |
+
+##### `PerformanceNavigationTiming` (`<unknown>`)
+
+|      % |  Size | Instances | Path                                                                  |
+| -----: | ----: | --------: | --------------------------------------------------------------------- |
+| 100.0% | 184 B |         1 | `[6] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
+
+##### `Generator` (`workload.mjs:1:1`)
+
+|     % |  Size | Instances | Path                                      |
+| ----: | ----: | --------: | ----------------------------------------- |
+| 93.2% | 164 B |         4 | `(GC root)`                               |
+|  6.8% |  12 B |         1 | `.__proto__ Generator (workload.mjs:1:1)` |
+
+##### `Map` (`<unknown>`)
+
+|     % | Size | Instances | Path                                                         |
+| ----: | ---: | --------: | ------------------------------------------------------------ |
+| 63.6% | 84 B |         3 | `(GC root)`                                                  |
+| 12.1% | 16 B |         1 | `.L system / Context`                                        |
+| 12.1% | 16 B |         1 | `.#e v ← .customQuerySelectors Object`                       |
+| 12.1% | 16 B |         1 | `.byId Object ← .__retained Window / http://127.0.0.1:52789` |
+
+##### `Set` (`<unknown>`)
+
+|     % | Size | Instances | Path                   |
+| ----: | ---: | --------: | ---------------------- |
+| 72.4% | 84 B |         3 | `(GC root)`            |
+| 13.8% | 16 B |         1 | `.re system / Context` |
+| 13.8% | 16 B |         1 | `.ne system / Context` |
+
+##### `Promise` (`<unknown>`)
+
+|      % |  Size | Instances | Path        |
+| -----: | ----: | --------: | ----------- |
+| 100.0% | 104 B |         4 | `(GC root)` |
+
+##### `WeakSet` (`<unknown>`)
+
+|     % | Size | Instances | Path                  |
+| ----: | ---: | --------: | --------------------- |
+| 56.0% | 56 B |         2 | `.prototype WeakSet`  |
+| 28.0% | 28 B |         1 | `(GC root)`           |
+| 16.0% | 16 B |         1 | `.W system / Context` |
+
+##### `WeakMap` (`<unknown>`)
+
+|     % | Size | Instances | Path                  |
+| ----: | ---: | --------: | --------------------- |
+| 56.0% | 56 B |         2 | `.prototype WeakMap`  |
+| 28.0% | 28 B |         1 | `(GC root)`           |
+| 16.0% | 16 B |         1 | `.I system / Context` |
+
+##### `AsyncGenerator` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `Map Iterator` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `Set Iterator` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `String Iterator` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `JSON` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `Tag` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
+##### `Math` (`<unknown>`)
+
+|     % | Size | Instances | Path                                    |
+| ----: | ---: | --------: | --------------------------------------- |
+| 33.3% | 28 B |         1 | `.Math Window / http://127.0.0.1:52789` |
+| 33.3% | 28 B |         1 | `.Math Window / ://`                    |
+| 33.3% | 28 B |         1 | `.Math Object / `                       |
+
+##### `Reflect` (`<unknown>`)
+
+|     % | Size | Instances | Path                                       |
+| ----: | ---: | --------: | ------------------------------------------ |
+| 33.3% | 28 B |         1 | `.Reflect Window / http://127.0.0.1:52789` |
+| 33.3% | 28 B |         1 | `.Reflect Window / ://`                    |
+| 33.3% | 28 B |         1 | `.Reflect Object / `                       |
+
+##### `Intl` (`<unknown>`)
+
+|     % | Size | Instances | Path                                    |
+| ----: | ---: | --------: | --------------------------------------- |
+| 33.3% | 28 B |         1 | `.Intl Window / http://127.0.0.1:52789` |
+| 33.3% | 28 B |         1 | `.Intl Window / ://`                    |
+| 33.3% | 28 B |         1 | `.Intl Object / `                       |
+
+##### `Atomics` (`<unknown>`)
+
+|     % | Size | Instances | Path                                       |
+| ----: | ---: | --------: | ------------------------------------------ |
+| 33.3% | 28 B |         1 | `.Atomics Window / http://127.0.0.1:52789` |
+| 33.3% | 28 B |         1 | `.Atomics Window / ://`                    |
+| 33.3% | 28 B |         1 | `.Atomics Object / `                       |
+
+##### `Array Iterator` (`<unknown>`)
+
+|      % | Size | Instances | Path        |
+| -----: | ---: | --------: | ----------- |
+| 100.0% | 84 B |         3 | `(GC root)` |
+
 ### Retained size
 
 Constructors ranked by bytes allocated for their instances and all nodes that would be freed if their instances were garbage collected.
@@ -235,6 +444,65 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.5% |  5.2 KiB |        36 | `TypedArray`                      | `<unknown>` |
 |  0.5% | 4.79 KiB |         3 | `console`                         | `<unknown>` |
 |  0.4% | 4.48 KiB |         3 | `Intl.Locale`                     | `<unknown>` |
+
+#### Categories
+
+##### Object
+
+|     % |     Size | Instances | Constructor                       | Location    |
+| ----: | -------: | --------: | --------------------------------- | ----------- |
+| 19.0% |  192 KiB |     1,464 | `Object`                          | `<unknown>` |
+| 18.2% |  184 KiB |         1 | `Window / http://127.0.0.1:52789` | `<unknown>` |
+|  4.7% | 47.8 KiB |         1 | `Window / ://`                    | `<unknown>` |
+|  1.1% | 10.9 KiB |       113 | `system / Context`                | `<unknown>` |
+|  0.9% | 8.88 KiB |         6 | `Map`                             | `<unknown>` |
+|  0.6% | 6.45 KiB |         1 | `Object / `                       | `<unknown>` |
+|  0.6% | 5.91 KiB |        37 | `Error`                           | `<unknown>` |
+|  0.6% | 5.64 KiB |         1 | `Document`                        | `<unknown>` |
+|  0.5% | 5.45 KiB |         3 | `Math`                            | `<unknown>` |
+|  0.5% |  5.2 KiB |        36 | `TypedArray`                      | `<unknown>` |
+|  0.5% | 4.79 KiB |         3 | `console`                         | `<unknown>` |
+|  0.4% | 4.48 KiB |         3 | `Intl.Locale`                     | `<unknown>` |
+|  0.4% | 4.34 KiB |         3 | `String`                          | `<unknown>` |
+|  0.4% | 4.02 KiB |         3 | `DataView`                        | `<unknown>` |
+|  0.3% | 3.42 KiB |         3 | `HTMLElement`                     | `<unknown>` |
+|  0.3% | 3.42 KiB |         1 | `Element`                         | `<unknown>` |
+|  0.3% | 3.06 KiB |         3 | `Intl`                            | `<unknown>` |
+|  0.2% | 2.24 KiB |         3 | `Atomics`                         | `<unknown>` |
+|  0.2% | 2.21 KiB |         3 | `DisposableStack`                 | `<unknown>` |
+|  0.2% | 2.21 KiB |         3 | `AsyncDisposableStack`            | `<unknown>` |
+
+##### Native
+
+|     % |     Size | Instances | Constructor                                  | Location    |
+| ----: | -------: | --------: | -------------------------------------------- | ----------- |
+|  7.5% |   76 KiB |        10 | `Window`                                     | `<unknown>` |
+|  2.6% |   26 KiB |       100 | `<article class="status">`                   | `<unknown>` |
+|  1.6% | 16.3 KiB |       208 | `Text`                                       | `<unknown>` |
+|  1.4% | 14.4 KiB |       100 | `<p>`                                        | `<unknown>` |
+|  1.4% | 14.4 KiB |       100 | `<h2>`                                       | `<unknown>` |
+|  1.3% | 13.3 KiB |       154 | `system / ExternalStringData`                | `<unknown>` |
+|  0.5% | 5.46 KiB |         3 | `HTMLDocument`                               | `<unknown>` |
+|  0.3% | 3.52 KiB |     1,894 | `InternalNode`                               | `<unknown>` |
+|  0.2% | 1.81 KiB |         1 | `Performance`                                | `<unknown>` |
+|  0.1% | 1.33 KiB |         8 | `<span class="hashtag">`                     | `<unknown>` |
+|  0.1% |    944 B |         1 | `StyleEngine`                                | `<unknown>` |
+|  0.1% |    680 B |         1 | `Modulator`                                  | `<unknown>` |
+|  0.1% |    556 B |         3 | `MutationObserver`                           | `<unknown>` |
+| <0.1% |    416 B |         1 | `JSModuleScript`                             | `<unknown>` |
+| <0.1% |    400 B |         1 | `Navigator`                                  | `<unknown>` |
+| <0.1% |    400 B |         1 | `<head>`                                     | `<unknown>` |
+| <0.1% |    368 B |         1 | `Navigation`                                 | `<unknown>` |
+| <0.1% |    328 B |         1 | `FontFaceSet`                                | `<unknown>` |
+| <0.1% |    304 B |         2 | `PerformanceResourceTiming`                  | `<unknown>` |
+| <0.1% |    296 B |         1 | `<script type="module" src="/workload.mjs">` | `<unknown>` |
+
+##### Array
+
+|    % |     Size | Instances | Constructor      | Location    |
+| ---: | -------: | --------: | ---------------- | ----------- |
+| 3.4% | 34.4 KiB |     1,060 | `Array`          | `<unknown>` |
+| 0.1% |    528 B |         3 | `Array Iterator` | `<unknown>` |
 
 #### Instances
 
@@ -397,6 +665,153 @@ Instances ranked by contribution to each constructor's retained size.
 |      % |     Size | Instances | Path                |
 | -----: | -------: | --------: | ------------------- |
 | 100.0% | 4.48 KiB |         3 | `.prototype Locale` |
+
+##### `String` (`<unknown>`)
+
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 4.34 KiB |         3 | `(GC root)` |
+
+##### `DataView` (`<unknown>`)
+
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 4.02 KiB |         3 | `(GC root)` |
+
+##### `InternalNode` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                  |
+| ----: | -------: | --------: | ------------------------------------- |
+| 59.8% |  2.1 KiB |         1 | `[24] Window`                         |
+| 51.6% | 1.81 KiB |         1 | `[8] InternalNode ← [24] Window`      |
+| 21.6% |    776 B |         1 | `(GC root)`                           |
+| 21.6% |    776 B |         1 | `[1] InternalNode`                    |
+| 18.9% |    680 B |         1 | `[3] InternalNode ← [1] InternalNode` |
+
+##### `HTMLElement` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                                     |
+| ----: | -------: | --------: | -------------------------------------------------------- |
+| 99.1% | 3.39 KiB |         1 | `(GC root)`                                              |
+|  0.5% |     16 B |         1 | `[1] InternalNode ← [1] InternalNode ← [1] InternalNode` |
+|  0.5% |     16 B |         1 | `.441 array`                                             |
+
+##### `Element` (`<unknown>`)
+
+|      % |     Size | Instances | Path        |
+| -----: | -------: | --------: | ----------- |
+| 100.0% | 3.42 KiB |         1 | `(GC root)` |
+
+##### `Intl` (`<unknown>`)
+
+|     % |     Size | Instances | Path                                    |
+| ----: | -------: | --------: | --------------------------------------- |
+| 33.3% | 1.02 KiB |         1 | `.Intl Window / http://127.0.0.1:52789` |
+| 33.3% | 1.02 KiB |         1 | `.Intl Window / ://`                    |
+| 33.3% | 1.02 KiB |         1 | `.Intl Object / `                       |
+
+##### `Atomics` (`<unknown>`)
+
+|     % |  Size | Instances | Path                                       |
+| ----: | ----: | --------: | ------------------------------------------ |
+| 33.3% | 764 B |         1 | `.Atomics Window / http://127.0.0.1:52789` |
+| 33.3% | 764 B |         1 | `.Atomics Window / ://`                    |
+| 33.3% | 764 B |         1 | `.Atomics Object / `                       |
+
+##### `DisposableStack` (`<unknown>`)
+
+|      % |     Size | Instances | Path                         |
+| -----: | -------: | --------: | ---------------------------- |
+| 100.0% | 2.21 KiB |         3 | `.prototype DisposableStack` |
+
+##### `AsyncDisposableStack` (`<unknown>`)
+
+|      % |     Size | Instances | Path                              |
+| -----: | -------: | --------: | --------------------------------- |
+| 100.0% | 2.21 KiB |         3 | `.prototype AsyncDisposableStack` |
+
+##### `Performance` (`<unknown>`)
+
+|      % |     Size | Instances | Path                                                |
+| -----: | -------: | --------: | --------------------------------------------------- |
+| 100.0% | 1.81 KiB |         1 | `[1] InternalNode ← [8] InternalNode ← [24] Window` |
+
+##### `<span class="hashtag">` (`<unknown>`)
+
+|     % |  Size | Instances | Path                                                                         |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------- |
+| 58.8% | 800 B |         4 | `[4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789` |
+| 26.5% | 360 B |         3 | `(GC root)`                                                                  |
+| 14.7% | 200 B |         1 | `.__retained Window / http://127.0.0.1:52789`                                |
+
+##### `StyleEngine` (`<unknown>`)
+
+|      % |  Size | Instances | Path                |
+| -----: | ----: | --------: | ------------------- |
+| 100.0% | 944 B |         1 | `[11] HTMLDocument` |
+
+##### `Modulator` (`<unknown>`)
+
+|      % |  Size | Instances | Path                                                     |
+| -----: | ----: | --------: | -------------------------------------------------------- |
+| 100.0% | 680 B |         1 | `[1] InternalNode ← [3] InternalNode ← [1] InternalNode` |
+
+##### `MutationObserver` (`<unknown>`)
+
+|     % |  Size | Instances | Path                   |
+| ----: | ----: | --------: | ---------------------- |
+| 61.9% | 344 B |         1 | `.se system / Context` |
+| 35.3% | 196 B |         1 | `(GC root)`            |
+|  2.9% |  16 B |         1 | `.375 array`           |
+
+##### `Array Iterator` (`<unknown>`)
+
+|      % |  Size | Instances | Path        |
+| -----: | ----: | --------: | ----------- |
+| 100.0% | 528 B |         3 | `(GC root)` |
+
+##### `JSModuleScript` (`<unknown>`)
+
+|      % |  Size | Instances | Path                                                     |
+| -----: | ----: | --------: | -------------------------------------------------------- |
+| 100.0% | 416 B |         1 | `[1] InternalNode ← [3] InternalNode ← [1] InternalNode` |
+
+##### `Navigator` (`<unknown>`)
+
+|      % |  Size | Instances | Path         |
+| -----: | ----: | --------: | ------------ |
+| 100.0% | 400 B |         1 | `[5] Window` |
+
+##### `<head>` (`<unknown>`)
+
+|      % |  Size | Instances | Path        |
+| -----: | ----: | --------: | ----------- |
+| 100.0% | 400 B |         1 | `(GC root)` |
+
+##### `Navigation` (`<unknown>`)
+
+|      % |  Size | Instances | Path         |
+| -----: | ----: | --------: | ------------ |
+| 100.0% | 368 B |         1 | `[6] Window` |
+
+##### `FontFaceSet` (`<unknown>`)
+
+|      % |  Size | Instances | Path                                   |
+| -----: | ----: | --------: | -------------------------------------- |
+| 100.0% | 328 B |         1 | `[6] InternalNode ← [31] HTMLDocument` |
+
+##### `PerformanceResourceTiming` (`<unknown>`)
+
+|     % |  Size | Instances | Path                                                                                     |
+| ----: | ----: | --------: | ---------------------------------------------------------------------------------------- |
+| 50.0% | 152 B |         1 | `[1] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
+| 50.0% | 152 B |         1 | `[2] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
+
+##### `<script type="module" src="/workload.mjs">` (`<unknown>`)
+
+|      % |  Size | Instances | Path         |
+| -----: | ----: | --------: | ------------ |
+| 100.0% | 296 B |         1 | `[1] <head>` |
 
 ## Largest functions
 
@@ -633,6 +1048,10 @@ Nodes ranked by contribution to each function's retained size.
 
 Strings ranked by bytes allocated for them.
 
+### Categories
+
+#### String
+
 |     % |     Size | Value                                                    | Path                                            |
 | ----: | -------: | -------------------------------------------------------- | ----------------------------------------------- |
 |  0.9% | 9.54 KiB | `(() => {\n      const module = {};\n      "use stri…`   | `.source code`                                  |
@@ -655,3 +1074,28 @@ Strings ranked by bytes allocated for them.
 | <0.1% |    280 B | `泉田新潟県知事は、東電の申請書提出を容認させられただけで、再稼働に必要な「同意」はまだ与えていませ…`     | `(GC root)`                                     |
 | <0.1% |    264 B | `ラウワン脱出→友達が家に連んで帰ってって言うから友達ん家に乗せて帰る(1度も行ったことない田舎道)…`     | `(GC root)`                                     |
 | <0.1% |    260 B | `GパングのA型K月克己中尉の非公式botです。 主に七巻と八巻が中心の台詞をつぶやきます。 4/1…`     | `(GC root)`                                     |
+
+#### Concatenated string
+
+|     % | Size | Value                   | Path                                                                                                                                                                                                                      |
+| ----: | ---: | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithPreparseData ← .trusted_function_data (shared function info)`                                                                                                                        |
+| <0.1% | 20 B | `(concatenated string)` | `.second (concatenated string) ← . system / ScopeInfo ← .name_or_scope_info get ← .(Compilation cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data J ← .shared J ← .J system / Context` |
+| <0.1% | 20 B | `(concatenated string)` | `. system / ScopeInfo ← .name_or_scope_info get ← .(Compilation cache) (constant pool) ← .(GC roots) system / BytecodeArray ← .trusted_function_data J ← .shared J ← .J system / Context`                                 |
+| <0.1% | 20 B | `(concatenated string)` | `.source code ← .script (shared function info) ← .shared (anonymous) ← .6 array ← .table Map ← .L system / Context`                                                                                                       |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .124 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.124 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                    |
+| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data stringify`                                                                                                                                  |
+| <0.1% | 20 B | `(concatenated string)` | `.<dummy> system / UncompiledDataWithoutPreparseData ← .trusted_function_data (shared function info)`                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .67 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.67 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .70 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.70 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .73 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.73 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .76 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.76 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .79 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.79 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |
+| <0.1% | 20 B | `(concatenated string)` | `.first (concatenated string) ← .82 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                      |
+| <0.1% | 20 B | `(concatenated string)` | `.82 array ← .table Map ← .byId Object ← .__retained Window / http://127.0.0.1:52789`                                                                                                                                     |

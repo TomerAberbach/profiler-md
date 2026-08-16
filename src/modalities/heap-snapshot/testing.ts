@@ -13,7 +13,7 @@ import type {
   AggregatedHeapSnapshot,
   AggregatedHeapSnapshotConstructor,
   AggregatedHeapSnapshotFunction,
-  AggregatedHeapSnapshotNode,
+  AggregatedHeapSnapshotString,
   NodeCategoryStats,
 } from './aggregate.ts'
 import { computeStartOffsets } from './graph.ts'
@@ -94,7 +94,7 @@ export const makeAggregatedHeapSnapshot = ({
   nodeCategoryToStats?: Map<HeapSnapshotNodeCategory, NodeCategoryStats>
   constructors?: AggregatedHeapSnapshotConstructor[]
   functions?: AggregatedHeapSnapshotFunction[]
-  strings?: AggregatedHeapSnapshotNode[]
+  strings?: AggregatedHeapSnapshotString[]
 } = {}): AggregatedHeapSnapshot => ({
   type: `heap-snapshot`,
   context,
@@ -127,17 +127,20 @@ export const makeAggregatedHeapSnapshotConstructor = ({
   selfSize,
   retainedSize,
   instanceCount,
+  category = `object`,
 }: {
   name: string
   location?: SourceLocation
   selfSize: number
   retainedSize: number
   instanceCount: number
+  category?: HeapSnapshotNodeCategory
 }): AggregatedHeapSnapshotConstructor => ({
   type: `node`,
   id: 0,
   name,
   location,
+  category,
   selfSize,
   retainedSize,
   instances: Array.from({ length: instanceCount }, (_, index) => ({
@@ -175,13 +178,16 @@ export const makeAggregatedHeapSnapshotFunction = ({
 export const makeAggregatedHeapSnapshotString = ({
   value,
   selfSize,
+  category = `string`,
 }: {
   value?: string
   selfSize: number
-}): AggregatedHeapSnapshotNode => ({
+  category?: HeapSnapshotNodeCategory
+}): AggregatedHeapSnapshotString => ({
   type: `node`,
   id: 0,
   name: value,
+  category,
   selfSize,
   retainedSize: selfSize,
 })

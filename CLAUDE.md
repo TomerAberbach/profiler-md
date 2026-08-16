@@ -81,6 +81,7 @@ profiler-md
 │   │       ├── graph.ts          # Node adjacency graph in CSR format
 │   │       ├── retained.ts       # Retained size computation
 │   │       ├── aggregate.ts      # Heap snapshot aggregation over classified nodes
+│   │       ├── categorize.ts     # Node and entity categorization under the resolved origin
 │   │       ├── diff.ts           # Aggregated heap snapshot diffing logic
 │   │       ├── table.ts          # The heap snapshot formatter's table columns
 │   │       ├── format.ts         # Heap snapshot and diff to Markdown formatting

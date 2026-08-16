@@ -1,6 +1,6 @@
 /**
  * Splitting a ranking into per-category subsections, shared by the modalities
- * that categorize functions.
+ * that categorize the entities they rank.
  */
 
 import type { RootContent } from 'mdast'
@@ -83,82 +83,81 @@ export const subsectionDiffCategories = <Entry, Category extends string>({
     minCategoryShare,
   )
 
-/** The functions a ranking displays, overall and within each category. */
-export type FunctionRanking<Func> = {
-  hottestFunctions: Func[]
-  categoryRankings: { category: Category; functions: Func[] }[]
-  displayedFunctions: Func[]
+/** The entities a ranking displays, overall and within each category. */
+export type EntityRanking<Entity> = {
+  rankedEntities: Entity[]
+  categoryRankings: { category: Category; entities: Entity[] }[]
+  displayedEntities: Entity[]
 }
 
 /**
- * Ranks {@link functions} by {@link valueOf}, overall and within each of
+ * Ranks {@link entities} by {@link valueOf}, overall and within each of
  * {@link categories}, keeping the top {@link topN} of each.
  *
- * Every ranked function has the same breakdowns below it, whichever ranking
- * displays it, so {@link FunctionRanking.displayedFunctions} contains each
- * function once, sorted by {@link valueOf} like the rankings above it.
+ * Every ranked entity has the same breakdowns below it, whichever ranking
+ * displays it, so {@link EntityRanking.displayedEntities} contains each entity
+ * once, sorted by {@link valueOf} like the rankings above it.
  */
-export const rankFunctions = <Func extends { category: Category }>({
-  functions,
+export const rankEntities = <Entity extends { category: Category }>({
+  entities,
   categories,
   valueOf,
   topN,
 }: {
-  functions: Func[]
+  entities: Entity[]
   categories: Category[]
-  valueOf: (func: Func) => number
+  valueOf: (entity: Entity) => number
   topN: number
-}): FunctionRanking<Func> => {
-  const hottestFunctions = selectTopN(functions, topN, valueOf)
+}): EntityRanking<Entity> => {
+  const rankedEntities = selectTopN(entities, topN, valueOf)
   const categoryRankings = categories.map(category => ({
     category,
-    functions: selectTopN(
-      functions.filter(func => func.category === category),
+    entities: selectTopN(
+      entities.filter(entity => entity.category === category),
       topN,
       valueOf,
     ),
   }))
-  const displayedFunctions = [
+  const displayedEntities = [
     ...new Set([
-      ...hottestFunctions,
-      ...categoryRankings.flatMap(({ functions }) => functions),
+      ...rankedEntities,
+      ...categoryRankings.flatMap(({ entities }) => entities),
     ]),
-  ].sort((func1, func2) => valueOf(func2) - valueOf(func1))
-  return { hottestFunctions, categoryRankings, displayedFunctions }
+  ].sort((entity1, entity2) => valueOf(entity2) - valueOf(entity1))
+  return { rankedEntities, categoryRankings, displayedEntities }
 }
 
 /**
- * The table ranking {@link FunctionRanking.hottestFunctions}, followed by the
+ * The table ranking {@link EntityRanking.rankedEntities}, followed by the
  * per-category subsections repeating that ranking within each category.
- * {@link formatFunctionTable} builds every table.
+ * {@link formatEntityTable} builds every table.
  *
- * A category subsection ranking exactly the hottest functions repeats the
- * overall table, so the table shows once, under the heading naming that
- * category.
+ * A category subsection ranking exactly the ranked entities repeats the overall
+ * table, so the table shows once, under the heading naming that category.
  */
-export const formatRankingTables = <Func>({
-  ranking: { hottestFunctions, categoryRankings },
-  formatFunctionTable,
+export const formatRankingTables = <Entity>({
+  ranking: { rankedEntities, categoryRankings },
+  formatEntityTable,
   headingLevel,
 }: {
-  ranking: FunctionRanking<Func>
-  formatFunctionTable: (functions: Func[]) => RootContent
+  ranking: EntityRanking<Entity>
+  formatEntityTable: (entities: Entity[]) => RootContent
   headingLevel: number
 }): RootContent[] => [
   ...(isRepeatedByCategory(
-    hottestFunctions,
-    categoryRankings.map(({ functions }) => functions),
+    rankedEntities,
+    categoryRankings.map(({ entities }) => entities),
   )
     ? []
-    : [formatFunctionTable(hottestFunctions)]),
+    : [formatEntityTable(rankedEntities)]),
   ...formatSectionGroup(
     [heading(headingLevel, `Categories`)],
-    categoryRankings.flatMap(({ category, functions }) =>
-      functions.length === 0
+    categoryRankings.flatMap(({ category, entities }) =>
+      entities.length === 0
         ? []
         : [
             heading(headingLevel + 1, formatCategory(category)),
-            formatFunctionTable(functions),
+            formatEntityTable(entities),
           ],
     ),
   ),

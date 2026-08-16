@@ -28,6 +28,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 Constructors with the largest increase in self size.
 
+##### Native
+
 | Change |  Delta |            % |        Size | Instances | Constructor                    | Location    |
 | -----: | -----: | -----------: | ----------: | --------: | ------------------------------ | ----------- |
 |    new | +200 B | 0.0% → <0.1% | 0 B → 200 B |     0 → 1 | `IntersectionObserver`         | `<unknown>` |
@@ -43,6 +45,8 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 Constructors with the largest increase in retained size.
 
+##### Native
+
 | Change |  Delta |            % |                Size |   Instances | Constructor                    | Location    |
 | -----: | -----: | -----------: | ------------------: | ----------: | ------------------------------ | ----------- |
 | +16.0% | +496 B |         0.3% | 3.03 KiB → 3.52 KiB | 283 → 1,894 | `InternalNode`                 | `<unknown>` |
@@ -57,6 +61,8 @@ Constructors with the largest increase in retained size.
 #### Improvements
 
 Constructors with the largest decrease in retained size.
+
+##### Native
 
 | Change |       Delta |           % |                Size | Instances | Constructor                | Location    |
 | -----: | ----------: | ----------: | ------------------: | --------: | -------------------------- | ----------- |
@@ -77,6 +83,8 @@ Strings ranked by bytes allocated for them.
 
 Strings with the largest increase in size.
 
+#### String
+
 | Change | Delta |            % |       Size | Value                                                | Path        |
 | -----: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
 |    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:52789E855ACDCDA1A5B613DDD40E0D9D…` | `(GC root)` |
@@ -84,6 +92,8 @@ Strings with the largest increase in size.
 ### Improvements
 
 Strings with the largest decrease in size.
+
+#### String
 
 |  Change | Delta |            % |       Size | Value                                                | Path        |
 | ------: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
