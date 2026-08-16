@@ -34,6 +34,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |  0.1% |   1.0ms |       1 | `ZSTD_freeCCtx`                                      | `<unknown>`         |
 |  0.1% |   1.0ms |       1 | `HUF_optimalTableLog`                                | `<unknown>`         |
 |  0.1% |   1.0ms |       1 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`        |
+|  0.1% |   1.0ms |       1 | `FSE_buildCTable_wksp`                               | `<unknown>`         |
 
 #### Categories
 
@@ -176,6 +177,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | -------------------- | ----------------- |
 | 100.0% | 1.0ms |       1 | `ZSTD_buildSeqStore` | `zstd_compress.c` |
 
+##### `FSE_buildCTable_wksp` (`<unknown>`)
+
+|      % |  Time | Samples | Caller             | Location    |
+| -----: | ----: | ------: | ------------------ | ----------- |
+| 100.0% | 1.0ms |       1 | `ZSTD_buildCTable` | `<unknown>` |
+
 ### Total time
 
 Functions ranked by total time spent in the function and all its callees.
@@ -196,12 +203,12 @@ Functions ranked by total time spent in the function and all its callees.
 |  0.5% |   6.0ms |       6 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`   |
 |  0.4% |   5.0ms |       5 | `ZSTD_updateStats`                                   | `zstd_opt.c`        |
 |  0.3% |   4.0ms |       4 | `ZSTD_compressSeqStore_singleBlock`                  | `zstd_compress.c`   |
+|  0.3% |   4.0ms |       4 | `FIO_compressFilename`                               | `<unknown>`         |
+|  0.3% |   4.0ms |       4 | `main`                                               | `<unknown>`         |
+|  0.3% |   4.0ms |       4 | `_start`                                             | `<unknown>`         |
 |  0.2% |   3.0ms |       3 | `ZSTD_compressStream2`                               | `<unknown>`         |
 |  0.2% |   3.0ms |       3 | `FIO_compressFilename_srcFile`                       | `fileio.c`          |
 |  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`        |
-|  0.2% |   3.0ms |       3 | `ZSTD_seqToCodes`                                    | `<unknown>`         |
-|  0.2% |   3.0ms |       3 | `ZSTD_buildBlockEntropyStats`                        | `<unknown>`         |
-|  0.2% |   2.0ms |       2 | `HIST_count_parallel_wksp`                           | `hist.c`            |
 
 #### Categories
 
@@ -323,6 +330,25 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 25.0% | 1.0ms |       1 | `ZSTD_compressLiterals`         | `<unknown>`       |
 | 25.0% | 1.0ms |       1 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
 
+##### `FIO_compressFilename` (`<unknown>`)
+
+|     % |  Time | Samples | Callee                         | Location    |
+| ----: | ----: | ------: | ------------------------------ | ----------- |
+| 75.0% | 3.0ms |       3 | `FIO_compressFilename_srcFile` | `fileio.c`  |
+| 25.0% | 1.0ms |       1 | `ZSTD_freeCStream`             | `<unknown>` |
+
+##### `main` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                 | Location    |
+| -----: | ----: | ------: | ---------------------- | ----------- |
+| 100.0% | 4.0ms |       4 | `FIO_compressFilename` | `<unknown>` |
+
+##### `_start` (`<unknown>`)
+
+|      % |  Time | Samples | Callee | Location    |
+| -----: | ----: | ------: | ------ | ----------- |
+| 100.0% | 4.0ms |       4 | `main` | `<unknown>` |
+
 ##### `ZSTD_compressStream2` (`<unknown>`)
 
 |     % |  Time | Samples | Callee                           | Location          |
@@ -334,13 +360,6 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |      % |  Time | Samples | Callee                 | Location    |
 | -----: | ----: | ------: | ---------------------- | ----------- |
 | 100.0% | 3.0ms |       3 | `ZSTD_compressStream2` | `<unknown>` |
-
-##### `ZSTD_buildBlockEntropyStats` (`<unknown>`)
-
-|     % |  Time | Samples | Callee                          | Location          |
-| ----: | ----: | ------: | ------------------------------- | ----------------- |
-| 66.7% | 2.0ms |       2 | `ZSTD_seqToCodes`               | `<unknown>`       |
-| 33.3% | 1.0ms |       1 | `ZSTD_buildSequencesStatistics` | `zstd_compress.c` |
 
 ##### `ZSTD_buildSequencesStatistics` (`zstd_compress.c`)
 
@@ -370,10 +389,10 @@ Call stacks ranked by time spent in their leaf frame.
 |  0.3% |   4.0ms |       4 | `ZSTD_updateStats` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                  |
 |  0.2% |   3.0ms |       3 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                           |
 |  0.2% |   3.0ms |       3 | `ZSTD_litLengthPrice.constprop.0.isra.0` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                            |
-|  0.2% |   2.0ms |       2 | `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`)                                                                                                                                                                                                                                   |
+|  0.2% |   2.0ms |       2 | `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `_start`                                                                                                                                                                                      |
 |  0.2% |   2.0ms |       2 | `ZSTD_insertBt1.constprop.3` (`zstd_opt.c`) ← `ZSTD_btGetAllMatches_noDict_3` ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)          |
 |  0.1% |   1.0ms |       1 | `ZSTD_encodeSequences` ← `ZSTD_compressSeqStore_singleBlock` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                              |
-|  0.1% |   1.0ms |       1 | `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`)                                                                                                                                            |
+|  0.1% |   1.0ms |       1 | `ZSTDMT_initCStream_internal` ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` ← `_start`                                                                                               |
 |  0.1% |   1.0ms |       1 | `ZSTD_compressBegin_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                                                                  |
 |  0.1% |   1.0ms |       1 | `ZSTD_deriveSeqStoreChunk` (`zstd_compress.c`) ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                                                                                |
 |  0.1% |   1.0ms |       1 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` (`zstd_compress.c`) ← `ZSTD_deriveBlockSplitsHelper` ← `ZSTD_compress_frameChunk` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`)                                                     |

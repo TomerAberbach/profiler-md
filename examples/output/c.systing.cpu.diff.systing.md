@@ -32,12 +32,12 @@ Functions with the largest increase in time spent directly in the function body,
 |  +19.0% |   +4.00ms |          0.2% |   21.0ms → 25.0ms |       21 → 25 | `vfs_read ([kernel])`                          | `<unknown>`      |
 |   +5.9% |   +4.00ms |          0.6% |   68.0ms → 72.0ms |       68 → 72 | `exc_page_fault ([kernel])`                    | `<unknown>`      |
 |     new |   +4.00ms |  0.0% → <0.1% |       0ms → 4.0ms |         0 → 4 | `handle_softirqs ([kernel])`                   | `<unknown>`      |
+|     new |   +3.00ms |  0.0% → <0.1% |       0ms → 3.0ms |         0 → 3 | `unknown (ld-linux-x86-64.so.2)`               | `<unknown>`      |
 |  +18.8% |   +3.00ms |   0.1% → 0.2% |   16.0ms → 19.0ms |       16 → 19 | `folio_alloc_mpol_noprof ([kernel])`           | `<unknown>`      |
 |   +5.6% |   +2.00ms |          0.3% |   36.0ms → 38.0ms |       36 → 38 | `asm_exc_page_fault ([kernel])`                | `<unknown>`      |
 |     new |   +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `do_fault ([kernel])`                          | `<unknown>`      |
 |  +18.2% |   +2.00ms |          0.1% |   11.0ms → 13.0ms |       11 → 13 | `vma_alloc_folio_noprof ([kernel])`            | `<unknown>`      |
 |   +1.6% |   +2.00ms |          1.1% | 128.0ms → 130.0ms |     128 → 130 | `do_anonymous_page ([kernel])`                 | `<unknown>`      |
-| +100.0% |   +2.00ms |         <0.1% |     2.0ms → 4.0ms |         2 → 4 | `futex_wake ([kernel])`                        | `<unknown>`      |
 
 ##### Ours
 
@@ -87,6 +87,7 @@ Functions with the largest increase in time spent directly in the function body,
 | Change |    Delta |            % |              Time |   Samples | Function                          | Location    |
 | -----: | -------: | -----------: | ----------------: | --------: | --------------------------------- | ----------- |
 | +14.1% | +34.00ms |  2.0% → 2.3% | 241.0ms → 275.0ms | 241 → 275 | `unknown (libc.so.6)`             | `<unknown>` |
+|    new |  +3.00ms | 0.0% → <0.1% |       0ms → 3.0ms |     0 → 3 | `unknown (ld-linux-x86-64.so.2)`  | `<unknown>` |
 |    new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
 |    new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `fstatat (libc.so.6)`             | `<unknown>` |
 
@@ -184,6 +185,7 @@ Functions with the largest increase in total time spent in the function and all 
 | +333.3% |  +10.00ms |  <0.1% → 0.1% |    3.0ms → 13.0ms |          3 → 13 | `HUF_optimalTableLog`                          | `huf_compress.c`            |
 |   +6.4% |   +7.00ms |   0.9% → 1.0% | 110.0ms → 117.0ms |       110 → 117 | `ZSTD_rawLiteralsCost`                         | `zstd_opt.c`                |
 | +233.3% |   +7.00ms |  <0.1% → 0.1% |    3.0ms → 10.0ms |          3 → 10 | `HUF_buildCTable_wksp`                         | `huf_compress.c`            |
+|     new |   +6.00ms |  0.0% → <0.1% |       0ms → 6.0ms |           0 → 6 | `0x7fe83ce32f3b`                               | `<unknown>`                 |
 |   +0.6% |   +5.00ms |   7.0% → 7.1% | 848.0ms → 853.0ms |       848 → 853 | `asm_exc_page_fault ([kernel])`                | `<unknown>`                 |
 |  +62.5% |   +5.00ms |          0.1% |    8.0ms → 13.0ms |          8 → 13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>`                 |
 |  +19.2% |   +5.00ms |   0.2% → 0.3% |   26.0ms → 31.0ms |         26 → 31 | `ZSTD_buildBlockEntropyStats`                  | `zstd_compress.c`           |
@@ -194,7 +196,6 @@ Functions with the largest increase in total time spent in the function and all 
 |     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |           0 → 5 | `FSE_normalizeCount`                           | `fse_compress.c`            |
 |     ~0% |   +4.00ms | 98.4% → 98.6% |            11.90s | 11,902 → 11,906 | `POOL_thread`                                  | `pool.c`                    |
 | +400.0% |   +4.00ms |         <0.1% |     1.0ms → 5.0ms |           1 → 5 | `ZSTD_buildCTable`                             | `zstd_compress_sequences.c` |
-|   +0.4% |   +3.00ms |          6.7% | 812.0ms → 815.0ms |       812 → 815 | `exc_page_fault ([kernel])`                    | `<unknown>`                 |
 
 ##### Ours
 
@@ -248,13 +249,18 @@ Functions with the largest increase in total time spent in the function and all 
 
 ##### Native
 
-|  Change |   Delta |            % |          Time | Samples | Function                          | Location    |
-| ------: | ------: | -----------: | ------------: | ------: | --------------------------------- | ----------- |
-| +100.0% | +3.00ms |        <0.1% | 3.0ms → 6.0ms |   3 → 6 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
-|  +33.3% | +1.00ms |        <0.1% | 3.0ms → 4.0ms |   3 → 4 | `pthread_create (libc.so.6)`      | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `fstatat (libc.so.6)`             | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `__libc_calloc (libc.so.6)`       | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x20000`                         | `<unknown>` |
+|  Change |   Delta |            % |          Time | Samples | Function                             | Location    |
+| ------: | ------: | -----------: | ------------: | ------: | ------------------------------------ | ----------- |
+|     new | +6.00ms | 0.0% → <0.1% |   0ms → 6.0ms |   0 → 6 | `0x7fe83ce32f3b`                     | `<unknown>` |
+| +150.0% | +3.00ms |        <0.1% | 2.0ms → 5.0ms |   2 → 5 | `__mmap (libc.so.6)`                 | `<unknown>` |
+| +100.0% | +3.00ms |        <0.1% | 3.0ms → 6.0ms |   3 → 6 | `pthread_cond_signal (libc.so.6)`    | `<unknown>` |
+|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0x7fe83ce5fa91`                     | `<unknown>` |
+|  +33.3% | +1.00ms |        <0.1% | 3.0ms → 4.0ms |   3 → 4 | `pthread_create (libc.so.6)`         | `<unknown>` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `GLIBC_PRIVATE (libc.so.6)`          | `<unknown>` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `fstatat (libc.so.6)`                | `<unknown>` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `__libc_calloc (libc.so.6)`          | `<unknown>` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x20000`                            | `<unknown>` |
+|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `__pthread_mutex_unlock (libc.so.6)` | `<unknown>` |
 
 #### Improvements
 
@@ -275,13 +281,13 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -5.4% |  -16.00ms |   2.4% → 2.3% | 294.0ms → 278.0ms |       294 → 278 | `folio_alloc_mpol_noprof ([kernel])`        | `<unknown>`       |
 | -15.6% |  -15.00ms |   0.8% → 0.7% |   96.0ms → 81.0ms |         96 → 81 | `do_syscall_64 ([kernel])`                  | `<unknown>`       |
 |  -4.6% |  -14.00ms |   2.5% → 2.4% | 305.0ms → 291.0ms |       305 → 291 | `vma_alloc_folio_noprof ([kernel])`         | `<unknown>`       |
+|  -8.3% |  -13.00ms |   1.3% → 1.2% | 156.0ms → 143.0ms |       156 → 143 | `_start (zstd)`                             | `<unknown>`       |
+|  -8.4% |  -13.00ms |   1.3% → 1.2% | 155.0ms → 142.0ms |       155 → 142 | `__libc_start_main (libc.so.6)`             | `<unknown>`       |
 |  -8.4% |  -13.00ms |   1.3% → 1.2% | 154.0ms → 141.0ms |       154 → 141 | `main`                                      | `zstdcli.c`       |
 |  -2.7% |  -13.00ms |   4.0% → 3.9% | 481.0ms → 468.0ms |       481 → 468 | `do_anonymous_page ([kernel])`              | `<unknown>`       |
 |  -7.8% |  -12.00ms |   1.3% → 1.2% | 153.0ms → 141.0ms |       153 → 141 | `FIO_compressFilename`                      | `fileio.c`        |
 |  -7.5% |  -11.00ms |   1.2% → 1.1% | 146.0ms → 135.0ms |       146 → 135 | `FIO_compressFilename_srcFile`              | `fileio.c`        |
 |  -7.1% |  -10.00ms |   1.2% → 1.1% | 140.0ms → 130.0ms |       140 → 130 | `ZSTD_compressStream2`                      | `zstd_compress.c` |
-| -50.0% |  -10.00ms |   0.2% → 0.1% |   20.0ms → 10.0ms |         20 → 10 | `ZSTD_seqToCodes`                           | `zstd_compress.c` |
-| -26.3% |  -10.00ms |   0.3% → 0.2% |   38.0ms → 28.0ms |         38 → 28 | `shmem_file_read_iter ([kernel])`           | `<unknown>`       |
 
 ##### Ours
 
@@ -335,17 +341,27 @@ Functions with the largest decrease in total time spent in the function and all 
 
 ##### Native
 
-|  Change |   Delta |             % |            Time |         Samples | Function                        | Location    |
-| ------: | ------: | ------------: | --------------: | --------------: | ------------------------------- | ----------- |
-|   -0.1% | -8.00ms | 99.7% → 99.8% |          12.05s | 12,058 → 12,050 | `unknown (libc.so.6)`           | `<unknown>` |
-|  -12.7% | -8.00ms |          0.5% | 63.0ms → 55.0ms |         63 → 55 | `fread (libc.so.6)`             | `<unknown>` |
-|  -33.3% | -3.00ms |  0.1% → <0.1% |   9.0ms → 6.0ms |           9 → 6 | `malloc (libc.so.6)`            | `<unknown>` |
-|  -75.0% | -3.00ms |         <0.1% |   4.0ms → 1.0ms |           4 → 1 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
-| removed | -2.00ms |  <0.1% → 0.0% |     2.0ms → 0ms |           2 → 0 | `_init (zstd)`                  | `<unknown>` |
-| removed | -1.00ms |  <0.1% → 0.0% |     1.0ms → 0ms |           1 → 0 | `__sysv_signal (libc.so.6)`     | `<unknown>` |
-| removed | -1.00ms |  <0.1% → 0.0% |     1.0ms → 0ms |           1 → 0 | `_IO_enable_locks (libc.so.6)`  | `<unknown>` |
-| removed | -1.00ms |  <0.1% → 0.0% |     1.0ms → 0ms |           1 → 0 | `fopen64 (libc.so.6)`           | `<unknown>` |
-| removed | -1.00ms |  <0.1% → 0.0% |     1.0ms → 0ms |           1 → 0 | `setvbuf (libc.so.6)`           | `<unknown>` |
+|  Change |    Delta |             % |              Time |         Samples | Function                                     | Location    |
+| ------: | -------: | ------------: | ----------------: | --------------: | -------------------------------------------- | ----------- |
+|   -8.3% | -13.00ms |   1.3% → 1.2% | 156.0ms → 143.0ms |       156 → 143 | `_start (zstd)`                              | `<unknown>` |
+|   -8.4% | -13.00ms |   1.3% → 1.2% | 155.0ms → 142.0ms |       155 → 142 | `__libc_start_main (libc.so.6)`              | `<unknown>` |
+|   -0.1% |  -8.00ms | 99.7% → 99.8% |            12.05s | 12,058 → 12,050 | `unknown (libc.so.6)`                        | `<unknown>` |
+|  -12.7% |  -8.00ms |          0.5% |   63.0ms → 55.0ms |         63 → 55 | `fread (libc.so.6)`                          | `<unknown>` |
+|  -12.9% |  -8.00ms |   0.5% → 0.4% |   62.0ms → 54.0ms |         62 → 54 | `read (libc.so.6)`                           | `<unknown>` |
+| removed |  -6.00ms |  <0.1% → 0.0% |       6.0ms → 0ms |           6 → 0 | `0x7f8fbd88ef3b`                             | `<unknown>` |
+|  -16.0% |  -4.00ms |          0.2% |   25.0ms → 21.0ms |         25 → 21 | `unknown (ld-linux-x86-64.so.2)`             | `<unknown>` |
+|  -33.3% |  -3.00ms |  0.1% → <0.1% |     9.0ms → 6.0ms |           9 → 6 | `malloc (libc.so.6)`                         | `<unknown>` |
+|  -75.0% |  -3.00ms |         <0.1% |     4.0ms → 1.0ms |           4 → 1 | `pthread_cond_wait (libc.so.6)`              | `<unknown>` |
+| removed |  -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |           2 → 0 | `0x7f8fbd8bba91`                             | `<unknown>` |
+|  -12.5% |  -2.00ms |          0.1% |   16.0ms → 14.0ms |         16 → 14 | `_dl_catch_exception (ld-linux-x86-64.so.2)` | `<unknown>` |
+| removed |  -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |           2 → 0 | `_init (zstd)`                               | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `0x7f8fbd8b6724`                             | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `__libc_sigaction (libc.so.6)`               | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `__sysv_signal (libc.so.6)`                  | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `_IO_enable_locks (libc.so.6)`               | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `fopen64 (libc.so.6)`                        | `<unknown>` |
+|  -50.0% |  -1.00ms |         <0.1% |     2.0ms → 1.0ms |           2 → 1 | `_IO_file_doallocate (libc.so.6)`            | `<unknown>` |
+| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `setvbuf (libc.so.6)`                        | `<unknown>` |
 
 # Uninterruptible sleep profile diff
 
@@ -377,6 +393,7 @@ Functions with the largest increase in total uninterruptible sleeps entered in t
 
 |  Change | Delta |             % |  Sleeps | Function                                    | Location            |
 | ------: | ----: | ------------: | ------: | ------------------------------------------- | ------------------- |
+|     new |   +14 |  0.0% → 19.7% |  0 → 14 | `0x7fe83ce32f3b`                            | `<unknown>`         |
 |   +2.9% |    +2 |        100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
 |   +2.9% |    +2 |        100.0% | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>`         |
 |   +2.9% |    +2 |        100.0% | 69 → 71 | `schedule ([kernel])`                       | `<unknown>`         |
@@ -390,13 +407,12 @@ Functions with the largest increase in total uninterruptible sleeps entered in t
 | +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
 | +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename`                      | `fileio.c`          |
 | +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `main`                                      | `zstdcli.c`         |
+|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `unknown (libc.so.6)`                       | `<unknown>`         |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `__libc_start_main (libc.so.6)`             | `<unknown>`         |
+| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `_start (zstd)`                             | `<unknown>`         |
 |   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
 |   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
 |   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>`         |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>`         |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>`         |
 
 ##### Kernel
 
@@ -426,6 +442,23 @@ Functions with the largest increase in total uninterruptible sleeps entered in t
 #### Improvements
 
 Functions with the largest decrease in total uninterruptible sleeps entered in the function and all its callees.
+
+|  Change | Delta |             % |  Sleeps | Function                               | Location    |
+| ------: | ----: | ------------: | ------: | -------------------------------------- | ----------- |
+| removed |   -15 |  21.7% → 0.0% |  15 → 0 | `0x7f8fbd88ef3b`                       | `<unknown>` |
+|   -1.8% |    -1 | 82.6% → 78.9% | 57 → 56 | `p9_client_rpc ([kernel])`             | `<unknown>` |
+|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `p9_client_walk ([kernel])`            | `<unknown>` |
+|   -5.3% |    -1 | 27.5% → 25.4% | 19 → 18 | `v9fs_vfs_lookup ([kernel])`           | `<unknown>` |
+|   -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `path_openat ([kernel])`               | `<unknown>` |
+|   -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `do_filp_open ([kernel])`              | `<unknown>` |
+|   -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `do_open_execat ([kernel])`            | `<unknown>` |
+|   -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `open_exec ([kernel])`                 | `<unknown>` |
+|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `load_elf_binary ([kernel])`           | `<unknown>` |
+|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `bprm_execve ([kernel])`               | `<unknown>` |
+|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `do_execveat_common ([kernel])`        | `<unknown>` |
+|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `__x64_sys_execve ([kernel])`          | `<unknown>` |
+|  -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `v9fs_vfs_atomic_open_dotl ([kernel])` | `<unknown>` |
+|  -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `lookup_open.isra.0 ([kernel])`        | `<unknown>` |
 
 ##### Kernel
 
@@ -485,11 +518,14 @@ Functions with the largest increase in total interruptible sleeps entered in the
 |  +3.6% |    +3 |        100.0% | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
 |  +3.6% |    +3 |        100.0% | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
 |  +3.6% |    +3 |        100.0% | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
+|  +3.6% |    +3 |        100.0% | 84 → 87 | `unknown (libc.so.6)`                       | `<unknown>`         |
 |  +3.6% |    +3 |        100.0% | 84 → 87 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
 |  +2.6% |    +2 | 90.5% → 89.7% | 76 → 78 | `POOL_thread`                               | `pool.c`            |
 | +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
 | +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename`                      | `fileio.c`          |
 | +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `main`                                      | `zstdcli.c`         |
+| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `__libc_start_main (libc.so.6)`             | `<unknown>`         |
+| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `_start (zstd)`                             | `<unknown>`         |
 | +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
 | +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
 

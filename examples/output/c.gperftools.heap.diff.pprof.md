@@ -27,6 +27,10 @@ Retained 912 B over 3 objects (304 B per object).
 
 ## Hottest functions
 
+### Self size
+
+No function differed in bytes retained directly in the function body, excluding callees.
+
 ### Total size
 
 No function differed in total bytes retained in the function and all its callees.

@@ -88,11 +88,9 @@ describe(`formatCallStackProfile`, () => {
     ])
   })
 
-  test(`shows an external function directly called by ours even when it has no self samples`, () => {
-    // Main (ours) → extMid (stdlib, never a leaf) → extLeaf (stdlib). The
-    // default filter hides external implementation details (extLeaf, called
-    // only by stdlib) but must keep extMid: it's the external API surface ours
-    // code calls directly, even though it has zero self samples.
+  test(`ranks a function with no self samples by its callees' time`, () => {
+    // Main (ours) → extMid (stdlib, never a leaf) → extLeaf (stdlib). extMid
+    // is sampled in no leaf frame, so only its callee's time places it.
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
@@ -120,6 +118,13 @@ describe(`formatCallStackProfile`, () => {
           '%': `100.0%`,
           Time: `0.3ms`,
           Samples: `5`,
+          Function: `extLeaf`,
+          Location: `<unknown>`,
+        },
+        {
+          '%': `100.0%`,
+          Time: `0.3ms`,
+          Samples: `5`,
           Function: `extMid`,
           Location: `<unknown>`,
         },
@@ -132,13 +137,12 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
     ])
-    expect(md).not.toContain(`extLeaf`)
   })
 
   test(`merges call stacks that differ only in hidden frames into one row`, () => {
     // Two stacks share the visible suffix extApi ← main but end in different
-    // hidden stdlib leaves. Without merging they'd render as two identical
-    // rows, each carrying only its own slice of the value.
+    // leaves the entry filter hides. Without merging they'd render as two
+    // identical rows, each carrying only its own slice of the value.
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [
@@ -163,8 +167,12 @@ describe(`formatCallStackProfile`, () => {
         },
       ],
     )
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      showEntry: entry => !entry.name?.startsWith(`extLeaf`),
+    })
 
-    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
+    const md = mdastToMarkdown(formatCallStackProfile(profile, options))
 
     expect(callStackTables(md)).toEqual([
       [
@@ -382,42 +390,9 @@ describe(`formatCallStackProfile`, () => {
     expect(md).not.toContain(ELLIPSIS_NOTE)
   })
 
-  test(`shows all functions when the default filter would hide every one`, () => {
-    // A profile sampled entirely inside external code, with no frame of ours
-    // anywhere (e.g. a runtime dump or a lock profile parked in the JDK). The
-    // default filter would hide everything, emptying the body, so it is
+  test(`shows all functions when the entry filter would hide every one`, () => {
+    // A filter matching no sampled function would empty the body, so it is
     // disabled with a note instead.
-    const profile = makeAggregatedCallStackProfile(
-      [MICROSECONDS],
-      [
-        {
-          name: `extLeaf`,
-          selfCount: 5,
-          selfValues: [300],
-          stack: [0, 1],
-        },
-        { name: `extRoot`, selfCount: 0, selfValues: [0] },
-      ],
-    )
-
-    const md = mdastToMarkdown(formatCallStackProfile(profile, defaultOptions))
-
-    expect(md).toContain(
-      `The entry filter hides every recorded function, so all functions are shown.`,
-    )
-    expect(callStackTables(md)).toEqual([
-      [
-        {
-          '%': `100.0%`,
-          Time: `0.3ms`,
-          Samples: `5`,
-          'Call stack': `extLeaf ← extRoot`,
-        },
-      ],
-    ])
-  })
-
-  test(`shows all functions when a custom showEntry would hide every one`, () => {
     const profile = makeAggregatedCallStackProfile(
       [MICROSECONDS],
       [

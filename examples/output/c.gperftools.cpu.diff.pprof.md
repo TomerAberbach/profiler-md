@@ -26,6 +26,8 @@ Functions with the largest increase in time spent directly in the function body,
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_internal`            | `zstd_compress.c`   |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_compress_usingCTable_generic`       | `fse_compress.c`    |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_normalizeCount`                     | `<unknown>`         |
+|     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTDMT_compressStream_generic`          | `<unknown>`         |
+|     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `HIST_count_simple`                      | `<unknown>`         |
 
 ##### Ours
 
@@ -37,6 +39,16 @@ Functions with the largest increase in time spent directly in the function body,
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTDMT_compressionJob`                  | `zstdmt_compress.c` |
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_internal`            | `zstd_compress.c`   |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_compress_usingCTable_generic`       | `fse_compress.c`    |
+
+##### Native
+
+|  Change |   Delta |           % |          Time | Samples | Function                        | Location    |
+| ------: | ------: | ----------: | ------------: | ------: | ------------------------------- | ----------- |
+| +133.3% | +4.00ms | 0.2% → 0.6% | 3.0ms → 7.0ms |   3 → 7 | `ZSTD_seqToCodes`               | `<unknown>` |
+| +100.0% | +1.00ms | 0.1% → 0.2% | 1.0ms → 2.0ms |   1 → 2 | `ZSTD_encodeSequences`          | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `FSE_normalizeCount`            | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `ZSTDMT_compressStream_generic` | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `HIST_count_simple`             | `<unknown>` |
 
 #### Improvements
 
@@ -56,6 +68,7 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `ZSTD_freeCCtx`                                      | `<unknown>`         |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `HUF_optimalTableLog`                                | `<unknown>`         |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`        |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `FSE_buildCTable_wksp`                               | `<unknown>`         |
 
 ##### Ours
 
@@ -69,6 +82,16 @@ Functions with the largest decrease in time spent directly in the function body,
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `ZSTDMT_getBuffer`                                   | `zstdmt_compress.c` |
 |  -50.0% |  -1.00ms |   0.2% → 0.1% |     2.0ms → 1.0ms |     2 → 1 | `HIST_count_parallel_wksp`                           | `hist.c`            |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |     1 → 0 | `ZSTD_setBasePrices`                                 | `zstd_opt.c`        |
+
+##### Native
+
+|  Change |   Delta |           % |        Time | Samples | Function                      | Location    |
+| ------: | ------: | ----------: | ----------: | ------: | ----------------------------- | ----------- |
+| removed | -1.00ms | 0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `ZSTDMT_initCStream_internal` | `<unknown>` |
+| removed | -1.00ms | 0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `HIST_countFast_wksp`         | `<unknown>` |
+| removed | -1.00ms | 0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `ZSTD_freeCCtx`               | `<unknown>` |
+| removed | -1.00ms | 0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `HUF_optimalTableLog`         | `<unknown>` |
+| removed | -1.00ms | 0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `FSE_buildCTable_wksp`        | `<unknown>` |
 
 ### Total time
 
@@ -85,6 +108,7 @@ Functions with the largest increase in total time spent in the function and all 
 |  +50.0% | +3.00ms | 0.5% → 0.7% |  6.0ms → 9.0ms |   6 → 9 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`           |
 | +100.0% | +3.00ms | 0.2% → 0.5% |  3.0ms → 6.0ms |   3 → 6 | `ZSTD_litLengthPrice.constprop.0.isra.0`             | `zstd_opt.c`                |
 | +150.0% | +3.00ms | 0.2% → 0.4% |  2.0ms → 5.0ms |   2 → 5 | `ZSTD_insertBt1.constprop.3`                         | `zstd_opt.c`                |
+|     new | +2.00ms | 0.0% → 0.2% |    0ms → 2.0ms |   0 → 2 | `HUF_writeCTable_wksp`                               | `<unknown>`                 |
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_encodeSequences`                               | `<unknown>`                 |
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`           |
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_advanced_internal`               | `<unknown>`                 |
@@ -93,6 +117,8 @@ Functions with the largest increase in total time spent in the function and all 
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_normalizeCount`                                 | `<unknown>`                 |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTD_NCountCost`                                    | `zstd_compress_sequences.c` |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTD_selectEncodingType`                            | `<unknown>`                 |
+|     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTDMT_compressStream_generic`                      | `<unknown>`                 |
+|     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `HIST_count_simple`                                  | `<unknown>`                 |
 
 ##### Ours
 
@@ -106,6 +132,21 @@ Functions with the largest increase in total time spent in the function and all 
 | +100.0% | +1.00ms | 0.1% → 0.2% |  1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_internal`                        | `zstd_compress.c`           |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `FSE_compress_usingCTable_generic`                   | `fse_compress.c`            |
 |     new | +1.00ms | 0.0% → 0.1% |    0ms → 1.0ms |   0 → 1 | `ZSTD_NCountCost`                                    | `zstd_compress_sequences.c` |
+
+##### Native
+
+|  Change |   Delta |           % |          Time | Samples | Function                               | Location    |
+| ------: | ------: | ----------: | ------------: | ------: | -------------------------------------- | ----------- |
+| +200.0% | +6.00ms | 0.2% → 0.7% | 3.0ms → 9.0ms |   3 → 9 | `ZSTD_buildBlockEntropyStats`          | `<unknown>` |
+| +133.3% | +4.00ms | 0.2% → 0.6% | 3.0ms → 7.0ms |   3 → 7 | `ZSTD_seqToCodes`                      | `<unknown>` |
+|     new | +2.00ms | 0.0% → 0.2% |   0ms → 2.0ms |   0 → 2 | `HUF_writeCTable_wksp`                 | `<unknown>` |
+| +100.0% | +1.00ms | 0.1% → 0.2% | 1.0ms → 2.0ms |   1 → 2 | `ZSTD_encodeSequences`                 | `<unknown>` |
+| +100.0% | +1.00ms | 0.1% → 0.2% | 1.0ms → 2.0ms |   1 → 2 | `ZSTD_compressBegin_advanced_internal` | `<unknown>` |
+| +100.0% | +1.00ms | 0.1% → 0.2% | 1.0ms → 2.0ms |   1 → 2 | `HUF_optimalTableLog`                  | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `FSE_normalizeCount`                   | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `ZSTD_selectEncodingType`              | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `ZSTDMT_compressStream_generic`        | `<unknown>` |
+|     new | +1.00ms | 0.0% → 0.1% |   0ms → 1.0ms |   0 → 1 | `HIST_count_simple`                    | `<unknown>` |
 
 #### Improvements
 
@@ -125,14 +166,14 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -40.0% |  -2.00ms |   0.4% → 0.2% |     5.0ms → 3.0ms |         5 → 3 | `ZSTD_updateStats`               | `zstd_opt.c`        |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_initCStream_internal`    | `<unknown>`         |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_CCtx_init_compressStream2` | `zstd_compress.c`   |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `FIO_compressFilename`           | `<unknown>`         |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `main`                           | `<unknown>`         |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `_start`                         | `<unknown>`         |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_deriveSeqStoreChunk`       | `zstd_compress.c`   |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_getBuffer`               | `zstdmt_compress.c` |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `HIST_countFast_wksp`            | `<unknown>`         |
 |  -50.0% |  -1.00ms |   0.2% → 0.1% |     2.0ms → 1.0ms |         2 → 1 | `HIST_count_parallel_wksp`       | `hist.c`            |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_freeCCtx`                  | `<unknown>`         |
-| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_freeCCtxPool.part.0`     | `zstdmt_compress.c` |
-| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_setBasePrices`             | `zstd_opt.c`        |
-| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_buildCTable`               | `<unknown>`         |
 
 ##### Ours
 
@@ -151,3 +192,21 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -50.0% |  -1.00ms |   0.2% → 0.1% |     2.0ms → 1.0ms |         2 → 1 | `HIST_count_parallel_wksp`       | `hist.c`            |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_freeCCtxPool.part.0`     | `zstdmt_compress.c` |
 | removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_setBasePrices`             | `zstd_opt.c`        |
+
+##### Native
+
+|  Change |    Delta |             % |              Time |       Samples | Function                       | Location    |
+| ------: | -------: | ------------: | ----------------: | ------------: | ------------------------------ | ----------- |
+|   -3.1% | -34.00ms | 84.2% → 84.4% |     1.08s → 1.05s | 1,086 → 1,052 | `ZSTD_compressContinue_public` | `<unknown>` |
+|   -5.1% | -10.00ms | 15.3% → 15.1% | 198.0ms → 188.0ms |     198 → 188 | `ZSTD_compressEnd_public`      | `<unknown>` |
+|  -11.1% |  -2.00ms |   1.4% → 1.3% |   18.0ms → 16.0ms |       18 → 16 | `ZSTD_compressBlock_btultra2`  | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_initCStream_internal`  | `<unknown>` |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `FIO_compressFilename`         | `<unknown>` |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `main`                         | `<unknown>` |
+|  -25.0% |  -1.00ms |   0.3% → 0.2% |     4.0ms → 3.0ms |         4 → 3 | `_start`                       | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `HIST_countFast_wksp`          | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_freeCCtx`                | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTDMT_freeCCtx`              | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_freeCStream`             | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `FSE_buildCTable_wksp`         | `<unknown>` |
+| removed |  -1.00ms |   0.1% → 0.0% |       1.0ms → 0ms |         1 → 0 | `ZSTD_buildCTable`             | `<unknown>` |

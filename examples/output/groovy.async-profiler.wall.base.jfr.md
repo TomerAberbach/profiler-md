@@ -17,30 +17,55 @@ Collected 14,309 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|     % | Samples | Function                                      | Location       |
-| ----: | ------: | --------------------------------------------- | -------------- |
-|  0.2% |      31 | `Node::dominates`                             | `libjvm.dylib` |
-|  0.2% |      23 | `PhaseChaitin::Split`                         | `libjvm.dylib` |
-|  0.1% |      14 | `PhaseChaitin::build_ifg_physical`            | `libjvm.dylib` |
-|  0.1% |      13 | `PhaseAggressiveCoalesce::insert_copies`      | `libjvm.dylib` |
-|  0.1% |      10 | `PhaseChaitin::elide_copy`                    | `libjvm.dylib` |
-|  0.1% |       9 | `IndexSetIterator::advance_and_next`          | `libjvm.dylib` |
-|  0.1% |       8 | `Node_Backward_Iterator::next`                | `libjvm.dylib` |
-|  0.1% |       8 | `PhaseIdealLoop::build_loop_late_post_work`   | `libjvm.dylib` |
-|  0.1% |       8 | `PhaseLive::add_liveout`                      | `libjvm.dylib` |
-| <0.1% |       7 | `PhaseIdealLoop::Dominators`                  | `libjvm.dylib` |
-| <0.1% |       6 | `PhaseOutput::BuildOopMaps`                   | `libjvm.dylib` |
-| <0.1% |       6 | `NodeHash::hash_find_insert`                  | `libjvm.dylib` |
-| <0.1% |       6 | `Compile::identify_useful_nodes`              | `libjvm.dylib` |
-| <0.1% |       6 | `itable stub`                                 | `<unknown>`    |
-| <0.1% |       5 | `PhaseLive::compute`                          | `libjvm.dylib` |
-| <0.1% |       5 | `ciObjectFactory::get_metadata`               | `libjvm.dylib` |
-| <0.1% |       5 | `PhaseCFG::partial_latency_of_defs`           | `libjvm.dylib` |
-| <0.1% |       5 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `libjvm.dylib` |
-| <0.1% |       5 | `PhaseIdealLoop::is_dominator`                | `libjvm.dylib` |
-| <0.1% |       5 | `vtable stub`                                 | `<unknown>`    |
+|     % | Samples | Function                                                                                                                                                 | Location                  |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| 45.5% |   6,517 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`  |
+| 38.8% |   5,556 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`  |
+|  3.3% |     472 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`  |
+|  3.3% |     472 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`  |
+|  0.3% |      47 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`  |
+|  0.2% |      31 | `Node::dominates`                                                                                                                                        | `libjvm.dylib`            |
+|  0.2% |      23 | `PhaseChaitin::Split`                                                                                                                                    | `libjvm.dylib`            |
+|  0.1% |      21 | `pthread_jit_write_protect_np`                                                                                                                           | `libsystem_pthread.dylib` |
+|  0.1% |      18 | `Arena::contains`                                                                                                                                        | `libjvm.dylib`            |
+|  0.1% |      18 | `cast(Object)`                                                                                                                                           | `java.lang.Class`         |
+|  0.1% |      18 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`            |
+|  0.1% |      16 | `tlv_get_addr`                                                                                                                                           | `libdyld.dylib`           |
+|  0.1% |      14 | `PhaseChaitin::build_ifg_physical`                                                                                                                       | `libjvm.dylib`            |
+|  0.1% |      14 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                               | `libjvm.dylib`            |
+|  0.1% |      13 | `PhaseAggressiveCoalesce::insert_copies`                                                                                                                 | `libjvm.dylib`            |
+|  0.1% |      13 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`            |
+|  0.1% |      10 | `PhaseChaitin::elide_copy`                                                                                                                               | `libjvm.dylib`            |
+|  0.1% |      10 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                           | `libjvm.dylib`            |
+|  0.1% |      10 | `newInstance(Class, int)`                                                                                                                                | `java.lang.reflect.Array` |
+|  0.1% |       9 | `IndexSetIterator::advance_and_next`                                                                                                                     | `libjvm.dylib`            |
 
 #### Categories
+
+##### Native
+
+|     % | Samples | Function                                                                                                                                                 | Location                   |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 45.5% |   6,517 | `__psynch_cvwait`                                                                                                                                        | `libsystem_kernel.dylib`   |
+| 38.8% |   5,556 | `semaphore_wait_trap`                                                                                                                                    | `libsystem_kernel.dylib`   |
+|  3.3% |     472 | `mach_msg2_trap`                                                                                                                                         | `libsystem_kernel.dylib`   |
+|  3.3% |     472 | `__ulock_wait`                                                                                                                                           | `libsystem_kernel.dylib`   |
+|  0.3% |      47 | `__psynch_mutexwait`                                                                                                                                     | `libsystem_kernel.dylib`   |
+|  0.1% |      21 | `pthread_jit_write_protect_np`                                                                                                                           | `libsystem_pthread.dylib`  |
+|  0.1% |      18 | `Arena::contains`                                                                                                                                        | `libjvm.dylib`             |
+|  0.1% |      18 | `G1ParScanThreadState::do_copy_to_survivor_space`                                                                                                        | `libjvm.dylib`             |
+|  0.1% |      16 | `tlv_get_addr`                                                                                                                                           | `libdyld.dylib`            |
+|  0.1% |      14 | `java_lang_Throwable::fill_in_stack_trace`                                                                                                               | `libjvm.dylib`             |
+|  0.1% |      13 | `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` | `libjvm.dylib`             |
+|  0.1% |      10 | `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                           | `libjvm.dylib`             |
+|  0.1% |       9 | `vmSymbols::find_sid`                                                                                                                                    | `libjvm.dylib`             |
+|  0.1% |       9 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>`                                                   | `libjvm.dylib`             |
+|  0.1% |       8 | `frame::sender_for_compiled_frame`                                                                                                                       | `libjvm.dylib`             |
+| <0.1% |       6 | `_platform_memset`                                                                                                                                       | `libsystem_platform.dylib` |
+| <0.1% |       6 | `CodeCache::find_blob`                                                                                                                                   | `libjvm.dylib`             |
+| <0.1% |       6 | `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>`                             | `libjvm.dylib`             |
+| <0.1% |       5 | `posix_madvise`                                                                                                                                          | `libsystem_kernel.dylib`   |
+| <0.1% |       5 | `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>`                                                   | `libjvm.dylib`             |
 
 ##### Compiler
 
@@ -67,107 +92,159 @@ Functions ranked by samples taken directly in the function body, excluding calle
 | <0.1% |       4 | `PhaseChaitin::gather_lrg_masks`              | `libjvm.dylib` |
 | <0.1% |       4 | `PhaseChaitin::post_allocate_copy_removal`    | `libjvm.dylib` |
 
-##### Ours
+##### Standard library
 
-|     % | Samples | Function                                                       | Location                                                                                    |
-| ----: | ------: | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| <0.1% |       1 | `collectViolations(SourceCode, RuleSet)`                       | `org.codenarc.analyzer.AbstractSourceAnalyzer`                                              |
-| <0.1% |       1 | `applyTo(SourceCode, List)`                                    | `org.codenarc.rule.AbstractAstVisitorRule`                                                  |
-| <0.1% |       1 | `visitConstructorOrMethod(MethodNode, boolean)`                | `org.codenarc.rule.ClassReferenceAstVisitor`                                                |
-| <0.1% |       1 | `super$3$visitConstructorOrMethod(MethodNode, boolean)`        | `org.codenarc.rule.formatting.SpaceAroundOperatorAstVisitor`                                |
-| <0.1% |       1 | `visitBlockStatement(BlockStatement)`                          | `org.codenarc.rule.formatting.IndentationAstVisitor`                                        |
-| <0.1% |       1 | `isFirstVisit(Object)`                                         | `org.codenarc.rule.AbstractAstVisitor`                                                      |
-| <0.1% |       1 | `getMetaClass()`                                               | `org.codenarc.rule.convention.NoDefRule`                                                    |
-| <0.1% |       1 | `getRule()`                                                    | `org.codenarc.rule.AbstractAstVisitor`                                                      |
-| <0.1% |       1 | `getName()`                                                    | `org.codenarc.rule.naming.ClassNameRule`                                                    |
-| <0.1% |       1 | `getLastLineOfNodeText(ASTNode, SourceCode)`                   | `org.codenarc.util.AstUtil`                                                                 |
-| <0.1% |       1 | `<init>(Object, Object, Reference, Reference)`                 | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_visitConstructorOrMethod_closure1` |
-| <0.1% |       1 | `visitMethodComplete(MethodNode)`                              | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`                 |
-| <0.1% |       1 | `isClosureParameterOutsideParentheses(Expression, Expression)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`                                    |
-| <0.1% |       1 | `getAstVisitorClass()`                                         | `org.codenarc.rule.groovyism.ExplicitCallToCompareToMethodRule`                             |
-| <0.1% |       1 | `processParameters(Parameter[], String)`                       | `org.codenarc.rule.design.OptionalMethodParameterAstVisitor`                                |
-| <0.1% |       1 | `<init>(Object, Object, Reference, Reference)`                 | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_visitMapExpression_closure5`       |
-| <0.1% |       1 | `getRegex()`                                                   | `org.codenarc.rule.naming.MethodNameRule`                                                   |
-| <0.1% |       1 | `getMetaClass()`                                               | `org.codenarc.rule.formatting.SpaceAroundOperatorRule`                                      |
-| <0.1% |       1 | `getMetaClass()`                                               | `org.codenarc.results.FileResults`                                                          |
-| <0.1% |       1 | `getMetaClass()`                                               | `org.codenarc.rule.convention.CompileStaticRule`                                            |
-
-##### JIT
-
-|     % | Samples | Function                  | Location    |
-| ----: | ------: | ------------------------- | ----------- |
-| <0.1% |       6 | `itable stub`             | `<unknown>` |
-| <0.1% |       5 | `vtable stub`             | `<unknown>` |
-| <0.1% |       2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
-| <0.1% |       1 | `I2C/C2I adapters(0xbb)`  | `<unknown>` |
+|     % | Samples | Function                                                                                                      | Location                                               |
+| ----: | ------: | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+|  0.1% |      18 | `cast(Object)`                                                                                                | `java.lang.Class`                                      |
+|  0.1% |      10 | `newInstance(Class, int)`                                                                                     | `java.lang.reflect.Array`                              |
+|  0.1% |       8 | `invokeBasic(Object[])`                                                                                       | `java.lang.invoke.MethodHandle`                        |
+| <0.1% |       7 | `invokeVirtual(Object, Object)`                                                                               | `java.lang.invoke.DirectMethodHandle$Holder`           |
+| <0.1% |       5 | `<init>(MethodType, LambdaForm)`                                                                              | `java.lang.invoke.MethodHandle`                        |
+| <0.1% |       5 | `collector(Object, Object, Object)`                                                                           | `java.lang.invoke.LambdaForm$MH.0x000000a0010a8c00`    |
+| <0.1% |       5 | `collector(Object, Object)`                                                                                   | `java.lang.invoke.LambdaForm$MH.0x000000a001031800`    |
+| <0.1% |       4 | `internalMemberName(Object)`                                                                                  | `java.lang.invoke.DirectMethodHandle`                  |
+| <0.1% |       4 | `equals(Object, Object)`                                                                                      | `java.util.Objects`                                    |
+| <0.1% |       3 | `guard(Object, Object)`                                                                                       | `java.lang.invoke.LambdaForm$MH.0x000000a001098400`    |
+| <0.1% |       3 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
+| <0.1% |       3 | `invokeStatic(Object, Object, Object)`                                                                        | `java.lang.invoke.DirectMethodHandle$Holder`           |
+| <0.1% |       3 | `getNode(Object)`                                                                                             | `java.util.HashMap`                                    |
+| <0.1% |       3 | `equals(LambdaFormEditor$TransformKey)`                                                                       | `java.lang.invoke.LambdaFormEditor$Transform`          |
+| <0.1% |       3 | `join(PredictionContext, PredictionContext, PredictionContextCache)`                                          | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext`  |
+| <0.1% |       3 | `boxInteger(int)`                                                                                             | `sun.invoke.util.ValueConversions`                     |
+| <0.1% |       3 | `equals(Object)`                                                                                              | `java.lang.String`                                     |
+| <0.1% |       3 | `get()`                                                                                                       | `java.lang.ref.SoftReference`                          |
+| <0.1% |       2 | `invokeExact_MT(Object, Object, Object)`                                                                      | `java.lang.invoke.Invokers$Holder`                     |
+| <0.1% |       2 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])`                 | `org.codehaus.groovy.vmplugin.v8.IndyInterface`        |
 
 #### Lines
 
 Lines ranked by contribution to each function's self samples.
 
-##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+##### `cast(Object)` (`java.lang.Class`)
 
-|      % | Samples | Location                                          |
-| -----: | ------: | ------------------------------------------------- |
-| 100.0% |       1 | `org.codenarc.analyzer.AbstractSourceAnalyzer:43` |
+|      % | Samples | Location               |
+| -----: | ------: | ---------------------- |
+| 100.0% |      18 | `java.lang.Class:4068` |
 
-##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
+##### `newInstance(Class, int)` (`java.lang.reflect.Array`)
 
-|      % | Samples | Location                                      |
-| -----: | ------: | --------------------------------------------- |
-| 100.0% |       1 | `org.codenarc.rule.AbstractAstVisitorRule:90` |
+|      % | Samples | Location                     |
+| -----: | ------: | ---------------------------- |
+| 100.0% |      10 | `java.lang.reflect.Array:78` |
 
-##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codenarc.rule.ClassReferenceAstVisitor`)
+##### `<init>(MethodType, LambdaForm)` (`java.lang.invoke.MethodHandle`)
 
-|      % | Samples | Location                                         |
-| -----: | ------: | ------------------------------------------------ |
-| 100.0% |       1 | `org.codenarc.rule.ClassReferenceAstVisitor:110` |
+|     % | Samples | Location                            |
+| ----: | ------: | ----------------------------------- |
+| 80.0% |       4 | `java.lang.invoke.MethodHandle:479` |
+| 20.0% |       1 | `java.lang.invoke.MethodHandle:480` |
 
-##### `visitBlockStatement(BlockStatement)` (`org.codenarc.rule.formatting.IndentationAstVisitor`)
-
-|      % | Samples | Location                                                 |
-| -----: | ------: | -------------------------------------------------------- |
-| 100.0% |       1 | `org.codenarc.rule.formatting.IndentationAstVisitor:245` |
-
-##### `isFirstVisit(Object)` (`org.codenarc.rule.AbstractAstVisitor`)
+##### `internalMemberName(Object)` (`java.lang.invoke.DirectMethodHandle`)
 
 |      % | Samples | Location                                  |
 | -----: | ------: | ----------------------------------------- |
-| 100.0% |       1 | `org.codenarc.rule.AbstractAstVisitor:50` |
+| 100.0% |       4 | `java.lang.invoke.DirectMethodHandle:327` |
 
-##### `getRule()` (`org.codenarc.rule.AbstractAstVisitor`)
+##### `equals(Object, Object)` (`java.util.Objects`)
 
-|      % | Samples | Location                                   |
-| -----: | ------: | ------------------------------------------ |
-| 100.0% |       1 | `org.codenarc.rule.AbstractAstVisitor:189` |
+|      % | Samples | Location               |
+| -----: | ------: | ---------------------- |
+| 100.0% |       4 | `java.util.Objects:64` |
 
-##### `getLastLineOfNodeText(ASTNode, SourceCode)` (`org.codenarc.util.AstUtil`)
+##### `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
 
-|      % | Samples | Location                         |
-| -----: | ------: | -------------------------------- |
-| 100.0% |       1 | `org.codenarc.util.AstUtil:1208` |
+|     % | Samples | Location                                                    |
+| ----: | ------: | ----------------------------------------------------------- |
+| 33.3% |       1 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1821` |
+| 33.3% |       1 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1716` |
+| 33.3% |       1 | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator:1700` |
 
-##### `visitMethodComplete(MethodNode)` (`org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`)
+##### `getNode(Object)` (`java.util.HashMap`)
 
-|      % | Samples | Location                                                                       |
-| -----: | ------: | ------------------------------------------------------------------------------ |
-| 100.0% |       1 | `org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor:73` |
+|     % | Samples | Location                |
+| ----: | ------: | ----------------------- |
+| 66.7% |       2 | `java.util.HashMap:576` |
+| 33.3% |       1 | `java.util.HashMap:580` |
 
-##### `isClosureParameterOutsideParentheses(Expression, Expression)` (`org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor`)
+##### `equals(LambdaFormEditor$TransformKey)` (`java.lang.invoke.LambdaFormEditor$Transform`)
 
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |       1 | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor:109` |
+|      % | Samples | Location                                          |
+| -----: | ------: | ------------------------------------------------- |
+| 100.0% |       3 | `java.lang.invoke.LambdaFormEditor$Transform:111` |
 
-##### `processParameters(Parameter[], String)` (`org.codenarc.rule.design.OptionalMethodParameterAstVisitor`)
+##### `join(PredictionContext, PredictionContext, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
 
-|      % | Samples | Location                                                        |
-| -----: | ------: | --------------------------------------------------------------- |
-| 100.0% |       1 | `org.codenarc.rule.design.OptionalMethodParameterAstVisitor:51` |
+|     % | Samples | Location                                                  |
+| ----: | ------: | --------------------------------------------------------- |
+| 66.7% |       2 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:167` |
+| 33.3% |       1 | `groovyjarjarantlr4.v4.runtime.atn.PredictionContext:175` |
+
+##### `boxInteger(int)` (`sun.invoke.util.ValueConversions`)
+
+|      % | Samples | Location                               |
+| -----: | ------: | -------------------------------------- |
+| 100.0% |       3 | `sun.invoke.util.ValueConversions:280` |
+
+##### `equals(Object)` (`java.lang.String`)
+
+|      % | Samples | Location                |
+| -----: | ------: | ----------------------- |
+| 100.0% |       3 | `java.lang.String:1852` |
+
+##### `get()` (`java.lang.ref.SoftReference`)
+
+|     % | Samples | Location                          |
+| ----: | ------: | --------------------------------- |
+| 66.7% |       2 | `java.lang.ref.SoftReference:113` |
+| 33.3% |       1 | `java.lang.ref.SoftReference:116` |
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|     % | Samples | Location                                            |
+| ----: | ------: | --------------------------------------------------- |
+| 50.0% |       1 | `org.codehaus.groovy.vmplugin.v8.IndyInterface:293` |
+| 50.0% |       1 | `org.codehaus.groovy.vmplugin.v8.IndyInterface:298` |
 
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
+
+##### `__psynch_cvwait` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                  | Location                 |
+| ----: | ------: | ----------------------- | ------------------------ |
+| 78.3% |   5,103 | `PlatformMonitor::wait` | `libjvm.dylib`           |
+|  7.2% |     472 | `PlatformEvent::park`   | `libjvm.dylib`           |
+|  7.2% |     471 | `Profiler::timerLoop`   | `libasyncProfiler.dylib` |
+|  7.2% |     471 | `Parker::park`          | `libjvm.dylib`           |
+
+##### `semaphore_wait_trap` (`libsystem_kernel.dylib`)
+
+|     % | Samples | Caller                           | Location       |
+| ----: | ------: | -------------------------------- | -------------- |
+| 90.6% |   5,036 | `WorkerThread::run`              | `libjvm.dylib` |
+|  8.5% |     472 | `os::signal_wait`                | `libjvm.dylib` |
+|  0.6% |      32 | `WorkerThreads::run_task`        | `libjvm.dylib` |
+|  0.3% |      16 | `GenericWaitBarrier::Cell::wait` | `libjvm.dylib` |
+
+##### `mach_msg2_trap` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller               | Location                 |
+| -----: | ------: | -------------------- | ------------------------ |
+| 100.0% |     472 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
+
+##### `__ulock_wait` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller                    | Location       |
+| -----: | ------: | ------------------------- | -------------- |
+| 100.0% |     472 | `CallJavaMainInNewThread` | `libjli.dylib` |
+
+##### `__psynch_mutexwait` (`libsystem_kernel.dylib`)
+
+|      % | Samples | Caller                              | Location                  |
+| -----: | ------: | ----------------------------------- | ------------------------- |
+| 100.0% |      47 | `_pthread_mutex_firstfit_lock_slow` | `libsystem_pthread.dylib` |
 
 ##### `Node::dominates` (`libjvm.dylib`)
 
@@ -181,11 +258,56 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------------------------- | -------------- |
 | 100.0% |      23 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
 
+##### `pthread_jit_write_protect_np` (`libsystem_pthread.dylib`)
+
+|     % | Samples | Caller                    | Location       |
+| ----: | ------: | ------------------------- | -------------- |
+| 61.9% |      13 | `JVM_NewArray`            | `libjvm.dylib` |
+| 14.3% |       3 | `InterpreterRuntime::ldc` | `libjvm.dylib` |
+|  9.5% |       2 | `Unsafe_AllocateInstance` | `libjvm.dylib` |
+|  4.8% |       1 | `JVM_FillInStackTrace`    | `libjvm.dylib` |
+|  4.8% |       1 | `JavaCalls::call_helper`  | `libjvm.dylib` |
+
+##### `Arena::contains` (`libjvm.dylib`)
+
+|      % | Samples | Caller           | Location       |
+| -----: | ------: | ---------------- | -------------- |
+| 100.0% |      18 | `Matcher::xform` | `libjvm.dylib` |
+
+##### `cast(Object)` (`java.lang.Class`)
+
+|      % | Samples | Caller                                  | Location                                     |
+| -----: | ------: | --------------------------------------- | -------------------------------------------- |
+| 100.0% |      18 | `invokeSpecial(Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `G1ParScanThreadState::do_copy_to_survivor_space` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                             | Location       |
+| ----: | ------: | ------------------------------------------------------------------ | -------------- |
+| 94.4% |      17 | `G1ParScanThreadState::trim_queue_to_threshold`                    | `libjvm.dylib` |
+|  5.6% |       1 | `void G1ParCopyClosure<(G1Barrier)0, true>::do_oop_work<oopDesc*>` | `libjvm.dylib` |
+
+##### `tlv_get_addr` (`libdyld.dylib`)
+
+|     % | Samples | Caller                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 12.5% |       2 | `Parse::Parse`                          | `libjvm.dylib` |
+| 12.5% |       2 | `TypeInstPtr::add_offset`               | `libjvm.dylib` |
+| 12.5% |       2 | `PhaseChaitin::build_ifg_physical`      | `libjvm.dylib` |
+| 12.5% |       2 | `CollectedHeap::array_allocate`         | `libjvm.dylib` |
+|  6.3% |       1 | `CallGenerator::for_method_handle_call` | `libjvm.dylib` |
+
 ##### `PhaseChaitin::build_ifg_physical` (`libjvm.dylib`)
 
 |      % | Samples | Caller                            | Location       |
 | -----: | ------: | --------------------------------- | -------------- |
 | 100.0% |      14 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
+
+##### `java_lang_Throwable::fill_in_stack_trace` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |      14 | `java_lang_Throwable::fill_in_stack_trace` | `libjvm.dylib` |
 
 ##### `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`)
 
@@ -193,11 +315,29 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------------------------- | -------------- |
 | 100.0% |      13 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
 
+##### `DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |      13 | `DebugInformationRecorder::describe_scope` | `libjvm.dylib` |
+
 ##### `PhaseChaitin::elide_copy` (`libjvm.dylib`)
 
 |      % | Samples | Caller                                     | Location       |
 | -----: | ------: | ------------------------------------------ | -------------- |
 | 100.0% |      10 | `PhaseChaitin::post_allocate_copy_removal` | `libjvm.dylib` |
+
+##### `void OopOopIterateDispatch<G1CMOopClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                         | Location       |
+| -----: | ------: | ---------------------------------------------- | -------------- |
+| 100.0% |      10 | `void G1CMTask::process_grey_task_entry<true>` | `libjvm.dylib` |
+
+##### `newInstance(Class, int)` (`java.lang.reflect.Array`)
+
+|      % | Samples | Caller                              | Location                                             |
+| -----: | ------: | ----------------------------------- | ---------------------------------------------------- |
+| 100.0% |      10 | `invokeStatic(Object, Object, int)` | `java.lang.invoke.LambdaForm$DMH.0x000000a00102b400` |
 
 ##### `IndexSetIterator::advance_and_next` (`libjvm.dylib`)
 
@@ -208,6 +348,26 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | 11.1% |       1 | `PhaseIFG::remove_node`  | `libjvm.dylib` |
 | 11.1% |       1 | `PhaseIFG::SquareUp`     | `libjvm.dylib` |
 | 11.1% |       1 | `PhaseChaitin::Simplify` | `libjvm.dylib` |
+
+##### `vmSymbols::find_sid` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                         | Location       |
+| ----: | ------: | ---------------------------------------------- | -------------- |
+| 88.9% |       8 | `ciObjectFactory::get_symbol`                  | `libjvm.dylib` |
+| 11.1% |       1 | `MethodHandles::signature_polymorphic_name_id` | `libjvm.dylib` |
+
+##### `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                                                            | Location       |
+| ----: | ------: | --------------------------------------------------------------------------------- | -------------- |
+| 88.9% |       8 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object`          | `libjvm.dylib` |
+| 11.1% |       1 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_and_scrub_to_pb` | `libjvm.dylib` |
+
+##### `frame::sender_for_compiled_frame` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                     | Location       |
+| -----: | ------: | ------------------------------------------ | -------------- |
+| 100.0% |       8 | `java_lang_Throwable::fill_in_stack_trace` | `libjvm.dylib` |
 
 ##### `Node_Backward_Iterator::next` (`libjvm.dylib`)
 
@@ -229,11 +389,52 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | -------------------- | -------------- |
 | 100.0% |       8 | `PhaseLive::compute` | `libjvm.dylib` |
 
+##### `invokeBasic(Object[])` (`java.lang.invoke.MethodHandle`)
+
+|     % | Samples | Caller                              | Location                                             |
+| ----: | ------: | ----------------------------------- | ---------------------------------------------------- |
+| 12.5% |       1 | `invoke(Object, Object)`            | `java.lang.invoke.LambdaForm$MH.0x000000a001092000`  |
+| 12.5% |       1 | `collector(Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000a0010c8c00`  |
+| 12.5% |       1 | `invoke(Object, Object, Object)`    | `java.lang.invoke.LambdaForm$MH.0x000000a0010acc00`  |
+| 12.5% |       1 | `invokeVirtual(Object, Object)`     | `java.lang.invoke.LambdaForm$DMH.0x000000a001105800` |
+| 12.5% |       1 | `collector(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a0010a8c00`  |
+
 ##### `PhaseIdealLoop::Dominators` (`libjvm.dylib`)
 
 |      % | Samples | Caller                               | Location       |
 | -----: | ------: | ------------------------------------ | -------------- |
 | 100.0% |       7 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+
+##### `invokeVirtual(Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
+
+|     % | Samples | Caller                           | Location                                            |
+| ----: | ------: | -------------------------------- | --------------------------------------------------- |
+| 85.7% |       6 | `invoke(Object)`                 | `java.lang.invoke.LambdaForm$MH.0x000000a001089400` |
+| 14.3% |       1 | `guardWithCatch(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a001096800` |
+
+##### `_platform_memset` (`libsystem_platform.dylib`)
+
+|     % | Samples | Caller                                       | Location       |
+| ----: | ------: | -------------------------------------------- | -------------- |
+| 16.7% |       1 | `Matcher::xform`                             | `libjvm.dylib` |
+| 16.7% |       1 | `PhaseIdealLoop::build_and_optimize`         | `libjvm.dylib` |
+| 16.7% |       1 | `GlobalValueNumbering::GlobalValueNumbering` | `libjvm.dylib` |
+| 16.7% |       1 | `GraphBuilder::try_inline_full`              | `libjvm.dylib` |
+| 16.7% |       1 | `IRScope::IRScope`                           | `libjvm.dylib` |
+
+##### `CodeCache::find_blob` (`libjvm.dylib`)
+
+|     % | Samples | Caller                                | Location       |
+| ----: | ------: | ------------------------------------- | -------------- |
+| 66.7% |       4 | `frame::sender_for_interpreter_frame` | `libjvm.dylib` |
+| 16.7% |       1 | `JavaThread::pd_last_frame`           | `libjvm.dylib` |
+| 16.7% |       1 | `NativeCall::set_destination_mt_safe` | `libjvm.dylib` |
+
+##### `void OopOopIterateBackwardsDispatch<G1ScanEvacuatedObjClosure>::Table::oop_oop_iterate_backwards<InstanceKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                            | Location       |
+| -----: | ------: | ------------------------------------------------- | -------------- |
+| 100.0% |       6 | `G1ParScanThreadState::do_copy_to_survivor_space` | `libjvm.dylib` |
 
 ##### `PhaseOutput::BuildOopMaps` (`libjvm.dylib`)
 
@@ -254,11 +455,17 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ---------------------------------------- | -------------- |
 | 100.0% |       6 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
 
-##### `itable stub` (`<unknown>`)
+##### `posix_madvise` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Caller                      | Location                                   |
-| ----: | ------: | --------------------------- | ------------------------------------------ |
-| 16.7% |       1 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractAstVisitorRule` |
+|      % | Samples | Caller        | Location                 |
+| -----: | ------: | ------------- | ------------------------ |
+| 100.0% |       5 | `free_medium` | `libsystem_malloc.dylib` |
+
+##### `void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<ObjArrayKlass, narrowOop>` (`libjvm.dylib`)
+
+|      % | Samples | Caller                                                                   | Location       |
+| -----: | ------: | ------------------------------------------------------------------------ | -------------- |
+| 100.0% |       5 | `G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object` | `libjvm.dylib` |
 
 ##### `PhaseLive::compute` (`libjvm.dylib`)
 
@@ -293,11 +500,26 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------------------------------------- | -------------- |
 | 100.0% |       5 | `PhaseIdealLoop::get_late_ctrl_with_anti_dep` | `libjvm.dylib` |
 
-##### `vtable stub` (`<unknown>`)
+##### `<init>(MethodType, LambdaForm)` (`java.lang.invoke.MethodHandle`)
 
-|     % | Samples | Caller                                            | Location                                     |
-| ----: | ------: | ------------------------------------------------- | -------------------------------------------- |
-| 20.0% |       1 | `visitMethodCallExpression(MethodCallExpression)` | `org.codehaus.groovy.ast.CodeVisitorSupport` |
+|     % | Samples | Caller                                                | Location                              |
+| ----: | ------: | ----------------------------------------------------- | ------------------------------------- |
+| 80.0% |       4 | `<init>(MethodType, LambdaForm)`                      | `java.lang.invoke.BoundMethodHandle`  |
+| 20.0% |       1 | `<init>(MethodType, LambdaForm, MemberName, boolean)` | `java.lang.invoke.DirectMethodHandle` |
+
+##### `collector(Object, Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a0010a8c00`)
+
+|     % | Samples | Caller                           | Location                                            |
+| ----: | ------: | -------------------------------- | --------------------------------------------------- |
+| 80.0% |       4 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a0010a9400` |
+| 20.0% |       1 | `invoke(Object, Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a0014ac400` |
+
+##### `collector(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a001031800`)
+
+|     % | Samples | Caller                   | Location                                            |
+| ----: | ------: | ------------------------ | --------------------------------------------------- |
+| 60.0% |       3 | `invoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a001099c00` |
+| 40.0% |       2 | `invoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a001092000` |
 
 ##### `PhaseChaitin::gather_lrg_masks` (`libjvm.dylib`)
 
@@ -311,76 +533,148 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | --------------------------------- | -------------- |
 | 100.0% |       4 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
 
-##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
+##### `internalMemberName(Object)` (`java.lang.invoke.DirectMethodHandle`)
 
-|      % | Samples | Caller                | Location                         |
-| -----: | ------: | --------------------- | -------------------------------- |
-| 100.0% |       1 | `applyTo(SourceCode)` | `org.codenarc.rule.AbstractRule` |
+|     % | Samples | Caller                                                                 | Location                                             |
+| ----: | ------: | ---------------------------------------------------------------------- | ---------------------------------------------------- |
+| 25.0% |       1 | `invokeStatic(Object, Object, int)`                                    | `java.lang.invoke.LambdaForm$DMH.0x000000a00102b400` |
+| 25.0% |       1 | `invokeStatic(Object, Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.DirectMethodHandle$Holder`         |
+| 25.0% |       1 | `invokeVirtual(Object, Object, Object, Object)`                        | `java.lang.invoke.LambdaForm$DMH.0x000000a001092800` |
+| 25.0% |       1 | `invokeInterface(Object, Object)`                                      | `java.lang.invoke.LambdaForm$DMH.0x000000a001108400` |
 
-##### `visitConstructorOrMethod(MethodNode, boolean)` (`org.codenarc.rule.ClassReferenceAstVisitor`)
+##### `equals(Object, Object)` (`java.util.Objects`)
 
-|      % | Samples | Caller                    | Location                                          |
-| -----: | ------: | ------------------------- | ------------------------------------------------- |
-| 100.0% |       1 | `visitMethod(MethodNode)` | `org.codehaus.groovy.ast.ClassCodeVisitorSupport` |
+|      % | Samples | Caller           | Location                               |
+| -----: | ------: | ---------------- | -------------------------------------- |
+| 100.0% |       4 | `equals(Object)` | `jdk.internal.util.StrongReferenceKey` |
 
-##### `getName()` (`org.codenarc.rule.naming.ClassNameRule`)
+##### `guard(Object, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a001098400`)
 
-|      % | Samples | Caller                   | Location                                    |
-| -----: | ------: | ------------------------ | ------------------------------------------- |
-| 100.0% |       1 | `isRuleSuppressed(Rule)` | `org.codenarc.analyzer.SuppressionAnalyzer` |
+|     % | Samples | Caller                     | Location                                            |
+| ----: | ------: | -------------------------- | --------------------------------------------------- |
+| 66.7% |       2 | `reinvoke(Object, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a001098000` |
+| 33.3% |       1 | `delegate(Object, Object)` | `java.lang.invoke.DelegatingMethodHandle$Holder`    |
 
-##### `<init>(Object, Object, Reference, Reference)` (`org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_visitConstructorOrMethod_closure1`)
+##### `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` (`groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator`)
 
-|      % | Samples | Caller                                          | Location                                                 |
-| -----: | ------: | ----------------------------------------------- | -------------------------------------------------------- |
-| 100.0% |       1 | `visitConstructorOrMethod(MethodNode, boolean)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor` |
+|      % | Samples | Caller                                                                                                        | Location                                               |
+| -----: | ------: | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| 100.0% |       3 | `closure(ATNConfig, ATNConfigSet, ATNConfigSet, Set, boolean, boolean, PredictionContextCache, int, boolean)` | `groovyjarjarantlr4.v4.runtime.atn.ParserATNSimulator` |
 
-##### `visitMethodComplete(MethodNode)` (`org.codenarc.rule.convention.StaticMethodsBeforeInstanceMethodsAstVisitor`)
+##### `invokeStatic(Object, Object, Object)` (`java.lang.invoke.DirectMethodHandle$Holder`)
 
-|      % | Samples | Caller                    | Location                               |
-| -----: | ------: | ------------------------- | -------------------------------------- |
-| 100.0% |       1 | `visitMethod(MethodNode)` | `org.codenarc.rule.AbstractAstVisitor` |
+|     % | Samples | Caller                                 | Location                                            |
+| ----: | ------: | -------------------------------------- | --------------------------------------------------- |
+| 33.3% |       1 | `invoke(Object, Object, Object, long)` | `java.lang.invoke.LambdaForm$MH.0x000000a001322c00` |
+| 33.3% |       1 | `invoke(Object, Object)`               | `java.lang.invoke.LambdaForm$MH.0x000000a001097000` |
+| 33.3% |       1 | `invoke(Object, Object, Object)`       | `java.lang.invoke.LambdaForm$MH.0x000000a0010acc00` |
 
-##### `getAstVisitorClass()` (`org.codenarc.rule.groovyism.ExplicitCallToCompareToMethodRule`)
+##### `getNode(Object)` (`java.util.HashMap`)
 
-|      % | Samples | Caller            | Location                                   |
-| -----: | ------: | ----------------- | ------------------------------------------ |
-| 100.0% |       1 | `getAstVisitor()` | `org.codenarc.rule.AbstractAstVisitorRule` |
+|     % | Samples | Caller        | Location                  |
+| ----: | ------: | ------------- | ------------------------- |
+| 66.7% |       2 | `get(Object)` | `java.util.LinkedHashMap` |
+| 33.3% |       1 | `get(Object)` | `java.util.HashMap`       |
 
-##### `<init>(Object, Object, Reference, Reference)` (`org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor$_visitMapExpression_closure5`)
+##### `equals(LambdaFormEditor$TransformKey)` (`java.lang.invoke.LambdaFormEditor$Transform`)
 
-|      % | Samples | Caller                              | Location                                                 |
-| -----: | ------: | ----------------------------------- | -------------------------------------------------------- |
-| 100.0% |       1 | `visitMapExpression(MapExpression)` | `org.codenarc.rule.formatting.SpaceAfterCommaAstVisitor` |
+|      % | Samples | Caller                                      | Location                            |
+| -----: | ------: | ------------------------------------------- | ----------------------------------- |
+| 100.0% |       3 | `getInCache(LambdaFormEditor$TransformKey)` | `java.lang.invoke.LambdaFormEditor` |
+
+##### `join(PredictionContext, PredictionContext, PredictionContextCache)` (`groovyjarjarantlr4.v4.runtime.atn.PredictionContext`)
+
+|     % | Samples | Caller                                       | Location                                                   |
+| ----: | ------: | -------------------------------------------- | ---------------------------------------------------------- |
+| 66.7% |       2 | `add(ATNConfig, PredictionContextCache)`     | `groovyjarjarantlr4.v4.runtime.atn.ATNConfigSet`           |
+| 33.3% |       1 | `join(PredictionContext, PredictionContext)` | `groovyjarjarantlr4.v4.runtime.atn.PredictionContextCache` |
+
+##### `boxInteger(int)` (`sun.invoke.util.ValueConversions`)
+
+|      % | Samples | Caller                      | Location                                     |
+| -----: | ------: | --------------------------- | -------------------------------------------- |
+| 100.0% |       3 | `invokeStatic(Object, int)` | `java.lang.invoke.DirectMethodHandle$Holder` |
+
+##### `equals(Object)` (`java.lang.String`)
+
+|     % | Samples | Caller                             | Location                      |
+| ----: | ------: | ---------------------------------- | ----------------------------- |
+| 66.7% |       2 | `equals(Object, Object)`           | `java.util.Objects`           |
+| 33.3% |       1 | `matches(Method, String, Class[])` | `java.lang.PublicMethods$Key` |
+
+##### `get()` (`java.lang.ref.SoftReference`)
+
+|     % | Samples | Caller                                      | Location                            |
+| ----: | ------: | ------------------------------------------- | ----------------------------------- |
+| 33.3% |       1 | `getInCache(LambdaFormEditor$TransformKey)` | `java.lang.invoke.LambdaFormEditor` |
+| 33.3% |       1 | `cachedLambdaForm(int)`                     | `java.lang.invoke.MethodTypeForm`   |
+| 33.3% |       1 | `reflectionData()`                          | `java.lang.Class`                   |
+
+##### `invokeExact_MT(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`)
+
+|      % | Samples | Caller                                                                                        | Location                                        |
+| -----: | ------: | --------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| 100.0% |       2 | `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` | `org.codehaus.groovy.vmplugin.v8.IndyInterface` |
+
+##### `fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])` (`org.codehaus.groovy.vmplugin.v8.IndyInterface`)
+
+|      % | Samples | Caller                                                                                      | Location                                             |
+| -----: | ------: | ------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| 100.0% |       2 | `invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)` | `java.lang.invoke.LambdaForm$DMH.0x000000a001088800` |
 
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
 
-|     % | Samples | Function                                                 | Location                                                                    |
-| ----: | ------: | -------------------------------------------------------- | --------------------------------------------------------------------------- |
-| 11.4% |   1,633 | `CompileBroker::compiler_thread_loop`                    | `libjvm.dylib`                                                              |
-|  6.3% |     896 | `CompileQueue::get`                                      | `libjvm.dylib`                                                              |
-|  5.1% |     736 | `CompileBroker::invoke_compiler_on_method`               | `libjvm.dylib`                                                              |
-|  4.2% |     604 | `Compile::Compile`                                       | `libjvm.dylib`                                                              |
-|  4.2% |     604 | `C2Compiler::compile_method`                             | `libjvm.dylib`                                                              |
-|  3.3% |     467 | `main(String[])`                                         | `org.codenarc.CodeNarc`                                                     |
-|  3.3% |     466 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                                          |
-|  3.2% |     464 | `execute(String[])`                                      | `org.codenarc.CodeNarc`                                                     |
-|  3.2% |     462 | `linkToCallSite(Object, Object)`                         | `java.lang.invoke.Invokers$Holder`                                          |
-|  3.2% |     460 | `execute()`                                              | `org.codenarc.CodeNarcRunner`                                               |
-|  3.1% |     443 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                                          |
-|  3.0% |     436 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                                          |
-|  3.0% |     430 | `analyze(RuleSet)`                                       | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  3.0% |     429 | `doCall(Object)`                                         | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-|  3.0% |     429 | `processDirectory(String, RuleSet)`                      | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  3.0% |     425 | `processFile(String, DirectoryResults, RuleSet)`         | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-|  3.0% |     424 | `collectViolations(SourceCode, RuleSet)`                 | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|  2.4% |     342 | `measureRuleProcessingTime(Rule, Closure)`               | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-|  2.1% |     294 | `Compile::Code_Gen`                                      | `libjvm.dylib`                                                              |
-|  1.8% |     258 | `doCall(Object)`                                         | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
+|     % | Samples | Function                                   | Location                  |
+| ----: | ------: | ------------------------------------------ | ------------------------- |
+| 83.5% |  11,951 | `_pthread_start`                           | `libsystem_pthread.dylib` |
+| 83.5% |  11,951 | `thread_start`                             | `libsystem_pthread.dylib` |
+| 80.2% |  11,478 | `Thread::call_run`                         | `libjvm.dylib`            |
+| 80.2% |  11,478 | `thread_native_entry`                      | `libjvm.dylib`            |
+| 45.5% |   6,517 | `__psynch_cvwait`                          | `libsystem_kernel.dylib`  |
+| 38.8% |   5,556 | `semaphore_wait_trap`                      | `libsystem_kernel.dylib`  |
+| 35.8% |   5,127 | `WorkerThread::run`                        | `libjvm.dylib`            |
+| 35.7% |   5,112 | `PlatformMonitor::wait`                    | `libjvm.dylib`            |
+| 27.9% |   3,991 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
+| 26.1% |   3,736 | `Monitor::wait_without_safepoint_check`    | `libjvm.dylib`            |
+| 11.4% |   1,633 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
+|  9.9% |   1,416 | `ConcurrentGCThread::run`                  | `libjvm.dylib`            |
+|  9.6% |   1,376 | `Monitor::wait`                            | `libjvm.dylib`            |
+|  6.6% |     944 | `JLI_Launch`                               | `libjli.dylib`            |
+|  6.6% |     944 | `main`                                     | `java`                    |
+|  6.3% |     896 | `CompileQueue::get`                        | `libjvm.dylib`            |
+|  5.1% |     736 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
+|  4.2% |     604 | `Compile::Compile`                         | `libjvm.dylib`            |
+|  4.2% |     604 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
+|  3.3% |     472 | `G1ConcurrentMarkThread::run_service`      | `libjvm.dylib`            |
 
 #### Categories
+
+##### Native
+
+|     % | Samples | Function                                | Location                  |
+| ----: | ------: | --------------------------------------- | ------------------------- |
+| 83.5% |  11,951 | `_pthread_start`                        | `libsystem_pthread.dylib` |
+| 83.5% |  11,951 | `thread_start`                          | `libsystem_pthread.dylib` |
+| 80.2% |  11,478 | `Thread::call_run`                      | `libjvm.dylib`            |
+| 80.2% |  11,478 | `thread_native_entry`                   | `libjvm.dylib`            |
+| 45.5% |   6,517 | `__psynch_cvwait`                       | `libsystem_kernel.dylib`  |
+| 38.8% |   5,556 | `semaphore_wait_trap`                   | `libsystem_kernel.dylib`  |
+| 35.8% |   5,127 | `WorkerThread::run`                     | `libjvm.dylib`            |
+| 35.7% |   5,112 | `PlatformMonitor::wait`                 | `libjvm.dylib`            |
+| 27.9% |   3,991 | `JavaThread::thread_main_inner`         | `libjvm.dylib`            |
+| 26.1% |   3,736 | `Monitor::wait_without_safepoint_check` | `libjvm.dylib`            |
+|  9.9% |   1,416 | `ConcurrentGCThread::run`               | `libjvm.dylib`            |
+|  9.6% |   1,376 | `Monitor::wait`                         | `libjvm.dylib`            |
+|  6.6% |     944 | `JLI_Launch`                            | `libjli.dylib`            |
+|  6.6% |     944 | `main`                                  | `java`                    |
+|  3.3% |     472 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib`            |
+|  3.3% |     472 | `mach_msg2_trap`                        | `libsystem_kernel.dylib`  |
+|  3.3% |     472 | `mach_msg_overwrite`                    | `libsystem_kernel.dylib`  |
+|  3.3% |     472 | `mach_msg`                              | `libsystem_kernel.dylib`  |
+|  3.3% |     472 | `__CFRunLoopServiceMachPort`            | `CoreFoundation`          |
+|  3.3% |     472 | `__CFRunLoopRun`                        | `CoreFoundation`          |
 
 ##### Compiler
 
@@ -407,43 +701,97 @@ Functions ranked by total samples taken in the function and all its callees.
 |  0.3% |      47 | `Matcher::match`                           | `libjvm.dylib` |
 |  0.3% |      43 | `PhaseOutput::Output`                      | `libjvm.dylib` |
 
-##### Ours
+##### Standard library
 
-|    % | Samples | Function                                         | Location                                                                    |
-| ---: | ------: | ------------------------------------------------ | --------------------------------------------------------------------------- |
-| 3.3% |     467 | `main(String[])`                                 | `org.codenarc.CodeNarc`                                                     |
-| 3.2% |     464 | `execute(String[])`                              | `org.codenarc.CodeNarc`                                                     |
-| 3.2% |     460 | `execute()`                                      | `org.codenarc.CodeNarcRunner`                                               |
-| 3.0% |     430 | `analyze(RuleSet)`                               | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-| 3.0% |     429 | `doCall(Object)`                                 | `org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1` |
-| 3.0% |     429 | `processDirectory(String, RuleSet)`              | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-| 3.0% |     425 | `processFile(String, DirectoryResults, RuleSet)` | `org.codenarc.analyzer.FilesystemSourceAnalyzer`                            |
-| 3.0% |     424 | `collectViolations(SourceCode, RuleSet)`         | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-| 2.4% |     342 | `measureRuleProcessingTime(Rule, Closure)`       | `org.codenarc.analyzer.AbstractSourceAnalyzer`                              |
-| 1.8% |     258 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`  |
-| 1.7% |     237 | `applyTo(SourceCode)`                            | `org.codenarc.rule.AbstractRule`                                            |
-| 1.4% |     200 | `applyTo(SourceCode, List)`                      | `org.codenarc.rule.AbstractAstVisitorRule`                                  |
-| 1.3% |     183 | `visitClass(ClassNode)`                          | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| 1.0% |     142 | `visitMethod(MethodNode)`                        | `org.codenarc.rule.AbstractAstVisitor`                                      |
-| 0.4% |      60 | `doCall(Object)`                                 | `org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`  |
-| 0.4% |      54 | `isRuleSuppressed(Rule)`                         | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-| 0.4% |      53 | `init()`                                         | `org.codenarc.source.AbstractSourceCode`                                    |
-| 0.4% |      53 | `getAst()`                                       | `org.codenarc.source.AbstractSourceCode`                                    |
-| 0.4% |      53 | `init()`                                         | `org.codenarc.analyzer.SuppressionAnalyzer`                                 |
-| 0.1% |      16 | `applyTo(SourceCode, List)`                      | `org.codenarc.rule.AbstractSharedAstVisitorRule`                            |
-
-##### JIT
-
-|     % | Samples | Function                  | Location    |
-| ----: | ------: | ------------------------- | ----------- |
-| <0.1% |       6 | `itable stub`             | `<unknown>` |
-| <0.1% |       5 | `vtable stub`             | `<unknown>` |
-| <0.1% |       2 | `I2C/C2I adapters(0xbbb)` | `<unknown>` |
-| <0.1% |       1 | `I2C/C2I adapters(0xbb)`  | `<unknown>` |
+|    % | Samples | Function                        | Location                                                                |
+| ---: | ------: | ------------------------------- | ----------------------------------------------------------------------- |
+| 3.3% |     472 | `wait0(long)`                   | `java.lang.Object`                                                      |
+| 3.3% |     472 | `wait(long)`                    | `java.lang.Object`                                                      |
+| 3.3% |     472 | `wait()`                        | `java.lang.Object`                                                      |
+| 3.3% |     472 | `await()`                       | `java.lang.ref.NativeReferenceQueue`                                    |
+| 3.3% |     472 | `remove0()`                     | `java.lang.ref.ReferenceQueue`                                          |
+| 3.3% |     472 | `remove()`                      | `java.lang.ref.NativeReferenceQueue`                                    |
+| 3.3% |     472 | `run()`                         | `java.lang.ref.Finalizer$FinalizerThread`                               |
+| 3.3% |     472 | `waitForReferencePendingList()` | `java.lang.ref.Reference`                                               |
+| 3.3% |     472 | `processPendingReferences()`    | `java.lang.ref.Reference`                                               |
+| 3.3% |     472 | `run()`                         | `java.lang.ref.Reference$ReferenceHandler`                              |
+| 3.3% |     471 | `park(boolean, long)`           | `jdk.internal.misc.Unsafe`                                              |
+| 3.3% |     471 | `parkNanos(Object, long)`       | `java.util.concurrent.locks.LockSupport`                                |
+| 3.3% |     471 | `await(long, TimeUnit)`         | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+| 3.3% |     471 | `await(long)`                   | `java.lang.ref.ReferenceQueue`                                          |
+| 3.3% |     471 | `remove0(long)`                 | `java.lang.ref.ReferenceQueue`                                          |
+| 3.3% |     471 | `remove(long)`                  | `java.lang.ref.ReferenceQueue`                                          |
+| 3.3% |     471 | `run()`                         | `jdk.internal.ref.CleanerImpl`                                          |
+| 3.3% |     471 | `runWith(Object, Runnable)`     | `java.lang.Thread`                                                      |
+| 3.3% |     471 | `run()`                         | `java.lang.Thread`                                                      |
+| 3.3% |     471 | `run()`                         | `jdk.internal.misc.InnocuousThread`                                     |
 
 #### Callees
 
 Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+|     % | Samples | Callee                | Location       |
+| ----: | ------: | --------------------- | -------------- |
+| 96.0% |  11,478 | `thread_native_entry` | `libjvm.dylib` |
+|  3.9% |     472 | `apple_main`          | `libjli.dylib` |
+| <0.1% |       1 | `ThreadJavaMain`      | `libjli.dylib` |
+
+##### `thread_start` (`libsystem_pthread.dylib`)
+
+|      % | Samples | Callee           | Location                  |
+| -----: | ------: | ---------------- | ------------------------- |
+| 100.0% |  11,951 | `_pthread_start` | `libsystem_pthread.dylib` |
+
+##### `Thread::call_run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                          | Location       |
+| ----: | ------: | ------------------------------- | -------------- |
+| 44.7% |   5,127 | `WorkerThread::run`             | `libjvm.dylib` |
+| 34.8% |   3,991 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 12.3% |   1,416 | `ConcurrentGCThread::run`       | `libjvm.dylib` |
+|  4.1% |     472 | `WatcherThread::run`            | `libjvm.dylib` |
+|  4.1% |     472 | `VMThread::run`                 | `libjvm.dylib` |
+
+##### `thread_native_entry` (`libjvm.dylib`)
+
+|      % | Samples | Callee             | Location       |
+| -----: | ------: | ------------------ | -------------- |
+| 100.0% |  11,478 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `WorkerThread::run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                            | Location                 |
+| ----: | ------: | --------------------------------- | ------------------------ |
+| 98.2% |   5,036 | `semaphore_wait_trap`             | `libsystem_kernel.dylib` |
+|  0.8% |      41 | `G1EvacuateRegionsBaseTask::work` | `libjvm.dylib`           |
+|  0.4% |      21 | `G1CMConcurrentMarkingTask::work` | `libjvm.dylib`           |
+|  0.4% |      18 | `G1RebuildRSAndScrubTask::work`   | `libjvm.dylib`           |
+|  0.2% |       9 | `KlassCleaningTask::work`         | `libjvm.dylib`           |
+
+##### `PlatformMonitor::wait` (`libjvm.dylib`)
+
+|     % | Samples | Callee               | Location                  |
+| ----: | ------: | -------------------- | ------------------------- |
+| 99.8% |   5,103 | `__psynch_cvwait`    | `libsystem_kernel.dylib`  |
+|  0.2% |       9 | `_pthread_cond_wait` | `libsystem_pthread.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                                   | Location       |
+| ----: | ------: | -------------------------------------------------------- | -------------- |
+| 40.9% |   1,633 | `CompileBroker::compiler_thread_loop`                    | `libjvm.dylib` |
+| 11.8% |     472 | `MonitorDeflationThread::monitor_deflation_thread_entry` | `libjvm.dylib` |
+| 11.8% |     472 | `ServiceThread::service_thread_entry`                    | `libjvm.dylib` |
+| 11.8% |     472 | `signal_thread_entry`                                    | `libjvm.dylib` |
+| 11.8% |     471 | `JvmtiAgentThread::start_function_wrapper`               | `libjvm.dylib` |
+
+##### `Monitor::wait_without_safepoint_check` (`libjvm.dylib`)
+
+|      % | Samples | Callee                  | Location       |
+| -----: | ------: | ----------------------- | -------------- |
+| 100.0% |   3,736 | `PlatformMonitor::wait` | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
@@ -453,11 +801,46 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 45.1% |     736 | `CompileBroker::invoke_compiler_on_method`     | `libjvm.dylib` |
 |  0.1% |       1 | `CompileBroker::possibly_add_compiler_threads` | `libjvm.dylib` |
 
+##### `ConcurrentGCThread::run` (`libjvm.dylib`)
+
+|     % | Samples | Callee                                  | Location       |
+| ----: | ------: | --------------------------------------- | -------------- |
+| 33.3% |     472 | `G1ConcurrentMarkThread::run_service`   | `libjvm.dylib` |
+| 33.3% |     472 | `G1ServiceThread::run_service`          | `libjvm.dylib` |
+| 33.3% |     472 | `G1ConcurrentRefineThread::run_service` | `libjvm.dylib` |
+
+##### `Monitor::wait` (`libjvm.dylib`)
+
+|      % | Samples | Callee                  | Location       |
+| -----: | ------: | ----------------------- | -------------- |
+| 100.0% |   1,376 | `PlatformMonitor::wait` | `libjvm.dylib` |
+
+##### `JLI_Launch` (`libjli.dylib`)
+
+|     % | Samples | Callee                       | Location       |
+| ----: | ------: | ---------------------------- | -------------- |
+| 50.0% |     472 | `CreateExecutionEnvironment` | `libjli.dylib` |
+| 50.0% |     472 | `ContinueInNewThread`        | `libjli.dylib` |
+
+##### `main` (`java`)
+
+|      % | Samples | Callee       | Location       |
+| -----: | ------: | ------------ | -------------- |
+| 100.0% |     944 | `JLI_Launch` | `libjli.dylib` |
+
+##### `CompileQueue::get` (`libjvm.dylib`)
+
+|     % | Samples | Callee          | Location       |
+| ----: | ------: | --------------- | -------------- |
+| 99.8% |     894 | `Monitor::wait` | `libjvm.dylib` |
+|  0.2% |       2 | `Mutex::lock`   | `libjvm.dylib` |
+
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
 |     % | Samples | Callee                       | Location       |
 | ----: | ------: | ---------------------------- | -------------- |
 | 82.1% |     604 | `C2Compiler::compile_method` | `libjvm.dylib` |
+| 17.8% |     131 | `Compiler::compile_method`   | `libjvm.dylib` |
 |  0.1% |       1 | `ciEnv::ciEnv`               | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
@@ -466,9 +849,9 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | ----: | ------: | ---------------------------------------- | -------------- |
 | 48.7% |     294 | `Compile::Code_Gen`                      | `libjvm.dylib` |
 | 35.6% |     215 | `Compile::Optimize`                      | `libjvm.dylib` |
+| 14.4% |      87 | `ParseGenerator::generate`               | `libjvm.dylib` |
 |  0.7% |       4 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
 |  0.3% |       2 | `Compile::inline_string_calls`           | `libjvm.dylib` |
-|  0.2% |       1 | `Type::Initialize`                       | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
@@ -476,75 +859,156 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | -----: | ------: | ------------------ | -------------- |
 | 100.0% |     604 | `Compile::Compile` | `libjvm.dylib` |
 
-##### `main(String[])` (`org.codenarc.CodeNarc`)
+##### `G1ConcurrentMarkThread::run_service` (`libjvm.dylib`)
 
-|     % | Samples | Callee                                                           | Location                               |
-| ----: | ------: | ---------------------------------------------------------------- | -------------------------------------- |
-| 99.8% |     466 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder`     |
-|  0.2% |       1 | `linkCallSite(Object, Object, Object, Object, Object, Object[])` | `java.lang.invoke.MethodHandleNatives` |
+|     % | Samples | Callee                                             | Location       |
+| ----: | ------: | -------------------------------------------------- | -------------- |
+| 94.3% |     445 | `Monitor::wait_without_safepoint_check`            | `libjvm.dylib` |
+|  5.7% |      27 | `G1ConcurrentMarkThread::concurrent_mark_cycle_do` | `libjvm.dylib` |
 
-##### `execute(String[])` (`org.codenarc.CodeNarc`)
+##### `mach_msg_overwrite` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Callee                                             | Location                                            |
-| ----: | ------: | -------------------------------------------------- | --------------------------------------------------- |
-| 99.1% |     460 | `linkToCallSite(Object, Object)`                   | `java.lang.invoke.Invokers$Holder`                  |
-|  0.4% |       2 | `linkToCallSite(Object, Object, Object)`           | `java.lang.invoke.Invokers$Holder`                  |
-|  0.4% |       2 | `linkToCallSite(Object, Object, int, int, Object)` | `java.lang.invoke.LambdaForm$MH.0x000000a001970400` |
+|      % | Samples | Callee           | Location                 |
+| -----: | ------: | ---------------- | ------------------------ |
+| 100.0% |     472 | `mach_msg2_trap` | `libsystem_kernel.dylib` |
 
-##### `execute()` (`org.codenarc.CodeNarcRunner`)
+##### `mach_msg` (`libsystem_kernel.dylib`)
 
-|     % | Samples | Callee                                           | Location                           |
-| ----: | ------: | ------------------------------------------------ | ---------------------------------- |
-| 95.2% |     438 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
-|  2.4% |      11 | `linkToCallSite(Object, Object)`                 | `java.lang.invoke.Invokers$Holder` |
-|  2.4% |      11 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee               | Location                 |
+| -----: | ------: | -------------------- | ------------------------ |
+| 100.0% |     472 | `mach_msg_overwrite` | `libsystem_kernel.dylib` |
 
-##### `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+##### `__CFRunLoopServiceMachPort` (`CoreFoundation`)
 
-|     % | Samples | Callee                                           | Location                           |
-| ----: | ------: | ------------------------------------------------ | ---------------------------------- |
-| 99.8% |     429 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-|  0.2% |       1 | `linkToCallSite(Object, Object)`                 | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee     | Location                 |
+| -----: | ------: | ---------- | ------------------------ |
+| 100.0% |     472 | `mach_msg` | `libsystem_kernel.dylib` |
 
-##### `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`)
+##### `__CFRunLoopRun` (`CoreFoundation`)
 
-|      % | Samples | Callee                                                   | Location                           |
-| -----: | ------: | -------------------------------------------------------- | ---------------------------------- |
-| 100.0% |     429 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
-|  99.1% |     425 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-|   0.2% |       1 | `linkToCallSite(Object, int, Object)`                    | `java.lang.invoke.Invokers$Holder` |
-|   0.2% |       1 | `linkToCallSite(Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee                       | Location         |
+| -----: | ------: | ---------------------------- | ---------------- |
+| 100.0% |     472 | `__CFRunLoopServiceMachPort` | `CoreFoundation` |
 
-##### `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+##### `wait0(long)` (`java.lang.Object`)
 
-|      % | Samples | Callee                                   | Location                           |
-| -----: | ------: | ---------------------------------------- | ---------------------------------- |
-| 100.0% |     429 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee            | Location       |
+| -----: | ------: | ----------------- | -------------- |
+| 100.0% |     472 | `JVM_MonitorWait` | `libjvm.dylib` |
 
-##### `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`)
+##### `wait(long)` (`java.lang.Object`)
 
-|     % | Samples | Callee                                                   | Location                           |
-| ----: | ------: | -------------------------------------------------------- | ---------------------------------- |
-| 99.8% |     424 | `linkToCallSite(Object, Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
-|  0.2% |       1 | `linkToCallSite(Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee        | Location           |
+| -----: | ------: | ------------- | ------------------ |
+| 100.0% |     472 | `wait0(long)` | `java.lang.Object` |
 
-##### `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+##### `wait()` (`java.lang.Object`)
 
-|     % | Samples | Callee                                           | Location                           |
-| ----: | ------: | ------------------------------------------------ | ---------------------------------- |
-| 83.0% |     352 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-| 14.2% |      60 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
-|  2.6% |      11 | `linkToCallSite(Object, Object)`                 | `java.lang.invoke.Invokers$Holder` |
+|      % | Samples | Callee       | Location           |
+| -----: | ------: | ------------ | ------------------ |
+| 100.0% |     472 | `wait(long)` | `java.lang.Object` |
 
-##### `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`)
+##### `await()` (`java.lang.ref.NativeReferenceQueue`)
 
-|     % | Samples | Callee                                           | Location                                            |
-| ----: | ------: | ------------------------------------------------ | --------------------------------------------------- |
-| 77.5% |     265 | `linkToCallSite(Object, Object, Object)`         | `java.lang.invoke.Invokers$Holder`                  |
-| 19.0% |      65 | `linkToCallSite(Object, Object, long, Object)`   | `java.lang.invoke.LambdaForm$MH.0x000000a001320400` |
-|  2.9% |      10 | `linkToCallSite(Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder`                  |
-|  0.3% |       1 | `linkToCallSite(Object, Object)`                 | `java.lang.invoke.Invokers$Holder`                  |
-|  0.3% |       1 | `linkToCallSite(Object, long, Object)`           | `java.lang.invoke.LambdaForm$MH.0x000000a00131c800` |
+|      % | Samples | Callee   | Location           |
+| -----: | ------: | -------- | ------------------ |
+| 100.0% |     472 | `wait()` | `java.lang.Object` |
+
+##### `remove0()` (`java.lang.ref.ReferenceQueue`)
+
+|      % | Samples | Callee    | Location                             |
+| -----: | ------: | --------- | ------------------------------------ |
+| 100.0% |     472 | `await()` | `java.lang.ref.NativeReferenceQueue` |
+
+##### `remove()` (`java.lang.ref.NativeReferenceQueue`)
+
+|      % | Samples | Callee      | Location                       |
+| -----: | ------: | ----------- | ------------------------------ |
+| 100.0% |     472 | `remove0()` | `java.lang.ref.ReferenceQueue` |
+
+##### `run()` (`java.lang.ref.Finalizer$FinalizerThread`)
+
+|      % | Samples | Callee     | Location                             |
+| -----: | ------: | ---------- | ------------------------------------ |
+| 100.0% |     472 | `remove()` | `java.lang.ref.NativeReferenceQueue` |
+
+##### `waitForReferencePendingList()` (`java.lang.ref.Reference`)
+
+|      % | Samples | Callee                            | Location       |
+| -----: | ------: | --------------------------------- | -------------- |
+| 100.0% |     472 | `JVM_WaitForReferencePendingList` | `libjvm.dylib` |
+
+##### `processPendingReferences()` (`java.lang.ref.Reference`)
+
+|      % | Samples | Callee                          | Location                  |
+| -----: | ------: | ------------------------------- | ------------------------- |
+| 100.0% |     472 | `waitForReferencePendingList()` | `java.lang.ref.Reference` |
+
+##### `run()` (`java.lang.ref.Reference$ReferenceHandler`)
+
+|      % | Samples | Callee                       | Location                  |
+| -----: | ------: | ---------------------------- | ------------------------- |
+| 100.0% |     472 | `processPendingReferences()` | `java.lang.ref.Reference` |
+
+##### `park(boolean, long)` (`jdk.internal.misc.Unsafe`)
+
+|      % | Samples | Callee        | Location       |
+| -----: | ------: | ------------- | -------------- |
+| 100.0% |     471 | `Unsafe_Park` | `libjvm.dylib` |
+
+##### `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`)
+
+|      % | Samples | Callee                | Location                   |
+| -----: | ------: | --------------------- | -------------------------- |
+| 100.0% |     471 | `park(boolean, long)` | `jdk.internal.misc.Unsafe` |
+
+##### `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`)
+
+|      % | Samples | Callee                    | Location                                 |
+| -----: | ------: | ------------------------- | ---------------------------------------- |
+| 100.0% |     471 | `parkNanos(Object, long)` | `java.util.concurrent.locks.LockSupport` |
+
+##### `await(long)` (`java.lang.ref.ReferenceQueue`)
+
+|      % | Samples | Callee                  | Location                                                                |
+| -----: | ------: | ----------------------- | ----------------------------------------------------------------------- |
+| 100.0% |     471 | `await(long, TimeUnit)` | `java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject` |
+
+##### `remove0(long)` (`java.lang.ref.ReferenceQueue`)
+
+|      % | Samples | Callee        | Location                       |
+| -----: | ------: | ------------- | ------------------------------ |
+| 100.0% |     471 | `await(long)` | `java.lang.ref.ReferenceQueue` |
+
+##### `remove(long)` (`java.lang.ref.ReferenceQueue`)
+
+|      % | Samples | Callee          | Location                       |
+| -----: | ------: | --------------- | ------------------------------ |
+| 100.0% |     471 | `remove0(long)` | `java.lang.ref.ReferenceQueue` |
+
+##### `run()` (`jdk.internal.ref.CleanerImpl`)
+
+|      % | Samples | Callee         | Location                       |
+| -----: | ------: | -------------- | ------------------------------ |
+| 100.0% |     471 | `remove(long)` | `java.lang.ref.ReferenceQueue` |
+
+##### `runWith(Object, Runnable)` (`java.lang.Thread`)
+
+|      % | Samples | Callee  | Location                       |
+| -----: | ------: | ------- | ------------------------------ |
+| 100.0% |     471 | `run()` | `jdk.internal.ref.CleanerImpl` |
+
+##### `run()` (`java.lang.Thread`)
+
+|      % | Samples | Callee                      | Location           |
+| -----: | ------: | --------------------------- | ------------------ |
+| 100.0% |     471 | `runWith(Object, Runnable)` | `java.lang.Thread` |
+
+##### `run()` (`jdk.internal.misc.InnocuousThread`)
+
+|      % | Samples | Callee  | Location           |
+| -----: | ------: | ------- | ------------------ |
+| 100.0% |     471 | `run()` | `java.lang.Thread` |
 
 ##### `Compile::Code_Gen` (`libjvm.dylib`)
 
@@ -556,23 +1020,6 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 10.2% |      30 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
 |  0.7% |       2 | `PhaseOutput::install_code`       | `libjvm.dylib` |
 
-##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`)
-
-|     % | Samples | Callee                                   | Location                           |
-| ----: | ------: | ---------------------------------------- | ---------------------------------- |
-| 95.3% |     246 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-|  4.7% |      12 | `linkToCallSite(Object, Object)`         | `java.lang.invoke.Invokers$Holder` |
-
-##### `applyTo(SourceCode)` (`org.codenarc.rule.AbstractRule`)
-
-|     % | Samples | Callee                      | Location                                                  |
-| ----: | ------: | --------------------------- | --------------------------------------------------------- |
-| 74.7% |     177 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractAstVisitorRule`                |
-|  6.8% |      16 | `applyTo(SourceCode, List)` | `org.codenarc.rule.AbstractSharedAstVisitorRule`          |
-|  5.9% |      14 | `applyTo(SourceCode, List)` | `org.codenarc.rule.formatting.IndentationRule`            |
-|  3.8% |       9 | `applyTo(SourceCode, List)` | `org.codenarc.rule.unnecessary.UnnecessarySemicolonRule`  |
-|  2.1% |       5 | `applyTo(SourceCode, List)` | `org.codenarc.rule.formatting.BlankLineBeforePackageRule` |
-
 ##### `Compile::Optimize` (`libjvm.dylib`)
 
 |     % | Samples | Callee                          | Location       |
@@ -582,26 +1029,6 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 | 17.7% |      38 | `Compile::optimize_loops`       | `libjvm.dylib` |
 |  7.4% |      16 | `Compile::inline_incrementally` | `libjvm.dylib` |
 |  5.6% |      12 | `PhaseCCP::PhaseCCP`            | `libjvm.dylib` |
-
-##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractAstVisitorRule`)
-
-|     % | Samples | Callee                  | Location                                                |
-| ----: | ------: | ----------------------- | ------------------------------------------------------- |
-| 86.5% |     173 | `visitClass(ClassNode)` | `org.codenarc.rule.AbstractAstVisitor`                  |
-|  3.5% |       7 | `getAstVisitor()`       | `org.codenarc.rule.AbstractAstVisitorRule`              |
-|  3.5% |       7 | `visitClass(ClassNode)` | `org.codenarc.rule.AbstractMethodCallExpressionVisitor` |
-|  3.0% |       6 | `visitClass(ClassNode)` | `org.codenarc.rule.AbstractMethodVisitor`               |
-|  0.5% |       1 | `setRule(Rule)`         | `org.codenarc.rule.AbstractFieldVisitor`                |
-
-##### `visitClass(ClassNode)` (`org.codenarc.rule.AbstractAstVisitor`)
-
-|     % | Samples | Callee                          | Location                                                        |
-| ----: | ------: | ------------------------------- | --------------------------------------------------------------- |
-| 85.2% |     156 | `visitClass(ClassNode)`         | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`               |
-|  3.3% |       6 | `visitClassEx(ClassNode)`       | `org.codenarc.rule.size.AbstractMethodMetricAstVisitor`         |
-|  2.7% |       5 | `visitClassComplete(ClassNode)` | `org.codenarc.rule.formatting.SpaceInsideParenthesesAstVisitor` |
-|  2.2% |       4 | `visitClassEx(ClassNode)`       | `org.codenarc.rule.formatting.IndentationAstVisitor`            |
-|  1.1% |       2 | `visitClassEx(ClassNode)`       | `org.codenarc.rule.naming.ConfusingMethodNameAstVisitor`        |
 
 ##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
 
@@ -613,22 +1040,13 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |  9.5% |      16 | `PhaseChaitin::post_allocate_copy_removal` | `libjvm.dylib` |
 |  9.5% |      16 | `PhaseAggressiveCoalesce::insert_copies`   | `libjvm.dylib` |
 
-##### `visitMethod(MethodNode)` (`org.codenarc.rule.AbstractAstVisitor`)
-
-|     % | Samples | Callee                      | Location                                                              |
-| ----: | ------: | --------------------------- | --------------------------------------------------------------------- |
-| 84.5% |     120 | `visitMethod(MethodNode)`   | `org.codehaus.groovy.ast.ClassCodeVisitorSupport`                     |
-|  2.1% |       3 | `visitMethodEx(MethodNode)` | `org.codenarc.rule.basic.RandomDoubleCoercedToZeroAstVisitor`         |
-|  1.4% |       2 | `visitMethodEx(MethodNode)` | `org.codenarc.rule.formatting.SpaceBeforeClosingBraceAstVisitor`      |
-|  1.4% |       2 | `visitMethodEx(MethodNode)` | `org.codenarc.rule.unnecessary.UnnecessaryPackageReferenceAstVisitor` |
-|  1.4% |       2 | `visitMethodEx(MethodNode)` | `org.codenarc.rule.naming.ScopedConfusingMethodNameAstVisitor`        |
-
 ##### `Compilation::compile_method` (`libjvm.dylib`)
 
 |     % | Samples | Callee                             | Location       |
 | ----: | ------: | ---------------------------------- | -------------- |
 | 86.3% |     113 | `Compilation::compile_java_method` | `libjvm.dylib` |
 | 12.2% |      16 | `ciEnv::register_method`           | `libjvm.dylib` |
+|  1.5% |       2 | `Dependencies::assert_common_1`    | `libjvm.dylib` |
 
 ##### `Compilation::Compilation` (`libjvm.dylib`)
 
@@ -687,40 +1105,6 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |  9.3% |       7 | `LoadNode::Ideal`            | `libjvm.dylib` |
 |  9.3% |       7 | `NodeHash::hash_find_insert` | `libjvm.dylib` |
 
-##### `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`)
-
-|      % | Samples | Callee                                   | Location                           |
-| -----: | ------: | ---------------------------------------- | ---------------------------------- |
-| 100.0% |      60 | `linkToCallSite(Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-
-##### `isRuleSuppressed(Rule)` (`org.codenarc.analyzer.SuppressionAnalyzer`)
-
-|     % | Samples | Callee      | Location                                    |
-| ----: | ------: | ----------- | ------------------------------------------- |
-| 98.1% |      53 | `init()`    | `org.codenarc.analyzer.SuppressionAnalyzer` |
-|  1.9% |       1 | `getName()` | `org.codenarc.rule.naming.ClassNameRule`    |
-
-##### `init()` (`org.codenarc.source.AbstractSourceCode`)
-
-|     % | Samples | Callee                                                           | Location                           |
-| ----: | ------: | ---------------------------------------------------------------- | ---------------------------------- |
-| 83.0% |      44 | `linkToCallSite(Object, Object, Object)`                         | `java.lang.invoke.Invokers$Holder` |
-|  9.4% |       5 | `linkToCallSite(Object, Object, Object, Object, Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-|  5.7% |       3 | `linkToCallSite(Object, Object)`                                 | `java.lang.invoke.Invokers$Holder` |
-|  1.9% |       1 | `linkToCallSite(Object, Object, Object, Object)`                 | `java.lang.invoke.Invokers$Holder` |
-
-##### `getAst()` (`org.codenarc.source.AbstractSourceCode`)
-
-|      % | Samples | Callee                           | Location                           |
-| -----: | ------: | -------------------------------- | ---------------------------------- |
-| 100.0% |      53 | `linkToCallSite(Object, Object)` | `java.lang.invoke.Invokers$Holder` |
-
-##### `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`)
-
-|      % | Samples | Callee     | Location                                 |
-| -----: | ------: | ---------- | ---------------------------------------- |
-| 100.0% |      53 | `getAst()` | `org.codenarc.source.AbstractSourceCode` |
-
 ##### `PhaseChaitin::Split` (`libjvm.dylib`)
 
 |     % | Samples | Callee                              | Location       |
@@ -733,10 +1117,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 
 ##### `Compilation::emit_lir` (`libjvm.dylib`)
 
-|     % | Samples | Callee                       | Location       |
-| ----: | ------: | ---------------------------- | -------------- |
-| 64.6% |      31 | `LinearScan::do_linear_scan` | `libjvm.dylib` |
-| 31.3% |      15 | `BlockList::iterate_forward` | `libjvm.dylib` |
+|     % | Samples | Callee                           | Location       |
+| ----: | ------: | -------------------------------- | -------------- |
+| 64.6% |      31 | `LinearScan::do_linear_scan`     | `libjvm.dylib` |
+| 31.3% |      15 | `BlockList::iterate_forward`     | `libjvm.dylib` |
+|  2.1% |       1 | `Base::as_Base`                  | `libjvm.dylib` |
+|  2.1% |       1 | `ControlFlowOptimizer::optimize` | `libjvm.dylib` |
 
 ##### `Matcher::match` (`libjvm.dylib`)
 
@@ -758,39 +1144,29 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |  7.0% |       3 | `PhaseOutput::shorten_branches` | `libjvm.dylib` |
 |  2.3% |       1 | `PhaseOutput::init_buffer`      | `libjvm.dylib` |
 
-##### `applyTo(SourceCode, List)` (`org.codenarc.rule.AbstractSharedAstVisitorRule`)
-
-|     % | Samples | Callee                                  | Location                                                |
-| ----: | ------: | --------------------------------------- | ------------------------------------------------------- |
-| 56.3% |       9 | `applyVisitor(AstVisitor, SourceCode)`  | `org.codenarc.rule.AbstractSharedAstVisitorRule`        |
-| 25.0% |       4 | `getAstVisitor(SourceCode)`             | `org.codenarc.rule.unused.UnusedPrivateFieldRule`       |
-|  6.3% |       1 | `getViolations(AstVisitor, SourceCode)` | `org.codenarc.rule.design.PrivateFieldCouldBeFinalRule` |
-|  6.3% |       1 | `getViolations(AstVisitor, SourceCode)` | `org.codenarc.rule.unused.UnusedPrivateFieldRule`       |
-|  6.3% |       1 | `getAstVisitor(SourceCode)`             | `org.codenarc.rule.AbstractSharedAstVisitorRule`        |
-
 ## Hottest call stacks
 
-Call stacks ranked by samples taken in their leaf frame. `…` stands for frames the entry filter hides.
+Call stacks ranked by samples taken in their leaf frame.
 
-|     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| ----: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-|  6.3% |     896 | `CompileQueue::get` (`libjvm.dylib`) ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.3% |      42 | `linkToCallSite(Object, Object, long, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a001320400`) ← `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)                                                                                                                                                                                                                                                                                                                                      |
-|  0.2% |      24 | `PhaseChaitin::Split` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  0.2% |      22 | `Matcher::xform` (`libjvm.dylib`) ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|  0.1% |      19 | `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `init()` (`org.codenarc.source.AbstractSourceCode`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `getAst()` (`org.codenarc.source.AbstractSourceCode`) ← `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`) ← `isRuleSuppressed(Rule)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`) |
-|  0.1% |      17 | `linkToCallSite(Object, Object, long, Object)` (`java.lang.invoke.LambdaForm$MH.0x000000a001320400`) ← `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|  0.1% |      16 | `PhaseChaitin::build_ifg_physical` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.1% |      14 | `PhaseAggressiveCoalesce::insert_copies` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.1% |      14 | `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `init()` (`org.codenarc.source.AbstractSourceCode`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `getAst()` (`org.codenarc.source.AbstractSourceCode`) ← `init()` (`org.codenarc.analyzer.SuppressionAnalyzer`) ← `isRuleSuppressed(Rule)` ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.1% |      13 | `ciEnv::register_method` (`libjvm.dylib`) ← `Compilation::compile_method` ← `Compilation::Compilation` ← … ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|  0.1% |      10 | `PhaseChaitin::elide_copy` (`libjvm.dylib`) ← `PhaseChaitin::post_allocate_copy_removal` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-|  0.1% |       9 | `PhaseChaitin::Register_Allocate` (`libjvm.dylib`) ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.1% |       8 | `PhaseLive::add_liveout` (`libjvm.dylib`) ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-|  0.1% |       8 | `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.AbstractSourceAnalyzer$_collectViolations_closure3`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)                                                                                                                                                                                 |
-| <0.1% |       6 | `PhaseOutput::BuildOopMaps` (`libjvm.dylib`) ← `PhaseOutput::Output` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| <0.1% |       6 | `PhaseIdealLoop::Dominators` (`libjvm.dylib`) ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| <0.1% |       6 | `Node::dominates` (`libjvm.dylib`) ← `MemNode::all_controls_dominate` ← `InitializeNode::detect_init_independence` ← `InitializeNode::can_capture_store` ← `StoreNode::Ideal` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| <0.1% |       6 | `Node::dominates` (`libjvm.dylib`) ← `MemNode::all_controls_dominate` ← `InitializeNode::detect_init_independence` ← `InitializeNode::can_capture_store` ← `StoreNode::Ideal` ← `PhaseIterGVN::transform_old` ← `PhaseIterGVN::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| <0.1% |       6 | `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `measureRuleProcessingTime(Rule, Closure)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `collectViolations(SourceCode, RuleSet)` (`org.codenarc.analyzer.AbstractSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processFile(String, DirectoryResults, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `doCall(Object)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `processDirectory(String, RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `analyze(RuleSet)` (`org.codenarc.analyzer.FilesystemSourceAnalyzer`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute()` (`org.codenarc.CodeNarcRunner`) ← … ← `linkToCallSite(Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `execute(String[])` (`org.codenarc.CodeNarc`) ← … ← `linkToCallSite(Object, Object, Object)` (`java.lang.invoke.Invokers$Holder`) ← `main(String[])` (`org.codenarc.CodeNarc`)                                                                                                                                                                                                                                                                                                                                                     |
-| <0.1% |       5 | `PhaseLive::compute` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|     % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 35.2% |   5,036 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThread::run` (`libjvm.dylib`) ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                                                                       |
+|  6.2% |     886 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `CompileQueue::get` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                     |
+|  3.3% |     472 | `mach_msg2_trap` (`libsystem_kernel.dylib`) ← `mach_msg_overwrite` ← `mach_msg` ← `__CFRunLoopServiceMachPort` (`CoreFoundation`) ← `__CFRunLoopRun` ← `CFRunLoopRunSpecific` ← `CreateExecutionEnvironment` (`libjli.dylib`) ← `JLI_Launch` ← `main` (`java`) ← `unknown`                                                                                                                                                                                                                                                                                                 |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `WatcherThread::sleep` ← `WatcherThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                             |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `MonitorDeflationThread::monitor_deflation_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformEvent::park` (`libjvm.dylib`) ← `ObjectMonitor::wait` ← `ObjectSynchronizer::wait` ← `JVM_MonitorWait` ← `wait0(long)` (`java.lang.Object`) ← `wait(long)` ← `wait()` ← `await()` (`java.lang.ref.NativeReferenceQueue`) ← `remove0()` (`java.lang.ref.ReferenceQueue`) ← `remove()` (`java.lang.ref.NativeReferenceQueue`) ← `run()` (`java.lang.ref.Finalizer$FinalizerThread`)                                                                                                                                  |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ServiceThread::wait_for_task` ← `G1ServiceThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                             |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1PrimaryConcurrentRefineThread::wait_for_completed_buffers` ← `G1ConcurrentRefineThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                       |
+|  3.3% |     472 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `os::signal_wait` (`libjvm.dylib`) ← `signal_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                               |
+|  3.3% |     472 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait` ← `JVM_WaitForReferencePendingList` ← `waitForReferencePendingList()` (`java.lang.ref.Reference`) ← `processPendingReferences()` ← `run()` (`java.lang.ref.Reference$ReferenceHandler`)                                                                                                                                                                                                                                                                          |
+|  3.3% |     472 | `__ulock_wait` (`libsystem_kernel.dylib`) ← `CallJavaMainInNewThread` (`libjli.dylib`) ← `ContinueInNewThread` ← `JLI_Launch` ← `main` (`java`) ← `apple_main` (`libjli.dylib`) ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                                                                            |
+|  3.3% |     471 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Profiler::timerLoop` (`libasyncProfiler.dylib`) ← `JvmtiAgentThread::start_function_wrapper` (`libjvm.dylib`) ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                               |
+|  3.3% |     471 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `Parker::park` (`libjvm.dylib`) ← `Unsafe_Park` ← `park(boolean, long)` (`jdk.internal.misc.Unsafe`) ← `parkNanos(Object, long)` (`java.util.concurrent.locks.LockSupport`) ← `await(long, TimeUnit)` (`java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject`) ← `await(long)` (`java.lang.ref.ReferenceQueue`) ← `remove0(long)` ← `remove(long)` ← `run()` (`jdk.internal.ref.CleanerImpl`) ← `runWith(Object, Runnable)` (`java.lang.Thread`) ← `run()` ← `run()` (`jdk.internal.misc.InnocuousThread`) |
+|  3.3% |     471 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `NotificationThread::notification_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                         |
+|  3.3% |     469 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `ServiceThread::service_thread_entry` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                   |
+|  3.2% |     460 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `VMThread::wait_for_operation` ← `VMThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                                          |
+|  3.1% |     445 | `__psynch_cvwait` (`libsystem_kernel.dylib`) ← `PlatformMonitor::wait` (`libjvm.dylib`) ← `Monitor::wait_without_safepoint_check` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                                                                                         |
+|  0.2% |      23 | `PhaseChaitin::Split` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                   |
+|  0.1% |      18 | `Arena::contains` (`libjvm.dylib`) ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                                                                                                     |
+|  0.1% |      15 | `semaphore_wait_trap` (`libsystem_kernel.dylib`) ← `WorkerThreads::run_task` (`libjvm.dylib`) ← `G1ConcurrentMark::mark_from_roots` ← `G1ConcurrentMarkThread::subphase_mark_from_roots` ← `G1ConcurrentMarkThread::phase_mark_loop` ← `G1ConcurrentMarkThread::concurrent_mark_cycle_do` ← `G1ConcurrentMarkThread::run_service` ← `ConcurrentGCThread::run` ← `Thread::call_run` ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`                                                                                                 |

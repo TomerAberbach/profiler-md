@@ -574,10 +574,9 @@ describe(`convert`, () => {
     ])
   })
 
-  test(`node:internal/ frames filtered by default`, () => {
-    // `node:internal/` frames are excluded from display by default. Their
-    // allocations still count toward the category summary. The `node:fs` frame
-    // (non-internal Node built-in) is NOT filtered.
+  test(`node:internal/ frames are shown under the stdlib category`, () => {
+    // A `node:internal/` frame allocates like any other, so it ranks with the
+    // rest and its category says whose code it is.
     const defaultOutput = convertJsonToMd(
       v8HeapProfileConverter,
       structuredClone(baseProfile),
@@ -586,7 +585,6 @@ describe(`convert`, () => {
       }),
     )
 
-    // InternalLoader and readFileSync are absent; only funcC and funcA appear
     expect(selfSizeTables(defaultOutput)).toEqual([
       [
         {
@@ -602,6 +600,13 @@ describe(`convert`, () => {
           Samples: `1`,
           Function: `funcA`,
           Location: `src/a.ts:1:1`,
+        },
+        {
+          '%': `16.7%`,
+          Size: `100 B`,
+          Samples: `1`,
+          Function: `internalLoader`,
+          Location: `node:internal/modules/esm/loader:1:1`,
         },
       ],
     ])
@@ -652,7 +657,14 @@ describe(`options`, () => {
 
     expect(
       selfSizeTables(md).map(table => table.map(row => row.Location)),
-    ).toEqual([[expect.stringMatching(/^\//u), expect.stringMatching(/^\//u)]])
+    ).toEqual([
+      [
+        expect.stringMatching(/^\//u),
+        expect.stringMatching(/^\//u),
+        // A built-in module has no file path to make absolute.
+        `node:internal/modules/esm/loader:1:1`,
+      ],
+    ])
   })
 
   test(`categorizeFunctions overrides the detected categories`, () => {

@@ -20,7 +20,9 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | ----: | -------: | ------: | ------------------------------ | ------------------- |
 | 61.8% | 3.22 MiB |     199 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 | 16.8% |  896 KiB |       1 | `set`                          | `<unknown>`         |
+| 14.8% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`         |
 |  3.6% |  193 KiB |      12 | `(compiler)`                   | `<unknown>`         |
+|  2.7% |  144 KiB |       9 | `(anonymous)`                  | `<unknown>`         |
 |  0.3% |   16 KiB |       1 | `split`                        | `<unknown>`         |
 
 #### Categories
@@ -38,15 +40,33 @@ Functions ranked by bytes allocated directly in the function body, excluding cal
 | 16.8% | 896 KiB |       1 | `set`    | `<unknown>` |
 |  0.3% |  16 KiB |       1 | `split`  | `<unknown>` |
 
+##### Native
+
+|     % |    Size | Samples | Function   | Location    |
+| ----: | ------: | ------: | ---------- | ----------- |
+| 14.8% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
+
 ##### Compiler
 
 |    % |    Size | Samples | Function     | Location    |
 | ---: | ------: | ------: | ------------ | ----------- |
 | 3.6% | 193 KiB |      12 | `(compiler)` | `<unknown>` |
 
+##### Unknown
+
+|    % |    Size | Samples | Function      | Location    |
+| ---: | ------: | ------: | ------------- | ----------- |
+| 2.7% | 144 KiB |       9 | `(anonymous)` | `<unknown>` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+
+##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+
+|      % |     Size | Samples | Caller        | Location    |
+| -----: | -------: | ------: | ------------- | ----------- |
+| 100.0% | 3.22 MiB |     199 | `(anonymous)` | `<unknown>` |
 
 ##### `set` (`<unknown>`)
 
@@ -66,8 +86,10 @@ Functions ranked by total bytes allocated in the function and all its callees.
 
 |     % |     Size | Samples | Function                       | Location             |
 | ----: | -------: | ------: | ------------------------------ | -------------------- |
+| 81.6% | 4.25 MiB |     210 | `(anonymous)`                  | `<unknown>`          |
 | 78.9% | 4.11 MiB |     201 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
 | 16.8% |  896 KiB |       1 | `set`                          | `<unknown>`          |
+| 14.8% |  788 KiB |       1 | `(v8 api)`                     | `<unknown>`          |
 |  3.6% |  193 KiB |      12 | `(compiler)`                   | `<unknown>`          |
 |  0.3% |   16 KiB |       1 | `split`                        | `<unknown>`          |
 |  0.3% |   16 KiB |       1 | `tokenize`                     | `workload.mjs:10:20` |
@@ -90,15 +112,33 @@ Functions ranked by total bytes allocated in the function and all its callees.
 | 16.8% | 896 KiB |       1 | `set`    | `<unknown>` |
 |  0.3% |  16 KiB |       1 | `split`  | `<unknown>` |
 
+##### Native
+
+|     % |    Size | Samples | Function   | Location    |
+| ----: | ------: | ------: | ---------- | ----------- |
+| 14.8% | 788 KiB |       1 | `(v8 api)` | `<unknown>` |
+
 ##### Compiler
 
 |    % |    Size | Samples | Function     | Location    |
 | ---: | ------: | ------: | ------------ | ----------- |
 | 3.6% | 193 KiB |      12 | `(compiler)` | `<unknown>` |
 
+##### Unknown
+
+|     % |     Size | Samples | Function      | Location    |
+| ----: | -------: | ------: | ------------- | ----------- |
+| 81.6% | 4.25 MiB |     210 | `(anonymous)` | `<unknown>` |
+
 #### Callees
 
 Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `(anonymous)` (`<unknown>`)
+
+|     % |     Size | Samples | Callee                         | Location            |
+| ----: | -------: | ------: | ------------------------------ | ------------------- |
+| 96.7% | 4.11 MiB |     201 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32` |
 
 ##### `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
 
@@ -123,9 +163,10 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 Call stacks ranked by bytes allocated in their leaf frame.
 
-Common call stack: `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)
+Common call stack: `(anonymous)`
 
-|     % |    Size | Samples | Call stack                                                          |
-| ----: | ------: | ------: | ------------------------------------------------------------------- |
-| 16.8% | 896 KiB |       1 | `set`                                                               |
-|  0.3% |  16 KiB |       1 | `split` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) |
+|     % |     Size | Samples | Call stack                                                                                                  |
+| ----: | -------: | ------: | ----------------------------------------------------------------------------------------------------------- |
+| 61.8% | 3.22 MiB |     199 | `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                        |
+| 16.8% |  896 KiB |       1 | `set` ← `globalThis.buildAndRetainDom` (`workload.mjs:1:32`)                                                |
+|  0.3% |   16 KiB |       1 | `split` ← `tokenize` (`workload.mjs:10:20`) ← `scoreStatus` (11:23) ← `globalThis.buildAndRetainDom` (1:32) |

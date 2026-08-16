@@ -41,9 +41,38 @@ Functions with the largest increase in samples taken directly in the function bo
 |     new |    +1 |   0.0% → 0.5% |   0 → 1 | `visit_suite`                                      | `black/linegen.py`           |
 |     new |    +1 |   0.0% → 0.5% |   0 → 1 | `_format_str_once`                                 | `black/__init__.py`          |
 
+##### Standard library
+
+| Change | Delta |           % | Samples | Function  | Location                        |
+| -----: | ----: | ----------: | ------: | --------- | ------------------------------- |
+|    new |    +1 | 0.0% → 0.5% |   0 → 1 | `release` | `<frozen importlib._bootstrap>` |
+
 #### Improvements
 
 Functions with the largest decrease in samples taken directly in the function body, excluding callees.
+
+|  Change | Delta |           % | Samples | Function                     | Location                     |
+| ------: | ----: | ----------: | ------: | ---------------------------- | ---------------------------- |
+| removed |    -5 | 2.6% → 0.0% |   5 → 0 | `hug_power_op`               | `black/trans.py`             |
+|  -44.4% |    -4 | 4.8% → 2.6% |   9 → 5 | `pop`                        | `blib2to3/pgen2/parse.py`    |
+|  -50.0% |    -4 | 4.2% → 2.0% |   8 → 4 | `mark`                       | `black/brackets.py`          |
+| removed |    -4 | 2.1% → 0.0% |   4 → 0 | `normalize_invisible_parens` | `black/linegen.py`           |
+| removed |    -4 | 2.1% → 0.0% |   4 → 0 | `current`                    | `blib2to3/pgen2/tokenize.py` |
+|  -50.0% |    -3 | 3.2% → 1.5% |   6 → 3 | `normalize_trailing_prefix`  | `black/comments.py`          |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `generate_comments`          | `black/comments.py`          |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `whitespace`                 | `black/nodes.py`             |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `assert_equivalent`          | `black/__init__.py`          |
+|  -37.5% |    -3 | 4.2% → 2.6% |   8 → 5 | `(anonymous)`                | `<unknown>`                  |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `__bool__`                   | `black/lines.py`             |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `is_split_before_delimiter`  | `black/brackets.py`          |
+|  -75.0% |    -3 | 2.1% → 0.5% |   4 → 1 | `convert`                    | `blib2to3/pytree.py`         |
+| removed |    -3 | 1.6% → 0.0% |   3 → 0 | `normalize_string_quotes`    | `black/strings.py`           |
+|  -75.0% |    -3 | 2.1% → 0.5% |   4 → 1 | `get_features_used`          | `black/__init__.py`          |
+|  -50.0% |    -2 | 2.1% → 1.0% |   4 → 2 | `transform_line`             | `black/linegen.py`           |
+| removed |    -2 | 1.1% → 0.0% |   2 → 0 | `any_open_brackets`          | `black/brackets.py`          |
+|  -66.7% |    -2 | 1.6% → 0.5% |   3 → 1 | `update_sibling_maps`        | `blib2to3/pytree.py`         |
+| removed |    -2 | 1.1% → 0.0% |   2 → 0 | `compile`                    | `re/_compiler.py`            |
+| removed |    -2 | 1.1% → 0.0% |   2 → 0 | `<genexpr>`                  | `black/lines.py`             |
 
 ##### Ours
 
@@ -70,11 +99,48 @@ Functions with the largest decrease in samples taken directly in the function bo
 | removed |    -2 | 1.1% → 0.0% |   2 → 0 | `<genexpr>`                  | `black/lines.py`             |
 | removed |    -1 | 0.5% → 0.0% |   1 → 0 | `visit_stmt`                 | `black/linegen.py`           |
 
+##### Unknown
+
+| Change | Delta |           % | Samples | Function      | Location    |
+| -----: | ----: | ----------: | ------: | ------------- | ----------- |
+| -37.5% |    -3 | 4.2% → 2.6% |   8 → 5 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+|  Change | Delta |           % | Samples | Function                    | Location                                 |
+| ------: | ----: | ----------: | ------: | --------------------------- | ---------------------------------------- |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `find_spec`                 | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `_compile_bytecode`         | `<frozen importlib._bootstrap_external>` |
+
 ### Total samples
 
 #### Regressions
 
 Functions with the largest increase in total samples taken in the function and all its callees.
+
+| Change | Delta |             % |   Samples | Function                          | Location                   |
+| -----: | ----: | ------------: | --------: | --------------------------------- | -------------------------- |
+| +39.3% |   +24 | 32.3% → 43.4% |   61 → 85 | `check_stability_and_equivalence` | `black/__init__.py`        |
+| +48.8% |   +21 | 22.8% → 32.7% |   43 → 64 | `assert_stable`                   | `black/__init__.py`        |
+| +30.4% |   +17 | 29.6% → 37.2% |   56 → 73 | `parse_tokens`                    | `blib2to3/pgen2/driver.py` |
+| +30.4% |   +17 | 29.6% → 37.2% |   56 → 73 | `parse_string`                    | `blib2to3/pgen2/driver.py` |
+| +30.4% |   +17 | 29.6% → 37.2% |   56 → 73 | `lib2to3_parse`                   | `black/parsing.py`         |
+| +28.6% |   +12 | 22.2% → 27.6% |   42 → 54 | `_addtoken`                       | `blib2to3/pgen2/parse.py`  |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `format_file_contents`            | `black/__init__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `format_file_in_place`            | `black/__init__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `reformat_one`                    | `black/__init__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `main`                            | `black/__init__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `new_func`                        | `click/decorators.py`      |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `invoke`                          | `click/core.py`            |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `main`                            | `click/core.py`            |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `__call__`                        | `click/core.py`            |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `patched_main`                    | `black/__init__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `<module>`                        | `black/__main__.py`        |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `_run_code`                       | `<frozen runpy>`           |
+| +25.6% |   +11 | 22.8% → 27.6% |   43 → 54 | `addtoken`                        | `blib2to3/pgen2/parse.py`  |
+|  +5.5% |   +10 | 95.8% → 97.4% | 181 → 191 | `_run_module_as_main`             | `<frozen runpy>`           |
+|  +5.8% |    +9 | 82.0% → 83.7% | 155 → 164 | `_format_str_once`                | `black/__init__.py`        |
 
 ##### Ours
 
@@ -100,6 +166,15 @@ Functions with the largest increase in total samples taken in the function and a
 |   +5.8% |    +9 | 82.0% → 83.7% | 155 → 164 | `_format_str_once`                | `black/__init__.py`        |
 | +150.0% |    +9 |   3.2% → 7.7% |    6 → 15 | `__str__`                         | `black/lines.py`           |
 | +800.0% |    +8 |   0.5% → 4.6% |     1 → 9 | `push`                            | `blib2to3/pgen2/parse.py`  |
+
+##### Standard library
+
+| Change | Delta |             % |   Samples | Function              | Location                        |
+| -----: | ----: | ------------: | --------: | --------------------- | ------------------------------- |
+|  +6.3% |   +11 | 92.1% → 94.4% | 174 → 185 | `_run_code`           | `<frozen runpy>`                |
+|  +5.5% |   +10 | 95.8% → 97.4% | 181 → 191 | `_run_module_as_main` | `<frozen runpy>`                |
+|    new |    +1 |   0.0% → 0.5% |     0 → 1 | `release`             | `<frozen importlib._bootstrap>` |
+|    new |    +1 |   0.0% → 0.5% |     0 → 1 | `__exit__`            | `<frozen importlib._bootstrap>` |
 
 #### Improvements
 
@@ -129,3 +204,28 @@ Functions with the largest decrease in total samples taken in the function and a
 | removed |    -4 |   2.1% → 0.0% |     4 → 0 | `current`                           | `blib2to3/pgen2/tokenize.py` |
 |  -42.9% |    -3 |   3.7% → 2.0% |     7 → 4 | `prev_sibling`                      | `blib2to3/pytree.py`         |
 |  -75.0% |    -3 |   2.1% → 0.5% |     4 → 1 | `<module>`                          | `black/nodes.py`             |
+
+##### Unknown
+
+| Change | Delta |           % | Samples | Function      | Location    |
+| -----: | ----: | ----------: | ------: | ------------- | ----------- |
+| -37.5% |    -3 | 4.2% → 2.6% |   8 → 5 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+|  Change | Delta |           % | Samples | Function                    | Location                                 |
+| ------: | ----: | ----------: | ------: | --------------------------- | ---------------------------------------- |
+|  -75.0% |    -3 | 2.1% → 0.5% |   4 → 1 | `_handle_fromlist`          | `<frozen importlib._bootstrap>`          |
+|  -50.0% |    -1 | 1.1% → 0.5% |   2 → 1 | `find_spec`                 | `<frozen importlib._bootstrap_external>` |
+|  -50.0% |    -1 | 1.1% → 0.5% |   2 → 1 | `_get_spec`                 | `<frozen importlib._bootstrap_external>` |
+|  -50.0% |    -1 | 1.1% → 0.5% |   2 → 1 | `_find_spec`                | `<frozen importlib._bootstrap>`          |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`          |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `_find_and_load`            | `<frozen importlib._bootstrap>`          |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `exec_module`               | `<frozen importlib._bootstrap_external>` |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `_load_unlocked`            | `<frozen importlib._bootstrap>`          |
+|  -14.3% |    -1 | 3.7% → 3.1% |   7 → 6 | `_get_module_details`       | `<frozen runpy>`                         |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `create_module`             | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `module_from_spec`          | `<frozen importlib._bootstrap>`          |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `_compile_bytecode`         | `<frozen importlib._bootstrap_external>` |
+| removed |    -1 | 0.5% → 0.0% |   1 → 0 | `get_code`                  | `<frozen importlib._bootstrap_external>` |

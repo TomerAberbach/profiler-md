@@ -60,6 +60,7 @@ Functions with the largest decrease in time spent directly in the function body,
 |   -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>`          |
 | removed | -1.50ms |   0.4% → 0.0% |     1.5ms → 0ms |   1 → 0 | `scoreStatus`   | `workload.mjs:11:23` |
 |   -2.8% | -0.25ms |   2.2% → 2.1% |   9.1ms → 8.8ms |       6 | `(anonymous)`   | `run.mjs:1:1`        |
+|   -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>`          |
 
 ##### Ours
 
@@ -73,6 +74,7 @@ Functions with the largest decrease in time spent directly in the function body,
 | Change |   Delta |             % |            Time | Samples | Function        | Location    |
 | -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
 |  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
+|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |
 
 ### Total time
 
@@ -126,3 +128,4 @@ Functions with the largest decrease in total time spent in the function and all 
 | Change |   Delta |             % |            Time | Samples | Function        | Location    |
 | -----: | ------: | ------------: | --------------: | ------: | --------------- | ----------- |
 |  -7.9% | -3.63ms | 11.0% → 10.1% | 45.9ms → 42.3ms | 31 → 29 | `createElement` | `<unknown>` |
+|  -0.2% | -0.17ms | 16.7% → 16.5% | 69.6ms → 69.4ms |      46 | `(program)`     | `<unknown>` |

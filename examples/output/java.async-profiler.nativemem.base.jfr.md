@@ -8,36 +8,152 @@ Allocated 243 MiB over 84,474 samples (2.95 KiB per sample).
 
 ## Hottest functions
 
+### Self size
+
+Functions ranked by native bytes allocated directly in the function body, excluding callees.
+
+#### Categories
+
+##### Native
+
+|     % |     Size | Samples | Function       | Location                 |
+| ----: | -------: | ------: | -------------- | ------------------------ |
+| 99.9% |  243 MiB |  83,768 | `malloc_hook`  | `libasyncProfiler.dylib` |
+|  0.1% |  145 KiB |     694 | `realloc_hook` | `libasyncProfiler.dylib` |
+| <0.1% | 1.31 KiB |      12 | `calloc_hook`  | `libasyncProfiler.dylib` |
+
+#### Callers
+
+Callers ranked by contribution to each function's self size. Inlining can make caller attribution imprecise.
+
+##### `malloc_hook` (`libasyncProfiler.dylib`)
+
+|     % |     Size | Samples | Caller                                    | Location        |
+| ----: | -------: | ------: | ----------------------------------------- | --------------- |
+| 97.1% |  236 MiB |  81,397 | `os::malloc`                              | `libjvm.dylib`  |
+|  2.3% | 5.61 MiB |     751 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib` |
+|  0.3% |  868 KiB |      63 | `readBytes`                               | `libjava.dylib` |
+|  0.2% |  384 KiB |      12 | `updatewindow`                            | `libzip.dylib`  |
+|  0.1% |  178 KiB |     236 | `Java_java_lang_ClassLoader_defineClass0` | `libjava.dylib` |
+
+##### `realloc_hook` (`libasyncProfiler.dylib`)
+
+|      % |    Size | Samples | Caller        | Location       |
+| -----: | ------: | ------: | ------------- | -------------- |
+| 100.0% | 145 KiB |     694 | `os::realloc` | `libjvm.dylib` |
+
+##### `calloc_hook` (`libasyncProfiler.dylib`)
+
+|      % |     Size | Samples | Caller                             | Location       |
+| -----: | -------: | ------: | ---------------------------------- | -------------- |
+| 100.0% | 1.31 KiB |      12 | `Java_java_util_zip_Inflater_init` | `libzip.dylib` |
+
 ### Total size
 
 Functions ranked by total native bytes allocated in the function and all its callees.
 
-|     % |     Size | Samples | Function                                                    | Location                                    |
-| ----: | -------: | ------: | ----------------------------------------------------------- | ------------------------------------------- |
-| 47.0% |  114 MiB |  10,139 | `CompileBroker::compiler_thread_loop`                       | `libjvm.dylib`                              |
-| 46.9% |  114 MiB |  10,091 | `CompileBroker::invoke_compiler_on_method`                  | `libjvm.dylib`                              |
-| 46.1% |  112 MiB |   2,563 | `Compile::Compile`                                          | `libjvm.dylib`                              |
-| 46.1% |  112 MiB |   2,563 | `C2Compiler::compile_method`                                | `libjvm.dylib`                              |
-| 27.0% | 65.8 MiB |     957 | `Compile::Optimize`                                         | `libjvm.dylib`                              |
-| 26.0% | 63.2 MiB |     870 | `PhaseIdealLoop::optimize`                                  | `libjvm.dylib`                              |
-| 25.8% | 62.8 MiB |     855 | `PhaseIdealLoop::build_and_optimize`                        | `libjvm.dylib`                              |
-| 25.8% | 62.8 MiB |     855 | `PhaseIdealLoop::PhaseIdealLoop`                            | `libjvm.dylib`                              |
-| 21.0% | 51.1 MiB |     482 | `PhaseIdealLoop::Dominators`                                | `libjvm.dylib`                              |
-| 17.2% | 41.9 MiB |   1,198 | `Compile::Code_Gen`                                         | `libjvm.dylib`                              |
-| 13.6% | 33.2 MiB |     480 | `PhaseChaitin::Register_Allocate`                           | `libjvm.dylib`                              |
-| 11.4% | 27.7 MiB |     354 | `Compile::optimize_loops`                                   | `libjvm.dylib`                              |
-| 10.9% | 26.6 MiB |     321 | `PhaseIFG::init`                                            | `libjvm.dylib`                              |
-|  4.5% |   11 MiB |  37,403 | `launchHarnessClass(String, String[])`                      | `org.renaissance.core.Launcher`             |
-|  4.5% |   11 MiB |  37,403 | `main(String[])`                                            | `org.renaissance.core.Launcher`             |
-|  4.4% | 10.7 MiB |  34,080 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`             |
-|  4.3% | 10.5 MiB |  32,957 | `invoke(Object, Object[])`                                  | `java.lang.reflect.Method`                  |
-|  4.3% | 10.5 MiB |  32,792 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite`  |
-|  4.0% | 9.68 MiB |  25,523 | `loadClass(String)`                                         | `java.lang.ClassLoader`                     |
-|  3.9% |  9.4 MiB |  29,499 | `main(String[])`                                            | `org.renaissance.harness.RenaissanceSuite$` |
+|     % |    Size | Samples | Function                                   | Location                  |
+| ----: | ------: | ------: | ------------------------------------------ | ------------------------- |
+| 99.9% | 243 MiB |  83,768 | `malloc_hook`                              | `libasyncProfiler.dylib`  |
+| 97.0% | 236 MiB |  81,397 | `os::malloc`                               | `libjvm.dylib`            |
+| 94.7% | 231 MiB |  35,527 | `_pthread_start`                           | `libsystem_pthread.dylib` |
+| 94.7% | 231 MiB |  35,527 | `thread_start`                             | `libsystem_pthread.dylib` |
+| 94.7% | 231 MiB |  35,374 | `Thread::call_run`                         | `libjvm.dylib`            |
+| 94.7% | 231 MiB |  35,374 | `thread_native_entry`                      | `libjvm.dylib`            |
+| 49.6% | 121 MiB |  68,108 | `AllocateHeap`                             | `libjvm.dylib`            |
+| 47.0% | 114 MiB |  10,360 | `JavaThread::thread_main_inner`            | `libjvm.dylib`            |
+| 47.0% | 114 MiB |  10,139 | `CompileBroker::compiler_thread_loop`      | `libjvm.dylib`            |
+| 46.9% | 114 MiB |  10,091 | `CompileBroker::invoke_compiler_on_method` | `libjvm.dylib`            |
+| 46.8% | 114 MiB |  10,982 | `VMThread::inner_execute`                  | `libjvm.dylib`            |
+| 46.8% | 114 MiB |  10,982 | `VMThread::run`                            | `libjvm.dylib`            |
+| 46.8% | 114 MiB |  10,817 | `VM_Operation::evaluate`                   | `libjvm.dylib`            |
+| 46.8% | 114 MiB |  10,817 | `VMThread::evaluate_operation`             | `libjvm.dylib`            |
+| 46.8% | 114 MiB |   1,896 | `Chunk::operator new`                      | `libjvm.dylib`            |
+| 46.8% | 114 MiB |   1,825 | `Arena::grow`                              | `libjvm.dylib`            |
+| 46.1% | 112 MiB |   2,563 | `Compile::Compile`                         | `libjvm.dylib`            |
+| 46.1% | 112 MiB |   2,563 | `C2Compiler::compile_method`               | `libjvm.dylib`            |
+| 44.8% | 109 MiB |   2,623 | `G1CollectedHeap::do_full_collection`      | `libjvm.dylib`            |
+| 44.8% | 109 MiB |   2,623 | `VM_G1CollectFull::doit`                   | `libjvm.dylib`            |
+
+#### Categories
+
+##### Native
+
+|     % |     Size | Samples | Function                                  | Location                  |
+| ----: | -------: | ------: | ----------------------------------------- | ------------------------- |
+| 99.9% |  243 MiB |  83,768 | `malloc_hook`                             | `libasyncProfiler.dylib`  |
+| 97.0% |  236 MiB |  81,397 | `os::malloc`                              | `libjvm.dylib`            |
+| 94.7% |  231 MiB |  35,527 | `_pthread_start`                          | `libsystem_pthread.dylib` |
+| 94.7% |  231 MiB |  35,527 | `thread_start`                            | `libsystem_pthread.dylib` |
+| 94.7% |  231 MiB |  35,374 | `Thread::call_run`                        | `libjvm.dylib`            |
+| 94.7% |  231 MiB |  35,374 | `thread_native_entry`                     | `libjvm.dylib`            |
+| 49.6% |  121 MiB |  68,108 | `AllocateHeap`                            | `libjvm.dylib`            |
+| 47.0% |  114 MiB |  10,360 | `JavaThread::thread_main_inner`           | `libjvm.dylib`            |
+| 46.8% |  114 MiB |  10,982 | `VMThread::inner_execute`                 | `libjvm.dylib`            |
+| 46.8% |  114 MiB |  10,982 | `VMThread::run`                           | `libjvm.dylib`            |
+| 46.8% |  114 MiB |  10,817 | `VM_Operation::evaluate`                  | `libjvm.dylib`            |
+| 46.8% |  114 MiB |  10,817 | `VMThread::evaluate_operation`            | `libjvm.dylib`            |
+| 46.8% |  114 MiB |   1,896 | `Chunk::operator new`                     | `libjvm.dylib`            |
+| 46.8% |  114 MiB |   1,825 | `Arena::grow`                             | `libjvm.dylib`            |
+| 44.8% |  109 MiB |   2,623 | `G1CollectedHeap::do_full_collection`     | `libjvm.dylib`            |
+| 44.8% |  109 MiB |   2,623 | `VM_G1CollectFull::doit`                  | `libjvm.dylib`            |
+| 44.7% |  109 MiB |     312 | `G1FullCollector::G1FullCollector`        | `libjvm.dylib`            |
+| 44.6% |  109 MiB |     108 | `G1FullGCMarker::G1FullGCMarker`          | `libjvm.dylib`            |
+|  5.4% | 13.1 MiB |     404 | `Arena::Arealloc`                         | `libjvm.dylib`            |
+|  3.4% | 8.33 MiB |  22,421 | `Java_java_lang_ClassLoader_defineClass1` | `libjava.dylib`           |
 
 #### Callees
 
 Callees ranked by contribution to each function's total size. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `os::malloc` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee        | Location                 |
+| -----: | ------: | ------: | ------------- | ------------------------ |
+| 100.0% | 236 MiB |  81,397 | `malloc_hook` | `libasyncProfiler.dylib` |
+|   0.2% | 376 KiB |   1,988 | `os::malloc`  | `libjvm.dylib`           |
+
+##### `_pthread_start` (`libsystem_pthread.dylib`)
+
+|      % |    Size | Samples | Callee                | Location       |
+| -----: | ------: | ------: | --------------------- | -------------- |
+| 100.0% | 231 MiB |  35,374 | `thread_native_entry` | `libjvm.dylib` |
+|  <0.1% |  56 KiB |     153 | `ThreadJavaMain`      | `libjli.dylib` |
+
+##### `thread_start` (`libsystem_pthread.dylib`)
+
+|      % |    Size | Samples | Callee           | Location                  |
+| -----: | ------: | ------: | ---------------- | ------------------------- |
+| 100.0% | 231 MiB |  35,527 | `_pthread_start` | `libsystem_pthread.dylib` |
+
+##### `Thread::call_run` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Callee                          | Location       |
+| ----: | -------: | ------: | ------------------------------- | -------------- |
+| 49.6% |  114 MiB |  10,360 | `JavaThread::thread_main_inner` | `libjvm.dylib` |
+| 49.4% |  114 MiB |  10,982 | `VMThread::run`                 | `libjvm.dylib` |
+|  0.8% | 1.87 MiB |  13,234 | `WorkerThread::run`             | `libjvm.dylib` |
+|  0.1% |  199 KiB |     119 | `JavaThread::post_run`          | `libjvm.dylib` |
+|  0.1% |  195 KiB |      72 | `ThreadsSMRSupport::smr_delete` | `libjvm.dylib` |
+
+##### `thread_native_entry` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee             | Location       |
+| -----: | ------: | ------: | ------------------ | -------------- |
+| 100.0% | 231 MiB |  35,374 | `Thread::call_run` | `libjvm.dylib` |
+
+##### `AllocateHeap` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee       | Location       |
+| -----: | ------: | ------: | ------------ | -------------- |
+| 100.0% | 121 MiB |  68,108 | `os::malloc` | `libjvm.dylib` |
+
+##### `JavaThread::thread_main_inner` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee                                | Location       |
+| -----: | ------: | ------: | ------------------------------------- | -------------- |
+| 100.0% | 114 MiB |  10,139 | `CompileBroker::compiler_thread_loop` | `libjvm.dylib` |
+|  <0.1% | 6.5 KiB |     221 | `ServiceThread::service_thread_entry` | `libjvm.dylib` |
 
 ##### `CompileBroker::compiler_thread_loop` (`libjvm.dylib`)
 
@@ -48,11 +164,53 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 
 ##### `CompileBroker::invoke_compiler_on_method` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                        | Location       |
-| ----: | -------: | ------: | ----------------------------- | -------------- |
-| 98.2% |  112 MiB |   2,563 | `C2Compiler::compile_method`  | `libjvm.dylib` |
-| <0.1% | 14.8 KiB |   1,382 | `CompilationLog::log_compile` | `libjvm.dylib` |
-| <0.1% | 1.95 KiB |       2 | `ciEnv::ciEnv`                | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                              | Location       |
+| ----: | -------: | ------: | ----------------------------------- | -------------- |
+| 98.2% |  112 MiB |   2,563 | `C2Compiler::compile_method`        | `libjvm.dylib` |
+|  1.8% |    2 MiB |   6,142 | `Compiler::compile_method`          | `libjvm.dylib` |
+| <0.1% | 14.8 KiB |   1,382 | `CompilationLog::log_compile`       | `libjvm.dylib` |
+| <0.1% | 1.95 KiB |       2 | `ciEnv::ciEnv`                      | `libjvm.dylib` |
+| <0.1% |    592 B |       2 | `JavaThread::push_jni_handle_block` | `libjvm.dylib` |
+
+##### `VMThread::inner_execute` (`libjvm.dylib`)
+
+|      % |     Size | Samples | Callee                         | Location       |
+| -----: | -------: | ------: | ------------------------------ | -------------- |
+| 100.0% |  114 MiB |  10,817 | `VMThread::evaluate_operation` | `libjvm.dylib` |
+|  <0.1% | 7.88 KiB |      84 | `outputStream::print`          | `libjvm.dylib` |
+|  <0.1% |    486 B |      81 | `SafepointSynchronize::begin`  | `libjvm.dylib` |
+
+##### `VMThread::run` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee                    | Location       |
+| -----: | ------: | ------: | ------------------------- | -------------- |
+| 100.0% | 114 MiB |  10,982 | `VMThread::inner_execute` | `libjvm.dylib` |
+
+##### `VM_Operation::evaluate` (`libjvm.dylib`)
+
+|     % |     Size | Samples | Callee                            | Location       |
+| ----: | -------: | ------: | --------------------------------- | -------------- |
+| 95.7% |  109 MiB |   2,623 | `VM_G1CollectFull::doit`          | `libjvm.dylib` |
+|  4.3% | 4.94 MiB |   8,131 | `VM_G1CollectForAllocation::doit` | `libjvm.dylib` |
+| <0.1% |   1008 B |      63 | `VM_HandshakeAllThreads::doit`    | `libjvm.dylib` |
+
+##### `VMThread::evaluate_operation` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee                   | Location       |
+| -----: | ------: | ------: | ------------------------ | -------------- |
+| 100.0% | 114 MiB |  10,817 | `VM_Operation::evaluate` | `libjvm.dylib` |
+
+##### `Chunk::operator new` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee       | Location       |
+| -----: | ------: | ------: | ------------ | -------------- |
+| 100.0% | 114 MiB |   1,896 | `os::malloc` | `libjvm.dylib` |
+
+##### `Arena::grow` (`libjvm.dylib`)
+
+|      % |    Size | Samples | Callee                | Location       |
+| -----: | ------: | ------: | --------------------- | -------------- |
+| 100.0% | 114 MiB |   1,825 | `Chunk::operator new` | `libjvm.dylib` |
 
 ##### `Compile::Compile` (`libjvm.dylib`)
 
@@ -60,9 +218,9 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | ----: | -------: | ------: | ---------------------------------------- | -------------- |
 | 58.6% | 65.8 MiB |     957 | `Compile::Optimize`                      | `libjvm.dylib` |
 | 37.3% | 41.9 MiB |   1,198 | `Compile::Code_Gen`                      | `libjvm.dylib` |
+|  3.2% | 3.62 MiB |     124 | `ParseGenerator::generate`               | `libjvm.dylib` |
 |  0.5% |  544 KiB |      14 | `PhaseRemoveUseless::PhaseRemoveUseless` | `libjvm.dylib` |
 |  0.3% |  320 KiB |      10 | `NodeHash::NodeHash`                     | `libjvm.dylib` |
-|  0.1% |   64 KiB |       2 | `Compile::Init`                          | `libjvm.dylib` |
 
 ##### `C2Compiler::compile_method` (`libjvm.dylib`)
 
@@ -70,139 +228,75 @@ Callees ranked by contribution to each function's total size. Inlining can make 
 | -----: | ------: | ------: | ------------------ | -------------- |
 | 100.0% | 112 MiB |   2,563 | `Compile::Compile` | `libjvm.dylib` |
 
-##### `Compile::Optimize` (`libjvm.dylib`)
+##### `G1CollectedHeap::do_full_collection` (`libjvm.dylib`)
 
 |     % |     Size | Samples | Callee                                 | Location       |
 | ----: | -------: | ------: | -------------------------------------- | -------------- |
-| 54.0% | 35.5 MiB |     516 | `PhaseIdealLoop::optimize`             | `libjvm.dylib` |
-| 42.1% | 27.7 MiB |     354 | `Compile::optimize_loops`              | `libjvm.dylib` |
-|  1.0% |  640 KiB |      20 | `PhaseCCP::do_transform`               | `libjvm.dylib` |
-|  0.9% |  576 KiB |      15 | `PhaseIterGVN::optimize`               | `libjvm.dylib` |
-|  0.8% |  512 KiB |      14 | `PhaseMacroExpand::expand_macro_nodes` | `libjvm.dylib` |
+| 99.8% |  109 MiB |     312 | `G1FullCollector::G1FullCollector`     | `libjvm.dylib` |
+|  0.2% |  199 KiB |     386 | `G1FullCollector::collect`             | `libjvm.dylib` |
+|  0.1% | 78.6 KiB |   1,925 | `G1FullCollector::complete_collection` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::optimize` (`libjvm.dylib`)
+##### `VM_G1CollectFull::doit` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                           | Location       |
-| ----: | -------: | ------: | -------------------------------- | -------------- |
-| 99.3% | 62.8 MiB |     855 | `PhaseIdealLoop::PhaseIdealLoop` | `libjvm.dylib` |
-|  0.7% |  480 KiB |      15 | `PhaseIterGVN::optimize`         | `libjvm.dylib` |
+|      % |    Size | Samples | Callee                                | Location       |
+| -----: | ------: | ------: | ------------------------------------- | -------------- |
+| 100.0% | 109 MiB |   2,623 | `G1CollectedHeap::do_full_collection` | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`)
+##### `G1FullCollector::G1FullCollector` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                                    | Location       |
-| ----: | -------: | ------: | ----------------------------------------- | -------------- |
-| 81.4% | 51.1 MiB |     482 | `PhaseIdealLoop::Dominators`              | `libjvm.dylib` |
-|  5.6% | 3.53 MiB |     113 | `Node_Array::grow`                        | `libjvm.dylib` |
-|  1.4% |  896 KiB |      28 | `PhaseIdealLoop::split_if_with_blocks`    | `libjvm.dylib` |
-|  0.9% |  608 KiB |      19 | `PhaseIdealLoop::build_loop_late`         | `libjvm.dylib` |
-| <0.1% |   32 KiB |       1 | `PhaseIterGVN::remove_globally_dead_node` | `libjvm.dylib` |
+|     % |     Size | Samples | Callee                                             | Location       |
+| ----: | -------: | ------: | -------------------------------------------------- | -------------- |
+| 99.8% |  109 MiB |     108 | `G1FullGCMarker::G1FullGCMarker`                   | `libjvm.dylib` |
+|  0.1% |  165 KiB |     100 | `AllocateHeap`                                     | `libjvm.dylib` |
+| <0.1% |   12 KiB |      88 | `G1FullGCCompactionPoint::G1FullGCCompactionPoint` | `libjvm.dylib` |
+| <0.1% | 9.28 KiB |       4 | `PreservedMarksSet::init`                          | `libjvm.dylib` |
+| <0.1% | 8.25 KiB |       4 | `G1BiasedMappedArrayBase::create_new_base_array`   | `libjvm.dylib` |
 
-##### `PhaseIdealLoop::PhaseIdealLoop` (`libjvm.dylib`)
+##### `G1FullGCMarker::G1FullGCMarker` (`libjvm.dylib`)
 
-|      % |     Size | Samples | Callee                               | Location       |
-| -----: | -------: | ------: | ------------------------------------ | -------------- |
-| 100.0% | 62.8 MiB |     855 | `PhaseIdealLoop::build_and_optimize` | `libjvm.dylib` |
+|     % |    Size | Samples | Callee                                           | Location       |
+| ----: | ------: | ------: | ------------------------------------------------ | -------------- |
+| 99.5% | 108 MiB |      72 | `AllocateHeap`                                   | `libjvm.dylib` |
+|  0.5% | 576 KiB |      36 | `G1RegionMarkStatsCache::G1RegionMarkStatsCache` | `libjvm.dylib` |
 
-##### `Compile::Code_Gen` (`libjvm.dylib`)
+##### `Arena::Arealloc` (`libjvm.dylib`)
 
-|     % |     Size | Samples | Callee                            | Location       |
-| ----: | -------: | ------: | --------------------------------- | -------------- |
-| 79.2% | 33.2 MiB |     480 | `PhaseChaitin::Register_Allocate` | `libjvm.dylib` |
-| 20.0% | 8.36 MiB |     198 | `Matcher::match`                  | `libjvm.dylib` |
-|  0.3% |  128 KiB |       4 | `PhaseCFG::PhaseCFG`              | `libjvm.dylib` |
-|  0.2% | 75.1 KiB |       2 | `PhaseCFG::do_global_code_motion` | `libjvm.dylib` |
-|  0.2% |   66 KiB |      45 | `PhaseOutput::Output`             | `libjvm.dylib` |
+|      % |     Size | Samples | Callee        | Location       |
+| -----: | -------: | ------: | ------------- | -------------- |
+| 100.0% | 13.1 MiB |     404 | `Arena::grow` | `libjvm.dylib` |
 
-##### `PhaseChaitin::Register_Allocate` (`libjvm.dylib`)
+##### `Java_java_lang_ClassLoader_defineClass1` (`libjava.dylib`)
 
-|     % |     Size | Samples | Callee                                           | Location       |
-| ----: | -------: | ------: | ------------------------------------------------ | -------------- |
-| 80.1% | 26.6 MiB |     321 | `PhaseIFG::init`                                 | `libjvm.dylib` |
-| 17.2% | 5.71 MiB |     132 | `PhaseLive::compute`                             | `libjvm.dylib` |
-|  2.3% |  768 KiB |      22 | `PhaseChaitin::Split`                            | `libjvm.dylib` |
-|  0.2% |   64 KiB |       2 | `PhaseChaitin::post_allocate_copy_removal`       | `libjvm.dylib` |
-|  0.1% |   32 KiB |       1 | `PhaseChaitin::stretch_base_pointer_live_ranges` | `libjvm.dylib` |
-
-##### `Compile::optimize_loops` (`libjvm.dylib`)
-
-|      % |     Size | Samples | Callee                     | Location       |
-| -----: | -------: | ------: | -------------------------- | -------------- |
-| 100.0% | 27.7 MiB |     354 | `PhaseIdealLoop::optimize` | `libjvm.dylib` |
-
-##### `launchHarnessClass(String, String[])` (`org.renaissance.core.Launcher`)
-
-|     % |     Size | Samples | Callee                                                      | Location                            |
-| ----: | -------: | ------: | ----------------------------------------------------------- | ----------------------------------- |
-| 98.0% | 10.7 MiB |  34,080 | `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` | `org.renaissance.core.Launcher`     |
-|  1.0% |  112 KiB |   2,488 | `createScratchRoot(Path, boolean)`                          | `org.renaissance.core.Launcher`     |
-|  0.8% | 87.9 KiB |     588 | `create(Path, URI)`                                         | `org.renaissance.core.ModuleLoader` |
-|  0.2% | 17.1 KiB |      96 | `loadClass(String)`                                         | `java.lang.ClassLoader`             |
-| <0.1% | 5.42 KiB |      83 | `getScratchBase(String[])`                                  | `org.renaissance.core.Launcher`     |
-
-##### `main(String[])` (`org.renaissance.core.Launcher`)
-
-|      % |   Size | Samples | Callee                                 | Location                        |
-| -----: | -----: | ------: | -------------------------------------- | ------------------------------- |
-| 100.0% | 11 MiB |  37,403 | `launchHarnessClass(String, String[])` | `org.renaissance.core.Launcher` |
-
-##### `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`)
-
-|     % |     Size | Samples | Callee                                   | Location                            |
-| ----: | -------: | ------: | ---------------------------------------- | ----------------------------------- |
-| 97.6% | 10.5 MiB |  32,876 | `invoke(Object, Object[])`               | `java.lang.reflect.Method`          |
-|  1.9% |  211 KiB |   1,059 | `createClassLoaderForModule(String)`     | `org.renaissance.core.ModuleLoader` |
-|  0.4% | 47.9 KiB |     131 | `loadClass(String)`                      | `java.lang.ClassLoader`             |
-| <0.1% |    248 B |       8 | `InterpreterRuntime::resolve_from_cache` | `libjvm.dylib`                      |
-| <0.1% |    160 B |       6 | `getMethod(String, Class[])`             | `java.lang.Class`                   |
-
-##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite`)
-
-|     % |     Size | Samples | Callee                                   | Location                                    |
-| ----: | -------: | ------: | ---------------------------------------- | ------------------------------------------- |
-| 89.8% |  9.4 MiB |  29,499 | `main(String[])`                         | `org.renaissance.harness.RenaissanceSuite$` |
-| 10.2% | 1.07 MiB |   3,259 | `loadClass(String)`                      | `java.lang.ClassLoader`                     |
-| <0.1% |  2.3 KiB |      34 | `InterpreterRuntime::resolve_from_cache` | `libjvm.dylib`                              |
-
-##### `loadClass(String)` (`java.lang.ClassLoader`)
-
-|     % |  Size | Samples | Callee                 | Location    |
-| ----: | ----: | ------: | ---------------------- | ----------- |
-| <0.1% | 164 B |       5 | `ic_miss_stub`         | `<unknown>` |
-| <0.1% |  32 B |       1 | `resolve_virtual_call` | `<unknown>` |
-
-##### `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`)
-
-|     % |     Size | Samples | Callee                                                                        | Location                                    |
-| ----: | -------: | ------: | ----------------------------------------------------------------------------- | ------------------------------------------- |
-| 31.8% | 2.99 MiB |   6,645 | `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` | `org.renaissance.harness.RenaissanceSuite$` |
-| 20.5% | 1.93 MiB |   6,131 | `<clinit>()`                                                                  | `scala.Predef$`                             |
-| 11.0% | 1.03 MiB |   3,337 | `loadClass(String)`                                                           | `java.lang.ClassLoader`                     |
-| 10.6% | 1022 KiB |   3,663 | `parse(String[])`                                                             | `org.renaissance.harness.ConfigParser`      |
-|  9.8% |  944 KiB |   4,186 | `<init>(Map)`                                                                 | `org.renaissance.harness.ConfigParser`      |
+|     % |     Size | Samples | Callee                      | Location                 |
+| ----: | -------: | ------: | --------------------------- | ------------------------ |
+| 67.3% | 5.61 MiB |     751 | `malloc_hook`               | `libasyncProfiler.dylib` |
+| 32.7% | 2.72 MiB |  21,670 | `JVM_DefineClassWithSource` | `libjvm.dylib`           |
 
 ## Hottest call stacks
 
-Call stacks ranked by native bytes allocated in their leaf frame. `…` stands for frames the entry filter hides.
+Call stacks ranked by native bytes allocated in their leaf frame.
 
-|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 11.3% | 27.5 MiB |     260 | `PhaseIdealLoop::Dominators` (`libjvm.dylib`) ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| 10.9% | 26.6 MiB |     321 | `PhaseIFG::init` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|  9.7% | 23.6 MiB |     222 | `PhaseIdealLoop::Dominators` (`libjvm.dylib`) ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  2.3% | 5.68 MiB |     131 | `PhaseLive::compute` (`libjvm.dylib`) ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  1.3% | 3.08 MiB |      51 | `Matcher::xform` (`libjvm.dylib`) ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|  1.0% | 2.38 MiB |      76 | `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`) ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-|  0.8% | 2.06 MiB |      66 | `Node_Array::grow` (`libjvm.dylib`) ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  0.7% | 1.72 MiB |      37 | `Matcher::find_shared` (`libjvm.dylib`) ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|  0.7% | 1.59 MiB |      51 | `PhaseIdealLoop::build_and_optimize` (`libjvm.dylib`) ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.6% | 1.47 MiB |      47 | `Node_Array::grow` (`libjvm.dylib`) ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.5% | 1.28 MiB |   3,425 | `loadClass(String)` (`java.lang.ClassLoader`) ← … ← `<clinit>()` (`scala.Predef$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  0.4% | 1.04 MiB |   1,589 | `loadClass(String)` (`java.lang.ClassLoader`) ← … ← `<clinit>()` (`scala.Predef$`) ← `run(BenchmarkContext)` (`org.renaissance.jdk.concurrent.FjKmeans`) ← `executeOperation(int)` (`org.renaissance.harness.ExecutionDriver`) ← `executeBenchmark()` ← `runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor)` (`org.renaissance.harness.RenaissanceSuite$`) ← `applyVoid(Object)` (`org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000b80111efe0`) ← … ← `foreach(Function1)` (`scala.collection.immutable.List`) ← `runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])` |
-|  0.4% |  896 KiB |      27 | `Node_Array::grow` (`libjvm.dylib`) ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.3% |  745 KiB |   2,385 | `loadClass(String)` (`java.lang.ClassLoader`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  0.3% |  736 KiB |      22 | `Node_Array::grow` (`libjvm.dylib`) ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-|  0.3% |  727 KiB |   1,122 | `loadClass(String)` (`java.lang.ClassLoader`) ← … ← `apply(Seq)` (`scala.collection.immutable.Map$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite$`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|  0.3% |  672 KiB |      21 | `Matcher::Label_Root` (`libjvm.dylib`) ← `Matcher::Label_Root` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|  0.3% |  640 KiB |      20 | `Node_Array::grow` (`libjvm.dylib`) ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|  0.2% |  504 KiB |   1,292 | `loadClass(String)` (`java.lang.ClassLoader`) ← `main(String[])` (`org.renaissance.harness.RenaissanceSuite`) ← … ← `invoke(Object, Object[])` (`java.lang.reflect.Method`) ← `loadAndInvokeHarnessClass(ModuleLoader, String, String[])` (`org.renaissance.core.Launcher`) ← `launchHarnessClass(String, String[])` ← `main(String[])`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  0.2% |  480 KiB |      12 | `Node_Array::grow` (`libjvm.dylib`) ← `Compile::identify_useful_nodes` ← `PhaseRemoveUseless::PhaseRemoveUseless` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+Common call stack: `Thread::call_run` (`libjvm.dylib`) ← `thread_native_entry` ← `_pthread_start` (`libsystem_pthread.dylib`) ← `thread_start`
+
+|     % |     Size | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----: | -------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 44.4% |  108 MiB |      72 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `G1FullGCMarker::G1FullGCMarker` ← `G1FullCollector::G1FullCollector` ← `G1CollectedHeap::do_full_collection` ← `VM_G1CollectFull::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run`                                                                                                                                                                            |
+| 11.3% | 27.5 MiB |     260 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                   |
+| 10.9% | 26.6 MiB |     321 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIFG::init` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                                                                  |
+|  9.7% | 23.6 MiB |     222 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseIdealLoop::Dominators` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                       |
+|  2.3% | 5.68 MiB |     131 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `PhaseLive::compute` ← `PhaseChaitin::Register_Allocate` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                                                              |
+|  1.3% | 3.08 MiB |      51 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                                                                                   |
+|  0.9% | 2.16 MiB |      69 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                             |
+|  0.8% | 2.06 MiB |      66 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                         |
+|  0.7% | 1.69 MiB |      36 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::find_shared` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                                                                             |
+|  0.6% |  1.5 MiB |      48 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner` |
+|  0.6% | 1.47 MiB |      47 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseIdealLoop::build_and_optimize` ← `PhaseIdealLoop::PhaseIdealLoop` ← `PhaseIdealLoop::optimize` ← `Compile::optimize_loops` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                             |
+|  0.6% | 1.47 MiB |     450 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `G1RemSetScanState::prepare` ← `G1YoungCollector::pre_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run`                                                 |
+|  0.4% |  896 KiB |      27 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                                                             |
+|  0.3% |  812 KiB |   1,864 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `G1ParScanThreadState::G1ParScanThreadState` ← `G1ParScanThreadStateSet::state_for_worker` ← `G1EvacuateRegionsBaseTask::work` ← `WorkerThread::run`                                                                                                                                                                                                                                                                          |
+|  0.3% |  736 KiB |      22 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `Matcher::ReduceInst` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                          |
+|  0.3% |  672 KiB |      21 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Matcher::Label_Root` ← `Matcher::Label_Root` ← `Matcher::match_tree` ← `Matcher::xform` ← `Matcher::match` ← `Compile::Code_Gen` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                           |
+|  0.3% |  640 KiB |      20 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `Chunk::operator new` ← `Arena::grow` ← `Arena::Arealloc` ← `Node_Array::grow` ← `PhaseCCP::transform` ← `PhaseCCP::do_transform` ← `Compile::Optimize` ← `Compile::Compile` ← `C2Compiler::compile_method` ← `CompileBroker::invoke_compiler_on_method` ← `CompileBroker::compiler_thread_loop` ← `JavaThread::thread_main_inner`                                                                                                             |
+|  0.2% |  600 KiB |      75 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `G1EvacFailureRegions::pre_collection` ← `G1YoungCollector::pre_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run`                                       |
+|  0.2% |  600 KiB |      75 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `HeapRegionClaimer::HeapRegionClaimer` ← `G1YoungCollector::pre_evacuate_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run`                                       |
+|  0.2% |  600 KiB |      75 | `malloc_hook` (`libasyncProfiler.dylib`) ← `os::malloc` (`libjvm.dylib`) ← `AllocateHeap` ← `HeapRegionClaimer::HeapRegionClaimer` ← `G1RemSet::merge_heap_roots` ← `G1YoungCollector::evacuate_initial_collection_set` ← `G1YoungCollector::collect` ← `G1CollectedHeap::do_collection_pause_at_safepoint_helper` ← `G1CollectedHeap::do_collection_pause_at_safepoint` ← `VM_G1CollectForAllocation::doit` ← `VM_Operation::evaluate` ← `VMThread::evaluate_operation` ← `VMThread::inner_execute` ← `VMThread::run`    |

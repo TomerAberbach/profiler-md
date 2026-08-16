@@ -94,6 +94,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |     % |    Time | Samples | Function                          | Location    |
 | ----: | ------: | ------: | --------------------------------- | ----------- |
 |  2.3% | 275.0ms |     275 | `unknown (libc.so.6)`             | `<unknown>` |
+| <0.1% |   3.0ms |       3 | `unknown (ld-linux-x86-64.so.2)`  | `<unknown>` |
 | <0.1% |   1.0ms |       1 | `fstatat (libc.so.6)`             | `<unknown>` |
 | <0.1% |   1.0ms |       1 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
 
@@ -492,6 +493,12 @@ Callers ranked by contribution to each function's self time. Inlining can make c
 | -----: | ----: | ------: | ------------------------------------ | ----------- |
 | 100.0% | 3.0ms |       3 | `folio_add_new_anon_rmap ([kernel])` | `<unknown>` |
 
+##### `unknown (ld-linux-x86-64.so.2)` (`<unknown>`)
+
+|      % |  Time | Samples | Caller                           | Location    |
+| -----: | ----: | ------: | -------------------------------- | ----------- |
+| 100.0% | 3.0ms |       3 | `unknown (ld-linux-x86-64.so.2)` | `<unknown>` |
+
 ##### `FSE_compress_usingCTable_generic` (`fse_compress.c`)
 
 |      % |  Time | Samples | Caller                 | Location         |
@@ -609,17 +616,28 @@ Functions ranked by total time spent in the function and all its callees.
 
 ##### Native
 
-|     % |   Time | Samples | Function                          | Location    |
-| ----: | -----: | ------: | --------------------------------- | ----------- |
-| 99.8% | 12.05s |  12,050 | `unknown (libc.so.6)`             | `<unknown>` |
-|  0.5% | 55.0ms |      55 | `fread (libc.so.6)`               | `<unknown>` |
-| <0.1% |  6.0ms |       6 | `malloc (libc.so.6)`              | `<unknown>` |
-| <0.1% |  6.0ms |       6 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
-| <0.1% |  4.0ms |       4 | `pthread_create (libc.so.6)`      | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `fstatat (libc.so.6)`             | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `__libc_calloc (libc.so.6)`       | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `0x20000`                         | `<unknown>` |
-| <0.1% |  1.0ms |       1 | `pthread_cond_wait (libc.so.6)`   | `<unknown>` |
+|     % |    Time | Samples | Function                                     | Location    |
+| ----: | ------: | ------: | -------------------------------------------- | ----------- |
+| 99.8% |  12.05s |  12,050 | `unknown (libc.so.6)`                        | `<unknown>` |
+|  1.2% | 143.0ms |     143 | `_start (zstd)`                              | `<unknown>` |
+|  1.2% | 142.0ms |     142 | `__libc_start_main (libc.so.6)`              | `<unknown>` |
+|  0.5% |  55.0ms |      55 | `fread (libc.so.6)`                          | `<unknown>` |
+|  0.4% |  54.0ms |      54 | `read (libc.so.6)`                           | `<unknown>` |
+|  0.2% |  21.0ms |      21 | `unknown (ld-linux-x86-64.so.2)`             | `<unknown>` |
+|  0.1% |  14.0ms |      14 | `_dl_catch_exception (ld-linux-x86-64.so.2)` | `<unknown>` |
+| <0.1% |   6.0ms |       6 | `0x7fe83ce32f3b`                             | `<unknown>` |
+| <0.1% |   6.0ms |       6 | `malloc (libc.so.6)`                         | `<unknown>` |
+| <0.1% |   6.0ms |       6 | `pthread_cond_signal (libc.so.6)`            | `<unknown>` |
+| <0.1% |   5.0ms |       5 | `__mmap (libc.so.6)`                         | `<unknown>` |
+| <0.1% |   4.0ms |       4 | `pthread_create (libc.so.6)`                 | `<unknown>` |
+| <0.1% |   2.0ms |       2 | `0x7fe83ce5fa91`                             | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `GLIBC_PRIVATE (libc.so.6)`                  | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `__libc_early_init (libc.so.6)`              | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `fstatat (libc.so.6)`                        | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `__libc_calloc (libc.so.6)`                  | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `__mprotect (libc.so.6)`                     | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `0x20000`                                    | `<unknown>` |
+| <0.1% |   1.0ms |       1 | `_IO_file_doallocate (libc.so.6)`            | `<unknown>` |
 
 #### Callees
 
@@ -627,13 +645,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 
 ##### `unknown (libc.so.6)` (`<unknown>`)
 
-|     % |    Time | Samples | Callee                                      | Location    |
-| ----: | ------: | ------: | ------------------------------------------- | ----------- |
-| 98.9% |  11.91s |  11,912 | `unknown (libc.so.6)`                       | `<unknown>` |
-| 98.8% |  11.90s |  11,906 | `POOL_thread`                               | `pool.c`    |
-|  6.8% | 814.0ms |     814 | `asm_exc_page_fault ([kernel])`             | `<unknown>` |
-|  1.2% | 141.0ms |     141 | `main`                                      | `zstdcli.c` |
-| <0.1% |   2.0ms |       2 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+|     % |    Time | Samples | Callee                          | Location    |
+| ----: | ------: | ------: | ------------------------------- | ----------- |
+| 98.9% |  11.91s |  11,912 | `unknown (libc.so.6)`           | `<unknown>` |
+| 98.8% |  11.90s |  11,906 | `POOL_thread`                   | `pool.c`    |
+|  6.8% | 814.0ms |     814 | `asm_exc_page_fault ([kernel])` | `<unknown>` |
+|  1.2% | 141.0ms |     141 | `main`                          | `zstdcli.c` |
+|  0.4% |  54.0ms |      54 | `read (libc.so.6)`              | `<unknown>` |
 
 ##### `POOL_thread` (`pool.c`)
 
@@ -786,6 +804,19 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |  1.8% |   4.0ms |       4 | `ZSTD_rawLiteralsCost`          | `zstd_opt.c` |
 |  0.4% |   1.0ms |       1 | `ZSTD_updateStats`              | `zstd_opt.c` |
 
+##### `_start (zstd)` (`<unknown>`)
+
+|     % |    Time | Samples | Callee                          | Location    |
+| ----: | ------: | ------: | ------------------------------- | ----------- |
+| 99.3% | 142.0ms |     142 | `__libc_start_main (libc.so.6)` | `<unknown>` |
+|  0.7% |   1.0ms |       1 | `asm_exc_page_fault ([kernel])` | `<unknown>` |
+
+##### `__libc_start_main (libc.so.6)` (`<unknown>`)
+
+|      % |    Time | Samples | Callee                | Location    |
+| -----: | ------: | ------: | --------------------- | ----------- |
+| 100.0% | 142.0ms |     142 | `unknown (libc.so.6)` | `<unknown>` |
+
 ##### `FIO_compressFilename` (`fileio.c`)
 
 |     % |    Time | Samples | Callee                         | Location   |
@@ -855,6 +886,13 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | -----: | ------: | --------------------- | ----------- |
 | 100.0% | 55.0ms |      55 | `unknown (libc.so.6)` | `<unknown>` |
 
+##### `read (libc.so.6)` (`<unknown>`)
+
+|     % |   Time | Samples | Callee                                       | Location    |
+| ----: | -----: | ------: | -------------------------------------------- | ----------- |
+| 98.1% | 53.0ms |      53 | `entry_SYSCALL_64_after_hwframe ([kernel])`  | `<unknown>` |
+|  1.9% |  1.0ms |       1 | `asm_sysvec_apic_timer_interrupt ([kernel])` | `<unknown>` |
+
 ##### `folio_add_new_anon_rmap ([kernel])` (`<unknown>`)
 
 |     % |  Time | Samples | Callee                        | Location    |
@@ -881,6 +919,16 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | 22.7% | 5.0ms |       5 | `mas_walk ([kernel])`                        | `<unknown>` |
 |  4.5% | 1.0ms |       1 | `asm_sysvec_apic_timer_interrupt ([kernel])` | `<unknown>` |
 
+##### `unknown (ld-linux-x86-64.so.2)` (`<unknown>`)
+
+|      % |   Time | Samples | Callee                                       | Location    |
+| -----: | -----: | ------: | -------------------------------------------- | ----------- |
+| 100.0% | 21.0ms |      21 | `unknown (ld-linux-x86-64.so.2)`             | `<unknown>` |
+|  66.7% | 14.0ms |      14 | `_dl_catch_exception (ld-linux-x86-64.so.2)` | `<unknown>` |
+|  42.9% |  9.0ms |       9 | `asm_exc_page_fault ([kernel])`              | `<unknown>` |
+|  33.3% |  7.0ms |       7 | `entry_SYSCALL_64_after_hwframe ([kernel])`  | `<unknown>` |
+|   4.8% |  1.0ms |       1 | `asm_sysvec_apic_timer_interrupt ([kernel])` | `<unknown>` |
+
 ##### `copy_page_to_iter ([kernel])` (`<unknown>`)
 
 |     % |   Time | Samples | Callee                     | Location    |
@@ -892,6 +940,18 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 |     % |   Time | Samples | Callee                          | Location    |
 | ----: | -----: | ------: | ------------------------------- | ----------- |
 | 82.4% | 14.0ms |      14 | `asm_exc_page_fault ([kernel])` | `<unknown>` |
+
+##### `_dl_catch_exception (ld-linux-x86-64.so.2)` (`<unknown>`)
+
+|      % |   Time | Samples | Callee                           | Location    |
+| -----: | -----: | ------: | -------------------------------- | ----------- |
+| 100.0% | 14.0ms |      14 | `unknown (ld-linux-x86-64.so.2)` | `<unknown>` |
+
+##### `0x7fe83ce32f3b` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                                      | Location    |
+| -----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% | 6.0ms |       6 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
 
 ##### `malloc (libc.so.6)` (`<unknown>`)
 
@@ -905,12 +965,37 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | ----: | ----: | ------: | ------------------------------------------- | ----------- |
 | 83.3% | 5.0ms |       5 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
 
+##### `__mmap (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                                      | Location    |
+| -----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% | 5.0ms |       5 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+
 ##### `pthread_create (libc.so.6)` (`<unknown>`)
 
 |     % |  Time | Samples | Callee                                      | Location    |
 | ----: | ----: | ------: | ------------------------------------------- | ----------- |
 | 50.0% | 2.0ms |       2 | `unknown (libc.so.6)`                       | `<unknown>` |
 | 25.0% | 1.0ms |       1 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+| 25.0% | 1.0ms |       1 | `__mmap (libc.so.6)`                        | `<unknown>` |
+
+##### `0x7fe83ce5fa91` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                                      | Location    |
+| -----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% | 2.0ms |       2 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+
+##### `GLIBC_PRIVATE (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                          | Location    |
+| -----: | ----: | ------: | ------------------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `asm_exc_page_fault ([kernel])` | `<unknown>` |
+
+##### `__libc_early_init (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                      | Location    |
+| -----: | ----: | ------: | --------------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `GLIBC_PRIVATE (libc.so.6)` | `<unknown>` |
 
 ##### `__libc_calloc (libc.so.6)` (`<unknown>`)
 
@@ -918,46 +1003,50 @@ Callees ranked by contribution to each function's total time. Inlining can make 
 | -----: | ----: | ------: | --------------------- | ----------- |
 | 100.0% | 1.0ms |       1 | `unknown (libc.so.6)` | `<unknown>` |
 
+##### `__mprotect (libc.so.6)` (`<unknown>`)
+
+|      % |  Time | Samples | Callee                                      | Location    |
+| -----: | ----: | ------: | ------------------------------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+
 ##### `0x20000` (`<unknown>`)
 
 |      % |  Time | Samples | Callee                       | Location    |
 | -----: | ----: | ------: | ---------------------------- | ----------- |
 | 100.0% | 1.0ms |       1 | `pthread_create (libc.so.6)` | `<unknown>` |
 
-##### `pthread_cond_wait (libc.so.6)` (`<unknown>`)
+##### `_IO_file_doallocate (libc.so.6)` (`<unknown>`)
 
-|      % |  Time | Samples | Callee                | Location    |
-| -----: | ----: | ------: | --------------------- | ----------- |
-| 100.0% | 1.0ms |       1 | `unknown (libc.so.6)` | `<unknown>` |
+|      % |  Time | Samples | Callee               | Location    |
+| -----: | ----: | ------: | -------------------- | ----------- |
+| 100.0% | 1.0ms |       1 | `malloc (libc.so.6)` | `<unknown>` |
 
 ## Hottest call stacks
 
-Call stacks ranked by time spent in their leaf frame. `…` stands for frames the entry filter hides.
+Call stacks ranked by time spent in their leaf frame.
 
-Common call stack: `unknown (libc.so.6)`
-
-|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 63.9% |   7.71s |   7,716 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                             |
-| 16.5% |   1.99s |   1,998 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                               |
-|  2.5% | 299.0ms |     299 | `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                         |
-|  2.1% | 259.0ms |     259 | `ZSTD_litLengthPrice` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                   |
-|  1.9% | 233.0ms |     233 | `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                        |
-|  1.6% | 198.0ms |     198 | `alloc_pages_mpol_noprof ([kernel])` ← `folio_alloc_mpol_noprof ([kernel])` ← `vma_alloc_folio_noprof ([kernel])` ← `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` |
-|  1.0% | 126.0ms |     126 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                             |
-|  1.0% | 117.0ms |     117 | `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                     |
-|  0.9% | 113.0ms |     113 | `ZSTD_rawLiteralsCost` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                  |
-|  0.8% |  93.0ms |      93 | `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                     |
-|  0.7% |  82.0ms |      82 | `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                      |
-|  0.6% |  67.0ms |      67 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                         |
-|  0.5% |  64.0ms |      64 | `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                        |
-|  0.5% |  64.0ms |      64 | `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                      |
-|  0.5% |  58.0ms |      58 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                               |
-|  0.4% |  48.0ms |      48 | `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                       |
-|  0.3% |  40.0ms |      40 | `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                                                                                                                                                                                                                                                                                                                                                                                                         |
-|  0.2% |  30.0ms |      30 | `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                      |
-|  0.2% |  25.0ms |      25 | `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← … ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                      |
-|  0.2% |  24.0ms |      24 | `alloc_pages_mpol_noprof ([kernel])` ← `folio_alloc_mpol_noprof ([kernel])` ← `vma_alloc_folio_noprof ([kernel])` ← `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                                                                                  |
+|     % |    Time | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----: | ------: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 63.9% |   7.71s |   7,716 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                             |
+| 16.5% |   1.99s |   1,998 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                               |
+|  2.5% | 299.0ms |     299 | `ZSTD_insertAndFindFirstIndexHash3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                         |
+|  2.1% | 259.0ms |     259 | `ZSTD_litLengthPrice` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                   |
+|  1.9% | 233.0ms |     233 | `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                        |
+|  1.6% | 198.0ms |     198 | `alloc_pages_mpol_noprof ([kernel])` ← `folio_alloc_mpol_noprof ([kernel])` ← `vma_alloc_folio_noprof ([kernel])` ← `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)` |
+|  1.0% | 126.0ms |     126 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_compressBlock_opt2` ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                             |
+|  1.0% | 117.0ms |     117 | `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                     |
+|  0.9% | 113.0ms |     113 | `ZSTD_rawLiteralsCost` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                                  |
+|  0.8% |  93.0ms |      93 | `ZSTD_optLdm_processMatchCandidate` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                     |
+|  0.7% |  82.0ms |      82 | `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                      |
+|  0.6% |  67.0ms |      67 | `ZSTD_btGetAllMatches_noDict_3` (`zstd_opt.c`) ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                                         |
+|  0.5% |  64.0ms |      64 | `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                        |
+|  0.5% |  64.0ms |      64 | `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                      |
+|  0.5% |  58.0ms |      58 | `ZSTD_compressBlock_opt2` (`zstd_opt.c`) ← `ZSTD_compressBlock_btultra2` ← `ZSTD_buildSeqStore` (`zstd_compress.c`) ← `ZSTD_compressContinue_internal` ← `ZSTD_compressContinue_public` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                               |
+|  0.4% |  48.0ms |      48 | `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                       |
+|  0.3% |  40.0ms |      40 | `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                                                                                                                                                                                                                                                                                                                                     |
+|  0.2% |  30.0ms |      30 | `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_resetCCtx_internal` (`zstd_compress.c`) ← `ZSTD_compressBegin_internal` ← `ZSTD_compressBegin_advanced_internal` ← `ZSTDMT_compressionJob` (`zstdmt_compress.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                                      |
+|  0.2% |  25.0ms |      25 | `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                                                                                     |
+|  0.2% |  24.0ms |      24 | `alloc_pages_mpol_noprof ([kernel])` ← `folio_alloc_mpol_noprof ([kernel])` ← `vma_alloc_folio_noprof ([kernel])` ← `do_anonymous_page ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (libc.so.6)` ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                              |
 
 # Uninterruptible sleep profile
 
@@ -994,6 +1083,29 @@ Callers ranked by contribution to each function's self sleeps. Inlining can make
 ### Total sleeps
 
 Functions ranked by total uninterruptible sleeps entered in the function and all its callees.
+
+|      % | Sleeps | Function                                       | Location    |
+| -----: | -----: | ---------------------------------------------- | ----------- |
+| 100.0% |     71 | `bpf_trace_run4 ([kernel])`                    | `<unknown>` |
+| 100.0% |     71 | `__schedule ([kernel])`                        | `<unknown>` |
+| 100.0% |     71 | `schedule ([kernel])`                          | `<unknown>` |
+|  87.3% |     62 | `do_syscall_64 ([kernel])`                     | `<unknown>` |
+|  87.3% |     62 | `entry_SYSCALL_64_after_hwframe ([kernel])`    | `<unknown>` |
+|  78.9% |     56 | `p9_client_rpc ([kernel])`                     | `<unknown>` |
+|  71.8% |     51 | `unknown (ld-linux-x86-64.so.2)`               | `<unknown>` |
+|  67.6% |     48 | `_dl_catch_exception (ld-linux-x86-64.so.2)`   | `<unknown>` |
+|  59.2% |     42 | `path_openat ([kernel])`                       | `<unknown>` |
+|  59.2% |     42 | `do_filp_open ([kernel])`                      | `<unknown>` |
+|  42.3% |     30 | `do_sys_openat2 ([kernel])`                    | `<unknown>` |
+|  42.3% |     30 | `__x64_sys_openat ([kernel])`                  | `<unknown>` |
+|  25.4% |     18 | `v9fs_vfs_lookup ([kernel])`                   | `<unknown>` |
+|  25.4% |     18 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
+|  22.5% |     16 | `p9_client_read_once ([kernel])`               | `<unknown>` |
+|  22.5% |     16 | `p9_client_read ([kernel])`                    | `<unknown>` |
+|  22.5% |     16 | `v9fs_issue_read ([kernel])`                   | `<unknown>` |
+|  21.1% |     15 | `walk_component ([kernel])`                    | `<unknown>` |
+|  19.7% |     14 | `p9_client_walk ([kernel])`                    | `<unknown>` |
+|  19.7% |     14 | `load_elf_binary ([kernel])`                   | `<unknown>` |
 
 #### Categories
 
@@ -1059,6 +1171,21 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 |      % | Sleeps | Callee                | Location    |
 | -----: | -----: | --------------------- | ----------- |
 | 100.0% |     56 | `schedule ([kernel])` | `<unknown>` |
+
+##### `unknown (ld-linux-x86-64.so.2)` (`<unknown>`)
+
+|      % | Sleeps | Callee                                       | Location    |
+| -----: | -----: | -------------------------------------------- | ----------- |
+| 100.0% |     51 | `unknown (ld-linux-x86-64.so.2)`             | `<unknown>` |
+|  94.1% |     48 | `_dl_catch_exception (ld-linux-x86-64.so.2)` | `<unknown>` |
+|  82.4% |     42 | `entry_SYSCALL_64_after_hwframe ([kernel])`  | `<unknown>` |
+|  17.6% |      9 | `asm_exc_page_fault ([kernel])`              | `<unknown>` |
+
+##### `_dl_catch_exception (ld-linux-x86-64.so.2)` (`<unknown>`)
+
+|      % | Sleeps | Callee                           | Location    |
+| -----: | -----: | -------------------------------- | ----------- |
+| 100.0% |     48 | `unknown (ld-linux-x86-64.so.2)` | `<unknown>` |
 
 ##### `path_openat ([kernel])` (`<unknown>`)
 
@@ -1156,30 +1283,30 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 
 ## Hottest call stacks
 
-Call stacks ranked by uninterruptible sleeps entered in their leaf frame. `…` stands for frames the entry filter hides.
+Call stacks ranked by uninterruptible sleeps entered in their leaf frame.
 
-|     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----: | -----: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 12.7% |      9 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_virtio_zc_request ([kernel])` ← `p9_client_zc_rpc.constprop.0 ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_read_to_pagecache ([kernel])` ← `netfs_read_folio ([kernel])` ← `filemap_read_folio ([kernel])` ← `filemap_fault ([kernel])` ← `__do_fault ([kernel])` ← `do_fault ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])`                                                        |
-|  5.6% |      4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_vfs_getattr_dotl ([kernel])` ← `vfs_fstat ([kernel])` ← `__do_sys_newfstat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                                                                                                     |
-|  5.6% |      4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                   |
-|  5.6% |      4 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_open ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                   |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                            |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                            |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                   |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                            |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                             |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                             |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                              |
-|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `_copy_to_iter ([kernel])` ← `copy_page_to_iter ([kernel])` ← `shmem_file_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← … ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                                                    |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                           |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                       |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                       |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                      |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `__x64_sys_pread64 ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                                                                                                                                                                      |
-|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_write_slowpath ([kernel])` ← `down_write_killable ([kernel])` ← `do_mprotect_pkey ([kernel])` ← `__x64_sys_mprotect ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `__mprotect (libc.so.6)` ← `POOL_create_advanced` (`pool.c`) ← `ZSTDMT_createCCtx_advanced` (`zstdmt_compress.c`) ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                              |
-|  1.4% |      1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])`                                                                                              |
+|     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----: | -----: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 12.7% |      9 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_virtio_zc_request ([kernel])` ← `p9_client_zc_rpc.constprop.0 ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_read_to_pagecache ([kernel])` ← `netfs_read_folio ([kernel])` ← `filemap_read_folio ([kernel])` ← `filemap_fault ([kernel])` ← `__do_fault ([kernel])` ← `do_fault ([kernel])` ← `__handle_mm_fault ([kernel])` ← `handle_mm_fault ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                  |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                  |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                         |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                  |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                         |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_open ([kernel])` ← `v9fs_file_open ([kernel])` ← `do_dentry_open ([kernel])` ← `vfs_open ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                         |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                                                       |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_vfs_getattr_dotl ([kernel])` ← `vfs_fstat ([kernel])` ← `__do_sys_newfstat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                                                                                                                                                              |
+|  4.2% |      3 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_read_slowpath ([kernel])` ← `down_read_killable ([kernel])` ← `lock_mm_and_find_vma ([kernel])` ← `do_user_addr_fault ([kernel])` ← `exc_page_fault ([kernel])` ← `asm_exc_page_fault ([kernel])` ← `_copy_to_iter ([kernel])` ← `copy_page_to_iter ([kernel])` ← `shmem_file_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `ksys_read ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `read (libc.so.6)` ← `unknown (libc.so.6)` ← `fread (libc.so.6)` ← `AIO_ReadPool_executeReadJob` (`fileio_asyncio.c`) ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                        |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                   |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `v9fs_vfs_atomic_open_dotl ([kernel])` ← `lookup_open.isra.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                   |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_readlink ([kernel])` ← `v9fs_vfs_get_link_dotl ([kernel])` ← `step_into ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                                          |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_sys_openat2 ([kernel])` ← `__x64_sys_openat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                 |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_walk ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `0x7fe83ce32f3b`                                                                                                                                                                                                                                                                                                                                    |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_inode_from_fid_dotl ([kernel])` ← `v9fs_vfs_lookup ([kernel])` ← `__lookup_slow ([kernel])` ← `walk_component ([kernel])` ← `link_path_walk.part.0.constprop.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `0x7fe83ce32f3b`                                                                                                                                                                                                                                                                                    |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_clunk ([kernel])` ← `v9fs_dentry_release ([kernel])` ← `__dentry_kill ([kernel])` ← `dput.part.0 ([kernel])` ← `path_openat ([kernel])` ← `do_filp_open ([kernel])` ← `do_open_execat ([kernel])` ← `open_exec ([kernel])` ← `load_elf_binary ([kernel])` ← `bprm_execve ([kernel])` ← `do_execveat_common ([kernel])` ← `__x64_sys_execve ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `0x7fe83ce32f3b`                                                                                                                                                                                                                                                                                                                                                                                   |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_read_once ([kernel])` ← `p9_client_read ([kernel])` ← `v9fs_issue_read ([kernel])` ← `netfs_unbuffered_read_iter_locked ([kernel])` ← `netfs_unbuffered_read_iter ([kernel])` ← `vfs_read ([kernel])` ← `__x64_sys_pread64 ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                                               |
+|  2.8% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `schedule_preempt_disabled ([kernel])` ← `rwsem_down_write_slowpath ([kernel])` ← `down_write_killable ([kernel])` ← `do_mprotect_pkey ([kernel])` ← `__x64_sys_mprotect ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `__mprotect (libc.so.6)` ← `POOL_create_advanced` (`pool.c`) ← `ZSTDMT_createCCtx_advanced` (`zstdmt_compress.c`) ← `ZSTD_CCtx_init_compressStream2` (`zstd_compress.c`) ← `ZSTD_compressStream2` ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                                                                                                                                                                                                                  |
+|  1.4% |      1 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `p9_client_rpc ([kernel])` ← `p9_client_getattr_dotl ([kernel])` ← `v9fs_vfs_getattr_dotl ([kernel])` ← `vfs_fstat ([kernel])` ← `__do_sys_newfstat ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `_dl_catch_exception (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)` ← `unknown (ld-linux-x86-64.so.2)`                                                                                                                                                                                                                                                           |
 
 # Interruptible sleep profile
 
@@ -1229,15 +1356,16 @@ Functions ranked by total interruptible sleeps entered in the function and all i
 | 100.0% |     87 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
 | 100.0% |     87 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
 | 100.0% |     87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
+| 100.0% |     87 | `unknown (libc.so.6)`                       | `<unknown>`         |
 | 100.0% |     87 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
 |  89.7% |     78 | `POOL_thread`                               | `pool.c`            |
 |  10.3% |      9 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
 |  10.3% |      9 | `FIO_compressFilename`                      | `fileio.c`          |
 |  10.3% |      9 | `main`                                      | `zstdcli.c`         |
+|  10.3% |      9 | `__libc_start_main (libc.so.6)`             | `<unknown>`         |
+|  10.3% |      9 | `_start (zstd)`                             | `<unknown>`         |
 |   8.0% |      7 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
 |   8.0% |      7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
-|   2.3% |      2 | `POOL_add`                                  | `pool.c`            |
-|   2.3% |      2 | `AIO_ReadPool_setFile`                      | `fileio_asyncio.c`  |
 
 #### Categories
 
@@ -1314,6 +1442,21 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 | -----: | -----: | -------------------------- | ----------- |
 | 100.0% |     87 | `do_syscall_64 ([kernel])` | `<unknown>` |
 
+##### `unknown (libc.so.6)` (`<unknown>`)
+
+|      % | Sleeps | Callee                                      | Location    |
+| -----: | -----: | ------------------------------------------- | ----------- |
+| 100.0% |     87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+|  89.7% |     78 | `POOL_thread`                               | `pool.c`    |
+|  89.7% |     78 | `unknown (libc.so.6)`                       | `<unknown>` |
+|  10.3% |      9 | `main`                                      | `zstdcli.c` |
+
+##### `pthread_cond_wait (libc.so.6)` (`<unknown>`)
+
+|      % | Sleeps | Callee                | Location    |
+| -----: | -----: | --------------------- | ----------- |
+| 100.0% |     87 | `unknown (libc.so.6)` | `<unknown>` |
+
 ##### `POOL_thread` (`pool.c`)
 
 |      % | Sleeps | Callee                          | Location    |
@@ -1339,6 +1482,18 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 | -----: | -----: | ---------------------- | ---------- |
 | 100.0% |      9 | `FIO_compressFilename` | `fileio.c` |
 
+##### `__libc_start_main (libc.so.6)` (`<unknown>`)
+
+|      % | Sleeps | Callee                | Location    |
+| -----: | -----: | --------------------- | ----------- |
+| 100.0% |      9 | `unknown (libc.so.6)` | `<unknown>` |
+
+##### `_start (zstd)` (`<unknown>`)
+
+|      % | Sleeps | Callee                          | Location    |
+| -----: | -----: | ------------------------------- | ----------- |
+| 100.0% |      9 | `__libc_start_main (libc.so.6)` | `<unknown>` |
+
 ##### `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`)
 
 |      % | Sleeps | Callee                          | Location    |
@@ -1351,24 +1506,12 @@ Callees ranked by contribution to each function's total sleeps. Inlining can mak
 | -----: | -----: | ------------------------------- | ------------------- |
 | 100.0% |      7 | `ZSTDMT_compressStream_generic` | `zstdmt_compress.c` |
 
-##### `POOL_add` (`pool.c`)
-
-|      % | Sleeps | Callee                          | Location    |
-| -----: | -----: | ------------------------------- | ----------- |
-| 100.0% |      2 | `pthread_cond_wait (libc.so.6)` | `<unknown>` |
-
-##### `AIO_ReadPool_setFile` (`fileio_asyncio.c`)
-
-|      % | Sleeps | Callee     | Location |
-| -----: | -----: | ---------- | -------- |
-| 100.0% |      2 | `POOL_add` | `pool.c` |
-
 ## Hottest call stacks
 
-Call stacks ranked by interruptible sleeps entered in their leaf frame. `…` stands for frames the entry filter hides.
+Call stacks ranked by interruptible sleeps entered in their leaf frame.
 
-|     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| ----: | -----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 89.7% |     78 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← … ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`)                                                                                                                                                                         |
-|  8.0% |      7 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← … ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) |
-|  2.3% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← … ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_setFile` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`)                                |
+|     % | Sleeps | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----: | -----: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 89.7% |     78 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_thread` (`pool.c`) ← `unknown (libc.so.6)` ← `unknown (libc.so.6)`                                                                                                                                                                                                     |
+|  8.0% |      7 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `ZSTDMT_compressStream_generic` (`zstdmt_compress.c`) ← `ZSTD_compressStream2` (`zstd_compress.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)` |
+|  2.3% |      2 | `bpf_trace_run4 ([kernel])` ← `__schedule ([kernel])` ← `schedule ([kernel])` ← `futex_wait_queue ([kernel])` ← `__futex_wait ([kernel])` ← `futex_wait ([kernel])` ← `do_futex ([kernel])` ← `__x64_sys_futex ([kernel])` ← `do_syscall_64 ([kernel])` ← `entry_SYSCALL_64_after_hwframe ([kernel])` ← `unknown (libc.so.6)` ← `pthread_cond_wait (libc.so.6)` ← `POOL_add` (`pool.c`) ← `AIO_ReadPool_setFile` (`fileio_asyncio.c`) ← `FIO_compressFilename_srcFile` (`fileio.c`) ← `FIO_compressFilename` ← `main` (`zstdcli.c`) ← `unknown (libc.so.6)` ← `__libc_start_main (libc.so.6)` ← `_start (zstd)`                                |

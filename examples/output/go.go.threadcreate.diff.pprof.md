@@ -6,8 +6,6 @@ Recorded 13 thread creations.
 | -------- | -----: | ----: | -----: | ---------------: |
 | Unknown  |   0.0% |     0 | 100.0% |               13 |
 
-The entry filter hides every recorded function, so all functions are shown.
-
 ## Hottest functions
 
 ### Self thread creations

@@ -16,4 +16,12 @@ No function differed in wall time spent directly in the function body, excluding
 
 ### Total time
 
-No function differed in total wall time spent in the function and all its callees.
+#### Improvements
+
+Functions with the largest decrease in total wall time spent in the function and all its callees.
+
+##### Standard library
+
+| Change |   Delta |     % |  Time | Function                | Location |
+| -----: | ------: | ----: | ----: | ----------------------- | -------- |
+|  -0.1% | -2.00µs | 10.3% | 2.0ms | `escape_binary_ascii/5` | `json`   |

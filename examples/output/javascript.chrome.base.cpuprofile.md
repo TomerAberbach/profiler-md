@@ -19,6 +19,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 |     % |    Time | Samples | Function                       | Location             |
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
 | 48.1% | 200.0ms |     137 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.7% |  69.6ms |      46 | `(program)`                    | `<unknown>`          |
 | 11.0% |  45.9ms |      31 | `createElement`                | `<unknown>`          |
 | 10.7% |  44.7ms |      30 | `RegExp: \s+`                  | `<unknown>`          |
 |  5.0% |  20.9ms |      14 | `(garbage collector)`          | `<unknown>`          |
@@ -42,6 +43,7 @@ Functions ranked by time spent directly in the function body, excluding callees.
 
 |     % |   Time | Samples | Function        | Location    |
 | ----: | -----: | ------: | --------------- | ----------- |
+| 16.7% | 69.6ms |      46 | `(program)`     | `<unknown>` |
 | 11.0% | 45.9ms |      31 | `createElement` | `<unknown>` |
 
 ##### Regular expression
@@ -144,6 +146,7 @@ Functions ranked by total time spent in the function and all its callees.
 | ----: | ------: | ------: | ------------------------------ | -------------------- |
 | 76.0% | 316.1ms |     215 | `(anonymous)`                  | `run.mjs:1:1`        |
 | 73.9% | 307.0ms |     209 | `globalThis.buildAndRetainDom` | `workload.mjs:1:32`  |
+| 16.7% |  69.6ms |      46 | `(program)`                    | `<unknown>`          |
 | 14.7% |  61.1ms |      41 | `scoreStatus`                  | `workload.mjs:11:23` |
 | 14.3% |  59.6ms |      40 | `tokenize`                     | `workload.mjs:10:20` |
 | 11.0% |  45.9ms |      31 | `createElement`                | `<unknown>`          |
@@ -166,6 +169,7 @@ Functions ranked by total time spent in the function and all its callees.
 
 |     % |   Time | Samples | Function        | Location    |
 | ----: | -----: | ------: | --------------- | ----------- |
+| 16.7% | 69.6ms |      46 | `(program)`     | `<unknown>` |
 | 11.0% | 45.9ms |      31 | `createElement` | `<unknown>` |
 
 ##### Regular expression

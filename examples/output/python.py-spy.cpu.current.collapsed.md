@@ -14,6 +14,29 @@ Collected 196 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
+|     % | Samples | Function                                           | Location                     |
+| ----: | ------: | -------------------------------------------------- | ---------------------------- |
+| 10.7% |      21 | `_addtoken`                                        | `blib2to3/pgen2/parse.py`    |
+|  7.7% |      15 | `__init__`                                         | `blib2to3/pytree.py`         |
+|  7.1% |      14 | `visit_default`                                    | `black/linegen.py`           |
+|  6.6% |      13 | `parse`                                            | `ast.py`                     |
+|  5.6% |      11 | `generate_tokens`                                  | `blib2to3/pgen2/tokenize.py` |
+|  4.6% |       9 | `__str__`                                          | `black/lines.py`             |
+|  4.6% |       9 | `push`                                             | `blib2to3/pgen2/parse.py`    |
+|  3.1% |       6 | `__str__`                                          | `blib2to3/pytree.py`         |
+|  2.6% |       5 | `pop`                                              | `blib2to3/pgen2/parse.py`    |
+|  2.6% |       5 | `append_comment`                                   | `black/lines.py`             |
+|  2.6% |       5 | `(anonymous)`                                      | `<unknown>`                  |
+|  2.6% |       5 | `_stringify_ast`                                   | `black/parsing.py`           |
+|  2.0% |       4 | `contains_implicit_multiline_string_with_comments` | `black/lines.py`             |
+|  2.0% |       4 | `visit`                                            | `black/nodes.py`             |
+|  2.0% |       4 | `convert_one_fmt_off_pair`                         | `black/comments.py`          |
+|  2.0% |       4 | `mark`                                             | `black/brackets.py`          |
+|  1.5% |       3 | `pre_order`                                        | `blib2to3/pytree.py`         |
+|  1.5% |       3 | `maybe_empty_lines`                                | `black/lines.py`             |
+|  1.5% |       3 | `prev_sibling`                                     | `blib2to3/pytree.py`         |
+|  1.5% |       3 | `prefix`                                           | `blib2to3/pytree.py`         |
+
 #### Categories
 
 ##### Ours
@@ -40,6 +63,19 @@ Functions ranked by samples taken directly in the function body, excluding calle
 |  1.5% |       3 | `prev_sibling`                                     | `blib2to3/pytree.py`         |
 |  1.5% |       3 | `prefix`                                           | `blib2to3/pytree.py`         |
 |  1.5% |       3 | `_stringify_ast_with_new_parent`                   | `black/parsing.py`           |
+
+##### Unknown
+
+|    % | Samples | Function      | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 2.6% |       5 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+|    % | Samples | Function     | Location                                 |
+| ---: | ------: | ------------ | ---------------------------------------- |
+| 0.5% |       1 | `_path_stat` | `<frozen importlib._bootstrap_external>` |
+| 0.5% |       1 | `release`    | `<frozen importlib._bootstrap>`          |
 
 #### Lines
 
@@ -193,6 +229,18 @@ Lines ranked by contribution to each function's self samples.
 | 66.7% |       2 | `black/parsing.py:170` |
 | 33.3% |       1 | `black/parsing.py:169` |
 
+##### `_path_stat` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Location                                     |
+| -----: | ------: | -------------------------------------------- |
+| 100.0% |       1 | `<frozen importlib._bootstrap_external>:147` |
+
+##### `release` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Location                            |
+| -----: | ------: | ----------------------------------- |
+| 100.0% |       1 | `<frozen importlib._bootstrap>:126` |
+
 #### Callers
 
 Callers ranked by contribution to each function's self samples. Inlining can make caller attribution imprecise.
@@ -323,9 +371,44 @@ Callers ranked by contribution to each function's self samples. Inlining can mak
 | -----: | ------: | ---------------- | ------------------ |
 | 100.0% |       3 | `_stringify_ast` | `black/parsing.py` |
 
+##### `_path_stat` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Caller      | Location                                 |
+| -----: | ------: | ----------- | ---------------------------------------- |
+| 100.0% |       1 | `find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `release` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Caller     | Location                        |
+| -----: | ------: | ---------- | ------------------------------- |
+| 100.0% |       1 | `__exit__` | `<frozen importlib._bootstrap>` |
+
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees.
+
+|     % | Samples | Function                          | Location                   |
+| ----: | ------: | --------------------------------- | -------------------------- |
+| 97.4% |     191 | `_run_module_as_main`             | `<frozen runpy>`           |
+| 94.4% |     185 | `format_file_contents`            | `black/__init__.py`        |
+| 94.4% |     185 | `format_file_in_place`            | `black/__init__.py`        |
+| 94.4% |     185 | `reformat_one`                    | `black/__init__.py`        |
+| 94.4% |     185 | `main`                            | `black/__init__.py`        |
+| 94.4% |     185 | `new_func`                        | `click/decorators.py`      |
+| 94.4% |     185 | `invoke`                          | `click/core.py`            |
+| 94.4% |     185 | `main`                            | `click/core.py`            |
+| 94.4% |     185 | `__call__`                        | `click/core.py`            |
+| 94.4% |     185 | `patched_main`                    | `black/__init__.py`        |
+| 94.4% |     185 | `<module>`                        | `black/__main__.py`        |
+| 94.4% |     185 | `_run_code`                       | `<frozen runpy>`           |
+| 83.7% |     164 | `_format_str_once`                | `black/__init__.py`        |
+| 51.0% |     100 | `format_str`                      | `black/__init__.py`        |
+| 43.4% |      85 | `check_stability_and_equivalence` | `black/__init__.py`        |
+| 37.2% |      73 | `parse_tokens`                    | `blib2to3/pgen2/driver.py` |
+| 37.2% |      73 | `parse_string`                    | `blib2to3/pgen2/driver.py` |
+| 37.2% |      73 | `lib2to3_parse`                   | `black/parsing.py`         |
+| 32.7% |      64 | `assert_stable`                   | `black/__init__.py`        |
+| 27.6% |      54 | `_addtoken`                       | `blib2to3/pgen2/parse.py`  |
 
 #### Categories
 
@@ -354,9 +437,42 @@ Functions ranked by total samples taken in the function and all its callees.
 | 27.6% |      54 | `addtoken`                        | `blib2to3/pgen2/parse.py`  |
 | 22.4% |      44 | `visit`                           | `black/nodes.py`           |
 
+##### Unknown
+
+|    % | Samples | Function      | Location    |
+| ---: | ------: | ------------- | ----------- |
+| 2.6% |       5 | `(anonymous)` | `<unknown>` |
+
+##### Standard library
+
+|     % | Samples | Function                    | Location                                 |
+| ----: | ------: | --------------------------- | ---------------------------------------- |
+| 97.4% |     191 | `_run_module_as_main`       | `<frozen runpy>`                         |
+| 94.4% |     185 | `_run_code`                 | `<frozen runpy>`                         |
+|  3.1% |       6 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>`          |
+|  3.1% |       6 | `exec_module`               | `<frozen importlib._bootstrap_external>` |
+|  3.1% |       6 | `_load_unlocked`            | `<frozen importlib._bootstrap>`          |
+|  3.1% |       6 | `_find_and_load_unlocked`   | `<frozen importlib._bootstrap>`          |
+|  3.1% |       6 | `_find_and_load`            | `<frozen importlib._bootstrap>`          |
+|  3.1% |       6 | `_get_module_details`       | `<frozen runpy>`                         |
+|  0.5% |       1 | `_handle_fromlist`          | `<frozen importlib._bootstrap>`          |
+|  0.5% |       1 | `_path_stat`                | `<frozen importlib._bootstrap_external>` |
+|  0.5% |       1 | `find_spec`                 | `<frozen importlib._bootstrap_external>` |
+|  0.5% |       1 | `_get_spec`                 | `<frozen importlib._bootstrap_external>` |
+|  0.5% |       1 | `_find_spec`                | `<frozen importlib._bootstrap>`          |
+|  0.5% |       1 | `release`                   | `<frozen importlib._bootstrap>`          |
+|  0.5% |       1 | `__exit__`                  | `<frozen importlib._bootstrap>`          |
+
 #### Callees
 
 Callees ranked by contribution to each function's total samples. Inlining can make callee attribution imprecise, and percentages can sum past 100% when callees recurse.
+
+##### `_run_module_as_main` (`<frozen runpy>`)
+
+|     % | Samples | Callee                | Location         |
+| ----: | ------: | --------------------- | ---------------- |
+| 96.9% |     185 | `_run_code`           | `<frozen runpy>` |
+|  3.1% |       6 | `_get_module_details` | `<frozen runpy>` |
 
 ##### `format_file_contents` (`black/__init__.py`)
 
@@ -419,6 +535,12 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |      % | Samples | Callee         | Location            |
 | -----: | ------: | -------------- | ------------------- |
 | 100.0% |     185 | `patched_main` | `black/__init__.py` |
+
+##### `_run_code` (`<frozen runpy>`)
+
+|      % | Samples | Callee     | Location            |
+| -----: | ------: | ---------- | ------------------- |
+| 100.0% |     185 | `<module>` | `black/__main__.py` |
 
 ##### `_format_str_once` (`black/__init__.py`)
 
@@ -493,11 +615,86 @@ Callees ranked by contribution to each function's total samples. Inlining can ma
 |  88.6% |      39 | `visit_funcdef`     | `black/linegen.py` |
 |  63.6% |      28 | `visit_simple_stmt` | `black/linegen.py` |
 
+##### `_call_with_frames_removed` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee           | Location                                    |
+| -----: | ------: | ---------------- | ------------------------------------------- |
+| 100.0% |       6 | `<module>`       | `black/__init__.py`                         |
+|  33.3% |       2 | `_find_and_load` | `<frozen importlib._bootstrap>`             |
+|  16.7% |       1 | `<module>`       | `pathspec/_backends/hyperscan/_base.py`     |
+|  16.7% |       1 | `<module>`       | `pathspec/_backends/hyperscan/gitignore.py` |
+|  16.7% |       1 | `<module>`       | `pathspec/_backends/agg.py`                 |
+
+##### `exec_module` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Callee                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       6 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee        | Location                                 |
+| -----: | ------: | ------------- | ---------------------------------------- |
+| 100.0% |       6 | `exec_module` | `<frozen importlib._bootstrap_external>` |
+
+##### `_find_and_load_unlocked` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       6 | `_load_unlocked`            | `<frozen importlib._bootstrap>` |
+|  16.7% |       1 | `_find_spec`                | `<frozen importlib._bootstrap>` |
+|  16.7% |       1 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `_find_and_load` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee                    | Location                        |
+| -----: | ------: | ------------------------- | ------------------------------- |
+| 100.0% |       6 | `_find_and_load_unlocked` | `<frozen importlib._bootstrap>` |
+|  16.7% |       1 | `__exit__`                | `<frozen importlib._bootstrap>` |
+
+##### `_get_module_details` (`<frozen runpy>`)
+
+|      % | Samples | Callee                | Location                        |
+| -----: | ------: | --------------------- | ------------------------------- |
+| 100.0% |       6 | `_find_and_load`      | `<frozen importlib._bootstrap>` |
+| 100.0% |       6 | `_get_module_details` | `<frozen runpy>`                |
+
+##### `_handle_fromlist` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee                      | Location                        |
+| -----: | ------: | --------------------------- | ------------------------------- |
+| 100.0% |       1 | `_call_with_frames_removed` | `<frozen importlib._bootstrap>` |
+
+##### `find_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Callee       | Location                                 |
+| -----: | ------: | ------------ | ---------------------------------------- |
+| 100.0% |       1 | `_path_stat` | `<frozen importlib._bootstrap_external>` |
+| 100.0% |       1 | `_get_spec`  | `<frozen importlib._bootstrap_external>` |
+
+##### `_get_spec` (`<frozen importlib._bootstrap_external>`)
+
+|      % | Samples | Callee      | Location                                 |
+| -----: | ------: | ----------- | ---------------------------------------- |
+| 100.0% |       1 | `find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `_find_spec` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee      | Location                                 |
+| -----: | ------: | ----------- | ---------------------------------------- |
+| 100.0% |       1 | `find_spec` | `<frozen importlib._bootstrap_external>` |
+
+##### `__exit__` (`<frozen importlib._bootstrap>`)
+
+|      % | Samples | Callee    | Location                        |
+| -----: | ------: | --------- | ------------------------------- |
+| 100.0% |       1 | `release` | `<frozen importlib._bootstrap>` |
+
 ## Hottest call stacks
 
 Call stacks ranked by samples taken in their leaf frame.
 
-Common call stack: `format_file_contents` (`black/__init__.py`) ← `format_file_in_place` ← `reformat_one` ← `main` ← `new_func` (`click/decorators.py`) ← `invoke` (`click/core.py`) ← `invoke` ← `main` ← `__call__` ← `patched_main` (`black/__init__.py`) ← `<module>` (`black/__main__.py`)
+Common call stack: `format_file_contents` (`black/__init__.py`) ← `format_file_in_place` ← `reformat_one` ← `main` ← `new_func` (`click/decorators.py`) ← `invoke` (`click/core.py`) ← `invoke` ← `main` ← `__call__` ← `patched_main` (`black/__init__.py`) ← `<module>` (`black/__main__.py`) ← `_run_code` (`<frozen runpy>`) ← `_run_module_as_main`
 
 |    % | Samples | Call stack                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ---: | ------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

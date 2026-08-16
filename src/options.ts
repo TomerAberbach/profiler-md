@@ -450,12 +450,13 @@ export const defaultCategorizeFunctions = (
 /**
  * Returns whether to include the given entry in the Markdown output.
  *
- * Excludes synthetic and external implementation detail entries.
+ * Excludes synthetic entries, which correspond to nothing in the profiled
+ * program. Every function it ran is shown, and each ranking breaks down by
+ * category, so a reader chooses which code to read.
  */
 export const defaultShowEntry = (
   entry: DeepReadonly<AggregatedProfileEntry>,
-): boolean =>
-  !isSyntheticEntry(entry) && !isExternalImplementationDetailEntry(entry)
+): boolean => !isSyntheticEntry(entry)
 
 /**
  * Returns true if the entry is synthetic.
@@ -467,42 +468,3 @@ export const isSyntheticEntry = ({
   name,
 }: DeepReadonly<AggregatedProfileEntry>): boolean =>
   name === `(root)` || name === `<root>` || name === `(module)`
-
-/**
- * Returns true if the entry corresponds to a function outside the profiled
- * program (`native`, `unknown`, `stdlib`, or `third-party`) that's never
- * directly called by `ours` code.
- *
- * These entries are typically implementation details of external code.
- * Excluding them from the Markdown leaves only your code and the public API
- * of `stdlib` and `third-party` code.
- */
-export const isExternalImplementationDetailEntry = (
-  entry: DeepReadonly<AggregatedProfileEntry>,
-): boolean => {
-  if (entry.type !== `function`) {
-    return false
-  }
-
-  if (!EXTERNAL_FUNCTION_CATEGORIES.has(entry.category)) {
-    return false
-  }
-
-  for (const { caller } of entry.callerIdToMetrics.values()) {
-    if (caller.category === `ours`) {
-      return false
-    }
-  }
-
-  return true
-}
-
-const EXTERNAL_FUNCTION_CATEGORIES: ReadonlySet<FunctionCategory> = new Set([
-  `native`,
-  // A frame the profiler could not identify may be outside the profiled
-  // program, and the caller check below still shows it wherever `ours` code
-  // reaches it.
-  `unknown`,
-  `stdlib`,
-  `third-party`,
-])
