@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { chunk, streamOf } from '../../helpers/testing.ts'
+import { diffProfiles } from '../../index.ts'
 import {
   selfSleepsTables,
   selfTimeTables,
@@ -303,15 +304,14 @@ describe(`convert`, () => {
     ])
     expect(summaryLines(md)).toEqual([
       `Took 6.0ms over 6 samples (1.0ms per sample).`,
-      `Slept 2 times over 2 samples (1 time per sample).`,
-      `Slept 5 times over 5 samples (1 time per sample).`,
+      `Slept 2 times.`,
+      `Slept 5 times.`,
     ])
     expect(selfSleepsTables(md)).toEqual([
       [
         {
           '%': `100.0%`,
           Sleeps: `2`,
-          Samples: `2`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
         },
@@ -320,7 +320,6 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Sleeps: `5`,
-          Samples: `5`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
         },
@@ -331,7 +330,6 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Sleeps: `2`,
-          Samples: `2`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
         },
@@ -340,7 +338,6 @@ describe(`convert`, () => {
         {
           '%': `100.0%`,
           Sleeps: `5`,
-          Samples: `5`,
           Function: `do_nanosleep ([kernel])`,
           Location: `<unknown>`,
         },
@@ -396,7 +393,7 @@ describe(`convert`, () => {
     ])
     expect(summaryLines(md)).toEqual([
       `Took 2.0ms over 2 samples (1.0ms per sample).`,
-      `Slept 3 times over 3 samples (1 time per sample).`,
+      `Slept 3 times.`,
     ])
   })
 
@@ -441,9 +438,42 @@ describe(`convert`, () => {
     )
 
     expect(profileTitles(md)).toEqual([`Interruptible sleep profile`])
+    expect(summaryLines(md)).toEqual([`Slept 4 times.`])
+  })
+
+  test(`a sleep diff names the sleeps it counts`, () => {
+    const sleeps = (count: number) => [
+      [`f`, 0, `do_nanosleep ([kernel]) <0xffff2>`],
+      [`s`, 0, [0]],
+      [`x`, 1, 0, 2, count],
+    ]
+
+    const md = diffProfiles(
+      { data: makeSysting(sleeps(4)), format: `systing` },
+      { data: makeSysting(sleeps(6)), format: `systing` },
+      { baseURL: `/`, showEntry: () => true },
+    )
+
+    expect(profileTitles(md)).toEqual([`Interruptible sleep profile diff`])
     expect(summaryLines(md)).toEqual([
-      `Slept 4 times over 4 samples (1 time per sample).`,
+      `Slept 4 times → 6 times (+2 times, +50.0%).`,
     ])
+  })
+
+  test(`rejects a diff of the two sleep kinds, naming both`, () => {
+    const sleeps = (eventType: number) => [
+      [`f`, 0, `do_nanosleep ([kernel]) <0xffff2>`],
+      [`s`, 0, [0]],
+      [`x`, 1, 0, eventType, 4],
+    ]
+
+    expect(() =>
+      diffProfiles(
+        { data: makeSysting(sleeps(0)), format: `systing` },
+        { data: makeSysting(sleeps(2)), format: `systing` },
+        { baseURL: `/`, showEntry: () => true },
+      ),
+    ).toThrow(`got: uninterruptible sleep and interruptible sleep`)
   })
 
   test(`a recording without sampling provenance ranks by sample count alone`, () => {

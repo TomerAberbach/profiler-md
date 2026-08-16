@@ -4,7 +4,7 @@ import type {
   Observation,
 } from '../../modalities/call-stack-profile/index.ts'
 import { determineMetric, SAMPLES } from '../../modalities/metric.ts'
-import type { Metric } from '../../modalities/metric.ts'
+import type { CountMetric, Metric } from '../../modalities/metric.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
 
@@ -226,7 +226,7 @@ class SystingProfileBuilder {
     }
     observations.push({
       id: stackId,
-      values: kind === `cpu` ? this.#cpuValues : SLEEP_SAMPLE_VALUES,
+      values: kind === `cpu` ? this.#cpuValues : NO_VALUES,
       // Export stacks are already leaf-first (callee to caller), the
       // aggregator's order; parseSystingHeader rejects any other declared
       // stack_order.
@@ -246,12 +246,14 @@ class SystingProfileBuilder {
       if (!observations) {
         continue
       }
-      const metric = kind === `cpu` ? this.#cpuMetric : SLEEP_METRICS.get(kind)
+      // The sample period weights CPU samples alone, so only the CPU profile
+      // has a metric, and only its observations have values.
+      const metric = kind === `cpu` ? this.#cpuMetric : undefined
       profiles.push({
         type: `call-stack-profile`,
         frames: this.#frames,
         metrics: metric ? [metric] : [],
-        countMetric: SAMPLES,
+        countMetric: SLEEP_COUNT_METRICS.get(kind) ?? SAMPLES,
         observations,
       })
     }
@@ -260,41 +262,41 @@ class SystingProfileBuilder {
 }
 
 /**
- * Sleep events are occurrences (a thread entered the state with this stack),
- * not durations, so their metric is a count of sleeps: one per sample, scaled
- * by the tally's count. The metric exists to title and label the sleep
- * profiles distinctly; its totals always equal the sample counts.
+ * A sleep event is an occurrence rather than a duration, because it records a
+ * thread entering the state with this stack. A sleep profile therefore has no
+ * metric and counts sleeps. Each kind has its own count metric, so the profiles
+ * are titled distinctly. A diff of two of them states which is which.
  */
-const SLEEP_METRICS: ReadonlyMap<SystingEventKind, Metric> = new Map([
+const SLEEP_COUNT_METRICS: ReadonlyMap<SystingEventKind, CountMetric> = new Map(
   [
-    `uninterruptible_sleep`,
-    {
-      type: `count`,
-      proseUnit: `time`,
-      phrases: {
-        titleNoun: `uninterruptible sleep`,
-        columnNoun: `sleeps`,
-        pastTenseVerb: `slept`,
-        pastParticipleVerbPhrase: `uninterruptible sleeps entered`,
+    [
+      `uninterruptible_sleep`,
+      {
+        type: `count`,
+        proseUnit: `time`,
+        phrases: {
+          titleNoun: `uninterruptible sleep`,
+          columnNoun: `sleeps`,
+          pastTenseVerb: `slept`,
+          pastParticipleVerbPhrase: `uninterruptible sleeps entered`,
+        },
       },
-    },
-  ],
-  [
-    `interruptible_sleep`,
-    {
-      type: `count`,
-      proseUnit: `time`,
-      phrases: {
-        titleNoun: `interruptible sleep`,
-        columnNoun: `sleeps`,
-        pastTenseVerb: `slept`,
-        pastParticipleVerbPhrase: `interruptible sleeps entered`,
+    ],
+    [
+      `interruptible_sleep`,
+      {
+        type: `count`,
+        proseUnit: `time`,
+        phrases: {
+          titleNoun: `interruptible sleep`,
+          columnNoun: `sleeps`,
+          pastTenseVerb: `slept`,
+          pastParticipleVerbPhrase: `interruptible sleeps entered`,
+        },
       },
-    },
+    ],
   ],
-])
-
-const SLEEP_SAMPLE_VALUES = [1]
+)
 
 const NO_VALUES: number[] = []
 
