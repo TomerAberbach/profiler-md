@@ -14,6 +14,10 @@ import {
   SAMPLES,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import {
+  JVM_PRIMITIVE_DESCRIPTOR_NAMES,
+  jvmSourceClassName,
+} from '../../origins/jvm.ts'
 
 /**
  * The kind of profiling an event represents.
@@ -1319,7 +1323,7 @@ class ChunkResolver {
           { name?: unknown } | undefined)
       : undefined
     const bareName = this.#symbol(method?.name)
-    const className = classNameToSource(this.#symbol(declaringClass?.name))
+    const className = jvmSourceClassName(this.#symbol(declaringClass?.name))
     const descriptor = this.#symbol(method?.descriptor)
 
     // Merge methods that recur across chunks: chunk-local pool keys differ,
@@ -1418,10 +1422,6 @@ const indexTypeIdsByName = (
   return typeIdsByName
 }
 
-/** Converts an internal class name (`java/util/Arrays`) to source form. */
-const classNameToSource = (internalName: string): string =>
-  internalName.replaceAll(`/`, `.`)
-
 /**
  * Builds a display name from a method's bare name and JVM descriptor, appending
  * a readable parameter list so overloads stay distinguishable: `add` with
@@ -1467,7 +1467,7 @@ const parseDescriptorTypes = (descriptors: string): string[] => {
       type = simpleClassName(descriptors.slice(i + 1, end))
       i = end + 1
     } else {
-      type = (code && PRIMITIVE_TYPES.get(code)) ?? code ?? ``
+      type = (code && JVM_PRIMITIVE_DESCRIPTOR_NAMES.get(code)) ?? code ?? ``
       i++
     }
 
@@ -1479,19 +1479,6 @@ const parseDescriptorTypes = (descriptors: string): string[] => {
 /** The bare class name (`Map`) from an internal name (`java/util/Map`). */
 const simpleClassName = (internalName: string): string =>
   internalName.slice(internalName.lastIndexOf(`/`) + 1)
-
-/** JVM primitive field descriptor codes to readable type names. */
-const PRIMITIVE_TYPES = new Map<string, string>([
-  [`B`, `byte`],
-  [`C`, `char`],
-  [`D`, `double`],
-  [`F`, `float`],
-  [`I`, `int`],
-  [`J`, `long`],
-  [`S`, `short`],
-  [`Z`, `boolean`],
-  [`V`, `void`],
-])
 
 /**
  * Returns a usable 1-based line number, or `undefined`. Native and unknown

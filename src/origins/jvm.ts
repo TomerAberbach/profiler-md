@@ -242,3 +242,21 @@ const nativeModuleCategory = ({
   !(name ?? ``).includes(`(`)
     ? `native`
     : undefined
+
+/** Converts an internal class name (`java/util/Arrays`) to source form. */
+export const jvmSourceClassName = (internalName: string): string =>
+  internalName.replaceAll(`/`, `.`)
+
+/** The Java name of each JVM primitive field descriptor code. */
+export const JVM_PRIMITIVE_DESCRIPTOR_NAMES: ReadonlyMap<string, string> =
+  new Map([
+    [`B`, `byte`],
+    [`C`, `char`],
+    [`D`, `double`],
+    [`F`, `float`],
+    [`I`, `int`],
+    [`J`, `long`],
+    [`S`, `short`],
+    [`Z`, `boolean`],
+    [`V`, `void`],
+  ])
