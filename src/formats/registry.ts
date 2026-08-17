@@ -1,6 +1,7 @@
 import { callgrindConverter } from './callgrind/index.ts'
 import { collapsedConverter } from './collapsed/index.ts'
 import type { FormatConverter } from './converter.ts'
+import { ghcJsonProfileConverter } from './ghc/json-profile/index.ts'
 import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { memrayConverter } from './memray/index.ts'
@@ -16,6 +17,7 @@ import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/in
 export const formatConverters = {
   callgrind: callgrindConverter,
   collapsed: collapsedConverter,
+  'ghc-json-profile': ghcJsonProfileConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   memray: memrayConverter,

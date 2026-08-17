@@ -57,6 +57,13 @@ const languageMetas = [
     },
   ],
   [
+    `haskell`,
+    {
+      name: `Haskell`,
+      extensions: [`hs`, `lhs`],
+    },
+  ],
+  [
     `java`,
     {
       name: `Java`,

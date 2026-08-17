@@ -156,9 +156,9 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                           Base profile to diff
   CURRENT                        Current profile to diff against the base
 
-Formats: callgrind, collapsed, jfr, jsc-heap-snapshot, memray, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, go, gperftools, jdk, memray, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, systing, tachyon, unknown, valgrind
-Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
+Formats: callgrind, collapsed, ghc-json-profile, jfr, jsc-heap-snapshot, memray, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go, gperftools, jdk, memray, node, node-pprof, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, systing, tachyon, unknown, valgrind
+Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
 ```
 
 <!-- CLI_HELP END -->
@@ -243,6 +243,12 @@ third-party tools can often convert others.
 <td><a href="docs/languages/go.md">Go</a></td>
 <td>
 <details><summary><a href="docs/formats/pprof.md">pprof</a></summary><ul><li>Go pprof block (<a href="examples/output/go.go.block.base.pprof.md">base</a>, <a href="examples/output/go.go.block.current.pprof.md">current</a>, <a href="examples/output/go.go.block.diff.pprof.md">diff</a>)</li><li>Go pprof CPU (<a href="examples/output/go.go.cpu.base.pprof.md">base</a>, <a href="examples/output/go.go.cpu.current.pprof.md">current</a>, <a href="examples/output/go.go.cpu.diff.pprof.md">diff</a>)</li><li>Go pprof goroutine (<a href="examples/output/go.go.goroutine.base.pprof.md">base</a>, <a href="examples/output/go.go.goroutine.current.pprof.md">current</a>, <a href="examples/output/go.go.goroutine.diff.pprof.md">diff</a>)</li><li>Go pprof goroutine leak (<a href="examples/output/go.go.goroutineleak.base.pprof.md">base</a>, <a href="examples/output/go.go.goroutineleak.current.pprof.md">current</a>, <a href="examples/output/go.go.goroutineleak.diff.pprof.md">diff</a>)</li><li>Go pprof heap (<a href="examples/output/go.go.heap.base.pprof.md">base</a>, <a href="examples/output/go.go.heap.current.pprof.md">current</a>, <a href="examples/output/go.go.heap.diff.pprof.md">diff</a>)</li><li>Go pprof heap-alloc (<a href="examples/output/go.go.heap-alloc.base.pprof.md">base</a>, <a href="examples/output/go.go.heap-alloc.current.pprof.md">current</a>, <a href="examples/output/go.go.heap-alloc.diff.pprof.md">diff</a>)</li><li>Go pprof mutex (<a href="examples/output/go.go.mutex.base.pprof.md">base</a>, <a href="examples/output/go.go.mutex.current.pprof.md">current</a>, <a href="examples/output/go.go.mutex.diff.pprof.md">diff</a>)</li><li>Go pprof threadcreate (<a href="examples/output/go.go.threadcreate.base.pprof.md">base</a>, <a href="examples/output/go.go.threadcreate.current.pprof.md">current</a>, <a href="examples/output/go.go.threadcreate.diff.pprof.md">diff</a>)</li></ul></details>
+</td>
+</tr>
+<tr>
+<td><a href="docs/languages/haskell.md">Haskell</a></td>
+<td>
+<details><summary><a href="docs/formats/ghc-json-profile.md">GHC JSON profile</a></summary><ul><li>Haskell GHC (<a href="examples/output/haskell.ghc.base.prof.json.md">base</a>, <a href="examples/output/haskell.ghc.current.prof.json.md">current</a>, <a href="examples/output/haskell.ghc.diff.prof.json.md">diff</a>)</li></ul></details>
 </td>
 </tr>
 <tr>
