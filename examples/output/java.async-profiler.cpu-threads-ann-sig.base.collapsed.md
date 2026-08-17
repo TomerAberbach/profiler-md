@@ -10,6 +10,55 @@ Collected 4,779 samples.
 | Compiler         |  1.4% |      68 |
 | JIT              |  1.3% |      62 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,497 samples (94.1%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,497 samples (94.1%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 4,241 samples (88.7%) doExec() at java.util.concurrent.ForkJoinTask
+│       │   ├── … 4,183 samples (87.5%) exec() at java.util.concurrent.RecursiveTask
+│       │   │   └── 4,182 samples (87.5%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,825 samples (38.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,381 samples (28.9%, self 8.5%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 904 samples (18.9%, self 18.7%) distance(Double[], Double[])
+│       │   │       │   │   └── 69 samples (1.4%) 3 more callees, led by (1.2%) get(int) at java.util.ArrayList
+│       │   │       │   └── … 443 samples (9.3%, self 2.7%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 151 samples (3.2%, self 2.6%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │       │   └── 24 samples (0.5%) hash(Object)
+│       │   │       │       ├── 113 samples (2.4%) add(Object) at java.util.ArrayList
+│       │   │       │       │   └── 112 samples (2.3%, self 0.9%) add(Object, Object[], int)
+│       │   │       │       │       └── 68 samples (1.4%) grow() …
+│       │   │       │       └── 51 samples (1.1%) 2 more callees, led by (1.0%) get(int) at java.util.ArrayList
+│       │   │       ├── 1,540 samples (32.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,538 samples (32.2%, self 8.4%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 1,063 samples (22.2%, self 20.4%) accumulate(Double[], double[])
+│       │   │       │       │   └── 88 samples (1.8%) doubleValue() at java.lang.Double
+│       │   │       │       └── 75 samples (1.6%) get(int) at java.util.ArrayList
+│       │   │       │           └── 75 samples (1.6%, self 3.4% globally) elementData(int)
+│       │   │       ├── 478 samples (10.0%) join() at java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 476 samples (10.0%) awaitDone(int, long)
+│       │   │       │       ├── … 409 samples (8.6%, self 13.9% globally) __psynch_cvwait
+│       │   │       │       └── 47 samples (1.0%, self 0.5%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean) at java.util.concurrent.ForkJoinPool
+│       │   │       ├── … 286 samples (6.0%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │       │   ├── 214 samples (4.5%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001186fd0
+│       │   │       │   │   └── 214 samples (4.5%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │   │       ├── 148 samples (3.1%) addAll(Collection) at java.util.ArrayList
+│       │   │       │   │       │   ├── … 58 samples (1.2%) arrayof_jint_disjoint_arraycopy
+│       │   │       │   │       │   │   └── 55 samples (1.2%, self 3.9% globally) forward_copy_longs
+│       │   │       │   │       │   └── 72 samples (1.5%) 4 more callees, led by (1.1%) arrayof_oop_disjoint_arraycopy
+│       │   │       │   │       └── 66 samples (1.4%) <init>(Collection) at java.util.ArrayList …
+│       │   │       │   ├── 36 samples (0.8%) arrayof_jint_disjoint_arraycopy …
+│       │   │       │   └── 28 samples (0.6%, self 1.3% globally) zero_blocks
+│       │   │       └── 10 samples (0.2%) fork() at java.util.concurrent.ForkJoinTask
+│       │   └── … 43 samples (0.9%) __psynch_cvsignal
+│       └── 246 samples (5.1%) awaitWork(ForkJoinPool$WorkQueue) …
+└── 282 samples (5.9%) 6 more root frames, led by (4.9%) thread_start
+```
+
 ## Hottest functions
 
 ### Self samples

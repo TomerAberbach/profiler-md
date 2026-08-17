@@ -13,6 +13,55 @@ Took 16.28s over 12,969 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 14.17s (87.0%) typeCheckProject at ./tsc-workload.mjs
+│   ├── … 12.19s (74.9%) runWithCancellationToken at ./node_modules/typescript/lib/typescript.js
+│   │   ├── … 11.42s (70.1%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   ├── … 6.33s (38.9%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   ├── 6.16s (37.8%) checkSourceElement
+│   │   │   │   │   └── … 6.15s (37.8%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       ├── 3.18s (19.5%) checkVariableDeclaration
+│   │   │   │   │       │   └── 3.15s (19.4%) checkVariableLikeDeclaration
+│   │   │   │   │       │       ├── 2.63s (16.2%) getTypeOfSymbol
+│   │   │   │   │       │       │   ├── … 77.9ms (0.5%, self 2.0% globally) getObjectTypeInstantiation at ./node_modules/typescript/lib/typescript.js
+│   │   │   │   │       │       │   └── 2.48s (15.2%) 4 more callees, led by (14.6%) getTypeOfVariableOrParameterOrProperty
+│   │   │   │   │       │       └── 518.7ms (3.2%) 8 more callees, led by (2.6%) checkExpressionCached
+│   │   │   │   │       └── 2.96s (18.2%) 27 more callees, led by (10.9%) checkExpressionStatement
+│   │   │   │   └── … 49.0ms (0.3%) getResolvedSignature at ./node_modules/typescript/lib/typescript.js
+│   │   │   │       └── 32.7ms (0.2%, self 0.9% globally) getNodeLinks
+│   │   │   └── 5.03s (30.9%) forEach
+│   │   │       ├── … 4.89s (30.1%) checkSourceElement at ./node_modules/typescript/lib/typescript.js
+│   │   │       │   └── … 4.88s (30.0%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       ├── 1.32s (8.2%) checkTypeReferenceNode
+│   │   │       │       │   └── 1.31s (8.1%) checkTypeReferenceOrImport
+│   │   │       │       │       ├── … 1.21s (7.4%) checkTypeArgumentConstraints at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │   ├── 823.9ms (5.1%) checkTypeAssignableTo
+│   │   │       │       │       │   │   └── 822.7ms (5.1%, self 2.8% globally) checkTypeRelatedTo
+│   │   │       │       │       │   │       └── … 795.0ms (4.9%, self 2.1% globally) isRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │   │           ├── … 542.6ms (3.3%, self 3.1% globally) recursiveTypeRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │   │           │   └── 477.3ms (2.9%) structuredTypeRelatedTo
+│   │   │       │       │       │   │           │       └── 457.2ms (2.8%, self 0.8% globally) structuredTypeRelatedToWorker
+│   │   │       │       │       │   │           │           └── 449.6ms (2.8%) 16 more callees, led by (1.7%) signaturesRelatedTo
+│   │   │       │       │       │   │           └── 214.8ms (1.3%) 7 more callees, led by (0.9%) getNormalizedType at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │   └── … 365.5ms (2.2%, self 1.8% globally) instantiateTypeWorker at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │       └── … 255.0ms (1.6%) isRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │           ├── … 21.4ms (0.1%, self 0.8% globally) createInstantiatedSymbolTable at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       │           └── 183.4ms (1.1%) 3 more callees, led by (1.0%) recursiveTypeRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │   │       │       │       └── 95.5ms (0.6%) 2 more callees, led by (0.6%) getTypeFromTypeNode
+│   │   │       │       └── 3.53s (21.7%) 33 more callees, led by (9.5%) checkVariableDeclaration
+│   │   │       └── … 84.2ms (0.5%) checkParameter at ./node_modules/typescript/lib/typescript.js
+│   │   └── 769.9ms (4.7%) 4 more callees, led by (4.6%) (anonymous) at 123389:26
+│   └── 1.96s (12.1%) 5 more callees, led by (11.3%) createProgram at ./node_modules/typescript/lib/typescript.js
+├── 1.90s (11.7%) (garbage collector)
+└── 213.5ms (1.3%) 45 more root frames, led by (0.1%) checkSourceElement at ./node_modules/typescript/lib/typescript.js
+```
+
 ## Hottest functions
 
 ### Self time

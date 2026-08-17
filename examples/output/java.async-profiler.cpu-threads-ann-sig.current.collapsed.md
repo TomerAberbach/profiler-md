@@ -11,6 +11,55 @@ Collected 5,299 samples.
 | JIT              |  0.9% |      47 |
 | Unknown          | <0.1% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 5,020 samples (94.7%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 5,020 samples (94.7%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 4,405 samples (83.1%) doExec() at java.util.concurrent.ForkJoinTask
+│       │   ├── … 4,366 samples (82.4%) exec() at java.util.concurrent.RecursiveTask
+│       │   │   └── 4,364 samples (82.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,747 samples (33.0%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,747 samples (33.0%, self 11.4%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 1,059 samples (20.0%, self 17.9%) accumulate(Double[], double[])
+│       │   │       │       │   └── 109 samples (2.1%) doubleValue() at java.lang.Double
+│       │   │       │       └── 80 samples (1.5%) get(int) at java.util.ArrayList
+│       │   │       │           └── 79 samples (1.5%, self 3.0% globally) elementData(int)
+│       │   │       ├── 1,688 samples (31.9%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,264 samples (23.9%, self 7.0%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 836 samples (15.8%, self 15.6%) distance(Double[], Double[])
+│       │   │       │   │   └── 58 samples (1.1%) 3 more callees, led by (1.0%) get(int) at java.util.ArrayList
+│       │   │       │   └── … 424 samples (8.0%, self 2.1%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 160 samples (3.0%, self 2.5%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │       │   └── 24 samples (0.5%) hash(Object)
+│       │   │       │       ├── 104 samples (2.0%) add(Object) at java.util.ArrayList
+│       │   │       │       │   └── 104 samples (2.0%, self 0.9%) add(Object, Object[], int)
+│       │   │       │       │       └── 55 samples (1.0%) grow() …
+│       │   │       │       └── 48 samples (0.9%) get(int) at java.util.ArrayList
+│       │   │       │           ├── 29 samples (0.5%) elementData(int)
+│       │   │       │           └── 19 samples (0.4%) checkIndex(int, int) at java.util.Objects
+│       │   │       ├── … 308 samples (5.8%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │       │   ├── 219 samples (4.1%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000070011a7248
+│       │   │       │   │   └── 219 samples (4.1%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │   │       ├── 146 samples (2.8%) addAll(Collection) at java.util.ArrayList
+│       │   │       │   │       │   ├── … 56 samples (1.1%, self 3.8% globally) forward_copy_longs
+│       │   │       │   │       │   ├── … 10 samples (0.2%) _platform_bzero
+│       │   │       │   │       │   └── 55 samples (1.0%) 2 more callees, led by (1.0%) arrayof_oop_disjoint_arraycopy
+│       │   │       │   │       └── 73 samples (1.4%) <init>(Collection) at java.util.ArrayList …
+│       │   │       │   ├── 52 samples (1.0%) arrayof_jint_disjoint_arraycopy …
+│       │   │       │   └── 30 samples (0.6%) zero_blocks
+│       │   │       └── 605 samples (11.4%) 11 more callees, led by (10.9%) join() at java.util.concurrent.ForkJoinTask
+│       │   └── … 28 samples (0.5%) __psynch_cvsignal
+│       └── 601 samples (11.3%) awaitWork(ForkJoinPool$WorkQueue)
+│           ├── … 563 samples (10.6%, self 21.3% globally) __psynch_cvwait
+│           └── 27 samples (0.5%) parkUntil(long) at java.util.concurrent.locks.LockSupport …
+└── 279 samples (5.3%) 5 more root frames, led by (4.3%) thread_start
+```
+
 ## Hottest functions
 
 ### Self samples

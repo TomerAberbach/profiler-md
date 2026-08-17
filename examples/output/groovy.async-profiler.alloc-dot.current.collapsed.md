@@ -6,6 +6,55 @@ Collected 769 samples.
 | ---------------- | -----: | ------: |
 | Standard library | 100.0% |     769 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 738 samples (96.0%) main at org.codenarc.CodeNarc
+│   └── 737 samples (95.8%) linkToCallSite at java.lang.invoke.Invokers$Holder
+│       ├── … 630 samples (81.9%) invoke at java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│       │   └── 629 samples (81.8%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       │       ├── … 611 samples (79.5%, self 1.0%, self 1.6% globally) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │       │   ├── 569 samples (74.0%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+│       │       │   │   ├── … 445 samples (57.9%) guardWithCatch at java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+│       │       │   │   │   ├── … 437 samples (56.8%) buildAST at org.apache.groovy.parser.antlr4.Antlr4ParserPlugin
+│       │       │   │   │   │   ├── 419 samples (54.5%) buildAST at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   │   │   ├── … 396 samples (51.5%) classDeclaration at org.apache.groovy.parser.antlr4.GroovyParser
+│       │       │   │   │   │   │   │   └── 396 samples (51.5%) 2 more callees, led by (51.0%) classBody at org.apache.groovy.parser.antlr4.GroovyParser
+│       │       │   │   │   │   │   └── 23 samples (3.0%) visit …
+│       │       │   │   │   │   ├── 13 samples (1.7%) <init> at org.apache.groovy.parser.antlr4.AstBuilder
+│       │       │   │   │   │   │   ├── … 4 samples (0.5%, self 7.4% globally) copyOf at java.util.Arrays
+│       │       │   │   │   │   │   └── 9 samples (1.2%) 4 more callees, led by (0.5%) <clinit> at org.apache.groovy.parser.antlr4.GroovyLexer
+│       │       │   │   │   │   └── 5 samples (0.7%) loadClass at java.lang.ClassLoader …
+│       │       │   │   │   └── 7 samples (0.9%) 2 more callees, led by (0.8%) invokeInterface at java.lang.invoke.LambdaForm$DMH.0x0000007001094c00
+│       │       │   │   ├── … 11 samples (1.4%, self 1.0% globally) compile at java.util.regex.Pattern
+│       │       │   │   │   ├── … 5 samples (0.7%, self 1.8% globally) optimize at java.util.regex.Pattern$BnM
+│       │       │   │   │   └── … 4 samples (0.5%) expr at java.util.regex.Pattern …
+│       │       │   │   ├── … 2 samples (0.3%, self 1.3% globally) newInstance at java.lang.reflect.Array
+│       │       │   │   │   └── 1 sample (0.1%, self 0.9% globally) newArray
+│       │       │   │   ├── … 2 samples (0.3%) matcher at java.util.regex.Pattern
+│       │       │   │   └── 105 samples (13.7%) 25 more callees, led by (6.4%) invoke at java.lang.invoke.LambdaForm$MH.0x00000070010abc00
+│       │       │   └── 34 samples (4.4%) doWithCallSite
+│       │       │       └── 34 samples (4.4%) apply at org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x000000700108f228 …
+│       │       └── … 18 samples (2.3%) selectMethod at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       ├── … 35 samples (4.6%) invoke at java.lang.invoke.LambdaForm$MH.0x00000070010d8800
+│       │   └── … 35 samples (4.6%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       │       ├── … 18 samples (2.3%) setCallSiteTarget at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │       │   ├── … 4 samples (0.5%, self 2.7% globally) fillInStackTrace at java.lang.Throwable
+│       │       │   └── 14 samples (1.8%) 3 more callees, led by (1.6%) setGuards
+│       │       └── … 14 samples (1.8%) fromCache at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+│       ├── … 5 samples (0.7%) setGuards at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │   ├── 2 samples (0.3%) guardWithTest at java.lang.invoke.SwitchPoint
+│       │   └── 1 sample (0.1%) methodType at java.lang.invoke.MethodType
+│       │       └── 1 sample (0.1%, self 1.2% globally) makeImpl
+│       ├── … 1 sample (0.1%, self 0.9% globally) clone at java.lang.Object
+│       └── 62 samples (8.1%) 3 more callees, led by (7.0%) invoke at java.lang.invoke.LambdaForm$MH.0x000000700108e000
+└── 31 samples (4.0%) 3 more root frames, led by (3.5%) <clinit> at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -10,6 +10,55 @@ Allocated 114 MiB over 92,777 objects (1.25 KiB per object).
 
 Paths starting with `./` or `../` are relative to `/src/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 81.8 MiB (72.0%) (anonymous)
+│   └── 81.8 MiB (71.9%) profile_main at ./Sources/profile/main.swift:1
+│       ├── … 39.3 MiB (34.6%) $s11SwiftSyntax0B9DataArenaC012createLayoutC4Impl33_B3300DB0BA2B3E5E35A338B811650793LLySRyAA0D16AllocatedPointerVyAA0bC0VGSgGAJF at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/Syntax.swift:459
+│       │   ├── … 29.2 MiB (25.7%, self 100.0% globally) swift_slowAlloc
+│       │   └── … 9.84 MiB (8.7%) swift_slowAlloc
+│       ├── … 36.4 MiB (32.0%) $s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:137
+│       │   ├── … 32.9 MiB (29.0%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:220
+│       │   │   ├── 18.4 MiB (16.2%) $s11SwiftParser0B0V16parseDeclaration2in0A6Syntax07RawDeclF0VAC0D12ParseContextO_tF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:248
+│       │   │   │   ├── … 6.91 MiB (6.1%) $s11SwiftParser0B0V23parseBindingDeclaration__2in0A6Syntax015RawVariableDeclG0VAC0J10AttributesV_AA25RecoveryConsumptionHandleVAC0E12ParseContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1451
+│       │   │   │   │   └── 6.91 MiB (6.1%) 11 more callees, led by (2.1%) $s11SwiftParser0B0V18parseAccessorBlock0A6Syntax03RawdeF0VyF at 1691
+│       │   │   │   ├── … 4.07 MiB (3.6%) $s11SwiftParser0B0V20parseFuncDeclarationy0A6Syntax015RawFunctionDeclF0VAC0I10AttributesV_AA25RecoveryConsumptionHandleVtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1282
+│       │   │   │   │   └── 4.07 MiB (3.6%) 4 more callees, led by (1.7%) $s11SwiftParser0B0V22parseFunctionSignature0A6Syntax03RawdeF0VyF at 1345
+│       │   │   │   ├── … 3.1 MiB (2.7%) $s11SwiftParser0B0V27parseInitializerDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift:1150
+│       │   │   │   │   └── 3.1 MiB (2.7%) 4 more callees, led by (1.6%) $s11SwiftSyntax018RawInitializerDeclB0V_10attributes_9modifiers_11initKeyword_12optionalMark_22genericParameterClause_9signature_0l5WhereN0_4body_5arenaAcA0c15UnexpectedNodesB0VSg_AA0c13AttributeListB0VAoA0ce8ModifiervB0VAoA0c5TokenB0VAoUSgAoA0c7GenericmnB0VSgAoA0c17FunctionSignatureB0VAoA0cypnB0VSgAoA0c9CodeBlockB0VSgAoA0cB5ArenaChtcfC at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesGHI.swift:2233
+│       │   │   │   └── 4.36 MiB (3.8%) 11 more callees, led by (1.5%) $s11SwiftParser0B0V18parseAttributeList0A6Syntax03RawdeF0VyF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Attributes.swift:20
+│       │   │   ├── 8.15 MiB (7.2%) $s11SwiftParser0B0V15parseExpression6flavor7pattern0A6Syntax07RawExprG0VAC0I6FlavorO_AC14PatternContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:122
+│       │   │   │   └── … 8.15 MiB (7.2%) $s11SwiftParser0B0V23parseSequenceExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Expressions.swift:152
+│       │   │   │       ├── 7.09 MiB (6.2%) $s11SwiftParser0B0V30parseSequenceExpressionElement6flavor7pattern0A6Syntax07RawExprI0VAC0K6FlavorO_AC14PatternContextOtF at 409
+│       │   │   │       │   ├── 6.14 MiB (5.4%) $s11SwiftParser0B0V28parsePostfixExpressionSuffix_6flavor7pattern0A6Syntax07RawExprI0VAI_AC0K6FlavorOAC14PatternContextOtF at 756
+│       │   │   │       │   │   └── 6.14 MiB (5.4%) 8 more callees, led by (2.0%) $s11SwiftParser0B0V27parseDottedExpressionSuffixy0A6Syntax07RawExprG0VAGSgF at 687
+│       │   │   │       │   └── 968 KiB (0.8%) $s11SwiftParser0B0V20parseUnaryExpression6flavor7pattern0A6Syntax07RawExprH0VAC0J6FlavorO_AC14PatternContextOtF at 571 …
+│       │   │   │       └── 1.07 MiB (0.9%) 3 more callees, led by (0.6%) $s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax014c30MissingExprB0V_11placeholder_5n22AcA0c15UnexpectedNodesw14VSg_AA0c5Tokenw8VAhA0cB5r14ChtcfcySryAA0cW9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0c5TokenB0VASTf1nnnncn_nTf4nnnndnnn_nTm at AbsolutePosition.swift.o
+│       │   │   └── 6.18 MiB (5.4%) $s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF at 187
+│       │   │       └── 6.18 MiB (5.4%) $s11SwiftParser0B0V14parseStatement0A6Syntax07RawStmtE0VyF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/Statements.swift:58
+│       │   │           └── 6.18 MiB (5.4%) 8 more callees, led by (1.9%) $s11SwiftParser0B0V20parseReturnStatement12returnHandle0A6Syntax03Rawd4StmtH0VAA019RecoveryConsumptionG0V_tF at 710
+│       │   ├── … 2.89 MiB (2.5%) $s11SwiftSyntax016RawCodeBlockItemB0V_4item_9semicolon_5arenaAcA0c15UnexpectedNodesB0VSg_AC0F0OAiA0c5TokenB0VSgAiA0cB5ArenaChtcfC at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/raw/RawSyntaxNodesC.swift:1829
+│       │   │   └── 2.89 MiB (2.5%) $s11SwiftSyntax03RawB0V10makeLayout4kind18uninitializedCount29isMaximumNestingLevelOverflow5arena16initializingWithAcA0B4KindO_SiSbAA0cB5ArenaChySryACSgGXEtFZ04$s11a9Syntax016c35CodeBlockItemB0V_4item_9semicolon_5n22AcA0c15UnexpectedNodesx21VSg_AC0F0OAiA0c5Tokenx10VSgAiA0cB5r14ChtcfcySryAA0cX9VSgGXEfU_AA0c15UnexpectedNodesB0VSgAA0cuvwB0V0W0OAsA0c5TokenB0VSgASTf1nnnncn_n …
+│       │   └── 616 KiB (0.5%) $s11SwiftParser0B0V31registerNodeForIncrementalParse4node10startTokeny0A6Syntax03RawK0V_AA5LexerO6LexemeVtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/IncrementalParseTransition.swift:34 …
+│       └── … 5.79 MiB (5.1%) swift_slowAlloc
+├── … 6.58 MiB (5.8%) profile_main at ./Sources/profile/main.swift:1
+│   ├── … 3.95 MiB (3.5%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:220
+│   │   └── 3.95 MiB (3.5%) 3 more callees, led by (2.5%) $s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF at 187
+│   └── 2.62 MiB (2.3%) $s11SwiftSyntax0B7VisitorC4walkyyxAA0B8ProtocolRzlF at ./.build/checkouts/swift-syntax/Sources/SwiftSyntax/generated/SyntaxVisitor.swift:34 …
+├── … 3.66 MiB (3.2%) $s11SwiftParser0B0V18parseCodeBlockItem12isAtTopLevel13allowInitDecl0A6Syntax03RawdefN0VSgSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:137
+│   └── … 3.53 MiB (3.1%) $s11SwiftParser0B0V9parseItem33_008C1B0E0A90478841CED0DF9A7053A1LL12isAtTopLevel13allowInitDecl0A6Syntax012RawCodeBlockdT0V0D0OSb_SbtF at ./.build/checkouts/swift-syntax/Sources/SwiftParser/TopLevel.swift:220
+│       └── 3.53 MiB (3.1%) 3 more callees, led by (2.1%) $s11SwiftParser0B0V18parseStatementItem33_008C1B0E0A90478841CED0DF9A7053A1LL0A6Syntax012RawCodeBlockeN0V0E0OyF at 187
+├── 3.56 MiB (3.1%) (anonymous)
+│   └── 3.56 MiB (3.1%) profile_main at ./Sources/profile/main.swift:1
+│       └── 3.56 MiB (3.1%) 2 more callees, led by (2.2%) $s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ at ./.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift:22
+└── 17.6 MiB (15.4%) 56 more root frames, led by (2.3%) $s11SwiftSyntax010SourceFileB0V0A6ParserE5parse4fromAcD0E0Vz_tFZ at ./.build/checkouts/swift-syntax/Sources/SwiftParser/generated/LayoutNodes+Parsable.swift:200
+```
+
 ## Hottest functions
 
 ### Self size
@@ -723,6 +772,39 @@ Retained 5.82 MiB over 357 objects (16.7 KiB per object).
 | Ours     |  0.1% | 3.03 KiB |      41 |
 
 Paths starting with `./` or `../` are relative to `/src/`.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5.81 MiB (100.0%) _start
+    └── 5.81 MiB (100.0%) __libc_start_main
+        └── 5.81 MiB (100.0%) (anonymous)
+            └── 5.81 MiB (99.9%) profile_main at ./Sources/profile/main.swift:1
+                ├── 5.79 MiB (99.6%) $sSS20FoundationEssentialsE14contentsOfFile8encodingS2Sh_SSAAE8EncodingVtKcfC
+                │   └── 5.79 MiB (99.6%) $sSS20FoundationEssentialsE5bytes8encodingSSSgxh_SSAAE8EncodingVtcSTRzs5UInt8V7ElementRtzlufCAA4DataV_Tt1g5 at crtstuff.c
+                │       └── 5.79 MiB (99.6%) $s20FoundationEssentials4DataV15_RepresentationO15withUnsafeBytesyxxSWKXEKlFSSSgSg_Tg504$s20a11Essentials4C76V32withContiguousStorageIfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0Q0VGxs5Error_pRi_zRi0_zlyAGIsgyrzo_Tf1cn_n
+                │           └── 5.79 MiB (99.6%) $s20FoundationEssentials13__DataStorageC15withUnsafeBytes2in5applyxSnySiG_xSWKXEtKlFSSSgSg_Tg504$s20a11Essentials4c17V32withContiguousD52IfAvailableyxSgxSRys5UInt8VGKXEKlFAESWKXEfU_SSSg_TG5SRys0R0VGxs5Error_pRi_zRi0_zlyAHIsgyrzo_Tf1ncn_nTm at _ThreadLocal.swift.o
+                │               └── 5.79 MiB (99.6%) $sSW17withMemoryRebound2to_q0_xm_q0_SRyxGq_YKXEtq_YKs5ErrorR_Ri_zRi_0_r1_lFs5UInt8V_sAD_pSSSgTt1g507$sSRys5f5VGxs5E36_pIgyrzo_ACxsAD_pIegyrzr_lTRSSSg_TG5SRyAFGAGsAD_pIgyrzo_Tf1cn_n at crtstuff.c
+                │                   └── 5.79 MiB (99.6%) $sSRys5UInt8VGSSSgs5Error_pIgyozo_AcDsAE_pIegyrzo_TR072$sSS20FoundationEssentialsE5bytes8encodingSSSgxh_SSAAE8EncodingVtcSTRzs5A59V7ElementRtzlufc10makeStringL0_6bufferADSRyAHG_tSTRzAhJRSlFTf3nnpf_n
+                │                       └── 5.79 MiB (99.6%) $sSS12_tryFromUTF8ySSSgSRys5UInt8VGFZ
+                │                           └── 5.79 MiB (99.6%) $sSS18_uncheckedFromUTF8_7isASCIISSSRys5UInt8VG_SbtFZTf4nnd_nTm at Swift.o
+                │                               └── 5.79 MiB (99.6%) $ss15__StringStorageC6create16initializingFrom16codeUnitCapacity7isASCIIABSRys5UInt8VG_SiSbtFZTf4nnnd_n at crtstuff.c
+                │                                   └── 5.79 MiB (99.6%) $ss22_allocateStringStorage33_A317BBF16F3432B4D1DDED3E0452DA4DLL16codeUnitCapacitys02__bC0C_s01_N8AndFlagsABLLVtSi_tF at Swift.o
+                │                                       └── 5.79 MiB (99.6%) swift_allocObject
+                │                                           └── 5.79 MiB (99.6%) swift_slowAlloc
+                └── 4 KiB (0.1%) $ss5print_9separator10terminatoryypd_S2StFTm at Swift.o
+                    └── 4 KiB (0.1%) $ss6_print_9separator10terminator2toySayypG_S2Sxzts16TextOutputStreamRzlFs7_StdoutV_Tg5Tm
+                        └── 4 KiB (0.1%) $ss15_print_unlockedyyx_q_zts16TextOutputStreamR_r0_lF
+                            └── 4 KiB (0.1%) $ss7_StdoutVs16TextOutputStreamssACP5writeyySSFTW at Swift.o
+                                └── 4 KiB (0.1%) $sSS8withUTF8yxxSRys5UInt8VGKXEKlFSi_Tg5030$ss7_StdoutV5writeyySSFSiSRys5C7VGXEfU_Tf1cn_n at crtstuff.c
+                                    └── 4 KiB (0.1%) fwrite
+                                        └── 4 KiB (0.1%) _IO_file_xsputn
+                                            └── 4 KiB (0.1%) _IO_file_overflow
+                                                └── 4 KiB (0.1%) _IO_doallocbuf
+                                                    └── 4 KiB (0.1%) _IO_file_doallocate
+```
 
 ## Hottest functions
 

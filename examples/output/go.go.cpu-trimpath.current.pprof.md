@@ -7,6 +7,55 @@ Took 3.44s over 344 samples (10.0ms per sample).
 | Standard library  | 99.7% |  3.43s |     343 |
 | Garbage collector |  0.3% | 10.0ms |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 1.71s (49.7%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run at github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│   ├── 1.13s (32.8%) encoding/json.Unmarshal at encoding/json/decode.go:102
+│   │   ├── … 670.0ms (19.5%, self 0.6%) encoding/json.(*decodeState).objectInterface at encoding/json/decode.go:1078
+│   │   │   ├── … 160.0ms (4.7%, self 2.0%) encoding/json.(*decodeState).scanWhile at encoding/json/decode.go:298
+│   │   │   │   └── 90.0ms (2.6%) 3 more callees, led by (1.5%) encoding/json.stateBeginString at encoding/json/scanner.go:268
+│   │   │   ├── … 90.0ms (2.6%) encoding/json.unquote at encoding/json/decode.go:1187
+│   │   │   │   └── 90.0ms (2.6%, self 3.2% globally) encoding/json.unquoteBytes at 1193
+│   │   │   ├── … 50.0ms (1.5%, self 1.2%, self 1.7% globally) encoding/json.(*decodeState).rescanLiteral at encoding/json/decode.go:322
+│   │   │   └── 350.0ms (10.2%) 2 more callees, led by (5.5%) runtime.mapassign_faststr at internal/runtime/maps/runtime_faststr.go:263
+│   │   └── 460.0ms (13.4%, self 3.8%) encoding/json.checkValid at encoding/json/scanner.go:33
+│   │       ├── 120.0ms (3.5%) encoding/json.stateInString at 339
+│   │       ├── 90.0ms (2.6%, self 2.0%, self 2.9% globally) encoding/json.stateBeginString at 268
+│   │       │   └── 20.0ms (0.6%, self 2.6% globally) encoding/json.isSpace at 201
+│   │       └── 120.0ms (3.5%) 8 more callees, led by (1.2%) encoding/json.stateEndValue at 281
+│   └── … 580.0ms (16.9%) encoding/json.(*encodeState).reflectValue at encoding/json/encode.go:366
+│       ├── … 400.0ms (11.6%) encoding/json.mapEncoder.encode at encoding/json/encode.go:765
+│       │   └── 390.0ms (11.3%) 8 more callees, led by (2.9%) slices.SortFunc[go.shape.[]encoding/json.reflectWithString,go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }] at slices/sort.go:30
+│       ├── … 90.0ms (2.6%) encoding/json.stringEncoder at encoding/json/encode.go:610
+│       │   └── 90.0ms (2.6%, self 2.0%, self 4.1% globally) encoding/json.appendString[go.shape.string] at 999
+│       │       └── 20.0ms (0.6%) unicode/utf8.DecodeRuneInString at unicode/utf8/utf8.go:219 …
+│       └── 80.0ms (2.3%) 3 more callees, led by (1.5%) encoding/json.valueEncoder at encoding/json/encode.go:381
+├── 1.14s (33.1%) runtime.systemstack at runtime/asm_arm64.s:353
+│   ├── … 560.0ms (16.3%) runtime.madvise at runtime/sys_darwin.go:224
+│   ├── … 330.0ms (9.6%) runtime.kevent at runtime/sys_darwin.go:438
+│   ├── 140.0ms (4.1%) runtime.gcBgMarkWorker.func2 at runtime/mgc.go:1847
+│   │   ├── … 80.0ms (2.3%) runtime.(*gcControllerState).enlistWorker at runtime/mgcpacer.go:697
+│   │   │   ├── 40.0ms (1.2%) runtime.preemptone at runtime/proc.go:6866 …
+│   │   │   └── … 30.0ms (0.9%, self 3.2% globally) runtime.pthread_cond_signal at runtime/sys_darwin.go:508
+│   │   └── 50.0ms (1.5%) runtime.gcDrainMarkWorkerIdle at runtime/mgcmark.go:1167 …
+│   ├── … 50.0ms (1.5%, self 4.4% globally) runtime.pthread_kill at runtime/sys_darwin.go:148
+│   └── 60.0ms (1.7%) 3 more callees, led by (0.9%) runtime.gcMarkTermination.forEachP.func7 at runtime/proc.go:2112
+├── … 400.0ms (11.6%) runtime.schedule at runtime/proc.go:4135
+│   ├── 370.0ms (10.8%) runtime.findRunnable at 3389
+│   │   ├── … 270.0ms (7.8%) runtime.pthread_cond_wait at runtime/sys_darwin.go:487
+│   │   └── 80.0ms (2.3%) 4 more callees, led by (0.9%) runtime.stealWork at 3828
+│   └── 30.0ms (0.9%) runtime.resetspinning at 4021 …
+├── 110.0ms (3.2%) runtime.gcBgMarkWorker at runtime/mgc.go:1750 …
+└── … 80.0ms (2.3%) runtime.goschedImpl at runtime/proc.go:4307
+    ├── … 60.0ms (1.7%, self 4.1% globally) runtime.usleep at runtime/sys_darwin.go:273
+    └── 10.0ms (0.3%) runtime.wakep at 3212
+```
+
 ## Hottest functions
 
 ### Self time

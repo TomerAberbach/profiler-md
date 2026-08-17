@@ -9,6 +9,55 @@ Allocated 4.71 GiB over 9,574 samples (516 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 4.6 GiB (97.8%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   ├── … 4.08 GiB (86.6%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
+│   │   ├── … 3.93 GiB (83.6%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:88583:33
+│   │   │   ├── … 2.56 GiB (54.4%) checkDeferredNode at ./node_modules/typescript/lib/typescript.js:88499:29
+│   │   │   │   ├── … 1.58 GiB (33.5%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
+│   │   │   │   │   ├── 1.06 GiB (22.4%) checkVariableDeclaration at 85396:36
+│   │   │   │   │   │   └── 1.06 GiB (22.4%) checkVariableLikeDeclaration at 85202:40
+│   │   │   │   │   │       ├── 937 MiB (19.4%) getTypeOfSymbol at 59663:27
+│   │   │   │   │   │       │   ├── 905 MiB (18.8%) getTypeOfVariableOrParameterOrPropertyWorker at 59354:56
+│   │   │   │   │   │       │   │   └── 905 MiB (18.8%) getWidenedTypeForVariableLikeDeclaration at 59264:52 …
+│   │   │   │   │   │       │   └── 32.6 MiB (0.7%) 4 more callees, led by (0.5%) getTypeOfMappedSymbol at ./node_modules/typescript/lib/typescript.js:61244:33
+│   │   │   │   │   │       └── 144 MiB (3.0%) 6 more callees, led by (2.0%) checkExpressionCached at 82440:33
+│   │   │   │   │   ├── 399 MiB (8.3%) checkExpressionStatement at 85419:36
+│   │   │   │   │   │   ├── 223 MiB (4.6%) checkExpression at 82771:27
+│   │   │   │   │   │   │   └── … 221 MiB (4.6%) checkExpressionWorker at ./node_modules/typescript/lib/typescript.js:82811:33
+│   │   │   │   │   │   │       ├── 24 MiB (0.5%) checkIdentifier at 74242:27
+│   │   │   │   │   │   │       │   └── 21.5 MiB (0.4%, self 3.3% globally) getFlowTypeOfReference at 72917:34
+│   │   │   │   │   │   │       └── 197 MiB (4.1%) 11 more callees, led by (3.2%) checkCallExpression at ./node_modules/typescript/lib/typescript.js:79584:31
+│   │   │   │   │   │   └── 176 MiB (3.6%) checkExpressionWorker at 82811:33 …
+│   │   │   │   │   └── 136 MiB (2.8%) 7 more callees, led by (1.1%) checkTypeReferenceNode at 83518:34
+│   │   │   │   └── 980 MiB (20.3%) checkSourceElementWorker at 88208:36
+│   │   │   │       ├── … 658 MiB (13.7%) checkVariableDeclaration at ./node_modules/typescript/lib/typescript.js:85396:36
+│   │   │   │       │   └── 658 MiB (13.6%) checkVariableLikeDeclaration at 85202:40
+│   │   │   │       │       ├── 394 MiB (8.2%) getTypeOfSymbol at 59663:27
+│   │   │   │       │       │   └── 390 MiB (8.1%) getTypeOfVariableOrParameterOrPropertyWorker at 59354:56
+│   │   │   │       │       │       ├── … 325 MiB (6.7%) inferTypeArguments at ./node_modules/typescript/lib/typescript.js:77951:30
+│   │   │   │       │       │       │   ├── … 270 MiB (5.6%, self 5.3%, self 50.9% globally) checkTypeRelatedTo at ./node_modules/typescript/lib/typescript.js:67445:30
+│   │   │   │       │       │       │   └── 36.5 MiB (0.8%) 3 more callees, led by (0.7%) getInferredType at 71816:27
+│   │   │   │       │       │       └── 42.6 MiB (0.9%) getWidenedTypeForVariableLikeDeclaration at 59264:52 …
+│   │   │   │       │       └── 263 MiB (5.5%) 3 more callees, led by (3.3%) getTypeOfVariableOrParameterOrProperty at 59343:50
+│   │   │   │       └── 320 MiB (6.6%) 7 more callees, led by (4.9%) checkExpressionStatement at ./node_modules/typescript/lib/typescript.js:85419:36
+│   │   │   └── … 1.34 GiB (28.4%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
+│   │   │       ├── 228 MiB (4.7%) checkTypeReferenceNode at 83518:34
+│   │   │       │   ├── … 13 MiB (0.3%) compareSignaturesRelated at ./node_modules/typescript/lib/typescript.js:67064:36
+│   │   │       │   │   └── … 9.5 MiB (0.2%, self 2.9% globally) getObjectTypeInstantiation at ./node_modules/typescript/lib/typescript.js:66040:38
+│   │   │       │   └── 191 MiB (4.0%) 3 more callees, led by (3.8%) checkTypeReferenceOrImport at 83529:38
+│   │   │       └── 1.11 GiB (23.6%) 29 more callees, led by (16.3%) checkVariableDeclaration at 85396:36
+│   │   └── 146 MiB (3.0%) 2 more callees, led by (3.0%) getTypeChecker at 124848:26
+│   └── 538 MiB (11.2%) 3 more callees, led by (10.8%) createProgram at ./node_modules/typescript/lib/typescript.js:123840:23
+└── 108 MiB (2.2%) 55 more root frames, led by (0.1%) isRelatedTo at ./node_modules/typescript/lib/typescript.js:67753:25
+```
+
 ## Hottest functions
 
 ### Self size

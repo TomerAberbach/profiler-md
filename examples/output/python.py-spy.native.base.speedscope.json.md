@@ -9,6 +9,55 @@ Took 24.50s over 245 samples (100.0ms per sample).
 | Native           |  2.9% | 700.0ms |       7 |
 | Ours             |  1.2% | 300.0ms |       3 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 24.50s (100.0%) 0x7ff2a7b2e24a at /usr/lib/x86_64-linux-gnu/libc.so.6
+    ├── 24.10s (98.4%) _run_module_as_main at <frozen runpy>
+    │   ├── … 23.30s (95.1%) CPyDef_black___format_file_contents at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   ├── 13.70s (55.9%) CPyDef_black___format_str
+    │   │   │   └── 13.70s (55.9%) CPyDef_black____format_str_once
+    │   │   │       ├── 5.60s (22.9%, self 4.9%, self 7.3% globally) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+    │   │   │       │   ├── … 2.20s (9.0%, self 1.2% globally) CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__ at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   │       │   │   └── 2.10s (8.6%) 4 more callees, led by (4.9%) CPyDef_lines___Line___append
+    │   │   │       │   ├── … 100.0ms (0.4%, self 1.2% globally) CPyDef_nodes___Visitor___visit_default at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   │       │   └── 2.10s (8.6%) 11 more callees, led by (2.4%) CPyDef_linegen___visit_simple_stmt_LineGenerator_gen_____mypyc_generator_helper__ at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   │       ├── … 5.40s (22.0%, self 3.7%, self 5.3% globally) CPyDef_driver___Driver___parse_tokens at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   │       │   ├── 2.50s (10.2%) CPyDef_parse___Parser___addtoken
+    │   │   │       │   │   └── 2.40s (9.8%, self 5.3%, self 7.3% globally) CPyDef_parse___Parser____addtoken
+    │   │   │       │   │       ├── 600.0ms (2.4%, self 4.1% globally) CPyDef_parse___Parser___pop
+    │   │   │       │   │       └── 400.0ms (1.6%, self 2.9% globally) CPyDef_parse___Parser___push
+    │   │   │       │   ├── 1.60s (6.5%) CPyDef_driver___TokenProxy_____next__
+    │   │   │       │   │   └── 1.50s (6.1%, self 4.1%, self 6.9% globally) CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__
+    │   │   │       │   │       └── 500.0ms (2.0%) 5 more callees, led by (0.4%) 0x7ff2a708eff0
+    │   │   │       │   └── 400.0ms (1.6%) 3 more callees, led by (0.8%) pytree___Node_clear
+    │   │   │       ├── 800.0ms (3.3%) CPyDef_black___detect_target_versions
+    │   │   │       │   └── 800.0ms (3.3%, self 1.6%) CPyDef_black___get_features_used
+    │   │   │       │       └── 400.0ms (1.6%, self 1.2%) CPyDef_pytree___pre_order_Node_gen_____mypyc_generator_helper__
+    │   │   │       └── 1.80s (7.3%) 4 more callees, led by (3.7%) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+    │   │   └── 9.60s (39.2%) CPyDef_black___check_stability_and_equivalence
+    │   │       ├── 7.60s (31.0%) CPyDef_black___assert_stable
+    │   │       │   └── 7.60s (31.0%) CPyDef_black____format_str_once
+    │   │       │       ├── … 3.10s (12.7%, self 1.6%) CPyDef_driver___Driver___parse_tokens at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │       │       │   ├── 1.80s (7.3%) CPyDef_parse___Parser___addtoken
+    │   │       │       │   │   └── 1.80s (7.3%, self 2.0%) CPyDef_parse___Parser____addtoken
+    │   │       │       │   │       ├── 600.0ms (2.4%, self 1.2%) CPyDef_parse___Parser___push
+    │   │       │       │   │       │   └── 200.0ms (0.8%) 0x7ff2a708f4a0
+    │   │       │       │   │       └── 700.0ms (2.9%) 3 more callees, led by (1.6%) CPyDef_parse___Parser___pop
+    │   │       │       │   └── 900.0ms (3.7%) 2 more callees, led by (3.3%) CPyDef_driver___TokenProxy_____next__
+    │   │       │       └── 4.50s (18.4%) 8 more callees, led by (10.2%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+    │   │       └── 2s (8.2%) CPyDef_black___assert_equivalent
+    │   │           ├── 1.40s (5.7%, self 4.1%) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__
+    │   │           │   └── 400.0ms (1.6%) 2 more callees, led by (0.8%) CPyDef_parsing____stringify_ast_with_new_parent_gen_____mypyc_generator_helper__
+    │   │           └── 500.0ms (2.0%) CPyDef_parsing___parse_ast …
+    │   └── 800.0ms (3.3%) _get_module_details …
+    └── 300.0ms (1.2%, self 0.8%) pytree___Node_clear at /venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+```
+
 ## Hottest functions
 
 ### Self time

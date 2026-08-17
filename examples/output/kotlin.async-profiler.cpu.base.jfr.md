@@ -10,6 +10,55 @@ Collected 1,303 samples.
 | Standard library |  4.6% |      60 |
 | JIT              |  1.5% |      20 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 871 samples (66.8%) Thread::call_run at libjvm.dylib
+│   ├── 806 samples (61.9%) JavaThread::thread_main_inner
+│   │   └── 806 samples (61.9%) CompileBroker::compiler_thread_loop
+│   │       ├── 792 samples (60.8%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 546 samples (41.9%) C2Compiler::compile_method
+│   │       │   │   └── 545 samples (41.8%) Compile::Compile
+│   │       │   │       └── 545 samples (41.8%) 6 more callees, led by (21.9%) Compile::Code_Gen
+│   │       │   ├── … 236 samples (18.1%) Compilation::compile_method at libjvm.dylib
+│   │       │   │   ├── 218 samples (16.7%) Compilation::compile_java_method
+│   │       │   │   │   ├── 106 samples (8.1%) Compilation::emit_lir
+│   │       │   │   │   │   ├── 98 samples (7.5%) LinearScan::do_linear_scan
+│   │       │   │   │   │   │   ├── 18 samples (1.4%) LinearScan::build_intervals
+│   │       │   │   │   │   │   │   ├── 5 samples (0.4%, self 1.1% globally) LIR_OpVisitState::visit
+│   │       │   │   │   │   │   │   └── 2 samples (0.2%, self 1.4% globally) tlv_get_addr at libdyld.dylib
+│   │       │   │   │   │   │   └── 80 samples (6.1%) 12 more callees, led by (2.6%) LinearScan::allocate_registers
+│   │       │   │   │   │   └── 8 samples (0.6%) BlockList::iterate_forward …
+│   │       │   │   │   └── 112 samples (8.6%) 4 more callees, led by (5.7%) Compilation::build_hir
+│   │       │   │   └── 18 samples (1.4%) 2 more callees, led by (1.2%) ciEnv::register_method
+│   │       │   └── 2 samples (0.2%) TraceTime::~TraceTime
+│   │       └── … 14 samples (1.1%) PlatformMonitor::wait at libjvm.dylib
+│   │           ├── 12 samples (0.9%) __psynch_cvwait at libsystem_kernel.dylib
+│   │           └── … 2 samples (0.2%, self 1.6% globally) __psynch_mutexwait at libsystem_kernel.dylib
+│   └── 65 samples (5.0%) 3 more callees, led by (4.6%) WorkerThread::run
+├── 422 samples (32.4%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 422 samples (32.4%) run(String[])
+│       ├── … 342 samples (26.2%) exec(PrintStream, Services, MessageRenderer, String[]) at org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   ├── 339 samples (26.0%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │   │   ├── … 328 samples (25.2%) invoke(PhaseConfig, PhaserState, LoggingContext, Object) at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │   │   │   └── 328 samples (25.2%) 3 more callees, led by (23.5%) phaseBody(LoggingContext, Object) at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │   │   └── 8 samples (0.6%) <clinit>() at org.jetbrains.kotlin.cli.common.ArgumentsKt …
+│       │   └── … 1 sample (0.1%, self 1.7% globally) SymbolTable::do_lookup at libjvm.dylib
+│       └── 75 samples (5.8%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler) at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── … 68 samples (5.2%) read(byte[], int, int) at java.util.zip.InflaterInputStream
+│           │   └── … 66 samples (5.1%) Java_java_util_zip_Inflater_inflateBytesBytes at libzip.dylib
+│           │       ├── 54 samples (4.1%) inflate_fast
+│           │       ├── 7 samples (0.5%) inflate
+│           │       └── 3 samples (0.2%) jni_GetPrimitiveArrayCritical at libjvm.dylib
+│           │           └── 3 samples (0.2%, self 1.1% globally) pthread_jit_write_protect_np at libsystem_pthread.dylib
+│           └── 1 sample (0.1%) I2C/C2I adapters(0xbb)
+└── 6 samples (0.5%) break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

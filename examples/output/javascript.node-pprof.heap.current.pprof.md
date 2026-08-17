@@ -10,6 +10,55 @@ Allocated 299 MiB over 2,313,788 objects (135 B per object).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.xkrVDK/profiler-md-input-generation.tORfp3/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 297 MiB (99.3%) next
+│   ├── 291 MiB (97.3%) (anonymous) at ./datadog-pprof-heap.mjs:1:1
+│   │   └── 289 MiB (96.8%) typeCheckProject at ./tsc-workload.mjs
+│   │       ├── … 193 MiB (64.5%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
+│   │       │   ├── … 163 MiB (54.4%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   ├── 85 MiB (28.4%) forEach
+│   │       │   │   │   ├── … 82.5 MiB (27.6%) checkSourceElement at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │   └── … 82.5 MiB (27.6%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       ├── 29.2 MiB (9.8%) checkTypeReferenceNode
+│   │       │   │   │   │       │   ├── … 21.7 MiB (7.3%) checkTypeArgumentConstraints at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   ├── … 16.1 MiB (5.4%) instantiateTypeWorker at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   │   ├── … 11.1 MiB (3.7%) isRelatedTo at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   │   │   ├── … 7.5 MiB (2.5%) isWeakType at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   │   │   │   └── 7 MiB (2.3%) resolveStructuredTypeMembers
+│   │       │   │   │   │       │   │   │   │   │       └── … 6 MiB (2.0%, self 0.5% globally) resolveTypeReferenceMembers at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   │   │   │           └── 5.5 MiB (1.8%) resolveObjectTypeMembers
+│   │       │   │   │   │       │   │   │   │   │               └── 4.5 MiB (1.5%, self 1.2%, self 10.5% globally) createInstantiatedSymbolTable
+│   │       │   │   │   │       │   │   │   │   └── … 3.61 MiB (1.2%) recursiveTypeRelatedTo at ./node_modules/typescript/lib/typescript.js …
+│   │       │   │   │   │       │   │   │   └── 4 MiB (1.3%) 5 more callees, led by (0.7%) getObjectTypeInstantiation at ./node_modules/typescript/lib/typescript.js
+│   │       │   │   │   │       │   │   └── 5.07 MiB (1.7%) checkTypeAssignableTo …
+│   │       │   │   │   │       │   └── 7.05 MiB (2.4%) (anonymous) at 83533:27 …
+│   │       │   │   │   │       └── 53.2 MiB (17.8%) 11 more callees, led by (10.2%) checkVariableDeclaration
+│   │       │   │   │   └── … 2.52 MiB (0.8%) checkParameter at ./node_modules/typescript/lib/typescript.js …
+│   │       │   │   └── 77.2 MiB (25.8%) checkDeferredNodes
+│   │       │   │       └── 77.2 MiB (25.8%) forEach
+│   │       │   │           └── 77.2 MiB (25.8%) 3 more callees, led by (24.8%) checkDeferredNode at ./node_modules/typescript/lib/typescript.js
+│   │       │   └── … 29.1 MiB (9.7%) bind at ./node_modules/typescript/lib/typescript.js
+│   │       │       ├── … 24.6 MiB (8.2%) bindWorker at ./node_modules/typescript/lib/typescript.js
+│   │       │       │   ├── … 12 MiB (4.0%, self 2.0%, self 3.7% globally) declareSymbol at ./node_modules/typescript/lib/typescript.js
+│   │       │       │   │   └── 6 MiB (2.0%) createSymbolTable
+│   │       │       │   │       └── 6 MiB (2.0%, self 5.5% globally) Map
+│   │       │       │   └── 12.6 MiB (4.2%) 12 more callees, led by (0.8%) bindFunctionOrConstructorType
+│   │       │       └── … 4.5 MiB (1.5%) bindContainer at ./node_modules/typescript/lib/typescript.js …
+│   │       ├── 81 MiB (27.1%) createProgram at ./node_modules/typescript/lib/typescript.js
+│   │       │   └── 81 MiB (27.1%) 3 more callees, led by (21.5%) forEach
+│   │       └── … 15.2 MiB (5.1%) (anonymous) at node:internal/modules/cjs/loader:1878:37
+│   │           ├── … 8.37 MiB (2.8%) readFileSync at node:fs
+│   │           └── 6.78 MiB (2.3%) (anonymous) at 1731:37 …
+│   └── … 6.01 MiB (2.0%) getUnmatchedProperties at ./node_modules/typescript/lib/typescript.js …
+└── 1.96 MiB (0.7%) (external)
+```
+
 ## Hottest functions
 
 ### Self size

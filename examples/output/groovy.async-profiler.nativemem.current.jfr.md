@@ -6,6 +6,55 @@ Allocated 1.09 GiB over 169,581 samples (6.72 KiB per sample).
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 1.09 GiB | 169,581 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 1.07 GiB (98.1%) CompileBroker::invoke_compiler_on_method at libjvm.dylib
+│   ├── 1.06 GiB (97.2%) C2Compiler::compile_method
+│   │   └── 1.06 GiB (97.2%) Compile::Compile
+│   │       ├── 623 MiB (56.0%) Compile::Optimize
+│   │       │   ├── … 285 MiB (25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 195 MiB (17.6%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── 20.2 MiB (1.8%) IdealLoopTree::loop_predication
+│   │       │   │   │   └── … 20.2 MiB (1.8%) PhaseIdealLoop::loop_predication_impl at libjvm.dylib
+│   │       │   │   │       └── 20.2 MiB (1.8%) 6 more callees, led by (1.0%) PhaseIdealLoop::loop_predication_impl_helper
+│   │       │   │   ├── … 19.8 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 19.6 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 29.9 MiB (2.7%) 7 more callees, led by (0.9%) Arena::grow
+│   │       │   ├── … 284 MiB (25.6%) PhaseIdealLoop::build_and_optimize at libjvm.dylib
+│   │       │   │   ├── … 197 MiB (17.7%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 19.9 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 19.8 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 16.3 MiB (1.5%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 31 MiB (2.8%) 9 more callees, led by (1.1%) IdealLoopTree::loop_predication
+│   │       │   └── 47.5 MiB (4.3%) 15 more callees, led by (1.0%) PhaseCCP::do_transform
+│   │       ├── 429 MiB (38.5%) Compile::Code_Gen
+│   │       │   ├── 332 MiB (29.9%) PhaseChaitin::Register_Allocate
+│   │       │   │   ├── … 236 MiB (21.2%, self 100.0% globally) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   ├── … 80.2 MiB (7.2%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 15.3 MiB (1.4%) 9 more callees, led by (0.8%) PhaseChaitin::Split
+│   │       │   ├── 76.2 MiB (6.8%) Matcher::match
+│   │       │   │   ├── 45.5 MiB (4.1%) Matcher::xform
+│   │       │   │   │   ├── … 26.2 MiB (2.4%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   │   ├── 12.7 MiB (1.1%) Matcher::match_tree
+│   │       │   │   │   │   └── 12.7 MiB (1.1%) 4 more callees, led by (0.8%) Matcher::ReduceInst
+│   │       │   │   │   └── 5.1 MiB (0.5%) Node::out_grow
+│   │       │   │   ├── … 20.3 MiB (1.8%) malloc_hook at libasyncProfiler.dylib
+│   │       │   │   └── 10.3 MiB (0.9%) 3 more callees, led by (0.7%) Node_Array::grow
+│   │       │   └── 20.2 MiB (1.8%) 6 more callees, led by (0.8%) PhaseCFG::do_global_code_motion
+│   │       ├── … 18.4 MiB (1.7%) Parse::do_one_block at libjvm.dylib
+│   │       │   └── 18.4 MiB (1.7%) 17 more callees, led by (0.5%) Parse::do_field_access
+│   │       └── 9.43 MiB (0.8%) 10 more callees, led by (0.6%) PhaseRemoveUseless::PhaseRemoveUseless
+│   └── 9.4 MiB (0.8%) 5 more callees, led by (0.8%) Compiler::compile_method
+├── … 10.2 MiB (0.9%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   └── 10.2 MiB (0.9%) 138 more callees, led by (0.4%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010d4c00
+└── 4.36 MiB (0.4%) <clinit>() at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self size

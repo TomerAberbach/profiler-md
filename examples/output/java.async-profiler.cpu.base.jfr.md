@@ -10,6 +10,55 @@ Collected 4,739 samples.
 | JIT              |  1.4% |      65 |
 | Compiler         |  1.3% |      60 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,445 samples (93.8%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,445 samples (93.8%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── … 4,133 samples (87.2%) doExec() at java.util.concurrent.ForkJoinTask
+│       │   ├── … 4,078 samples (86.1%) exec() at java.util.concurrent.RecursiveTask
+│       │   │   └── 4,076 samples (86.0%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,777 samples (37.5%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── … 1,342 samples (28.3%, self 8.4%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 889 samples (18.8%, self 18.4%) distance(Double[], Double[])
+│       │   │       │   │   └── 57 samples (1.2%) 7 more callees, led by (1.0%) get(int) at java.util.ArrayList
+│       │   │       │   └── … 435 samples (9.2%, self 2.2%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 166 samples (3.5%, self 2.6%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       │       │   └── 38 samples (0.8%) hash(Object)
+│       │   │       │       ├── 109 samples (2.3%) add(Object) at java.util.ArrayList
+│       │   │       │       │   └── 106 samples (2.2%, self 1.1%) add(Object, Object[], int)
+│       │   │       │       │       └── 52 samples (1.1%) grow()
+│       │   │       │       │           └── 45 samples (0.9%) grow(int)
+│       │   │       │       │               └── 14 samples (0.3%) zero_blocks
+│       │   │       │       └── 55 samples (1.2%) get(int) at java.util.ArrayList
+│       │   │       │           ├── 28 samples (0.6%) elementData(int)
+│       │   │       │           └── 27 samples (0.6%) checkIndex(int, int) at java.util.Objects
+│       │   │       ├── 1,429 samples (30.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── … 1,429 samples (30.2%, self 8.1%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 970 samples (20.5%, self 18.3%) accumulate(Double[], double[])
+│       │   │       │       │   └── 103 samples (2.2%) doubleValue() at java.lang.Double
+│       │   │       │       └── 77 samples (1.6%) get(int) at java.util.ArrayList
+│       │   │       │           └── 76 samples (1.6%, self 3.1% globally) elementData(int)
+│       │   │       ├── 508 samples (10.7%) join() at java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 505 samples (10.7%) awaitDone(int, long)
+│       │   │       │       ├── … 423 samples (8.9%, self 15.4% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │   │       │       └── 56 samples (1.2%, self 0.8%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean) at java.util.concurrent.ForkJoinPool
+│       │   │       └── … 329 samples (6.9%) merge(Object, Object, BiFunction) at java.util.HashMap
+│       │   │           ├── 219 samples (4.6%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000c801187468 …
+│       │   │           ├── 61 samples (1.3%) arrayof_jint_disjoint_arraycopy
+│       │   │           │   └── 59 samples (1.2%, self 4.4% globally) forward_copy_longs
+│       │   │           └── 43 samples (0.9%) zero_blocks
+│       │   └── … 51 samples (1.1%) Unsafe_Unpark at libjvm.dylib
+│       │       ├── 45 samples (0.9%) __psynch_cvsignal at libsystem_kernel.dylib
+│       │       └── 3 samples (0.1%) tlv_get_addr at libdyld.dylib
+│       └── 301 samples (6.4%) 2 more callees, led by (6.3%) awaitWork(ForkJoinPool$WorkQueue)
+└── 294 samples (6.2%) 7 more root frames, led by (5.3%) thread_start at libsystem_pthread.dylib
+```
+
 ## Hottest functions
 
 ### Self samples

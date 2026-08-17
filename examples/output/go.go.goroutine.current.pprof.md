@@ -8,6 +8,21 @@ Recorded 1 goroutine.
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1 goroutine (100.0%) runtime.main at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:149
+    └── 1 goroutine (100.0%) main.main at ./profile.go:61
+        └── 1 goroutine (100.0%) main.writeProfile at 46
+            └── 1 goroutine (100.0%) runtime/pprof.(*Profile).WriteTo at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/pprof/pprof.go:403
+                └── 1 goroutine (100.0%) runtime/pprof.writeGoroutine at 780
+                    └── 1 goroutine (100.0%) runtime/pprof.writeRuntimeProfile at 834
+                        └── 1 goroutine (100.0%) runtime.pprof_goroutineProfileWithLabels at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mprof.go:1249
+                            └── 1 goroutine (100.0%) runtime.goroutineProfileWithLabels at 1254
+```
+
 ## Hottest functions
 
 ### Self goroutines

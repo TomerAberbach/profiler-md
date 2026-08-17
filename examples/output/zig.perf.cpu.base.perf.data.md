@@ -10,6 +10,55 @@ Took 5.24s over 5,239 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 5.24s (100.0%) 0x1130c at ./binary
+    ├── 3.90s (74.4%) 0x10144
+    │   ├── 1.60s (30.6%) 0x44b48
+    │   │   ├── … 1.50s (28.7%) 0x4aa18 at ./binary
+    │   │   │   ├── 823.8ms (15.7%) 0x383d0
+    │   │   │   │   ├── 94.1ms (1.8%) 0x532e4
+    │   │   │   │   │   └── 79.1ms (1.5%) 0x491a0
+    │   │   │   │   │       ├── 7.0ms (0.1%, self 1.3% globally) 0x433d0
+    │   │   │   │   │       ├── 4.0ms (0.1%, self 0.8% globally) 0x53c64
+    │   │   │   │   │       └── 67.1ms (1.3%) 19 more callees, led by (0.8%) 0x53c28
+    │   │   │   │   └── 729.7ms (13.9%) 25 more callees, led by (8.8%) 0x537bc
+    │   │   │   └── 679.7ms (13.0%) 51 more callees, led by (2.8%) 0x36670
+    │   │   └── 103.1ms (2.0%) 17 more callees, led by (0.8%) 0x4a1ac
+    │   ├── 1.51s (28.9%) 0x45be0
+    │   │   └── … 1.51s (28.9%) 0x368f8 at ./binary
+    │   │       ├── … 608.6ms (11.6%) 0x6449c at ./binary
+    │   │       │   └── 608.6ms (11.6%) 40 more callees, led by (3.9%) 0x36b64
+    │   │       └── 906.9ms (17.3%) 24 more callees, led by (6.7%) 0x642d8 at ./binary
+    │   ├── 546.5ms (10.4%) 0x368f8
+    │   │   └── 546.5ms (10.4%) 12 more callees, led by (5.5%) 0x6449c at ./binary
+    │   └── 233.2ms (4.4%) 18 more callees, led by (2.8%) 0x45934
+    ├── 521.5ms (9.9%) 0xf660
+    │   ├── 33.0ms (0.6%) 0x131a4
+    │   ├── 33.0ms (0.6%, self 2.8% globally) 0x1392c
+    │   ├── 32.0ms (0.6%, self 3.9% globally) 0x138f0
+    │   ├── 20.0ms (0.4%, self 2.4% globally) 0x13910
+    │   ├── 17.0ms (0.3%, self 1.3% globally) 0x138fc
+    │   ├── 16.0ms (0.3%, self 1.1% globally) 0x139a8
+    │   ├── 15.0ms (0.3%, self 1.4% globally) 0x1391c
+    │   ├── 15.0ms (0.3%, self 1.2% globally) 0x13904
+    │   ├── 11.0ms (0.2%, self 1.4% globally) 0x1396c
+    │   ├── 11.0ms (0.2%, self 1.0% globally) 0x13978
+    │   ├── 8.0ms (0.2%, self 1.2% globally) 0x139b0
+    │   └── 303.3ms (5.8%) 88 more callees, led by (0.5%) 0x131b0
+    ├── 67.1ms (1.3%) 0xf68c
+    │   ├── 27.0ms (0.5%, self 2.3% globally) 0x9d200 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   └── 11.0ms (0.2%) 0x11f14
+    ├── 21.0ms (0.4%) 0xf75c
+    │   └── 16.0ms (0.3%, self 1.1% globally) 0x9e670 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    └── 730.7ms (13.9%) 36 more callees, led by (9.6%) 0xf7d4
+```
+
 ## Hottest functions
 
 ### Self time

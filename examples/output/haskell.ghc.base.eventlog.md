@@ -8,6 +8,55 @@ Took 3.59s over 3,592 samples (1.0ms per sample).
 | Garbage collector | 29.9% |  1.07s |   1,075 |
 | Native            |  0.4% | 14.0ms |      14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2.50s (69.7%) Main.main at Profile.hs:146:1
+│   ├── 2.29s (64.0%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
+│   │   ├── 1.56s (43.6%, self 37.2%) Data.Aeson.Decoding.ByteString.Lazy.lbsToTokens at src/Data/Aeson/Decoding/ByteString/Lazy.hs:33:1
+│   │   │   ├── 111.0ms (3.1%) Data.Aeson.Internal.Text.unsafeDecodeASCII at src/Data/Aeson/Internal/Text.hs:29:1
+│   │   │   ├── 62.0ms (1.7%) Data.Integer.Conversion.byteStringToInteger at src/Data/Integer/Conversion.hs:104:1
+│   │   │   └── 55.0ms (1.5%) Data.Aeson.Internal.Unescape.unescapeText at src/Data/Aeson/Internal/Unescape.hs:34:1
+│   │   └── 733.0ms (20.4%, self 4.1%) Data.Aeson.Decoding.Conversion.toResultValue at src/Data/Aeson/Decoding/Conversion.hs:51:1
+│   │       ├── 482.0ms (13.4%) Data.Aeson.KeyMap.fromList at src/Data/Aeson/KeyMap.hs:247:1
+│   │       └── … 103.0ms (2.9%) Data.Aeson.Types.FromJSON.withObject at src/Data/Aeson/Types/FromJSON.hs:720:1
+│   │           └── 99.0ms (2.8%) Data.Aeson.Types.FromJSON..: at 849:1
+│   │               └── 92.0ms (2.6%) Data.Aeson.Types.FromJSON.explicitParseField at 917:1
+│   │                   ├── 28.0ms (0.8%) Data.Aeson.Types.Internal.<?> at src/Data/Aeson/Types/Internal.hs:659:1
+│   │                   │   ├── 9.0ms (0.3%) Data.Aeson.Types.FromJSON.withText at src/Data/Aeson/Types/FromJSON.hs:731:1
+│   │                   │   │   └── 5.0ms (0.1%) Main.parseJSONList at Profile.hs:71:10
+│   │                   │   │       └── 5.0ms (0.1%) Data.Aeson.Types.FromJSON.withArray at src/Data/Aeson/Types/FromJSON.hs:742:1
+│   │                   │   ├── 4.0ms (0.1%) Data.Aeson.Types.Internal.prependFailure at 681:1
+│   │                   │   │   └── 4.0ms (0.1%) Data.Aeson.Types.Internal.modifyFailure at 671:1
+│   │                   │   └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON..:? at src/Data/Aeson/Types/FromJSON.hs:859:1
+│   │                   │       └── 2.0ms (0.1%) Data.Aeson.Types.FromJSON.explicitParseFieldMaybe at 923:1
+│   │                   ├── 25.0ms (0.7%) Data.Aeson.KeyMap.lookup at src/Data/Aeson/KeyMap.hs:178:1
+│   │                   ├── 15.0ms (0.4%) Data.Scientific.toBoundedInteger at src/Data/Scientific.hs:772:1
+│   │                   │   ├── 4.0ms (0.1%) Utils.magnitude at src/Utils.hs:78:1
+│   │                   │   └── 4.0ms (0.1%) Data.Scientific.normalize at 1102:1
+│   │                   └── 5.0ms (0.1%) Main.parseJSONList at Profile.hs:50:10
+│   ├── 126.0ms (3.5%, self 3.1%) Main.keywords at 136:1
+│   │   └── 15.0ms (0.4%) Main.tally at 112:1
+│   ├── 54.0ms (1.5%) Main.roundTrip at 139:1
+│   │   ├── 29.0ms (0.8%) Data.Aeson.encode at src/Data/Aeson.hs:187:1
+│   │   │   └── … 25.0ms (0.7%) Data.Aeson.Encoding.Builder.encodeToBuilder at src/Data/Aeson/Encoding/Builder.hs:68:1
+│   │   │       ├── 23.0ms (0.6%) Data.Aeson.Encoding.Builder.object at 96:1
+│   │   │       │   └── 14.0ms (0.4%) Data.Aeson.Encoding.Builder.text at 109:1
+│   │   │       │       └── 6.0ms (0.2%) Data.Aeson.Encoding.Builder.unquoted at 113:1
+│   │   │       └── 2.0ms (0.1%) Data.Aeson.Encoding.Builder.array at 86:1
+│   │   └── 24.0ms (0.7%) Data.Aeson.Decoding.eitherDecode at src/Data/Aeson/Decoding.hs:79:1
+│   │       └── 13.0ms (0.4%) Data.Aeson.Decoding.Conversion.toResultValue at src/Data/Aeson/Decoding/Conversion.hs:51:1
+│   └── 23.0ms (0.6%) Main.summarize at 118:1
+│       └── 6.0ms (0.2%) Main.top at 115:1
+├── 1.07s (29.9%) GC.GC
+├── 8.0ms (0.2%) PROFILING.OVERHEAD_of
+└── 6.0ms (0.2%) SYSTEM.SYSTEM
+```
+
 ## Hottest functions
 
 ### Self time

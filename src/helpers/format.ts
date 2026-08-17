@@ -121,6 +121,9 @@ export const formatSigned = (value: number, formatted: string): string => {
   }
 }
 
+/** The smallest fraction {@link formatPercent} states as more than `<0.1%`. */
+export const PERCENT_RESOLUTION = 0.0005
+
 export const formatPercent = (fraction: number): string => {
   const formatted = `${(fraction * 100).toFixed(1)}%`
   // A nonzero value that rounds to `0.0%` would read as absent, so clamp it to

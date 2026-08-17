@@ -3,6 +3,7 @@ import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   callStackTables,
+  callTreeLines,
   selfObjectsTables,
   selfSamplesTables,
   selfSizeTables,
@@ -571,7 +572,7 @@ describe(`convert`, () => {
   ]
 
   test.each(STACK_TRACE_LAYOUTS)(
-    `states the share of the stack traces the recorder truncated, read by $layout`,
+    `draws the stack traces the recorder truncated apart, read by $layout`,
     ({ unrecognizedFrameLayout }) => {
       const bytes = makeJfr({
         methods: [
@@ -596,6 +597,15 @@ describe(`convert`, () => {
         `Collected 3 samples.`,
         `Paths starting with \`./\` or \`../\` are relative to \`/project/\`.`,
         `Call stacks missing their outermost callers account for 33.3% of the samples collected.`,
+        `\`truncated\` stands for missing outermost callers.`,
+      ])
+      expect(callTreeLines(md)).toEqual([
+        [
+          `├── 2 samples (66.7%) main at com.example.A`,
+          `│   └── 2 samples (66.7%, self 100.0% globally) leaf`,
+          `└── 1 sample (33.3%) truncated`,
+          `    └── 1 sample (33.3%) leaf at com.example.A`,
+        ],
       ])
       expectLogs(ORIGIN_LOGS)
     },

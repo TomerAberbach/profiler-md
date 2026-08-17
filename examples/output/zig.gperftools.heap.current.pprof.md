@@ -8,6 +8,55 @@ Allocated 1.56 GiB over 240,915 objects (6.81 KiB per object).
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 1.55 GiB (98.8%) profile.main at ./profile.zig:11
+│   ├── 873 MiB (54.5%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
+│   │   ├── 561 MiB (35.1%) zig.Ast.parseTokens at 168
+│   │   │   ├── … 512 MiB (31.9%, self 74.5% globally) heap.c_allocator_impl.alloc at /opt/zig/lib/std/heap.zig:208
+│   │   │   └── 49.8 MiB (3.1%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192
+│   │   │       └── 49.8 MiB (3.1%) zig.Parse.parseContainerMembers at 235
+│   │   │           ├── … 30.6 MiB (1.9%) zig.Parse.expectTopLevelDeclRecoverable at /opt/zig/lib/std/zig/Parse.zig:669
+│   │   │           │   └── 30.6 MiB (1.9%) zig.Parse.expectTopLevelDecl at 604
+│   │   │           │       └── 30.6 MiB (1.9%) 3 more callees, led by (1.1%) zig.Parse.parseBlock at 2094
+│   │   │           └── 19.2 MiB (1.2%) 4 more callees, led by (0.7%) zig.Parse.expectTestDeclRecoverable at 588
+│   │   ├── … 221 MiB (13.8%) heap.c_allocator_impl.alloc at /opt/zig/lib/std/heap.zig:208
+│   │   └── … 90 MiB (5.6%) heap.c_allocator_impl.alloc at /opt/zig/lib/std/heap.zig:208
+│   ├── … 355 MiB (22.1%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
+│   │   ├── 321 MiB (20.0%) zig.Ast.Render.renderMember at 141
+│   │   │   ├── … 213 MiB (13.3%) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   ├── … 45 MiB (2.8%) zig.Ast.Render.AutoIndentingStream.writeAll at /opt/zig/lib/std/zig/Ast/Render.zig:3353
+│   │   │   │   │   └── … 38 MiB (2.4%, self 25.5% globally) heap.c_allocator_impl.remap at /opt/zig/lib/std/heap.zig:291
+│   │   │   │   ├── … 37.3 MiB (2.3%) zig.Ast.Render.renderToken at /opt/zig/lib/std/zig/Ast/Render.zig:2720
+│   │   │   │   │   └── 35.9 MiB (2.2%) zig.Ast.Render.AutoIndentingStream.writeAll at 3353
+│   │   │   │   │       ├── … 20 MiB (1.2%) heap.c_allocator_impl.remap at /opt/zig/lib/std/heap.zig:291
+│   │   │   │   │       └── 15.9 MiB (1.0%) Io.Writer.writeAll at /opt/zig/lib/std/Io/Writer.zig:549
+│   │   │   │   │           └── 15.9 MiB (1.0%) Io.Writer.write at 532 …
+│   │   │   │   ├── … 33.8 MiB (2.1%) zig.Ast.Render.renderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1998
+│   │   │   │   │   └── 26.9 MiB (1.7%) zig.Ast.Render.finishRenderBlock at 2023
+│   │   │   │   │       ├── 18.9 MiB (1.2%) zig.Ast.Render.renderVarDecl at 1235
+│   │   │   │   │       │   └── 18.9 MiB (1.2%) zig.Ast.Render.renderVarDeclWithoutFixups at 1253
+│   │   │   │   │       │       └── 18.9 MiB (1.2%) 3 more callees, led by (0.6%) zig.Ast.Render.renderIdentifier at 2812
+│   │   │   │   │       └── 7.68 MiB (0.5%) zig.Ast.Render.renderToken at 2720
+│   │   │   │   ├── … 26.2 MiB (1.6%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2600
+│   │   │   │   │   └── 26.2 MiB (1.6%) 4 more callees, led by (0.9%) zig.Ast.Render.renderIdentifier at 2812
+│   │   │   │   └── 67.2 MiB (4.2%) 17 more callees, led by (0.9%) zig.Ast.Render.renderStructInit at /opt/zig/lib/std/zig/Ast/Render.zig:2051
+│   │   │   ├── … 61.7 MiB (3.9%) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+│   │   │   │   └── 61.7 MiB (3.9%) 17 more callees, led by (0.9%) zig.Ast.Render.renderContainerDecl at 2344
+│   │   │   ├── … 27.6 MiB (1.7%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1577
+│   │   │   │   └── 27.6 MiB (1.7%) 6 more callees, led by (1.0%) zig.Ast.Render.renderIdentifier at 2812
+│   │   │   └── 6.32 MiB (0.4%) zig.Ast.Render.renderDocComments at 3108
+│   │   └── 33.3 MiB (2.1%) zig.Ast.Render.renderExpression at 314
+│   │       └── 33.3 MiB (2.1%) 15 more callees, led by (0.4%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2600
+│   └── … 353 MiB (22.1%) heap.c_allocator_impl.alloc at /opt/zig/lib/std/heap.zig:208
+└── 18.6 MiB (1.2%) 24 more root frames, led by (0.2%) __libc_start_main
+```
+
 ## Hottest functions
 
 ### Self size

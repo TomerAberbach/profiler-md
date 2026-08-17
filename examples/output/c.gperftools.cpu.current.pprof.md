@@ -8,6 +8,43 @@ Took 2.95s over 2,951 samples (1.0ms per sample).
 | Native   |  0.6% | 18.0ms |      18 |
 | Unknown  |  0.1% |  4.0ms |       4 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 2.94s (99.8%) (anonymous)
+    └── … 2.94s (99.7%) POOL_thread at pool.c
+        └── 2.94s (99.7%) ZSTDMT_compressionJob at zstdmt_compress.c
+            ├── 2.47s (83.8%) ZSTD_compressContinue_public
+            │   └── 2.47s (83.8%) ZSTD_compress_frameChunk at zstd_compress.c
+            │       ├── 2.45s (83.2%) ZSTD_buildSeqStore
+            │       │   ├── 2.40s (81.4%, self 12.0%, self 14.2% globally) ZSTD_compressBlock_opt2 at zstd_opt.c
+            │       │   │   └── 2.04s (69.4%, self 69.2%, self 83.5% globally) ZSTD_btGetAllMatches_noDict_3
+            │       │   │       └── 6.0ms (0.2%) ZSTD_insertBt1.constprop.3
+            │       │   ├── 26.0ms (0.9%) ZSTD_compressBlock_btultra2
+            │       │   │   └── 24.0ms (0.8%) ZSTD_compressBlock_opt2 at zstd_opt.c
+            │       │   │       └── 19.0ms (0.6%) ZSTD_btGetAllMatches_noDict_3
+            │       │   ├── 20.0ms (0.7%) ZSTD_litLengthPrice.constprop.1.isra.0 at zstd_opt.c
+            │       │   └── 5.0ms (0.2%) ZSTD_updateStats at zstd_opt.c
+            │       ├── 8.0ms (0.3%) ZSTD_compressSeqStore_singleBlock
+            │       │   └── 6.0ms (0.2%) ZSTD_encodeSequences
+            │       ├── 7.0ms (0.2%) ZSTD_deriveBlockSplitsHelper
+            │       │   └── 7.0ms (0.2%) ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize
+            │       │       └── 6.0ms (0.2%) ZSTD_buildBlockEntropyStats
+            │       │           ├── 2.0ms (0.1%) ZSTD_seqToCodes
+            │       │           └── 2.0ms (0.1%) HUF_optimalTableLog
+            │       └── 2.0ms (0.1%) ZSTD_splitBlock
+            │           └── 2.0ms (0.1%) ZSTD_recordFingerprint_1 at zstd_preSplit.c
+            └── 470.0ms (15.9%) ZSTD_compressEnd_public
+                └── 470.0ms (15.9%) ZSTD_compress_frameChunk at zstd_compress.c
+                    └── 469.0ms (15.9%) ZSTD_buildSeqStore
+                        └── 465.0ms (15.8%, self 2.1%) ZSTD_compressBlock_opt2 at zstd_opt.c
+                            └── 404.0ms (13.7%, self 13.7%) ZSTD_btGetAllMatches_noDict_3
+```
+
 ## Hottest functions
 
 ### Self time

@@ -10,6 +10,55 @@ Took 1.88s over 1,887 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 1.88s (99.8%) 0x9cee at ./zstd
+    ├── 1.57s (83.5%) 0x61402
+    │   ├── 1.56s (82.7%) 0x1601e
+    │   │   └── 1.56s (82.7%) 0x1108e
+    │   │       ├── 1.22s (65.0%) 0x59272
+    │   │       │   ├── 247.2ms (13.1%, self 15.7% globally) 0x5f848
+    │   │       │   ├── 247.2ms (13.1%, self 15.7% globally) 0x5f800
+    │   │       │   ├── 244.2ms (12.9%, self 15.5% globally) 0x5fab8
+    │   │       │   ├── 206.2ms (10.9%, self 13.2% globally) 0x5fadc
+    │   │       │   ├── 83.1ms (4.4%, self 5.2% globally) 0x5f838
+    │   │       │   ├── 41.0ms (2.2%, self 2.8% globally) 0x5fb10
+    │   │       │   ├── 23.0ms (1.2%) 0x5f86c
+    │   │       │   ├── 11.0ms (0.6%) 0x5f888
+    │   │       │   ├── 11.0ms (0.6%) 0x5fb08
+    │   │       │   ├── 10.0ms (0.5%) 0x5f854
+    │   │       │   ├── 9.0ms (0.5%) 0x5f7f8
+    │   │       │   ├── 8.0ms (0.4%) 0x5f820
+    │   │       │   ├── 7.0ms (0.4%) 0x5f724
+    │   │       │   ├── 6.0ms (0.3%) 0x5fae0
+    │   │       │   └── 73.1ms (3.9%) 35 more callees, led by (0.4%) 0x5f7e0
+    │   │       ├── 39.0ms (2.1%) 0x59640
+    │   │       ├── 38.0ms (2.0%) 0x594d8
+    │   │       ├── 27.0ms (1.4%) 0x596dc
+    │   │       ├── 19.0ms (1.0%) 0x5960c
+    │   │       ├── 18.0ms (1.0%) 0x596b8
+    │   │       ├── 12.0ms (0.6%) 0x591d0
+    │   │       ├── 11.0ms (0.6%) 0x596f4
+    │   │       ├── 10.0ms (0.5%) 0x577d4
+    │   │       ├── 9.0ms (0.5%) 0x59628
+    │   │       ├── 7.0ms (0.4%) 0x596b4
+    │   │       └── 144.1ms (7.6%) 59 more callees, led by (1.0%) 0x609be
+    │   └── 7.0ms (0.4%) 0x1617e
+    └── … 305.3ms (16.2%) 0x1108e at ./zstd
+        ├── 254.3ms (13.5%) 0x59272
+        │   ├── 48.0ms (2.5%) 0x5fab8
+        │   ├── 47.0ms (2.5%) 0x5f848
+        │   ├── 46.0ms (2.4%) 0x5f800
+        │   ├── 11.0ms (0.6%) 0x5f7e0
+        │   └── 102.1ms (5.4%) 18 more callees, led by (2.2%) 0x5fadc
+        └── 51.1ms (2.7%) 26 more callees, led by (0.3%) 0x5960c
+```
+
 ## Hottest functions
 
 ### Self time

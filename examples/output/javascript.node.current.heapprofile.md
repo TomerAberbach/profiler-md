@@ -9,6 +9,55 @@ Allocated 26.2 MiB over 36 samples (746 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 25.2 MiB (96.2%) typeCheckProject at ./tsc-workload.mjs:3:33
+│   ├── … 16.2 MiB (61.7%) (anonymous) at node:internal/modules/cjs/loader:1878:37
+│   │   ├── … 8.37 MiB (31.9%) readFileSync at node:fs:433:22
+│   │   └── 7.81 MiB (29.8%) (anonymous) at 1731:37
+│   │       ├── 4.13 MiB (15.7%, self 1.9%) (anonymous) at ./node_modules/typescript/lib/typescript.js:1:1
+│   │       │   └── 3.63 MiB (13.8%, self 9.8%) (anonymous) at 16:15
+│   │       │       ├── 576 KiB (2.1%) __export at 22:16
+│   │       │       └── 512 KiB (1.9%) (anonymous) at 3963:2
+│   │       └── 3.68 MiB (14.1%) wrapSafe at 1671:18
+│   ├── … 6.02 MiB (23.0%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124967:37
+│   │   ├── … 4 MiB (15.3%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:88583:33
+│   │   │   ├── 2 MiB (7.6%) forEach at 2378:17
+│   │   │   │   ├── … 1.5 MiB (5.7%) checkSourceElement at ./node_modules/typescript/lib/typescript.js:88199:30
+│   │   │   │   │   └── 1.5 MiB (5.7%) checkSourceElementWorker at 88208:36
+│   │   │   │   │       ├── … 514 KiB (1.9%) isTypeDerivedFrom at ./node_modules/typescript/lib/typescript.js:66484:29
+│   │   │   │   │       └── 1 MiB (3.8%) 2 more callees, led by (1.9%) checkTypeReferenceNode at 83518:34
+│   │   │   │   └── … 512 KiB (1.9%) sameMap at ./node_modules/typescript/lib/typescript.js:2595:17
+│   │   │   ├── … 1.5 MiB (5.7%) checkFunctionExpressionOrObjectLiteralMethodDeferred at ./node_modules/typescript/lib/typescript.js:81135:64
+│   │   │   │   ├── 1 MiB (3.8%) checkSourceElement at 88199:30
+│   │   │   │   │   └── … 1 MiB (3.8%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:88208:36
+│   │   │   │   │       ├── … 513 KiB (1.9%) getTypeAtFlowAssignment at ./node_modules/typescript/lib/typescript.js:73025:37
+│   │   │   │   │       └── … 512 KiB (1.9%) getPropertyOfUnionOrIntersectionType at ./node_modules/typescript/lib/typescript.js:61929:48
+│   │   │   │   └── … 512 KiB (1.9%) checkBinaryLikeExpressionWorker at ./node_modules/typescript/lib/typescript.js:81904:43
+│   │   │   └── … 512 KiB (1.9%) checkUnusedClassMembers at ./node_modules/typescript/lib/typescript.js:84802:35
+│   │   └── 2.02 MiB (7.7%, self 3.9%) getTypeChecker at 124848:26
+│   │       └── … 1.01 MiB (3.8%) bind at ./node_modules/typescript/lib/typescript.js:47793:16
+│   │           ├── … 518 KiB (1.9%) createSymbol at ./node_modules/typescript/lib/typescript.js:46101:24
+│   │           └── … 513 KiB (1.9%) bindEach at ./node_modules/typescript/lib/typescript.js:46419:20
+│   └── 3.01 MiB (11.5%) createProgram at ./node_modules/typescript/lib/typescript.js:123840:23
+│       ├── … 2.01 MiB (7.7%) parseList at ./node_modules/typescript/lib/typescript.js:33673:21
+│       │   ├── … 519 KiB (1.9%) doJSDocScan at ./node_modules/typescript/lib/typescript.js:38308:27
+│       │   ├── … 514 KiB (1.9%) propagateChildFlags at ./node_modules/typescript/lib/typescript.js:28495:29
+│       │   ├── … 512 KiB (1.9%) createNodeArray at ./node_modules/typescript/lib/typescript.js:33287:27
+│       │   │   └── 512 KiB (1.9%) getTransformFlagsSubtreeExclusions at 28511:44
+│       │   └── … 512 KiB (1.9%) parseTypeMember at ./node_modules/typescript/lib/typescript.js:34591:27 …
+│       ├── 512 KiB (1.9%) resolveTypeReferenceDirectiveNamesReusingOldState at 124476:61
+│       │   └── 512 KiB (1.9%) resolveTypeReferenceDirectiveNamesWorker at 124309:52
+│       └── … 512 KiB (1.9%) getDefaultLibFilePriority at ./node_modules/typescript/lib/typescript.js:124352:37
+├── … 514 KiB (1.9%) relateVariances at ./node_modules/typescript/lib/typescript.js:69054:31
+└── … 512 KiB (1.9%) createTypeMapper at ./node_modules/typescript/lib/typescript.js:65904:28
+```
+
 ## Hottest functions
 
 ### Self size

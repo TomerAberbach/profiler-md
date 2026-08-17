@@ -11,6 +11,55 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 Call stacks missing their outermost callers account for 23.0% of the time spent.
 
+`…` stands for omitted frames. `truncated` stands for missing outermost callers.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 3.01s (76.8%) Symfony\Component\Console\Application::run at ./composer/vendor/symfony/console/Application.php
+│   ├── 2.83s (72.3%) Composer\Console\Application::doRun at ./composer/src/Composer/Console/Application.php
+│   │   ├── … 2.57s (65.6%) Symfony\Component\Console\Command\Command::run at ./composer/vendor/symfony/console/Command/Command.php
+│   │   │   ├── 2.55s (65.1%) Composer\Command\DumpAutoloadCommand::execute at ./composer/src/Composer/Command/DumpAutoloadCommand.php
+│   │   │   │   └── 2.55s (65.1%) Composer\Autoload\AutoloadGenerator::dump at ./composer/src/Composer/Autoload/AutoloadGenerator.php
+│   │   │   │       ├── 2.40s (61.4%, self 1.6%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths at ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+│   │   │   │       │   ├── 2.22s (56.8%, self 16.1%) Composer\ClassMapGenerator\PhpFileParser::findClasses at ./composer/vendor/composer/class-map-generator/src/PhpFileParser.php
+│   │   │   │       │   │   ├── 1.43s (36.5%, self 10.8%) Composer\ClassMapGenerator\PhpFileCleaner::clean at ./composer/vendor/composer/class-map-generator/src/PhpFileCleaner.php
+│   │   │   │       │   │   │   ├── 793.0ms (20.2%, self 2.5%) Composer\ClassMapGenerator\PhpFileCleaner::match
+│   │   │   │       │   │   │   │   └── 694.0ms (17.7%, self 3.3%) Composer\Pcre\Preg::isMatchStrictGroups at ./composer/vendor/composer/pcre/src/Preg.php
+│   │   │   │       │   │   │   │       └── 563.0ms (14.4%, self 3.4%) Composer\Pcre\Preg::matchStrictGroups
+│   │   │   │       │   │   │   │           ├── 291.0ms (7.4%, self 3.4%) Composer\Pcre\Preg::match
+│   │   │   │       │   │   │   │           │   ├── 91.0ms (2.3%) Composer\Pcre\Preg::checkOffsetCapture
+│   │   │   │       │   │   │   │           │   └── 65.0ms (1.7%) Composer\Pcre\Preg::pregMatch
+│   │   │   │       │   │   │   │           └── 138.0ms (3.5%) Composer\Pcre\Preg::enforceNonNullMatches
+│   │   │   │       │   │   │   ├── 197.0ms (5.0%, self 5.0%) Composer\ClassMapGenerator\PhpFileCleaner::skipString
+│   │   │   │       │   │   │   └── 4.0ms (0.1%) Composer\ClassMapGenerator\PhpFileCleaner::skipToPhp
+│   │   │   │       │   │   ├── 121.0ms (3.1%) Composer\Pcre\Preg::matchAllStrictGroups at ./composer/vendor/composer/pcre/src/Preg.php
+│   │   │   │       │   │   │   └── 117.0ms (3.0%, self 2.9%, self 4.0% globally) Composer\Pcre\Preg::matchAll
+│   │   │   │       │   │   └── 42.0ms (1.1%) Composer\Pcre\Preg::matchAll at ./composer/vendor/composer/pcre/src/Preg.php
+│   │   │   │       │   ├── 45.0ms (1.1%) Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator::hasChildren at ./composer/vendor/symfony/finder/Iterator/ExcludeDirectoryFilterIterator.php
+│   │   │   │       │   │   └── 44.0ms (1.1%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::hasChildren at ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+│   │   │   │       │   ├── 14.0ms (0.4%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::next at ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+│   │   │   │       │   └── 58.0ms (1.5%) 14 more callees, led by (0.5%) Composer\ClassMapGenerator\ClassMapGenerator::normalizePath
+│   │   │   │       └── 142.0ms (3.6%) 7 more callees, led by (2.9%) Composer\Autoload\AutoloadGenerator::getPathCode
+│   │   │   └── 20.0ms (0.5%) Composer\Command\BaseCommand::initialize at ./composer/src/Composer/Command/BaseCommand.php …
+│   │   ├── 243.0ms (6.2%, self 5.9%) Composer\Util\Silencer::call at ./composer/src/Composer/Util/Silencer.php
+│   │   └── … 9.0ms (0.2%) Composer\Autoload\ClassLoader::loadClass at ./composer/vendor/composer/ClassLoader.php
+│   └── … 169.0ms (4.3%) Symfony\Component\Console\Terminal::readFromProcess at ./composer/vendor/symfony/console/Terminal.php
+└── 903.0ms (23.0%) truncated
+    ├── … 444.0ms (11.3%) Composer\Package\Version\VersionGuesser::guessVersion at ./composer/src/Composer/Package/Version/VersionGuesser.php
+    │   ├── … 256.0ms (6.5%, self 14.7% globally) Symfony\Component\Process\Pipes\UnixPipes::readAndWrite at ./composer/vendor/symfony/process/Pipes/UnixPipes.php
+    │   └── 187.0ms (4.8%) 3 more callees, led by (2.4%) Composer\Package\Version\VersionGuesser::guessFossilVersion
+    ├── … 253.0ms (6.5%) Composer\ClassMapGenerator\ClassMapGenerator::scanPaths at ./composer/vendor/composer/class-map-generator/src/ClassMapGenerator.php
+    │   ├── … 201.0ms (5.1%, self 7.3% globally) Composer\Pcre\Preg::pregMatch at ./composer/vendor/composer/pcre/src/Preg.php
+    │   └── … 51.0ms (1.3%) Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator::__construct at ./composer/vendor/symfony/finder/Iterator/RecursiveDirectoryIterator.php
+    ├── … 32.0ms (0.8%) Composer\Package\Version\VersionGuesser::guessVersion at ./composer/src/Composer/Package/Version/VersionGuesser.php
+    │   ├── … 10.0ms (0.3%, self 0.9% globally) Symfony\Component\Process\Process::start at ./composer/vendor/symfony/process/Process.php
+    │   └── 8.0ms (0.2%) Composer\Package\Version\VersionGuesser::guessFossilVersion
+    └── 172.0ms (4.4%) 7 more root frames, led by (3.3%) Composer\Command\BaseCommand::initialize at ./composer/src/Composer/Command/BaseCommand.php
+```
+
 ## Hottest functions
 
 ### Self time
@@ -966,7 +1015,7 @@ Callees with the largest contribution to each function's total time. Inlining ca
 
 ## Hottest call stacks
 
-Call stacks with the most time spent in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the most time spent in their leaf frame.
 
 Common call stack: `Symfony\Component\Console\Application::run` (`./composer/vendor/symfony/console/Application.php`) ← `Composer\Console\Application::run` (`./composer/src/Composer/Console/Application.php`) ← `(anonymous)` (`./profile.php`)
 

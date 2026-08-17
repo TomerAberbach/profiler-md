@@ -10,6 +10,55 @@ Took 1.22s over 1,219 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 1.21s (99.8%) 0x9f20 at ./zstd
+    ├── 974.0ms (79.8%) 0x62a60
+    │   ├── 963.0ms (78.9%) 0x16720
+    │   │   └── 963.0ms (78.9%) 0x11630
+    │   │       ├── 666.7ms (54.6%) 0x5a3f4
+    │   │       │   ├── 143.1ms (11.7%, self 15.0% globally) 0x60980
+    │   │       │   ├── 129.1ms (10.6%, self 13.9% globally) 0x609c8
+    │   │       │   ├── 115.1ms (9.4%, self 11.9% globally) 0x60c38
+    │   │       │   ├── 108.1ms (8.9%, self 11.7% globally) 0x60c5c
+    │   │       │   ├── 29.0ms (2.4%, self 3.6% globally) 0x609b8
+    │   │       │   ├── 14.0ms (1.1%, self 1.7% globally) 0x60c90
+    │   │       │   ├── 12.0ms (1.0%) 0x60978
+    │   │       │   ├── 10.0ms (0.8%) 0x60c60
+    │   │       │   ├── 9.0ms (0.7%) 0x60a08
+    │   │       │   ├── 8.0ms (0.7%) 0x609a0
+    │   │       │   ├── 8.0ms (0.7%) 0x609bc
+    │   │       │   ├── 7.0ms (0.6%, self 1.1% globally) 0x609ec
+    │   │       │   ├── 7.0ms (0.6%) 0x609d4
+    │   │       │   ├── 5.0ms (0.4%) 0x60aac
+    │   │       │   └── 62.1ms (5.1%) 31 more callees, led by (0.5%) 0x60954
+    │   │       ├── 41.0ms (3.4%) 0x5a65c
+    │   │       ├── 33.0ms (2.7%, self 3.3% globally) 0x5a7c0
+    │   │       ├── 25.0ms (2.1%) 0x5a85c
+    │   │       ├── 21.0ms (1.7%) 0x5a78c
+    │   │       ├── 15.0ms (1.2%) 0x5a838
+    │   │       ├── 14.0ms (1.1%) 0x5a7a8
+    │   │       ├── 9.0ms (0.7%) 0x58908
+    │   │       ├── 7.0ms (0.6%) 0x5a860
+    │   │       ├── 6.0ms (0.5%) 0x5a848
+    │   │       ├── 5.0ms (0.4%) 0x5a7fc
+    │   │       ├── 5.0ms (0.4%) 0x5a834
+    │   │       └── 115.1ms (9.4%) 50 more callees, led by (1.3%) 0x61b40
+    │   └── 6.0ms (0.5%) 0x168b8
+    └── … 241.2ms (19.8%) 0x11630 at ./zstd
+        ├── 205.2ms (16.8%) 0x5a3f4
+        │   ├── 41.0ms (3.4%) 0x609c8
+        │   ├── 37.0ms (3.0%) 0x60980
+        │   ├── 35.0ms (2.9%) 0x60c5c
+        │   └── 92.1ms (7.5%) 22 more callees, led by (2.5%) 0x60c38
+        └── 36.0ms (3.0%) 23 more callees, led by (0.4%) 0x5a7c0
+```
+
 ## Hottest functions
 
 ### Self time

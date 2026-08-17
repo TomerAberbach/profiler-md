@@ -7,6 +7,55 @@ Collected 1,962 samples.
 | Ours             | 90.2% |   1,769 |
 | Standard library |  9.8% |     193 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1,944 samples (99.1%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 1,944 samples (99.1%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── … 1,940 samples (98.9%, self 0.5%) doExec() at java.util.concurrent.ForkJoinTask
+│           └── … 1,930 samples (98.4%) exec() at java.util.concurrent.RecursiveTask
+│               └── 1,930 samples (98.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                   ├── 961 samples (49.0%, self 1.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                   │   ├── … 697 samples (35.5%, self 14.8%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                   │   │   └── 406 samples (20.7%) distance(Double[], Double[])
+│                   │   └── … 241 samples (12.3%, self 6.7%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                   │       ├── 73 samples (3.7%, self 3.5%) computeIfAbsent(Object, Function) at java.util.HashMap
+│                   │       │   └── 4 samples (0.2%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000a001204b38
+│                   │       │       └── 2 samples (0.1%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                   │       └── … 37 samples (1.9%) copyOf(Object[], int) at java.util.Arrays
+│                   ├── 912 samples (46.5%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                   │   └── … 912 samples (46.5%, self 3.3%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                   │       ├── 845 samples (43.1%) accumulate(Double[], double[])
+│                   │       └── 2 samples (0.1%) get(int) at java.util.ArrayList
+│                   │           └── 2 samples (0.1%) checkIndex(int, int) at java.util.Objects
+│                   ├── 29 samples (1.5%) join() at java.util.concurrent.ForkJoinTask
+│                   │   └── 27 samples (1.4%) awaitDone(int, long)
+│                   │       ├── 18 samples (0.9%, self 0.8%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean) at java.util.concurrent.ForkJoinPool
+│                   │       ├── 4 samples (0.2%) tryRemoveAndExec(ForkJoinTask, boolean) at java.util.concurrent.ForkJoinPool$WorkQueue
+│                   │       └── 2 samples (0.1%) park() at java.util.concurrent.locks.LockSupport
+│                   │           └── 2 samples (0.1%) park(boolean, long) at jdk.internal.misc.Unsafe
+│                   └── … 23 samples (1.2%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│                       ├── … 12 samples (0.6%) lambda$merge$7(Map, Object, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│                       │   └── 10 samples (0.5%) merge(Object, Object, BiFunction) at java.util.HashMap
+│                       └── 10 samples (0.5%) <init>(Map) at java.util.HashMap
+│                           └── 8 samples (0.4%) putMapEntries(Map, boolean)
+│                               ├── 3 samples (0.2%) next() at java.util.HashMap$EntryIterator
+│                               │   └── … 3 samples (0.2%) nextNode() at java.util.HashMap$HashIterator
+│                               ├── … 2 samples (0.1%) <init>(HashMap) at java.util.HashMap$HashIterator
+│                               └── 2 samples (0.1%) putVal(int, Object, Object, boolean, boolean)
+└── … 16 samples (0.8%) loadAndInvokeHarnessClass(ModuleLoader, String, String[]) at org.renaissance.core.Launcher
+    ├── … 12 samples (0.6%) main(String[]) at org.renaissance.harness.RenaissanceSuite$
+    │   ├── … 6 samples (0.3%) wrapAndCopyInto(Sink, Spliterator) at java.util.stream.AbstractPipeline
+    │   │   ├── … 3 samples (0.2%) wrapSink(Sink) at java.util.stream.AbstractPipeline
+    │   │   └── … 2 samples (0.1%) allocateInstance(Class) at jdk.internal.misc.Unsafe
+    │   └── … 1 sample (0.1%) readBytes0(byte[], int, int) at java.io.RandomAccessFile
+    └── … 2 samples (0.1%) inflateBytesBytes(long, byte[], int, int, byte[], int, int) at java.util.zip.Inflater
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -1054,6 +1103,55 @@ Allocated 38 GiB over 4,052 samples (9.6 MiB per sample).
 | Standard library | 93.8% | 35.7 GiB |   3,782 |
 | Ours             |  6.2% | 2.34 GiB |     268 |
 | Unknown          | <0.1% | 2.13 KiB |       2 |
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 37.8 GiB (99.4%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 37.8 GiB (99.4%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── 37.8 GiB (99.4%) scan(ForkJoinPool$WorkQueue, int, int)
+│           └── 37.8 GiB (99.4%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue
+│               └── 37.8 GiB (99.4%) doExec() at java.util.concurrent.ForkJoinTask
+│                   └── … 37.8 GiB (99.4%) exec() at java.util.concurrent.RecursiveTask
+│                       └── 37.8 GiB (99.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                           ├── 30.8 GiB (81.1%) combineResults(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   └── 30.8 GiB (81.1%) combineResults(Map, Map)
+│                           │       └── 30.8 GiB (81.1%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│                           │           ├── 30.6 GiB (80.5%) forEach(BiConsumer) at java.util.HashMap
+│                           │           │   └── 30.6 GiB (80.5%) accept(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a001204d88
+│                           │           │       └── 30.6 GiB (80.5%) lambda$merge$7(Map, Object, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│                           │           │           └── 30.6 GiB (80.5%) merge(Object, Object, BiFunction) at java.util.HashMap
+│                           │           │               └── 30.6 GiB (80.5%) apply(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x000000a001204fd0
+│                           │           │                   └── 30.6 GiB (80.5%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│                           │           │                       ├── 22.7 GiB (59.9%) addAll(Collection) at java.util.ArrayList
+│                           │           │                       │   ├── 13.8 GiB (36.3%) grow(int)
+│                           │           │                       │   │   └── 13.8 GiB (36.3%, self 36.3%, self 91.6% globally) copyOf(Object[], int) at java.util.Arrays
+│                           │           │                       │   └── 8.95 GiB (23.6%) toArray()
+│                           │           │                       │       └── 8.95 GiB (23.6%, self 23.6%) copyOf(Object[], int) at java.util.Arrays
+│                           │           │                       └── … 7.76 GiB (20.4%, self 20.4%) copyOf(Object[], int) at java.util.Arrays
+│                           │           └── … 72.7 MiB (0.2%) entrySet() at java.util.HashMap
+│                           ├── 6.29 GiB (16.5%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   ├── … 5.02 GiB (13.2%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   │   ├── … 4.66 GiB (12.3%) grow() at java.util.ArrayList
+│                           │   │   │   └── 4.66 GiB (12.3%, self 0.9%) grow(int)
+│                           │   │   │       └── 4.3 GiB (11.3%) copyOf(Object[], int) at java.util.Arrays
+│                           │   │   └── 313 MiB (0.8%) computeIfAbsent(Object, Function) at java.util.HashMap
+│                           │   │       ├── 180 MiB (0.5%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x000000a001204b38
+│                           │   │       │   └── 180 MiB (0.5%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           │   │       └── 126 MiB (0.3%) newNode(int, Object, Object, HashMap$Node)
+│                           │   └── … 1.27 GiB (3.3%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           ├── 538 MiB (1.4%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│                           ├── … 56.2 MiB (0.1%) add(double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│                           └── 43.3 MiB (0.1%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+├── … 181 MiB (0.5%) accept(int) at java.util.stream.IntPipeline$1$1
+│   ├── … 143 MiB (0.4%) valueOf(double) at java.lang.Double
+│   └── … 21.4 MiB (0.1%) mapToObj(IntFunction, int) at java.util.stream.IntPipeline
+└── … 20.9 MiB (0.1%) initCEN(int, ZipCoder) at java.util.zip.ZipFile$Source
+```
 
 ## Hottest functions
 
@@ -2150,6 +2248,55 @@ Retained 2.31 MiB over 8 objects (296 KiB per object).
 | Standard library | 100.0% | 2.31 MiB |       7 |
 | Ours             |  <0.1% |     40 B |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 2.31 MiB (100.0%) main(String[]) at org.renaissance.core.Launcher
+    └── 2.31 MiB (100.0%) launchHarnessClass(String, String[])
+        └── 2.31 MiB (100.0%) loadAndInvokeHarnessClass(ModuleLoader, String, String[])
+            └── 2.31 MiB (100.0%) invoke(Object, Object[]) at java.lang.reflect.Method
+                └── 2.31 MiB (100.0%) invoke(Object, Object[]) at jdk.internal.reflect.DirectMethodHandleAccessor
+                    └── 2.31 MiB (100.0%) invokeImpl(Object, Object[])
+                        └── 2.31 MiB (100.0%) invokeExact_MT(Object, Object, Object, Object) at java.lang.invoke.Invokers$Holder
+                            └── 2.31 MiB (100.0%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x000000a001082400
+                                └── 2.31 MiB (100.0%) invokeStatic(Object, Object) at java.lang.invoke.LambdaForm$DMH.0x000000a001001c00
+                                    └── 2.31 MiB (100.0%) main(String[]) at org.renaissance.harness.RenaissanceSuite
+                                        ├── 2.06 MiB (89.2%) main(String[]) at org.renaissance.harness.RenaissanceSuite$
+                                        │   └── 2.06 MiB (89.2%) runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)
+                                        │       └── 2.06 MiB (89.2%) foreach(Function1) at scala.collection.immutable.List
+                                        │           └── 2.06 MiB (89.2%) apply(Object) at scala.runtime.function.JProcedure1
+                                        │               └── … 2.06 MiB (89.2%) applyVoid(Object) at org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a001198798
+                                        │                   └── 2.06 MiB (89.2%) runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor) at org.renaissance.harness.RenaissanceSuite$
+                                        │                       └── 2.06 MiB (89.2%) executeBenchmark() at org.renaissance.harness.ExecutionDriver
+                                        │                           └── 2.06 MiB (89.2%) setUpBeforeAll(BenchmarkContext) at org.renaissance.jdk.concurrent.FjKmeans
+                                        │                               └── 2.06 MiB (89.2%) generateData(int, int, int) at org.renaissance.jdk.concurrent.JavaKMeans
+                                        │                                   └── 2.06 MiB (89.2%) collect(Collector) at java.util.stream.ReferencePipeline
+                                        │                                       └── 2.06 MiB (89.2%) evaluate(TerminalOp) at java.util.stream.AbstractPipeline
+                                        │                                           └── 2.06 MiB (89.2%) evaluateSequential(PipelineHelper, Spliterator) at java.util.stream.ReduceOps$ReduceOp
+                                        │                                               └── 2.06 MiB (89.2%) wrapAndCopyInto(Sink, Spliterator) at java.util.stream.AbstractPipeline
+                                        │                                                   └── 2.06 MiB (89.2%) copyInto(Sink, Spliterator)
+                                        │                                                       └── 2.06 MiB (89.2%) forEachRemaining(Consumer) at java.util.Spliterator$OfInt
+                                        │                                                           └── 2.06 MiB (89.2%) forEachRemaining(IntConsumer) at java.util.stream.Streams$RangeIntSpliterator
+                                        │                                                               └── 2.06 MiB (89.2%) accept(int) at java.util.stream.IntPipeline$1$1
+                                        │                                                                   └── 2.06 MiB (89.2%) accept(Object) at java.util.stream.ReduceOps$3ReducingSink
+                                        │                                                                       └── 2.06 MiB (89.2%) accept(Object, Object) at java.util.stream.Collectors$$Lambda.0x000000a0010c40c8
+                                        │                                                                           └── 2.06 MiB (89.2%) add(Object) at java.util.ArrayList
+                                        │                                                                               └── 2.06 MiB (89.2%) add(Object, Object[], int)
+                                        │                                                                                   └── 2.06 MiB (89.2%) grow()
+                                        │                                                                                       └── 2.06 MiB (89.2%) grow(int)
+                                        │                                                                                           └── 2.06 MiB (89.2%) copyOf(Object[], int) at java.util.Arrays
+                                        └── … 255 KiB (10.8%) <init>(File, int) at java.util.zip.ZipFile
+                                            └── 255 KiB (10.8%) <init>(File, int, Charset)
+                                                └── 255 KiB (10.8%) <init>(ZipFile, ZipCoder, File, int) at java.util.zip.ZipFile$CleanableResource
+                                                    └── 255 KiB (10.8%) get(File, boolean, ZipCoder) at java.util.zip.ZipFile$Source
+                                                        └── 255 KiB (10.8%) <init>(ZipFile$Source$Key, boolean, ZipCoder)
+                                                            └── 255 KiB (10.8%) initCEN(int, ZipCoder)
+```
+
 ## Hottest functions
 
 ### Self size
@@ -2631,6 +2778,55 @@ Blocked 38.36s over 1,707 contentions (22.5ms per contention).
 | Category         |      % |   Time | Contentions |
 | ---------------- | -----: | -----: | ----------: |
 | Standard library | 100.0% | 38.36s |       1,707 |
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 25.06s (65.3%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 25.06s (65.3%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       ├── 24.12s (62.9%) awaitWork(ForkJoinPool$WorkQueue)
+│       │   ├── 22.56s (58.8%) park() at java.util.concurrent.locks.LockSupport
+│       │   │   └── 22.56s (58.8%, self 100.0% globally) park(boolean, long) at jdk.internal.misc.Unsafe
+│       │   └── 1.56s (4.1%) parkUntil(long) at java.util.concurrent.locks.LockSupport
+│       │       └── 1.56s (4.1%) park(boolean, long) at jdk.internal.misc.Unsafe
+│       └── … 944.3ms (2.5%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│           └── 944.3ms (2.5%) join() at java.util.concurrent.ForkJoinTask
+│               └── 944.3ms (2.5%) awaitDone(int, long)
+│                   └── 944.3ms (2.5%) park() at java.util.concurrent.locks.LockSupport
+│                       └── 944.3ms (2.5%) park(boolean, long) at jdk.internal.misc.Unsafe
+└── 13.30s (34.7%) main(String[]) at org.renaissance.core.Launcher
+    └── 13.30s (34.7%) launchHarnessClass(String, String[])
+        └── 13.30s (34.7%) loadAndInvokeHarnessClass(ModuleLoader, String, String[])
+            └── 13.30s (34.7%) invoke(Object, Object[]) at java.lang.reflect.Method
+                └── 13.30s (34.7%) invoke(Object, Object[]) at jdk.internal.reflect.DirectMethodHandleAccessor
+                    └── 13.30s (34.7%) invokeImpl(Object, Object[])
+                        └── 13.30s (34.7%) invokeExact_MT(Object, Object, Object, Object) at java.lang.invoke.Invokers$Holder
+                            └── 13.30s (34.7%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x000000a001082400
+                                └── 13.30s (34.7%) invokeStatic(Object, Object) at java.lang.invoke.LambdaForm$DMH.0x000000a001001c00
+                                    └── 13.30s (34.7%) main(String[]) at org.renaissance.harness.RenaissanceSuite
+                                        └── 13.30s (34.7%) main(String[]) at org.renaissance.harness.RenaissanceSuite$
+                                            └── 13.30s (34.7%) runBenchmarks(BenchmarkSuite, Seq, Plugin$ExecutionPolicy, EventDispatcher)
+                                                └── 13.30s (34.7%) foreach(Function1) at scala.collection.immutable.List
+                                                    └── 13.30s (34.7%) apply(Object) at scala.runtime.function.JProcedure1
+                                                        └── … 13.30s (34.7%) applyVoid(Object) at org.renaissance.harness.RenaissanceSuite$$$Lambda.0x000000a001198798
+                                                            └── 13.30s (34.7%) runBenchmarks$$anonfun$1(BenchmarkSuite, Plugin$ExecutionPolicy, EventDispatcher, Buffer, long, BenchmarkDescriptor) at org.renaissance.harness.RenaissanceSuite$
+                                                                └── 13.30s (34.7%) executeBenchmark() at org.renaissance.harness.ExecutionDriver
+                                                                    └── 13.30s (34.7%) executeOperation(int)
+                                                                        └── 13.30s (34.7%) run(BenchmarkContext) at org.renaissance.jdk.concurrent.FjKmeans
+                                                                            └── 13.30s (34.7%) map(Function1) at scala.collection.immutable.Range
+                                                                                └── 13.30s (34.7%) apply(Object) at org.renaissance.jdk.concurrent.FjKmeans$$Lambda.0x000000a0011f6c70
+                                                                                    └── 13.30s (34.7%) $anonfun$adapted$1(Object) at org.renaissance.jdk.concurrent.FjKmeans
+                                                                                        └── 13.30s (34.7%) $anonfun$1(int)
+                                                                                            └── 13.30s (34.7%) run(int, List, int) at org.renaissance.jdk.concurrent.JavaKMeans
+                                                                                                └── 13.30s (34.7%) get() at java.util.concurrent.ForkJoinTask
+                                                                                                    └── 13.30s (34.7%) awaitDone(int, long)
+                                                                                                        └── 13.30s (34.7%) park() at java.util.concurrent.locks.LockSupport
+                                                                                                            └── 13.30s (34.7%) park(boolean, long) at jdk.internal.misc.Unsafe
+```
 
 ## Hottest functions
 

@@ -9,6 +9,55 @@ Took 4.72s.
 | Native           |  2.3% | 110.6ms |
 | Unknown          | <0.1% |  <0.1µs |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 4.70s (99.6%) Main() at Profile.Program
+    ├── 3.51s (74.4%) DeserializeObject(String, Type, JsonSerializerSettings) at Newtonsoft.Json.JsonConvert
+    │   ├── 3.40s (72.0%) DeserializeInternal(JsonReader, Type) at Newtonsoft.Json.JsonSerializer
+    │   │   └── 3.39s (71.9%) Deserialize(JsonReader, Type, bool) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       ├── 3.35s (70.9%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
+    │   │       │   ├── … 2.32s (49.1%) CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       │   │   ├── 2.28s (48.3%, self 2.9%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)
+    │   │       │   │   │   ├── 1.91s (40.6%, self 35.2%, self 36.4% globally) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+    │   │       │   │   │   │   ├── 161.4ms (3.4%, self 1.4%) ReadNumberValue(ReadType) at Newtonsoft.Json.JsonTextReader
+    │   │       │   │   │   │   │   └── 93.2ms (2.0%) ParseReadNumber(ReadType, wchar, int32) …
+    │   │       │   │   │   │   └── 94.2ms (2.0%) 3 more callees, led by (1.0%) ReadStringValue(ReadType) at Newtonsoft.Json.JsonTextReader
+    │   │       │   │   │   └── 224.7ms (4.8%) 5 more callees, led by (2.7%) ParseObject() at Newtonsoft.Json.JsonTextReader
+    │   │       │   │   ├── 7.0ms (0.1%) Node() at dynamicClass.CreateProfile
+    │   │       │   │   │   └── 7.0ms (0.1%, self 2.3% globally) UNMANAGED_CODE_TIME
+    │   │       │   │   └── 33.8ms (0.7%) 2 more callees, led by (0.6%) ParseObject() at Newtonsoft.Json.JsonTextReader
+    │   │       │   └── … 1s (21.2%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       │       ├── 785.3ms (16.6%, self 16.5%, self 17.9% globally) CopyTo(Array, int32) at System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection
+    │   │       │       └── 210.4ms (4.5%, self 1.1%) PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)
+    │   │       │           ├── 125.3ms (2.7%) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+    │   │       │           │   └── 107.8ms (2.3%, self 0.5%) ReadStringValue(ReadType) at Newtonsoft.Json.JsonTextReader
+    │   │       │           │       ├── 46.1ms (1.0%, self 2.5% globally) ReadStringIntoBuffer(wchar)
+    │   │       │           │       └── 18.8ms (0.4%) ParseReadString(wchar, ReadType)
+    │   │       │           └── 27.2ms (0.6%) Add(Object) at System.Collections.Generic.List`1[System.__Canon].System.Collections.IList
+    │   │       └── … 9.7ms (0.2%) Memmove(unsigned int8&, unsigned int8&, unsigned int) at System.Buffer
+    │   └── 105.1ms (2.2%) 2 more callees, led by (2.2%) Deserialize(JsonReader, Type) at Newtonsoft.Json.JsonSerializer
+    ├── … 845.0ms (17.9%) Serialize(JsonWriter, Object, Type) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+    │   └── 835.5ms (17.7%, self 0.8%) SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)
+    │       ├── … 348.1ms (7.4%, self 6.5%) SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+    │       │   └── 21.6ms (0.5%) CheckForCircularReference(JsonWriter, Object, JsonProperty, JsonContract, JsonContainerContract, JsonProperty)
+    │       ├── … 200.1ms (4.2%, self 3.5%) SerializeList(JsonWriter, IEnumerable, JsonArrayContract, JsonProperty, JsonContainerContract, JsonProperty) at Newtonsoft.Json.Serialization.JsonSerializerInternalWriter
+    │       │   └── 12.1ms (0.3%) IsInstance_Helper(void*, Object) at System.Runtime.CompilerServices.CastHelpers
+    │       └── 248.4ms (5.3%) 3 more callees, led by (4.7%) WriteValue(JsonWriter, PrimitiveTypeCode, Object) at Newtonsoft.Json.JsonWriter
+    ├── … 223.3ms (4.7%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   ├── … 150.1ms (3.2%) CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │   └── 147.4ms (3.1%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)
+    │   │       └── 117.7ms (2.5%) ReadForType(JsonContract, bool) at Newtonsoft.Json.JsonReader
+    │   │           ├── 93.5ms (2.0%, self 1.8%) ReadAsInt32() at Newtonsoft.Json.JsonTextReader
+    │   │           └── 20.3ms (0.4%) ReadAsDouble() at Newtonsoft.Json.JsonTextReader
+    │   └── 66.4ms (1.4%) 3 more callees, led by (1.3%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String) at Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    └── 102.4ms (2.2%) 3 more callees, led by (1.9%) SerializeObject(Object) at Newtonsoft.Json.JsonConvert
+```
+
 ## Hottest functions
 
 ### Self time

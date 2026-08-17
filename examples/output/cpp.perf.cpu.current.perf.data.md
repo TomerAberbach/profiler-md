@@ -9,6 +9,55 @@ Took 539.5ms over 539 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/tmp/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 539.5ms (100.0%) 0x27744 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    ├── 446.4ms (82.7%) 0x1ab4 at ./binary
+    │   ├── 367.4ms (68.1%) 0x13b80
+    │   │   ├── 238.2ms (44.2%) 0x1364c
+    │   │   │   ├── 47.0ms (8.7%) 0x115dc
+    │   │   │   │   ├── 11.0ms (2.0%) 0x137f80 at /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+    │   │   │   │   └── 36.0ms (6.7%) 17 more callees, led by (0.9%) 0xe1bc
+    │   │   │   ├── 7.0ms (1.3%) 0x12954
+    │   │   │   ├── 7.0ms (1.3%) 0x12bbc
+    │   │   │   └── 175.2ms (32.5%) 67 more callees, led by (5.2%) 0x115ac
+    │   │   ├── 65.1ms (12.1%) 0x13620
+    │   │   │   ├── 14.0ms (2.6%) 0x46f0
+    │   │   │   ├── 7.0ms (1.3%) 0x4750
+    │   │   │   ├── 7.0ms (1.3%) 0x4300
+    │   │   │   └── 37.0ms (6.9%) 11 more callees, led by (2.4%) 0x487c
+    │   │   ├── 18.0ms (3.3%) 0x1388c
+    │   │   │   ├── 7.0ms (1.3%, self 2.4% globally) 0x4ee4
+    │   │   │   └── 11.0ms (2.0%) 8 more callees, led by (0.7%) 0x4f24
+    │   │   ├── 7.0ms (1.3%) 0x13644
+    │   │   └── 39.0ms (7.2%) 17 more callees, led by (0.9%) 0x134a8
+    │   ├── 30.0ms (5.6%) 0x13b38
+    │   │   ├── 11.0ms (2.0%, self 3.0% globally) 0x9d100 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   │   └── 19.0ms (3.5%) 9 more callees, led by (0.9%) 0x4b98
+    │   ├── 28.0ms (5.2%) 0x13b70
+    │   │   ├── 14.0ms (2.6%, self 4.6% globally) 0x4f24
+    │   │   ├── 4.0ms (0.7%, self 1.5% globally) 0x4e78
+    │   │   └── 10.0ms (1.9%) 6 more callees, led by (0.4%) 0x4ee4
+    │   └── 21.0ms (3.9%) 8 more callees, led by (0.9%) 0x13ad0
+    ├── 70.1ms (13.0%) 0x1a6c at ./binary
+    │   ├── 36.0ms (6.7%) 0x13b80
+    │   │   ├── 31.0ms (5.8%) 0x1388c
+    │   │   │   ├── 10.0ms (1.9%) 0x9e6c0 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   │   │   └── 21.0ms (3.9%) 13 more callees, led by (0.7%) 0x4ee4
+    │   │   └── 3.0ms (0.6%) 0x13480
+    │   ├── 24.0ms (4.5%) 0x13b38
+    │   │   ├── 5.0ms (0.9%, self 1.5% globally) 0x137f20 at /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+    │   │   └── 18.0ms (3.3%) 10 more callees, led by (0.9%) 0x9d100 at /usr/lib/aarch64-linux-gnu/libc.so.6
+    │   └── 10.0ms (1.9%) 4 more callees, led by (1.1%) 0x13b70
+    ├── 7.0ms (1.3%) 0xa0cb0 at /usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+    └── 16.0ms (3.0%) 7 more callees, led by (1.1%) 0x1b18 at ./binary
+```
+
 ## Hottest functions
 
 ### Self time

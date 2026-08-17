@@ -11,6 +11,55 @@ Collected 14,141 samples.
 | JIT               |  0.1% |      17 |
 | Garbage collector | <0.1% |       2 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 11,813 samples (83.5%) thread_start at libsystem_pthread.dylib
+│   └── 11,813 samples (83.5%) _pthread_start
+│       ├── 11,346 samples (80.2%) thread_native_entry at libjvm.dylib
+│       │   └── 11,346 samples (80.2%) Thread::call_run
+│       │       ├── 5,066 samples (35.8%) WorkerThread::run
+│       │       │   └── 5,024 samples (35.5%, self 39.0% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       ├── 3,951 samples (27.9%) JavaThread::thread_main_inner
+│       │       │   ├── 1,622 samples (11.5%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 934 samples (6.6%, self 46.0% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 684 samples (4.8%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 550 samples (3.9%) C2Compiler::compile_method
+│       │       │   │       │   └── 549 samples (3.9%) Compile::Compile
+│       │       │   │       │       ├── 254 samples (1.8%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 145 samples (1.0%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 35 samples (0.2%) PhaseChaitin::Split
+│       │       │   │       │       │   │   ├── 19 samples (0.1%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   │   ├── 16 samples (0.1%) PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │       │   │   │   └── 8 samples (0.1%) PhaseChaitin::elide_copy
+│       │       │   │       │       │   │   ├── 12 samples (0.1%) PhaseLive::compute
+│       │       │   │       │       │   │   └── 9 samples (0.1%) PhaseIFG::SquareUp
+│       │       │   │       │       │   └── … 16 samples (0.1%) Arena::contains at libjvm.dylib
+│       │       │   │       │       ├── 218 samples (1.5%) Compile::Optimize
+│       │       │   │       │       │   ├── 19 samples (0.1%) ConnectionGraph::do_analysis
+│       │       │   │       │       │   ├── … 13 samples (0.1%) PhaseIdealLoop::build_loop_late at libjvm.dylib
+│       │       │   │       │       │   ├── … 9 samples (0.1%) PhaseIdealLoop::build_loop_late_post_work at libjvm.dylib
+│       │       │   │       │       │   └── … 8 samples (0.1%) PhaseIterGVN::subsume_node at libjvm.dylib
+│       │       │   │       │       └── 69 samples (0.5%) ParseGenerator::generate
+│       │       │   │       └── 134 samples (0.9%) 4 more callees, led by (0.9%) Compiler::compile_method
+│       │       │   └── 2,329 samples (16.5%) 5 more callees, led by (3.3%) ServiceThread::service_thread_entry
+│       │       ├── 1,397 samples (9.9%) ConcurrentGCThread::run
+│       │       │   └── 1,397 samples (9.9%) 3 more callees, led by (3.3%) G1ConcurrentMarkThread::run_service
+│       │       └── 932 samples (6.6%) 2 more callees, led by (3.3%) WatcherThread::run
+│       └── … 466 samples (3.3%) __ulock_wait at libsystem_kernel.dylib
+├── … 466 samples (3.3%) mach_msg2_trap at libsystem_kernel.dylib
+├── … 447 samples (3.2%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│   ├── … 330 samples (2.3%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   └── 329 samples (2.3%) 5 more callees, led by (1.9%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   └── … 76 samples (0.5%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       └── … 20 samples (0.1%) java_lang_Throwable::fill_in_stack_trace at libjvm.dylib
+└── 1,402 samples (9.9%) 6 more root frames, led by (3.3%) run() at java.lang.ref.Finalizer$FinalizerThread
+```
+
 ## Hottest functions
 
 ### Self samples

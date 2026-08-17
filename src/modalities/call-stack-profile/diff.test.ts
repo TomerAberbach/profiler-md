@@ -1800,7 +1800,7 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
     )
   })
 
-  test(`ends a ranking's opening sentence with a note when it hides frames`, () => {
+  test(`notes the ellipsis below the summary when a ranking hides frames`, () => {
     const options = resolveProfileToMdOptions({
       baseURL: `/project`,
       showEntry: entry => entry.name !== `middle`,
@@ -1824,7 +1824,7 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
       [
         `### Regressions`,
         ``,
-        `Call stacks with the largest increase in time spent in their leaf frame. \`…\` stands for hidden frames.`,
+        `Call stacks with the largest increase in time spent in their leaf frame.`,
         ``,
         `| Change |   Delta |      % |          Time | Samples | Call stack                                                      |`,
         `| -----: | ------: | -----: | ------------: | ------: | --------------------------------------------------------------- |`,
@@ -1832,6 +1832,7 @@ describe(`formatCallStackProfileDiff call stacks`, () => {
         ``,
       ].join(`\n`),
     )
+    expect(md).toContain(`\n\n\`…\` stands for omitted frames.\n\n`)
   })
 
   test.each([

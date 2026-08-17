@@ -10,6 +10,55 @@ Collected 613 samples.
 | JIT               |  0.5% |       3 |
 | Garbage collector |  0.2% |       1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 460 samples (75.0%) Thread::call_run()
+│   ├── 445 samples (72.6%) JavaThread::thread_main_inner()
+│   │   └── 444 samples (72.4%) CompileBroker::compiler_thread_loop()
+│   │       └── 441 samples (71.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │           ├── 358 samples (58.4%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │           │   └── 358 samples (58.4%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │           │       ├── 183 samples (29.9%) Compile::Code_Gen()
+│   │           │       │   ├── 104 samples (17.0%) PhaseChaitin::Register_Allocate()
+│   │           │       │   │   ├── 21 samples (3.4%, self 1.5%) PhaseChaitin::build_ifg_physical(ResourceArea*)
+│   │           │       │   │   │   └── 12 samples (2.0%) 7 more callees, led by (0.5%) IndexSetIterator::advance_and_next()
+│   │           │       │   │   ├── 18 samples (2.9%, self 2.1%) PhaseChaitin::Split(unsigned int, ResourceArea*)
+│   │           │       │   │   │   └── 5 samples (0.8%) 5 more callees, led by (0.2%) CProjNode::is_block_proj() const
+│   │           │       │   │   └── 65 samples (10.6%) 20 more callees, led by (1.8%) PhaseChaitin::post_allocate_copy_removal()
+│   │           │       │   └── 79 samples (12.9%) 6 more callees, led by (4.9%) PhaseCFG::do_global_code_motion()
+│   │           │       ├── 135 samples (22.0%) Compile::Optimize()
+│   │           │       │   ├── 44 samples (7.2%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │           │       │   │   ├── 37 samples (6.0%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│   │           │       │   │   │   └── 37 samples (6.0%) PhaseIdealLoop::build_and_optimize()
+│   │           │       │   │   │       ├── 6 samples (1.0%) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)
+│   │           │       │   │   │       ├── 2 samples (0.3%) Node::is_CFG() const
+│   │           │       │   │   │       └── 29 samples (4.7%) 7 more callees, led by (2.0%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│   │           │       │   │   └── 7 samples (1.1%) PhaseIterGVN::optimize() …
+│   │           │       │   ├── … 43 samples (7.0%) PhaseIdealLoop::build_and_optimize()
+│   │           │       │   │   ├── 13 samples (2.1%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│   │           │       │   │   │   └── 11 samples (1.8%, self 1.3%, self 2.0% globally) PhaseIdealLoop::build_loop_late_post_work(Node*, bool)
+│   │           │       │   │   └── 29 samples (4.7%) 14 more callees, led by (1.6%) PhaseIdealLoop::split_if_with_blocks(VectorSet&, Node_Stack&)
+│   │           │       │   └── 46 samples (7.5%) 9 more callees, led by (2.6%) PhaseIterGVN::optimize()
+│   │           │       └── 40 samples (6.5%) 5 more callees, led by (5.2%) ParseGenerator::generate(JVMState*)
+│   │           └── 83 samples (13.5%) 5 more callees, led by (12.9%) Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   └── 15 samples (2.4%) 2 more callees, led by (2.1%) WorkerThread::run()
+├── 139 samples (22.7%) main(String[]) at org.codenarc.CodeNarc
+│   ├── … 135 samples (22.0%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│   │   ├── … 120 samples (19.6%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   │   ├── 92 samples (15.0%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder …
+│   │   │   └── … 26 samples (4.2%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   │       ├── 23 samples (3.8%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector …
+│   │   │       └── … 1 sample (0.2%, self 1.3% globally) pthread_jit_write_protect_np
+│   │   └── 15 samples (2.4%) 2 more callees, led by (2.3%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   └── 2 samples (0.3%) linkToCallSite(Object, Object) at java.lang.invoke.Invokers$Holder
+└── 13 samples (2.1%) 2 more root frames, led by (2.0%) <clinit>() at org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

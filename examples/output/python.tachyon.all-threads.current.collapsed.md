@@ -8,6 +8,55 @@ Collected 1,136 samples.
 | Garbage collector | 38.0% |     432 |
 | Standard library  |  1.2% |      14 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,136 samples (100.0%) _run_module_as_main at <frozen runpy>
+    └── 1,136 samples (100.0%) _run_code
+        ├── … 1,107 samples (97.4%) format_file_contents at __init__.py
+        │   ├── 576 samples (50.7%) check_stability_and_equivalence
+        │   │   ├── 506 samples (44.5%) assert_stable
+        │   │   │   └── 504 samples (44.4%) _format_str_once
+        │   │   │       ├── … 385 samples (33.9%, self 1.2%) Driver.parse_tokens at driver.py
+        │   │   │       │   ├── 363 samples (32.0%, self 0.7%) Parser.addtoken at parse.py
+        │   │   │       │   │   └── 352 samples (31.0%, self 4.6%) Parser._addtoken
+        │   │   │       │   │       ├── 276 samples (24.3%, self 38.0% globally) (garbage collector)
+        │   │   │       │   │       └── 24 samples (2.1%) 3 more callees, led by (1.1%) Parser.shift
+        │   │   │       │   └── 8 samples (0.7%) 2 more callees, led by (0.6%) TokenProxy.__next__
+        │   │   │       └── 118 samples (10.4%) 7 more callees, led by (4.8%) Visitor.visit at nodes.py
+        │   │   └── 65 samples (5.7%) assert_equivalent
+        │   │       ├── … 47 samples (4.1%) parse at ast.py
+        │   │       └── 8 samples (0.7%, self 0.6%) _stringify_ast at parsing.py
+        │   └── 531 samples (46.7%, self 0.5%) format_str
+        │       └── 525 samples (46.2%) _format_str_once
+        │           ├── … 246 samples (21.7%, self 3.3%, self 4.6% globally) Driver.parse_tokens at driver.py
+        │           │   ├── 183 samples (16.1%, self 0.8%, self 1.5% globally) Parser.addtoken at parse.py
+        │           │   │   ├── 164 samples (14.4%, self 9.3%, self 14.3% globally) Parser._addtoken
+        │           │   │   │   ├── 30 samples (2.6%, self 2.0%) Parser.pop
+        │           │   │   │   │   └── 6 samples (0.5%, self 1.1% globally) convert at pytree.py
+        │           │   │   │   ├── 15 samples (1.3%, self 0.9%) Parser.shift
+        │           │   │   │   └── 13 samples (1.1%) 2 more callees, led by (0.6%) Parser.push
+        │           │   │   └── 7 samples (0.6%) generate_tokens at tokenize.py
+        │           │   ├── 16 samples (1.4%) TokenProxy.__next__
+        │           │   │   └── 14 samples (1.2%, self 1.1%, self 2.4% globally) generate_tokens at tokenize.py
+        │           │   └── 6 samples (0.5%) (garbage collector)
+        │           ├── 84 samples (7.4%, self 1.5%, self 2.6% globally) Visitor.visit at nodes.py
+        │           │   ├── … 25 samples (2.2%) LineGenerator.visit_default at linegen.py
+        │           │   │   └── 17 samples (1.5%, self 0.8%) Line.append at lines.py
+        │           │   │       └── 4 samples (0.4%, self 0.6% globally) whitespace at nodes.py
+        │           │   └── 42 samples (3.7%) 8 more callees, led by (1.6%) LineGenerator.visit_stmt at linegen.py
+        │           ├── 64 samples (5.6%) detect_target_versions
+        │           │   └── 63 samples (5.5%, self 8.2% globally) get_features_used
+        │           ├── 11 samples (1.0%) normalize_fmt_off at comments.py
+        │           │   └── 11 samples (1.0%, self 0.9%) convert_one_fmt_off_pair
+        │           └── 116 samples (10.2%) 4 more callees, led by (8.7%) transform_line at linegen.py
+        └── 25 samples (2.2%) run_module …
+```
+
 ## Hottest functions
 
 ### Self samples

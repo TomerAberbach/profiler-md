@@ -8,6 +8,55 @@ Collected 301 samples.
 | Ours             |  7.3% |      22 |
 | Standard library |  2.0% |       6 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 301 samples (100.0%) 0x7f3b306b724a at libc.so.6
+    └── 300 samples (99.7%) _run_module_as_main at <frozen runpy>
+        ├── … 290 samples (96.3%) CPyDef_black___reformat_one at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+        │   └── 289 samples (96.0%) CPyDef_black___format_file_in_place
+        │       └── 289 samples (96.0%) CPyDef_black___format_file_contents
+        │           ├── 188 samples (62.5%) CPyDef_black___format_str
+        │           │   └── 188 samples (62.5%) CPyDef_black____format_str_once
+        │           │       ├── … 71 samples (23.6%, self 4.0%, self 4.7% globally) CPyDef_driver___Driver___parse_tokens at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+        │           │       │   ├── 28 samples (9.3%) CPyDef_parse___Parser___addtoken
+        │           │       │   │   └── 28 samples (9.3%, self 2.0%, self 4.3% globally) CPyDef_parse___Parser____addtoken
+        │           │       │   │       ├── 8 samples (2.7%, self 1.7%, self 2.3% globally) CPyDef_parse___Parser___push
+        │           │       │   │       │   └── 3 samples (1.0%) 3 more callees, led by (0.3%) 0x7f3b2fa8f4a0
+        │           │       │   │       ├── 7 samples (2.3%, self 1.0%, self 2.0% globally) CPyDef_parse___Parser___pop
+        │           │       │   │       │   └── 4 samples (1.3%) 4 more callees, led by (0.3%) 0x7f3b307e3480 at libc.so.6
+        │           │       │   │       └── 6 samples (2.0%, self 1.0%) CPyDef_parse___Parser___shift
+        │           │       │   │           └── 2 samples (0.7%, self 1.3% globally) CPyDef_pytree___convert
+        │           │       │   ├── 24 samples (8.0%) CPyDef_driver___TokenProxy_____next__
+        │           │       │   │   ├── 21 samples (7.0%, self 5.0%, self 6.0% globally) CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__
+        │           │       │   │   │   └── 6 samples (2.0%) 6 more callees, led by (0.3%) CPyTagged_Add
+        │           │       │   │   └── 2 samples (0.7%) CPyDef_tokenize___generate_tokens_gen_____next__
+        │           │       │   └── 7 samples (2.3%) 6 more callees, led by (0.7%) pytree___Leaf_traverse
+        │           │       ├── 71 samples (23.6%, self 6.0%, self 6.6% globally) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__
+        │           │       │   ├── … 32 samples (10.6%, self 1.0%, self 2.0% globally) CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+        │           │       │   │   ├── 9 samples (3.0%, self 2.0%, self 3.3% globally) CPyDef_comments___generate_comments_gen_____mypyc_generator_helper__
+        │           │       │   │   │   └── 3 samples (1.0%) CPyDef_comments___normalize_trailing_prefix …
+        │           │       │   │   └── 20 samples (6.6%) 4 more callees, led by (4.0%) CPyDef_lines___Line___append
+        │           │       │   └── 21 samples (7.0%) 10 more callees, led by (1.7%) CPyDef_linegen___visit_DEDENT_LineGenerator_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+        │           │       ├── 12 samples (4.0%) CPyDef_black___detect_target_versions
+        │           │       │   └── 12 samples (4.0%, self 2.7%, self 3.3% globally) CPyDef_black___get_features_used
+        │           │       │       └── 4 samples (1.3%) 2 more callees, led by (1.0%) CPyDef_pytree___pre_order_Node_gen_____mypyc_generator_helper__
+        │           │       └── 34 samples (11.3%) 5 more callees, led by (7.3%) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+        │           └── 101 samples (33.6%) CPyDef_black___check_stability_and_equivalence
+        │               ├── 71 samples (23.6%) CPyDef_black___assert_stable
+        │               │   └── 71 samples (23.6%) CPyDef_black____format_str_once
+        │               │       └── 71 samples (23.6%) 8 more callees, led by (10.0%) CPyDef_parsing___lib2to3_parse
+        │               └── 30 samples (10.0%) CPyDef_black___assert_equivalent
+        │                   ├── 19 samples (6.3%, self 3.0%) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__
+        │                   │   └── 10 samples (3.3%) 7 more callees, led by (0.7%) CPyDef_parsing____stringify_ast_with_new_parent_gen_____mypyc_generator_helper__ at 30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+        │                   └── … 10 samples (3.3%, self 3.0%) parse at ast.py
+        └── 9 samples (3.0%) _get_module_details …
+```
+
 ## Hottest functions
 
 ### Self samples

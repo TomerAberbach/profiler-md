@@ -8,6 +8,55 @@ Collected 1,596 samples.
 | Garbage collector | 14.5% |     231 |
 | Standard library  |  3.1% |      50 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 1,594 samples (99.9%) pytest_pyfunc_call at python.py
+    ├── … 203 samples (12.7%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   ├── … 163 samples (10.2%, self 1.2% globally) StateForActualGivenExecution._execute_once_for_engine at core.py
+    │   │   ├── 52 samples (3.3%, self 1.5% globally) get_trimmed_traceback at escalation.py
+    │   │   │   └── 50 samples (3.1%) extract_tb at traceback.py
+    │   │   │       └── 50 samples (3.1%, self 4.6% globally) StackSummary._extract_from_extended_frame_gen
+    │   │   │           ├── 41 samples (2.6%, self 1.4% globally) _walk_tb_with_full_positions
+    │   │   │           │   └── 39 samples (2.4%, self 56.1% globally) _get_code_position
+    │   │   │           └── 2 samples (0.1%, self 1.6% globally) FrameSummary.line
+    │   │   ├── 33 samples (2.1%, self 1.5% globally) extract_tb at traceback.py
+    │   │   │   └── 31 samples (1.9%) StackSummary._extract_from_extended_frame_gen
+    │   │   │       ├── 2 samples (0.1%, self 2.8% globally) checkcache at <frozen linecache>
+    │   │   │       └── 27 samples (1.7%) 2 more callees, led by (1.6%) _walk_tb_with_full_positions
+    │   │   ├── 8 samples (0.5%, self 0.5% globally) format_exception at escalation.py
+    │   │   │   └── 8 samples (0.5%, self 0.8% globally) format_exception at traceback.py
+    │   │   │       └── … 4 samples (0.3%, self 1.4% globally) parse at ast.py
+    │   │   └── 70 samples (4.4%) 3 more callees, led by (2.6%) InterestingOrigin.from_exception at escalation.py
+    │   └── 34 samples (2.1%) 3 more callees, led by (1.8%) Shrinker.minimize_individual_choices
+    ├── … 148 samples (9.3%) given.<locals>.run_test_as_given.<locals>.wrapped_test at core.py
+    │   ├── 115 samples (7.2%) StateForActualGivenExecution.run_engine
+    │   │   └── 115 samples (7.2%) 4 more callees, led by (5.0%) ConjectureRunner.run at engine.py
+    │   └── 33 samples (2.1%) get_trimmed_traceback at escalation.py …
+    ├── … 127 samples (8.0%) Shrinker.shrink at shrinker.py
+    │   ├── … 119 samples (7.5%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   │   └── 119 samples (7.5%) 4 more callees, led by (3.6%) Shrinker.try_trivial_spans
+    │   └── 8 samples (0.5%) Shrinker.initial_coarse_reduction …
+    ├── … 121 samples (7.6%) StateForActualGivenExecution.run_engine at core.py
+    │   ├── … 61 samples (3.8%, self 14.5% globally) (garbage collector)
+    │   └── 59 samples (3.7%) 2 more callees, led by (3.5%) ConjectureRunner.run at engine.py
+    ├── … 111 samples (7.0%) Shrinker.step.<locals>.<lambda> at shrinker.py
+    │   ├── 103 samples (6.5%) Shrinker.minimize_individual_choices
+    │   │   └── 103 samples (6.5%) Shrinker.minimize_nodes …
+    │   └── 4 samples (0.3%) Shrinker.try_trivial_spans
+    ├── … 62 samples (3.9%) StateForActualGivenExecution._execute_once_for_engine at core.py
+    │   ├── 22 samples (1.4%) InterestingOrigin.from_exception at escalation.py
+    │   │   └── 22 samples (1.4%) get_trimmed_traceback
+    │   │       ├── 20 samples (1.3%) extract_tb at traceback.py …
+    │   │       └── 2 samples (0.1%, self 0.8% globally) getsourcefile at inspect.py
+    │   └── 40 samples (2.5%) 5 more callees, led by (1.1%) extract_tb at traceback.py
+    └── 808 samples (50.6%) 56 more callees, led by (4.9%) accept.<locals>.test_dictionary at test_shrink_quality.py
+```
+
 ## Hottest functions
 
 ### Self samples

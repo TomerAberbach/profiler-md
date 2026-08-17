@@ -11,6 +11,8 @@ Paths starting with `./` or `../` are relative to `/private/tmp/profiler-md-php-
 
 Call stacks missing their outermost callers account for 23.0% → 22.5% of the samples collected.
 
+`truncated` stands for missing outermost callers.
+
 ## Hottest functions
 
 ### Self samples
@@ -1002,7 +1004,7 @@ Common call stack: `doRun` (`Composer\Console\Application`) ← `run` (`Symfony\
 
 ### Improvements
 
-Call stacks with the largest decrease in samples collected in their leaf frame. `truncated` stands for missing outermost callers.
+Call stacks with the largest decrease in samples collected in their leaf frame.
 
 Common call stack: `run` (`Symfony\Component\Console\Application`) ← `run` (`Composer\Console\Application`) ← `(anonymous)` (`./profile.php`)
 

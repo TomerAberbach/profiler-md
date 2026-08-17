@@ -7,6 +7,47 @@ Blocked 8.0ms over 9 contentions (886.1µs per contention).
 | Standard library | 98.9% | 7.9ms |           8 |
 | Ours             |  1.1% | 0.1ms |           1 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 7.7ms (96.2%) run() at java.util.concurrent.ForkJoinWorkerThread
+│   └── 7.7ms (96.2%) runWorker(ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool
+│       └── 7.7ms (96.2%) scan(ForkJoinPool$WorkQueue, int, int)
+│           └── 7.7ms (96.2%) topLevelExec(ForkJoinTask, ForkJoinPool$WorkQueue) at java.util.concurrent.ForkJoinPool$WorkQueue
+│               └── 7.7ms (96.2%) doExec() at java.util.concurrent.ForkJoinTask
+│                   └── … 7.7ms (96.2%) exec() at java.util.concurrent.RecursiveTask
+│                       └── 7.7ms (96.2%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│                           └── 7.7ms (96.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                               └── … 7.7ms (96.2%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│                                   └── 7.7ms (96.2%, self 1.1%) average(List)
+│                                       └── 7.6ms (95.1%) loadClass(String) at java.lang.ClassLoader
+│                                           └── 7.6ms (95.1%) loadClass(String, boolean)
+└── 0.3ms (3.8%) run() at java.lang.Thread
+    └── 0.3ms (3.8%) runWith(Object, Runnable)
+        └── 0.3ms (3.8%) run() at org.renaissance.core.DirUtils$$Lambda.0x0000007001003a68
+            └── 0.3ms (3.8%) lambda$createScratchDirectory$1(Path) at org.renaissance.core.DirUtils
+                └── 0.3ms (3.8%) deleteRecursively(Path)
+                    └── 0.3ms (3.8%) deleteRecursively(Path, boolean)
+                        ├── 0.2ms (2.8%) loadClass(String) at java.lang.ClassLoader
+                        │   └── 0.2ms (2.8%) loadClass(String, boolean) at jdk.internal.loader.ClassLoaders$AppClassLoader
+                        │       └── 0.2ms (2.8%) loadClass(String, boolean) at jdk.internal.loader.BuiltinClassLoader
+                        │           └── 0.2ms (2.8%) loadClassOrNull(String, boolean)
+                        └── 0.1ms (1.1%) walkFileTree(Path, FileVisitor) at java.nio.file.Files
+                            └── 0.1ms (1.1%, self 0.6%) walkFileTree(Path, Set, int, FileVisitor)
+                                └── 36.5µs (0.5%) walk(Path) at java.nio.file.FileTreeWalker
+                                    └── 36.5µs (0.5%) visit(Path, boolean, boolean)
+                                        └── 36.5µs (0.5%) newDirectoryStream(Path) at java.nio.file.Files
+                                            └── 36.5µs (0.5%) newDirectoryStream(Path, DirectoryStream$Filter) at sun.nio.fs.UnixFileSystemProvider
+                                                └── 36.5µs (0.5%) <init>(UnixPath, long, DirectoryStream$Filter) at sun.nio.fs.UnixDirectoryStream
+                                                    └── 36.5µs (0.5%) <init>(boolean) at java.util.concurrent.locks.ReentrantReadWriteLock
+                                                        └── 5.1µs (0.1%) <init>() at java.util.concurrent.locks.ReentrantReadWriteLock$FairSync
+                                                            └── 5.1µs (0.1%) <init>() at java.util.concurrent.locks.ReentrantReadWriteLock$Sync
+```
+
 ## Hottest functions
 
 ### Self time

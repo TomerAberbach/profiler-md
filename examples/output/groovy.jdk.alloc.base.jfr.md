@@ -7,6 +7,55 @@ Collected 404 samples.
 | Standard library | 98.5% |     398 |
 | Ours             |  1.5% |       6 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 375 samples (92.8%) main(String[]) at org.codenarc.CodeNarc
+│   └── 375 samples (92.8%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│       ├── … 370 samples (91.6%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801115400
+│       │   ├── 365 samples (90.3%, self 1.2%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x00000008010b2800
+│       │   │   ├── … 298 samples (73.8%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │   │   ├── 255 samples (63.1%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│       │   │   │   │   ├── … 91 samples (22.5%) buildAST() at org.apache.groovy.parser.antlr4.AstBuilder
+│       │   │   │   │   │   ├── … 81 samples (20.0%) scriptStatement() at org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │   └── 79 samples (19.6%) typeDeclaration()
+│       │   │   │   │   │   │       └── 78 samples (19.3%) classDeclaration()
+│       │   │   │   │   │   │           └── … 74 samples (18.3%) memberDeclaration(int) at org.apache.groovy.parser.antlr4.GroovyParser
+│       │   │   │   │   │   │               └── 74 samples (18.3%) 3 more callees, led by (16.8%) methodDeclaration(int, int)
+│       │   │   │   │   │   └── 8 samples (2.0%) visit(ParseTree) …
+│       │   │   │   │   ├── 3 samples (0.7%, self 1.2% globally) checkCustomized(MethodHandle) at java.lang.invoke.Invokers
+│       │   │   │   │   └── 159 samples (39.4%) 90 more callees, led by (11.6%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801141400
+│       │   │   │   └── … 42 samples (10.4%) getAndPut(String, MemoizeCache$ValueProvider) at org.codehaus.groovy.vmplugin.v8.CacheableCallSite
+│       │   │   │       ├── 36 samples (8.9%, self 0.7%) provide(Object) at org.codehaus.groovy.vmplugin.v8.IndyInterface$$Lambda.0x00000008010b6d70
+│       │   │   │       │   └── … 33 samples (8.2%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │   │       │       ├── 20 samples (5.0%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│       │   │   │       │       │   ├── 8 samples (2.0%) chooseMeta(MetaClassImpl) at org.codehaus.groovy.vmplugin.v8.Selector$PropertySelector
+│       │   │   │       │       │   │   ├── … 4 samples (1.0%) matches(Method, String, Class[]) at java.lang.PublicMethods$Key
+│       │   │   │       │       │   │   └── … 3 samples (0.7%, self 3.7% globally) getNode(Object) at java.util.HashMap
+│       │   │   │       │       │   ├── … 3 samples (0.7%, self 1.5% globally) init(MemberName, Object) at java.lang.invoke.MethodHandleNatives
+│       │   │   │       │       │   └── 7 samples (1.7%) 3 more callees, led by (1.2%) setGuards(Object)
+│       │   │   │       │       └── 13 samples (3.2%) 4 more callees, led by (2.0%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$CastSelector
+│       │   │   │       └── 3 samples (0.7%) put(Object, Object) at java.util.HashMap
+│       │   │   │           └── 3 samples (0.7%, self 2.2% globally) putVal(int, Object, Object, boolean, boolean)
+│       │   │   └── … 62 samples (15.3%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │       └── 61 samples (15.1%) 3 more callees, led by (9.7%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+│       │   └── … 5 samples (1.2%, self 1.5% globally) newInstance(Class, int) at java.lang.reflect.Array
+│       │       └── 5 samples (1.2%, self 10.6% globally) newArray(Class, int)
+│       └── … 5 samples (1.2%) guard(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801118400 …
+└── … 25 samples (6.2%) invokeImpl(Object, Object[]) at jdk.internal.reflect.DirectMethodHandleAccessor
+    └── 23 samples (5.7%) invokeExact_MT(Object, Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        ├── … 7 samples (1.7%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x00000008010b2800
+        │   ├── 6 samples (1.5%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface …
+        │   └── … 1 sample (0.2%, self 2.2% globally) prepare() at java.lang.invoke.LambdaForm
+        ├── … 4 samples (1.0%) classDeclaration() at org.apache.groovy.parser.antlr4.GroovyParser
+        │   └── … 1 sample (0.2%, self 2.2% globally) resize() at java.util.HashMap
+        └── 9 samples (2.2%) 5 more callees, led by (1.2%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801134000
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -1072,6 +1121,55 @@ Allocated 12 GiB over 6,333 samples (1.94 MiB per sample).
 | Ours             |  0.9% |  105 MiB |      53 |
 | Unknown          | <0.1% | 38.2 KiB |      54 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 12 GiB (99.7%) main(String[]) at org.codenarc.CodeNarc
+    └── 12 GiB (99.7%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        ├── … 11.8 GiB (98.1%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801115400
+        │   ├── … 11.7 GiB (97.5%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x00000008010b2800
+        │   │   ├── … 6.75 GiB (56.2%, self 5.6%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │   │   ├── 3.54 GiB (29.4%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        │   │   │   │   └── 3.54 GiB (29.4%) 292 more callees, led by (9.2%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x000000080182dc00
+        │   │   │   ├── … 2.35 GiB (19.5%) getAndPut(String, MemoizeCache$ValueProvider) at org.codehaus.groovy.vmplugin.v8.CacheableCallSite
+        │   │   │   │   └── … 2.28 GiB (19.0%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │   │   │       ├── 1.35 GiB (11.2%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+        │   │   │   │       │   ├── … 198 MiB (1.6%) make(byte, Class, MemberName, Class) at java.lang.invoke.DirectMethodHandle
+        │   │   │   │       │   │   └── … 157 MiB (1.3%, self 7.5% globally) makeImpl(Class, Class[], boolean) at java.lang.invoke.MethodType
+        │   │   │   │       │   └── 1.11 GiB (9.2%) 12 more callees, led by (6.1%) setGuards(Object)
+        │   │   │   │       └── 942 MiB (7.7%) 5 more callees, led by (4.8%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$CastSelector
+        │   │   │   └── … 199 MiB (1.6%) allocateInstance(Object) at java.lang.invoke.DirectMethodHandle
+        │   │   └── … 4.98 GiB (41.4%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+        │   │       ├── 4.06 GiB (33.8%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+        │   │       │   ├── 3.15 GiB (26.2%) setCallSiteTarget() at org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+        │   │       │   │   ├── 1.56 GiB (13.0%) setGuards(Object)
+        │   │       │   │   │   ├── 338 MiB (2.7%) guardWithTest(MethodHandle, MethodHandle, MethodHandle) at java.lang.invoke.MethodHandles
+        │   │       │   │   │   │   ├── 211 MiB (1.7%) makeGuardWithTest(MethodHandle, MethodHandle, MethodHandle) at java.lang.invoke.MethodHandleImpl
+        │   │       │   │   │   │   │   ├── 111 MiB (0.9%) profile(MethodHandle)
+        │   │       │   │   │   │   │   │   └── 111 MiB (0.9%, self 3.5% globally) makeBlockInliningWrapper(MethodHandle)
+        │   │       │   │   │   │   │   └── 73.5 MiB (0.6%) invokeStatic(Object, Object, Object, Object, Object, Object, Object) at java.lang.invoke.DirectMethodHandle$Holder …
+        │   │       │   │   │   │   └── 127 MiB (1.0%) dropArgumentsToMatch(MethodHandle, int, Class[], int, boolean) …
+        │   │       │   │   │   ├── … 214 MiB (1.7%) bindArgumentL(int, Object) at java.lang.invoke.BoundMethodHandle
+        │   │       │   │   │   │   └── 194 MiB (1.6%) bindArgumentL(BoundMethodHandle, int, Object) at java.lang.invoke.LambdaFormEditor
+        │   │       │   │   │   │       ├── … 67.2 MiB (0.5%, self 3.0% globally) make(MethodType, LambdaForm, Object, Object) at java.lang.invoke.BoundMethodHandle$Species_LL
+        │   │       │   │   │   │       └── 127 MiB (1.0%) 2 more callees, led by (0.9%) bindArgumentType(BoundMethodHandle, int, LambdaForm$BasicType)
+        │   │       │   │   │   ├── 58.7 MiB (0.5%) map(Function) at java.util.stream.ReferencePipeline
+        │   │       │   │   │   └── 931 MiB (7.6%) 9 more callees, led by (2.7%) guardWithTest(MethodHandle, MethodHandle) at java.lang.invoke.SwitchPoint
+        │   │       │   │   ├── … 702 MiB (5.7%) unreflect(Method) at java.lang.invoke.MethodHandles$Lookup
+        │   │       │   │   │   └── … 656 MiB (5.3%) make(byte, Class, MemberName, Class) at java.lang.invoke.DirectMethodHandle
+        │   │       │   │   │       ├── … 506 MiB (4.1%) fillInStackTrace(int) at java.lang.Throwable
+        │   │       │   │   │       └── 44.3 MiB (0.4%) preparedLambdaForm(MemberName)
+        │   │       │   │   └── 867 MiB (7.0%) 9 more callees, led by (3.4%) addExceptionHandler()
+        │   │       │   └── 910 MiB (7.4%) 5 more callees, led by (6.0%) asSpreader(Class, int) at java.lang.invoke.MethodHandle
+        │   │       └── 935 MiB (7.6%) 3 more callees, led by (7.1%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+        │   └── … 73.9 MiB (0.6%, self 2.8% globally) newInstance(Class, int) at java.lang.reflect.Array
+        └── … 192 MiB (1.6%) guard(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801118400 …
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1801,6 +1899,55 @@ Retained 13.7 KiB over 126 objects (112 B per object).
 | Category         |      % |     Size | Objects |
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 13.7 KiB |     126 |
+
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 12.6 KiB (91.6%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x00000008010b2800
+│   ├── … 8.96 KiB (65.2%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   ├── 7.28 KiB (53.0%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   │   │   ├── 4.39 KiB (32.0%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801141400
+│   │   │   │   ├── 2.94 KiB (21.4%) reinvoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801118000
+│   │   │   │   │   └── … 2.94 KiB (21.4%) guardWithCatch(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x0000000801117800
+│   │   │   │   │       ├── 2.81 KiB (20.5%) invokeInterface(Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x00000008010bd000
+│   │   │   │   │       │   └── 2.81 KiB (20.5%) applyTo(SourceCode) at org.codenarc.rule.AbstractRule
+│   │   │   │   │       │       ├── 2.73 KiB (19.9%) applyTo(SourceCode, List) at org.codenarc.rule.AbstractAstVisitorRule
+│   │   │   │   │       │       │   └── 2.73 KiB (19.9%) 2 more callees, led by (19.1%) getAstVisitor()
+│   │   │   │   │       │       └── 48 B (0.3%) applyTo(SourceCode, List) at org.codenarc.rule.AbstractSharedAstVisitorRule
+│   │   │   │   │       └── 128 B (0.9%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000008012d1800 …
+│   │   │   │   └── … 1.45 KiB (10.6%) buildAST() at org.apache.groovy.parser.antlr4.AstBuilder
+│   │   │   │       ├── … 1.01 KiB (7.3%) methodDeclaration(int, int) at org.apache.groovy.parser.antlr4.GroovyParser
+│   │   │   │       │   └── … 920 B (6.5%) copyOf(Object[], int) at java.util.Arrays
+│   │   │   │       └── 400 B (2.8%) visit(ParseTree)
+│   │   │   │           └── … 400 B (2.8%) visit(ParseTree) at groovyjarjarantlr4.v4.runtime.tree.AbstractParseTreeVisitor
+│   │   │   │               ├── … 152 B (1.1%, self 4.3% globally) getPlainNodeReference(boolean) at org.codehaus.groovy.ast.ClassNode
+│   │   │   │               └── 248 B (1.8%) 2 more callees, led by (1.1%) accept(ParseTreeVisitor) at org.apache.groovy.parser.antlr4.GroovyParser$ScriptStatementContext
+│   │   │   ├── … 240 B (1.7%) defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object) at java.lang.ClassLoader
+│   │   │   ├── … 64 B (0.5%, self 1.4% globally) <init>(MethodType) at org.codehaus.groovy.vmplugin.v8.CacheableCallSite
+│   │   │   └── 2.57 KiB (18.7%) 11 more callees, led by (9.6%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x000000080182dc00
+│   │   └── 1.68 KiB (12.2%) 2 more callees, led by (12.1%) doWithCallSite(MutableCallSite, Object[], BiFunction)
+│   └── … 3.62 KiB (26.3%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       ├── … 3.14 KiB (22.9%) reinitialize() at groovy.lang.MetaClassImpl
+│       │   ├── … 2.17 KiB (15.8%) copyNonPrivateMethods(MetaMethodIndex$Entry, MetaMethodIndex$Header) at org.codehaus.groovy.runtime.metaclass.MetaMethodIndex
+│       │   │   └── 2.14 KiB (15.6%, self 0.8%, self 4.0% globally) getOrPutMethods(String, MetaMethodIndex$Header)
+│       │   │       └── 2.03 KiB (14.8%, self 36.9% globally) resize(int)
+│       │   └── 952 B (6.8%) addProperties() …
+│       └── … 472 B (3.4%, self 1.5% globally) copyOfRange(byte[], int, int) at java.util.Arrays
+│           └── 472 B (3.4%, self 5.0% globally) copyOfRangeByte(byte[], int, int)
+└── … 1.05 KiB (7.6%) getDefaultMetaClass() at groovy.lang.GroovyObjectSupport
+    ├── … 792 B (5.6%) <init>(int, boolean) at org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl
+    │   ├── 680 B (4.8%) registerMethods(Class, boolean, boolean, Map)
+    │   │   ├── … 608 B (4.3%) <clinit>() at org.codehaus.groovy.vmplugin.v9.Java9
+    │   │   │   ├── … 528 B (3.8%, self 6.0% globally) resize() at java.util.HashMap
+    │   │   │   └── … 80 B (0.6%) <init>(Object[]) at java.util.ImmutableCollections$SetN
+    │   │   └── 56 B (0.4%) loadDgmInfo() at org.codehaus.groovy.reflection.GeneratedMetaMethod$DgmMethodRecord
+    │   └── … 112 B (0.8%) defineClass1(ClassLoader, String, byte[], int, int, ProtectionDomain, String) at java.lang.ClassLoader
+    └── … 280 B (2.0%) <init>(MethodType) at java.lang.invoke.Invokers
+```
 
 ## Hottest functions
 

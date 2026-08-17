@@ -8,6 +8,17 @@ Recorded 3 leaked goroutines.
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/inputs/assets/go/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 3 leaked goroutines (100.0%) main.leakWorkers.func1 at ./profile.go:57
+    └── 3 leaked goroutines (100.0%) runtime.chansend1 at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/chan.go:160
+        └── 3 leaked goroutines (100.0%) runtime.chansend at 176
+            └── 3 leaked goroutines (100.0%) runtime.gopark at /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:445
+```
+
 ## Hottest functions
 
 ### Self leaked goroutines

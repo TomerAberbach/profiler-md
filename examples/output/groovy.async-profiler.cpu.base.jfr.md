@@ -11,6 +11,55 @@ Collected 5,809 samples.
 | JIT               |  1.1% |      61 |
 | Garbage collector |  0.1% |       4 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 3,546 samples (61.0%) Thread::call_run at libjvm.dylib
+│   ├── 3,235 samples (55.7%) JavaThread::thread_main_inner
+│   │   └── 3,231 samples (55.6%) CompileBroker::compiler_thread_loop
+│   │       ├── 3,201 samples (55.1%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 2,591 samples (44.6%) C2Compiler::compile_method
+│   │       │   │   └── 2,587 samples (44.5%) Compile::Compile
+│   │       │   │       ├── 1,203 samples (20.7%) Compile::Code_Gen
+│   │       │   │       │   ├── 690 samples (11.9%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 158 samples (2.7%, self 1.8%) PhaseChaitin::Split
+│   │       │   │       │   │   │   └── 30 samples (0.5%) MachNode::rematerialize
+│   │       │   │       │   │   ├── 113 samples (1.9%, self 0.9%) PhaseChaitin::build_ifg_physical
+│   │       │   │       │   │   │   ├── 14 samples (0.2%, self 1.2% globally) IndexSetIterator::advance_and_next
+│   │       │   │       │   │   │   └── 46 samples (0.8%) 14 more callees, led by (0.3%) PhaseChaitin::compute_initial_block_pressure
+│   │       │   │       │   │   ├── 74 samples (1.3%, self 0.6%) PhaseLive::compute
+│   │       │   │       │   │   │   └── 30 samples (0.5%) PhaseLive::add_liveout
+│   │       │   │       │   │   │       └── 3 samples (0.1%, self 1.3% globally) tlv_get_addr at libdyld.dylib
+│   │       │   │       │   │   ├── 44 samples (0.8%, self 0.7%) PhaseAggressiveCoalesce::insert_copies
+│   │       │   │       │   │   └── 297 samples (5.1%) 42 more callees, led by (0.9%) PhaseChaitin::post_allocate_copy_removal
+│   │       │   │       │   └── 513 samples (8.8%) 8 more callees, led by (3.4%) Matcher::match
+│   │       │   │       └── 1,384 samples (23.8%) 9 more callees, led by (17.8%) Compile::Optimize
+│   │       │   └── 593 samples (10.2%) Compiler::compile_method
+│   │       │       └── 593 samples (10.2%) 2 more callees, led by (10.2%) Compilation::Compilation
+│   │       └── … 28 samples (0.5%) PlatformMonitor::wait at libjvm.dylib
+│   │           ├── 21 samples (0.4%) __psynch_cvwait at libsystem_kernel.dylib
+│   │           └── … 6 samples (0.1%, self 0.7% globally) __psynch_mutexwait at libsystem_kernel.dylib
+│   └── 311 samples (5.4%) 5 more callees, led by (4.9%) WorkerThread::run
+├── … 2,189 samples (37.7%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│   ├── 2,140 samples (36.8%, self 0.5%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│   │   ├── … 1,560 samples (26.9%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   │   │   ├── 1,289 samples (22.2%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│   │   │   │   └── 1,287 samples (22.2%) 504 more callees, led by (5.5%) invoke(Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010d5000
+│   │   │   └── 268 samples (4.6%) 8 more callees, led by (4.2%) doWithCallSite(MutableCallSite, Object[], BiFunction)
+│   │   └── 550 samples (9.5%) 4 more callees, led by (9.4%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│   └── 49 samples (0.8%) collector(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010a1000
+│       └── 37 samples (0.6%) invoke(Object, int) at java.lang.invoke.LambdaForm$MH.0x0000007001031400
+│           ├── 28 samples (0.5%) invokeStatic(Object, Object, int) at java.lang.invoke.LambdaForm$DMH.0x000000700102b400
+│           │   └── 28 samples (0.5%, self 1.1% globally) newInstance(Class, int) at java.lang.reflect.Array
+│           │       └── … 6 samples (0.1%, self 1.7% globally) pthread_jit_write_protect_np at libsystem_pthread.dylib
+│           └── … 8 samples (0.1%, self 1.9% globally) cast(Object) at java.lang.Class
+└── 15 samples (0.3%) unknown
+```
+
 ## Hottest functions
 
 ### Self samples

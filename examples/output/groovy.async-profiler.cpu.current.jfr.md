@@ -11,6 +11,55 @@ Collected 6,132 samples.
 | JIT               |  0.8% |      49 |
 | Garbage collector |  0.1% |       4 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 3,848 samples (62.8%) Thread::call_run at libjvm.dylib
+│   ├── 3,480 samples (56.8%) JavaThread::thread_main_inner
+│   │   └── 3,474 samples (56.7%) CompileBroker::compiler_thread_loop
+│   │       └── 3,445 samples (56.2%) CompileBroker::invoke_compiler_on_method
+│   │           ├── 2,799 samples (45.6%) C2Compiler::compile_method
+│   │           │   └── 2,795 samples (45.6%) Compile::Compile
+│   │           │       ├── 1,380 samples (22.5%) Compile::Code_Gen
+│   │           │       │   ├── 802 samples (13.1%) PhaseChaitin::Register_Allocate
+│   │           │       │   │   ├── 204 samples (3.3%, self 2.2%) PhaseChaitin::Split
+│   │           │       │   │   │   └── 71 samples (1.2%) 17 more callees, led by (0.5%) MachNode::rematerialize
+│   │           │       │   │   ├── 110 samples (1.8%, self 0.9%) PhaseChaitin::build_ifg_physical
+│   │           │       │   │   │   └── 53 samples (0.9%) 14 more callees, led by (0.2%) PhaseChaitin::compute_initial_block_pressure
+│   │           │       │   │   ├── 51 samples (0.8%, self 0.8%) PhaseAggressiveCoalesce::insert_copies
+│   │           │       │   │   └── 436 samples (7.1%) 43 more callees, led by (1.5%) PhaseLive::compute
+│   │           │       │   └── 578 samples (9.4%) 9 more callees, led by (4.1%) Matcher::match
+│   │           │       ├── 1,068 samples (17.4%) Compile::Optimize
+│   │           │       │   ├── 306 samples (5.0%) PhaseIdealLoop::optimize
+│   │           │       │   │   ├── 72 samples (1.2%) PhaseIterGVN::optimize
+│   │           │       │   │   │   └── 67 samples (1.1%) PhaseIterGVN::transform_old
+│   │           │       │   │   │       ├── … 28 samples (0.5%, self 1.6% globally) Node::dominates at libjvm.dylib
+│   │           │       │   │   │       └── 8 samples (0.1%) RegionNode::Ideal
+│   │           │       │   │   └── 234 samples (3.8%) 2 more callees, led by (3.8%) PhaseIdealLoop::PhaseIdealLoop
+│   │           │       │   └── 762 samples (12.4%) 21 more callees, led by (3.4%) Compile::optimize_loops
+│   │           │       └── 345 samples (5.6%) 7 more callees, led by (5.0%) ParseGenerator::generate
+│   │           └── 631 samples (10.3%) Compiler::compile_method
+│   │               └── 631 samples (10.3%) 3 more callees, led by (10.2%) Compilation::Compilation
+│   └── 368 samples (6.0%) 5 more callees, led by (5.6%) WorkerThread::run
+├── 2,237 samples (36.5%) main(String[]) at org.codenarc.CodeNarc
+│   └── 2,233 samples (36.4%) linkToCallSite(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│       ├── … 2,199 samples (35.9%) invoke(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│       │   ├── 2,141 samples (34.9%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object) at java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│       │   │   ├── … 1,558 samples (25.4%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   │   │   └── 1,557 samples (25.4%) 8 more callees, led by (21.1%) invokeExact_MT(Object, Object, Object) at java.lang.invoke.Invokers$Holder
+│       │   │   └── 553 samples (9.0%) 3 more callees, led by (9.0%) selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) at org.codehaus.groovy.vmplugin.v8.IndyInterface
+│       │   └── 56 samples (0.9%) collector(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010a1000
+│       │       └── 36 samples (0.6%) invoke(Object, int) at java.lang.invoke.LambdaForm$MH.0x0000007001031400
+│       │           ├── … 12 samples (0.2%, self 2.0% globally) pthread_jit_write_protect_np at libsystem_pthread.dylib
+│       │           └── … 12 samples (0.2%, self 1.7% globally) cast(Object) at java.lang.Class
+│       └── … 34 samples (0.6%) guard(Object, Object, Object) at java.lang.invoke.LambdaForm$MH.0x00000070010aac00 …
+└── 16 samples (0.3%) unknown
+```
+
 ## Hottest functions
 
 ### Self samples

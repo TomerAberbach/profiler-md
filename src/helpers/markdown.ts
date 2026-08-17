@@ -1,4 +1,5 @@
 import type {
+  Code,
   Heading,
   InlineCode,
   Node,
@@ -80,9 +81,22 @@ export const phrasing = (
 export const inlineCode = (value: string): InlineCode => ({
   type: `inlineCode`,
   value: toControlPictures(
-    value.replaceAll(/\r\n|[\r\n]/gu, ` `).replaceAll(`\\|`, `\\ |`),
+    lineEndingsToSpaces(value).replaceAll(`\\|`, `\\ |`),
   ),
 })
+
+/**
+ * A fenced code block of {@link lines}, for content whose alignment the reader
+ * depends on. A table cell collapses runs of spaces and wraps, so it cannot
+ * hold one. A line ending within a line would split it, so it becomes a space.
+ */
+export const code = (lines: string[]): Code => ({
+  type: `code`,
+  value: toControlPictures(lines.map(lineEndingsToSpaces).join(`\n`)),
+})
+
+const lineEndingsToSpaces = (value: string): string =>
+  value.replaceAll(/\r\n|[\r\n]/gu, ` `)
 
 // The serializer encodes carriage returns in headings and table cells but
 // emits them raw in paragraphs, where a lone `\r` desyncs micromark's line

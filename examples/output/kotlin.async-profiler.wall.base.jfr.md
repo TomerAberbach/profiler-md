@@ -11,6 +11,55 @@ Collected 2,725 samples.
 | Unknown          |  0.3% |       8 |
 | JIT              |  0.1% |       3 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2,251 samples (82.6%) thread_start at libsystem_pthread.dylib
+│   └── 2,251 samples (82.6%) _pthread_start
+│       ├── 2,156 samples (79.1%) thread_native_entry at libjvm.dylib
+│       │   └── 2,156 samples (79.1%) Thread::call_run
+│       │       ├── 887 samples (32.6%) WorkerThread::run
+│       │       │   ├── 881 samples (32.3%, self 35.9% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       │   └── … 3 samples (0.1%) G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object at libjvm.dylib
+│       │       ├── 799 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 330 samples (12.1%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 176 samples (6.5%, self 47.7% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 153 samples (5.6%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 99 samples (3.6%) C2Compiler::compile_method
+│       │       │   │       │   └── 99 samples (3.6%) Compile::Compile
+│       │       │   │       │       ├── 49 samples (1.8%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 22 samples (0.8%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 4 samples (0.1%) PhaseChaitin::gather_lrg_masks
+│       │       │   │       │       │   │   ├── 3 samples (0.1%) PhaseChaitin::Split
+│       │       │   │       │       │   │   └── 2 samples (0.1%) PhaseAggressiveCoalesce::insert_copies
+│       │       │   │       │       │   ├── 13 samples (0.5%) Matcher::match
+│       │       │   │       │       │   │   └── 9 samples (0.3%) Matcher::xform
+│       │       │   │       │       │   └── … 2 samples (0.1%) PhaseCFG::partial_latency_of_defs at libjvm.dylib
+│       │       │   │       │       └── 50 samples (1.8%) 3 more callees, led by (1.4%) Compile::Optimize
+│       │       │   │       └── … 47 samples (1.7%) Compilation::compile_java_method at libjvm.dylib
+│       │       │   │           ├── … 9 samples (0.3%) GraphBuilder::invoke at libjvm.dylib
+│       │       │   │           │   └── 2 samples (0.1%) ciBytecodeStream::get_method
+│       │       │   │           │       └── 2 samples (0.1%) ciObjectFactory::get_metadata
+│       │       │   │           ├── … 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)> at libjvm.dylib
+│       │       │   │           └── 20 samples (0.7%) 2 more callees, led by (0.7%) Compilation::emit_lir
+│       │       │   └── 469 samples (17.2%) 5 more callees, led by (3.4%) JvmtiAgentThread::start_function_wrapper
+│       │       ├── 282 samples (10.3%) ConcurrentGCThread::run
+│       │       │   └── 282 samples (10.3%) 3 more callees, led by (3.4%) G1ConcurrentMarkThread::run_service
+│       │       └── 188 samples (6.9%) 2 more callees, led by (3.4%) WatcherThread::run
+│       └── … 94 samples (3.4%) __ulock_wait at libsystem_kernel.dylib
+├── … 94 samples (3.4%) mach_msg2_trap at libsystem_kernel.dylib
+├── 91 samples (3.3%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 91 samples (3.3%) run(String[])
+│       ├── 75 samples (2.8%) invoke(Object, Object[]) at java.lang.reflect.Method …
+│       └── … 8 samples (0.3%) inflate_fast at libzip.dylib
+├── 8 samples (0.3%) (anonymous)
+└── 281 samples (10.3%) 3 more root frames, led by (3.4%) run() at java.lang.ref.Finalizer$FinalizerThread
+```
+
 ## Hottest functions
 
 ### Self samples

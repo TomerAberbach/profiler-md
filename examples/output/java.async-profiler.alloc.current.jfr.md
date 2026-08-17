@@ -7,6 +7,55 @@ Allocated 37 GiB over 75,465 samples (514 KiB per sample).
 | Standard library | 92.9% | 34.4 GiB |  70,068 |
 | Ours             |  7.1% | 2.64 GiB |   5,397 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── … 36.8 GiB (99.4%) exec() at java.util.concurrent.RecursiveTask
+│   └── 36.8 GiB (99.4%) compute() at org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       ├── 28 GiB (75.7%) combineResults(Object, Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   └── 28 GiB (75.7%) combineResults(Map, Map)
+│       │       └── 28 GiB (75.7%) merge(Map, Map) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │           └── … 27.8 GiB (75.0%) lambda$merge$6(List, List) at org.renaissance.jdk.concurrent.JavaKMeans
+│       │               ├── 20.7 GiB (56.0%) addAll(Collection) at java.util.ArrayList
+│       │               │   ├── 13.3 GiB (35.9%) grow(int)
+│       │               │   │   └── 13.3 GiB (35.9%, self 35.9%, self 90.6% globally) copyOf(Object[], int) at java.util.Arrays
+│       │               │   └── 7.43 GiB (20.1%) toArray()
+│       │               │       └── 7.43 GiB (20.1%, self 20.1%) copyOf(Object[], int) at java.util.Arrays
+│       │               └── 6.93 GiB (18.7%) <init>(Collection) at java.util.ArrayList
+│       │                   └── 6.93 GiB (18.7%) toArray()
+│       │                       └── 6.93 GiB (18.7%, self 18.7%) copyOf(Object[], int) at java.util.Arrays
+│       ├── 8.23 GiB (22.2%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   ├── … 6.54 GiB (17.7%) collectClusters(int[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │   ├── … 6.11 GiB (16.5%, self 0.7%) grow(int) at java.util.ArrayList
+│       │   │   │   └── 5.87 GiB (15.9%, self 15.9%) copyOf(Object[], int) at java.util.Arrays
+│       │   │   └── 329 MiB (0.9%) computeIfAbsent(Object, Function) at java.util.HashMap
+│       │   │       ├── 138 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│       │   │       ├── 119 MiB (0.3%) apply(Object) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000008011a3940
+│       │   │       │   └── 119 MiB (0.3%) lambda$collectClusters$0(Double[]) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       └── 72 MiB (0.2%) resize()
+│       │   └── … 1.68 GiB (4.6%) findNearestCentroid() at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       ├── 191 MiB (0.5%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       ├── 136 MiB (0.4%) createSubtask(int, int) at org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       ├── 97 MiB (0.3%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   └── … 97 MiB (0.3%) vectorSum() at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       ├── … 92.5 MiB (0.2%) add(double[], double[]) at org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       └── 23 MiB (0.1%) computeDirectly() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│           └── … 23 MiB (0.1%) computeClusterAverages() at org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+└── … 177 MiB (0.5%) accept(int) at java.util.stream.IntPipeline$1$1
+    ├── 121 MiB (0.3%) apply(int) at org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000008011a2150
+    │   └── 121 MiB (0.3%) lambda$generateData$5(int, int, Random[], int) at org.renaissance.jdk.concurrent.JavaKMeans
+    │       ├── 50 MiB (0.1%) range(int, int) at java.util.stream.IntStream
+    │       │   └── 39.5 MiB (0.1%) intStream(Spliterator$OfInt, boolean) at java.util.stream.StreamSupport
+    │       ├── 29 MiB (0.1%) mapToObj(IntFunction) at java.util.stream.IntPipeline
+    │       │   └── 29 MiB (0.1%) mapToObj(IntFunction, int)
+    │       └── … 28.5 MiB (0.1%) builder(long, IntFunction) at java.util.stream.Nodes
+    └── … 51 MiB (0.1%) valueOf(double) at java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size

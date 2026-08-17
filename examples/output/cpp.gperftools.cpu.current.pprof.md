@@ -11,6 +11,55 @@ Took 598.0ms over 598 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 598.0ms (100.0%, self 10.4%) (anonymous)
+    ├── 523.0ms (87.5%) main at /out/profile.cpp:8
+    │   └── 520.0ms (87.0%) fmt::v12::format at ./format.h:4335
+    │       ├── 517.0ms (86.5%) fmt::v12::vformat[abi:cxx11] at ./format-inl.h:1446
+    │       │   ├── 487.0ms (81.4%) fmt::v12::detail::vformat_to at 1456
+    │       │   │   └── 487.0ms (81.4%, self 4.2%) fmt::v12::detail::parse_format_string at ./base.h:1646
+    │       │   │       ├── 417.0ms (69.7%, self 2.5%) fmt::v12::detail::parse_replacement_field at 1599
+    │       │   │       │   ├── 368.0ms (61.5%, self 1.2%) fmt::v12::detail::format_handler::on_format_specs at ./format.h:3772
+    │       │   │       │   │   ├── 111.0ms (18.6%, self 0.8%) fmt::v12::detail::write at 3434
+    │       │   │       │   │   │   ├── 66.0ms (11.0%) fmt::v12::detail::write_float at 2592
+    │       │   │       │   │   │   │   ├── 16.0ms (2.7%) std::__cxx11::basic_string::_M_dispose
+    │       │   │       │   │   │   │   └── 50.0ms (8.4%) 4 more callees, led by (7.2%) fmt::v12::detail::write_fixed at 2487
+    │       │   │       │   │   │   ├── 34.0ms (5.7%, self 3.0%) fmt::v12::detail::format_float at 3134
+    │       │   │       │   │   │   │   └── 16.0ms (2.7%) 4 more callees, led by (1.0%) fmt::v12::detail::dragonbox::get_cached_power at ./format-inl.h:1146
+    │       │   │       │   │   │   └── 6.0ms (1.0%) 4 more callees, led by (0.3%) fmt::v12::basic_memory_buffer::basic_memory_buffer at 826
+    │       │   │       │   │   ├── 90.0ms (15.1%, self 0.8%) fmt::v12::detail::write at 2159
+    │       │   │       │   │   │   ├── 65.0ms (10.9%, self 1.8%) fmt::v12::detail::for_each_codepoint at 632
+    │       │   │       │   │   │   │   └── 53.0ms (8.9%, self 1.8%) fmt::v12::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()
+    │       │   │       │   │   │   │       ├── 28.0ms (4.7%) fmt::v12::detail::utf8_decode at 590
+    │       │   │       │   │   │   │       └── 14.0ms (2.3%, self 1.8%) fmt::v12::detail::write()::{lambda(unsigned int, fmt::v12::basic_string_view)#1}::operator()
+    │       │   │       │   │   │   │           └── 3.0ms (0.5%) fmt::v12::detail::display_width_of at 666
+    │       │   │       │   │   │   └── 20.0ms (3.3%, self 1.3% globally) fmt::v12::detail::write_padded at 1675
+    │       │   │       │   │   │       ├── … 7.0ms (1.2%, self 0.8%, self 2.5% globally) fmt::v12::detail::buffer::push_back at ./base.h:1832
+    │       │   │       │   │   │       └── 10.0ms (1.7%) 2 more callees, led by (1.5%) fmt::v12::detail::write()::{lambda(fmt::v12::basic_appender)#2}::operator()
+    │       │   │       │   │   ├── 73.0ms (12.2%, self 6.9%) fmt::v12::detail::parse_format_specs at ./base.h:1461
+    │       │   │       │   │   │   ├── 12.0ms (2.0%) fmt::v12::detail::parse_width at 1433
+    │       │   │       │   │   │   │   └── 12.0ms (2.0%, self 0.8%, self 2.0% globally) fmt::v12::detail::parse_dynamic_spec at 1400
+    │       │   │       │   │   │   │       └── 7.0ms (1.2%, self 1.7% globally) fmt::v12::detail::parse_nonnegative_int at 1312
+    │       │   │       │   │   │   └── 20.0ms (3.3%) 5 more callees, led by (1.3%) fmt::v12::detail::parse_format_specs()::{unnamed type#1}::operator() at 1476
+    │       │   │       │   │   └── 87.0ms (14.5%) 7 more callees, led by (9.2%) fmt::v12::detail::write_int at 2050
+    │       │   │       │   └── 34.0ms (5.7%) 2 more callees, led by (4.7%) fmt::v12::detail::format_handler::on_replacement_field at ./format.h:3768
+    │       │   │       └── 43.0ms (7.2%) fmt::v12::detail::format_handler::on_text at ./format.h:3752
+    │       │   │           └── 42.0ms (7.0%, self 3.3%, self 4.7% globally) fmt::v12::detail::copy_noinline at 568
+    │       │   │               └── 22.0ms (3.7%) fmt::v12::detail::copy at ./base.h:2068
+    │       │   │                   └── 22.0ms (3.7%, self 2.8%, self 8.2% globally) fmt::v12::detail::buffer::append at 1845
+    │       │   │                       └── 5.0ms (0.8%, self 2.3% globally) fmt::v12::detail::buffer::try_reserve at 1828
+    │       │   ├── 10.0ms (1.7%) std::__cxx11::basic_string::_M_create
+    │       │   └── 18.0ms (3.0%) 3 more callees, led by (2.2%) fmt::v12::to_string at ./format.h:910
+    │       └── 2.0ms (0.3%) fmt::v12::detail::value::value at ./base.h:2220
+    └── 12.0ms (2.0%) operator delete
+```
+
 ## Hottest functions
 
 ### Self time

@@ -11,6 +11,55 @@ Collected 2,696 samples.
 | Standard library |  0.2% |       6 |
 | JIT              |  0.1% |       2 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2,228 samples (82.6%) thread_start at libsystem_pthread.dylib
+│   └── 2,228 samples (82.6%) _pthread_start
+│       ├── 2,134 samples (79.2%) thread_native_entry at libjvm.dylib
+│       │   └── 2,134 samples (79.2%) Thread::call_run
+│       │       ├── 878 samples (32.6%) WorkerThread::run
+│       │       │   └── 871 samples (32.3%, self 35.9% globally) semaphore_wait_trap at libsystem_kernel.dylib
+│       │       ├── 791 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 328 samples (12.2%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── … 166 samples (6.2%, self 47.3% globally) __psynch_cvwait at libsystem_kernel.dylib
+│       │       │   │   └── 160 samples (5.9%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 114 samples (4.2%) C2Compiler::compile_method
+│       │       │   │       │   └── 113 samples (4.2%) Compile::Compile
+│       │       │   │       │       ├── 57 samples (2.1%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 33 samples (1.2%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 8 samples (0.3%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   │   ├── 7 samples (0.3%) PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │       │   │   │   └── 5 samples (0.2%) PhaseChaitin::elide_copy
+│       │       │   │       │       │   │   └── 18 samples (0.7%) 12 more callees, led by (0.1%) PhaseLive::compute
+│       │       │   │       │       │   ├── … 3 samples (0.1%) Arena::contains at libjvm.dylib
+│       │       │   │       │       │   └── … 3 samples (0.1%) PhaseCFG::partial_latency_of_defs at libjvm.dylib
+│       │       │   │       │       ├── 42 samples (1.6%) Compile::Optimize
+│       │       │   │       │       │   ├── 11 samples (0.4%) PhaseCCP::PhaseCCP
+│       │       │   │       │       │   │   └── 9 samples (0.3%) PhaseCCP::analyze
+│       │       │   │       │       │   └── 31 samples (1.1%) 6 more callees, led by (0.6%) PhaseIdealLoop::optimize
+│       │       │   │       │       └── 11 samples (0.4%) ParseGenerator::generate
+│       │       │   │       └── … 41 samples (1.5%) Compilation::compile_java_method at libjvm.dylib
+│       │       │   │           ├── … 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)> at libjvm.dylib
+│       │       │   │           └── 30 samples (1.1%) 2 more callees, led by (0.6%) Compilation::emit_lir
+│       │       │   └── 463 samples (17.2%) 5 more callees, led by (3.4%) ServiceThread::service_thread_entry
+│       │       ├── 279 samples (10.3%) ConcurrentGCThread::run
+│       │       │   └── 279 samples (10.3%) 3 more callees, led by (3.4%) G1ConcurrentMarkThread::run_service
+│       │       └── 186 samples (6.9%) 2 more callees, led by (3.4%) VMThread::run
+│       └── … 93 samples (3.4%) __ulock_wait at libsystem_kernel.dylib
+├── … 93 samples (3.4%) mach_msg2_trap at libsystem_kernel.dylib
+├── 90 samples (3.3%) main(String[]) at org.jetbrains.kotlin.preloading.Preloader
+│   └── 90 samples (3.3%) run(String[])
+│       ├── 75 samples (2.8%) invoke(Object, Object[]) at java.lang.reflect.Method …
+│       └── … 7 samples (0.3%) inflate_fast at libzip.dylib
+├── 7 samples (0.3%) (anonymous)
+└── 278 samples (10.3%) 3 more root frames, led by (3.4%) run() at java.lang.ref.Reference$ReferenceHandler
+```
+
 ## Hottest functions
 
 ### Self samples

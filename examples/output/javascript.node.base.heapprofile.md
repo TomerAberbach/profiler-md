@@ -9,6 +9,55 @@ Allocated 21.8 MiB over 28 samples (798 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 21.8 MiB (100.0%) typeCheckProject at ./tsc-workload.mjs:3:33
+    ├── … 12.3 MiB (56.4%) (anonymous) at node:internal/modules/cjs/loader:1878:37
+    │   ├── … 8.27 MiB (37.9%) readFileSync at node:fs:433:22
+    │   └── 4.03 MiB (18.5%) (anonymous) at 1731:37
+    │       ├── 2.03 MiB (9.3%) wrapSafe at 1671:18
+    │       └── 2 MiB (9.2%, self 2.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:1:1
+    │           └── 1.5 MiB (6.9%) (anonymous) at 16:15
+    │               ├── 1 MiB (4.6%) diag at 9336:14
+    │               └── 512 KiB (2.3%) createNodeFactory at 23135:27
+    ├── … 4.51 MiB (20.7%) (anonymous) at ./node_modules/typescript/lib/typescript.js:123385:37
+    │   ├── … 3.51 MiB (16.1%) checkSourceFileWorker at ./node_modules/typescript/lib/typescript.js:87270:33
+    │   │   ├── … 2.51 MiB (11.5%) checkSourceElementWorker at ./node_modules/typescript/lib/typescript.js:86895:36
+    │   │   │   ├── … 1.51 MiB (6.9%) typeToString at ./node_modules/typescript/lib/typescript.js:53002:24
+    │   │   │   │   ├── … 518 KiB (2.3%) typeToTypeNodeWorker at ./node_modules/typescript/lib/typescript.js:53183:34
+    │   │   │   │   ├── 512 KiB (2.3%) (anonymous) at 3504:10
+    │   │   │   │   │   └── 512 KiB (2.3%) (anonymous) at 116511:63
+    │   │   │   │   └── … 512 KiB (2.3%) getLeadingLineTerminatorCount at ./node_modules/typescript/lib/typescript.js:119810:41
+    │   │   │   ├── … 513 KiB (2.3%) getPropertiesOfUnionOrIntersectionType at ./node_modules/typescript/lib/typescript.js:60131:50
+    │   │   │   └── … 513 KiB (2.3%) checkMemberForOverrideModifier at ./node_modules/typescript/lib/typescript.js:85606:42
+    │   │   └── … 1 MiB (4.6%) checkDeferredNode at ./node_modules/typescript/lib/typescript.js:87186:29
+    │   │       ├── … 512 KiB (2.3%) emitIntersectionType at ./node_modules/typescript/lib/typescript.js:117665:32
+    │   │       └── … 512 KiB (2.3%) isConstContext at ./node_modules/typescript/lib/typescript.js:81235:26
+    │   └── 1 MiB (4.6%, self 2.3%) getTypeChecker at 123266:26
+    │       └── … 513 KiB (2.3%) bindParentToChildIgnoringJSDoc at ./node_modules/typescript/lib/typescript.js:21713:42
+    ├── 4.51 MiB (20.7%) createProgram at ./node_modules/typescript/lib/typescript.js:122262:23
+    │   └── 4.51 MiB (20.7%) forEach at 2365:17
+    │       ├── … 3.51 MiB (16.1%) findSourceFileWorker at ./node_modules/typescript/lib/typescript.js:123984:32
+    │       │   ├── … 1 MiB (4.6%, self 2.3% globally) parseSourceFile at ./node_modules/typescript/lib/typescript.js:31471:27
+    │       │   │   └── 1 MiB (4.6%) parseSourceFileWorker at 31659:33
+    │       │   │       ├── … 514 KiB (2.3%) exec
+    │       │   │       └── … 513 KiB (2.3%) parseDeclarationWorker at ./node_modules/typescript/lib/typescript.js:36069:34
+    │       │   ├── … 1 MiB (4.6%, self 2.3%) resolveModuleName at ./node_modules/typescript/lib/typescript.js:42868:27
+    │       │   │   └── 512 KiB (2.3%) getFromDirectoryCache at 42672:33 …
+    │       │   ├── 513 KiB (2.3%) getCreateSourceFileOptions at 123978:38
+    │       │   │   └── 513 KiB (2.3%) getSetExternalModuleIndicator at 20661:39
+    │       │   ├── … 512 KiB (2.3%) readPackageJsonTypesVersionPaths at ./node_modules/typescript/lib/typescript.js:42158:42
+    │       │   └── 512 KiB (2.3%) toPath3 at 122790:19
+    │       ├── … 514 KiB (2.3%) (anonymous) at ./node_modules/typescript/lib/typescript.js:124200:35 …
+    │       └── … 512 KiB (2.3%) join
+    └── … 512 KiB (2.3%) getSubPatternFromSpec at ./node_modules/typescript/lib/typescript.js:21110:31
+```
+
 ## Hottest functions
 
 ### Self size

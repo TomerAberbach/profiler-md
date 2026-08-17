@@ -7,6 +7,55 @@ Collected 1,304 samples.
 | Standard library | 74.4% |     970 |
 | Ours             | 25.6% |     334 |
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,303 samples (99.9%) main at org.jetbrains.kotlin.preloading.Preloader
+    └── 1,303 samples (99.9%) run
+        ├── 662 samples (50.8%) preloadClasses at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   └── … 662 samples (50.8%) loadAllClassesFromJars at org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │       ├── 341 samples (26.2%) <init> at java.io.ByteArrayOutputStream
+        │       ├── 296 samples (22.7%) toByteArray at java.io.ByteArrayOutputStream
+        │       │   └── 296 samples (22.7%, self 17.8%, self 20.4% globally) copyOf at java.util.Arrays
+        │       │       └── 64 samples (4.9%) clone at java.lang.Object
+        │       └── 20 samples (1.5%) 3 more callees, led by (1.2%) getNextEntry at java.util.zip.ZipInputStream
+        └── … 637 samples (48.8%) invokeExact_MT at java.lang.invoke.Invokers$Holder
+            ├── … 598 samples (45.9%) exec at org.jetbrains.kotlin.cli.common.CLICompiler
+            │   ├── … 585 samples (44.9%) invoke at org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+            │   │   ├── 566 samples (43.4%) phaseBody at org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+            │   │   │   ├── … 424 samples (32.5%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+            │   │   │   │   ├── … 323 samples (24.8%) resolveAndCheckFir at org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+            │   │   │   │   │   ├── 277 samples (21.2%) runResolution at org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+            │   │   │   │   │   │   └── 276 samples (21.2%) process at org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+            │   │   │   │   │   │       ├── 183 samples (14.0%) processFile at org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+            │   │   │   │   │   │       │   └── 183 samples (14.0%) transform at org.jetbrains.kotlin.fir.declarations.FirFile
+            │   │   │   │   │   │       │       ├── … 11 samples (0.8%) transformElement at org.jetbrains.kotlin.fir.resolve.transformers.FirAbstractTreeTransformer
+            │   │   │   │   │   │       │       │   ├── … 4 samples (0.3%) transformChildren at org.jetbrains.kotlin.fir.types.impl.FirTypeProjectionWithVarianceImpl
+            │   │   │   │   │   │       │       │   └── … 2 samples (0.2%, self 2.5% globally) iterator at java.util.ArrayList
+            │   │   │   │   │   │       │       └── 172 samples (13.2%) 3 more callees, led by (12.7%) transformFile at org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirAbstractBodyResolveTransformerDispatcher
+            │   │   │   │   │   │       └── … 93 samples (7.1%) transformInplace at org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt
+            │   │   │   │   │   │           ├── … 84 samples (6.4%) computePackagePartInfo at org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider
+            │   │   │   │   │   │           │   ├── … 61 samples (4.7%) readMessage at org.jetbrains.kotlin.protobuf.CodedInputStream
+            │   │   │   │   │   │           │   │   ├── … 24 samples (1.8%) parsePartialFrom at org.jetbrains.kotlin.metadata.ProtoBuf$Type$1
+            │   │   │   │   │   │           │   │   │   └── … 23 samples (1.8%) <init> at org.jetbrains.kotlin.metadata.ProtoBuf$Type
+            │   │   │   │   │   │           │   │   │       ├── … 13 samples (1.0%) newOutput at org.jetbrains.kotlin.protobuf.ByteString
+            │   │   │   │   │   │           │   │   │       │   └── 10 samples (0.8%, self 3.7% globally) <init> at org.jetbrains.kotlin.protobuf.ByteString$Output
+            │   │   │   │   │   │           │   │   │       └── … 4 samples (0.3%) newFieldMap at org.jetbrains.kotlin.protobuf.SmallSortedMap
+            │   │   │   │   │   │           │   │   └── 37 samples (2.8%) 9 more callees, led by (0.7%) parsePartialFrom at org.jetbrains.kotlin.metadata.ProtoBuf$Annotation$1
+            │   │   │   │   │   │           │   └── 20 samples (1.5%) 2 more callees, led by (1.5%) findKotlinClassOrContent at org.jetbrains.kotlin.load.kotlin.VirtualFileFinder
+            │   │   │   │   │   │           └── … 1 sample (0.1%) to at kotlin.TuplesKt
+            │   │   │   │   │   └── 46 samples (3.5%) runCheckers at org.jetbrains.kotlin.fir.pipeline.AnalyseKt …
+            │   │   │   │   └── 101 samples (7.7%) 4 more callees, led by (3.2%) prepareJvmSessions at org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+            │   │   │   └── 142 samples (10.9%) 3 more callees, led by (8.2%) executePhase at org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+            │   │   └── 19 samples (1.5%) 3 more callees, led by (1.3%) phaseBody at org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+            │   └── 13 samples (1.0%) 2 more callees, led by (0.7%) <clinit> at org.jetbrains.kotlin.cli.common.ArgumentsKt
+            └── 36 samples (2.8%) 3 more callees, led by (2.6%) invokeStatic at java.lang.invoke.LambdaForm$DMH.0x0000000801230000
+```
+
 ## Hottest functions
 
 ### Self samples

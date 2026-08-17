@@ -10,6 +10,55 @@ Took 101.6ms over 89 samples (1.1ms per sample).
 
 Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 27.0ms (26.6%) (anonymous) at ./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558
+│   ├── 13.0ms (12.8%, self 1.0%) doPropagation at 5:254
+│   │   └── 12.0ms (11.8%) execute at 10:868
+│   │       └── 12.0ms (11.8%) runScript at 11:59
+│   │           └── 12.0ms (11.8%) 9 more callees, led by (3.0%) (anonymous) at ./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:57
+│   ├── … 12.0ms (11.8%, self 9.8%) eval
+│   │   ├── … 1.0ms (1.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:24
+│   │   └── … 1.0ms (1.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.testKitchen&skin=vector-2022&version=45lgo:1:24
+│   └── 2.0ms (2.0%) 2 more callees, led by (1.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.wikimediaEvents&skin=vector-2022&version=lu7fs:30:633
+├── 24.6ms (24.2%) unformattedArticleTextContentIncludingMetadata at __InjectedScript_ReaderArticleFinder.js:13:67861
+│   ├── 10.4ms (10.2%) adoptableMetadataBlock at 13:48923
+│   │   └── 10.4ms (10.2%, self 5.1%) updateArticleBylineAndDateElementsIfNecessary at 13:53699
+│   │       └── … 5.2ms (5.1%) trimmedInnerTextIgnoringTextTransform at __InjectedScript_ReaderArticleFinder.js:12:6561
+│   ├── 8.2ms (8.1%) articleTitle at 13:39565
+│   │   └── 8.2ms (8.1%) articleTitleInformation at 13:39662
+│   │       ├── … 5.2ms (5.1%) levenshteinDistance at __InjectedScript_ReaderArticleFinder.js:12:6770
+│   │       └── 3.0ms (3.0%) 3 more callees, led by (1.0%) bound 
+│   └── 6.0ms (5.9%) articleNode at 13:8074 …
+├── 16.0ms (15.7%) flushCssBuffer at ./w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217
+│   ├── 13.0ms (12.8%) (anonymous) at 12:421
+│   │   └── 13.0ms (12.8%) runScript at 11:59
+│   │       ├── 7.0ms (6.9%) resources/skins.vector.js/skin.js at ./w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155
+│   │       │   ├── 6.0ms (5.9%) main at 1:965
+│   │       │   │   ├── 5.0ms (4.9%) main at 7:660
+│   │       │   │   │   └── 5.0ms (4.9%) setupTableOfContents at 6:197
+│   │       │   │   │       ├── 4.0ms (3.9%) getHeadingScrollOffset at 5:840
+│   │       │   │   │       │   └── 4.0ms (3.9%) getPropertyValue
+│   │       │   │   │       └── 1.0ms (1.0%) setInitialActiveSection at 7:167
+│   │       │   │   └── … 1.0ms (1.0%) remove
+│   │       │   └── … 1.0ms (1.0%) (anonymous) at ./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:46:782
+│   │       └── 6.0ms (5.9%) 6 more callees, led by (1.0%) (anonymous) at ./w/load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:1:75
+│   └── … 3.0ms (3.0%, self 3.9% globally) insertBefore
+├── 13.0ms (12.8%) (anonymous) at ./w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636
+│   └── 13.0ms (12.8%) mightThrow at 44:918
+│       └── 13.0ms (12.8%) 8 more callees, led by (3.9%) (anonymous) at ./w/load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:977
+├── 4.0ms (3.9%) isReaderModeAvailable at __InjectedScript_ReaderArticleFinder.js:13:1893
+│   └── 4.0ms (3.9%) findArticleByVisualExamination at 13:63913
+│       ├── … 1.0ms (1.0%, self 2.0% globally) cachedElementBoundingRect at __InjectedScript_ReaderArticleFinder.js:12:5336
+│       └── 3.0ms (3.0%) 3 more callees, led by (1.0%) Set
+└── 17.0ms (16.7%) 5 more root frames, led by (8.9%) formsAndMetadata at FormMetadata.js:3:82286
+```
+
 ## Hottest functions
 
 ### Self time

@@ -10,6 +10,55 @@ Took 5.28s over 5,287 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/out/`.
 
+`…` stands for omitted frames.
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── … 5.28s (100.0%, self 6.4%) (anonymous)
+    └── … 4.93s (93.3%) profile.main at ./profile.zig:12
+        ├── … 3.79s (71.7%) zig.Ast.Render.renderMembers at /opt/zig/lib/std/zig/Ast/Render.zig:122
+        │   ├── 3.26s (61.8%) zig.Ast.Render.renderMember at 141
+        │   │   ├── … 2.13s (40.4%, self 1.7%, self 2.5% globally) zig.Ast.Render.renderExpression at /opt/zig/lib/std/zig/Ast/Render.zig:314
+        │   │   │   ├── … 420.0ms (7.9%, self 1.3% globally) zig.Ast.Render.renderIdentifier at /opt/zig/lib/std/zig/Ast/Render.zig:2926
+        │   │   │   │   ├── 192.0ms (3.6%) zig.Ast.Render.renderToken at 2844
+        │   │   │   │   │   └── 189.0ms (3.6%) 4 more callees, led by (2.2%) zig.Ast.Render.tokenSliceForRender at 3268
+        │   │   │   │   └── 189.0ms (3.6%, self 3.7% globally) zig.Ast.Render.tokenSliceForRender at 3268
+        │   │   │   │       └── 172.0ms (3.3%, self 4.7% globally) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
+        │   │   │   │           └── 160.0ms (3.0%) 3 more callees, led by (3.0%) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
+        │   │   │   ├── … 253.0ms (4.8%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
+        │   │   │   │   ├── 113.0ms (2.1%, self 1.1% globally) zig.Ast.Render.renderToken at 2844
+        │   │   │   │   │   ├── 56.0ms (1.1%, self 3.1% globally) zig.Ast.Render.renderSpace at 2862
+        │   │   │   │   │   │   └── 32.0ms (0.6%, self 3.0% globally) zig.Ast.Render.renderComments at 3112
+        │   │   │   │   │   └── 28.0ms (0.5%) zig.Ast.Render.tokenSliceForRender at 3268
+        │   │   │   │   └── 133.0ms (2.5%) 10 more callees, led by (1.8%) zig.Ast.Render.renderIdentifier at 2926
+        │   │   │   ├── … 28.0ms (0.5%) zig.Ast.nodeMainToken at /opt/zig/lib/std/zig/Ast.zig:100
+        │   │   │   │   └── 26.0ms (0.5%, self 2.1% globally) multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6974 at /opt/zig/lib/std/multi_array_list.zig:83
+        │   │   │   ├── … 17.0ms (0.3%, self 2.3% globally) multi_array_list.MultiArrayList(zig.Ast.Node).Slice.items__anon_6976 at /opt/zig/lib/std/multi_array_list.zig:83
+        │   │   │   └── 1.32s (25.0%) 47 more callees, led by (5.9%) zig.Ast.Render.finishRenderBlock at /opt/zig/lib/std/zig/Ast/Render.zig:1967
+        │   │   ├── … 768.0ms (14.5%) zig.Ast.Render.renderVarDecl at /opt/zig/lib/std/zig/Ast/Render.zig:1122
+        │   │   │   └── 767.0ms (14.5%) zig.Ast.Render.renderVarDeclWithoutFixups at 1140
+        │   │   │       ├── 646.0ms (12.2%) zig.Ast.Render.renderExpression at 314
+        │   │   │       │   ├── 166.0ms (3.1%) zig.Ast.Render.renderContainerDecl at 2295
+        │   │   │       │   │   ├── 83.0ms (1.6%) zig.Ast.Render.hasComment at 3089
+        │   │   │       │   │   │   ├── 18.0ms (0.3%, self 2.9% globally) zig.tokenizer.Token.Tag.lexeme at /opt/zig/lib/std/zig/tokenizer.zig:186
+        │   │   │       │   │   │   └── 59.0ms (1.1%) 3 more callees, led by (0.9%) zig.Ast.tokenSlice at /opt/zig/lib/std/zig/Ast.zig:265
+        │   │   │       │   │   └── 80.0ms (1.5%) 12 more callees, led by (1.0%) zig.Ast.Render.renderExtraNewline at 3175
+        │   │   │       │   └── 467.0ms (8.8%) 28 more callees, led by (3.5%) zig.Ast.Render.renderArrayInit at /opt/zig/lib/std/zig/Ast/Render.zig:2067
+        │   │   │       └── 118.0ms (2.2%) 7 more callees, led by (1.0%) zig.Ast.Render.renderIdentifier at 2926
+        │   │   └── 362.0ms (6.8%) 12 more callees, led by (4.9%) zig.Ast.Render.renderContainerField at /opt/zig/lib/std/zig/Ast/Render.zig:1473
+        │   └── 501.0ms (9.5%) zig.Ast.Render.renderExpression at 314
+        │       └── 482.0ms (9.1%) 31 more callees, led by (1.7%) zig.Ast.Render.renderParamList at /opt/zig/lib/std/zig/Ast/Render.zig:2728
+        ├── 1.08s (20.4%) zig.Ast.parse at /opt/zig/lib/std/zig/Ast.zig:145
+        │   ├── 528.0ms (10.0%, self 8.5%, self 23.8% globally) zig.tokenizer.Tokenizer.next at /opt/zig/lib/std/zig/tokenizer.zig:395
+        │   │   └── … 81.0ms (1.5%, self 1.1%, self 5.4% globally) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex at /opt/zig/lib/std/static_string_map.zig:198
+        │   │       └── 22.0ms (0.4%, self 1.3% globally) static_string_map.defaultEql at 13
+        │   └── 530.0ms (10.0%) 2 more callees, led by (8.6%) zig.Parse.parseRoot at /opt/zig/lib/std/zig/Parse.zig:192
+        └── … 26.0ms (0.5%) __read
+```
+
 ## Hottest functions
 
 ### Self time
