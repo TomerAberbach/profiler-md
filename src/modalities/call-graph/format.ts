@@ -11,7 +11,10 @@ import {
   heading,
   paragraph,
 } from '../../helpers/markdown.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
@@ -78,7 +81,9 @@ export const formatCallGraph = (
 
         const { sectionOptions, notes } = resolveEntryFilter({
           options,
-          showsAnyEntry: graph.functions.some(func => options.showEntry(func)),
+          showsAnyEntry: graph.functions.some(func =>
+            options.showEntry(func, graph.context),
+          ),
           disabledNote: ENTRY_FILTER_DISABLED_NOTE,
         })
         return [
@@ -156,7 +161,9 @@ const formatHottestFunctions = ({
   // Resolved once for both rankings, since a category's share comes from the
   // shown functions' self values whether the ranking is by self or total value.
   const categories = subsectionCategories({
-    entries: graph.functions.filter(func => options.showEntry(func)),
+    entries: graph.functions.filter(func =>
+      options.showEntry(func, graph.context),
+    ),
     selfValueOf: func => func.selfValues[measure.index]!,
     categoryOf: func => func.category,
     minCategoryShare: options.minCategoryShare,
@@ -200,7 +207,7 @@ const formatHottestSelfFunctions = ({
   const valueOf = (func: AggregatedCallGraphFunction) => func.selfValues[index]!
   const ranking = rankEntities({
     entities: graph.functions.filter(
-      func => options.showEntry(func) && valueOf(func) > 0,
+      func => options.showEntry(func, graph.context) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
@@ -321,7 +328,7 @@ const formatHottestTotalFunctions = ({
     func.totalValues[index]!
   const ranking = rankEntities({
     entities: graph.functions.filter(
-      func => options.showEntry(func) && valueOf(func) > 0,
+      func => options.showEntry(func, graph.context) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
@@ -339,6 +346,7 @@ const formatHottestTotalFunctions = ({
       func,
       entity: `Caller`,
       hasCallCounts,
+      context: graph.context,
       options,
       headingLevel: headingLevel + 2,
     }),
@@ -349,6 +357,7 @@ const formatHottestTotalFunctions = ({
       func,
       entity: `Callee`,
       hasCallCounts,
+      context: graph.context,
       options,
       headingLevel: headingLevel + 2,
     }),
@@ -401,6 +410,7 @@ const formatHottestArcs = ({
   func,
   entity,
   hasCallCounts,
+  context,
   options,
   headingLevel,
 }: {
@@ -408,6 +418,7 @@ const formatHottestArcs = ({
   func: AggregatedCallGraphFunction
   entity: `Caller` | `Callee`
   hasCallCounts: boolean
+  context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -426,7 +437,9 @@ const formatHottestArcs = ({
         }))
 
   const hottestArcs = selectTopN(
-    arcs.filter(({ func, value }) => options.showEntry(func) && value > 0),
+    arcs.filter(
+      ({ func, value }) => options.showEntry(func, context) && value > 0,
+    ),
     Math.ceil(options.topN / 4),
     ({ value }) => value,
   )
@@ -468,7 +481,7 @@ export const formatCallGraphDiff = (
         const { sectionOptions, notes } = resolveEntryFilter({
           options,
           showsAnyEntry: diff.functions.some(func =>
-            showDiffEntity(func, options),
+            showDiffEntity(func, diff, options),
           ),
           disabledNote: ENTRY_FILTER_DISABLED_NOTE,
         })
@@ -556,7 +569,7 @@ const formatDiffFunctions = ({
 }): RootContent[] => {
   // Resolved once for both rankings, over the functions the diff shows.
   const categories = subsectionDiffCategories({
-    entries: diff.functions.filter(func => showDiffEntity(func, options)),
+    entries: diff.functions.filter(func => showDiffEntity(func, diff, options)),
     baseSelfValueOf: func => func.base?.selfValues[measure.baseIndex] ?? 0,
     currentSelfValueOf: func =>
       func.current?.selfValues[measure.currentIndex] ?? 0,
@@ -619,6 +632,7 @@ const formatDiffDirectionFunctions = ({
         baseValue: valueOf(func.base, baseIndex),
         currentValue: valueOf(func.current, currentIndex),
       })),
+      diff,
       options,
       { categories, categoryOf: func => func.category },
     )
