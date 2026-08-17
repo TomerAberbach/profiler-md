@@ -7,6 +7,53 @@ Collected 4,164 samples.
 | Ours        | 99.6% |   4,146 |
 | Third-party |  0.4% |      18 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 4,164 samples (100.0%) [[2 frames hidden in 2 sources]]
+    └── 4,157 samples (99.8%) run  Symfony\Component\Console\Application
+        ├── 3,990 samples (95.8%) doRun  Composer\Console\Application
+        │   ├── 3,694 samples (88.7%) [[2 frames hidden in 1 source]]
+        │   │   └── 3,692 samples (88.7%) run  Symfony\Component\Console\Command\Command
+        │   │       ├── 2,944 samples (70.7%) execute  Composer\Command\DumpAutoloadCommand
+        │   │       │   └── 2,944 samples (70.7%) dump  Composer\Autoload\AutoloadGenerator
+        │   │       │       ├── 2,784 samples (66.9%) scanPaths  Composer\ClassMapGenerator\ClassMapGenerator
+        │   │       │       │   ├── 2,520 samples (60.5%) findClasses  Composer\ClassMapGenerator\PhpFileParser
+        │   │       │       │   │   ├── 1,660 samples (39.9%) clean  Composer\ClassMapGenerator\PhpFileCleaner
+        │   │       │       │   │   │   ├── 989 samples (23.8%) match
+        │   │       │       │   │   │   │   └── 882 samples (21.2%) isMatchStrictGroups  Composer\Pcre\Preg
+        │   │       │       │   │   │   │       └── 743 samples (17.8%) matchStrictGroups
+        │   │       │       │   │   │   │           ├── 467 samples (11.2%) match
+        │   │       │       │   │   │   │           │   ├── 252 samples (6.1%) pregMatch  (6.6% self across 6 call paths)
+        │   │       │       │   │   │   │           │   └── 75 samples (1.8%) checkOffsetCapture
+        │   │       │       │   │   │   │           └── 138 samples (3.3%) enforceNonNullMatches
+        │   │       │       │   │   │   ├── 203 samples (4.9%) skipString
+        │   │       │       │   │   │   └── 19 samples (0.5%) skipHeredoc
+        │   │       │       │   │   ├── 158 samples (3.8%) matchAllStrictGroups  Composer\Pcre\Preg
+        │   │       │       │   │   │   └── 155 samples (3.7%) matchAll  (4.5% self across 2 call paths)
+        │   │       │       │   │   └── 43 samples (1.0%) 2 more branches, hottest matchAll  Composer\Pcre\Preg
+        │   │       │       │   ├── 55 samples (1.3%) hasChildren  Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
+        │   │       │       │   │   └── 55 samples (1.3%) hasChildren  Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator
+        │   │       │       │   ├── 36 samples (0.9%) normalizePath
+        │   │       │       │   └── 96 samples (2.3%) 10 more branches, hottest getChildren  Symfony\Component\Finder\Iterator\ExcludeDirectoryFilterIterator
+        │   │       │       └── 154 samples (3.7%) 12 more branches, hottest getPathCode
+        │   │       └── 748 samples (18.0%) [[4 frames hidden in 3 sources]]
+        │   │           └── 748 samples (18.0%) createComposer  Composer\Factory
+        │   │               ├── 710 samples (17.1%) load  Composer\Package\Loader\RootPackageLoader
+        │   │               │   └── 705 samples (16.9%) guessVersion  Composer\Package\Version\VersionGuesser
+        │   │               │       ├── 458 samples (11.0%) guessGitVersion
+        │   │               │       │   ├── 304 samples (7.3%) [[6 frames hidden in 2 sources]]
+        │   │               │       │   │   └── 277 samples (6.7%) readAndWrite  Symfony\Component\Process\Pipes\UnixPipes  (15.5% self across 7 call paths)
+        │   │               │       │   └── 154 samples (3.7%) 3 more branches, hottest versionFromGitTags
+        │   │               │       └── 247 samples (5.9%) 3 more branches, hottest guessFossilVersion
+        │   │               └── 38 samples (0.9%) 12 more branches, hottest validateSchema  Composer\Json\JsonFile
+        │   └── 279 samples (6.7%) call  Composer\Util\Silencer
+        └── 161 samples (3.9%) [[4 frames hidden in 1 source]]
+            └── 161 samples (3.9%) readFromProcess  Symfony\Component\Console\Terminal
+```
+
 ## Hottest functions
 
 ### Self samples

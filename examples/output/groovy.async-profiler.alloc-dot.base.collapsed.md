@@ -7,6 +7,53 @@ Collected 794 samples.
 | Standard library | 99.9% |     793 |
 | Ours             |  0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 774 samples (97.5%) main  org.codenarc.CodeNarc
+│   └── 771 samples (97.1%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 763 samples (96.1%) [[2 frames hidden in 2 sources]]
+│       │   └── 763 samples (96.1%) fromCache  org.codehaus.groovy.vmplugin.v8.IndyInterface  (1.1% self across 9 call paths)
+│       │       └── 762 samples (96.0%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │           ├── 718 samples (90.4%) [[10 frames hidden in 7 sources]]
+│       │           │   └── 717 samples (90.3%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │           │       ├── 708 samples (89.2%) [[14 frames hidden in 11 sources]]
+│       │           │       │   └── 708 samples (89.2%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │           │       │       ├── 658 samples (82.9%) [[10 frames hidden in 7 sources]]
+│       │           │       │       │   └── 658 samples (82.9%) guardWithCatch  java.lang.invoke.LambdaForm$MH.0x000000d0010abc00
+│       │           │       │       │       ├── 639 samples (80.5%) [[40 frames hidden in 27 sources]]
+│       │           │       │       │       │   └── 636 samples (80.1%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │           │       │       │       │       ├── 14 samples (1.8%) [[7 frames hidden in 7 sources]]
+│       │           │       │       │       │       │   └── 14 samples (1.8%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │           │       │       │       │       │       ├── 9 samples (1.1%) [[157 frames hidden in 32 sources]]
+│       │           │       │       │       │       │       │   └── 9 samples (1.1%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │           │       │       │       │       │       │       ├── 1 sample (0.1%) [[9 frames hidden in 9 sources]]
+│       │           │       │       │       │       │       │       │   └── 1 sample (0.1%) newInstance  java.lang.reflect.Array  (1.9% self across 15 call paths)
+│       │           │       │       │       │       │       │       └── 8 samples (1.0%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010d8c00
+│       │           │       │       │       │       │       └── 5 samples (0.6%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d001208000
+│       │           │       │       │       │       └── 622 samples (78.3%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010c8400
+│       │           │       │       │       └── 19 samples (2.4%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010c7800
+│       │           │       │       └── 50 samples (6.3%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d001092000
+│       │           │       └── 9 samples (1.1%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000d0010a9400
+│       │           └── 44 samples (5.5%) [[19 frames hidden in 15 sources]]
+│       │               └── 37 samples (4.7%) walkFileTree  java.nio.file.Files
+│       │                   ├── 13 samples (1.6%) [[3 frames hidden in 2 sources]]
+│       │                   │   └── 11 samples (1.4%) split  java.lang.String
+│       │                   │       ├── 6 samples (0.8%) compile  java.util.regex.Pattern  (1.6% self across 12 call paths)
+│       │                   │       │   └── 5 samples (0.6%) 1 more branch, hottest <init>
+│       │                   │       └── 5 samples (0.6%) [[6 frames hidden in 4 sources]]
+│       │                   │           └── 2 samples (0.3%) copyOfRangeByte  java.util.Arrays  (2.0% self across 15 call paths)
+│       │                   └── 24 samples (3.0%) 2 more branches, hottest next  java.nio.file.FileTreeWalker
+│       └── 8 samples (1.0%) [[2 frames hidden in 2 sources]]
+│           └── 8 samples (1.0%) fromCache  org.codehaus.groovy.vmplugin.v8.IndyInterface
+│               ├── 4 samples (0.5%) [[30 frames hidden in 15 sources]]
+│               │   └── 1 sample (0.1%) makeImpl  java.lang.invoke.MethodType  (1.5% self across 12 call paths)
+│               └── 4 samples (0.5%) 1 more branch, hottest invokeExact_MT  java.lang.invoke.Invokers$Holder
+└── 20 samples (2.5%) 2 more branches, hottest <clinit>  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

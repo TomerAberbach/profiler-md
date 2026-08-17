@@ -7,6 +7,53 @@ Allocated 1.67 GiB over 21,882,354 objects (82.1 B per object).
 | Standard library | 100.0% | 1.67 GiB | 21,882,098 |
 | Ours             |  <0.1% | 4.01 KiB |        256 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1.67 GiB (99.8%) main.workload.func1  profile.go:25
+    ├── 917 MiB (53.6%) encoding/json.Marshal  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205
+    │   └── 736 MiB (43.0%) [[2 frames hidden in 1 source]]
+    │       └── 736 MiB (42.9%) encoding/json.mapEncoder.encode  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765  (13.1% self across 15 call paths)
+    │           └── 735 MiB (42.9%) [[6 frames hidden in 1 source]]
+    │               └── 735 MiB (42.9%) encoding/json.mapEncoder.encode  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+    │                   ├── 576 MiB (33.7%) [[2 frames hidden in 1 source]]
+    │                   │   └── 576 MiB (33.7%) encoding/json.mapEncoder.encode  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+    │                   │       ├── 380 MiB (22.2%) encoding/json.interfaceEncoder  :695
+    │                   │       │   └── 380 MiB (22.2%) encoding/json.(*encodeState).reflectValue  :366
+    │                   │       │       ├── 340 MiB (19.8%) encoding/json.mapEncoder.encode  :765
+    │                   │       │       │   ├── 195 MiB (11.4%) encoding/json.interfaceEncoder  :695
+    │                   │       │       │   │   └── 195 MiB (11.4%) encoding/json.(*encodeState).reflectValue  :366
+    │                   │       │       │   │       ├── 174 MiB (10.2%) [[3 frames hidden in 2 sources]]
+    │                   │       │       │   │       │   └── 174 MiB (10.2%) bytes.growSlice  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247  (20.3% self across 9 call paths)
+    │                   │       │       │   │       └── 20.6 MiB (1.2%) 2 more branches, hottest encoding/json.mapEncoder.encode  :765
+    │                   │       │       │   └── 86.1 MiB (5.0%) 4 more branches, hottest bytes.(*Buffer).Write  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193
+    │                   │       │       └── 40.2 MiB (2.3%) 2 more branches, hottest encoding/json.stringEncoder  :610
+    │                   │       ├── 38.9 MiB (2.3%) [[2 frames hidden in 2 sources]]
+    │                   │       │   └── 38.9 MiB (2.3%) reflect.unsafe_New  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:2177  (9.5% self across 30 call paths)
+    │                   │       └── 51 MiB (3.0%) 3 more branches, hottest reflect.(*MapIter).Value  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/reflect/map.go:289
+    │                   └── 120 MiB (7.0%) 4 more branches, hottest bytes.(*Buffer).Write  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:193
+    └── 793 MiB (46.3%) encoding/json.Unmarshal  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:102
+        └── 792 MiB (46.3%) [[3 frames hidden in 1 source]]
+            └── 792 MiB (46.3%) encoding/json.(*decodeState).objectInterface  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1078  (32.5% self across 15 call paths)
+                └── 792 MiB (46.3%) encoding/json.(*decodeState).valueInterface  :1035  (0.6% self across 9 call paths)
+                    └── 792 MiB (46.2%) encoding/json.(*decodeState).arrayInterface  :1052
+                        └── 790 MiB (46.1%) encoding/json.(*decodeState).valueInterface  :1035
+                            └── 790 MiB (46.1%) encoding/json.(*decodeState).objectInterface  :1078
+                                ├── 698 MiB (40.7%) encoding/json.(*decodeState).valueInterface  :1035
+                                │   ├── 668 MiB (39.0%) encoding/json.(*decodeState).objectInterface  :1078
+                                │   │   ├── 373 MiB (21.8%) encoding/json.(*decodeState).valueInterface  :1035
+                                │   │   │   ├── 67.2 MiB (3.9%) encoding/json.(*decodeState).literalInterface  :1129  (1.9% self across 12 call paths)
+                                │   │   │   │   ├── 49.1 MiB (2.9%) encoding/json.unquote  :1187  (9.4% self across 24 call paths)
+                                │   │   │   │   │   └── 7.91 MiB (0.5%) encoding/json.unquoteBytes  :1193  (1.1% self across 3 call paths)
+                                │   │   │   │   └── 3.4 MiB (0.2%) encoding/json.(*decodeState).convertNumber  :838
+                                │   │   │   └── 302 MiB (17.7%) 2 more branches, hottest encoding/json.(*decodeState).objectInterface  :1078
+                                │   │   └── 38.6 MiB (2.3%) encoding/json.unquote  :1187
+                                │   └── 29.8 MiB (1.7%) 1 more branch, hottest encoding/json.(*decodeState).literalInterface  :1129
+                                └── 11.2 MiB (0.7%) encoding/json.unquote  :1187
+```
+
 ## Hottest functions
 
 ### Self size
@@ -525,6 +572,26 @@ Retained 1.59 MiB over 285 objects (5.71 KiB per object).
 | Category         |      % |     Size | Objects |
 | ---------------- | -----: | -------: | ------: |
 | Standard library | 100.0% | 1.59 MiB |     285 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.51 MiB (95.2%) main.workload.func1  profile.go:25
+│   └── 1.51 MiB (95.2%) encoding/json.Marshal  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:205
+│       ├── 1.51 MiB (95.0%) encoding/json.(*encodeState).marshal  :333
+│       │   └── 1.51 MiB (95.0%) encoding/json.(*encodeState).reflectValue  :366
+│       │       ├── 1.5 MiB (94.7%) encoding/json.mapEncoder.encode  :765
+│       │       │   └── 1.5 MiB (94.7%) [[18 frames hidden in 2 sources]]
+│       │       │       └── 1.5 MiB (94.5%) bytes.growSlice  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/bytes/buffer.go:247
+│       │       └── 4.07 KiB (0.3%) [[11 frames hidden in 4 sources]]
+│       │           └── 4.07 KiB (0.3%) reflect.addReflectOff  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/runtime1.go:707
+│       └── 4.03 KiB (0.2%) encoding/json.newEncodeState  :315
+├── 19.8 KiB (1.2%) [[9 frames hidden in 3 sources]]
+│   └── 15.2 KiB (0.9%) runtime.mallocgc  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/malloc.go:1067  (4.8% self across 11 call paths)
+└── 58 KiB (3.6%) 3 more branches, hottest runtime.mstart  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:258
+```
 
 ## Hottest functions
 

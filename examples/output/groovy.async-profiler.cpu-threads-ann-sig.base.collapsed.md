@@ -10,6 +10,53 @@ Collected 613 samples.
 | JIT               |  0.5% |       3 |
 | Garbage collector |  0.2% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 461 samples (75.2%) [[3 frames hidden]]
+│   └── 460 samples (75.0%) Thread::call_run()
+│       ├── 445 samples (72.6%) [[2 frames hidden]]
+│       │   └── 441 samples (71.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│       │       ├── 358 samples (58.4%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│       │       │   └── 358 samples (58.4%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│       │       │       ├── 183 samples (29.9%) Compile::Code_Gen()
+│       │       │       │   ├── 104 samples (17.0%) PhaseChaitin::Register_Allocate()
+│       │       │       │   │   ├── 21 samples (3.4%) PhaseChaitin::build_ifg_physical(ResourceArea*)
+│       │       │       │   │   │   └── 12 samples (2.0%) 7 more branches, hottest IndexSetIterator::advance_and_next()
+│       │       │       │   │   ├── 18 samples (2.9%) PhaseChaitin::Split(unsigned int, ResourceArea*)
+│       │       │       │   │   │   └── 5 samples (0.8%) 5 more branches, hottest CProjNode::is_block_proj() const
+│       │       │       │   │   ├── 11 samples (1.8%) PhaseChaitin::gather_lrg_masks(bool)
+│       │       │       │   │   │   └── 4 samples (0.7%) 4 more branches, hottest RegMask::is_vector(unsigned int)
+│       │       │       │   │   └── 54 samples (8.8%) 19 more branches, hottest PhaseChaitin::post_allocate_copy_removal()
+│       │       │       │   ├── 30 samples (4.9%) PhaseCFG::do_global_code_motion()
+│       │       │       │   │   └── 27 samples (4.4%) PhaseCFG::global_code_motion()
+│       │       │       │   │       ├── 12 samples (2.0%) PhaseCFG::schedule_late(VectorSet&, Node_Stack&)
+│       │       │       │   │       │   ├── 4 samples (0.7%) Node_Backward_Iterator::next()
+│       │       │       │   │       │   └── 7 samples (1.1%) 5 more branches, hottest PhaseCFG::hoist_to_cheaper_block(Block*, Block*, Node*)
+│       │       │       │   │       └── 15 samples (2.4%) 5 more branches, hottest PhaseCFG::schedule_local(Block*, GrowableArray<int>&, VectorSet&, long*)
+│       │       │       │   └── 49 samples (8.0%) 5 more branches, hottest Matcher::match()
+│       │       │       ├── 135 samples (22.0%) Compile::Optimize()
+│       │       │       │   ├── 45 samples (7.3%) [[3 frames hidden]]
+│       │       │       │   │   └── 43 samples (7.0%) PhaseIdealLoop::build_and_optimize()
+│       │       │       │   │       ├── 13 samples (2.1%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│       │       │       │   │       │   └── 11 samples (1.8%) PhaseIdealLoop::build_loop_late_post_work(Node*, bool)  (2.0% self across 2 call paths)
+│       │       │       │   │       └── 29 samples (4.7%) 14 more branches, hottest PhaseIdealLoop::split_if_with_blocks(VectorSet&, Node_Stack&)
+│       │       │       │   ├── 44 samples (7.2%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│       │       │       │   │   ├── 37 samples (6.0%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│       │       │       │   │   │   └── 37 samples (6.0%) PhaseIdealLoop::build_and_optimize()
+│       │       │       │   │   │       ├── 6 samples (1.0%) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)
+│       │       │       │   │   │       ├── 2 samples (0.3%) Node::is_CFG() const
+│       │       │       │   │   │       └── 29 samples (4.7%) 7 more branches, hottest PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│       │       │       │   │   └── 7 samples (1.1%) 1 more branch, hottest PhaseIterGVN::optimize()
+│       │       │       │   └── 46 samples (7.5%) 9 more branches, hottest PhaseIterGVN::optimize()
+│       │       │       └── 40 samples (6.5%) 5 more branches, hottest ParseGenerator::generate(JVMState*)
+│       │       └── 83 samples (13.5%) 5 more branches, hottest Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│       └── 15 samples (2.4%) 2 more branches, hottest WorkerThread::run()
+└── 152 samples (24.8%) 3 more branches, hottest main(String[])  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

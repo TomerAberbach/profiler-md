@@ -6,6 +6,53 @@ Took 3.46s over 346 samples (10.0ms per sample).
 | ---------------- | -----: | ----: | ------: |
 | Standard library | 100.0% | 3.46s |     346 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.51s (43.6%) [[2 frames hidden in 2 sources]]
+│   └── 1.51s (43.6%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run  github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│       ├── 1.02s (29.5%) encoding/json.Unmarshal  encoding/json/decode.go:102
+│       │   ├── 550.0ms (15.9%) encoding/json.(*decodeState).unmarshal  :173
+│       │   │   └── 550.0ms (15.9%) 1 more branch, hottest encoding/json.(*decodeState).value  :363
+│       │   └── 470.0ms (13.6%) encoding/json.checkValid  encoding/json/scanner.go:33
+│       │       ├── 170.0ms (4.9%) encoding/json.stateInString  :339
+│       │       ├── 40.0ms (1.2%) encoding/json.stateBeginString  :268  (1.7% self across 3 call paths)
+│       │       ├── 40.0ms (1.2%) encoding/json.stateBeginValue  :217
+│       │       │   └── 10.0ms (0.3%) encoding/json.(*scanner).pushParseState  :180
+│       │       └── 30.0ms (0.9%) 3 more branches, hottest encoding/json.state1  :422
+│       └── 490.0ms (14.2%) 1 more branch, hottest encoding/json.Marshal  encoding/json/encode.go:205
+├── 1.16s (33.5%) runtime.systemstack  runtime/asm_arm64.s:353
+│   ├── 640.0ms (18.5%) [[4 frames hidden in 3 sources]]
+│   │   └── 640.0ms (18.5%) runtime.madvise  runtime/sys_darwin.go:224
+│   ├── 370.0ms (10.7%) [[3 frames hidden in 3 sources]]
+│   │   └── 370.0ms (10.7%) runtime.kevent  runtime/sys_darwin.go:438
+│   ├── 120.0ms (3.5%) runtime.gcBgMarkWorker.func2  runtime/mgc.go:1847
+│   │   ├── 30.0ms (0.9%) [[6 frames hidden in 5 sources]]
+│   │   │   └── 30.0ms (0.9%) runtime.pthread_kill  runtime/sys_darwin.go:148  (2.3% self across 4 call paths)
+│   │   └── 90.0ms (2.6%) 1 more branch, hottest runtime.gcDrainMarkWorkerDedicated  runtime/mgcmark.go:1173
+│   └── 20.0ms (0.6%) 2 more branches, hottest runtime.gcMarkTermination.func3  runtime/mgc.go:1500
+├── 510.0ms (14.7%) [[2 frames hidden in 2 sources]]
+│   └── 510.0ms (14.7%) runtime.schedule  runtime/proc.go:4135
+│       ├── 480.0ms (13.9%) runtime.findRunnable  :3389
+│       │   ├── 420.0ms (12.1%) runtime.stopm  :2992
+│       │   │   ├── 380.0ms (11.0%) [[3 frames hidden in 3 sources]]
+│       │   │   │   └── 380.0ms (11.0%) runtime.pthread_cond_wait  runtime/sys_darwin.go:487
+│       │   │   └── 40.0ms (1.2%) 1 more branch, hottest runtime.lock  runtime/lock_spinbit.go:151
+│       │   └── 60.0ms (1.7%) 2 more branches, hottest runtime.lock  runtime/lock_spinbit.go:151
+│       └── 30.0ms (0.9%) 1 more branch, hottest runtime.resetspinning  :4021
+├── 160.0ms (4.6%) [[3 frames hidden in 3 sources]]
+│   └── 160.0ms (4.6%) runtime.goschedImpl  runtime/proc.go:4307
+│       ├── 110.0ms (3.2%) [[2 frames hidden in 2 sources]]
+│       │   └── 110.0ms (3.2%) runtime.lock2  runtime/lock_spinbit.go:155
+│       │       ├── 80.0ms (2.3%) runtime.osyield  runtime/os_darwin.go:379
+│       │       │   └── 80.0ms (2.3%) runtime.usleep  runtime/sys_darwin.go:273  (5.2% self across 5 call paths)
+│       │       └── 20.0ms (0.6%) 2 more branches, hottest runtime.semasleep  runtime/os_darwin.go:45
+│       └── 50.0ms (1.4%) 2 more branches, hottest runtime.wakep  :3212
+└── 120.0ms (3.5%) 2 more branches, hottest runtime.gcBgMarkWorker  runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

@@ -6,6 +6,31 @@ Allocated 257 MiB over 85,604 samples (3.07 KiB per sample).
 | -------- | -----: | ------: | ------: |
 | Native   | 100.0% | 257 MiB |  85,604 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the native bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 244 MiB (95.0%) [[3 frames hidden in 2 sources]]
+│   └── 244 MiB (95.0%) Thread::call_run  libjvm.dylib
+│       ├── 114 MiB (44.5%) [[3 frames hidden in 1 source]]
+│       │   └── 114 MiB (44.5%) VM_Operation::evaluate  libjvm.dylib
+│       │       ├── 109 MiB (42.5%) [[6 frames hidden in 1 source]]
+│       │       │   └── 108 MiB (42.1%) malloc_hook  libasyncProfiler.dylib  (99.9% self across 18,237 call paths)
+│       │       └── 5.07 MiB (2.0%) [[3 frames hidden in 1 source]]
+│       │           └── 5.07 MiB (2.0%) G1YoungCollector::collect  libjvm.dylib
+│       │               ├── 42 KiB (<0.1%) [[4 frames hidden in 1 source]]
+│       │               │   └── 7.72 KiB (<0.1%) realloc_hook  libasyncProfiler.dylib
+│       │               └── 5.03 MiB (2.0%) 6 more branches, hottest G1YoungCollector::pre_evacuate_collection_set
+│       └── 130 MiB (50.6%) 7 more branches, hottest JavaThread::thread_main_inner
+├── 11 MiB (4.3%) [[9 frames hidden in 6 sources]]
+│   └── 10.5 MiB (4.1%) main(String[])  org.renaissance.harness.RenaissanceSuite
+│       ├── 1.07 MiB (0.4%) [[20 frames hidden in 13 sources]]
+│       │   └── 448 B (<0.1%) calloc_hook  libasyncProfiler.dylib
+│       └── 9.4 MiB (3.7%) 2 more branches, hottest main(String[])  org.renaissance.harness.RenaissanceSuite$
+└── 1.78 MiB (0.7%) 12 more branches, hottest run()  java.util.concurrent.ForkJoinWorkerThread
+```
+
 ## Hottest functions
 
 ### Self size

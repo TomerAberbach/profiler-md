@@ -6,6 +6,18 @@ Allocated 224 MiB over 56,362 objects (4.08 KiB per object).
 | ---------------- | -----: | ------: | ------: |
 | Standard library | 100.0% | 224 MiB |  56,362 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 15.4 MiB (6.9%) 0xaaaaaaaaaaaaaaa9
+│   ├── 12.2 MiB (5.4%) [[28 frames hidden, 27 in 10 sources]]
+│   │   └── 12.2 MiB (5.4%) heap.CAllocator.alignedAlloc  ../opt/zig/lib/std/heap.zig  (100.0% self across 3,852 call paths)
+│   └── 3.21 MiB (1.4%) 25 more branches, hottest 0x2c8
+└── 209 MiB (93.1%) 1,706 more branches, hottest 0xffffe609d1df
+```
+
 ## Hottest functions
 
 ### Self size

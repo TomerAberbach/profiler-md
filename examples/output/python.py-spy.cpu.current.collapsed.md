@@ -8,6 +8,53 @@ Collected 214 samples.
 | Unknown          |  5.6% |      12 |
 | Standard library |  0.5% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 202 samples (94.4%) _run_module_as_main  <frozen runpy>
+│   ├── 200 samples (93.5%) [[11 frames hidden in 5 sources]]
+│   │   └── 200 samples (93.5%) format_file_contents  black/__init__.py
+│   │       ├── 120 samples (56.1%) format_str
+│   │       │   └── 120 samples (56.1%) _format_str_once
+│   │       │       ├── 45 samples (21.0%) visit  black/nodes.py  (4.7% self across 8 call paths)
+│   │       │       │   └── 45 samples (21.0%) visit_default  black/linegen.py  (3.3% self across 2 call paths)
+│   │       │       │       └── 45 samples (21.0%) visit_default  black/nodes.py  (1.4% self across 3 call paths)
+│   │       │       │           └── 45 samples (21.0%) 1 more branch, hottest visit
+│   │       │       ├── 43 samples (20.1%) [[2 frames hidden in 2 sources]]
+│   │       │       │   └── 43 samples (20.1%) parse_tokens  blib2to3/pgen2/driver.py
+│   │       │       │       ├── 31 samples (14.5%) addtoken  blib2to3/pgen2/parse.py
+│   │       │       │       │   ├── 28 samples (13.1%) _addtoken  (5.1% self across 2 call paths)
+│   │       │       │       │   │   ├── 17 samples (7.9%) pop  (1.4% self across 2 call paths)
+│   │       │       │       │   │   │   └── 16 samples (7.5%) convert  blib2to3/pytree.py  (1.4% self across 3 call paths)
+│   │       │       │       │   │   │       ├── 13 samples (6.1%) __init__  (7.5% self across 3 call paths)
+│   │       │       │       │   │   │       └── 2 samples (0.9%) __new__  (1.9% self across 3 call paths)
+│   │       │       │       │   │   └── 5 samples (2.3%) 2 more branches, hottest shift
+│   │       │       │       │   └── 3 samples (1.4%) classify
+│   │       │       │       ├── 9 samples (4.2%) __next__
+│   │       │       │       │   └── 9 samples (4.2%) generate_tokens  blib2to3/pgen2/tokenize.py  (6.5% self across 2 call paths)
+│   │       │       │       └── 2 samples (0.9%) cast  typing.py
+│   │       │       ├── 11 samples (5.1%) transform_line  black/linegen.py  (1.4% self across 1 call path)
+│   │       │       │   └── 11 samples (5.1%) 4 more branches, hottest _hugging_power_ops_line_to_string
+│   │       │       ├── 10 samples (4.7%) maybe_empty_lines  black/lines.py
+│   │       │       │   ├── 2 samples (0.9%) __init__  <string>
+│   │       │       │   └── 4 samples (1.9%) 1 more branch, hottest _maybe_empty_lines
+│   │       │       ├── 5 samples (2.3%) detect_target_versions
+│   │       │       │   └── 5 samples (2.3%) get_features_used  (3.7% self across 2 call paths)
+│   │       │       ├── 2 samples (0.9%) __str__  black/lines.py  (3.3% self across 4 call paths)
+│   │       │       └── 4 samples (1.9%) 1 more branch, hottest normalize_fmt_off  black/comments.py
+│   │       └── 80 samples (37.4%) check_stability_and_equivalence
+│   │           ├── 29 samples (13.6%) assert_equivalent
+│   │           │   ├── 14 samples (6.5%) _stringify_ast  black/parsing.py  (6.5% self across 10 call paths)
+│   │           │   │   └── 13 samples (6.1%) 1 more branch, hottest _stringify_ast_with_new_parent
+│   │           │   └── 13 samples (6.1%) [[2 frames hidden in 1 source]]
+│   │           │       └── 13 samples (6.1%) parse  ast.py
+│   │           └── 49 samples (22.9%) 1 more branch, hottest assert_stable
+│   └── 2 samples (0.9%) 1 more branch, hottest _get_module_details
+└── 12 samples (5.6%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

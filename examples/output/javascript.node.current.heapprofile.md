@@ -7,6 +7,53 @@ Allocated 26.2 MiB over 36 samples (746 KiB per sample).
 | Third-party      | 54.0% | 14.2 MiB |      28 |
 | Standard library | 46.0% | 12.1 MiB |       8 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 25.2 MiB (96.2%) [[4 frames hidden, 2 in 2 sources]]
+│   └── 25.2 MiB (96.2%) typeCheckProject  tsc-workload.mjs:3:33
+│       ├── 16.2 MiB (61.7%) [[5 frames hidden in 2 sources]]
+│       │   └── 16.2 MiB (61.7%) (anonymous)  node:internal/modules/cjs/loader:1878:37
+│       │       ├── 8.37 MiB (31.9%) [[2 frames hidden in 1 source]]
+│       │       │   └── 8.37 MiB (31.9%) readFileSync  node:fs:433:22
+│       │       └── 7.81 MiB (29.8%) (anonymous)  :1731:37
+│       │           ├── 4.13 MiB (15.7%) (anonymous)  node_modules/typescript/lib/typescript.js:1:1
+│       │           │   └── 3.63 MiB (13.8%) (anonymous)  :16:15
+│       │           │       ├── 576 KiB (2.1%) __export  :22:16
+│       │           │       └── 512 KiB (1.9%) (anonymous)  :3963:2
+│       │           └── 3.68 MiB (14.1%) wrapSafe  :1671:18
+│       ├── 6.02 MiB (23.0%) [[9 frames hidden in 1 source]]
+│       │   └── 6.02 MiB (23.0%) (anonymous)  node_modules/typescript/lib/typescript.js:124967:37
+│       │       ├── 2.02 MiB (7.7%) getTypeChecker  :124848:26
+│       │       │   └── 1.01 MiB (3.8%) [[7 frames hidden in 1 source]]
+│       │       │       └── 1.01 MiB (3.8%) bindEachFunctionsFirst  node_modules/typescript/lib/typescript.js:46415:34
+│       │       │           ├── 518 KiB (1.9%) bindEach  :46419:20  (1.9% self across 1 call path)
+│       │       │           │   └── 518 KiB (1.9%) [[28 frames hidden in 1 source]]
+│       │       │           │       └── 518 KiB (1.9%) createSymbol  node_modules/typescript/lib/typescript.js:46101:24
+│       │       │           └── 513 KiB (1.9%) 1 more branch, hottest (anonymous)  :46417:21
+│       │       └── 4 MiB (15.3%) 1 more branch, hottest getDiagnostics2  :88635:27
+│       └── 3.01 MiB (11.5%) createProgram  node_modules/typescript/lib/typescript.js:123840:23
+│           ├── 2.01 MiB (7.7%) [[10 frames hidden in 1 source]]
+│           │   └── 2.01 MiB (7.7%) findSourceFileWorker  node_modules/typescript/lib/typescript.js:125566:32
+│           │       ├── 1.51 MiB (5.8%) [[10 frames hidden in 1 source]]
+│           │       │   └── 1.51 MiB (5.8%) parseList  node_modules/typescript/lib/typescript.js:33673:21
+│           │       │       ├── 1 MiB (3.8%) parseStatement  :36979:26
+│           │       │       │   └── 1 MiB (3.8%) parseDeclarationWorker  :37124:34
+│           │       │       │       ├── 514 KiB (1.9%) [[13 frames hidden in 1 source]]
+│           │       │       │       │   └── 514 KiB (1.9%) propagateChildFlags  node_modules/typescript/lib/typescript.js:28495:29
+│           │       │       │       └── 512 KiB (1.9%) 1 more branch, hottest parseInterfaceDeclaration  :37747:37
+│           │       │       └── 519 KiB (1.9%) [[20 frames hidden in 1 source]]
+│           │       │           └── 519 KiB (1.9%) doJSDocScan  node_modules/typescript/lib/typescript.js:38308:27
+│           │       └── 512 KiB (1.9%) 1 more branch, hottest (anonymous)  :123071:10
+│           └── 1 MiB (3.8%) 2 more branches, hottest resolveTypeReferenceDirectiveNamesReusingOldState  :124476:61
+├── 514 KiB (1.9%) [[127 frames hidden in 1 source]]
+│   └── 514 KiB (1.9%) relateVariances  node_modules/typescript/lib/typescript.js:69054:31
+└── 512 KiB (1.9%) [[127 frames hidden in 1 source]]
+    └── 512 KiB (1.9%) createTypeMapper  node_modules/typescript/lib/typescript.js:65904:28
+```
+
 ## Hottest functions
 
 ### Self size

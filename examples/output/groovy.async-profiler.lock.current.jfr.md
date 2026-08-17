@@ -6,6 +6,27 @@ Blocked 3.3ms over 48 contentions (67.7µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 3.3ms |          48 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2.9ms (89.1%) [[3 frames hidden in 2 sources]]
+│   └── 2.9ms (89.1%) enqueue(Reference)  java.lang.ref.NativeReferenceQueue
+└── 0.4ms (10.9%) [[15 frames hidden in 11 sources]]
+    └── 0.4ms (10.9%) execute(String[])  org.codenarc.CodeNarc
+        ├── 0.3ms (10.2%) [[14 frames hidden in 10 sources]]
+        │   └── 0.3ms (10.2%) execute()  org.codenarc.CodeNarcRunner
+        │       ├── 0.2ms (7.6%) [[11 frames hidden in 7 sources]]
+        │       │   └── 0.2ms (7.6%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+        │       │       └── 0.2ms (7.6%) 2 more branches, hottest invokeInterface(Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001094c00
+        │       └── 0.1ms (2.6%) [[211 frames hidden in 52 sources]]
+        │           └── 0.1ms (2.6%) poll()  java.lang.ref.NativeReferenceQueue  (10.9% self across 20 call paths)
+        └── 23.8µs (0.7%) [[39 frames hidden in 26 sources]]
+            └── 23.8µs (0.7%) guardWithCatch(Object, Object, int, Object)  java.lang.invoke.LambdaForm$MH.0x00000070013e9800
+                └── 23.8µs (0.7%) 1 more branch, hottest invoke(Object, Object, int, Object)  java.lang.invoke.LambdaForm$MH.0x0000007001408c00
+```
+
 ## Hottest functions
 
 ### Self time

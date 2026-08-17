@@ -8,6 +8,7 @@ import { asLz4Frame } from '../helpers/testing.ts'
 import { sourceReferenceId } from '../location.ts'
 import type { CallStackProfile } from '../modalities/call-stack-profile/index.ts'
 import {
+  callTreeViolations,
   selfSamplesTables,
   selfTimeTables,
 } from '../modalities/call-stack-profile/testing.ts'
@@ -268,12 +269,18 @@ if (format === undefined) {
 
 describe(`profileToMd`, () => {
   if (allInputs.length > 0) {
-    test.each(allInputs)(`auto-detects %s`, filename => {
-      const md = profileToMd(readInput(filename), { baseURL: null })
+    // Converting an input is the most expensive step, so the call tree
+    // invariants are checked on the Markdown this test converts.
+    test.each(allInputs)(
+      `auto-detects %s and draws well-formed call trees`,
+      filename => {
+        const md = profileToMd(readInput(filename), { baseURL: null })
 
-      expect(md).toMatch(MARKDOWN_REGEX)
-      expectLogs(detectionLogs(filename, md))
-    })
+        expect(md).toMatch(MARKDOWN_REGEX)
+        expectLogs(detectionLogs(filename, md))
+        expect(callTreeViolations(md)).toEqual([])
+      },
+    )
   }
 
   if (smallestJsonInput.length > 0) {

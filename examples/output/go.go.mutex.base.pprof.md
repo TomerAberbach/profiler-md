@@ -6,6 +6,35 @@ Blocked 155.8ms over 5,028 contentions (31.0µs per contention).
 | ---------------- | -----: | ------: | ----------: |
 | Standard library | 100.0% | 155.8ms |       5,028 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 68.5ms (43.9%) [[3 frames hidden in 3 sources]]
+│   └── 68.5ms (43.9%) runtime.goschedImpl  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307
+│       ├── 47.1ms (30.3%) runtime.schedule  :4135
+│       │   ├── 46.0ms (29.5%) runtime.findRunnable  :3389
+│       │   │   ├── 38.5ms (24.7%) runtime.runSafePointFn  :2232
+│       │   │   │   └── 38.5ms (24.7%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260  (89.6% self across 236 call paths)
+│       │   │   └── 7.6ms (4.9%) 3 more branches, hottest runtime.gcstopm  :3296
+│       │   └── 1.1ms (0.7%) 2 more branches, hottest runtime.resetspinning  :4021
+│       └── 21.3ms (13.7%) 2 more branches, hottest runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 16.2ms (10.4%) runtime._LostContendedRuntimeLock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741
+├── 3.6ms (2.3%) main.workload.func1  profile.go:25
+│   ├── 2.1ms (1.3%) [[5 frames hidden in 1 source]]
+│   │   └── 2.1ms (1.3%) encoding/json.(*decodeState).valueInterface  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/decode.go:1035
+│   │       └── 2.1ms (1.3%) 2 more branches, hottest encoding/json.(*decodeState).arrayInterface  :1052
+│   └── 1.5ms (0.9%) [[2 frames hidden in 1 source]]
+│       └── 1.2ms (0.8%) encoding/json.(*encodeState).reflectValue  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366
+│           ├── 1.2ms (0.8%) [[2 frames hidden in 1 source]]
+│           │   └── 1.2ms (0.8%) encoding/json.(*encodeState).reflectValue  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:366
+│           │       └── 1.2ms (0.8%) 2 more branches, hottest encoding/json.sliceEncoder.encode  :843
+│           └── 18.0µs (<0.1%) [[5 frames hidden in 3 sources]]
+│               └── 18.0µs (<0.1%) sync.(*Mutex).Unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/sync/mutex.go:64
+└── 67.6ms (43.4%) 6 more branches, hottest runtime.gcBgMarkWorker  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

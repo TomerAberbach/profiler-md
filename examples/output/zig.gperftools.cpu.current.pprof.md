@@ -7,6 +7,53 @@ Took 5.79s over 5,796 samples (1.0ms per sample).
 | Standard library | 98.1% |   5.68s |   5,687 |
 | Native           |  1.9% | 109.0ms |     109 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 5.79s (100.0%) [[6 frames hidden in 3 sources]]
+    └── 5.79s (99.9%) profile.main  profile.zig
+        ├── 4.17s (72.0%) [[3 frames hidden in 2 sources]]
+        │   └── 4.17s (71.9%) zig.Ast.Render.renderMembers  ../opt/zig/lib/std/zig/Ast/Render.zig
+        │       ├── 3.60s (62.2%) zig.Ast.Render.renderMember
+        │       │   ├── 1.81s (31.3%) zig.Ast.Render.renderExpression  (3.3% self across 156 call paths)
+        │       │   │   └── 1.81s (31.3%) 9 more branches, hottest zig.Ast.Render.renderBlock
+        │       │   ├── 1.72s (29.8%) zig.Ast.Render.renderVarDecl
+        │       │   │   └── 1.72s (29.8%) zig.Ast.Render.renderVarDeclWithoutFixups
+        │       │   │       ├── 1.69s (29.2%) zig.Ast.Render.renderExpression
+        │       │   │       │   ├── 1.28s (22.2%) zig.Ast.Render.renderContainerDecl
+        │       │   │       │   │   ├── 1.14s (19.7%) zig.Ast.Render.renderMember
+        │       │   │       │   │   │   ├── 157.0ms (2.7%) zig.Ast.Render.renderContainerField
+        │       │   │       │   │   │   │   ├── 64.0ms (1.1%) zig.Ast.Render.renderIdentifier  (1.3% self across 63 call paths)
+        │       │   │       │   │   │   │   │   ├── 31.0ms (0.5%) [[2 frames hidden in 1 source]]
+        │       │   │       │   │   │   │   │   │   └── 2.0ms (<0.1%) zig.Ast.tokenTag  ../opt/zig/lib/std/zig/Ast.zig  (1.5% self across 86 call paths)
+        │       │   │       │   │   │   │   │   └── 29.0ms (0.5%) zig.Ast.Render.tokenSliceForRender  (4.4% self across 231 call paths)
+        │       │   │       │   │   │   │   │       └── 29.0ms (0.5%) zig.Ast.tokenSlice  ../opt/zig/lib/std/zig/Ast.zig
+        │       │   │       │   │   │   │   └── 92.0ms (1.6%) 6 more branches, hottest zig.Ast.Render.renderExpression
+        │       │   │       │   │   │   └── 985.0ms (17.0%) 8 more branches, hottest zig.Ast.Render.renderVarDecl
+        │       │   │       │   │   ├── 92.0ms (1.6%) zig.Ast.Render.isOneLineContainerDecl
+        │       │   │       │   │   │   └── 85.0ms (1.5%) zig.Ast.Render.hasComment  (0.7% self across 31 call paths)
+        │       │   │       │   │   │       ├── 50.0ms (0.9%) zig.Ast.tokenSlice  ../opt/zig/lib/std/zig/Ast.zig  (4.5% self across 235 call paths)
+        │       │   │       │   │   │       │   └── 44.0ms (0.8%) 2 more branches, hottest zig.tokenizer.Tokenizer.next  ../opt/zig/lib/std/zig/tokenizer.zig
+        │       │   │       │   │   │       └── 17.0ms (0.3%) zig.tokenizer.Token.Tag.lexeme  ../opt/zig/lib/std/zig/tokenizer.zig  (3.3% self across 146 call paths)
+        │       │   │       │   │   └── 45.0ms (0.8%) 6 more branches, hottest zig.Ast.Render.renderExtraNewline
+        │       │   │       │   └── 404.0ms (7.0%) 22 more branches, hottest zig.Ast.Render.renderExpressions
+        │       │   │       └── 37.0ms (0.6%) 4 more branches, hottest zig.Ast.Render.renderIdentifier
+        │       │   └── 56.0ms (1.0%) 7 more branches, hottest zig.Ast.Render.renderDocComments
+        │       └── 566.0ms (9.8%) 2 more branches, hottest zig.Ast.Render.renderExpression
+        ├── 1.52s (26.3%) zig.Ast.parse  ../opt/zig/lib/std/zig/Ast.zig
+        │   ├── 760.0ms (13.1%) zig.Ast.parseTokens
+        │   │   ├── 181.0ms (3.1%) [[6 frames hidden in 2 sources]]
+        │   │   │   └── 180.0ms (3.1%) memset  ../opt/zig/lib/compiler_rt.zig  (6.1% self across 55 call paths)
+        │   │   └── 579.0ms (10.0%) 1 more branch, hottest zig.Parse.parseRoot  ../opt/zig/lib/std/zig/Parse.zig
+        │   ├── 581.0ms (10.0%) zig.tokenizer.Tokenizer.next  ../opt/zig/lib/std/zig/tokenizer.zig  (21.9% self across 446 call paths)
+        │   │   └── 82.0ms (1.4%) [[2 frames hidden in 2 sources]]
+        │   │       └── 82.0ms (1.4%) static_string_map.StaticStringMapWithEql(zig.tokenizer.Token.Tag,(function 'defaultEql')).getIndex  ../opt/zig/lib/std/static_string_map.zig  (4.0% self across 139 call paths)
+        │   └── 148.0ms (2.6%) 2 more branches, hottest multi_array_list.MultiArrayList(zig.Ast.TokenList__struct_2754).append  ../opt/zig/lib/std/multi_array_list.zig
+        └── 94.0ms (1.6%) 4 more branches, hottest Io.Dir.readFileAllocOptions__anon_2739  ../opt/zig/lib/std/Io/Dir.zig
+```
+
 ## Hottest functions
 
 ### Self time

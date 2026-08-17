@@ -8,6 +8,53 @@ Took 101.6ms over 89 samples (1.1ms per sample).
 | Ours             | 34.4% | 35.0ms |      35 |
 | Native           | 18.7% | 19.0ms |      19 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 27.0ms (26.6%) (anonymous)  w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558
+│   ├── 12.0ms (11.8%) [[3 frames hidden in 1 source]]
+│   │   └── 12.0ms (11.8%) eval
+│   │       └── 2.0ms (2.0%) 2 more branches, hottest (program)  w/load.php?lang=en&modules=ext.quicksurveys.lib&skin=vector-2022&version=kdhjm:1:1
+│   └── 15.0ms (14.8%) 3 more branches, hottest doPropagation  :5:254
+├── 24.6ms (24.2%) unformattedArticleTextContentIncludingMetadata  __InjectedScript_ReaderArticleFinder.js:13:67861
+│   ├── 10.4ms (10.2%) adoptableMetadataBlock  :13:48923
+│   │   └── 10.4ms (10.2%) updateArticleBylineAndDateElementsIfNecessary  :13:53699
+│   │       └── 5.2ms (5.1%) [[3 frames hidden in 1 source]]
+│   │           └── 5.2ms (5.1%) trimmedInnerTextIgnoringTextTransform  __InjectedScript_ReaderArticleFinder.js:12:6561
+│   ├── 8.2ms (8.1%) articleTitle  :13:39565
+│   │   └── 8.2ms (8.1%) articleTitleInformation  :13:39662
+│   │       ├── 5.2ms (5.1%) [[2 frames hidden in 1 source]]
+│   │       │   └── 5.2ms (5.1%) levenshteinDistance  __InjectedScript_ReaderArticleFinder.js:12:6770
+│   │       └── 3.0ms (3.0%) 3 more branches, hottest bound 
+│   └── 6.0ms (5.9%) 1 more branch, hottest articleNode  :13:8074
+├── 16.0ms (15.7%) flushCssBuffer  w/load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217
+│   ├── 13.0ms (12.8%) (anonymous)  :12:421
+│   │   └── 13.0ms (12.8%) runScript  :11:59
+│   │       ├── 7.0ms (6.9%) resources/skins.vector.js/skin.js  w/load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155
+│   │       │   ├── 6.0ms (5.9%) main  :1:965
+│   │       │   │   ├── 5.0ms (4.9%) main  :7:660
+│   │       │   │   │   └── 5.0ms (4.9%) setupTableOfContents  :6:197
+│   │       │   │   │       ├── 4.0ms (3.9%) getHeadingScrollOffset  :5:840
+│   │       │   │   │       │   └── 4.0ms (3.9%) getPropertyValue
+│   │       │   │   │       └── 1.0ms (1.0%) setInitialActiveSection  :7:167
+│   │       │   │   └── 1.0ms (1.0%) 1 more branch, hottest init  :42:160
+│   │       │   └── 1.0ms (1.0%) 1 more branch, hottest init  :2:835
+│   │       └── 6.0ms (5.9%) 6 more branches, hottest (anonymous)  w/load.php?lang=en&modules=ext.cite.ux-enhancements&skin=vector-2022&version=1cpqh:1:75
+│   └── 3.0ms (3.0%) [[2 frames hidden in 1 source]]
+│       └── 3.0ms (3.0%) insertBefore  (3.9% self across 2 call paths)
+├── 9.0ms (8.9%) formsAndMetadata  FormMetadata.js:3:82286
+│   └── 9.0ms (8.9%) _collectMetadata  :3:78950
+│       ├── 8.0ms (7.9%) _collectFormMetadata  :3:62833
+│       │   ├── 4.0ms (3.9%) _isElementFollowedByForgotUserNameOrEmailAffordance  :3:19474
+│       │   │   ├── 3.0ms (3.0%) stringsMatchAnyRegularExpressions  :3:8216
+│       │   │   └── 1.0ms (1.0%) _stringsToEvaluateToDetermineIfElementIsFollowedByAffordance  :3:21490
+│       │   └── 4.0ms (3.9%) 3 more branches, hottest _findHiddenUsernameElement  :3:75498
+│       └── 1.0ms (1.0%) 1 more branch, hottest _logicalFormsInPage  :3:27143
+└── 25.0ms (24.6%) 6 more branches, hottest (anonymous)  w/load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636
+```
+
 ## Hottest functions
 
 ### Self time

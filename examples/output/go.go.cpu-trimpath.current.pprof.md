@@ -7,6 +7,53 @@ Took 3.44s over 344 samples (10.0ms per sample).
 | Standard library  | 99.7% |  3.43s |     343 |
 | Garbage collector |  0.3% | 10.0ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.71s (49.7%) [[2 frames hidden in 2 sources]]
+│   └── 1.71s (49.7%) github.com/tomeraberbach/profiler-md-workload/internal/work.Run  github.com/tomeraberbach/profiler-md-workload/internal/work/work.go:11
+│       ├── 1.13s (32.8%) encoding/json.Unmarshal  encoding/json/decode.go:102
+│       │   ├── 460.0ms (13.4%) encoding/json.checkValid  encoding/json/scanner.go:33
+│       │   │   ├── 120.0ms (3.5%) encoding/json.stateInString  :339
+│       │   │   ├── 20.0ms (0.6%) encoding/json.stateBeginStringOrEmpty  :255
+│       │   │   └── 190.0ms (5.5%) 8 more branches, hottest encoding/json.stateBeginString  :268
+│       │   └── 670.0ms (19.5%) 1 more branch, hottest encoding/json.(*decodeState).unmarshal  :173
+│       └── 580.0ms (16.9%) [[10 frames hidden in 1 source]]
+│           └── 580.0ms (16.9%) encoding/json.mapEncoder.encode  encoding/json/encode.go:765
+│               ├── 520.0ms (15.1%) [[2 frames hidden in 1 source]]
+│               │   └── 510.0ms (14.8%) encoding/json.mapEncoder.encode  encoding/json/encode.go:765
+│               │       ├── 350.0ms (10.2%) encoding/json.interfaceEncoder  :695
+│               │       │   └── 350.0ms (10.2%) encoding/json.(*encodeState).reflectValue  :366
+│               │       │       ├── 50.0ms (1.5%) encoding/json.stringEncoder  :610
+│               │       │       │   └── 50.0ms (1.5%) encoding/json.appendString[go.shape.string]  :999  (4.1% self across 6 call paths)
+│               │       │       └── 290.0ms (8.4%) 4 more branches, hottest encoding/json.mapEncoder.encode  :765
+│               │       └── 150.0ms (4.4%) 6 more branches, hottest slices.SortFunc[go.shape.[]encoding/json.reflectWithString,go.shape.struct { encoding/json.v reflect.Value; encoding/json.ks string }]  slices/sort.go:30
+│               └── 60.0ms (1.7%) 4 more branches, hottest reflect.(*MapIter).Key  reflect/map.go:245
+├── 1.14s (33.1%) runtime.systemstack  runtime/asm_arm64.s:353
+│   ├── 560.0ms (16.3%) [[4 frames hidden in 3 sources]]
+│   │   └── 560.0ms (16.3%) runtime.madvise  runtime/sys_darwin.go:224
+│   ├── 330.0ms (9.6%) [[3 frames hidden in 3 sources]]
+│   │   └── 330.0ms (9.6%) runtime.kevent  runtime/sys_darwin.go:438
+│   ├── 50.0ms (1.5%) [[6 frames hidden in 3 sources]]
+│   │   └── 50.0ms (1.5%) runtime.pthread_kill  runtime/sys_darwin.go:148  (4.4% self across 4 call paths)
+│   └── 200.0ms (5.8%) 4 more branches, hottest runtime.gcBgMarkWorker.func2  runtime/mgc.go:1847
+├── 400.0ms (11.6%) [[2 frames hidden in 2 sources]]
+│   └── 400.0ms (11.6%) runtime.schedule  runtime/proc.go:4135
+│       ├── 370.0ms (10.8%) runtime.findRunnable  :3389
+│       │   ├── 280.0ms (8.1%) [[4 frames hidden in 3 sources]]
+│       │   │   └── 270.0ms (7.8%) runtime.pthread_cond_wait  runtime/sys_darwin.go:487
+│       │   └── 80.0ms (2.3%) 4 more branches, hottest runtime.stealWork  :3828
+│       └── 30.0ms (0.9%) 1 more branch, hottest runtime.resetspinning  :4021
+├── 80.0ms (2.3%) [[3 frames hidden in 3 sources]]
+│   └── 80.0ms (2.3%) runtime.goschedImpl  runtime/proc.go:4307
+│       ├── 60.0ms (1.7%) [[4 frames hidden in 3 sources]]
+│       │   └── 60.0ms (1.7%) runtime.usleep  runtime/sys_darwin.go:273  (4.1% self across 7 call paths)
+│       └── 20.0ms (0.6%) 2 more branches, hottest runtime.wakep  :3212
+└── 110.0ms (3.2%) 1 more branch, hottest runtime.gcBgMarkWorker  runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

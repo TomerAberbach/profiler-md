@@ -8,6 +8,53 @@ Took 5.78s.
 | Native      |  2.4% | 141.0ms |
 | Third-party | <0.1% |   1.0ms |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 5.78s (100.0%) <module>  venv/bin/black:1
+    ├── 5.63s (97.5%) [[2 frames hidden in 2 sources]]
+    │   └── 5.63s (97.5%) main  venv/lib/python3.11/site-packages/click/core.py:1484
+    │       └── 5.63s (97.4%) [[3 frames hidden in 2 sources]]
+    │           └── 5.63s (97.4%) main  src/black/src/black/__init__.py:240
+    │               └── 5.63s (97.4%) [[2 frames hidden in 1 source]]
+    │                   └── 5.63s (97.4%) format_file_contents  src/black/src/black/__init__.py:1059
+    │                       ├── 3.09s (53.5%) format_str  :1168
+    │                       │   └── 3.08s (53.4%) _format_str_once  :1215  (43.5% self across 2 call paths)
+    │                       │       ├── 1.26s (21.8%) [[2 frames hidden in 2 sources]]
+    │                       │       │   └── 1.26s (21.8%) parse_tokens  src/black/src/blib2to3/pgen2/driver.py:114  (31.7% self across 2 call paths)
+    │                       │       │       └── 112.3ms (1.9%) addtoken  src/black/src/blib2to3/pgen2/parse.py:230
+    │                       │       │           └── 112.3ms (1.9%) _addtoken  :278
+    │                       │       │               └── 109.7ms (1.9%) shift  :361
+    │                       │       │                   └── 109.7ms (1.9%) convert  src/black/src/blib2to3/pytree.py:475
+    │                       │       │                       └── 108.7ms (1.9%) __init__  :389
+    │                       │       ├── 205.0ms (3.5%) detect_target_versions  :1443
+    │                       │       │   └── 205.0ms (3.5%) get_features_used  :1286  (5.6% self across 2 call paths)
+    │                       │       └── 65.0ms (1.1%) [[7 frames hidden in 2 sources]]
+    │                       │           └── 64.8ms (1.1%) __contains__  src/black/src/black/mode.py:249
+    │                       └── 2.54s (44.0%) check_stability_and_equivalence  :1042
+    │                           ├── 1.97s (34.1%) assert_stable  :1543
+    │                           │   └── 1.96s (34.0%) _format_str_once  :1215
+    │                           │       ├── 202.0ms (3.5%) visit  src/black/src/black/nodes.py:152  (1.2% self across 3 call paths)
+    │                           │       │   └── 202.0ms (3.5%) visit_default  src/black/src/black/linegen.py:134
+    │                           │       │       └── 202.0ms (3.5%) visit_default  src/black/src/black/nodes.py:176
+    │                           │       │           └── 202.0ms (3.5%) visit  :152
+    │                           │       │               ├── 119.0ms (2.1%) [[17 frames hidden in 2 sources]]
+    │                           │       │               │   └── 117.9ms (2.0%) append  src/black/src/black/lines.py:52
+    │                           │       │               │       └── 116.9ms (2.0%) is_complex_subscript  :430
+    │                           │       │               └── 83.0ms (1.4%) visit_stmt  src/black/src/black/linegen.py:199
+    │                           │       │                   └── 71.0ms (1.2%) 1 more branch, hottest visit  src/black/src/black/nodes.py:152
+    │                           │       └── 801.9ms (13.9%) 2 more branches, hottest lib2to3_parse  src/black/src/black/parsing.py:55
+    │                           └── 565.3ms (9.8%) assert_equivalent  :1510
+    │                               ├── 153.0ms (2.6%) _stringify_ast  src/black/src/black/parsing.py:182
+    │                               └── 141.0ms (2.4%) [[3 frames hidden in 2 sources]]
+    │                                   └── 141.0ms (2.4%) compile  <built-in>
+    └── 141.0ms (2.4%) <module>  src/black/src/black/__init__.py:1
+        └── 66.9ms (1.2%) <module>  src/black/src/black/comments.py:1
+            └── 64.0ms (1.1%) <module>  src/black/src/black/nodes.py:1
+```
+
 ## Hottest functions
 
 ### Self time

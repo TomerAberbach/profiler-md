@@ -7,6 +7,53 @@ Collected 1,267 samples.
 | Standard library | 76.2% |     966 |
 | Ours             | 23.8% |     301 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1,265 samples (99.8%) main  org.jetbrains.kotlin.preloading.Preloader
+    └── 1,265 samples (99.8%) run
+        ├── 655 samples (51.7%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 592 samples (46.7%) loadAllClassesFromJars
+        │   │   ├── 296 samples (23.4%) toByteArray  java.io.ByteArrayOutputStream
+        │   │   │   └── 296 samples (23.4%) copyOf  java.util.Arrays  (22.7% self across 28 call paths)
+        │   │   │       └── 43 samples (3.4%) clone  java.lang.Object  (6.1% self across 2 call paths)
+        │   │   ├── 278 samples (21.9%) <init>  java.io.ByteArrayOutputStream  (23.4% self across 2 call paths)
+        │   │   └── 14 samples (1.1%) [[7 frames hidden in 6 sources]]
+        │   │       └── 7 samples (0.6%) copyOfRangeByte  java.util.Arrays  (3.4% self across 36 call paths)
+        │   └── 63 samples (5.0%) 1 more branch, hottest preloadClasses
+        └── 610 samples (48.1%) [[13 frames hidden in 9 sources]]
+            └── 603 samples (47.6%) exec  org.jetbrains.kotlin.cli.common.CLICompiler
+                ├── 593 samples (46.8%) [[11 frames hidden in 7 sources]]
+                │   └── 588 samples (46.4%) phaseBody  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+                │       ├── 402 samples (31.7%) executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+                │       │   └── 402 samples (31.7%) executePhase
+                │       │       ├── 330 samples (26.0%) resolveAndCheckFir  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+                │       │       │   ├── 271 samples (21.4%) runResolution  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+                │       │       │   │   └── 270 samples (21.3%) process  org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+                │       │       │   │       ├── 64 samples (5.1%) [[76 frames hidden in 34 sources]]
+                │       │       │   │       │   └── 58 samples (4.6%) computePackagePartInfo  org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider
+                │       │       │   │       │       ├── 50 samples (3.9%) [[15 frames hidden in 7 sources]]
+                │       │       │   │       │       │   └── 35 samples (2.8%) readMessage  org.jetbrains.kotlin.protobuf.CodedInputStream
+                │       │       │   │       │       │       ├── 5 samples (0.4%) [[5 frames hidden in 3 sources]]
+                │       │       │   │       │       │       │   └── 2 samples (0.2%) <init>  org.jetbrains.kotlin.protobuf.ByteString$Output  (1.5% self across 17 call paths)
+                │       │       │   │       │       │       └── 30 samples (2.4%) 3 more branches, hottest parsePartialFrom  org.jetbrains.kotlin.metadata.ProtoBuf$ValueParameter$1
+                │       │       │   │       │       └── 8 samples (0.6%) 1 more branch, hottest findKotlinClassOrContent  org.jetbrains.kotlin.load.kotlin.VirtualFileFinder
+                │       │       │   │       └── 206 samples (16.3%) 2 more branches, hottest processFile  org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+                │       │       │   └── 59 samples (4.7%) [[9 frames hidden in 6 sources]]
+                │       │       │       └── 56 samples (4.4%) visitNamedFunction  org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor
+                │       │       │           ├── 13 samples (1.0%) [[8 frames hidden in 6 sources]]
+                │       │       │           │   └── 7 samples (0.6%) traverseOnce  org.jetbrains.kotlin.fir.analysis.cfa.util.CfgTraverserKt
+                │       │       │           │       ├── 2 samples (0.2%) iterator  java.util.ArrayList  (2.1% self across 25 call paths)
+                │       │       │           │       └── 2 samples (0.2%) [[2 frames hidden in 1 source]]
+                │       │       │           │           └── 2 samples (0.2%) grow  java.util.ArrayList  (0.9% self across 11 call paths)
+                │       │       │           └── 43 samples (3.4%) 1 more branch, hottest visitNestedElements
+                │       │       └── 72 samples (5.7%) 5 more branches, hottest createEnvironmentAndSources
+                │       └── 186 samples (14.7%) 3 more branches, hottest executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+                └── 10 samples (0.8%) 1 more branch, hottest <clinit>  org.jetbrains.kotlin.cli.common.ArgumentsKt
+```
+
 ## Hottest functions
 
 ### Self samples

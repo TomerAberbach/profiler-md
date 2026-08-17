@@ -7,6 +7,52 @@ Allocated 132 MiB over 78 objects (1.69 MiB per object).
 | Ours     | 51.3% | 67.8 MiB |      49 |
 | Native   | 48.7% | 64.3 MiB |      29 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 64 MiB (48.5%) [[10 frames hidden, 4 in 3 sources]]
+│   └── 64 MiB (48.5%) ZSTDMT_initCStream_internal
+├── 49.2 MiB (37.3%) [[8 frames hidden, 5 in 4 sources]]
+│   └── 49.2 MiB (37.3%) ZSTD_resetCCtx_internal  zstd_compress.c
+├── 16.1 MiB (12.2%) 0xffffffffffffffff
+│   ├── 16.1 MiB (12.2%) [[3 frames hidden, 2 in 1 source]]
+│   │   └── 16.1 MiB (12.2%) POOL_thread  pool.c
+│   │       ├── 16.1 MiB (12.2%) ZSTDMT_compressionJob  zstdmt_compress.c
+│   │       │   └── 16.1 MiB (12.2%) ZSTDMT_getBuffer
+│   │       └── 4 KiB (<0.1%) [[4 frames hidden in 2 sources]]
+│   │           └── 4 KiB (<0.1%) 0x6d1bb  /usr/lib/aarch64-linux-gnu/libc.so.6
+│   └── 784 B (<0.1%) [[10 frames hidden, 4 in 3 sources]]
+│       └── 176 B (<0.1%) ZSTDMT_createBufferPool  zstdmt_compress.c
+├── 769 KiB (0.6%) [[8 frames hidden, 4 in 2 sources]]
+│   └── 512 KiB (0.4%) AIO_ReadPool_create
+├── 514 KiB (0.4%) [[8 frames hidden, 4 in 2 sources]]
+│   └── 514 KiB (0.4%) AIO_WritePool_create
+│       └── 514 KiB (0.4%) AIO_IOPool_init  fileio_asyncio.c  (1.9% self across 7 call paths)
+├── 387 KiB (0.3%) [[11 frames hidden, 5 in 3 sources]]
+│   └── 1.78 KiB (<0.1%) ZSTDMT_createJobsTable  zstdmt_compress.c
+├── 5.13 KiB (<0.1%) [[10 frames hidden, 5 in 3 sources]]
+│   └── 5.13 KiB (<0.1%) ZSTDMT_createCCtx_advanced
+│       └── 5.13 KiB (<0.1%) ZSTDMT_createCCtxPool  zstdmt_compress.c
+│           └── 5.13 KiB (<0.1%) ZSTD_createCCtx_advanced
+├── 5.13 KiB (<0.1%) [[8 frames hidden, 4 in 3 sources]]
+│   └── 5.13 KiB (<0.1%) ZSTD_createCCtx
+├── 4.13 KiB (<0.1%) [[11 frames hidden, 4 in 3 sources]]
+│   └── 400 B (<0.1%) POOL_create_advanced
+├── 472 B (<0.1%) [[9 frames hidden, 5 in 3 sources]]
+│   └── 472 B (<0.1%) 0x6dc07  /usr/lib/aarch64-linux-gnu/libc.so.6
+├── 472 B (<0.1%) [[9 frames hidden, 4 in 2 sources]]
+│   └── 472 B (<0.1%) 0x6d533  /usr/lib/aarch64-linux-gnu/libc.so.6
+├── 304 B (<0.1%) [[14 frames hidden, 6 in 4 sources]]
+│   └── 304 B (<0.1%) 0xf483  /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+├── 176 B (<0.1%) [[6 frames hidden, 2 in 1 source]]
+│   └── 176 B (<0.1%) UTIL_allocateFileNamesTable
+├── 136 B (<0.1%) [[6 frames hidden, 2 in 1 source]]
+│   └── 136 B (<0.1%) FIO_createPreferences
+└── 1.13 MiB (0.9%) 9 more branches, hottest 0xffffd5e150c7
+```
+
 ## Hottest functions
 
 ### Self size
@@ -506,6 +552,18 @@ Retained 912 B over 3 objects (304 B per object).
 | Category |      % |  Size | Objects |
 | -------- | -----: | ----: | ------: |
 | Native   | 100.0% | 912 B |       3 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 608 B (66.7%) [[6 frames hidden, 2 in 1 source]]
+│   └── 608 B (66.7%) FIO_compressFilename
+│       └── 608 B (66.7%) 2 more branches, hottest FIO_createCResources  fileio.c
+└── 304 B (33.3%) [[14 frames hidden, 6 in 4 sources]]
+    └── 304 B (33.3%) 0xf483  /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1  (100.0% self across 3 call paths)
+```
 
 ## Hottest functions
 

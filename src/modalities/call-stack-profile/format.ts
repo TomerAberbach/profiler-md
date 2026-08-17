@@ -56,6 +56,7 @@ import type {
 import {
   diffMeasuresOf,
   measuresOf,
+  selfRankedFunctions,
   selfValueOf,
   totalValueOf,
   zeroTotalScope,
@@ -71,6 +72,7 @@ import {
   sameShownFrame,
 } from './table.ts'
 import type { ShownFrame } from './table.ts'
+import { formatCallTree } from './tree.ts'
 
 export const formatCallStackProfile = (
   profile: AggregatedCallStackProfile,
@@ -86,7 +88,13 @@ export const formatCallStackProfile = (
   const measures = measuresOf(profile)
   return [
     heading(headingLevel, formatTitle(measures.map(({ metric }) => metric))),
-    ...formatOverallSummary(profile, measures),
+    ...formatOverallSummary(
+      profile,
+      measures,
+      sectionOptions,
+      notes,
+      headingLevel + 1,
+    ),
     ...formatMeasureSections(
       measures,
       headingLevel + 1,
@@ -192,10 +200,24 @@ export const formatCallStackProfileDiff = (
 const formatOverallSummary = (
   profile: AggregatedCallStackProfile,
   measures: Measure[],
-): RootContent[] => [
-  paragraph(formatSummaryLine(profile, measures)),
-  ...formatCategoryTable(profile, measures),
-]
+  options: FormattingProfileToMdOptions,
+  notes: RootContent[],
+  headingLevel: number,
+): RootContent[] => {
+  // The first measure ranks the tree, as it ranks the category table.
+  const callTree = formatCallTree({
+    profile,
+    measure: measures[0]!,
+    options,
+  })
+  return [
+    paragraph(formatSummaryLine(profile, measures)),
+    ...formatCategoryTable(profile, measures),
+    ...(callTree.length === 0
+      ? []
+      : [heading(headingLevel, `Call tree`), ...notes, ...callTree]),
+  ]
+}
 
 const formatSummaryLine = (
   {
@@ -332,9 +354,7 @@ const formatHottestSelfFunctions = ({
     selfValueOf(measure, func)
   const countOf = (func: AggregatedCallStackProfileFunction) => func.selfCount
   const ranking = rankEntities({
-    entities: profile.functions.filter(
-      func => options.showEntry(func, profile.context) && valueOf(func) > 0,
-    ),
+    entities: selfRankedFunctions(profile, measure, options),
     categories,
     valueOf,
     topN: options.topN,

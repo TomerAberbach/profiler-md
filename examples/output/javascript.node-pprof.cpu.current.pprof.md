@@ -10,6 +10,53 @@ Took 16.43s over 13,109 samples (1.3ms per sample).
 | Standard library   |  0.9% | 153.0ms |     122 |
 | Regular expression |  0.4% |  57.7ms |      46 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the wall time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 14.17s (86.2%) [[2 frames hidden in 2 sources]]
+│   └── 14.17s (86.2%) typeCheckProject  tsc-workload.mjs
+│       ├── 12.16s (74.0%) [[9 frames hidden in 1 source]]
+│       │   └── 12.15s (73.9%) (anonymous)  node_modules/typescript/lib/typescript.js:124967:37
+│       │       ├── 11.37s (69.2%) [[4 frames hidden in 1 source]]
+│       │       │   └── 11.37s (69.2%) checkSourceFileWorker  node_modules/typescript/lib/typescript.js
+│       │       │       ├── 6.45s (39.3%) [[2 frames hidden in 1 source]]
+│       │       │       │   └── 6.41s (39.0%) checkFunctionExpressionOrObjectLiteralMethodDeferred  node_modules/typescript/lib/typescript.js
+│       │       │       │       ├── 6.27s (38.2%) [[5 frames hidden in 1 source]]
+│       │       │       │       │   └── 6.26s (38.1%) checkSourceElementWorker  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       ├── 3.19s (19.4%) [[6 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 3.15s (19.2%) checkVariableLikeDeclaration  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │       ├── 2.62s (16.0%) getTypeOfSymbol
+│       │       │       │       │       │       │   └── 2.62s (16.0%) [[4 frames hidden in 1 source]]
+│       │       │       │       │       │       │       └── 2.59s (15.8%) checkDeclarationInitializer  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │       │           ├── 2.04s (12.4%) [[3 frames hidden in 1 source]]
+│       │       │       │       │       │       │           │   └── 2s (12.2%) checkCallExpression  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │       │           │       ├── 155.5ms (0.9%) [[9 frames hidden in 1 source]]
+│       │       │       │       │       │       │           │       │   └── 99.1ms (0.6%) getObjectTypeInstantiation  node_modules/typescript/lib/typescript.js  (2.0% self across 207 call paths)
+│       │       │       │       │       │       │           │       │       └── 99.1ms (0.6%) 2 more branches, hottest map
+│       │       │       │       │       │       │           │       └── 1.84s (11.2%) 1 more branch, hottest getResolvedSignature
+│       │       │       │       │       │       │           └── 555.5ms (3.4%) 1 more branch, hottest getQuickTypeOfExpression
+│       │       │       │       │       │       └── 522.9ms (3.2%) 5 more branches, hottest checkExpressionCached
+│       │       │       │       │       ├── 466.5ms (2.8%) [[9 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 377.5ms (2.3%) checkTypeRelatedTo  node_modules/typescript/lib/typescript.js  (3.0% self across 105 call paths)
+│       │       │       │       │       │       └── 377.5ms (2.3%) isRelatedTo  (1.8% self across 150 call paths)
+│       │       │       │       │       │           └── 377.5ms (2.3%) recursiveTypeRelatedTo  (2.8% self across 186 call paths)
+│       │       │       │       │       │               └── 374.9ms (2.3%) [[11 frames hidden in 1 source]]
+│       │       │       │       │       │                   └── 284.7ms (1.7%) compareSignaturesRelated  node_modules/typescript/lib/typescript.js
+│       │       │       │       │       │                       ├── 77.7ms (0.5%) [[5 frames hidden in 1 source]]
+│       │       │       │       │       │                       │   └── 6.3ms (<0.1%) createTypeReference  node_modules/typescript/lib/typescript.js  (1.0% self across 96 call paths)
+│       │       │       │       │       │                       └── 194.4ms (1.2%) 9 more branches, hottest isRelatedToWorker2
+│       │       │       │       │       └── 2.60s (15.9%) 11 more branches, hottest checkExpressionStatement
+│       │       │       │       └── 121.6ms (0.7%) [[17 frames hidden in 1 source]]
+│       │       │       │           └── 35.1ms (0.2%) getNodeLinks  node_modules/typescript/lib/typescript.js  (1.0% self across 91 call paths)
+│       │       │       └── 4.91s (29.9%) 3 more branches, hottest forEach
+│       │       └── 776.2ms (4.7%) 2 more branches, hottest getTypeChecker
+│       └── 2.01s (12.2%) 4 more branches, hottest createProgram  node_modules/typescript/lib/typescript.js
+├── 2.08s (12.7%) (garbage collector)
+└── 179.3ms (1.1%) 46 more branches, hottest structuredTypeRelatedToWorker  node_modules/typescript/lib/typescript.js
+```
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,53 @@ Took 1.88s over 1,887 samples (1.0ms per sample).
 | Native   |  0.2% | 3.0ms |       3 |
 | Kernel   |  0.1% | 1.0ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1.88s (99.8%) [[2 frames hidden in 1 source]]
+    └── 1.88s (99.8%) 0x9cee  zstd
+        ├── 1.57s (83.5%) 0x61402
+        │   ├── 1.56s (82.7%) 0x1601e
+        │   │   └── 1.56s (82.7%) 0x1108e
+        │   │       ├── 1.22s (65.0%) 0x59272
+        │   │       │   ├── 247.2ms (13.1%) 0x5f800  (15.7% self across 4 call paths)
+        │   │       │   ├── 247.2ms (13.1%) 0x5f848  (15.7% self across 4 call paths)
+        │   │       │   ├── 244.2ms (12.9%) 0x5fab8  (15.5% self across 2 call paths)
+        │   │       │   ├── 206.2ms (10.9%) 0x5fadc  (13.2% self across 3 call paths)
+        │   │       │   ├── 83.1ms (4.4%) 0x5f838  (5.2% self across 2 call paths)
+        │   │       │   ├── 41.0ms (2.2%) 0x5fb10  (2.8% self across 3 call paths)
+        │   │       │   ├── 23.0ms (1.2%) 0x5f86c
+        │   │       │   ├── 11.0ms (0.6%) 0x5f888
+        │   │       │   ├── 11.0ms (0.6%) 0x5fb08
+        │   │       │   ├── 10.0ms (0.5%) 0x5f854
+        │   │       │   ├── 9.0ms (0.5%) 0x5f7f8
+        │   │       │   ├── 8.0ms (0.4%) 0x5f820
+        │   │       │   ├── 7.0ms (0.4%) 0x5f724
+        │   │       │   ├── 6.0ms (0.3%) 0x5fae0
+        │   │       │   └── 73.1ms (3.9%) 35 more branches, hottest 0x5f7e0
+        │   │       ├── 39.0ms (2.1%) 0x59640
+        │   │       ├── 38.0ms (2.0%) 0x594d8
+        │   │       ├── 27.0ms (1.4%) 0x596dc
+        │   │       ├── 19.0ms (1.0%) 0x5960c
+        │   │       ├── 18.0ms (1.0%) 0x596b8
+        │   │       ├── 12.0ms (0.6%) 0x591d0
+        │   │       ├── 11.0ms (0.6%) 0x596f4
+        │   │       ├── 10.0ms (0.5%) 0x577d4
+        │   │       ├── 9.0ms (0.5%) 0x59628
+        │   │       ├── 7.0ms (0.4%) 0x596b4
+        │   │       ├── 7.0ms (0.4%) 0x595f0
+        │   │       └── 137.1ms (7.3%) 58 more branches, hottest 0x609be
+        │   └── 15.0ms (0.8%) 4 more branches, hottest 0x1617e
+        └── 306.3ms (16.2%) [[3 frames hidden in 1 source]]
+            └── 305.3ms (16.2%) 0x1108e  zstd
+                ├── 254.3ms (13.5%) 0x59272
+                │   ├── 11.0ms (0.6%) 0x5f7e0
+                │   └── 243.2ms (12.9%) 21 more branches, hottest 0x5fab8
+                └── 51.1ms (2.7%) 26 more branches, hottest 0x5960c
+```
+
 ## Hottest functions
 
 ### Self time

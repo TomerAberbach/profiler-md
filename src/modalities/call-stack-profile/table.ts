@@ -203,26 +203,42 @@ const formatFrameLocation = (
   previousFunction: AggregatedCallStackProfileFunction | undefined,
   options: FormattingProfileToMdOptions,
 ): PhrasingContent[] => {
-  if (!frame.location) {
+  const location = frameLocation(frame, previousFunction, options)
+  if (location === undefined) {
     return []
+  }
+  return location.shortened
+    ? [text(` (${location.text})`)]
+    : [...phrasing` (${inlineCode(location.text)})`]
+}
+
+/**
+ * {@link func}'s location, or its line and column alone when
+ * {@link previousFunction} is in the same source.
+ */
+export const frameLocation = (
+  func: AggregatedCallStackProfileFunction,
+  previousFunction: AggregatedCallStackProfileFunction | undefined,
+  options: FormattingProfileToMdOptions,
+): { text: string; shortened: boolean } | undefined => {
+  const { location } = func
+  if (!location) {
+    return undefined
   }
 
   const { location: previousLocation } = previousFunction ?? {}
-  if (
-    !previousLocation ||
-    !isSameSourceReference(frame.location, previousLocation)
-  ) {
-    return [
-      ...phrasing` (${inlineCode(formatSourceLocation(frame.location, options))})`,
-    ]
+  if (!previousLocation || !isSameSourceReference(location, previousLocation)) {
+    return { text: formatSourceLocation(location, options), shortened: false }
   }
 
-  const { line, column } = frame.location
+  const { line, column } = location
   if (!Number.isFinite(line)) {
-    return []
+    return undefined
   }
-
-  return [text(` (${line}${Number.isFinite(column) ? `:${column}` : ``})`)]
+  return {
+    text: `${line}${Number.isFinite(column) ? `:${column}` : ``}`,
+    shortened: true,
+  }
 }
 
 /**
