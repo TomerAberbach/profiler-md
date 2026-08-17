@@ -2,8 +2,9 @@
 
 Haskell profiling uses GHC's built-in
 [cost-centre profiler](https://downloads.haskell.org/ghc/latest/docs/users_guide/profiling.html),
-which writes a JSON report (`+RTS -pj`). A cost centre is an annotation on a
-binding that the runtime attributes time and allocation to.
+which writes a JSON report (`+RTS -pj`) and an eventlog (`+RTS -l`). A cost
+centre is an annotation on a binding that the runtime attributes time and
+allocation to.
 
 ## Wall-clock profiling
 
@@ -11,7 +12,8 @@ Periodically samples the cost-centre stack. The timer runs on real time and
 samples every capability whether or not it is running Haskell, so the time a
 program spends blocked is attributed to the built-in `IDLE` cost centre. The
 runtime also counts every byte the program allocates per cost-centre stack and
-every time it enters one, and the JSON report includes both counts.
+every time it enters one, and the JSON report includes both counts. The eventlog
+omits them.
 
 GHC inserts cost centres only into modules compiled with `-prof`, so compile
 every library the program links with `-prof` too:
@@ -58,10 +60,18 @@ in place of the source's.
 ```sh
 # The JSON report, written to Main.prof
 cabal run --enable-profiling my-program -- +RTS -pj -RTS
+
+# The JSON report and the eventlog, from one run
+./Main +RTS -pj -l-au -RTS
 ```
 
-Passing `-p` instead of `-pj` writes the text report, which is for reading by
-hand, so profiler-md rejects it.
+Prefer the JSON report, which contains the allocation totals as well as the
+ticks. Use the eventlog when the program already records one, or when marking
+phases with `Debug.Trace.traceEventIO` to profile a run in parts.
+
+An eventlog contains cost-centre samples only when the time profiler runs, which
+`-pj` turns on alongside the JSON report. `-p` turns it on too, but writes the
+text report, which is for reading by hand, so profiler-md rejects it.
 
 #### RTS options
 
@@ -70,8 +80,14 @@ hand, so profiler-md rejects it.
 | `-p`   | —       | Write a time and allocation report to `<program>.prof`               |
 | `-P`   | —       | As `-p`, plus per-cost-centre tick and byte counts                   |
 | `-pj`  | —       | Write the report as JSON                                             |
+| `-l`   | —       | Write an eventlog to `<program>.eventlog`                            |
+| `-ol`  | —       | The eventlog's path                                                  |
 | `-V`   | `0.001` | Seconds between samples, and the resolution of every other RTS timer |
 | `-xc`  | —       | Print the cost-centre stack on every exception                       |
+
+`-l` takes the event classes to log. `-l-au` turns them all off and turns user
+events back on, so the scheduler and heap events stay out of a log recorded for
+its cost-centre samples.
 
 ## Tips
 

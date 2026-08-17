@@ -36,29 +36,55 @@ build_workload() {
   binary="$dir/profile"
 }
 
-# capture_fn for emit: $1=out  $2=role
+# One recording per role writes both of GHC's formats, so they describe the same
+# run rather than two separate runs.
+recorded=" "
 record_role() {
-  local out=$1 role=$2
+  local role=$1
+  [[ "$recorded" == *" $role "* ]] && return 0
 
   build_workload || return 1
   fetch_twitter_json || return 1
 
   notice "Profiling aeson using GHC's cost-centre profiler ($role)"
 
-  # The runtime names the report after the program and writes it to the working
-  # directory, so each role records in its own.
+  # The runtime names both reports after the program and writes them to the
+  # working directory, so each role records in its own.
   local run="$WORKDIR/haskell-$role"
   rm -rf "$run"
   mkdir -p "$run" || return 1
 
-  ( cd "$run" && "$binary" "$TWITTER_JSON" "${ROLE_ITERATIONS[$role]}" +RTS -pj -RTS >/dev/null ) \
+  # -pj writes the JSON report and -l-au the eventlog, both from the same run's
+  # cost-centre samples.
+  ( cd "$run" && "$binary" "$TWITTER_JSON" "${ROLE_ITERATIONS[$role]}" +RTS -pj -l-au -RTS >/dev/null ) \
     || return 1
 
-  cp "$run/profile.prof" "$out"
+  recorded+="$role "
 }
 
+# capture_fn for emit: $1=out  $2=role  $3=the recording's filename
+copy_recording() {
+  local out=$1 role=$2 filename=$3
+  record_role "$role" || return 1
+  cp "$WORKDIR/haskell-$role/$filename" "$out"
+}
+
+# `emit` skips a target that already exists, so a role with only one of its
+# outputs present would take the other from a fresh run, leaving a pair that
+# describes two runs. Delete the remaining half to record both again.
 for role in base current; do
-  try emit "$GENERATED_INPUTS/haskell.ghc.$role.prof.json" record_role "$role"
+  json="$GENERATED_INPUTS/haskell.ghc.$role.prof.json"
+  eventlog="$GENERATED_INPUTS/haskell.ghc.$role.eventlog"
+  if [[ -f "$json" && ! -f "$eventlog" ]] || [[ ! -f "$json" && -f "$eventlog" ]]; then
+    rm -f "$json" "$eventlog"
+  fi
+done
+
+for role in base current; do
+  try emit "$GENERATED_INPUTS/haskell.ghc.$role.prof.json" \
+    copy_recording "$role" profile.prof
+  try emit "$GENERATED_INPUTS/haskell.ghc.$role.eventlog" \
+    copy_recording "$role" profile.eventlog
 done
 
 verify_pairs

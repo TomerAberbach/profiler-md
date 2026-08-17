@@ -156,7 +156,7 @@ Converts performance profiles to human and LLM friendly Markdown.
   BASE                           Base profile to diff
   CURRENT                        Current profile to diff against the base
 
-Formats: callgrind, collapsed, ghc-json-profile, jfr, jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+Formats: callgrind, collapsed, ghc-eventlog, ghc-json-profile, jfr, jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go, gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon, unknown, valgrind
 Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
 ```
@@ -249,6 +249,7 @@ third-party tools can often convert others.
 <tr>
 <td><a href="docs/languages/haskell.md">Haskell</a></td>
 <td>
+<details><summary><a href="docs/formats/ghc-eventlog.md">GHC eventlog</a></summary><ul><li>Haskell GHC (<a href="examples/output/haskell.ghc.base.eventlog.md">base</a>, <a href="examples/output/haskell.ghc.current.eventlog.md">current</a>, <a href="examples/output/haskell.ghc.diff.eventlog.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/ghc-json-profile.md">GHC JSON profile</a></summary><ul><li>Haskell GHC (<a href="examples/output/haskell.ghc.base.prof.json.md">base</a>, <a href="examples/output/haskell.ghc.current.prof.json.md">current</a>, <a href="examples/output/haskell.ghc.diff.prof.json.md">diff</a>)</li></ul></details>
 </td>
 </tr>
