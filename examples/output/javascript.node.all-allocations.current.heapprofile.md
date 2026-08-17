@@ -7,6 +7,53 @@ Allocated 4.71 GiB over 9,574 samples (516 KiB per sample).
 | Third-party      | 91.8% | 4.32 GiB |   8,825 |
 | Standard library |  8.2% |  396 MiB |     749 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4.6 GiB (97.8%) [[2 frames hidden, 1 in 1 source]]
+│   └── 4.6 GiB (97.8%) typeCheckProject  tsc-workload.mjs:3:33
+│       ├── 4.08 GiB (86.6%) [[9 frames hidden in 1 source]]
+│       │   └── 4.08 GiB (86.6%) (anonymous)  node_modules/typescript/lib/typescript.js:124967:37
+│       │       ├── 3.93 GiB (83.6%) [[4 frames hidden in 1 source]]
+│       │       │   └── 3.93 GiB (83.6%) checkSourceFileWorker  node_modules/typescript/lib/typescript.js:88583:33
+│       │       │       ├── 2.59 GiB (54.9%) [[2 frames hidden, 1 in 1 source]]
+│       │       │       │   └── 2.59 GiB (54.9%) checkDeferredNode  node_modules/typescript/lib/typescript.js:88499:29
+│       │       │       │       ├── 991 MiB (20.5%) checkSourceElementWorker  :88208:36
+│       │       │       │       │   └── 990 MiB (20.5%) checkBlock  :85011:22
+│       │       │       │       │       ├── 907 MiB (18.8%) checkSourceElement  :88199:30
+│       │       │       │       │       │   └── 907 MiB (18.8%) checkSourceElementWorker  :88208:36
+│       │       │       │       │       │       ├── 607 MiB (12.6%) checkVariableStatement  :85414:34
+│       │       │       │       │       │       │   ├── 543 MiB (11.3%) [[3 frames hidden in 1 source]]
+│       │       │       │       │       │       │   │   └── 542 MiB (11.2%) checkVariableLikeDeclaration  node_modules/typescript/lib/typescript.js:85202:40
+│       │       │       │       │       │       │   │       ├── 317 MiB (6.6%) [[5 frames hidden in 1 source]]
+│       │       │       │       │       │       │   │       │   └── 317 MiB (6.6%) checkExpressionWorker  node_modules/typescript/lib/typescript.js:82811:33
+│       │       │       │       │       │       │   │       │       ├── 268 MiB (5.6%) [[7 frames hidden in 1 source]]
+│       │       │       │       │       │       │   │       │       │   └── 242 MiB (5.0%) checkExpressionWorker  node_modules/typescript/lib/typescript.js:82811:33
+│       │       │       │       │       │       │   │       │       │       ├── 177 MiB (3.7%) [[34 frames hidden in 1 source]]
+│       │       │       │       │       │       │   │       │       │       │   └── 147 MiB (3.0%) checkTypeRelatedTo  node_modules/typescript/lib/typescript.js:67445:30  (50.9% self across 591 call paths)
+│       │       │       │       │       │       │   │       │       │       └── 64.7 MiB (1.3%) 3 more branches, hottest checkObjectLiteral  :76097:30
+│       │       │       │       │       │       │   │       │       └── 48.2 MiB (1.0%) 3 more branches, hottest checkExpressionWorker  :82811:33
+│       │       │       │       │       │       │   │       └── 225 MiB (4.7%) 3 more branches, hottest getTypeOfVariableOrParameterOrProperty  :59343:50
+│       │       │       │       │       │       │   └── 63.7 MiB (1.3%) 1 more branch, hottest checkVariableDeclarationList  :85407:40
+│       │       │       │       │       │       ├── 155 MiB (3.2%) [[4 frames hidden in 1 source]]
+│       │       │       │       │       │       │   └── 152 MiB (3.2%) resolveCallExpression  node_modules/typescript/lib/typescript.js:78984:33
+│       │       │       │       │       │       │       ├── 88.7 MiB (1.8%) [[5 frames hidden in 1 source]]
+│       │       │       │       │       │       │       │   └── 73.7 MiB (1.5%) resolveCallExpression  node_modules/typescript/lib/typescript.js:78984:33
+│       │       │       │       │       │       │       │       ├── 3.51 MiB (0.1%) [[3 frames hidden in 1 source]]
+│       │       │       │       │       │       │       │       │   └── 2.01 MiB (<0.1%) getFlowTypeOfReference  node_modules/typescript/lib/typescript.js:72917:34  (3.3% self across 288 call paths)
+│       │       │       │       │       │       │       │       └── 70.2 MiB (1.5%) 2 more branches, hottest resolveCall  :78594:23
+│       │       │       │       │       │       │       └── 63.4 MiB (1.3%) 2 more branches, hottest resolveCall  :78594:23
+│       │       │       │       │       │       └── 145 MiB (3.0%) 6 more branches, hottest checkTryStatement  :86397:29
+│       │       │       │       │       └── 83.4 MiB (1.7%) 1 more branch, hottest forEach  :2378:17
+│       │       │       │       └── 1.62 GiB (34.4%) 5 more branches, hottest checkFunctionExpressionOrObjectLiteralMethodDeferred  :81135:64
+│       │       │       └── 1.35 GiB (28.7%) 3 more branches, hottest forEach  :2378:17
+│       │       └── 146 MiB (3.0%) 2 more branches, hottest getTypeChecker  :124848:26
+│       └── 538 MiB (11.2%) 3 more branches, hottest createProgram  node_modules/typescript/lib/typescript.js:123840:23
+└── 108 MiB (2.2%) 55 more branches, hottest isRelatedTo  node_modules/typescript/lib/typescript.js:67753:25
+```
+
 ## Hottest functions
 
 ### Self size

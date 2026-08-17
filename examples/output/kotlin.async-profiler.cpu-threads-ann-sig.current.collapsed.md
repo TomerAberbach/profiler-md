@@ -10,6 +10,53 @@ Collected 1,335 samples.
 | Standard library |  4.6% |      61 |
 | JIT              |  1.1% |      15 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 426 samples (31.9%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 426 samples (31.9%) run(String[])
+│       ├── 351 samples (26.3%) [[12 frames hidden in 9 sources]]
+│       │   └── 349 samples (26.1%) exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │       ├── 342 samples (25.6%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       │   ├── 334 samples (25.0%) [[11 frames hidden in 7 sources]]
+│       │       │   │   └── 330 samples (24.7%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │   │       ├── 218 samples (16.3%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │   │       │   └── 218 samples (16.3%) executePhase(ConfigurationPipelineArtifact)
+│       │       │   │       │       ├── 160 samples (12.0%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       │   │       │       │   ├── 122 samples (9.1%) runResolution(FirSession, List)  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+│       │       │   │       │       │   │   └── 118 samples (8.8%) process(List)  org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+│       │       │   │       │       │   │       ├── 106 samples (7.9%) processFile(FirFile)  org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+│       │       │   │       │       │   │       │   └── 106 samples (7.9%) transform(FirTransformer, Object)  org.jetbrains.kotlin.fir.declarations.FirFile
+│       │       │   │       │       │   │       │       ├── 19 samples (1.4%) [[31 frames hidden in 13 sources]]
+│       │       │   │       │       │   │       │       │   └── 17 samples (1.3%) transformFunctionCallInternal$org_jetbrains_kotlin_resolve(FirFunctionCall, ResolutionMode, FirExpressionsResolveTransformer$CallResolutionMode)  org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirExpressionsResolveTransformer
+│       │       │   │       │       │   │       │       │       ├── 2 samples (0.1%) [[25 frames hidden, 15 in 4 sources]]
+│       │       │   │       │       │   │       │       │       │   └── 1 sample (0.1%) SymbolTable::do_lookup(char const*, int, unsigned long)  (2.0% self across 27 call paths)
+│       │       │   │       │       │   │       │       │       └── 15 samples (1.1%) 1 more branch, hottest completeCall(FirExpression, ResolutionMode, boolean)  org.jetbrains.kotlin.fir.resolve.inference.FirCallCompleter
+│       │       │   │       │       │   │       │       └── 87 samples (6.5%) 7 more branches, hottest transformFile(FirFile, Object)  org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirBodyResolveTransformerAdapter
+│       │       │   │       │       │   │       └── 12 samples (0.9%) 1 more branch, hottest process(Collection)  org.jetbrains.kotlin.fir.resolve.transformers.plugin.FirCompilerRequiredAnnotationsResolveProcessor
+│       │       │   │       │       │   └── 38 samples (2.8%) runCheckers(FirSession, ScopeSession, Collection, BaseDiagnosticsCollector, MppCheckerKind)  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+│       │       │   │       │       │       └── 38 samples (2.8%) 1 more branch, hottest collectDiagnostics(FirDeclaration, PendingDiagnosticReporter)  org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollector
+│       │       │   │       │       ├── 23 samples (1.7%) createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+│       │       │   │       │       │   └── 22 samples (1.6%) createProjectEnvironment(CompilerConfiguration, Disposable, EnvironmentConfigFiles)  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │   │       │       │       ├── 10 samples (0.7%) [[27 frames hidden, 17 in 9 sources]]
+│       │       │   │       │       │       │   └── 1 sample (0.1%) InstanceKlass::find_method_index(Array<Method*> const*, Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::StaticLookupMode, Klass::PrivateLookupMode)  (1.7% self across 23 call paths)
+│       │       │   │       │       │       └── 12 samples (0.9%) 4 more branches, hottest <init>(Disposable, KotlinCoreApplicationEnvironment, CompilerConfiguration)  org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment$ProjectEnvironment
+│       │       │   │       │       └── 35 samples (2.6%) 3 more branches, hottest prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1)
+│       │       │   │       └── 112 samples (8.4%) 3 more branches, hottest executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+│       │       │   └── 8 samples (0.6%) 1 more branch, hottest <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │       └── 7 samples (0.5%) 2 more branches, hottest parseCommandLineArguments$default(List, CommonToolArguments, boolean, int, Object)  org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt
+│       └── 74 samples (5.5%) [[7 frames hidden in 5 sources]]
+│           └── 58 samples (4.3%) Java_java_util_zip_Inflater_inflateBytesBytes
+│               ├── 46 samples (3.4%) inflate_fast
+│               ├── 9 samples (0.7%) inflate
+│               │   └── 7 samples (0.5%) inflate_table
+│               └── 3 samples (0.2%) jni_GetPrimitiveArrayCritical
+│                   └── 3 samples (0.2%) pthread_jit_write_protect_np  (0.8% self across 9 call paths)
+└── 909 samples (68.1%) 4 more branches, hottest thread_start
+```
+
 ## Hottest functions
 
 ### Self samples

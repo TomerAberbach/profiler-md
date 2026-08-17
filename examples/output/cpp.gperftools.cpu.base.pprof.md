@@ -8,6 +8,53 @@ Took 508.0ms over 508 samples (1.0ms per sample).
 | Native           | 18.7% |  95.0ms |      95 |
 | Standard library |  0.8% |   4.0ms |       4 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 508.0ms (100.0%) [[2 frames hidden, 1 in 1 source]]
+    └── 508.0ms (100.0%) 0x27743  usr/lib/aarch64-linux-gnu/libc.so.6
+        ├── 498.0ms (98.0%) main  out/profile.cpp
+        │   ├── 484.0ms (95.3%) fmt::v11::format  src/fmt/include/fmt/format.h
+        │   │   └── 482.0ms (94.9%) fmt::v11::vformat[abi:cxx11]  src/fmt/include/fmt/format-inl.h
+        │   │       ├── 430.0ms (84.6%) fmt::v11::detail::vformat_to
+        │   │       │   └── 429.0ms (84.4%) fmt::v11::detail::parse_format_string  src/fmt/include/fmt/base.h
+        │   │       │       ├── 370.0ms (72.8%) fmt::v11::detail::parse_replacement_field
+        │   │       │       │   ├── 300.0ms (59.1%) fmt::v11::detail::format_handler::on_format_specs  src/fmt/include/fmt/format.h
+        │   │       │       │   │   ├── 113.0ms (22.2%) fmt::v11::basic_format_arg::visit  src/fmt/include/fmt/base.h
+        │   │       │       │   │   │   └── 103.0ms (20.3%) fmt::v11::detail::arg_formatter::operator()  src/fmt/include/fmt/format.h
+        │   │       │       │   │   │       └── 98.0ms (19.3%) fmt::v11::detail::write
+        │   │       │       │   │   │           ├── 94.0ms (18.5%) fmt::v11::detail::write_float
+        │   │       │       │   │   │           │   └── 83.0ms (16.3%) 3 more branches, hottest fmt::v11::detail::write_float
+        │   │       │       │   │   │           └── 4.0ms (0.8%) 3 more branches, hottest fmt::v11::detail::do_write_float
+        │   │       │       │   │   ├── 65.0ms (12.8%) fmt::v11::detail::parse_format_specs  src/fmt/include/fmt/base.h
+        │   │       │       │   │   │   ├── 13.0ms (2.6%) fmt::v11::detail::parse_width
+        │   │       │       │   │   │   │   └── 13.0ms (2.6%) fmt::v11::detail::parse_dynamic_spec  (3.1% self across 3 call paths)
+        │   │       │       │   │   │   │       └── 6.0ms (1.2%) fmt::v11::detail::parse_nonnegative_int  (2.0% self across 2 call paths)
+        │   │       │       │   │   │   └── 26.0ms (5.1%) 6 more branches, hottest fmt::v11::detail::parse_format_specs()::{unnamed type#1}::operator()
+        │   │       │       │   │   ├── 48.0ms (9.4%) fmt::v11::detail::write
+        │   │       │       │   │   │   ├── 40.0ms (7.9%) [[2 frames hidden in 1 source]]
+        │   │       │       │   │   │   │   └── 39.0ms (7.7%) fmt::v11::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()  src/fmt/include/fmt/format.h
+        │   │       │       │   │   │   │       ├── 31.0ms (6.1%) fmt::v11::detail::utf8_decode
+        │   │       │       │   │   │   │       └── 8.0ms (1.6%) fmt::v11::detail::compute_width()::count_code_points::operator()
+        │   │       │       │   │   │   └── 8.0ms (1.6%) 1 more branch, hottest fmt::v11::detail::write_padded
+        │   │       │       │   │   └── 65.0ms (12.8%) 9 more branches, hottest fmt::v11::detail::write_int
+        │   │       │       │   ├── 43.0ms (8.5%) fmt::v11::detail::format_handler::on_replacement_field  src/fmt/include/fmt/format.h
+        │   │       │       │   │   ├── 22.0ms (4.3%) [[2 frames hidden in 2 sources]]
+        │   │       │       │   │   │   └── 17.0ms (3.3%) fmt::v11::detail::buffer::append  src/fmt/include/fmt/base.h  (9.3% self across 6 call paths)
+        │   │       │       │   │   └── 19.0ms (3.7%) 5 more branches, hottest fmt::v11::detail::do_format_decimal
+        │   │       │       │   └── 8.0ms (1.6%) 2 more branches, hottest fmt::v11::detail::format_handler::on_arg_id  src/fmt/include/fmt/format.h
+        │   │       │       └── 30.0ms (5.9%) fmt::v11::detail::format_handler::on_text  src/fmt/include/fmt/format.h
+        │   │       │           ├── 23.0ms (4.5%) fmt::v11::detail::copy_noinline  (4.1% self across 4 call paths)
+        │   │       │           │   └── 9.0ms (1.8%) 1 more branch, hottest fmt::v11::detail::copy  src/fmt/include/fmt/base.h
+        │   │       │           └── 4.0ms (0.8%) fmt::v11::context::out  src/fmt/include/fmt/base.h
+        │   │       ├── 15.0ms (3.0%) 0x137f20  usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+        │   │       └── 36.0ms (7.1%) 6 more branches, hottest fmt::v11::to_string  src/fmt/include/fmt/format.h
+        │   └── 14.0ms (2.8%) 1 more branch, hottest std::__cxx11::basic_string::~basic_string  usr/include/c++/12/bits/basic_string.h
+        └── 10.0ms (2.0%) 6 more branches, hottest 0xa0cb0  usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+```
+
 ## Hottest functions
 
 ### Self time

@@ -10,6 +10,53 @@ Collected 4,903 samples.
 | JIT              |  1.4% |      70 |
 | Compiler         |  1.0% |      47 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4,618 samples (94.2%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,618 samples (94.2%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 4,304 samples (87.8%) [[2 frames hidden in 2 sources]]
+│       │   └── 4,294 samples (87.6%) doExec()  java.util.concurrent.ForkJoinTask
+│       │       ├── 3,817 samples (77.9%) exec()  java.util.concurrent.RecursiveTask
+│       │       │   └── 3,816 samples (77.8%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       ├── 3,440 samples (70.2%) join()  java.util.concurrent.ForkJoinTask
+│       │       │       │   └── 3,439 samples (70.1%) awaitDone(int, long)
+│       │       │       │       ├── 287 samples (5.9%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       │       │       │   └── 278 samples (5.7%) 2 more branches, hottest doExec()  java.util.concurrent.ForkJoinTask
+│       │       │       │       ├── 145 samples (3.0%) [[2 frames hidden in 2 sources]]
+│       │       │       │       │   └── 145 samples (3.0%) Unsafe_Park  libjvm.dylib
+│       │       │       │       │       ├── 3 samples (0.1%) pthread_jit_write_protect_np  libsystem_pthread.dylib
+│       │       │       │       │       └── 142 samples (2.9%) 1 more branch, hottest Parker::park
+│       │       │       │       └── 3,007 samples (61.3%) 1 more branch, hottest tryRemoveAndExec(ForkJoinTask, boolean)  java.util.concurrent.ForkJoinPool$WorkQueue
+│       │       │       ├── 81 samples (1.7%) [[6 frames hidden in 4 sources]]
+│       │       │       │   └── 81 samples (1.7%) merge(Object, Object, BiFunction)  java.util.HashMap
+│       │       │       │       ├── 63 samples (1.3%) apply(Object, Object)  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a7248
+│       │       │       │       │   └── 63 samples (1.3%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       │       │       ├── 23 samples (0.5%) [[3 frames hidden in 2 sources]]
+│       │       │       │       │       │   └── 16 samples (0.3%) arrayof_jint_disjoint_arraycopy
+│       │       │       │       │       │       └── 14 samples (0.3%) forward_copy_longs  (4.3% self across 76 call paths)
+│       │       │       │       │       └── 40 samples (0.8%) 1 more branch, hottest addAll(Collection)  java.util.ArrayList
+│       │       │       │       └── 7 samples (0.1%) zero_blocks  (1.3% self across 34 call paths)
+│       │       │       └── 294 samples (6.0%) 8 more branches, hottest computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       ├── 28 samples (0.6%) [[5 frames hidden in 4 sources]]
+│       │       │   └── 24 samples (0.5%) __psynch_cvsignal  libsystem_kernel.dylib  (1.3% self across 20 call paths)
+│       │       └── 449 samples (9.2%) 1 more branch, hottest exec()  java.util.concurrent.ForkJoinTask$AdaptedCallable
+│       └── 309 samples (6.3%) [[5 frames hidden in 4 sources]]
+│           └── 284 samples (5.8%) __psynch_cvwait  libsystem_kernel.dylib  (15.5% self across 112 call paths)
+├── 232 samples (4.7%) [[3 frames hidden in 2 sources]]
+│   └── 232 samples (4.7%) Thread::call_run  libjvm.dylib
+│       ├── 142 samples (2.9%) WorkerThread::run
+│       │   ├── 69 samples (1.4%) [[4 frames hidden in 1 source]]
+│       │   │   └── 19 samples (0.4%) G1FullGCMarker::mark_object  libjvm.dylib
+│       │   ├── 28 samples (0.6%) [[9 frames hidden in 2 sources]]
+│       │   │   └── 3 samples (0.1%) __psynch_mutexwait  libsystem_kernel.dylib
+│       │   └── 45 samples (0.9%) 6 more branches, hottest G1FullGCAdjustTask::work
+│       └── 90 samples (1.8%) 4 more branches, hottest JavaThread::thread_main_inner
+└── 53 samples (1.1%) 6 more branches, hottest main(String[])  org.renaissance.core.Launcher
+```
+
 ## Hottest functions
 
 ### Self samples

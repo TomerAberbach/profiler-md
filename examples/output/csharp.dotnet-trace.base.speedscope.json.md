@@ -9,6 +9,53 @@ Took 4.72s.
 | Native           |  2.3% | 110.6ms |
 | Unknown          | <0.1% |  <0.1µs |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 4.70s (99.6%) Main()  Profile.Program
+    ├── 3.51s (74.4%) DeserializeObject(String, Type, JsonSerializerSettings)  Newtonsoft.Json.JsonConvert
+    │   ├── 3.40s (72.0%) DeserializeInternal(JsonReader, Type)  Newtonsoft.Json.JsonSerializer
+    │   │   └── 3.39s (71.9%) Deserialize(JsonReader, Type, bool)  Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       ├── 3.35s (70.9%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
+    │   │       │   └── 3.35s (70.9%) CreateObject(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
+    │   │       │       ├── 3.32s (70.5%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)  (3.1% self across 6 call paths)
+    │   │       │       │   ├── 1.94s (41.2%) CreateValueInternal(JsonReader, Type, JsonContract, JsonProperty, JsonContainerContract, JsonProperty, Object)
+    │   │       │       │   │   └── 1.94s (41.1%) CreateList(JsonReader, Type, JsonContract, JsonProperty, Object, String)
+    │   │       │       │   │       ├── 1.46s (31.1%) PopulateList(IList, JsonReader, JsonArrayContract, JsonProperty, String)  (1.1% self across 5 call paths)
+    │   │       │       │   │       │   ├── 1.32s (28.1%) [[2 frames hidden in 1 source]]
+    │   │       │       │   │       │   │   └── 1.30s (27.5%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)  Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │   │       │       │   │       │   │       ├── 82.3ms (1.7%) ParseObject()  Newtonsoft.Json.JsonTextReader
+    │   │       │       │   │       │   │       │   └── 75.5ms (1.6%) ParseProperty()  (1.8% self across 4 call paths)
+    │   │       │       │   │       │   │       │       └── 33.7ms (0.7%) 2 more branches, hottest ReadStringIntoBuffer(wchar)
+    │   │       │       │   │       │   │       └── 1.13s (23.9%) 6 more branches, hottest ReadForType(JsonContract, bool)  Newtonsoft.Json.JsonReader
+    │   │       │       │   │       │   ├── 86.3ms (1.8%) [[2 frames hidden in 2 sources]]
+    │   │       │       │   │       │   │   └── 36.5ms (0.8%) ReadStringIntoBuffer(wchar)  Newtonsoft.Json.JsonTextReader  (2.5% self across 11 call paths)
+    │   │       │       │   │       │   └── 24.5ms (0.5%) Add(Object)  System.Collections.Generic.List`1[System.__Canon].System.Collections.IList
+    │   │       │       │   │       └── 471.2ms (10.0%) CopyTo(Array, int32)  System.Collections.Generic.List`1[System.__Canon].System.Collections.ICollection  (17.9% self across 8 call paths)
+    │   │       │       │   ├── 1.24s (26.3%) ReadForType(JsonContract, bool)  Newtonsoft.Json.JsonReader  (36.4% self across 7 call paths)
+    │   │       │       │   │   └── 129.0ms (2.7%) 4 more branches, hottest ReadNumberValue(ReadType)  Newtonsoft.Json.JsonTextReader
+    │   │       │       │   └── 85.6ms (1.8%) 3 more branches, hottest ParseObject()  Newtonsoft.Json.JsonTextReader
+    │   │       │       └── 7.0ms (0.1%) Node()  dynamicClass.CreateProfile
+    │   │       │           └── 7.0ms (0.1%) UNMANAGED_CODE_TIME  (2.3% self across 65 call paths)
+    │   │       └── 31.4ms (0.7%) ReadForType(JsonContract, bool)  Newtonsoft.Json.JsonReader
+    │   │           └── 24.6ms (0.5%) ParseValue()  Newtonsoft.Json.JsonTextReader  (1.1% self across 5 call paths)
+    │   └── 105.1ms (2.2%) 2 more branches, hottest Deserialize(JsonReader, Type)  Newtonsoft.Json.JsonSerializer
+    ├── 866.2ms (18.3%) [[4 frames hidden in 3 sources]]
+    │   └── 835.5ms (17.7%) SerializeObject(JsonWriter, Object, JsonObjectContract, JsonProperty, JsonContainerContract, JsonProperty)  Newtonsoft.Json.Serialization.JsonSerializerInternalWriter  (6.7% self across 4 call paths)
+    │       └── 716.6ms (15.2%) SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)
+    │           ├── 620.7ms (13.1%) SerializeList(JsonWriter, IEnumerable, JsonArrayContract, JsonProperty, JsonContainerContract, JsonProperty)  (3.6% self across 4 call paths)
+    │           │   └── 509.2ms (10.8%) 7 more branches, hottest SerializeValue(JsonWriter, Object, JsonContract, JsonProperty, JsonContainerContract, JsonProperty)
+    │           └── 87.8ms (1.9%) 2 more branches, hottest WriteValue(JsonWriter, PrimitiveTypeCode, Object)  Newtonsoft.Json.JsonWriter
+    ├── 226.0ms (4.8%) [[8 frames hidden in 3 sources]]
+    │   └── 219.3ms (4.6%) PopulateObject(Object, JsonReader, JsonObjectContract, JsonProperty, String)  Newtonsoft.Json.Serialization.JsonSerializerInternalReader
+    │       ├── 75.9ms (1.6%) ReadForType(JsonContract, bool)  Newtonsoft.Json.JsonReader
+    │       │   └── 63.8ms (1.4%) ReadAsInt32()  Newtonsoft.Json.JsonTextReader  (2.0% self across 4 call paths)
+    │       └── 139.3ms (2.9%) 3 more branches, hottest SetPropertyValue(JsonProperty, JsonConverter, JsonContainerContract, JsonProperty, JsonReader, Object)
+    └── 102.4ms (2.2%) 3 more branches, hottest SerializeObject(Object)  Newtonsoft.Json.JsonConvert
+```
+
 ## Hottest functions
 
 ### Self time

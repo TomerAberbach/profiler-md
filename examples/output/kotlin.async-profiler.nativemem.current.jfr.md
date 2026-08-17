@@ -6,6 +6,46 @@ Allocated 1.62 GiB over 611,917 samples (2.77 KiB per sample).
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 1.62 GiB | 611,917 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the native bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.42 GiB (87.6%) [[6 frames hidden in 2 sources]]
+│   └── 1.41 GiB (87.3%) CompileBroker::invoke_compiler_on_method  libjvm.dylib
+│       ├── 1.38 GiB (85.6%) C2Compiler::compile_method
+│       │   └── 1.38 GiB (85.6%) Compile::Compile
+│       │       ├── 620 MiB (37.4%) Compile::Code_Gen
+│       │       │   ├── 473 MiB (28.5%) PhaseChaitin::Register_Allocate
+│       │       │   │   ├── 335 MiB (20.2%) [[4 frames hidden in 1 source]]
+│       │       │   │   │   └── 335 MiB (20.2%) malloc_hook  libasyncProfiler.dylib  (99.8% self across 139,024 call paths)
+│       │       │   │   └── 138 MiB (8.3%) 9 more branches, hottest PhaseLive::compute
+│       │       │   └── 148 MiB (8.9%) 10 more branches, hottest Matcher::match
+│       │       └── 797 MiB (48.1%) 12 more branches, hottest Compile::Optimize
+│       └── 28.8 MiB (1.7%) 6 more branches, hottest Compiler::compile_method
+└── 202 MiB (12.2%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+    └── 202 MiB (12.2%) run(String[])
+        ├── 137 MiB (8.3%) [[25 frames hidden in 14 sources]]
+        │   └── 122 MiB (7.3%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+        │       ├── 83.8 MiB (5.1%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+        │       │   └── 83.8 MiB (5.1%) executePhase(ConfigurationPipelineArtifact)
+        │       │       ├── 38 MiB (2.3%) [[2 frames hidden in 2 sources]]
+        │       │       │   └── 28.8 MiB (1.7%) process(List)  org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+        │       │       │       ├── 16.7 MiB (1.0%) processFile(FirFile)  org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+        │       │       │       │   └── 16.7 MiB (1.0%) transform(FirTransformer, Object)  org.jetbrains.kotlin.fir.declarations.FirFile
+        │       │       │       │       ├── 6.12 MiB (0.4%) [[69 frames hidden in 22 sources]]
+        │       │       │       │       │   └── 197 KiB (<0.1%) realloc_hook  libasyncProfiler.dylib
+        │       │       │       │       └── 10.6 MiB (0.6%) 9 more branches, hottest transformFile(FirFile, Object)  org.jetbrains.kotlin.fir.resolve.transformers.body.resolve.FirBodyResolveTransformerAdapter
+        │       │       │       └── 12 MiB (0.7%) 3 more branches, hottest process(Collection)  org.jetbrains.kotlin.fir.resolve.transformers.plugin.FirCompilerRequiredAnnotationsResolveProcessor
+        │       │       ├── 20.2 MiB (1.2%) prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1)
+        │       │       │   ├── 3.53 MiB (0.2%) [[20 frames hidden in 12 sources]]
+        │       │       │   │   └── 32 KiB (<0.1%) calloc_hook  libasyncProfiler.dylib
+        │       │       │   └── 16.7 MiB (1.0%) 8 more branches, hottest prepareSessions$default(SessionConstructionUtils, List, CompilerConfiguration, Name, TargetPlatform, boolean, DependencyListForCliModule, List, Function1, Function1, Function2, Function0, Function0, Function1, FirSessionProducer, Function4, int, Object)  org.jetbrains.kotlin.cli.common.SessionConstructionUtils
+        │       │       └── 25.6 MiB (1.5%) 22 more branches, hottest createEnvironmentAndSources(CompilerConfiguration, Disposable, String)
+        │       └── 37.7 MiB (2.3%) 5 more branches, hottest executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+        └── 65 MiB (3.9%) 18 more branches, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+```
+
 ## Hottest functions
 
 ### Self size

@@ -7,6 +7,53 @@ Collected 783 samples.
 | Standard library | 99.6% |     780 |
 | Ours             |  0.4% |       3 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 758 samples (96.8%) main  org.codenarc.CodeNarc
+│   └── 757 samples (96.7%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 752 samples (96.0%) [[2 frames hidden in 2 sources]]
+│       │   └── 752 samples (96.0%) fromCache  org.codehaus.groovy.vmplugin.v8.IndyInterface  (1.3% self across 10 call paths)
+│       │       └── 749 samples (95.7%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │           ├── 697 samples (89.0%) invoke  java.lang.invoke.LambdaForm$MH.0x00000004010c7000
+│       │           │   └── 697 samples (89.0%) 1 more branch, hottest reinvoke  java.lang.invoke.LambdaForm$MH.0x00000004010aa800
+│       │           └── 52 samples (6.6%) [[15 frames hidden in 13 sources]]
+│       │               └── 48 samples (6.1%) doFindClasses  org.codehaus.groovy.vmplugin.v9.Java9
+│       │                   ├── 44 samples (5.6%) find  org.codehaus.groovy.vmplugin.v9.ClassFinder
+│       │                   │   └── 44 samples (5.6%) find
+│       │                   │       ├── 36 samples (4.6%) walkFileTree  java.nio.file.Files
+│       │                   │       │   └── 36 samples (4.6%) walkFileTree
+│       │                   │       │       ├── 30 samples (3.8%) [[16 frames hidden in 9 sources]]
+│       │                   │       │       │   └── 25 samples (3.2%) lambda$handleModulesSubTree$1  jdk.internal.jimage.ImageReader$SharedImageReader
+│       │                   │       │       │       ├── 18 samples (2.3%) getFullName  jdk.internal.jimage.ImageLocation
+│       │                   │       │       │       │   ├── 8 samples (1.0%) [[5 frames hidden in 4 sources]]
+│       │                   │       │       │       │   │   └── 4 samples (0.5%) copyOfRangeByte  java.util.Arrays  (1.8% self across 11 call paths)
+│       │                   │       │       │       │   ├── 4 samples (0.5%) [[3 frames hidden in 2 sources]]
+│       │                   │       │       │       │   │   └── 4 samples (0.5%) copyOf  java.util.Arrays  (7.4% self across 49 call paths)
+│       │                   │       │       │       │   └── 4 samples (0.5%) [[4 frames hidden in 3 sources]]
+│       │                   │       │       │       │       └── 4 samples (0.5%) stringFromByteBuffer  jdk.internal.jimage.ImageStringsReader  (1.3% self across 6 call paths)
+│       │                   │       │       │       └── 7 samples (0.9%) 2 more branches, hottest newResource
+│       │                   │       │       └── 6 samples (0.8%) 2 more branches, hottest visitFile  org.codehaus.groovy.vmplugin.v9.ClassFinder$1
+│       │                   │       └── 8 samples (1.0%) [[6 frames hidden in 4 sources]]
+│       │                   │           └── 8 samples (1.0%) initCEN  jdk.nio.zipfs.ZipFileSystem
+│       │                   │               ├── 2 samples (0.3%) [[2 frames hidden in 1 source]]
+│       │                   │               │   └── 2 samples (0.3%) newNode  java.util.LinkedHashMap  (1.0% self across 7 call paths)
+│       │                   │               └── 5 samples (0.6%) 2 more branches, hottest buildNodeTree
+│       │                   └── 4 samples (0.5%) collect  java.util.stream.ReferencePipeline
+│       │                       └── 4 samples (0.5%) 1 more branch, hottest evaluate  java.util.stream.AbstractPipeline
+│       └── 5 samples (0.6%) invoke  java.lang.invoke.LambdaForm$MH.0x000000040108e000
+│           └── 5 samples (0.6%) 1 more branch, hottest invokeStaticInit  java.lang.invoke.LambdaForm$DMH.0x0000000401088c00
+├── 20 samples (2.6%) [[6 frames hidden in 4 sources]]
+│   └── 20 samples (2.6%) getDefaultMetaClass  groovy.lang.GroovyObjectSupport
+│       ├── 18 samples (2.3%) <clinit>  org.codehaus.groovy.runtime.InvokerHelper
+│       │   └── 18 samples (2.3%) 1 more branch, hottest <clinit>  groovy.lang.GroovySystem
+│       └── 2 samples (0.3%) [[58 frames hidden in 25 sources]]
+│           └── 1 sample (0.1%) enlarge  jdk.internal.org.objectweb.asm.ByteVector  (1.0% self across 8 call paths)
+└── 5 samples (0.6%) 2 more branches, hottest checkAndLoadMain  sun.launcher.LauncherHelper
+```
+
 ## Hottest functions
 
 ### Self samples

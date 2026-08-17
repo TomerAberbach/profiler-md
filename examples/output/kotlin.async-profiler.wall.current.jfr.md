@@ -11,6 +11,53 @@ Collected 2,696 samples.
 | Standard library |  0.2% |       6 |
 | JIT              |  0.1% |       2 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2,228 samples (82.6%) thread_start  libsystem_pthread.dylib
+│   └── 2,228 samples (82.6%) _pthread_start
+│       ├── 2,134 samples (79.2%) thread_native_entry  libjvm.dylib
+│       │   └── 2,134 samples (79.2%) Thread::call_run
+│       │       ├── 878 samples (32.6%) WorkerThread::run
+│       │       │   ├── 871 samples (32.3%) semaphore_wait_trap  libsystem_kernel.dylib  (35.9% self across 5 call paths)
+│       │       │   └── 4 samples (0.1%) [[5 frames hidden in 1 source]]
+│       │       │       └── 4 samples (0.1%) void OopOopIterateDispatch<G1RebuildRemSetClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>  libjvm.dylib
+│       │       ├── 791 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 328 samples (12.2%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── 168 samples (6.2%) [[3 frames hidden in 1 source]]
+│       │       │   │   │   └── 166 samples (6.2%) __psynch_cvwait  libsystem_kernel.dylib  (47.3% self across 14 call paths)
+│       │       │   │   └── 160 samples (5.9%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 43 samples (1.6%) [[3 frames hidden in 1 source]]
+│       │       │   │       │   └── 41 samples (1.5%) Compilation::compile_java_method  libjvm.dylib
+│       │       │   │       │       ├── 11 samples (0.4%) [[8 frames hidden in 1 source]]
+│       │       │   │       │       │   └── 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>  libjvm.dylib
+│       │       │   │       │       └── 30 samples (1.1%) 2 more branches, hottest Compilation::emit_lir
+│       │       │   │       └── 117 samples (4.3%) 3 more branches, hottest C2Compiler::compile_method
+│       │       │   └── 463 samples (17.2%) 5 more branches, hottest ServiceThread::service_thread_entry
+│       │       └── 465 samples (17.2%) 3 more branches, hottest ConcurrentGCThread::run
+│       └── 93 samples (3.4%) [[5 frames hidden in 2 sources]]
+│           └── 93 samples (3.4%) __ulock_wait  libsystem_kernel.dylib
+├── 93 samples (3.4%) [[9 frames hidden, 8 in 4 sources]]
+│   └── 93 samples (3.4%) mach_msg2_trap  libsystem_kernel.dylib
+├── 90 samples (3.3%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 90 samples (3.3%) run(String[])
+│       ├── 75 samples (2.8%) [[25 frames hidden in 14 sources]]
+│       │   └── 70 samples (2.6%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       ├── 46 samples (1.7%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       │   └── 46 samples (1.7%) executePhase(ConfigurationPipelineArtifact)
+│       │       │       ├── 5 samples (0.2%) [[37 frames hidden in 9 sources]]
+│       │       │       │   └── 1 sample (<0.1%) SymbolTable::do_lookup  libjvm.dylib
+│       │       │       └── 41 samples (1.5%) 4 more branches, hottest resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+│       │       └── 17 samples (0.6%) [[85 frames hidden, 84 in 31 sources]]
+│       │           └── 1 sample (<0.1%) __psynch_mutexwait  libsystem_kernel.dylib
+│       └── 15 samples (0.6%) [[8 frames hidden in 6 sources]]
+│           └── 7 samples (0.3%) inflate_fast  libzip.dylib
+├── 7 samples (0.3%) (anonymous)
+└── 278 samples (10.3%) 3 more branches, hottest run()  java.lang.ref.Reference$ReferenceHandler
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -6,6 +6,17 @@ Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 | ---------------- | -----: | ------: | --------: |
 | Standard library | 100.0% | 120 MiB | 1,998,001 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+├── 120 MiB (100.0%) [[10 frames hidden, 8 in 6 sources]]
+│   └── 120 MiB (100.0%) std::__cxx11::basic_string::_M_construct  usr/include/c++/12/bits/basic_string.tcc
+└── 8.85 KiB (<0.1%) [[9 frames hidden, 6 in 5 sources]]
+    └── 8 KiB (<0.1%) std::__new_allocator::allocate  usr/include/c++/12/bits/new_allocator.h
+```
+
 ## Hottest functions
 
 ### Self size

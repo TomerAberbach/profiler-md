@@ -10,6 +10,53 @@ Collected 33,375 samples.
 | Native           |  3.9% |   1,290 |
 | Ours             |  0.1% |      48 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 25,547 samples (76.5%) [[9 frames hidden, 8 in 6 sources]]
+│   └── 25,546 samples (76.5%) parse_workload  profile.jl:18
+│       ├── 23,611 samples (70.7%) [unknown function]
+│       │   └── 23,606 samples (70.7%) #write#58  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:40
+│       │       ├── 17,552 samples (52.6%) write  :147
+│       │       │   └── 17,551 samples (52.6%) #write#79  :157  (21.1% self across 16 call paths)
+│       │       │       └── 17,525 samples (52.5%) [unknown function]
+│       │       │           └── 17,510 samples (52.5%) #write#81  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl
+│       │       │               ├── 16,786 samples (50.3%) [unknown function]
+│       │       │               │   └── 16,756 samples (50.2%) #write#79  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157
+│       │       │               │       ├── 13,062 samples (39.1%) [unknown function]
+│       │       │               │       │   └── 12,983 samples (38.9%) #write#79  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:157
+│       │       │               │       │       ├── 1,016 samples (3.0%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163  (6.4% self across 14 call paths)
+│       │       │               │       │       ├── 862 samples (2.6%) [[2 frames hidden in 2 sources]]
+│       │       │               │       │       │   └── 857 samples (2.6%) _symbol  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:1  (20.8% self across 139 call paths)
+│       │       │               │       │       ├── 638 samples (1.9%) write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)  :340
+│       │       │               │       │       │   └── 618 samples (1.9%) var\"#write#98\"(::Base.Pairs{Symbol, Union{}, Nothing, @NamedTuple{}}, ::typeof(JSON3.write), ::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)  :340
+│       │       │               │       │       │       ├── 386 samples (1.2%) [[5 frames hidden in 3 sources]]
+│       │       │               │       │       │       │   └── 386 samples (1.2%) GenericMemory  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/boot.jl:588  (3.9% self across 57 call paths)
+│       │       │               │       │       │       └── 64 samples (0.2%) [[3 frames hidden in 3 sources]]
+│       │       │               │       │       │           └── 53 samples (0.2%) _setindex!  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/array.jl:1025  (0.8% self across 41 call paths)
+│       │       │               │       │       ├── 434 samples (1.3%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+│       │       │               │       │       │   └── 429 samples (1.3%) indexed_iterate  :163  (4.3% self across 34 call paths)
+│       │       │               │       │       └── 6,881 samples (20.6%) 15 more branches, hottest [unknown function]
+│       │       │               │       ├── 1,052 samples (3.2%) [[3 frames hidden in 2 sources]]
+│       │       │               │       │   └── 998 samples (3.0%) populateinds!(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}})  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:40
+│       │       │               │       │       ├── 271 samples (0.8%) setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356
+│       │       │               │       │       │   └── 151 samples (0.5%) ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)  :267  (1.7% self across 40 call paths)
+│       │       │               │       │       └── 722 samples (2.2%) 7 more branches, hottest getvalue  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:187
+│       │       │               │       └── 1,284 samples (3.8%) 15 more branches, hottest indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+│       │       │               └── 713 samples (2.1%) 4 more branches, hottest isassigned  :1641
+│       │       └── 6,049 samples (18.1%) [[13 frames hidden in 2 sources]]
+│       │           └── 6,037 samples (18.1%) (::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})  (3.1% self across 42 call paths)
+│       │               └── 6,034 samples (18.1%) 1 more branch, hottest [unknown function]
+│       ├── 387 samples (1.2%) length(::String)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/strings/string.jl:540
+│       │   ├── 39 samples (0.1%) length_continued  :559
+│       │   │   └── 39 samples (0.1%) +  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/int.jl:87  (0.9% self across 76 call paths)
+│       │   └── 348 samples (1.0%) 7 more branches, hottest length_continued  :561
+│       └── 1,500 samples (4.5%) 2 more branches, hottest read  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/read.jl:30
+└── 7,826 samples (23.4%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

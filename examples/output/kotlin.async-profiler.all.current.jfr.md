@@ -10,6 +10,53 @@ Collected 1,343 samples.
 | Standard library |  4.8% |      64 |
 | JIT              |  0.7% |       9 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 903 samples (67.2%) [[3 frames hidden in 2 sources]]
+│   └── 902 samples (67.2%) Thread::call_run  libjvm.dylib
+│       ├── 833 samples (62.0%) JavaThread::thread_main_inner
+│       │   └── 832 samples (62.0%) CompileBroker::compiler_thread_loop
+│       │       ├── 815 samples (60.7%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 560 samples (41.7%) C2Compiler::compile_method
+│       │       │   │   └── 557 samples (41.5%) Compile::Compile
+│       │       │   │       ├── 273 samples (20.3%) Compile::Code_Gen
+│       │       │   │       │   ├── 156 samples (11.6%) PhaseChaitin::Register_Allocate
+│       │       │   │       │   │   ├── 26 samples (1.9%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │   │   │   ├── 4 samples (0.3%) IndexSetIterator::advance_and_next  (1.3% self across 8 call paths)
+│       │       │   │       │   │   │   └── 10 samples (0.7%) 6 more branches, hottest PhaseChaitin::compute_initial_block_pressure
+│       │       │   │       │   │   └── 128 samples (9.5%) 21 more branches, hottest PhaseChaitin::Split
+│       │       │   │       │   ├── 58 samples (4.3%) Matcher::match
+│       │       │   │       │   │   ├── 44 samples (3.3%) Matcher::xform
+│       │       │   │       │   │   │   ├── 4 samples (0.3%) [[2 frames hidden in 1 source]]
+│       │       │   │       │   │   │   │   └── 1 sample (0.1%) tlv_get_addr  libdyld.dylib  (1.6% self across 22 call paths)
+│       │       │   │       │   │   │   └── 34 samples (2.5%) 4 more branches, hottest Matcher::match_tree
+│       │       │   │       │   │   └── 14 samples (1.0%) 5 more branches, hottest Matcher::find_shared
+│       │       │   │       │   └── 59 samples (4.4%) 7 more branches, hottest PhaseOutput::Output
+│       │       │   │       └── 284 samples (21.1%) 8 more branches, hottest Compile::Optimize
+│       │       │   └── 255 samples (19.0%) 6 more branches, hottest Compiler::compile_method
+│       │       └── 17 samples (1.3%) [[2 frames hidden in 1 source]]
+│       │           └── 15 samples (1.1%) PlatformMonitor::wait  libjvm.dylib
+│       │               ├── 12 samples (0.9%) __psynch_cvwait  libsystem_kernel.dylib  (1.6% self across 7 call paths)
+│       │               └── 2 samples (0.1%) [[2 frames hidden in 1 source]]
+│       │                   └── 2 samples (0.1%) __psynch_mutexwait  libsystem_kernel.dylib  (1.0% self across 13 call paths)
+│       └── 69 samples (5.1%) 4 more branches, hottest WorkerThread::run
+├── 433 samples (32.2%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 433 samples (32.2%) run(String[])
+│       ├── 75 samples (5.6%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│       │   ├── 68 samples (5.1%) loadAllClassesFromJars(Collection, int, ClassHandler)
+│       │   │   ├── 61 samples (4.5%) [[5 frames hidden in 4 sources]]
+│       │   │   │   └── 59 samples (4.4%) Java_java_util_zip_Inflater_inflateBytesBytes  libzip.dylib
+│       │   │   │       ├── 51 samples (3.8%) inflate_fast
+│       │   │   │       └── 8 samples (0.6%) 1 more branch, hottest inflate
+│       │   │   └── 7 samples (0.5%) 5 more branches, hottest put(Object, Object)  java.util.HashMap
+│       │   └── 7 samples (0.5%) 1 more branch, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)
+│       └── 358 samples (26.7%) 2 more branches, hottest invoke(Object, Object[])  java.lang.reflect.Method
+└── 7 samples (0.5%) 1 more branch, hottest break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -1678,6 +1725,53 @@ Allocated 700 MiB over 1,393 samples (514 KiB per sample).
 | ---------------- | ----: | ------: | ------: |
 | Standard library | 77.4% | 542 MiB |   1,077 |
 | Ours             | 22.6% | 158 MiB |     316 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 699 MiB (99.9%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+    └── 699 MiB (99.9%) run(String[])
+        ├── 373 MiB (53.4%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 333 MiB (47.7%) loadAllClassesFromJars(Collection, int, ClassHandler)
+        │   │   ├── 164 MiB (23.4%) <init>(int)  java.io.ByteArrayOutputStream  (26.0% self across 2 call paths)
+        │   │   ├── 158 MiB (22.7%) toByteArray()  java.io.ByteArrayOutputStream
+        │   │   │   └── 158 MiB (22.7%) copyOf(byte[], int)  java.util.Arrays  (20.8% self across 20 call paths)
+        │   │   │       └── 24 MiB (3.4%) clone()  java.lang.Object  (6.0% self across 4 call paths)
+        │   │   └── 9 MiB (1.3%) getNextEntry()  java.util.zip.ZipInputStream
+        │   │       └── 9 MiB (1.3%) readLOC()
+        │   │           ├── 4.5 MiB (0.6%) [[4 frames hidden in 4 sources]]
+        │   │           │   └── 3 MiB (0.4%) copyOfRange(byte[], int, int)  java.util.Arrays  (0.7% self across 9 call paths)
+        │   │           │       └── 3 MiB (0.4%) copyOfRangeByte(byte[], int, int)  (2.5% self across 30 call paths)
+        │   │           └── 4 MiB (0.6%) createZipEntry(String)
+        │   └── 39.9 MiB (5.7%) 1 more branch, hottest preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)
+        └── 326 MiB (46.6%) [[7 frames hidden in 6 sources]]
+            └── 326 MiB (46.6%) main(String[])  org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion
+                ├── 321 MiB (45.9%) [[4 frames hidden in 2 sources]]
+                │   └── 321 MiB (45.8%) exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+                │       ├── 319 MiB (45.5%) exec(MessageCollector, Services, CommonCompilerArguments)
+                │       │   ├── 315 MiB (45.0%) [[11 frames hidden in 7 sources]]
+                │       │   │   └── 313 MiB (44.8%) phaseBody(PipelineContext, PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+                │       │   │       ├── 74 MiB (10.6%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+                │       │   │       │   └── 74 MiB (10.6%) executePhase(JvmFir2IrPipelineArtifact)
+                │       │   │       │       ├── 23 MiB (3.3%) runLowerings$org_jetbrains_kotlin_cli_jvm(Project, CompilerConfiguration, ModuleDescriptor, Module, JvmIrCodegenFactory, JvmIrCodegenFactory$BackendInput, BaseDiagnosticsCollector, FirJvmBackendClassResolver)  org.jetbrains.kotlin.cli.jvm.compiler.KotlinToJVMBytecodeCompiler
+                │       │   │       │       │   └── 23 MiB (3.3%) invokeLowerings(GenerationState, JvmIrCodegenFactory$BackendInput)  org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
+                │       │   │       │       │       ├── 18.5 MiB (2.6%) [[6 frames hidden in 4 sources]]
+                │       │   │       │       │       │   └── 14.5 MiB (2.1%) phaseBody(LoweringContext, IrFile)  org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+                │       │   │       │       │       │       ├── 2.5 MiB (0.4%) [[42 frames hidden in 12 sources]]
+                │       │   │       │       │       │       │   └── 1 MiB (0.1%) iterator()  java.util.ArrayList  (2.4% self across 32 call paths)
+                │       │   │       │       │       │       └── 12 MiB (1.7%) 14 more branches, hottest lower(IrFile)  org.jetbrains.kotlin.backend.jvm.lower.JvmValueClassAbstractLowering
+                │       │   │       │       │       └── 4.5 MiB (0.6%) 1 more branch, hottest <init>(GenerationState, IrBuiltIns, SymbolTable, JvmGeneratorExtensions, JvmBackendExtension, IrPluginContext, JvmEvaluatorData)  org.jetbrains.kotlin.backend.jvm.JvmBackendContext
+                │       │   │       │       └── 51 MiB (7.3%) 1 more branch, hottest runCodegen$org_jetbrains_kotlin_cli_jvm(JvmIrCodegenFactory$CodegenInput, GenerationState, JvmIrCodegenFactory, BaseDiagnosticsCollector, CompilerConfiguration, boolean)  org.jetbrains.kotlin.cli.jvm.compiler.KotlinToJVMBytecodeCompiler
+                │       │   │       └── 239 MiB (34.2%) 3 more branches, hottest executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+                │       │   └── 4 MiB (0.6%) [[50 frames hidden in 29 sources]]
+                │       │       └── 512 KiB (0.1%) allocateUninitializedArray(Class, int)  jdk.internal.misc.Unsafe  (0.7% self across 10 call paths)
+                │       └── 512 KiB (0.1%) [[12 frames hidden in 6 sources]]
+                │           └── 512 KiB (0.1%) newString(byte[], int, int)  java.lang.StringLatin1  (0.6% self across 8 call paths)
+                └── 4.71 MiB (0.7%) [[29 frames hidden in 15 sources]]
+                    └── 4.71 MiB (0.7%) initCEN(int, ZipCoder)  java.util.zip.ZipFile$Source
+```
 
 ## Hottest functions
 

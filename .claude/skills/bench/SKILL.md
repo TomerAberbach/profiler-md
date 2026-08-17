@@ -17,6 +17,8 @@ profile.
 1. Capture a baseline: run `pnpm bench $ARGUMENTS 2>&1`, wait for it to
    complete, and read the full self-profiled Markdown report printed to stdout,
    focusing on:
+   - Call tree: how the profile's share divides from the outermost callers down,
+     which shows the branch to follow before any single function
    - Hottest functions: self % shows where time is spent or memory is allocated,
      rather than passed through
    - Hottest call stacks: the call path to the hot functions

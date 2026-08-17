@@ -10,6 +10,53 @@ Collected 1,303 samples.
 | Standard library |  4.6% |      60 |
 | JIT              |  1.5% |      20 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 872 samples (66.9%) [[3 frames hidden in 2 sources]]
+│   └── 871 samples (66.8%) Thread::call_run  libjvm.dylib
+│       ├── 806 samples (61.9%) JavaThread::thread_main_inner
+│       │   └── 806 samples (61.9%) CompileBroker::compiler_thread_loop
+│       │       ├── 792 samples (60.8%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 238 samples (18.3%) [[2 frames hidden in 1 source]]
+│       │       │   │   └── 236 samples (18.1%) Compilation::compile_method  libjvm.dylib
+│       │       │   │       ├── 218 samples (16.7%) Compilation::compile_java_method
+│       │       │   │       │   ├── 106 samples (8.1%) Compilation::emit_lir
+│       │       │   │       │   │   ├── 98 samples (7.5%) LinearScan::do_linear_scan
+│       │       │   │       │   │   │   ├── 18 samples (1.4%) LinearScan::build_intervals
+│       │       │   │       │   │   │   │   ├── 5 samples (0.4%) LIR_OpVisitState::visit  (1.1% self across 3 call paths)
+│       │       │   │       │   │   │   │   └── 2 samples (0.2%) tlv_get_addr  libdyld.dylib  (1.4% self across 17 call paths)
+│       │       │   │       │   │   │   └── 80 samples (6.1%) 12 more branches, hottest LinearScan::allocate_registers
+│       │       │   │       │   │   └── 8 samples (0.6%) 1 more branch, hottest BlockList::iterate_forward
+│       │       │   │       │   └── 112 samples (8.6%) 4 more branches, hottest Compilation::build_hir
+│       │       │   │       └── 18 samples (1.4%) 2 more branches, hottest ciEnv::register_method
+│       │       │   └── 554 samples (42.5%) 6 more branches, hottest C2Compiler::compile_method
+│       │       └── 14 samples (1.1%) [[2 frames hidden in 1 source]]
+│       │           └── 14 samples (1.1%) PlatformMonitor::wait  libjvm.dylib
+│       │               ├── 12 samples (0.9%) __psynch_cvwait  libsystem_kernel.dylib
+│       │               └── 2 samples (0.2%) [[2 frames hidden in 1 source]]
+│       │                   └── 2 samples (0.2%) __psynch_mutexwait  libsystem_kernel.dylib  (1.6% self across 19 call paths)
+│       └── 65 samples (5.0%) 3 more branches, hottest WorkerThread::run
+├── 422 samples (32.4%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 422 samples (32.4%) run(String[])
+│       ├── 346 samples (26.6%) [[12 frames hidden in 9 sources]]
+│       │   └── 342 samples (26.2%) exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │       ├── 3 samples (0.2%) [[36 frames hidden in 11 sources]]
+│       │       │   └── 1 sample (0.1%) SymbolTable::do_lookup  libjvm.dylib  (1.7% self across 22 call paths)
+│       │       └── 339 samples (26.0%) 1 more branch, hottest exec(MessageCollector, Services, CommonCompilerArguments)
+│       └── 75 samples (5.8%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 68 samples (5.2%) [[6 frames hidden in 5 sources]]
+│           │   └── 60 samples (4.6%) Java_java_util_zip_Inflater_inflateBytesBytes  libzip.dylib
+│           │       ├── 50 samples (3.8%) inflate_fast
+│           │       ├── 2 samples (0.2%) jni_GetPrimitiveArrayCritical  libjvm.dylib
+│           │       │   └── 2 samples (0.2%) pthread_jit_write_protect_np  libsystem_pthread.dylib  (1.1% self across 12 call paths)
+│           │       └── 8 samples (0.6%) 2 more branches, hottest inflate
+│           └── 1 sample (0.1%) I2C/C2I adapters(0xbb)
+└── 9 samples (0.7%) 3 more branches, hottest break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -7,6 +7,53 @@ Allocated 70.5 MiB over 439,557 objects (168 B per object).
 | Native   | 66.1% | 46.6 MiB |  25,721 |
 | Ours     | 33.9% | 23.9 MiB | 413,836 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 54.4 MiB (77.1%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90  (2.0% self across 76 call paths)
+│   ├── 49.5 MiB (70.1%) __json_value_module_MOD_parse_object
+│   │   ├── 48.9 MiB (69.3%) [[6 frames hidden in 1 source]]
+│   │   │   └── 48.9 MiB (69.3%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       ├── 48.5 MiB (68.7%) [[2 frames hidden in 1 source]]
+│   │   │       │   └── 48.5 MiB (68.7%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │       ├── 48.1 MiB (68.2%) [[6 frames hidden in 1 source]]
+│   │   │       │       │   └── 47.8 MiB (67.8%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │       │       ├── 41 MiB (58.1%) [[2 frames hidden in 1 source]]
+│   │   │       │       │       │   └── 40.8 MiB (57.8%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │       │       │       ├── 40.2 MiB (57.0%) [[3 frames hidden in 1 source]]
+│   │   │       │       │       │       │   └── 39.7 MiB (56.3%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │       │       │       │       ├── 27.6 MiB (39.2%) __json_value_module_MOD_parse_number  (0.9% self across 7 call paths)
+│   │   │       │       │       │       │       │   └── 27.6 MiB (39.2%) [[4 frames hidden in 3 sources]]
+│   │   │       │       │       │       │       │       └── 27.6 MiB (39.2%) 0x1c1b3  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0  (65.7% self across 258 call paths)
+│   │   │       │       │       │       │       └── 12 MiB (17.0%) [[3 frames hidden in 1 source]]
+│   │   │       │       │       │       │           └── 11.8 MiB (16.8%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │       │       │       │               ├── 9.19 MiB (13.0%) __json_value_module_MOD_parse_object
+│   │   │       │       │       │       │               │   ├── 6.5 MiB (9.2%) __json_value_module_MOD_json_value_create  (20.2% self across 432 call paths)
+│   │   │       │       │       │       │               │   └── 2.69 MiB (3.8%) 5 more branches, hottest __json_value_module_MOD_parse_object
+│   │   │       │       │       │       │               ├── 2.27 MiB (3.2%) __json_value_module_MOD_parse_value  (2.5% self across 60 call paths)
+│   │   │       │       │       │       │               │   └── 2.27 MiB (3.2%) __json_value_module_MOD_parse_string  (7.4% self across 947 call paths)
+│   │   │       │       │       │       │               └── 51.1 KiB (0.1%) __json_value_module_MOD_parse_number
+│   │   │       │       │       │       │                   └── 51.1 KiB (0.1%) __json_value_module_MOD_to_integer
+│   │   │       │       │       │       └── 547 KiB (0.8%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   │       │       │       └── 6.88 MiB (9.8%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   │       │       └── 397 KiB (0.5%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   │       └── 413 KiB (0.6%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   └── 576 KiB (0.8%) 1 more branch, hottest _start
+│   └── 4.92 MiB (7.0%) 9 more branches, hottest __json_value_module_MOD_parse_array
+├── 794 KiB (1.1%) [[23 frames hidden in 3 sources]]
+│   └── 692 KiB (1.0%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│       ├── 604 KiB (0.8%) [[4 frames hidden in 1 source]]
+│       │   └── 521 KiB (0.7%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│       │       ├── 115 KiB (0.2%) [[2 frames hidden in 1 source]]
+│       │       │   └── 115 KiB (0.2%) __json_string_utilities_MOD_unescape_string  src/json-fortran/src/json_string_utilities.F90
+│       │       └── 407 KiB (0.6%) 2 more branches, hottest __json_value_module_MOD_parse_object
+│       └── 87.9 KiB (0.1%) [[7 frames hidden in 3 sources]]
+│           └── 87.9 KiB (0.1%) 0x1c24b  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0
+└── 15.4 MiB (21.8%) 746 more branches, hottest main  out/profile.f90
+```
+
 ## Hottest functions
 
 ### Self size
@@ -703,6 +750,53 @@ Retained 894 KiB over 14,825 objects (61.8 B per object).
 | -------- | ----: | ------: | ------: |
 | Ours     | 85.5% | 765 KiB |  14,818 |
 | Native   | 14.5% | 130 KiB |       7 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 440 KiB (49.2%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90  (7.2% self across 72 call paths)
+│   ├── 413 KiB (46.2%) __json_value_module_MOD_parse_object
+│   │   ├── 403 KiB (45.1%) [[21 frames hidden in 1 source]]
+│   │   │   └── 387 KiB (43.3%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       ├── 377 KiB (42.2%) __json_value_module_MOD_parse_object
+│   │   │       │   ├── 370 KiB (41.4%) [[4 frames hidden in 1 source]]
+│   │   │       │   │   └── 359 KiB (40.1%) __json_value_module_MOD_parse_object  src/json-fortran/src/json_value_module.F90
+│   │   │       │   │       ├── 355 KiB (39.6%) __json_value_module_MOD_parse_object
+│   │   │       │   │       │   ├── 282 KiB (31.5%) __json_value_module_MOD_json_value_create  (68.3% self across 208 call paths)
+│   │   │       │   │       │   ├── 31.6 KiB (3.5%) __json_value_module_MOD_parse_value  (8.7% self across 54 call paths)
+│   │   │       │   │       │   ├── 3.4 KiB (0.4%) __json_value_module_MOD_to_logical
+│   │   │       │   │       │   └── 37.8 KiB (4.2%) 2 more branches, hottest __json_value_module_MOD_parse_object
+│   │   │       │   │       └── 2.21 KiB (0.2%) __json_value_module_MOD_parse_number
+│   │   │       │   │           └── 2.21 KiB (0.2%) __json_value_module_MOD_to_integer  (0.8% self across 36 call paths)
+│   │   │       │   └── 7.06 KiB (0.8%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   │       └── 9.58 KiB (1.1%) 1 more branch, hottest __json_value_module_MOD_parse_array
+│   │   └── 10.2 KiB (1.1%) 1 more branch, hottest _start
+│   ├── 760 B (0.1%) [[10 frames hidden, 9 in 4 sources]]
+│   │   └── 760 B (0.1%) 0x1c24b  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0
+│   └── 25.9 KiB (2.9%) 5 more branches, hottest __json_value_module_MOD_parse_array
+├── 151 KiB (16.9%) _start
+│   └── 151 KiB (16.9%) 0x27817  usr/lib/aarch64-linux-gnu/libc.so.6
+│       ├── 128 KiB (14.3%) [[6 frames hidden, 5 in 3 sources]]
+│       │   └── 128 KiB (14.3%) __json_value_module_MOD_json_parse_file  src/json-fortran/src/json_value_module.F90
+│       │       └── 128 KiB (14.3%) [[3 frames hidden in 1 source]]
+│       │           └── 128 KiB (14.3%) 0x1c1b3  usr/lib/aarch64-linux-gnu/libgfortran.so.5.0.0
+│       └── 22.7 KiB (2.5%) 0x27743
+│           └── 22.7 KiB (2.5%) 1 more branch, hottest main  out/profile.f90
+├── 13.6 KiB (1.5%) 0x1
+│   ├── 4.07 KiB (0.5%) [[29 frames hidden, 27 in 4 sources]]
+│   │   └── 27 B (<0.1%) __json_value_module_MOD_to_string  src/json-fortran/src/json_value_module.F90
+│   └── 9.54 KiB (1.1%) 3 more branches, hottest 0x2b167  usr/lib/aarch64-linux-gnu/libtcmalloc.so.4.5.10
+├── 8.53 KiB (1.0%) 0x1dd9f  [stack]
+│   └── 8.53 KiB (1.0%) __json_value_module_MOD_parse_string  src/json-fortran/src/json_value_module.F90
+│       └── 8.53 KiB (1.0%) 1 more branch, hottest _start
+├── 1.46 KiB (0.2%) [[12 frames hidden, 10 in 6 sources]]
+│   └── 18 B (<0.1%) 0x9980f  usr/lib/aarch64-linux-gnu/libc.so.6
+├── 958 B (0.1%) [[8 frames hidden, 7 in 4 sources]]
+│   └── 256 B (<0.1%) __json_value_module_MOD_json_initialize  src/json-fortran/src/json_value_module.F90
+└── 279 KiB (31.2%) 112 more branches, hottest 0xffffffffffffffff
+```
 
 ## Hottest functions
 

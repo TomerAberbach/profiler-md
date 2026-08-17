@@ -10,6 +10,53 @@ Collected 4,779 samples.
 | Compiler         |  1.4% |      68 |
 | JIT              |  1.3% |      62 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4,497 samples (94.1%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,497 samples (94.1%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 4,248 samples (88.9%) [[2 frames hidden in 2 sources]]
+│       │   └── 4,241 samples (88.7%) doExec()  java.util.concurrent.ForkJoinTask
+│       │       ├── 3,757 samples (78.6%) exec()  java.util.concurrent.RecursiveTask
+│       │       │   └── 3,757 samples (78.6%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       ├── 3,422 samples (71.6%) join()  java.util.concurrent.ForkJoinTask
+│       │       │       │   └── 3,421 samples (71.6%) awaitDone(int, long)
+│       │       │       │       ├── 302 samples (6.3%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       │       │       │   └── 290 samples (6.1%) 2 more branches, hottest doExec()  java.util.concurrent.ForkJoinTask
+│       │       │       │       └── 3,118 samples (65.2%) 2 more branches, hottest tryRemoveAndExec(ForkJoinTask, boolean)  java.util.concurrent.ForkJoinPool$WorkQueue
+│       │       │       ├── 80 samples (1.7%) [[6 frames hidden in 4 sources]]
+│       │       │       │   └── 80 samples (1.7%) merge(Object, Object, BiFunction)  java.util.HashMap
+│       │       │       │       ├── 63 samples (1.3%) apply(Object, Object)  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001186fd0
+│       │       │       │       │   └── 63 samples (1.3%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       │       │       ├── 21 samples (0.4%) [[2 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 21 samples (0.4%) copyOf(Object[], int)  java.util.Arrays
+│       │       │       │       │       │       └── 19 samples (0.4%) arrayof_jint_disjoint_arraycopy
+│       │       │       │       │       │           └── 19 samples (0.4%) forward_copy_longs  (3.9% self across 73 call paths)
+│       │       │       │       │       └── 42 samples (0.9%) 1 more branch, hottest addAll(Collection)  java.util.ArrayList
+│       │       │       │       └── 7 samples (0.1%) zero_blocks  (1.3% self across 41 call paths)
+│       │       │       └── 255 samples (5.3%) 8 more branches, hottest computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       ├── 31 samples (0.6%) [[5 frames hidden, 4 in 3 sources]]
+│       │       │   └── 27 samples (0.6%) __psynch_cvsignal  (1.4% self across 26 call paths)
+│       │       └── 451 samples (9.4%) 1 more branch, hottest exec()  java.util.concurrent.ForkJoinTask$AdaptedCallable
+│       └── 246 samples (5.1%) [[5 frames hidden, 3 in 3 sources]]
+│           └── 225 samples (4.7%) __psynch_cvwait  (13.9% self across 116 call paths)
+├── 236 samples (4.9%) [[3 frames hidden]]
+│   └── 236 samples (4.9%) Thread::call_run()
+│       ├── 124 samples (2.6%) WorkerThread::run()
+│       │   ├── 52 samples (1.1%) G1FullGCMarkTask::work(unsigned int)
+│       │   │   └── 52 samples (1.1%) G1FullGCMarker::complete_marking(GenericTaskQueueSet<OverflowTaskQueue<oopDesc*, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, GenericTaskQueueSet<OverflowTaskQueue<ObjArrayTask, (MEMFLAGS)5, 131072u>, (MEMFLAGS)5>*, TaskTerminator*)
+│       │   │       ├── 21 samples (0.4%) void objArrayOopDesc::oop_iterate_range<G1MarkAndPushClosure>(G1MarkAndPushClosure*, int, int)
+│       │   │       │   └── 19 samples (0.4%) G1FullGCMarker::mark_object(oopDesc*)
+│       │   │       └── 31 samples (0.6%) 2 more branches, hottest G1FullGCMarker::follow_marking_stacks()
+│       │   ├── 38 samples (0.8%) [[5 frames hidden]]
+│       │   │   └── 9 samples (0.2%) G1ParScanThreadState::do_copy_to_survivor_space(G1HeapRegionAttr, oopDesc*, markWord)
+│       │   └── 20 samples (0.4%) semaphore_wait_trap
+│       └── 112 samples (2.3%) 4 more branches, hottest JavaThread::thread_main_inner()
+└── 46 samples (1.0%) 5 more branches, hottest main(String[])  org.renaissance.core.Launcher
+```
+
 ## Hottest functions
 
 ### Self samples

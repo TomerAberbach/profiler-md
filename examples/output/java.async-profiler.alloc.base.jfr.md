@@ -7,6 +7,53 @@ Allocated 36.8 GiB over 75,115 samples (514 KiB per sample).
 | Standard library | 93.2% | 34.3 GiB |  69,991 |
 | Ours             |  6.8% |  2.5 GiB |   5,124 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 36.6 GiB (99.4%) [[4 frames hidden in 3 sources]]
+│   └── 36.6 GiB (99.4%) doExec()  java.util.concurrent.ForkJoinTask
+│       ├── 29 GiB (78.8%) exec()  java.util.concurrent.RecursiveTask
+│       │   └── 29 GiB (78.8%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       ├── 23.8 GiB (64.6%) join()  java.util.concurrent.ForkJoinTask
+│       │       │   └── 23.8 GiB (64.6%) awaitDone(int, long)
+│       │       │       ├── 22.4 GiB (60.7%) [[3 frames hidden in 3 sources]]
+│       │       │       │   └── 22.4 GiB (60.7%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       ├── 19.2 GiB (52.1%) join()  java.util.concurrent.ForkJoinTask
+│       │       │       │       │   └── 19.2 GiB (52.1%) awaitDone(int, long)
+│       │       │       │       │       ├── 18.3 GiB (49.6%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │       │   └── 18.3 GiB (49.6%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       │       ├── 5 MiB (<0.1%) [[2 frames hidden in 1 source]]
+│       │       │       │       │       │       │   └── 5 MiB (<0.1%) add(double[], double[])  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       │       │       └── 18.2 GiB (49.5%) 6 more branches, hottest join()  java.util.concurrent.ForkJoinTask
+│       │       │       │       │       └── 950 MiB (2.5%) 1 more branch, hottest helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       │       │       ├── 114 MiB (0.3%) [[58 frames hidden in 6 sources]]
+│       │       │       │       │   └── 7.5 MiB (<0.1%) vectorSum()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       └── 3.08 GiB (8.4%) 6 more branches, hottest combineResults(Object, Object)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │       │       └── 1.41 GiB (3.8%) 1 more branch, hottest helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       ├── 5.06 GiB (13.7%) [[2 frames hidden in 1 source]]
+│       │       │   └── 5.06 GiB (13.7%) merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       └── 5.04 GiB (13.7%) [[5 frames hidden in 4 sources]]
+│       │       │           └── 5.04 GiB (13.7%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │               ├── 3.79 GiB (10.3%) addAll(Collection)  java.util.ArrayList
+│       │       │               │   ├── 2.36 GiB (6.4%) grow(int)  (0.6% self across 61 call paths)
+│       │       │               │   │   └── 2.36 GiB (6.4%) copyOf(Object[], int)  java.util.Arrays  (90.9% self across 1,847 call paths)
+│       │       │               │   └── 1.43 GiB (3.9%) 1 more branch, hottest toArray()
+│       │       │               └── 1.25 GiB (3.4%) 1 more branch, hottest <init>(Collection)  java.util.ArrayList
+│       │       ├── 44 MiB (0.1%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       └── 32.5 MiB (0.1%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       └── 7.59 GiB (20.6%) 1 more branch, hottest exec()  java.util.concurrent.ForkJoinTask$AdaptedCallable
+└── 216 MiB (0.6%) [[29 frames hidden in 21 sources]]
+    └── 182 MiB (0.5%) lambda$generateData$5(int, int, Random[], int)  org.renaissance.jdk.concurrent.JavaKMeans
+        ├── 112 MiB (0.3%) [[10 frames hidden in 7 sources]]
+        │   └── 67 MiB (0.2%) valueOf(double)  java.lang.Double
+        ├── 35 MiB (0.1%) range(int, int)  java.util.stream.IntStream
+        │   └── 25 MiB (0.1%) intStream(Spliterator$OfInt, boolean)  java.util.stream.StreamSupport
+        └── 24.5 MiB (0.1%) mapToObj(IntFunction)  java.util.stream.IntPipeline
+            └── 24.5 MiB (0.1%) mapToObj(IntFunction, int)
+```
+
 ## Hottest functions
 
 ### Self size

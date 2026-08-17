@@ -7,6 +7,53 @@ Allocated 11.9 GiB over 24,310 samples (512 KiB per sample).
 | Standard library | 99.2% | 11.8 GiB |  24,120 |
 | Ours             |  0.8% |   95 MiB |     190 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 11.9 GiB (99.9%) [[4 frames hidden in 4 sources]]
+    └── 11.9 GiB (99.9%) fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface  (5.4% self across 1,096 call paths)
+        └── 11.9 GiB (99.9%) [[10 frames hidden in 7 sources]]
+            └── 11.8 GiB (99.6%) execute(String[])  org.codenarc.CodeNarc
+                ├── 11.7 GiB (98.5%) [[14 frames hidden in 10 sources]]
+                │   └── 11.7 GiB (98.4%) execute()  org.codenarc.CodeNarcRunner
+                │       ├── 11.1 GiB (93.8%) [[11 frames hidden in 7 sources]]
+                │       │   └── 11.1 GiB (93.8%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+                │       │       ├── 10.9 GiB (91.5%) [[40 frames hidden in 27 sources]]
+                │       │       │   └── 10.9 GiB (91.5%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │       ├── 9.44 GiB (79.5%) invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070015ab000
+                │       │       │       │   └── 9.44 GiB (79.5%) 1 more branch, hottest invokeSpecial(Object, Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+                │       │       │       └── 1.42 GiB (12.0%) [[8 frames hidden in 7 sources]]
+                │       │       │           └── 1.42 GiB (12.0%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070012a0000
+                │       │       │               ├── 588 MiB (4.8%) [[317 frames hidden in 33 sources]]
+                │       │       │               │   └── 576 MiB (4.7%) doCall(Object)  org.codenarc.analyzer.FilesystemSourceAnalyzer$_processDirectory_closure1
+                │       │       │               │       ├── 491 MiB (4.0%) [[39 frames hidden in 26 sources]]
+                │       │       │               │       │   └── 491 MiB (4.0%) collectViolations(SourceCode, RuleSet)  org.codenarc.analyzer.AbstractSourceAnalyzer
+                │       │       │               │       │       ├── 336 MiB (2.8%) [[66 frames hidden in 32 sources]]
+                │       │       │               │       │       │   └── 296 MiB (2.4%) applyTo(SourceCode)  org.codenarc.rule.AbstractRule
+                │       │       │               │       │       │       ├── 212 MiB (1.7%) applyTo(SourceCode, List)  org.codenarc.rule.AbstractAstVisitorRule
+                │       │       │               │       │       │       │   ├── 178 MiB (1.5%) [[6 frames hidden in 3 sources]]
+                │       │       │               │       │       │       │   │   └── 108 MiB (0.9%) visitConstructorOrMethod(MethodNode, boolean)  org.codehaus.groovy.ast.ClassCodeVisitorSupport
+                │       │       │               │       │       │       │   │       ├── 3 MiB (<0.1%) [[2 frames hidden in 1 source]]
+                │       │       │               │       │       │       │   │       │   └── 2.5 MiB (<0.1%) iterator()  java.util.ArrayList  (0.6% self across 133 call paths)
+                │       │       │               │       │       │       │   │       └── 105 MiB (0.9%) 2 more branches, hottest visitClassCodeContainer(Statement)
+                │       │       │               │       │       │       │   └── 31.5 MiB (0.3%) [[8 frames hidden in 8 sources]]
+                │       │       │               │       │       │       │       └── 1.5 MiB (<0.1%) newArray(Class, int)  java.lang.reflect.Array  (2.7% self across 613 call paths)
+                │       │       │               │       │       │       └── 83.5 MiB (0.7%) 10 more branches, hottest applyTo(SourceCode, List)  org.codenarc.rule.AbstractSharedAstVisitorRule
+                │       │       │               │       │       └── 154 MiB (1.3%) 2 more branches, hottest linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │               │       └── 85 MiB (0.7%) 1 more branch, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                │       │       │               └── 870 MiB (7.2%) 1 more branch, hottest reinvoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x0000007001188800
+                │       │       └── 271 MiB (2.2%) 2 more branches, hottest invokeSpecial(Object, Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+                │       ├── 69.5 MiB (0.6%) [[11 frames hidden in 7 sources]]
+                │       │   └── 69.5 MiB (0.6%) guardWithCatch(Object, Object)  java.lang.invoke.LambdaForm$MH.0x0000007001098400
+                │       │       ├── 6 MiB (<0.1%) [[30 frames hidden in 16 sources]]
+                │       │       │   └── 2.5 MiB (<0.1%) allocateInstance(Object)  java.lang.invoke.DirectMethodHandle  (1.9% self across 416 call paths)
+                │       │       └── 63.5 MiB (0.5%) 1 more branch, hottest invokeSpecial(Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+                │       └── 497 MiB (4.1%) 1 more branch, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+                └── 145 MiB (1.2%) 2 more branches, hottest linkToCallSite(Object, Object, int, int, Object)  java.lang.invoke.LambdaForm$MH.0x000000700192c400
+```
+
 ## Hottest functions
 
 ### Self size

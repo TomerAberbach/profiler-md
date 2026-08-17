@@ -8,6 +8,53 @@ Took 27.9ms.
 | Standard library |  5.5% |  1.5ms |
 | Idle             |  2.1% |  0.6ms |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the wall time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 27.9ms (100.0%) <0.94.0>
+    └── 27.9ms (100.0%) apply/2  eflambe
+        ├── 21.0ms (75.2%) reduce_range/5  Enum
+        │   ├── 10.7ms (38.2%) decode!/2  Jason
+        │   │   └── 10.6ms (38.0%) parse/2  Jason.Decoder
+        │   │       ├── 7.2ms (25.8%) string/6  (30.4% self across 2 call paths)
+        │   │       │   └── 0.4ms (1.5%) -string_decode_function/1-fun-0-/1
+        │   │       ├── 1.0ms (3.5%) object/6  (2.9% self across 2 call paths)
+        │   │       │   └── 0.3ms (1.1%) -key_decode_function/1-fun-0-/1
+        │   │       ├── 0.8ms (3.0%) string/7  (3.7% self across 2 call paths)
+        │   │       ├── 0.5ms (1.8%) number/6
+        │   │       │   └── 0.2ms (0.8%) binary_to_integer/1  erlang
+        │   │       ├── 0.3ms (1.2%) value/5
+        │   │       ├── 0.3ms (1.1%) key/6
+        │   │       └── 0.3ms (1.1%) key/5
+        │   └── 10.3ms (37.0%) [[3 frames hidden in 3 sources]]
+        │       └── 10.2ms (36.6%) map_naive/3  Jason.Encode  (1.7% self across 8 call paths)
+        │           └── 10.0ms (36.0%) map_naive_loop/3  (3.9% self across 8 call paths)
+        │               ├── 7.0ms (25.0%) map_naive/3
+        │               │   ├── 6.5ms (23.3%) map_naive_loop/3
+        │               │   │   ├── 2.5ms (8.9%) escape_json_chunk/5  (30.3% self across 22 call paths)
+        │               │   │   ├── 0.2ms (0.9%) value/3  (1.8% self across 22 call paths)
+        │               │   │   ├── 0.2ms (0.6%) escape_json/4  (2.1% self across 22 call paths)
+        │               │   │   ├── 0.2ms (0.6%) escape_json/1  (1.9% self across 22 call paths)
+        │               │   │   ├── 0.2ms (0.6%) key/2  (1.4% self across 14 call paths)
+        │               │   │   └── 2.7ms (9.8%) 4 more branches, hottest encode_string/2
+        │               │   └── 0.3ms (0.9%) 8 more branches, hottest escape_json_chunk/5
+        │               └── 2.8ms (10.1%) 7 more branches, hottest encode_string/2
+        └── 6.9ms (24.7%) reduce/3  Enum
+            ├── 4.2ms (15.2%) -run/1-fun-0-/2  Profile
+            │   └── 4.2ms (15.2%) encode!/2  Jason
+            │       ├── 1.7ms (5.9%) undefined_function/3  error_handler
+            │       │   ├── 1.2ms (4.2%) ensure_loaded/1  code
+            │       │   │   ├── 0.9ms (3.1%) prepare_loading_1/2  erlang
+            │       │   │   └── 0.2ms (0.7%) [[4 frames hidden in 2 sources]]
+            │       │   │       └── 0.2ms (0.6%) archive_split/3  erl_prim_loader
+            │       │   └── 0.5ms (1.7%) call/1  code_server
+            │       │       └── 0.5ms (1.7%) sleep
+            │       └── 2.6ms (9.2%) 6 more branches, hottest encode/2  Jason.Encode
+            └── 2.7ms (9.5%) 2 more branches, hottest decode!/2  Jason
+```
+
 ## Hottest functions
 
 ### Self time

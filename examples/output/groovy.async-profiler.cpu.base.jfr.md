@@ -11,6 +11,53 @@ Collected 5,809 samples.
 | JIT               |  1.1% |      61 |
 | Garbage collector |  0.1% |       4 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 3,547 samples (61.1%) [[3 frames hidden in 2 sources]]
+│   └── 3,546 samples (61.0%) Thread::call_run  libjvm.dylib
+│       ├── 3,235 samples (55.7%) JavaThread::thread_main_inner
+│       │   └── 3,231 samples (55.6%) CompileBroker::compiler_thread_loop
+│       │       ├── 29 samples (0.5%) [[2 frames hidden in 1 source]]
+│       │       │   └── 28 samples (0.5%) PlatformMonitor::wait  libjvm.dylib
+│       │       │       ├── 21 samples (0.4%) __psynch_cvwait  libsystem_kernel.dylib
+│       │       │       └── 6 samples (0.1%) [[2 frames hidden in 1 source]]
+│       │       │           └── 6 samples (0.1%) __psynch_mutexwait  libsystem_kernel.dylib  (0.7% self across 27 call paths)
+│       │       └── 3,202 samples (55.1%) 2 more branches, hottest CompileBroker::invoke_compiler_on_method
+│       └── 311 samples (5.4%) 5 more branches, hottest WorkerThread::run
+├── 2,218 samples (38.2%) [[3 frames hidden in 3 sources]]
+│   └── 2,216 samples (38.1%) invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001088800  (0.5% self across 30 call paths)
+│       └── 2,216 samples (38.1%) [[25 frames hidden in 16 sources]]
+│           └── 2,192 samples (37.7%) invokeVirtual(Object, Object)  java.lang.invoke.DirectMethodHandle$Holder
+│               └── 2,192 samples (37.7%) execute()  org.codenarc.CodeNarcRunner
+│                   ├── 2,093 samples (36.0%) [[11 frames hidden in 7 sources]]
+│                   │   └── 2,093 samples (36.0%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+│                   │       ├── 2,056 samples (35.4%) [[40 frames hidden in 27 sources]]
+│                   │       │   └── 2,055 samples (35.4%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│                   │       │       ├── 340 samples (5.9%) [[8 frames hidden in 7 sources]]
+│                   │       │       │   └── 339 samples (5.8%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070012bcc00
+│                   │       │       │       ├── 231 samples (4.0%) [[25 frames hidden in 20 sources]]
+│                   │       │       │       │   └── 231 samples (4.0%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010c7400
+│                   │       │       │       │       ├── 187 samples (3.2%) [[439 frames hidden in 42 sources]]
+│                   │       │       │       │       │   └── 164 samples (2.8%) collectViolations(SourceCode, RuleSet)  org.codenarc.analyzer.AbstractSourceAnalyzer
+│                   │       │       │       │       │       ├── 128 samples (2.2%) [[6 frames hidden in 5 sources]]
+│                   │       │       │       │       │       │   └── 128 samples (2.2%) reinvoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070011c5c00
+│                   │       │       │       │       │       │       ├── 17 samples (0.3%) [[114 frames hidden in 60 sources]]
+│                   │       │       │       │       │       │       │   └── 1 sample (<0.1%) cast(Object)  java.lang.Class  (1.9% self across 108 call paths)
+│                   │       │       │       │       │       │       └── 111 samples (1.9%) 2 more branches, hottest invoke(Object, Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000700139a400
+│                   │       │       │       │       │       └── 36 samples (0.6%) 2 more branches, hottest linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│                   │       │       │       │       └── 44 samples (0.8%) 1 more branch, hottest delegate(Object, Object, Object)  java.lang.invoke.DelegatingMethodHandle$Holder
+│                   │       │       │       └── 108 samples (1.9%) 1 more branch, hottest delegate(Object, Object, Object, Object)  java.lang.invoke.DelegatingMethodHandle$Holder
+│                   │       │       └── 1,715 samples (29.5%) 1 more branch, hottest invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070015c9000
+│                   │       └── 37 samples (0.6%) 2 more branches, hottest invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010c7800
+│                   └── 99 samples (1.7%) 2 more branches, hottest linkToCallSite(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+├── 12 samples (0.2%) [[14 frames hidden in 9 sources]]
+│   └── 1 sample (<0.1%) pthread_jit_write_protect_np  libsystem_pthread.dylib  (1.7% self across 97 call paths)
+└── 32 samples (0.6%) 8 more branches, hottest unknown
+```
+
 ## Hottest functions
 
 ### Self samples

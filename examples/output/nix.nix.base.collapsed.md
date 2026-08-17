@@ -9,6 +9,53 @@ Collected 1,266 samples.
 | Unknown          |  3.6% |      45 |
 | Standard library |  0.3% |       4 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 994 samples (78.5%) [[7 frames hidden, 6 in 3 sources]]
+│   └── 994 samples (78.5%) checkAssertWarn  nixos/modules/system/activation/top-level.nix:78:26
+│       ├── 661 samples (52.2%) [[2 frames hidden in 2 sources]]
+│       │   └── 661 samples (52.2%) fold'  lib/lists.nix:143:5
+│       │       ├── 455 samples (35.9%) [[37 frames hidden in 9 sources]]
+│       │       │   └── 453 samples (35.8%) primop derivationStrict:system-path  «nix-internal»/derivation-internal.nix:37:12
+│       │       │       ├── 318 samples (25.1%) primop getAttr  :50:17
+│       │       │       │   ├── 127 samples (10.0%) primop derivationStrict:gnome-shell-50.1  :37:12
+│       │       │       │   │   └── 124 samples (9.8%) primop getAttr  :50:17
+│       │       │       │   │       ├── 98 samples (7.7%) primop derivationStrict:evolution-data-server-3.60.1  :37:12
+│       │       │       │   │       │   └── 97 samples (7.7%) primop getAttr  :50:17
+│       │       │       │   │       │       ├── 72 samples (5.7%) [[7 frames hidden in 1 source]]
+│       │       │       │   │       │       │   └── 67 samples (5.3%) primop getAttr  «nix-internal»/derivation-internal.nix:50:17
+│       │       │       │   │       │       │       ├── 37 samples (2.9%) primop derivationStrict:pandoc-3.7.0.2  :37:12
+│       │       │       │   │       │       │       │   ├── 7 samples (0.6%) (anonymous)  pkgs/stdenv/generic/make-derivation.nix:631:18  (7.6% self across 73 call paths)
+│       │       │       │   │       │       │       │   └── 30 samples (2.4%) 3 more branches, hottest primop getAttr  :50:17
+│       │       │       │   │       │       │       └── 30 samples (2.4%) 3 more branches, hottest primop derivationStrict:pandoc-server-0.1.0.11  :37:12
+│       │       │       │   │       │       └── 25 samples (2.0%) 2 more branches, hottest primop derivationStrict:gnome-online-accounts-3.58.1  :37:12
+│       │       │       │   │       └── 26 samples (2.1%) 3 more branches, hottest primop derivationStrict:mutter-50.1  :37:12
+│       │       │       │   └── 190 samples (15.0%) 31 more branches, hottest primop derivationStrict:firefox-152.0  :37:12
+│       │       │       ├── 113 samples (8.9%) [[25 frames hidden in 8 sources]]
+│       │       │       │   └── 102 samples (8.1%) primop getAttr  «nix-internal»/derivation-internal.nix:50:17
+│       │       │       │       ├── 91 samples (7.2%) primop derivationStrict:gst-plugins-bad-1.26.11  :37:12
+│       │       │       │       │   ├── 7 samples (0.6%) (anonymous)  pkgs/stdenv/generic/make-derivation.nix:582:18  (11.8% self across 106 call paths)
+│       │       │       │       │   ├── 2 samples (0.2%) [[8 frames hidden in 3 sources]]
+│       │       │       │       │   │   └── 2 samples (0.2%) primop functionArgs  lib/trivial.nix:1109:86  (5.3% self across 66 call paths)
+│       │       │       │       │   └── 82 samples (6.5%) 1 more branch, hottest primop getAttr  :50:17
+│       │       │       │       └── 11 samples (0.9%) 1 more branch, hottest primop derivationStrict:gst-plugins-base-1.26.11  :37:12
+│       │       │       └── 19 samples (1.5%) (anonymous)  pkgs/build-support/buildenv/default.nix:113:30
+│       │       └── 206 samples (16.3%) 1 more branch, hottest primop length  :140:13
+│       └── 333 samples (26.3%) 1 more branch, hottest primop map  lib/asserts.nix:195:26
+├── 118 samples (9.3%) primop seq  lib/modules.nix:402:18
+│   ├── 63 samples (5.0%) [[22 frames hidden in 3 sources]]
+│   │   └── 55 samples (4.3%) applyModuleArgs  lib/modules.nix:705:56
+│   └── 53 samples (4.2%) [[55 frames hidden, 49 in 8 sources]]
+│       └── 44 samples (3.5%) isBuiltByNixpkgsCompiler  pkgs/stdenv/linux/default.nix:618:12
+│           ├── 5 samples (0.4%) [[12 frames hidden in 4 sources]]
+│           │   └── 1 sample (0.1%) makeCMakeFlags  pkgs/stdenv/generic/make-derivation.nix:970:24  (4.4% self across 56 call paths)
+│           └── 39 samples (3.1%) 1 more branch, hottest isFromNixpkgs  :129:35
+└── 154 samples (12.2%) 2 more branches, hottest primop derivationStrict:nixos-system-profiler-26.11pre-git  «nix-internal»/derivation-internal.nix:37:12
+```
+
 ## Hottest functions
 
 ### Self samples

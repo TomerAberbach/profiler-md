@@ -6,6 +6,26 @@ Blocked 159.9ms over 4,990 contentions (32.0µs per contention).
 | ---------------- | -----: | ------: | ----------: |
 | Standard library | 100.0% | 159.9ms |       4,990 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 72.6ms (45.4%) [[3 frames hidden in 3 sources]]
+│   └── 72.6ms (45.4%) runtime.goschedImpl  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307
+│       ├── 52.6ms (32.9%) runtime.schedule  :4135
+│       │   ├── 50.9ms (31.9%) runtime.findRunnable  :3389
+│       │   │   ├── 42.1ms (26.3%) runtime.runSafePointFn  :2232
+│       │   │   │   └── 42.1ms (26.3%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260  (89.6% self across 246 call paths)
+│       │   │   └── 8.9ms (5.5%) 3 more branches, hottest runtime.gcstopm  :3296
+│       │   └── 1.6ms (1.0%) runtime.resetspinning  :4021
+│       │       └── 1.6ms (1.0%) runtime.wakep  :3212
+│       │           └── 1.6ms (1.0%) 2 more branches, hottest runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│       └── 20.1ms (12.6%) 2 more branches, hottest runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 16.6ms (10.4%) runtime._LostContendedRuntimeLock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741
+└── 70.7ms (44.2%) 6 more branches, hottest runtime.gcBgMarkWorker  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+```
+
 ## Hottest functions
 
 ### Self time

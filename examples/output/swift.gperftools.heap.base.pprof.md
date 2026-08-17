@@ -6,6 +6,52 @@ Allocated 97.3 MiB over 156,119 objects (653 B per object).
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 97.3 MiB | 156,119 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 55.1 MiB (56.6%) [[3 frames hidden, 2 in 1 source]]
+│   └── 55.1 MiB (56.6%) profile_main  src/Sources/profile/main.swift
+│       ├── 5.79 MiB (6.0%) [[11 frames hidden in 2 sources]]
+│       │   └── 5.79 MiB (6.0%) 0x3e562f  usr/lib/swift/linux/libswiftCore.so  (16.2% self across 1,359 call paths)
+│       ├── 474 KiB (0.5%) [[23 frames hidden in 5 sources]]
+│       │   └── 248 B (<0.1%) 0x427463  usr/lib/swift/linux/libswiftCore.so
+│       ├── 5.09 KiB (<0.1%) 0x22cf03  usr/lib/swift/linux/libFoundation.so
+│       │   ├── 4.55 KiB (<0.1%) 0x22e487
+│       │   │   ├── 4.25 KiB (<0.1%) 0xddf67  usr/lib/aarch64-linux-gnu/libc.so.6
+│       │   │   │   └── 4.25 KiB (<0.1%) 0xdd2c3
+│       │   │   ├── 120 B (<0.1%) 0xddf9f  usr/lib/aarch64-linux-gnu/libc.so.6
+│       │   │   │   └── 120 B (<0.1%) 0xdd5eb
+│       │   │   └── 72 B (<0.1%) 0xddf07  usr/lib/aarch64-linux-gnu/libc.so.6
+│       │   └── 480 B (<0.1%) [[5 frames hidden in 1 source]]
+│       │       └── 480 B (<0.1%) 0x3febe3  usr/lib/swift/linux/libFoundation.so
+│       ├── 4 KiB (<0.1%) [[9 frames hidden in 2 sources]]
+│       │   └── 4 KiB (<0.1%) 0x6ef3f  usr/lib/aarch64-linux-gnu/libc.so.6
+│       └── 48.8 MiB (50.2%) 8 more branches, hottest $s11SwiftParser0B0V5parse6source0A6Syntax010SourceFileE0VSS_tFZ  src/.build/checkouts/swift-syntax/Sources/SwiftParser/ParseSourceFile.swift
+├── 6.41 MiB (6.6%) [[10 frames hidden in 6 sources]]
+│   └── 6.41 MiB (6.6%) $s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift
+│       ├── 4.41 MiB (4.5%) [[4 frames hidden in 2 sources]]
+│       │   └── 4.41 MiB (4.5%) $s11SwiftParser0B0V16parseDeclaration16inMemberDeclList0A6Syntax03RawgI0VSb_tF  src/.build/checkouts/swift-syntax/Sources/SwiftParser/Declarations.swift
+│       │       ├── 3.12 MiB (3.2%) [[24 frames hidden in 9 sources]]
+│       │       │   └── 3.05 MiB (3.1%) 0x3e564b  usr/lib/swift/linux/libswiftCore.so  (83.8% self across 672 call paths)
+│       │       └── 1.29 MiB (1.3%) 3 more branches, hottest $s11SwiftParser0B0V27parseInitializerDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF
+│       └── 2 MiB (2.1%) 2 more branches, hottest $s11SwiftParser0B0V25parseExtensionDeclarationy0A6Syntax03Rawd4DeclF0VAC0H10AttributesV_AA25RecoveryConsumptionHandleVtF
+├── 4.69 KiB (<0.1%) 0x290383  usr/lib/swift/linux/libswiftCore.so
+│   ├── 2.74 KiB (<0.1%) 0x3f17a3
+│   ├── 1.76 KiB (<0.1%) [[2 frames hidden in 1 source]]
+│   │   └── 1.35 KiB (<0.1%) 0x3fd793  usr/lib/swift/linux/libswiftCore.so
+│   └── 192 B (<0.1%) 0x3f1757
+│       └── 192 B (<0.1%) 0x3fe73f
+├── 536 B (<0.1%) [[4 frames hidden in 1 source]]
+│   └── 384 B (<0.1%) 0x4000cf  usr/lib/swift/linux/libswiftCore.so
+├── 64 B (<0.1%) [[3 frames hidden in 1 source]]
+│   └── 48 B (<0.1%) 0x401d73  usr/lib/swift/linux/libswiftCore.so
+├── 64 B (<0.1%) 0x276cf3  usr/lib/swift/linux/libFoundation.so
+│   └── 16 B (<0.1%) 0x3f9d77  usr/lib/swift/linux/libswiftCore.so
+└── 35.8 MiB (36.8%) 44 more branches, hottest 0x284c3  usr/lib/aarch64-linux-gnu/libc.so.6
+```
+
 ## Hottest functions
 
 ### Self size
@@ -506,6 +552,50 @@ Retained 5.82 MiB over 359 objects (16.6 KiB per object).
 | Category |      % |     Size | Objects |
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 5.82 MiB |     359 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes retained in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states.
+
+```
+├── 5.81 MiB (100.0%) [[3 frames hidden, 2 in 1 source]]
+│   └── 5.81 MiB (100.0%) profile_main  src/Sources/profile/main.swift
+│       ├── 5.79 MiB (99.6%) [[11 frames hidden in 2 sources]]
+│       │   └── 5.79 MiB (99.6%) 0x3e562f  usr/lib/swift/linux/libswiftCore.so
+│       ├── 4.79 KiB (0.1%) 0x22cf03  usr/lib/swift/linux/libFoundation.so
+│       │   ├── 4.32 KiB (0.1%) 0x22e487
+│       │   │   ├── 4.25 KiB (0.1%) 0xddf67  usr/lib/aarch64-linux-gnu/libc.so.6
+│       │   │   │   └── 4.25 KiB (0.1%) 0xdd2c3
+│       │   │   └── 72 B (<0.1%) 0xddf07  usr/lib/aarch64-linux-gnu/libc.so.6
+│       │   └── 480 B (<0.1%) [[5 frames hidden in 1 source]]
+│       │       └── 480 B (<0.1%) 0x3febe3  usr/lib/swift/linux/libFoundation.so
+│       ├── 4 KiB (0.1%) [[9 frames hidden in 2 sources]]
+│       │   └── 4 KiB (0.1%) 0x6ef3f  usr/lib/aarch64-linux-gnu/libc.so.6
+│       ├── 248 B (<0.1%) [[23 frames hidden in 5 sources]]
+│       │   └── 248 B (<0.1%) 0x427463  usr/lib/swift/linux/libswiftCore.so
+│       └── 64 B (<0.1%) [[10 frames hidden in 6 sources]]
+│           └── 48 B (<0.1%) 0x3f1f23  usr/lib/swift/linux/libswiftCore.so
+├── 1.51 KiB (<0.1%) 0x290383  usr/lib/swift/linux/libswiftCore.so
+│   ├── 1,000 B (<0.1%) 0x3f17a3
+│   ├── 416 B (<0.1%) [[2 frames hidden in 1 source]]
+│   │   └── 64 B (<0.1%) 0x3fd793  usr/lib/swift/linux/libswiftCore.so
+│   └── 128 B (<0.1%) 0x3f1757
+│       └── 128 B (<0.1%) 0x3fe73f
+├── 520 B (<0.1%) [[4 frames hidden in 1 source]]
+│   └── 384 B (<0.1%) 0x4000cf  usr/lib/swift/linux/libswiftCore.so
+├── 144 B (<0.1%) [[5 frames hidden in 2 sources]]
+│   └── 32 B (<0.1%) 0x3e564b  usr/lib/swift/linux/libswiftCore.so
+├── 64 B (<0.1%) [[3 frames hidden in 1 source]]
+│   └── 48 B (<0.1%) 0x401d73  usr/lib/swift/linux/libswiftCore.so
+├── 64 B (<0.1%) 0x276cf3  usr/lib/swift/linux/libFoundation.so
+│   └── 16 B (<0.1%) 0x3f9d77  usr/lib/swift/linux/libswiftCore.so
+├── 64 B (<0.1%) 0x144c0f  usr/lib/swift/linux/libFoundationEssentials.so
+│   ├── 48 B (<0.1%) [[2 frames hidden in 1 source]]
+│   │   └── 48 B (<0.1%) 0x4027f3  usr/lib/swift/linux/libswiftCore.so
+│   └── 16 B (<0.1%) 0x3f8b77  usr/lib/swift/linux/libswiftCore.so
+└── 16 B (<0.1%) 0x2662df  usr/lib/swift/linux/libswiftCore.so
+    └── 16 B (<0.1%) 0x3e60ab
+```
 
 ## Hottest functions
 

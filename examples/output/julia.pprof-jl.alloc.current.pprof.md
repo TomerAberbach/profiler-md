@@ -6,6 +6,35 @@ Allocated 106 KiB over 3,569 allocations (30.6 B per allocation).
 | -------- | -----: | ------: | ----------: |
 | Native   | 100.0% | 106 KiB |       3,569 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 106 KiB (100.0%) [[31 frames hidden, 28 in 12 sources]]
+    └── 106 KiB (100.0%) #write#58  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38
+        ├── 80.8 KiB (75.8%) [[4 frames hidden in 1 source]]
+        │   └── 80.7 KiB (75.8%) #write#81  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl
+        │       ├── 76.9 KiB (72.2%) [[2 frames hidden in 1 source]]
+        │       │   └── 76.9 KiB (72.2%) #write#79  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73
+        │       │       ├── 64.4 KiB (60.5%) [[2 frames hidden in 1 source]]
+        │       │       │   └── 64.4 KiB (60.5%) #write#79  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73
+        │       │       │       ├── 36.6 KiB (34.4%) [[2 frames hidden in 1 source]]
+        │       │       │       │   └── 36.6 KiB (34.4%) #write#79  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73
+        │       │       │       │       ├── 21 KiB (19.7%) write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340
+        │       │       │       │       │   ├── 19.5 KiB (18.3%) [[10 frames hidden in 6 sources]]
+        │       │       │       │       │   │   └── 19.5 KiB (18.3%) maybe_record_alloc_to_profile  ../../Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43  (100.0% self across 320 call paths)
+        │       │       │       │       │   └── 1.5 KiB (1.4%) ijl_gc_small_alloc  ../../Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+        │       │       │       │       │       └── 1.5 KiB (1.4%) maybe_record_alloc_to_profile  ../../Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+        │       │       │       │       └── 15.7 KiB (14.7%) 16 more branches, hottest indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+        │       │       │       └── 27.8 KiB (26.1%) 16 more branches, hottest indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+        │       │       └── 12.5 KiB (11.7%) 15 more branches, hottest iterate  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+        │       └── 3.83 KiB (3.6%) 6 more branches, hottest getindex  ../../Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163
+        └── 25.7 KiB (24.2%) [[24 frames hidden in 3 sources]]
+            └── 25.7 KiB (24.2%) _foldl_impl  ../../nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:60
+                └── 25.7 KiB (24.2%) 2 more branches, hottest MappingRF  :98
+```
+
 ## Hottest functions
 
 ### Self size

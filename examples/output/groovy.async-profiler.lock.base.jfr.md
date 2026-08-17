@@ -6,6 +6,32 @@ Blocked 3.0ms over 44 contentions (68.7µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 3.0ms |          44 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2.5ms (81.2%) [[3 frames hidden in 2 sources]]
+│   └── 2.5ms (81.2%) enqueue(Reference)  java.lang.ref.NativeReferenceQueue
+└── 0.6ms (18.8%) [[42 frames hidden in 19 sources]]
+    └── 0.6ms (18.8%) guardWithCatch(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+        ├── 0.5ms (18.2%) [[40 frames hidden in 27 sources]]
+        │   └── 0.5ms (18.2%) invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+        │       ├── 0.3ms (11.1%) [[7 frames hidden in 7 sources]]
+        │       │   └── 0.3ms (11.1%) invokeExact_MT(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+        │       │       └── 0.3ms (11.1%) 2 more branches, hottest invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x0000007001661000
+        │       └── 0.2ms (7.1%) [[8 frames hidden in 7 sources]]
+        │           └── 0.2ms (7.1%) invoke(Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070012bcc00
+        │               ├── 0.2ms (6.2%) [[508 frames hidden in 57 sources]]
+        │               │   └── 0.2ms (5.8%) poll()  java.lang.ref.NativeReferenceQueue  (18.8% self across 14 call paths)
+        │               └── 25.6µs (0.8%) [[39 frames hidden in 28 sources]]
+        │                   └── 25.6µs (0.8%) doMethodInvoke(Object, Object[])  groovy.lang.MetaMethod
+        │                       └── 25.6µs (0.8%) 1 more branch, hottest invoke(Object, Object[])  org.codehaus.groovy.reflection.CachedMethod
+        └── 19.3µs (0.6%) [[39 frames hidden in 31 sources]]
+            └── 19.3µs (0.6%) invokeImpl(Object, Object[])  jdk.internal.reflect.DirectMethodHandleAccessor
+                └── 19.3µs (0.6%) 1 more branch, hottest invokeExact_MT(Object, Object, Object, Object)  java.lang.invoke.Invokers$Holder
+```
+
 ## Hottest functions
 
 ### Self time

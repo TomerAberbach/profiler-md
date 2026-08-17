@@ -10,6 +10,53 @@ Collected 4,763 samples.
 | JIT              |  1.4% |      65 |
 | Compiler         |  1.2% |      57 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4,473 samples (93.9%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,473 samples (93.9%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 4,245 samples (89.1%) [[2 frames hidden in 2 sources]]
+│       │   └── 4,242 samples (89.1%) doExec()  java.util.concurrent.ForkJoinTask
+│       │       ├── 3,749 samples (78.7%) exec()  java.util.concurrent.RecursiveTask
+│       │       │   └── 3,749 samples (78.7%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       ├── 3,376 samples (70.9%) join()  java.util.concurrent.ForkJoinTask
+│       │       │       │   └── 3,376 samples (70.9%) awaitDone(int, long)
+│       │       │       │       ├── 3,006 samples (63.1%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │   └── 3,006 samples (63.1%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       ├── 2,623 samples (55.1%) join()  java.util.concurrent.ForkJoinTask
+│       │       │       │       │       │   └── 2,623 samples (55.1%) awaitDone(int, long)
+│       │       │       │       │       │       ├── 2,378 samples (49.9%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │       │       │   └── 2,377 samples (49.9%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       │       │       ├── 44 samples (0.9%) [[6 frames hidden in 4 sources]]
+│       │       │       │       │       │       │       │   └── 41 samples (0.9%) merge(Object, Object, BiFunction)  java.util.HashMap
+│       │       │       │       │       │       │       │       ├── 8 samples (0.2%) zero_blocks  (1.3% self across 34 call paths)
+│       │       │       │       │       │       │       │       └── 33 samples (0.7%) 2 more branches, hottest apply(Object, Object)  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x0000007001188000
+│       │       │       │       │       │       │       └── 2,333 samples (49.0%) 4 more branches, hottest join()  java.util.concurrent.ForkJoinTask
+│       │       │       │       │       │       ├── 54 samples (1.1%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │       │       │   └── 54 samples (1.1%) Unsafe_Park  libjvm.dylib
+│       │       │       │       │       │       │       ├── 2 samples (<0.1%) pthread_jit_write_protect_np  libsystem_pthread.dylib  (0.6% self across 25 call paths)
+│       │       │       │       │       │       │       └── 52 samples (1.1%) 1 more branch, hottest Parker::park
+│       │       │       │       │       │       └── 191 samples (4.0%) 1 more branch, hottest helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       │       │       │       └── 383 samples (8.0%) 6 more branches, hottest computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       │       │       ├── 260 samples (5.5%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       │       │       │   └── 249 samples (5.2%) 2 more branches, hottest doExec()  java.util.concurrent.ForkJoinTask
+│       │       │       │       └── 110 samples (2.3%) 1 more branch, hottest park()  java.util.concurrent.locks.LockSupport
+│       │       │       ├── 104 samples (2.2%) [[8 frames hidden in 5 sources]]
+│       │       │       │   └── 85 samples (1.8%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       │       ├── 34 samples (0.7%) [[4 frames hidden, 3 in 2 sources]]
+│       │       │       │       │   └── 21 samples (0.4%) forward_copy_longs  (4.3% self across 76 call paths)
+│       │       │       │       └── 51 samples (1.1%) 1 more branch, hottest addAll(Collection)  java.util.ArrayList
+│       │       │       └── 269 samples (5.6%) 8 more branches, hottest computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       ├── 21 samples (0.4%) [[5 frames hidden in 4 sources]]
+│       │       │   └── 16 samples (0.3%) __psynch_cvsignal  libsystem_kernel.dylib  (1.0% self across 22 call paths)
+│       │       └── 471 samples (9.9%) 2 more branches, hottest exec()  java.util.concurrent.ForkJoinTask$AdaptedCallable
+│       └── 222 samples (4.7%) [[6 frames hidden in 5 sources]]
+│           └── 200 samples (4.2%) __psynch_cvwait  libsystem_kernel.dylib  (12.3% self across 86 call paths)
+└── 290 samples (6.1%) 6 more branches, hottest thread_start  libsystem_pthread.dylib
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -1710,6 +1757,53 @@ Allocated 36.9 GiB over 75,234 samples (514 KiB per sample).
 | Standard library | 93.2% | 34.4 GiB |  70,131 |
 | Ours             |  6.8% | 2.49 GiB |   5,103 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 36.7 GiB (99.4%) [[4 frames hidden in 3 sources]]
+│   └── 36.7 GiB (99.4%) doExec()  java.util.concurrent.ForkJoinTask
+│       ├── 29 GiB (78.7%) exec()  java.util.concurrent.RecursiveTask
+│       │   └── 29 GiB (78.7%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       ├── 23.9 GiB (64.7%) join()  java.util.concurrent.ForkJoinTask
+│       │       │   └── 23.9 GiB (64.7%) awaitDone(int, long)
+│       │       │       ├── 22.4 GiB (60.8%) [[3 frames hidden in 3 sources]]
+│       │       │       │   └── 22.4 GiB (60.8%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       ├── 105 MiB (0.3%) [[49 frames hidden in 5 sources]]
+│       │       │       │       │   └── 29 MiB (0.1%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       ├── 9.5 MiB (<0.1%) [[8 frames hidden in 5 sources]]
+│       │       │       │       │       │   └── 9 MiB (<0.1%) vectorSum()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       │       └── 6.5 MiB (<0.1%) [[2 frames hidden in 1 source]]
+│       │       │       │       │           └── 6.5 MiB (<0.1%) add(double[], double[])  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       │       │       └── 22.3 GiB (60.5%) 7 more branches, hottest join()  java.util.concurrent.ForkJoinTask
+│       │       │       └── 1.42 GiB (3.9%) 1 more branch, hottest helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │       ├── 5.02 GiB (13.6%) [[2 frames hidden in 1 source]]
+│       │       │   └── 5.02 GiB (13.6%) merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       └── 5 GiB (13.6%) [[5 frames hidden in 4 sources]]
+│       │       │           └── 5 GiB (13.6%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │               ├── 3.71 GiB (10.1%) addAll(Collection)  java.util.ArrayList
+│       │       │               │   ├── 2.32 GiB (6.3%) grow(int)  (0.6% self across 73 call paths)
+│       │       │               │   │   └── 2.32 GiB (6.3%) copyOf(Object[], int)  java.util.Arrays  (91.1% self across 1,908 call paths)
+│       │       │               │   └── 1.39 GiB (3.8%) 1 more branch, hottest toArray()
+│       │       │               └── 1.28 GiB (3.5%) 1 more branch, hottest <init>(Collection)  java.util.ArrayList
+│       │       ├── 46.5 MiB (0.1%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │       └── 29 MiB (0.1%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       └── 7.64 GiB (20.7%) 1 more branch, hottest exec()  java.util.concurrent.ForkJoinTask$AdaptedCallable
+└── 209 MiB (0.6%) [[29 frames hidden in 21 sources]]
+    └── 173 MiB (0.5%) lambda$generateData$5(int, int, Random[], int)  org.renaissance.jdk.concurrent.JavaKMeans
+        ├── 99.5 MiB (0.3%) [[2 frames hidden in 2 sources]]
+        │   └── 99.5 MiB (0.3%) evaluate(Spliterator, boolean, IntFunction)  java.util.stream.AbstractPipeline
+        │       ├── 65 MiB (0.2%) [[7 frames hidden in 6 sources]]
+        │       │   └── 54 MiB (0.1%) valueOf(double)  java.lang.Double
+        │       └── 34.5 MiB (0.1%) [[5 frames hidden in 5 sources]]
+        │           └── 18.5 MiB (<0.1%) lambda$generateData$4(int)  org.renaissance.jdk.concurrent.JavaKMeans
+        ├── 37 MiB (0.1%) range(int, int)  java.util.stream.IntStream
+        │   └── 26.5 MiB (0.1%) intStream(Spliterator$OfInt, boolean)  java.util.stream.StreamSupport
+        └── 26.5 MiB (0.1%) mapToObj(IntFunction)  java.util.stream.IntPipeline
+            └── 26.5 MiB (0.1%) mapToObj(IntFunction, int)
+```
+
 ## Hottest functions
 
 ### Self size
@@ -2626,6 +2720,32 @@ Blocked 1.6ms over 10 contentions (160.3µs per contention).
 | Category         |      % |  Time | Contentions |
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.6ms |          10 |
+
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.2ms (76.7%) [[6 frames hidden in 5 sources]]
+│   └── 1.2ms (76.7%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       ├── 0.7ms (41.9%) [[11 frames hidden in 6 sources]]
+│       │   └── 0.7ms (41.9%) loadClass(String, boolean)  java.lang.ClassLoader  (76.7% self across 2 call paths)
+│       └── 0.6ms (34.9%) [[5 frames hidden in 2 sources]]
+│           └── 0.6ms (34.9%) loadClass(String, boolean)  java.lang.ClassLoader
+└── 0.4ms (23.3%) [[5 frames hidden in 3 sources]]
+    └── 0.4ms (23.3%) deleteRecursively(Path, boolean)  org.renaissance.core.DirUtils
+        ├── 0.2ms (14.8%) [[3 frames hidden in 3 sources]]
+        │   └── 0.2ms (14.8%) loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader
+        └── 0.1ms (8.5%) walkFileTree(Path, FileVisitor)  java.nio.file.Files
+            └── 0.1ms (8.5%) walkFileTree(Path, Set, int, FileVisitor)
+                └── 0.1ms (7.0%) walk(Path)  java.nio.file.FileTreeWalker
+                    └── 0.1ms (7.0%) visit(Path, boolean, boolean)
+                        ├── 0.1ms (5.5%) [[2 frames hidden in 2 sources]]
+                        │   └── 0.1ms (5.5%) <init>(UnixPath, long, DirectoryStream$Filter)  sun.nio.fs.UnixDirectoryStream
+                        │       └── 0.1ms (4.0%) <init>(boolean)  java.util.concurrent.locks.ReentrantReadWriteLock
+                        └── 24.2µs (1.5%) [[2 frames hidden in 2 sources]]
+                            └── 24.2µs (1.5%) iterator(DirectoryStream)  sun.nio.fs.UnixDirectoryStream
+```
 
 ## Hottest functions
 

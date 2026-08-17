@@ -11,6 +11,53 @@ Collected 1,305 samples.
 | JIT               |  1.5% |      19 |
 | Garbage collector |  0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 868 samples (66.5%) [[3 frames hidden]]
+│   └── 867 samples (66.4%) Thread::call_run
+│       ├── 812 samples (62.2%) JavaThread::thread_main_inner
+│       │   └── 812 samples (62.2%) CompileBroker::compiler_thread_loop
+│       │       ├── 799 samples (61.2%) CompileBroker::invoke_compiler_on_method
+│       │       │   ├── 558 samples (42.8%) C2Compiler::compile_method
+│       │       │   │   └── 556 samples (42.6%) Compile::Compile
+│       │       │   │       ├── 280 samples (21.5%) Compile::Code_Gen
+│       │       │   │       │   ├── 154 samples (11.8%) PhaseChaitin::Register_Allocate
+│       │       │   │       │   │   ├── 27 samples (2.1%) PhaseChaitin::Split
+│       │       │   │       │   │   │   └── 10 samples (0.8%) 6 more branches, hottest Node::rematerialize
+│       │       │   │       │   │   ├── 22 samples (1.7%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │   │   │   ├── 3 samples (0.2%) tlv_get_addr  (2.2% self across 26 call paths)
+│       │       │   │       │   │   │   └── 8 samples (0.6%) 6 more branches, hottest MachNode::rematerialize
+│       │       │   │       │   │   └── 103 samples (7.9%) 20 more branches, hottest PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │   └── 126 samples (9.7%) 4 more branches, hottest Matcher::match
+│       │       │   │       └── 276 samples (21.1%) 9 more branches, hottest Compile::Optimize
+│       │       │   └── 241 samples (18.5%) 6 more branches, hottest Compiler::compile_method
+│       │       └── 13 samples (1.0%) 1 more branch, hottest CompileQueue::get
+│       └── 55 samples (4.2%) 3 more branches, hottest WorkerThread::run
+├── 423 samples (32.4%) main  org.jetbrains.kotlin.preloading.Preloader
+│   └── 423 samples (32.4%) run
+│       ├── 348 samples (26.7%) [[13 frames hidden in 9 sources]]
+│       │   └── 340 samples (26.1%) exec  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │       ├── 332 samples (25.4%) [[11 frames hidden in 7 sources]]
+│       │       │   └── 328 samples (25.1%) phaseBody  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │       │       ├── 26 samples (2.0%) [[3 frames hidden in 1 source]]
+│       │       │       │   └── 25 samples (1.9%) convertToIrAndActualizeForJvm-_I1IR-w  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │       │       │       ├── 2 samples (0.2%) [[30 frames hidden, 20 in 12 sources]]
+│       │       │       │       │   └── 1 sample (0.1%) SymbolTable::do_lookup  (1.7% self across 22 call paths)
+│       │       │       │       └── 23 samples (1.8%) 1 more branch, hottest convertToIrAndActualize-MT2kVtw$default  org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt
+│       │       │       └── 302 samples (23.1%) 5 more branches, hottest executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+│       │       └── 8 samples (0.6%) 1 more branch, hottest <clinit>  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       └── 74 samples (5.7%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 67 samples (5.1%) [[6 frames hidden in 5 sources]]
+│           │   └── 60 samples (4.6%) Java_java_util_zip_Inflater_inflateBytesBytes
+│           │       ├── 43 samples (3.3%) inflate_fast
+│           │       └── 17 samples (1.3%) 3 more branches, hottest inflate
+│           └── 7 samples (0.5%) 1 more branch, hottest preloadClasses
+└── 14 samples (1.1%) 3 more branches, hottest [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

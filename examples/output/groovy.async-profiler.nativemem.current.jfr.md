@@ -6,6 +6,32 @@ Allocated 1.09 GiB over 169,581 samples (6.72 KiB per sample).
 | -------- | -----: | -------: | ------: |
 | Native   | 100.0% | 1.09 GiB | 169,581 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the native bytes allocated in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.07 GiB (98.1%) [[6 frames hidden in 2 sources]]
+│   └── 1.07 GiB (98.1%) CompileBroker::invoke_compiler_on_method  libjvm.dylib
+│       ├── 1.06 GiB (97.2%) C2Compiler::compile_method
+│       │   └── 1.06 GiB (97.2%) Compile::Compile
+│       │       ├── 429 MiB (38.5%) Compile::Code_Gen
+│       │       │   ├── 332 MiB (29.9%) PhaseChaitin::Register_Allocate
+│       │       │   │   ├── 236 MiB (21.2%) [[4 frames hidden in 1 source]]
+│       │       │   │   │   └── 236 MiB (21.2%) malloc_hook  libasyncProfiler.dylib  (100.0% self across 50,083 call paths)
+│       │       │   │   └── 96.1 MiB (8.6%) 10 more branches, hottest PhaseLive::compute
+│       │       │   └── 96.4 MiB (8.7%) 7 more branches, hottest Matcher::match
+│       │       └── 653 MiB (58.7%) 12 more branches, hottest Compile::Optimize
+│       └── 9.4 MiB (0.8%) 5 more branches, hottest Compiler::compile_method
+├── 14.4 MiB (1.3%) [[15 frames hidden in 11 sources]]
+│   └── 11.4 MiB (1.0%) execute(String[])  org.codenarc.CodeNarc
+│       ├── 761 KiB (0.1%) [[123 frames hidden in 48 sources]]
+│       │   └── 16 KiB (<0.1%) calloc_hook  libasyncProfiler.dylib
+│       └── 10.7 MiB (1.0%) 8 more branches, hottest linkToCallSite(Object, Object)  java.lang.invoke.Invokers$Holder
+└── 4.36 MiB (0.4%) [[58 frames hidden in 24 sources]]
+    └── 12.4 KiB (<0.1%) realloc_hook  libasyncProfiler.dylib
+```
+
 ## Hottest functions
 
 ### Self size

@@ -6,6 +6,35 @@ Blocked 1.6ms over 11 contentions (146.9µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 1.6ms |          11 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time blocked in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.0ms (64.9%) [[6 frames hidden in 5 sources]]
+│   └── 1.0ms (64.9%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       ├── 0.7ms (41.9%) [[11 frames hidden in 6 sources]]
+│       │   └── 0.7ms (41.9%) loadClass(String, boolean)  java.lang.ClassLoader  (64.9% self across 2 call paths)
+│       └── 0.4ms (23.1%) [[5 frames hidden in 2 sources]]
+│           └── 0.4ms (23.1%) loadClass(String, boolean)  java.lang.ClassLoader
+└── 0.6ms (35.1%) [[5 frames hidden in 3 sources]]
+    └── 0.6ms (35.1%) deleteRecursively(Path, boolean)  org.renaissance.core.DirUtils
+        ├── 0.4ms (22.5%) [[3 frames hidden in 3 sources]]
+        │   └── 0.4ms (22.5%) loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader  (24.4% self across 2 call paths)
+        └── 0.2ms (12.6%) walkFileTree(Path, FileVisitor)  java.nio.file.Files
+            ├── 0.2ms (11.5%) walkFileTree(Path, Set, int, FileVisitor)
+            │   ├── 0.1ms (5.9%) walk(Path)  java.nio.file.FileTreeWalker
+            │   │   └── 0.1ms (5.9%) visit(Path, boolean, boolean)
+            │   │       ├── 0.1ms (4.5%) [[3 frames hidden in 3 sources]]
+            │   │       │   └── 0.1ms (4.5%) <init>(boolean)  java.util.concurrent.locks.ReentrantReadWriteLock
+            │   │       └── 23.7µs (1.5%) [[2 frames hidden in 2 sources]]
+            │   │           └── 23.7µs (1.5%) iterator(DirectoryStream)  sun.nio.fs.UnixDirectoryStream
+            │   └── 30.3µs (1.9%) [[5 frames hidden in 4 sources]]
+            │       └── 30.3µs (1.9%) loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader
+            └── 18.1µs (1.1%) [[8 frames hidden in 3 sources]]
+                └── 18.1µs (1.1%) getDeclaredMethods0(boolean)  java.lang.Class
+```
+
 ## Hottest functions
 
 ### Self time

@@ -9,6 +9,53 @@ Took 2s over 200 samples (10.0ms per sample).
 | Unknown          |  3.5% |  70.0ms |       7 |
 | Ours             |  0.5% |  10.0ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.93s (96.5%) _run_module_as_main  <frozen runpy>
+│   ├── 1.91s (95.5%) [[11 frames hidden in 5 sources]]
+│   │   └── 1.91s (95.5%) format_file_contents  /venv/lib/python3.11/site-packages/black/__init__.py
+│   │       ├── 1.22s (61.0%) format_str
+│   │       │   └── 1.22s (61.0%) _format_str_once
+│   │       │       ├── 500.0ms (25.0%) [[3 frames hidden in 2 sources]]
+│   │       │       │   └── 500.0ms (25.0%) visit  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │       ├── 420.0ms (21.0%) [[8 frames hidden in 2 sources]]
+│   │       │       │       │   └── 420.0ms (21.0%) visit_suite  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │       │       ├── 410.0ms (20.5%) [[2 frames hidden in 2 sources]]
+│   │       │       │       │       │   └── 410.0ms (20.5%) visit  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │       │       │       ├── 130.0ms (6.5%) [[3 frames hidden in 2 sources]]
+│   │       │       │       │       │       │   └── 130.0ms (6.5%) visit  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │       │       │       │       ├── 80.0ms (4.0%) [[4 frames hidden in 2 sources]]
+│   │       │       │       │       │       │       │   └── 80.0ms (4.0%) visit  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │       │       │       │       │       ├── 60.0ms (3.0%) [[15 frames hidden in 2 sources]]
+│   │       │       │       │       │       │       │       │   └── 50.0ms (2.5%) generate_comments  /venv/lib/python3.11/site-packages/black/comments.py  (5.5% self across 5 call paths)
+│   │       │       │       │       │       │       │       └── 20.0ms (1.0%) 1 more branch, hottest visit_default  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │       │       │       │       └── 50.0ms (2.5%) 1 more branch, hottest visit_STRING  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │       │       │       └── 280.0ms (14.0%) 3 more branches, hottest visit_stmt  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │       │       └── 10.0ms (0.5%) is_stub_suite  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │       │       │       └── 80.0ms (4.0%) 1 more branch, hottest visit_funcdef  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       ├── 450.0ms (22.5%) [[2 frames hidden in 2 sources]]
+│   │       │       │   └── 450.0ms (22.5%) parse_tokens  /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py  (3.5% self across 2 call paths)
+│   │       │       │       ├── 340.0ms (17.0%) addtoken  /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │       │       │       │   └── 340.0ms (17.0%) _addtoken  (9.0% self across 2 call paths)
+│   │       │       │       │       ├── 100.0ms (5.0%) push
+│   │       │       │       │       └── 140.0ms (7.0%) 2 more branches, hottest pop
+│   │       │       │       └── 60.0ms (3.0%) __next__
+│   │       │       │           └── 60.0ms (3.0%) generate_tokens  /venv/lib/python3.11/site-packages/blib2to3/pgen2/tokenize.py  (5.5% self across 2 call paths)
+│   │       │       └── 270.0ms (13.5%) 4 more branches, hottest transform_line  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       └── 690.0ms (34.5%) check_stability_and_equivalence
+│   │           ├── 190.0ms (9.5%) assert_equivalent
+│   │           │   ├── 100.0ms (5.0%) [[2 frames hidden in 1 source]]
+│   │           │   │   └── 100.0ms (5.0%) parse  /usr/lib/python3.11/ast.py
+│   │           │   └── 80.0ms (4.0%) _stringify_ast  /venv/lib/python3.11/site-packages/black/parsing.py  (3.5% self across 2 call paths)
+│   │           │       └── 80.0ms (4.0%) 1 more branch, hottest _stringify_ast_with_new_parent
+│   │           └── 500.0ms (25.0%) 1 more branch, hottest assert_stable
+│   └── 20.0ms (1.0%) 1 more branch, hottest _get_module_details
+└── 70.0ms (3.5%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

@@ -8,6 +8,53 @@ Took 19.8ms.
 | Ours             |  0.2% | 31.0µs |
 | Idle             |  0.1% | 20.0µs |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the wall time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 19.8ms (100.0%) <0.10.0>
+    └── 19.8ms (100.0%) apply/2  eflambe
+        ├── 15.8ms (79.9%) foldl_1/3  lists
+        │   ├── 8.0ms (40.2%) decode/1  json
+        │   │   ├── 1.9ms (9.5%) string/7  (11.9% self across 2 call paths)
+        │   │   ├── 1.1ms (5.6%) string_ascii/7  (7.0% self across 2 call paths)
+        │   │   ├── 0.9ms (4.5%) string_utf8/10  (5.6% self across 2 call paths)
+        │   │   ├── 0.6ms (3.2%) continue/7  (4.0% self across 2 call paths)
+        │   │   ├── 0.6ms (3.0%) string/9  (3.7% self across 2 call paths)
+        │   │   ├── 0.5ms (2.6%) string_ascii/9  (3.3% self across 2 call paths)
+        │   │   ├── 0.5ms (2.5%) number/7
+        │   │   │   └── 0.2ms (1.1%) binary_to_integer/1  erlang
+        │   │   │       ├── 0.1ms (0.5%) big_binary_to_int/2
+        │   │   │       └── 36.0µs (0.2%) binary_to_integer/2  erts_internal
+        │   │   ├── 0.4ms (1.8%) object_push/8
+        │   │   ├── 0.3ms (1.6%) value/6
+        │   │   ├── 0.3ms (1.5%) object_value/7
+        │   │   ├── 0.3ms (1.5%) object_key/6
+        │   │   ├── 0.2ms (1.3%) string_utf8/8
+        │   │   ├── 0.1ms (0.4%) number_zero/7
+        │   │   ├── 0.1ms (0.3%) false/6
+        │   │   ├── 0.1ms (0.3%) unescape/9
+        │   │   └── 36.0µs (0.2%) null/6
+        │   └── 7.8ms (39.6%) [[2 frames hidden in 1 source]]
+        │       └── 7.8ms (39.4%) do_encode_map/2  json  (2.5% self across 10 call paths)
+        │           └── 7.7ms (38.8%) -do_encode_map/2-lc$^0/1-0-/2  (6.1% self across 10 call paths)
+        │               ├── 4.4ms (22.0%) do_encode_map/2
+        │               │   ├── 4.1ms (20.7%) -do_encode_map/2-lc$^0/1-0-/2
+        │               │   │   ├── 1.2ms (6.2%) escape_binary/5  (15.7% self across 10 call paths)
+        │               │   │   ├── 0.8ms (4.0%) escape_binary_ascii/5  (10.3% self across 10 call paths)
+        │               │   │   ├── 0.5ms (2.6%) do_encode_list/2
+        │               │   │   │   └── 0.5ms (2.5%) 3 more branches, hottest do_encode_map/2
+        │               │   │   ├── 0.4ms (2.1%) do_encode/2  (4.3% self across 18 call paths)
+        │               │   │   │   └── 24.0µs (0.1%) integer_to_binary/1  erlang
+        │               │   │   ├── 0.2ms (0.9%) key/2  (1.9% self across 10 call paths)
+        │               │   │   └── 0.4ms (2.0%) 3 more branches, hottest escape_binary_utf8/6
+        │               │   └── 38.0µs (0.2%) mc_iterator/1  erts_internal
+        │               ├── 0.9ms (4.5%) escape_binary_utf8/6  (7.2% self across 6 call paths)
+        │               └── 2.2ms (10.9%) 4 more branches, hottest escape_binary/5
+        └── 4.0ms (20.1%) 3 more branches, hottest foldl/3  lists
+```
+
 ## Hottest functions
 
 ### Self time

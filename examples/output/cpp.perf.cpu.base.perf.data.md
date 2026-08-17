@@ -8,6 +8,53 @@ Took 501.5ms over 501 samples (1.0ms per sample).
 | Native   | 19.0% |  95.1ms |      95 |
 | Kernel   |  0.2% |   1.0ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 501.5ms (100.0%) [[2 frames hidden in 2 sources]]
+    └── 501.5ms (100.0%) 0x27744  ../usr/lib/aarch64-linux-gnu/libc.so.6
+        ├── 407.4ms (81.2%) 0x1ab4  binary
+        │   ├── 340.3ms (67.9%) 0x12150
+        │   │   ├── 318.3ms (63.5%) 0x11cd0
+        │   │   │   ├── 225.2ms (44.9%) 0x11b44
+        │   │   │   │   ├── 86.1ms (17.2%) 0x112e0
+        │   │   │   │   │   ├── 47.0ms (9.4%) 0x10f78
+        │   │   │   │   │   │   ├── 9.0ms (1.8%) 0x137f80  ../usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+        │   │   │   │   │   │   └── 38.0ms (7.6%) 19 more branches, hottest 0xf6bc
+        │   │   │   │   │   └── 39.0ms (7.8%) 10 more branches, hottest 0x10f48
+        │   │   │   │   ├── 9.0ms (1.8%) 0xc86c
+        │   │   │   │   │   ├── 4.0ms (0.8%) 0x75f4  (1.6% self across 2 call paths)
+        │   │   │   │   │   └── 3.0ms (0.6%) 0x7624
+        │   │   │   │   └── 130.1ms (25.9%) 62 more branches, hottest 0xc9c4
+        │   │   │   ├── 66.1ms (13.2%) 0x11b08
+        │   │   │   │   ├── 12.0ms (2.4%) 0x4c30
+        │   │   │   │   └── 53.1ms (10.6%) 16 more branches, hottest 0x4dbc
+        │   │   │   └── 27.0ms (5.4%) 11 more branches, hottest 0x11a44
+        │   │   ├── 8.0ms (1.6%) 0x11ec0
+        │   │   │   ├── 5.0ms (1.0%) 0x5424  (1.6% self across 3 call paths)
+        │   │   │   └── 3.0ms (0.6%) 3 more branches, hottest 0x10260
+        │   │   └── 14.0ms (2.8%) 7 more branches, hottest 0x11eb8
+        │   ├── 29.0ms (5.8%) 0x12108
+        │   │   ├── 7.0ms (1.4%) 0x137f20  ../usr/lib/aarch64-linux-gnu/libstdc++.so.6.0.30
+        │   │   ├── 6.0ms (1.2%) 0x9d100  ../usr/lib/aarch64-linux-gnu/libc.so.6  (2.2% self across 2 call paths)
+        │   │   └── 16.0ms (3.2%) 4 more branches, hottest 0x50d8
+        │   ├── 17.0ms (3.4%) 0x12140
+        │   │   ├── 4.0ms (0.8%) 0x5464  (2.0% self across 7 call paths)
+        │   │   └── 12.0ms (2.4%) 6 more branches, hottest 0x53e4
+        │   ├── 7.0ms (1.4%) 0x120b0
+        │   └── 14.0ms (2.8%) 5 more branches, hottest 0x120bc
+        ├── 57.1ms (11.4%) 0x1a6c  binary
+        │   ├── 33.0ms (6.6%) 0x12150
+        │   │   ├── 30.0ms (6.0%) 0x11ec0
+        │   │   │   ├── 11.0ms (2.2%) 0x9e6c0  ../usr/lib/aarch64-linux-gnu/libc.so.6  (2.8% self across 2 call paths)
+        │   │   │   └── 19.0ms (3.8%) 15 more branches, hottest 0x51e8
+        │   │   └── 3.0ms (0.6%) 3 more branches, hottest 0x51c4
+        │   └── 24.0ms (4.8%) 7 more branches, hottest 0x12108
+        └── 37.0ms (7.4%) 9 more branches, hottest 0x1b18  binary
+```
+
 ## Hottest functions
 
 ### Self time

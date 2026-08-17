@@ -8,6 +8,53 @@ Collected 221 samples.
 | Unknown          |  3.6% |       8 |
 | Standard library |  0.5% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 213 samples (96.4%) _run_module_as_main  <frozen runpy>
+│   ├── 210 samples (95.0%) [[9 frames hidden in 5 sources]]
+│   │   └── 210 samples (95.0%) reformat_one  black/__init__.py
+│   │       ├── 207 samples (93.7%) format_file_in_place
+│   │       │   └── 207 samples (93.7%) format_file_contents
+│   │       │       ├── 132 samples (59.7%) format_str
+│   │       │       │   └── 130 samples (58.8%) _format_str_once
+│   │       │       │       ├── 60 samples (27.1%) [[2 frames hidden in 2 sources]]
+│   │       │       │       │   └── 60 samples (27.1%) parse_tokens  blib2to3/pgen2/driver.py
+│   │       │       │       │       ├── 45 samples (20.4%) addtoken  blib2to3/pgen2/parse.py
+│   │       │       │       │       │   └── 45 samples (20.4%) _addtoken  (10.0% self across 2 call paths)
+│   │       │       │       │       │       ├── 15 samples (6.8%) push  (8.6% self across 2 call paths)
+│   │       │       │       │       │       └── 10 samples (4.5%) 2 more branches, hottest pop
+│   │       │       │       │       └── 9 samples (4.1%) __next__
+│   │       │       │       │           └── 9 samples (4.1%) generate_tokens  blib2to3/pgen2/tokenize.py  (4.1% self across 2 call paths)
+│   │       │       │       │               └── 3 samples (1.4%) 1 more branch, hottest is_fstring_start
+│   │       │       │       ├── 43 samples (19.5%) [[3 frames hidden in 2 sources]]
+│   │       │       │       │   └── 43 samples (19.5%) visit  black/nodes.py
+│   │       │       │       │       ├── 35 samples (15.8%) [[7 frames hidden in 2 sources]]
+│   │       │       │       │       │   └── 34 samples (15.4%) visit  black/nodes.py
+│   │       │       │       │       │       ├── 31 samples (14.0%) [[3 frames hidden in 2 sources]]
+│   │       │       │       │       │       │   └── 31 samples (14.0%) visit  black/nodes.py
+│   │       │       │       │       │       │       ├── 12 samples (5.4%) [[8 frames hidden in 2 sources]]
+│   │       │       │       │       │       │       │   └── 9 samples (4.1%) visit  black/nodes.py
+│   │       │       │       │       │       │       │       ├── 6 samples (2.7%) [[15 frames hidden in 2 sources]]
+│   │       │       │       │       │       │       │       │   └── 5 samples (2.3%) generate_comments  black/comments.py  (4.5% self across 6 call paths)
+│   │       │       │       │       │       │       │       └── 3 samples (1.4%) 1 more branch, hottest visit_default  black/linegen.py
+│   │       │       │       │       │       │       └── 19 samples (8.6%) 2 more branches, hottest visit_stmt  black/linegen.py
+│   │       │       │       │       │       └── 3 samples (1.4%) 1 more branch, hottest visit_default  black/linegen.py
+│   │       │       │       │       └── 8 samples (3.6%) 2 more branches, hottest visit_funcdef  black/linegen.py
+│   │       │       │       └── 27 samples (12.2%) 6 more branches, hottest transform_line  black/linegen.py
+│   │       │       └── 75 samples (33.9%) check_stability_and_equivalence
+│   │       │           ├── 27 samples (12.2%) assert_equivalent
+│   │       │           │   ├── 20 samples (9.0%) [[2 frames hidden in 1 source]]
+│   │       │           │   │   └── 20 samples (9.0%) parse  ast.py
+│   │       │           │   └── 6 samples (2.7%) 1 more branch, hottest _stringify_ast  black/parsing.py
+│   │       │           └── 47 samples (21.3%) 1 more branch, hottest assert_stable
+│   │       └── 3 samples (1.4%) 1 more branch, hottest write  black/cache.py
+│   └── 3 samples (1.4%) 1 more branch, hottest _get_module_details
+└── 8 samples (3.6%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

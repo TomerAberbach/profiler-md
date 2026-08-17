@@ -7,6 +7,53 @@ Collected 1,257 samples.
 | Standard library | 75.3% |     947 |
 | Ours             | 24.7% |     310 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 1,256 samples (99.9%) main  org.jetbrains.kotlin.preloading.Preloader
+    └── 1,256 samples (99.9%) run
+        ├── 655 samples (52.1%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 587 samples (46.7%) loadAllClassesFromJars
+        │   │   ├── 291 samples (23.2%) <init>  java.io.ByteArrayOutputStream  (26.7% self across 2 call paths)
+        │   │   ├── 280 samples (22.3%) toByteArray  java.io.ByteArrayOutputStream
+        │   │   │   └── 280 samples (22.3%) copyOf  java.util.Arrays  (21.4% self across 37 call paths)
+        │   │   │       └── 49 samples (3.9%) clone  java.lang.Object  (5.6% self across 3 call paths)
+        │   │   └── 9 samples (0.7%) [[6 frames hidden in 5 sources]]
+        │   │       └── 3 samples (0.2%) copyOfRange  java.util.Arrays
+        │   │           └── 3 samples (0.2%) copyOfRangeByte  (2.5% self across 27 call paths)
+        │   └── 68 samples (5.4%) 1 more branch, hottest preloadClasses
+        └── 601 samples (47.8%) [[12 frames hidden in 9 sources]]
+            └── 599 samples (47.7%) exec  org.jetbrains.kotlin.cli.common.CLICompiler
+                ├── 592 samples (47.1%) exec
+                │   ├── 585 samples (46.5%) [[11 frames hidden in 7 sources]]
+                │   │   └── 583 samples (46.4%) phaseBody  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+                │   │       ├── 398 samples (31.7%) executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+                │   │       │   └── 398 samples (31.7%) executePhase
+                │   │       │       ├── 315 samples (25.1%) resolveAndCheckFir  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+                │   │       │       │   ├── 52 samples (4.1%) [[9 frames hidden in 6 sources]]
+                │   │       │       │   │   └── 51 samples (4.1%) visitNamedFunction  org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor
+                │   │       │       │   │       ├── 42 samples (3.3%) visitNestedElements
+                │   │       │       │   │       │   └── 42 samples (3.3%) acceptChildren  org.jetbrains.kotlin.fir.declarations.impl.FirNamedFunctionImpl
+                │   │       │       │   │       │       ├── 35 samples (2.8%) [[6 frames hidden in 3 sources]]
+                │   │       │       │   │       │       │   └── 35 samples (2.8%) visitAnnotationContainer  org.jetbrains.kotlin.fir.analysis.collectors.AbstractDiagnosticCollectorVisitor
+                │   │       │       │   │       │       │       ├── 29 samples (2.3%) visitNestedElements
+                │   │       │       │   │       │       │       │   └── 29 samples (2.3%) acceptChildren  org.jetbrains.kotlin.fir.expressions.impl.FirBlockImpl
+                │   │       │       │   │       │       │       │       ├── 11 samples (0.9%) [[42 frames hidden in 16 sources]]
+                │   │       │       │   │       │       │       │       │   └── 1 sample (0.1%) iterator  java.util.ArrayList  (2.3% self across 29 call paths)
+                │   │       │       │   │       │       │       │       └── 18 samples (1.4%) 2 more branches, hottest accept  org.jetbrains.kotlin.fir.expressions.FirBlock
+                │   │       │       │   │       │       │       └── 6 samples (0.5%) [[19 frames hidden in 15 sources]]
+                │   │       │       │   │       │       │           └── 1 sample (0.1%) resize  java.util.HashMap  (1.2% self across 15 call paths)
+                │   │       │       │   │       │       └── 7 samples (0.6%) 2 more branches, hottest accept  org.jetbrains.kotlin.fir.declarations.FirValueParameter
+                │   │       │       │   │       └── 9 samples (0.7%) 1 more branch, hottest access$checkElement
+                │   │       │       │   └── 263 samples (20.9%) 1 more branch, hottest runResolution  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+                │   │       │       └── 83 samples (6.6%) 5 more branches, hottest prepareJvmSessions
+                │   │       └── 185 samples (14.7%) 4 more branches, hottest executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase
+                │   └── 7 samples (0.6%) 1 more branch, hottest <clinit>  org.jetbrains.kotlin.cli.common.ArgumentsKt
+                └── 7 samples (0.6%) 1 more branch, hottest parseCommandLineArguments$default  org.jetbrains.kotlin.cli.common.arguments.ParseCommandLineArgumentsKt
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -8,6 +8,53 @@ Held 78.6 MiB over 22,706 allocations (3.54 KiB per allocation).
 | Standard library | 16.8% | 13.2 MiB |       1,028 |
 | Third-party      |  0.3% |  238 KiB |         232 |
 
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes held at peak memory in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 78.6 MiB (100.0%) _run_tracker  /venv/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 78.6 MiB (100.0%) run_module  <frozen runpy>:201
+        ├── 74.3 MiB (94.5%) [[12 frames hidden in 5 sources]]
+        │   └── 74 MiB (94.2%) format_file_contents  black/__init__.py:1059
+        │       ├── 51.8 MiB (65.8%) format_str  :1168
+        │       │   └── 51.8 MiB (65.8%) _format_str_once  :1215
+        │       │       ├── 38.4 MiB (48.9%) [[3 frames hidden in 2 sources]]
+        │       │       │   └── 38.4 MiB (48.9%) visit  black/nodes.py:152
+        │       │       │       ├── 34.2 MiB (43.6%) [[7 frames hidden in 2 sources]]
+        │       │       │       │   └── 33.9 MiB (43.1%) visit  black/nodes.py:152
+        │       │       │       │       ├── 30.4 MiB (38.7%) [[3 frames hidden in 2 sources]]
+        │       │       │       │       │   └── 30.4 MiB (38.7%) visit  black/nodes.py:152
+        │       │       │       │       │       ├── 21.8 MiB (27.7%) visit_stmt  black/linegen.py:199
+        │       │       │       │       │       │   ├── 20.8 MiB (26.4%) visit  black/nodes.py:152
+        │       │       │       │       │       │   │   ├── 16.6 MiB (21.2%) [[3 frames hidden in 2 sources]]
+        │       │       │       │       │       │   │   │   └── 16.6 MiB (21.2%) visit  black/nodes.py:152
+        │       │       │       │       │       │   │   │       ├── 8.94 MiB (11.4%) [[4 frames hidden in 2 sources]]
+        │       │       │       │       │       │   │   │       │   └── 8.78 MiB (11.2%) visit_stmt  black/linegen.py:199
+        │       │       │       │       │       │   │   │       │       ├── 6.78 MiB (8.6%) visit  black/nodes.py:152
+        │       │       │       │       │       │   │   │       │       │   └── 6.68 MiB (8.5%) visit_default  black/linegen.py:134
+        │       │       │       │       │       │   │   │       │       │       ├── 5.11 MiB (6.5%) visit_default  black/nodes.py:176
+        │       │       │       │       │       │   │   │       │       │       │   └── 5.11 MiB (6.5%) visit  :152
+        │       │       │       │       │       │   │   │       │       │       │       ├── 1.5 MiB (1.9%) visit_default  black/linegen.py:134
+        │       │       │       │       │       │   │   │       │       │       │       │   ├── 1.09 MiB (1.4%) append  black/lines.py:52
+        │       │       │       │       │       │   │   │       │       │       │       │   │   └── 1.09 MiB (1.4%) mark  black/brackets.py:70  (21.9% self across 990 call paths)
+        │       │       │       │       │       │   │   │       │       │       │       │   └── 416 KiB (0.5%) 1 more branch, hottest visit_default  black/nodes.py:176
+        │       │       │       │       │       │   │   │       │       │       │       └── 3.62 MiB (4.6%) 5 more branches, hottest visit_power  black/linegen.py:341
+        │       │       │       │       │       │   │   │       │       │       └── 1.56 MiB (2.0%) 1 more branch, hottest append  black/lines.py:52
+        │       │       │       │       │       │   │   │       │       └── 2 MiB (2.5%) 1 more branch, hottest normalize_invisible_parens  :1344
+        │       │       │       │       │       │   │   │       └── 7.7 MiB (9.8%) 3 more branches, hottest visit_stmt  black/linegen.py:199
+        │       │       │       │       │       │   │   └── 4.11 MiB (5.2%) 2 more branches, hottest visit_default  black/linegen.py:134
+        │       │       │       │       │       │   └── 1 MiB (1.3%) 1 more branch, hottest normalize_invisible_parens  :1344
+        │       │       │       │       │       └── 8.64 MiB (11.0%) 2 more branches, hottest visit_simple_stmt  black/linegen.py:295
+        │       │       │       │       └── 3.47 MiB (4.4%) 1 more branch, hottest visit_default  black/linegen.py:134
+        │       │       │       └── 4.21 MiB (5.4%) 2 more branches, hottest visit_funcdef  black/linegen.py:254
+        │       │       └── 13.1 MiB (16.6%) 6 more branches, hottest lib2to3_parse  black/parsing.py:55
+        │       └── 22.3 MiB (28.3%) check_stability_and_equivalence  :1042
+        │           └── 22.3 MiB (28.3%) assert_equivalent  :1510
+        │               └── 15.2 MiB (19.3%) 2 more branches, hottest parse_ast  black/parsing.py:137
+        └── 4.32 MiB (5.5%) 1 more branch, hottest _get_module_details  :105
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1037,6 +1084,53 @@ Leaked 55.9 MiB over 22,502 allocations (2.55 KiB per allocation).
 | Ours             | 87.4% | 48.9 MiB |      21,384 |
 | Standard library | 12.2% | 6.83 MiB |         888 |
 | Third-party      |  0.4% |  237 KiB |         230 |
+
+## Call tree
+
+The call paths to the hottest functions by self size, merged into a tree of callers. Each frame shows the bytes never freed in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self size of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 55.9 MiB (100.0%) _run_tracker  /venv/lib/python3.11/site-packages/memray/commands/run.py:40
+    └── 55.9 MiB (100.0%) run_module  <frozen runpy>:201
+        ├── 51.6 MiB (92.3%) [[12 frames hidden in 5 sources]]
+        │   └── 51.6 MiB (92.3%) format_file_contents  black/__init__.py:1059
+        │       ├── 29.1 MiB (52.0%) format_str  :1168
+        │       │   └── 29.1 MiB (52.0%) _format_str_once  :1215
+        │       │       ├── 16 MiB (28.6%) [[3 frames hidden in 2 sources]]
+        │       │       │   └── 16 MiB (28.6%) visit  black/nodes.py:152
+        │       │       │       ├── 1.02 MiB (1.8%) [[10 frames hidden in 2 sources]]
+        │       │       │       │   └── 1 MiB (1.8%) generate_comments  black/comments.py:52  (3.6% self across 2 call paths)
+        │       │       │       └── 15 MiB (26.8%) 2 more branches, hottest visit_stmt  black/linegen.py:199
+        │       │       ├── 12 MiB (21.5%) [[2 frames hidden in 2 sources]]
+        │       │       │   └── 12 MiB (21.5%) parse_tokens  blib2to3/pgen2/driver.py:114
+        │       │       │       ├── 11 MiB (19.7%) addtoken  blib2to3/pgen2/parse.py:230
+        │       │       │       │   └── 9 MiB (16.1%) _addtoken  :278
+        │       │       │       │       ├── 5 MiB (8.9%) [[2 frames hidden in 2 sources]]
+        │       │       │       │       │   └── 4 MiB (7.2%) __new__  blib2to3/pytree.py:70  (12.5% self across 2 call paths)
+        │       │       │       │       └── 4 MiB (7.2%) 2 more branches, hottest pop  :386
+        │       │       │       └── 1 MiB (1.8%) 1 more branch, hottest __next__  :80
+        │       │       └── 1.04 MiB (1.9%) 5 more branches, hottest transform_line  black/linegen.py:601
+        │       └── 22.5 MiB (40.3%) check_stability_and_equivalence  :1042
+        │           ├── 18.5 MiB (33.1%) assert_stable  :1543
+        │           │   └── 18.5 MiB (33.1%) _format_str_once  :1215
+        │           │       ├── 16.4 MiB (29.4%) visit  black/nodes.py:152  (3.6% self across 6 call paths)
+        │           │       │   └── 16.4 MiB (29.4%) visit_default  black/linegen.py:134  (3.6% self across 3 call paths)
+        │           │       │       └── 16.4 MiB (29.4%) 1 more branch, hottest visit_default  black/nodes.py:176
+        │           │       └── 2.07 MiB (3.7%) transform_line  black/linegen.py:601  (1.9% self across 2 call paths)
+        │           │           └── 2 MiB (3.6%) run_transformer  :1771
+        │           │               ├── 1 MiB (1.8%) [[6 frames hidden in 2 sources]]
+        │           │               │   └── 1 MiB (1.8%) mark  black/brackets.py:70  (32.6% self across 994 call paths)
+        │           │               └── 1 MiB (1.8%) 1 more branch, hottest transform_line  :601
+        │           └── 4.01 MiB (7.2%) assert_equivalent  :1510
+        │               ├── 3.01 MiB (5.4%) [[2 frames hidden in 1 source]]
+        │               │   └── 3.01 MiB (5.4%) parse  /usr/lib/python3.11/ast.py:33
+        │               └── 1 MiB (1.8%) 1 more branch, hottest _stringify_ast  black/parsing.py:182
+        └── 4.29 MiB (7.7%) [[12 frames hidden in 4 sources]]
+            └── 4.13 MiB (7.4%) _call_with_frames_removed  <frozen importlib._bootstrap>:233
+                ├── 1.22 MiB (2.2%) [[6 frames hidden in 3 sources]]
+                │   └── 1.03 MiB (1.8%) _compile_bytecode  <frozen importlib._bootstrap_external>:727  (4.6% self across 38 call paths)
+                └── 2.9 MiB (5.2%) 8 more branches, hottest <module>  /venv/lib/python3.11/site-packages/click/__init__.py:1
+```
 
 ## Hottest functions
 

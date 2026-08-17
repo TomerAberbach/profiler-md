@@ -8,6 +8,53 @@ Collected 958 samples.
 | Garbage collector | 31.5% |     302 |
 | Standard library  |  1.3% |      12 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+└── 958 samples (100.0%) [[2 frames hidden in 1 source]]
+    └── 958 samples (100.0%) run_module  <frozen runpy>
+        ├── 927 samples (96.8%) [[12 frames hidden in 5 sources]]
+        │   └── 925 samples (96.6%) format_file_contents  __init__.py
+        │       ├── 475 samples (49.6%) format_str
+        │       │   └── 471 samples (49.2%) _format_str_once
+        │       │       ├── 82 samples (8.6%) Visitor.visit  nodes.py  (2.1% self across 17 call paths)
+        │       │       │   └── 82 samples (8.6%) [[2 frames hidden in 2 sources]]
+        │       │       │       └── 82 samples (8.6%) Visitor.visit  nodes.py
+        │       │       │           ├── 73 samples (7.6%) [[7 frames hidden in 2 sources]]
+        │       │       │           │   └── 73 samples (7.6%) Visitor.visit  nodes.py
+        │       │       │           │       ├── 4 samples (0.4%) LineGenerator.visit_default  linegen.py
+        │       │       │           │       │   └── 3 samples (0.3%) Line.append  lines.py  (2.3% self across 21 call paths)
+        │       │       │           │       └── 68 samples (7.1%) 1 more branch, hottest LineGenerator.visit_suite  linegen.py
+        │       │       │           └── 9 samples (0.9%) 2 more branches, hottest LineGenerator.visit_funcdef  linegen.py
+        │       │       ├── 64 samples (6.7%) detect_target_versions
+        │       │       │   └── 64 samples (6.7%) get_features_used  (9.3% self across 2 call paths)
+        │       │       ├── 13 samples (1.4%) normalize_fmt_off  comments.py
+        │       │       │   └── 13 samples (1.4%) convert_one_fmt_off_pair
+        │       │       └── 306 samples (31.9%) 4 more branches, hottest lib2to3_parse  parsing.py
+        │       └── 450 samples (47.0%) check_stability_and_equivalence
+        │           ├── 374 samples (39.0%) assert_stable
+        │           │   └── 372 samples (38.8%) _format_str_once
+        │           │       ├── 293 samples (30.6%) [[2 frames hidden in 2 sources]]
+        │           │       │   └── 293 samples (30.6%) Driver.parse_tokens  driver.py  (5.1% self across 2 call paths)
+        │           │       │       ├── 259 samples (27.0%) Parser.addtoken  parse.py  (1.4% self across 2 call paths)
+        │           │       │       │   ├── 246 samples (25.7%) Parser._addtoken  (17.6% self across 7 call paths)
+        │           │       │       │   │   ├── 191 samples (19.9%) [[2 frames hidden in 2 sources]]
+        │           │       │       │   │   │   └── 185 samples (19.3%) (garbage collector)  (31.5% self across 46 call paths)
+        │           │       │       │   │   └── 16 samples (1.7%) 3 more branches, hottest Parser.pop
+        │           │       │       │   └── 7 samples (0.7%) 2 more branches, hottest generate_tokens  tokenize.py
+        │           │       │       └── 13 samples (1.4%) TokenProxy.__next__
+        │           │       │           └── 10 samples (1.0%) generate_tokens  tokenize.py  (3.2% self across 5 call paths)
+        │           │       └── 79 samples (8.2%) 5 more branches, hottest Visitor.visit  nodes.py
+        │           └── 71 samples (7.4%) assert_equivalent
+        │               ├── 42 samples (4.4%) [[2 frames hidden in 1 source]]
+        │               │   └── 38 samples (4.0%) parse  ast.py
+        │               └── 22 samples (2.3%) _stringify_ast  parsing.py  (2.0% self across 6 call paths)
+        │                   └── 19 samples (2.0%) 1 more branch, hottest _stringify_ast_with_new_parent
+        └── 31 samples (3.2%) 1 more branch, hottest _get_module_details
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -12,6 +12,53 @@ Collected 6,026 samples.
 | Garbage collector |  0.1% |       5 |
 | Unknown           | <0.1% |       3 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 3,724 samples (61.8%) [[3 frames hidden]]
+│   └── 3,723 samples (61.8%) Thread::call_run
+│       ├── 3,371 samples (55.9%) [[2 frames hidden]]
+│       │   └── 3,341 samples (55.4%) CompileBroker::invoke_compiler_on_method
+│       │       ├── 2,707 samples (44.9%) C2Compiler::compile_method
+│       │       │   └── 2,703 samples (44.9%) Compile::Compile
+│       │       │       ├── 1,291 samples (21.4%) Compile::Code_Gen
+│       │       │       │   ├── 751 samples (12.5%) PhaseChaitin::Register_Allocate
+│       │       │       │   │   ├── 189 samples (3.1%) PhaseChaitin::Split
+│       │       │       │   │   │   └── 72 samples (1.2%) 17 more branches, hottest MachNode::rematerialize
+│       │       │       │   │   ├── 108 samples (1.8%) PhaseChaitin::build_ifg_physical
+│       │       │       │   │   │   ├── 12 samples (0.2%) IndexSetIterator::advance_and_next  (0.8% self across 11 call paths)
+│       │       │       │   │   │   ├── 2 samples (<0.1%) tlv_get_addr  (1.3% self across 79 call paths)
+│       │       │       │   │   │   └── 49 samples (0.8%) 17 more branches, hottest PhaseChaitin::remove_bound_register_from_interfering_live_ranges
+│       │       │       │   │   ├── 77 samples (1.3%) PhaseLive::compute
+│       │       │       │   │   │   └── 34 samples (0.6%) 3 more branches, hottest PhaseLive::add_liveout
+│       │       │       │   │   ├── 69 samples (1.1%) PhaseChaitin::gather_lrg_masks
+│       │       │       │   │   ├── 57 samples (0.9%) PhaseAggressiveCoalesce::insert_copies
+│       │       │       │   │   └── 251 samples (4.2%) 36 more branches, hottest PhaseChaitin::post_allocate_copy_removal
+│       │       │       │   ├── 212 samples (3.5%) Matcher::match
+│       │       │       │   │   ├── 155 samples (2.6%) Matcher::xform
+│       │       │       │   │   │   ├── 60 samples (1.0%) Arena::contains
+│       │       │       │   │   │   └── 71 samples (1.2%) 9 more branches, hottest Matcher::match_tree
+│       │       │       │   │   └── 57 samples (0.9%) 13 more branches, hottest Matcher::find_shared
+│       │       │       │   └── 328 samples (5.4%) 8 more branches, hottest PhaseOutput::Output
+│       │       │       ├── 1,066 samples (17.7%) Compile::Optimize
+│       │       │       │   ├── 287 samples (4.8%) PhaseIdealLoop::optimize
+│       │       │       │   │   ├── 74 samples (1.2%) PhaseIterGVN::optimize
+│       │       │       │   │   │   └── 70 samples (1.2%) PhaseIterGVN::transform_old
+│       │       │       │   │   │       ├── 27 samples (0.4%) [[4 frames hidden]]
+│       │       │       │   │   │       │   └── 26 samples (0.4%) Node::dominates  (1.9% self across 20 call paths)
+│       │       │       │   │   │       └── 42 samples (0.7%) 20 more branches, hottest RegionNode::Ideal
+│       │       │       │   │   └── 213 samples (3.5%) 2 more branches, hottest PhaseIdealLoop::PhaseIdealLoop
+│       │       │       │   └── 779 samples (12.9%) 17 more branches, hottest PhaseIterGVN::optimize
+│       │       │       └── 346 samples (5.7%) 6 more branches, hottest ParseGenerator::generate
+│       │       └── 634 samples (10.5%) 5 more branches, hottest Compiler::compile_method
+│       └── 352 samples (5.8%) 4 more branches, hottest WorkerThread::run
+├── 15 samples (0.2%) [[3 frames hidden]]
+│   └── 1 sample (<0.1%) pthread_jit_write_protect_np  (1.7% self across 102 call paths)
+└── 2,287 samples (38.0%) 7 more branches, hottest main  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -12,6 +12,53 @@ Collected 6,091 samples.
 | Unknown           | <0.1% |       2 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 2,268 samples (37.2%) [[31 frames hidden in 18 sources]]
+│   └── 2,238 samples (36.7%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       ├── 2,129 samples (35.0%) [[10 frames hidden in 7 sources]]
+│       │   └── 2,128 samples (34.9%) guardWithCatch  java.lang.invoke.LambdaForm$MH.0x00000070010aa000
+│       │       ├── 2,092 samples (34.3%) [[40 frames hidden in 27 sources]]
+│       │       │   └── 2,091 samples (34.3%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │       │       ├── 1,726 samples (28.3%) [[7 frames hidden in 7 sources]]
+│       │       │       │   └── 1,726 samples (28.3%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │       │       │       ├── 1,473 samples (24.2%) [[373 frames hidden in 32 sources]]
+│       │       │       │       │   └── 1,436 samples (23.6%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │       │       │       │       ├── 930 samples (15.3%) [[53 frames hidden in 32 sources]]
+│       │       │       │       │       │   └── 930 samples (15.3%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │       │       │       │       │       ├── 899 samples (14.8%) [[29 frames hidden in 22 sources]]
+│       │       │       │       │       │       │   └── 896 samples (14.7%) invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │       │       │       │       │       │       ├── 853 samples (14.0%) [[9 frames hidden in 6 sources]]
+│       │       │       │       │       │       │       │   └── 853 samples (14.0%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │       │       │       │       │       │       │       ├── 733 samples (12.0%) [[19 frames hidden in 11 sources]]
+│       │       │       │       │       │       │       │       │   └── 716 samples (11.8%) measureRuleProcessingTime  org.codenarc.analyzer.AbstractSourceAnalyzer
+│       │       │       │       │       │       │       │       │       ├── 620 samples (10.2%) [[32 frames hidden in 21 sources]]
+│       │       │       │       │       │       │       │       │       │   └── 595 samples (9.8%) linkToCallSite  java.lang.invoke.Invokers$Holder
+│       │       │       │       │       │       │       │       │       │       ├── 562 samples (9.2%) [[12 frames hidden in 9 sources]]
+│       │       │       │       │       │       │       │       │       │       │   └── 550 samples (9.0%) applyTo  org.codenarc.rule.AbstractRule
+│       │       │       │       │       │       │       │       │       │       │       ├── 415 samples (6.8%) applyTo  org.codenarc.rule.AbstractAstVisitorRule
+│       │       │       │       │       │       │       │       │       │       │       │   ├── 15 samples (0.2%) [[10 frames hidden in 10 sources]]
+│       │       │       │       │       │       │       │       │       │       │       │   │   └── 1 sample (<0.1%) cast  java.lang.Class  (1.9% self across 116 call paths)
+│       │       │       │       │       │       │       │       │       │       │       │   └── 400 samples (6.6%) 11 more branches, hottest visitClass  org.codenarc.rule.AbstractAstVisitor
+│       │       │       │       │       │       │       │       │       │       │       └── 135 samples (2.2%) 21 more branches, hottest applyTo  org.codenarc.rule.formatting.IndentationRule
+│       │       │       │       │       │       │       │       │       │       └── 33 samples (0.5%) 3 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000700108e000
+│       │       │       │       │       │       │       │       │       └── 96 samples (1.6%) 2 more branches, hottest linkToCallSite  java.lang.invoke.LambdaForm$MH.0x0000007001322800
+│       │       │       │       │       │       │       │       ├── 18 samples (0.3%) [[7 frames hidden, 6 in 5 sources]]
+│       │       │       │       │       │       │       │       │   └── 2 samples (<0.1%) pthread_jit_write_protect_np  (1.8% self across 106 call paths)
+│       │       │       │       │       │       │       │       └── 102 samples (1.7%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│       │       │       │       │       │       │       └── 43 samples (0.7%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000700128dc00
+│       │       │       │       │       │       └── 31 samples (0.5%) 3 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000070010d8800
+│       │       │       │       │       └── 506 samples (8.3%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x0000007001288400
+│       │       │       │       └── 253 samples (4.2%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000700128dc00
+│       │       │       └── 365 samples (6.0%) 1 more branch, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000070010c8000
+│       │       └── 36 samples (0.6%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x00000070010c7400
+│       └── 109 samples (1.8%) 2 more branches, hottest invoke  java.lang.invoke.LambdaForm$MH.0x000000700108e000
+└── 3,823 samples (62.8%) 15 more branches, hottest thread_start
+```
+
 ## Hottest functions
 
 ### Self samples

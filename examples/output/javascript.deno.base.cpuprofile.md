@@ -11,6 +11,53 @@ Took 2.13s over 2,912 samples (733.3µs per sample).
 | Regular expression |  0.1% |   3.1ms |       3 |
 | Unknown            |  0.1% |   1.3ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 1.96s (92.1%) [[2 frames hidden in 1 source]]
+│   └── 1.96s (92.1%) processTicksAndRejections  ext:core/01_core.js:356:37
+│       ├── 1.94s (90.9%) [[2 frames hidden, 1 in 1 source]]
+│       │   └── 1.94s (90.9%) typeCheckProject  tsc-workload.mjs:3:33
+│       │       ├── 1.44s (67.8%) [[9 frames hidden in 1 source]]
+│       │       │   └── 1.44s (67.7%) (anonymous)  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:123385:37
+│       │       │       ├── 1.33s (62.4%) [[4 frames hidden in 1 source]]
+│       │       │       │   └── 1.33s (62.4%) checkSourceFileWorker  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:87270:33
+│       │       │       │       ├── 737.4ms (34.5%) [[2 frames hidden in 1 source]]
+│       │       │       │       │   └── 733.7ms (34.4%) checkFunctionExpressionOrObjectLiteralMethodDeferred  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:79840:64
+│       │       │       │       │       ├── 713.8ms (33.4%) [[5 frames hidden in 1 source]]
+│       │       │       │       │       │   └── 713.8ms (33.4%) checkSourceElementWorker  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:86895:36
+│       │       │       │       │       │       ├── 53.0ms (2.5%) [[9 frames hidden in 1 source]]
+│       │       │       │       │       │       │   └── 47.0ms (2.2%) checkTypeRelatedTo  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:66185:30  (1.4% self across 17 call paths)
+│       │       │       │       │       │       │       └── 47.0ms (2.2%) isRelatedTo  :66493:25  (3.1% self across 80 call paths)
+│       │       │       │       │       │       │           └── 47.0ms (2.2%) recursiveTypeRelatedTo  :67063:36  (3.2% self across 66 call paths)
+│       │       │       │       │       │       │               └── 45.7ms (2.1%) structuredTypeRelatedTo  :67207:37  (0.6% self across 31 call paths)
+│       │       │       │       │       │       │                   └── 45.7ms (2.1%) structuredTypeRelatedToWorker  :67277:43  (0.9% self across 34 call paths)
+│       │       │       │       │       │       │                       └── 45.7ms (2.1%) 1 more branch, hottest propertiesRelatedTo  :68073:33
+│       │       │       │       │       │       └── 660.8ms (30.9%) 11 more branches, hottest checkVariableStatement  :84119:34
+│       │       │       │       │       └── 18.8ms (0.9%) 5 more branches, hottest getReturnTypeOfSignature  :61207:36
+│       │       │       │       └── 594.1ms (27.8%) 2 more branches, hottest forEach  :2365:17
+│       │       │       └── 112.6ms (5.3%) [[5 frames hidden in 1 source]]
+│       │       │           └── 106.1ms (5.0%) bind  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46600:16
+│       │       │               └── 100.6ms (4.7%) [[6 frames hidden in 1 source]]
+│       │       │                   └── 91.2ms (4.3%) bind  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:46600:16
+│       │       │                       ├── 7.8ms (0.4%) bindWorker  :46663:22  (0.7% self across 23 call paths)
+│       │       │                       └── 83.3ms (3.9%) 2 more branches, hottest bindContainer  :45136:25
+│       │       ├── 136.0ms (6.4%) [[6 frames hidden in 1 source]]
+│       │       │   └── 129.6ms (6.1%) (anonymous)  node:module:1622:37
+│       │       │       ├── 103.2ms (4.8%) wrapSafe  :1596:18
+│       │       │       │   └── 103.2ms (4.8%) compileFunction  ext:core/01_core.js:1100:22
+│       │       │       │       └── 31.8ms (1.5%) op_compile_function
+│       │       │       └── 26.4ms (1.2%) 1 more branch, hottest (anonymous)  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:1:1
+│       │       └── 357.6ms (16.7%) 2 more branches, hottest createProgram  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:122262:23
+│       └── 26.3ms (1.2%) [[3 frames hidden in 1 source]]
+│           └── 26.3ms (1.2%) post  ext:deno_node/inspector.js:179:7
+├── 122.0ms (5.7%) (garbage collector)
+├── 1.7ms (0.1%) getObjectFlags  /private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/node_modules/typescript/lib/typescript.js:20242:24  (0.9% self across 18 call paths)
+└── 44.8ms (2.1%) 58 more branches, hottest (program)
+```
+
 ## Hottest functions
 
 ### Self time

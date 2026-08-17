@@ -11,6 +11,53 @@ Took 4.21s over 3,361 samples (1.3ms per sample).
 | Idle               |  0.2% |   8.9ms |       7 |
 | Regular expression | <0.1% |   1.3ms |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self time, merged into a tree of callers. Each frame shows the time spent in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self time of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4s (95.0%) (anonymous)  run.mjs:1:1
+│   └── 4s (95.0%) globalThis.buildAndRetainDom  workload.mjs:1:32
+│       ├── 3.72s (88.3%) chartLayouts  :116:24
+│       │   ├── 2.13s (50.7%) h  node_modules/d3/dist/d3.min.js:2:235607
+│       │   │   └── 2.13s (50.5%) (anonymous)  :2:235702
+│       │   │       ├── 1.24s (29.6%) f  :2:233452
+│       │   │       │   ├── 604.0ms (14.3%) Fc.visit  :2:105700
+│       │   │       │   │   └── 583.9ms (13.8%) h  :2:233884  (14.5% self across 3 call paths)
+│       │   │       │   ├── 82.2ms (1.9%) Fc.visitAfter  :2:106068  (1.6% self across 2 call paths)
+│       │   │       │   │   └── 41.9ms (1.0%) l  :2:233647
+│       │   │       │   └── 68.7ms (1.6%) $c  :2:102069
+│       │   │       │       └── 64.5ms (1.5%) Fc.addAll  :2:103106  (2.5% self across 2 call paths)
+│       │   │       ├── 761.3ms (18.0%) a  :2:231005
+│       │   │       │   ├── 303.9ms (7.2%) Fc.visit  :2:105700
+│       │   │       │   │   └── 288.9ms (6.8%) g  :2:231166
+│       │   │       │   └── 110.6ms (2.6%) 2 more branches, hottest $c  :2:102069
+│       │   │       └── 16.6ms (0.4%) l  :2:232102
+│       │   ├── 1.27s (30.3%) d  node_modules/d3/dist/d3.min.js:2:223501
+│       │   │   ├── 1.06s (25.2%) [[3 frames hidden in 1 source]]
+│       │   │   │   └── 1.05s (24.9%) (anonymous)  node_modules/d3/dist/d3.min.js:2:77113
+│       │   │   │       └── 110.4ms (2.6%) p  :2:77577
+│       │   │   ├── 157.9ms (3.7%) h  :2:223150
+│       │   │   │   └── 156.6ms (3.7%) (anonymous)  :2:1144
+│       │   │   │       ├── 76.6ms (1.8%) p  :2:1697
+│       │   │   │       └── 71.2ms (1.7%) g  :2:1758
+│       │   │   └── 52.8ms (1.3%) J  :2:8205
+│       │   ├── 179.5ms (4.3%) attr  node_modules/d3/dist/d3.min.js:2:25709
+│       │   │   ├── 105.3ms (2.5%) each  :2:25558
+│       │   │   │   ├── 92.6ms (2.2%) (anonymous)  :2:18176  (2.8% self across 10 call paths)
+│       │   │   │   │   └── 49.7ms (1.2%) [[4 frames hidden in 1 source]]
+│       │   │   │   │       └── 29.2ms (0.7%) Jh  node_modules/d3/dist/d3.min.js:2:131237
+│       │   │   │   └── 11.5ms (0.3%) (anonymous)  :2:18042  (0.9% self across 6 call paths)
+│       │   │   └── 69.2ms (1.6%) 3 more branches, hottest (anonymous)  :2:18176
+│       │   ├── 43.8ms (1.0%) [[5 frames hidden in 1 source]]
+│       │   │   └── 25.0ms (0.6%) createElementNS  (1.6% self across 8 call paths)
+│       │   └── 74.3ms (1.8%) 16 more branches, hottest from  node_modules/d3/dist/d3.min.js:2:94301
+│       └── 280.2ms (6.6%) 13 more branches, hottest call  node_modules/d3/dist/d3.min.js:2:25192
+├── 115.7ms (2.7%) (garbage collector)
+├── 41.7ms (1.0%) (program)
+└── 51.8ms (1.2%) 10 more branches, hottest h  node_modules/d3/dist/d3.min.js:2:233884
+```
+
 ## Hottest functions
 
 ### Self time

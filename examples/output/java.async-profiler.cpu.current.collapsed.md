@@ -11,6 +11,53 @@ Collected 4,436 samples.
 | JIT               |  1.0% |      44 |
 | Garbage collector | <0.1% |       1 |
 
+## Call tree
+
+The call paths to the hottest functions by self samples, merged into a tree of callers. Each frame shows the samples taken in it and its callees, as a share of the profile and as a value. `[[n frames hidden]]` stands for the callers between two of them, whose share the line above it states. `n more branches` counts the callees on no such path, each standing for everything below it, and states their total and the largest of them. `(n% self across m call paths)` states the self samples of a function across every call path to it, where the path drawn to it holds only part.
+
+```
+├── 4,187 samples (94.4%) run  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,187 samples (94.4%) runWorker  java.util.concurrent.ForkJoinPool
+│       ├── 3,886 samples (87.6%) [[2 frames hidden in 2 sources]]
+│       │   └── 3,880 samples (87.5%) doExec  java.util.concurrent.ForkJoinTask
+│       │       ├── 3,430 samples (77.3%) exec  java.util.concurrent.RecursiveTask
+│       │       │   └── 3,429 samples (77.3%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       ├── 3,063 samples (69.0%) join  java.util.concurrent.ForkJoinTask
+│       │       │       │   └── 3,063 samples (69.0%) awaitDone
+│       │       │       │       ├── 2,737 samples (61.7%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │   └── 2,736 samples (61.7%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       ├── 2,352 samples (53.0%) join  java.util.concurrent.ForkJoinTask
+│       │       │       │       │       │   └── 2,352 samples (53.0%) awaitDone
+│       │       │       │       │       │       ├── 2,177 samples (49.1%) [[3 frames hidden in 3 sources]]
+│       │       │       │       │       │       │   └── 2,177 samples (49.1%) compute  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │       │       │       │       │       │       ├── 28 samples (0.6%) [[7 frames hidden in 4 sources]]
+│       │       │       │       │       │       │       │   └── 6 samples (0.1%) zero_blocks  (1.0% self across 22 call paths)
+│       │       │       │       │       │       │       └── 2,149 samples (48.4%) 5 more branches, hottest join  java.util.concurrent.ForkJoinTask
+│       │       │       │       │       │       └── 175 samples (3.9%) 2 more branches, hottest helpJoin  java.util.concurrent.ForkJoinPool
+│       │       │       │       │       └── 383 samples (8.6%) 4 more branches, hottest computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       │       │       ├── 225 samples (5.1%) helpJoin  java.util.concurrent.ForkJoinPool
+│       │       │       │       │   └── 217 samples (4.9%) 2 more branches, hottest doExec  java.util.concurrent.ForkJoinTask
+│       │       │       │       └── 101 samples (2.3%) 2 more branches, hottest park  java.util.concurrent.locks.LockSupport
+│       │       │       ├── 84 samples (1.9%) [[8 frames hidden in 5 sources]]
+│       │       │       │   └── 63 samples (1.4%) lambda$merge$6  org.renaissance.jdk.concurrent.JavaKMeans
+│       │       │       │       ├── 45 samples (1.0%) addAll  java.util.ArrayList
+│       │       │       │       │   ├── 21 samples (0.5%) toArray
+│       │       │       │       │   │   └── 21 samples (0.5%) copyOf  java.util.Arrays
+│       │       │       │       │   │       └── 7 samples (0.2%) [[5 frames hidden]]
+│       │       │       │       │   │           └── 6 samples (0.1%) _platform_bzero
+│       │       │       │       │   └── 18 samples (0.4%) arrayof_oop_disjoint_arraycopy
+│       │       │       │       │       └── 17 samples (0.4%) forward_copy_longs  (4.6% self across 71 call paths)
+│       │       │       │       └── 18 samples (0.4%) [[3 frames hidden in 2 sources]]
+│       │       │       │           └── 16 samples (0.4%) arrayof_jint_disjoint_arraycopy  (0.5% self across 21 call paths)
+│       │       │       └── 282 samples (6.4%) 8 more branches, hottest computeDirectly  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       │       ├── 23 samples (0.5%) [[5 frames hidden, 4 in 3 sources]]
+│       │       │   └── 21 samples (0.5%) __psynch_cvsignal
+│       │       └── 427 samples (9.6%) 1 more branch, hottest exec  java.util.concurrent.ForkJoinTask$AdaptedCallable
+│       └── 296 samples (6.7%) [[5 frames hidden, 3 in 3 sources]]
+│           └── 272 samples (6.1%) __psynch_cvwait  (14.0% self across 76 call paths)
+└── 249 samples (5.6%) 7 more branches, hottest thread_start
+```
+
 ## Hottest functions
 
 ### Self samples
