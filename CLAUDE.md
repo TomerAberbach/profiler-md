@@ -286,6 +286,15 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   names): keys like `toString` or `constructor` resolve to `Object.prototype`
   members. Use a `Map`
 
+### Normalizing
+
+- Split a qualifier out of a frame's name only when it becomes that frame's
+  location. Where a declaring class, module, or namespace packed into the name
+  is the only source reference the profiler reports, `normalizeStackFrame` moves
+  it into a logical location. Where the profiler reports a file path, keep the
+  qualifier in the name
+- NEVER reconstruct a qualifier the profiler did not emit
+
 ### Counting
 
 - Decide what one unit of `Observation.count` counts from the profiler's source
