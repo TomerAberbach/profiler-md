@@ -8,6 +8,53 @@ Collected 1,596 samples.
 | Garbage collector | 14.5% |     231 |
 | Standard library  |  3.1% |      50 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,594 samples (99.9%) [[via 16 frames]] pytest_pyfunc_call  python.py
+    ├── 203 samples (12.7%) [[via 14 frames]] Shrinker.step.<locals>.<lambda>  shrinker.py
+    │   ├── 163 samples (10.2%) [[via 5 frames]] StateForActualGivenExecution._execute_once_for_engine  (1.2% self in 17 call stacks)  core.py
+    │   │   ├── 52 samples (3.3%) get_trimmed_traceback  (1.5% self in 20 call stacks)  escalation.py
+    │   │   │   └── 50 samples (3.1%) extract_tb  traceback.py
+    │   │   │       └── 50 samples (3.1%) StackSummary._extract_from_extended_frame_gen  (4.6% self in 59 call stacks)
+    │   │   │           ├── 41 samples (2.6%) _walk_tb_with_full_positions  (1.4% self in 21 call stacks)
+    │   │   │           │   └── 39 samples (2.4%) _get_code_position  (56.1% self in 331 call stacks)
+    │   │   │           └── 2 samples (0.1%) FrameSummary.line  (1.6% self in 25 call stacks)
+    │   │   ├── 33 samples (2.1%) extract_tb  (1.5% self in 23 call stacks)  traceback.py
+    │   │   │   └── 31 samples (1.9%) StackSummary._extract_from_extended_frame_gen
+    │   │   │       ├── 2 samples (0.1%) checkcache  (2.8% self in 42 call stacks)  <frozen linecache>
+    │   │   │       └── 27 samples (1.7%) 2 more branches, largest _walk_tb_with_full_positions (1.6%)
+    │   │   ├── 8 samples (0.5%) format_exception  (0.5% self in 8 call stacks)  escalation.py
+    │   │   │   └── 8 samples (0.5%) format_exception  (0.8% self in 11 call stacks)  traceback.py
+    │   │   │       └── 4 samples (0.3%) [[via 4 frames]] parse  (1.4% self in 17 call stacks)  ast.py
+    │   │   └── 70 samples (4.4%) 3 more branches, largest InterestingOrigin.from_exception (2.6%)  escalation.py and StateForActualGivenExecution.execute_once (1.6%)
+    │   └── 34 samples (2.1%) 3 more branches, largest Shrinker.minimize_individual_choices (1.8%)
+    ├── 148 samples (9.3%) [[via 3 frames]] given.<locals>.run_test_as_given.<locals>.wrapped_test  core.py
+    │   ├── 115 samples (7.2%) StateForActualGivenExecution.run_engine
+    │   │   └── 115 samples (7.2%) 4 more branches, largest ConjectureRunner.run (5.0%)  engine.py and get_trimmed_traceback (1.8%)
+    │   └── 33 samples (2.1%) 1 more branch, get_trimmed_traceback  escalation.py
+    ├── 127 samples (8.0%) [[via 9 frames]] Shrinker.shrink  shrinker.py
+    │   ├── 119 samples (7.5%) [[via 4 frames]] Shrinker.step.<locals>.<lambda>  shrinker.py
+    │   │   └── 119 samples (7.5%) 4 more branches, largest Shrinker.try_trivial_spans (3.6%) and Shrinker.minimize_individual_choices (3.2%)
+    │   └── 8 samples (0.5%) 1 more branch, Shrinker.initial_coarse_reduction
+    ├── 121 samples (7.6%) [[via 18–19 frames]] StateForActualGivenExecution.run_engine  core.py
+    │   ├── 61 samples (3.8%) [[via 6 frames]] (garbage collector)  (14.5% self in 84 call stacks)
+    │   └── 59 samples (3.7%) 2 more branches, largest ConjectureRunner.run (3.5%)  engine.py
+    ├── 111 samples (7.0%) [[via 14 frames]] Shrinker.step.<locals>.<lambda>  shrinker.py
+    │   ├── 103 samples (6.5%) Shrinker.minimize_individual_choices
+    │   │   └── 103 samples (6.5%) 1 more branch, Shrinker.minimize_nodes
+    │   └── 4 samples (0.3%) Shrinker.try_trivial_spans
+    ├── 62 samples (3.9%) [[via 20 frames]] StateForActualGivenExecution._execute_once_for_engine  core.py
+    │   ├── 22 samples (1.4%) InterestingOrigin.from_exception  escalation.py
+    │   │   └── 22 samples (1.4%) get_trimmed_traceback
+    │   │       ├── 2 samples (0.1%) getsourcefile  (0.8% self in 11 call stacks)  inspect.py
+    │   │       └── 20 samples (1.3%) 1 more branch, extract_tb  traceback.py
+    │   └── 40 samples (2.5%) 5 more branches, largest extract_tb (1.1%)  traceback.py and get_trimmed_traceback (0.8%)
+    └── 808 samples (50.6%) 56 more branches, largest accept.<locals>.test_dictionary (4.9%)  test_shrink_quality.py and accept.<locals>.test_lowering_together_mixed (4.6%)
+```
+
 ## Hottest functions
 
 ### Self samples

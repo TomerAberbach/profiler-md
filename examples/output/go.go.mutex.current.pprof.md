@@ -8,6 +8,45 @@ Blocked 159.9ms over 4,990 contentions (32.0µs per contention).
 
 Paths starting with `./` or `../` are relative to `/Users/tomer/Documents/work/code/profiler-md/scripts/fixtures/assets/go/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 72.6ms (45.4%) [[via 3 frames]] runtime.goschedImpl  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4307
+│   ├── 52.6ms (32.9%) runtime.schedule  :4135
+│   │   ├── 50.9ms (31.9%) runtime.findRunnable  :3389
+│   │   │   ├── 42.1ms (26.3%) runtime.runSafePointFn  :2232
+│   │   │   │   └── 42.1ms (26.3%) runtime.unlock  (89.6% self in 246 call stacks)  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   │   │   ├── 6.4ms (4.0%) runtime.gcstopm  :3296
+│   │   │   │   ├── 4.1ms (2.6%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   │   │   │   └── 2.3ms (1.5%) runtime.stopm  :2992
+│   │   │   │       └── 1.8ms (1.1%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   │   │   └── 2.4ms (1.5%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   │   └── 1.5ms (1.0%) [[via 2 frames]] runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   ├── 17.8ms (11.1%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   └── 2.3ms (1.4%) runtime.wakep  :3212
+│       └── 2.2ms (1.4%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 55.3ms (34.6%) runtime.gcBgMarkWorker  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/mgc.go:1750
+│   └── 55.0ms (34.4%) runtime.gcMarkDone  :1015
+│       ├── 32.9ms (20.6%) [[via 5 frames]] runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│       ├── 17.7ms (11.1%) [[via 4 frames]] runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│       └── 4.3ms (2.7%) [[via 3 frames]] runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 16.6ms (10.4%) runtime._LostContendedRuntimeLock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:5741
+├── 10.9ms (6.8%) [[via 2 frames]] runtime.schedule  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/proc.go:4135
+│   ├── 9.0ms (5.6%) runtime.findRunnable  :3389
+│   │   ├── 7.1ms (4.5%) runtime.runSafePointFn  :2232
+│   │   │   └── 7.1ms (4.5%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   │   └── 1.5ms (0.9%) runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+│   └── 1.7ms (1.0%) [[via 2 frames]] runtime.unlock  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/lock_spinbit.go:260
+├── 3.5ms (2.2%) main.workload.func1  ./profile.go:25
+│   ├── 1.5ms (0.9%) [[via 7–9 frames]] runtime.mapassign_faststr  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/maps/runtime_faststr.go:263
+│   │   └── 0.8ms (0.5%) [[via 3 frames]] internal/runtime/maps.(*table).reset  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/internal/runtime/maps/table.go:101
+│   └── 1.0ms (0.6%) [[via 6–7 frames]] encoding/json.mapEncoder.encode  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/encoding/json/encode.go:765
+│       └── 0.5ms (0.3%) runtime.makeslice  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/slice.go:102
+└── 0.7ms (0.4%) runtime.mstart  /nix/store/7ycp8j45iay38g9mjaxmy4jhwdsrb47y-go-1.26.3/share/go/src/runtime/asm_arm64.s:258
+```
+
 ## Hottest functions
 
 ### Self time

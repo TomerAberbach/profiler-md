@@ -11,6 +11,53 @@ Took 598.0ms over 598 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 598.0ms (100.0%) [[via 2 frames]] (anonymous)  (self 10.4%)
+    ├── 523.0ms (87.5%) main  /out/profile.cpp:8
+    │   └── 520.0ms (87.0%) fmt::v12::format  ./format.h:4335
+    │       ├── 517.0ms (86.5%) fmt::v12::vformat[abi:cxx11]  ./format-inl.h:1446
+    │       │   ├── 487.0ms (81.4%) fmt::v12::detail::vformat_to  :1456
+    │       │   │   └── 487.0ms (81.4%) fmt::v12::detail::parse_format_string  (self 4.2%)  ./base.h:1646
+    │       │   │       ├── 417.0ms (69.7%) fmt::v12::detail::parse_replacement_field  (self 2.5%)  :1599
+    │       │   │       │   ├── 368.0ms (61.5%) fmt::v12::detail::format_handler::on_format_specs  (self 1.2%)  ./format.h:3772
+    │       │   │       │   │   ├── 111.0ms (18.6%) fmt::v12::detail::write  (self 0.8%)  :3434
+    │       │   │       │   │   │   ├── 66.0ms (11.0%) fmt::v12::detail::write_float  :2592
+    │       │   │       │   │   │   │   ├── 16.0ms (2.7%) std::__cxx11::basic_string::_M_dispose
+    │       │   │       │   │   │   │   └── 50.0ms (8.4%) 4 more branches, largest fmt::v12::detail::write_fixed (7.2%)  :2487 and fmt::v12::detail::do_write_float (0.7%)
+    │       │   │       │   │   │   ├── 34.0ms (5.7%) fmt::v12::detail::format_float  (self 3.0%)  :3134
+    │       │   │       │   │   │   │   └── 16.0ms (2.7%) 4 more branches, largest fmt::v12::detail::dragonbox::get_cached_power (1.0%)  ./format-inl.h:1146 and fmt::v12::detail::buffer::data (0.7%)
+    │       │   │       │   │   │   └── 6.0ms (1.0%) 4 more branches, largest fmt::v12::basic_memory_buffer::basic_memory_buffer (0.3%)  :826
+    │       │   │       │   │   ├── 90.0ms (15.1%) fmt::v12::detail::write  (self 0.8%)  :2159
+    │       │   │       │   │   │   ├── 65.0ms (10.9%) fmt::v12::detail::for_each_codepoint  (self 1.8%)  :632
+    │       │   │       │   │   │   │   └── 53.0ms (8.9%) fmt::v12::detail::for_each_codepoint()::{lambda(char const*, char const*)#1}::operator()  (self 1.8%)
+    │       │   │       │   │   │   │       ├── 28.0ms (4.7%) fmt::v12::detail::utf8_decode  :590
+    │       │   │       │   │   │   │       └── 14.0ms (2.3%) fmt::v12::detail::write()::{lambda(unsigned int, fmt::v12::basic_string_view)#1}::operator()  (self 1.8%)
+    │       │   │       │   │   │   │           └── 3.0ms (0.5%) fmt::v12::detail::display_width_of  :666
+    │       │   │       │   │   │   └── 20.0ms (3.3%) fmt::v12::detail::write_padded  (1.3% self in 3 call stacks)  :1675
+    │       │   │       │   │   │       ├── 7.0ms (1.2%) [[via 3 frames]] fmt::v12::detail::buffer::push_back  (self 0.8%; 2.5% in 6 call stacks)  ./base.h:1832
+    │       │   │       │   │   │       └── 10.0ms (1.7%) 2 more branches, largest fmt::v12::detail::write()::{lambda(fmt::v12::basic_appender)#2}::operator() (1.5%)
+    │       │   │       │   │   ├── 73.0ms (12.2%) fmt::v12::detail::parse_format_specs  (self 6.9%)  ./base.h:1461
+    │       │   │       │   │   │   ├── 12.0ms (2.0%) fmt::v12::detail::parse_width  :1433
+    │       │   │       │   │   │   │   └── 12.0ms (2.0%) fmt::v12::detail::parse_dynamic_spec  (self 0.8%; 2.0% in 3 call stacks)  :1400
+    │       │   │       │   │   │   │       └── 7.0ms (1.2%) fmt::v12::detail::parse_nonnegative_int  (1.7% self in 2 call stacks)  :1312
+    │       │   │       │   │   │   └── 20.0ms (3.3%) 5 more branches, largest fmt::v12::detail::parse_format_specs()::{unnamed type#1}::operator() (1.3%)  :1476 and fmt::v12::detail::parse_precision (1.2%)
+    │       │   │       │   │   └── 87.0ms (14.5%) 7 more branches, largest fmt::v12::detail::write_int (9.2%)  :2050 and fmt::v12::basic_format_arg::visit (3.3%)
+    │       │   │       │   └── 34.0ms (5.7%) 2 more branches, largest fmt::v12::detail::format_handler::on_replacement_field (4.7%)  ./format.h:3768 and fmt::v12::detail::format_handler::on_arg_id (1.0%)
+    │       │   │       └── 43.0ms (7.2%) fmt::v12::detail::format_handler::on_text  ./format.h:3752
+    │       │   │           └── 42.0ms (7.0%) fmt::v12::detail::copy_noinline  (self 3.3%; 4.7% in 3 call stacks)  :568
+    │       │   │               └── 22.0ms (3.7%) fmt::v12::detail::copy  ./base.h:2068
+    │       │   │                   └── 22.0ms (3.7%) fmt::v12::detail::buffer::append  (self 2.8%; 8.2% in 5 call stacks)  :1845
+    │       │   │                       └── 5.0ms (0.8%) fmt::v12::detail::buffer::try_reserve  (2.3% self in 8 call stacks)  :1828
+    │       │   ├── 10.0ms (1.7%) std::__cxx11::basic_string::_M_create
+    │       │   └── 18.0ms (3.0%) 3 more branches, largest fmt::v12::to_string (2.2%)  ./format.h:910 and fmt::v12::basic_memory_buffer::basic_memory_buffer (0.7%)
+    │       └── 2.0ms (0.3%) fmt::v12::detail::value::value  ./base.h:2220
+    └── 12.0ms (2.0%) operator delete
+```
+
 ## Hottest functions
 
 ### Self time

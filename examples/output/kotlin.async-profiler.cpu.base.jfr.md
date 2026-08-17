@@ -10,6 +10,53 @@ Collected 1,303 samples.
 | Standard library |  4.6% |      60 |
 | JIT              |  1.5% |      20 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 871 samples (66.8%) [[via 3 frames]] Thread::call_run  libjvm.dylib
+│   ├── 806 samples (61.9%) JavaThread::thread_main_inner
+│   │   └── 806 samples (61.9%) CompileBroker::compiler_thread_loop
+│   │       ├── 792 samples (60.8%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 546 samples (41.9%) C2Compiler::compile_method
+│   │       │   │   └── 545 samples (41.8%) Compile::Compile
+│   │       │   │       └── 545 samples (41.8%) 6 more branches, largest Compile::Code_Gen (21.9%) and Compile::Optimize (14.8%)
+│   │       │   ├── 236 samples (18.1%) [[via 2 frames]] Compilation::compile_method  libjvm.dylib
+│   │       │   │   ├── 218 samples (16.7%) Compilation::compile_java_method
+│   │       │   │   │   ├── 106 samples (8.1%) Compilation::emit_lir
+│   │       │   │   │   │   ├── 98 samples (7.5%) LinearScan::do_linear_scan
+│   │       │   │   │   │   │   ├── 18 samples (1.4%) LinearScan::build_intervals
+│   │       │   │   │   │   │   │   ├── 5 samples (0.4%) LIR_OpVisitState::visit  (1.1% self in 3 call stacks)
+│   │       │   │   │   │   │   │   └── 2 samples (0.2%) tlv_get_addr  (1.4% self in 17 call stacks)  libdyld.dylib
+│   │       │   │   │   │   │   └── 80 samples (6.1%) 12 more branches, largest LinearScan::allocate_registers (2.6%) and LinearScan::assign_reg_num (1.8%)
+│   │       │   │   │   │   └── 8 samples (0.6%) 1 more branch, BlockList::iterate_forward
+│   │       │   │   │   └── 112 samples (8.6%) 4 more branches, largest Compilation::build_hir (5.7%) and Compilation::emit_code_body (2.7%)
+│   │       │   │   └── 18 samples (1.4%) 2 more branches, largest ciEnv::register_method (1.2%)
+│   │       │   └── 2 samples (0.2%) TraceTime::~TraceTime
+│   │       └── 14 samples (1.1%) [[via 2 frames]] PlatformMonitor::wait  libjvm.dylib
+│   │           ├── 12 samples (0.9%) __psynch_cvwait  libsystem_kernel.dylib
+│   │           └── 2 samples (0.2%) [[via 2 frames]] __psynch_mutexwait  (1.6% self in 19 call stacks)  libsystem_kernel.dylib
+│   └── 65 samples (5.0%) 3 more branches, largest WorkerThread::run (4.6%)
+├── 422 samples (32.4%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 422 samples (32.4%) run(String[])
+│       ├── 342 samples (26.2%) [[via 12 frames]] exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   ├── 339 samples (26.0%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │   │   ├── 328 samples (25.2%) [[via 9 frames]] invoke(PhaseConfig, PhaserState, LoggingContext, Object)  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │   │   │   └── 328 samples (25.2%) 3 more branches, largest phaseBody(LoggingContext, Object) (23.5%)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase and phaseBody(LoggingContext, Object) (1.4%)
+│       │   │   └── 8 samples (0.6%) 1 more branch, <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │   └── 1 sample (0.1%) [[via 36 frames]] SymbolTable::do_lookup  (1.7% self in 22 call stacks)  libjvm.dylib
+│       └── 75 samples (5.8%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 62 samples (4.8%) [[via 3 frames]] read(byte[], int, int)  java.util.zip.InflaterInputStream
+│           │   └── 60 samples (4.6%) [[via 2 frames]] Java_java_util_zip_Inflater_inflateBytesBytes  libzip.dylib
+│           │       ├── 50 samples (3.8%) inflate_fast
+│           │       ├── 6 samples (0.5%) inflate
+│           │       └── 2 samples (0.2%) jni_GetPrimitiveArrayCritical  libjvm.dylib
+│           │           └── 2 samples (0.2%) pthread_jit_write_protect_np  (1.1% self in 12 call stacks)  libsystem_pthread.dylib
+│           └── 1 sample (0.1%) I2C/C2I adapters(0xbb)
+└── 6 samples (0.5%) break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

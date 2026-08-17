@@ -8,6 +8,53 @@ Collected 208 samples.
 | Unknown          |  5.8% |      12 |
 | Standard library |  0.5% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 196 samples (94.2%) _run_module_as_main  <frozen runpy>
+│   ├── 192 samples (92.3%) [[via 11 frames]] format_file_contents  black/__init__.py
+│   │   ├── 115 samples (55.3%) format_str
+│   │   │   └── 115 samples (55.3%) _format_str_once
+│   │   │       ├── 53 samples (25.5%) [[via 2 frames]] parse_tokens  (self 1.0%; 1.9% in 2 call stacks)  blib2to3/pgen2/driver.py
+│   │   │       │   ├── 42 samples (20.2%) addtoken  blib2to3/pgen2/parse.py
+│   │   │       │   │   ├── 40 samples (19.2%) _addtoken  (self 6.3%; 9.1% in 2 call stacks)
+│   │   │       │   │   │   ├── 13 samples (6.3%) push
+│   │   │       │   │   │   ├── 9 samples (4.3%) pop  (self 3.8%)
+│   │   │       │   │   │   └── 5 samples (2.4%) shift
+│   │   │       │   │   │       └── 5 samples (2.4%) convert  (self 1.0%)  blib2to3/pytree.py
+│   │   │       │   │   │           └── 3 samples (1.4%) __new__  (2.9% self in 2 call stacks)
+│   │   │       │   │   └── 2 samples (1.0%) classify
+│   │   │       │   └── 8 samples (3.8%) __next__
+│   │   │       │       └── 8 samples (3.8%) generate_tokens  (self 3.4%; 4.3% in 2 call stacks)  blib2to3/pgen2/tokenize.py
+│   │   │       ├── 42 samples (20.2%) visit  (self 3.4%)  black/nodes.py
+│   │   │       │   ├── 28 samples (13.5%) [[via 2–4 frames]] visit_default  (self 1.9%; 2.9% in 6 call stacks)  black/linegen.py
+│   │   │       │   │   ├── 15 samples (7.2%) append  (self 1.4%; 2.4% in 4 call stacks)  black/lines.py
+│   │   │       │   │   │   ├── 8 samples (3.8%) mark  (self 3.4%)  black/brackets.py
+│   │   │       │   │   │   └── 4 samples (1.9%) 1 more branch, whitespace  black/nodes.py
+│   │   │       │   │   ├── 7 samples (3.4%) generate_comments  (self 2.9%; 4.8% in 4 call stacks)  black/comments.py
+│   │   │       │   │   └── 2 samples (1.0%) visit_default  black/nodes.py
+│   │   │       │   └── 7 samples (3.4%) 3 more branches, largest visit_stmt (1.4%)  black/linegen.py and visit_STRING (1.4%)
+│   │   │       ├── 13 samples (6.3%) transform_line  black/linegen.py
+│   │   │       │   ├── 4 samples (1.9%) line_to_string  black/lines.py
+│   │   │       │   │   └── 4 samples (1.9%) __str__
+│   │   │       │   └── 8 samples (3.8%) 2 more branches, largest run_transformer (2.4%) and _hugging_power_ops_line_to_string (1.4%)
+│   │   │       ├── 3 samples (1.4%) normalize_fmt_off  black/comments.py
+│   │   │       │   └── 3 samples (1.4%) convert_one_fmt_off_pair  (2.4% self in 2 call stacks)
+│   │   │       └── 4 samples (1.9%) 1 more branch, detect_target_versions
+│   │   └── 77 samples (37.0%) check_stability_and_equivalence
+│   │       ├── 51 samples (24.5%) assert_stable
+│   │       │   └── 51 samples (24.5%) _format_str_once  (self 1.0%)
+│   │       │       └── 49 samples (23.6%) 8 more branches, largest visit (11.1%)  black/nodes.py and lib2to3_parse (8.2%)
+│   │       └── 26 samples (12.5%) assert_equivalent
+│   │           ├── 14 samples (6.7%) [[via 2 frames]] parse  ast.py
+│   │           └── 11 samples (5.3%) _stringify_ast  (self 2.9%)  black/parsing.py
+│   │               └── 5 samples (2.4%) [[via 2 frames]] _stringify_ast_with_new_parent  black/parsing.py
+│   └── 4 samples (1.9%) 1 more branch, _get_module_details
+└── 12 samples (5.8%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self samples

@@ -9,6 +9,53 @@ Allocated 26.2 MiB over 36 samples (746 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 25.2 MiB (96.2%) [[via 4 frames]] typeCheckProject  ./tsc-workload.mjs:3:33
+│   ├── 16.2 MiB (61.7%) [[via 5 frames]] (anonymous)  node:internal/modules/cjs/loader:1878:37
+│   │   ├── 8.37 MiB (31.9%) [[via 2 frames]] readFileSync  node:fs:433:22
+│   │   └── 7.81 MiB (29.8%) (anonymous)  :1731:37
+│   │       ├── 4.13 MiB (15.7%) (anonymous)  (self 1.9%)  ./node_modules/typescript/lib/typescript.js:1:1
+│   │       │   └── 3.63 MiB (13.8%) (anonymous)  (self 9.8%)  :16:15
+│   │       │       ├── 576 KiB (2.1%) __export  :22:16
+│   │       │       └── 512 KiB (1.9%) (anonymous)  :3963:2
+│   │       └── 3.68 MiB (14.1%) wrapSafe  :1671:18
+│   ├── 6.02 MiB (23.0%) [[via 9 frames]] (anonymous)  ./node_modules/typescript/lib/typescript.js:124967:37
+│   │   ├── 4 MiB (15.3%) [[via 4 frames]] checkSourceFileWorker  ./node_modules/typescript/lib/typescript.js:88583:33
+│   │   │   ├── 2 MiB (7.6%) forEach  :2378:17
+│   │   │   │   ├── 1.5 MiB (5.7%) [[via 4 frames]] checkSourceElement  ./node_modules/typescript/lib/typescript.js:88199:30
+│   │   │   │   │   └── 1.5 MiB (5.7%) checkSourceElementWorker  :88208:36
+│   │   │   │   │       ├── 514 KiB (1.9%) [[via 27 frames]] isTypeDerivedFrom  ./node_modules/typescript/lib/typescript.js:66484:29
+│   │   │   │   │       └── 1 MiB (3.8%) 2 more branches, largest checkTypeReferenceNode (1.9%)  :83518:34 and checkTypeAliasDeclaration (1.9%)
+│   │   │   │   └── 512 KiB (1.9%) [[via 49 frames]] sameMap  ./node_modules/typescript/lib/typescript.js:2595:17
+│   │   │   ├── 1.5 MiB (5.7%) [[via 3 frames]] checkFunctionExpressionOrObjectLiteralMethodDeferred  ./node_modules/typescript/lib/typescript.js:81135:64
+│   │   │   │   ├── 1 MiB (3.8%) checkSourceElement  :88199:30
+│   │   │   │   │   └── 1 MiB (3.8%) [[via 4–5 frames]] checkSourceElementWorker  ./node_modules/typescript/lib/typescript.js:88208:36
+│   │   │   │   │       ├── 513 KiB (1.9%) [[via 11 frames]] getTypeAtFlowAssignment  ./node_modules/typescript/lib/typescript.js:73025:37
+│   │   │   │   │       └── 512 KiB (1.9%) [[via 12 frames]] getPropertyOfUnionOrIntersectionType  ./node_modules/typescript/lib/typescript.js:61929:48
+│   │   │   │   └── 512 KiB (1.9%) [[via 6 frames]] checkBinaryLikeExpressionWorker  ./node_modules/typescript/lib/typescript.js:81904:43
+│   │   │   └── 512 KiB (1.9%) [[via 3 frames]] checkUnusedClassMembers  ./node_modules/typescript/lib/typescript.js:84802:35
+│   │   └── 2.02 MiB (7.7%) getTypeChecker  (self 3.9%)  :124848:26
+│   │       └── 1.01 MiB (3.8%) [[via 4 frames]] bind  ./node_modules/typescript/lib/typescript.js:47793:16
+│   │           ├── 518 KiB (1.9%) [[via 4 frames]] createSymbol  ./node_modules/typescript/lib/typescript.js:46101:24
+│   │           └── 513 KiB (1.9%) [[via 8 frames]] bindEach  ./node_modules/typescript/lib/typescript.js:46419:20
+│   └── 3.01 MiB (11.5%) createProgram  ./node_modules/typescript/lib/typescript.js:123840:23
+│       ├── 2.01 MiB (7.7%) [[via 15 frames]] parseList  ./node_modules/typescript/lib/typescript.js:33673:21
+│       │   ├── 519 KiB (1.9%) [[via 20 frames]] doJSDocScan  ./node_modules/typescript/lib/typescript.js:38308:27
+│       │   ├── 514 KiB (1.9%) [[via 9 frames]] propagateChildFlags  ./node_modules/typescript/lib/typescript.js:28495:29
+│       │   ├── 512 KiB (1.9%) [[via 4 frames]] createNodeArray  ./node_modules/typescript/lib/typescript.js:33287:27
+│       │   │   └── 512 KiB (1.9%) getTransformFlagsSubtreeExclusions  :28511:44
+│       │   └── 512 KiB (1.9%) 1 more branch, parseTypeMember  ./node_modules/typescript/lib/typescript.js:34591:27
+│       ├── 512 KiB (1.9%) resolveTypeReferenceDirectiveNamesReusingOldState  :124476:61
+│       │   └── 512 KiB (1.9%) resolveTypeReferenceDirectiveNamesWorker  :124309:52
+│       └── 512 KiB (1.9%) [[via 5 frames]] getDefaultLibFilePriority  ./node_modules/typescript/lib/typescript.js:124352:37
+├── 514 KiB (1.9%) [[via 40 frames]] relateVariances  ./node_modules/typescript/lib/typescript.js:69054:31
+└── 512 KiB (1.9%) [[via 30 frames]] createTypeMapper  ./node_modules/typescript/lib/typescript.js:65904:28
+```
+
 ## Hottest functions
 
 ### Self size

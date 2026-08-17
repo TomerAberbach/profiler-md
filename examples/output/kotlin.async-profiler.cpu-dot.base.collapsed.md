@@ -10,6 +10,53 @@ Collected 1,283 samples.
 | Standard library |  4.4% |      57 |
 | JIT              |  1.2% |      16 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 854 samples (66.6%) [[via 3 frames]] Thread::call_run
+│   ├── 808 samples (63.0%) JavaThread::thread_main_inner
+│   │   └── 808 samples (63.0%) CompileBroker::compiler_thread_loop
+│   │       ├── 793 samples (61.8%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 555 samples (43.3%) C2Compiler::compile_method
+│   │       │   │   └── 554 samples (43.2%) Compile::Compile
+│   │       │   │       └── 554 samples (43.2%) 10 more branches, largest Compile::Code_Gen (20.9%) and Compile::Optimize (16.0%)
+│   │       │   ├── 227 samples (17.7%) [[via 2 frames]] Compilation::compile_method
+│   │       │   │   ├── 211 samples (16.4%) Compilation::compile_java_method
+│   │       │   │   │   ├── 73 samples (5.7%) Compilation::build_hir
+│   │       │   │   │   │   ├── 52 samples (4.1%) [[via 3 frames]] GraphBuilder::iterate_all_blocks
+│   │       │   │   │   │   │   ├── 35 samples (2.7%) [[via 5 frames]] GraphBuilder::iterate_bytecodes_for_block
+│   │       │   │   │   │   │   │   ├── 18 samples (1.4%) GraphBuilder::invoke
+│   │       │   │   │   │   │   │   │   ├── 2 samples (0.2%) tlv_get_addr  (1.9% self in 24 call stacks)
+│   │       │   │   │   │   │   │   │   └── 16 samples (1.2%) 4 more branches, largest GraphBuilder::try_inline (0.9%)
+│   │       │   │   │   │   │   │   ├── 2 samples (0.2%) [[via 2 frames]] _platform_memset  (1.2% self in 15 call stacks)
+│   │       │   │   │   │   │   │   └── 12 samples (0.9%) 8 more branches, largest GraphBuilder::access_field (0.2%)
+│   │       │   │   │   │   │   └── 17 samples (1.3%) 1 more branch, GraphBuilder::iterate_bytecodes_for_block
+│   │       │   │   │   │   └── 17 samples (1.3%) 5 more branches, largest IR::compute_use_counts (0.4%)
+│   │       │   │   │   └── 138 samples (10.8%) 3 more branches, largest Compilation::emit_lir (7.4%) and Compilation::emit_code_body (3.3%)
+│   │       │   │   └── 16 samples (1.2%) 1 more branch, ciEnv::register_method
+│   │       │   └── 3 samples (0.2%) ciEnv::get_method_from_handle
+│   │       └── 9 samples (0.7%) [[via 3 frames]] __psynch_cvwait
+│   └── 42 samples (3.3%) WorkerThread::run
+│       └── 42 samples (3.3%) 4 more branches, largest G1RebuildRSAndScrubTask::work (1.2%) and G1EvacuateRegionsBaseTask::work (1.1%)
+└── 422 samples (32.9%) main  org.jetbrains.kotlin.preloading.Preloader
+    └── 422 samples (32.9%) run
+        ├── 346 samples (27.0%) [[via 3 frames]] invokeExact_MT  java.lang.invoke.Invokers$Holder
+        │   ├── 337 samples (26.3%) [[via 7 frames]] exec  org.jetbrains.kotlin.cli.common.CLICompiler
+        │   │   ├── 323 samples (25.2%) [[via 11 frames]] invoke  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+        │   │   │   └── 323 samples (25.2%) 4 more branches, largest phaseBody (23.4%)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase and phaseBody (1.2%)
+        │   │   └── 6 samples (0.5%) [[via 2 frames]] <clinit>  org.jetbrains.kotlin.cli.common.ArgumentsKt
+        │   └── 6 samples (0.5%) [[via 29–98 frames]] invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000000301234000
+        └── 74 samples (5.8%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+            ├── 66 samples (5.1%) loadAllClassesFromJars
+            │   └── 59 samples (4.6%) [[via 5 frames]] Java_java_util_zip_Inflater_inflateBytesBytes
+            │       ├── 45 samples (3.5%) inflate_fast
+            │       └── 13 samples (1.0%) inflate
+            │           └── 8 samples (0.6%) inflate_table
+            └── 8 samples (0.6%) 2 more branches, largest loadAllClassesFromJars (0.5%)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+```
+
 ## Hottest functions
 
 ### Self samples

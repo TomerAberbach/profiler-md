@@ -13,6 +13,53 @@ Took 4.21s over 3,361 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4s (95.0%) (anonymous)  ./run.mjs:1:1
+│   └── 4s (95.0%) globalThis.buildAndRetainDom  ./workload.mjs:1:32
+│       ├── 3.72s (88.3%) chartLayouts  :116:24
+│       │   ├── 2.13s (50.7%) h  ./node_modules/d3/dist/d3.min.js:2:235607
+│       │   │   └── 2.13s (50.5%) (anonymous)  (self 2.1%)  :2:235702
+│       │   │       ├── 1.24s (29.6%) f  (self 11.6%)  :2:233452
+│       │   │       │   ├── 604.0ms (14.3%) Fc.visit  :2:105700
+│       │   │       │   │   └── 583.9ms (13.8%) h  (14.5% self in 3 call stacks)  :2:233884
+│       │   │       │   ├── 82.2ms (1.9%) Fc.visitAfter  (self 1.0%; 1.6% in 2 call stacks)  :2:106068
+│       │   │       │   │   └── 41.9ms (1.0%) l  :2:233647
+│       │   │       │   └── 68.7ms (1.6%) $c  :2:102069
+│       │   │       │       └── 64.5ms (1.5%) Fc.addAll  (self 1.4%; 2.5% in 2 call stacks)  :2:103106
+│       │   │       ├── 761.3ms (18.0%) a  (self 8.2%)  :2:231005
+│       │   │       │   ├── 303.9ms (7.2%) Fc.visit  :2:105700
+│       │   │       │   │   └── 288.9ms (6.8%) g  :2:231166
+│       │   │       │   ├── 50.5ms (1.2%) Fc.visitAfter  (self 0.7%)  :2:106068
+│       │   │       │   │   └── 22.8ms (0.5%) u  :2:231470
+│       │   │       │   └── 60.1ms (1.4%) 1 more branch, $c  :2:102069
+│       │   │       └── 16.6ms (0.4%) l  :2:232102
+│       │   ├── 1.27s (30.3%) d  ./node_modules/d3/dist/d3.min.js:2:223501
+│       │   │   ├── 1.05s (24.9%) [[via 3 frames]] (anonymous)  (self 22.3%)  ./node_modules/d3/dist/d3.min.js:2:77113
+│       │   │   │   └── 110.4ms (2.6%) p  (self 2.4%)  :2:77577
+│       │   │   ├── 157.9ms (3.7%) h  :2:223150
+│       │   │   │   └── 156.6ms (3.7%) (anonymous)  :2:1144
+│       │   │   │       ├── 76.6ms (1.8%) p  (self 1.5%)  :2:1697
+│       │   │   │       │   └── 14.1ms (0.3%) (anonymous)  :2:2114
+│       │   │   │       └── 71.2ms (1.7%) g  (self 1.6%)  :2:1758
+│       │   │   └── 52.8ms (1.3%) J  :2:8205
+│       │   ├── 179.5ms (4.3%) attr  ./node_modules/d3/dist/d3.min.js:2:25709
+│       │   │   ├── 105.3ms (2.5%) each  :2:25558
+│       │   │   │   ├── 92.6ms (2.2%) (anonymous)  (self 1.0%; 2.8% in 10 call stacks)  :2:18176
+│       │   │   │   │   └── 29.2ms (0.7%) [[via 4 frames]] Jh  ./node_modules/d3/dist/d3.min.js:2:131237
+│       │   │   │   └── 11.5ms (0.3%) (anonymous)  (0.9% self in 6 call stacks)  :2:18042
+│       │   │   └── 69.2ms (1.6%) 3 more branches, largest (anonymous) (1.5%)  :2:18176
+│       │   ├── 25.0ms (0.6%) [[via 5 frames]] createElementNS  (1.6% self in 8 call stacks)
+│       │   └── 74.3ms (1.8%) 16 more branches, largest from (0.4%)  ./node_modules/d3/dist/d3.min.js:2:94301
+│       └── 280.2ms (6.6%) 13 more branches, largest call (3.1%)  ./node_modules/d3/dist/d3.min.js:2:25192 and chartBreakdowns (1.5%)
+├── 115.7ms (2.7%) (garbage collector)
+├── 41.7ms (1.0%) (program)
+└── 51.8ms (1.2%) 10 more branches, largest h (0.4%)  ./node_modules/d3/dist/d3.min.js:2:233884
+```
+
 ## Hottest functions
 
 ### Self time

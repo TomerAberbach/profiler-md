@@ -7,6 +7,53 @@ Allocated 37 GiB over 75,465 samples (514 KiB per sample).
 | Standard library | 92.9% | 34.4 GiB |  70,068 |
 | Ours             |  7.1% | 2.64 GiB |   5,397 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 36.8 GiB (99.4%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 31.8 GiB (85.9%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│   │   └── 31.8 GiB (85.9%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 23.2 GiB (62.6%) [[via 2 frames]] merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │   └── 22.9 GiB (62.0%) [[via 5 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │       ├── 17.1 GiB (46.3%) addAll(Collection)  java.util.ArrayList
+│   │       │       │   ├── 11.1 GiB (29.9%) grow(int)
+│   │       │       │   │   └── 11.1 GiB (29.9%) copyOf(Object[], int)  (self 29.9%; 90.6% in 1,882 call stacks)  java.util.Arrays
+│   │       │       │   └── 6.08 GiB (16.4%) toArray()
+│   │       │       │       └── 6.08 GiB (16.4%) copyOf(Object[], int)  (self 16.4%)  java.util.Arrays
+│   │       │       └── 5.68 GiB (15.4%) [[via 2 frames]] copyOf(Object[], int)  (self 15.4%)  java.util.Arrays
+│   │       ├── 8.19 GiB (22.1%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   ├── 6.52 GiB (17.6%) [[via 1 frame]] collectClusters(int[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │   ├── 6.09 GiB (16.5%) [[via 3 frames]] grow(int)  (self 0.7%)  java.util.ArrayList
+│   │       │   │   │   └── 5.84 GiB (15.8%) copyOf(Object[], int)  (self 15.8%)  java.util.Arrays
+│   │       │   │   └── 328 MiB (0.9%) computeIfAbsent(Object, Function)  java.util.HashMap
+│   │       │   │       ├── 137 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│   │       │   │       ├── 119 MiB (0.3%) apply(Object)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000008011a3940
+│   │       │   │       │   └── 119 MiB (0.3%) lambda$collectClusters$0(Double[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │       └── 72 MiB (0.2%) resize()
+│   │       │   └── 1.67 GiB (4.5%) [[via 1 frame]] findNearestCentroid()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 142 MiB (0.4%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       ├── 93.5 MiB (0.2%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       │   └── 93.5 MiB (0.2%) [[via 1 frame]] vectorSum()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       ├── 90.5 MiB (0.2%) [[via 2 frames]] add(double[], double[])  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       └── 89 MiB (0.2%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   └── 4.82 GiB (13.0%) [[via 10 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       ├── 3.57 GiB (9.7%) addAll(Collection)  java.util.ArrayList
+│       │   ├── 2.23 GiB (6.0%) grow(int)
+│       │   │   └── 2.23 GiB (6.0%) copyOf(Object[], int)  java.util.Arrays
+│       │   └── 1.35 GiB (3.6%) 1 more branch, toArray()
+│       └── 1.25 GiB (3.4%) 1 more branch, <init>(Collection)  java.util.ArrayList
+└── 187 MiB (0.5%) [[via 23 frames]] wrapAndCopyInto(Sink, Spliterator)  java.util.stream.AbstractPipeline
+    ├── 121 MiB (0.3%) [[via 5 frames]] lambda$generateData$5(int, int, Random[], int)  org.renaissance.jdk.concurrent.JavaKMeans
+    │   ├── 50 MiB (0.1%) range(int, int)  java.util.stream.IntStream
+    │   │   └── 39.5 MiB (0.1%) intStream(Spliterator$OfInt, boolean)  java.util.stream.StreamSupport
+    │   ├── 29 MiB (0.1%) mapToObj(IntFunction)  java.util.stream.IntPipeline
+    │   │   └── 29 MiB (0.1%) mapToObj(IntFunction, int)
+    │   └── 28.5 MiB (0.1%) [[via 4 frames]] builder(long, IntFunction)  java.util.stream.Nodes
+    └── 51 MiB (0.1%) [[via 16 frames]] valueOf(double)  java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size

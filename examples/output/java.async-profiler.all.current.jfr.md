@@ -10,6 +10,53 @@ Collected 4,620 samples.
 | JIT              |  1.3% |      59 |
 | Compiler         |  1.2% |      55 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,345 samples (94.0%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,345 samples (94.0%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 3,984 samples (86.2%) [[via 2 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│       │   ├── 3,660 samples (79.2%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│       │   │   └── 3,659 samples (79.2%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,715 samples (37.1%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 1,229 samples (26.6%) [[via 1 frame]] findNearestCentroid()  (self 11.0%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 646 samples (14.0%) distance(Double[], Double[])  (self 13.4%)
+│       │   │       │   │   │   └── 27 samples (0.6%) doubleValue()  java.lang.Double
+│       │   │       │   │   └── 74 samples (1.6%) 4 more branches, largest get(int) (1.2%)  java.util.ArrayList
+│       │   │       │   └── 486 samples (10.5%) [[via 1 frame]] collectClusters(int[])  (self 2.7%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 171 samples (3.7%) add(Object)  java.util.ArrayList
+│       │   │       │       │   └── 171 samples (3.7%) add(Object, Object[], int)  (self 1.3%)
+│       │   │       │       │       └── 113 samples (2.4%) grow()
+│       │   │       │       │           └── 113 samples (2.4%) grow(int)  (self 1.3%)
+│       │   │       │       │               └── 53 samples (1.1%) 4 more branches, largest copyOf(Object[], int) (0.6%)  java.util.Arrays
+│       │   │       │       ├── 139 samples (3.0%) computeIfAbsent(Object, Function)  (self 2.7%)  java.util.HashMap
+│       │   │       │       └── 50 samples (1.1%) 2 more branches, largest get(int) (1.1%)  java.util.ArrayList
+│       │   │       ├── 1,255 samples (27.2%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 1,255 samples (27.2%) [[via 1 frame]] vectorSum()  (self 9.0%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 777 samples (16.8%) accumulate(Double[], double[])  (self 15.0%)
+│       │   │       │       │   └── 86 samples (1.9%) doubleValue()  (2.4% self in 57 call stacks)  java.lang.Double
+│       │   │       │       └── 59 samples (1.3%) get(int)  java.util.ArrayList
+│       │   │       │           └── 58 samples (1.3%) elementData(int)  (2.9% self in 61 call stacks)
+│       │   │       ├── 334 samples (7.2%) [[via 3 frames]] forEach(BiConsumer)  java.util.HashMap
+│       │   │       │   └── 321 samples (6.9%) [[via 4 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │       │       ├── 142 samples (3.1%) <init>(Collection)  java.util.ArrayList
+│       │   │       │       │   ├── 79 samples (1.7%) toArray()
+│       │   │       │       │   │   └── 79 samples (1.7%) copyOf(Object[], int)  java.util.Arrays
+│       │   │       │       │   │       └── 55 samples (1.2%) arrayof_jint_disjoint_arraycopy
+│       │   │       │       │   │           └── 50 samples (1.1%) forward_copy_longs  (4.5% self in 66 call stacks)
+│       │   │       │       │   ├── 29 samples (0.6%) zero_blocks  (1.1% self in 26 call stacks)
+│       │   │       │       │   └── 30 samples (0.6%) 1 more branch, arrayof_jint_disjoint_arraycopy
+│       │   │       │       └── 179 samples (3.9%) 2 more branches, largest addAll(Collection) (3.9%)  java.util.ArrayList
+│       │   │       └── 328 samples (7.1%) 8 more branches, largest join() (6.7%)  java.util.concurrent.ForkJoinTask
+│       │   ├── 22 samples (0.5%) [[via 5 frames]] __psynch_cvsignal  (1.3% self in 24 call stacks)  libsystem_kernel.dylib
+│       │   └── 298 samples (6.5%) 3 more branches, largest exec() (6.0%)  java.util.concurrent.RecursiveTask
+│       └── 332 samples (7.2%) [[via 3 frames]] LockTracer::UnsafeParkHook  libasyncProfiler.dylib
+│           └── 317 samples (6.9%) [[via 2 frames]] __psynch_cvwait  (15.6% self in 92 call stacks)  libsystem_kernel.dylib
+└── 275 samples (6.0%) 7 more branches, largest thread_start (4.8%)  libsystem_pthread.dylib and main(String[]) (1.0%)
+```
+
 ## Hottest functions
 
 ### Self samples
@@ -2246,6 +2293,53 @@ Allocated 37.1 GiB over 75,635 samples (514 KiB per sample).
 | Standard library | 93.1% | 34.5 GiB |  70,362 |
 | Ours             |  6.9% | 2.57 GiB |   5,273 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 36.9 GiB (99.4%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 31.7 GiB (85.4%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│   │   └── 31.7 GiB (85.4%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│   │       ├── 23.1 GiB (62.2%) [[via 2 frames]] merge(Map, Map)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │   └── 22.8 GiB (61.6%) [[via 5 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│   │       │       ├── 17 GiB (45.9%) addAll(Collection)  java.util.ArrayList
+│   │       │       │   ├── 11.1 GiB (29.9%) grow(int)
+│   │       │       │   │   └── 11.1 GiB (29.9%) copyOf(Object[], int)  (90.8% self in 1,848 call stacks)  java.util.Arrays
+│   │       │       │   └── 5.92 GiB (16.0%) toArray()
+│   │       │       │       └── 5.92 GiB (16.0%) copyOf(Object[], int)  (self 16.0%)  java.util.Arrays
+│   │       │       └── 5.73 GiB (15.5%) [[via 2 frames]] copyOf(Object[], int)  (self 15.4%)  java.util.Arrays
+│   │       ├── 8.14 GiB (22.0%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   ├── 6.5 GiB (17.5%) [[via 1 frame]] collectClusters(int[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │   ├── 6.09 GiB (16.4%) [[via 3 frames]] grow(int)  (self 0.6%)  java.util.ArrayList
+│   │       │   │   │   └── 5.85 GiB (15.8%) copyOf(Object[], int)  (self 15.8%)  java.util.Arrays
+│   │       │   │   └── 318 MiB (0.8%) computeIfAbsent(Object, Function)  java.util.HashMap
+│   │       │   │       ├── 141 MiB (0.4%) newNode(int, Object, Object, HashMap$Node)
+│   │       │   │       ├── 108 MiB (0.3%) apply(Object)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask$$Lambda.0x00000004011a3940
+│   │       │   │       │   └── 108 MiB (0.3%) lambda$collectClusters$0(Double[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       │   │       └── 69 MiB (0.2%) resize()
+│   │       │   └── 1.65 GiB (4.4%) [[via 1 frame]] findNearestCentroid()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 138 MiB (0.4%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       ├── 108 MiB (0.3%) createSubtask(int, int)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│   │       ├── 99 MiB (0.3%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       │   └── 99 MiB (0.3%) [[via 1 frame]] vectorSum()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   │       └── 89.5 MiB (0.2%) [[via 2 frames]] add(double[], double[])  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│   └── 5.06 GiB (13.6%) [[via 10 frames]] lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       ├── 3.79 GiB (10.2%) addAll(Collection)  java.util.ArrayList
+│       │   └── 3.79 GiB (10.2%) 2 more branches, largest grow(int) (6.3%) and toArray() (3.9%)
+│       └── 1.27 GiB (3.4%) <init>(Collection)  java.util.ArrayList
+│           └── 1.27 GiB (3.4%) 1 more branch, toArray()
+└── 190 MiB (0.5%) [[via 23 frames]] wrapAndCopyInto(Sink, Spliterator)  java.util.stream.AbstractPipeline
+    ├── 106 MiB (0.3%) [[via 5 frames]] lambda$generateData$5(int, int, Random[], int)  org.renaissance.jdk.concurrent.JavaKMeans
+    │   ├── 38 MiB (0.1%) range(int, int)  java.util.stream.IntStream
+    │   │   └── 24.5 MiB (0.1%) intStream(Spliterator$OfInt, boolean)  java.util.stream.StreamSupport
+    │   ├── 30 MiB (0.1%) [[via 4 frames]] builder(long, IntFunction)  java.util.stream.Nodes
+    │   │   └── 19.5 MiB (0.1%) [[via 3 frames]] lambda$generateData$4(int)  org.renaissance.jdk.concurrent.JavaKMeans
+    │   └── 25 MiB (0.1%) mapToObj(IntFunction)  java.util.stream.IntPipeline
+    │       └── 25 MiB (0.1%) mapToObj(IntFunction, int)
+    └── 67 MiB (0.2%) [[via 16 frames]] valueOf(double)  java.lang.Double
+```
+
 ## Hottest functions
 
 ### Self size
@@ -3412,6 +3506,41 @@ Blocked 1.6ms over 16 contentions (103.0µs per contention).
 | ---------------- | ----: | ----: | ----------: |
 | Standard library | 96.2% | 1.6ms |          15 |
 | Ours             |  3.8% | 0.1ms |           1 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.3ms (78.4%) [[via 4 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│   ├── 0.9ms (53.9%) [[via 10 frames]] computeClusterAverages()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│   │   ├── 0.6ms (39.1%) average(List)
+│   │   │   └── 0.6ms (39.1%) loadClass(String)  java.lang.ClassLoader
+│   │   │       └── 0.6ms (39.1%) loadClass(String, boolean)  (44.4% self in 3 call stacks)
+│   │   └── 0.2ms (14.8%) boxed(double[])
+│   │       ├── 0.1ms (8.0%) boxed()  java.util.stream.DoublePipeline
+│   │       │   ├── 0.1ms (6.3%) mapToObj(DoubleFunction, int)
+│   │       │   └── 29.3µs (1.8%) [[via 12 frames]] defineClass0(ClassLoader, Class, String, byte[], int, int, ProtectionDomain, boolean, int, Object)  java.lang.ClassLoader
+│   │       └── 0.1ms (6.8%) [[via 2 frames]] doubleStream(Spliterator$OfDouble, boolean)  java.util.stream.StreamSupport
+│   └── 0.4ms (24.6%) [[via 4 frames]] computeClusterAverages()  org.renaissance.jdk.concurrent.JavaKMeans$UpdateTask
+│       ├── 0.3ms (15.4%) boxed(double[])
+│       │   ├── 0.2ms (12.1%) stream(double[])  java.util.Arrays
+│       │   │   └── 0.2ms (12.1%) stream(double[], int, int)
+│       │   │       ├── 0.2ms (9.2%) doubleStream(Spliterator$OfDouble, boolean)  (16.0% self in 2 call stacks)  java.util.stream.StreamSupport
+│       │   │       └── 48.0µs (2.9%) spliterator(double[], int, int)
+│       │   │           └── 48.0µs (2.9%) spliterator(double[], int, int, int)  java.util.Spliterators
+│       │   └── 0.1ms (3.3%) [[via 5 frames]] opWrapSink(int, Sink)  java.util.stream.DoublePipeline$1
+│       └── 0.2ms (9.2%) average(List)  (self 3.8%)
+│           └── 0.1ms (5.3%) loadClass(String)  java.lang.ClassLoader
+│               └── 0.1ms (5.3%) loadClass(String, boolean)
+└── 0.4ms (21.6%) [[via 5 frames]] deleteRecursively(Path, boolean)  org.renaissance.core.DirUtils
+    ├── 0.2ms (13.7%) [[via 3 frames]] loadClassOrNull(String, boolean)  jdk.internal.loader.BuiltinClassLoader
+    └── 0.1ms (7.9%) walkFileTree(Path, FileVisitor)  java.nio.file.Files
+        ├── 0.1ms (6.4%) walkFileTree(Path, Set, int, FileVisitor)  (self 1.4%)
+        │   └── 0.1ms (5.0%) [[via 4 frames]] <init>(UnixPath, long, DirectoryStream$Filter)  (self 1.4%)  sun.nio.fs.UnixDirectoryStream
+        │       └── 0.1ms (3.5%) <init>(boolean)  java.util.concurrent.locks.ReentrantReadWriteLock
+        └── 24.5µs (1.5%) [[via 8 frames]] getDeclaredMethods0(boolean)  java.lang.Class
+```
 
 ## Hottest functions
 

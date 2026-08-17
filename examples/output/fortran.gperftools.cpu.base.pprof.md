@@ -10,6 +10,53 @@ Took 4.04s over 4,043 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/json-fortran/src/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 4.04s (100.0%) [[via 2 frames]] (anonymous)  (self 17.1%)
+    ├── 3.20s (79.3%) main  /out/profile.f90:6
+    │   └── 3.20s (79.3%) MAIN__  :5
+    │       ├── 3.13s (77.6%) [[via 2 frames]] __json_value_module_MOD_parse_object  (self 0.5%)  ./json_value_module.F90:10882
+    │       │   ├── 1.09s (27.0%) [[via 2–72 frames]] __json_value_module_MOD_parse_value  (self 0.6%)  ./json_value_module.F90:10117
+    │       │   │   ├── 780.0ms (19.3%) __json_value_module_MOD_parse_string  (self 1.9%)  :11052
+    │       │   │   │   ├── 617.0ms (15.3%) __json_value_module_MOD_pop_char.part.0  (51.7% self in 376 call stacks)  :11318
+    │       │   │   │   ├── 19.0ms (0.5%) __json_string_utilities_MOD_unescape_string  ./json_string_utilities.F90:483
+    │       │   │   │   └── 67.0ms (1.7%) 6 more branches, largest _gfortran_string_scan (1.1%)
+    │       │   │   ├── 129.0ms (3.2%) __json_value_module_MOD_pop_char.part.0  :11318
+    │       │   │   ├── 55.0ms (1.4%) __json_value_module_MOD_parse_for_chars  :11145
+    │       │   │   │   └── 48.0ms (1.2%) __json_value_module_MOD_pop_char.part.0  :11318
+    │       │   │   └── 106.0ms (2.6%) 9 more branches, largest _gfortran_string_len_trim (0.7%)
+    │       │   ├── 816.0ms (20.2%) [[via 2–72 frames]] __json_value_module_MOD_parse_string  (self 1.9%; 3.8% in 82 call stacks)  ./json_value_module.F90:11052
+    │       │   │   ├── 608.0ms (15.0%) __json_value_module_MOD_pop_char.part.0  :11318
+    │       │   │   └── 130.0ms (3.2%) 7 more branches, largest _gfortran_string_scan (1.9%) and __libc_malloc (0.6%)
+    │       │   ├── 582.0ms (14.4%) [[via 2–72 frames]] __json_value_module_MOD_pop_char.part.0  ./json_value_module.F90:11318
+    │       │   ├── 130.0ms (3.2%) [[via 2–72 frames]] _gfortran_string_scan  (7.0% self in 148 call stacks)
+    │       │   ├── 122.0ms (3.0%) [[via 2–51 frames]] __json_value_module_MOD_parse_number  ./json_value_module.F90:11192
+    │       │   │   ├── 57.0ms (1.4%) __json_value_module_MOD_pop_char.part.0  :11318
+    │       │   │   └── 49.0ms (1.2%) __json_value_module_MOD_string_to_int  :8074
+    │       │   │       ├── 6.0ms (0.1%) _gfortran_st_write_done
+    │       │   │       └── 43.0ms (1.1%) 14 more branches, largest __json_string_utilities_MOD_string_to_integer (0.2%)  ./json_string_utilities.F90:116
+    │       │   ├── 78.0ms (1.9%) [[via 2–70 frames]] _gfortran_string_len_trim  (3.2% self in 88 call stacks)
+    │       │   ├── 56.0ms (1.4%) [[via 2–69 frames]] cfree  (3.0% self in 88 call stacks)
+    │       │   ├── 56.0ms (1.4%) [[via 3–69 frames]] _init  (2.2% self in 67 call stacks)
+    │       │   ├── 45.0ms (1.1%) [[via 2–71 frames]] __libc_malloc  (3.4% self in 119 call stacks)
+    │       │   ├── 20.0ms (0.5%) [[via 4–53 frames]] __libc_realloc  (1.4% self in 46 call stacks)
+    │       │   ├── 10.0ms (0.2%) [[via 2–57 frames]] __json_value_module_MOD_json_value_add_member  ./json_value_module.F90:3394
+    │       │   └── 110.0ms (2.7%) 6 more branches, largest __json_value_module_MOD_parse_array (2.1%)  ./json_value_module.F90:10987
+    │       └── 53.0ms (1.3%) __json_file_module_MOD_json_file_destroy  ./json_file_module.F90:769
+    │           └── 53.0ms (1.3%) __json_value_module_MOD_json_value_destroy  ./json_value_module.F90:2237
+    │               ├── 18.0ms (0.4%) [[via 3–7 frames]] cfree
+    │               └── 17.0ms (0.4%) [[via 3–9 frames]] __json_value_module_MOD_destroy_json_data  ./json_value_module.F90:1387
+    ├── 44.0ms (1.1%) [[via 9–11 frames]] __read
+    ├── 17.0ms (0.4%) [[via 7 frames]] __open
+    ├── 11.0ms (0.3%) [[via 12–14 frames]] calloc
+    ├── 10.0ms (0.2%) [[via 3–12 frames]] __pthread_mutex_lock
+    ├── 7.0ms (0.2%) [[via 11–12 frames]] __ctype_toupper_loc
+    └── 56.0ms (1.4%) 10 more branches, largest cfree (0.4%)
+```
+
 ## Hottest functions
 
 ### Self time

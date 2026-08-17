@@ -6,6 +6,29 @@ Blocked 3.3ms over 48 contentions (67.7µs per contention).
 | ---------------- | -----: | ----: | ----------: |
 | Standard library | 100.0% | 3.3ms |          48 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2.9ms (89.1%) [[via 3 frames]] enqueue(Reference)  java.lang.ref.NativeReferenceQueue
+└── 0.4ms (10.9%) [[via 14–32 frames]] invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+    ├── 0.3ms (8.0%) [[via 6 frames]] selectMethod(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+    │   └── 0.3ms (8.0%) fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])
+    │       ├── 0.2ms (6.7%) setCallSiteTarget()  org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+    │       │   ├── 0.2ms (5.7%) setHandleForMetaMethod()
+    │       │   │   ├── 0.1ms (3.2%) [[via 4 frames]] make(byte, Class, MemberName, Class)  java.lang.invoke.DirectMethodHandle
+    │       │   │   │   ├── 0.1ms (1.9%) [[via 5 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       │   │   │   └── 42.5µs (1.3%) [[via 7 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       │   │   └── 0.1ms (2.6%) [[via 8 frames]] poll()  (10.9% self in 20 call stacks)  java.lang.ref.NativeReferenceQueue
+    │       │   └── 22.5µs (0.7%) [[via 9 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    │       └── 40.9µs (1.3%) [[via 8 frames]] poll()  java.lang.ref.NativeReferenceQueue
+    └── 0.1ms (2.9%) [[via 19–34 frames]] fallback(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[])  org.codehaus.groovy.vmplugin.v8.IndyInterface
+        ├── 28.5µs (0.9%) [[via 14 frames]] poll()  java.lang.ref.NativeReferenceQueue
+        ├── 23.8µs (0.7%) [[via 17 frames]] poll()  java.lang.ref.NativeReferenceQueue
+        └── 10.1µs (0.3%) [[via 5 frames]] get(Object)  jdk.internal.util.ReferencedKeySet
+```
+
 ## Hottest functions
 
 ### Self time

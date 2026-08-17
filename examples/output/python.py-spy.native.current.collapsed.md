@@ -8,6 +8,53 @@ Collected 269 samples.
 | Ours             |  5.2% |      14 |
 | Standard library |  0.4% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 269 samples (100.0%) 0x7faf691d024a  (self 0.7%)  libc.so.6
+    ├── 265 samples (98.5%) _run_module_as_main  <frozen runpy>
+    │   ├── 254 samples (94.4%) [[via 14 frames]] CPyDef_black___format_file_contents  30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   ├── 170 samples (63.2%) CPyDef_black___format_str
+    │   │   │   └── 170 samples (63.2%) CPyDef_black____format_str_once
+    │   │   │       ├── 69 samples (25.7%) [[via 2 frames]] CPyDef_driver___Driver___parse_tokens  (self 3.3%; 4.5% in 2 call stacks)  30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so
+    │   │   │       │   ├── 37 samples (13.8%) CPyDef_parse___Parser___addtoken
+    │   │   │       │   │   ├── 35 samples (13.0%) CPyDef_parse___Parser____addtoken  (self 3.7%; 5.6% in 2 call stacks)
+    │   │   │       │   │   │   ├── 12 samples (4.5%) CPyDef_parse___Parser___pop  (self 3.0%; 3.7% in 2 call stacks)
+    │   │   │       │   │   │   │   ├── 2 samples (0.7%) 0x7faf68690a10  (1.5% self in 3 call stacks)
+    │   │   │       │   │   │   │   └── 1 sample (0.4%) CPyDef_pytree___convert  (1.1% self in 2 call stacks)
+    │   │   │       │   │   │   ├── 7 samples (2.6%) CPyDef_parse___Parser___push  (self 1.9%; 3.0% in 2 call stacks)
+    │   │   │       │   │   │   │   └── 1 sample (0.4%) 0x7faf68690a10
+    │   │   │       │   │   │   └── 6 samples (2.2%) 2 more branches, largest CPyDef_parse___Parser___shift (1.9%)
+    │   │   │       │   │   └── 2 samples (0.7%) CPyDef_parse___Parser___classify
+    │   │   │       │   ├── 17 samples (6.3%) CPyDef_driver___TokenProxy_____next__
+    │   │   │       │   │   └── 17 samples (6.3%) CPyDef_tokenize___generate_tokens_gen_____mypyc_generator_helper__  (self 4.1%; 5.6% in 2 call stacks)
+    │   │   │       │   │       └── 6 samples (2.2%) 5 more branches, largest CPyStr_GetItem (0.7%)
+    │   │   │       │   └── 6 samples (2.2%) 4 more branches, largest pytree___Node_clear (1.1%)
+    │   │   │       ├── 57 samples (21.2%) CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__  (self 2.6%; 4.5% in 11 call stacks)
+    │   │   │       │   ├── 1 sample (0.4%) [[via 7 frames]] 0x7faf692fc480  (1.5% self in 4 call stacks)  libc.so.6
+    │   │   │       │   └── 49 samples (18.2%) 8 more branches, largest CPyDef_linegen___visit_default_LineGenerator_gen_____mypyc_generator_helper__ (9.3%)  30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so and CPyDef_linegen___visit_STRING_LineGenerator_gen_____mypyc_generator_helper__ (3.0%)
+    │   │   │       ├── 17 samples (6.3%) CPyDef_black___detect_target_versions
+    │   │   │       │   └── 17 samples (6.3%) CPyDef_black___get_features_used  (self 4.1%)
+    │   │   │       │       └── 6 samples (2.2%) 3 more branches, largest CPyDef_pytree___pre_order_Node_gen_____mypyc_generator_helper__ (1.5%)
+    │   │   │       ├── 17 samples (6.3%) CPyDef_linegen___transform_line_gen_____mypyc_generator_helper__
+    │   │   │       │   ├── 2 samples (0.7%) CPyDef_lines___line_to_string
+    │   │   │       │   │   └── 2 samples (0.7%) CPyDef_lines___Line_____str__  (2.2% self in 4 call stacks)
+    │   │   │       │   └── 14 samples (5.2%) 4 more branches, largest CPyDef_linegen___run_transformer (2.6%)  30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so and CPyDef_linegen____hugging_power_ops_line_to_string (1.9%)
+    │   │   │       └── 9 samples (3.3%) 4 more branches, largest CPyDef_lines___EmptyLineTracker___maybe_empty_lines (1.9%) and CPyDef_lines___Line_____str__ (0.7%)
+    │   │   └── 84 samples (31.2%) CPyDef_black___check_stability_and_equivalence
+    │   │       ├── 64 samples (23.8%) CPyDef_black___assert_stable
+    │   │       │   └── 64 samples (23.8%) CPyDef_black____format_str_once
+    │   │       │       └── 64 samples (23.8%) 7 more branches, largest CPyDef_parsing___lib2to3_parse (9.7%) and CPyDef_nodes___visit_Visitor_gen_____mypyc_generator_helper__ (7.1%)
+    │   │       └── 20 samples (7.4%) CPyDef_black___assert_equivalent
+    │   │           ├── 12 samples (4.5%) CPyDef_parsing____stringify_ast_gen_____mypyc_generator_helper__  (self 1.5%)
+    │   │           │   └── 8 samples (3.0%) 5 more branches, largest parsing____stringify_ast_with_new_parent_gen_dealloc (1.1%)  30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so and CPyDef_parsing____stringify_ast_with_new_parent_gen_____mypyc_generator_helper__ (0.7%)
+    │   │           └── 7 samples (2.6%) [[via 2 frames]] parse  (self 2.2%)  ast.py
+    │   └── 11 samples (4.1%) 1 more branch, _get_module_details
+    └── 1 sample (0.4%) _find_and_load  <frozen importlib._bootstrap>
+```
+
 ## Hottest functions
 
 ### Self samples

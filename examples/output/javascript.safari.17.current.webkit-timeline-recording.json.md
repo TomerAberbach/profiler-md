@@ -10,6 +10,53 @@ Took 102.2ms over 91 samples (1.1ms per sample).
 
 Paths starting with `./` or `../` are relative to `https://en.wikipedia.org/w/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 28.0ms (27.4%) (anonymous)  ./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:22:558
+│   ├── 16.0ms (15.7%) doPropagation  (self 1.0%)  :5:254
+│   │   └── 15.0ms (14.7%) execute  (self 1.0%)  :10:868
+│   │       └── 14.0ms (13.7%) runScript  :11:59
+│   │           └── 14.0ms (13.7%) 11 more branches, largest (anonymous) (2.9%)  ./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:1:57 and index.js (2.0%)
+│   └── 12.0ms (11.7%) [[via 3 frames]] eval  (self 9.8%)
+│       └── 2.0ms (2.0%) 2 more branches, largest (program) (1.0%)  ./load.php?lang=en&modules=ext.visualEditor.desktopArticleTarget.init&skin=vector-2022&version=1xmtn:1:1 and (program) (1.0%)
+├── 23.2ms (22.7%) unformattedArticleTextContentIncludingMetadata  __InjectedScript_ReaderArticleFinder.js:13:67861
+│   ├── 12.9ms (12.7%) articleTitle  :13:39565
+│   │   └── 12.9ms (12.7%) articleTitleInformation  :13:39662
+│   │       ├── 6.5ms (6.3%) extraArticleNode  :13:8749
+│   │       │   └── 6.5ms (6.3%) findExtraArticle  :13:55651
+│   │       │       ├── 3.2ms (3.2%) [[via 2 frames]] elementLooksLikePartOfACarousel  __InjectedScript_ReaderArticleFinder.js:12:8505
+│   │       │       └── 3.2ms (3.2%) [[via 4 frames]] t  __InjectedScript_ReaderArticleFinder.js:13:56642
+│   │       ├── 3.2ms (3.2%) normalizedElementTagName  (4.1% self in 2 call stacks)  :12:19601
+│   │       └── 3.2ms (3.2%) domDistance  :12:2553
+│   ├── 7.0ms (6.9%) articleNode  :13:8074
+│   │   ├── 3.0ms (2.9%) [[via 2 frames]] (anonymous)  __InjectedScript_ReaderArticleFinder.js:12:26177
+│   │   │   ├── 1.0ms (1.0%) [[via 3 frames]] evaluate  (2.0% self in 2 call stacks)
+│   │   │   └── 2.0ms (2.0%) 2 more branches, largest (anonymous) (1.0%)  :12:26535 and cachedElementBoundingRect (1.0%)
+│   │   └── 4.0ms (3.9%) 2 more branches, largest adjustArticleNodeUpwardIfNecessary (2.9%)  :13:4514 and checkForIframeCoveringMostOfWebpage (1.0%)
+│   └── 3.2ms (3.2%) [[via 5 frames]] trimmedInnerTextIgnoringTextTransform  __InjectedScript_ReaderArticleFinder.js:12:6561
+├── 16.0ms (15.7%) flushCssBuffer  ./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:4:217
+│   ├── 12.0ms (11.7%) (anonymous)  :12:421
+│   │   └── 12.0ms (11.7%) runScript  :11:59
+│   │       ├── 8.0ms (7.8%) resources/skins.vector.js/skin.js  ./load.php?lang=en&modules=skins.vector.js&skin=vector-2022&version=1v3o6:1:155
+│   │       │   ├── 7.0ms (6.9%) main  :1:965
+│   │       │   │   ├── 5.0ms (4.9%) [[via 3 frames]] getPropertyValue
+│   │       │   │   └── 2.0ms (2.0%) 2 more branches, largest init (1.0%)  :42:160 and dropdownMenus (1.0%)
+│   │       │   └── 1.0ms (1.0%) 1 more branch, require  ./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:8:344
+│   │       └── 4.0ms (3.9%) 4 more branches, largest (anonymous) (1.0%)  ./load.php?lang=en&modules=ext.gadget.ReferenceTooltips&skin=vector-2022&version=1kgeg:1:79 and js/ext.uls.interface.js (1.0%)
+│   └── 4.0ms (3.9%) [[via 2 frames]] insertBefore  (5.9% self in 2 call stacks)
+├── 12.0ms (11.7%) (anonymous)  ./load.php?lang=en&modules=jquery&skin=vector-2022&version=r2z40:45:636
+│   └── 12.0ms (11.7%) mightThrow  :44:918
+│       └── 12.0ms (11.7%) 7 more branches, largest (anonymous) (3.9%)  ./load.php?lang=en&modules=mediawiki.page.ready&skin=vector-2022&version=1et5k:1:977 and (anonymous) (2.9%)
+├── 4.0ms (3.9%) (program)  ./load.php?lang=en&modules=startup&only=scripts&raw=1&skin=vector-2022:1:1
+│   └── 4.0ms (3.9%) (anonymous)  (self 1.0%)  :22:812
+│       └── 3.0ms (2.9%) 2 more branches, largest load (2.0%)  :18:946 and register (1.0%)
+├── 1.0ms (1.0%) [[via 3 frames]] collectMatchingElementsInFlatTree  (2.0% self in 2 call stacks)
+└── 18.0ms (17.6%) 5 more branches, largest formsAndMetadata (10.8%)  FormMetadata.js:3:82286 and isReaderModeAvailable (3.9%)
+```
+
 ## Hottest functions
 
 ### Self time

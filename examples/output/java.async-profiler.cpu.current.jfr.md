@@ -10,6 +10,53 @@ Collected 4,903 samples.
 | JIT              |  1.4% |      70 |
 | Compiler         |  1.0% |      47 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 4,618 samples (94.2%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 4,618 samples (94.2%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 4,294 samples (87.6%) [[via 2 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│       │   ├── 3,924 samples (80.0%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│       │   │   └── 3,923 samples (80.0%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 1,838 samples (37.5%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 1,375 samples (28.0%) [[via 1 frame]] findNearestCentroid()  (self 8.0%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   ├── 900 samples (18.4%) distance(Double[], Double[])  (self 18.0%)
+│       │   │       │   │   └── 83 samples (1.7%) 5 more branches, largest get(int) (1.4%)  java.util.ArrayList
+│       │   │       │   └── 463 samples (9.4%) [[via 1 frame]] collectClusters(int[])  (self 2.7%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 163 samples (3.3%) computeIfAbsent(Object, Function)  (self 2.9%)  java.util.HashMap
+│       │   │       │       ├── 122 samples (2.5%) add(Object)  java.util.ArrayList
+│       │   │       │       │   └── 118 samples (2.4%) add(Object, Object[], int)
+│       │   │       │       │       └── 100 samples (2.0%) grow()  (self 0.7%)
+│       │   │       │       │           └── 65 samples (1.3%) grow(int)  (self 0.7%)
+│       │   │       │       │               └── 20 samples (0.4%) zero_blocks
+│       │   │       │       └── 44 samples (0.9%) get(int)  java.util.ArrayList
+│       │   │       │           ├── 25 samples (0.5%) elementData(int)
+│       │   │       │           └── 19 samples (0.4%) checkIndex(int, int)  java.util.Objects
+│       │   │       ├── 1,456 samples (29.7%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 1,456 samples (29.7%) [[via 1 frame]] vectorSum()  (self 9.4%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 894 samples (18.2%) accumulate(Double[], double[])  (self 16.4%)
+│       │   │       │       │   └── 89 samples (1.8%) doubleValue()  java.lang.Double
+│       │   │       │       └── 98 samples (2.0%) get(int)  java.util.ArrayList
+│       │   │       │           └── 95 samples (1.9%) elementData(int)  (3.8% self in 83 call stacks)
+│       │   │       ├── 350 samples (7.1%) join()  java.util.concurrent.ForkJoinTask
+│       │   │       │   └── 346 samples (7.1%) awaitDone(int, long)
+│       │   │       │       ├── 303 samples (6.2%) [[via 4 frames]] __psynch_cvwait  (15.5% self in 112 call stacks)  libsystem_kernel.dylib
+│       │   │       │       └── 24 samples (0.5%) helpJoin(ForkJoinTask, ForkJoinPool$WorkQueue, boolean)  java.util.concurrent.ForkJoinPool
+│       │   │       └── 241 samples (4.9%) [[via 6 frames]] merge(Object, Object, BiFunction)  java.util.HashMap
+│       │   │           ├── 172 samples (3.5%) apply(Object, Object)  org.renaissance.jdk.concurrent.JavaKMeans$$Lambda.0x00000003011a7248
+│       │   │           │   └── 172 samples (3.5%) lambda$merge$6(List, List)  org.renaissance.jdk.concurrent.JavaKMeans
+│       │   │           │       ├── 51 samples (1.0%) [[via 4 frames]] forward_copy_longs  (4.3% self in 76 call stacks)
+│       │   │           │       └── 109 samples (2.2%) 1 more branch, addAll(Collection)  java.util.ArrayList
+│       │   │           ├── 24 samples (0.5%) zero_blocks  (1.3% self in 34 call stacks)
+│       │   │           └── 39 samples (0.8%) 1 more branch, arrayof_jint_disjoint_arraycopy
+│       │   ├── 24 samples (0.5%) [[via 5 frames]] __psynch_cvsignal  (1.3% self in 20 call stacks)  libsystem_kernel.dylib
+│       │   └── 342 samples (7.0%) 5 more branches, largest exec() (6.4%)  java.util.concurrent.RecursiveTask and setDone() (0.5%)
+│       └── 311 samples (6.3%) 3 more branches, largest awaitWork(ForkJoinPool$WorkQueue) (6.3%)
+└── 285 samples (5.8%) 7 more branches, largest thread_start (4.7%)  libsystem_pthread.dylib and main(String[]) (0.9%)
+```
+
 ## Hottest functions
 
 ### Self samples

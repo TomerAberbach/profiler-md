@@ -11,6 +11,53 @@ Collected 1,555 samples.
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1,554 samples (99.9%) <main>  ./profile.rb
+    ├── 1,468 samples (94.4%) [[via 4 frames]] ActionDispatch::Static#call  /usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/static.rb
+    │   └── 1,457 samples (93.7%) [[via 11 frames]] ActiveSupport::Callbacks#run_callbacks  /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/callbacks.rb
+    │       ├── 1,311 samples (84.3%) [[via 39 frames]] AbstractController::Rendering#render  /usr/local/bundle/gems/actionpack-8.1.3.1/lib/abstract_controller/rendering.rb
+    │       │   └── 1,299 samples (83.5%) [[via 9 frames]] ActionView::TemplateRenderer#render  /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/renderer/template_renderer.rb
+    │       │       └── 1,294 samples (83.2%) [[via 2 frames]] ActiveSupport::Notifications.instrument  /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/notifications.rb
+    │       │           └── 1,288 samples (82.8%) [[via 8 frames]] Kernel#public_send [c function]
+    │       │               ├── 910 samples (58.5%) #<Class:0xffff71e26550>#_app_views_statuses_index_html_erb___3573933945962839437_3112
+    │       │               │   └── 908 samples (58.4%) Array#each
+    │       │               │       ├── 696 samples (44.8%) block in _app_views_statuses_index_html_erb___3573933945962839437_3112  (self 1.5%)
+    │       │               │       │   ├── 574 samples (36.9%) ActionView::Helpers::SanitizeHelper#sanitize  /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/sanitize_helper.rb
+    │       │               │       │   │   └── 571 samples (36.7%) Rails::HTML::Concern::ComposedSanitize#sanitize  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │       │               │       │   │       ├── 179 samples (11.5%) [[via 2 frames]] Nokogiri::XML::DocumentFragment#to_html  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
+    │       │               │       │   │       │   ├── 162 samples (10.4%) Nokogiri::XML::NodeSet#to_html  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb
+    │       │               │       │   │       │   │   └── 155 samples (10.0%) Enumerable#map [c function]
+    │       │               │       │   │       │   │       └── 149 samples (9.6%) Nokogiri::XML::NodeSet#each  (5.1% self in 3 call stacks)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/node_set.rb
+    │       │               │       │   │       │   │           └── 146 samples (9.4%) 2 more branches, largest Integer#upto [c function] (9.3%)
+    │       │               │       │   │       │   └── 11 samples (0.7%) Nokogiri::XML::Node#children [c function]  (1.3% self in 4 call stacks)
+    │       │               │       │   │       └── 385 samples (24.8%) 2 more branches, largest Rails::HTML::Concern::Scrubber::SafeList#scrub (14.5%) and Rails::HTML::Concern::Parser::HTML5#parse_fragment (10.2%)
+    │       │               │       │   └── 98 samples (6.3%) 6 more branches, largest ActionView::Helpers::UrlHelper#link_to (2.3%)  /usr/local/bundle/gems/actionview-8.1.3.1/lib/action_view/helpers/url_helper.rb and block in define_url_helper (1.7%)
+    │       │               │       ├── 70 samples (4.5%) [[via 12–16 frames]] Module#extend_object [c function]
+    │       │               │       ├── 31 samples (2.0%) [[via 7–11 frames]] ActionDispatch::Journey::Router::Utils::UriEncoder#escape_segment  /usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/journey/router/utils.rb
+    │       │               │       │   └── 26 samples (1.7%) String#gsub [c function]  (self 1.6%; 2.8% in 6 call stacks)
+    │       │               │       └── 98 samples (6.3%) 4 more branches, largest block in scrub_attributes (4.2%)  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb and block in force_correct_attribute_escaping! (1.4%)
+    │       │               ├── 320 samples (20.6%) [[via 10 frames]] ActiveSupport::NumberHelper::NumberConverter#execute  /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb
+    │       │               │   └── 312 samples (20.1%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#convert  /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_to_delimited_converter.rb
+    │       │               │       ├── 304 samples (19.5%) ActiveSupport::NumberHelper::NumberToDelimitedConverter#parts
+    │       │               │       │   ├── 265 samples (17.0%) [[via 2 frames]] ActiveSupport::NumberHelper::NumberConverter#format_options  /usr/local/bundle/gems/activesupport-8.1.3.1/lib/active_support/number_helper/number_converter.rb
+    │       │               │       │   │   ├── 248 samples (15.9%) ActiveSupport::NumberHelper::NumberConverter#i18n_format_options  (self 9.5%)
+    │       │               │       │   │   │   └── 100 samples (6.4%) 2 more branches, largest I18n::Base#translate (6.2%)  /usr/local/bundle/gems/i18n-1.15.2/lib/i18n.rb
+    │       │               │       │   │   └── 16 samples (1.0%) 2 more branches, largest ActiveSupport::NumberHelper::NumberConverter#default_format_options (0.6%)
+    │       │               │       │   └── 33 samples (2.1%) 3 more branches, largest String#split [c function] (1.2%) and String#gsub! [c function] (0.8%)
+    │       │               │       └── 5 samples (0.3%) Array#join [c function]
+    │       │               └── 52 samples (3.3%) 1 more branch, #<Class:0xffff71e26550>#_app_views_layouts_application_html_erb__2593190439123575800_3144
+    │       └── 139 samples (8.9%) [[via 3 frames]] Rack::Session::Abstract::Persisted#context  /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │           ├── 120 samples (7.7%) [[via 3 frames]] Rack::ETag#call  /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │           │   ├── 94 samples (6.0%) [[via 3 frames]] Digest::Base#<< [c function]
+    │           │   └── 23 samples (1.5%) 1 more branch, Rack::TempfileReaper#call  /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │           └── 18 samples (1.2%) 2 more branches, largest ActionDispatch::Session::SessionObject#commit_session (1.1%)  /usr/local/bundle/gems/actionpack-8.1.3.1/lib/action_dispatch/middleware/session/abstract_store.rb
+    └── 79 samples (5.1%) 3 more branches, largest Kernel#require_relative [c function] (4.6%)
+```
+
 ## Hottest functions
 
 ### Self samples

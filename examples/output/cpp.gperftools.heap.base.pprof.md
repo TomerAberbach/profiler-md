@@ -8,6 +8,14 @@ Allocated 120 MiB over 1,998,001 objects (62.9 B per object).
 
 Paths starting with `./` or `../` are relative to `/src/fmt/include/fmt/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 120 MiB (100.0%) [[via 8 frames]] std::__cxx11::basic_string::_M_construct  /usr/include/c++/12/bits/basic_string.tcc:217
+```
+
 ## Hottest functions
 
 ### Self size

@@ -1,3 +1,4 @@
+import type { FormattingProfileToMdOptions } from '../../options.ts'
 import type { Metric } from '../metric.ts'
 import type { AggregatedCallStackProfile } from './aggregate.ts'
 import type { AggregatedCallStackProfileDiff } from './diff.ts'
@@ -119,6 +120,19 @@ export const selfValueOf = (
   measure: Measure,
   entity: { selfValues: Float64Array; selfCount: number },
 ): number => measure.valueOf(entity.selfValues, entity.selfCount)
+
+/**
+ * The functions a ranking by self value ranks: those the entry filter shows
+ * that the profile recorded executing.
+ */
+export const selfRankedFunctions = (
+  { functions, context }: AggregatedCallStackProfile,
+  measure: Measure,
+  { showEntry }: FormattingProfileToMdOptions,
+): AggregatedCallStackProfile[`functions`] =>
+  functions.filter(
+    func => selfValueOf(measure, func) > 0 && showEntry(func, context),
+  )
 
 export const totalValueOf = (
   measure: Measure,

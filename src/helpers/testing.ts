@@ -136,50 +136,65 @@ export type Table = Row[]
  * heading, or the first one in a subsection of it when the ranking shows only
  * under the category every ranked entry falls in.
  */
-export const allTablesAfterHeading = (root: Root, heading: string): Table[] => {
-  const nodes = root.children
-  const results: Table[] = []
-  for (let i = 0; i < nodes.length; i++) {
-    const node = nodes[i]!
-    if (node.type === `heading` && nodeText(node) === heading) {
-      const table = firstTableInSection(nodes, i + 1, node.depth)
-      if (table) {
-        results.push(rowsFromTable(table))
-      }
-    }
-  }
-  return results
-}
+export const allTablesAfterHeading = (root: Root, heading: string): Table[] =>
+  allNodesAfterHeading(root.children, text => text === heading, `table`).map(
+    rowsFromTable,
+  )
+
+/** The lines of each code block that first follows a {@link heading}. */
+export const allCodeBlocksAfterHeading = (
+  root: Root,
+  heading: string,
+): string[][] =>
+  allNodesAfterHeading(root.children, text => text === heading, `code`).map(
+    ({ value }) => value.split(`\n`),
+  )
 
 export const allTablesAfterHeadingContaining = (
   nodes: readonly Node[],
   substring: string,
-): Table[] => {
-  const results: Table[] = []
+): Table[] =>
+  allNodesAfterHeading(nodes, text => text.includes(substring), `table`).map(
+    rowsFromTable,
+  )
+
+type ContentOfType<Type extends RootContent[`type`]> = Extract<
+  RootContent,
+  { type: Type }
+>
+
+/** The first node of a type in each section whose heading matches. */
+const allNodesAfterHeading = <Type extends `table` | `code`>(
+  nodes: readonly Node[],
+  matches: (headingText: string) => boolean,
+  type: Type,
+): ContentOfType<Type>[] => {
+  const results: ContentOfType<Type>[] = []
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i]!
-    if (node.type === `heading` && nodeText(node).includes(substring)) {
-      const table = firstTableInSection(nodes, i + 1, (node as Heading).depth)
-      if (table) {
-        results.push(rowsFromTable(table))
+    if (node.type === `heading` && matches(nodeText(node))) {
+      const found = firstInSection(nodes, i + 1, (node as Heading).depth, type)
+      if (found) {
+        results.push(found)
       }
     }
   }
   return results
 }
 
-const firstTableInSection = (
-  nodes: readonly (Node | RootContent)[],
+const firstInSection = <Type extends `table` | `code`>(
+  nodes: readonly Node[],
   from: number,
   depth: number,
-): MdastTable | undefined => {
+  type: Type,
+): ContentOfType<Type> | undefined => {
   for (let i = from; i < nodes.length; i++) {
     const node = nodes[i]!
     if (node.type === `heading` && (node as Heading).depth <= depth) {
       break
     }
-    if (node.type === `table`) {
-      return node as MdastTable
+    if (node.type === type) {
+      return node as ContentOfType<Type>
     }
   }
   return undefined

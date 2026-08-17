@@ -6,6 +6,53 @@ Allocated 259 MiB over 88,868 samples (2.98 KiB per sample).
 | -------- | -----: | ------: | ------: |
 | Native   | 100.0% | 259 MiB |  88,868 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 245 MiB (94.6%) [[via 3 frames]] Thread::call_run  libjvm.dylib
+│   ├── 128 MiB (49.6%) [[via 2 frames]] CompileBroker::invoke_compiler_on_method  libjvm.dylib
+│   │   ├── 127 MiB (49.0%) C2Compiler::compile_method
+│   │   │   └── 127 MiB (49.0%) Compile::Compile
+│   │   │       ├── 74.4 MiB (28.7%) Compile::Optimize
+│   │   │       │   ├── 38.3 MiB (14.8%) [[via 2 frames]] PhaseIdealLoop::build_and_optimize  libjvm.dylib
+│   │   │       │   │   ├── 29.9 MiB (11.6%) [[via 4 frames]] malloc_hook  libasyncProfiler.dylib
+│   │   │       │   │   └── 8.33 MiB (3.2%) 10 more branches, largest Node_Array::grow (0.8%) and GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to (0.8%)
+│   │   │       │   ├── 32.5 MiB (12.6%) [[via 3 frames]] PhaseIdealLoop::build_and_optimize  libjvm.dylib
+│   │   │       │   │   ├── 26.8 MiB (10.4%) [[via 4 frames]] malloc_hook  libasyncProfiler.dylib
+│   │   │       │   │   └── 5.72 MiB (2.2%) 9 more branches, largest GrowableArrayWithAllocator<long, GrowableArray<long>>::expand_to (0.7%) and Node_Array::grow (0.7%)
+│   │   │       │   └── 2.95 MiB (1.1%) 11 more branches, largest PhaseIterGVN::optimize (0.3%)
+│   │   │       ├── 47.4 MiB (18.3%) Compile::Code_Gen
+│   │   │       │   ├── 37.2 MiB (14.4%) PhaseChaitin::Register_Allocate
+│   │   │       │   │   ├── 29.3 MiB (11.3%) [[via 4 frames]] malloc_hook  libasyncProfiler.dylib
+│   │   │       │   │   ├── 6.29 MiB (2.4%) [[via 4 frames]] malloc_hook  libasyncProfiler.dylib
+│   │   │       │   │   └── 896 KiB (0.3%) PhaseChaitin::Split
+│   │   │       │   └── 9.86 MiB (3.8%) Matcher::match
+│   │   │       │       ├── 6.79 MiB (2.6%) Matcher::xform
+│   │   │       │       │   ├── 3.3 MiB (1.3%) [[via 3 frames]] malloc_hook  libasyncProfiler.dylib
+│   │   │       │       │   └── 2.94 MiB (1.1%) Matcher::match_tree
+│   │   │       │       │       └── 2.94 MiB (1.1%) 2 more branches, largest Matcher::Label_Root (0.7%)
+│   │   │       │       └── 3.07 MiB (1.2%) 3 more branches, largest Matcher::find_shared (0.8%)
+│   │   │       └── 2.78 MiB (1.1%) [[via 8–11 frames]] Parse::do_one_block  libjvm.dylib
+│   │   │           └── 2.78 MiB (1.1%) 13 more branches, largest Parse::do_call (0.5%)
+│   │   └── 1.58 MiB (0.6%) 4 more branches, largest Compiler::compile_method (0.6%)
+│   ├── 114 MiB (44.0%) [[via 3 frames]] VM_Operation::evaluate  libjvm.dylib
+│   │   ├── 108 MiB (41.7%) [[via 6 frames]] malloc_hook  (99.9% self in 20,151 call stacks)  libasyncProfiler.dylib
+│   │   └── 4.98 MiB (1.9%) [[via 3 frames]] G1YoungCollector::collect  libjvm.dylib
+│   │       ├── 2.8 MiB (1.1%) G1YoungCollector::pre_evacuate_collection_set
+│   │       │   └── 2.8 MiB (1.1%) 6 more branches, largest G1RemSetScanState::prepare (0.6%)
+│   │       └── 1.23 MiB (0.5%) G1YoungCollector::post_evacuate_collection_set
+│   └── 2.45 MiB (0.9%) 6 more branches, largest WorkerThread::run (0.8%)
+├── 11.6 MiB (4.5%) [[via 9 frames]] main(String[])  org.renaissance.harness.RenaissanceSuite
+│   ├── 10.2 MiB (3.9%) main(String[])  org.renaissance.harness.RenaissanceSuite$
+│   │   ├── 3.12 MiB (1.2%) [[via 7 frames]] setUpBeforeAll(BenchmarkContext)  org.renaissance.jdk.concurrent.FjKmeans
+│   │   │   └── 3.12 MiB (1.2%) 14 more branches, largest toCsvRows(Function) (1.1%)  org.renaissance.core.BenchmarkDescriptor$Configuration$Parameter
+│   │   └── 6.08 MiB (2.3%) 24 more branches, largest <clinit>() (0.7%)  scala.Predef$
+│   └── 1.4 MiB (0.5%) 2 more branches, largest loadClass(String) (0.5%)  java.lang.ClassLoader
+└── 627 KiB (0.2%) break_deopt
+```
+
 ## Hottest functions
 
 ### Self size

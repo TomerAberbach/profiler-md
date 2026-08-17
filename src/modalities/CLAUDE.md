@@ -52,6 +52,7 @@ modalities
   | Measure        | What ranks the rows                                  | `Self time`, `Retained size`                |
   | Partition      | A subset of the same rows                            | `Categories` › `Ours`, `Regressions`        |
   | Breakdown      | The breakdown's rows, then the entity it breaks down | `Lines`, `Callers`, `Retainer paths`        |
+  | View           | The form the section shows the whole profile in      | `Call tree`                                 |
 
 - Open the heading directly above a ranking's tables with one sentence naming
   the rows and what ranks them: `<Rows> with the most <amount>` or

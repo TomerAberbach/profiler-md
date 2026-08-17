@@ -10,6 +10,53 @@ Collected 1,315 samples.
 | Standard library |  5.2% |      69 |
 | JIT              |  1.1% |      14 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 872 samples (66.3%) [[via 3 frames]] Thread::call_run  libjvm.dylib
+│   ├── 783 samples (59.5%) JavaThread::thread_main_inner
+│   │   └── 781 samples (59.4%) CompileBroker::compiler_thread_loop
+│   │       ├── 768 samples (58.4%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 523 samples (39.8%) C2Compiler::compile_method
+│   │       │   │   └── 522 samples (39.7%) Compile::Compile
+│   │       │   │       └── 522 samples (39.7%) 6 more branches, largest Compile::Code_Gen (20.3%) and Compile::Optimize (13.6%)
+│   │       │   ├── 238 samples (18.1%) [[via 2 frames]] Compilation::compile_method  libjvm.dylib
+│   │       │   │   ├── 218 samples (16.6%) Compilation::compile_java_method
+│   │       │   │   │   ├── 84 samples (6.4%) Compilation::build_hir
+│   │       │   │   │   │   ├── 61 samples (4.6%) [[via 2 frames]] GraphBuilder::GraphBuilder  libjvm.dylib
+│   │       │   │   │   │   │   ├── 54 samples (4.1%) GraphBuilder::iterate_all_blocks
+│   │       │   │   │   │   │   │   ├── 29 samples (2.2%) GraphBuilder::iterate_bytecodes_for_block
+│   │       │   │   │   │   │   │   │   ├── 2 samples (0.2%) tlv_get_addr  (1.9% self in 24 call stacks)  libdyld.dylib
+│   │       │   │   │   │   │   │   │   └── 27 samples (2.1%) 6 more branches, largest GraphBuilder::invoke (1.4%)
+│   │       │   │   │   │   │   │   └── 25 samples (1.9%) 2 more branches, largest GraphBuilder::iterate_bytecodes_for_block (1.8%)  libjvm.dylib
+│   │       │   │   │   │   │   └── 4 samples (0.3%) BlockListBuilder::BlockListBuilder
+│   │       │   │   │   │   └── 23 samples (1.7%) 7 more branches, largest GlobalValueNumbering::GlobalValueNumbering (0.8%)
+│   │       │   │   │   └── 134 samples (10.2%) 4 more branches, largest Compilation::emit_lir (7.2%) and Compilation::emit_code_body (2.8%)
+│   │       │   │   └── 20 samples (1.5%) 1 more branch, ciEnv::register_method
+│   │       │   └── 1 sample (0.1%) [[via 7 frames]] SymbolTable::do_lookup  (1.7% self in 23 call stacks)  libjvm.dylib
+│   │       └── 7 samples (0.5%) [[via 3 frames]] __psynch_cvwait  libsystem_kernel.dylib
+│   └── 89 samples (6.8%) 3 more branches, largest WorkerThread::run (6.4%)
+├── 435 samples (33.1%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 435 samples (33.1%) run(String[])
+│       ├── 358 samples (27.2%) [[via 12 frames]] exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 353 samples (26.8%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── 340 samples (25.9%) [[via 9 frames]] invoke(PhaseConfig, PhaserState, LoggingContext, Object)  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   └── 340 samples (25.9%) 3 more branches, largest phaseBody(LoggingContext, Object) (24.0%)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase and phaseBody(LoggingContext, Object) (1.4%)
+│       │       └── 9 samples (0.7%) 1 more branch, <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       └── 73 samples (5.6%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 66 samples (5.0%) loadAllClassesFromJars(Collection, int, ClassHandler)
+│           │   ├── 52 samples (4.0%) [[via 5 frames]] Java_java_util_zip_Inflater_inflateBytesBytes  libzip.dylib
+│           │   │   ├── 39 samples (3.0%) inflate_fast
+│           │   │   ├── 2 samples (0.2%) jni_GetPrimitiveArrayCritical  libjvm.dylib
+│           │   │   │   └── 2 samples (0.2%) pthread_jit_write_protect_np  (1.1% self in 13 call stacks)  libsystem_pthread.dylib
+│           │   │   └── 11 samples (0.8%) 1 more branch, inflate
+│           │   └── 9 samples (0.7%) 6 more branches, largest put(Object, Object) (0.2%)  java.util.HashMap
+│           └── 7 samples (0.5%) 1 more branch, loadAllClassesFromJars(Collection, int, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+└── 4 samples (0.3%) break_stack_range
+```
+
 ## Hottest functions
 
 ### Self samples

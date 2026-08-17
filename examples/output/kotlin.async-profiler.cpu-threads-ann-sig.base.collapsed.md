@@ -12,6 +12,53 @@ Collected 1,366 samples.
 | Garbage collector |  0.1% |       1 |
 | Unknown           |  0.1% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 918 samples (67.2%) [[via 3 frames]] Thread::call_run()
+│   ├── 836 samples (61.2%) JavaThread::thread_main_inner()
+│   │   └── 835 samples (61.1%) CompileBroker::compiler_thread_loop()
+│   │       ├── 822 samples (60.2%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 578 samples (42.3%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 577 samples (42.2%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 286 samples (20.9%) Compile::Code_Gen()
+│   │       │   │       │   ├── 167 samples (12.2%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 32 samples (2.3%) PhaseChaitin::Split(unsigned int, ResourceArea*)  (self 1.5%)
+│   │       │   │       │   │   │   └── 11 samples (0.8%) 9 more branches, largest PhaseChaitin::split_DEF(Node*, Block*, int, unsigned int, Node**, Node**, GrowableArray<unsigned int>, int) (0.1%)
+│   │       │   │       │   │   ├── 27 samples (2.0%) PhaseChaitin::build_ifg_physical(ResourceArea*)  (self 1.2%)
+│   │       │   │       │   │   │   └── 6 samples (0.4%) PhaseChaitin::compute_initial_block_pressure(Block*, IndexSet*, PhaseChaitin::Pressure&, PhaseChaitin::Pressure&, double)
+│   │       │   │       │   │   └── 107 samples (7.8%) 23 more branches, largest PhaseChaitin::gather_lrg_masks(bool) (1.2%) and PhaseChaitin::post_allocate_copy_removal() (1.0%)
+│   │       │   │       │   └── 119 samples (8.7%) 10 more branches, largest Matcher::match() (3.6%) and PhaseOutput::Output() (2.2%)
+│   │       │   │       ├── 70 samples (5.1%) ParseGenerator::generate(JVMState*)
+│   │       │   │       │   ├── 16 samples (1.2%) [[via 2 frames]] Parse::do_one_block()
+│   │       │   │       │   │   ├── 1 sample (0.1%) [[via 10 frames]] InstanceKlass::find_method_index(Array<Method*> const*, Symbol const*, Symbol const*, Klass::OverpassLookupMode, Klass::StaticLookupMode, Klass::PrivateLookupMode)  (1.3% self in 18 call stacks)
+│   │       │   │       │   │   └── 11 samples (0.8%) 7 more branches, largest Parse::do_one_bytecode() (0.2%)
+│   │       │   │       │   └── 54 samples (4.0%) 1 more branch, Parse::Parse(JVMState*, ciMethod*, float)
+│   │       │   │       └── 221 samples (16.2%) 5 more branches, largest Compile::Optimize() (15.3%)
+│   │       │   └── 244 samples (17.9%) 6 more branches, largest Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*) (17.3%)
+│   │       └── 11 samples (0.8%) [[via 2 frames]] PlatformMonitor::wait(unsigned long long)
+│   │           ├── 6 samples (0.4%) __psynch_cvwait
+│   │           └── 3 samples (0.2%) [[via 2 frames]] __psynch_mutexwait  (1.0% self in 10 call stacks)
+│   └── 82 samples (6.0%) 4 more branches, largest WorkerThread::run() (5.2%) and VMThread::run() (0.7%)
+├── 439 samples (32.1%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 439 samples (32.1%) run(String[])
+│       ├── 355 samples (26.0%) [[via 12 frames]] exec(PrintStream, Services, MessageRenderer, String[])  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   └── 351 samples (25.7%) exec(MessageCollector, Services, CommonCompilerArguments)
+│       │       ├── 337 samples (24.7%) [[via 9 frames]] invoke(PhaseConfig, PhaserState, LoggingContext, Object)  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │       │   └── 337 samples (24.7%) 3 more branches, largest phaseBody(LoggingContext, Object) (22.9%)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase and phaseBody(LoggingContext, Object) (1.3%)
+│       │       └── 9 samples (0.7%) 1 more branch, <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       └── 78 samples (5.7%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 71 samples (5.2%) loadAllClassesFromJars(Collection, int, ClassHandler)
+│           │   ├── 59 samples (4.3%) [[via 5 frames]] Java_java_util_zip_Inflater_inflateBytesBytes
+│           │   │   ├── 47 samples (3.4%) inflate_fast  (4.0% self in 3 call stacks)
+│           │   │   └── 11 samples (0.8%) inflate
+│           │   └── 2 samples (0.1%) put(Object, Object)  java.util.HashMap
+│           └── 7 samples (0.5%) 1 more branch, loadAllClassesFromJars(Collection, int, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+└── 6 samples (0.4%) [break_stack_range]
+```
+
 ## Hottest functions
 
 ### Self samples

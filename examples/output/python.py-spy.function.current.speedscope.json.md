@@ -9,6 +9,53 @@ Took 1.88s over 188 samples (10.0ms per sample).
 | Unknown          |  4.8% |  90.0ms |       9 |
 | Ours             |  0.5% |  10.0ms |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.79s (95.2%) _run_module_as_main  <frozen runpy>
+│   ├── 1.77s (94.1%) [[via 11 frames]] format_file_contents  /venv/lib/python3.11/site-packages/black/__init__.py
+│   │   ├── 930.0ms (49.5%) format_str
+│   │   │   └── 930.0ms (49.5%) _format_str_once
+│   │   │       ├── 460.0ms (24.5%) [[via 2 frames]] parse_tokens  (self 1.1%; 1.6% in 2 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py
+│   │   │       │   ├── 360.0ms (19.1%) addtoken  (self 1.6%)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │   │       │   │   ├── 320.0ms (17.0%) _addtoken  (self 6.4%; 15.4% in 2 call stacks)
+│   │   │       │   │   │   ├── 90.0ms (4.8%) pop
+│   │   │       │   │   │   ├── 80.0ms (4.3%) push
+│   │   │       │   │   │   └── 30.0ms (1.6%) 1 more branch, shift
+│   │   │       │   │   └── 10.0ms (0.5%) classify
+│   │   │       │   └── 80.0ms (4.3%) __next__
+│   │   │       │       └── 80.0ms (4.3%) generate_tokens  (self 3.7%; 4.3% in 2 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/tokenize.py
+│   │   │       │           └── 10.0ms (0.5%) 1 more branch, is_fstring_start
+│   │   │       ├── 340.0ms (18.1%) visit  (self 1.1%)  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   ├── 230.0ms (12.2%) [[via 2–4 frames]] visit_default  (self 0.5%; 1.6% in 2 call stacks)  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 120.0ms (6.4%) generate_comments  (self 4.3%; 6.9% in 3 call stacks)  /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   │   │   └── 40.0ms (2.1%) [[via 2 frames]] changed  (2.7% self in 4 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │   └── 100.0ms (5.3%) append  (self 1.1%; 1.6% in 3 call stacks)  /venv/lib/python3.11/site-packages/black/lines.py
+│   │   │       │   │       ├── 40.0ms (2.1%) mark  (self 1.1%; 2.7% in 4 call stacks)  /venv/lib/python3.11/site-packages/black/brackets.py
+│   │   │       │   │       │   └── 20.0ms (1.1%) is_split_before_delimiter
+│   │   │       │   │       └── 40.0ms (2.1%) whitespace  (self 0.5%; 1.6% in 3 call stacks)  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   │           └── 30.0ms (1.6%) 1 more branch, prev_sibling  /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   └── 90.0ms (4.8%) 5 more branches, largest visit_stmt (2.7%)  /venv/lib/python3.11/site-packages/black/linegen.py and visit_simple_stmt (0.5%)
+│   │   │       └── 130.0ms (6.9%) 5 more branches, largest detect_target_versions (2.7%) and maybe_empty_lines (1.6%)
+│   │   └── 840.0ms (44.7%) check_stability_and_equivalence  (self 0.5%)
+│   │       ├── 590.0ms (31.4%) assert_stable
+│   │       │   └── 590.0ms (31.4%) _format_str_once
+│   │       │       ├── 90.0ms (4.8%) detect_target_versions
+│   │       │       │   └── 90.0ms (4.8%) get_features_used  (self 4.3%; 6.4% in 2 call stacks)
+│   │       │       │       └── 10.0ms (0.5%) pre_order  (1.1% self in 2 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │       │       ├── 70.0ms (3.7%) transform_line  (self 1.6%)  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │       │       │   └── 40.0ms (2.1%) 3 more branches, largest run_transformer (1.1%) and line_to_string (0.5%)
+│   │       │       └── 430.0ms (22.9%) 5 more branches, largest lib2to3_parse (11.7%)  /venv/lib/python3.11/site-packages/black/parsing.py and visit (9.6%)
+│   │       └── 240.0ms (12.8%) assert_equivalent
+│   │           ├── 170.0ms (9.0%) [[via 2 frames]] parse  /usr/lib/python3.11/ast.py
+│   │           └── 70.0ms (3.7%) _stringify_ast  (self 2.1%)  /venv/lib/python3.11/site-packages/black/parsing.py
+│   │               └── 30.0ms (1.6%) [[via 2 frames]] _stringify_ast_with_new_parent  /venv/lib/python3.11/site-packages/black/parsing.py
+│   └── 20.0ms (1.1%) 1 more branch, _get_module_details
+└── 90.0ms (4.8%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

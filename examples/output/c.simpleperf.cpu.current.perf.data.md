@@ -10,6 +10,53 @@ Took 1.60s over 1,608 samples (1.0ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/zstd/programs/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 1.60s (99.9%) [[via 2 frames]] 0x9f1e  ./zstd
+    ├── 1.32s (82.3%) [[via 2 frames]] 0x1162e  ./zstd
+    │   ├── 1.03s (64.2%) 0x5a3f2
+    │   │   ├── 235.2ms (14.6%) 0x609c8  (17.2% self in 3 call stacks)
+    │   │   ├── 223.2ms (13.9%) 0x60980  (17.3% self in 2 call stacks)
+    │   │   ├── 178.2ms (11.1%) 0x60c38  (14.0% self in 2 call stacks)
+    │   │   ├── 176.2ms (10.9%) 0x60c5c  (13.6% self in 2 call stacks)
+    │   │   ├── 43.0ms (2.7%) 0x609b8  (3.5% self in 3 call stacks)
+    │   │   ├── 32.0ms (2.0%) 0x60c90  (2.7% self in 3 call stacks)
+    │   │   ├── 15.0ms (0.9%) 0x60a08
+    │   │   ├── 15.0ms (0.9%) 0x609ec
+    │   │   ├── 14.0ms (0.9%) 0x609bc
+    │   │   ├── 11.0ms (0.7%) 0x60978
+    │   │   ├── 9.0ms (0.6%) 0x609d4
+    │   │   ├── 8.0ms (0.5%) 0x60acc
+    │   │   ├── 6.0ms (0.4%) 0x60954
+    │   │   ├── 6.0ms (0.4%) 0x608f4
+    │   │   ├── 6.0ms (0.4%) 0x60c60
+    │   │   ├── 4.0ms (0.2%) 0x60c44
+    │   │   └── 51.1ms (3.2%) 30 more branches, largest 0x609a0 (0.4%)
+    │   ├── 39.0ms (2.4%) 0x5a65c  (3.0% self in 3 call stacks)
+    │   ├── 26.0ms (1.6%) 0x5a85c
+    │   ├── 24.0ms (1.5%) 0x5a7c0
+    │   ├── 17.0ms (1.1%) 0x5a78c
+    │   ├── 14.0ms (0.9%) 0x5a838
+    │   ├── 10.0ms (0.6%) 0x5a874
+    │   ├── 9.0ms (0.6%) 0x5a770
+    │   ├── 9.0ms (0.6%) 0x5a7a8
+    │   ├── 6.0ms (0.4%) 0x5a354
+    │   ├── 6.0ms (0.4%) 0x5a7fc
+    │   ├── 5.0ms (0.3%) 0x5a6dc
+    │   └── 126.1ms (7.8%) 59 more branches, largest 0x61b3e (1.2%)
+    └── 272.3ms (16.9%) [[via 3 frames]] 0x1162e  ./zstd
+        ├── 236.2ms (14.7%) 0x5a3f2
+        │   ├── 55.1ms (3.4%) 0x60980
+        │   ├── 47.0ms (2.9%) 0x60c38
+        │   ├── 42.0ms (2.6%) 0x60c5c
+        │   ├── 41.0ms (2.5%) 0x609c8
+        │   └── 51.1ms (3.2%) 19 more branches, largest 0x609b8 (0.7%) and 0x60c90 (0.6%)
+        └── 36.0ms (2.2%) 21 more branches, largest 0x5a65c (0.4%)
+```
+
 ## Hottest functions
 
 ### Self time

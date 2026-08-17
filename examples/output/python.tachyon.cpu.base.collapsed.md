@@ -8,6 +8,53 @@ Collected 958 samples.
 | Garbage collector | 31.5% |     302 |
 | Standard library  |  1.3% |      12 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 958 samples (100.0%) _run_module_as_main  <frozen runpy>
+    └── 958 samples (100.0%) _run_code
+        ├── 925 samples (96.6%) [[via 13 frames]] format_file_contents  __init__.py
+        │   ├── 475 samples (49.6%) format_str
+        │   │   └── 471 samples (49.2%) _format_str_once  (self 0.6%)
+        │   │       ├── 218 samples (22.8%) lib2to3_parse  parsing.py
+        │   │       │   └── 218 samples (22.8%) 1 more branch, Driver.parse_string  driver.py
+        │   │       ├── 82 samples (8.6%) Visitor.visit  (self 1.6%; 2.1% in 17 call stacks)  nodes.py
+        │   │       │   ├── 37 samples (3.9%) [[via 2–4 frames]] LineGenerator.visit_default  linegen.py
+        │   │       │   │   ├── 20 samples (2.1%) Line.append  (self 1.4%; 2.3% in 21 call stacks)  lines.py
+        │   │       │   │   │   └── 6 samples (0.6%) BracketTracker.mark  (self 0.5%)  brackets.py
+        │   │       │   │   └── 13 samples (1.4%) 4 more branches, largest generate_comments (0.6%)  comments.py and Visitor.visit_default (0.5%)
+        │   │       │   ├── 16 samples (1.7%) [[via 3 frames]] LineGenerator.visit_power  (self 0.8%)  linegen.py
+        │   │       │   │   └── 8 samples (0.8%) 1 more branch, LineGenerator.visit_default
+        │   │       │   └── 14 samples (1.5%) 5 more branches, largest LineGenerator.visit_stmt (0.6%)  linegen.py
+        │   │       ├── 64 samples (6.7%) detect_target_versions
+        │   │       │   └── 64 samples (6.7%) get_features_used  (self 6.5%; 9.3% in 2 call stacks)
+        │   │       ├── 13 samples (1.4%) normalize_fmt_off  comments.py
+        │   │       │   └── 13 samples (1.4%) convert_one_fmt_off_pair  (self 1.1%)
+        │   │       ├── 8 samples (0.8%) EmptyLineTracker.maybe_empty_lines  (self 0.7%)  lines.py
+        │   │       └── 80 samples (8.4%) 2 more branches, largest transform_line (7.6%)  linegen.py and LinesBlock.all_lines (0.7%)
+        │   └── 450 samples (47.0%) check_stability_and_equivalence  (self 0.5%)
+        │       ├── 374 samples (39.0%) assert_stable
+        │       │   └── 372 samples (38.8%) _format_str_once
+        │       │       ├── 293 samples (30.6%) [[via 2 frames]] Driver.parse_tokens  (self 2.2%; 5.1% in 2 call stacks)  driver.py
+        │       │       │   ├── 259 samples (27.0%) Parser.addtoken  (self 0.6%; 1.4% in 2 call stacks)  parse.py
+        │       │       │   │   ├── 246 samples (25.7%) Parser._addtoken  (self 4.1%; 17.6% in 7 call stacks)
+        │       │       │   │   │   ├── 191 samples (19.9%) Parser.shift  (0.8% self in 2 call stacks)
+        │       │       │   │   │   │   └── 188 samples (19.6%) convert  pytree.py
+        │       │       │   │   │   │       └── 185 samples (19.3%) (garbage collector)  (31.5% self in 46 call stacks)
+        │       │       │   │   │   └── 13 samples (1.4%) Parser.pop  (self 0.8%; 1.4% in 2 call stacks)
+        │       │       │   │   │       └── 5 samples (0.5%) convert  pytree.py
+        │       │       │   │   └── 6 samples (0.6%) generate_tokens  tokenize.py
+        │       │       │   └── 13 samples (1.4%) TokenProxy.__next__
+        │       │       │       └── 10 samples (1.0%) generate_tokens  (self 0.8%; 3.2% in 5 call stacks)  tokenize.py
+        │       │       └── 79 samples (8.2%) 5 more branches, largest Visitor.visit (3.8%)  nodes.py and detect_target_versions (2.8%)
+        │       └── 71 samples (7.4%) assert_equivalent  (self 0.7%)
+        │           ├── 38 samples (4.0%) [[via 2 frames]] parse  ast.py
+        │           └── 22 samples (2.3%) _stringify_ast  (self 2.0%)  parsing.py
+        └── 31 samples (3.2%) 1 more branch, run_module
+```
+
 ## Hottest functions
 
 ### Self samples

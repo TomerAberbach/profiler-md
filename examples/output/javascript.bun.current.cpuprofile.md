@@ -10,6 +10,53 @@ Took 5.65s over 4,196 samples (1.3ms per sample).
 
 Paths starting with `./` or `../` are relative to `/private/tmp/nix-shell.K1HXIc/profiler-md-input-generation.EdvtIc/zod/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5.64s (99.8%) [[via 6 frames]] typeCheckProject  ./tsc-workload.mjs:3:33
+    ├── 4.45s (78.8%) [[via 9 frames]] (anonymous)  ./node_modules/typescript/lib/typescript.js:124967:37
+    │   ├── 4.17s (73.8%) [[via 4 frames]] checkSourceFileWorker  ./node_modules/typescript/lib/typescript.js:88583:33
+    │   │   ├── 2.34s (41.4%) checkDeferredNodes  :88492:30
+    │   │   │   └── 2.34s (41.4%) forEach
+    │   │   │       └── 2.30s (40.8%) checkDeferredNode  ./node_modules/typescript/lib/typescript.js:88499:29
+    │   │   │           └── 2.30s (40.7%) checkFunctionExpressionOrObjectLiteralMethodDeferred  :81135:64
+    │   │   │               ├── 2.26s (40.1%) checkSourceElement  :88199:30
+    │   │   │               │   └── 2.26s (40.1%) [[via 2–21 frames]] checkSourceElementWorker  ./node_modules/typescript/lib/typescript.js:88208:36
+    │   │   │               │       ├── 273.7ms (4.8%) checkTypeReferenceNode  :83518:34
+    │   │   │               │       │   └── 267.0ms (4.7%) checkTypeReferenceOrImport  :83529:38
+    │   │   │               │       │       ├── 191.4ms (3.4%) [[via 4 frames]] checkTypeRelatedTo  (4.1% self in 65 call stacks)  ./node_modules/typescript/lib/typescript.js:67445:30
+    │   │   │               │       │       │   └── 191.4ms (3.4%) isRelatedTo  (1.1% self in 40 call stacks)  :67753:25
+    │   │   │               │       │       │       └── 160.7ms (2.8%) [[via 6–8 frames]] recursiveTypeRelatedTo  (2.2% self in 69 call stacks)  ./node_modules/typescript/lib/typescript.js:68323:36
+    │   │   │               │       │       │           └── 141.2ms (2.5%) structuredTypeRelatedTo  :68467:37
+    │   │   │               │       │       │               └── 138.3ms (2.4%) structuredTypeRelatedToWorker  (1.0% self in 41 call stacks)  :68537:43
+    │   │   │               │       │       │                   └── 133.3ms (2.4%) 3 more branches, largest signaturesRelatedTo (2.2%)  :69505:33
+    │   │   │               │       │       └── 73.0ms (1.3%) 2 more branches, largest getTypeFromTypeNode (1.3%)  :65779:31
+    │   │   │               │       └── 1.98s (35.2%) 19 more branches, largest checkVariableDeclaration (21.2%)  :85396:36 and checkExpressionStatement (11.4%)
+    │   │   │               └── 24.5ms (0.4%) getReturnTypeOfSignature  :62462:36
+    │   │   └── 1.82s (32.3%) forEach  :2378:17
+    │   │       ├── 1.53s (27.2%) [[via 4–6 frames]] checkSourceElement  ./node_modules/typescript/lib/typescript.js:88199:30
+    │   │       │   ├── 1.11s (19.8%) checkSourceElementWorker  :88208:36
+    │   │       │   │   └── 1.11s (19.8%) 18 more branches, largest checkVariableDeclaration (9.7%)  :85396:36 and checkReturnStatement (3.2%)
+    │   │       │   └── 416.8ms (7.4%) [[via 3–16 frames]] checkSourceElementWorker  ./node_modules/typescript/lib/typescript.js:88208:36
+    │   │       │       └── 415.4ms (7.3%) 9 more branches, largest checkTypeReferenceNode (6.2%)  :83518:34
+    │   │       └── 286.8ms (5.1%) 7 more branches, largest checkSourceElement (4.2%)  :88199:30
+    │   └── 278.9ms (4.9%) 2 more branches, largest getTypeChecker (4.9%)  :124848:26
+    ├── 847.8ms (15.0%) createProgram  ./node_modules/typescript/lib/typescript.js:123840:23
+    │   ├── 716.2ms (12.7%) forEach  :2378:17
+    │   │   ├── 255.1ms (4.5%) [[via 14 frames]] findSourceFileWorker  ./node_modules/typescript/lib/typescript.js:125566:32
+    │   │   │   ├── 221.9ms (3.9%) [[via 11–15 frames]] parseListElement  ./node_modules/typescript/lib/typescript.js:33694:28
+    │   │   │   │   ├── 106.7ms (1.9%) [[via 4 frames]] NodeObject  ./node_modules/typescript/lib/typescript.js:148243:14
+    │   │   │   │   └── 113.9ms (2.0%) 7 more branches, largest (anonymous) (0.7%)  ./node_modules/typescript/lib/typescript.js:34471:157 and parseTypeMember (0.6%)
+    │   │   │   └── 5.1ms (0.1%) [[via 21 frames]] statSync
+    │   │   └── 461.0ms (8.1%) 4 more branches, largest (anonymous) (4.0%)  :124028:24 and (anonymous) (2.4%)
+    │   └── 130.3ms (2.3%) 6 more branches, largest processTypeReferenceDirective (1.9%)  :125814:41
+    ├── 292.6ms (5.2%) [[via 2 frames]] anonymous  (self 4.6%)
+    │   └── 33.7ms (0.6%) 1 more branch, (anonymous)  ./node_modules/typescript/lib/typescript.js:1:10
+    └── 19.9ms (0.4%) [[via 12 frames]] /^\/tmp\/(?!(node_modules|bower_components|jspm_packages)(\/|$))nix\-shell\.K1HXIc\/(?!(node_modules|bower_components|jspm_packages)(\/|$))profiler\-md\-input\-generation\.EdvtIc\/zod\/src(\/(?!(node_modules|bower_components|jspm_packages)(\/|$))[^/.][^/]*)*?\/(?!(node_modules|bower_components|jspm_packages)(\/|$))([^./]([^./]|(\.(?!min\.js$))?)*)?$/i
+```
+
 ## Hottest functions
 
 ### Self time

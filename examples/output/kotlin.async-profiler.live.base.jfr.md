@@ -7,6 +7,53 @@ Allocated 658 MiB over 1,309 samples (515 KiB per sample).
 | Standard library | 79.0% | 520 MiB |   1,033 |
 | Ours             | 21.0% | 138 MiB |     276 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 657 MiB (99.9%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+    └── 657 MiB (99.9%) run(String[])
+        ├── 354 MiB (53.8%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 318 MiB (48.4%) loadAllClassesFromJars(Collection, int, ClassHandler)
+        │   │   ├── 155 MiB (23.6%) toByteArray()  java.io.ByteArrayOutputStream
+        │   │   │   └── 155 MiB (23.6%) copyOf(byte[], int)  (self 19.2%; 21.0% in 19 call stacks)  java.util.Arrays
+        │   │   │       └── 29 MiB (4.4%) clone()  (6.8% self in 3 call stacks)  java.lang.Object
+        │   │   ├── 153 MiB (23.3%) <init>(int)  (25.7% self in 2 call stacks)  java.io.ByteArrayOutputStream
+        │   │   └── 5 MiB (0.8%) [[via 5 frames]] newStringUTF8NoRepl(byte[], int, int, boolean)  java.lang.String
+        │   └── 35.4 MiB (5.4%) [[via 1 frame]] loadAllClassesFromJars(Collection, int, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │       └── 35.4 MiB (5.4%) 3 more branches, largest toByteArray() (2.7%)  java.io.ByteArrayOutputStream and <init>(int) (2.4%)
+        └── 300 MiB (45.6%) [[via 8 frames]] doMain(CLICompiler, String[])  org.jetbrains.kotlin.cli.common.CLICompiler$Companion
+            └── 299 MiB (45.4%) [[via 4 frames]] exec(MessageCollector, Services, CommonCompilerArguments)  org.jetbrains.kotlin.cli.common.CLICompiler
+                ├── 293 MiB (44.5%) [[via 9 frames]] invoke(PhaseConfig, PhaserState, LoggingContext, Object)  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+                │   ├── 274 MiB (41.6%) phaseBody(LoggingContext, Object)  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+                │   │   └── 274 MiB (41.6%) phaseBody(PipelineContext, PipelineArtifact)
+                │   │       ├── 195 MiB (29.6%) executePhase(PipelineArtifact)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
+                │   │       │   └── 195 MiB (29.6%) executePhase(ConfigurationPipelineArtifact)
+                │   │       │       ├── 158 MiB (24.0%) resolveAndCheckFir(FirSession, List, BaseDiagnosticsCollector)  org.jetbrains.kotlin.fir.pipeline.FirUtilsKt
+                │   │       │       │   ├── 135 MiB (20.5%) runResolution(FirSession, List)  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+                │   │       │       │   │   └── 134 MiB (20.4%) process(List)  org.jetbrains.kotlin.fir.resolve.transformers.FirTotalResolveProcessor
+                │   │       │       │   │       ├── 37.2 MiB (5.7%) [[via 9 frames]] withFileAndFileScopes(FirFile, Function0)  org.jetbrains.kotlin.fir.resolve.transformers.plugin.AbstractFirSpecificAnnotationResolveTransformer
+                │   │       │       │   │       │   ├── 36.7 MiB (5.6%) [[via 4 frames]] transformInplace(List, FirTransformer, Object)  org.jetbrains.kotlin.fir.visitors.FirTransformerUtilKt
+                │   │       │       │   │       │   │   ├── 30.2 MiB (4.6%) [[via 50 frames]] computePackagePartInfo(FqName, String)  org.jetbrains.kotlin.fir.java.deserialization.JvmClassFileBasedSymbolProvider
+                │   │       │       │   │       │   │   │   ├── 23.5 MiB (3.6%) [[via 10 frames]] readMessage(Parser, ExtensionRegistryLite)  org.jetbrains.kotlin.protobuf.CodedInputStream
+                │   │       │       │   │       │   │   │   │   ├── 8 MiB (1.2%) [[via 7 frames]] <init>(CodedInputStream, ExtensionRegistryLite)  org.jetbrains.kotlin.metadata.ProtoBuf$Type
+                │   │       │       │   │       │   │   │   │   │   ├── 4.5 MiB (0.7%) newOutput()  (0.8% self in 9 call stacks)  org.jetbrains.kotlin.protobuf.ByteString
+                │   │       │       │   │       │   │   │   │   │   │   └── 3.5 MiB (0.5%) <init>(int)  (2.7% self in 27 call stacks)  org.jetbrains.kotlin.protobuf.ByteString$Output
+                │   │       │       │   │       │   │   │   │   │   └── 2.5 MiB (0.4%) <init>()  org.jetbrains.kotlin.protobuf.GeneratedMessageLite$ExtendableMessage
+                │   │       │       │   │       │   │   │   │   └── 12.5 MiB (1.9%) 6 more branches, largest parsePartialFrom(CodedInputStream, ExtensionRegistryLite) (0.8%)  org.jetbrains.kotlin.metadata.ProtoBuf$Function$1
+                │   │       │       │   │       │   │   │   └── 4.19 MiB (0.6%) 2 more branches, largest findKotlinClassOrContent(ClassId, MetadataVersion) (0.6%)  org.jetbrains.kotlin.load.kotlin.VirtualFileFinder
+                │   │       │       │   │       │   │   └── 5 MiB (0.8%) 2 more branches, largest transform(FirTransformer, Object) (0.7%)  org.jetbrains.kotlin.fir.expressions.FirAnnotationCall
+                │   │       │       │   │       │   └── 512 KiB (0.1%) [[via 3 frames]] iterator()  (2.6% self in 34 call stacks)  java.util.ArrayList
+                │   │       │       │   │       └── 97 MiB (14.7%) 1 more branch, processFile(FirFile)  org.jetbrains.kotlin.fir.resolve.transformers.FirTransformerBasedResolveProcessor
+                │   │       │       │   └── 23 MiB (3.5%) 1 more branch, runCheckers(FirSession, ScopeSession, Collection, BaseDiagnosticsCollector, MppCheckerKind)  org.jetbrains.kotlin.fir.pipeline.AnalyseKt
+                │   │       │       └── 37 MiB (5.6%) 4 more branches, largest prepareJvmSessions(List, Name, CompilerConfiguration, VfsBasedProjectEnvironment, AbstractProjectFileSearchScope, DependencyListForCliModule, Function1, Function1, Function2, Function1) (1.9%) and createEnvironmentAndSources(CompilerConfiguration, Disposable, String) (1.5%)
+                │   │       ├── 512 KiB (0.1%) [[via 11 frames]] <init>(int, float, boolean)  (1.5% self in 20 call stacks)  java.util.HashSet
+                │   │       └── 77.5 MiB (11.8%) 2 more branches, largest executePhase(PipelineArtifact) (8.3%)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmBackendPipelinePhase and executePhase(PipelineArtifact) (3.5%)
+                │   └── 19 MiB (2.9%) 5 more branches, largest phaseBody(LoggingContext, Object) (2.1%)  org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+                └── 4.5 MiB (0.7%) 1 more branch, <clinit>()  org.jetbrains.kotlin.cli.common.ArgumentsKt
+```
+
 ## Hottest functions
 
 ### Self size
@@ -1245,6 +1292,27 @@ Retained 8.98 MiB over 388 objects (23.7 KiB per object).
 | ---------------- | ----: | -------: | ------: |
 | Standard library | 92.2% | 8.28 MiB |     300 |
 | Ours             |  7.8% |  719 KiB |      88 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 8.98 MiB (100.0%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+    └── 8.98 MiB (100.0%) run(String[])
+        ├── 5.01 MiB (55.8%) preloadClasses(Collection, int, ClassLoader, ClassCondition, ClassHandler)  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+        │   ├── 4.89 MiB (54.5%) loadAllClassesFromJars(Collection, int, ClassHandler)
+        │   │   ├── 4.64 MiB (51.7%) toByteArray()  java.io.ByteArrayOutputStream
+        │   │   │   └── 4.64 MiB (51.7%) copyOf(byte[], int)  (self 36.0%)  java.util.Arrays
+        │   │   │       └── 1.41 MiB (15.7%) clone()  (17.0% self in 2 call stacks)  java.lang.Object
+        │   │   └── 256 KiB (2.8%) [[via 2 frames]] resize()  java.util.HashMap
+        │   └── 118 KiB (1.3%) [[via 4 frames]] clone()  java.lang.Object
+        └── 3.97 MiB (44.2%) [[via 7 frames]] main(String[])  org.jetbrains.kotlin.cli.jvm.K2JVMCompiler$Companion
+            ├── 3.21 MiB (35.7%) [[via 28 frames]] initCEN(int, ZipCoder)  java.util.zip.ZipFile$Source
+            └── 759 KiB (8.2%) [[via 99 frames]] create$lambda$0(VirtualFile, byte[], MetadataVersion)  org.jetbrains.kotlin.load.kotlin.VirtualFileKotlinClass$Factory
+                ├── 703 KiB (7.6%) [[via 7 frames]] contentsToByteArray$lambda$0(ZipEntryDescription, LargeDynamicMappedBuffer$Mapping)  org.jetbrains.kotlin.cli.jvm.compiler.jarfs.ZipImplementationKt
+                └── 55.7 KiB (0.6%) [[via 13 frames]] compress(char[], int, int)  java.lang.StringUTF16
+```
 
 ## Hottest functions
 

@@ -11,6 +11,53 @@ Collected 2,725 samples.
 | Unknown          |  0.3% |       8 |
 | JIT              |  0.1% |       3 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2,251 samples (82.6%) thread_start  libsystem_pthread.dylib
+│   └── 2,251 samples (82.6%) _pthread_start
+│       ├── 2,156 samples (79.1%) thread_native_entry  libjvm.dylib
+│       │   └── 2,156 samples (79.1%) Thread::call_run
+│       │       ├── 887 samples (32.6%) WorkerThread::run
+│       │       │   ├── 881 samples (32.3%) semaphore_wait_trap  (35.9% self in 5 call stacks)  libsystem_kernel.dylib
+│       │       │   └── 3 samples (0.1%) [[via 4 frames]] G1RebuildRSAndScrubTask::G1RebuildRSAndScrubRegionClosure::scan_object  libjvm.dylib
+│       │       ├── 799 samples (29.3%) JavaThread::thread_main_inner
+│       │       │   ├── 330 samples (12.1%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── 176 samples (6.5%) [[via 3 frames]] __psynch_cvwait  (47.7% self in 14 call stacks)  libsystem_kernel.dylib
+│       │       │   │   └── 153 samples (5.6%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 99 samples (3.6%) C2Compiler::compile_method
+│       │       │   │       │   └── 99 samples (3.6%) Compile::Compile
+│       │       │   │       │       ├── 49 samples (1.8%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 22 samples (0.8%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 4 samples (0.1%) PhaseChaitin::gather_lrg_masks
+│       │       │   │       │       │   │   ├── 3 samples (0.1%) PhaseChaitin::Split
+│       │       │   │       │       │   │   └── 2 samples (0.1%) PhaseAggressiveCoalesce::insert_copies
+│       │       │   │       │       │   ├── 13 samples (0.5%) Matcher::match
+│       │       │   │       │       │   │   └── 9 samples (0.3%) Matcher::xform
+│       │       │   │       │       │   ├── 2 samples (0.1%) [[via 2 frames]] PhaseCFG::partial_latency_of_defs  libjvm.dylib
+│       │       │   │       │       │   └── 2 samples (0.1%) [[via 2 frames]] OopFlow::compute_reach  libjvm.dylib
+│       │       │   │       │       ├── 2 samples (0.1%) [[via 10 frames]] ciObjectFactory::get_metadata  libjvm.dylib
+│       │       │   │       │       └── 46 samples (1.7%) 2 more branches, largest Compile::Optimize (1.4%)
+│       │       │   │       └── 47 samples (1.7%) [[via 3 frames]] Compilation::compile_java_method  libjvm.dylib
+│       │       │   │           ├── 3 samples (0.1%) [[via 10–13 frames]] DebugInformationRecorder::serialize_scope_values  libjvm.dylib
+│       │       │   │           │   └── 2 samples (0.1%) DIR_Chunk* GrowableArrayWithAllocator<DIR_Chunk*, GrowableArray<DIR_Chunk*>>::insert_sorted<&DIR_Chunk::compare(DIR_Chunk* const&, DIR_Chunk* const&)>
+│       │       │   │           └── 38 samples (1.4%) 3 more branches, largest Compilation::emit_lir (0.7%) and Compilation::build_hir (0.7%)
+│       │       │   └── 469 samples (17.2%) 5 more branches, largest JvmtiAgentThread::start_function_wrapper (3.4%) and ServiceThread::service_thread_entry (3.4%)
+│       │       ├── 282 samples (10.3%) ConcurrentGCThread::run
+│       │       │   └── 282 samples (10.3%) 3 more branches, largest G1ConcurrentMarkThread::run_service (3.4%) and G1ServiceThread::run_service (3.4%)
+│       │       └── 188 samples (6.9%) 2 more branches, largest WatcherThread::run (3.4%) and VMThread::run (3.4%)
+│       └── 94 samples (3.4%) [[via 5 frames]] __ulock_wait  libsystem_kernel.dylib
+├── 94 samples (3.4%) [[via 9 frames]] mach_msg2_trap  libsystem_kernel.dylib
+├── 91 samples (3.3%) main(String[])  org.jetbrains.kotlin.preloading.Preloader
+│   └── 91 samples (3.3%) run(String[])
+│       ├── 7 samples (0.3%) [[via 8 frames]] inflate_fast  libzip.dylib
+│       └── 75 samples (2.8%) 1 more branch, invoke(Object, Object[])  java.lang.reflect.Method
+├── 8 samples (0.3%) (anonymous)
+└── 281 samples (10.3%) 3 more branches, largest run() (3.4%)  java.lang.ref.Finalizer$FinalizerThread and run() (3.4%)
+```
+
 ## Hottest functions
 
 ### Self samples

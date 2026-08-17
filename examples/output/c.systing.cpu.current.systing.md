@@ -8,6 +8,31 @@ Took 20.05s over 20,056 samples (1.0ms per sample).
 | Native   |  0.1% | 14.0ms |      14 |
 | Kernel   |  0.1% | 14.0ms |      14 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 20.04s (99.9%) unknown (libc.so.6)
+    └── 20.02s (99.9%) [[via 1 frame]] POOL_thread  pool.c
+        └── 20.02s (99.9%) ZSTDMT_compressionJob  zstdmt_compress.c
+            ├── 16.83s (83.9%) ZSTD_compressContinue_internal  zstd_compress.c
+            │   ├── 16.75s (83.5%) ZSTD_buildSeqStore
+            │   │   ├── 16.53s (82.4%) ZSTD_compressBlock_opt2  (self 10.7%)  zstd_opt.c
+            │   │   │   ├── 14.35s (71.6%) ZSTD_btGetAllMatches_noDict_3  (self 71.4%; 72.5% in 4 call stacks)
+            │   │   │   └── 28.0ms (0.1%) ZSTD_insertAndFindFirstIndexHash3
+            │   │   ├── 136.0ms (0.7%) ZSTD_litLengthPrice  zstd_opt.c
+            │   │   ├── 50.0ms (0.2%) ZSTD_rawLiteralsCost  zstd_opt.c
+            │   │   └── 13.0ms (0.1%) ZSTD_optLdm_processMatchCandidate  zstd_opt.c
+            │   ├── 40.0ms (0.2%) ZSTD_deriveBlockSplitsHelper
+            │   │   └── 12.0ms (0.1%) [[via 3 frames]] HIST_count_parallel_wksp  hist.c
+            │   └── 22.0ms (0.1%) ZSTD_splitBlock  zstd_preSplit.c
+            │       └── 17.0ms (0.1%) ZSTD_recordFingerprint_1
+            ├── 2.92s (14.6%) [[via 3 frames]] ZSTD_updateTree  zstd_opt.c
+            │   └── 2.92s (14.6%) ZSTD_insertBt1
+            └── 220.0ms (1.1%) [[via 4 frames]] ZSTD_btGetAllMatches_noDict_3  (self 1.1%)  zstd_opt.c
+```
+
 ## Hottest functions
 
 ### Self time
@@ -737,6 +762,16 @@ Slept 5 times.
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |      5 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 5 times (100.0%) unknown (libc.so.6)
+    ├── 4 times (80.0%) [[via 35 frames]] bpf_trace_run4 ([kernel])  (100.0% self in 2 call stacks)
+    └── 1 time (20.0%) [[via 27 frames]] bpf_trace_run4 ([kernel])
+```
+
 ## Hottest functions
 
 ### Self sleeps
@@ -1112,6 +1147,15 @@ Slept 214 times.
 | Category |      % | Sleeps |
 | -------- | -----: | -----: |
 | Kernel   | 100.0% |    214 |
+
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 168 times (78.5%) [[via 17–18 frames]] bpf_trace_run4 ([kernel])  (100.0% self in 6 call stacks)
+└── 46 times (21.5%) [[via 23 frames]] bpf_trace_run4 ([kernel])
+```
 
 ## Hottest functions
 

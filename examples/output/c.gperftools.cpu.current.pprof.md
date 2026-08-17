@@ -8,6 +8,34 @@ Took 2.95s over 2,951 samples (1.0ms per sample).
 | Native   |  0.6% | 18.0ms |      18 |
 | Unknown  |  0.1% |  4.0ms |       4 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 2.94s (99.8%) (anonymous)
+    └── 2.94s (99.7%) [[via 1 frame]] POOL_thread  pool.c
+        └── 2.94s (99.7%) ZSTDMT_compressionJob  zstdmt_compress.c
+            ├── 2.47s (83.8%) ZSTD_compressContinue_public
+            │   └── 2.47s (83.8%) ZSTD_compress_frameChunk  zstd_compress.c
+            │       ├── 2.45s (83.2%) ZSTD_buildSeqStore
+            │       │   ├── 2.40s (81.4%) ZSTD_compressBlock_opt2  (self 12.0%; 14.2% in 3 call stacks)  zstd_opt.c
+            │       │   │   └── 2.04s (69.4%) ZSTD_btGetAllMatches_noDict_3  (self 69.2%; 83.5% in 3 call stacks)
+            │       │   │       └── 6.0ms (0.2%) ZSTD_insertBt1.constprop.3
+            │       │   ├── 20.0ms (0.7%) ZSTD_litLengthPrice.constprop.1.isra.0  zstd_opt.c
+            │       │   ├── 19.0ms (0.6%) [[via 2 frames]] ZSTD_btGetAllMatches_noDict_3  zstd_opt.c
+            │       │   └── 5.0ms (0.2%) ZSTD_updateStats  zstd_opt.c
+            │       ├── 8.0ms (0.3%) ZSTD_compressSeqStore_singleBlock
+            │       │   └── 6.0ms (0.2%) ZSTD_encodeSequences
+            │       ├── 6.0ms (0.2%) [[via 2 frames]] ZSTD_buildBlockEntropyStats
+            │       │   ├── 2.0ms (0.1%) ZSTD_seqToCodes
+            │       │   └── 2.0ms (0.1%) HUF_optimalTableLog
+            │       └── 2.0ms (0.1%) ZSTD_splitBlock
+            │           └── 2.0ms (0.1%) ZSTD_recordFingerprint_1  zstd_preSplit.c
+            └── 465.0ms (15.8%) [[via 3 frames]] ZSTD_compressBlock_opt2  (self 2.1%)  zstd_opt.c
+                └── 404.0ms (13.7%) ZSTD_btGetAllMatches_noDict_3  (self 13.7%)
+```
+
 ## Hottest functions
 
 ### Self time

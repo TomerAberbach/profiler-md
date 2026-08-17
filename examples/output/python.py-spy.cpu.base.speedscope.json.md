@@ -9,6 +9,53 @@ Took 1.84s over 184 samples (10.0ms per sample).
 | Ours             |  2.7% | 50.0ms |       5 |
 | Unknown          |  2.7% | 50.0ms |       5 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 1.79s (97.3%) _run_module_as_main  <frozen runpy>
+│   ├── 1.78s (96.7%) [[via 11 frames]] format_file_contents  /venv/lib/python3.11/site-packages/black/__init__.py
+│   │   ├── 1.09s (59.2%) format_str
+│   │   │   └── 1.09s (59.2%) _format_str_once
+│   │   │       ├── 440.0ms (23.9%) [[via 2 frames]] parse_tokens  (1.1% self in 1 call stack)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/driver.py
+│   │   │       │   ├── 310.0ms (16.8%) addtoken  (self 0.5%)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/parse.py
+│   │   │       │   │   └── 300.0ms (16.3%) _addtoken  (self 5.4%; 7.6% in 2 call stacks)
+│   │   │       │   │       ├── 130.0ms (7.1%) pop  (self 1.6%)
+│   │   │       │   │       │   └── 100.0ms (5.4%) convert  (self 0.5%; 3.8% in 4 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │       │       └── 90.0ms (4.9%) __new__  (5.4% self in 2 call stacks)
+│   │   │       │   │       └── 70.0ms (3.8%) 2 more branches, largest shift (2.2%) and push (1.6%)
+│   │   │       │   └── 130.0ms (7.1%) __next__
+│   │   │       │       └── 130.0ms (7.1%) generate_tokens  (self 5.4%; 9.2% in 2 call stacks)  /venv/lib/python3.11/site-packages/blib2to3/pgen2/tokenize.py
+│   │   │       │           └── 30.0ms (1.6%) 2 more branches, largest is_fstring_start (1.1%) and current (0.5%)
+│   │   │       ├── 400.0ms (21.7%) visit  (self 1.1%; 2.2% in 3 call stacks)  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   ├── 280.0ms (15.2%) [[via 2–4 frames]] visit_default  (self 0.5%; 1.6% in 3 call stacks)  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   │   ├── 150.0ms (8.2%) append  (self 1.1%)  /venv/lib/python3.11/site-packages/black/lines.py
+│   │   │       │   │   │   ├── 90.0ms (4.9%) mark  (self 2.2%; 3.3% in 5 call stacks)  /venv/lib/python3.11/site-packages/black/brackets.py
+│   │   │       │   │   │   │   └── 50.0ms (2.7%) is_split_before_delimiter
+│   │   │       │   │   │   └── 40.0ms (2.2%) 1 more branch, whitespace  /venv/lib/python3.11/site-packages/black/nodes.py
+│   │   │       │   │   └── 120.0ms (6.5%) generate_comments  (self 5.4%; 7.1% in 6 call stacks)  /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   │       └── 20.0ms (1.1%) 1 more branch, normalize_trailing_prefix
+│   │   │       │   ├── 30.0ms (1.6%) [[via 6 frames]] normalize_trailing_prefix  (3.3% self in 3 call stacks)  /venv/lib/python3.11/site-packages/black/comments.py
+│   │   │       │   └── 70.0ms (3.8%) 4 more branches, largest visit_stmt (1.1%)  /venv/lib/python3.11/site-packages/black/linegen.py and visit_STRING (1.1%)
+│   │   │       ├── 180.0ms (9.8%) transform_line  (1.6% self in 2 call stacks)  /venv/lib/python3.11/site-packages/black/linegen.py
+│   │   │       │   ├── 50.0ms (2.7%) _hugging_power_ops_line_to_string
+│   │   │       │   │   └── 50.0ms (2.7%) hug_power_op  (self 0.5%; 2.2% in 2 call stacks)  /venv/lib/python3.11/site-packages/black/trans.py
+│   │   │       │   │       └── 40.0ms (2.2%) clone  /venv/lib/python3.11/site-packages/blib2to3/pytree.py
+│   │   │       │   │           └── 40.0ms (2.2%) __init__  (3.3% self in 2 call stacks)
+│   │   │       │   └── 130.0ms (7.1%) 3 more branches, largest run_transformer (4.9%) and line_to_string (1.6%)
+│   │   │       └── 70.0ms (3.8%) 4 more branches, largest detect_target_versions (1.1%) and all_lines (1.1%)
+│   │   └── 690.0ms (37.5%) check_stability_and_equivalence
+│   │       ├── 500.0ms (27.2%) assert_stable
+│   │       │   └── 500.0ms (27.2%) _format_str_once  (self 2.2%)
+│   │       │       └── 460.0ms (25.0%) 7 more branches, largest lib2to3_parse (10.3%)  /venv/lib/python3.11/site-packages/black/parsing.py and visit (8.7%)
+│   │       └── 190.0ms (10.3%) assert_equivalent  (self 1.1%)
+│   │           ├── 80.0ms (4.3%) [[via 2 frames]] parse  /usr/lib/python3.11/ast.py
+│   │           └── 90.0ms (4.9%) 1 more branch, _stringify_ast  /venv/lib/python3.11/site-packages/black/parsing.py
+│   └── 10.0ms (0.5%) [[via 9 frames]] __enter__  <frozen importlib._bootstrap>
+└── 50.0ms (2.7%) (anonymous)
+```
+
 ## Hottest functions
 
 ### Self time

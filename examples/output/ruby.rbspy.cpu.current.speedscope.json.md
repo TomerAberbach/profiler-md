@@ -11,6 +11,53 @@ Took 15.77s over 1,555 samples (10.1ms per sample).
 
 Paths starting with `./` or `../` are relative to `/src/app/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 15.75s (99.9%) <main>  profile.rb
+    ├── 14.91s (94.6%) [[via 4 frames]] ActionDispatch::Static#call  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/static.rb
+    │   ├── 14.78s (93.8%) [[via 11 frames]] ActiveSupport::Callbacks#run_callbacks  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/callbacks.rb
+    │   │   ├── 13.65s (86.6%) [[via 42 frames]] ActionView::Rendering#render_to_body  /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/rendering.rb
+    │   │   │   └── 13.56s (86.0%) [[via 9 frames]] ActiveSupport::Notifications.instrument  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/notifications.rb
+    │   │   │       └── 13.48s (85.5%) [[via 8 frames]] Kernel#public_send [c function]
+    │   │   │           ├── 10.50s (66.6%) #<Class:0xffff76d571d8>#_app_views_statuses_index_html_erb__328993190567029661_3128  ./app/views/statuses/index.html.erb
+    │   │   │           │   └── 10.48s (66.5%) Array#each  <internal:array>
+    │   │   │           │       ├── 7.58s (48.1%) block in _app_views_statuses_index_html_erb__328993190567029661_3128  (self 2.1%)  ./app/views/statuses/index.html.erb
+    │   │   │           │       │   ├── 5.84s (37.1%) ActionView::Helpers::SanitizeHelper#sanitize  /usr/local/bundle/gems/actionview-8.1.4/lib/action_view/helpers/sanitize_helper.rb
+    │   │   │           │       │   │   └── 5.79s (36.7%) Rails::HTML::Concern::ComposedSanitize#sanitize  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/sanitizer.rb
+    │   │   │           │       │   │       ├── 1.85s (11.8%) [[via 2 frames]] Loofah::HtmlFragmentBehavior::ClassMethods#parse  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │   │   │           │       │   │       │   ├── 1.22s (7.8%) Nokogiri::XML::DocumentFragment.new  (self 0.6%)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document_fragment.rb
+    │   │   │           │       │   │       │   │   ├── 993.4ms (6.3%) Nokogiri::HTML5::DocumentFragment#initialize  (self 0.7%)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/html5/document_fragment.rb
+    │   │   │           │       │   │       │   │   │   └── 864.5ms (5.5%) Nokogiri::Gumbo.fragment [c function]  (self 4.8%)
+    │   │   │           │       │   │       │   │   │       └── 102.0ms (0.6%) 1 more branch, Nokogiri::XML::Node#internal_subset [c function]
+    │   │   │           │       │   │       │   │   └── 72.9ms (0.5%) [[via 3 frames]] block in decorate  (1.4% self in 5 call stacks)  /usr/local/bundle/gems/nokogiri-1.19.4-aarch64-linux-gnu/lib/nokogiri/xml/document.rb
+    │   │   │           │       │   │       │   └── 593.6ms (3.8%) Nokogiri::HTML4::Document.new [c function]  (self 2.5%)
+    │   │   │           │       │   │       │       └── 192.3ms (1.2%) 1 more branch, Loofah::DocumentDecorator#initialize  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/concerns.rb
+    │   │   │           │       │   │       └── 3.91s (24.8%) 2 more branches, largest Rails::HTML::Concern::Serializer::UTF8Encode#serialize (13.8%) and Rails::HTML::Concern::Scrubber::SafeList#scrub (11.0%)
+    │   │   │           │       │   └── 1.40s (8.9%) 6 more branches, largest block in define_url_helper (2.8%)  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/routing/route_set.rb and ActionView::Helpers::UrlHelper#link_to (2.6%)
+    │   │   │           │       ├── 1.28s (8.1%) [[via 12–16 frames]] Module#extend_object [c function]
+    │   │   │           │       ├── 979.2ms (6.2%) [[via 10 frames]] block in scrub_attributes  (self 0.5%)  /usr/local/bundle/gems/rails-html-sanitizer-1.7.1/lib/rails/html/scrubbers.rb
+    │   │   │           │       │   └── 838.1ms (5.3%) Rails::HTML::PermitScrubber#scrub_attribute  (self 0.5%)
+    │   │   │           │       │       ├── 592.1ms (3.8%) Loofah::HTML5::Scrub.scrub_uri_attribute  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │           │       │       │   ├── 180.1ms (1.1%) Loofah::HTML5::Scrub.allowed_uri?
+    │   │   │           │       │       │   │   └── 180.1ms (1.1%) String#gsub [c function]  (2.1% self in 7 call stacks)
+    │   │   │           │       │       │   └── 391.6ms (2.5%) 10 more branches, largest String#gsub! [c function] (1.0%)
+    │   │   │           │       │       └── 164.6ms (1.0%) 4 more branches, largest Loofah::HTML5::Scrub.force_correct_attribute_escaping! (0.5%)  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb
+    │   │   │           │       └── 518.4ms (3.3%) 4 more branches, largest block in force_correct_attribute_escaping! (1.5%)  /usr/local/bundle/gems/loofah-2.25.2/lib/loofah/html5/scrub.rb and block in evaluate (1.0%)
+    │   │   │           ├── 2.53s (16.0%) [[via 8 frames]] ActiveSupport::NumberHelper#number_to_delimited  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper.rb
+    │   │   │           │   └── 2.52s (16.0%) 1 more branch, ActiveSupport::NumberHelper::NumberConverter.convert  /usr/local/bundle/gems/activesupport-8.1.4/lib/active_support/number_helper/number_converter.rb
+    │   │   │           └── 411.7ms (2.6%) 1 more branch, #<Class:0xffff76d571d8>#_app_views_layouts_application_html_erb___4441820961383043729_3160  ./app/views/layouts/application.html.erb
+    │   │   └── 968.0ms (6.1%) [[via 3 frames]] Rack::Session::Abstract::Persisted#context  /usr/local/bundle/gems/rack-session-2.1.2/lib/rack/session/abstract/id.rb
+    │   │       ├── 835.3ms (5.3%) [[via 3 frames]] Rack::ETag#call  /usr/local/bundle/gems/rack-3.2.7/lib/rack/etag.rb
+    │   │       │   ├── 604.7ms (3.8%) [[via 3 frames]] Digest::Base#<< [c function]
+    │   │       │   └── 230.6ms (1.5%) 3 more branches, largest Rack::TempfileReaper#call (1.3%)  /usr/local/bundle/gems/rack-3.2.7/lib/rack/tempfile_reaper.rb
+    │   │       └── 106.4ms (0.7%) 1 more branch, ActionDispatch::Session::SessionObject#commit_session  /usr/local/bundle/gems/actionpack-8.1.4/lib/action_dispatch/middleware/session/abstract_store.rb
+    │   └── 80.9ms (0.5%) ActionDispatch::FileHandler#attempt
+    └── 781.0ms (5.0%) 3 more branches, largest Kernel#require_relative [c function] (4.8%)
+```
+
 ## Hottest functions
 
 ### Self time

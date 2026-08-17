@@ -8,6 +8,53 @@ Allocated 106 KiB over 3,569 allocations (30.6 B per allocation).
 
 Paths starting with `./` or `../` are relative to `/tmp/profiler-md-julia-project/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+└── 106 KiB (100.0%) [[via 28 frames]] #write#58  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:38
+    ├── 80.8 KiB (75.8%) write  :147
+    │   ├── 76.9 KiB (72.2%) [[via 3–5 frames]] #write#79  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/write.jl:73
+    │   │   ├── 25 KiB (23.5%) write(::StructTypes.StringType, ::Vector{UInt8}, ::Int64, ::Int64, ::String)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/compiled/v1.13/JSON3/1p699_Ak7fr.dylib:340
+    │   │   │   ├── 19.5 KiB (18.3%) [[via 10 frames]] maybe_record_alloc_to_profile  (100.0% self in 320 call stacks)  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   │   └── 5.53 KiB (5.2%) ijl_gc_small_alloc  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │   │   │       └── 5.53 KiB (5.2%) maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   ├── 15.7 KiB (14.7%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64, ::Int64)  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │   │   │   ├── 9.19 KiB (8.6%) [[via 1 frame]] ijl_gc_small_alloc  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │   │   │   │   └── 9.19 KiB (8.6%) maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   │   ├── 4.38 KiB (4.1%) [[via 3 frames]] maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   │   └── 2.13 KiB (2.0%) 1 more branch, ijl_get_nth_field_checked  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/datatype.c:1874
+    │   │   ├── 7.31 KiB (6.9%) indexed_iterate(::Tuple{Vector{UInt8}, Int64, Int64}, ::Int64)  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │   │   │   └── 7.31 KiB (6.9%) [[via 1 frame]] indexed_iterate  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/tuple.jl:163
+    │   │   │       ├── 5.41 KiB (5.1%) ijl_gc_small_alloc  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+    │   │   │       │   └── 5.41 KiB (5.1%) maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   │       └── 1.91 KiB (1.8%) 1 more branch, arg_tuple  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/builtins.c:948
+    │   │   ├── 7.19 KiB (6.7%) iterate  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+    │   │   │   ├── 4.42 KiB (4.2%) [[via 3 frames]] setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356
+    │   │   │   │   └── 4.42 KiB (4.2%) 2 more branches, largest _setindex! (2.5%)  :339 and ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol) (1.7%)
+    │   │   │   └── 2.37 KiB (2.2%) 2 more branches, largest getvalue (1.7%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218 and getvalue (0.6%)
+    │   │   ├── 4.08 KiB (3.8%) [[via 3 frames]] maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+    │   │   └── 17.7 KiB (16.6%) 12 more branches, largest iterate (2.9%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75 and string (2.7%)
+    │   └── 3.83 KiB (3.6%) [[via 3 frames]] #write#81  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/multidimensional.jl
+    │       └── 3.83 KiB (3.6%) 6 more branches, largest getindex (2.4%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:163 and isassigned (1.1%)
+    └── 25.7 KiB (24.2%) defaultminimum  :12
+        ├── 20.1 KiB (18.8%) [[via 16–17 frames]] sum  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535
+        │   ├── 18.4 KiB (17.2%) [[via 7 frames]] _foldl_impl  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:54
+        │   │   ├── 12.1 KiB (11.4%) iterate  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/iterators.jl:697
+        │   │   │   ├── 10.9 KiB (10.2%) iterate  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:81
+        │   │   │   │   ├── 6.78 KiB (6.4%) [[via 3 frames]] setindex!(::Dict{Symbol, Int64}, ::Int64, ::Symbol)  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/dict.jl:356
+        │   │   │   │   │   ├── 3.84 KiB (3.6%) [[via 5 frames]] maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+        │   │   │   │   │   └── 2.94 KiB (2.8%) 1 more branch, ht_keyindex2_shorthash!(::Dict{Symbol, Int64}, ::Symbol)  :267
+        │   │   │   │   └── 3.83 KiB (3.6%) 3 more branches, largest getvalue (3.1%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/utils.jl:218
+        │   │   │   └── 1.27 KiB (1.2%) 2 more branches, largest iterate (0.9%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75
+        │   │   ├── 3.59 KiB (3.4%) ijl_gc_small_alloc  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-stock.c:784
+        │   │   │   └── 3.59 KiB (3.4%) maybe_record_alloc_to_profile  /Users/julia/.julia/scratchspaces/a66863c6-20e8-4ff4-8a62-49f30b1f605e/agent-cache/builder-honeycrisp-P2C257CXGN.1/019ebd63-635e-4155-b60a-9d2815900786/trusted/build/builder-honeycrisp-P2C257CXGN-1/julialang/julia-ci/src/gc-alloc-profiler.h:43
+        │   │   └── 2.64 KiB (2.5%) 2 more branches, largest iterate (2.0%)  /Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/ntJon/src/JSON3.jl:75 and MappingRF (0.5%)
+        │   └── 1.7 KiB (1.6%) 1 more branch, #sum#278  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:535
+        └── 5.66 KiB (5.3%) 2 more branches, largest sum (3.1%)  /nix/store/ym8ylm6flanrvach5h3g00yaw5ai75fn-julia-bin-1.13.1/share/julia/base/reduce.jl:564 and isempty(::JSON3.Object{Base.CodeUnits{UInt8, String}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}}) (2.2%)
+```
+
 ## Hottest functions
 
 ### Self size

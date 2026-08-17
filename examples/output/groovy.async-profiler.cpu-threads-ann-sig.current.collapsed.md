@@ -9,6 +9,53 @@ Collected 630 samples.
 | Standard library | 14.0% |      88 |
 | JIT              |  1.0% |       6 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 476 samples (75.6%) [[via 3 frames]] Thread::call_run()
+│   ├── 448 samples (71.1%) JavaThread::thread_main_inner()
+│   │   └── 447 samples (71.0%) CompileBroker::compiler_thread_loop()
+│   │       ├── 443 samples (70.3%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │       │   ├── 359 samples (57.0%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │       │   │   └── 359 samples (57.0%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │       │   │       ├── 172 samples (27.3%) Compile::Code_Gen()
+│   │       │   │       │   ├── 101 samples (16.0%) PhaseChaitin::Register_Allocate()
+│   │       │   │       │   │   ├── 24 samples (3.8%) PhaseChaitin::build_ifg_physical(ResourceArea*)  (self 2.5%)
+│   │       │   │       │   │   │   ├── 2 samples (0.3%) IndexSetIterator::advance_and_next()  (1.3% self in 5 call stacks)
+│   │       │   │       │   │   │   └── 6 samples (1.0%) 4 more branches, largest PhaseChaitin::compute_initial_block_pressure(Block*, IndexSet*, PhaseChaitin::Pressure&, PhaseChaitin::Pressure&, double) (0.3%)
+│   │       │   │       │   │   ├── 12 samples (1.9%) PhaseChaitin::gather_lrg_masks(bool)  (self 1.3%)
+│   │       │   │       │   │   │   └── 2 samples (0.3%) tlv_get_addr  (2.5% self in 14 call stacks)
+│   │       │   │       │   │   ├── 10 samples (1.6%) PhaseChaitin::Split(unsigned int, ResourceArea*)  (self 1.1%)
+│   │       │   │       │   │   ├── 8 samples (1.3%) PhaseLive::compute(unsigned int)
+│   │       │   │       │   │   │   └── 5 samples (0.8%) PhaseLive::add_liveout(Block_List&, Block*, IndexSet*, VectorSet&)
+│   │       │   │       │   │   │       └── 2 samples (0.3%) tlv_get_addr
+│   │       │   │       │   │   └── 47 samples (7.5%) 16 more branches, largest PhaseChaitin::post_allocate_copy_removal() (1.7%) and PhaseAggressiveCoalesce::insert_copies(Matcher&) (0.8%)
+│   │       │   │       │   └── 71 samples (11.3%) 5 more branches, largest Matcher::match() (4.3%) and PhaseCFG::do_global_code_motion() (3.8%)
+│   │       │   │       ├── 143 samples (22.7%) Compile::Optimize()
+│   │       │   │       │   ├── 40 samples (6.3%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   ├── 33 samples (5.2%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│   │       │   │       │   │   │   └── 33 samples (5.2%) PhaseIdealLoop::build_and_optimize()
+│   │       │   │       │   │   │       ├── 13 samples (2.1%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)  (self 0.8%)
+│   │       │   │       │   │   │       │   └── 8 samples (1.3%) 3 more branches, largest PhaseIdealLoop::build_loop_late_post_work(Node*, bool) (1.0%)
+│   │       │   │       │   │   │       ├── 6 samples (1.0%) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)  (1.6% self in 2 call stacks)
+│   │       │   │       │   │   │       └── 14 samples (2.2%) 8 more branches, largest IdealLoopTree::loop_predication(PhaseIdealLoop*) (0.8%)
+│   │       │   │       │   │   └── 7 samples (1.1%) 1 more branch, PhaseIterGVN::optimize()
+│   │       │   │       │   ├── 1 sample (0.2%) _platform_memset  (0.8% self in 5 call stacks)
+│   │       │   │       │   └── 102 samples (16.2%) 14 more branches, largest Compile::optimize_loops(PhaseIterGVN&, LoopOptsMode) (7.6%) and PhaseIterGVN::optimize() (4.1%)
+│   │       │   │       └── 44 samples (7.0%) 3 more branches, largest ParseGenerator::generate(JVMState*) (5.9%) and PhaseRemoveUseless::PhaseRemoveUseless(PhaseGVN*, Unique_Node_List&, Phase::PhaseNumber) (1.0%)
+│   │       │   └── 84 samples (13.3%) 6 more branches, largest Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*) (12.1%)
+│   │       └── 4 samples (0.6%) 1 more branch, CompileQueue::get(CompilerThread*)
+│   └── 28 samples (4.4%) 2 more branches, largest WorkerThread::run() (4.3%)
+├── 138 samples (21.9%) main(String[])  org.codenarc.CodeNarc
+│   └── 135 samples (21.4%) linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│       ├── 120 samples (19.0%) [[via 10–30 frames]] invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000a8010a1800
+│       │   └── 120 samples (19.0%) 1 more branch, invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x000000a801088800
+│       └── 15 samples (2.4%) 1 more branch, invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x000000a8010a1800
+└── 15 samples (2.4%) 3 more branches, largest <clinit>() (2.1%)  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples

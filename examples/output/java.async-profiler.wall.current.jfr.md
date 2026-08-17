@@ -10,6 +10,53 @@ Collected 5,812 samples.
 | JIT              |  0.3% |      15 |
 | Compiler         |  0.1% |       7 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 3,300 samples (56.8%) thread_start  libsystem_pthread.dylib
+│   └── 3,300 samples (56.8%) _pthread_start
+│       ├── 3,154 samples (54.3%) thread_native_entry  libjvm.dylib
+│       │   └── 3,154 samples (54.3%) Thread::call_run
+│       │       ├── 1,390 samples (23.9%) WorkerThread::run
+│       │       │   ├── 1,371 samples (23.6%) semaphore_wait_trap  (26.5% self in 23 call stacks)  libsystem_kernel.dylib
+│       │       │   └── 6 samples (0.1%) [[via 3 frames]] G1FullGCMarker::mark_object  libjvm.dylib
+│       │       ├── 1,039 samples (17.9%) JavaThread::thread_main_inner
+│       │       │   └── 1,039 samples (17.9%) 6 more branches, largest CompileBroker::compiler_thread_loop (5.4%) and MonitorDeflationThread::monitor_deflation_thread_entry (2.5%)
+│       │       └── 725 samples (12.5%) 3 more branches, largest ConcurrentGCThread::run (7.5%) and WatcherThread::run (2.5%)
+│       └── 145 samples (2.5%) [[via 5 frames]] __ulock_wait  libsystem_kernel.dylib
+├── 1,788 samples (30.8%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 1,788 samples (30.8%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 1,289 samples (22.2%) [[via 2 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│       │   ├── 1,106 samples (19.0%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│       │   │   └── 1,105 samples (19.0%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 408 samples (7.0%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 277 samples (4.8%) [[via 1 frame]] findNearestCentroid()  (self 1.3%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   └── 189 samples (3.3%) distance(Double[], Double[])  (self 3.2%)
+│       │   │       │   └── 131 samples (2.3%) [[via 1 frame]] collectClusters(int[])  (self 0.6%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 38 samples (0.7%) computeIfAbsent(Object, Function)  java.util.HashMap
+│       │   │       │       ├── 36 samples (0.6%) add(Object)  java.util.ArrayList
+│       │   │       │       │   └── 36 samples (0.6%) add(Object, Object[], int)
+│       │   │       │       └── 19 samples (0.3%) get(int)  java.util.ArrayList
+│       │   │       │           └── 10 samples (0.2%) checkIndex(int, int)  java.util.Objects
+│       │   │       ├── 384 samples (6.6%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 384 samples (6.6%) [[via 1 frame]] vectorSum()  (self 2.0%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 241 samples (4.1%) accumulate(Double[], double[])  (self 3.7%)
+│       │   │       │       │   └── 24 samples (0.4%) doubleValue()  java.lang.Double
+│       │   │       │       └── 25 samples (0.4%) get(int)  java.util.ArrayList
+│       │   │       │           └── 25 samples (0.4%) elementData(int)
+│       │   │       ├── 49 samples (0.8%) [[via 6 frames]] merge(Object, Object, BiFunction)  java.util.HashMap
+│       │   │       │   ├── 12 samples (0.2%) [[via 6 frames]] forward_copy_longs  (0.8% self in 30 call stacks)
+│       │   │       │   └── 6 samples (0.1%) zero_blocks
+│       │   │       └── 260 samples (4.5%) 6 more branches, largest join() (4.4%)  java.util.concurrent.ForkJoinTask
+│       │   ├── 10 samples (0.2%) [[via 5 frames]] __psynch_cvsignal  libsystem_kernel.dylib
+│       │   └── 170 samples (2.9%) 3 more branches, largest exec() (2.8%)  java.util.concurrent.RecursiveTask
+│       └── 467 samples (8.0%) [[via 5 frames]] __psynch_cvwait  (52.1% self in 102 call stacks)  libsystem_kernel.dylib
+├── 145 samples (2.5%) [[via 9 frames]] mach_msg2_trap  libsystem_kernel.dylib
+└── 579 samples (10.0%) 5 more branches, largest run() (2.5%)  java.lang.ref.Finalizer$FinalizerThread and run() (2.5%)
+```
+
 ## Hottest functions
 
 ### Self samples

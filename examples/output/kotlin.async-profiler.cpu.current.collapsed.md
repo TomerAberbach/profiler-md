@@ -11,6 +11,53 @@ Collected 1,305 samples.
 | JIT               |  1.5% |      19 |
 | Garbage collector |  0.1% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 867 samples (66.4%) [[via 3 frames]] Thread::call_run
+│   ├── 812 samples (62.2%) JavaThread::thread_main_inner
+│   │   └── 812 samples (62.2%) CompileBroker::compiler_thread_loop
+│   │       ├── 799 samples (61.2%) CompileBroker::invoke_compiler_on_method
+│   │       │   ├── 558 samples (42.8%) C2Compiler::compile_method
+│   │       │   │   └── 556 samples (42.6%) Compile::Compile
+│   │       │   │       ├── 280 samples (21.5%) Compile::Code_Gen
+│   │       │   │       │   ├── 154 samples (11.8%) PhaseChaitin::Register_Allocate
+│   │       │   │       │   │   ├── 27 samples (2.1%) PhaseChaitin::Split  (self 1.3%)
+│   │       │   │       │   │   │   └── 4 samples (0.3%) Node::rematerialize
+│   │       │   │       │   │   ├── 22 samples (1.7%) PhaseChaitin::build_ifg_physical  (self 0.8%)
+│   │       │   │       │   │   │   ├── 3 samples (0.2%) tlv_get_addr  (2.2% self in 26 call stacks)
+│   │       │   │       │   │   │   └── 2 samples (0.2%) MachNode::rematerialize
+│   │       │   │       │   │   └── 103 samples (7.9%) 20 more branches, largest PhaseChaitin::post_allocate_copy_removal (1.7%) and PhaseChaitin::gather_lrg_masks (1.5%)
+│   │       │   │       │   └── 126 samples (9.7%) 4 more branches, largest Matcher::match (4.2%) and PhaseCFG::do_global_code_motion (2.6%)
+│   │       │   │       └── 276 samples (21.1%) 9 more branches, largest Compile::Optimize (15.7%) and ParseGenerator::generate (4.4%)
+│   │       │   └── 241 samples (18.5%) 6 more branches, largest Compiler::compile_method (17.7%)
+│   │       └── 9 samples (0.7%) [[via 3 frames]] __psynch_cvwait
+│   └── 55 samples (4.2%) 3 more branches, largest WorkerThread::run (4.0%)
+├── 423 samples (32.4%) main  org.jetbrains.kotlin.preloading.Preloader
+│   └── 423 samples (32.4%) run
+│       ├── 347 samples (26.6%) [[via 3 frames]] invokeExact_MT  java.lang.invoke.Invokers$Holder
+│       │   ├── 338 samples (25.9%) [[via 7 frames]] exec  org.jetbrains.kotlin.cli.common.CLICompiler
+│       │   │   ├── 321 samples (24.6%) [[via 11 frames]] invoke  org.jetbrains.kotlin.config.phaser.NamedCompilerPhase
+│       │   │   │   ├── 300 samples (23.0%) phaseBody  org.jetbrains.kotlin.cli.pipeline.PipelinePhase
+│       │   │   │   │   ├── 25 samples (1.9%) [[via 1 frame]] executePhase  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFir2IrPipelinePhase
+│       │   │   │   │   │   └── 24 samples (1.8%) [[via 2 frames]] convertToIrAndActualizeForJvm-_I1IR-w  org.jetbrains.kotlin.cli.jvm.compiler.legacy.pipeline.JvmCompilerPipelineKt
+│       │   │   │   │   │       ├── 1 sample (0.1%) [[via 30 frames]] SymbolTable::do_lookup  (1.7% self in 22 call stacks)
+│       │   │   │   │   │       └── 22 samples (1.7%) 1 more branch, convertToIrAndActualize-MT2kVtw$default  org.jetbrains.kotlin.fir.pipeline.ConvertToIrKt
+│       │   │   │   │   └── 275 samples (21.1%) 5 more branches, largest executePhase (16.6%)  org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase and executePhase (4.2%)
+│       │   │   │   └── 21 samples (1.6%) 3 more branches, largest phaseBody (1.2%)  org.jetbrains.kotlin.backend.common.phaser.FileLoweringPhase
+│       │   │   └── 13 samples (1.0%) 3 more branches, largest <clinit> (0.6%)  org.jetbrains.kotlin.cli.common.ArgumentsKt
+│       │   └── 4 samples (0.3%) [[via 35–54 frames]] invokeStatic  java.lang.invoke.LambdaForm$DMH.0x0000007001234000
+│       └── 74 samples (5.7%) preloadClasses  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+│           ├── 61 samples (4.7%) [[via 5 frames]] inflateBytesBytes  java.util.zip.Inflater
+│           │   └── 60 samples (4.6%) Java_java_util_zip_Inflater_inflateBytesBytes
+│           │       ├── 43 samples (3.3%) inflate_fast
+│           │       └── 17 samples (1.3%) 3 more branches, largest inflate (1.0%)
+│           └── 7 samples (0.5%) 1 more branch, loadAllClassesFromJars  org.jetbrains.kotlin.preloading.ClassPreloadingUtils
+└── 14 samples (1.1%) 3 more branches, largest [break_stack_range] (0.8%)
+```
+
 ## Hottest functions
 
 ### Self samples

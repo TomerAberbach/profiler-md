@@ -10,6 +10,53 @@ Collected 5,110 samples.
 | JIT              |  0.2% |       9 |
 | Compiler         |  0.2% |       9 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 2,869 samples (56.1%) thread_start  libsystem_pthread.dylib
+│   └── 2,869 samples (56.1%) _pthread_start
+│       ├── 2,742 samples (53.7%) thread_native_entry  libjvm.dylib
+│       │   └── 2,742 samples (53.7%) Thread::call_run
+│       │       ├── 1,200 samples (23.5%) WorkerThread::run
+│       │       │   └── 1,193 samples (23.3%) semaphore_wait_trap  (26.2% self in 22 call stacks)  libsystem_kernel.dylib
+│       │       ├── 912 samples (17.8%) JavaThread::thread_main_inner
+│       │       │   └── 912 samples (17.8%) 6 more branches, largest CompileBroker::compiler_thread_loop (5.5%) and ServiceThread::service_thread_entry (2.5%)
+│       │       └── 630 samples (12.3%) 3 more branches, largest ConcurrentGCThread::run (7.4%) and WatcherThread::run (2.5%)
+│       └── 126 samples (2.5%) [[via 5 frames]] __ulock_wait  libsystem_kernel.dylib
+├── 1,613 samples (31.6%) run()  java.util.concurrent.ForkJoinWorkerThread
+│   └── 1,613 samples (31.6%) runWorker(ForkJoinPool$WorkQueue)  java.util.concurrent.ForkJoinPool
+│       ├── 1,181 samples (23.1%) [[via 2 frames]] doExec()  java.util.concurrent.ForkJoinTask
+│       │   ├── 1,036 samples (20.3%) [[via 5–7 frames]] exec()  java.util.concurrent.RecursiveTask
+│       │   │   └── 1,036 samples (20.3%) compute()  org.renaissance.jdk.concurrent.JavaKMeans$RangedTask
+│       │   │       ├── 417 samples (8.2%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   ├── 329 samples (6.4%) [[via 1 frame]] findNearestCentroid()  (self 1.8%)  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │   │   └── 225 samples (4.4%) distance(Double[], Double[])  (self 4.1%)
+│       │   │       │   └── 88 samples (1.7%) [[via 1 frame]] collectClusters(int[])  org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask
+│       │   │       │       ├── 27 samples (0.5%) add(Object)  java.util.ArrayList
+│       │   │       │       │   └── 27 samples (0.5%) add(Object, Object[], int)
+│       │   │       │       └── 24 samples (0.5%) computeIfAbsent(Object, Function)  java.util.HashMap
+│       │   │       ├── 388 samples (7.6%) computeDirectly()  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │   └── 388 samples (7.6%) [[via 1 frame]] vectorSum()  (self 1.8%)  org.renaissance.jdk.concurrent.JavaKMeans$VectorSumTask
+│       │   │       │       ├── 277 samples (5.4%) accumulate(Double[], double[])  (self 4.9%)
+│       │   │       │       │   └── 26 samples (0.5%) doubleValue()  java.lang.Double
+│       │   │       │       └── 21 samples (0.4%) get(int)  java.util.ArrayList
+│       │   │       │           └── 21 samples (0.4%) elementData(int)
+│       │   │       ├── 59 samples (1.2%) [[via 3 frames]] forEach(BiConsumer)  java.util.HashMap
+│       │   │       │   └── 57 samples (1.1%) [[via 2 frames]] merge(Object, Object, BiFunction)  java.util.HashMap
+│       │   │       │       ├── 18 samples (0.4%) [[via 4 frames]] copyOf(Object[], int)  java.util.Arrays
+│       │   │       │       │   └── 14 samples (0.3%) arrayof_jint_disjoint_arraycopy
+│       │   │       │       │       └── 12 samples (0.2%) forward_copy_longs  (0.9% self in 36 call stacks)
+│       │   │       │       └── 5 samples (0.1%) zero_blocks
+│       │   │       └── 172 samples (3.4%) 5 more branches, largest join() (3.2%)  java.util.concurrent.ForkJoinTask
+│       │   ├── 6 samples (0.1%) [[via 11 frames]] __psynch_cvsignal  libsystem_kernel.dylib
+│       │   └── 138 samples (2.7%) 2 more branches, largest exec() (2.7%)  java.util.concurrent.RecursiveTask
+│       └── 408 samples (8.0%) [[via 5 frames]] __psynch_cvwait  (50.4% self in 79 call stacks)  libsystem_kernel.dylib
+├── 126 samples (2.5%) [[via 9 frames]] mach_msg2_trap  libsystem_kernel.dylib
+└── 502 samples (9.8%) 4 more branches, largest run() (2.5%)  java.lang.ref.Reference$ReferenceHandler and run() (2.5%)
+```
+
 ## Hottest functions
 
 ### Self samples

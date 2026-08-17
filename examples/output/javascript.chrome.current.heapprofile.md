@@ -13,6 +13,53 @@ Allocated 60.1 MiB over 3,770 samples (16.3 KiB per sample).
 
 Paths starting with `./` or `../` are relative to `http://127.0.0.1:52789/`.
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 59.3 MiB (98.6%) (anonymous)
+│   └── 59.2 MiB (98.5%) globalThis.buildAndRetainDom  ./workload.mjs:1:32
+│       ├── 50.5 MiB (84.0%) chartLayouts  :116:24
+│       │   ├── 40 MiB (66.5%) [[via 4 frames]] o  (self 1.0%)  ./node_modules/d3/dist/d3.min.js:2:77004
+│       │   │   └── 39.4 MiB (65.5%) (anonymous)  :2:77113
+│       │   │       └── 39.3 MiB (65.4%) p  (self 63.7%)  :2:77576
+│       │   │           └── 865 KiB (1.4%) (anonymous)  :2:78140
+│       │   │               └── 609 KiB (1.0%) push  (2.0% self in 4 call stacks)
+│       │   ├── 3.32 MiB (5.5%) [[via 4 frames]] Bp  (self 5.3%)  ./node_modules/d3/dist/d3.min.js:2:147443
+│       │   ├── 2.75 MiB (4.6%) [[via 2 frames]] select  (self 2.4%)  ./node_modules/d3/dist/d3.min.js:2:22328
+│       │   │   └── 1.31 MiB (2.2%) 1 more branch, (anonymous)  :2:26793
+│       │   ├── 1.38 MiB (2.3%) Gd  (self 2.0%)  ./node_modules/d3/dist/d3.min.js:2:139995
+│       │   │   └── 195 KiB (0.3%) from
+│       │   ├── 1.22 MiB (2.0%) t.forceSimulation  ./node_modules/d3/dist/d3.min.js:2:235437
+│       │   │   └── 1.22 MiB (2.0%) d  :2:235885
+│       │   ├── 849 KiB (1.4%) map
+│       │   │   └── 737 KiB (1.2%) (anonymous)  ./workload.mjs:136:28
+│       │   ├── 387 KiB (0.6%) [[via 2 frames]] t  ./node_modules/d3/dist/d3.min.js:2:4909
+│       │   └── 141 KiB (0.2%) [[via 4 frames]] g  ./node_modules/d3/dist/d3.min.js:2:231215
+│       ├── 3.89 MiB (6.5%) [[via 2 frames]] append  ./node_modules/d3/dist/d3.min.js:2:26726
+│       │   └── 3.5 MiB (5.8%) select  (self 3.1%; 7.4% in 9 call stacks)  :2:22328
+│       │       └── 1.63 MiB (2.7%) (anonymous)  :2:26793
+│       │           └── 1.63 MiB (2.7%) (anonymous)  (7.2% self in 12 call stacks)  :2:16259
+│       ├── 2.55 MiB (4.2%) call  ./node_modules/d3/dist/d3.min.js:2:25192
+│       │   └── 2.53 MiB (4.2%) h  :2:12208
+│       │       ├── 305 KiB (0.5%) n.copy  :2:257567
+│       │       │   └── 305 KiB (0.5%) t  :2:257518
+│       │       │       ├── 144 KiB (0.2%) Ag  :2:154779
+│       │       │       └── 144 KiB (0.2%) Fg  :2:156948
+│       │       ├── 64.1 KiB (0.1%) [[via 4 frames]] wg  ./node_modules/d3/dist/d3.min.js:2:154259
+│       │       └── 2.04 MiB (3.4%) 5 more branches, largest select (1.6%)  :2:22328 and append (1.4%)
+│       └── 1.93 MiB (3.2%) chartBreakdowns  :39:27
+│           ├── 641 KiB (1.0%) [[via 3 frames]] I_  (self 0.6%)  ./node_modules/d3/dist/d3.min.js:2:173066
+│           │   └── 208 KiB (0.3%) format  :2:167310
+│           ├── 482 KiB (0.8%) r  ./node_modules/d3/dist/d3.min.js:2:7022
+│           │   └── 337 KiB (0.5%) push
+│           ├── 288 KiB (0.5%) join  ./node_modules/d3/dist/d3.min.js:2:24162
+│           ├── 128 KiB (0.2%) a  ./node_modules/d3/dist/d3.min.js:2:252683
+│           └── 64.2 KiB (0.1%) [[via 4 frames]] next
+└── 788 KiB (1.3%) (v8 api)
+```
+
 ## Hottest functions
 
 ### Self size

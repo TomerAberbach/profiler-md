@@ -11,6 +11,53 @@ Collected 14,141 samples.
 | JIT               |  0.1% |      17 |
 | Garbage collector | <0.1% |       2 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 11,813 samples (83.5%) thread_start  libsystem_pthread.dylib
+│   └── 11,813 samples (83.5%) _pthread_start
+│       ├── 11,346 samples (80.2%) thread_native_entry  libjvm.dylib
+│       │   └── 11,346 samples (80.2%) Thread::call_run
+│       │       ├── 5,066 samples (35.8%) WorkerThread::run
+│       │       │   └── 5,024 samples (35.5%) semaphore_wait_trap  (39.0% self in 19 call stacks)  libsystem_kernel.dylib
+│       │       ├── 3,951 samples (27.9%) JavaThread::thread_main_inner
+│       │       │   ├── 1,622 samples (11.5%) CompileBroker::compiler_thread_loop
+│       │       │   │   ├── 934 samples (6.6%) [[via 3 frames]] __psynch_cvwait  (46.0% self in 20 call stacks)  libsystem_kernel.dylib
+│       │       │   │   └── 684 samples (4.8%) CompileBroker::invoke_compiler_on_method
+│       │       │   │       ├── 550 samples (3.9%) C2Compiler::compile_method
+│       │       │   │       │   └── 549 samples (3.9%) Compile::Compile
+│       │       │   │       │       ├── 254 samples (1.8%) Compile::Code_Gen
+│       │       │   │       │       │   ├── 145 samples (1.0%) PhaseChaitin::Register_Allocate
+│       │       │   │       │       │   │   ├── 35 samples (0.2%) PhaseChaitin::Split
+│       │       │   │       │       │   │   ├── 19 samples (0.1%) PhaseChaitin::build_ifg_physical
+│       │       │   │       │       │   │   ├── 16 samples (0.1%) PhaseChaitin::post_allocate_copy_removal
+│       │       │   │       │       │   │   │   └── 8 samples (0.1%) PhaseChaitin::elide_copy
+│       │       │   │       │       │   │   ├── 12 samples (0.1%) PhaseLive::compute
+│       │       │   │       │       │   │   └── 9 samples (0.1%) PhaseIFG::SquareUp
+│       │       │   │       │       │   └── 16 samples (0.1%) [[via 2 frames]] Arena::contains  libjvm.dylib
+│       │       │   │       │       ├── 218 samples (1.5%) Compile::Optimize
+│       │       │   │       │       │   ├── 19 samples (0.1%) ConnectionGraph::do_analysis
+│       │       │   │       │       │   ├── 13 samples (0.1%) [[via 3 frames]] PhaseIdealLoop::build_loop_late  libjvm.dylib
+│       │       │   │       │       │   ├── 9 samples (0.1%) [[via 5 frames]] PhaseIdealLoop::build_loop_late_post_work  libjvm.dylib
+│       │       │   │       │       │   └── 8 samples (0.1%) [[via 2 frames]] PhaseIterGVN::subsume_node  libjvm.dylib
+│       │       │   │       │       └── 69 samples (0.5%) ParseGenerator::generate
+│       │       │   │       └── 130 samples (0.9%) Compiler::compile_method
+│       │       │   │           └── 130 samples (0.9%) 1 more branch, Compilation::Compilation
+│       │       │   └── 2,329 samples (16.5%) 5 more branches, largest ServiceThread::service_thread_entry (3.3%) and signal_thread_entry (3.3%)
+│       │       ├── 1,397 samples (9.9%) ConcurrentGCThread::run
+│       │       │   └── 1,397 samples (9.9%) 3 more branches, largest G1ConcurrentMarkThread::run_service (3.3%) and G1ServiceThread::run_service (3.3%)
+│       │       └── 932 samples (6.6%) 2 more branches, largest WatcherThread::run (3.3%) and VMThread::run (3.3%)
+│       └── 466 samples (3.3%) [[via 5 frames]] __ulock_wait  libsystem_kernel.dylib
+├── 466 samples (3.3%) [[via 9 frames]] mach_msg2_trap  libsystem_kernel.dylib
+├── 443 samples (3.1%) [[via 12–47 frames]] invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│   ├── 74 samples (0.5%) [[via 8 frames]] setCallSiteTarget()  org.codehaus.groovy.vmplugin.v8.Selector$MethodSelector
+│   │   └── 20 samples (0.1%) [[via 19 frames]] java_lang_Throwable::fill_in_stack_trace  libjvm.dylib
+│   └── 329 samples (2.3%) 2 more branches, largest fromCache(MutableCallSite, Class, String, int, Boolean, Boolean, Boolean, Object, Object[]) (2.3%)  org.codehaus.groovy.vmplugin.v8.IndyInterface
+└── 1,402 samples (9.9%) 6 more branches, largest run() (3.3%)  java.lang.ref.Finalizer$FinalizerThread and run() (3.3%)
+```
+
 ## Hottest functions
 
 ### Self samples

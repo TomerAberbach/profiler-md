@@ -10,6 +10,53 @@ Collected 613 samples.
 | JIT               |  0.5% |       3 |
 | Garbage collector |  0.2% |       1 |
 
+## Call tree
+
+Call paths to the hottest functions.
+
+```
+├── 460 samples (75.0%) [[via 3 frames]] Thread::call_run()
+│   ├── 445 samples (72.6%) JavaThread::thread_main_inner()
+│   │   └── 444 samples (72.4%) CompileBroker::compiler_thread_loop()
+│   │       └── 441 samples (71.9%) CompileBroker::invoke_compiler_on_method(CompileTask*)
+│   │           ├── 358 samples (58.4%) C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)
+│   │           │   └── 358 samples (58.4%) Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)
+│   │           │       ├── 183 samples (29.9%) Compile::Code_Gen()
+│   │           │       │   ├── 104 samples (17.0%) PhaseChaitin::Register_Allocate()
+│   │           │       │   │   ├── 21 samples (3.4%) PhaseChaitin::build_ifg_physical(ResourceArea*)  (self 1.5%)
+│   │           │       │   │   │   └── 12 samples (2.0%) 7 more branches, largest IndexSetIterator::advance_and_next() (0.5%)
+│   │           │       │   │   ├── 18 samples (2.9%) PhaseChaitin::Split(unsigned int, ResourceArea*)  (self 2.1%)
+│   │           │       │   │   │   └── 5 samples (0.8%) 5 more branches, largest CProjNode::is_block_proj() const (0.2%)
+│   │           │       │   │   ├── 11 samples (1.8%) PhaseChaitin::gather_lrg_masks(bool)  (self 1.1%)
+│   │           │       │   │   │   └── 1 sample (0.2%) RegMask::is_vector(unsigned int)
+│   │           │       │   │   ├── 8 samples (1.3%) PhaseLive::compute(unsigned int)
+│   │           │       │   │   │   └── 6 samples (1.0%) PhaseLive::add_liveout(Block_List&, Block*, IndexSet*, VectorSet&)
+│   │           │       │   │   └── 46 samples (7.5%) 18 more branches, largest PhaseChaitin::post_allocate_copy_removal() (1.8%) and PhaseChaitin::merge_multidefs() (0.8%)
+│   │           │       │   └── 79 samples (12.9%) 6 more branches, largest PhaseCFG::do_global_code_motion() (4.9%) and Matcher::match() (3.9%)
+│   │           │       ├── 135 samples (22.0%) Compile::Optimize()
+│   │           │       │   ├── 44 samples (7.2%) PhaseIdealLoop::optimize(PhaseIterGVN&, LoopOptsMode)
+│   │           │       │   │   ├── 37 samples (6.0%) PhaseIdealLoop::PhaseIdealLoop(PhaseIterGVN&, LoopOptsMode)
+│   │           │       │   │   │   └── 37 samples (6.0%) PhaseIdealLoop::build_and_optimize()
+│   │           │       │   │   │       ├── 6 samples (1.0%) PhaseIdealLoop::build_loop_early(VectorSet&, Node_List&, Node_Stack&)
+│   │           │       │   │   │       └── 31 samples (5.1%) 8 more branches, largest PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&) (2.0%) and PhaseIdealLoop::Dominators() (0.7%)
+│   │           │       │   │   └── 7 samples (1.1%) 1 more branch, PhaseIterGVN::optimize()
+│   │           │       │   ├── 43 samples (7.0%) [[via 3 frames]] PhaseIdealLoop::build_and_optimize()
+│   │           │       │   │   ├── 13 samples (2.1%) PhaseIdealLoop::build_loop_late(VectorSet&, Node_List&, Node_Stack&)
+│   │           │       │   │   │   └── 11 samples (1.8%) PhaseIdealLoop::build_loop_late_post_work(Node*, bool)  (self 1.3%; 2.0% in 2 call stacks)
+│   │           │       │   │   └── 29 samples (4.7%) 14 more branches, largest PhaseIdealLoop::split_if_with_blocks(VectorSet&, Node_Stack&) (1.6%)
+│   │           │       │   └── 46 samples (7.5%) 9 more branches, largest PhaseIterGVN::optimize() (2.6%) and ConnectionGraph::do_analysis(Compile*, PhaseIterGVN*) (2.0%)
+│   │           │       └── 40 samples (6.5%) 5 more branches, largest ParseGenerator::generate(JVMState*) (5.2%)
+│   │           └── 83 samples (13.5%) 5 more branches, largest Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*) (12.9%)
+│   └── 15 samples (2.4%) 2 more branches, largest WorkerThread::run() (2.1%)
+├── 139 samples (22.7%) main(String[])  org.codenarc.CodeNarc
+│   ├── 135 samples (22.0%) linkToCallSite(Object, Object, Object)  java.lang.invoke.Invokers$Holder
+│   │   ├── 121 samples (19.7%) [[via 10–31 frames]] invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│   │   │   └── 121 samples (19.7%) 1 more branch, invokeStatic(Object, Object, Object, Object, int, Object, Object, Object, Object, Object)  java.lang.invoke.LambdaForm$DMH.0x0000007001088800
+│   │   └── 14 samples (2.3%) 1 more branch, invoke(Object, Object, Object)  java.lang.invoke.LambdaForm$MH.0x00000070010a1800
+│   └── 2 samples (0.3%) linkToCallSite(Object, Object)  java.lang.invoke.Invokers$Holder
+└── 13 samples (2.1%) 2 more branches, largest <clinit>() (2.0%)  org.codenarc.CodeNarc
+```
+
 ## Hottest functions
 
 ### Self samples
