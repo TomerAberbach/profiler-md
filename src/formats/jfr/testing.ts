@@ -57,6 +57,13 @@ export type JfrTestEvent = {
   samples?: number
 }
 
+/**
+ * The event types whose declaration and bodies can omit the weight field, as
+ * an older JDK writes them: `jdk.OldObjectSample` lacks `objectSize` before
+ * JDK 21.
+ */
+export type JfrUnweightedEventType = `live`
+
 // Metadata class IDs. Avoid 0 and 1, which are reserved for the metadata and
 // constant pool events in the chunk body.
 const LONG = 2
@@ -108,10 +115,14 @@ export const makeJfr = ({
   stackTraces,
   events,
   malformations: { emptyUnknownPools = [], unreadableEventTypes = [] } = {},
+  unweightedEventTypes = [],
 }: {
   methods: JfrTestMethod[]
   stackTraces: JfrTestStack[]
   events: JfrTestEvent[]
+
+  /** Event types declared and written without their weight field. */
+  unweightedEventTypes?: JfrUnweightedEventType[]
 
   /** Optional structural defects for parser-robustness tests. */
   malformations?: JfrMalformations
@@ -235,7 +246,9 @@ export const makeJfr = ({
         break
       case `live`:
         body.varint(stack + 1)
-        body.varint(weight ?? 0)
+        if (!unweightedEventTypes.includes(`live`)) {
+          body.varint(weight ?? 0)
+        }
         eventWriters.push(sizedEvent(OLD_OBJECT_SAMPLE, body))
         break
       case `liveobject`:
@@ -256,7 +269,7 @@ export const makeJfr = ({
     }
   }
 
-  const metadata = makeMetadata(unreadableEventTypes)
+  const metadata = makeMetadata(unreadableEventTypes, unweightedEventTypes)
   const constantPool = sizedEvent(CONSTANT_POOL_EVENT, pool)
 
   const bodyParts = [
@@ -290,7 +303,10 @@ const CONSTANT_POOL_EVENT = 1
 const METADATA_EVENT = 0
 
 /** Builds the metadata event declaring every type the parser reads. */
-const makeMetadata = (unreadableEventTypes: string[]): ByteWriter => {
+const makeMetadata = (
+  unreadableEventTypes: string[],
+  unweightedEventTypes: JfrUnweightedEventType[],
+): ByteWriter => {
   const strings = new StringTable()
 
   type Attr = [string, string]
@@ -385,7 +401,9 @@ const makeMetadata = (unreadableEventTypes: string[]): ByteWriter => {
     ]),
     type(OLD_OBJECT_SAMPLE, `jdk.OldObjectSample`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
-      field(`objectSize`, LONG),
+      ...(unweightedEventTypes.includes(`live`)
+        ? []
+        : [field(`objectSize`, LONG)]),
     ]),
     type(LIVE_OBJECT, `profiler.LiveObject`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),

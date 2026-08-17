@@ -94,6 +94,9 @@ export const selfSleepsTables = (md: string): Table[] =>
 export const totalSleepsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Total sleeps`)
 
+export const selfObjectsTables = (md: string): Table[] =>
+  allTablesAfterHeading(parseMd(md), `Self objects`)
+
 /**
  * The `Self size` tables under {@link section}, the heading separating the size
  * metrics an input records several of, whether as one profile's measures or as
