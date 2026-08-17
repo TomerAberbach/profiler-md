@@ -15,6 +15,7 @@ import type {
   AggregatedProfileEntry,
   FormattingProfileToMdOptions,
   FunctionCategory,
+  ProfileToMdContext,
 } from '../options.ts'
 import type { Diff } from './diff.ts'
 import type { HeapSnapshotNodeCategory } from './heap-snapshot/type.ts'
@@ -363,15 +364,22 @@ export const resolveEntryFilter = ({
         notes: [paragraph(disabledNote)],
       }
 
+/** The two sides of a diff, each stating the context it was aggregated under. */
+export type DiffSides = {
+  base: { context: ProfileToMdContext }
+  current: { context: ProfileToMdContext }
+}
+
 /** Returns whether either side of the diffed entity should be shown. */
 export const showDiffEntity = <
   Entry extends DeepReadonly<AggregatedProfileEntry>,
 >(
   { base, current }: Diff<Entry>,
+  sides: DiffSides,
   options: FormattingProfileToMdOptions,
 ): boolean =>
-  (base !== undefined && options.showEntry(base)) ||
-  (current !== undefined && options.showEntry(current))
+  (base !== undefined && options.showEntry(base, sides.base.context)) ||
+  (current !== undefined && options.showEntry(current, sides.current.context))
 
 /** A diffed entity paired with its base and current values for one measure. */
 export type ActiveDiffEntity<Entity> = {
@@ -393,6 +401,7 @@ export const selectDiffEntities = <
   Entity extends Diff<DeepReadonly<AggregatedProfileEntry>>,
 >(
   candidates: ActiveDiffEntity<Entity>[],
+  sides: DiffSides,
   options: FormattingProfileToMdOptions,
   categories?: {
     categories: Category[]
@@ -406,7 +415,8 @@ export const selectDiffEntities = <
 } => {
   const active = candidates.filter(
     ({ entity, baseValue, currentValue }) =>
-      (baseValue > 0 || currentValue > 0) && showDiffEntity(entity, options),
+      (baseValue > 0 || currentValue > 0) &&
+      showDiffEntity(entity, sides, options),
   )
   const increased = active.filter(
     ({ baseValue, currentValue }) => currentValue > baseValue,

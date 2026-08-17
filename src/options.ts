@@ -261,7 +261,10 @@ export type ProfileToMdOptions = {
    *
    * Defaults to {@link defaultShowEntry}.
    */
-  showEntry?: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
+  showEntry?: (
+    entry: DeepReadonly<AggregatedProfileEntry>,
+    context: ProfileToMdContext,
+  ) => boolean
 }
 
 /** {@link ProfileToMdOptions} with defaults applied. */
@@ -275,7 +278,10 @@ export type NormalizedProfileToMdOptions = {
     entries: readonly ProfileEntry[],
     context: ProfileToMdContext,
   ) => readonly FunctionCategory[]
-  showEntry: (entry: DeepReadonly<AggregatedProfileEntry>) => boolean
+  showEntry: (
+    entry: DeepReadonly<AggregatedProfileEntry>,
+    context: ProfileToMdContext,
+  ) => boolean
 }
 
 /**

@@ -17,7 +17,10 @@ import {
 } from '../../helpers/markdown.ts'
 import { formatSourceLocation } from '../../location.ts'
 import type { FileReference, SourceLocation } from '../../location.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
@@ -69,9 +72,14 @@ export const formatHeapSnapshot = (
   const { sectionOptions, notes } = resolveEntryFilter({
     options,
     showsAnyEntry:
-      snapshot.constructors.some(options.showEntry) ||
+      snapshot.constructors.some(constructor =>
+        options.showEntry(constructor, snapshot.context),
+      ) ||
       snapshot.functions.some(fn =>
-        options.showEntry({ ...fn, id: fn.largestInstanceId }),
+        options.showEntry(
+          { ...fn, id: fn.largestInstanceId },
+          snapshot.context,
+        ),
       ),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
@@ -143,7 +151,9 @@ const formatLargestConstructors = ({
   // its share of the shown constructors' summed self size, which the ranking it
   // appears under doesn't change.
   const categories = subsectionCategories({
-    entries: snapshot.constructors.filter(options.showEntry),
+    entries: snapshot.constructors.filter(constructor =>
+      options.showEntry(constructor, snapshot.context),
+    ),
     selfValueOf: constructor => constructor.selfSize,
     categoryOf: constructor => constructor.category,
     minCategoryShare: options.minCategoryShare,
@@ -226,10 +236,12 @@ const formatLargestSizeConstructors = ({
   options: FormattingProfileToMdOptions
   size: ConstructorSize
 }): RootContent[] => {
-  const { totalSize, constructors } = snapshot
+  const { totalSize, constructors, context } = snapshot
 
   const ranking = rankEntities({
-    entities: constructors.filter(options.showEntry),
+    entities: constructors.filter(constructor =>
+      options.showEntry(constructor, context),
+    ),
     categories,
     valueOf: sizeOf,
     topN: options.topN,
@@ -371,11 +383,11 @@ const formatLargestFunctions = ({
   hasLocation: boolean
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  const { totalSize, functions, retainerPathOf } = snapshot
+  const { totalSize, functions, retainerPathOf, context } = snapshot
 
   const largestFunctions = selectTopN(
     functions.filter(fn =>
-      options.showEntry({ ...fn, id: fn.largestInstanceId }),
+      options.showEntry({ ...fn, id: fn.largestInstanceId }, context),
     ),
     options.topN,
     fn => fn.retainedSize,
@@ -419,7 +431,7 @@ const formatLargestFunctions = ({
 
 const formatFunctionRetainedObjects = ({
   fn,
-  snapshot: { retainedNodesOf, retainerPathOf },
+  snapshot: { retainedNodesOf, retainerPathOf, context },
   hasLocation,
   options,
 }: {
@@ -429,7 +441,7 @@ const formatFunctionRetainedObjects = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const retainedNodes = selectTopN(
-    collectShownRetainedNodes(fn, retainedNodesOf, options),
+    collectShownRetainedNodes(fn, retainedNodesOf, context, options),
     Math.ceil(options.topN / 4),
     node => node.selfSize,
   )
@@ -458,6 +470,7 @@ const formatFunctionRetainedObjects = ({
 const collectShownRetainedNodes = (
   fn: AggregatedHeapSnapshotFunction,
   retainedNodesOf: AggregatedHeapSnapshot[`retainedNodesOf`],
+  context: ProfileToMdContext,
   options: FormattingProfileToMdOptions,
 ): AggregatedHeapSnapshotNode[] => {
   const instanceIdToSeen = new DynamicTypedArray(new Uint8Array(256))
@@ -469,7 +482,7 @@ const collectShownRetainedNodes = (
         continue
       }
       seen[node.id] = 1
-      if (options.showEntry(node)) {
+      if (options.showEntry(node, context)) {
         retainedNodes.push(node)
       }
     }
@@ -531,8 +544,8 @@ export const formatHeapSnapshotDiff = (
   const { sectionOptions, notes } = resolveEntryFilter({
     options,
     showsAnyEntry:
-      diff.constructors.some(entity => showDiffEntity(entity, options)) ||
-      diff.functions.some(entity => showDiffEntity(entity, options)),
+      diff.constructors.some(entity => showDiffEntity(entity, diff, options)) ||
+      diff.functions.some(entity => showDiffEntity(entity, diff, options)),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
   return [
@@ -617,7 +630,7 @@ const formatDiffConstructors = ({
   // same constructors each side of the diff shows.
   const categories = subsectionDiffCategories({
     entries: diff.constructors.filter(entity =>
-      showDiffEntity(entity, options),
+      showDiffEntity(entity, diff, options),
     ),
     baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
     currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
@@ -666,6 +679,7 @@ const formatDiffSizeConstructors = ({
         baseValue: entity.base ? sizeOf(entity.base) : 0,
         currentValue: entity.current ? sizeOf(entity.current) : 0,
       })),
+      diff,
       options,
       { categories, categoryOf: entity => entity.category ?? `object` },
     )
@@ -711,6 +725,7 @@ const formatDiffFunctions = ({
       baseValue: entity.base ? entity.base.retainedSize : 0,
       currentValue: entity.current ? entity.current.retainedSize : 0,
     })),
+    diff,
     options,
   )
 
@@ -760,7 +775,9 @@ const formatDiffStrings = ({
   const categoryOf = (entity: AggregatedHeapSnapshotEntityDiff) =>
     entity.category ?? `string`
   const categories = subsectionDiffCategories({
-    entries: diff.strings.filter(entity => showDiffEntity(entity, options)),
+    entries: diff.strings.filter(entity =>
+      showDiffEntity(entity, diff, options),
+    ),
     baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
     currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
     categoryOf,
@@ -774,6 +791,7 @@ const formatDiffStrings = ({
         baseValue: entity.base ? entity.base.selfSize : 0,
         currentValue: entity.current ? entity.current.selfSize : 0,
       })),
+      diff,
       options,
       { categories, categoryOf },
     )

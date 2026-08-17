@@ -18,7 +18,10 @@ import {
   phrasing,
   text,
 } from '../../helpers/markdown.ts'
-import type { FormattingProfileToMdOptions } from '../../options.ts'
+import type {
+  FormattingProfileToMdOptions,
+  ProfileToMdContext,
+} from '../../options.ts'
 import {
   formatRankingTables,
   rankEntities,
@@ -131,14 +134,15 @@ const memoizeShowEntry = (
   const shownById = new Array<boolean | undefined>(profile.functions.length)
   let showsAnyEntry = false
   for (const func of profile.functions) {
-    if ((shownById[func.id] = showEntry(func))) {
+    if ((shownById[func.id] = showEntry(func, profile.context))) {
       showsAnyEntry = true
     }
   }
   return {
     memoizedOptions: {
       ...options,
-      showEntry: entry => shownById[entry.id] ?? showEntry(entry),
+      showEntry: (entry, context) =>
+        shownById[entry.id] ?? showEntry(entry, context),
     },
     showsAnyEntry,
   }
@@ -167,7 +171,7 @@ export const formatCallStackProfileDiff = (
         const { sectionOptions, notes } = resolveEntryFilter({
           options,
           showsAnyEntry: diff.functions.some(func =>
-            showDiffEntity(func, options),
+            showDiffEntity(func, diff, options),
           ),
           disabledNote: ENTRY_FILTER_DISABLED_NOTE,
         })
@@ -290,7 +294,9 @@ const formatHottestFunctions = ({
   // share of the shown functions' self value, which the ranking it appears
   // under doesn't change.
   const categories = subsectionCategories({
-    entries: profile.functions.filter(func => options.showEntry(func)),
+    entries: profile.functions.filter(func =>
+      options.showEntry(func, profile.context),
+    ),
     selfValueOf: func => selfValueOf(measure, func),
     categoryOf: func => func.category,
     minCategoryShare: options.minCategoryShare,
@@ -335,7 +341,7 @@ const formatHottestSelfFunctions = ({
   const countOf = (func: AggregatedCallStackProfileFunction) => func.selfCount
   const ranking = rankEntities({
     entities: profile.functions.filter(
-      func => options.showEntry(func) && valueOf(func) > 0,
+      func => options.showEntry(func, profile.context) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
@@ -361,6 +367,7 @@ const formatHottestSelfFunctions = ({
     formatHottestCallers({
       measure,
       func,
+      context: profile.context,
       options,
       headingLevel: headingLevel + 2,
     }),
@@ -459,11 +466,13 @@ const formatHottestLines = ({
 const formatHottestCallers = ({
   measure,
   func,
+  context,
   options,
   headingLevel,
 }: {
   measure: Measure
   func: AggregatedCallStackProfileFunction
+  context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -471,7 +480,8 @@ const formatHottestCallers = ({
   const hottestCallers = selectTopN(
     [...func.callerIdToMetrics.values()].filter(
       entry =>
-        options.showEntry(entry.caller) && selfValueOf(measure, entry) > 0,
+        options.showEntry(entry.caller, context) &&
+        selfValueOf(measure, entry) > 0,
     ),
     Math.ceil(options.topN / 4),
     entry => selfValueOf(measure, entry),
@@ -512,7 +522,7 @@ const formatHottestTotalFunctions = ({
   const countOf = (func: AggregatedCallStackProfileFunction) => func.totalCount
   const ranking = rankEntities({
     entities: profile.functions.filter(
-      func => options.showEntry(func) && valueOf(func) > 0,
+      func => options.showEntry(func, profile.context) && valueOf(func) > 0,
     ),
     categories,
     valueOf,
@@ -527,6 +537,7 @@ const formatHottestTotalFunctions = ({
     formatHottestCallees({
       measure,
       func,
+      context: profile.context,
       options,
       headingLevel: headingLevel + 2,
     }),
@@ -558,11 +569,13 @@ const formatHottestTotalFunctions = ({
 const formatHottestCallees = ({
   measure,
   func,
+  context,
   options,
   headingLevel,
 }: {
   measure: Measure
   func: AggregatedCallStackProfileFunction
+  context: ProfileToMdContext
   options: FormattingProfileToMdOptions
   headingLevel: number
 }): RootContent[] => {
@@ -570,7 +583,8 @@ const formatHottestCallees = ({
   const hottestCallees = selectTopN(
     [...func.calleeIdToMetrics.values()].filter(
       entry =>
-        options.showEntry(entry.callee) && totalValueOf(measure, entry) > 0,
+        options.showEntry(entry.callee, context) &&
+        totalValueOf(measure, entry) > 0,
     ),
     Math.ceil(options.topN / 4),
     entry => totalValueOf(measure, entry),
@@ -605,7 +619,7 @@ const formatHottestCallStacks = ({
   headingLevel: number
 }): RootContent[] => {
   const hottestCallStacks = selectTopN(
-    mergeShownCallStacks(profile.callStacks, options).filter(
+    mergeShownCallStacks(profile, options).filter(
       callStack => selfValueOf(measure, callStack) > 0,
     ),
     options.topN,
@@ -705,13 +719,13 @@ type ShownCallStack = {
  * frames are dropped: a single-frame "stack" has no call structure.
  */
 const mergeShownCallStacks = (
-  callStacks: AggregatedCallStackProfileCallStack[],
+  { callStacks, context }: AggregatedCallStackProfile,
   options: FormattingProfileToMdOptions,
 ): ShownCallStack[] => {
   const interner = newShownCallStackInterner()
   const { showEntry } = options
   for (const callStack of callStacks) {
-    const frames = shownFramesOf(callStack.frames, showEntry)
+    const frames = shownFramesOf(callStack.frames, context, showEntry)
     if (frames === null) {
       continue
     }
@@ -763,13 +777,14 @@ const newShownCallStackInterner = (): HashInterner<
  */
 const shownFramesOf = (
   frames: AggregatedCallStackProfileFunction[],
+  context: ProfileToMdContext,
   showEntry: FormattingProfileToMdOptions[`showEntry`],
 ): ShownFrame[] | null => {
   const shownFrames: ShownFrame[] = []
   let shownCount = 0
   let hidAnyFrame = false
   for (const frame of frames) {
-    if (!showEntry(frame)) {
+    if (!showEntry(frame, context)) {
       hidAnyFrame = true
       continue
     }
@@ -940,7 +955,7 @@ const formatDiffFunctions = ({
   // Resolved once for both rankings, like the ones a single profile gets, and
   // over the same functions each side of the diff shows.
   const categories = subsectionDiffCategories({
-    entries: diff.functions.filter(func => showDiffEntity(func, options)),
+    entries: diff.functions.filter(func => showDiffEntity(func, diff, options)),
     baseSelfValueOf: func =>
       func.base === undefined ? 0 : selfValueOf(measure.base, func.base),
     currentSelfValueOf: func =>
@@ -1029,6 +1044,7 @@ const formatDiffDirectionFunctions = ({
         baseValue: diffValue(baseMeasure, func.base),
         currentValue: diffValue(currentMeasure, func.current),
       })),
+      diff,
       options,
       { categories, categoryOf: func => func.category },
     )
