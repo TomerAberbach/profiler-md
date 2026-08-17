@@ -5,6 +5,7 @@ import { ghcJsonProfileConverter } from './ghc/json-profile/index.ts'
 import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { memrayConverter } from './memray/index.ts'
+import { perfConverter } from './perf/index.ts'
 import { pprofConverter } from './pprof/index.ts'
 import { speedscopeConverter } from './speedscope/index.ts'
 import { systingConverter } from './systing/index.ts'
@@ -21,6 +22,7 @@ export const formatConverters = {
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   memray: memrayConverter,
+  perf: perfConverter,
   pprof: pprofConverter,
   speedscope: speedscopeConverter,
   systing: systingConverter,

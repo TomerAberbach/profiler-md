@@ -2,7 +2,8 @@
 
 Zig profiling uses [gperftools](https://github.com/gperftools/gperftools), whose
 CPU profiler and tcmalloc heap profiler attach to any dynamically linked native
-program.
+program, or [Linux `perf`](https://perfwiki.github.io/main/), which samples the
+program from the kernel.
 
 ## CPU profiling
 
@@ -85,6 +86,42 @@ pprof --proto ./program heap.prof.0001.heap > heap.pprof
 | `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                  |
 | `HEAPPROFILESIGNAL`                | —            | Signal number to dump a profile on demand                                                     |
 | `HEAP_PROFILE_MMAP`                | `false`      | Also profile `mmap`/`mremap`/`sbrk` calls                                                     |
+
+## Linux perf profiling
+
+[Linux `perf`](https://perfwiki.github.io/main/) samples any native program
+through the kernel's `perf_event` counters, across user and kernel code, and
+writes `perf.data` itself. It needs a Linux kernel and a
+`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
+below for kernel stacks).
+
+Build with frame pointers so perf's unwinder can walk the stack:
+
+```sh
+zig build-exe -O ReleaseSafe -fno-omit-frame-pointer program.zig
+```
+
+```sh
+# Sample a command at 999 Hz, recording call chains
+perf record -F 999 -g -o perf.data -- ./program args
+
+# Or sample a running process for 30 seconds
+perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
+```
+
+### CLI flags
+
+| Flag           | Default     | Description                                                          |
+| -------------- | ----------- | -------------------------------------------------------------------- |
+| `-F`           | `4000`      | Samples per second                                                   |
+| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
+| `-g`           | off         | Record call chains                                                   |
+| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
+| `-o`           | `perf.data` | Output path                                                          |
+| `-a`           | off         | Sample every CPU on the system rather than one command               |
+
+A `perf.data` file holds addresses rather than function names. See
+`profiler-md --help perf` for how frames are named and how to symbolize them.
 
 ## Tips
 

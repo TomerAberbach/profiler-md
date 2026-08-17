@@ -99,6 +99,18 @@ export async function* decodeUtf8LinesAsync(
   yield* decoder.flush()
 }
 
+export const startsWith = (bytes: Uint8Array, prefix: Uint8Array): boolean => {
+  if (bytes.length < prefix.length) {
+    return false
+  }
+  for (let index = 0; index < prefix.length; index++) {
+    if (bytes[index] !== prefix[index]) {
+      return false
+    }
+  }
+  return true
+}
+
 /**
  * Whether a NUL byte appears within the input's leading bytes.
  *

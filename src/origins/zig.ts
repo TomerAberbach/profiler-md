@@ -1,6 +1,6 @@
 /**
- * Zig toolchain conventions shared by the origins that observe native binaries,
- * because a Zig program compiles to a native binary like any other language.
+ * Zig registers no origin of its own, because a Zig program compiles to a
+ * native binary like any other language.
  */
 
 import type { DeepReadonly } from '../helpers/types.ts'

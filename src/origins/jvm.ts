@@ -1,8 +1,3 @@
-/**
- * HotSpot JVM runtime conventions shared by the origins that observe the JVM
- * through different recorders.
- */
-
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
