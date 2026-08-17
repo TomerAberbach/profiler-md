@@ -111,6 +111,48 @@ asprof -e nativemem -d 30 -f native.jfr <pid>
 `--alloc <bytes>` and `--nativemem <bytes>` set the sampling interval for the
 heap and native variants.
 
+## Heap dumps
+
+Captures every live object on the heap, with the references between them. Useful
+for finding what a leak retains, which the allocation profiles above can't show.
+The JVM writes the dump in the HPROF format.
+
+### CLI
+
+```sh
+# Attach to a running JVM (live objects only, after a full GC)
+jcmd <pid> GC.heap_dump -all=false heap.hprof
+
+# Or with jmap
+jmap -dump:live,format=b,file=heap.hprof <pid>
+```
+
+### On out of memory
+
+```sh
+java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof -jar app.jar
+```
+
+| Flag                              | Default           | Description                                          |
+| --------------------------------- | ----------------- | ---------------------------------------------------- |
+| `-XX:+HeapDumpOnOutOfMemoryError` | off               | Dump the heap when the JVM throws `OutOfMemoryError` |
+| `-XX:HeapDumpPath=<path>`         | working directory | File or directory the dump is written to             |
+
+### Programmatic API
+
+`HotSpotDiagnosticMXBean` dumps the heap from inside the process:
+
+```java
+import com.sun.management.HotSpotDiagnosticMXBean;
+import java.lang.management.ManagementFactory;
+
+HotSpotDiagnosticMXBean diagnostics = ManagementFactory.getPlatformMXBean(
+    HotSpotDiagnosticMXBean.class);
+
+// Code to capture...
+diagnostics.dumpHeap("heap.hprof", /* live= */ true);
+```
+
 ## Lock profiling
 
 Samples contended monitor and `java.util.concurrent` locks. Useful for finding

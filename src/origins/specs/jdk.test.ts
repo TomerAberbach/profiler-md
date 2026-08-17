@@ -8,6 +8,15 @@ describe(`detection`, () => {
     expect(determineOrigin({ format: `jfr`, entries: [] })).toBe(`jdk`)
   })
 
+  test(`resolves a heap dump to the jdk origin by fallback`, () => {
+    expect(
+      determineOrigin({
+        format: `hprof`,
+        entries: [logicalEntry(`com.example.Widget`)],
+      }),
+    ).toBe(`jdk`)
+  })
+
   test(`resolves a pure-Java JFR stack to the jdk origin`, () => {
     expect(
       determineOrigin({
@@ -68,6 +77,28 @@ describe(`categorizeEntry`, () => {
   )
 })
 
+describe(`categorizeHeapSnapshotConstructor`, () => {
+  const { categorizeHeapSnapshotConstructor } = jdkOriginSpec
+
+  test.each([
+    [`java.lang.String`, `string`],
+    [`java.lang.Class`, `object shape`],
+    [`java.util.regex.Pattern`, `regexp`],
+    [`java.lang.Integer`, `number`],
+    [`java.lang.Double`, `number`],
+    [`java.math.BigDecimal`, `big number`],
+  ])(`the platform's %s holds a %s`, (name, category) => {
+    expect(categorizeHeapSnapshotConstructor(name)).toBe(category)
+  })
+
+  test.each([`com.example.Widget`, `java.util.HashMap`, `byte[]`])(
+    `%s keeps the category the dump gave it`,
+    name => {
+      expect(categorizeHeapSnapshotConstructor(name)).toBeUndefined()
+    },
+  )
+})
+
 describe(`matchEntry`, () => {
   test(`strips a lambda runtime address from the location`, () => {
     expect(
@@ -79,6 +110,15 @@ describe(`matchEntry`, () => {
         `jdk`,
       ),
     ).toEqual({ location: `JavaKMeans$$Lambda` })
+  })
+
+  test(`strips a hidden class's runtime address from a heap dump's name`, () => {
+    expect(
+      matchEntryForOrigin(
+        logicalEntry(`JavaKMeans$$Lambda+0x000000b801205218`),
+        `jdk`,
+      ),
+    ).toEqual({ name: `JavaKMeans$$Lambda` })
   })
 
   test(`strips an adapter runtime address from the name`, () => {

@@ -3,6 +3,7 @@ import { collapsedConverter } from './collapsed/index.ts'
 import type { FormatConverter } from './converter.ts'
 import { ghcEventlogConverter } from './ghc/eventlog/index.ts'
 import { ghcJsonProfileConverter } from './ghc/json-profile/index.ts'
+import { hprofConverter } from './hprof/index.ts'
 import { jfrConverter } from './jfr/index.ts'
 import { jscHeapSnapshotConverter } from './jsc-heap-snapshot/index.ts'
 import { memrayConverter } from './memray/index.ts'
@@ -21,6 +22,7 @@ export const formatConverters = {
   collapsed: collapsedConverter,
   'ghc-eventlog': ghcEventlogConverter,
   'ghc-json-profile': ghcJsonProfileConverter,
+  hprof: hprofConverter,
   jfr: jfrConverter,
   'jsc-heap-snapshot': jscHeapSnapshotConverter,
   memray: memrayConverter,
