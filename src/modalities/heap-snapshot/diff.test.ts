@@ -124,6 +124,60 @@ describe(`diffAggregatedHeapSnapshots`, () => {
     expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
+  test(`merges and matches constructors whose names differ by a per-run address`, () => {
+    // The runtime includes a per-run address in the name. Match normalization
+    // strips it so the same class matches across snapshots.
+    const options = resolveProfileToMdOptions({
+      baseURL: `/project`,
+      matchEntry: ({ name }) => ({
+        name: (name ?? ``).replace(/@0x[0-9a-f]+$/u, ``),
+      }),
+    })
+    const base = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedHeapSnapshotConstructor({
+          name: `MyClass@0x1003a68`,
+          selfSize: 100,
+          retainedSize: 100,
+          instanceCount: 1,
+        }),
+        makeAggregatedHeapSnapshotConstructor({
+          name: `MyClass@0x117f9d8`,
+          selfSize: 100,
+          retainedSize: 100,
+          instanceCount: 1,
+        }),
+      ],
+    })
+    const current = makeAggregatedHeapSnapshot({
+      constructors: [
+        makeAggregatedHeapSnapshotConstructor({
+          name: `MyClass@0x10d95b8`,
+          selfSize: 300,
+          retainedSize: 300,
+          instanceCount: 3,
+        }),
+      ],
+    })
+
+    const diff = diffAggregatedHeapSnapshots(base, current, options)
+    const md = mdastToMarkdown(formatHeapSnapshotDiff(diff, options))
+
+    expect(rankingTables(md, `Self size`, `Regressions`)).toEqual([
+      [
+        {
+          Change: `+50.0%`,
+          Delta: `+100 B`,
+          '%': `100.0%`,
+          Size: `200 B → 300 B`,
+          Instances: `2 → 3`,
+          Constructor: `MyClass`,
+        },
+      ],
+    ])
+    expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
+  })
+
   test(`matches functions by name and file despite differing line and column`, () => {
     const base = makeAggregatedHeapSnapshot({
       functions: [

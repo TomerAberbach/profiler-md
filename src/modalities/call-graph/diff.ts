@@ -71,12 +71,12 @@ export const diffAggregatedCallGraphs = (
     throw new ProfilerMdError(`cannot diff profiles with no metrics in common`)
   }
 
-  const { entryMatchKey } = options
+  const { entryMatchKeys } = options
   const functions = matchDiffedEntries(
     base.functions,
     current.functions,
-    func => entryMatchKey(func, base.context),
-    func => entryMatchKey(func, current.context),
+    func => entryMatchKeys(func, base.context).nameAndLocation,
+    func => entryMatchKeys(func, current.context).nameAndLocation,
   ).map(({ base: baseFunc, current: currentFunc }) => {
     const { name, location, category } = (currentFunc ?? baseFunc)!
     return { name, location, category, base: baseFunc, current: currentFunc }

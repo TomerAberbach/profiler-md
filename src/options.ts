@@ -122,6 +122,21 @@ export type EntryMatch = {
   location?: string
 }
 
+/**
+ * The keys an entry is paired by across a diff's two sides, derived from its
+ * {@link EntryMatch}.
+ */
+export type EntryMatchKeys = {
+  /**
+   * The key pairing entries by normalized name alone, for entities whose
+   * location varies between profiles of the same program.
+   */
+  name: string
+
+  /** The key pairing entries by normalized name and location. */
+  nameAndLocation: string
+}
+
 /** An aggregated entry in a formatted profile. */
 export type AggregatedProfileEntry =
   | AggregatedCallStackProfileFunction
@@ -273,7 +288,10 @@ export type NormalizedProfileToMdOptions = {
   minCategoryShare: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
-  entryMatchKey: (entry: ProfileEntry, context: ProfileToMdContext) => string
+  entryMatchKeys: (
+    entry: ProfileEntry,
+    context: ProfileToMdContext,
+  ) => EntryMatchKeys
   categorizeFunctions: (
     entries: readonly ProfileEntry[],
     context: ProfileToMdContext,
@@ -319,8 +337,8 @@ export const normalizeProfileToMdOptions = ({
   minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps),
-  entryMatchKey: cacheEntryFunction((entry, context) =>
-    entryMatchKey(entry, context, matchEntry),
+  entryMatchKeys: cacheEntryFunction((entry, context) =>
+    entryMatchKeys(entry, context, matchEntry),
   ),
   categorizeFunctions: (entries, context) => {
     const categories = categorizeFunctions(entries, context)
@@ -389,25 +407,25 @@ const ensureTrailingSlash = (url: URL): URL => {
   return url
 }
 
-/** Returns an entry's full diff match key. */
-const entryMatchKey = (
+/** Returns an entry's diff match keys. */
+const entryMatchKeys = (
   entry: ProfileEntry,
   context: ProfileToMdContext,
   matchEntry: Exclude<ProfileToMdOptions[`matchEntry`], undefined>,
-): string => {
+): EntryMatchKeys => {
   const match = matchEntry(entry, context)
   const name = match?.name ?? entry.name ?? ``
   const location =
     match?.location ??
     (entry.location ? sourceReferenceId(entry.location) : undefined)
   if (location === undefined) {
-    return name
+    return { name, nameAndLocation: name }
   }
 
   // `EntryMatch.location` is a bare string, so the kind comes from the entry's
   // own location, which a match normalizes rather than replaces.
   const kind = entry.location ? sourceReferenceKind(entry.location) : ``
-  return `${name}\0${kind}\0${location}`
+  return { name, nameAndLocation: `${name}\0${kind}\0${location}` }
 }
 
 const cacheEntryFunction = <Entry extends object, Context, Value>(
