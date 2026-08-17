@@ -2,15 +2,19 @@ import { glob, readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
-import picomatch from 'picomatch'
-import { defaultCategorizeFunctions, defaultMatchEntry } from '../index.ts'
-import type { ProfileToMdOptions, SourceMap } from '../index.ts'
+import type { DeepReadonly } from '../helpers/types.ts'
+import {
+  defaultCategorizeFunctions,
+  defaultMatchEntry,
+  defaultShowEntry,
+} from '../index.ts'
+import type { ProfileToMdOptions, SourceLocation, SourceMap } from '../index.ts'
 import {
   makeFileReference,
   sourceReferenceId,
   sourceReferencePathOrName,
 } from '../location.ts'
-import type { RegexReplacement } from './cli.ts'
+import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
 
 /**
  * Every flag the options are built from, each required so that a flag added to
@@ -21,8 +25,13 @@ export type BuildOptionsFlags = {
   minCategoryShare: number | undefined
   baseURL: string | undefined
   sourceMaps: readonly string[]
-  match: readonly RegexReplacement[]
-  thirdParty: readonly string[]
+  matchName: readonly RegexReplacement[]
+  matchLocation: readonly RegexReplacement[]
+  category: readonly RegexCategory[]
+  hide: readonly RegExp[]
+  show: readonly RegExp[]
+  hideCategory: readonly EntryCategory[]
+  showCategory: readonly EntryCategory[]
 }
 
 export const buildOptions = async ({
@@ -30,8 +39,13 @@ export const buildOptions = async ({
   minCategoryShare,
   baseURL,
   sourceMaps,
-  match,
-  thirdParty,
+  matchName,
+  matchLocation,
+  category,
+  hide,
+  show,
+  hideCategory,
+  showCategory,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
   minCategoryShare,
@@ -41,49 +55,110 @@ export const buildOptions = async ({
       ? resolve(baseURL)
       : baseURL,
   sourceMaps: await loadSourceMaps(sourceMaps),
-  matchEntry: buildMatchEntry(match),
-  categorizeFunctions: buildCategorizeFunctions(thirdParty),
+  matchEntry: buildMatchEntry(matchName, matchLocation),
+  categorizeFunctions: buildCategorizeFunctions(category),
+  showEntry: buildShowEntry({ hide, show, hideCategory, showCategory }),
 })
 
 const buildMatchEntry = (
-  matches: readonly RegexReplacement[],
+  nameRules: readonly RegexReplacement[],
+  locationRules: readonly RegexReplacement[],
 ): ProfileToMdOptions[`matchEntry`] => {
-  if (matches.length === 0) {
+  if (nameRules.length === 0 && locationRules.length === 0) {
     return undefined
   }
 
   return (entry, context) => {
-    if (!entry.location) {
-      return defaultMatchEntry(entry, context)
+    const match = defaultMatchEntry(entry, context)
+    const name = rewrite(match?.name ?? entry.name, nameRules)
+    const location = rewrite(
+      match?.location ??
+        (entry.location ? sourceReferenceId(entry.location) : undefined),
+      locationRules,
+    )
+    return {
+      ...(name === undefined ? {} : { name }),
+      ...(location === undefined ? {} : { location }),
     }
-
-    let location =
-      defaultMatchEntry(entry, context)?.location ??
-      sourceReferenceId(entry.location)
-    for (const [regex, replacement] of matches) {
-      location = location.replace(regex, replacement)
-    }
-    return { location }
   }
+}
+
+const rewrite = (
+  value: string | undefined,
+  rules: readonly RegexReplacement[],
+): string | undefined => {
+  if (value === undefined) {
+    return undefined
+  }
+  for (const [regex, replacement] of rules) {
+    value = value.replace(regex, replacement)
+  }
+  return value
 }
 
 const buildCategorizeFunctions = (
-  thirdPartyPatterns: readonly string[],
+  rules: readonly RegexCategory[],
 ): ProfileToMdOptions[`categorizeFunctions`] => {
-  if (thirdPartyPatterns.length === 0) {
+  if (rules.length === 0) {
     return undefined
   }
 
-  const isThirdParty = picomatch([...thirdPartyPatterns], { dot: true })
   return (entries, context) => {
     const categories = defaultCategorizeFunctions(entries, context)
-    return entries.map((entry, index) =>
-      entry.location && isThirdParty(sourceReferencePathOrName(entry.location))
-        ? `third-party`
-        : categories[index]!,
+    return entries.map(
+      (entry, index) =>
+        rules.find(([regex]) => matchesEntry(regex, entry))?.[1] ??
+        categories[index]!,
     )
   }
 }
+
+const buildShowEntry = ({
+  hide,
+  show,
+  hideCategory,
+  showCategory,
+}: {
+  hide: readonly RegExp[]
+  show: readonly RegExp[]
+  hideCategory: readonly EntryCategory[]
+  showCategory: readonly EntryCategory[]
+}): ProfileToMdOptions[`showEntry`] => {
+  if (
+    hide.length === 0 &&
+    show.length === 0 &&
+    hideCategory.length === 0 &&
+    showCategory.length === 0
+  ) {
+    return undefined
+  }
+
+  const hiddenCategories = new Set<string>(hideCategory)
+  const shownCategories = new Set<string>(showCategory)
+  return entry =>
+    defaultShowEntry(entry) &&
+    (show.length === 0 || show.some(regex => matchesEntry(regex, entry))) &&
+    (shownCategories.size === 0 || shownCategories.has(entry.category)) &&
+    !hide.some(regex => matchesEntry(regex, entry)) &&
+    !hiddenCategories.has(entry.category)
+}
+
+/**
+ * Returns whether the regex matches the entry's name, its location's URL, path,
+ * or logical name, or an absolute URL's pathname alone, so a pattern written
+ * for a path matches whether or not the reference carries a protocol and host.
+ */
+const matchesEntry = (
+  regex: RegExp,
+  {
+    name,
+    location,
+  }: { name?: string; location?: DeepReadonly<SourceLocation> },
+): boolean =>
+  (name !== undefined && regex.test(name)) ||
+  (location !== undefined &&
+    (regex.test(sourceReferenceId(location)) ||
+      regex.test(sourceReferencePathOrName(location))))
 
 const loadSourceMaps = async (
   patterns: readonly string[],

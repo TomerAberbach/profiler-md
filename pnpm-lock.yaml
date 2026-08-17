@@ -52,9 +52,6 @@ importers:
       micromark-extension-gfm-table:
         specifier: ^2.1.1
         version: 2.1.1
-      picomatch:
-        specifier: ^4.0.5
-        version: 4.0.5
       plur:
         specifier: ^6.0.0
         version: 6.0.0
@@ -89,9 +86,6 @@ importers:
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
-      '@types/picomatch':
-        specifier: ^4.0.3
-        version: 4.0.3
       '@vitest/coverage-v8':
         specifier: ^4.1.10
         version: 4.1.10(vitest@4.1.10)
@@ -1027,9 +1021,6 @@ packages:
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
-
-  '@types/picomatch@4.0.3':
-    resolution: {integrity: sha512-iG0T6+nYJ9FAPmx9SsUlnwcq1ZVRuCXcVEvWnntoPlrOpwtSTKNDC9uVAxTsC3PUvJ+99n4RpAcNgBbHX3JSnQ==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -4191,8 +4182,6 @@ snapshots:
   '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
-
-  '@types/picomatch@4.0.3': {}
 
   '@types/unist@3.0.3': {}
 
