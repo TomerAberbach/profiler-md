@@ -4,7 +4,7 @@ import {
   sourceReferenceToSourceLocation,
 } from '../../../location.ts'
 import type { FileReference, SourceLocation } from '../../../location.ts'
-import { computeStartOffsets } from '../../../modalities/heap-snapshot/index.ts'
+import { nodeAdjacencyGraphFromSuccessors } from '../../../modalities/heap-snapshot/index.ts'
 import type {
   HeapSnapshot,
   HeapSnapshotNode,
@@ -232,13 +232,12 @@ const computeNodeAdjacencyGraph = (
   // Decode the plain JSON `nodes` and `edges` arrays once, recording each
   // retaining (non-weak) edge's successor and edge index in discovery order.
   // Discovery order groups edges by their node, so these arrays are the
-  // successor CSR lists. The second pass scatters the predecessor side,
-  // reading these arrays back sequentially instead of re-decoding.
+  // successor CSR lists. The predecessor side is scattered from them without
+  // re-decoding.
   const totalEdgeCount = edges.length / edgeFieldCount
   let offsetToSuccessorOrdinal = new Int32Array(totalEdgeCount)
   let offsetToSuccessorEdgeIndex = new Int32Array(totalEdgeCount)
   const ordinalToSuccessorCount = new Int32Array(nodeCount)
-  const ordinalToPredecessorCount = new Int32Array(nodeCount)
   let retainingEdgeCount = 0
   let nodeEdgesStartIndex = 0
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
@@ -254,7 +253,6 @@ const computeNodeAdjacencyGraph = (
       const successorOrdinal =
         edges[edgeIndex + edgeToNodeOffset]! / nodeFieldCount
       ordinalToSuccessorCount[nodeOrdinal]!++
-      ordinalToPredecessorCount[successorOrdinal]!++
       offsetToSuccessorOrdinal[retainingEdgeCount] = successorOrdinal
       offsetToSuccessorEdgeIndex[retainingEdgeCount] = edgeIndex
       retainingEdgeCount++
@@ -274,42 +272,11 @@ const computeNodeAdjacencyGraph = (
     )
   }
 
-  const ordinalToSuccessorStartOffset = computeStartOffsets(
+  return nodeAdjacencyGraphFromSuccessors(
     ordinalToSuccessorCount,
-  )
-  const ordinalToPredecessorStartOffset = computeStartOffsets(
-    ordinalToPredecessorCount,
-  )
-
-  // Scatter the predecessor CSR lists, reusing the predecessor count array as
-  // write cursors rather than allocating a new one.
-  const offsetToPredecessorOrdinal = new Int32Array(retainingEdgeCount)
-  const offsetToPredecessorEdgeIndex = new Int32Array(retainingEdgeCount)
-  const ordinalToPredecessorCursor = ordinalToPredecessorCount
-  ordinalToPredecessorCursor.fill(0)
-  let successorOffset = 0
-  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
-    const successorEndOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
-    for (; successorOffset < successorEndOffset; successorOffset++) {
-      const successorOrdinal = offsetToSuccessorOrdinal[successorOffset]!
-      const predecessorOffset =
-        ordinalToPredecessorStartOffset[successorOrdinal]! +
-        ordinalToPredecessorCursor[successorOrdinal]!
-      offsetToPredecessorOrdinal[predecessorOffset] = nodeOrdinal
-      offsetToPredecessorEdgeIndex[predecessorOffset] =
-        offsetToSuccessorEdgeIndex[successorOffset]!
-      ordinalToPredecessorCursor[successorOrdinal]!++
-    }
-  }
-
-  return {
-    ordinalToSuccessorStartOffset,
     offsetToSuccessorOrdinal,
     offsetToSuccessorEdgeIndex,
-    ordinalToPredecessorStartOffset,
-    offsetToPredecessorOrdinal,
-    offsetToPredecessorEdgeIndex,
-  }
+  )
 }
 
 const computeNodeOrdinalToLocation = (

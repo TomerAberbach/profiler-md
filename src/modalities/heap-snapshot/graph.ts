@@ -70,6 +70,62 @@ export const computeStartOffsets = (ordinalToCount: Int32Array): Int32Array => {
 }
 
 /**
+ * Builds a {@link NodeAdjacencyGraph} from successor lists already grouped by
+ * the node holding each edge, scattering the predecessor side from them.
+ *
+ * The successor lists are kept as they are, so the graph reports the caller's
+ * edge order.
+ */
+export const nodeAdjacencyGraphFromSuccessors = (
+  ordinalToSuccessorCount: Int32Array,
+  offsetToSuccessorOrdinal: Int32Array,
+  offsetToSuccessorEdgeIndex: Int32Array,
+): NodeAdjacencyGraph => {
+  const nodeCount = ordinalToSuccessorCount.length
+  const ordinalToSuccessorStartOffset = computeStartOffsets(
+    ordinalToSuccessorCount,
+  )
+
+  const ordinalToPredecessorCount = new Int32Array(nodeCount)
+  for (const successorOrdinal of offsetToSuccessorOrdinal) {
+    ordinalToPredecessorCount[successorOrdinal]!++
+  }
+  const ordinalToPredecessorStartOffset = computeStartOffsets(
+    ordinalToPredecessorCount,
+  )
+
+  // Reuse the predecessor count array as write cursors rather than allocating
+  // a new one.
+  const edgeCount = offsetToSuccessorOrdinal.length
+  const offsetToPredecessorOrdinal = new Int32Array(edgeCount)
+  const offsetToPredecessorEdgeIndex = new Int32Array(edgeCount)
+  const ordinalToPredecessorCursor = ordinalToPredecessorCount
+  ordinalToPredecessorCursor.fill(0)
+  let successorOffset = 0
+  for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
+    const successorEndOffset = ordinalToSuccessorStartOffset[nodeOrdinal + 1]!
+    for (; successorOffset < successorEndOffset; successorOffset++) {
+      const successorOrdinal = offsetToSuccessorOrdinal[successorOffset]!
+      const predecessorOffset =
+        ordinalToPredecessorStartOffset[successorOrdinal]! +
+        ordinalToPredecessorCursor[successorOrdinal]!++
+      offsetToPredecessorOrdinal[predecessorOffset] = nodeOrdinal
+      offsetToPredecessorEdgeIndex[predecessorOffset] =
+        offsetToSuccessorEdgeIndex[successorOffset]!
+    }
+  }
+
+  return {
+    ordinalToSuccessorStartOffset,
+    offsetToSuccessorOrdinal,
+    offsetToSuccessorEdgeIndex,
+    ordinalToPredecessorStartOffset,
+    offsetToPredecessorOrdinal,
+    offsetToPredecessorEdgeIndex,
+  }
+}
+
+/**
  * The immediate dominator graph for a heap snapshot in CSR format.
  *
  * There's a 1:N relationship between immediate dominator and immediate
