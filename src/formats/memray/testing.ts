@@ -6,6 +6,8 @@
  * on the committed inputs.
  */
 
+import { ByteBuffer } from '../../helpers/testing.ts'
+
 /** The allocators a test allocation names, by their capture file values. */
 const MEMRAY_PYMALLOC_FREE = 1
 export const MEMRAY_FREE = 5
@@ -405,11 +407,12 @@ const writeUncachedAddress = (
   state.lastDataPointer = address / 8
 }
 
+/** Writes a capture's little-endian records. */
 class ByteWriter {
-  readonly #bytes: number[] = []
+  readonly #buffer = new ByteBuffer()
 
   public byte(value: number): void {
-    this.#bytes.push(value & 0xff)
+    this.#buffer.byte(value)
   }
 
   public uint32(value: number): void {
@@ -424,12 +427,7 @@ class ByteWriter {
   }
 
   public varint(value: number): void {
-    let remaining = value
-    while (remaining >= 0x80) {
-      this.byte((remaining % 128) | 0x80)
-      remaining = Math.floor(remaining / 128)
-    }
-    this.byte(remaining)
+    this.#buffer.leb128(value)
   }
 
   public signedVarint(value: number): void {
@@ -443,12 +441,10 @@ class ByteWriter {
   }
 
   public bytes(bytes: Uint8Array): void {
-    for (const byte of bytes) {
-      this.#bytes.push(byte)
-    }
+    this.#buffer.bytes(bytes)
   }
 
   public toBytes(): Uint8Array {
-    return Uint8Array.from(this.#bytes)
+    return this.#buffer.toBytes()
   }
 }
