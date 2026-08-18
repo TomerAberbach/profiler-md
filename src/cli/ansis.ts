@@ -1,12 +1,12 @@
 import { Ansis } from 'ansis'
-import { isTTYOutput } from './output.ts'
 
 export type MakeAnsisOptions = {
-  outputPath: string
+  /** Whether the stream the styled text is written to is a TTY. */
+  isTTY: boolean
 }
 
-export const makeAnsis = ({ outputPath }: MakeAnsisOptions): Ansis => {
-  if (isTTYOutput(outputPath)) {
+export const makeAnsis = ({ isTTY }: MakeAnsisOptions): Ansis => {
+  if (isTTY) {
     return new Ansis()
   }
 

@@ -7,6 +7,7 @@ import {
   nodeText,
 } from '../helpers/markdown.ts'
 import { makeAnsis } from './ansis.ts'
+import { isTTYOutput } from './output.ts'
 import kindlingTheme from './theme-kindling.ts'
 
 export type HighlightMarkdownOptions = {
@@ -15,9 +16,9 @@ export type HighlightMarkdownOptions = {
 
 export const highlightMarkdown = async (
   markdown: string,
-  options: HighlightMarkdownOptions,
+  { outputPath }: HighlightMarkdownOptions,
 ): Promise<string> => {
-  const ansis = makeAnsis(options)
+  const ansis = makeAnsis({ isTTY: isTTYOutput(outputPath) })
   if (!ansis.isSupported()) {
     return markdown
   }
