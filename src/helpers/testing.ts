@@ -8,6 +8,7 @@ import type {
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
 import { gfm } from 'micromark-extension-gfm'
+import { DynamicTypedArray } from './array.ts'
 import { nodeText } from './markdown.ts'
 
 /** Wraps {@link chunks} in a `ReadableStream`. */
@@ -28,6 +29,44 @@ export const chunk = (bytes: Uint8Array, chunkSize: number): Uint8Array[] => {
     chunks.push(bytes.subarray(offset, offset + chunkSize))
   }
   return chunks
+}
+
+/**
+ * A growable buffer of bytes written for a test.
+ *
+ * It encodes the parts binary formats share: single bytes, byte runs, and
+ * unsigned LEB128. A format's writer wraps it and adds the integer widths,
+ * endianness, and record framing its own encoding uses.
+ */
+export class ByteBuffer {
+  readonly #bytes = new DynamicTypedArray(new Uint8Array(1024))
+  #length = 0
+
+  public byte(value: number): void {
+    this.#bytes.ensureCapacity(this.#length + 1)[this.#length++] = value & 0xff
+  }
+
+  public bytes(bytes: Uint8Array): void {
+    this.#bytes
+      .ensureCapacity(this.#length + bytes.length)
+      .set(bytes, this.#length)
+    this.#length += bytes.length
+  }
+
+  /** Writes an unsigned LEB128 integer, seven bits per byte, low group first. */
+  public leb128(value: number): void {
+    let remaining = value
+    while (remaining >= 0x80) {
+      this.byte((remaining % 128) | 0x80)
+      remaining = Math.floor(remaining / 128)
+    }
+    this.byte(remaining)
+  }
+
+  /** The bytes written so far, copied so later writes don't change them. */
+  public toBytes(): Uint8Array {
+    return this.#bytes.array.slice(0, this.#length)
+  }
 }
 
 type Row = Record<string, string>

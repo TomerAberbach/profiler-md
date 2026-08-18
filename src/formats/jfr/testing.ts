@@ -6,6 +6,8 @@
  * aggregator without depending on the binary input.
  */
 
+import { ByteBuffer } from '../../helpers/testing.ts'
+
 /** A method to place in the constant pools, referenced by index. */
 export type JfrTestMethod = {
   name: string
@@ -500,38 +502,30 @@ class StringTable {
   }
 }
 
+/** Writes a recording's varint-encoded events. */
 class ByteWriter {
-  readonly #bytes: number[] = []
+  readonly #buffer = new ByteBuffer()
 
   public byte(value: number): void {
-    this.#bytes.push(value & 0xff)
+    this.#buffer.byte(value)
   }
 
   public varint(value: number): void {
-    let remaining = value
-    while (remaining >= 0x80) {
-      this.#bytes.push((remaining & 0x7f) | 0x80)
-      remaining = Math.floor(remaining / 128)
-    }
-    this.#bytes.push(remaining & 0x7f)
+    this.#buffer.leb128(value)
   }
 
   public string(value: string): void {
     const utf8 = new TextEncoder().encode(value)
     this.byte(3) // UTF-8 encoding
     this.varint(utf8.length)
-    for (const byte of utf8) {
-      this.#bytes.push(byte)
-    }
+    this.append(utf8)
   }
 
   public append(bytes: Uint8Array): void {
-    for (const byte of bytes) {
-      this.#bytes.push(byte)
-    }
+    this.#buffer.bytes(bytes)
   }
 
   public toBytes(): Uint8Array {
-    return Uint8Array.from(this.#bytes)
+    return this.#buffer.toBytes()
   }
 }
