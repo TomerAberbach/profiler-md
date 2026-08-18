@@ -7,6 +7,8 @@ import {
   sourceReferenceKind,
 } from './location.ts'
 import type { SourceLocation } from './location.ts'
+import { LOG_LEVELS, normalizeLogger } from './logger.ts'
+import type { Logger, LogLevel, NormalizedLogger } from './logger.ts'
 import type { AggregatedCallGraphFunction } from './modalities/call-graph/aggregate.ts'
 import type { AggregatedCallStackProfileFunction } from './modalities/call-stack-profile/aggregate.ts'
 import type { AggregatedHeapSnapshotNode } from './modalities/heap-snapshot/aggregate.ts'
@@ -227,6 +229,25 @@ export type ProfileToMdOptions = {
   sourceMaps?: SourceMap[] | Record<string, SourceMap>
 
   /**
+   * Receives the conversion's diagnostics: at `warn`, an option or input that
+   * had no effect (e.g. a source map matching no location); at `info`, each
+   * decision made on the caller's behalf (the detected format and origin, how
+   * many locations source maps mapped, the inferred base URL); at `debug`, the
+   * reasoning behind those decisions.
+   *
+   * Only defined methods are called, so `console` qualifies. Only the levels
+   * {@link logLevel} enables are logged.
+   */
+  logger?: Logger
+
+  /**
+   * The most verbose level {@link logger} receives.
+   *
+   * Defaults to `none`.
+   */
+  logLevel?: LogLevel
+
+  /**
    * Returns a normalized name and location to match this entry by across
    * diffed profiles, or `undefined` to match by the entry's own name and
    * location.
@@ -290,6 +311,7 @@ export type NormalizedProfileToMdOptions = {
   minCategoryShare: number
   baseURL: URL | `auto` | undefined
   sourceMaps: NormalizedSourceMaps
+  logger: NormalizedLogger
   entryMatchKeys: (
     entry: ProfileEntry,
     context: ProfileToMdContext,
@@ -331,6 +353,8 @@ export const normalizeProfileToMdOptions = ({
   minCategoryShare = 0.01,
   baseURL,
   sourceMaps = [],
+  logger,
+  logLevel = `none`,
   matchEntry = defaultMatchEntry,
   categorizeFunctions = defaultCategorizeFunctions,
   showEntry = defaultShowEntry,
@@ -339,6 +363,7 @@ export const normalizeProfileToMdOptions = ({
   minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps),
+  logger: normalizeLogger(logger, normalizeLogLevel(logLevel)),
   entryMatchKeys: cacheEntryFunction((entry, context) =>
     entryMatchKeys(entry, context, matchEntry),
   ),
@@ -362,6 +387,15 @@ const normalizeTopN = (topN: number): number => {
     )
   }
   return topN
+}
+
+const normalizeLogLevel = (logLevel: LogLevel): LogLevel => {
+  if (!LOG_LEVELS.includes(logLevel)) {
+    throw new ProfilerMdError(
+      `logLevel must be one of ${LOG_LEVELS.join(`, `)}, got: ${String(logLevel)}`,
+    )
+  }
+  return logLevel
 }
 
 const normalizeMinCategoryShare = (minCategoryShare: number): number => {

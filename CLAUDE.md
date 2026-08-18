@@ -288,6 +288,29 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Derive a format or origin name from the registry (e.g. `FormatMeta.title`),
   never a string literal
 
+### Logging
+
+- The library logs only through `ProfileToMdOptions.logger`, filtered to
+  `logLevel`, never through `console` or another global channel. The CLI passes
+  a logger writing to stderr, so stdout stays the Markdown
+- Throw an error, never log one. `error` is the CLI's level for reporting the
+  thrown error, and the library never logs at it
+- `warn` when the run succeeded but something the caller supplied had no effect,
+  or an option would change the outcome (e.g. a source map that matched no
+  generated file). The test: the caller changes an option or an input after
+  reading it. Assert every `warn` line through `collectLogs()` in
+  `src/testing.ts`, and assert no `warn` in the successful case
+- `info` for one line per decision the pipeline made on the caller's behalf
+  (e.g. the detected format). At most a few lines per input
+- `debug` for the reasoning behind an info line, and for detail keyed by a
+  distinct file, format, or record type, such as each format that rejected the
+  input and why. Count per key in a `Map` and log once at the end. NEVER log per
+  entry, observation, frame, or node
+- Call a level's method only if it is defined (`logger.debug?.(...)`), and build
+  an expensive message or per-key detail only inside `if (logger.debug)`. Write
+  the message like an error message: `<what happened>: <detail>`, values last
+  after `got: `, naming what the caller controls
+
 ### Performance
 
 - Prioritize runtime performance so large profiles process quickly

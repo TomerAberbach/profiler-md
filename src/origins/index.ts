@@ -118,6 +118,7 @@ export class OriginDetector {
    */
   #bestMatchIndex = Infinity
   #decided: Origin | undefined
+  #evidence: OriginEvidence = { type: `fallback` }
 
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
     this.#fallback = originToSpec.get(formatConverters[format].fallbackOrigin)!
@@ -125,6 +126,7 @@ export class OriginDetector {
       // A forced origin skips detection; added entries are ignored.
       this.#candidates = []
       this.#decided = origin
+      this.#evidence = { type: `specified` }
       return
     }
 
@@ -166,6 +168,7 @@ export class OriginDetector {
         continue
       }
       this.#bestMatchIndex = index
+      this.#evidence = { type: `marker`, entry }
       // The highest-priority candidate matched; nothing can outrank it.
       if (index === 0) {
         this.#decided = this.#candidates[0]!.id
@@ -199,6 +202,7 @@ export class OriginDetector {
       return
     }
     this.#bestMatchIndex = index
+    this.#evidence = { type: `hint` }
     if (index === 0) {
       this.#decided = this.#candidates[0]!.id
     }
@@ -225,7 +229,24 @@ export class OriginDetector {
         : this.#candidates[this.#bestMatchIndex]!
     ).id
   }
+
+  /** The evidence {@link resolve} selects the origin by. */
+  public get evidence(): OriginEvidence {
+    return this.#evidence
+  }
+
+  /** The IDs of the origins that can emit the format, in priority order. */
+  public get candidates(): Origin[] {
+    return this.#candidates.map(candidate => candidate.id)
+  }
 }
+
+/** The evidence an {@link OriginDetector} resolves its origin by. */
+export type OriginEvidence =
+  | { type: `specified` }
+  | { type: `marker`; entry: DeepReadonly<ProfileEntry> }
+  | { type: `hint` }
+  | { type: `fallback` }
 
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
 type SpecificOriginSpec = (typeof originSpecs)[number]

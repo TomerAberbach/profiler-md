@@ -9,6 +9,7 @@ import {
   rowsFromTable,
 } from './helpers/testing.ts'
 import type { Table } from './helpers/testing.ts'
+import type { LogLevel } from './logger.ts'
 import { normalizeProfileToMdOptions } from './options.ts'
 import type {
   FormattingProfileToMdOptions,
@@ -30,6 +31,34 @@ export const resolveProfileToMdOptions = (
     )
   }
   return { ...rest, baseURL }
+}
+
+/**
+ * A logger that records every message as `<level>: <message>`, with the
+ * options that enable it.
+ */
+export const collectLogs = (
+  logLevel: LogLevel = `debug`,
+): {
+  lines: string[]
+  options: Pick<ProfileToMdOptions, `logger` | `logLevel`>
+} => {
+  const lines: string[] = []
+  const log = (level: string) => (message: string) => {
+    lines.push(`${level}: ${message}`)
+  }
+  return {
+    lines,
+    options: {
+      logger: {
+        error: log(`error`),
+        warn: log(`warn`),
+        info: log(`info`),
+        debug: log(`debug`),
+      },
+      logLevel,
+    },
+  }
 }
 
 export const profileTitles = (md: string): string[] =>

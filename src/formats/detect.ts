@@ -1,4 +1,5 @@
 import { reasonOf } from '../error.ts'
+import type { AggregationProfileToMdOptions } from '../options.ts'
 import type {
   BinaryFormatConverter,
   Detect,
@@ -26,9 +27,10 @@ export type FormatRejection = { converter: FormatConverter; error: unknown }
 export const detectJsonFormat = (
   json: unknown,
   rejections: FormatRejection[],
+  options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const [format, converter] of jsonFormatConverters) {
-    const parsed = detectWithConverter(converter, json, rejections)
+    const parsed = detectWithConverter(converter, json, rejections, options)
     if (parsed) {
       return { format, parsed }
     }
@@ -39,9 +41,10 @@ export const detectJsonFormat = (
 export const detectBinaryFormat = (
   bytes: Uint8Array,
   rejections: FormatRejection[],
+  options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const [format, converter] of binaryFormatConverters) {
-    const parsed = detectWithConverter(converter, bytes, rejections)
+    const parsed = detectWithConverter(converter, bytes, rejections, options)
     if (parsed) {
       return { format, parsed }
     }
@@ -75,18 +78,25 @@ const detectWithConverter = <Input>(
   converter: FormatConverter & Detect<Input> & Parse<Input>,
   input: Input,
   rejections: FormatRejection[],
+  { logger }: AggregationProfileToMdOptions,
 ): ParsedInput[] | undefined => {
   try {
     if (!converter.matches(input)) {
       return undefined
     }
-  } catch {
+  } catch (error: unknown) {
+    logger.debug?.(
+      `${converter.title}: detection threw, so the format was skipped: ${reasonOf(error)}`,
+    )
     return undefined
   }
 
   try {
     return classifyLazyParseFailures(converter, converter.parse(input))
   } catch (error: unknown) {
+    logger.debug?.(
+      `${converter.title}: recognized the input but rejected it: ${reasonOf(error)}`,
+    )
     rejections.push({ converter, error })
     return undefined
   }

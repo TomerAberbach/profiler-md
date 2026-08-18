@@ -31,3 +31,4 @@ export type {
 } from './location.ts'
 export type { Origin } from './origins/index.ts'
 export type { SourceMap } from './source-map.ts'
+export type { Logger, LogLevel } from './logger.ts'

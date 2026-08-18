@@ -11,7 +11,12 @@ import {
 } from '../modalities/call-stack-profile/testing.ts'
 import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
-import { categoryTables, profileTitles, rankingTables } from '../testing.ts'
+import {
+  categoryTables,
+  collectLogs,
+  profileTitles,
+  rankingTables,
+} from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
 import { FormatDetectError, mayBeParserBug } from './error.ts'
 import {
@@ -990,6 +995,122 @@ describe(`origin detection`, () => {
         },
       ],
     ])
+  })
+})
+
+describe(`logging`, () => {
+  test(`logs the detected format and the fallback origin`, () => {
+    const { lines, options } = collectLogs()
+
+    profileToMd(baseCpuProfile, { baseURL: null, ...options })
+
+    expect(lines).toStrictEqual([
+      `info: format: V8 CPU profile (detected)`,
+      `debug: origin candidates, in priority order: deno, bun, node, chrome`,
+      `info: origin: Chrome (the fallback: no entry marked another origin)`,
+    ])
+  })
+
+  test(`logs the specified format and origin`, () => {
+    const { lines, options } = collectLogs()
+
+    profileToMd(
+      { data: baseCpuProfile, format: `v8-cpu-profile`, origin: `deno` },
+      { baseURL: null, ...options },
+    )
+
+    expect(lines).toStrictEqual([
+      `info: format: V8 CPU profile (specified)`,
+      `info: origin: Deno (specified)`,
+    ])
+  })
+
+  test(`logs the entry an origin was detected from`, () => {
+    const { lines, options } = collectLogs(`info`)
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(`post`, `node:inspector`),
+        },
+      ],
+      samples: [2],
+      timeDeltas: [20],
+    })
+
+    profileToMd(cpuProfile, { baseURL: null, ...options })
+
+    expect(lines).toStrictEqual([
+      `info: format: V8 CPU profile (detected)`,
+      `info: origin: Node.js (detected from the entry post (node:inspector))`,
+    ])
+  })
+
+  test(`logs each format that recognized the input but rejected it`, () => {
+    const { lines, options } = collectLogs()
+
+    expect(() => profileToMd(`a;b 1\nc;d x\n`, options)).toThrow(
+      /invalid sample count/u,
+    )
+    expect(lines).toStrictEqual([
+      `debug: Collapsed stacks: recognized the input but rejected it: invalid sample count`,
+    ])
+  })
+
+  test(`logs input that opens like JSON but fails to parse`, () => {
+    const { lines, options } = collectLogs()
+
+    expect(() => profileToMd(`{"nodes": [`, options)).toThrow(
+      /could not detect/u,
+    )
+    expect(lines).toStrictEqual([
+      expect.stringMatching(
+        /^debug: input opens like a JSON document but failed to parse as JSON: /u,
+      ),
+    ])
+  })
+
+  test(`logs the inferred base URL`, () => {
+    const { lines, options } = collectLogs(`info`)
+
+    profileToMd(baseCpuProfile, { baseURL: `auto`, ...options })
+
+    expect(lines).toContain(
+      `info: base URL: inferred file:///project/src/ from 2 locations`,
+    )
+  })
+
+  test(`warns when no base URL is inferable`, () => {
+    const { lines, options } = collectLogs(`warn`)
+
+    profileToMd(emptyProfile, { baseURL: `auto`, ...options })
+
+    expect(lines).toStrictEqual([
+      `warn: base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+    ])
+  })
+
+  test(`logs nothing at the default level`, () => {
+    const { lines, options } = collectLogs()
+
+    profileToMd(baseCpuProfile, {
+      baseURL: `auto`,
+      logger: options.logger,
+    })
+
+    expect(lines).toStrictEqual([])
+  })
+
+  test(`throws on an unknown log level`, () => {
+    expect(() =>
+      profileToMd(baseCpuProfile, {
+        logLevel: `loud` as `debug`,
+      }),
+    ).toThrow(
+      `logLevel must be one of none, error, warn, info, debug, got: loud`,
+    )
   })
 })
 
