@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import {
   functionTables,
   largestStringsTables,
+  retainedObjectsTables,
   selfSizeInstancesTables,
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
@@ -20,6 +21,7 @@ import {
   makeV8Snapshot,
   NODE_TYPE_CLOSURE,
   NODE_TYPE_CODE,
+  NODE_TYPE_NATIVE,
   NODE_TYPE_OBJECT,
   NODE_TYPE_STRING,
   NODE_TYPE_SYNTHETIC,
@@ -199,6 +201,117 @@ const makeObjectSnapshot = (firstName: string, secondName: string) =>
       ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }),
     ],
     strings: [``, firstName, secondName],
+  })
+
+// A synthetic root retaining a closure, which exclusively retains a string, so
+// the string appears under the function's retained objects.
+const makeRetainingClosureSnapshot = () =>
+  makeV8Snapshot({
+    nodeCount: 3,
+    edgeCount: 2,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 1,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_CLOSURE,
+        name: 1,
+        id: 3,
+        selfSize: 64,
+        edgeCount: 1,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_STRING,
+        name: 2,
+        id: 5,
+        selfSize: 128,
+        edgeCount: 0,
+      }),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_PROPERTY, nameOrIndex: 3, toNode: 12 }),
+    ],
+    strings: [``, `myFn`, `payload`, `data`],
+  })
+
+// A synthetic root retaining two `Widget` nodes the engine classifies
+// differently, as it does a host-allocated DOM wrapper class. The constructor
+// takes the category holding the most of its self size, and each instance keeps
+// its own.
+const makeMixedCategoryConstructorSnapshot = () =>
+  makeV8Snapshot({
+    nodeCount: 3,
+    edgeCount: 2,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 3,
+        selfSize: 200,
+        edgeCount: 0,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_NATIVE,
+        name: 1,
+        id: 5,
+        selfSize: 50,
+        edgeCount: 0,
+      }),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }),
+    ],
+    strings: [``, `Widget`],
+  })
+
+// A synthetic root retaining an object node and a string node holding the
+// given value. The object keeps the entry filter from hiding every node,
+// because a filter that hides every node is disabled.
+const makeStringSnapshot = (value: string) =>
+  makeV8Snapshot({
+    nodeCount: 3,
+    edgeCount: 2,
+    nodes: [
+      ...makeV8Node({
+        type: NODE_TYPE_SYNTHETIC,
+        name: 0,
+        id: 1,
+        selfSize: 0,
+        edgeCount: 2,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_OBJECT,
+        name: 1,
+        id: 3,
+        selfSize: 200,
+        edgeCount: 0,
+      }),
+      ...makeV8Node({
+        type: NODE_TYPE_STRING,
+        name: 2,
+        id: 5,
+        selfSize: 120,
+        edgeCount: 0,
+      }),
+    ],
+    edges: [
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }),
+      ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 12 }),
+    ],
+    strings: [``, `MyClass`, value],
   })
 
 describe(`convert`, () => {
@@ -608,5 +721,136 @@ describe(`convert`, () => {
 
     expect(md).toContain(`## Largest strings`)
     expect(md).toContain(`hello`)
+  })
+
+  test(`a category filter hides functions`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeClosureSnapshot(),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry => entry.category !== `function`,
+      }),
+    )
+
+    expect(md).not.toContain(`## Largest functions`)
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `47.4%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Constructor: `MyClass`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
+  test(`a category filter hides a function's retained objects`, () => {
+    const shown = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeRetainingClosureSnapshot(),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(retainedObjectsTables(shown, `myFn`)).toEqual([
+      [{ '%': `66.7%`, Self: `128 B`, Name: `payload`, Path: `.data myFn` }],
+    ])
+
+    const hidden = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeRetainingClosureSnapshot(),
+      normalizeProfileToMdOptions({
+        showEntry: entry => entry.category !== `string`,
+      }),
+    )
+
+    expect(functionTables(hidden)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Retained: `192 B`,
+          Instances: `1`,
+          Paths: `1`,
+          Name: `myFn`,
+          'Example path': `(GC root)`,
+        },
+      ],
+    ])
+    expect(retainedObjectsTables(hidden, `myFn`)).toEqual([])
+  })
+
+  test(`a category filter hides strings`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeClosureSnapshot(),
+      normalizeProfileToMdOptions({
+        baseURL: `/project`,
+        showEntry: entry => entry.category !== `string`,
+      }),
+    )
+
+    expect(md).not.toContain(`## Largest strings`)
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `47.4%`,
+          Size: `200 B`,
+          Instances: `1`,
+          Constructor: `MyClass`,
+          Location: `<unknown>`,
+        },
+      ],
+    ])
+  })
+
+  test(`a category filter hides a constructor's instances`, () => {
+    const shown = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeMixedCategoryConstructorSnapshot(),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfSizeInstancesTables(shown, `Widget`)).toEqual([
+      [{ '%': `100.0%`, Size: `250 B`, Instances: `2`, Path: `(GC root)` }],
+    ])
+
+    const hidden = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeMixedCategoryConstructorSnapshot(),
+      normalizeProfileToMdOptions({
+        showEntry: entry => entry.category !== `native`,
+      }),
+    )
+
+    expect(selfSizeInstancesTables(hidden, `Widget`)).toEqual([
+      [{ '%': `80.0%`, Size: `200 B`, Instances: `1`, Path: `(GC root)` }],
+    ])
+  })
+  test(`a constructor's instances take the category the origin names for its class`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeObjectSnapshot(`Array`, `Array`),
+      normalizeProfileToMdOptions({
+        showEntry: entry => entry.category === `array`,
+      }),
+    )
+
+    expect(selfSizeInstancesTables(md, `Array`)).toEqual([
+      [{ '%': `100.0%`, Size: `300 B`, Instances: `2`, Path: `(GC root)` }],
+    ])
+  })
+
+  test(`a string holding a synthetic entry's name is shown`, () => {
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      makeStringSnapshot(`(module)`),
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(largestStringsTables(md)).toEqual([
+      [{ '%': `37.5%`, Size: `120 B`, Value: `(module)`, Path: `(GC root)` }],
+    ])
   })
 })

@@ -4,7 +4,7 @@ import type { NodeAdjacencyGraph } from './graph.ts'
 
 /**
  * A heap snapshot parsed into the uniform structure containing the node
- * adjacency graph and each node's classification.
+ * adjacency graph and each node's unresolved category.
  *
  * A format that yields several snapshots returns one of these per snapshot.
  */
@@ -50,6 +50,15 @@ export type HeapSnapshot = {
 
   /** Whether the node is a bookkeeping node that never points to user code. */
   isInternalNode: (nodeOrdinal: number) => boolean
+
+  /**
+   * The node's category before the origin resolves it, computed from the node
+   * ordinal so formatting can categorize a node again after {@link nodes} is
+   * consumed.
+   */
+  unresolvedCategoryOf: (
+    nodeOrdinal: number,
+  ) => UnresolvedHeapSnapshotNodeCategory
 }
 
 /**
@@ -89,10 +98,8 @@ export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
 ] as const
 
 /**
- * A heap snapshot node's classification.
- *
- * Every node contributes to its category's stats. A node with a `type` also
- * aggregates into that type's entities.
+ * What a heap snapshot node holds, as the format categorized it, before the
+ * origin resolves it.
  *
  * {@link category} is undefined when the format declared a type name this
  * modality's categories don't name, in which case {@link declaredType} holds
@@ -100,38 +107,47 @@ export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
  * `meta.node_types`, so every node of its snapshots has a {@link declaredType}
  * instead of a category.
  */
-export type HeapSnapshotNode = {
+export type UnresolvedHeapSnapshotNodeCategory = {
   category: HeapSnapshotNodeCategory | undefined
   declaredType?: string
-} & (
-  | { type?: undefined }
-  | {
-      type: `constructor`
+}
 
-      /** A human readable label for this constructor. */
-      name: string
+/**
+ * A heap snapshot node.
+ *
+ * Every node contributes to its category's stats. A node with a `type` also
+ * aggregates into that type's entities.
+ */
+export type HeapSnapshotNode = UnresolvedHeapSnapshotNodeCategory &
+  (
+    | { type?: undefined }
+    | {
+        type: `constructor`
 
-      /** The exact location where the node was defined. */
-      location?: SourceLocation
+        /** A human readable label for this constructor. */
+        name: string
 
-      /**
-       * The file reference the {@link name} parses as, when it is URL-shaped.
-       */
-      nameLocation?: FileReference
-    }
-  | {
-      type: `function`
+        /** The exact location where the node was defined. */
+        location?: SourceLocation
 
-      /** A human readable label for this function. */
-      name: string
+        /**
+         * The file reference the {@link name} parses as, when it is URL-shaped.
+         */
+        nameLocation?: FileReference
+      }
+    | {
+        type: `function`
 
-      /** The exact location where the function was defined. */
-      location?: SourceLocation
-    }
-  | {
-      type: `string`
+        /** A human readable label for this function. */
+        name: string
 
-      /** The (truncated) string value, if known. */
-      name?: string
-    }
-)
+        /** The exact location where the function was defined. */
+        location?: SourceLocation
+      }
+    | {
+        type: `string`
+
+        /** The (truncated) string value, if known. */
+        name?: string
+      }
+  )

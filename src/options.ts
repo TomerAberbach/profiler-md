@@ -10,6 +10,7 @@ import type { SourceLocation } from './location.ts'
 import type { AggregatedCallGraphFunction } from './modalities/call-graph/aggregate.ts'
 import type { AggregatedCallStackProfileFunction } from './modalities/call-stack-profile/aggregate.ts'
 import type { AggregatedHeapSnapshotNode } from './modalities/heap-snapshot/aggregate.ts'
+import type { HeapSnapshotNodeCategory } from './modalities/heap-snapshot/type.ts'
 import {
   categorizeEntryForOrigin,
   matchEntryForOrigin,
@@ -487,8 +488,20 @@ export const defaultShowEntry = (
  *
  * The profiler invents these entries; they correspond to nothing that exists
  * in code or at runtime (e.g. a synthetic `(root)` node for heap snapshots).
+ *
+ * A heap snapshot node holding text takes the text as its name, so a string
+ * whose value equals a synthetic name is not a synthetic entry.
  */
 export const isSyntheticEntry = ({
   name,
+  category,
 }: DeepReadonly<AggregatedProfileEntry>): boolean =>
-  name === `(root)` || name === `<root>` || name === `(module)`
+  !TEXT_CATEGORIES.has(category) &&
+  (name === `(root)` || name === `<root>` || name === `(module)`)
+
+/** The categories of a heap snapshot node named by the text it holds. */
+const TEXT_CATEGORIES = new Set<FunctionCategory | HeapSnapshotNodeCategory>([
+  `string`,
+  `concatenated string`,
+  `sliced string`,
+])

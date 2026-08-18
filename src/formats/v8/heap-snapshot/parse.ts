@@ -10,6 +10,7 @@ import type {
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
+  UnresolvedHeapSnapshotNodeCategory,
 } from '../../../modalities/heap-snapshot/index.ts'
 import type { FormattingProfileToMdOptions } from '../../../options.ts'
 import { FormatParseError } from '../../error.ts'
@@ -133,8 +134,38 @@ export const parseV8HeapSnapshot = (
         formatNodeLabel(nodeOrdinal, snapshot, fieldLayout, options),
       isInternalNode: nodeOrdinal =>
         isInternalNode(nodeOrdinal, snapshot, fieldLayout),
+      unresolvedCategoryOf: nodeOrdinal =>
+        unresolvedCategoryOf(nodeOrdinal, snapshot, fieldLayout),
     },
   ]
+}
+
+/**
+ * Classifies a node by the type it declares, looked up in the layout resolved
+ * from `meta.node_types`.
+ */
+const unresolvedCategoryOf = (
+  nodeOrdinal: number,
+  {
+    nodes,
+    snapshot: {
+      meta: {
+        node_types: [nodeTypes],
+      },
+    },
+  }: V8HeapSnapshot,
+  fieldLayout: FieldLayout,
+): UnresolvedHeapSnapshotNodeCategory => {
+  const nodeType =
+    nodes[
+      nodeOrdinal * fieldLayout.nodeFieldCount + fieldLayout.nodeTypeOffset
+    ]!
+  const category = fieldLayout.nodeTypeToCategory[nodeType]
+  // Keep a declared type name that isn't V8's own for an origin to map (see
+  // `HeapSnapshotNode.declaredType`).
+  return category === undefined
+    ? { category, declaredType: nodeTypes[nodeType]! }
+    : { category }
 }
 
 const isInternalNode = (
@@ -156,22 +187,17 @@ function* v8SnapshotNodes(
   nodeOrdinalToLocation: SourceLocation[],
 ): Iterable<HeapSnapshotNode> {
   const {
-    snapshot: {
-      node_count: nodeCount,
-      meta: {
-        node_types: [nodeTypes],
-      },
-    },
+    snapshot: { node_count: nodeCount },
     nodes,
   } = snapshot
   for (let nodeOrdinal = 0; nodeOrdinal < nodeCount; nodeOrdinal++) {
     const nodeIndex = nodeOrdinal * fieldLayout.nodeFieldCount
     const nodeType = nodes[nodeIndex + fieldLayout.nodeTypeOffset]!
-    const category = fieldLayout.nodeTypeToCategory[nodeType]
-    // A declared type name that isn't V8's own is kept for an origin to map
-    // (see `HeapSnapshotNode.declaredType`).
-    const declaredType =
-      category === undefined ? nodeTypes[nodeType]! : undefined
+    const { category, declaredType } = unresolvedCategoryOf(
+      nodeOrdinal,
+      snapshot,
+      fieldLayout,
+    )
 
     switch (nodeType) {
       case fieldLayout.nodeTypeObject:

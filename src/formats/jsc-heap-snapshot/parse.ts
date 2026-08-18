@@ -4,6 +4,7 @@ import type {
   HeapSnapshotNode,
   HeapSnapshotNodeCategory,
   NodeAdjacencyGraph,
+  UnresolvedHeapSnapshotNodeCategory,
 } from '../../modalities/heap-snapshot/index.ts'
 
 /**
@@ -50,12 +51,13 @@ export type JSCHeapSnapshot = {
 export const parseJSCHeapSnapshot = (
   snapshot: JSCHeapSnapshot,
 ): HeapSnapshot[] => {
-  const { nodes, edges, edgeTypes } = snapshot
+  const { nodes, edges, edgeTypes, nodeClassNames } = snapshot
   const nodeCount = nodes.length / NODE_FIELD_COUNT
   const rawEdgeCount = edges.length / EDGE_FIELD_COUNT
 
   const indexEdgeType = edgeTypes.indexOf(`Index`)
   const internalEdgeType = edgeTypes.indexOf(`Internal`)
+  const stringClassNameIndex = nodeClassNames.indexOf(`string`)
 
   const idToOrdinal = computeIdToOrdinal(nodes, nodeCount)
   const nodeAdjacencyGraph = computeNodeAdjacencyGraph(
@@ -84,8 +86,26 @@ export const parseJSCHeapSnapshot = (
         ),
       formatNodeLabel: nodeOrdinal => formatNodeLabel(nodeOrdinal, snapshot),
       isInternalNode: nodeOrdinal => isInternalNode(nodeOrdinal, snapshot),
+      unresolvedCategoryOf: nodeOrdinal =>
+        unresolvedCategoryOf(nodeOrdinal, nodes, stringClassNameIndex),
     },
   ]
+}
+
+/**
+ * Classifies a node by its flags, except for a string, whose class name the
+ * snapshot records instead of a flag.
+ */
+const unresolvedCategoryOf = (
+  nodeOrdinal: number,
+  nodes: number[],
+  stringClassNameIndex: number,
+): UnresolvedHeapSnapshotNodeCategory => {
+  const nodeIndex = nodeOrdinal * NODE_FIELD_COUNT
+  const classNameIndex = nodes[nodeIndex + NODE_CLASS_OFFSET]!
+  return classNameIndex === stringClassNameIndex
+    ? { category: `string` }
+    : { category: categorizeNode(nodes[nodeIndex + NODE_FLAGS_OFFSET]!) }
 }
 
 const isInternalNode = (
