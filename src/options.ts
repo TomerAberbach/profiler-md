@@ -19,7 +19,11 @@ import {
 } from './origins/index.ts'
 import type { Origin } from './origins/index.ts'
 import { normalizeSourceMaps } from './source-map.ts'
-import type { NormalizedSourceMaps, SourceMap } from './source-map.ts'
+import type {
+  NormalizedSourceMaps,
+  SourceMap,
+  SourceMapResolver,
+} from './source-map.ts'
 
 /** Profile data that can be synchronously parsed and converted to Markdown. */
 export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
@@ -130,7 +134,7 @@ export type EntryMatch = {
  * The keys an entry is paired by across a diff's two sides, derived from its
  * {@link EntryMatch}.
  */
-export type EntryMatchKeys = {
+type EntryMatchKeys = {
   /**
    * The key pairing entries by normalized name alone, for entities whose
    * location varies between profiles of the same program.
@@ -327,23 +331,26 @@ export type NormalizedProfileToMdOptions = {
 /**
  * The options aggregation code receives.
  *
- * Everything except `baseURL`, which only affects formatting and, for `'auto'`,
- * is resolvable only after aggregation (from the aggregated entries). The
- * omission keeps aggregation logic from depending on it.
+ * Everything except `baseURL` and `sourceMaps`, which only affect formatting.
+ * `baseURL: 'auto'` is resolvable only after aggregation (from the aggregated
+ * entries), and source maps apply to the locations formatting shows. The
+ * omission keeps aggregation logic from depending on them.
  */
 export type AggregationProfileToMdOptions = Omit<
   NormalizedProfileToMdOptions,
-  `baseURL`
+  `baseURL` | `sourceMaps`
 >
 
 /**
  * The options formatting code receives.
  *
  * {@link NormalizedProfileToMdOptions} with `'auto'` resolved to a concrete
- * base URL (or `undefined` when nothing qualified for inference).
+ * base URL (or `undefined` when nothing qualified for inference), and the
+ * source maps wrapped in a resolver that records one conversion's outcomes.
  */
 export type FormattingProfileToMdOptions = AggregationProfileToMdOptions & {
   baseURL: URL | undefined
+  sourceMaps: SourceMapResolver
 }
 
 export const normalizeProfileToMdOptions = ({
@@ -356,27 +363,30 @@ export const normalizeProfileToMdOptions = ({
   matchEntry = defaultMatchEntry,
   categorizeFunctions = defaultCategorizeFunctions,
   showEntry = defaultShowEntry,
-}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
-  topN: normalizeTopN(topN),
-  minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
-  baseURL: normalizeBaseURL(baseURL),
-  sourceMaps: normalizeSourceMaps(sourceMaps),
-  logger: normalizeLogger(logger, normalizeLogLevel(logLevel)),
-  entryMatchKeys: cacheEntryFunction((entry, context) =>
-    entryMatchKeys(entry, context, matchEntry),
-  ),
-  categorizeFunctions: (entries, context) => {
-    const categories = categorizeFunctions(entries, context)
-    if (categories.length !== entries.length) {
-      throw new ProfilerMdError(
-        `categorizeFunctions must return one category per entry, aligned by ` +
-          `index, got: ${categories.length} categories for ${entries.length} entries`,
-      )
-    }
-    return categories
-  },
-  showEntry: cacheEntryFunction(showEntry),
-})
+}: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => {
+  const normalizedLogger = normalizeLogger(logger, normalizeLogLevel(logLevel))
+  return {
+    topN: normalizeTopN(topN),
+    minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
+    baseURL: normalizeBaseURL(baseURL),
+    sourceMaps: normalizeSourceMaps(sourceMaps, normalizedLogger),
+    logger: normalizedLogger,
+    entryMatchKeys: cacheEntryFunction((entry, context) =>
+      entryMatchKeys(entry, context, matchEntry),
+    ),
+    categorizeFunctions: (entries, context) => {
+      const categories = categorizeFunctions(entries, context)
+      if (categories.length !== entries.length) {
+        throw new ProfilerMdError(
+          `categorizeFunctions must return one category per entry, aligned by ` +
+            `index, got: ${categories.length} categories for ${entries.length} entries`,
+        )
+      }
+      return categories
+    },
+    showEntry: cacheEntryFunction(showEntry),
+  }
+}
 
 const normalizeTopN = (topN: number): number => {
   if (!(Number.isSafeInteger(topN) && topN >= 0)) {
