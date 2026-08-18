@@ -1,18 +1,21 @@
 import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
+import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { locationlessCategory } from './categorize.ts'
 import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule } from './origin.ts'
 
 /**
- * A JVM runtime address embedded in a frame's identity, differing per JVM run:
- * a hidden lambda class (`Foo$$Lambda.0x00000070011868b8`) or HotSpot's
+ * A JVM runtime address embedded in a frame's or class's identity, differing
+ * per JVM run: a hidden lambda class (`Foo$$Lambda.0x00000070011868b8` in a
+ * recording, `Foo$$Lambda+0x00000070011868b8` in a heap dump, which spells the
+ * separator HotSpot's own external name does) or HotSpot's
  * interpreter/compiled transition stubs (`I2C/C2I adapters(0xba)`). The kept
- * prefix alone still identifies the function across runs.
+ * prefix alone still identifies the function or class across runs.
  */
 const JVM_RUNTIME_ADDRESS_REGEX =
-  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:\.0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
+  /(?<kept>\$\$Lambda|I2C\/C2I adapters)(?:[.+]0x[0-9a-fA-F]+|\(0x[0-9a-fA-F]+\))/gu
 
 /**
  * Match-normalization rules stripping {@link JVM_RUNTIME_ADDRESS_REGEX} from a
@@ -242,6 +245,38 @@ const nativeModuleCategory = ({
   !(name ?? ``).includes(`(`)
     ? `native`
     : undefined
+
+/**
+ * The heap snapshot category of a constructor named {@link name} under the
+ * JVM's conventions: the classes the Java platform defines whose instances a
+ * dump reports as ordinary objects.
+ *
+ * A JVM heap holds no primitive nodes, so the platform's classes are how a
+ * string, a number, or a compiled pattern exists in it. A class the profiled
+ * program defines is left to the format's category, since a name alone says
+ * nothing about what its instances hold.
+ */
+export const jvmConstructorCategory = (
+  name: string,
+): HeapSnapshotNodeCategory | undefined => CLASS_NAME_TO_CATEGORY.get(name)
+
+const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
+  Object.entries({
+    'java.lang.String': `string`,
+    // A class object describes the layout its instances share, whether the dump
+    // reports it as a class or as an instance of `java.lang.Class`.
+    'java.lang.Class': `object shape`,
+    'java.util.regex.Pattern': `regexp`,
+    'java.lang.Byte': `number`,
+    'java.lang.Short': `number`,
+    'java.lang.Integer': `number`,
+    'java.lang.Long': `number`,
+    'java.lang.Float': `number`,
+    'java.lang.Double': `number`,
+    'java.math.BigInteger': `big number`,
+    'java.math.BigDecimal': `big number`,
+  } satisfies Record<string, HeapSnapshotNodeCategory>),
+)
 
 /** Converts an internal class name (`java/util/Arrays`) to source form. */
 export const jvmSourceClassName = (internalName: string): string =>

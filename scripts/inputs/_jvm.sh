@@ -11,7 +11,12 @@
 #                     capture config, for workloads that shrink high-volume
 #                     configs like nativemem
 #
-# and calls `emit_jvm_captures` followed by `verify_pairs`.
+# and calls `emit_jvm_captures` followed by `verify_pairs`. A workload that also
+# captures a heap dump sets:
+#
+#   JVM_HEAP_DUMP         capture a heap dump under the `heap` config
+#   JVM_HEAP_DUMP_WARMUP  seconds to let that run work before dumping it
+#                         (15 by default)
 
 # Resolves libasyncProfiler once per run. A guarded direct call rather than
 # command substitution: a subshell would discard the memoization, and the
@@ -65,6 +70,62 @@ capture_ap_collapsed() {
   run_jvm_workload "-agentpath:$ap_lib=start,event=cpu,file=$out,collapsed" cpu
 }
 
+# The JVMs running now, one PID per line, excluding the `jcmd` process listing
+# them. A heap dump needs the workload's PID, and `jcmd -l` is how a JVM is
+# discovered whichever launcher started it (`java`, `kotlinc`, or a compile
+# daemon).
+jvm_pids() {
+  jcmd -l 2>/dev/null | grep -v 'sun\.tools\.jcmd\.JCmd' | awk '{print $1}' | sort
+}
+
+# How long to wait for the workload's JVM to start before giving up on a dump.
+HEAP_DUMP_STARTUP_TIMEOUT=180
+
+# capture_fn for emit: $1=out  $2=role
+#
+# Dumps the heap of a JVM running the workload, which a workload script keeps
+# alive past JVM_HEAP_DUMP_WARMUP seconds so the dump holds the workload's own
+# data rather than the JVM's startup state.
+capture_jdk_heap_dump() {
+  local out=$1 role=$2 before pid="" waited=0 workload_pid
+  local warmup=${JVM_HEAP_DUMP_WARMUP:-15}
+  notice "Dumping $JVM_WORKLOAD's heap using jcmd ($role)"
+  before="$(jvm_pids)"
+  run_jvm_workload "-XX:+UsePerfData" heap &
+  workload_pid=$!
+
+  while ((waited < HEAP_DUMP_STARTUP_TIMEOUT)); do
+    pid="$(comm -13 <(printf '%s\n' "$before") <(jvm_pids) | head -1)"
+    [[ -n "$pid" ]] && break
+    sleep 1
+    ((waited++))
+  done
+  if [[ -z "$pid" ]]; then
+    echo "  NO JVM started within ${HEAP_DUMP_STARTUP_TIMEOUT}s for the heap dump" >&2
+    kill "$workload_pid" 2>/dev/null
+    wait "$workload_pid" 2>/dev/null
+    return 1
+  fi
+
+  waited=0
+  while ((waited < warmup)) && kill -0 "$pid" 2>/dev/null; do
+    sleep 1
+    ((waited++))
+  done
+  if ! kill -0 "$pid" 2>/dev/null; then
+    echo "  WORKLOAD exited before its ${warmup}s warmup finished, so its heap is gone" >&2
+    wait "$workload_pid" 2>/dev/null
+    return 1
+  fi
+
+  # -all=false collects garbage first, so the dump holds the live heap alone.
+  jcmd "$pid" GC.heap_dump -all=false "$out" >&2
+  local dumped=$?
+  kill "$pid" "$workload_pid" 2>/dev/null
+  wait "$workload_pid" 2>/dev/null
+  return "$dumped"
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=config  $4=extra StartFlightRecording options
 capture_jdk_jfr() {
   local out=$1 role=$2 cfg=$3 extra=$4
@@ -90,5 +151,14 @@ emit_jvm_captures() {
       out="$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$cfg.$role.jfr"
       try emit "$out" capture_jdk_jfr "$role" "$cfg" "${JDK_JFR_OPTS[$cfg]}"
     done
+
+    # jcmd -> HPROF, for a workload that sets JVM_HEAP_DUMP. A dump holds the
+    # live heap, which under the Kotlin compiler and CodeNarc grows past the
+    # 100 MB input size limit, and one JVM's dump already covers a format the
+    # JVM writes the same way whichever language runs on it.
+    if [[ -n "${JVM_HEAP_DUMP:-}" ]]; then
+      try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.jdk.$role.hprof" \
+        capture_jdk_heap_dump "$role"
+    fi
   done
 }
