@@ -320,6 +320,12 @@ describe(`profileToMd`, () => {
           },
         ],
       ])
+      expectLogs([
+        `info: format: v8-cpu-profile (specified)`,
+        V8_CPU_PROFILE_CANDIDATES_LOG,
+        `info: origin: node (detected from the entry readFileSync (node:fs))`,
+        `warn: base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+      ])
     })
 
     test(`baseURL: 'auto' infers the common ancestor of HTTP locations`, () => {
@@ -1134,6 +1140,26 @@ describe(`logging`, () => {
       `info: format: v8-cpu-profile (detected)`,
       V8_CPU_PROFILE_CANDIDATES_LOG,
       CHROME_ORIGIN_LOG,
+    ])
+  })
+
+  test(`logs the inferred base URL`, () => {
+    profileToMd(baseCpuProfile, { baseURL: `auto` })
+
+    expectLogs([
+      `info: format: v8-cpu-profile (detected)`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      CHROME_ORIGIN_LOG,
+      `info: base URL: inferred file:///project/src/ from 2 locations`,
+    ])
+  })
+
+  test(`warns when no base URL is inferable`, () => {
+    profileToMd(emptyProfile, { baseURL: `auto` })
+
+    expectLogs([
+      `info: format: speedscope (detected)`,
+      `warn: base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
     ])
   })
 
