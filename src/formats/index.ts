@@ -34,6 +34,7 @@ import {
   rethrowInputReadFailure,
 } from './parse.ts'
 import { formatToConverter } from './registry.ts'
+import type { Format } from './registry.ts'
 
 export { formatToConverter, formats } from './registry.ts'
 export type { Format } from './registry.ts'
@@ -121,6 +122,8 @@ export const aggregateInput = (
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
+    logFormat(format, `specified`, options)
+
     const parsed = parseAsFormat(formatToConverter[format], data)
     return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
@@ -146,11 +149,15 @@ export const aggregateInput = (
 
   const rejections: FormatRejection[] = []
   const detected =
-    (json === undefined ? undefined : detectJsonFormat(json, rejections)) ??
-    detectBinaryFormat(dataToBytes(buffered), rejections)
+    (json === undefined
+      ? undefined
+      : detectJsonFormat(json, rejections, options)) ??
+    detectBinaryFormat(dataToBytes(buffered), rejections, options)
   if (!detected) {
     throw toUndetectedFormatError(rejections, jsonError)
   }
+  logFormat(detected.format, `detected`, options)
+
   return aggregateParsedInputs(
     detected.parsed,
     options,
@@ -165,6 +172,8 @@ const aggregateInputAsync = async (
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
+    logFormat(format, `specified`, options)
+
     const parsed = await parseAsFormatAsync(formatToConverter[format], data)
     return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
@@ -202,17 +211,30 @@ const aggregateInputAsync = async (
 
   const rejections: FormatRejection[] = []
   const detected =
-    (json === undefined ? undefined : detectJsonFormat(json, rejections)) ??
+    (json === undefined
+      ? undefined
+      : detectJsonFormat(json, rejections, options)) ??
     detectBinaryFormat(
       buffered instanceof Blob ? await buffered.bytes() : buffered,
       rejections,
+      options,
     )
   if (!detected) {
     throw toUndetectedFormatError(rejections, jsonError)
   }
+  logFormat(detected.format, `detected`, options)
+
   return aggregateParsedInputs(
     detected.parsed,
     options,
     makeContext(detected.format, origin),
   )
+}
+
+const logFormat = (
+  format: Format,
+  evidence: `specified` | `detected`,
+  { logger }: AggregationProfileToMdOptions,
+): void => {
+  logger.info?.(`format: ${format} (${evidence})`)
 }

@@ -1,4 +1,5 @@
 import type { Node } from 'mdast'
+import { expect } from 'vitest'
 import { nodeText } from './helpers/markdown.ts'
 import {
   allTablesAfterHeadingContaining,
@@ -30,6 +31,38 @@ export const resolveProfileToMdOptions = (
     )
   }
   return { ...rest, baseURL }
+}
+
+const emittedLogs: string[] = []
+let logsIgnored = false
+
+/** Records a line the library logged, for {@link expectLogs} to assert. */
+export const recordLog = (level: string, message: string): void => {
+  emittedLogs.push(`${level}: ${message}`)
+}
+
+/** Asserts the lines logged since the previous call, and consumes them. */
+export const expectLogs = (expected: unknown[]): void => {
+  expect(emittedLogs.splice(0)).toStrictEqual(expected)
+}
+
+/**
+ * Exempts the current test from asserting the lines its conversions log, for
+ * a test whose subject is unrelated to them.
+ */
+export const ignoreLogs = (): void => {
+  logsIgnored = true
+}
+
+/**
+ * Consumes the logged lines a test left unasserted, and the test's exemption.
+ * Returns the lines unless the test ignored them.
+ */
+export const takeUnassertedLogs = (): string[] => {
+  const lines = emittedLogs.splice(0)
+  const ignored = logsIgnored
+  logsIgnored = false
+  return ignored ? [] : lines
 }
 
 export const profileTitles = (md: string): string[] =>

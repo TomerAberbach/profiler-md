@@ -102,6 +102,13 @@ const options = {
   // Make paths relative to a custom base URL or directory, or pass `auto` to
   // infer the profiled files' common ancestor directory.
   baseURL: `/path/to/project`,
+  // Receive the conversion's diagnostics: at `warn`, an option or input that
+  // had no effect; at `info`, each decision made on your behalf; and at
+  // `debug`, the reasoning behind each decision. Only defined methods are
+  // called, so `console` qualifies. Set `logLevel`, which defaults to `none`,
+  // to receive any message.
+  logger: console,
+  logLevel: `info`,
   matchEntry: (entry, context) => {
     if (entry.location?.url?.pathname.includes(`/bundle.`)) {
       // Match bundled entries when diffing by name only, ignoring

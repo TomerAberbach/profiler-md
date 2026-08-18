@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { beforeAll, describe, expect, test } from 'vitest'
 import {
   allTablesAfterHeading,
   chunk,
@@ -18,6 +18,7 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
+  ignoreLogs,
   linesTables,
   profileTitles,
   rankingTable,
@@ -1053,6 +1054,7 @@ describe(`convert`, () => {
   })
 
   test(`diffs base and current call graphs into regressions and improvements`, () => {
+    ignoreLogs()
     const graph = (mainSelf: number, compressSelf: number) => [
       `events: Ir`,
       `fl=(1) /src/main.c`,
@@ -1217,11 +1219,17 @@ describe(`category subsections`, () => {
         `1 10`,
       ])
 
-    const diffMd = diffProfiles(
-      { data: graph(600, 390), format: `callgrind` },
-      { data: graph(300, 700), format: `callgrind` },
-      { baseURL: `/app`, showEntry: () => true },
-    )
+    // Converted in a hook rather than at collection time, so the log
+    // exemption reaches the first test's log check.
+    let diffMd: string
+    beforeAll(() => {
+      ignoreLogs()
+      diffMd = diffProfiles(
+        { data: graph(600, 390), format: `callgrind` },
+        { data: graph(300, 700), format: `callgrind` },
+        { baseURL: `/app`, showEntry: () => true },
+      )
+    })
 
     test(`splits each ranking into a subsection per covered category`, () => {
       expect(
@@ -1255,6 +1263,7 @@ describe(`category subsections`, () => {
     })
 
     test(`splits a ranking whose functions all fall in one category`, () => {
+      ignoreLogs()
       const singleCategoryMd = diffProfiles(
         {
           data: makeCallgrind([

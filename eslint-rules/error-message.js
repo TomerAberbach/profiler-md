@@ -1,7 +1,4 @@
-/**
- * Enforces the error message conventions in `CLAUDE.md`: one line, no trailing
- * period, no semicolon, and a lowercase opener.
- */
+/** Enforces the message conventions in `CLAUDE.md` on error and logger messages. */
 
 /**
  * Stands in for an interpolated value, so a check distinguishes an
@@ -44,29 +41,39 @@ const checks = [
   },
 ]
 
+const LOGGER_METHODS = new Set([`error`, `warn`, `info`, `debug`])
+
+/**
+ * Holds for `logger.<level>?.(...)` too, because optional chaining leaves the
+ * callee a member expression.
+ */
+const isLoggerCall = ({ callee }) =>
+  callee.type === `MemberExpression` &&
+  !callee.computed &&
+  callee.object.type === `Identifier` &&
+  callee.object.name === `logger` &&
+  LOGGER_METHODS.has(callee.property.name)
+
+const isErrorConstruction = ({ callee }) =>
+  callee.type === `Identifier` && callee.name.endsWith(`Error`)
+
 export const errorMessage = {
   meta: {
     type: `problem`,
-    docs: { description: `enforce the project's error message conventions` },
+    docs: {
+      description: `enforce the project's error and logger message conventions`,
+    },
     schema: [],
     messages: {
-      multiLine: `Write the error message on one line.`,
-      trailingPeriod: `Drop the error message's trailing period.`,
-      semicolon: `Replace the error message's semicolon with a comma or a second clause.`,
-      capitalized: `Start the error message lowercase, unless it opens with an identifier, a proper noun, or a format title.`,
+      multiLine: `Write the message on one line.`,
+      trailingPeriod: `Drop the message's trailing period.`,
+      semicolon: `Replace the message's semicolon with a comma or a second clause.`,
+      capitalized: `Start the message lowercase, unless it opens with an identifier, a proper noun, or a format title.`,
     },
   },
 
-  create: context => ({
-    NewExpression: node => {
-      if (
-        node.callee.type !== `Identifier` ||
-        !node.callee.name.endsWith(`Error`)
-      ) {
-        return
-      }
-
-      const [message] = node.arguments
+  create: context => {
+    const checkMessage = ([message]) => {
       const text = message && messageText(message)
       if (text === undefined) {
         return
@@ -77,6 +84,19 @@ export const errorMessage = {
           context.report({ node: message, messageId })
         }
       }
-    },
-  }),
+    }
+
+    return {
+      NewExpression: node => {
+        if (isErrorConstruction(node)) {
+          checkMessage(node.arguments)
+        }
+      },
+      CallExpression: node => {
+        if (isLoggerCall(node)) {
+          checkMessage(node.arguments)
+        }
+      },
+    }
+  },
 }

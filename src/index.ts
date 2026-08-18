@@ -29,5 +29,6 @@ export type {
   SourceLocation,
   SourceReference,
 } from './location.ts'
+export type { Logger, LogLevel } from './logger.ts'
 export type { Origin } from './origins/index.ts'
 export type { SourceMap } from './source-map.ts'
