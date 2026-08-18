@@ -1,9 +1,11 @@
+import { inspect } from 'node:util'
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError, reasonOf } from '../error.ts'
 import { unclassifiedParseFailures } from '../formats/error.ts'
+import { normalizeLogger } from '../logger.ts'
+import type { Logger, LogLevel } from '../logger.ts'
 import { stderrSupportsColor } from './ansis.ts'
 import { getUsageHint } from './help.ts'
-import { highlightErrorPrefix } from './highlight-help.ts'
 
 export class CliError extends ProfilerMdError {
   public readonly exitCode: 1 | 2
@@ -16,33 +18,56 @@ export class CliError extends ProfilerMdError {
   }
 }
 
-export const reportError = (error: unknown): never => {
-  if (error instanceof ProfilerMdError) {
-    const colors = stderrSupportsColor()
-    process.stderr.write(
-      `${highlightErrorPrefix(`error: ${error.message}`, { colors })}\n`,
-    )
-    const parseFailures = unclassifiedParseFailures(error)
-    if (parseFailures.length > 0) {
-      process.stderr.write(
-        bugReport(
-          `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
-          parseFailures,
-        ),
-      )
+export type ReportErrorOptions = {
+  logger: Logger
+  logLevel: LogLevel
+}
+
+/**
+ * Reports the failure at `error` through the logger and exits. At `debug`,
+ * also prints the cause chain, which the message omits. A level below `error`
+ * silences the report, including the bug report and usage hint that follow it.
+ */
+export const reportError = (
+  error: unknown,
+  { logger, logLevel }: ReportErrorOptions,
+): never => {
+  const log = normalizeLogger(logger, logLevel)
+  const logCause = (): void => {
+    if (error instanceof Error && error.cause !== undefined) {
+      log.debug?.(`caused by: ${inspect(error.cause)}`)
     }
+  }
+
+  if (error instanceof ProfilerMdError) {
+    log.error?.(error.message)
+    logCause()
     const exitCode = error instanceof CliError ? error.exitCode : 1
-    // Exit code 2 is an invocation error, which the synopsis helps correct
-    if (exitCode === 2) {
-      process.stderr.write(getUsageHint({ colors }))
+    if (log.error) {
+      const parseFailures = unclassifiedParseFailures(error)
+      if (parseFailures.length > 0) {
+        process.stderr.write(
+          bugReport(
+            `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
+            parseFailures,
+          ),
+        )
+      }
+      // Exit code 2 is an invocation error, which the synopsis helps correct
+      if (exitCode === 2) {
+        process.stderr.write(getUsageHint({ colors: stderrSupportsColor() }))
+      }
     }
     process.exit(exitCode)
   }
 
-  process.stderr.write(`error: ${reasonOf(error)}\n`)
-  process.stderr.write(
-    bugReport(`This is a bug in ${packageJson.name}. Report it:`, [error]),
-  )
+  log.error?.(reasonOf(error))
+  logCause()
+  if (log.error) {
+    process.stderr.write(
+      bugReport(`This is a bug in ${packageJson.name}. Report it:`, [error]),
+    )
+  }
   process.exit(1)
 }
 

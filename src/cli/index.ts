@@ -4,10 +4,17 @@ import { CliError, reportError } from './error.ts'
 import { printBriefHelp, printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import { inputName, openInputAsBlob } from './input.ts'
+import {
+  defaultLogLevel,
+  makeCliLogger,
+  warnInvalidLogLevelEnv,
+} from './log.ts'
 import { buildOptions } from './options.ts'
 import { checkOutputPath, isTTYOutput, writeOutput } from './output.ts'
 import { parseArgs } from './parse-args.ts'
 
+const logger = makeCliLogger()
+let logLevel = defaultLogLevel()
 try {
   const {
     help,
@@ -25,9 +32,12 @@ try {
     hideCategory,
     showCategory,
     sourceMaps,
+    logLevel: logLevelFlag,
     pager,
     input,
   } = parseArgs()
+  logLevel = logLevelFlag
+  warnInvalidLogLevelEnv(logger, logLevel)
   const [basePath, currentPath] =
     typeof input === `string` || input === undefined
       ? [input, undefined]
@@ -68,6 +78,8 @@ try {
     hideCategory,
     showCategory,
     sourceMaps,
+    logger,
+    logLevel,
   })
   let markdown
   if (currentPath === undefined) {
@@ -92,5 +104,5 @@ try {
 
   await writeOutput(highlightedMarkdown, outputPath, { pager })
 } catch (error) {
-  reportError(error)
+  reportError(error, { logger, logLevel })
 }

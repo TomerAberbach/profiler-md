@@ -581,6 +581,96 @@ if (format === undefined) {
   )
 
   test.concurrent(
+    `prints nothing to stderr by default on success`,
+    async () => {
+      const { status, stderr } = await runCli([cpuProfilePath])
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(``)
+    },
+  )
+
+  test.concurrent.each([
+    { scenario: `--log-level info`, args: [`--log-level`, `info`], env: {} },
+    {
+      scenario: `PROFILER_MD_LOG=info`,
+      args: [],
+      env: { PROFILER_MD_LOG: `info` },
+    },
+    {
+      scenario: `--log-level info over PROFILER_MD_LOG=none`,
+      args: [`--log-level`, `info`],
+      env: { PROFILER_MD_LOG: `none` },
+    },
+  ])(
+    `$scenario prints the format and origin to stderr`,
+    async ({ args, env }) => {
+      const { status, stdout, stderr } = await runCli(
+        [cpuProfilePath, ...args],
+        undefined,
+        env,
+      )
+
+      expect(status).toBe(0)
+      expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
+      expect(stderr).toMatch(
+        /^info: format: .+ \(detected\)\ninfo: origin: .+\n$/u,
+      )
+    },
+  )
+
+  test.concurrent(
+    `an unrecognized PROFILER_MD_LOG warns and defaults to warn`,
+    async () => {
+      const { status, stdout, stderr } = await runCli(
+        [cpuProfilePath],
+        undefined,
+        { PROFILER_MD_LOG: `loud` },
+      )
+
+      expect(status).toBe(0)
+      expect(stdout).toMatch(MARKDOWN_OR_NO_DATA)
+      expect(stderr).toBe(
+        `warning: ignoring $PROFILER_MD_LOG, which is not a log level: expected one of none, error, warn, info, debug, got: loud\n`,
+      )
+    },
+  )
+
+  test.concurrent(`an empty PROFILER_MD_LOG is unset`, async () => {
+    const { status, stderr } = await runCli([cpuProfilePath], undefined, {
+      PROFILER_MD_LOG: ``,
+    })
+
+    expect(status).toBe(0)
+    expect(stderr).toBe(``)
+  })
+
+  test.concurrent(
+    `--log-level none silences the unrecognized PROFILER_MD_LOG warning`,
+    async () => {
+      const { status, stderr } = await runCli(
+        [cpuProfilePath, `--log-level`, `none`],
+        undefined,
+        { PROFILER_MD_LOG: `loud` },
+      )
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(``)
+    },
+  )
+
+  test.concurrent(`--log-level none silences errors`, async () => {
+    const { status, stderr } = await runCli([
+      `/nonexistent.cpuprofile`,
+      `--log-level`,
+      `none`,
+    ])
+
+    expect(status).toBe(1)
+    expect(stderr).toBe(``)
+  })
+
+  test.concurrent(
     `--source-maps applies inline source maps from files`,
     async () => {
       const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
@@ -889,14 +979,20 @@ if (format === undefined) {
 const runCli = (
   args: string[],
   input?: string | Uint8Array,
-  env?: Record<string, string>,
+  env: NodeJS.ProcessEnv = {},
 ) =>
   new Promise<{ status: number | null; stdout: string; stderr: string }>(
     (resolve, reject) => {
       const child = spawn(process.execPath, [cliPath, ...args], {
         // Reuse compiled bytecode across the many spawned CLI processes,
         // roughly halving each one's startup.
-        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath, ...env },
+        env: {
+          ...process.env,
+          // The developer's shell must not set the log level under test
+          PROFILER_MD_LOG: undefined,
+          NODE_COMPILE_CACHE: compileCachePath,
+          ...env,
+        },
       })
 
       const stdout: Buffer[] = []

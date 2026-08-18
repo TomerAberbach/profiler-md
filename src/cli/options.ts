@@ -15,6 +15,7 @@ import {
   sourceReferenceId,
   sourceReferencePathOrName,
 } from '../location.ts'
+import type { Logger, LogLevel } from '../logger.ts'
 import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
 import { CliError } from './error.ts'
 
@@ -34,6 +35,8 @@ export type BuildOptionsFlags = {
   show: readonly RegExp[]
   hideCategory: readonly EntryCategory[]
   showCategory: readonly EntryCategory[]
+  logger: Logger
+  logLevel: LogLevel
 }
 
 export const buildOptions = async ({
@@ -48,6 +51,8 @@ export const buildOptions = async ({
   show,
   hideCategory,
   showCategory,
+  logger,
+  logLevel,
 }: BuildOptionsFlags): Promise<ProfileToMdOptions> => ({
   topN,
   minCategoryShare,
@@ -60,6 +65,8 @@ export const buildOptions = async ({
   matchEntry: buildMatchEntry(matchName, matchLocation),
   categorizeFunctions: buildCategorizeFunctions(category),
   showEntry: buildShowEntry({ hide, show, hideCategory, showCategory }),
+  logger,
+  logLevel,
 })
 
 const buildMatchEntry = (

@@ -206,6 +206,9 @@ Examples:
 
 Output:
   -o, --output FILE                   Output file (default: - for stdout)
+  --log-level LEVEL                   Verbosity of diagnostics printed to 
+                                      stderr, overriding $PROFILER_MD_LOG
+                                       (default: warn)
   --no-pager                          Disable stdout paging (default: auto)
   --color, --no-color                 Enable or disable ANSI syntax 
                                       highlighting (default: auto)

@@ -5,6 +5,11 @@ import { program } from './cli.ts'
 import type { CLIArgs } from './cli.ts'
 import { CliError, reportError } from './error.ts'
 import { getMaxWidth } from './help.ts'
+import {
+  defaultLogLevel,
+  makeCliLogger,
+  warnInvalidLogLevelEnv,
+} from './log.ts'
 import { logo } from './logo.ts'
 
 export const parseArgs = (): CLIArgs => {
@@ -22,7 +27,10 @@ export const parseArgs = (): CLIArgs => {
       onError: () => {
         const reason = toCliErrorReason(stderrWrites[0]!)
         if (stderrWrites.length === 1 && reason !== undefined) {
-          return reportError(new CliError(reason, 2))
+          const logger = makeCliLogger()
+          const logLevel = defaultLogLevel()
+          warnInvalidLogLevelEnv(logger, logLevel)
+          return reportError(new CliError(reason, 2), { logger, logLevel })
         }
         for (const text of stderrWrites) {
           const reason = toCliErrorReason(text)
