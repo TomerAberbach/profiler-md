@@ -96,15 +96,11 @@ export const diffAggregatedHeapSnapshots = (
     current.nodeCategoryToStats,
   ),
   constructors: entityDiffsFromMatches(
+    // Each side's constructors are keyed under that side's own context, since
+    // match normalization is origin-aware.
     matchDiffedMaps(
-      base.constructors.map(constructor => [
-        constructor.name,
-        diffedConstructor(constructor),
-      ]),
-      current.constructors.map(constructor => [
-        constructor.name,
-        diffedConstructor(constructor),
-      ]),
+      mergeConstructors(base.constructors, base.context, options),
+      mergeConstructors(current.constructors, current.context, options),
     ),
   ),
   functions: entityDiffsFromMatches(
@@ -120,27 +116,56 @@ export const diffAggregatedHeapSnapshots = (
   ),
 })
 
-const diffedConstructor = ({
-  id,
-  name,
-  nameLocation,
-  location,
-  category,
-  selfSize,
-  retainedSize,
-  instances,
-}: AggregatedHeapSnapshotConstructor): DiffedHeapSnapshotEntity => ({
-  type: `node`,
-  id,
-  name,
-  nameLocation,
-  location,
-  category,
-  selfSize,
-  retainedSize,
-  instanceCount: instances.length,
-  instanceIds: [],
-})
+/**
+ * Merges constructors sharing the same normalized name so the same class
+ * matches across snapshots even when the runtime includes a per-run address in
+ * its name. The JVM includes one in the names of the hidden classes it
+ * generates for lambdas.
+ *
+ * A constructor's location records where one instance was allocated instead of
+ * identifying the class, so the merge keys by name alone.
+ *
+ * A merged constructor takes the normalized name its members share, because
+ * each member's own name contains the per-run part they differ in. Merged
+ * members can be categorized differently, so it takes the category of its
+ * largest member.
+ */
+const mergeConstructors = (
+  constructors: AggregatedHeapSnapshotConstructor[],
+  context: ProfileToMdContext,
+  options: FormattingProfileToMdOptions,
+): Map<string, DiffedHeapSnapshotEntity> => {
+  const keyToConstructor = new Map<string, DiffedHeapSnapshotEntity>()
+  const keyToCategorySelfSize = new Map<string, number>()
+  for (const constructor of constructors) {
+    const key = options.entryMatchKeys(constructor, context).name
+    const merged = keyToConstructor.get(key)
+    if (merged) {
+      merged.selfSize += constructor.selfSize
+      merged.retainedSize += constructor.retainedSize
+      merged.instanceCount += constructor.instances.length
+      if (constructor.selfSize > keyToCategorySelfSize.get(key)!) {
+        merged.category = constructor.category
+        keyToCategorySelfSize.set(key, constructor.selfSize)
+      }
+    } else {
+      keyToCategorySelfSize.set(key, constructor.selfSize)
+      keyToConstructor.set(key, {
+        type: `node`,
+        id: constructor.id,
+        name: key,
+        nameLocation: constructor.nameLocation,
+        location: constructor.location,
+        category: constructor.category,
+        selfSize: constructor.selfSize,
+        retainedSize: constructor.retainedSize,
+        instanceCount: constructor.instances.length,
+        instanceIds: [],
+      })
+    }
+  }
+  return keyToConstructor
+}
 
 /**
  * Merges functions sharing the same match key so the same function matches
@@ -152,24 +177,24 @@ const mergeFunctions = (
   options: FormattingProfileToMdOptions,
 ): Map<string, DiffedHeapSnapshotEntity> => {
   const keyToFunction = new Map<string, DiffedHeapSnapshotEntity>()
-  for (const fn of functions) {
-    const key = options.entryMatchKey(fn, context)
+  for (const func of functions) {
+    const key = options.entryMatchKeys(func, context).nameAndLocation
     const merged = keyToFunction.get(key)
     if (merged) {
-      merged.selfSize += fn.selfSize
-      merged.retainedSize += fn.retainedSize
-      merged.instanceCount += fn.instanceIds.length
-      merged.instanceIds.push(...fn.instanceIds)
+      merged.selfSize += func.selfSize
+      merged.retainedSize += func.retainedSize
+      merged.instanceCount += func.instanceIds.length
+      merged.instanceIds.push(...func.instanceIds)
     } else {
       keyToFunction.set(key, {
         type: `node`,
-        id: fn.largestInstanceId,
-        name: fn.name,
-        location: fn.location,
-        selfSize: fn.selfSize,
-        retainedSize: fn.retainedSize,
-        instanceCount: fn.instanceIds.length,
-        instanceIds: [...fn.instanceIds],
+        id: func.largestInstanceId,
+        name: func.name,
+        location: func.location,
+        selfSize: func.selfSize,
+        retainedSize: func.retainedSize,
+        instanceCount: func.instanceIds.length,
+        instanceIds: [...func.instanceIds],
       })
     }
   }
