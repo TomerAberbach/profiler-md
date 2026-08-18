@@ -80,6 +80,9 @@ export const formatHeapSnapshot = (
           { ...fn, id: fn.largestInstanceId },
           snapshot.context,
         ),
+      ) ||
+      snapshot.strings.some(string =>
+        options.showEntry(string, snapshot.context),
       ),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
@@ -291,7 +294,7 @@ const formatLargestSizeConstructors = ({
 
 const formatLargestConstructorInstances = ({
   constructor,
-  snapshot: { retainerPathOf },
+  snapshot: { retainerPathOf, context },
   sizeOf,
   hasLocation,
   options,
@@ -303,7 +306,9 @@ const formatLargestConstructorInstances = ({
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
   const largestInstanceGroups = selectLargestInstancesByRetainerPath({
-    instances: constructor.instances,
+    instances: constructor.instances.filter(instance =>
+      options.showEntry(instance, context),
+    ),
     sizeOf,
     retainerPathOf: nodeOrdinal => retainerPathOf(nodeOrdinal, options),
     topN: Math.ceil(options.topN / 4),
@@ -491,17 +496,20 @@ const collectShownRetainedNodes = (
 }
 
 const formatLargestStrings = ({
-  snapshot: { totalSize, strings, retainerPathOf },
+  snapshot: { totalSize, strings, retainerPathOf, context },
   options,
 }: {
   snapshot: AggregatedHeapSnapshot
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
+  const shownStrings = strings.filter(string =>
+    options.showEntry(string, context),
+  )
   const selfSizeOf = (string: AggregatedHeapSnapshotString) => string.selfSize
   const ranking = rankEntities({
-    entities: strings,
+    entities: shownStrings,
     categories: subsectionCategories({
-      entries: strings,
+      entries: shownStrings,
       selfValueOf: selfSizeOf,
       categoryOf: string => string.category,
       minCategoryShare: options.minCategoryShare,
@@ -545,7 +553,8 @@ export const formatHeapSnapshotDiff = (
     options,
     showsAnyEntry:
       diff.constructors.some(entity => showDiffEntity(entity, diff, options)) ||
-      diff.functions.some(entity => showDiffEntity(entity, diff, options)),
+      diff.functions.some(entity => showDiffEntity(entity, diff, options)) ||
+      diff.strings.some(entity => showDiffEntity(entity, diff, options)),
     disabledNote: ENTRY_FILTER_DISABLED_NOTE,
   })
   return [
@@ -634,7 +643,7 @@ const formatDiffConstructors = ({
     ),
     baseSelfValueOf: entity => entity.base?.selfSize ?? 0,
     currentSelfValueOf: entity => entity.current?.selfSize ?? 0,
-    categoryOf: entity => entity.category ?? `object`,
+    categoryOf: entity => entity.category,
     minCategoryShare: options.minCategoryShare,
   })
 
@@ -681,7 +690,7 @@ const formatDiffSizeConstructors = ({
       })),
       diff,
       options,
-      { categories, categoryOf: entity => entity.category ?? `object` },
+      { categories, categoryOf: entity => entity.category },
     )
 
   const sideRowOf = (total: number, entity?: DiffedHeapSnapshotEntity) =>
@@ -770,10 +779,8 @@ const formatDiffStrings = ({
   diff: AggregatedHeapSnapshotDiff
   options: FormattingProfileToMdOptions
 }): RootContent[] => {
-  // A string is categorized by its representation in the heap, which the
-  // snapshot always records.
   const categoryOf = (entity: AggregatedHeapSnapshotEntityDiff) =>
-    entity.category ?? `string`
+    entity.category
   const categories = subsectionDiffCategories({
     entries: diff.strings.filter(entity =>
       showDiffEntity(entity, diff, options),

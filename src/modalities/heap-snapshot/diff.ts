@@ -43,8 +43,8 @@ export type AggregatedHeapSnapshotEntityDiff = {
   /** A human readable label for this entity. */
   name: string
 
-  /** What this entity holds, set on the entities a ranking breaks down. */
-  category?: HeapSnapshotNodeCategory
+  /** What this entity holds. */
+  category: HeapSnapshotNodeCategory
 
   /** The file reference the {@link name} parses as, when it is URL-shaped. */
   nameLocation?: FileReference
@@ -191,6 +191,7 @@ const mergeFunctions = (
         id: func.largestInstanceId,
         name: func.name,
         location: func.location,
+        category: func.category,
         selfSize: func.selfSize,
         retainedSize: func.retainedSize,
         instanceCount: func.instanceIds.length,

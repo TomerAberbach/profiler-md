@@ -4,6 +4,7 @@ export const NODE_TYPE_STRING = 2
 export const NODE_TYPE_OBJECT = 3
 export const NODE_TYPE_CODE = 4
 export const NODE_TYPE_CLOSURE = 5
+export const NODE_TYPE_NATIVE = 8
 export const NODE_TYPE_SYNTHETIC = 9
 
 export const EDGE_TYPE_PROPERTY = 2

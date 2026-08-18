@@ -15,7 +15,47 @@ import {
 import type { Origin } from '../../origins/index.ts'
 import type { NodeCategoryStats } from './aggregate.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from './type.ts'
-import type { HeapSnapshotNode, HeapSnapshotNodeCategory } from './type.ts'
+import type {
+  HeapSnapshotNode,
+  HeapSnapshotNodeCategory,
+  UnresolvedHeapSnapshotNodeCategory,
+} from './type.ts'
+
+/**
+ * Resolves a node's unresolved category to its category under {@link origin}.
+ *
+ * Memoized by declared type name, since a snapshot declaring its own type names
+ * can hold thousands of them.
+ */
+export const newNodeCategoryResolver = (
+  origin: Origin,
+): ((
+  unresolvedCategory: UnresolvedHeapSnapshotNodeCategory,
+) => HeapSnapshotNodeCategory) => {
+  const declaredTypeToCategory = new Map<string, HeapSnapshotNodeCategory>()
+  return ({ category, declaredType }) => {
+    if (category !== undefined || declaredType === undefined) {
+      return category ?? `unknown`
+    }
+
+    let resolved = declaredTypeToCategory.get(declaredType)
+    if (resolved === undefined) {
+      resolved = declaredTypeCategory(declaredType, origin)
+      declaredTypeToCategory.set(declaredType, resolved)
+    }
+    return resolved
+  }
+}
+
+/**
+ * The category {@link origin} assigns to a type name a format declared,
+ * falling back to `object` for one the origin doesn't categorize.
+ */
+const declaredTypeCategory = (
+  declaredType: string,
+  origin: Origin,
+): HeapSnapshotNodeCategory =>
+  categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ?? `object`
 
 /**
  * Aggregates each node's self size and count into its category's stats.
@@ -49,7 +89,7 @@ export class NodeCategoryStatsAggregator {
   /**
    * Resolves each node's category: the origin categorizes a constructor by the
    * class name its language defines, falling back to the category the format
-   * derived from the engine's own node classification.
+   * derived from the engine's own node type.
    */
   public aggregate(
     origin: Origin,
@@ -67,9 +107,7 @@ export class NodeCategoryStatsAggregator {
     this.#byDeclaredType.aggregateInto(
       nodeCategoryToStats,
       origin,
-      declaredType =>
-        categorizeHeapSnapshotDeclaredTypeForOrigin(declaredType, origin) ??
-        `object`,
+      declaredType => declaredTypeCategory(declaredType, origin),
     )
 
     return nodeCategoryToStats
@@ -277,11 +315,10 @@ class CategoryKeys {
         return HEAP_SNAPSHOT_NODE_CATEGORIES[key - 1]!
       }
       const index = -key - 1
-      return (declaredTypeCategories[index] ??=
-        categorizeHeapSnapshotDeclaredTypeForOrigin(
-          this.#declaredTypes[index]!,
-          origin,
-        ) ?? `object`)
+      return (declaredTypeCategories[index] ??= declaredTypeCategory(
+        this.#declaredTypes[index]!,
+        origin,
+      ))
     }
   }
 }

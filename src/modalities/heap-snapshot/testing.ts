@@ -147,6 +147,7 @@ export const makeAggregatedHeapSnapshotConstructor = ({
     type: `node`,
     id: index,
     name,
+    category,
     selfSize: 0,
     retainedSize: 0,
   })),
@@ -158,17 +159,20 @@ export const makeAggregatedHeapSnapshotFunction = ({
   selfSize,
   retainedSize,
   instanceCount = 1,
+  category = `function`,
 }: {
   name: string
   location?: SourceLocation
   selfSize: number
   retainedSize: number
   instanceCount?: number
+  category?: HeapSnapshotNodeCategory
 }): AggregatedHeapSnapshotFunction => ({
   type: `node`,
   id: 0,
   name,
   location,
+  category,
   selfSize,
   retainedSize,
   largestInstanceId: 0,
@@ -224,6 +228,15 @@ export const retainedSizeInstancesTables = (
 
 export const functionTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest functions`)
+
+export const retainedObjectsTables = (md: string, name: string): Table[] => {
+  const functionsUnder = nodesUnderHeading(parseMd(md), `Largest functions`)
+  const retainedUnder = nodesUnderHeading(
+    { type: `root`, children: functionsUnder } as Root,
+    `Retained`,
+  )
+  return allTablesAfterHeadingContaining(retainedUnder, name)
+}
 
 export const largestStringsTables = (md: string): Table[] =>
   allTablesAfterHeading(parseMd(md), `Largest strings`)
