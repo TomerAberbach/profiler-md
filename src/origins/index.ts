@@ -110,35 +110,34 @@ export const normalizeStackFrameForContext = (
 export class OriginDetector {
   readonly #candidates: readonly SpecificOriginSpec[]
   readonly #fallback: SpecificOriginSpec
+  /**
+   * Whether the fallback is unconditional: no candidate, or a single candidate
+   * that is already the fallback (e.g. a single-runtime format), so no entry
+   * can change the outcome.
+   */
+  readonly #fallbackDecided: boolean
 
   /**
-   * Index of the highest-priority (lowest-index) candidate matched so far, or
-   * `Infinity` when none matched. Only higher-priority candidates can change
-   * the outcome, so `add` never evaluates candidates at or below it.
+   * The highest-priority match so far. Only a candidate outranking the matched
+   * one can change the outcome, so `add` never evaluates candidates at or below
+   * its index.
    */
-  #bestMatchIndex = Infinity
-  #decided: Origin | undefined
+  #match: OriginMatch = { type: `fallback` }
 
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
     this.#fallback = originToSpec.get(formatToConverter[format].fallbackOrigin)!
     if (origin !== null) {
       // A forced origin skips detection; added entries are ignored.
       this.#candidates = []
-      this.#decided = origin
+      this.#fallbackDecided = true
+      this.#match = { type: `specified`, origin }
       return
     }
 
     this.#candidates = formatToOriginSpecs.get(format) ?? []
-
-    // No candidates, or a single candidate that's already the fallback, is
-    // unconditional (e.g. a single-runtime format), so decide without
-    // inspecting any entry.
-    if (
-      this.#candidates.length === 0 ||
-      (this.#candidates.length === 1 && this.#candidates[0] === this.#fallback)
-    ) {
-      this.#decided = this.#fallback.id
-    }
+    this.#fallbackDecided = this.#candidates.every(
+      candidate => candidate === this.#fallback,
+    )
   }
 
   /**
@@ -146,7 +145,17 @@ export class OriginDetector {
    * further entries to add.
    */
   public get decided(): boolean {
-    return this.#decided !== undefined
+    const match = this.#match
+    switch (match.type) {
+      case `specified`:
+        return true
+      case `marker`:
+      case `hint`:
+        // The highest-priority candidate matched; nothing can outrank it.
+        return match.index === 0
+      case `fallback`:
+        return this.#fallbackDecided
+    }
   }
 
   /**
@@ -156,22 +165,20 @@ export class OriginDetector {
    * early; adding further entries is harmless.
    */
   public add(entry: DeepReadonly<ProfileEntry>): boolean {
-    if (this.#decided !== undefined) {
+    if (this.decided) {
       return true
     }
 
-    const endIndex = Math.min(this.#bestMatchIndex, this.#candidates.length)
+    const endIndex = Math.min(
+      matchedIndex(this.#match),
+      this.#candidates.length,
+    )
     for (let index = 0; index < endIndex; index++) {
       if (!this.#candidates[index]!.isMarkerEntry(entry)) {
         continue
       }
-      this.#bestMatchIndex = index
-      // The highest-priority candidate matched; nothing can outrank it.
-      if (index === 0) {
-        this.#decided = this.#candidates[0]!.id
-        return true
-      }
-      break
+      this.#match = { type: `marker`, index, entry }
+      return this.decided
     }
     return false
   }
@@ -188,20 +195,17 @@ export class OriginDetector {
    * isn't a candidate for the format is ignored.
    */
   public hint(origin: string): void {
-    if (this.#decided !== undefined) {
+    if (this.decided) {
       return
     }
 
     const index = this.#candidates.findIndex(
       candidate => candidate.id === origin,
     )
-    if (index === -1 || index >= this.#bestMatchIndex) {
+    if (index === -1 || index >= matchedIndex(this.#match)) {
       return
     }
-    this.#bestMatchIndex = index
-    if (index === 0) {
-      this.#decided = this.#candidates[0]!.id
-    }
+    this.#match = { type: `hint`, index }
   }
 
   /** Adds each entry until decided; adding further entries is harmless. */
@@ -215,17 +219,61 @@ export class OriginDetector {
 
   /** Resolves the detected origin from every entry added so far. */
   public resolve(): Origin {
-    if (this.#decided !== undefined) {
-      return this.#decided
+    const match = this.#match
+    switch (match.type) {
+      case `specified`:
+        return match.origin
+      case `marker`:
+      case `hint`:
+        return this.#candidates[match.index]!.id
+      case `fallback`:
+        return this.#fallback.id
     }
+  }
 
-    return (
-      this.#bestMatchIndex === Infinity
-        ? this.#fallback
-        : this.#candidates[this.#bestMatchIndex]!
-    ).id
+  /** The evidence {@link resolve} selects the origin by. */
+  public get evidence(): OriginEvidence {
+    const match = this.#match
+    switch (match.type) {
+      case `specified`:
+      case `hint`:
+      case `fallback`:
+        return { type: match.type }
+      case `marker`:
+        return { type: match.type, entry: match.entry }
+    }
+  }
+
+  /** The IDs of the origins that can emit the format, in priority order. */
+  public get candidates(): Origin[] {
+    return this.#candidates.map(candidate => candidate.id)
   }
 }
+
+/** The evidence an {@link OriginDetector} resolves its origin by. */
+export type OriginEvidence =
+  | { type: `specified` }
+  | { type: `marker`; entry: DeepReadonly<ProfileEntry> }
+  | { type: `hint` }
+  | { type: `fallback` }
+
+/**
+ * The highest-priority match an {@link OriginDetector} records: its evidence,
+ * with the candidate index a marker entry or hint matched, or the specified
+ * origin.
+ */
+type OriginMatch =
+  | { type: `specified`; origin: Origin }
+  | { type: `marker`; index: number; entry: DeepReadonly<ProfileEntry> }
+  | { type: `hint`; index: number }
+  | { type: `fallback` }
+
+/**
+ * The index of the candidate a match selected, or `Infinity` when no candidate
+ * matched yet, so any candidate outranks it.
+ */
+const matchedIndex = (match: OriginMatch): number =>
+  match.type === `marker` || match.type === `hint` ? match.index : Infinity
 
 /** One of the concrete origin specs, with its literal {@link Origin} ID. */
 type SpecificOriginSpec = (typeof originSpecs)[number]
