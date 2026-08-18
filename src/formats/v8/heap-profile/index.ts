@@ -4,6 +4,7 @@ import { parseV8HeapProfile } from './parse.ts'
 import type { V8HeapProfile } from './parse.ts'
 
 export const v8HeapProfileConverter = {
+  format: `v8-heap-profile`,
   title: `V8 heap profile`,
   extension: `heapprofile`,
   languages: [`javascript`],

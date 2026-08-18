@@ -17,7 +17,8 @@ import { FormatDetectError, mayBeParserBug } from './error.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
-  formatConverters,
+  formats,
+  formatToConverter,
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
@@ -58,7 +59,7 @@ if (format !== undefined) {
   // is a near-identical re-run, keeping the auto-detect/diff matrix manageable.
   for (const filename of injectedInputs()) {
     if (parseExampleFilename(filename).variant === `base`) {
-      inputSets[formatConverters[format].type].add(filename)
+      inputSets[formatToConverter[format].type].add(filename)
     }
   }
 }
@@ -91,6 +92,12 @@ const emptyProfile = JSON.stringify({
 })
 
 if (format === undefined) {
+  // A duplicate ID would overwrite the earlier converter in the registry's map
+  // without a type error, and detection runs the converters in list order.
+  test(`registered converters have distinct format IDs in sorted order`, () => {
+    expect(formats).toStrictEqual([...new Set(formats)].sort())
+  })
+
   describe(`input projects`, () => {
     // Partitioning a format's inputs across projects could otherwise drop one
     // silently, since no project can tell what the others hold.
@@ -960,6 +967,7 @@ describe(`origin detection`, () => {
       observations: [{ values: [], frameIndices: [0] }],
     }
     const converter: JsonFormatConverter = {
+      format: `multi`,
       title: `Multi-profile test format`,
       extension: `multi.json`,
       languages: [],

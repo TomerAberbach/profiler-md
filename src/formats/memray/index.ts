@@ -4,6 +4,7 @@ import { matchesMemray } from './matches.ts'
 import { parseMemray } from './parse.ts'
 
 export const memrayConverter = {
+  format: `memray`,
   title: `memray`,
   extension: `memray.bin`,
   languages: [`python`],

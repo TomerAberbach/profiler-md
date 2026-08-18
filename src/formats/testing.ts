@@ -10,7 +10,6 @@ import type {
   JsonFormatConverter,
 } from './converter.ts'
 import { formatAggregatedInputs } from './format.ts'
-import { formatConverters } from './index.ts'
 import type { Format } from './index.ts'
 
 declare module 'vitest' {
@@ -118,12 +117,6 @@ export const convertToMdAsync = async (
   )
 
 const profileToMdContext = (converter: FormatConverter) => ({
-  format: formatByConverter.get(converter)!,
+  format: converter.format as Format,
   origin: null,
 })
-
-const formatByConverter = new Map<FormatConverter, Format>(
-  (Object.entries(formatConverters) as [Format, FormatConverter][]).map(
-    ([format, converter]) => [converter, format],
-  ),
-)

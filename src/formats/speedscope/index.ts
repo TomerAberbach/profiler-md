@@ -4,6 +4,7 @@ import { parseSpeedscope } from './parse.ts'
 import type { SpeedscopeProfile } from './parse.ts'
 
 export const speedscopeConverter = {
+  format: `speedscope`,
   title: `Speedscope`,
   extension: `speedscope.json`,
   languages: [`csharp`, `php`, `python`, `ruby`],

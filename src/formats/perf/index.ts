@@ -3,6 +3,7 @@ import { matchesPerf } from './matches.ts'
 import { parsePerf, parsePerfAsync } from './parse/index.ts'
 
 export const perfConverter = {
+  format: `perf`,
   title: `perf.data`,
   extension: `perf.data`,
   languages: [`c`, `zig`],

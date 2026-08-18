@@ -18,6 +18,12 @@ export type AggregatedInput =
   AggregatedCallStackProfile | AggregatedCallGraph | AggregatedHeapSnapshot
 
 type FormatMeta = {
+  /**
+   * The format's ID: the `--format` value and `--help` topic that select it.
+   * Must be unique across formats.
+   */
+  format: string
+
   /** The format's display name. */
   title: string
 

@@ -115,10 +115,10 @@ $ARGUMENTS
 
    - `index.ts`: the `<name>Converter`
      (`as const satisfies JsonFormatConverter`/`BinaryFormatConverter`):
-     - Registration metadata: `title` (the display name in the readme matrix),
-       `extension` (the `examples/input/` filename extension), `languages` (the
-       languages whose profilers emit the format), and `fallbackOrigin` (decided
-       in step 3)
+     - Registration metadata: `format` (the ID `--format` and `--help` take),
+       `title` (the display name in the readme matrix), `extension` (the
+       `examples/input/` filename extension), `languages` (the languages whose
+       profilers emit the format), and `fallbackOrigin` (decided in step 3)
      - `matches` from `matches.ts`
      - `parse` is authoritative: it must throw on non-instances so
        auto-detection can move on

@@ -33,9 +33,9 @@ import {
   parseJsonAsync,
   rethrowInputReadFailure,
 } from './parse.ts'
-import { formatConverters } from './registry.ts'
+import { formatToConverter } from './registry.ts'
 
-export { formatConverters, formats } from './registry.ts'
+export { formatToConverter, formats } from './registry.ts'
 export type { Format } from './registry.ts'
 
 /**
@@ -121,7 +121,7 @@ export const aggregateInput = (
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
-    const parsed = parseAsFormat(formatConverters[format], data)
+    const parsed = parseAsFormat(formatToConverter[format], data)
     return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
 
@@ -165,7 +165,7 @@ const aggregateInputAsync = async (
   const { data, format, origin } = normalizeProfileInput(input)
 
   if (format) {
-    const parsed = await parseAsFormatAsync(formatConverters[format], data)
+    const parsed = await parseAsFormatAsync(formatToConverter[format], data)
     return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
 

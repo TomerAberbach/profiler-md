@@ -3,6 +3,7 @@ import { matchesHprof } from './matches.ts'
 import { parseHprof, parseHprofAsync } from './parse.ts'
 
 export const hprofConverter = {
+  format: `hprof`,
   title: `HPROF`,
   extension: `hprof`,
   languages: [`java`],

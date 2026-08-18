@@ -16,28 +16,35 @@ import { v8HeapProfileConverter } from './v8/heap-profile/index.ts'
 import { v8HeapSnapshotConverter } from './v8/heap-snapshot/index.ts'
 import { webkitTimelineRecordingConverter } from './webkit-timeline-recording/index.ts'
 
-/** Every supported format's converter, keyed by format ID. */
-export const formatConverters = {
-  callgrind: callgrindConverter,
-  collapsed: collapsedConverter,
-  'ghc-eventlog': ghcEventlogConverter,
-  'ghc-json-profile': ghcJsonProfileConverter,
-  hprof: hprofConverter,
-  jfr: jfrConverter,
-  'jsc-heap-snapshot': jscHeapSnapshotConverter,
-  memray: memrayConverter,
-  perf: perfConverter,
-  pprof: pprofConverter,
-  speedscope: speedscopeConverter,
-  systing: systingConverter,
-  'v8-cpu-profile': v8CpuProfileConverter,
-  'v8-heap-profile': v8HeapProfileConverter,
-  'v8-heap-snapshot': v8HeapSnapshotConverter,
-  'webkit-timeline-recording': webkitTimelineRecordingConverter,
-} as const satisfies Record<string, FormatConverter>
+/** Every supported format's converter, in canonical order. */
+export const formatConverters = [
+  callgrindConverter,
+  collapsedConverter,
+  ghcEventlogConverter,
+  ghcJsonProfileConverter,
+  hprofConverter,
+  jfrConverter,
+  jscHeapSnapshotConverter,
+  memrayConverter,
+  perfConverter,
+  pprofConverter,
+  speedscopeConverter,
+  systingConverter,
+  v8CpuProfileConverter,
+  v8HeapProfileConverter,
+  v8HeapSnapshotConverter,
+  webkitTimelineRecordingConverter,
+] as const satisfies readonly FormatConverter[]
+
+export type RegisteredFormatConverter = (typeof formatConverters)[number]
 
 /** Supported profile format IDs. */
-export type Format = keyof typeof formatConverters
+export type Format = RegisteredFormatConverter[`format`]
+
+/** Every supported format's converter, keyed by format ID. */
+export const formatToConverter = Object.fromEntries(
+  formatConverters.map(converter => [converter.format, converter]),
+) as { [C in RegisteredFormatConverter as C[`format`]]: C }
 
 /** Supported profile format IDs in canonical order. */
-export const formats = (Object.keys(formatConverters) as Format[]).sort()
+export const formats = formatConverters.map(converter => converter.format)

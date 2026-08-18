@@ -3,6 +3,7 @@ import { matchesSysting } from './matches.ts'
 import { parseSysting, parseSystingAsync } from './parse.ts'
 
 export const systingConverter = {
+  format: `systing`,
   title: `systing`,
   extension: `systing`,
   languages: [`c`, `python`, `rust`],
