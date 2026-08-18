@@ -176,11 +176,132 @@ if (format === undefined) {
   })
 
   test.concurrent(
-    `--third-party changes which paths are considered third-party`,
+    `--category assigns matching functions a category, the first matching rule taking precedence`,
     async () => {
-      const { stdout } = await runCli([cpuProfilePath, `--third-party`, `**`])
+      const [{ stdout: ours }, { stdout: native }] = await Promise.all([
+        runCli([
+          cpuProfilePath,
+          `--category`,
+          `node_modules=ours`,
+          `--category`,
+          `node_modules=native`,
+        ]),
+        runCli([
+          cpuProfilePath,
+          `--category`,
+          `node_modules=native`,
+          `--category`,
+          `node_modules=ours`,
+        ]),
+      ])
 
-      expect(stdout).not.toContain(`ours`)
+      expect(ours).not.toContain(`Third-party`)
+      expect(native).not.toContain(`Third-party`)
+      expect(ours).not.toBe(native)
+    },
+  )
+
+  test.concurrent(`--category matches names as well as locations`, async () => {
+    const { stdout } = await runCli([
+      cpuProfilePath,
+      `--category`,
+      `^\\(garbage collector\\)$=ours`,
+    ])
+
+    expect(stdout).not.toContain(`Garbage collector`)
+  })
+
+  test.concurrent(
+    `--hide hides matching entries and keeps totals`,
+    async () => {
+      const [{ stdout: unfiltered }, { stdout: filtered }] = await Promise.all([
+        runCli([cpuProfilePath]),
+        runCli([cpuProfilePath, `--hide`, `recursiveTypeRelatedTo`]),
+      ])
+
+      expect(unfiltered).toContain(`recursiveTypeRelatedTo`)
+      expect(filtered).not.toContain(`recursiveTypeRelatedTo`)
+      expect(filtered.split(`\n`)[2]).toBe(unfiltered.split(`\n`)[2])
+    },
+  )
+
+  test.concurrent(`--show shows only matching entries`, async () => {
+    const { stdout } = await runCli([cpuProfilePath, `--show`, `^wrapSafe$`])
+
+    expect(stdout).toContain(`wrapSafe`)
+    expect(stdout).not.toContain(`recursiveTypeRelatedTo`)
+  })
+
+  test.concurrent(`--hide matches a location's URL`, async () => {
+    const [{ stdout: unfiltered }, { stdout: filtered }] = await Promise.all([
+      runCli([cpuProfilePath]),
+      runCli([cpuProfilePath, `--hide`, `^file:///`]),
+    ])
+
+    expect(unfiltered).toContain(`typescript.js`)
+    expect(filtered).not.toContain(`typescript.js`)
+  })
+
+  test.concurrent(`--hide overrides --show`, async () => {
+    const [{ stdout: both }, { stdout: none }] = await Promise.all([
+      runCli([cpuProfilePath, `--show`, `wrapSafe`, `--hide`, `wrapSafe`]),
+      // A regex nothing matches, so every entry is hidden.
+      runCli([cpuProfilePath, `--show`, `x^`]),
+    ])
+
+    expect(both).toBe(none)
+  })
+
+  test.concurrent(`--hide-category hides entries of the category`, async () => {
+    const { stdout } = await runCli([
+      cpuProfilePath,
+      `--hide-category`,
+      `garbage collector`,
+    ])
+
+    expect(stdout).not.toContain(`\`(garbage collector)\``)
+  })
+
+  test.concurrent(
+    `--show-category shows only entries of the category`,
+    async () => {
+      const { stdout } = await runCli([
+        cpuProfilePath,
+        `--show-category`,
+        `stdlib`,
+      ])
+
+      expect(stdout).toContain(`wrapSafe`)
+      expect(stdout).not.toContain(`recursiveTypeRelatedTo`)
+    },
+  )
+
+  test.concurrent(
+    `--hide-category hides a heap snapshot's functions`,
+    async () => {
+      const { stdout } = await runCli([
+        inputPath(`javascript.node.base.heapsnapshot`),
+        `--hide-category`,
+        `function`,
+      ])
+
+      expect(stdout).toContain(`## Largest constructors`)
+      expect(stdout).not.toContain(`## Largest functions`)
+    },
+  )
+
+  test.concurrent(
+    `--hide-category applies after --category rules`,
+    async () => {
+      const { stdout } = await runCli([
+        cpuProfilePath,
+        `--category`,
+        `node_modules=native`,
+        `--hide-category`,
+        `native`,
+      ])
+
+      expect(stdout).not.toContain(`recursiveTypeRelatedTo`)
     },
   )
 
@@ -298,15 +419,16 @@ if (format === undefined) {
     },
   )
 
-  test.concurrent(
-    `--match changes how entries match across diffed profiles`,
-    async () => {
-      // Collapsing every location to `x` must not break self-diff matching: every
-      // entry still matches its counterpart, so there are no deltas.
+  test.concurrent.each([`--match-name`, `--match-location`])(
+    `%s changes how entries pair across diffed profiles`,
+    async flag => {
+      // Collapsing every name or location to `x` must not break self-diff
+      // matching: every entry still matches its counterpart, so there are no
+      // deltas.
       const { status, stdout } = await runCli([
         cpuProfilePath,
         cpuProfilePath,
-        `--match`,
+        flag,
         `.+=x`,
       ])
 
@@ -395,19 +517,55 @@ if (format === undefined) {
       expectedStatus: 1,
     },
     {
-      scenario: `--match without an equals sign`,
+      scenario: `--match-location without an equals sign`,
       args: [
         inputPath(`javascript.node.base.cpuprofile`),
-        `--match`,
+        `--match-location`,
         `no-equals-sign`,
       ],
       expectedStderr: `expected REGEX=REPLACEMENT`,
       expectedStatus: 2,
     },
     {
-      scenario: `--match with an invalid regex`,
-      args: [inputPath(`javascript.node.base.cpuprofile`), `--match`, `[=x`],
+      scenario: `--match-name with an invalid regex`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--match-name`,
+        `[=x`,
+      ],
       expectedStderr: `expected a valid regex`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `--category without an equals sign`,
+      args: [inputPath(`javascript.node.base.cpuprofile`), `--category`, `x`],
+      expectedStderr: `expected REGEX=CATEGORY`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `--category with an unknown category`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--category`,
+        `x=nope`,
+      ],
+      expectedStderr: `expected CATEGORY to be one of`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `--hide with an invalid regex`,
+      args: [inputPath(`javascript.node.base.cpuprofile`), `--hide`, `[`],
+      expectedStderr: `expected a valid regex`,
+      expectedStatus: 2,
+    },
+    {
+      scenario: `--hide-category with an unknown category`,
+      args: [
+        inputPath(`javascript.node.base.cpuprofile`),
+        `--hide-category`,
+        `nope`,
+      ],
+      expectedStderr: `nope`,
       expectedStatus: 2,
     },
     {

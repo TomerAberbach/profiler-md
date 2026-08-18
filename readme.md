@@ -124,40 +124,59 @@ $ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 $ profiler-md --help
 Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
        ORIGIN] [-o/--output FILE] [--top-n N] [--min-category-share FRACTION] [
-       --base-url STRING] [--source-maps GLOB...] [--match REGEX=REPLACEMENT...]
-       [--third-party GLOB...] [--no-pager] [--color/--no-color] ([FILE] | BASE
-       CURRENT)
+       --base-url STRING] [--source-maps GLOB...] [--match-name
+       REGEX=REPLACEMENT...] [--match-location REGEX=REPLACEMENT...] [--category
+       REGEX=CATEGORY...] [--hide REGEX...] [--show REGEX...] [--hide-category
+       CATEGORY...] [--show-category CATEGORY...] [--no-pager] [--color/
+       --no-color] ([FILE] | BASE CURRENT)
 
 Converts performance profiles to human and LLM friendly Markdown.
 
-  -h, --help [TOPIC]             Show this help message or topic docs
-  -f, --format FORMAT            Input profile format (default: auto)
-  -r, --origin ORIGIN            Input profile origin (default: auto)
-  -o, --output FILE              Output file (default: - for stdout)
-  --top-n N                      Top entries to show in each ranking, including 
-                                 each category subsection (default: 20)
-  --min-category-share FRACTION  Share of a profile a category must account for 
-                                 to get its own subsection, between 0 and 1 
-                                 (default: 0.01)
-  --base-url STRING              Base URL or path to show paths relative to, or 
-                                 "auto" to infer the common ancestor directory 
-                                 (default: cwd)
-  --source-maps GLOB             Source maps (JSON or inline) to apply to 
-                                 profile locations (repeatable)
-  --match REGEX=REPLACEMENT      Treat locations matching REGEX as REPLACEMENT 
-                                 when matching entries across diffed profiles 
-                                 (repeatable)
-  --third-party GLOB             Additional URLs, paths, or names (e.g. a JVM 
-                                 class) to consider third-party (repeatable)
-  --no-pager                     Disable stdout paging (default: auto)
-  --color, --no-color            Enable or disable ANSI syntax highlighting 
-                                 (default: auto)
-  FILE                           Profile to convert (default: stdin)
-  BASE                           Base profile to diff
-  CURRENT                        Current profile to diff against the base
+  -h, --help [TOPIC]                  Show this help message or topic docs
+  -f, --format FORMAT                 Input profile format (default: auto)
+  -r, --origin ORIGIN                 Input profile origin (default: auto)
+  -o, --output FILE                   Output file (default: - for stdout)
+  --top-n N                           Entries to show per ranking, including 
+                                      category subsections (default: 20)
+  --min-category-share FRACTION       Share of a profile a category needs for 
+                                      its own subsection, from 0 to 1 (default: 
+                                      0.01)
+  --base-url STRING                   Base URL or path to show paths relative 
+                                      to, or "auto" for their common ancestor 
+                                      (default: cwd)
+  --source-maps GLOB                  Source maps (JSON or inline) to apply to 
+                                      locations (repeatable)
+  --match-name REGEX=REPLACEMENT      Rewrite names matching REGEX to 
+                                      REPLACEMENT when pairing diffed entries 
+                                      (repeatable)
+  --match-location REGEX=REPLACEMENT  Rewrite locations (URL, path, or logical 
+                                      name) matching REGEX to REPLACEMENT when 
+                                      pairing diffed entries (repeatable)
+  --category REGEX=CATEGORY           Categorize functions whose name or 
+                                      location matches REGEX as CATEGORY, first 
+                                      rule winning (repeatable)
+  --hide REGEX                        Hide entries whose name or location 
+                                      matches REGEX, still counting hidden 
+                                      entries in totals (repeatable)
+  --show REGEX                        Show only entries whose name or location 
+                                      matches REGEX, still counting hidden 
+                                      entries in totals (repeatable)
+  --hide-category CATEGORY            Hide entries of CATEGORY, still counting 
+                                      hidden entries in totals (repeatable)
+  --show-category CATEGORY            Show only entries of CATEGORY, still 
+                                      counting hidden entries in totals 
+                                      (repeatable)
+  --no-pager                          Disable stdout paging (default: auto)
+  --color, --no-color                 Enable or disable ANSI syntax 
+                                      highlighting (default: auto)
+  FILE                                Profile to convert (default: stdin)
+  BASE                                Base profile to diff
+  CURRENT                             Current profile to diff against the base
 
 Formats: callgrind, collapsed, ghc-eventlog, ghc-json-profile, jfr, jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go, gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon, unknown, valgrind
+Function categories (--category, --hide-category, --show-category): ours, third-party, stdlib, native, unknown, garbage collector, compiler, jit, regexp, kernel, idle
+Heap snapshot categories (--hide-category, --show-category): object, array, string, concatenated string, sliced string, function, code, regexp, number, big number, symbol, native, object shape, internal, synthetic, unknown
 Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
 ```
 

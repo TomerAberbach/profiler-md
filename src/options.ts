@@ -118,7 +118,8 @@ export type EntryMatch = {
 
   /**
    * The location to match by, as a URL, file path, or logical name string.
-   * Omit to match by the entry's location.
+   * Omit to match by the entry's location. An empty string matches by name
+   * alone.
    */
   location?: string
 }
@@ -419,7 +420,7 @@ const entryMatchKeys = (
   const location =
     match?.location ??
     (entry.location ? sourceReferenceId(entry.location) : undefined)
-  if (location === undefined) {
+  if (!location) {
     return { name, nameAndLocation: name }
   }
 
