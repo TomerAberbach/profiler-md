@@ -45,8 +45,8 @@ export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
  * Decoding is synchronous and correct across multi-byte sequences split at a
  * chunk boundary.
  *
- * Throws on invalid UTF-8, including a truncated trailing sequence, so a caller
- * can treat a failure as "these bytes aren't this text format".
+ * Replaces an invalid sequence, including a truncated trailing one, with
+ * U+FFFD.
  *
  * Yields the same lines as `decoder.decode(bytes).split('\n')` would (with `\r`
  * stripped), i.e. a trailing empty line when the input ends with a newline.
@@ -73,8 +73,8 @@ export function* decodeUtf8Lines(
  * whole input. Decoding is correct across multi-byte sequences split at a chunk
  * boundary.
  *
- * Throws on invalid UTF-8, including a truncated trailing sequence, so a caller
- * can treat a failure as "these bytes aren't this text format".
+ * Replaces an invalid sequence, including a truncated trailing one, with
+ * U+FFFD.
  *
  * Yields a trailing empty line when the input ends with a newline.
  */
@@ -128,7 +128,7 @@ const NUL_SCAN_LENGTH = 4096
 class Utf8LineDecoder {
   // A streaming decoder must be exclusive to this instance, since it buffers
   // bytes across chunks; sharing one would corrupt interleaved iterations.
-  readonly #decoder = new TextDecoder(`utf-8`, { fatal: true })
+  readonly #decoder = new TextDecoder(`utf-8`)
   #pending = ``
 
   public *push(bytes: Uint8Array): Iterable<string> {
@@ -143,11 +143,6 @@ class Utf8LineDecoder {
     }
   }
 
-  /**
-   * Flush buffered bytes.
-   *
-   * @throws if a trailing sequence is truncated.
-   */
   public *flush(): Iterable<string> {
     this.#pending += this.#decoder.decode()
     yield stripCarriageReturn(this.#pending)

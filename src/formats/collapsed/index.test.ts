@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { chunk, streamOf } from '../../helpers/testing.ts'
 import {
   selfSamplesTables,
@@ -18,6 +19,16 @@ import { collapsedConverter } from './index.ts'
 import { parseCollapsed } from './parse.ts'
 import { makeCollapsed } from './testing.ts'
 
+const encodeUtf8 = (text: string): Uint8Array => new TextEncoder().encode(text)
+
+// `py-spy` reads the profiled process's memory while it keeps running, so a
+// `--nonblocking` sample can contain invalid bytes.
+const invalidByteCollapsed = concatUint8Arrays([
+  encodeUtf8(`main (app.py:10);wo`),
+  new Uint8Array([0xff]),
+  encodeUtf8(`rk (app.py:20) 6\nmain (app.py:10) 4\n`),
+])
+
 describe(`matches`, () => {
   test(`accepts a valid collapsed buffer`, () => {
     expect(collapsedConverter.matches(makeCollapsed([`main;work 1`]))).toBe(
@@ -25,8 +36,8 @@ describe(`matches`, () => {
     )
   })
 
-  test(`parse rejects non-UTF-8 bytes`, () => {
-    expect(() => parseCollapsed(new Uint8Array([0xff, 0xfe, 0x00]))).toThrow()
+  test(`accepts a buffer whose frame name contains an invalid UTF-8 byte`, () => {
+    expect(collapsedConverter.matches(invalidByteCollapsed)).toBe(true)
   })
 
   test(`parse rejects lines lacking a trailing count`, () => {
@@ -182,6 +193,26 @@ describe(`convert`, () => {
       [
         { '%': `60.0%`, Samples: `6`, Location: `app.py:20` },
         { '%': `40.0%`, Samples: `4`, Location: `app.py:22` },
+      ],
+    ])
+  })
+
+  test(`an invalid UTF-8 byte in a frame name becomes a replacement character`, () => {
+    const md = convertBytesToMd(
+      collapsedConverter,
+      invalidByteCollapsed,
+      normalizeProfileToMdOptions({ baseURL: `/`, showEntry: () => true }),
+    )
+
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `60.0%`,
+          Samples: `6`,
+          Function: `wo\uFFFDrk`,
+          Location: `app.py`,
+        },
+        { '%': `40.0%`, Samples: `4`, Function: `main`, Location: `app.py` },
       ],
     ])
   })

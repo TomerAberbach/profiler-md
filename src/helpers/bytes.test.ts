@@ -68,13 +68,17 @@ describe(`decodeUtf8Lines`, () => {
     expect(lines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
   })
 
-  test(`throws on invalid UTF-8`, () => {
-    expect(() => [...decodeUtf8Lines(new Uint8Array([0xff]))]).toThrow()
+  test(`replaces invalid UTF-8, keeping the surrounding text`, () => {
+    expect([...decodeUtf8Lines(new Uint8Array([0x61, 0xff, 0x62]))]).toEqual([
+      `a\uFFFDb`,
+    ])
   })
 
-  test(`throws on a truncated trailing sequence`, () => {
+  test(`replaces a truncated trailing sequence`, () => {
     // The first two bytes of `→` with the third missing.
-    expect(() => [...decodeUtf8Lines(new Uint8Array([0xe2, 0x86]))]).toThrow()
+    expect([...decodeUtf8Lines(new Uint8Array([0xe2, 0x86]))]).toEqual([
+      `\uFFFD`,
+    ])
   })
 })
 
@@ -113,13 +117,15 @@ describe(`decodeUtf8LinesAsync`, () => {
     expect(await asyncTextLines(`a→b\n→`, 2)).toEqual([`a→b`, `→`])
   })
 
-  test(`throws on invalid UTF-8`, async () => {
-    await expect(asyncLines([new Uint8Array([0xff])])).rejects.toThrow()
+  test(`replaces invalid UTF-8, keeping the surrounding text`, async () => {
+    expect(await asyncLines([new Uint8Array([0x61, 0xff, 0x62])])).toEqual([
+      `a\uFFFDb`,
+    ])
   })
 
-  test(`throws on a truncated trailing sequence`, async () => {
+  test(`replaces a truncated trailing sequence`, async () => {
     // The first two bytes of `→` with the third missing.
-    await expect(asyncLines([new Uint8Array([0xe2, 0x86])])).rejects.toThrow()
+    expect(await asyncLines([new Uint8Array([0xe2, 0x86])])).toEqual([`\uFFFD`])
   })
 })
 
