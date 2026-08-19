@@ -45,24 +45,29 @@ py-spy dump --pid <pid>
 py-spy dump --pid <pid> --locals
 ```
 
-## CLI flags
+## py-spy CLI flags
 
-| Flag                | Default      | Description                                              |
-| ------------------- | ------------ | -------------------------------------------------------- |
-| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`         |
-| `-o` / `--output`   | —            | Output file path                                         |
-| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)       |
-| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                      |
-| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads |
-| `--native`          | off          | Profile native Cython or C extensions                    |
-| `--nonblocking`     | off          | Sample without pausing the process (less accurate)       |
-| `--subprocesses`    | off          | Also profile subprocesses of the target                  |
+| Flag                | Default      | Description                                                     |
+| ------------------- | ------------ | --------------------------------------------------------------- |
+| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`, `chrometrace` |
+| `-o` / `--output`   | —            | Output file path                                                |
+| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)              |
+| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                             |
+| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads        |
+| `--native`          | off          | Profile native Cython or C extensions                           |
+| `--nonblocking`     | off          | Sample without pausing the process (less accurate)              |
+| `--subprocesses`    | off          | Also profile subprocesses of the target                         |
 
 ## In-process wall-clock profiling
 
+Samples wall-clock time rather than CPU time, from inside the interpreter rather
+than through ptrace. Useful for I/O-bound or latency-sensitive code.
+
 [pyinstrument](https://github.com/joerick/pyinstrument) samples the call stack
-from inside the interpreter, so it needs no ptrace access and profiles
-wall-clock time. Its speedscope renderer writes a format this tool reads.
+from inside the interpreter, so it needs no ptrace access. Its speedscope
+renderer writes a format this tool reads.
+
+### CLI
 
 ```sh
 # Profile a script
@@ -83,25 +88,32 @@ export covers only the imports. `--show-all` can trim the run the same way.
 By default the export keeps the frames above 1% of the total and folds the rest
 into the self time of the frame that called them.
 
-### pyinstrument CLI flags
+#### Flags
 
-| Flag                  | Default | Description                                                   |
-| --------------------- | ------- | ------------------------------------------------------------- |
-| `-r` / `--renderer`   | `text`  | Output format. `speedscope` writes the format this tool reads |
-| `-o` / `--outfile`    | —       | Output file path                                              |
-| `-m`                  | —       | Run a library module as a script                              |
-| `-i` / `--interval`   | `0.001` | Minimum seconds between stack samples                         |
-| `--show-all`          | off     | Keep every frame, including the standard library's            |
-| `--hide`              | —       | Glob matching the file paths whose frames to hide             |
-| `-t` / `--timeline`   | off     | Keep call ordering instead of condensing repeated calls       |
-| `--use-timing-thread` | off     | Time the sampling interval on a separate thread               |
+| Flag                  | Default   | Description                                                   |
+| --------------------- | --------- | ------------------------------------------------------------- |
+| `-r` / `--renderer`   | see below | Output format. `speedscope` writes the format this tool reads |
+| `-o` / `--outfile`    | —         | Output file path                                              |
+| `-m`                  | —         | Run a library module as a script                              |
+| `-i` / `--interval`   | `0.001`   | Minimum seconds between stack samples                         |
+| `--show-all`          | off       | Keep every frame, including the standard library's            |
+| `--hide`              | —         | Glob matching the file paths whose frames to hide             |
+| `-t` / `--timeline`   | off       | Keep call ordering instead of condensing repeated calls       |
+| `--use-timing-thread` | off       | Time the sampling interval on a separate thread               |
+
+Without `-r`, pyinstrument picks the renderer from the `-o` filename's
+extension, and writes text when there is no `-o`.
 
 ## Memory profiling
 
-[memray](https://github.com/bloomberg/memray) traces every allocation the
-interpreter makes, from inside the process, and records the Python call stack
-each one came from. The capture shows where memory was held when the program's
-memory use was highest, and what was never freed.
+Traces every allocation with the Python call stack it came from. Useful for
+finding where memory was held when the program's memory use was highest, and
+what it never freed.
+
+[memray](https://github.com/bloomberg/memray) traces the allocations the
+interpreter makes, from inside the process.
+
+### CLI
 
 ```sh
 # Trace a script's allocations
@@ -110,7 +122,7 @@ memray run -o memory.bin script.py
 # Trace a module, as `python -m` would run it
 memray run -o memory.bin -m black file.py
 
-# Keep per-stack totals only, for a much smaller capture of a long run
+# Keep per-stack totals only, for a smaller capture of a long run
 memray run --aggregate -o memory.bin script.py
 
 # Attach to a running process
@@ -120,22 +132,25 @@ memray attach --duration 60 -o memory.bin <pid>
 Tracing from inside the process makes the program run several times slower, so
 profile a workload small enough to finish with tracing on.
 
-### memray CLI flags
+#### Flags
 
-| Flag                        | Default | Description                                                        |
-| --------------------------- | ------- | ------------------------------------------------------------------ |
-| `-o` / `--output`           | —       | Output file path                                                   |
-| `-f` / `--force`            | off     | Overwrite the output file if it exists                             |
-| `--aggregate`               | off     | Record each stack's totals instead of every allocation             |
-| `--native`                  | off     | Also record C/C++ frames, which this tool skips                    |
-| `--trace-python-allocators` | off     | Record pymalloc's own allocations, not just the ones underneath it |
-| `--follow-fork`             | off     | Also trace child processes, each into its own capture              |
-| `--no-compress`             | off     | Write the capture uncompressed rather than LZ4 compressed          |
+| Flag                        | Default                    | Description                                                         |
+| --------------------------- | -------------------------- | ------------------------------------------------------------------- |
+| `-o` / `--output`           | `<process_name>.<pid>.bin` | Output file path                                                    |
+| `-f` / `--force`            | off                        | Overwrite the output file if it exists                              |
+| `--aggregate`               | off                        | Record each stack's totals instead of every allocation              |
+| `--native`                  | off                        | Also record C/C++ frames, which this tool skips                     |
+| `--trace-python-allocators` | off                        | Record pymalloc's own allocations as well as the ones underneath it |
+| `--follow-fork`             | off                        | Also trace child processes, each into its own capture               |
+| `--no-compress`             | off                        | Write the capture uncompressed rather than LZ4 compressed           |
 
 ## System profiling
 
-[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
-samples on-CPU stacks and records a stack each time a thread sleeps. With
+Samples on-CPU stacks and records a stack each time a thread sleeps. Useful for
+costs outside the process: off-CPU waits, syscall time, and contention across
+the whole node.
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler. With
 `--collect-pystacks` it walks CPython interpreter frames and blends them with
 the native stack, so profiles show Python functions alongside the C and kernel
 frames beneath them. It needs root (BPF) and a kernel with BTF

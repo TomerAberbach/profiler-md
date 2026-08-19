@@ -20,14 +20,15 @@ Profile.clear()
 @profile my_function()
 
 # `web = false` skips the UI. `from_c = false` drops C/runtime frames, leaving
-# just your Julia code.
+# your Julia code.
 pprof(out = "cpu.pb.gz", web = false, from_c = false)
 ```
 
-### Sampling settings
+### `Profile.init` options
 
-Samples every 1 ms by default (10 ms on Windows). Configure with `Profile.init`
-before profiling; calling it with no arguments returns the current settings.
+Samples every 1 ms by default (10 ms on 32-bit Windows). Configure with
+`Profile.init` before profiling. Calling it with no arguments returns the
+current settings.
 
 ```julia
 Profile.init(n = 10^7, delay = 0.0005)
@@ -35,7 +36,7 @@ Profile.init(n = 10^7, delay = 0.0005)
 
 | Option  | Default | Description                                         |
 | ------- | ------- | --------------------------------------------------- |
-| `n`     | `10^6`  | Buffer capacity in instruction pointers, per thread |
+| `n`     | `10^7`  | Buffer capacity in instruction pointers, per thread |
 | `delay` | `0.001` | Seconds between samples                             |
 
 If profiling warns that the buffer filled up, increase `n` or `delay` and
@@ -101,7 +102,7 @@ using Profile
 Profile.take_heap_snapshot("heap.heapsnapshot")
 ```
 
-### Options
+### `take_heap_snapshot` options
 
 | Option        | Default | Description                                                              |
 | ------------- | ------- | ------------------------------------------------------------------------ |
@@ -110,24 +111,26 @@ Profile.take_heap_snapshot("heap.heapsnapshot")
 
 A snapshot spans the entire runtime heap: `Base`, method tables, and every
 loaded package. Expect files of hundreds of megabytes even for small programs.
-They compress well: profiler-md accepts them gzipped as-is. For
+They compress well, and profiler-md accepts them gzipped as-is. For
 memory-constrained processes, pass `streaming = true` and reassemble afterwards
 with `Profile.HeapSnapshot.assemble_snapshot(prefix, "heap.heapsnapshot")`.
 
 ## `pprof` options
 
-| Option            | Default           | Description                                      |
-| ----------------- | ----------------- | ------------------------------------------------ |
-| `out`             | `"profile.pb.gz"` | Output file path                                 |
-| `web`             | `true`            | Launch the interactive web UI after exporting    |
-| `from_c`          | `true`            | Include C and Julia runtime frames               |
-| `drop_frames`     | `""`              | Regex of function names to drop from stacks      |
-| `keep_frames`     | `""`              | Regex of function names to keep despite dropping |
-| `full_signatures` | `true`            | Use full method signatures as function names     |
+| Option            | Default           | Description                                                         |
+| ----------------- | ----------------- | ------------------------------------------------------------------- |
+| `out`             | `"profile.pb.gz"` | Output file path (`"alloc-profile.pb.gz"` for `PProf.Allocs.pprof`) |
+| `web`             | `true`            | Launch the interactive web UI after exporting                       |
+| `from_c`          | `true`            | Include C and Julia runtime frames                                  |
+| `drop_frames`     | `nothing`         | Regex of function names to drop from stacks                         |
+| `keep_frames`     | `nothing`         | Regex of function names to keep despite dropping                    |
+| `full_signatures` | `true`            | Use full method signatures as function names                        |
 
 ## Tips
 
+### Threads
+
 Run single-threaded (`julia -t 1 --gcthreads=1`). Otherwise idle GC and
-scheduler threads fill the profile with wait frames (`__psynch_cvwait`); the
-wall-time profiler samples those idle tasks even more eagerly, since it samples
-tasks that aren't running.
+scheduler threads fill the profile with wait frames (`__psynch_cvwait`). The
+wall-time profiler records more of those idle tasks, because it samples tasks
+that are blocked as well as running ones.

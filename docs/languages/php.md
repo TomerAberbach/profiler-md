@@ -4,9 +4,16 @@ PHP profiling uses the [Excimer](https://github.com/wikimedia/php-excimer)
 extension. Excimer samples from a PHP-controlled timer, so you start and stop it
 within the program or a prepended bootstrap script.
 
+A new `ExcimerProfiler` samples wall-clock time every 0.1 seconds, so the
+recipes below set the event type and the period.
+
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
+
+Excimer defines `EXCIMER_CPU` only where POSIX timers provide a CPU clock, so
+the constant is undefined on macOS, where Excimer uses kqueue instead. Check
+with `defined('EXCIMER_CPU')` and fall back to wall-clock profiling.
 
 ```php
 <?php

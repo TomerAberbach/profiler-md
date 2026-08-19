@@ -36,7 +36,7 @@ pprof --proto ./program cpu.prof > cpu.pprof
 
 | Variable               | Default | Description                                                                      |
 | ---------------------- | ------- | -------------------------------------------------------------------------------- |
-| `CPUPROFILE`           | —       | Output filename; profiling is enabled when set                                   |
+| `CPUPROFILE`           | —       | Output filename that enables profiling when set                                  |
 | `CPUPROFILE_FREQUENCY` | `100`   | Samples per second                                                               |
 | `CPUPROFILE_REALTIME`  | —       | Use wall-clock time (`ITIMER_REAL`) instead of CPU time (`ITIMER_PROF`) when set |
 | `CPUPROFILESIGNAL`     | —       | Signal number to toggle profiling on/off at runtime                              |
@@ -83,7 +83,7 @@ pprof --proto ./program heap.prof.0001.heap > heap.pprof
 
 | Variable                           | Default      | Description                                                                                   |
 | ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------- |
-| `HEAPPROFILE`                      | —            | Output filename prefix; heap profiling is enabled when set                                    |
+| `HEAPPROFILE`                      | —            | Output filename prefix that enables heap profiling when set                                   |
 | `HEAP_PROFILE_ALLOCATION_INTERVAL` | `1073741824` | Dump a profile after every this many bytes allocated (default 1 GB)                           |
 | `HEAP_PROFILE_INUSE_INTERVAL`      | `104857600`  | Dump a profile each time the in-use high-water mark grows by this many bytes (default 100 MB) |
 | `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                  |
@@ -130,5 +130,6 @@ samples to the caller or to a specialized copy of the callee.
 
 ### Converting
 
-`pprof --proto` requires the Go `pprof`. gperftools's bundled Perl
-`pprof`/`google-pprof` has no protobuf output.
+`pprof --proto` requires the Go `pprof`. gperftools stopped shipping a `pprof`
+of its own in 2.17, and the Perl `pprof`/`google-pprof` that earlier releases
+and the distro packages built from them install has no protobuf output.

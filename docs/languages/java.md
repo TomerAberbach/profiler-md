@@ -24,7 +24,7 @@ jfr summary cpu.jfr
 #### CLI
 
 ```sh
-# Attach to a running JVM (JFR is the default output format)
+# Attach to a running JVM (the .jfr extension selects the JFR format)
 asprof -e cpu -d 30 -f cpu.jfr <pid>
 
 # Or write collapsed stacks
@@ -55,9 +55,9 @@ waiting. Useful for I/O-bound or latency-sensitive code.
 
 ### Java Flight Recorder
 
-JFR has no wall-clock sampler, so this metric is async-profiler only. (JFR does
-record specific waiting events, such as `jdk.ThreadPark`, via the lock recipe
-below.)
+JFR has no wall-clock sampler, so this metric is async-profiler only. JFR does
+record specific waiting events, such as `jdk.ThreadPark`, through the lock
+recipe below.
 
 ### async-profiler
 
@@ -65,20 +65,24 @@ below.)
 asprof -e wall -d 30 -f wall.jfr <pid>
 ```
 
-Recorded as `profiler.WallClockSample` events. `cpu` and `wall` share the same
-sampling timer, so async-profiler records one or the other within a single
-recording, not both.
+Recorded as `profiler.WallClockSample` events. To record wall-clock samples
+alongside another event, pass the interval through `--wall` rather than
+`-e wall`, which async-profiler rejects in combination with a second event:
+
+```sh
+asprof -e cpu --wall 100ms -d 30 -f combined.jfr <pid>
+```
 
 ## Memory profiling
 
 Samples memory allocations, in allocated bytes. async-profiler offers three
 variants; JFR offers two:
 
-- **heap allocations**: every heap allocation sampled since profiling started;
+- **heap allocations**: every heap allocation sampled since profiling started,
   useful for finding allocation hot spots and reducing GC pressure
-- **live heap**: only allocations whose objects are still live at the end;
+- **live heap**: only allocations whose objects are still live at the end,
   useful for finding leaks
-- **native memory**: off-heap `malloc`/`free`; useful for finding native leaks
+- **native memory**: off-heap `malloc`/`free`, useful for finding native leaks
   (async-profiler only)
 
 ### Java Flight Recorder
@@ -114,8 +118,8 @@ heap and native variants.
 ## Heap dumps
 
 Captures every live object on the heap, with the references between them. Useful
-for finding what a leak retains, which the allocation profiles above can't show.
-The JVM writes the dump in the HPROF format.
+for finding what a leak retains, which the allocation profiles above don't
+record. The JVM writes the dump in the HPROF format.
 
 ### CLI
 
@@ -132,6 +136,8 @@ jmap -dump:live,format=b,file=heap.hprof <pid>
 ```sh
 java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof -jar app.jar
 ```
+
+#### Flags
 
 | Flag                              | Default           | Description                                          |
 | --------------------------------- | ----------------- | ---------------------------------------------------- |
@@ -178,8 +184,8 @@ Recorded as `profiler.NativeLock` events.
 ### Java Flight Recorder
 
 The `profile` template records execution samples, allocations, locks, GC, and
-many other JVM events at once. JFR rotates the recording into chunks as it grows
-(`-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold).
+many other JVM events at once. JFR rotates the recording into chunks as it
+grows. `-XX:FlightRecorderOptions=maxchunksize=…` controls the threshold.
 
 ```sh
 java -XX:StartFlightRecording=filename=all.jfr,settings=profile -jar app.jar
@@ -196,17 +202,24 @@ dominate the recording.
 asprof --all --nofree -d 30 -f all.jfr <pid>
 ```
 
-## async-profiler flags
+## async-profiler CLI flags
 
-| Flag                | Default | Description                                                  |
-| ------------------- | ------- | ------------------------------------------------------------ |
-| `-e` / `--event`    | `cpu`   | Event to profile: `cpu`, `wall`, `alloc`, `lock`, and others |
-| `-d` / `--duration` | —       | Duration in seconds                                          |
-| `-o` / `--output`   | `jfr`   | Output format (`jfr` or `collapsed`)                         |
-| `-f` / `--file`     | —       | Output file path                                             |
-| `-i` / `--interval` | `10ms`  | Sampling interval (e.g. `-i 1ms` for 1000 Hz)                |
-| `--all`             | —       | Enable cpu, wall, alloc, live, nativemem, and lock at once   |
-| `<pid>`             | —       | Target JVM PID, `jps`, or the application name               |
+| Flag    | Default            | Description                                                  |
+| ------- | ------------------ | ------------------------------------------------------------ |
+| `-e`    | `cpu`              | Event to profile: `cpu`, `wall`, `alloc`, `lock`, and others |
+| `-d`    | —                  | Duration in seconds                                          |
+| `-o`    | the `-f` extension | Output format (`jfr`, `collapsed`, `flamegraph`, and others) |
+| `-f`    | —                  | Output file path                                             |
+| `-i`    | `10ms`             | Sampling interval (e.g. `-i 1ms` for 1000 Hz)                |
+| `--all` | —                  | Enable cpu, wall, alloc, live, nativemem, and lock at once   |
+| `<pid>` | —                  | Target JVM PID, `jps`, or the application name               |
 
-On macOS the default `cpu` event works (it samples CPU time via a timer), but
-hardware events like `cache-misses` require Linux `perf_events`.
+`-o` overrides the format the `-f` filename's extension selects. A run with
+neither writes a text summary.
+
+## Tips
+
+### Platforms
+
+The default `cpu` event works on macOS, where it samples CPU time through a
+timer. Hardware events such as `cache-misses` require Linux `perf_events`.

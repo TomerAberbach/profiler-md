@@ -1,6 +1,6 @@
 # Go
 
-Go supports pprof natively via the
+Go profiling uses pprof, built into the runtime as the
 [`runtime/pprof`](https://pkg.go.dev/runtime/pprof) package and the
 [`net/http/pprof`](https://pkg.go.dev/net/http/pprof) HTTP handler.
 
@@ -38,12 +38,12 @@ defer pprof.StopCPUProfile()
 
 ## Memory profiling
 
-Heap profiles come in two variants:
+The heap profile variants are:
 
-- **heap** (`inuse_space` / `inuse_objects`): live allocations at each sample;
+- **heap** (`inuse_space` / `inuse_objects`): live allocations at each sample,
   useful for finding memory leaks
 - **allocs** (`alloc_space` / `alloc_objects`): all allocations since program
-  start; useful for finding allocation hot spots
+  start, useful for finding allocation hot spots
 
 `runtime.MemProfileRate` controls sampling granularity (default: one sample per
 512 KB allocated). Set to `1` to capture every allocation (expensive):
@@ -93,7 +93,7 @@ leaks or deadlocks.
 ### CLI
 
 ```sh
-# Full stack traces (debug=2 gives text output, debug=0 gives pprof binary)
+# Full stack traces (`debug=2` writes text, and `debug=0` the pprof binary)
 curl -o goroutine.pprof 'http://localhost:6060/debug/pprof/goroutine'
 
 # Human-readable text dump
@@ -136,7 +136,7 @@ diagnosing synchronization bottlenecks.
 
 Disabled by default. Call `runtime.SetBlockProfileRate(rate)` in your program
 before the code to profile. This applies whether you collect via HTTP or the
-programmatic API. Rate is in nanoseconds: `1` captures every blocking event;
+programmatic API. Rate is in nanoseconds. `1` captures every blocking event, and
 higher values sample less.
 
 ```go
@@ -167,8 +167,8 @@ goroutine tries to acquire it. Useful for finding lock contention hot spots.
 
 Disabled by default. Call `runtime.SetMutexProfileFraction(rate)` in your
 program before the code to profile. This applies whether you collect via HTTP or
-the programmatic API. `1` captures every contended event; `n` samples roughly
-`1/n` events.
+the programmatic API. `1` captures every contended event, and `n` samples
+roughly `1/n` events.
 
 ```go
 runtime.SetMutexProfileFraction(1)
@@ -191,8 +191,8 @@ pprof.Lookup("mutex").WriteTo(f, 0)
 
 ## Thread creation profiling
 
-Captures stack traces that create new OS threads. Useful for diagnosing
-unexpected thread proliferation.
+Captures the stack traces where the program created new OS threads. Useful for
+finding code that creates too many threads.
 
 ### CLI
 
@@ -208,6 +208,8 @@ pprof.Lookup("threadcreate").WriteTo(f, 0)
 ```
 
 ## Tips
+
+### Locations
 
 Build with `-trimpath` (e.g. `go test -trimpath ...`) so locations are
 package-relative (`encoding/json/encode.go`) instead of absolute build paths.

@@ -15,10 +15,6 @@ your dependencies, then profile a specific function.
 Each line's count is one microsecond of wall time on its stack, not one sample,
 because eflambe derives the counts from the trace's timestamps.
 
-**Keep the call small.** eflambe traces every function call. It doesn't sample,
-so output grows with the number of calls. A single invocation over a large input
-can produce hundreds of MB.
-
 ### Elixir
 
 ```elixir
@@ -41,9 +37,17 @@ eflambe:apply({my_module, my_function, [Arg1, Arg2]}, [{output_format, brendan_g
 
 ### Options
 
-| Option             | Default         | Description                                         |
-| ------------------ | --------------- | --------------------------------------------------- |
-| `output_format`    | `brendan_gregg` | Output format: `brendan_gregg` (collapsed) or `svg` |
-| `output_directory` | project root    | Directory for the output file                       |
-| `open`             | —               | Auto-open the result in `speedscope` or `hotspot`   |
-| `return`           | `filename`      | Return value: `value`, `flamegraph`, or `filename`  |
+| Option             | Default         | Description                                                                                              |
+| ------------------ | --------------- | -------------------------------------------------------------------------------------------------------- |
+| `output_format`    | `brendan_gregg` | Output format: `brendan_gregg` (collapsed) or `svg`                                                      |
+| `output_directory` | `./`            | Directory for the output file                                                                            |
+| `open`             | —               | Auto-open the result in `speedscope` or `hotspot`                                                        |
+| `return`           | see description | Return value: `value`, `flamegraph`, or `filename`. `capture` returns the filename and `apply` the value |
+
+## Tips
+
+### Overhead
+
+Keep the call small. eflambe traces every function call instead of sampling, so
+output grows with the number of calls. A single invocation over a large input
+can produce hundreds of MB.

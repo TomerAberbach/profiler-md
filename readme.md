@@ -43,40 +43,72 @@
   <img src="assets/demo.gif" alt="Converting and diffing CPU profiles in the terminal" />
 </div>
 
-The output covers category breakdowns, the hottest functions by self and total
-time with per-line, caller, and callee detail, and the hottest call stacks; see
-the [full output](examples/output/javascript.node.base.cpuprofile.md).
-[`examples/output/`](examples/output) has more, including heap snapshots and
-diffs.
+<!-- prettier-ignore-start -->
+
+<!-- EXAMPLE_OUTPUT START -->
+
+```md
+# CPU profile
+
+Took 2.49s over 2,659 samples (939.9µs per sample).
+
+| Category           |     % |    Time | Samples |
+| ------------------ | ----: | ------: | ------: |
+| Third-party        | 87.4% |   2.18s |   2,410 |
+| Garbage collector  |  7.6% | 191.0ms |     156 |
+| Standard library   |  3.9% |  96.8ms |      70 |
+| Native             |  0.9% |  22.7ms |      20 |
+| Regular expression |  0.1% |   2.5ms |       2 |
+| Ours               |  0.1% |   1.3ms |       1 |
+
+## Hottest functions
+
+### Self time
+
+Functions ranked by time spent directly in the function body, excluding callees.
+
+|    % |    Time | Samples | Function                        | Location                                             |
+| ---: | ------: | ------: | ------------------------------- | ---------------------------------------------------- |
+| 7.6% | 191.0ms |     156 | `(garbage collector)`           | `<unknown>`                                          |
+| 2.9% |  71.5ms |      57 | `wrapSafe`                      | `node:internal/modules/cjs/loader:1671:18`           |
+| 2.8% |  69.0ms |      66 | `recursiveTypeRelatedTo`        | `node_modules/typescript/lib/typescript.js:64383:38` |
+| 2.5% |  63.0ms |      66 | `isRelatedTo`                   | `node_modules/typescript/lib/typescript.js:63813:27` |
+| 2.1% |  51.7ms |      43 | `checkTypeRelatedTo`            | `node_modules/typescript/lib/typescript.js:63505:32` |
+…
+```
+
+<!-- EXAMPLE_OUTPUT END -->
+
+<!-- prettier-ignore-end -->
+
+The output continues with the hottest functions by total time, the hottest call
+stacks, and per-line, caller, and callee detail. See the
+[full output](examples/output/javascript.node.base.cpuprofile.md), or
+[`examples/output/`](examples/output) for heap snapshots and diffs.
 
 ## Features
 
-- **Polyglot:** supports
-  [profile and heap snapshot formats](#languages-and-formats) across many
-  languages
+- **Polyglot:**
+  [profile, call graph, and heap snapshot formats](#languages-and-formats)
+  across many languages
 - **Profile analysis:** sampling rates, category breakdowns, and the hottest
-  functions and call stacks by whatever was sampled (time, allocations, locks…)
+  functions, call stacks, lines, callers, and callees
 - **Heap analysis:** self and
   [dominator](<https://en.wikipedia.org/wiki/Dominator_(graph_theory)>)-based
-  retained sizes, retainer paths, and the largest constructors, functions, and
-  strings
+  retained sizes, retainer paths, and the largest constructors and strings
+- **Multi-profile inputs:** one `all` JFR recording becomes CPU, allocation, and
+  lock contention profiles
 - **Diffing:** ranked regressions and improvements between two profiles or two
-  heap snapshots, ignoring run-varying identifiers like build hashes, and
-  ranking increases and decreases where a metric's unit states neither as better
+  heap snapshots, across formats and profilers
 - **Source maps:** resolves minified and transpiled locations back to original
   sources
-- **Zero config:** auto-detects the format and profiler, decompresses
-  gzip/brotli, and reads from stdin
-- **Fast:** streaming parsing and specialized data structures convert large
-  profiles quickly
+- **Zero config:** auto-detects the format and profiler
 - **Configurable:** top entry counts, base URLs, categorization, filtering, and
-  diff matching, with overridable defaults ([API docs](docs/api.md))
-- **CLI and API:** use the command line or a fully-typed API with sync and async
-  variants
-- **Readable in the terminal:** ANSI syntax highlighting with heat-map coloring
-  and automatic paging
+  diff matching
+- **CLI and API:** a command line and a fully-typed API with sync and async
+  variants ([API docs](docs/api.md))
 - **Self-documenting:** `--help <language>` and `--help <format>` explain how to
-  generate and understand each profile type
+  generate and read each profile type
 - **Agent-ready:** ships a [skill](#skill) that guides an agent through
   profiling and optimizing your code
 
@@ -115,6 +147,23 @@ $ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 ## Usage
 
 ### CLI
+
+```sh
+# Convert a profile, paged and syntax highlighted
+$ profiler-md profile.cpuprofile
+
+# Diff two profiles or two heap snapshots
+$ profiler-md base.cpuprofile current.cpuprofile
+
+# Write the Markdown to a file
+$ profiler-md profile.pb.gz -o profile.md
+
+# Read a profile from stdin
+$ node --cpu-prof app.js && cat *.cpuprofile | profiler-md
+```
+
+<details>
+<summary>All flags</summary>
 
 <!-- prettier-ignore-start -->
 
@@ -184,13 +233,15 @@ Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotli
 
 <!-- prettier-ignore-end -->
 
+</details>
+
 ### API
 
 ```js
 import { openAsBlob } from 'node:fs'
 import { diffProfilesAsync, profileToMdAsync } from 'profiler-md'
 
-// Convert a profile or heap snapshot; format and origin are auto-detected
+// Convert a profile or heap snapshot. The format and origin are auto-detected
 console.log(await profileToMdAsync(await openAsBlob(`example.cpuprofile`)))
 
 // Diff two profiles or two heap snapshots
@@ -220,8 +271,9 @@ Fun fact: the skill has profiled and optimized `profiler-md` itself!
 
 ## Languages and formats
 
-A language lists only the formats its ecosystem's tools natively generate;
-third-party tools can often convert others.
+The table lists only the formats each language's own tools generate. Third-party
+tools convert others. Each format's [docs](docs/formats) explain how to generate
+and read it.
 
 <!-- prettier-ignore-start -->
 

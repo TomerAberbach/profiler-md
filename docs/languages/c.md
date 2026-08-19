@@ -30,7 +30,7 @@ pprof --proto ./program cpu.prof > cpu.pprof
 
 | Variable               | Default | Description                                                                      |
 | ---------------------- | ------- | -------------------------------------------------------------------------------- |
-| `CPUPROFILE`           | —       | Output filename; profiling is enabled when set                                   |
+| `CPUPROFILE`           | —       | Output filename that enables profiling when set                                  |
 | `CPUPROFILE_FREQUENCY` | `100`   | Samples per second                                                               |
 | `CPUPROFILE_REALTIME`  | —       | Use wall-clock time (`ITIMER_REAL`) instead of CPU time (`ITIMER_PROF`) when set |
 | `CPUPROFILESIGNAL`     | —       | Signal number to toggle profiling on/off at runtime                              |
@@ -63,7 +63,7 @@ g++ -O2 -Wl,--no-as-needed -ltcmalloc -o program program.cpp  # C++
 ### CLI
 
 ```sh
-# Generate heap profiles (written as <prefix>.0000.heap, .0001.heap, …)
+# Generate heap profiles (written as <prefix>.0001.heap, .0002.heap, …)
 HEAPPROFILE=heap.prof ./program
 
 # Convert a heap profile to pprof protobuf format
@@ -74,13 +74,13 @@ pprof --proto ./program heap.prof.0001.heap > heap.pprof
 
 | Variable                           | Default      | Description                                                                                   |
 | ---------------------------------- | ------------ | --------------------------------------------------------------------------------------------- |
-| `HEAPPROFILE`                      | —            | Output filename prefix; heap profiling is enabled when set                                    |
+| `HEAPPROFILE`                      | —            | Output filename prefix that enables heap profiling when set                                   |
 | `HEAP_PROFILE_ALLOCATION_INTERVAL` | `1073741824` | Dump a profile after every this many bytes allocated (default 1 GB)                           |
 | `HEAP_PROFILE_INUSE_INTERVAL`      | `104857600`  | Dump a profile each time the in-use high-water mark grows by this many bytes (default 100 MB) |
 | `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                  |
 | `HEAPPROFILESIGNAL`                | —            | Signal number to dump a profile on demand                                                     |
 | `HEAP_PROFILE_MMAP`                | `false`      | Also profile `mmap`/`mremap`/`sbrk` calls                                                     |
-| `HEAP_PROFILE_ONLY_MMAP`           | `false`      | Profile only `mmap`/`mremap`/`sbrk`; skip `malloc`/`new`                                      |
+| `HEAP_PROFILE_ONLY_MMAP`           | `false`      | Profile only `mmap`/`mremap`/`sbrk`, skipping `malloc`/`new`                                  |
 
 ### Programmatic API
 
@@ -135,6 +135,10 @@ valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes \
 Compares the heap state before and after a region of code to detect memory
 leaks. Useful for confirming a code path frees everything it allocates.
 
+gperftools 2.17 removed the heap leak checker. On 2.17 and later
+`HeapLeakChecker` is an empty stub and `HEAPCHECK` does nothing, so use
+AddressSanitizer's `LeakSanitizer` (`-fsanitize=address`) instead.
+
 Link with `-ltcmalloc`:
 
 ```sh
@@ -159,7 +163,7 @@ HEAPCHECK=draconian ./program
 
 | Variable    | Default | Description                                                                          |
 | ----------- | ------- | ------------------------------------------------------------------------------------ |
-| `HEAPCHECK` | —       | Leak-checking mode (`minimal`, `normal`, `strict`, or `draconian`); enabled when set |
+| `HEAPCHECK` | —       | Leak-checking mode, enabled when set (`minimal`, `normal`, `strict`, or `draconian`) |
 
 ### Programmatic API
 
@@ -175,10 +179,21 @@ if (!checker.NoLeaks()) abort(); // fails if any net allocation leaked
 
 ## System profiling
 
-[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
-samples on-CPU stacks and records a stack each time a thread sleeps, across user
-and kernel code. It needs root (BPF) and a kernel with BTF
-(`/sys/kernel/btf/vmlinux`).
+Samples on-CPU stacks and records a stack each time a thread sleeps, across user
+and kernel code. Useful for costs outside the process: off-CPU waits, syscall
+time, and contention across the whole node.
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler. It
+needs root (BPF) and a kernel with BTF (`/sys/kernel/btf/vmlinux`).
+
+Build what you profile with frame pointers so systing's unwinder can walk the
+stack, and with symbols for readable frames:
+
+```sh
+gcc -O2 -g -fno-omit-frame-pointer -o program program.c
+```
+
+### CLI
 
 ```sh
 # Record a command (and its children) for 30 seconds
@@ -188,27 +203,23 @@ sudo systing --duration 30 --output profile.systing -- ./program args
 sudo systing --duration 30 --output profile.systing --pid <pid>
 ```
 
-Build what you profile with frame pointers so systing's unwinder can walk the
-stack, and with symbols for readable frames:
+#### Flags
 
-```sh
-gcc -O2 -g -fno-omit-frame-pointer -o program program.c
-```
-
-### CLI flags
-
-| Flag                              | Default    | Description                                                        |
-| --------------------------------- | ---------- | ------------------------------------------------------------------ |
-| `--duration`                      | —          | Recording duration in seconds                                      |
-| `--output`                        | `trace.pb` | Output path; `.systing` selects the profile export this tool reads |
-| `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                      |
-| `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                  |
-| `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                    |
+| Flag                              | Default    | Description                                                      |
+| --------------------------------- | ---------- | ---------------------------------------------------------------- |
+| `--duration`                      | —          | Recording duration in seconds                                    |
+| `--output`                        | `trace.pb` | Output path, where `.systing` selects the export this tool reads |
+| `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                    |
+| `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                |
+| `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                  |
 
 ## Linux perf profiling
 
-[Linux `perf`](https://perfwiki.github.io/main/) samples any native program
-through the kernel's `perf_event` counters, across user and kernel code, and
+Samples the call stack through the kernel's own `perf_event` counters, across
+user and kernel code. Useful for finding CPU hot spots, including the ones in
+the kernel.
+
+[Linux `perf`](https://perfwiki.github.io/main/) samples any native program and
 writes `perf.data` itself. It needs a Linux kernel and a
 `/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
 below for kernel stacks).
@@ -220,6 +231,8 @@ gcc -O2 -g -fno-omit-frame-pointer -o program program.c    # C
 g++ -O2 -g -fno-omit-frame-pointer -o program program.cpp  # C++
 ```
 
+### CLI
+
 ```sh
 # Sample a command at 999 Hz, recording call chains
 perf record -F 999 -g -o perf.data -- ./program args
@@ -228,7 +241,7 @@ perf record -F 999 -g -o perf.data -- ./program args
 perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
 ```
 
-### CLI flags
+#### Flags
 
 | Flag           | Default     | Description                                                          |
 | -------------- | ----------- | -------------------------------------------------------------------- |
@@ -248,19 +261,20 @@ A `perf.data` file holds addresses rather than function names. See
 
 gperftools symbolizes addresses from the binary's and its shared libraries'
 symbol tables, so build and link what you profile with symbols (`-g`, not
-stripped). If the hot code lives in a stripped shared library, statically link
-an unstripped build instead.
+stripped). If the hot code is in a stripped shared library, statically link an
+unstripped build instead.
 
 ### Linking
 
-Modern toolchains link with `--as-needed` by default, which drops
-`-lprofiler`/`-ltcmalloc` when your program references no symbol from them,
-exactly the case when you enable profiling through environment variables instead
-of the programmatic API. Force the link with `-Wl,--no-as-needed`, or preload
-the library at runtime with `LD_PRELOAD`. The programmatic API (`ProfilerStart`,
+Modern toolchains link with `--as-needed` by default, so the linker drops
+`-lprofiler`/`-ltcmalloc` when the program references no symbol from them. That
+is the case when you enable profiling through environment variables instead of
+the programmatic API. Force the link with `-Wl,--no-as-needed`, or preload the
+library at runtime with `LD_PRELOAD`. The programmatic API (`ProfilerStart`,
 etc.) references the symbols, so plain `-lprofiler`/`-ltcmalloc` works there.
 
 ### Converting
 
-`pprof --proto` requires the Go `pprof`. gperftools's bundled Perl
-`pprof`/`google-pprof` has no protobuf output.
+`pprof --proto` requires the Go `pprof`. gperftools stopped shipping a `pprof`
+of its own in 2.17, and the Perl `pprof`/`google-pprof` that earlier releases
+and the distro packages built from them install has no protobuf output.

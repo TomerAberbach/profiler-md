@@ -1,7 +1,8 @@
 # JavaScript
 
-Profile JavaScript across Node.js, Deno, Bun, Chrome, and Safari, capturing CPU
-profiles, heap profiles, and heap snapshots in V8 and JavaScriptCore formats.
+JavaScript profiling uses the profilers built into Node.js, Deno, Bun, Chrome
+DevTools, and Safari's Web Inspector, which capture CPU profiles, heap profiles,
+and heap snapshots in the V8 and JavaScriptCore formats.
 
 ## CPU profiling
 
@@ -22,12 +23,16 @@ bun --cpu-prof script.ts
 
 #### Flags
 
-| Flag                       | Default                            | Description                                   |
-| -------------------------- | ---------------------------------- | --------------------------------------------- |
-| `--cpu-prof`               | —                                  | Write a CPU profile on exit; enabled when set |
-| `--cpu-prof-interval=<µs>` | `1000`                             | Sampling interval in microseconds             |
-| `--cpu-prof-dir=<dir>`     | `.`                                | Directory for the profile                     |
-| `--cpu-prof-name=<name>`   | `CPU.<timestamp>.<pid>.cpuprofile` | Filename for the profile                      |
+| Flag                       | Default   | Description                          |
+| -------------------------- | --------- | ------------------------------------ |
+| `--cpu-prof`               | —         | Write a CPU profile on exit when set |
+| `--cpu-prof-interval=<µs>` | `1000`    | Sampling interval in microseconds    |
+| `--cpu-prof-dir=<dir>`     | `.`       | Directory for the profile            |
+| `--cpu-prof-name=<name>`   | see below | Filename for the profile             |
+
+Node.js names the profile
+`CPU.<yyyymmdd>.<hhmmss>.<pid>.<tid>.<seq>.cpuprofile`, and Deno and Bun name it
+`CPU.<timestamp>.<pid>.cpuprofile`.
 
 ### Programmatic API
 
@@ -66,12 +71,15 @@ node --heap-prof script.js
 
 #### Flags
 
-| Flag                           | Default  | Description                                    |
-| ------------------------------ | -------- | ---------------------------------------------- |
-| `--heap-prof`                  | —        | Write a heap profile on exit; enabled when set |
-| `--heap-prof-interval=<bytes>` | `524288` | Sampling interval in bytes (default 512 KB)    |
-| `--heap-prof-dir=<dir>`        | `.`      | Directory for the profile                      |
-| `--heap-prof-name=<name>`      | —        | Filename for the profile                       |
+| Flag                           | Default   | Description                                 |
+| ------------------------------ | --------- | ------------------------------------------- |
+| `--heap-prof`                  | —         | Write a heap profile on exit when set       |
+| `--heap-prof-interval=<bytes>` | `524288`  | Sampling interval in bytes (default 512 KB) |
+| `--heap-prof-dir=<dir>`        | `.`       | Directory for the profile                   |
+| `--heap-prof-name=<name>`      | see below | Filename for the profile                    |
+
+Node.js names the profile
+`Heap.<yyyymmdd>.<hhmmss>.<pid>.<tid>.<seq>.heapprofile`.
 
 ### Programmatic API
 
@@ -82,13 +90,11 @@ import { Session } from 'node:inspector/promises'
 const session = new Session()
 session.connect()
 await session.post(`HeapProfiler.enable`)
-await session.post(`HeapProfiler.startSamplingHeapProfiler`, {
-  samplingInterval: 524_288,
-})
+await session.post(`HeapProfiler.startSampling`, { samplingInterval: 524_288 })
 
 // Code to profile...
 
-const { profile } = await session.post(`HeapProfiler.stopSamplingHeapProfiler`)
+const { profile } = await session.post(`HeapProfiler.stopSampling`)
 writeFileSync(`heap.heapprofile`, JSON.stringify(profile))
 ```
 
@@ -104,7 +110,7 @@ memory leaks.
 node --heapsnapshot-near-heap-limit=1 script.js
 
 # Trigger on signal
-node --heapsnapshot-signal=USR2 script.js  # then: kill -USR2 <pid>
+node --heapsnapshot-signal=SIGUSR2 script.js  # then: kill -USR2 <pid>
 
 # Bun (on exit)
 bun --heap-prof script.ts
@@ -115,15 +121,15 @@ bun --heap-prof script.ts
 | Flag                                 | Default | Description                                                |
 | ------------------------------------ | ------- | ---------------------------------------------------------- |
 | `--heapsnapshot-near-heap-limit=<n>` | —       | Write up to n snapshots when the heap approaches its limit |
-| `--heapsnapshot-signal=<signal>`     | —       | Signal that triggers a snapshot on demand (e.g. `USR2`)    |
+| `--heapsnapshot-signal=<signal>`     | —       | Signal that triggers a snapshot on demand (e.g. `SIGUSR2`) |
 
 #### Bun flags
 
-| Flag                      | Default | Description                                     |
-| ------------------------- | ------- | ----------------------------------------------- |
-| `--heap-prof`             | —       | Write a heap snapshot on exit; enabled when set |
-| `--heap-prof-dir=<dir>`   | `.`     | Directory for the snapshot                      |
-| `--heap-prof-name=<name>` | —       | Filename for the snapshot                       |
+| Flag                      | Default | Description                            |
+| ------------------------- | ------- | -------------------------------------- |
+| `--heap-prof`             | —       | Write a heap snapshot on exit when set |
+| `--heap-prof-dir=<dir>`   | `.`     | Directory for the snapshot             |
+| `--heap-prof-name=<name>` | —       | Filename for the snapshot              |
 
 ### Programmatic API
 
@@ -139,7 +145,7 @@ writeHeapSnapshot(`heap.heapsnapshot`)
 
 Bun also offers
 [`Bun.generateHeapSnapshot()`](https://bun.com/reference/bun/generateHeapSnapshot),
-which emits _both_ heap snapshot formats, selectable by argument:
+which emits both heap snapshot formats, selectable by argument:
 
 ```js
 import { generateHeapSnapshot } from 'bun'
@@ -212,7 +218,7 @@ deno run --inspect script.ts
 
 | Flag                           | Description                                                 |
 | ------------------------------ | ----------------------------------------------------------- |
-| `--inspect[=<host:port>]`      | Start the inspector; code runs immediately                  |
+| `--inspect[=<host:port>]`      | Start the inspector and run the code immediately            |
 | `--inspect-wait[=<host:port>]` | Wait for a debugger to attach before running                |
 | `--inspect-brk[=<host:port>]`  | Wait for a debugger to attach, then break on the first line |
 

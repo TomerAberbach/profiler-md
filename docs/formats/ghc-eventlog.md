@@ -7,8 +7,7 @@ and when: garbage collections and thread scheduling. A program compiled with
 `-prof` and run with `+RTS -p` adds one cost-centre sample per tick.
 
 A log opens with a header declaring every event type the runtime can write, each
-with its payload size, so a reader skips the events it does not handle, whatever
-version wrote them. The events follow, in the order they happened: the
+with its payload size. The events follow, in the order they happened: the
 cost-centre definitions the runtime writes at startup, then the samples
 referencing them.
 

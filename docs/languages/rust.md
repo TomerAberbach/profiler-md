@@ -14,8 +14,8 @@ Add to `Cargo.toml`:
 pprof = { version = "...", features = ["prost-codec", "frame-pointer"] }
 ```
 
-The `frame-pointer` feature is required on macOS (the default stack unwinder
-crashes with SIGBUS).
+The `frame-pointer` feature is required on macOS, because the default stack
+unwinder crashes with SIGBUS.
 
 ```rust
 use pprof::protos::Message;
@@ -35,16 +35,17 @@ std::fs::write("cpu.pprof", &buf)?;
 
 | Method               | Default | Description                              |
 | -------------------- | ------- | ---------------------------------------- |
-| `.frequency(hz)`     | `100`   | Samples per second                       |
+| `.frequency(hz)`     | `99`    | Samples per second                       |
 | `.blocklist(frames)` | `[]`    | Stack frames to exclude from the profile |
 
 ## System profiling
 
-[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler that
-samples on-CPU stacks and records a stack each time a thread sleeps, across user
-and kernel code. Useful when the question spans more than the process (off-CPU
-waits, syscall time, whole-node contention). It needs root (BPF) and a kernel
-with BTF (`/sys/kernel/btf/vmlinux`).
+Samples on-CPU stacks and records a stack each time a thread sleeps, across user
+and kernel code. Useful for costs outside the process: off-CPU waits, syscall
+time, and contention across the whole node.
+
+[systing](https://github.com/josefbacik/systing) is a Linux eBPF profiler. It
+needs root (BPF) and a kernel with BTF (`/sys/kernel/btf/vmlinux`).
 
 ```sh
 # Record a command (and its children) for 30 seconds
@@ -55,8 +56,8 @@ sudo systing --duration 30 --output profile.systing -- ./target/release/program
 
 ### Frame pointers
 
-Frame-pointer unwinders walk the stack via frame pointers, which Cargo release
-builds omit by default. Force them on:
+A frame-pointer unwinder needs frame pointers, which Cargo release builds omit
+by default. Force them on:
 
 ```sh
 RUSTFLAGS="-C force-frame-pointers=yes" cargo build ...

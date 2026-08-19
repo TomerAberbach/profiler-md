@@ -12,17 +12,12 @@ the bytes the program allocated, and the times it entered the stack.
 
 Ticks and allocation are measured differently, so each converts to its own
 profile. A tick is one sample of the time profile, taken every millisecond by
-default. The tick timer runs on real time and samples every capability whether
-or not it is running Haskell, so the time profile measures wall time and
-attributes the ticks sampled while the program had no work to the built-in
-`IDLE` cost centre.
+default. The tick timer samples every capability whether or not it is running
+Haskell, so the time profile measures wall time and attributes the idle ticks to
+the built-in `IDLE` cost centre. The runtime counts bytes and entries exactly
+and independently, so the allocation profile reports both as measured quantities
+and states no rate.
 
-The runtime counts bytes and entries exactly, and counts them independently: a
-cost-centre stack the program entered no times still allocates, and one it
-entered many times may allocate nothing. The allocation profile therefore
-reports both as measured quantities and states no rate.
+It supports multiple metrics per profile and a single report per file.
 
-It supports a single report per file.
-
-Files use the `.prof` extension, named after the program as `<program>.prof`,
-the same name the runtime uses for the text report.
+Files use the `.prof` extension, named after the program as `<program>.prof`.
