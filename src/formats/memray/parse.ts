@@ -71,11 +71,17 @@ export const MEMRAY_MAGIC = Uint8Array.from([
 ])
 
 /**
- * The capture version memray writes, bumped whenever the record encoding
- * changes. Memray itself refuses any other version, so a capture written by a
- * version this parser doesn't know is rejected rather than misread.
+ * The capture versions memray writes, bumped whenever the header or record
+ * encoding changes. Memray refuses any other version, so this parser rejects a
+ * capture written by a version it doesn't know rather than misreading it.
+ *
+ * Memray 1.19 writes version 12, and 1.20 writes version 13, whose header ends
+ * with the traced process's module search paths.
  */
-const SUPPORTED_VERSION = 12
+const SUPPORTED_VERSIONS = [12, 13] as const
+
+/** The first version whose header ends with the module search paths. */
+const SEARCH_PATHS_VERSION = 13
 
 /**
  * Which records a capture holds: every allocation, or the per-stack totals
@@ -120,9 +126,9 @@ const readHeader = (reader: ByteReader): MemrayHeader => {
   }
 
   const version = reader.int32()
-  if (version !== SUPPORTED_VERSION) {
+  if (!(SUPPORTED_VERSIONS as readonly number[]).includes(version)) {
     throw new FormatParseError(
-      `unsupported version ${version}, expected ${SUPPORTED_VERSION}, written by memray 1.19 and later`,
+      `unsupported version ${version}, expected ${SUPPORTED_VERSIONS.join(` or `)}, written by memray 1.19 and 1.20`,
     )
   }
 
@@ -142,12 +148,30 @@ const readHeader = (reader: ByteReader): MemrayHeader => {
   reader.skip(1) // Whether Python allocators were traced
   reader.skip(1) // Whether object lifetimes were tracked
 
+  if (version >= SEARCH_PATHS_VERSION) {
+    skipSearchPaths(reader)
+  }
+
   return {
     pythonVersion,
     nativeTraces,
     fileFormat,
     mainThreadId,
     skippedFramesOnMainThread,
+  }
+}
+
+/**
+ * Skips the traced process's module search paths: the install destination,
+ * then the site-packages directories and the `sys.path` entries, each list
+ * terminated by an empty string. Only memray's reporters read them.
+ */
+const skipSearchPaths = (reader: ByteReader): void => {
+  reader.string() // Install destination
+  for (let list = 0; list < 2; list++) {
+    while (reader.string() !== ``) {
+      // Advance to the empty string terminating the list.
+    }
   }
 }
 

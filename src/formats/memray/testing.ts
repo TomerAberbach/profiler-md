@@ -248,7 +248,10 @@ export const MAIN_THREAD_ID = 1000
 /** CPython 3.11, whose location table encoding the parser reads by default. */
 const PYTHON_3_11 = 0x03_0b_00_00
 
-const CURRENT_VERSION = 12
+const CURRENT_VERSION = 13
+
+/** The first version whose header ends with the module search paths. */
+const SEARCH_PATHS_VERSION = 13
 
 /** The running values a writer delta-encodes against, mirroring the reader's. */
 class WriterState {
@@ -295,6 +298,14 @@ const writeHeader = (
   writer.byte(1) // The Python allocator, pymalloc
   writer.byte(0) // Whether Python allocators were traced
   writer.byte(0) // Whether object lifetimes were tracked
+
+  if (version >= SEARCH_PATHS_VERSION) {
+    writer.string(`/usr/lib/python3.11`) // Install destination
+    writer.string(`/usr/lib/python3.11/site-packages`)
+    writer.string(``) // Ends the site-packages list
+    writer.string(`/usr/lib/python3.11`)
+    writer.string(``) // Ends the sys.path list
+  }
 }
 
 const writeCodeObject = (

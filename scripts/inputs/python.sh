@@ -8,7 +8,10 @@ cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
 PY_SPY_VERSION="0.4.0"
-MEMRAY_VERSION="1.19.3"
+# memray 1.19 writes capture version 12 and 1.20 writes version 13, so the
+# captures cover both header versions the parser reads.
+MEMRAY_V12_VERSION="1.19.3"
+MEMRAY_V13_VERSION="1.20.0"
 PYINSTRUMENT_VERSION="5.1.3"
 BLACK_VERSION="24.8.0"
 
@@ -99,17 +102,25 @@ run_memray_for_role() {
         https://github.com/psf/black /src/black
 
       python3 -m venv /venv
-      /venv/bin/pip install --quiet "memray==$MEMRAY_VERSION"
+      /venv/bin/pip install --quiet "memray==$MEMRAY_V12_VERSION"
       /venv/bin/pip install --quiet -e /src/black
+
+      # Each memray release needs its own environment because it installs its
+      # own extension module.
+      python3 -m venv /venv13
+      /venv13/bin/pip install --quiet "memray==$MEMRAY_V13_VERSION"
+      /venv13/bin/pip install --quiet -e /src/black
 
       # Each capture formats a fresh copy of the input so Black always has work.
       cap() {
         cp /out/_pydecimal.py /tmp/work.py
-        /venv/bin/memray run --force -o "$1" "${@:2}" -m black /tmp/work.py
+        "$1"/bin/memray run --force -o "$2" "${@:3}" -m black /tmp/work.py
       }
-      cap /out/default.memray.bin
-      cap /out/aggregated.memray.bin --aggregate
-    ' -e MEMRAY_VERSION="$MEMRAY_VERSION" \
+      cap /venv /out/default.memray.bin
+      cap /venv /out/aggregated.memray.bin --aggregate
+      cap /venv13 /out/v13.memray.bin
+    ' -e MEMRAY_V12_VERSION="$MEMRAY_V12_VERSION" \
+    -e MEMRAY_V13_VERSION="$MEMRAY_V13_VERSION" \
     -e BLACK_VERSION="$BLACK_VERSION" || return 1
 
   memray_rundir[$role]=$dir
@@ -197,6 +208,8 @@ for role in base current; do
     copy_memray_capture "$role" default.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.aggregated.$role.memray.bin" \
     copy_memray_capture "$role" aggregated.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.v13.$role.memray.bin" \
+    copy_memray_capture "$role" v13.memray.bin
   try emit "$GENERATED_INPUTS/python.pyinstrument.$role.speedscope.json" \
     copy_pyinstrument_profile "$role" default.speedscope.json
 done
