@@ -28,9 +28,19 @@ const openOutput = async (outputPath: string): Promise<Output> => {
     return {
       write: text =>
         new Promise((resolve, reject) => {
-          process.stdout.write(text, error =>
-            error ? reject(error) : resolve(),
-          )
+          // A reader such as `head` can close the pipe before the write
+          // finishes, failing the write with `EPIPE` and emitting an `error`
+          // event that would otherwise go unhandled. A closed pipe is a normal
+          // exit.
+          const finish = (error?: NodeJS.ErrnoException | null) => {
+            if (!error || error.code === `EPIPE`) {
+              resolve()
+            } else {
+              reject(error)
+            }
+          }
+          process.stdout.on(`error`, finish)
+          process.stdout.write(text, finish)
         }),
     }
   }
