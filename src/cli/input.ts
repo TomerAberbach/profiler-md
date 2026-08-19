@@ -1,4 +1,4 @@
-import { openAsBlob } from 'node:fs'
+import { createReadStream, openAsBlob } from 'node:fs'
 import { stat } from 'node:fs/promises'
 import type { Transform } from 'node:stream'
 import { blob } from 'node:stream/consumers'
@@ -13,8 +13,8 @@ export const openInputAsBlob = async (
 const openRawInputAsBlob = async (
   filePath: string | undefined,
 ): Promise<Blob> => {
-  if (!filePath) {
-    return blob(process.stdin)
+  if (!filePath || STDIN_PATHS.has(filePath)) {
+    return await readStreamAsBlob(process.stdin, filePath ?? `stdin`)
   }
 
   // `openAsBlob` reports every failure as `Unable to open file as blob`, so
@@ -35,11 +35,39 @@ const openRawInputAsBlob = async (
   if (stats.isDirectory()) {
     throw new CliError(`cannot read ${filePath}: is a directory`, 1)
   }
+  // `openAsBlob` takes the content length from the file's size. For a pipe,
+  // terminal, or socket that size is the bytes currently buffered, not the
+  // total the stream produces, so reading one returns a truncated blob or
+  // fails.
+  if (!stats.isFile()) {
+    return await readStreamAsBlob(createReadStream(filePath), filePath)
+  }
 
   try {
     return await openAsBlob(filePath)
   } catch (error) {
     throw new CliError(`cannot read ${filePath}: ${reasonOf(error)}`, 1, {
+      cause: error,
+    })
+  }
+}
+
+/**
+ * The paths that name the process's own standard input.
+ *
+ * Opening one of these paths creates a second descriptor on the same pipe, and
+ * reads on it fail with `EAGAIN`, so read `process.stdin` instead.
+ */
+const STDIN_PATHS = new Set([`-`, `/dev/stdin`, `/dev/fd/0`, `/proc/self/fd/0`])
+
+const readStreamAsBlob = async (
+  stream: NodeJS.ReadableStream,
+  source: string,
+): Promise<Blob> => {
+  try {
+    return await blob(stream)
+  } catch (error) {
+    throw new CliError(`cannot read ${source}: ${reasonOf(error)}`, 1, {
       cause: error,
     })
   }

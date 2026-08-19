@@ -1,16 +1,10 @@
-import { spawn } from 'node:child_process'
-import {
-  closeSync,
-  mkdtempSync,
-  openSync,
-  readFileSync,
-  readSync,
-  rmSync,
-  writeFileSync,
-} from 'node:fs'
+import { execFile, spawn } from 'node:child_process'
+import { createWriteStream } from 'node:fs'
+import { mkdtemp, open, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { brotliCompressSync, gzipSync } from 'node:zlib'
+import { promisify } from 'node:util'
+import { brotliCompress, gzip } from 'node:zlib'
 import { expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import {
@@ -31,14 +25,18 @@ const inputFilenames = injectedInputs()
 // samples (e.g. a lock profile that saw no contention) — the no-data message.
 const MARKDOWN_OR_NO_DATA = /^(?:# |No profiling data found\.)/u
 
+const gzipAsync = promisify(gzip)
+const brotliCompressAsync = promisify(brotliCompress)
+const execFileAsync = promisify(execFile)
+
 /** Whether a file starts with the gzip magic number. */
-const isGzipped = (filename: string): boolean => {
+const isGzipped = async (filename: string): Promise<boolean> => {
   const magic = Buffer.alloc(2)
-  const file = openSync(inputPath(filename), `r`)
+  const file = await open(inputPath(filename), `r`)
   try {
-    readSync(file, magic, 0, 2, 0)
+    await file.read(magic, 0, 2, 0)
   } finally {
-    closeSync(file)
+    await file.close()
   }
   return magic[0] === 0x1f && magic[1] === 0x8b
 }
@@ -50,9 +48,10 @@ const isGzipped = (filename: string): boolean => {
  * format and origin suites already run over every committed input, so spawning
  * the CLI for each one would repeat gigabytes of conversion in a subprocess.
  */
+const gzippedInputs = await Promise.all(inputFilenames.map(isGzipped))
 const cliInputFilenames = [true, false].flatMap(gzipped =>
   smallestInput(
-    inputFilenames.filter(filename => isGzipped(filename) === gzipped),
+    inputFilenames.filter((_, index) => gzippedInputs[index] === gzipped),
   ),
 )
 
@@ -74,7 +73,8 @@ if (cliInputFilenames.length > 0) {
 if (format === undefined) {
   // One input is enough to exercise these general flags.
   const cpuProfilePath = inputPath(`javascript.node.base.cpuprofile`)
-  const cpuProfileContent = readFileSync(cpuProfilePath)
+  const cpuProfileContent = await readFile(cpuProfilePath)
+  const expectedCpuProfileMarkdown = /^# CPU profile/u
 
   test.concurrent(
     `--version prints the version to stdout and no logo without a TTY`,
@@ -94,11 +94,42 @@ if (format === undefined) {
     expect(stdout).toMatch(/^# /u)
   })
 
+  test.concurrent.each([`-`, `/dev/stdin`, `/dev/fd/0`])(
+    `reads a piped profile from %s`,
+    async path => {
+      const { status, stdout } = await runCli([path], cpuProfileContent)
+
+      expect(status).toBe(0)
+      expect(stdout).toMatch(expectedCpuProfileMarkdown)
+    },
+  )
+
+  test.concurrent(`reads a profile from a named pipe`, async () => {
+    const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+    const pipePath = join(dir, `javascript.node.base.cpuprofile`)
+    await execFileAsync(`mkfifo`, [pipePath])
+
+    // Opening the pipe for writing resolves once the CLI opens it for reading,
+    // so start the CLI first.
+    const cliPromise = runCli([pipePath])
+    const writer = createWriteStream(pipePath)
+    // A failed CLI run leaves the pipe unread, so the write fails with
+    // `EPIPE`. The assertions below report that failure.
+    writer.on(`error`, () => {})
+    writer.end(cpuProfileContent)
+    const { status, stdout } = await cliPromise
+
+    expect(status).toBe(0)
+    expect(stdout).toMatch(expectedCpuProfileMarkdown)
+
+    await rm(dir, { recursive: true })
+  })
+
   test.concurrent.each([`--output`, `-o`])(
     `writes output to a file with %s`,
     async flag => {
       const tempPath = join(
-        mkdtempSync(join(tmpdir(), `profiler-md-`)),
+        await mkdtemp(join(tmpdir(), `profiler-md-`)),
         `out.md`,
       )
 
@@ -106,9 +137,9 @@ if (format === undefined) {
 
       expect(status).toBe(0)
       expect(stdout).toBe(``)
-      expect(readFileSync(tempPath, `utf8`)).toMatch(/^# /u)
+      expect(await readFile(tempPath, `utf8`)).toMatch(/^# /u)
 
-      rmSync(tempPath, { recursive: true })
+      await rm(tempPath, { recursive: true })
     },
   )
 
@@ -323,28 +354,29 @@ if (format === undefined) {
     },
   )
 
-  const expectedCpuProfileMarkdown = /^# CPU profile/u
-
   test.concurrent.each([
-    { compression: `gzip`, compress: gzipSync, ext: `.gz` },
-    { compression: `brotli`, compress: brotliCompressSync, ext: `.br` },
+    { compression: `gzip`, compress: gzipAsync, ext: `.gz` },
+    { compression: `brotli`, compress: brotliCompressAsync, ext: `.br` },
   ])(`auto-decompresses a $compression file`, async ({ compress, ext }) => {
-    const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
+    const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
     const path = join(dir, `javascript.node.base.cpuprofile${ext}`)
-    writeFileSync(path, compress(cpuProfileContent))
+    await writeFile(path, await compress(cpuProfileContent))
 
     const { status, stdout } = await runCli([path])
 
     expect(status).toBe(0)
     expect(stdout).toMatch(expectedCpuProfileMarkdown)
 
-    rmSync(dir, { recursive: true })
+    await rm(dir, { recursive: true })
   })
 
   // Only gzip is detectable from stdin, where there is no extension, since it
   // has a magic-number header and brotli does not.
   test.concurrent(`auto-decompresses gzip from stdin`, async () => {
-    const { status, stdout } = await runCli([], gzipSync(cpuProfileContent))
+    const { status, stdout } = await runCli(
+      [],
+      await gzipAsync(cpuProfileContent),
+    )
 
     expect(status).toBe(0)
     expect(stdout).toMatch(expectedCpuProfileMarkdown)
@@ -353,13 +385,13 @@ if (format === undefined) {
   test.concurrent(
     `--source-maps applies source maps to profile locations`,
     async () => {
-      const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
       const sourceMapPath = join(dir, `tsc-workload.mjs.map`)
       // Maps the `typeCheckProject` frame in the node CPU profile input
       // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
       // col 0.
       const mappings = `${`;`.repeat(2)}gCAAA`
-      writeFileSync(
+      await writeFile(
         sourceMapPath,
         JSON.stringify({
           version: 3,
@@ -380,14 +412,14 @@ if (format === undefined) {
       expect(stdout).toContain(`/mapped/original.ts`)
       expect(stdout).not.toContain(dir)
 
-      rmSync(dir, { recursive: true })
+      await rm(dir, { recursive: true })
     },
   )
 
   test.concurrent(
     `--source-maps applies inline source maps from files`,
     async () => {
-      const dir = mkdtempSync(join(tmpdir(), `profiler-md-`))
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
       // Maps the `typeCheckProject` frame in the node CPU profile input
       // (tsc-workload.mjs line 2 col 32, 0-based) to /mapped/original.ts line 1
       // col 0.
@@ -401,7 +433,7 @@ if (format === undefined) {
       })
       const base64 = Buffer.from(sourceMap).toString(`base64`)
       const jsPath = join(dir, `index.js`)
-      writeFileSync(
+      await writeFile(
         jsPath,
         `var x = 1;\n//# sourceMappingURL=data:application/json;base64,${base64}\n`,
       )
@@ -415,7 +447,7 @@ if (format === undefined) {
       expect(status).toBe(0)
       expect(stdout).toContain(`/mapped/original.ts`)
 
-      rmSync(dir, { recursive: true })
+      await rm(dir, { recursive: true })
     },
   )
 
@@ -611,6 +643,9 @@ const runCli = (args: string[], input?: string | Uint8Array) =>
         }),
       )
 
+      // A failed CLI run leaves stdin unread, so the write fails with
+      // `EPIPE`. The assertions in each test report that failure.
+      child.stdin.on(`error`, () => {})
       child.stdin.end(input)
     },
   )
