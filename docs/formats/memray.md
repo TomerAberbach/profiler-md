@@ -25,5 +25,6 @@ Python frames.
 
 It supports a single byte metric per profile and multiple profiles per file.
 
-Files use the `.bin` extension. This tool reads only capture version 12, which
-memray 1.19 writes.
+Files use the `.bin` extension. This tool reads capture versions 12 and 13,
+written by memray 1.19 and 1.20. In version 13 the header ends with the traced
+process's module search paths, and the records are encoded as in version 12.

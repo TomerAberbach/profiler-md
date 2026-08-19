@@ -101,8 +101,8 @@ describe(`matches`, () => {
   })
 
   test(`parse reports a capture version it can't read`, () => {
-    expect(() => parseMemray(makeMemray({ version: 11, records: [] }))).toThrow(
-      `unsupported version 11`,
+    expect(() => parseMemray(makeMemray({ version: 14, records: [] }))).toThrow(
+      `unsupported version 14`,
     )
   })
 
@@ -175,6 +175,30 @@ describe(`matches`, () => {
 })
 
 describe(`convert`, () => {
+  test(`reads both capture versions the same way`, () => {
+    // In version 13 the header ends with the traced process's module search
+    // paths, and the records are encoded as in version 12.
+    const records = [
+      { type: `thread`, threadId: MAIN_THREAD_ID },
+      { type: `push`, codeObjectId: 1 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
+    ] as const
+    const version12 = makeMemray({
+      version: 12,
+      codeObjects: CODE_OBJECTS,
+      records: [...records],
+    })
+    const version13 = makeMemray({
+      version: 13,
+      codeObjects: CODE_OBJECTS,
+      records: [...records],
+    })
+
+    expect(convertBytesToMd(memrayConverter, version13, options())).toEqual(
+      convertBytesToMd(memrayConverter, version12, options()),
+    )
+  })
+
   test(`measures the memory live at the peak and at the end`, () => {
     const md = convertBytesToMd(memrayConverter, risesThenFalls, options())
 
