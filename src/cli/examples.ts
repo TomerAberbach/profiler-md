@@ -77,6 +77,7 @@ const isOrigin = (token: string): token is Origin =>
   (origins as string[]).includes(token)
 
 const configNames: Record<string, string> = {
+  [`all-allocations`]: `all allocations`,
   cpu: `CPU`,
   [`cpu-trimpath`]: `CPU (-trimpath)`,
   goroutineleak: `goroutine leak`,

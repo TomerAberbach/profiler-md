@@ -62,6 +62,14 @@ and reducing GC pressure.
 `bun --heap-prof` generates a V8 heap _snapshot_ on exit, not a heap _profile_.
 Deno has no equivalent.
 
+The profiler reports only the sampled objects still alive when the profile is
+written, so a workload that frees most of what it allocates leaves few samples.
+`HeapProfiler.startSampling` takes `includeObjectsCollectedByMajorGC` and
+`includeObjectsCollectedByMinorGC`, which keep the objects a major or a minor
+garbage collection freed. Set both to profile allocation hot spots, and leave
+them off to profile what stays in memory. `--heap-prof` sets neither and has no
+flag for them, so use the programmatic API to set them.
+
 ### CLI
 
 ```sh
@@ -90,7 +98,11 @@ import { Session } from 'node:inspector/promises'
 const session = new Session()
 session.connect()
 await session.post(`HeapProfiler.enable`)
-await session.post(`HeapProfiler.startSampling`, { samplingInterval: 524_288 })
+await session.post(`HeapProfiler.startSampling`, {
+  samplingInterval: 524_288,
+  includeObjectsCollectedByMajorGC: true,
+  includeObjectsCollectedByMinorGC: true,
+})
 
 // Code to profile...
 
