@@ -272,22 +272,17 @@ describe(`makeFileReference`, () => {
     })
   })
 
-  test.each([
-    [`empty string`, ``],
-    [`unknown`, `unknown`],
-    [`uppercase UNKNOWN`, `UNKNOWN`],
-    [`mixed-case Unknown`, `Unknown`],
-    [`nothing`, `nothing`],
-    [`single question mark`, `?`],
-    [`multiple question marks`, `???`],
-  ])(`returns undefined for %s`, (_label, urlOrPath) => {
-    expect(makeFileReference(urlOrPath)).toBeUndefined()
+  test(`returns undefined for an empty string`, () => {
+    expect(makeFileReference(``)).toBeUndefined()
   })
 
-  test.each([[`unknown.ts`], [`/src/nothing.ts`], [`a?b`]])(
-    `does not treat %s as unknown`,
+  test.each([[`unknown`], [`nothing`], [`???`]])(
+    `keeps the placeholder %s an origin did not drop`,
     urlOrPath => {
-      expect(makeFileReference(urlOrPath)).toBeDefined()
+      expect(makeFileReference(urlOrPath)).toStrictEqual({
+        type: `relative`,
+        path: urlOrPath,
+      })
     },
   )
 })
@@ -328,26 +323,19 @@ describe(`makeSourceLocation`, () => {
     expect(makeSourceLocation(undefined)).toBeUndefined()
   })
 
-  test(`returns undefined when the path is unknown`, () => {
-    expect(
-      makeSourceLocation({ type: `file`, urlOrPath: `unknown` }),
-    ).toBeUndefined()
+  test(`returns undefined when the file reference is empty`, () => {
+    expect(makeSourceLocation({ type: `file`, urlOrPath: `` })).toBeUndefined()
   })
 
-  test.each([[``], [`?`], [`???`]])(
-    `returns undefined when the logical name is %j`,
-    logicalName => {
-      expect(
-        makeSourceLocation({ type: `logical`, name: logicalName }),
-      ).toBeUndefined()
-    },
-  )
+  test(`returns undefined when the logical reference is empty`, () => {
+    expect(makeSourceLocation({ type: `logical`, name: `` })).toBeUndefined()
+  })
 
   test.each([[`unknown`], [`Unknown`], [`nothing`]])(
-    `keeps the file-path unknown sentinel %j as a logical name`,
+    `keeps %j as a logical name`,
     logicalName => {
       // A class or module can have these names (a default-package class, an
-      // Erlang module), unlike a file path.
+      // Erlang module).
       expect(
         makeSourceLocation({ type: `logical`, name: logicalName }),
       ).toStrictEqual({

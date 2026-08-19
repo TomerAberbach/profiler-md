@@ -98,6 +98,109 @@ docker_capture() {
     bash -euo pipefail -c "$script"
 }
 
+# Debian publishes the image's SHA-512 `3622c990…`. fetch_asset takes a
+# SHA-256, so the one here is of the same bytes.
+X86_64_VM_IMAGE_RELEASE="20260806-2562"
+X86_64_VM_IMAGE="$REPO/scripts/inputs/assets/shared/debian-12-genericcloud-amd64-$X86_64_VM_IMAGE_RELEASE.qcow2"
+X86_64_VM_IMAGE_URL="https://cloud.debian.org/images/cloud/bookworm/$X86_64_VM_IMAGE_RELEASE/debian-12-genericcloud-amd64-$X86_64_VM_IMAGE_RELEASE.qcow2"
+X86_64_VM_IMAGE_SHA256="c80ccbf6989915e8b6b1aee15d5b019090b562cc4bc7d2bf96b06e2e1b6badb4"
+
+# An ephemeral host with a throwaway key, so its host key is neither checked
+# nor recorded.
+_vm_ssh_options=(-q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null)
+_vm_pid=""
+_vm_port=""
+_vm_key=""
+
+_vm_stop() {
+  [[ -n "$_vm_pid" ]] || return 0
+  kill "$_vm_pid" 2>/dev/null || true
+  wait "$_vm_pid" 2>/dev/null || true
+  _vm_pid=""
+}
+
+_vm_ssh() {
+  ssh "${_vm_ssh_options[@]}" -i "$_vm_key" -p "$_vm_port" "prof@127.0.0.1" "$@"
+}
+
+_vm_start() {
+  local dir="$WORKDIR/x86_64-vm" seed
+  fetch_asset "Debian 12 x86_64 cloud image" \
+    "$X86_64_VM_IMAGE_URL" "$X86_64_VM_IMAGE_SHA256" "$X86_64_VM_IMAGE" || return 1
+  mkdir -p "$dir/seed" || return 1
+
+  _vm_key="$dir/id_ed25519"
+  ssh-keygen -q -t ed25519 -N "" -f "$_vm_key" || return 1
+  printf 'instance-id: profiler-md\nlocal-hostname: profiler-md\n' >"$dir/seed/meta-data" || return 1
+  printf '#cloud-config\nusers:\n  - name: prof\n    sudo: ALL=(ALL) NOPASSWD:ALL\n    shell: /bin/bash\n    ssh_authorized_keys:\n      - %s\n' \
+    "$(cat "$_vm_key.pub")" >"$dir/seed/user-data" || return 1
+  # The seed is a virtio disk labeled `cidata`, since the cloud kernel lacks a
+  # driver for the emulated SATA CD-ROM.
+  seed="$dir/seed.iso"
+  mkisofs -quiet -output "$seed" -volid cidata -joliet -rock \
+    "$dir/seed/user-data" "$dir/seed/meta-data" || return 1
+  # The overlay disk keeps the cached image unchanged.
+  qemu-img create -q -f qcow2 -b "$X86_64_VM_IMAGE" -F qcow2 "$dir/disk.qcow2" 8G || return 1
+
+  _vm_port="$(python3 -c 'import socket; s = socket.socket(); s.bind(("127.0.0.1", 0)); print(s.getsockname()[1])')" || return 1
+  notice "Booting the x86_64 VM (emulated, so slow)"
+  # macOS lacks KVM, so TCG.
+  qemu-system-x86_64 -machine q35 -accel tcg,thread=multi -cpu max -smp 4 -m 2048 \
+    -drive "file=$dir/disk.qcow2,if=virtio" \
+    -drive "file=$seed,if=virtio,format=raw,readonly=on" \
+    -netdev "user,id=net,hostfwd=tcp:127.0.0.1:$_vm_port-:22" -device virtio-net-pci,netdev=net \
+    -display none -monitor none -serial "file:$dir/console.log" >"$dir/qemu.log" 2>&1 &
+  _vm_pid=$!
+
+  local attempt
+  for attempt in $(seq 1 60); do
+    if _vm_ssh -o ConnectTimeout=3 true 2>/dev/null; then
+      return 0
+    fi
+    if ! kill -0 "$_vm_pid" 2>/dev/null; then
+      echo "  QEMU exited before SSH came up; see $(rel "$dir/qemu.log")" >&2
+      _vm_pid=""
+      return 1
+    fi
+    sleep 5
+  done
+  echo "  TIMED OUT waiting for SSH to the VM; see $(rel "$dir/console.log")" >&2
+  _vm_stop
+  return 1
+}
+
+# x86_64_vm_capture <out_dir> <guest_script> [VAR=value...]
+#   Runs <guest_script> as root under `bash -euo pipefail` in an x86_64 Debian
+#   VM. Copies <out_dir> to /out in the guest before the script and back after
+#   it, and exports each VAR=value to the script.
+#   A profiler that drops privileges runs the program it profiles as the SSH
+#   user, so give that program world-readable inputs.
+#   Full-system emulation is slow: budget minutes per capture, and sample at a
+#   lower rate to keep the sample count comparable.
+#
+#   Boots one VM per generate-inputs run and reuses it across calls.
+x86_64_vm_capture() {
+  local outdir=$1 script=$2
+  shift 2
+  if [[ -z "$_vm_pid" ]]; then
+    _vm_start || return 1
+  fi
+
+  local exports="" assignment
+  for assignment in "$@"; do
+    exports+="export $(printf '%q' "$assignment")"$'\n'
+  done
+
+  # The script is sent as a file, since a script read from stdin shares the
+  # stream with every command it runs.
+  printf '%s%s' "$exports" "$script" >"$WORKDIR/x86_64-vm/capture.sh" || return 1
+  _vm_ssh "sudo rm -rf /out && sudo mkdir -p /out && sudo chown prof /out" || return 1
+  scp "${_vm_ssh_options[@]}" -i "$_vm_key" -P "$_vm_port" -r \
+    "$WORKDIR/x86_64-vm/capture.sh" "$outdir/." "prof@127.0.0.1:/out/" || return 1
+  _vm_ssh "sudo bash -euo pipefail /out/capture.sh && sudo rm /out/capture.sh" || return 1
+  scp "${_vm_ssh_options[@]}" -i "$_vm_key" -P "$_vm_port" -r "prof@127.0.0.1:/out/." "$outdir/" || return 1
+}
+
 # Decides whether to generate an output. Returns 0 to proceed or 1 to skip.
 should_generate() {
   local out=$1
@@ -179,7 +282,7 @@ verify_pairs() {
 
 # A scratch directory for clones and builds, cleaned up on exit.
 WORKDIR="$(mktemp -d "${TMPDIR:-/tmp}/profiler-md-input-generation.XXXXXX")"
-cleanup_workdir() { rm -rf "$WORKDIR"; }
+cleanup_workdir() { _vm_stop; rm -rf "$WORKDIR"; }
 trap cleanup_workdir EXIT
 
 # Abort the whole script on Ctrl+C / SIGTERM. Without this, captures wrapped in

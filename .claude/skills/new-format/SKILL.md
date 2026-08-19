@@ -87,7 +87,11 @@ $ARGUMENTS
      way, rename it here to the label the shared categorization already has (see
      `VM_STATE_FRAME_NAMES` in `src/formats/v8/heap-profile/parse.ts`) rather
      than widening `FunctionCategory`, whose members must hold across languages
-     (see the categorizing principles in `CLAUDE.md`)
+     (see the categorizing principles in `CLAUDE.md`). Omit a field the format
+     fills with a placeholder for missing information (a name, path, or line
+     standing for "not known") instead of storing the literal. Omit a
+     placeholder the format defines here, and one a single profiler substitutes
+     in its origin's `normalizeStackFrame`
      - A call stack profile parses into a `CallStackProfile` (frames, metrics,
        count metric, lazily-generated observations; see
        `src/modalities/call-stack-profile/type.ts`). Take metrics from the named

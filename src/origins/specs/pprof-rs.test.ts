@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
 import { matchEntryForOrigin } from '../index.ts'
 import { absoluteEntry, determineOrigin, relativeEntry } from '../testing.ts'
@@ -18,6 +19,28 @@ describe(`detection`, () => {
     expect(determineOrigin({ format: `pprof`, entries: [entry] })).toBe(
       `pprof-rs`,
     )
+  })
+})
+
+describe(`normalizeStackFrame`, () => {
+  const { normalizeStackFrame } = pprofRsOriginSpec
+
+  test(`drops the Unknown placeholder path`, () => {
+    expect(
+      normalizeStackFrame({
+        name: `_main`,
+        location: { type: `file`, urlOrPath: `Unknown` },
+      }),
+    ).toEqual({ name: `_main` })
+  })
+
+  test(`leaves a located frame unchanged`, () => {
+    const input: StackFrame = {
+      name: `compiler::run`,
+      location: { type: `file`, urlOrPath: `src/compiler.rs` },
+    }
+
+    expect(normalizeStackFrame(input)).toBe(input)
   })
 })
 

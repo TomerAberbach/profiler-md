@@ -2,6 +2,7 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
+import { placeholderPathNormalizer } from '../origin.ts'
 import type { OriginSpec } from '../origin.ts'
 
 /**
@@ -27,11 +28,16 @@ export const pprofJlOriginSpec = {
     juliaRuntimeNativeCategory(entry) ??
     locationlessCategory(entry) ??
     `ours`,
-  // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
-  // pseudo-frame. It isn't a function: dropping it returns each sample's
-  // self value to the function that allocated.
-  normalizeStackFrame: input =>
-    input.name?.startsWith(`Alloc: `) === true ? null : input,
+  normalizeStackFrame: input => {
+    // The allocation profiler wraps each sample in an `Alloc: <Type>` leaf
+    // pseudo-frame. It isn't a function: dropping it returns each sample's
+    // self value to the function that allocated.
+    if (input.name?.startsWith(`Alloc: `) === true) {
+      return null
+    }
+
+    return dropPlaceholderPath(input)
+  },
 } as const satisfies OriginSpec
 
 /**
@@ -76,3 +82,13 @@ const juliaRuntimeNativeCategory = ({
     : undefined
 
 const JULIA_NATIVE_SOURCE = /\.(?:c|cpp|h|S|dylib|so|dll)[\d.]*$/u
+
+/**
+ * The path PProf.jl writes for a frame whose source file it cannot find:
+ * `Base.find_source_file` returns `nothing`, which its string table stores
+ * as the literal `nothing`, e.g. for a closure the runtime compiled from an
+ * expression with no file.
+ */
+const UNKNOWN_PATHS: ReadonlySet<string> = new Set([`nothing`])
+
+const dropPlaceholderPath = placeholderPathNormalizer(UNKNOWN_PATHS)

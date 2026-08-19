@@ -74,6 +74,61 @@ run_for_role() {
   rundir[$role]=$dir
 }
 
+# py-spy unwinds native stacks (`--native`) on x86_64 Linux only, and reads a
+# single bogus address from a process Rosetta emulates, so the native captures
+# run in the emulated x86_64 VM. They record the C frames between the Python
+# ones: Black's mypyc-compiled modules, libc, and the frames py-spy cannot
+# symbolicate, which it writes with the path `?`. Emulation slows Black
+# tenfold, and each sample pauses the emulated process for longer still,
+# so the captures sample at 10 Hz to record about as many samples as the other
+# py-spy inputs do at 100 Hz. One VM runs both roles' captures, since booting
+# and installing into it takes minutes.
+native_dir=""
+run_native() {
+  [[ -n "$native_dir" ]] && return 0
+  local dir="$WORKDIR/python-native"
+  mkdir -p "$dir/base" "$dir/current"
+  fetch_pydecimal || return 1
+  cp "$TARGET" "$dir/_pydecimal.py" || return 1
+
+  notice "Profiling black with py-spy --native (base and current)"
+  x86_64_vm_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends python3 python3-venv python3-pip
+
+      python3 -m venv /venv
+      /venv/bin/pip install --quiet "py-spy==$PY_SPY_VERSION" "black==$BLACK_VERSION"
+
+      # Each capture formats a fresh copy of the input so Black always has work.
+      # Because py-spy runs Black as the SSH user, the copy is world-readable.
+      # py-spy exits 0 when Black fails, and an empty capture counts as a
+      # failure instead. It also occasionally races Black at exit ("No child
+      # process"), so retry.
+      cap() {
+        local out=$1 fmt=$2 n
+        shift 2
+        for n in 1 2 3; do
+          install -m 644 /out/_pydecimal.py /tmp/work.py
+          if /venv/bin/py-spy record -o "$out" -f "$fmt" --native --rate 10 "$@" \
+              -- /venv/bin/python -m black /tmp/work.py 2>&1 | tee /tmp/py-spy.log \
+            && ! grep -q "Samples: 0 " /tmp/py-spy.log; then
+            return 0
+          fi
+          echo "py-spy attempt $n failed; retrying" >&2
+        done
+        return 1
+      }
+      for role in base current; do
+        cap /out/$role/native.collapsed raw
+        cap /out/$role/native.speedscope.json speedscope
+      done
+    ' PY_SPY_VERSION="$PY_SPY_VERSION" BLACK_VERSION="$BLACK_VERSION" || return 1
+
+  native_dir=$dir
+}
+
 # memray traces every allocation Black makes, in both capture file formats: the
 # default one record per allocation, and the smaller `--aggregate` one holding
 # each stack's peak and leaked totals.
@@ -180,6 +235,13 @@ copy_python_profile() {
   cp "${rundir[$role]}/$name" "$out"
 }
 
+# capture_fn for emit: $1=out  $2=role  $3=in-VM filename
+copy_native_profile() {
+  local out=$1 role=$2 name=$3
+  run_native || return 1
+  cp "$native_dir/$role/$name" "$out"
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=in-container filename
 copy_memray_capture() {
   local out=$1 role=$2 name=$3
@@ -204,6 +266,10 @@ for role in base current; do
     copy_python_profile "$role" cpu.speedscope.json
   try emit "$GENERATED_INPUTS/python.py-spy.wall.$role.collapsed" \
     copy_python_profile "$role" wall.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.native.$role.collapsed" \
+    copy_native_profile "$role" native.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.native.$role.speedscope.json" \
+    copy_native_profile "$role" native.speedscope.json
   try emit "$GENERATED_INPUTS/python.memray.$role.memray.bin" \
     copy_memray_capture "$role" default.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.aggregated.$role.memray.bin" \

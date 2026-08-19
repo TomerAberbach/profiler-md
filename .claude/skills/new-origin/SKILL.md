@@ -49,7 +49,13 @@ $ARGUMENTS
      `src/formats/v8/heap-profile/parse.ts`)
    - `categorizeHeapSnapshotConstructor` when the origin writes heap snapshots
    - `normalizeStackFrame` when the profiler packs a frame's location into its
-     name (see `packedLocationNormalizer`)
+     name (see `packedLocationNormalizer`), or writes a placeholder for missing
+     information (see `placeholderPathNormalizer`). Read the profiler's source
+     for the strings it substitutes, and omit the field each one stands in for,
+     keeping the rest of the frame. A kept placeholder prints as a location that
+     references no file, and a path-based category rule can match it. Check each
+     format the origin emits, since one export can spell it differently from
+     another
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
    - `countMetric` when what one of the origin's per-sample counts measures

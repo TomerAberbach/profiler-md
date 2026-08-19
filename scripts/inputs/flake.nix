@@ -60,6 +60,8 @@
           ghcWithProfiling
           python3
           async-profiler
+          qemu
+          cdrtools
           cmake
           ninja
           zstd
@@ -70,11 +72,7 @@
         ];
 
       forAllSystems =
-        f:
-        nixpkgs.lib.genAttrs systems (
-          system:
-          f { pkgs = import nixpkgs { inherit system; }; }
-        );
+        f: nixpkgs.lib.genAttrs systems (system: f { pkgs = import nixpkgs { inherit system; }; });
     in
     {
       devShells = forAllSystems (

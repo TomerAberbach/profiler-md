@@ -2,7 +2,11 @@ import type { DeepReadonly } from '../helpers/types.ts'
 import { sourceReferencePathOrName } from '../location.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { FunctionCategory, ProfileEntry } from '../options.ts'
-import { locationlessCategory } from './categorize.ts'
+import {
+  locationlessCategory,
+  NATIVE_LIBRARY,
+  nativeLibraryCategory,
+} from './categorize.ts'
 import { matchEntryFromRules } from './origin.ts'
 import type { EntryMatchRule } from './origin.ts'
 
@@ -133,6 +137,18 @@ const isHotspotNativeStackFrame = ({
 }
 
 /**
+ * HotSpot JIT stubs: virtual-dispatch stubs (`vtable stub`, `itable stub`),
+ * interpreter/compiled transition adapters (`I2C/C2I adapters(0x...)`), the
+ * interpreter's entry stub (`call_stub`), and generated intrinsics like
+ * `zero_blocks`.
+ */
+const JIT_STUB =
+  /^(?:vtable stub|itable stub|call_stub|zero_blocks|I2C\/C2I adapters)/u
+
+/** HotSpot GC barrier stubs, e.g. `g1_pre_barrier_slow`/`g1_post_barrier_slow`. */
+const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
+
+/**
  * HotSpot's compiler internals: the compile broker and tiering policy, C1's
  * HIR/LIR pipeline and linear-scan allocator, C2's ideal-graph phases, nodes,
  * and types, the compiler interface (`ci*`) both read the class file through,
@@ -180,22 +196,18 @@ const UNRESOLVED_FRAME: ReadonlySet<string> = new Set([
 ])
 
 /**
- * HotSpot JIT stubs: virtual-dispatch stubs (`vtable stub`, `itable stub`),
- * interpreter/compiled transition adapters (`I2C/C2I adapters(0x...)`), the
- * interpreter's entry stub (`call_stub`), and generated intrinsics like
- * `zero_blocks`.
- */
-const JIT_STUB =
-  /^(?:vtable stub|itable stub|call_stub|zero_blocks|I2C\/C2I adapters)/u
-
-/** HotSpot GC barrier stubs, e.g. `g1_pre_barrier_slow`/`g1_post_barrier_slow`. */
-const GC_STUB = /^g1_(?:pre|post)_barrier_slow$/u
-
-/**
  * Whether a frame reports a native shared library as its location while its
  * name lacks a Java method's parenthesized signature. Only async-profiler's
  * own stack walker mixes such native frames into JFR or collapsed output; JFR
  * written by the JDK's recorder carries Java-only stacks.
+ *
+ * {@link NATIVE_LIBRARY} anchors the extension to the end, so a class whose
+ * package contains a segment named `so`/`dll`/`dylib` (e.g.
+ * `com.acme.so.Helper`) does not match. A class whose simple name is
+ * `so`/`dll`/`dylib` would match, but its method names include parenthesized
+ * signatures, which the check excludes. The check cannot require a library
+ * name to differ from a class name, since `libc.so.6` and `libjvm.dylib` are
+ * valid dotted class shapes.
  */
 export const isNativeLibraryStackFrame = ({
   name,
@@ -204,27 +216,6 @@ export const isNativeLibraryStackFrame = ({
   location !== undefined &&
   NATIVE_LIBRARY.test(sourceReferencePathOrName(location)) &&
   !(name ?? ``).includes(`(`)
-
-/** Categorizes native shared-library frames as `native`. */
-const nativeLibraryCategory = ({
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  location && NATIVE_LIBRARY.test(sourceReferencePathOrName(location))
-    ? `native`
-    : undefined
-
-/**
- * Native frames report a shared library (e.g. `libjvm.dylib`,
- * `libsystem_kernel.dylib`, or a versioned `libc.so.6`) as their location. The
- * extension is anchored to the end (allowing a trailing version like `.so.6`)
- * so a class whose package contains a segment named `so`/`dll`/`dylib` (e.g.
- * `com.acme.so.Helper`) isn't mistaken for a native library. A class whose
- * simple name is itself `so`/`dll`/`dylib` would still match, but its methods
- * carry parenthesized signatures, which the marker check excludes; real
- * library names can't be required to look different (`libc.so.6` and
- * `libjvm.dylib` are both valid dotted class shapes).
- */
-const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
 
 /**
  * Categorizes native frames whose location is a bare module name without an

@@ -11,31 +11,17 @@ export type SourceLocation = SourceReference & {
   column?: number
 }
 
-export const sourceReferenceId = (
-  sourceReference: DeepReadonly<SourceReference>,
-): string => {
-  switch (sourceReference.type) {
-    case `absolute`:
-      return sourceReference.url.href
-    case `relative`:
-      return sourceReference.path
-    case `logical`:
-      return sourceReference.name
-  }
-}
+/** A reference to where a function is defined: a file or a logical name. */
+export type SourceReference = FileReference | LogicalReference
+
+export type FileReference =
+  { type: `absolute`; url: URL } | { type: `relative`; path: string }
 
 /**
- * Returns which kind of reference {@link sourceReference} is: `file` for an
- * absolute URL or relative path, `logical` for a named class, module,
- * namespace, assembly, or library.
- *
- * References of different kinds with equal {@link sourceReferenceId}s reference
- * different sources, so a key built from that ID includes this.
+ * A named class, module, namespace, assembly, or native library (e.g.
+ * `java.util.HashMap`).
  */
-export const sourceReferenceKind = (
-  sourceReference: DeepReadonly<SourceReference>,
-): `file` | `logical` =>
-  sourceReference.type === `logical` ? `logical` : `file`
+export type LogicalReference = { type: `logical`; name: string }
 
 /**
  * Returns a file reference's path or a logical reference's name, the
@@ -69,22 +55,75 @@ export const isSameSourceReference = (
     sourceReferenceKind(sourceReference2) &&
   sourceReferenceId(sourceReference1) === sourceReferenceId(sourceReference2)
 
-/** A reference to where a function is defined: a file or a logical name. */
-export type SourceReference = FileReference | LogicalReference
+/**
+ * Returns which kind of reference {@link sourceReference} is: `file` for an
+ * absolute URL or relative path, `logical` for a named class, module,
+ * namespace, assembly, or library.
+ *
+ * References of different kinds with equal {@link sourceReferenceId}s reference
+ * different sources, so a key built from that ID includes this.
+ */
+export const sourceReferenceKind = (
+  sourceReference: DeepReadonly<SourceReference>,
+): `file` | `logical` =>
+  sourceReference.type === `logical` ? `logical` : `file`
 
-export type FileReference =
-  { type: `absolute`; url: URL } | { type: `relative`; path: string }
+export type SourceLocationInput = (
+  | {
+      type: `file`
+
+      /** A string parseable into a {@link URL} or file path. */
+      urlOrPath: string
+    }
+  | {
+      type: `logical`
+
+      /**
+       * The name of a class, module, namespace, assembly, or native library.
+       */
+      name: string
+    }
+) & {
+  /** The 1-based line number in the referenced source. */
+  line?: number
+
+  /** The 1-based column number in the referenced source. */
+  column?: number
+}
+
+/** Returns the raw reference string of {@link location}. */
+export const sourceLocationInputString = (
+  location: SourceLocationInput,
+): string => (location.type === `file` ? location.urlOrPath : location.name)
 
 /**
- * A named class, module, namespace, assembly, or native library (e.g.
- * `java.util.HashMap`).
+ * Builds a {@link SourceLocation} from a raw source reference and optional
+ * line/column, returning `undefined` when there's no usable location.
  */
-export type LogicalReference = { type: `logical`; name: string }
+export const makeSourceLocation = (
+  location: SourceLocationInput | undefined,
+): SourceLocation | undefined => {
+  if (!location) {
+    return undefined
+  }
+
+  const sourceReference =
+    location.type === `file`
+      ? makeFileReference(location.urlOrPath)
+      : location.name
+        ? { type: `logical` as const, name: location.name }
+        : undefined
+  if (!sourceReference) {
+    return undefined
+  }
+
+  return sourceReferenceToSourceLocation(sourceReference, location)
+}
 
 export const makeFileReference = (
   urlOrPath: string,
 ): FileReference | undefined => {
-  if (!urlOrPath || UNKNOWN_LOCATION.test(urlOrPath)) {
+  if (!urlOrPath) {
     return undefined
   }
 
@@ -148,72 +187,6 @@ const withoutDotSegments = (url: URL): URL => {
 
   url.pathname = segments.join(`/`)
   return url
-}
-
-const makeLogicalReference = (name: string): LogicalReference | undefined => {
-  if (!name || UNKNOWN_LOGICAL_NAME.test(name)) {
-    return undefined
-  }
-
-  return { type: `logical`, name }
-}
-
-// Profilers indicate unknown file locations in many ways.
-const UNKNOWN_LOCATION = /^(?:unknown|nothing|\?+)$/iu
-
-// A `?`-sequence cannot be a logical name, but `unknown` and `nothing` can
-// (a default-package class, an Erlang module), so only a `?`-sequence marks an
-// unknown logical reference.
-const UNKNOWN_LOGICAL_NAME = /^\?+$/u
-
-export type SourceLocationInput = (
-  | {
-      type: `file`
-
-      /** A string parseable into a {@link URL} or file path. */
-      urlOrPath: string
-    }
-  | {
-      type: `logical`
-
-      /**
-       * The name of a class, module, namespace, assembly, or native library.
-       */
-      name: string
-    }
-) & {
-  /** The 1-based line number in the referenced source. */
-  line?: number
-
-  /** The 1-based column number in the referenced source. */
-  column?: number
-}
-
-/** Returns the raw reference string of {@link location}. */
-export const sourceLocationInputString = (
-  location: SourceLocationInput,
-): string => (location.type === `file` ? location.urlOrPath : location.name)
-
-/**
- * Builds a {@link SourceLocation} from a raw source reference and optional
- * line/column, returning `undefined` when there's no usable location.
- */
-export const makeSourceLocation = (
-  location: SourceLocationInput | undefined,
-): SourceLocation | undefined => {
-  if (!location) {
-    return undefined
-  }
-
-  const sourceReference =
-    location.type === `file`
-      ? makeFileReference(location.urlOrPath)
-      : makeLogicalReference(location.name)
-  if (!sourceReference) {
-    return undefined
-  }
-
-  return sourceReferenceToSourceLocation(sourceReference, location)
 }
 
 export const sourceReferenceToSourceLocation = (
@@ -296,6 +269,21 @@ export const formatSourceLocation = (
 const absoluteURLPath = (url: URL): string =>
   url.protocol === `file:` ? decodePathname(url.pathname) : url.href
 
+const isSameOrigin = (url1: URL, url2: URL): boolean => {
+  if (url1.protocol !== url2.protocol) {
+    return false
+  }
+
+  // Opaque origins (file:, webpack:, wasm:, etc.) all report `null`. Compare
+  // host instead; file: URLs have empty hosts, so equal-protocol file: pairs
+  // match, and webpack:// URLs match when their "host" (the bundle name) does.
+  if (url1.origin === `null`) {
+    return url1.host === url2.host
+  }
+
+  return url1.origin === url2.origin
+}
+
 /**
  * `new URL` escapes every character outside the path's allowed set, so without
  * decoding, a path with a space, a non-ASCII letter, or angle brackets reads as
@@ -315,19 +303,16 @@ const decodePathname = (pathname: string): string => {
   }
 }
 
-const isSameOrigin = (url1: URL, url2: URL): boolean => {
-  if (url1.protocol !== url2.protocol) {
-    return false
-  }
+const relativeURLPath = (from: string, to: string): string => {
+  // Drop the last segment of `from` (the filename or trailing empty string
+  // after a `/`) so the result is relative to the directory.
+  const fromParts = from.split(`/`).slice(0, -1)
+  const toParts = to.split(`/`)
 
-  // Opaque origins (file:, webpack:, wasm:, etc.) all report `null`. Compare
-  // host instead; file: URLs have empty hosts, so equal-protocol file: pairs
-  // match, and webpack:// URLs match when their "host" (the bundle name) does.
-  if (url1.origin === `null`) {
-    return url1.host === url2.host
-  }
-
-  return url1.origin === url2.origin
+  const common = commonSegmentPrefixLength(fromParts, toParts)
+  const ups = fromParts.length - common
+  const remaining = toParts.slice(common)
+  return [...Array.from({ length: ups }, () => `..`), ...remaining].join(`/`)
 }
 
 /**
@@ -336,6 +321,19 @@ const isSameOrigin = (url1: URL, url2: URL): boolean => {
  * prefix only says how deep the base URL is, not where the file is.
  */
 const TOO_MANY_UPS = /^(?:\.\.\/){3}/u
+
+export const sourceReferenceId = (
+  sourceReference: DeepReadonly<SourceReference>,
+): string => {
+  switch (sourceReference.type) {
+    case `absolute`:
+      return sourceReference.url.href
+    case `relative`:
+      return sourceReference.path
+    case `logical`:
+      return sourceReference.name
+  }
+}
 
 /**
  * Returns the deepest directory URL containing every URL in {@link urls} that
@@ -385,18 +383,6 @@ export const commonAncestorDirectoryURL = (
   }
 
   return new URL(`${dominant.origin}${dominant.commonSegments.join(`/`)}/`)
-}
-
-const relativeURLPath = (from: string, to: string): string => {
-  // Drop the last segment of `from` (the filename or trailing empty string
-  // after a `/`) so we compute relative to the directory.
-  const fromParts = from.split(`/`).slice(0, -1)
-  const toParts = to.split(`/`)
-
-  const common = commonSegmentPrefixLength(fromParts, toParts)
-  const ups = fromParts.length - common
-  const remaining = toParts.slice(common)
-  return [...Array.from({ length: ups }, () => `..`), ...remaining].join(`/`)
 }
 
 const commonSegmentPrefixLength = (
