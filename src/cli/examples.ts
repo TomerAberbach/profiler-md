@@ -78,6 +78,7 @@ const isOrigin = (token: string): token is Origin =>
 
 const configNames: Record<string, string> = {
   cpu: `CPU`,
+  [`cpu-trimpath`]: `CPU (-trimpath)`,
   goroutineleak: `goroutine leak`,
 }
 
