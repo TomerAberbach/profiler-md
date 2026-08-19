@@ -29,6 +29,35 @@ run_for_role() {
   fi
 }
 
+# A -trimpath build rewrites every file path to its package's import path,
+# dropping the GOROOT prefix from the standard library and the module cache
+# prefix from downloaded modules. The workload is a module of its own, so a
+# non-main package of the profiled program has a domain-like module path, the
+# shape a downloaded module takes.
+trimpath_workload="$REPO/scripts/inputs/assets/go/trimpath"
+
+declare -A trimpath_profile=()
+run_trimpath_for_role() {
+  local role=$1
+  if [[ -z "${trimpath_profile[$role]:-}" ]]; then
+    local dir="$WORKDIR/go-trimpath-$role"
+    mkdir -p "$dir"
+    fetch_twitter_json
+    notice "Profiling encoding/json using a -trimpath go build ($role)"
+    GOCACHE="$WORKDIR/gocache" go build -C "$trimpath_workload" -trimpath \
+      -o "$dir/workload" .
+    "$dir/workload" "$dir/cpu.pprof" "$TWITTER_JSON"
+    trimpath_profile[$role]=$dir/cpu.pprof
+  fi
+}
+
+# capture_fn for emit: $1=out  $2=role
+copy_go_trimpath_profile() {
+  local out=$1 role=$2
+  run_trimpath_for_role "$role"
+  cp "${trimpath_profile[$role]}" "$out"
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=pprof profile name
 copy_go_profile() {
   local out=$1 role=$2 name=$3
@@ -41,6 +70,8 @@ for role in base current; do
     out="$GENERATED_INPUTS/go.go.$cfg.$role.pprof"
     try emit "$out" copy_go_profile "$role" "${CONFIG_TO_PROFILE[$cfg]}"
   done
+  try emit "$GENERATED_INPUTS/go.go.cpu-trimpath.$role.pprof" \
+    copy_go_trimpath_profile "$role"
 done
 
 verify_pairs
