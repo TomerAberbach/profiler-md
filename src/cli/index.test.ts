@@ -94,6 +94,19 @@ if (format === undefined) {
     expect(stdout).toMatch(/^# /u)
   })
 
+  test.concurrent(
+    `--format auto and --origin auto detect the format and origin`,
+    async () => {
+      const { status, stdout } = await runCli(
+        [`--format`, `auto`, `--origin`, `auto`],
+        cpuProfileContent,
+      )
+
+      expect(status).toBe(0)
+      expect(stdout).toMatch(expectedCpuProfileMarkdown)
+    },
+  )
+
   test.concurrent.each([`-`, `/dev/stdin`, `/dev/fd/0`])(
     `reads a piped profile from %s`,
     async path => {

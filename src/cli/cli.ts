@@ -127,6 +127,13 @@ const regexCategory = (): ValueParser<`sync`, RegexCategory> => ({
   format: ([regex, category]) => `${regex.source}=${category}`,
 })
 
+/** The `--format` and `--origin` value meaning the format or origin is detected. */
+const AUTO = `auto`
+
+const specified = <Value extends string>(
+  value: Value | typeof AUTO | undefined,
+): Value | undefined => (value === AUTO ? undefined : value)
+
 const parser = object({
   help: optional(
     or(
@@ -136,15 +143,31 @@ const parser = object({
       flag(`-h`, `--help`, { hidden: `help` }),
     ),
   ),
-  format: optional(
-    option(`-f`, `--format`, choice(formats, { metavar: `FORMAT` }), {
-      description: message`Input profile format (default: auto)`,
-    }),
+  format: map(
+    optional(
+      option(
+        `-f`,
+        `--format`,
+        choice([AUTO, ...formats], { metavar: `FORMAT` }),
+        {
+          description: message`Input profile format (default: auto)`,
+        },
+      ),
+    ),
+    specified,
   ),
-  origin: optional(
-    option(`-r`, `--origin`, choice(origins, { metavar: `ORIGIN` }), {
-      description: message`Input profile origin (default: auto)`,
-    }),
+  origin: map(
+    optional(
+      option(
+        `-r`,
+        `--origin`,
+        choice([AUTO, ...origins], { metavar: `ORIGIN` }),
+        {
+          description: message`Input profile origin (default: auto)`,
+        },
+      ),
+    ),
+    specified,
   ),
   output: withDefault(
     option(`-o`, `--output`, path({ metavar: `FILE` }), {
