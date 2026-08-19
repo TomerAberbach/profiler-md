@@ -8,12 +8,14 @@ allocation to.
 
 ## Wall-clock profiling
 
-Periodically samples the cost-centre stack. The timer runs on real time and
-samples every capability whether or not it is running Haskell, so the time a
-program spends blocked is attributed to the built-in `IDLE` cost centre. The
-runtime also counts every byte the program allocates per cost-centre stack and
-every time it enters one, and the JSON report includes both counts. The eventlog
-omits them.
+Periodically samples the cost-centre stack. Useful for finding hot spots,
+including the time the program spends blocked, which the runtime attributes to
+the built-in `IDLE` cost centre.
+
+The timer runs on real time and samples every capability whether or not it is
+running Haskell. The runtime also counts every byte the program allocates per
+cost-centre stack and every time it enters one, and the JSON report includes
+both counts. The eventlog omits them.
 
 GHC inserts cost centres only into modules compiled with `-prof`, so compile
 every library the program links with `-prof` too:
@@ -34,6 +36,8 @@ ghc -O2 -prof -fprof-auto-top -rtsopts Main.hs
 Annotating every binding costs time and prevents optimizations, so GHC inserts
 only the cost centres one of these flags specifies. Add `{-# SCC "name" #-}` in
 the source to annotate an expression by hand.
+
+#### Flags
 
 | Flag                     | Description                                                                         |
 | ------------------------ | ----------------------------------------------------------------------------------- |
@@ -75,15 +79,15 @@ text report, which is for reading by hand, so profiler-md rejects it.
 
 #### RTS options
 
-| Option | Default | Description                                                          |
-| ------ | ------- | -------------------------------------------------------------------- |
-| `-p`   | —       | Write a time and allocation report to `<program>.prof`               |
-| `-P`   | —       | As `-p`, plus per-cost-centre tick and byte counts                   |
-| `-pj`  | —       | Write the report as JSON                                             |
-| `-l`   | —       | Write an eventlog to `<program>.eventlog`                            |
-| `-ol`  | —       | The eventlog's path                                                  |
-| `-V`   | `0.001` | Seconds between samples, and the resolution of every other RTS timer |
-| `-xc`  | —       | Print the cost-centre stack on every exception                       |
+| Option | Default | Description                                                                                                              |
+| ------ | ------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `-p`   | —       | Write a time and allocation report to `<program>.prof`                                                                   |
+| `-P`   | —       | As `-p`, plus per-cost-centre tick and byte counts                                                                       |
+| `-pj`  | —       | Write the report as JSON                                                                                                 |
+| `-l`   | —       | Write an eventlog to `<program>.eventlog`                                                                                |
+| `-ol`  | —       | The eventlog's path                                                                                                      |
+| `-V`   | `0.001` | Seconds between samples, and the resolution of every other RTS timer. A build without `-prof` ticks every `0.01` seconds |
+| `-xc`  | —       | Print the cost-centre stack on every exception                                                                           |
 
 `-l` takes the event classes to log. `-l-au` turns them all off and turns user
 events back on, so the scheduler and heap events stay out of a log recorded for

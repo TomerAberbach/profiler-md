@@ -37,7 +37,7 @@ export type JSCHeapSnapshot = {
    * Flat array of edges.
    *
    * Each consecutive 4 integers represent a single edge record:
-   * `[fromNodeOrdinal, toNodeOrdinal, edgeType, edgeNameIndex]`.
+   * `[fromNodeId, toNodeId, edgeType, edgeNameIndex]`.
    */
   edges: number[]
 

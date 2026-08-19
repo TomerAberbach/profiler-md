@@ -7,7 +7,7 @@ into memory.
 
 ## Converting
 
-Format and origin are auto-detected by default:
+The API auto-detects the format and origin by default:
 
 ```js
 import { openAsBlob, readFileSync } from 'node:fs'

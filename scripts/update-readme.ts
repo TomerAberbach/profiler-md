@@ -126,8 +126,27 @@ ${rows}
 </tbody>
 </table>`
 
+const examplePath = `examples/output/javascript.node.base.cpuprofile.md`
+const exampleLines = readFileSync(examplePath, `utf8`).split(`\n`)
+const hottestIndex = exampleLines.indexOf(`## Hottest functions`)
+const hottestLines = exampleLines.slice(hottestIndex)
+const excerptRowCount = 5
+const excerpt = [
+  ...exampleLines.slice(0, hottestIndex),
+  ...hottestLines.slice(
+    0,
+    hottestLines.findIndex(line => line.startsWith(`|`)) + 2 + excerptRowCount,
+  ),
+  `…`,
+].join(`\n`)
+
 const original = readFileSync(`readme.md`, `utf8`)
 let readme = original
+
+readme = readme.replace(
+  /<!-- EXAMPLE_OUTPUT START -->[\S\s]*?<!-- EXAMPLE_OUTPUT END -->/u,
+  `<!-- EXAMPLE_OUTPUT START -->\n\n\`\`\`md\n${excerpt}\n\`\`\`\n\n<!-- EXAMPLE_OUTPUT END -->`,
+)
 
 readme = readme.replace(
   /<!-- CLI_HELP START -->[\S\s]*?<!-- CLI_HELP END -->/u,

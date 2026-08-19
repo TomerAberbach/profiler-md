@@ -26,8 +26,8 @@ stacks at roughly 100 Hz.
 # Attach to a running process, written directly as speedscope
 dotnet-trace collect --process-id <pid> --format speedscope
 
-# Launch and trace a command from startup (use `dotnet exec` so the dotnet CLI's
-# own child processes aren't traced instead of your app)
+# Launch and trace a command from startup (`dotnet exec` traces your app rather
+# than the dotnet CLI's own child processes)
 dotnet-trace collect --format speedscope -- dotnet exec app.dll
 
 # Attach for a fixed duration (dd:hh:mm:ss)
@@ -44,7 +44,9 @@ dotnet-trace convert trace.nettrace --format speedscope
 | `-p` / `--process-id` | —          | PID of the process to trace                         |
 | `-n` / `--name`       | —          | Name of the process to trace                        |
 | `--duration`          | —          | Duration to run, in `dd:hh:mm:ss` format            |
-| `-o` / `--output`     | `nettrace` | Output file path                                    |
+| `-o` / `--output`     | see below  | Output file path                                    |
 | `--format`            | `nettrace` | Output format: `nettrace`, `speedscope`, `chromium` |
 | `--profile`           | —          | Preset provider configuration (e.g. `gc-verbose`)   |
 | `--providers`         | —          | Comma-separated EventPipe providers to enable       |
+
+Without `-o`, the trace is written to `<appname>_<yyyyMMdd>_<HHmmss>.nettrace`.
