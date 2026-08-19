@@ -125,6 +125,46 @@ if (format === undefined) {
     await rm(dir, { recursive: true })
   })
 
+  test.concurrent(
+    `exits without an error when the reader closes the pipe early`,
+    async () => {
+      // The Markdown exceeds the pipe buffer, so the CLI's write is still in
+      // flight when `head` reads its line and exits.
+      const reader = spawn(`head`, [`-n`, `1`], {
+        stdio: [`pipe`, `pipe`, `inherit`],
+      })
+      const child = spawn(process.execPath, [cliPath, cpuProfilePath], {
+        stdio: [`ignore`, reader.stdin, `pipe`],
+        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath },
+      })
+      // Closing the parent's handle before the CLI exits would close the
+      // inherited descriptor too, so `head` reaches EOF only once the CLI
+      // exits.
+      child.on(`close`, () => reader.stdin.end())
+
+      const stderr: Buffer[] = []
+      child.stderr.on(`data`, (chunk: Buffer) => stderr.push(chunk))
+      const readerStdout: Buffer[] = []
+      reader.stdout.on(`data`, (chunk: Buffer) => readerStdout.push(chunk))
+      const [status] = await Promise.all([
+        new Promise<number | null>((resolve, reject) => {
+          child.on(`error`, reject)
+          child.on(`close`, resolve)
+        }),
+        new Promise((resolve, reject) => {
+          reader.on(`error`, reject)
+          reader.on(`close`, resolve)
+        }),
+      ])
+
+      expect(Buffer.concat(stderr).toString(`utf8`)).toBe(``)
+      expect(status).toBe(0)
+      expect(Buffer.concat(readerStdout).toString(`utf8`)).toBe(
+        `# CPU profile\n`,
+      )
+    },
+  )
+
   test.concurrent.each([`--output`, `-o`])(
     `writes output to a file with %s`,
     async flag => {
