@@ -353,6 +353,7 @@ and read it.
 <tr>
 <td><a href="docs/languages/php.md">PHP</a></td>
 <td>
+<details><summary><a href="docs/formats/collapsed.md">Collapsed stacks</a></summary><ul><li>PHP Excimer wall (<a href="examples/output/php.excimer.wall.base.collapsed.md">base</a>, <a href="examples/output/php.excimer.wall.current.collapsed.md">current</a>, <a href="examples/output/php.excimer.wall.diff.collapsed.md">diff</a>)</li></ul></details>
 <details><summary><a href="docs/formats/speedscope.md">Speedscope</a></summary><ul><li>PHP Excimer wall (<a href="examples/output/php.excimer.wall.base.speedscope.json.md">base</a>, <a href="examples/output/php.excimer.wall.current.speedscope.json.md">current</a>, <a href="examples/output/php.excimer.wall.diff.speedscope.json.md">diff</a>)</li></ul></details>
 </td>
 </tr>

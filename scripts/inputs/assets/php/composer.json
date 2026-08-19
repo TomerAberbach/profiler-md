@@ -1,0 +1,11 @@
+{
+  "name": "profiler-md/php-workload",
+  "description": "The package composer dumps an optimized autoloader for, classmapping Composer's and Guzzle's sources so the dump scans a few thousand real PHP files",
+  "autoload": {
+    "classmap": [
+      "composer/src",
+      "composer/vendor",
+      "guzzle/src"
+    ]
+  }
+}

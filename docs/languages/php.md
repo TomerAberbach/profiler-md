@@ -70,6 +70,17 @@ register_shutdown_function(function () use ($prof) {
 php -d auto_prepend_file=prepend.php existing_program.phar dump-autoload --optimize
 ```
 
+## Output formats
+
+`getSpeedscopeData()` writes the sampled time alongside each frame's file, and
+`formatCollapsed()` writes sample counts with each frame's file packed into its
+name. Prefer speedscope, because a collapsed frame names a method by its
+declaring class rather than its file.
+
+```php
+file_put_contents('wall.collapsed', $prof->getLog()->formatCollapsed());
+```
+
 ## API
 
 | Method                          | Description                                           |
@@ -79,3 +90,4 @@ php -d auto_prepend_file=prepend.php existing_program.phar dump-autoload --optim
 | `setMaxDepth($depth)`           | Maximum stack frames per sample                       |
 | `start()` / `stop()`            | Begin and end profiling                               |
 | `getLog()->getSpeedscopeData()` | The collected profile as Speedscope-format data       |
+| `getLog()->formatCollapsed()`   | The collected profile as collapsed stacks             |
