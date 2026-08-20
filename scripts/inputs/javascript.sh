@@ -33,7 +33,8 @@ setup_node() {
     "puppeteer@$PUPPETEER_VERSION" >&2 || return 1
 
   cp "$assets/cpuprofile-run.mjs" "$assets/tsc-run.mjs" \
-    "$assets/tsc-workload.mjs" "$assets/datadog-pprof.mjs" \
+    "$assets/tsc-workload.mjs" "$assets/heapprofile-run.mjs" \
+    "$assets/datadog-pprof.mjs" \
     "$assets/datadog-pprof-heap.mjs" \
     "$assets/chrome-workload.mjs" "$assets/chrome-cpu.mjs" \
     "$assets/chrome-heap.mjs" "$assets/chrome-heap-snapshot.mjs" "$dir/" \
@@ -65,6 +66,13 @@ capture_node_heap_snapshot() {
   fetch_twitter_json || return 1
   notice "Heap snapshotting parsed twitter.json using node ($role)"
   node "$assets/heap-snapshot.mjs" "$TWITTER_JSON" "$out" >&2
+}
+
+capture_node_heap_all_allocations() {
+  local out=$1 role=$2
+  setup_node || return 1
+  notice "Heap profiling zod type-check including collected objects using node ($role)"
+  node "$node_proj/heapprofile-run.mjs" "$node_proj" "$out" >&2
 }
 
 capture_pprof_cpu() {
@@ -162,6 +170,8 @@ for role in base current; do
     capture_node_heap "$role"
   try emit "$GENERATED_INPUTS/javascript.node.$role.heapsnapshot" \
     capture_node_heap_snapshot "$role"
+  try emit "$GENERATED_INPUTS/javascript.node.all-allocations.$role.heapprofile" \
+    capture_node_heap_all_allocations "$role"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$role.pprof" \
     capture_pprof_cpu "$role"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.heap.$role.pprof" \
