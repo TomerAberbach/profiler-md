@@ -51,20 +51,26 @@ export type JfrTestEvent = {
 
   /**
    * Allocated bytes (alloc, nativemem) or blocked nanoseconds (lock); ignored
-   * for cpu.
+   * for cpu. An `alloc-tlab` event's weight is its `tlabSize`.
    */
   weight?: number
+
+  /**
+   * The `allocationSize` of the object that triggered an `alloc-tlab` event;
+   * defaults to `0`.
+   */
+  objectSize?: number
 
   /** How many samples a `wallclock` event coalesces; defaults to `1`. */
   samples?: number
 }
 
 /**
- * The event types whose declaration and bodies can omit the weight field, as
+ * The event types whose declaration and bodies can omit their weight field, as
  * an older JDK writes them: `jdk.OldObjectSample` lacks `objectSize` before
  * JDK 21.
  */
-export type JfrUnweightedEventType = `live`
+export type JfrEventTypeWithoutWeightField = `live`
 
 // Metadata class IDs. Avoid 0 and 1, which are reserved for the metadata and
 // constant pool events in the chunk body.
@@ -117,14 +123,14 @@ export const makeJfr = ({
   stackTraces,
   events,
   malformations: { emptyUnknownPools = [], unreadableEventTypes = [] } = {},
-  unweightedEventTypes = [],
+  eventTypesWithoutWeightField = [],
 }: {
   methods: JfrTestMethod[]
   stackTraces: JfrTestStack[]
   events: JfrTestEvent[]
 
   /** Event types declared and written without their weight field. */
-  unweightedEventTypes?: JfrUnweightedEventType[]
+  eventTypesWithoutWeightField?: JfrEventTypeWithoutWeightField[]
 
   /** Optional structural defects for parser-robustness tests. */
   malformations?: JfrMalformations
@@ -218,7 +224,7 @@ export const makeJfr = ({
   // trailing unreadable field (from `unreadableEventTypes`) carries no body
   // bytes: the parser throws on it before reading and skips to the event's end.
   const eventWriters: ByteWriter[] = []
-  for (const { type, stack, weight, samples } of events) {
+  for (const { type, stack, weight, objectSize, samples } of events) {
     const body = new ByteWriter()
     switch (type) {
       case `cpu`:
@@ -237,6 +243,7 @@ export const makeJfr = ({
         break
       case `alloc-tlab`:
         body.varint(stack + 1)
+        body.varint(objectSize ?? 0)
         body.varint(weight ?? 0)
         eventWriters.push(sizedEvent(OBJECT_ALLOCATION_IN_NEW_TLAB, body))
         break
@@ -248,7 +255,7 @@ export const makeJfr = ({
         break
       case `live`:
         body.varint(stack + 1)
-        if (!unweightedEventTypes.includes(`live`)) {
+        if (!eventTypesWithoutWeightField.includes(`live`)) {
           body.varint(weight ?? 0)
         }
         eventWriters.push(sizedEvent(OLD_OBJECT_SAMPLE, body))
@@ -271,7 +278,10 @@ export const makeJfr = ({
     }
   }
 
-  const metadata = makeMetadata(unreadableEventTypes, unweightedEventTypes)
+  const metadata = makeMetadata(
+    unreadableEventTypes,
+    eventTypesWithoutWeightField,
+  )
   const constantPool = sizedEvent(CONSTANT_POOL_EVENT, pool)
 
   const bodyParts = [
@@ -307,7 +317,7 @@ const METADATA_EVENT = 0
 /** Builds the metadata event declaring every type the parser reads. */
 const makeMetadata = (
   unreadableEventTypes: string[],
-  unweightedEventTypes: JfrUnweightedEventType[],
+  eventTypesWithoutWeightField: JfrEventTypeWithoutWeightField[],
 ): ByteWriter => {
   const strings = new StringTable()
 
@@ -391,6 +401,7 @@ const makeMetadata = (
     type(OBJECT_ALLOCATION_IN_NEW_TLAB, `jdk.ObjectAllocationInNewTLAB`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
       field(`allocationSize`, LONG),
+      field(`tlabSize`, LONG),
     ]),
     type(NATIVE_LOCK, `profiler.NativeLock`, [
       field(`duration`, LONG),
@@ -403,7 +414,7 @@ const makeMetadata = (
     ]),
     type(OLD_OBJECT_SAMPLE, `jdk.OldObjectSample`, [
       field(`stackTrace`, STACK_TRACE, { constantPool: true }),
-      ...(unweightedEventTypes.includes(`live`)
+      ...(eventTypesWithoutWeightField.includes(`live`)
         ? []
         : [field(`objectSize`, LONG)]),
     ]),

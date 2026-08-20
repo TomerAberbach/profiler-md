@@ -322,7 +322,7 @@ describe(`convert`, () => {
         { type: `live`, stack: 0 },
         { type: `live`, stack: 1 },
       ],
-      unweightedEventTypes: [`live`],
+      eventTypesWithoutWeightField: [`live`],
     })
 
     const md = convertBytesToMd(jfrConverter, bytes, options)
@@ -629,6 +629,46 @@ describe(`allocation event families`, () => {
           Size: `1 KiB`,
           Samples: `1`,
           Function: `allocate`,
+          Location: `com.example.A`,
+        },
+      ],
+    ])
+  })
+
+  test(`TLAB events are weighted by the refill they stand for`, () => {
+    // Sites allocating small objects rank alongside sites allocating large
+    // ones at the same refill rate.
+    const bytes = makeJfr({
+      methods: [
+        { name: `allocateSmall`, className: `com.example.A` },
+        { name: `allocateLarge`, className: `com.example.A` },
+      ],
+      stackTraces: [
+        { frames: [{ method: 0, line: 7 }] },
+        { frames: [{ method: 1, line: 9 }] },
+      ],
+      events: [
+        { type: `alloc-tlab`, stack: 0, weight: 524_288, objectSize: 32 },
+        { type: `alloc-tlab`, stack: 1, weight: 524_288, objectSize: 4096 },
+      ],
+    })
+
+    const md = convertBytesToMd(jfrConverter, bytes, options)
+
+    expect(selfSizeTables(md)).toEqual([
+      [
+        {
+          '%': `50.0%`,
+          Size: `512 KiB`,
+          Samples: `1`,
+          Function: `allocateSmall`,
+          Location: `com.example.A`,
+        },
+        {
+          '%': `50.0%`,
+          Size: `512 KiB`,
+          Samples: `1`,
+          Function: `allocateLarge`,
           Location: `com.example.A`,
         },
       ],
