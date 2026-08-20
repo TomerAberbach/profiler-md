@@ -490,8 +490,12 @@ const formatEdgeLabel = (
   const edgeType = edges[edgeIndex + fieldLayout.edgeTypeOffset]!
   const edgeNameOrIndex = edges[edgeIndex + fieldLayout.edgeNameOrIndexOffset]!
   if (edgeType === fieldLayout.edgeTypeElement) {
-    // In this case, the edge name is an index.
-    return `[${edgeNameOrIndex}]`
+    // In this case, the edge name is an index. Julia's snapshot writer stores
+    // it as a `size_t` and writes `-1`, read back as 2^64, for a slot outside
+    // the array's element data.
+    return Number.isSafeInteger(edgeNameOrIndex)
+      ? `[${edgeNameOrIndex}]`
+      : `[<unknown>]`
   }
 
   const rawEdgeName = strings[edgeNameOrIndex]!

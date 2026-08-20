@@ -12,6 +12,7 @@ import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
 import {
+  EDGE_TYPE_ELEMENT,
   EDGE_TYPE_HIDDEN,
   EDGE_TYPE_INTERNAL,
   EDGE_TYPE_PROPERTY,
@@ -644,6 +645,65 @@ describe(`convert`, () => {
           Size: `50 B`,
           Instances: `1`,
           Path: `.unknown parent`,
+        },
+      ],
+    ])
+  })
+
+  test(`an element index above the safe integer range is unknown`, () => {
+    // Root -> parent (Object) via HIDDEN, parent -> child (Object) via an
+    // ELEMENT edge whose index is the `-1` Julia writes as a `size_t`, which
+    // JSON parses to 2^64.
+    const snapshot = makeV8Snapshot({
+      nodeCount: 3,
+      edgeCount: 2,
+      nodes: [
+        ...makeV8Node({
+          type: NODE_TYPE_SYNTHETIC,
+          name: 0,
+          id: 1,
+          selfSize: 0,
+          edgeCount: 1,
+        }), // Root (1 edge)
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 1,
+          id: 3,
+          selfSize: 100,
+          edgeCount: 1,
+        }), // Parent (1 edge)
+        ...makeV8Node({
+          type: NODE_TYPE_OBJECT,
+          name: 2,
+          id: 5,
+          selfSize: 50,
+          edgeCount: 0,
+        }), // Child
+      ],
+      edges: [
+        ...makeV8Edge({ type: EDGE_TYPE_HIDDEN, nameOrIndex: 0, toNode: 6 }), // Root -> parent (flat 6)
+        ...makeV8Edge({
+          type: EDGE_TYPE_ELEMENT,
+          nameOrIndex: 2 ** 64,
+          toNode: 12,
+        }), // Parent -[-1]-> child (flat 12)
+      ],
+      strings: [``, `parent`, `child`],
+    })
+
+    const md = convertJsonToMd(
+      v8HeapSnapshotConverter,
+      snapshot,
+      normalizeProfileToMdOptions(),
+    )
+
+    expect(selfSizeInstancesTables(md, `child`)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `50 B`,
+          Instances: `1`,
+          Path: `[<unknown>] parent`,
         },
       ],
     ])
