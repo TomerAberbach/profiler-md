@@ -1,7 +1,8 @@
 import { createWriteStream } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { dirname } from 'node:path'
-import { CliError, reasonOf } from './error.ts'
+import { reasonOf } from '../error.ts'
+import { CliError } from './error.ts'
 import { openPager } from './pager.ts'
 
 export type Output = {

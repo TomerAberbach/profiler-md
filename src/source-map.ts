@@ -1,6 +1,6 @@
 import { SourceMapConsumer } from 'source-map-js'
 import type { MappedPosition, RawSourceMap as SourceMap } from 'source-map-js'
-import { ProfilerMdError } from './error.ts'
+import { ProfilerMdError, reasonOf } from './error.ts'
 import { makeFileReference } from './location.ts'
 import type { FileReference, SourceLocation } from './location.ts'
 import type { FormattingProfileToMdOptions } from './options.ts'
@@ -33,9 +33,9 @@ export const normalizeSourceMaps = (
       consumer = new SourceMapConsumer(sourceMap)
     } catch (error) {
       throw new ProfilerMdError(
-        `sourceMaps entry for ${urlOrPath} is an invalid source map: ${
-          error instanceof Error ? error.message : String(error)
-        }`,
+        `sourceMaps entry for ${urlOrPath} is an invalid source map: ${reasonOf(
+          error,
+        )}`,
         { cause: error },
       )
     }
