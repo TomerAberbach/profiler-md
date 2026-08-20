@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
+import { ProfilerMdError } from '../error.ts'
 import { sourceReferenceId } from '../location.ts'
 import type { CallStackProfile } from '../modalities/call-stack-profile/index.ts'
 import {
@@ -12,7 +13,7 @@ import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
 import { categoryTables, profileTitles, rankingTables } from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
-import { FormatDetectError } from './error.ts'
+import { FormatDetectError, mayBeParserBug } from './error.ts'
 import {
   diffProfiles,
   diffProfilesAsync,
@@ -29,6 +30,8 @@ import {
   smallestInput,
 } from './testing.ts'
 import {
+  crashingV8CpuProfile,
+  lazilyCrashingV8CpuProfile,
   makeV8CallFrame,
   makeV8CpuProfileRoot,
 } from './v8/cpu-profile/testing.ts'
@@ -508,10 +511,181 @@ describe(`profileToMd`, () => {
       )
     })
 
-    test(`detection reports a malformed JSON document as unparseable JSON`, () => {
+    test(`detection reports a malformed JSON document as invalid JSON`, () => {
       expect(() => profileToMd(`{"nodes": [`)).toThrow(
-        /could not detect the profile format, the input reads as JSON but failed to parse: /u,
+        /could not detect the profile format, the input reads as JSON but is invalid JSON: /u,
       )
+    })
+
+    test(`a specified JSON format reports invalid JSON as its rejection`, () => {
+      expect(() =>
+        profileToMd({ data: `garbage\n`, format: `v8-cpu-profile` }),
+      ).toThrow(/^V8 CPU profile: invalid JSON: /u)
+    })
+
+    test(`a specified JSON format reports invalid JSON as its rejection when async`, async () => {
+      await expect(
+        profileToMdAsync({
+          data: new Blob([`garbage\n`]),
+          format: `v8-cpu-profile`,
+        }),
+      ).rejects.toThrow(/^V8 CPU profile: invalid JSON: /u)
+    })
+
+    test(`a specified binary format reports its decoder's failure as its rejection`, () => {
+      expect(() => profileToMd({ data: `garbage\n`, format: `pprof` })).toThrow(
+        /^pprof: invalid protobuf encoding: /u,
+      )
+    })
+
+    const unclassifiedInputs = [
+      { scenario: `before parse returns`, data: crashingV8CpuProfile },
+      {
+        scenario: `while aggregation consumes the parse's lazy iterable`,
+        data: lazilyCrashingV8CpuProfile,
+      },
+    ]
+
+    test.each(unclassifiedInputs)(
+      `a specified format reports an error its parser did not classify as a failure to parse, thrown $scenario`,
+      ({ data }) => {
+        let thrown
+        try {
+          profileToMd({ data, format: `v8-cpu-profile` })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBeInstanceOf(ProfilerMdError)
+        expect((thrown as Error).message).toMatch(
+          /^V8 CPU profile: failed to parse the input: /u,
+        )
+        expect(mayBeParserBug(thrown)).toBe(true)
+      },
+    )
+
+    test.each(unclassifiedInputs)(
+      `a specified format reports an error its parser did not classify as a failure to parse when async, thrown $scenario`,
+      async ({ data }) => {
+        let thrown
+        try {
+          await profileToMdAsync({
+            data: new Blob([data]),
+            format: `v8-cpu-profile`,
+          })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBeInstanceOf(ProfilerMdError)
+        expect((thrown as Error).message).toMatch(
+          /^V8 CPU profile: failed to parse the input: /u,
+        )
+        expect(mayBeParserBug(thrown)).toBe(true)
+      },
+    )
+
+    test.each(unclassifiedInputs)(
+      `detection reports an error a parser did not classify the same way a specified format does, thrown $scenario`,
+      ({ data }) => {
+        let detected
+        try {
+          profileToMd(data)
+        } catch (error: unknown) {
+          detected = error
+        }
+        let specified
+        try {
+          profileToMd({ data, format: `v8-cpu-profile` })
+        } catch (error: unknown) {
+          specified = error
+        }
+
+        expect((detected as Error).message).toBe((specified as Error).message)
+        expect(mayBeParserBug(detected)).toBe(true)
+      },
+    )
+
+    test(`a rejection the parser classified is not a possible bug`, () => {
+      let thrown
+      try {
+        profileToMd({ data: `funcA;funcB`, format: `collapsed` })
+      } catch (error: unknown) {
+        thrown = error
+      }
+
+      expect(mayBeParserBug(thrown)).toBe(false)
+    })
+
+    test.each([
+      { scenario: `under auto-detection`, format: undefined },
+      { scenario: `under a specified format`, format: `hprof` as const },
+    ])(
+      `a rejection's message collapses the whitespace of the value it reports, $scenario`,
+      ({ format }) => {
+        const data = new TextEncoder().encode(
+          `JAVA PROFILE \nfoo\n  1.0\tbar\0${`\0`.repeat(20)}`,
+        )
+
+        expect(() => profileToMd(format ? { data, format } : data)).toThrow(
+          `HPROF: unsupported format name, got: JAVA PROFILE foo 1.0 bar`,
+        )
+      },
+    )
+
+    test(`a specified format's rejection wraps the parser's error as its cause`, () => {
+      let thrown
+      try {
+        profileToMd({ data: crashingV8CpuProfile, format: `v8-cpu-profile` })
+      } catch (error: unknown) {
+        thrown = error
+      }
+
+      expect((thrown as Error).cause).toBeInstanceOf(TypeError)
+    })
+
+    describe(`a failure to read the data escapes unwrapped`, () => {
+      const readError = new Error(`EIO`)
+      function* failingIterable(): Iterable<Uint8Array> {
+        yield new TextEncoder().encode(`{`)
+        throw readError
+      }
+      const failingStream = (): ReadableStream<Uint8Array> =>
+        new ReadableStream({
+          pull: () => {
+            throw readError
+          },
+        })
+
+      test.each([
+        { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
+        { scenario: `under a specified binary format`, format: `pprof` },
+        { scenario: `under auto-detection`, format: undefined },
+      ] as const)(`from an iterable $scenario`, ({ format }) => {
+        let thrown
+        try {
+          profileToMd({ data: failingIterable(), format })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBe(readError)
+      })
+
+      test.each([
+        { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
+        { scenario: `under a specified binary format`, format: `pprof` },
+        { scenario: `under auto-detection`, format: undefined },
+      ] as const)(`from a stream $scenario`, async ({ format }) => {
+        let thrown
+        try {
+          await profileToMdAsync({ data: failingStream(), format })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBe(readError)
+      })
     })
 
     test(`a detection error contains the error from each format that rejected the input`, () => {

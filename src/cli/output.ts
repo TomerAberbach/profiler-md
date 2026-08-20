@@ -1,5 +1,6 @@
 import { createWriteStream } from 'node:fs'
-import { CliError, reasonOf } from './error.ts'
+import { reasonOf } from '../error.ts'
+import { CliError } from './error.ts'
 import { openPager } from './pager.ts'
 
 export type Output = {

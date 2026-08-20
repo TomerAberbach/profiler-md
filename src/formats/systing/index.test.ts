@@ -15,6 +15,7 @@ import {
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
+import { FormatParseError } from '../error.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { systingConverter } from './index.ts'
 import { parseSysting } from './parse.ts'
@@ -82,6 +83,28 @@ describe(`matches`, () => {
         makeSysting([], { ...systingHeader, stack_order: `root_first` }),
       ),
     ).toThrow(`root_first`)
+  })
+
+  test.each([
+    {
+      scenario: `a truncated header line`,
+      input: `{"systing_profile_export": 1, "sample_event": "cpu-clock`,
+    },
+    {
+      scenario: `a truncated record line`,
+      input: `${JSON.stringify(systingHeader)}\n["f", 1, "main`,
+    },
+  ])(`parse classifies $scenario as invalid JSON`, ({ input }) => {
+    let thrown
+    try {
+      parseSysting(new TextEncoder().encode(input))
+    } catch (error: unknown) {
+      thrown = error
+    }
+
+    expect(thrown).toBeInstanceOf(FormatParseError)
+    expect((thrown as Error).message).toMatch(/^invalid JSON: /u)
+    expect((thrown as Error).cause).toBeInstanceOf(SyntaxError)
   })
 
   test(`parse rejects records that aren't arrays`, () => {

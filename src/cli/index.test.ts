@@ -13,6 +13,10 @@ import {
   inputPath,
   smallestInput,
 } from '../formats/testing.ts'
+import {
+  crashingV8CpuProfile,
+  lazilyCrashingV8CpuProfile,
+} from '../formats/v8/cpu-profile/testing.ts'
 import { languageExtensionToPrimary } from './languages.ts'
 
 // Each test spawns the CLI in a subprocess, which can outlast the default 5s.
@@ -619,6 +623,64 @@ if (format === undefined) {
 
   test.concurrent.each([
     {
+      scenario: `under an explicit format`,
+      args: [`--format`, `v8-cpu-profile`],
+      input: crashingV8CpuProfile,
+    },
+    {
+      scenario: `under auto-detection`,
+      args: [],
+      input: crashingV8CpuProfile,
+    },
+    {
+      scenario: `lazily, under an explicit format`,
+      args: [`--format`, `v8-cpu-profile`],
+      input: lazilyCrashingV8CpuProfile,
+    },
+    {
+      scenario: `lazily, under auto-detection`,
+      args: [],
+      input: lazilyCrashingV8CpuProfile,
+    },
+  ])(
+    `reports an input that crashes a parser as unusable, with a bug report caveat, $scenario`,
+    async ({ args, input }) => {
+      const { status, stderr } = await runCli(args, input)
+
+      expect(status).toBe(1)
+      const [errorLine, ...caveatLines] = stderr.split(`\n`)
+      expect(errorLine).toContain(
+        `error: V8 CPU profile: failed to parse the input: `,
+      )
+      const traceLines = caveatLines.splice(3)
+      expect(caveatLines).toEqual([
+        `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
+        `${packageJson.bugs.url}/new`,
+        `Include the command you ran, the input if you can share it, and this trace:`,
+      ])
+      expect(traceLines[0]).toMatch(/^TypeError: /u)
+      expect(
+        traceLines.slice(1, -1).every(line => line.startsWith(`    at `)),
+      ).toBe(true)
+      expect(traceLines.at(-1)).toBe(``)
+    },
+  )
+
+  test.concurrent(
+    `reports a classified rejection without a bug report caveat`,
+    async () => {
+      const { status, stderr } = await runCli(
+        [`--format`, `collapsed`],
+        `funcA;funcB`,
+      )
+
+      expect(status).toBe(1)
+      expect(stderr).toBe(`error: Collapsed stacks: missing sample count\n`)
+    },
+  )
+
+  test.concurrent.each([
+    {
       scenario: `stdin with unrecognizable content`,
       args: [],
       input: `{}`,
@@ -629,7 +691,20 @@ if (format === undefined) {
       scenario: `stdin with a truncated JSON profile`,
       args: [],
       input: `{"nodes": [`,
-      expectedStderr: `the input reads as JSON but failed to parse`,
+      expectedStderr: `the input reads as JSON but is invalid JSON: `,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `stdin with invalid JSON under an explicit JSON format`,
+      args: [`--format`, `v8-cpu-profile`],
+      input: `garbage\n`,
+      expectedStderr: `error: V8 CPU profile: invalid JSON: `,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `a JSON file under --format pprof`,
+      args: [`--format`, `pprof`, inputPath(`javascript.node.base.cpuprofile`)],
+      expectedStderr: `error: pprof: invalid protobuf encoding: `,
       expectedStatus: 1,
     },
     {

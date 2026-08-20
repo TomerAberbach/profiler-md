@@ -14,6 +14,7 @@ import {
   profileTitles,
   summaryLines,
 } from '../../testing.ts'
+import { FormatParseError } from '../error.ts'
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { pprofConverter } from './index.ts'
 import { makePprof } from './testing.ts'
@@ -67,15 +68,17 @@ describe(`parse and matches`, () => {
   test(`rejects invalid binary data`, () => {
     expect(() =>
       pprofConverter.parse(new Uint8Array([0xff, 0xfe, 0xfd])),
-    ).toThrow()
+    ).toThrow(FormatParseError)
   })
 
-  test(`rejects non-pprof binary`, () => {
+  test(`rejects non-pprof binary as invalid protobuf encoding`, () => {
     const bytes = new TextEncoder().encode(
       JSON.stringify({ nodes: [], timeDeltas: [] }),
     )
 
-    expect(() => pprofConverter.parse(bytes)).toThrow()
+    expect(() => pprofConverter.parse(bytes)).toThrow(
+      /^invalid protobuf encoding: /u,
+    )
   })
 })
 
