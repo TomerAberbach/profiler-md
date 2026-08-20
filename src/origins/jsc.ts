@@ -15,7 +15,7 @@ export const jscConstructorCategory = (
 
 const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
   Object.entries({
-    Structure: `object shape`,
+    Structure: `object-shape`,
     'Immutable Butterfly': `array`,
     SparseArrayValueMap: `array`,
     Callee: `function`,

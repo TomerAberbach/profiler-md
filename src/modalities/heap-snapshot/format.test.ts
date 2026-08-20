@@ -180,7 +180,7 @@ describe(`formatHeapSnapshot`, () => {
           makeAggregatedHeapSnapshotString({
             value: `joined`,
             selfSize: 400,
-            category: `concatenated string`,
+            category: `concatenated-string`,
           }),
         ],
       })
@@ -827,7 +827,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           makeAggregatedHeapSnapshotString({
             value: `joined`,
             selfSize: 100,
-            category: `concatenated string`,
+            category: `concatenated-string`,
           }),
         ],
       })
@@ -837,7 +837,7 @@ describe(`formatHeapSnapshotDiff`, () => {
           makeAggregatedHeapSnapshotString({
             value: `joined`,
             selfSize: 200,
-            category: `concatenated string`,
+            category: `concatenated-string`,
           }),
         ],
       })

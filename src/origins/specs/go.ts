@@ -49,7 +49,7 @@ export const goOriginSpec = {
 } as const satisfies OriginSpec
 
 /**
- * Categorizes Go's collector as `garbage collector`: the background mark
+ * Categorizes Go's collector as `garbage-collector`: the background mark
  * workers and their drain loops, the sweeper, and the assist path a goroutine
  * enters when it allocates faster than the collector reclaims.
  *
@@ -68,7 +68,7 @@ const goCollectorCategory = ({
   name !== undefined &&
   GO_COLLECTOR.test(name) &&
   (location === undefined || isStdlibLocated(location))
-    ? `garbage collector`
+    ? `garbage-collector`
     : undefined
 
 /** Go's collector entry points, all in the `runtime` package. */

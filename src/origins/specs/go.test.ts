@@ -146,7 +146,7 @@ describe(`categorizeEntry`, () => {
         categorizeEntry(
           relativeEntry(`runtime.gcBgMarkWorker`, `runtime/mgc.go`),
         ),
-      ).toBe(`garbage collector`)
+      ).toBe(`garbage-collector`)
     })
 
     // Go inlines across packages and reports the inlined frame at the file it
@@ -177,7 +177,7 @@ describe(`categorizeEntry`, () => {
             `runtime/mgcmark.go`,
           ),
         ),
-      ).toBe(`garbage collector`)
+      ).toBe(`garbage-collector`)
     })
 
     test(`a vendored module is third-party`, () => {

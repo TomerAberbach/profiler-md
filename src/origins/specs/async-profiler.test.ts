@@ -107,7 +107,7 @@ describe(`categorizeEntry`, () => {
 
   test(`HotSpot GC barrier stubs are the garbage collector`, () => {
     expect(categorizeEntry(logicalEntry(`g1_post_barrier_slow`))).toBe(
-      `garbage collector`,
+      `garbage-collector`,
     )
   })
 

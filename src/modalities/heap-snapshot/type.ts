@@ -70,7 +70,7 @@ export type HeapSnapshot = {
  * flags. Where an engine's name is its own, the category takes the name every
  * language shares: `internal` covers V8's `hidden` and JavaScriptCore's
  * `internal`, `function` covers V8's `closure` whether or not the function
- * captures anything, and `big number` covers V8's `bigint` along with any
+ * captures anything, and `big-number` covers V8's `bigint` along with any
  * arbitrary-precision number a runtime allocates on the heap, such as Julia's
  * `BigFloat`.
  */
@@ -82,16 +82,16 @@ export const HEAP_SNAPSHOT_NODE_CATEGORIES = [
   `object`,
   `array`,
   `string`,
-  `concatenated string`,
-  `sliced string`,
+  `concatenated-string`,
+  `sliced-string`,
   `function`,
   `code`,
   `regexp`,
   `number`,
-  `big number`,
+  `big-number`,
   `symbol`,
   `native`,
-  `object shape`,
+  `object-shape`,
   `internal`,
   `synthetic`,
   `unknown`,

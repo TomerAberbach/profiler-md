@@ -23,7 +23,7 @@ describe(`categorizeEntry`, () => {
   test(`synthetic frames are the only recognized labels`, () => {
     // The only conventions recognizable without identifying the runtime.
     expect(categorizeEntry(relativeEntry(`(garbage collector)`))).toBe(
-      `garbage collector`,
+      `garbage-collector`,
     )
   })
 
