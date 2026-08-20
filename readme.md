@@ -224,8 +224,8 @@ Converts performance profiles to human and LLM friendly Markdown.
 
 Formats: callgrind, collapsed, ghc-eventlog, ghc-json-profile, hprof, jfr, jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
 Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go, gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon, unknown, valgrind
-Function categories (--category, --hide-category, --show-category): ours, third-party, stdlib, native, unknown, garbage-collector, compiler, jit, regexp, kernel, idle
-Heap snapshot categories (--hide-category, --show-category): object, array, string, concatenated-string, sliced-string, function, code, regexp, number, big-number, symbol, native, object-shape, internal, synthetic, unknown
+Function categories: ours, third-party, stdlib, native, unknown, garbage-collector, compiler, jit, regexp, kernel, idle
+Heap snapshot categories: object, array, string, concatenated-string, sliced-string, function, code, regexp, number, big-number, symbol, native, object-shape, internal, synthetic, unknown
 Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
 ```
 
