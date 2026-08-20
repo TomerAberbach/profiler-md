@@ -1,4 +1,5 @@
 import { createWriteStream } from 'node:fs'
+import { CliError, reasonOf } from './error.ts'
 import { openPager } from './pager.ts'
 
 export type Output = {
@@ -47,14 +48,35 @@ const openOutput = async (outputPath: string): Promise<Output> => {
 
   const stream = createWriteStream(outputPath)
   await new Promise<void>((resolve, reject) => {
-    stream.once(`open`, () => resolve()).once(`error`, reject)
+    stream
+      .once(`open`, () => resolve())
+      .once(`error`, error => reject(writeError(outputPath, error)))
   })
   return {
     write: text =>
       new Promise((resolve, reject) => {
         stream.write(text, error =>
-          error ? reject(error) : stream.end(resolve),
+          error ? reject(writeError(outputPath, error)) : stream.end(resolve),
         )
       }),
   }
 }
+
+const writeError = (outputPath: string, error: unknown): CliError =>
+  new CliError(
+    `cannot write ${outputPath}: ${WRITE_ERROR_REASONS.get(errorCodeOf(error)) ?? reasonOf(error)}`,
+    1,
+    { cause: error },
+  )
+
+const errorCodeOf = (error: unknown): string | undefined =>
+  error instanceof Error && `code` in error && typeof error.code === `string`
+    ? error.code
+    : undefined
+
+const WRITE_ERROR_REASONS: ReadonlyMap<string | undefined, string> = new Map([
+  [`ENOENT`, `no such directory`],
+  [`EISDIR`, `is a directory`],
+  [`EACCES`, `permission denied`],
+  [`EPERM`, `permission denied`],
+])
