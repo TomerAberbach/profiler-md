@@ -29,7 +29,7 @@ import {
  *   most uncoalesced samples, so weighting by it would understate where
  *   wall-clock time goes.
  * - `alloc`: heap allocation sampling (`jdk.ObjectAllocationSample` and the
- *   TLAB variants), weighted by allocated bytes.
+ *   TLAB variants), weighted by the allocated bytes the event stands for.
  * - `nativemem`: off-heap native memory allocation (async-profiler's
  *   `profiler.Malloc`), weighted by allocated bytes. The paired
  *   `profiler.Free` events are ignored: like `alloc`, this profiles where
@@ -296,11 +296,11 @@ const CONTENTIONS = countMetricOf(`contention`, { improvement: `decrease` })
  * metric and is ranked by its sample count.
  *
  * Allocation events sample: `jdk.ObjectAllocationSample` stands in for the
- * allocations since the previous one, a TLAB event fires per TLAB refill or
- * per allocation outside one, and async-profiler's `--alloc <bytes>` and
- * `--nativemem <bytes>` set a sampling interval for the heap and
- * `profiler.Malloc` events. Live-object and lock events each record one
- * occurrence of what their kind names, so their rate is per object or per
+ * allocations since the previous one, a TLAB event stands for a whole TLAB
+ * refill or for one allocation made outside a TLAB, and async-profiler's
+ * `--alloc <bytes>` and `--nativemem <bytes>` set a sampling interval for the
+ * heap and `profiler.Malloc` events. Live-object and lock events each record
+ * one occurrence of what their kind names, so their rate is per object or per
  * contention rather than per sample.
  */
 const KINDS: {
@@ -408,10 +408,18 @@ const EVENT_KINDS_BY_NAME: [string, EventKind][] = [
     { kind: `alloc`, weightField: `weight`, allocFamily: `sampled` },
   ],
   [
+    // The JVM emits one event per TLAB refill, and async-profiler one per
+    // `--alloc` interval of allocated bytes. async-profiler writes the
+    // interval as `tlabSize`, or the object size if larger, and its JDK<11
+    // engine writes the real TLAB size. In every case `tlabSize` is the bytes
+    // the sample stands for, and `allocationSize` is the size of the object
+    // that triggered it.
     `jdk.ObjectAllocationInNewTLAB`,
-    { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
+    { kind: `alloc`, weightField: `tlabSize`, allocFamily: `tlab` },
   ],
   [
+    // The JVM records an allocation too large for a TLAB in full, so its size
+    // is the bytes the event stands for. The type declares no `tlabSize`.
     `jdk.ObjectAllocationOutsideTLAB`,
     { kind: `alloc`, weightField: `allocationSize`, allocFamily: `tlab` },
   ],
