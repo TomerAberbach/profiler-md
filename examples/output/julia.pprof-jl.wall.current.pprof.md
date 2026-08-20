@@ -136,12 +136,6 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | -------------------------------------------------------------------------------------------- |
 | 100.0% |   1,365 | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/tuple.jl:162` |
 
-##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
-
-|     % | Samples | Location             |
-| ----: | ------: | -------------------- |
-| 98.7% |     899 | 18446744073709552000 |
-
 ##### `unsafe_load` (`/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/pointer.jl:151`)
 
 |      % | Samples | Location                                                                                       |
@@ -380,12 +374,6 @@ Lines ranked by contribution to each function's self samples.
 |      % | Samples | Location                                                                                            |
 | -----: | ------: | --------------------------------------------------------------------------------------------------- |
 | 100.0% |      15 | `/Users/tomer/.cache/profiler-md-input-generation/julia-depot/packages/JSON3/jSAdy/src/utils.jl:14` |
-
-##### `#defaultminimum##0` (`<unknown>`)
-
-|     % | Samples | Location             |
-| ----: | ------: | -------------------- |
-| 14.3% |       1 | 18446744073709552000 |
 
 #### Callers
 

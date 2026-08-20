@@ -523,6 +523,29 @@ describe(`convert`, () => {
     ).toEqual([[`src/a.ts:5`]])
   })
 
+  test(`omits a negative line`, () => {
+    // PProf.jl writes `-1` for a frame Julia reports no line for, which decodes
+    // as the unsigned 64-bit value.
+    const data = makePprof({
+      functions: [
+        { id: 1, name: `funcA`, filename: `/project/src/a.jl`, startLine: -1 },
+      ],
+      locations: [{ id: 1, lines: [{ functionId: 1, line: -1 }] }],
+      samples: [{ locationIds: [1], values: [100_000] }],
+    })
+
+    const md = convertBytesToMd(
+      pprofConverter,
+      data,
+      normalizeProfileToMdOptions({ baseURL: `/project` }),
+    )
+
+    expect(
+      selfTimeTables(md).map(table => table.map(row => row.Location)),
+    ).toEqual([[`src/a.jl`]])
+    expect(linesTables(md, `funcA`)).toEqual([])
+  })
+
   test(`handles inlined calls`, () => {
     // A location with two lines means `funcB` is inlined into `funcA`'s frame.
     // The first line (`funcB` at line 12) is the callee. `funcA` is its caller.

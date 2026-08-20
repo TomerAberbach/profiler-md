@@ -130,12 +130,6 @@ Lines ranked by contribution to each function's self samples.
 | -----: | ------: | -------------------------------------------------------------------------------------------- |
 | 100.0% |   1,393 | `/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/tuple.jl:162` |
 
-##### `(::JSON3.var\"#defaultminimum##2#defaultminimum##3\")(::Pair{Symbol, Any})` (`<unknown>`)
-
-|     % | Samples | Location             |
-| ----: | ------: | -------------------- |
-| 99.4% |     858 | 18446744073709552000 |
-
 ##### `eval(::Module, ::Any)` (`/nix/store/a2si0rmwaqlhmqvsgvc6nf388qjr0z0v-julia-bin-1.12.6/share/julia/base/boot.jl:489`)
 
 |      % | Samples | Location                                                                                    |
