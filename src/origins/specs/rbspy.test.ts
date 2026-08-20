@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { Format } from '../../formats/registry.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import type { ProfileEntry } from '../../options.ts'
+import { matchEntryForOrigin } from '../index.ts'
 import { determineOrigin, relativeEntry } from '../testing.ts'
 import { rbspyOriginSpec } from './rbspy.ts'
 
@@ -206,5 +207,60 @@ describe(`categorizeEntry`, () => {
     expect(categorizeEntry(located(`<main>`, `/usr/local/bin/rubocop`))).toBe(
       `ours`,
     )
+  })
+})
+
+describe(`matchEntry`, () => {
+  test.each([
+    [`an anonymous class`, `#<Class:0xffff758f5f00>#call`, `#<Class>#call`],
+    [`an anonymous module`, `#<Module:0xffff758f67c0>#call`, `#<Module>#call`],
+    [
+      `a singleton method's receiver`,
+      `#<Object:0xffff777ffd38>.call`,
+      `#<Object>.call`,
+    ],
+  ])(`strips the heap address of %s`, (_description, name, expected) => {
+    expect(
+      matchEntryForOrigin(located(name, `/app/lib/foo.rb`), `rbspy`),
+    ).toEqual({ name: expected })
+  })
+
+  test.each([
+    [
+      `a positive hash`,
+      `#<Class:0xffff7d4c56f8>#_app_views_statuses_index_html_erb__1413656015224407105_3112`,
+      `#<Class>#_app_views_statuses_index_html_erb`,
+    ],
+    [
+      `a negative hash`,
+      `#<Class:0xffff7d4c56f8>#_app_views_layouts_application_html_erb___77754931906950248_3144`,
+      `#<Class>#_app_views_layouts_application_html_erb`,
+    ],
+    [
+      `an owner-less label`,
+      `_app_views_statuses_index_html_erb__1413656015224407105_3112`,
+      `_app_views_statuses_index_html_erb`,
+    ],
+    [
+      `a block`,
+      `block in _app_views_statuses_index_html_erb___2193380913002583348_3112`,
+      `block in _app_views_statuses_index_html_erb`,
+    ],
+  ])(
+    `strips the hash and object id of a compiled template with %s`,
+    (_description, name, expected) => {
+      expect(matchEntryForOrigin(named(name), `rbspy`)).toEqual({
+        name: expected,
+      })
+    },
+  )
+
+  test.each([
+    [`a constant-named owner`, `Gem::Specification.each_spec`],
+    [`a method name ending in digits`, `Digest::SHA2#update_1_2`],
+  ])(`%s matches by its own name`, (_description, name) => {
+    expect(
+      matchEntryForOrigin(located(name, `/app/lib/foo.rb`), `rbspy`),
+    ).toBeUndefined()
   })
 })

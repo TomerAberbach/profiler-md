@@ -2,10 +2,44 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import {
+  matchEntryFromRules,
   normalizeSpeedscopeExecutingLine,
   placeholderPathNormalizer,
 } from '../origin.ts'
-import type { OriginSpec } from '../origin.ts'
+import type { EntryMatchRule, OriginSpec } from '../origin.ts'
+
+/**
+ * The `inspect` string of an anonymous method owner, whose heap address differs
+ * per run.
+ *
+ * Ruby 3.4 and later qualify a frame's label with the class, module, or object
+ * that owns the method (`Gem::Specification.each_spec`). Ruby labels an owner
+ * with no constant name by its `inspect` string instead:
+ * `#<Class:0xffff758f5f00>#call`, `#<Module:0xffff758f67c0>#call`, or
+ * `#<Object:0xffff777ffd38>.call` for a singleton method. The kept owner kind
+ * and method name identify the method across runs. Two anonymous owners defined
+ * in one file with the same method name then share a match key, and the diff
+ * pairs them in definition-line order.
+ */
+const ANONYMOUS_OWNER_ADDRESS_REGEX = /(?<kept>#<[\w:]+):0x[0-9a-f]+>/gu
+
+/**
+ * The per-process suffix of a compiled Action View template's method name.
+ *
+ * `ActionView::Template#method_name` is the template's path with every
+ * character outside `[a-z_]` replaced by `_`, then `__`, the path string's
+ * hash, `_`, and the template object's id, with a negative hash's sign
+ * replaced by a third `_`:
+ * `_app_views_statuses_index_html_erb__1413656015224407105_3112`. The hash is
+ * seeded per process and the object id differs per run, while the kept path
+ * identifies the template.
+ */
+const ACTION_VIEW_TEMPLATE_ID_REGEX = /(?<kept>\b_[a-z_]*[a-z])___?\d+_\d+$/u
+
+const RUBY_NAME_MATCH_RULES: EntryMatchRule[] = [
+  [ANONYMOUS_OWNER_ADDRESS_REGEX, `$<kept>>`],
+  [ACTION_VIEW_TEMPLATE_ID_REGEX, `$<kept>`],
+]
 
 /**
  * `rbspy`, the sampling profiler for Ruby.
@@ -21,6 +55,7 @@ export const rbspyOriginSpec = {
   id: `rbspy`,
   formats: [`callgrind`, `collapsed`, `pprof`, `speedscope`],
   isMarkerEntry: entry => isRbspyStackFrame(entry.name),
+  matchEntry: matchEntryFromRules({ name: RUBY_NAME_MATCH_RULES }),
   categorizeEntry: entry =>
     cFunctionCategory(entry) ??
     rubyGemCategory(entry) ??

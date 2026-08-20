@@ -1,0 +1,30 @@
+<h1>Search results</h1>
+<p><%= pluralize(@statuses.size, "status") %></p>
+<ol class="timeline">
+  <% @statuses.each do |status| %>
+    <% user = status["user"] %>
+    <li id="status-<%= status["id_str"] %>">
+      <article>
+        <header>
+          <%= link_to user["name"], user_path(user["screen_name"]) %>
+          <small>@<%= user["screen_name"] %></small>
+          <time datetime="<%= status["created_at"] %>"><%= status["created_at"] %></time>
+        </header>
+        <p><%= status["text"] %></p>
+        <% hashtags = status.dig("entities", "hashtags") %>
+        <% if hashtags.present? %>
+          <ul class="hashtags">
+            <% hashtags.each do |hashtag| %>
+              <li><%= link_to "##{hashtag["text"]}", hashtag_path(hashtag["text"]) %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        <footer>
+          <%= number_with_delimiter(status["retweet_count"]) %> retweets,
+          <%= number_with_delimiter(status["favorite_count"]) %> favorites,
+          <%= sanitize(status["source"], tags: %w[a], attributes: %w[href]) %>
+        </footer>
+      </article>
+    </li>
+  <% end %>
+</ol>
