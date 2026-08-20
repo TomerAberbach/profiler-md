@@ -15,6 +15,7 @@ import {
   sourceReferencePathOrName,
 } from '../location.ts'
 import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
+import { CliError, reasonOf } from './error.ts'
 
 /**
  * Every flag the options are built from, each required so that a flag added to
@@ -169,20 +170,41 @@ const loadSourceMaps = async (
 
   return Promise.all(
     paths.map(async path => {
-      const content = await readFile(path, `utf8`)
-      const inlineSourceMap = convertSourceMap
-        .fromSource(content)
-        ?.toObject() as SourceMap | undefined
-      if (!inlineSourceMap) {
-        return resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
+      let content
+      try {
+        content = await readFile(path, `utf8`)
+      } catch (error) {
+        throw new CliError(
+          `cannot read source map ${path}: ${reasonOf(error)}`,
+          1,
+          { cause: error },
+        )
       }
 
-      // Default `file` to the containing file so `normalizeSourceMaps` can
-      // associate the map with profile locations referencing this file.
-      inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
-      return resolveSourceMapSources(inlineSourceMap, path)
+      try {
+        return parseSourceMap(content, path)
+      } catch (error) {
+        throw new CliError(
+          `cannot parse source map ${path}: ${reasonOf(error)}`,
+          1,
+          { cause: error },
+        )
+      }
     }),
   )
+}
+
+const parseSourceMap = (content: string, path: string): SourceMap => {
+  const inlineSourceMap = convertSourceMap.fromSource(content)?.toObject() as
+    SourceMap | undefined
+  if (!inlineSourceMap) {
+    return resolveSourceMapSources(JSON.parse(content) as SourceMap, path)
+  }
+
+  // Default `file` to the containing file, so the map matches profile
+  // locations that reference that file.
+  inlineSourceMap.file ??= pathToFileURL(resolve(path)).href
+  return resolveSourceMapSources(inlineSourceMap, path)
 }
 
 /**

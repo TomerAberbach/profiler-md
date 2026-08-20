@@ -1,10 +1,10 @@
 import { createReadStream, openAsBlob } from 'node:fs'
-import { stat } from 'node:fs/promises'
+import { access, constants, stat } from 'node:fs/promises'
 import type { Transform } from 'node:stream'
 import { blob } from 'node:stream/consumers'
 import { pipeline } from 'node:stream/promises'
 import { createBrotliDecompress, createGunzip } from 'node:zlib'
-import { CliError } from './error.ts'
+import { CliError, reasonOf } from './error.ts'
 
 export const openInputAsBlob = async (
   filePath: string | undefined,
@@ -34,6 +34,15 @@ const openRawInputAsBlob = async (
   }
   if (stats.isDirectory()) {
     throw new CliError(`cannot read ${filePath}: is a directory`, 1)
+  }
+  // `openAsBlob` opens the file lazily, so an unreadable file fails on the
+  // first read instead of here, as a decompression error.
+  try {
+    await access(filePath, constants.R_OK)
+  } catch (error) {
+    throw new CliError(`cannot read ${filePath}: permission denied`, 1, {
+      cause: error,
+    })
   }
   // `openAsBlob` takes the content length from the file's size. For a pipe,
   // terminal, or socket that size is the bytes currently buffered, not the
@@ -100,9 +109,6 @@ const decompressBlob = async (
     )
   }
 }
-
-const reasonOf = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error)
 
 /**
  * The output buffer size for the decompression transforms. With zlib's 16 KiB

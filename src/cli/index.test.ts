@@ -1,6 +1,6 @@
 import { execFile, spawn } from 'node:child_process'
 import { createWriteStream } from 'node:fs'
-import { mkdtemp, open, readFile, rm, writeFile } from 'node:fs/promises'
+import { chmod, mkdtemp, open, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -195,6 +195,55 @@ if (format === undefined) {
       await rm(tempPath, { recursive: true })
     },
   )
+
+  test.concurrent.each([
+    {
+      scenario: `a path in a nonexistent directory`,
+      path: (dir: string) => join(dir, `nonexistent`, `out.md`),
+      expectedReason: `no such directory`,
+    },
+    {
+      scenario: `a directory`,
+      path: (dir: string) => dir,
+      expectedReason: `is a directory`,
+    },
+  ])(`errors on --output to $scenario`, async ({ path, expectedReason }) => {
+    const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+    const outputPath = path(dir)
+
+    const { status, stdout, stderr } = await runCli([
+      cpuProfilePath,
+      `--output`,
+      outputPath,
+    ])
+
+    expect(status).toBe(1)
+    expect(stdout).toBe(``)
+    expect(stderr).toBe(
+      `error: cannot write ${outputPath}: ${expectedReason}\n`,
+    )
+
+    await rm(dir, { recursive: true })
+  })
+
+  // Root reads a file regardless of its mode.
+  test
+    .skipIf(process.getuid?.() === 0)
+    .concurrent(`errors on an unreadable file`, async () => {
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+      const unreadablePath = join(dir, `unreadable.cpuprofile`)
+      await writeFile(unreadablePath, cpuProfileContent)
+      await chmod(unreadablePath, 0o000)
+
+      const { status, stderr } = await runCli([unreadablePath])
+
+      expect(status).toBe(1)
+      expect(stderr).toBe(
+        `error: cannot read ${unreadablePath}: permission denied\n`,
+      )
+
+      await rm(dir, { recursive: true, force: true })
+    })
 
   test.concurrent(`--top-n limits the number of entries shown`, async () => {
     const [{ stdout: top1 }, { stdout: top5 }] = await Promise.all([
@@ -543,6 +592,28 @@ if (format === undefined) {
 
       expect(status).toBe(0)
       expect(stdout).toMatch(/^# .* diff\n/u)
+    },
+  )
+
+  test.concurrent(
+    `errors on a --source-maps file that is not a source map`,
+    async () => {
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+      const sourceMapPath = join(dir, `garbage.map`)
+      await writeFile(sourceMapPath, `garbage\n`)
+
+      const { status, stderr } = await runCli([
+        cpuProfilePath,
+        `--source-maps`,
+        sourceMapPath,
+      ])
+
+      expect(status).toBe(1)
+      expect(stderr).toMatch(
+        new RegExp(`^error: cannot parse source map ${sourceMapPath}: `, `u`),
+      )
+
+      await rm(dir, { recursive: true })
     },
   )
 
