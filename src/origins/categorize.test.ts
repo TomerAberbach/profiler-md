@@ -43,7 +43,7 @@ describe(`synthetic frames (JavaScript runtimes)`, () => {
   const jsEngineOrigins: Origin[] = [`node`, `deno`, `bun`, `safari`]
   test.each(jsEngineOrigins)(`%s`, origin => {
     expect(categorizeEntryForOrigin(named(`(garbage collector)`), origin)).toBe(
-      `garbage collector`,
+      `garbage-collector`,
     )
     expect(categorizeEntryForOrigin(named(`(idle)`), origin)).toBe(`idle`)
     // Anonymous functions are real frames, not synthetic ones, so the label

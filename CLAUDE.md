@@ -346,7 +346,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - `compiler` is the runtime producing executable code, and `jit` a frame
   executing code the runtime generated. A named activity takes precedence over
   `jit`, so a garbage collection write barrier compiled inline is
-  `garbage collector`
+  `garbage-collector`
 - Match on a name alone only behind a guard that excludes the profiled program's
   own code, and state it: a JavaScript engine locates every function the program
   defines, so a missing location is that guard

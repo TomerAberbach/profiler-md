@@ -81,8 +81,8 @@ const JULIA_TYPE_CATEGORIES = new Map<string, HeapSnapshotNodeCategory>([
   [`Symbol`, `symbol`],
   [`Regex`, `regexp`],
   [`Base.Regex`, `regexp`],
-  [`BigInt`, `big number`],
-  [`BigFloat`, `big number`],
+  [`BigInt`, `big-number`],
+  [`BigFloat`, `big-number`],
   [`Base.BitSet`, `array`],
   [`Core.SimpleVector`, `array`],
 

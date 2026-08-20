@@ -68,7 +68,7 @@ export const normalizeProfileInput = <Data>(
  *   executing code the runtime generated. Where a frame both executes generated
  *   code and does the work of a named activity, the activity takes precedence,
  *   so a garbage collection write barrier compiled inline is
- *   `garbage collector`
+ *   `garbage-collector`
  */
 export type FunctionCategory = (typeof FUNCTION_CATEGORIES)[number]
 
@@ -79,7 +79,7 @@ export const FUNCTION_CATEGORIES = [
   `stdlib`,
   `native`,
   `unknown`,
-  `garbage collector`,
+  `garbage-collector`,
   `compiler`,
   `jit`,
   `regexp`,
@@ -503,6 +503,6 @@ export const isSyntheticEntry = ({
 /** The categories of a heap snapshot node named by the text it holds. */
 const TEXT_CATEGORIES = new Set<FunctionCategory | HeapSnapshotNodeCategory>([
   `string`,
-  `concatenated string`,
-  `sliced string`,
+  `concatenated-string`,
+  `sliced-string`,
 ])

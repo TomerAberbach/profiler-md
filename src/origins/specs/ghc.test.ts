@@ -46,7 +46,7 @@ describe(`categorizeEntry`, () => {
   })
 
   test(`the runtime's collector is its own category`, () => {
-    expect(categorizeEntry(named(`GC.GC`))).toBe(`garbage collector`)
+    expect(categorizeEntry(named(`GC.GC`))).toBe(`garbage-collector`)
   })
 
   test(`the runtime's idle centre is its own category`, () => {

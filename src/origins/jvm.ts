@@ -88,7 +88,7 @@ const JVM_STDLIB_PACKAGE =
  *
  * A GC write barrier is generated code executed inline in a compiled method, so
  * it satisfies `jit` as literally as the dispatch stubs do. It is
- * `garbage collector` because a named activity takes precedence, leaving `jit`
+ * `garbage-collector` because a named activity takes precedence, leaving `jit`
  * for generated code with no more specific one. Folding it into `jit` would
  * hide the cost of collection and leave `jit` meaning two unrelated things.
  */
@@ -103,7 +103,7 @@ export const hotspotRuntimeCategory = (
     return `jit`
   }
   if (GC_STUB.test(name)) {
-    return `garbage collector`
+    return `garbage-collector`
   }
   return HOTSPOT_COMPILER.test(name) ? `compiler` : undefined
 }
@@ -265,7 +265,7 @@ const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
     'java.lang.String': `string`,
     // A class object describes the layout its instances share, whether the dump
     // reports it as a class or as an instance of `java.lang.Class`.
-    'java.lang.Class': `object shape`,
+    'java.lang.Class': `object-shape`,
     'java.util.regex.Pattern': `regexp`,
     'java.lang.Byte': `number`,
     'java.lang.Short': `number`,
@@ -273,8 +273,8 @@ const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
     'java.lang.Long': `number`,
     'java.lang.Float': `number`,
     'java.lang.Double': `number`,
-    'java.math.BigInteger': `big number`,
-    'java.math.BigDecimal': `big number`,
+    'java.math.BigInteger': `big-number`,
+    'java.math.BigDecimal': `big-number`,
   } satisfies Record<string, HeapSnapshotNodeCategory>),
 )
 

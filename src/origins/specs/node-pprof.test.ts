@@ -54,7 +54,7 @@ describe(`categorizeEntry`, () => {
 
   test(`the package's Garbage Collection frame is the garbage collector`, () => {
     expect(categorizeEntry(relativeEntry(`Garbage Collection`))).toBe(
-      `garbage collector`,
+      `garbage-collector`,
     )
   })
 

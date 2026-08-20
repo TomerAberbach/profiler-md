@@ -65,9 +65,9 @@ const NODE_PROTOCOLS = [`node:`]
 
 /**
  * Categorizes the `pprof` package's garbage-collection frame, labelled
- * `Garbage Collection`, as `garbage collector`.
+ * `Garbage Collection`, as `garbage-collector`.
  */
 const garbageCollectionCategory = ({
   name,
 }: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
-  name === `Garbage Collection` ? `garbage collector` : undefined
+  name === `Garbage Collection` ? `garbage-collector` : undefined

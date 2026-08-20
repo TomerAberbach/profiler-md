@@ -82,11 +82,11 @@ describe(`categorizeHeapSnapshotConstructor`, () => {
 
   test.each([
     [`java.lang.String`, `string`],
-    [`java.lang.Class`, `object shape`],
+    [`java.lang.Class`, `object-shape`],
     [`java.util.regex.Pattern`, `regexp`],
     [`java.lang.Integer`, `number`],
     [`java.lang.Double`, `number`],
-    [`java.math.BigDecimal`, `big number`],
+    [`java.math.BigDecimal`, `big-number`],
   ])(`the platform's %s holds a %s`, (name, category) => {
     expect(categorizeHeapSnapshotConstructor(name)).toBe(category)
   })

@@ -630,7 +630,7 @@ const unresolvedCategoryOf = (
     case HPROF_GC_CLASS_DUMP:
       // A class object describes the layout its instances share, which is
       // what an object shape is in the languages that name one.
-      return { category: `object shape` }
+      return { category: `object-shape` }
     case HPROF_GC_INSTANCE_DUMP:
       return { category: `object` }
     default:

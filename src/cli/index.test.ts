@@ -340,7 +340,7 @@ if (format === undefined) {
     const { stdout } = await runCli([
       cpuProfilePath,
       `--hide-category`,
-      `garbage collector`,
+      `garbage-collector`,
     ])
 
     expect(stdout).not.toContain(`\`(garbage collector)\``)

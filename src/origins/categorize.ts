@@ -41,7 +41,7 @@ const SYNTHETIC_FRAME_LABEL = /^\((?<label>[A-Za-z][A-Za-z0-9 _-]*)\)$/u
  */
 const SYNTHETIC_FRAME_LABEL_CATEGORIES: ReadonlyMap<string, FunctionCategory> =
   new Map([
-    [`garbage collector`, `garbage collector`],
+    [`garbage collector`, `garbage-collector`],
     [`compiler`, `compiler`],
     [`idle`, `idle`],
     [`unknown`, `unknown`],
