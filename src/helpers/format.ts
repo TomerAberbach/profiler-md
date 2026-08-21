@@ -139,3 +139,6 @@ let conjunctionFormatter: Intl.ListFormat | undefined
 
 export const capitalizeFirst = (string: string): string =>
   string.length === 0 ? string : string[0]!.toUpperCase() + string.slice(1)
+
+export const uncapitalizeFirst = (string: string): string =>
+  string.length === 0 ? string : string[0]!.toLowerCase() + string.slice(1)

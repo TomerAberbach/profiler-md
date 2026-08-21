@@ -14,11 +14,11 @@ importers:
   .:
     dependencies:
       '@optique/core':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.3
+        version: 1.2.3
       '@optique/run':
-        specifier: ^1.2.0
-        version: 1.2.0
+        specifier: ^1.2.3
+        version: 1.2.3
       '@shikijs/core':
         specifier: ^4.3.1
         version: 4.3.1
@@ -384,12 +384,12 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@optique/core@1.2.0':
-    resolution: {integrity: sha512-h3gHGe8BCo5iVpOt4CcWCmTnPDYdyys0XqOCCc5ZPA2A2S+GmupMkqYNeI57+SildteuGEgBrGP+MlwRlWdzPA==}
+  '@optique/core@1.2.3':
+    resolution: {integrity: sha512-jVdupLI7WfeRbNMEQBTaL5uyt3uDkw9jJXqo91hdMZeD9lXnoJw0cu8jQSOM5c3sI6kwK+P5o8qSDYBv3ZSPCA==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
-  '@optique/run@1.2.0':
-    resolution: {integrity: sha512-4H+sJbpKlB0DsFYyJmyTj2atDdF+9j14MbH99zPTK7YGQysWQ4Vo8UR1O91+ssIDUnKkMNoss7zMvaMf6A52Jw==}
+  '@optique/run@1.2.3':
+    resolution: {integrity: sha512-KIjJ58sX+1FrkaBnCv5sg8ejl59hWCU001bAgNUBBLSL8lwMl18xlejPpaUwPyYqGcYqndmxAWtBbL8TyD9ZeQ==}
     engines: {bun: '>=1.2.0', deno: '>=2.3.0', node: '>=20.0.0'}
 
   '@oxc-parser/binding-android-arm-eabi@0.140.0':
@@ -3747,11 +3747,11 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@optique/core@1.2.0': {}
+  '@optique/core@1.2.3': {}
 
-  '@optique/run@1.2.0':
+  '@optique/run@1.2.3':
     dependencies:
-      '@optique/core': 1.2.0
+      '@optique/core': 1.2.3
 
   '@oxc-parser/binding-android-arm-eabi@0.140.0':
     optional: true

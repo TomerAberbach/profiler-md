@@ -9,8 +9,8 @@ import {
   table,
   text,
 } from '../helpers/markdown.ts'
-import { highlightMarkdown } from './highlight.ts'
-import type { HighlightMarkdownOptions } from './highlight.ts'
+import { highlightMarkdown } from './highlight-markdown.ts'
+import type { HighlightMarkdownOptions } from './highlight-markdown.ts'
 
 // Warm up the shiki highlighter once for the whole suite.
 beforeAll(async () => {

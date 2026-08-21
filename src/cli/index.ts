@@ -1,12 +1,12 @@
 import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
 import type { ProfileInput } from '../index.ts'
-import { parseArgs } from './cli.ts'
-import { reportError } from './error.ts'
-import { printHelpTopic } from './help.ts'
-import { highlightMarkdown } from './highlight.ts'
+import { CliError, reportError } from './error.ts'
+import { printBriefHelp, printHelpTopic } from './help.ts'
+import { highlightMarkdown } from './highlight-markdown.ts'
 import { openInputAsBlob } from './input.ts'
 import { buildOptions } from './options.ts'
-import { checkOutputPath, writeOutput } from './output.ts'
+import { checkOutputPath, isTTYOutput, writeOutput } from './output.ts'
+import { parseArgs } from './parse-args.ts'
 
 try {
   const {
@@ -37,8 +37,17 @@ try {
     await printHelpTopic(typeof help === `string` ? help : undefined, { pager })
   }
 
+  // A redirected stdout or an output file means a conversion was intended, so
+  // the missing input is an error instead of help written where the Markdown
+  // was expected.
   if (basePath === undefined && process.stdin.isTTY) {
-    await printHelpTopic(undefined, { pager })
+    if (isTTYOutput(outputPath)) {
+      printBriefHelp()
+    }
+    throw new CliError(
+      `no input given: pass a FILE or pipe a profile to stdin`,
+      2,
+    )
   }
 
   await checkOutputPath(outputPath)

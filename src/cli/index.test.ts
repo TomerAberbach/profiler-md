@@ -91,6 +91,34 @@ if (format === undefined) {
     },
   )
 
+  test.concurrent(
+    `--help fits COLUMNS and leads with the synopsis and examples`,
+    async () => {
+      const { status, stdout, stderr } = await runCli([`--help`], undefined, {
+        COLUMNS: `80`,
+      })
+
+      expect(status).toBe(0)
+      expect(stderr).toBe(``)
+      expect(stdout).toMatch(
+        /^Converts [^\n]+\n\nUsage: profiler-md \[OPTIONS\] \[FILE\]\n {7}profiler-md \[OPTIONS\] BASE CURRENT\n {7}profiler-md --help \[TOPIC\]\n\nExamples:\n/u,
+      )
+      expect(stdout.split(`\n`).filter(line => line.length > 80)).toEqual([])
+    },
+  )
+
+  test.concurrent(
+    `the synopsis and a --help pointer follow an invocation error`,
+    async () => {
+      const { status, stderr } = await runCli([`--unknown-flag`])
+
+      expect(status).toBe(2)
+      expect(stderr).toBe(
+        `error: unexpected option or argument: "--unknown-flag"\n\nUsage: profiler-md [OPTIONS] [FILE]\n       profiler-md [OPTIONS] BASE CURRENT\n       profiler-md --help [TOPIC]\n\nRun \`profiler-md --help\` for every flag.\n`,
+      )
+    },
+  )
+
   test.concurrent(`reads from stdin and auto-detects format`, async () => {
     const { status, stdout } = await runCli([], cpuProfileContent)
 
@@ -847,13 +875,17 @@ if (format === undefined) {
   )
 }
 
-const runCli = (args: string[], input?: string | Uint8Array) =>
+const runCli = (
+  args: string[],
+  input?: string | Uint8Array,
+  env?: Record<string, string>,
+) =>
   new Promise<{ status: number | null; stdout: string; stderr: string }>(
     (resolve, reject) => {
       const child = spawn(process.execPath, [cliPath, ...args], {
         // Reuse compiled bytecode across the many spawned CLI processes,
         // roughly halving each one's startup.
-        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath },
+        env: { ...process.env, NODE_COMPILE_CACHE: compileCachePath, ...env },
       })
 
       const stdout: Buffer[] = []
