@@ -673,6 +673,12 @@ if (format === undefined) {
       expectedStatus: 1,
     },
     {
+      scenario: `a negative --top-n`,
+      args: [inputPath(`javascript.node.base.cpuprofile`), `--top-n`, `-1`],
+      expectedStderr: `greater than or equal to 0`,
+      expectedStatus: 2,
+    },
+    {
       scenario: `--match-location without an equals sign`,
       args: [
         inputPath(`javascript.node.base.cpuprofile`),

@@ -39,6 +39,14 @@ test(`normalizeSourceMaps drops entries with an unknown file field`, () => {
   expect(sourceMaps).toHaveLength(0)
 })
 
+test(`normalizeSourceMaps throws for an invalid source map`, () => {
+  expect(() =>
+    normalizeSourceMaps([makeSourceMap({ file: `/app.js`, version: `2` })]),
+  ).toThrow(
+    `sourceMaps entry for /app.js is an invalid source map: Unsupported version: 2`,
+  )
+})
+
 test(`normalizeSourceMaps infers absolute location from absolute file path`, () => {
   const sourceMaps = normalizeSourceMaps([
     makeSourceMap({

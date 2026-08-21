@@ -335,7 +335,7 @@ export const normalizeProfileToMdOptions = ({
   categorizeFunctions = defaultCategorizeFunctions,
   showEntry = defaultShowEntry,
 }: ProfileToMdOptions = {}): NormalizedProfileToMdOptions => ({
-  topN,
+  topN: normalizeTopN(topN),
   minCategoryShare: normalizeMinCategoryShare(minCategoryShare),
   baseURL: normalizeBaseURL(baseURL),
   sourceMaps: normalizeSourceMaps(sourceMaps),
@@ -354,6 +354,15 @@ export const normalizeProfileToMdOptions = ({
   },
   showEntry: cacheEntryFunction(showEntry),
 })
+
+const normalizeTopN = (topN: number): number => {
+  if (!(Number.isSafeInteger(topN) && topN >= 0)) {
+    throw new ProfilerMdError(
+      `topN must be a non-negative integer, got: ${topN}`,
+    )
+  }
+  return topN
+}
 
 const normalizeMinCategoryShare = (minCategoryShare: number): number => {
   if (!(minCategoryShare >= 0 && minCategoryShare <= 1)) {
