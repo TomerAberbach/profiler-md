@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { formatDocPage, getDocPage } from '@optique/core'
 import type { DocEntry, DocSection } from '@optique/core'
-import { message } from '@optique/core/message'
+import { commandLine, message } from '@optique/core/message'
 import { formatUsageTerm } from '@optique/core/usage'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
@@ -219,6 +219,21 @@ export const formatUsageExamples = (indent = ``): string =>
         `${indent}# ${description}\n${indent}$ ${command}\n`,
     )
     .join(`\n`)
+
+/** The synopsis and where the full help is. */
+export const getUsageHint = (): string => {
+  const { name } = program.metadata
+  const text = formatDocPage(
+    name,
+    {
+      usage,
+      sections: [],
+      footer: message`Run ${commandLine(`${name} --help`)} for every flag.`,
+    },
+    { maxWidth: getMaxWidth() },
+  )
+  return `\n${text}\n`
+}
 
 export const getMaxWidth = (): number =>
   Math.max(

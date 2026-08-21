@@ -2,6 +2,7 @@ import { afterEach, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError } from '../error.ts'
 import { CliError, reportError } from './error.ts'
+import { getUsageHint } from './help.ts'
 
 const EXIT = `process.exit`
 
@@ -58,7 +59,7 @@ test(`reports a thrown non-error as a bug`, () => {
 
 test.each([
   { error: new ProfilerMdError(`bad input`), exitCode: 1 },
-  { error: new CliError(`bad flag`, 2), exitCode: 2 },
+  { error: new CliError(`bad file`, 1), exitCode: 1 },
 ])(
   `reports a $error.name without a bug report, exiting with $exitCode`,
   ({ error, exitCode }) => {
@@ -68,3 +69,12 @@ test.each([
     expect(exit).toHaveBeenCalledExactlyOnceWith(exitCode)
   },
 )
+
+test(`follows an invocation error with the usage hint, exiting with 2`, () => {
+  const error = new CliError(`bad flag`, 2)
+
+  expect(() => reportError(error)).toThrow(EXIT)
+
+  expect(stderr.join(``)).toBe(`error: ${error.message}\n${getUsageHint()}`)
+  expect(exit).toHaveBeenCalledExactlyOnceWith(2)
+})

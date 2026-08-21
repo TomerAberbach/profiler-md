@@ -107,6 +107,18 @@ if (format === undefined) {
     },
   )
 
+  test.concurrent(
+    `the synopsis and a --help pointer follow an invocation error`,
+    async () => {
+      const { status, stderr } = await runCli([`--unknown-flag`])
+
+      expect(status).toBe(2)
+      expect(stderr).toBe(
+        `error: unexpected option or argument: "--unknown-flag"\n\nUsage: profiler-md [OPTIONS] [FILE]\n       profiler-md [OPTIONS] BASE CURRENT\n       profiler-md --help [TOPIC]\n\nRun \`profiler-md --help\` for every flag.\n`,
+      )
+    },
+  )
+
   test.concurrent(`reads from stdin and auto-detects format`, async () => {
     const { status, stdout } = await runCli([], cpuProfileContent)
 
