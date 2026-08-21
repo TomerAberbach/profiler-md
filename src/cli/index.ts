@@ -6,7 +6,7 @@ import { printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight.ts'
 import { openInputAsBlob } from './input.ts'
 import { buildOptions } from './options.ts'
-import { writeOutput } from './output.ts'
+import { checkOutputPath, writeOutput } from './output.ts'
 
 try {
   const {
@@ -40,6 +40,8 @@ try {
   if (basePath === undefined && process.stdin.isTTY) {
     await printHelpTopic(undefined, { pager })
   }
+
+  await checkOutputPath(outputPath)
 
   const toInput = <Data>(data: Data): ProfileInput<Data> =>
     format || origin ? { data, format, origin } : data

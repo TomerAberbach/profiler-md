@@ -1,4 +1,6 @@
 import { createWriteStream } from 'node:fs'
+import { access, constants, stat } from 'node:fs/promises'
+import { dirname } from 'node:path'
 import { CliError, reasonOf } from './error.ts'
 import { openPager } from './pager.ts'
 
@@ -23,6 +25,37 @@ export const writeOutput = async (
 
 export const isTTYOutput = (outputPath: string): boolean =>
   outputPath === `-` && Boolean(process.stdout.isTTY)
+
+/**
+ * Rejects an output path that cannot be written.
+ *
+ * A path must be a writable file, or absent from a writable directory. The
+ * check creates no file.
+ */
+export const checkOutputPath = async (outputPath: string): Promise<void> => {
+  if (outputPath === `-`) {
+    return
+  }
+
+  let isDirectory
+  try {
+    isDirectory = (await stat(outputPath)).isDirectory()
+    await access(outputPath, constants.W_OK)
+  } catch (error) {
+    if (errorCodeOf(error) !== `ENOENT`) {
+      throw writeError(outputPath, error)
+    }
+    try {
+      await access(dirname(outputPath), constants.W_OK)
+    } catch (directoryError) {
+      throw writeError(outputPath, directoryError)
+    }
+    return
+  }
+  if (isDirectory) {
+    throw new CliError(`cannot write ${outputPath}: is a directory`, 1)
+  }
+}
 
 const openOutput = async (outputPath: string): Promise<Output> => {
   if (outputPath === `-`) {
@@ -76,6 +109,7 @@ const errorCodeOf = (error: unknown): string | undefined =>
 
 const WRITE_ERROR_REASONS: ReadonlyMap<string | undefined, string> = new Map([
   [`ENOENT`, `no such directory`],
+  [`ENOTDIR`, `no such directory`],
   [`EISDIR`, `is a directory`],
   [`EACCES`, `permission denied`],
   [`EPERM`, `permission denied`],

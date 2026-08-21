@@ -226,6 +226,27 @@ if (format === undefined) {
     await rm(dir, { recursive: true })
   })
 
+  test.concurrent(
+    `checks the --output path before converting the input`,
+    async () => {
+      const dir = await mkdtemp(join(tmpdir(), `profiler-md-`))
+      const outputPath = join(dir, `nonexistent`, `out.md`)
+
+      const { status, stdout, stderr } = await runCli(
+        [`--output`, outputPath],
+        `not a profile`,
+      )
+
+      expect(status).toBe(1)
+      expect(stdout).toBe(``)
+      expect(stderr).toBe(
+        `error: cannot write ${outputPath}: no such directory\n`,
+      )
+
+      await rm(dir, { recursive: true })
+    },
+  )
+
   // Root reads a file regardless of its mode.
   test
     .skipIf(process.getuid?.() === 0)
