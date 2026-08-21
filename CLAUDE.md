@@ -30,7 +30,12 @@ profiler-md
 │   ├── formats/                  # Individual profile format implementations
 │   │   ├── converter.ts          # Format converter types
 │   │   ├── registry.ts           # Format converter registry
-│   │   ├── index.ts              # profileToMd(Async)/diffProfiles(Async) and format auto-detection
+│   │   ├── error.ts              # Parse and detection error classes
+│   │   ├── parse.ts              # Specified-format parse wrappers that report a rejection as the format's
+│   │   ├── detect.ts             # Format auto-detection and its undetected-format error
+│   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
+│   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
+│   │   ├── index.ts              # profileToMd(Async)/diffProfiles(Async): buffers the input, then parses or detects, aggregates, and formats
 │   │   ├── **/<name>/            # One per format, top-level (e.g. collapsed) or nested in a subdirectory (e.g. v8/cpu-profile)
 │   │   │   ├── matches.ts        # Cheap auto-detection check for the format
 │   │   │   ├── parse.ts          # Parses input into a modality's parsed type
