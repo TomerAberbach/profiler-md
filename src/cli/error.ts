@@ -27,6 +27,3 @@ export const reportError = (error: unknown): never => {
   process.stderr.write(`error: ${String(error)}\n`)
   process.exit(1)
 }
-
-export const reasonOf = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error)

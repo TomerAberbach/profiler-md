@@ -1,6 +1,6 @@
 import { JumboJSON } from 'jumbo-json'
 import type { RootContent } from 'mdast'
-import { ProfilerMdError } from '../error.ts'
+import { ProfilerMdError, reasonOf } from '../error.ts'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
 import {
   maybeJson,
@@ -543,12 +543,6 @@ const undetectedFormatError = (
 /** A rejection as `<title>: <reason>`. */
 const describeRejection = ({ converter, error }: FormatRejection): string =>
   `${converter.title}: ${reasonOf(error)}`
-
-/** An error's message on one line, for embedding in another message. */
-const reasonOf = (error: unknown): string =>
-  (error instanceof Error ? error.message : String(error))
-    .replaceAll(/\s+/gu, ` `)
-    .trim()
 
 export const formatAggregatedInputs = (
   inputs: AggregatedInput[],

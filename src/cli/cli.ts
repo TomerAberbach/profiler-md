@@ -11,6 +11,7 @@ import { choice, float, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
 import { path } from '@optique/run'
 import packageJson from '../../package.json' with { type: 'json' }
+import { reasonOf } from '../error.ts'
 import { formats } from '../formats/index.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
@@ -53,9 +54,7 @@ const parseRegex = (
   } catch (error) {
     return {
       success: false,
-      error: message`expected a valid regex, got: ${value(pattern)} (${text(
-        error instanceof Error ? error.message : String(error),
-      )})`,
+      error: message`expected a valid regex, got: ${value(pattern)} (${text(reasonOf(error))})`,
     }
   }
 }

@@ -4,7 +4,8 @@ import type { Transform } from 'node:stream'
 import { blob } from 'node:stream/consumers'
 import { pipeline } from 'node:stream/promises'
 import { createBrotliDecompress, createGunzip } from 'node:zlib'
-import { CliError, reasonOf } from './error.ts'
+import { reasonOf } from '../error.ts'
+import { CliError } from './error.ts'
 
 export const openInputAsBlob = async (
   filePath: string | undefined,

@@ -2,6 +2,7 @@ import { glob, readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
+import { reasonOf } from '../error.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import {
   defaultCategorizeFunctions,
@@ -15,7 +16,7 @@ import {
   sourceReferencePathOrName,
 } from '../location.ts'
 import type { EntryCategory, RegexCategory, RegexReplacement } from './cli.ts'
-import { CliError, reasonOf } from './error.ts'
+import { CliError } from './error.ts'
 
 /**
  * Every flag the options are built from, each required so that a flag added to
