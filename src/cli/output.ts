@@ -18,10 +18,10 @@ export const writeOutput = async (
   outputPath: string,
   { pager }: WriteOutputOptions,
 ): Promise<void> => {
-  const output =
-    (pager && isTTYOutput(outputPath) ? await openPager() : null) ??
-    (await openOutput(outputPath))
-  await output.write(text)
+  const output = await openOutput(outputPath)
+  const pagerOutput =
+    pager && isTTYOutput(outputPath) ? await openPager(output) : null
+  await (pagerOutput ?? output).write(text)
 }
 
 export const isTTYOutput = (outputPath: string): boolean =>
