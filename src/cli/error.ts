@@ -1,7 +1,9 @@
 import packageJson from '../../package.json' with { type: 'json' }
 import { ProfilerMdError, reasonOf } from '../error.ts'
 import { unclassifiedParseFailures } from '../formats/error.ts'
+import { stderrSupportsColor } from './ansis.ts'
 import { getUsageHint } from './help.ts'
+import { highlightErrorPrefix } from './highlight-help.ts'
 
 export class CliError extends ProfilerMdError {
   public readonly exitCode: 1 | 2
@@ -16,7 +18,10 @@ export class CliError extends ProfilerMdError {
 
 export const reportError = (error: unknown): never => {
   if (error instanceof ProfilerMdError) {
-    process.stderr.write(`error: ${error.message}\n`)
+    const colors = stderrSupportsColor()
+    process.stderr.write(
+      `${highlightErrorPrefix(`error: ${error.message}`, { colors })}\n`,
+    )
     const parseFailures = unclassifiedParseFailures(error)
     if (parseFailures.length > 0) {
       process.stderr.write(
@@ -29,7 +34,7 @@ export const reportError = (error: unknown): never => {
     const exitCode = error instanceof CliError ? error.exitCode : 1
     // Exit code 2 is an invocation error, which the synopsis helps correct
     if (exitCode === 2) {
-      process.stderr.write(getUsageHint())
+      process.stderr.write(getUsageHint({ colors }))
     }
     process.exit(exitCode)
   }
