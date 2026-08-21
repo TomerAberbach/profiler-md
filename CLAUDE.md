@@ -30,8 +30,8 @@ profiler-md
 │   ├── formats/                  # Individual profile format implementations
 │   │   ├── converter.ts          # Format converter types
 │   │   ├── registry.ts           # Format converter registry
-│   │   ├── error.ts              # Parse and detection error classes
-│   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that report a rejection as the format's
+│   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
+│   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
 │   │   ├── detect.ts             # Format auto-detection and its undetected-format error
 │   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
 │   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
@@ -263,6 +263,17 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   accept anything of the format, including a version or variant the parser
   rejects, so auto-detection reports that reason instead of an undetectable
   input
+- The pipeline classifies a failure `parse` throws by the error's class, at the
+  boundary it catches it. A `FormatParseError` is a violation the parser
+  identified. Any other error escaping `parse` is one the parser did not
+  classify: the input violates the format in a way the parser does not check, or
+  the parser has a bug. The pipeline reports both as unusable input. It reports
+  the second as `<title>: failed to parse the input: <reason>`, and the CLI adds
+  a bug report caveat to it (`mayBeParserBug`). The classification is the same
+  under auto-detection and a specified format, and the same for an error a
+  parsed input's lazy iterable throws while aggregation consumes it. An error
+  the caller's data throws while `parse` reads it is the caller's, and the
+  pipeline rethrows it unwrapped. Any other error after `parse` is a bug
 - Wrap a third-party decoder's error (e.g. `JSON.parse`) in a `FormatParseError`
   at its call site. The parser cannot check anything before decoding succeeds,
   so a decoding failure is the input's, however the decoder reports it
@@ -286,7 +297,13 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Parsing
 
 - Cast untyped profile data to typed data for performance. Validate only when
-  necessary to make progress
+  necessary to make progress. Check the shape of what a lazy iterable reads
+  (e.g. that `samples` is an array) before `parse` returns, because
+  auto-detection moves on to the next format only while `parse` is running.
+  Check for a wrong cast that would crash formatting, because the pipeline
+  reports that error as a bug. NEVER add a check to a parser for a nicer message
+  alone: the pipeline already reports an error escaping `parse` as unusable
+  input
 - Parse a specified format to its spec, accepting every shape the spec allows.
   Add handling for a shape the spec forbids only when an input contains it, and
   name the emitter that writes it in a comment
