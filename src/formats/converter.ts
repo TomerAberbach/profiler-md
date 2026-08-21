@@ -52,7 +52,7 @@ type FormatMeta = {
  * A cheap {@link Detect.matches} may be a loose prefilter because `parse` is
  * the real check.
  */
-type Parse<Input> = {
+export type Parse<Input> = {
   parse: (input: Input) => ParsedInput[]
 }
 
@@ -68,7 +68,7 @@ type Parse<Input> = {
  * keep ambiguous input (e.g. text a user could force) from being auto-detected
  * as this format.
  */
-type Detect<Input> = {
+export type Detect<Input> = {
   matches: (input: Input) => boolean
 }
 

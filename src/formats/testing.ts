@@ -3,18 +3,14 @@ import path from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { inject } from 'vitest'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
+import { aggregateParsedInputs } from './aggregate.ts'
 import type {
   BinaryFormatConverter,
   FormatConverter,
   JsonFormatConverter,
 } from './converter.ts'
-import {
-  aggregateBinaryInput,
-  aggregateBinaryInputAsync,
-  aggregateJsonInput,
-  formatAggregatedInputs,
-  formatConverters,
-} from './index.ts'
+import { formatAggregatedInputs } from './format.ts'
+import { formatConverters } from './index.ts'
 import type { Format } from './index.ts'
 
 declare module 'vitest' {
@@ -81,9 +77,8 @@ export const convertJsonToMd = (
   format?: Format,
 ): string =>
   formatAggregatedInputs(
-    aggregateJsonInput(
-      converter,
-      json,
+    aggregateParsedInputs(
+      converter.parse(json),
       options,
       format ? { format, origin: null } : profileToMdContext(converter),
     ),
@@ -96,9 +91,8 @@ export const convertBytesToMd = (
   options: NormalizedProfileToMdOptions,
 ): string =>
   formatAggregatedInputs(
-    aggregateBinaryInput(
-      converter,
-      bytes,
+    aggregateParsedInputs(
+      converter.parse(bytes),
       options,
       profileToMdContext(converter),
     ),
@@ -115,9 +109,8 @@ export const convertToMdAsync = async (
   options: NormalizedProfileToMdOptions,
 ): Promise<string> =>
   formatAggregatedInputs(
-    await aggregateBinaryInputAsync(
-      converter,
-      stream,
+    aggregateParsedInputs(
+      await converter.parseAsync(stream),
       options,
       profileToMdContext(converter),
     ),
