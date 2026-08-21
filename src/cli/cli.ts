@@ -176,7 +176,7 @@ const parser = object({
     `-`,
   ),
   topN: optional(
-    option(`--top-n`, integer({ metavar: `N` }), {
+    option(`--top-n`, integer({ metavar: `N`, min: 0 }), {
       description: message`Entries to show per ranking, including category subsections (default: 20)`,
     }),
   ),
