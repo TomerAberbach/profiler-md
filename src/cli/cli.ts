@@ -301,12 +301,8 @@ export const getHelpText = (): string => {
     }),
     `Formats: ${formats.join(`, `)}`,
     `Origins: ${origins.join(`, `)}`,
-    `Function categories (--category, --hide-category, --show-category): ${FUNCTION_CATEGORIES.join(
-      `, `,
-    )}`,
-    `Heap snapshot categories (--hide-category, --show-category): ${HEAP_SNAPSHOT_NODE_CATEGORIES.join(
-      `, `,
-    )}`,
+    `Function categories: ${FUNCTION_CATEGORIES.join(`, `)}`,
+    `Heap snapshot categories: ${HEAP_SNAPSHOT_NODE_CATEGORIES.join(`, `)}`,
     `Languages: ${[...languages.entries()]
       .map(([id, { aliases }]) =>
         [id, ...(aliases?.map(alias => alias.id) ?? [])].join(`/`),
