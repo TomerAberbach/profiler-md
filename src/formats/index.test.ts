@@ -508,10 +508,75 @@ describe(`profileToMd`, () => {
       )
     })
 
-    test(`detection reports a malformed JSON document as unparseable JSON`, () => {
+    test(`detection reports a malformed JSON document as invalid JSON`, () => {
       expect(() => profileToMd(`{"nodes": [`)).toThrow(
-        /could not detect the profile format, the input reads as JSON but failed to parse: /u,
+        /could not detect the profile format, the input reads as JSON but is invalid JSON: /u,
       )
+    })
+
+    test(`a specified JSON format reports invalid JSON as its rejection`, () => {
+      expect(() =>
+        profileToMd({ data: `garbage\n`, format: `v8-cpu-profile` }),
+      ).toThrow(/^V8 CPU profile: invalid JSON: /u)
+    })
+
+    test(`a specified JSON format reports invalid JSON as its rejection when async`, async () => {
+      await expect(
+        profileToMdAsync({
+          data: new Blob([`garbage\n`]),
+          format: `v8-cpu-profile`,
+        }),
+      ).rejects.toThrow(/^V8 CPU profile: invalid JSON: /u)
+    })
+
+    test(`a specified binary format reports its decoder's failure as its rejection`, () => {
+      expect(() => profileToMd({ data: `garbage\n`, format: `pprof` })).toThrow(
+        /^pprof: invalid protobuf encoding: /u,
+      )
+    })
+
+    describe(`a failure to read the data escapes unwrapped`, () => {
+      const readError = new Error(`EIO`)
+      function* failingIterable(): Iterable<Uint8Array> {
+        yield new TextEncoder().encode(`{`)
+        throw readError
+      }
+      const failingStream = (): ReadableStream<Uint8Array> =>
+        new ReadableStream({
+          pull: () => {
+            throw readError
+          },
+        })
+
+      test.each([
+        { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
+        { scenario: `under a specified binary format`, format: `pprof` },
+        { scenario: `under auto-detection`, format: undefined },
+      ] as const)(`from an iterable $scenario`, ({ format }) => {
+        let thrown
+        try {
+          profileToMd({ data: failingIterable(), format })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBe(readError)
+      })
+
+      test.each([
+        { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
+        { scenario: `under a specified binary format`, format: `pprof` },
+        { scenario: `under auto-detection`, format: undefined },
+      ] as const)(`from a stream $scenario`, async ({ format }) => {
+        let thrown
+        try {
+          await profileToMdAsync({ data: failingStream(), format })
+        } catch (error: unknown) {
+          thrown = error
+        }
+
+        expect(thrown).toBe(readError)
+      })
     })
 
     test(`a detection error contains the error from each format that rejected the input`, () => {

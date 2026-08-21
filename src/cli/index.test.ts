@@ -650,7 +650,20 @@ if (format === undefined) {
       scenario: `stdin with a truncated JSON profile`,
       args: [],
       input: `{"nodes": [`,
-      expectedStderr: `the input reads as JSON but failed to parse`,
+      expectedStderr: `the input reads as JSON but is invalid JSON: `,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `stdin with invalid JSON under an explicit JSON format`,
+      args: [`--format`, `v8-cpu-profile`],
+      input: `garbage\n`,
+      expectedStderr: `error: V8 CPU profile: invalid JSON: `,
+      expectedStatus: 1,
+    },
+    {
+      scenario: `a JSON file under --format pprof`,
+      args: [`--format`, `pprof`, inputPath(`javascript.node.base.cpuprofile`)],
+      expectedStderr: `error: pprof: invalid protobuf encoding: `,
       expectedStatus: 1,
     },
     {

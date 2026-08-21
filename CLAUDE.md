@@ -31,7 +31,7 @@ profiler-md
 │   │   ├── converter.ts          # Format converter types
 │   │   ├── registry.ts           # Format converter registry
 │   │   ├── error.ts              # Parse and detection error classes
-│   │   ├── parse.ts              # Specified-format parse wrappers that report a rejection as the format's
+│   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that report a rejection as the format's
 │   │   ├── detect.ts             # Format auto-detection and its undetected-format error
 │   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
 │   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
@@ -263,6 +263,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   accept anything of the format, including a version or variant the parser
   rejects, so auto-detection reports that reason instead of an undetectable
   input
+- Wrap a third-party decoder's error (e.g. `JSON.parse`) in a `FormatParseError`
+  at its call site. The parser cannot check anything before decoding succeeds,
+  so a decoding failure is the input's, however the decoder reports it
 - Write a message as `<what failed>: <detail>`, or as a single clause when there
   is no useful prefix. Put the offending value last, after `got: `.
   `eslint-rules/error-message.js` checks the remaining wording conventions
