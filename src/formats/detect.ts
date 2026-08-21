@@ -8,7 +8,7 @@ import type {
   ParsedInput,
 } from './converter.ts'
 import { FormatDetectError } from './error.ts'
-import { describeParseFailure } from './parse.ts'
+import { classifyLazyParseFailures, describeParseFailure } from './parse.ts'
 import { formatConverters, formats } from './registry.ts'
 import type { Format } from './registry.ts'
 
@@ -85,7 +85,7 @@ const detectWithConverter = <Input>(
   }
 
   try {
-    return converter.parse(input)
+    return classifyLazyParseFailures(converter, converter.parse(input))
   } catch (error: unknown) {
     rejections.push({ converter, error })
     return undefined

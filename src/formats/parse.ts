@@ -1,14 +1,14 @@
 import { JumboJSON } from 'jumbo-json'
-import { ProfilerMdError, reasonOf } from '../error.ts'
+import { reasonOf } from '../error.ts'
 import { concatUint8Arrays } from '../helpers/bytes.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
 import type { FormatConverter, ParsedInput } from './converter.ts'
-import { FormatParseError } from './error.ts'
+import { FormatParseError, FormatRejectionError } from './error.ts'
 
 /**
- * Parses the input as the format the caller specified, reporting a rejection
- * as that format's, so the caller receives the reason and the format that
- * rejected the input.
+ * Parses the input as the format the caller specified, reporting a failure as
+ * that format's rejection, so the caller receives the reason and the format
+ * that rejected the input.
  *
  * A failure to read the input is the input's own error, and escapes unwrapped.
  */
@@ -19,17 +19,20 @@ export const parseAsFormat = (
   if (converter.type === `binary`) {
     const bytes = dataToBytes(data)
     try {
-      return converter.parse(bytes)
+      return classifyLazyParseFailures(converter, converter.parse(bytes))
     } catch (error: unknown) {
-      throw toFormatRejection(converter, error)
+      throw toFormatRejectionError(converter, error)
     }
   }
 
   try {
-    return converter.parse(parseJson(data))
+    return classifyLazyParseFailures(
+      converter,
+      converter.parse(parseJson(data)),
+    )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
-    throw toFormatRejection(converter, error)
+    throw toFormatRejectionError(converter, error)
   }
 }
 
@@ -38,15 +41,73 @@ export const parseAsFormatAsync = async (
   data: AsyncProfileData,
 ): Promise<ParsedInput[]> => {
   try {
-    return converter.type === `json`
-      ? converter.parse(await parseJsonAsync(data))
-      : // Stream the binary data when possible.
-        await converter.parseAsync(guardStreamReads(dataToStream(data)))
+    return classifyLazyParseFailures(
+      converter,
+      converter.type === `json`
+        ? converter.parse(await parseJsonAsync(data))
+        : // Stream the binary data when possible.
+          await converter.parseAsync(guardStreamReads(dataToStream(data))),
+    )
   } catch (error: unknown) {
     rethrowInputReadFailure(error)
-    throw toFormatRejection(converter, error)
+    throw toFormatRejectionError(converter, error)
   }
 }
+
+/**
+ * Wraps each lazily consumed iterable of the parsed inputs, so an error the
+ * parser throws while aggregation consumes it is classified the same way as
+ * one it throws before returning.
+ *
+ * The wrapper is a plain iterator object, because a delegating generator costs
+ * more per item.
+ */
+export const classifyLazyParseFailures = (
+  converter: FormatConverter,
+  parsed: ParsedInput[],
+): ParsedInput[] => {
+  const toError = (error: unknown): FormatRejectionError =>
+    toFormatRejectionError(converter, error)
+  return parsed.map(input => {
+    switch (input.type) {
+      case `call-stack-profile`:
+        return {
+          ...input,
+          observations: classifyIterableFailures(input.observations, toError),
+          ...(input.lineMetrics && {
+            lineMetrics: classifyIterableFailures(input.lineMetrics, toError),
+          }),
+        }
+      case `call-graph`:
+        return input
+      case `heap-snapshot`:
+        return {
+          ...input,
+          nodes: classifyIterableFailures(input.nodes, toError),
+        }
+    }
+  })
+}
+
+const classifyIterableFailures = <Value>(
+  iterable: Iterable<Value>,
+  toError: (error: unknown) => Error,
+): Iterable<Value> => ({
+  [Symbol.iterator]: () => {
+    const iterator = iterable[Symbol.iterator]()
+    return {
+      next: () => {
+        try {
+          return iterator.next()
+        } catch (error: unknown) {
+          throw toError(error)
+        }
+      },
+      return: value =>
+        iterator.return?.(value) ?? { done: true, value: undefined },
+    }
+  },
+})
 
 /**
  * Decodes JSON, wrapping a decoding failure in a {@link FormatParseError}.
@@ -156,22 +217,27 @@ export const dataToBytes = (data: ProfileData): Uint8Array => {
 
 let textEncoder: InstanceType<typeof TextEncoder> | undefined
 
-/**
- * Prefixes a {@link FormatParseError} with the format's title. Any other error
- * passes through, because it reports a bug instead of an unusable input.
- */
-const toFormatRejection = (
+const toFormatRejectionError = (
   converter: FormatConverter,
   error: unknown,
-): unknown =>
-  error instanceof FormatParseError
-    ? new ProfilerMdError(`${converter.title}: ${error.message}`, {
-        cause: error,
-      })
-    : error
+): FormatRejectionError =>
+  new FormatRejectionError(describeParseFailure(converter, error), {
+    cause: error,
+  })
 
-/** A parse's failure as `<title>: <reason>`. */
+/**
+ * A parse's failure as `<title>: <reason>`.
+ *
+ * A {@link FormatParseError}'s message states the violation the parser
+ * identified. The parser did not classify any other error, so its reason is
+ * `failed to parse the input: <message>`.
+ */
 export const describeParseFailure = (
   converter: FormatConverter,
   error: unknown,
-): string => `${converter.title}: ${reasonOf(error)}`
+): string =>
+  `${converter.title}: ${
+    error instanceof FormatParseError
+      ? reasonOf(error)
+      : `failed to parse the input: ${reasonOf(error)}`
+  }`
