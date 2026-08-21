@@ -296,8 +296,7 @@ export const getHelpText = (): string => {
   return `${[
     formatDocPage(program.metadata.name, docPage, {
       termWidth,
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      maxWidth: process.stdout.columns ?? 80,
+      maxWidth: getMaxWidth(),
     }),
     `Formats: ${formats.join(`, `)}`,
     `Origins: ${origins.join(`, `)}`,
@@ -316,8 +315,7 @@ export type CLIArgs = InferValue<typeof program.parser>
 export const parseArgs = (): CLIArgs =>
   runParser(parser, program.metadata.name, process.argv.slice(2), {
     colors: false,
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    maxWidth: process.stdout.columns ?? 80,
+    maxWidth: getMaxWidth(),
     version: {
       value: packageJson.version,
       option: true,
@@ -334,3 +332,13 @@ export const parseArgs = (): CLIArgs =>
     },
     onError: () => process.exit(2),
   })
+
+const getMaxWidth = (): number =>
+  Math.max(
+    MIN_WIDTH,
+    // A terminal with no window size reports zero columns
+    process.stdout.columns || Number(process.env.COLUMNS) || 80,
+  )
+
+// Optique throws below the width its narrowest layout requires
+const MIN_WIDTH = 40
