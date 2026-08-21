@@ -1,10 +1,6 @@
 allowBuilds:
   unrs-resolver: true
 minimumReleaseAgeExclude:
-  - pretty-bytes@7.1.1
-  - pprof-format@2.2.3
-overrides:
-  vite@>=8.0.0 <=8.0.15: 8.0.16
-  postcss@<8.5.18: ^8.5.18
-  brace-expansion@>=5.0.0 <5.0.8: ^5.0.8
+  - '@optique/core@1.2.3'
+  - '@optique/run@1.2.3'
 shellEmulator: true
