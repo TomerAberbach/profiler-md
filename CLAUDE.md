@@ -18,7 +18,7 @@ profiler-md
 │   │   ├── options.ts            # Builds API options from CLI flags
 │   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
 │   │   ├── pager.ts              # Spawns $PAGER or `less` for stdout output
-│   │   ├── highlight.ts          # ANSI Markdown syntax highlighting for stdout
+│   │   ├── highlight-markdown.ts # ANSI Markdown syntax highlighting for stdout
 │   │   ├── theme-kindling.ts     # Custom Shiki theme for syntax highlighting
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color)
@@ -395,7 +395,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 ### Formatting
 
 - Use heaps to avoid fully sorting data when possible
-- `src/cli/highlight.ts` heat-tints stdout by re-parsing the emitted Markdown
-  (column headers like `%`, `Delta`, and `Location`, `name (location)` heading
-  keys, and the ranking headings a diff sorts its rows under), so a change to
-  table or heading structure may require updating it
+- `src/cli/highlight-markdown.ts` heat-tints stdout by re-parsing the emitted
+  Markdown (column headers like `%`, `Delta`, and `Location`, `name (location)`
+  heading keys, and the ranking headings a diff sorts its rows under), so a
+  change to table or heading structure may require updating it
