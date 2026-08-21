@@ -1,5 +1,5 @@
 import packageJson from '../../package.json' with { type: 'json' }
-import { ProfilerMdError } from '../error.ts'
+import { ProfilerMdError, reasonOf } from '../error.ts'
 import { unclassifiedParseFailures } from '../formats/error.ts'
 
 export class CliError extends ProfilerMdError {
@@ -19,21 +19,31 @@ export const reportError = (error: unknown): never => {
     const parseFailures = unclassifiedParseFailures(error)
     if (parseFailures.length > 0) {
       process.stderr.write(
-        [
+        bugReport(
           `If the input opens in its profiler, report this as a bug in ${packageJson.name}:`,
-          `${packageJson.bugs.url}/new`,
-          `Include the command you ran, the input if you can share it, and this trace:`,
-          ...parseFailures.map(stackOf),
-          ``,
-        ].join(`\n`),
+          parseFailures,
+        ),
       )
     }
     process.exit(error instanceof CliError ? error.exitCode : 1)
   }
 
-  process.stderr.write(`${stackOf(error)}\n`)
+  process.stderr.write(`error: ${reasonOf(error)}\n`)
+  process.stderr.write(
+    bugReport(`This is a bug in ${packageJson.name}. Report it:`, [error]),
+  )
   process.exit(1)
 }
+
+/** The bug report request that follows an error line, with the given traces. */
+const bugReport = (request: string, errors: readonly unknown[]): string =>
+  [
+    request,
+    `${packageJson.bugs.url}/new`,
+    `Include the command you ran, the input if you can share it, and this trace:`,
+    ...errors.map(stackOf),
+    ``,
+  ].join(`\n`)
 
 /** An error's stack trace, or its description when it has none. */
 const stackOf = (error: unknown): string =>
