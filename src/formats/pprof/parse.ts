@@ -1,4 +1,5 @@
 import { Profile as PprofProto } from 'pprof-format'
+import { reasonOf } from '../../error.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -7,9 +8,18 @@ import { countMetricOf } from '../../modalities/metric.ts'
 import type { CountMetric, Metric } from '../../modalities/metric.ts'
 import { parseMetric, SAMPLES } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
+import { FormatParseError } from '../error.ts'
 
 export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
-  const profile = PprofProto.decode(bytes)
+  let profile
+  try {
+    profile = PprofProto.decode(bytes)
+  } catch (error) {
+    throw new FormatParseError(
+      `invalid protobuf encoding: ${reasonOf(error)}`,
+      { cause: error },
+    )
+  }
   const string = makeStringReader(profile)
 
   const originHint = pprofOriginHint(profile, string)

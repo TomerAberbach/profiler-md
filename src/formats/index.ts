@@ -1,4 +1,3 @@
-import { JumboJSON } from 'jumbo-json'
 import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
 import {
   maybeJson,
@@ -26,7 +25,14 @@ import {
 } from './detect.ts'
 import type { FormatRejection } from './detect.ts'
 import { formatAggregatedDiff, formatAggregatedInputs } from './format.ts'
-import { dataToBytes, parseAsFormat, parseAsFormatAsync } from './parse.ts'
+import {
+  dataToBytes,
+  parseAsFormat,
+  parseAsFormatAsync,
+  parseJson,
+  parseJsonAsync,
+  rethrowInputReadFailure,
+} from './parse.ts'
 import { formatConverters } from './registry.ts'
 
 export { formatConverters, formats } from './registry.ts'
@@ -130,7 +136,7 @@ export const aggregateInput = (
   let jsonError: unknown
   if (maybeJson(buffered)) {
     try {
-      json = JumboJSON.parse(buffered)
+      json = parseJson(buffered)
     } catch (error: unknown) {
       // Report unusable JSON only for an input that opens a JSON document,
       // because `maybeJson` also admits text starting like a bare JSON value.
@@ -178,9 +184,10 @@ const aggregateInputAsync = async (
     try {
       json =
         buffered instanceof Blob
-          ? await JumboJSON.parseAsync(buffered)
-          : JumboJSON.parse(buffered)
+          ? await parseJsonAsync(buffered)
+          : parseJson(buffered)
     } catch (error: unknown) {
+      rethrowInputReadFailure(error)
       // Report unusable JSON only for an input that opens a JSON document,
       // because `maybeJson` also admits text starting like a bare JSON value.
       jsonError = (

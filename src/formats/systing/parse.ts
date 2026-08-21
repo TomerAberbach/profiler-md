@@ -13,6 +13,7 @@ import {
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
 import { FormatParseError } from '../error.ts'
+import { parseJson } from '../parse.ts'
 
 export const parseSysting = (bytes: Uint8Array): CallStackProfile[] => {
   const builder = new SystingProfileBuilder()
@@ -162,7 +163,7 @@ class SystingProfileBuilder {
   }
 
   #addRecord(line: string): void {
-    const record: unknown = JSON.parse(line)
+    const record = parseJson(line)
     if (!Array.isArray(record)) {
       throw new FormatParseError(`record is not an array`)
     }
@@ -305,12 +306,7 @@ const cpuMetric = (header: SystingHeader): Metric | undefined => {
  * stack order is unsupported.
  */
 const parseSystingHeader = (line: string): SystingHeader => {
-  let json: unknown
-  try {
-    json = JSON.parse(line)
-  } catch {
-    throw new FormatParseError(`header is not JSON`)
-  }
+  const json = parseJson(line)
   if (typeof json !== `object` || json === null || Array.isArray(json)) {
     throw new FormatParseError(`header is not an object`)
   }
