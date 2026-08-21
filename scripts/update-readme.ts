@@ -6,6 +6,7 @@ import {
   variants,
 } from '../src/cli/examples.ts'
 import type { Example, ExampleVariant } from '../src/cli/examples.ts'
+import { formatUsageExamples } from '../src/cli/help.ts'
 import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
 import { formatConverters } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
@@ -146,6 +147,11 @@ let readme = original
 readme = readme.replace(
   /<!-- EXAMPLE_OUTPUT START -->[\S\s]*?<!-- EXAMPLE_OUTPUT END -->/u,
   `<!-- EXAMPLE_OUTPUT START -->\n\n\`\`\`md\n${excerpt}\n\`\`\`\n\n<!-- EXAMPLE_OUTPUT END -->`,
+)
+
+readme = readme.replace(
+  /<!-- CLI_EXAMPLES START -->[\S\s]*?<!-- CLI_EXAMPLES END -->/u,
+  `<!-- CLI_EXAMPLES START -->\n\n\`\`\`sh\n${formatUsageExamples()}\`\`\`\n\n<!-- CLI_EXAMPLES END -->`,
 )
 
 readme = readme.replace(

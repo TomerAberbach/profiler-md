@@ -13,7 +13,8 @@ profiler-md
 │   │
 │   ├── cli/
 │   │   ├── index.ts              # CLI entry point that orchestrates the run
-│   │   ├── cli.ts                # Optique flag/usage/topic definitions
+│   │   ├── cli.ts                # Optique flag and topic definitions, and the program
+│   │   ├── parse-args.ts         # Runs the Optique parser over argv, restating its errors in this CLI's style
 │   │   ├── input.ts              # Reads stdin or file, decompresses gzip/brotli
 │   │   ├── options.ts            # Builds API options from CLI flags
 │   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
@@ -22,7 +23,7 @@ profiler-md
 │   │   ├── theme-kindling.ts     # Custom Shiki theme for syntax highlighting
 │   │   ├── logo.ts               # ASCII art logo printed to stderr by --version
 │   │   ├── ansis.ts              # ANSI color helpers (respects TTY/no-color)
-│   │   ├── help.ts               # Prints CLI help and per-topic docs
+│   │   ├── help.ts               # Prints CLI help (synopsis, examples, flag sections) and per-topic docs
 │   │   ├── languages.ts          # Language display metadata
 │   │   ├── examples.ts           # Parses metadata from examples/ filenames
 │   │   └── error.ts              # CliError class and top-level error reporting
@@ -129,7 +130,7 @@ profiler-md
 │   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
 │   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
 │   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
-│   ├── update-readme.ts          # Update the readme (CLI help + language matrix) from src/cli/languages.ts
+│   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
 │   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
 │
 ├── assets/
@@ -162,7 +163,7 @@ pnpm build    # Bundle with tsdown
 pnpm update-examples
 # Re-record `assets/demo.gif` from `assets/demo.tape` (requires vhs and gifsicle)
 pnpm update-demo
-# Update readme (CLI help + language matrix) from src/cli/languages.ts and `--help`
+# Update readme (CLI examples, help, and language matrix) from src/cli/help.ts, src/cli/languages.ts, and `--help`
 pnpm update-readme
 
 # Each generated artifact has a `--check` variant CI runs instead of updating
