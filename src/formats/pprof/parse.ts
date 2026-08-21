@@ -304,7 +304,7 @@ const parseFunctionStackFrames = (
       location: {
         type: `file`,
         urlOrPath: string(func.filename),
-        line: knownPprofLine(Number(func.startLine)),
+        line: knownPprofLine(func.startLine),
       },
     })
   }
@@ -312,14 +312,26 @@ const parseFunctionStackFrames = (
 }
 
 /**
- * Normalizes a pprof line to `undefined` when unknown: proto3 has no field
- * presence for scalars, so an unset `Function.start_line` or `Line.line`
- * decodes to `0`.
+ * Normalizes a pprof line to `undefined` when unknown.
+ *
+ * proto3 has no field presence for scalars, so an unset `Function.start_line`
+ * or `Line.line` decodes to `0`.
+ *
+ * Some profilers (e.g. PProf.jl) write `-1` for an unknown line, which
+ * `pprof-format` decodes as the unsigned 64-bit value, so a line is read back
+ * as the signed integer the field is declared as.
  */
-const knownPprofLine = (line: number | undefined): number | undefined =>
-  line !== undefined && line > 0 ? line : undefined
+const knownPprofLine = (
+  line: number | bigint | undefined,
+): number | undefined => {
+  if (line === undefined) {
+    return undefined
+  }
+  const signedLine = typeof line === `bigint` ? BigInt.asIntN(64, line) : line
+  return signedLine > 0 ? Number(signedLine) : undefined
+}
 
-type LocationStackFrame = { frame: number; line: number }
+type LocationStackFrame = { frame: number; line: number | bigint }
 
 /**
  * Each location resolves to its frame indices and lines, dropping any frame
@@ -336,7 +348,7 @@ const resolveLocationStackFrames = (
       location.id,
       location.line.flatMap(({ functionId, line }) => {
         const frame = frameIndexByFunctionId.get(functionId)
-        return frame === undefined ? [] : { frame, line: Number(line) }
+        return frame === undefined ? [] : { frame, line }
       }),
     )
   }
@@ -392,9 +404,9 @@ function* parseObservations(
 const resolveCallStack = (
   locationId: readonly (number | bigint)[],
   framesByLocationId: Map<number | bigint, LocationStackFrame[]>,
-): { frameIndices: number[]; calleeLine: number | undefined } => {
+): { frameIndices: number[]; calleeLine: number | bigint | undefined } => {
   const frameIndices: number[] = []
-  let calleeLine: number | undefined
+  let calleeLine: number | bigint | undefined
   for (const id of locationId) {
     for (const { frame, line } of framesByLocationId.get(id) ?? []) {
       frameIndices.push(frame)
