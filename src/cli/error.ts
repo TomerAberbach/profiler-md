@@ -50,3 +50,14 @@ const stackOf = (error: unknown): string =>
   error instanceof Error
     ? (error.stack ?? `${error.name}: ${error.message}`)
     : `error: ${String(error)}`
+
+/**
+ * Whether a write failed because the reader closed its end of the pipe.
+ *
+ * The code is `EPIPE` on every platform. On macOS, Node creates a child's
+ * pipes as unix-domain socketpairs, so the kernel returns `ENOTCONN` instead
+ * when the peer closes while the write is between its connection check and its
+ * send.
+ */
+export const isClosedReaderError = (error: NodeJS.ErrnoException): boolean =>
+  error.code === `EPIPE` || error.code === `ENOTCONN`
