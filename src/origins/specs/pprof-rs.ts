@@ -2,7 +2,7 @@ import type { DeepReadonly } from '../../helpers/types.ts'
 import { sourceReferencePathOrName } from '../../location.ts'
 import type { FunctionCategory, ProfileEntry } from '../../options.ts'
 import { locationlessCategory } from '../categorize.ts'
-import { matchEntryFromRules } from '../origin.ts'
+import { matchEntryFromRules, placeholderPathNormalizer } from '../origin.ts'
 import type { EntryMatchRule, OriginSpec } from '../origin.ts'
 
 /**
@@ -39,6 +39,15 @@ const RUST_LOCATION_MATCH_RULES: EntryMatchRule[] = [
   [RUSTC_HASH_REGEX, `$<prefix>rustc`],
 ]
 
+/**
+ * The path pprof-rs writes for a symbol without debug info: its
+ * `Symbol::filename` substitutes `Unknown` for a missing file name, e.g. for
+ * `_main` or a stdlib entry point in a release build. Its `Symbol::raw_name`
+ * substitutes the same string for a missing name, so a nameless symbol reaches
+ * the pipeline as a function named `Unknown`.
+ */
+const UNKNOWN_PATHS: ReadonlySet<string> = new Set([`Unknown`])
+
 export const pprofRsOriginSpec = {
   id: `pprof-rs`,
   formats: [`pprof`],
@@ -52,6 +61,7 @@ export const pprofRsOriginSpec = {
   matchEntry: matchEntryFromRules({
     location: RUST_LOCATION_MATCH_RULES,
   }),
+  normalizeStackFrame: placeholderPathNormalizer(UNKNOWN_PATHS),
 } as const satisfies OriginSpec
 
 /** Categorizes Rust standard-library (`std`/`core`/`alloc`) frames as `stdlib`. */
@@ -72,6 +82,11 @@ const RUST_STDLIB_PATH = new RegExp(
   `u`,
 )
 
+/** Whether the entry's name carries Rust's name-mangling syntax. */
+const isRustName = ({ name }: DeepReadonly<ProfileEntry>): boolean =>
+  name !== undefined &&
+  (name.includes(`{{closure}}`) || /::\{closure#\d/u.test(name))
+
 /** Categorizes frames from Cargo's dependency registry as `third-party`. */
 const cargoRegistryCategory = ({
   location,
@@ -79,8 +94,3 @@ const cargoRegistryCategory = ({
   location && sourceReferencePathOrName(location).includes(`/registry/src/`)
     ? `third-party`
     : undefined
-
-/** Whether the entry's name carries Rust's name-mangling syntax. */
-const isRustName = ({ name }: DeepReadonly<ProfileEntry>): boolean =>
-  name !== undefined &&
-  (name.includes(`{{closure}}`) || /::\{closure#\d/u.test(name))

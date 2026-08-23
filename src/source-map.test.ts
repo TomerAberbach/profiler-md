@@ -33,7 +33,7 @@ test(`normalizeSourceMaps drops entries with no file field`, () => {
   expect(sourceMaps).toHaveLength(0)
 })
 
-test(`normalizeSourceMaps drops entries with an unknown file field`, () => {
+test(`normalizeSourceMaps drops entries with the placeholder unknown file field`, () => {
   const sourceMaps = normalizeSourceMaps([makeSourceMap({ file: `unknown` })])
 
   expect(sourceMaps).toHaveLength(0)
@@ -210,7 +210,7 @@ test(`sourceMapSourceLocation matches by relative location`, () => {
   })
 })
 
-test(`sourceMapSourceLocation returns input when mapped source is unknown`, () => {
+test(`sourceMapSourceLocation returns input when mapped source is the placeholder unknown`, () => {
   const url = `file:///project/dist/app.js`
   const location = {
     type: `absolute` as const,

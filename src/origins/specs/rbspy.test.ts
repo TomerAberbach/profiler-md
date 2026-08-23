@@ -84,13 +84,54 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
-  test(`a native frame keeps its name and stays location-less`, () => {
+  test(`drops the placeholder path of an unresolved C function`, () => {
     expect(
       normalizeStackFrame(
         { name: `(unknown) [c function] - (unknown)` },
         `collapsed`,
       ),
     ).toEqual({ name: `(unknown) [c function]` })
+  })
+
+  test(`drops the placeholder absolute path but keeps the executing line`, () => {
+    expect(
+      normalizeStackFrame(
+        { name: `<internal:gem_prelude> - unknown:16` },
+        `collapsed`,
+      ),
+    ).toEqual({ name: `<internal:gem_prelude>`, line: 16 })
+  })
+
+  test(`drops a placeholder path a located format reports separately`, () => {
+    expect(
+      normalizeStackFrame(
+        {
+          name: `(unknown) [c function]`,
+          location: { type: `file`, urlOrPath: `(unknown)` },
+        },
+        `pprof`,
+      ),
+    ).toEqual({ name: `(unknown) [c function]` })
+  })
+
+  test(`drops a placeholder speedscope path`, () => {
+    expect(
+      normalizeStackFrame(
+        {
+          name: `(unknown) [c function]`,
+          location: { type: `file`, urlOrPath: `(unknown)` },
+        },
+        `speedscope`,
+      ),
+    ).toEqual({ name: `(unknown) [c function]` })
+  })
+
+  test(`keeps an internal Ruby source path`, () => {
+    const input: StackFrame = {
+      name: `<internal:gem_prelude>`,
+      location: { type: `file`, urlOrPath: `<internal:gem_prelude>` },
+    }
+    expect(normalizeStackFrame(input, `pprof`)).toBe(input)
   })
 
   test(`leaves a frame without a separator unchanged`, () => {
@@ -152,6 +193,7 @@ describe(`categorizeEntry`, () => {
   test.each([
     [`accept`, `/usr/lib/ruby/3.1.0/psych/visitors/visitor.rb`],
     [`activate`, `/usr/lib/ruby/vendor_ruby/rubygems.rb`],
+    [`tap`, `<internal:kernel>`],
   ])(`the standard-library %s method at %s is stdlib`, (name, path) => {
     expect(categorizeEntry(located(name, path))).toBe(`stdlib`)
   })

@@ -18,7 +18,7 @@ Functions with the largest increase in time spent directly in the function body,
 
 | Change |    Delta |             % |              Time | Samples | Function                                         | Location                                                                                              |
 | -----: | -------: | ------------: | ----------------: | ------: | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
-|  +4.7% | +39.95ms | 63.5% → 67.5% | 847.6ms → 887.6ms | 85 → 89 | `(unknown) [c function]`                         | `(unknown)`                                                                                           |
+|  +4.7% | +39.95ms | 63.5% → 67.5% | 847.6ms → 887.6ms | 85 → 89 | `(unknown) [c function]`                         | `<unknown>`                                                                                           |
 |    new | +21.97ms |   0.0% → 1.7% |      0ms → 22.0ms |   0 → 2 | `each_child_node`                                | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.49.1/lib/rubocop/ast/node/mixin/descendence.rb`               |
 |    new | +20.59ms |   0.0% → 1.6% |      0ms → 20.6ms |   0 → 2 | `emit`                                           | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.49.1/lib/rubocop/ast/node_pattern/lexer.rb`                   |
 |    new | +12.65ms |   0.0% → 1.0% |      0ms → 12.7ms |   0 → 1 | `node_handler_method_name`                       | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force.rb`                           |
@@ -43,7 +43,7 @@ Functions with the largest increase in time spent directly in the function body,
 
 | Change |    Delta |             % |              Time | Samples | Function                 | Location    |
 | -----: | -------: | ------------: | ----------------: | ------: | ------------------------ | ----------- |
-|  +4.7% | +39.95ms | 63.5% → 67.5% | 847.6ms → 887.6ms | 85 → 89 | `(unknown) [c function]` | `(unknown)` |
+|  +4.7% | +39.95ms | 63.5% → 67.5% | 847.6ms → 887.6ms | 85 → 89 | `(unknown) [c function]` | `<unknown>` |
 
 ##### Third-party
 
@@ -174,6 +174,7 @@ Functions with the largest increase in total time spent in the function and all 
 
 | Change |    Delta |             % |              Time | Samples | Function                     | Location                                                                   |
 | -----: | -------: | ------------: | ----------------: | ------: | ---------------------------- | -------------------------------------------------------------------------- |
+|    new | +20.05ms |   0.0% → 1.5% |      0ms → 20.1ms |   0 → 2 | `tap`                        | `<internal:kernel>`                                                        |
 |  +2.4% | +12.09ms | 37.8% → 39.3% | 504.6ms → 516.6ms | 50 → 51 | `require`                    | `<internal:/usr/lib/ruby/vendor_ruby/rubygems/core_ext/kernel_require.rb>` |
 |    new | +11.67ms |   0.0% → 0.9% |      0ms → 11.7ms |   0 → 1 | `<top (required)>`           | `../../lib/ruby/3.1.0/cgi.rb`                                              |
 |    new | +11.64ms |   0.0% → 0.9% |      0ms → 11.6ms |   0 → 1 | `open_file`                  | `../../lib/ruby/vendor_ruby/rubygems.rb`                                   |
@@ -193,7 +194,6 @@ Functions with the largest increase in total time spent in the function and all 
 |    new | +10.13ms |   0.0% → 0.8% |      0ms → 10.1ms |   0 → 1 | `initialize`                 | `../../lib/ruby/3.1.0/optparse.rb`                                         |
 |    new |  +9.88ms |   0.0% → 0.8% |       0ms → 9.9ms |   0 → 1 | `<top (required)>`           | `../../lib/ruby/3.1.0/uri.rb`                                              |
 |    new |  +9.87ms |   0.0% → 0.8% |       0ms → 9.9ms |   0 → 1 | `<top (required)>`           | `../../lib/ruby/3.1.0/psych/nodes.rb`                                      |
-|    new |  +9.87ms |   0.0% → 0.8% |       0ms → 9.9ms |   0 → 1 | `<top (required)>`           | `../../lib/ruby/3.1.0/psych.rb`                                            |
 
 #### Improvements
 
@@ -211,7 +211,7 @@ Functions with the largest decrease in total time spent in the function and all 
 |  -65.9% | -20.61ms |   2.3% → 0.8% |   31.3ms → 10.7ms |     3 → 1 | `on_def`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_self.rb`                         |
 |   -4.4% | -20.33ms | 34.8% → 33.8% | 464.9ms → 444.6ms |   46 → 44 | `<top (required)>`       | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                                                  |
 | removed | -20.13ms |   1.5% → 0.0% |      20.1ms → 0ms |     2 → 0 | `on_if`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/assignment_in_condition.rb`                 |
-|   -1.5% | -20.04ms |        100.0% |     1.33s → 1.31s | 133 → 131 | `(unknown) [c function]` | `(unknown)`                                                                                               |
+|   -1.5% | -20.04ms |        100.0% |     1.33s → 1.31s | 133 → 131 | `(unknown) [c function]` | `<unknown>`                                                                                               |
 | removed | -19.98ms |   1.5% → 0.0% |      20.0ms → 0ms |     2 → 0 | `on_send`                | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/empty_lines_around_attribute_accessor.rb` |
 |  -11.5% | -19.74ms | 12.9% → 11.6% | 171.9ms → 152.1ms |   17 → 15 | `tokenize`               | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.49.1/lib/rubocop/ast/processed_source.rb`                         |
 | removed | -19.21ms |   1.4% → 0.0% |      19.2ms → 0ms |     2 → 0 | `indentation_to_check?`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/indentation_width.rb`                     |
@@ -226,7 +226,7 @@ Functions with the largest decrease in total time spent in the function and all 
 
 | Change |    Delta |      % |          Time |   Samples | Function                 | Location    |
 | -----: | -------: | -----: | ------------: | --------: | ------------------------ | ----------- |
-|  -1.5% | -20.04ms | 100.0% | 1.33s → 1.31s | 133 → 131 | `(unknown) [c function]` | `(unknown)` |
+|  -1.5% | -20.04ms | 100.0% | 1.33s → 1.31s | 133 → 131 | `(unknown) [c function]` | `<unknown>` |
 
 ##### Third-party
 

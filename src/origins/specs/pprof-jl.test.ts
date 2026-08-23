@@ -27,6 +27,15 @@ describe(`normalizeStackFrame`, () => {
     expect(normalizeStackFrame({ name: `Alloc: Vector{UInt8}` })).toBeNull()
   })
 
+  test(`drops the nothing placeholder path`, () => {
+    expect(
+      normalizeStackFrame({
+        name: `#defaultminimum##0`,
+        location: { type: `file`, urlOrPath: `nothing`, line: 18 },
+      }),
+    ).toEqual({ name: `#defaultminimum##0` })
+  })
+
   test(`leaves a regular frame unchanged`, () => {
     const input: StackFrame = {
       name: `+`,

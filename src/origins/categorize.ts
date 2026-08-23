@@ -4,6 +4,18 @@ import type { FunctionCategory, ProfileEntry } from '../options.ts'
 import { hasProtocol } from './origin.ts'
 
 /**
+ * The categorization for origins with no runtime-specific conventions: only
+ * the universal rules that hold regardless of which profiler wrote the input.
+ */
+export const categorizeGenericEntry = (
+  entry: DeepReadonly<ProfileEntry>,
+): FunctionCategory =>
+  syntheticFrameCategory(entry) ??
+  systemDirectoryCategory(entry) ??
+  locationlessCategory(entry) ??
+  `ours`
+
+/**
  * Categorizes an engine's synthetic profiler frames, named like `(idle)` or
  * `(garbage collector)`, by the label inside the parentheses.
  *
@@ -48,34 +60,6 @@ const SYNTHETIC_FRAME_LABEL_CATEGORIES: ReadonlyMap<string, FunctionCategory> =
   ])
 
 /**
- * Categorizes a frame with no source location as `native`, or as `unknown` when
- * the profiler gave it no name either.
- *
- * Across every runtime, a sampled frame the profiler attributed to no source
- * file is compiled code rather than code the profiled language defines, so
- * every origin applies this. A frame with neither a name nor a location is one
- * the profiler recorded nothing about, the weaker claim `unknown` makes. An
- * empty name parses to `(anonymous)`, and a real anonymous function is named
- * `(anonymous)` too, so the missing location separates the two.
- *
- * An origin whose profiler distinguishes compiled code from a frame it could
- * not attribute, for a *named* frame, draws that line itself before reaching
- * this rule.
- */
-export const locationlessCategory = ({
-  name,
-  location,
-}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
-  if (location) {
-    return undefined
-  }
-  return name === ANONYMOUS_FUNCTION_NAME ? `unknown` : `native`
-}
-
-/** The name {@link parseStackFrameFunction} gives a frame the profiler left unnamed. */
-const ANONYMOUS_FUNCTION_NAME = `(anonymous)`
-
-/**
  * Categorizes frames whose sources are in OS system directories: toolchain
  * headers (`/usr/include/`) as `stdlib`, and installed system libraries
  * (`/usr/lib/`, `/usr/local/lib/`, `/usr/libexec/`) as `native`.
@@ -107,6 +91,53 @@ const SYSTEM_INCLUDE_DIRECTORY = /^\/usr\/(?:local\/)?include\//u
 const SYSTEM_LIBRARY_DIRECTORY = /^\/usr\/(?:local\/)?(?:lib|lib64|libexec)\//u
 
 /**
+ * Categorizes a frame with no source location as `native`, or as `unknown` when
+ * the profiler gave it no name either.
+ *
+ * Across every runtime, a sampled frame the profiler attributed to no source
+ * file is compiled code rather than code the profiled language defines, so
+ * every origin applies this. A frame with neither a name nor a location is one
+ * the profiler recorded nothing about, the weaker claim `unknown` makes. An
+ * empty name parses to `(anonymous)`, and a real anonymous function is named
+ * `(anonymous)` too, so the missing location separates the two.
+ *
+ * An origin whose profiler distinguishes compiled code from a frame it could
+ * not attribute, for a *named* frame, draws that line itself before reaching
+ * this rule.
+ */
+export const locationlessCategory = ({
+  name,
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined => {
+  if (location) {
+    return undefined
+  }
+  return name === ANONYMOUS_FUNCTION_NAME ? `unknown` : `native`
+}
+
+/** The name {@link parseStackFrameFunction} gives a frame the profiler left unnamed. */
+const ANONYMOUS_FUNCTION_NAME = `(anonymous)`
+
+/**
+ * Categorizes a frame whose location is a shared library as `native`. A
+ * profiler that walks native stacks reports the library (e.g. `libjvm.dylib`,
+ * `libsystem_kernel.dylib`, or a versioned `libc.so.6`) as the location of a
+ * frame it symbolicated to no source file.
+ */
+export const nativeLibraryCategory = ({
+  location,
+}: DeepReadonly<ProfileEntry>): FunctionCategory | undefined =>
+  location && NATIVE_LIBRARY.test(sourceReferencePathOrName(location))
+    ? `native`
+    : undefined
+
+/**
+ * A shared-library path or file name. The extension is anchored to the end,
+ * allowing a trailing version like `.so.6`.
+ */
+export const NATIVE_LIBRARY = /\.(?:dylib|so|dll)[\d.]*$/u
+
+/**
  * Generic primitive: categorizes an entry as {@link category} when its location
  * is an absolute URL with one of {@link protocols}.
  */
@@ -116,15 +147,3 @@ export const protocolCategory = (
   protocols: string[],
 ): FunctionCategory | undefined =>
   hasProtocol(location, protocols) ? category : undefined
-
-/**
- * The categorization for origins with no runtime-specific conventions: only
- * the universal rules that hold regardless of which profiler wrote the input.
- */
-export const categorizeGenericEntry = (
-  entry: DeepReadonly<ProfileEntry>,
-): FunctionCategory =>
-  syntheticFrameCategory(entry) ??
-  systemDirectoryCategory(entry) ??
-  locationlessCategory(entry) ??
-  `ours`

@@ -24,7 +24,7 @@ export const normalizeSourceMaps = (
   }
 
   return Object.entries(sourceMaps).flatMap(([urlOrPath, sourceMap]) => {
-    const fileReference = makeFileReference(urlOrPath)
+    const fileReference = makeSourceMapFileReference(urlOrPath)
     if (!fileReference) {
       return []
     }
@@ -92,7 +92,7 @@ export const sourceMapSourceLocation = (
     return location
   }
 
-  const mappedFileReference = makeFileReference(mappedPosition.source)
+  const mappedFileReference = makeSourceMapFileReference(mappedPosition.source)
   if (!mappedFileReference) {
     return location
   }
@@ -119,5 +119,17 @@ export const sourceMapSourceLocation = (
     column: mappedPosition.column + 1,
   }
 }
+
+const makeSourceMapFileReference = (
+  urlOrPath: string,
+): FileReference | undefined =>
+  urlOrPath === UNKNOWN_FILE ? undefined : makeFileReference(urlOrPath)
+
+/**
+ * The placeholder a compiler writes as a source map's `file` or `sources`
+ * entry when it was given no file name. Babel writes `unknown` for code
+ * transformed without a `filename` option.
+ */
+const UNKNOWN_FILE = `unknown`
 
 export type { RawSourceMap as SourceMap } from 'source-map-js'

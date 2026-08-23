@@ -43,7 +43,7 @@ describe(`detection`, () => {
 describe(`normalizeStackFrame`, () => {
   const { normalizeStackFrame } = pySpyOriginSpec
 
-  test(`splits the trailing (file:line) into a location and sampled line`, () => {
+  test(`splits the trailing (file:line) into a location and executing line`, () => {
     expect(
       normalizeStackFrame({ name: `parse (black/parsing.py:42)` }, `collapsed`),
     ).toEqual({
@@ -63,6 +63,55 @@ describe(`normalizeStackFrame`, () => {
       name: `<module>`,
       location: { type: `file`, urlOrPath: `<frozen importlib._bootstrap>` },
       line: 1080,
+    })
+  })
+
+  test(`drops the placeholder path of a native frame it could not symbolicate`, () => {
+    expect(
+      normalizeStackFrame({ name: `0x7f3a1b2c (?)` }, `collapsed`),
+    ).toEqual({ name: `0x7f3a1b2c` })
+  })
+
+  test(`keeps the module path of a native frame without a line`, () => {
+    expect(
+      normalizeStackFrame(
+        { name: `PyObject_Call (/usr/lib/libpython3.12.so.1.0)` },
+        `collapsed`,
+      ),
+    ).toEqual({
+      name: `PyObject_Call`,
+      location: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
+    })
+  })
+
+  test(`drops the placeholder path and line of a speedscope native frame`, () => {
+    expect(
+      normalizeStackFrame(
+        {
+          name: `0x7f3a1b2c`,
+          location: { type: `file`, urlOrPath: `?`, line: 0 },
+        },
+        `speedscope`,
+      ),
+    ).toEqual({ name: `0x7f3a1b2c` })
+  })
+
+  test(`drops the placeholder line 0 of a speedscope native frame`, () => {
+    expect(
+      normalizeStackFrame(
+        {
+          name: `PyObject_Call`,
+          location: {
+            type: `file`,
+            urlOrPath: `/usr/lib/libpython3.12.so.1.0`,
+            line: 0,
+          },
+        },
+        `speedscope`,
+      ),
+    ).toEqual({
+      name: `PyObject_Call`,
+      location: { type: `file`, urlOrPath: `/usr/lib/libpython3.12.so.1.0` },
     })
   })
 
@@ -94,6 +143,10 @@ describe(`normalizeStackFrame`, () => {
 describe(`categorizeEntry`, () => {
   const { categorizeEntry } = pySpyOriginSpec
 
+  test(`a native frame without a location is native`, () => {
+    expect(categorizeEntry(relativeEntry(`0x7f3a1b2c`))).toBe(`native`)
+  })
+
   test(`frozen bootstrap modules are stdlib`, () => {
     expect(categorizeEntry(relativeEntry(`f`, `<frozen runpy>`))).toBe(`stdlib`)
   })
@@ -112,6 +165,25 @@ describe(`categorizeEntry`, () => {
         absoluteEntry(
           `f`,
           `file:///app/.venv/lib/python3.12/site-packages/flask/app.py`,
+        ),
+      ),
+    ).toBe(`third-party`)
+  })
+
+  test.each([
+    [`libc.so.6`],
+    [`/usr/lib/x86_64-linux-gnu/libc.so.6`],
+    [`/usr/local/lib/libpython3.12.so.1.0`],
+  ])(`a native frame in the shared library %s is native`, path => {
+    expect(categorizeEntry(relativeEntry(`PyObject_Call`, path))).toBe(`native`)
+  })
+
+  test(`a compiled extension module of an installed package is third-party`, () => {
+    expect(
+      categorizeEntry(
+        absoluteEntry(
+          `CPyDef_black___main`,
+          `file:///venv/lib/python3.11/site-packages/30fcd23745efe32ce681__mypyc.cpython-311-x86_64-linux-gnu.so`,
         ),
       ),
     ).toBe(`third-party`)

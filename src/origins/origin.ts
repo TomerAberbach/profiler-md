@@ -178,8 +178,9 @@ export type OriginSpec = {
 
 /**
  * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that packs a
- * frame's function, file, and sampled line into its name, matched by
- * {@link regex}'s named groups `func`, `file`, and `line`.
+ * frame's function, file, and executing line into its name, matched by
+ * {@link regex}'s named groups `func`, `file`, and `line`. A regex without a
+ * `line` group splits a frame whose name packs no line.
  *
  * A frame the regex doesn't match passes through unchanged.
  *
@@ -205,9 +206,27 @@ export const packedLocationNormalizer =
     return {
       name: func!,
       location: { type: `file`, urlOrPath: file! },
-      line: Number(line),
+      line: line === undefined ? undefined : Number(line),
     }
   }
+
+/**
+ * Builds an {@link OriginSpec.normalizeStackFrame} for a profiler that writes
+ * one of {@link paths} as the file of a frame whose source it could not
+ * resolve. The frame keeps its name and executing line and loses its location,
+ * so it prints as location-less and no path-based category rule matches the
+ * placeholder.
+ *
+ * Compose it after the normalizer that moves a packed or speedscope line out
+ * of the location, since dropping the location would otherwise drop the line
+ * with it.
+ */
+export const placeholderPathNormalizer =
+  (paths: ReadonlySet<string>) =>
+  (input: StackFrame): StackFrame =>
+    input.location?.type === `file` && paths.has(input.location.urlOrPath)
+      ? { name: input.name, line: input.line }
+      : input
 
 /**
  * A single match-normalization rule: a pattern for a run-varying identifier
