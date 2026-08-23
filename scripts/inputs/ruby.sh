@@ -3,10 +3,15 @@
 cd "$(dirname "$0")/../.." || exit 1
 source scripts/inputs/_common.sh
 
+# Debian bookworm ships Ruby 3.1, whose backtrace labels contain the method name
+# alone. Ruby 3.4 qualifies each label with the method's owner, and rbspy
+# records those labels, so the captures run on the official Ruby image instead.
+DOCKER_IMAGE="ruby:3.4.10-slim-bookworm"
+
 SINATRA_REPO="https://github.com/sinatra/sinatra"
 SINATRA_TAG="v4.1.1"
 RUBOCOP_VERSION="1.65.1"
-RBSPY_VERSION="0.48.0"
+RBSPY_VERSION="0.51.0"
 RBSPY_URL="https://github.com/rbspy/rbspy/releases/download/v$RBSPY_VERSION/rbspy-aarch64-unknown-linux-musl.tar.gz"
 
 EXTS=(speedscope.json collapsed pprof callgrind)

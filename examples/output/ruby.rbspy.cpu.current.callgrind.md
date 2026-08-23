@@ -1,12 +1,13 @@
 # Sampling profile
 
-Collected 126 samples.
+Collected 136 samples.
 
 | Category         |     % | Samples |
 | ---------------- | ----: | ------: |
-| Third-party      | 78.6% |      99 |
-| Unknown          | 11.1% |      14 |
-| Standard library | 10.3% |      13 |
+| Native           | 54.4% |      74 |
+| Third-party      | 33.8% |      46 |
+| Unknown          |  6.6% |       9 |
+| Standard library |  5.1% |       7 |
 
 ## Hottest functions
 
@@ -14,815 +15,904 @@ Collected 126 samples.
 
 Functions ranked by samples taken directly in the function body, excluding callees.
 
-|    % | Samples | Function                    | Location                                                                                               |
-| ---: | ------: | --------------------------- | ------------------------------------------------------------------------------------------------------ |
-| 8.7% |      11 | `<top (required)>`          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                                               |
-| 5.6% |       7 | `require`                   | `<unknown>`                                                                                            |
-| 4.8% |       6 | `slice`                     | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`                                 |
-| 3.2% |       4 | `line_begins`               | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`                                 |
-| 3.2% |       4 | `def_helper`                | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb`           |
-| 2.4% |       3 | `initialize`                | `/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb`                                                   |
-| 2.4% |       3 | `<module:Parser>`           | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`                                               |
-| 2.4% |       3 | `advance`                   | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`                                      |
-| 2.4% |       3 | `before_semicolon?`         | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb`                  |
-| 2.4% |       3 | `move_pos`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb`                          |
-| 2.4% |       3 | `block in each_child_node`  | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb`                |
-| 1.6% |       2 | `<module:Interface>`        | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb` |
-| 1.6% |       2 | `do_parse`                  | `<unknown>`                                                                                            |
-| 1.6% |       2 | `emit`                      | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`                                      |
-| 1.6% |       2 | `loc?`                      | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`                                  |
-| 0.8% |       1 | `block in <module:DryRun>`  | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`                                       |
-| 0.8% |       1 | `scan`                      | `../../lib/ruby/3.1.0/erb.rb`                                                                          |
-| 0.8% |       1 | `block in <module:NoWrite>` | `../../lib/ruby/3.1.0/fileutils.rb`                                                                    |
-| 0.8% |       1 | `block in make_switch`      | `../../lib/ruby/3.1.0/optparse.rb`                                                                     |
-| 0.8% |       1 | `scalar`                    | `../../lib/ruby/3.1.0/psych/tree_builder.rb`                                                           |
+|     % | Samples | Function                                                      | Location                                                                      |
+| ----: | ------: | ------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 16.9% |      23 | `Kernel#require_relative [c function]`                        | `<unknown>`                                                                   |
+|  5.1% |       7 | `Kernel#require [c function]`                                 | `<unknown>`                                                                   |
+|  3.7% |       5 | `String#[] [c function]`                                      | `<unknown>`                                                                   |
+|  2.9% |       4 | `Module#class_eval [c function]`                              | `<unknown>`                                                                   |
+|  2.9% |       4 | `String#encode [c function]`                                  | `<unknown>`                                                                   |
+|  2.9% |       4 | `Parser::Lexer#advance`                                       | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`                       |
+|  2.2% |       3 | `Array#index [c function]`                                    | `<unknown>`                                                                   |
+|  2.2% |       3 | `Parser::Source::Buffer#line_index_for_position`              | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`                  |
+|  1.5% |       2 | `Array#each [c function]`                                     | `<unknown>`                                                                   |
+|  1.5% |       2 | `block (2 levels) in traverse`                                | `../bundle/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb`       |
+|  1.5% |       2 | `block in on_send`                                            | `<unknown>`                                                                   |
+|  1.5% |       2 | `Enumerable#map [c function]`                                 | `<unknown>`                                                                   |
+|  1.5% |       2 | `Kernel#public_send [c function]`                             | `<unknown>`                                                                   |
+|  1.5% |       2 | `Module#append_features [c function]`                         | `<unknown>`                                                                   |
+|  1.5% |       2 | `String#index [c function]`                                   | `<unknown>`                                                                   |
+|  1.5% |       2 | `StringScanner#skip [c function]`                             | `<unknown>`                                                                   |
+|  1.5% |       2 | `Symbol#start_with? [c function]`                             | `<unknown>`                                                                   |
+|  1.5% |       2 | `RuboCop::Cop::Style::ConditionalAssignment#assignment_type?` | `<unknown>`                                                                   |
+|  1.5% |       2 | `RuboCop::AST::Descendence#visit_descendants_of_types`        | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb` |
+|  0.7% |       1 | `Array#<=> [c function]`                                      | `<unknown>`                                                                   |
 
 #### Categories
 
+##### Native
+
+|     % | Samples | Function                               | Location    |
+| ----: | ------: | -------------------------------------- | ----------- |
+| 16.9% |      23 | `Kernel#require_relative [c function]` | `<unknown>` |
+|  5.1% |       7 | `Kernel#require [c function]`          | `<unknown>` |
+|  3.7% |       5 | `String#[] [c function]`               | `<unknown>` |
+|  2.9% |       4 | `Module#class_eval [c function]`       | `<unknown>` |
+|  2.9% |       4 | `String#encode [c function]`           | `<unknown>` |
+|  2.2% |       3 | `Array#index [c function]`             | `<unknown>` |
+|  1.5% |       2 | `Array#each [c function]`              | `<unknown>` |
+|  1.5% |       2 | `Enumerable#map [c function]`          | `<unknown>` |
+|  1.5% |       2 | `Kernel#public_send [c function]`      | `<unknown>` |
+|  1.5% |       2 | `Module#append_features [c function]`  | `<unknown>` |
+|  1.5% |       2 | `String#index [c function]`            | `<unknown>` |
+|  1.5% |       2 | `StringScanner#skip [c function]`      | `<unknown>` |
+|  1.5% |       2 | `Symbol#start_with? [c function]`      | `<unknown>` |
+|  0.7% |       1 | `Array#<=> [c function]`               | `<unknown>` |
+|  0.7% |       1 | `Array#== [c function]`                | `<unknown>` |
+|  0.7% |       1 | `Array#include? [c function]`          | `<unknown>` |
+|  0.7% |       1 | `Array#select [c function]`            | `<unknown>` |
+|  0.7% |       1 | `Enumerator#each [c function]`         | `<unknown>` |
+|  0.7% |       1 | `Enumerable#to_a [c function]`         | `<unknown>` |
+|  0.7% |       1 | `File#initialize [c function]`         | `<unknown>` |
+
 ##### Third-party
 
-|    % | Samples | Function                   | Location                                                                                               |
-| ---: | ------: | -------------------------- | ------------------------------------------------------------------------------------------------------ |
-| 8.7% |      11 | `<top (required)>`         | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                                               |
-| 4.8% |       6 | `slice`                    | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`                                 |
-| 3.2% |       4 | `line_begins`              | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`                                 |
-| 3.2% |       4 | `def_helper`               | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb`           |
-| 2.4% |       3 | `initialize`               | `/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb`                                                   |
-| 2.4% |       3 | `<module:Parser>`          | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`                                               |
-| 2.4% |       3 | `advance`                  | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`                                      |
-| 2.4% |       3 | `before_semicolon?`        | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb`                  |
-| 2.4% |       3 | `move_pos`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb`                          |
-| 2.4% |       3 | `block in each_child_node` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb`                |
-| 1.6% |       2 | `<module:Interface>`       | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb` |
-| 1.6% |       2 | `emit`                     | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`                                      |
-| 1.6% |       2 | `loc?`                     | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`                                  |
-| 0.8% |       1 | `<top (required)>`         | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb`                                     |
-| 0.8% |       1 | `<top (required)>`         | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/xpath.rb`                                        |
-| 0.8% |       1 | `<class:BaseParser>`       | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb`                           |
-| 0.8% |       1 | `<top (required)>`         | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/transport.rb` |
-| 0.8% |       1 | `<module:Builders>`        | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`                                               |
-| 0.8% |       1 | `accessible`               | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb`                              |
-| 0.8% |       1 | `version`                  | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb`                                        |
+|    % | Samples | Function                                               | Location                                                                                  |
+| ---: | ------: | ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| 2.9% |       4 | `Parser::Lexer#advance`                                | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`                                   |
+| 2.2% |       3 | `Parser::Source::Buffer#line_index_for_position`       | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`                              |
+| 1.5% |       2 | `block (2 levels) in traverse`                         | `../bundle/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb`                   |
+| 1.5% |       2 | `RuboCop::AST::Descendence#visit_descendants_of_types` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb`             |
+| 0.7% |       1 | `block in each_argument_node`                          | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_element_indentation.rb`    |
+| 0.7% |       1 | `block in on_if`                                       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_self.rb`                   |
+| 0.7% |       1 | `RuboCop::AST::Node#first_line`                        | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`                               |
+| 0.7% |       1 | `block in find_variable`                               | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force/variable_table.rb`          |
+| 0.7% |       1 | `RuboCop::Cop::MultilineExpressionIndentation#on_send` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb` |
+| 0.7% |       1 | `RuboCop::Cop::Style::RedundantRegexpEscape#on_regexp` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_regexp_escape.rb`          |
+| 0.7% |       1 | `AST::Node#initialize`                                 | `../bundle/gems/ast-2.4.3/lib/ast/node.rb`                                                |
+| 0.7% |       1 | `RuboCop::AST::Node#updated`                           | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`                               |
+| 0.7% |       1 | `Parser::Builders::Default#prefix_string_map`          | `../bundle/gems/parser-3.3.12.0/lib/parser/builders/default.rb`                           |
+| 0.7% |       1 | `Parser::Lexer#emit`                                   | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`                                   |
+| 0.7% |       1 | `Parser::Lexer#emit_instance_var`                      | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`                                   |
+| 0.7% |       1 | `Parser::Lexer::StackState#pop`                        | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer/stack_state.rb`                          |
+| 0.7% |       1 | `Parser::Source::Buffer#slice`                         | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`                              |
+| 0.7% |       1 | `Parser::Source::Buffer#column_for_position`           | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`                              |
+| 0.7% |       1 | `RuboCop::Cop::Base.cop_name`                          | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb`                                   |
+| 0.7% |       1 | `RuboCop::Cop::Base.department`                        | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb`                                   |
 
 ##### Unknown
 
-|    % | Samples | Function           | Location    |
-| ---: | ------: | ------------------ | ----------- |
-| 5.6% |       7 | `require`          | `<unknown>` |
-| 1.6% |       2 | `do_parse`         | `<unknown>` |
-| 0.8% |       1 | `block in load`    | `<unknown>` |
-| 0.8% |       1 | `if_type?`         | `<unknown>` |
-| 0.8% |       1 | `numblock_type?`   | `<unknown>` |
-| 0.8% |       1 | `assignment_type?` | `<unknown>` |
-| 0.8% |       1 | `on_args`          | `<unknown>` |
+|    % | Samples | Function                                                      | Location    |
+| ---: | ------: | ------------------------------------------------------------- | ----------- |
+| 1.5% |       2 | `block in on_send`                                            | `<unknown>` |
+| 1.5% |       2 | `RuboCop::Cop::Style::ConditionalAssignment#assignment_type?` | `<unknown>` |
+| 0.7% |       1 | `String#unpack`                                               | `<unknown>` |
+| 0.7% |       1 | `RuboCop::Cop::Style::NumericPredicate#comparison`            | `<unknown>` |
+| 0.7% |       1 | `block in private_class_methods`                              | `<unknown>` |
+| 0.7% |       1 | `RuboCop::AST::Node#proc?`                                    | `<unknown>` |
+| 0.7% |       1 | `RuboCop::Cop::Commissioner#on_send`                          | `<unknown>` |
 
 ##### Standard library
 
-|    % | Samples | Function                    | Location                                                         |
-| ---: | ------: | --------------------------- | ---------------------------------------------------------------- |
-| 0.8% |       1 | `block in <module:DryRun>`  | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-| 0.8% |       1 | `scan`                      | `../../lib/ruby/3.1.0/erb.rb`                                    |
-| 0.8% |       1 | `block in <module:NoWrite>` | `../../lib/ruby/3.1.0/fileutils.rb`                              |
-| 0.8% |       1 | `block in make_switch`      | `../../lib/ruby/3.1.0/optparse.rb`                               |
-| 0.8% |       1 | `scalar`                    | `../../lib/ruby/3.1.0/psych/tree_builder.rb`                     |
-| 0.8% |       1 | `initialize`                | `../../lib/ruby/3.1.0/psych/nodes/scalar.rb`                     |
-| 0.8% |       1 | `tokenize`                  | `../../lib/ruby/3.1.0/psych/scalar_scanner.rb`                   |
-| 0.8% |       1 | `set_start_location`        | `../../lib/ruby/3.1.0/psych/tree_builder.rb`                     |
-| 0.8% |       1 | `include?`                  | `../../lib/ruby/3.1.0/set.rb`                                    |
-| 0.8% |       1 | `<top (required)>`          | `../../lib/ruby/3.1.0/uri/common.rb`                             |
-| 0.8% |       1 | `<top (required)>`          | `../../lib/ruby/vendor_ruby/rubygems/specification.rb`           |
-| 0.8% |       1 | `open_file`                 | `../../lib/ruby/vendor_ruby/rubygems.rb`                         |
-| 0.8% |       1 | `<top (required)>`          | `../../lib/ruby/vendor_ruby/rubygems/resolver.rb`                |
+|    % | Samples | Function                                | Location                                      |
+| ---: | ------: | --------------------------------------- | --------------------------------------------- |
+| 0.7% |       1 | `block in merge`                        | `../lib/ruby/3.4.0/set.rb`                    |
+| 0.7% |       1 | `block in parse_in_order`               | `../lib/ruby/3.4.0/optparse.rb`               |
+| 0.7% |       1 | `ERB::Compiler::Buffer#close`           | `../lib/ruby/3.4.0/erb/compiler.rb`           |
+| 0.7% |       1 | `Psych::Visitors::ToRuby#accept`        | `../lib/ruby/3.4.0/psych/visitors/to_ruby.rb` |
+| 0.7% |       1 | `Psych::Nodes::Node#initialize`         | `../lib/ruby/3.4.0/psych/nodes/node.rb`       |
+| 0.7% |       1 | `Psych::TreeBuilder#set_start_location` | `../lib/ruby/3.4.0/psych/tree_builder.rb`     |
+| 0.7% |       1 | `Psych::Visitors::ToRuby#resolve_class` | `../lib/ruby/3.4.0/psych/visitors/to_ruby.rb` |
 
 #### Lines
 
 Lines ranked by contribution to each function's self samples.
 
-##### `<top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`)
+##### `Parser::Lexer#advance` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`)
 
-|      % | Samples | Location                                                     |
-| -----: | ------: | ------------------------------------------------------------ |
-| 100.0% |      11 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb:780` |
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       4 | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb:14654` |
 
-##### `require` (`<unknown>`)
+##### `Parser::Source::Buffer#line_index_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
+
+|      % | Samples | Location                                                         |
+| -----: | ------: | ---------------------------------------------------------------- |
+| 100.0% |       3 | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb:350` |
+
+##### `block (2 levels) in traverse` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb`)
+
+|      % | Samples | Location                                                                   |
+| -----: | ------: | -------------------------------------------------------------------------- |
+| 100.0% |       2 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb:25` |
+
+##### `block in on_send` (`<unknown>`)
 
 |      % | Samples | Location |
 | -----: | ------: | -------- |
-| 100.0% |       7 | 170      |
+| 100.0% |       2 | 171      |
 
-##### `slice` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`)
+##### `RuboCop::Cop::Style::ConditionalAssignment#assignment_type?` (`<unknown>`)
 
-|      % | Samples | Location                                                                   |
-| -----: | ------: | -------------------------------------------------------------------------- |
-| 100.0% |       6 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb:214` |
+|      % | Samples | Location |
+| -----: | ------: | -------- |
+| 100.0% |       2 | 238      |
 
-##### `line_begins` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb`)
-
-|      % | Samples | Location                                                                   |
-| -----: | ------: | -------------------------------------------------------------------------- |
-| 100.0% |       4 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/source/buffer.rb:341` |
-
-##### `def_helper` (`/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb`)
-
-|      % | Samples | Location                                                                                        |
-| -----: | ------: | ----------------------------------------------------------------------------------------------- |
-| 100.0% |       4 | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb:61` |
-
-##### `initialize` (`/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb`)
-
-|      % | Samples | Location                                                |
-| -----: | ------: | ------------------------------------------------------- |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/ast-2.4.3/lib/ast/node.rb:80` |
-
-##### `<module:Parser>` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`)
-
-|      % | Samples | Location                                                    |
-| -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb:91` |
-
-##### `advance` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`)
-
-|      % | Samples | Location                                                                |
-| -----: | ------: | ----------------------------------------------------------------------- |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb:14654` |
-
-##### `before_semicolon?` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb`)
-
-|      % | Samples | Location                                                                                 |
-| -----: | ------: | ---------------------------------------------------------------------------------------- |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb:36` |
-
-##### `move_pos` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb`)
+##### `RuboCop::AST::Descendence#visit_descendants_of_types` (`../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb`)
 
 |      % | Samples | Location                                                                          |
 | -----: | ------: | --------------------------------------------------------------------------------- |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb:121` |
+| 100.0% |       2 | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb:131` |
 
-##### `block in each_child_node` (`/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb`)
+##### `block in each_argument_node` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_element_indentation.rb`)
 
-|      % | Samples | Location                                                                                   |
-| -----: | ------: | ------------------------------------------------------------------------------------------ |
-| 100.0% |       3 | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb:29` |
+|      % | Samples | Location                                                                                  |
+| -----: | ------: | ----------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_element_indentation.rb:23` |
 
-##### `<module:Interface>` (`/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb`)
+##### `block in on_if` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_self.rb`)
 
-|      % | Samples | Location                                                                                                   |
-| -----: | ------: | ---------------------------------------------------------------------------------------------------------- |
-| 100.0% |       2 | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/interface.rb:657` |
+|      % | Samples | Location                                                                    |
+| -----: | ------: | --------------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_self.rb:137` |
 
-##### `do_parse` (`<unknown>`)
+##### `RuboCop::AST::Node#first_line` (`../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`)
 
-|      % | Samples | Location |
-| -----: | ------: | -------- |
-| 100.0% |       2 | 4        |
+|      % | Samples | Location                                                        |
+| -----: | ------: | --------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb:350` |
 
-##### `emit` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb`)
+##### `block in find_variable` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force/variable_table.rb`)
 
-|      % | Samples | Location                                                                |
-| -----: | ------: | ----------------------------------------------------------------------- |
-| 100.0% |       2 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/lexer-F1.rb:14683` |
+|      % | Samples | Location                                                                             |
+| -----: | ------: | ------------------------------------------------------------------------------------ |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/variable_force/variable_table.rb:104` |
 
-##### `loc?` (`/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`)
+##### `RuboCop::Cop::MultilineExpressionIndentation#on_send` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb`)
 
-|      % | Samples | Location                                                                  |
-| -----: | ------: | ------------------------------------------------------------------------- |
-| 100.0% |       2 | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb:593` |
+|      % | Samples | Location                                                                                     |
+| -----: | ------: | -------------------------------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb:22` |
 
-##### `block in <module:DryRun>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
+##### `RuboCop::Cop::Style::RedundantRegexpEscape#on_regexp` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_regexp_escape.rb`)
 
-|      % | Samples | Location                                                              |
-| -----: | ------: | --------------------------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb:1756` |
+|      % | Samples | Location                                                                            |
+| -----: | ------: | ----------------------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/redundant_regexp_escape.rb:56` |
 
-##### `scan` (`../../lib/ruby/3.1.0/erb.rb`)
+##### `AST::Node#initialize` (`../bundle/gems/ast-2.4.3/lib/ast/node.rb`)
 
-|      % | Samples | Location                          |
-| -----: | ------: | --------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/erb.rb:513` |
+|      % | Samples | Location                                      |
+| -----: | ------: | --------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/ast-2.4.3/lib/ast/node.rb:80` |
 
-##### `block in <module:NoWrite>` (`../../lib/ruby/3.1.0/fileutils.rb`)
+##### `RuboCop::AST::Node#updated` (`../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`)
 
-|      % | Samples | Location                                 |
-| -----: | ------: | ---------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/fileutils.rb:1721` |
+|      % | Samples | Location                                                        |
+| -----: | ------: | --------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb:251` |
 
-##### `block in make_switch` (`../../lib/ruby/3.1.0/optparse.rb`)
+##### `Parser::Builders::Default#prefix_string_map` (`../bundle/gems/parser-3.3.12.0/lib/parser/builders/default.rb`)
 
-|      % | Samples | Location                                |
-| -----: | ------: | --------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/optparse.rb:1434` |
+|      % | Samples | Location                                                             |
+| -----: | ------: | -------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/builders/default.rb:1909` |
 
-##### `scalar` (`../../lib/ruby/3.1.0/psych/tree_builder.rb`)
+##### `Parser::Lexer#emit` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`)
 
-|      % | Samples | Location                                         |
-| -----: | ------: | ------------------------------------------------ |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/psych/tree_builder.rb:101` |
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb:14683` |
 
-##### `<top (required)>` (`../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb`)
+##### `Parser::Lexer#emit_instance_var` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`)
 
-|      % | Samples | Location                                                              |
-| -----: | ------: | --------------------------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb:16` |
+|      % | Samples | Location                                                      |
+| -----: | ------: | ------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb:14798` |
 
-##### `<top (required)>` (`../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/xpath.rb`)
+##### `Parser::Lexer::StackState#pop` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer/stack_state.rb`)
 
-|      % | Samples | Location                                                          |
-| -----: | ------: | ----------------------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/xpath.rb:5` |
+|      % | Samples | Location                                                            |
+| -----: | ------: | ------------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer/stack_state.rb:27` |
 
-##### `<class:BaseParser>` (`../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb`)
+##### `Parser::Source::Buffer#slice` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Location                                                                         |
-| -----: | ------: | -------------------------------------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/parsers/baseparser.rb:672` |
+|      % | Samples | Location                                                         |
+| -----: | ------: | ---------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb:214` |
 
-##### `<top (required)>` (`/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/transport.rb`)
+##### `Parser::Source::Buffer#column_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Location                                                                                                 |
-| -----: | ------: | -------------------------------------------------------------------------------------------------------- |
-| 100.0% |       1 | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server/protocol/transport.rb:2` |
+|      % | Samples | Location                                                         |
+| -----: | ------: | ---------------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb:250` |
 
-##### `<module:Builders>` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`)
+##### `RuboCop::Cop::Base.cop_name` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb`)
+
+|      % | Samples | Location                                                   |
+| -----: | ------: | ---------------------------------------------------------- |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb:99` |
+
+##### `RuboCop::Cop::Base.department` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb`)
 
 |      % | Samples | Location                                                    |
 | -----: | ------: | ----------------------------------------------------------- |
-| 100.0% |       1 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb:80` |
+| 100.0% |       1 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb:103` |
 
-##### `accessible` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb`)
-
-|      % | Samples | Location                                                                      |
-| -----: | ------: | ----------------------------------------------------------------------------- |
-| 100.0% |       1 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/builders/default.rb:684` |
-
-##### `version` (`/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb`)
-
-|      % | Samples | Location                                                           |
-| -----: | ------: | ------------------------------------------------------------------ |
-| 100.0% |       1 | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb:19` |
-
-##### `block in load` (`<unknown>`)
+##### `String#unpack` (`<unknown>`)
 
 |      % | Samples | Location |
 | -----: | ------: | -------- |
-| 100.0% |       1 | 38       |
+| 100.0% |       1 | 26       |
 
-##### `if_type?` (`<unknown>`)
-
-|      % | Samples | Location |
-| -----: | ------: | -------- |
-| 100.0% |       1 | 200      |
-
-##### `numblock_type?` (`<unknown>`)
+##### `RuboCop::Cop::Style::NumericPredicate#comparison` (`<unknown>`)
 
 |      % | Samples | Location |
 | -----: | ------: | -------- |
-| 100.0% |       1 | 200      |
+| 100.0% |       1 | 188      |
 
-##### `assignment_type?` (`<unknown>`)
+##### `block in private_class_methods` (`<unknown>`)
 
 |      % | Samples | Location |
 | -----: | ------: | -------- |
-| 100.0% |       1 | 238      |
+| 100.0% |       1 | 60       |
 
-##### `on_args` (`<unknown>`)
+##### `RuboCop::AST::Node#proc?` (`<unknown>`)
+
+|      % | Samples | Location |
+| -----: | ------: | -------- |
+| 100.0% |       1 | 630      |
+
+##### `RuboCop::Cop::Commissioner#on_send` (`<unknown>`)
 
 |      % | Samples | Location |
 | -----: | ------: | -------- |
 | 100.0% |       1 | 74       |
 
-##### `initialize` (`../../lib/ruby/3.1.0/psych/nodes/scalar.rb`)
+##### `block in merge` (`../lib/ruby/3.4.0/set.rb`)
 
-|      % | Samples | Location                                        |
-| -----: | ------: | ----------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/psych/nodes/scalar.rb:65` |
+|      % | Samples | Location                       |
+| -----: | ------: | ------------------------------ |
+| 100.0% |       1 | `../lib/ruby/3.4.0/set.rb:605` |
 
-##### `tokenize` (`../../lib/ruby/3.1.0/psych/scalar_scanner.rb`)
+##### `block in parse_in_order` (`../lib/ruby/3.4.0/optparse.rb`)
 
-|      % | Samples | Location                                          |
-| -----: | ------: | ------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/psych/scalar_scanner.rb:98` |
+|      % | Samples | Location                             |
+| -----: | ------: | ------------------------------------ |
+| 100.0% |       1 | `../lib/ruby/3.4.0/optparse.rb:1791` |
 
-##### `set_start_location` (`../../lib/ruby/3.1.0/psych/tree_builder.rb`)
+##### `ERB::Compiler::Buffer#close` (`../lib/ruby/3.4.0/erb/compiler.rb`)
+
+|      % | Samples | Location                                |
+| -----: | ------: | --------------------------------------- |
+| 100.0% |       1 | `../lib/ruby/3.4.0/erb/compiler.rb:302` |
+
+##### `Psych::Visitors::ToRuby#accept` (`../lib/ruby/3.4.0/psych/visitors/to_ruby.rb`)
 
 |      % | Samples | Location                                         |
 | -----: | ------: | ------------------------------------------------ |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/psych/tree_builder.rb:130` |
+| 100.0% |       1 | `../lib/ruby/3.4.0/psych/visitors/to_ruby.rb:49` |
 
-##### `include?` (`../../lib/ruby/3.1.0/set.rb`)
+##### `Psych::Nodes::Node#initialize` (`../lib/ruby/3.4.0/psych/nodes/node.rb`)
 
-|      % | Samples | Location                          |
-| -----: | ------: | --------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/set.rb:405` |
+|      % | Samples | Location                                   |
+| -----: | ------: | ------------------------------------------ |
+| 100.0% |       1 | `../lib/ruby/3.4.0/psych/nodes/node.rb:34` |
 
-##### `<top (required)>` (`../../lib/ruby/3.1.0/uri/common.rb`)
+##### `Psych::TreeBuilder#set_start_location` (`../lib/ruby/3.4.0/psych/tree_builder.rb`)
 
-|      % | Samples | Location                                 |
-| -----: | ------: | ---------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/3.1.0/uri/common.rb:683` |
+|      % | Samples | Location                                      |
+| -----: | ------: | --------------------------------------------- |
+| 100.0% |       1 | `../lib/ruby/3.4.0/psych/tree_builder.rb:130` |
 
-##### `<top (required)>` (`../../lib/ruby/vendor_ruby/rubygems/specification.rb`)
+##### `Psych::Visitors::ToRuby#resolve_class` (`../lib/ruby/3.4.0/psych/visitors/to_ruby.rb`)
 
-|      % | Samples | Location                                                  |
-| -----: | ------: | --------------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/vendor_ruby/rubygems/specification.rb:37` |
-
-##### `open_file` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
-
-|      % | Samples | Location                                     |
-| -----: | ------: | -------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/vendor_ruby/rubygems.rb:800` |
-
-##### `<top (required)>` (`../../lib/ruby/vendor_ruby/rubygems/resolver.rb`)
-
-|      % | Samples | Location                                              |
-| -----: | ------: | ----------------------------------------------------- |
-| 100.0% |       1 | `../../lib/ruby/vendor_ruby/rubygems/resolver.rb:347` |
+|      % | Samples | Location                                          |
+| -----: | ------: | ------------------------------------------------- |
+| 100.0% |       1 | `../lib/ruby/3.4.0/psych/visitors/to_ruby.rb:426` |
 
 ### Total samples
 
 Functions ranked by total samples taken in the function and all its callees. Calls within a recursion cycle are excluded from totals, since they re-count the same work.
 
-|     % | Samples | Function                       | Location                                                                            |
-| ----: | ------: | ------------------------------ | ----------------------------------------------------------------------------------- |
-| 98.4% |     124 | `<main>`                       | `rubocop`                                                                           |
-| 96.8% |     122 | `<top (required)>`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`                               |
-| 60.3% |      76 | `realtime`                     | `../../lib/ruby/3.1.0/benchmark.rb`                                                 |
-| 60.3% |      76 | `block in <top (required)>`    | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`                               |
-| 60.3% |      76 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 59.5% |      75 | `block in run`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 59.5% |      75 | `profile_if_needed`            | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `execute_runners`              | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `run_command`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`            |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`                |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `block in execute_runner`      | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `execute_runner`               | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `with_redirect`                | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `block in each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `process_file`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `each_inspected_file`          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `file_offense_cache`           | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+|     % | Samples | Function                                              | Location                                                                  |
+| ----: | ------: | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 99.3% |     135 | `<main>`                                              | `rubocop`                                                                 |
+| 97.1% |     132 | `Kernel#load [c function]`                            | `<unknown>`                                                               |
+| 63.2% |      86 | `Benchmark.realtime`                                  | `../lib/ruby/3.4.0/benchmark.rb`                                          |
+| 63.2% |      86 | `block in <top (required)>`                           | `../bundle/gems/rubocop-1.65.1/exe/rubocop`                               |
+| 63.2% |      86 | `RuboCop::CLI#run`                                    | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 62.5% |      85 | `RuboCop::CLI#profile_if_needed`                      | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 62.5% |      85 | `block in run`                                        | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI#execute_runners`                        | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI#run_command`                            | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI::Environment#run`                       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`            |
+| 58.8% |      80 | `RuboCop::CLI::Command.run`                           | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`                |
+| 58.1% |      79 | `Enumerable#reduce [c function]`                      | `<unknown>`                                                               |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#run`            | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#with_redirect`  | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `block in execute_runner`                             | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::Runner#run`                                 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+| 58.1% |      79 | `RuboCop::Runner#each_inspected_file`                 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+| 58.1% |      79 | `RuboCop::Runner#inspect_files`                       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+| 19.1% |      26 | `Kernel#require_relative [c function]`                | `<unknown>`                                                               |
 
 #### Categories
 
+##### Native
+
+|     % | Samples | Function                                     | Location    |
+| ----: | ------: | -------------------------------------------- | ----------- |
+| 97.1% |     132 | `Kernel#load [c function]`                   | `<unknown>` |
+| 58.1% |      79 | `Enumerable#reduce [c function]`             | `<unknown>` |
+| 19.1% |      26 | `Kernel#require_relative [c function]`       | `<unknown>` |
+| 17.6% |      24 | `Array#each [c function]`                    | `<unknown>` |
+| 14.7% |      20 | `Kernel#public_send [c function]`            | `<unknown>` |
+| 12.5% |      17 | `Racc::Parser#_racc_do_parse_c [c function]` | `<unknown>` |
+|  5.1% |       7 | `Kernel#require [c function]`                | `<unknown>` |
+|  3.7% |       5 | `Array#select [c function]`                  | `<unknown>` |
+|  3.7% |       5 | `Class#new [c function]`                     | `<unknown>` |
+|  3.7% |       5 | `String#[] [c function]`                     | `<unknown>` |
+|  2.9% |       4 | `Module#class_eval [c function]`             | `<unknown>` |
+|  2.9% |       4 | `String#encode [c function]`                 | `<unknown>` |
+|  2.2% |       3 | `Array#index [c function]`                   | `<unknown>` |
+|  2.2% |       3 | `Enumerator#each [c function]`               | `<unknown>` |
+|  2.2% |       3 | `Thread::Mutex#synchronize [c function]`     | `<unknown>` |
+|  1.5% |       2 | `Enumerable#map [c function]`                | `<unknown>` |
+|  1.5% |       2 | `Module#include [c function]`                | `<unknown>` |
+|  1.5% |       2 | `Module#append_features [c function]`        | `<unknown>` |
+|  1.5% |       2 | `Psych::Parser#_native_parse [c function]`   | `<unknown>` |
+|  1.5% |       2 | `String#index [c function]`                  | `<unknown>` |
+
 ##### Third-party
 
-|     % | Samples | Function                       | Location                                                                            |
-| ----: | ------: | ------------------------------ | ----------------------------------------------------------------------------------- |
-| 96.8% |     122 | `<top (required)>`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`                               |
-| 60.3% |      76 | `block in <top (required)>`    | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`                               |
-| 60.3% |      76 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 59.5% |      75 | `block in run`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 59.5% |      75 | `profile_if_needed`            | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `execute_runners`              | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `run_command`                  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`            |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`                |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `block in execute_runner`      | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `run`                          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `execute_runner`               | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `with_redirect`                | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-| 55.6% |      70 | `block in each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `process_file`                 | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `each_inspected_file`          | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `file_offense_cache`           | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `file_offenses`                | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
-| 55.6% |      70 | `inspect_files`                | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+|     % | Samples | Function                                              | Location                                                                  |
+| ----: | ------: | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 63.2% |      86 | `block in <top (required)>`                           | `../bundle/gems/rubocop-1.65.1/exe/rubocop`                               |
+| 63.2% |      86 | `RuboCop::CLI#run`                                    | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 62.5% |      85 | `RuboCop::CLI#profile_if_needed`                      | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 62.5% |      85 | `block in run`                                        | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI#execute_runners`                        | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI#run_command`                            | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`                        |
+| 58.8% |      80 | `RuboCop::CLI::Environment#run`                       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`            |
+| 58.8% |      80 | `RuboCop::CLI::Command.run`                           | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`                |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#run`            | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::CLI::Command::ExecuteRunner#with_redirect`  | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `block in execute_runner`                             | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+| 58.1% |      79 | `RuboCop::Runner#run`                                 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+| 58.1% |      79 | `RuboCop::Runner#each_inspected_file`                 | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+| 58.1% |      79 | `RuboCop::Runner#inspect_files`                       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                     |
+|  8.1% |      11 | `Parser::Base#next_token`                             | `../bundle/gems/parser-3.3.12.0/lib/parser/base.rb`                       |
+|  7.4% |      10 | `Parser::Lexer#advance`                               | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`                   |
+|  5.1% |       7 | `Parser::Source::Buffer#slice`                        | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`              |
+|  3.7% |       5 | `Parser::Source::Buffer#line_for_position`            | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`              |
+|  3.7% |       5 | `Parser::Source::Buffer#line_index_for_position`      | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`              |
 
 ##### Unknown
 
-|     % | Samples | Function                 | Location    |
-| ----: | ------: | ------------------------ | ----------- |
-| 19.8% |      25 | `require`                | `<unknown>` |
-| 15.9% |      20 | `do_parse`               | `<unknown>` |
-| 11.1% |      14 | `on_send`                | `<unknown>` |
-|  4.0% |       5 | `on_block`               | `<unknown>` |
-|  4.0% |       5 | `on_def`                 | `<unknown>` |
-|  2.4% |       3 | `on_if`                  | `<unknown>` |
-|  1.6% |       2 | `<internal:gem_prelude>` | `<unknown>` |
-|  1.6% |       2 | `on_module`              | `<unknown>` |
-|  0.8% |       1 | `block in load`          | `<unknown>` |
-|  0.8% |       1 | `load`                   | `<unknown>` |
-|  0.8% |       1 | `if_type?`               | `<unknown>` |
-|  0.8% |       1 | `numblock_type?`         | `<unknown>` |
-|  0.8% |       1 | `assignment_type?`       | `<unknown>` |
-|  0.8% |       1 | `tap`                    | `<unknown>` |
-|  0.8% |       1 | `emit_call`              | `<unknown>` |
-|  0.8% |       1 | `emit_capture`           | `<unknown>` |
-|  0.8% |       1 | `on_begin`               | `<unknown>` |
-|  0.8% |       1 | `block in on_dstr`       | `<unknown>` |
-|  0.8% |       1 | `on_ivasgn`              | `<unknown>` |
-|  0.8% |       1 | `on_lvasgn`              | `<unknown>` |
+|    % | Samples | Function                                                      | Location    |
+| ---: | ------: | ------------------------------------------------------------- | ----------- |
+| 2.2% |       3 | `RuboCop::AST::NodePattern::Parser#next_token`                | `<unknown>` |
+| 1.5% |       2 | `block in on_send`                                            | `<unknown>` |
+| 1.5% |       2 | `RuboCop::Cop::Style::ConditionalAssignment#assignment_type?` | `<unknown>` |
+| 0.7% |       1 | `Psych::TreeBuilder#start_mapping`                            | `<unknown>` |
+| 0.7% |       1 | `Psych::TreeBuilder#start_sequence`                           | `<unknown>` |
+| 0.7% |       1 | `String#unpack`                                               | `<unknown>` |
+| 0.7% |       1 | `Kernel#tap`                                                  | `<unknown>` |
+| 0.7% |       1 | `RuboCop::AST::Node#lambda_or_proc?`                          | `<unknown>` |
+| 0.7% |       1 | `RuboCop::Cop::Style::NumericPredicate#comparison`            | `<unknown>` |
+| 0.7% |       1 | `block in private_class_methods`                              | `<unknown>` |
+| 0.7% |       1 | `RuboCop::AST::NodePattern::Parser#emit_list`                 | `<unknown>` |
+| 0.7% |       1 | `RuboCop::AST::Node#proc?`                                    | `<unknown>` |
+| 0.7% |       1 | `RuboCop::Cop::Commissioner#on_send`                          | `<unknown>` |
 
 ##### Standard library
 
-|     % | Samples | Function                     | Location                                                         |
-| ----: | ------: | ---------------------------- | ---------------------------------------------------------------- |
-| 60.3% |      76 | `realtime`                   | `../../lib/ruby/3.1.0/benchmark.rb`                              |
-|  2.4% |       3 | `parse`                      | `../../lib/ruby/3.1.0/psych.rb`                                  |
-|  2.4% |       3 | `parse_stream`               | `../../lib/ruby/3.1.0/psych.rb`                                  |
-|  2.4% |       3 | `scalar`                     | `../../lib/ruby/3.1.0/psych/tree_builder.rb`                     |
-|  2.4% |       3 | `safe_load`                  | `../../lib/ruby/3.1.0/psych.rb`                                  |
-|  1.6% |       2 | `<top (required)>`           | `../../lib/ruby/vendor_ruby/rubygems.rb`                         |
-|  1.6% |       2 | `activate_bin_path`          | `../../lib/ruby/vendor_ruby/rubygems.rb`                         |
-|  1.6% |       2 | `block in activate_bin_path` | `../../lib/ruby/vendor_ruby/rubygems.rb`                         |
-|  1.6% |       2 | `load`                       | `../../lib/ruby/vendor_ruby/rubygems/specification.rb`           |
-|  0.8% |       1 | `<top (required)>`           | `../../lib/ruby/3.1.0/bundler.rb`                                |
-|  0.8% |       1 | `<top (required)>`           | `../../lib/ruby/3.1.0/bundler/vendored_fileutils.rb`             |
-|  0.8% |       1 | `<module:DryRun>`            | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-|  0.8% |       1 | `block in <module:DryRun>`   | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-|  0.8% |       1 | `<module:FileUtils>`         | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-|  0.8% |       1 | `<top (required)>`           | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-|  0.8% |       1 | `compile`                    | `../../lib/ruby/3.1.0/erb.rb`                                    |
-|  0.8% |       1 | `scan`                       | `../../lib/ruby/3.1.0/erb.rb`                                    |
-|  0.8% |       1 | `initialize`                 | `../../lib/ruby/3.1.0/erb.rb`                                    |
-|  0.8% |       1 | `<module:FileUtils>`         | `../../lib/ruby/3.1.0/fileutils.rb`                              |
-|  0.8% |       1 | `<module:NoWrite>`           | `../../lib/ruby/3.1.0/fileutils.rb`                              |
+|     % | Samples | Function                           | Location                                             |
+| ----: | ------: | ---------------------------------- | ---------------------------------------------------- |
+| 63.2% |      86 | `Benchmark.realtime`               | `../lib/ruby/3.4.0/benchmark.rb`                     |
+|  2.2% |       3 | `block in activate_bin_path`       | `../lib/ruby/3.4.0/rubygems.rb`                      |
+|  2.2% |       3 | `Gem.activate_bin_path`            | `../lib/ruby/3.4.0/rubygems.rb`                      |
+|  2.2% |       3 | `Psych.safe_load`                  | `../lib/ruby/3.4.0/psych.rb`                         |
+|  1.5% |       2 | `Psych.parse`                      | `../lib/ruby/3.4.0/psych.rb`                         |
+|  1.5% |       2 | `Psych.parse_stream`               | `../lib/ruby/3.4.0/psych.rb`                         |
+|  1.5% |       2 | `Psych::Parser#parse`              | `../lib/ruby/3.4.0/psych/parser.rb`                  |
+|  1.5% |       2 | `Gem.finish_resolve`               | `../lib/ruby/3.4.0/rubygems.rb`                      |
+|  1.5% |       2 | `Gem::RequestSet#resolve_current`  | `../lib/ruby/3.4.0/rubygems/request_set.rb`          |
+|  0.7% |       1 | `block (2 levels) in each_gemspec` | `../lib/ruby/3.4.0/rubygems/specification.rb`        |
+|  0.7% |       1 | `block in map_stubs`               | `../lib/ruby/3.4.0/rubygems/specification_record.rb` |
+|  0.7% |       1 | `block in merge`                   | `../lib/ruby/3.4.0/set.rb`                           |
+|  0.7% |       1 | `Gem::StubSpecification#valid?`    | `../lib/ruby/3.4.0/rubygems/stub_specification.rb`   |
+|  0.7% |       1 | `ERB#initialize`                   | `../lib/ruby/3.4.0/erb.rb`                           |
+|  0.7% |       1 | `Psych::Nodes::Mapping#initialize` | `../lib/ruby/3.4.0/psych/nodes/mapping.rb`           |
+|  0.7% |       1 | `block in parse_in_order`          | `../lib/ruby/3.4.0/optparse.rb`                      |
+|  0.7% |       1 | `OptionParser#parse!`              | `../lib/ruby/3.4.0/optparse.rb`                      |
+|  0.7% |       1 | `ERB::Compiler#compile`            | `../lib/ruby/3.4.0/erb/compiler.rb`                  |
+|  0.7% |       1 | `ERB::Compiler::Buffer#close`      | `../lib/ruby/3.4.0/erb/compiler.rb`                  |
+|  0.7% |       1 | `OptionParser#order!`              | `../lib/ruby/3.4.0/optparse.rb`                      |
 
 #### Callers
 
 Callers ranked by the samples taken in each function and its callees during calls from that caller. Percentages are of the function's total and can exceed 100% for calls within a recursion cycle.
 
-##### `<top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`)
+##### `Kernel#load [c function]` (`<unknown>`)
 
 |      % | Samples | Calls | Caller   | Location  |
 | -----: | ------: | ----: | -------- | --------- |
-| 100.0% |     122 |     1 | `<main>` | `rubocop` |
+| 100.0% |     132 |     1 | `<main>` | `rubocop` |
 
-##### `realtime` (`../../lib/ruby/3.1.0/benchmark.rb`)
+##### `Benchmark.realtime` (`../lib/ruby/3.4.0/benchmark.rb`)
 
-|      % | Samples | Calls | Caller             | Location                                              |
-| -----: | ------: | ----: | ------------------ | ----------------------------------------------------- |
-| 100.0% |      76 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop` |
+|      % | Samples | Calls | Caller                     | Location    |
+| -----: | ------: | ----: | -------------------------- | ----------- |
+| 100.0% |      86 |     1 | `Kernel#load [c function]` | `<unknown>` |
 
-##### `block in <top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`)
+##### `block in <top (required)>` (`../bundle/gems/rubocop-1.65.1/exe/rubocop`)
 
-|      % | Samples | Calls | Caller     | Location                            |
-| -----: | ------: | ----: | ---------- | ----------------------------------- |
-| 100.0% |      76 |     1 | `realtime` | `../../lib/ruby/3.1.0/benchmark.rb` |
+|      % | Samples | Calls | Caller               | Location                         |
+| -----: | ------: | ----: | -------------------- | -------------------------------- |
+| 100.0% |      86 |     1 | `Benchmark.realtime` | `../lib/ruby/3.4.0/benchmark.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Caller                      | Location                                              |
-| -----: | ------: | ----: | --------------------------- | ----------------------------------------------------- |
-| 100.0% |      76 |     1 | `block in <top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop` |
+|      % | Samples | Calls | Caller                      | Location                                    |
+| -----: | ------: | ----: | --------------------------- | ------------------------------------------- |
+| 100.0% |      86 |     1 | `block in <top (required)>` | `../bundle/gems/rubocop-1.65.1/exe/rubocop` |
 
-##### `block in run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#profile_if_needed` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Caller              | Location                                                     |
-| -----: | ------: | ----: | ------------------- | ------------------------------------------------------------ |
-| 100.0% |      75 |     1 | `profile_if_needed` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Caller             | Location                                           |
+| -----: | ------: | ----: | ------------------ | -------------------------------------------------- |
+| 100.0% |      85 |     1 | `RuboCop::CLI#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `profile_if_needed` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `block in run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Caller | Location                                                     |
-| -----: | ------: | ----: | ------ | ------------------------------------------------------------ |
-| 100.0% |      75 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Caller                           | Location                                           |
+| -----: | ------: | ----: | -------------------------------- | -------------------------------------------------- |
+| 100.0% |      85 |     1 | `RuboCop::CLI#profile_if_needed` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `execute_runners` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#execute_runners` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Caller         | Location                                                     |
-| -----: | ------: | ----: | -------------- | ------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `block in run` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Caller         | Location                                           |
+| -----: | ------: | ----: | -------------- | -------------------------------------------------- |
+| 100.0% |      80 |     1 | `block in run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `run_command` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#run_command` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Caller            | Location                                                     |
-| -----: | ------: | ----: | ----------------- | ------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `execute_runners` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|     % | Samples | Calls | Caller                            | Location                                           |
+| ----: | ------: | ----: | --------------------------------- | -------------------------------------------------- |
+| 98.8% |      79 |     1 | `RuboCop::CLI#execute_runners`    | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|  1.3% |       1 |     1 | `RuboCop::CLI#suggest_extensions` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`)
+##### `RuboCop::CLI::Environment#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`)
 
-|      % | Samples | Calls | Caller        | Location                                                     |
-| -----: | ------: | ----: | ------------- | ------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `run_command` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Caller                     | Location                                           |
+| -----: | ------: | ----: | -------------------------- | -------------------------------------------------- |
+| 100.0% |      80 |     2 | `RuboCop::CLI#run_command` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`)
+##### `RuboCop::CLI::Command.run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`)
 
-|      % | Samples | Calls | Caller | Location                                                                 |
-| -----: | ------: | ----: | ------ | ------------------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb` |
+|      % | Samples | Calls | Caller                          | Location                                                       |
+| -----: | ------: | ----: | ------------------------------- | -------------------------------------------------------------- |
+| 100.0% |      80 |     2 | `RuboCop::CLI::Environment#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `Enumerable#reduce [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller | Location                                                             |
-| -----: | ------: | ----: | ------ | -------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb` |
+|      % | Samples | Calls | Caller                                | Location                                              |
+| -----: | ------: | ----: | ------------------------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#each_inspected_file` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `block in execute_runner` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `RuboCop::CLI::Command::ExecuteRunner#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Caller          | Location                                                                            |
-| -----: | ------: | ----: | --------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `with_redirect` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|      % | Samples | Calls | Caller                      | Location                                                   |
+| -----: | ------: | ----: | --------------------------- | ---------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command.run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `RuboCop::CLI::Command::ExecuteRunner#execute_runner` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Caller                    | Location                                                                            |
-| -----: | ------: | ----: | ------------------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `block in execute_runner` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|      % | Samples | Calls | Caller                                     | Location                                                                  |
+| -----: | ------: | ----: | ------------------------------------------ | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `execute_runner` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `RuboCop::CLI::Command::ExecuteRunner#with_redirect` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Caller | Location                                                                            |
-| -----: | ------: | ----: | ------ | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|      % | Samples | Calls | Caller                                                | Location                                                                  |
+| -----: | ------: | ----: | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `with_redirect` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `block in execute_runner` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Caller           | Location                                                                            |
-| -----: | ------: | ----: | ---------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `execute_runner` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|      % | Samples | Calls | Caller                                               | Location                                                                  |
+| -----: | ------: | ----: | ---------------------------------------------------- | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#with_redirect` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `block in each_inspected_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `RuboCop::Runner#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|      % | Samples | Calls | Caller                | Location                                                        |
-| -----: | ------: | ----: | --------------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                    | Location                                                                  |
+| -----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `block in execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `process_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `RuboCop::Runner#each_inspected_file` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|      % | Samples | Calls | Caller                         | Location                                                        |
-| -----: | ------: | ----: | ------------------------------ | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `block in each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                          | Location                                              |
+| -----: | ------: | ----: | ------------------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#inspect_files` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `each_inspected_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `RuboCop::Runner#inspect_files` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|      % | Samples | Calls | Caller          | Location                                                        |
-| -----: | ------: | ----: | --------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `inspect_files` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                | Location                                              |
+| -----: | ------: | ----: | --------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `file_offense_cache` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `Kernel#require_relative [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller          | Location                                                        |
-| -----: | ------: | ----: | --------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `file_offenses` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                        | Location    |
+| -----: | ------: | ----: | ----------------------------- | ----------- |
+| 215.4% |      56 |     9 | `Kernel#require [c function]` | `<unknown>` |
 
-##### `file_offenses` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `Array#each [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller         | Location                                                        |
-| -----: | ------: | ----: | -------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `process_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                                               | Location                                                                      |
+| -----: | ------: | ----: | ---------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 725.0% |     174 |    40 | `RuboCop::AST::Traversal#on_dstr`                    | `<unknown>`                                                                   |
+| 329.2% |      79 |     1 | `Enumerable#reduce [c function]`                     | `<unknown>`                                                                   |
+| 250.0% |      60 |     2 | `Enumerable#flat_map [c function]`                   | `<unknown>`                                                                   |
+| 154.2% |      37 |    36 | `RuboCop::Cop::Commissioner#trigger_responding_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb`               |
+| 141.7% |      34 |    25 | `RuboCop::AST::Descendence#each_child_node`          | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb` |
 
-##### `inspect_files` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `Kernel#public_send [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller | Location                                                        |
-| -----: | ------: | ----: | ------ | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Caller                                        | Location                                                        |
+| -----: | ------: | ----: | --------------------------------------------- | --------------------------------------------------------------- |
+| 185.0% |      37 |    36 | `block (2 levels) in trigger_responding_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+|   5.0% |       1 |     1 | `block in run_hook`                           | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/force.rb`        |
+|   5.0% |       1 |     1 | `block in <=>`                                | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/offense.rb`      |
+|   5.0% |       1 |     1 | `block (2 levels) in trigger_restricted_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
 
-##### `require` (`<unknown>`)
+##### `Racc::Parser#_racc_do_parse_c [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller             | Location                                                                           |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------------------------------------------------- |
-| 168.0% |      42 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`                              |
-|  40.0% |      10 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                           |
-|  24.0% |       6 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast.rb`                   |
-|  12.0% |       3 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/lsp/server.rb`                |
-|  12.0% |       3 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/formatter/junit_formatter.rb` |
+|      % | Samples | Calls | Caller                  | Location    |
+| -----: | ------: | ----: | ----------------------- | ----------- |
+| 117.6% |      20 |     4 | `Racc::Parser#do_parse` | `<unknown>` |
 
-##### `do_parse` (`<unknown>`)
+##### `Parser::Base#next_token` (`../bundle/gems/parser-3.3.12.0/lib/parser/base.rb`)
 
-|     % | Samples | Calls | Caller  | Location                                                                             |
-| ----: | ------: | ----: | ------- | ------------------------------------------------------------------------------------ |
-| 80.0% |      16 |     1 | `parse` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb`                        |
-| 20.0% |       4 |     4 | `parse` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.rb` |
+|      % | Samples | Calls | Caller                                       | Location    |
+| -----: | ------: | ----: | -------------------------------------------- | ----------- |
+| 100.0% |      11 |     5 | `Racc::Parser#_racc_do_parse_c [c function]` | `<unknown>` |
 
-##### `on_send` (`<unknown>`)
+##### `Parser::Lexer#advance` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`)
 
-|     % | Samples | Calls | Caller             | Location    |
-| ----: | ------: | ----: | ------------------ | ----------- |
-| 78.6% |      11 |    10 | `block in on_dstr` | `<unknown>` |
-| 57.1% |       8 |     8 | `block in on_send` | `<unknown>` |
-| 21.4% |       3 |     3 | `on_if`            | `<unknown>` |
-| 14.3% |       2 |     2 | `on_block`         | `<unknown>` |
-| 14.3% |       2 |     2 | `on_lvasgn`        | `<unknown>` |
+|      % | Samples | Calls | Caller                    | Location                                            |
+| -----: | ------: | ----: | ------------------------- | --------------------------------------------------- |
+| 100.0% |      10 |     5 | `Parser::Base#next_token` | `../bundle/gems/parser-3.3.12.0/lib/parser/base.rb` |
 
-##### `on_block` (`<unknown>`)
+##### `Kernel#require [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller             | Location    |
-| -----: | ------: | ----: | ------------------ | ----------- |
-| 120.0% |       6 |     5 | `block in on_dstr` | `<unknown>` |
-|  40.0% |       2 |     2 | `on_def`           | `<unknown>` |
-|  40.0% |       2 |     1 | `block in on_send` | `<unknown>` |
-|  20.0% |       1 |     1 | `block in on_case` | `<unknown>` |
-|  20.0% |       1 |     1 | `on_defs`          | `<unknown>` |
+|       % | Samples | Calls | Caller           | Location    |
+| ------: | ------: | ----: | ---------------- | ----------- |
+| 1057.1% |      74 |    17 | `Kernel#require` | `<unknown>` |
 
-##### `on_def` (`<unknown>`)
+##### `Parser::Source::Buffer#slice` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Calls | Caller             | Location    |
-| -----: | ------: | ----: | ------------------ | ----------- |
-| 540.0% |      27 |     5 | `block in on_dstr` | `<unknown>` |
+|     % | Samples | Calls | Caller                                         | Location                                                     |
+| ----: | ------: | ----: | ---------------------------------------------- | ------------------------------------------------------------ |
+| 42.9% |       3 |     3 | `Parser::Source::Range#source`                 | `../bundle/gems/parser-3.3.12.0/lib/parser/source/range.rb`  |
+| 28.6% |       2 |     2 | `Parser::Lexer#tok`                            | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+| 28.6% |       2 |     2 | `Parser::LexerStrings#extend_string_slice_end` | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-strings.rb` |
 
-##### `on_if` (`<unknown>`)
+##### `Array#select [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller             | Location    |
-| -----: | ------: | ----: | ------------------ | ----------- |
-| 333.3% |      10 |     7 | `block in on_dstr` | `<unknown>` |
-| 100.0% |       3 |     3 | `on_block`         | `<unknown>` |
-|  33.3% |       1 |     1 | `on_def`           | `<unknown>` |
-|  33.3% |       1 |     1 | `on_lvasgn`        | `<unknown>` |
+|     % | Samples | Calls | Caller                                     | Location                                                |
+| ----: | ------: | ----: | ------------------------------------------ | ------------------------------------------------------- |
+| 60.0% |       3 |     1 | `RuboCop::Cop::Base#callbacks_needed`      | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb` |
+| 20.0% |       1 |     1 | `RuboCop::Cop::Team#roundup_relevant_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb` |
+| 20.0% |       1 |     1 | `Gem::Specification.gemspec_stubs_in`      | `../lib/ruby/3.4.0/rubygems/specification.rb`           |
 
-##### `parse` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `Class#new [c function]` (`<unknown>`)
 
-|     % | Samples | Calls | Caller      | Location                                                                          |
-| ----: | ------: | ----: | ----------- | --------------------------------------------------------------------------------- |
-| 66.7% |       2 |     2 | `safe_load` | `../../lib/ruby/3.1.0/psych.rb`                                                   |
-| 33.3% |       1 |     1 | `check`     | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb` |
+|      % | Samples | Calls | Caller                                               | Location                                                                |
+| -----: | ------: | ----: | ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| 360.0% |      18 |     1 | `RuboCop::AST::ProcessedSource.from_file`            | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb` |
+| 140.0% |       7 |     4 | `RuboCop::AST::NodePattern::Macros#def_node_matcher` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb`     |
+|  60.0% |       3 |     3 | `RuboCop::AST::BuilderExtensions#n`                  | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/builder.rb`          |
+|  60.0% |       3 |     1 | `RuboCop::Cop::Team#investigate_partial`             | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb`                 |
+|  20.0% |       1 |     1 | `RuboCop::AST::NodePattern#initialize`               | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb`     |
 
-##### `parse_stream` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `String#[] [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Caller  | Location                        |
-| -----: | ------: | ----: | ------- | ------------------------------- |
-| 100.0% |       3 |     3 | `parse` | `../../lib/ruby/3.1.0/psych.rb` |
+|     % | Samples | Calls | Caller                             | Location                                                            |
+| ----: | ------: | ----: | ---------------------------------- | ------------------------------------------------------------------- |
+| 60.0% |       3 |     3 | `RuboCop::Cop::RangeHelp#move_pos` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/range_help.rb` |
+| 40.0% |       2 |     2 | `Parser::Source::Buffer#slice`     | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`        |
 
-##### `scalar` (`../../lib/ruby/3.1.0/psych/tree_builder.rb`)
+##### `Parser::Source::Buffer#line_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Calls | Caller         | Location                        |
-| -----: | ------: | ----: | -------------- | ------------------------------- |
-| 100.0% |       3 |     3 | `parse_stream` | `../../lib/ruby/3.1.0/psych.rb` |
+|      % | Samples | Calls | Caller                       | Location                                                    |
+| -----: | ------: | ----: | ---------------------------- | ----------------------------------------------------------- |
+| 100.0% |       5 |     4 | `Parser::Source::Range#line` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/range.rb` |
 
-##### `safe_load` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `Parser::Source::Buffer#line_index_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|     % | Samples | Calls | Caller                                | Location                                                               |
-| ----: | ------: | ----: | ------------------------------------- | ---------------------------------------------------------------------- |
-| 66.7% |       2 |     1 | `yaml_safe_load!`                     | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb` |
-| 33.3% |       1 |     1 | `block in cache_root_dir_from_config` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb`  |
+|      % | Samples | Calls | Caller                                     | Location                                                     |
+| -----: | ------: | ----: | ------------------------------------------ | ------------------------------------------------------------ |
+| 100.0% |       5 |     4 | `Parser::Source::Buffer#line_for_position` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb` |
 
-##### `on_module` (`<unknown>`)
+##### `Module#class_eval [c function]` (`<unknown>`)
 
-|       % | Samples | Calls | Caller             | Location    |
-| ------: | ------: | ----: | ------------------ | ----------- |
-| 2250.0% |      45 |     3 | `block in on_dstr` | `<unknown>` |
+|      % | Samples | Calls | Caller                                                | Location                                                                           |
+| -----: | ------: | ----: | ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| 100.0% |       4 |     4 | `RuboCop::AST::NodePattern::MethodDefiner#def_helper` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb` |
 
-##### `<top (required)>` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `String#encode [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                         | Location                                                     |
+| -----: | ------: | ----: | ------------------------------ | ------------------------------------------------------------ |
+| 100.0% |       4 |     4 | `Parser::Source::Buffer#slice` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb` |
+
+##### `Array#index [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                                    | Location                                                                    |
+| -----: | ------: | ----: | --------------------------------------------------------- | --------------------------------------------------------------------------- |
+| 100.0% |       3 |     1 | `RuboCop::Cop::Layout::SpaceAfterComma#before_semicolon?` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_after_comma.rb` |
+
+##### `Enumerator#each [c function]` (`<unknown>`)
+
+|     % | Samples | Calls | Caller                                                      | Location                                                                     |
+| ----: | ------: | ----: | ----------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| 66.7% |       2 |     2 | `Enumerable#find [c function]`                              | `<unknown>`                                                                  |
+| 66.7% |       2 |     2 | `Enumerable#map [c function]`                               | `<unknown>`                                                                  |
+| 66.7% |       2 |     2 | `Enumerable#to_a [c function]`                              | `<unknown>`                                                                  |
+| 66.7% |       2 |     2 | `RuboCop::AST::NodePattern::Compiler#enforce_same_captures` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb` |
+| 33.3% |       1 |     1 | `Enumerable#each_entry [c function]`                        | `<unknown>`                                                                  |
+
+##### `Thread::Mutex#synchronize [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                  | Location                        |
+| -----: | ------: | ----: | ----------------------- | ------------------------------- |
+| 100.0% |       3 |     1 | `Gem.activate_bin_path` | `../lib/ruby/3.4.0/rubygems.rb` |
+
+##### `RuboCop::AST::NodePattern::Parser#next_token` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                       | Location    |
+| -----: | ------: | ----: | -------------------------------------------- | ----------- |
+| 100.0% |       3 |     3 | `Racc::Parser#_racc_do_parse_c [c function]` | `<unknown>` |
+
+##### `block in activate_bin_path` (`../lib/ruby/3.4.0/rubygems.rb`)
+
+|      % | Samples | Calls | Caller                                   | Location    |
+| -----: | ------: | ----: | ---------------------------------------- | ----------- |
+| 100.0% |       3 |     1 | `Thread::Mutex#synchronize [c function]` | `<unknown>` |
+
+##### `Gem.activate_bin_path` (`../lib/ruby/3.4.0/rubygems.rb`)
+
+|      % | Samples | Calls | Caller   | Location  |
+| -----: | ------: | ----: | -------- | --------- |
+| 100.0% |       3 |     1 | `<main>` | `rubocop` |
+
+##### `Psych.safe_load` (`../lib/ruby/3.4.0/psych.rb`)
+
+|     % | Samples | Calls | Caller                                  | Location                                                     |
+| ----: | ------: | ----: | --------------------------------------- | ------------------------------------------------------------ |
+| 66.7% |       2 |     1 | `block in cache_root_dir_from_config`   | `../bundle/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb`  |
+| 33.3% |       1 |     1 | `RuboCop::ConfigLoader.yaml_safe_load!` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb` |
+
+##### `Enumerable#map [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                                       | Location                                                                                              |
+| -----: | ------: | ----: | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| 150.0% |       3 |     3 | `block in visit_union`                                       | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/node_pattern_subcompiler.rb` |
+|  50.0% |       1 |     1 | `RuboCop::AST::NodePattern::MethodDefiner#emit_keyword_list` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/method_definer.rb`                    |
+
+##### `Module#include [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                 | Location    |
+| -----: | ------: | ----: | -------------------------------------- | ----------- |
+| 100.0% |       2 |     2 | `Kernel#require_relative [c function]` | `<unknown>` |
+
+##### `Module#append_features [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                        | Location    |
+| -----: | ------: | ----: | ----------------------------- | ----------- |
+| 100.0% |       2 |     2 | `Module#include [c function]` | `<unknown>` |
+
+##### `Psych::Parser#_native_parse [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                | Location                            |
+| -----: | ------: | ----: | --------------------- | ----------------------------------- |
+| 100.0% |       2 |     2 | `Psych::Parser#parse` | `../lib/ruby/3.4.0/psych/parser.rb` |
+
+##### `String#index [c function]` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                               | Location                                                     |
+| -----: | ------: | ----: | ------------------------------------ | ------------------------------------------------------------ |
+| 100.0% |       2 |     1 | `Parser::Source::Buffer#line_begins` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb` |
+
+##### `block in on_send` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                    | Location    |
+| -----: | ------: | ----: | ------------------------- | ----------- |
+| 750.0% |      15 |    14 | `Array#each [c function]` | `<unknown>` |
+
+##### `RuboCop::Cop::Style::ConditionalAssignment#assignment_type?` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                               | Location                                                                        |
+| -----: | ------: | ----: | ---------------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% |       2 |     2 | `RuboCop::Cop::Style::ConditionalAssignment#on_send` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/conditional_assignment.rb` |
+
+##### `Psych.parse` (`../lib/ruby/3.4.0/psych.rb`)
+
+|     % | Samples | Calls | Caller                                  | Location                                                                |
+| ----: | ------: | ----: | --------------------------------------- | ----------------------------------------------------------------------- |
+| 50.0% |       1 |     1 | `RuboCop::YAMLDuplicationChecker.check` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/yaml_duplication_checker.rb` |
+| 50.0% |       1 |     1 | `Psych.safe_load`                       | `../lib/ruby/3.4.0/psych.rb`                                            |
+
+##### `Psych.parse_stream` (`../lib/ruby/3.4.0/psych.rb`)
+
+|      % | Samples | Calls | Caller        | Location                     |
+| -----: | ------: | ----: | ------------- | ---------------------------- |
+| 100.0% |       2 |     2 | `Psych.parse` | `../lib/ruby/3.4.0/psych.rb` |
+
+##### `Psych::Parser#parse` (`../lib/ruby/3.4.0/psych/parser.rb`)
+
+|      % | Samples | Calls | Caller               | Location                     |
+| -----: | ------: | ----: | -------------------- | ---------------------------- |
+| 100.0% |       2 |     2 | `Psych.parse_stream` | `../lib/ruby/3.4.0/psych.rb` |
+
+##### `Gem.finish_resolve` (`../lib/ruby/3.4.0/rubygems.rb`)
+
+|      % | Samples | Calls | Caller                       | Location                        |
+| -----: | ------: | ----: | ---------------------------- | ------------------------------- |
+| 100.0% |       2 |     1 | `block in activate_bin_path` | `../lib/ruby/3.4.0/rubygems.rb` |
+
+##### `Gem::RequestSet#resolve_current` (`../lib/ruby/3.4.0/rubygems/request_set.rb`)
+
+|      % | Samples | Calls | Caller               | Location                        |
+| -----: | ------: | ----: | -------------------- | ------------------------------- |
+| 100.0% |       2 |     1 | `Gem.finish_resolve` | `../lib/ruby/3.4.0/rubygems.rb` |
+
+##### `Psych::TreeBuilder#start_mapping` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                     | Location    |
+| -----: | ------: | ----: | ------------------------------------------ | ----------- |
+| 100.0% |       1 |     1 | `Psych::Parser#_native_parse [c function]` | `<unknown>` |
+
+##### `Psych::TreeBuilder#start_sequence` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                     | Location    |
+| -----: | ------: | ----: | ------------------------------------------ | ----------- |
+| 100.0% |       1 |     1 | `Psych::Parser#_native_parse [c function]` | `<unknown>` |
+
+##### `String#unpack` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                         | Location                                                |
+| -----: | ------: | ----: | ------------------------------ | ------------------------------------------------------- |
+| 100.0% |       1 |     1 | `Parser::Lexer#source_buffer=` | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb` |
+
+##### `Kernel#tap` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                         | Location                                           |
+| -----: | ------: | ----: | ------------------------------ | -------------------------------------------------- |
+| 100.0% |       1 |     1 | `RuboCop::CLI#execute_runners` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+
+##### `RuboCop::AST::Node#lambda_or_proc?` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                            | Location                                                         |
+| -----: | ------: | ----: | --------------------------------- | ---------------------------------------------------------------- |
+| 100.0% |       1 |     1 | `block in assumed_usage_context?` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/lint/debugger.rb` |
+
+##### `RuboCop::Cop::Style::NumericPredicate#comparison` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                        | Location                                                                   |
+| -----: | ------: | ----: | --------------------------------------------- | -------------------------------------------------------------------------- |
+| 100.0% |       1 |     1 | `RuboCop::Cop::Style::NumericPredicate#check` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/numeric_predicate.rb` |
+
+##### `block in private_class_methods` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                           | Location                                                                      |
+| -----: | ------: | ----: | -------------------------------- | ----------------------------------------------------------------------------- |
+| 100.0% |       1 |     1 | `block in visit_all_descendants` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb` |
+
+##### `RuboCop::AST::NodePattern::Parser#emit_list` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                                        | Location                                                                        |
+| -----: | ------: | ----: | --------------------------------------------- | ------------------------------------------------------------------------------- |
+| 100.0% |       1 |     1 | `RuboCop::AST::NodePattern::Parser#_reduce_3` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb` |
+
+##### `RuboCop::AST::Node#proc?` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                               | Location    |
+| -----: | ------: | ----: | ------------------------------------ | ----------- |
+| 100.0% |       1 |     1 | `RuboCop::AST::Node#lambda_or_proc?` | `<unknown>` |
+
+##### `RuboCop::Cop::Commissioner#on_send` (`<unknown>`)
+
+|      % | Samples | Calls | Caller                             | Location    |
+| -----: | ------: | ----: | ---------------------------------- | ----------- |
+| 900.0% |       9 |     8 | `block in on_dstr`                 | `<unknown>` |
+| 600.0% |       6 |     6 | `RuboCop::AST::Traversal#on_if`    | `<unknown>` |
+| 500.0% |       5 |     5 | `block in on_send`                 | `<unknown>` |
+| 400.0% |       4 |     4 | `RuboCop::AST::Traversal#on_block` | `<unknown>` |
+| 100.0% |       1 |     1 | `block in on_case`                 | `<unknown>` |
+
+##### `block (2 levels) in each_gemspec` (`../lib/ruby/3.4.0/rubygems/specification.rb`)
+
+|      % | Samples | Calls | Caller                    | Location    |
+| -----: | ------: | ----: | ------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Array#each [c function]` | `<unknown>` |
+
+##### `block in map_stubs` (`../lib/ruby/3.4.0/rubygems/specification_record.rb`)
+
+|      % | Samples | Calls | Caller                    | Location    |
+| -----: | ------: | ----: | ------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Array#each [c function]` | `<unknown>` |
+
+##### `block in merge` (`../lib/ruby/3.4.0/set.rb`)
+
+|      % | Samples | Calls | Caller                    | Location    |
+| -----: | ------: | ----: | ------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Array#each [c function]` | `<unknown>` |
+
+##### `Gem::StubSpecification#valid?` (`../lib/ruby/3.4.0/rubygems/stub_specification.rb`)
+
+|      % | Samples | Calls | Caller                      | Location    |
+| -----: | ------: | ----: | --------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Array#select [c function]` | `<unknown>` |
+
+##### `ERB#initialize` (`../lib/ruby/3.4.0/erb.rb`)
 
 |      % | Samples | Calls | Caller                   | Location    |
 | -----: | ------: | ----: | ------------------------ | ----------- |
-| 100.0% |       2 |     1 | `<internal:gem_prelude>` | `<unknown>` |
+| 100.0% |       1 |     1 | `Class#new [c function]` | `<unknown>` |
 
-##### `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `Psych::Nodes::Mapping#initialize` (`../lib/ruby/3.4.0/psych/nodes/mapping.rb`)
 
-|      % | Samples | Calls | Caller   | Location  |
-| -----: | ------: | ----: | -------- | --------- |
-| 100.0% |       2 |     1 | `<main>` | `rubocop` |
+|      % | Samples | Calls | Caller                   | Location    |
+| -----: | ------: | ----: | ------------------------ | ----------- |
+| 100.0% |       1 |     1 | `Class#new [c function]` | `<unknown>` |
 
-##### `block in activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `block in parse_in_order` (`../lib/ruby/3.4.0/optparse.rb`)
 
-|      % | Samples | Calls | Caller              | Location                                 |
-| -----: | ------: | ----: | ------------------- | ---------------------------------------- |
-| 100.0% |       2 |     1 | `activate_bin_path` | `../../lib/ruby/vendor_ruby/rubygems.rb` |
+|      % | Samples | Calls | Caller                      | Location    |
+| -----: | ------: | ----: | --------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Kernel#catch [c function]` | `<unknown>` |
 
-##### `load` (`../../lib/ruby/vendor_ruby/rubygems/specification.rb`)
+##### `OptionParser#parse!` (`../lib/ruby/3.4.0/optparse.rb`)
 
-|     % | Samples | Calls | Caller               | Location                                                    |
-| ----: | ------: | ----: | -------------------- | ----------------------------------------------------------- |
-| 50.0% |       1 |     1 | `to_spec`            | `../../lib/ruby/vendor_ruby/rubygems/stub_specification.rb` |
-| 50.0% |       1 |     1 | `block in each_spec` | `../../lib/ruby/vendor_ruby/rubygems/specification.rb`      |
+|      % | Samples | Calls | Caller                   | Location                                               |
+| -----: | ------: | ----: | ------------------------ | ------------------------------------------------------ |
+| 100.0% |       1 |     1 | `RuboCop::Options#parse` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/options.rb` |
 
-##### `block in load` (`<unknown>`)
+##### `ERB::Compiler#compile` (`../lib/ruby/3.4.0/erb/compiler.rb`)
 
-|      % | Samples | Calls | Caller       | Location                                               |
-| -----: | ------: | ----: | ------------ | ------------------------------------------------------ |
-| 100.0% |       1 |     1 | `initialize` | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
+|      % | Samples | Calls | Caller           | Location                   |
+| -----: | ------: | ----: | ---------------- | -------------------------- |
+| 100.0% |       1 |     1 | `ERB#initialize` | `../lib/ruby/3.4.0/erb.rb` |
 
-##### `load` (`<unknown>`)
+##### `ERB::Compiler::Buffer#close` (`../lib/ruby/3.4.0/erb/compiler.rb`)
 
-|      % | Samples | Calls | Caller | Location                                               |
-| -----: | ------: | ----: | ------ | ------------------------------------------------------ |
-| 100.0% |       1 |     1 | `load` | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
+|      % | Samples | Calls | Caller                  | Location                            |
+| -----: | ------: | ----: | ----------------------- | ----------------------------------- |
+| 100.0% |       1 |     1 | `ERB::Compiler#compile` | `../lib/ruby/3.4.0/erb/compiler.rb` |
 
-##### `if_type?` (`<unknown>`)
+##### `OptionParser#order!` (`../lib/ruby/3.4.0/optparse.rb`)
 
-|      % | Samples | Calls | Caller    | Location                                                                              |
-| -----: | ------: | ----: | --------- | ------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `on_send` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/lint/require_parentheses.rb` |
-
-##### `numblock_type?` (`<unknown>`)
-
-|      % | Samples | Calls | Caller                           | Location                                                                            |
-| -----: | ------: | ----: | -------------------------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `same_collection_looping_block?` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/combinable_loops.rb` |
-
-##### `assignment_type?` (`<unknown>`)
-
-|      % | Samples | Calls | Caller    | Location                                                                                  |
-| -----: | ------: | ----: | --------- | ----------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `on_send` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/style/conditional_assignment.rb` |
-
-##### `tap` (`<unknown>`)
-
-|      % | Samples | Calls | Caller | Location                                                              |
-| -----: | ------: | ----: | ------ | --------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `dir`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
-
-##### `emit_call` (`<unknown>`)
-
-|      % | Samples | Calls | Caller       | Location                                                                                  |
-| -----: | ------: | ----: | ------------ | ----------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `_reduce_11` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb` |
-
-##### `emit_capture` (`<unknown>`)
-
-|      % | Samples | Calls | Caller      | Location                                                                                  |
-| -----: | ------: | ----: | ----------- | ----------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `_reduce_8` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/parser.racc.rb` |
-
-##### `on_begin` (`<unknown>`)
-
-|       % | Samples | Calls | Caller             | Location                                                                   |
-| ------: | ------: | ----: | ------------------ | -------------------------------------------------------------------------- |
-| 5300.0% |      53 |     4 | `on_while`         | `<unknown>`                                                                |
-| 3400.0% |      34 |     1 | `walk`             | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/traversal.rb` |
-| 2500.0% |      25 |     3 | `on_class`         | `<unknown>`                                                                |
-| 1400.0% |      14 |     9 | `on_def`           | `<unknown>`                                                                |
-|  400.0% |       4 |     3 | `block in on_case` | `<unknown>`                                                                |
-
-##### `block in on_dstr` (`<unknown>`)
-
-|        % | Samples | Calls | Caller    | Location    |
-| -------: | ------: | ----: | --------- | ----------- |
-| 14300.0% |     143 |    33 | `on_dstr` | `<unknown>` |
-
-##### `on_ivasgn` (`<unknown>`)
-
-|      % | Samples | Calls | Caller             | Location    |
-| -----: | ------: | ----: | ------------------ | ----------- |
-| 100.0% |       1 |     1 | `block in on_dstr` | `<unknown>` |
-
-##### `on_lvasgn` (`<unknown>`)
-
-|      % | Samples | Calls | Caller             | Location    |
-| -----: | ------: | ----: | ------------------ | ----------- |
-| 500.0% |       5 |     5 | `block in on_dstr` | `<unknown>` |
-| 100.0% |       1 |     1 | `on_if`            | `<unknown>` |
-
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler.rb`)
-
-|      % | Samples | Calls | Caller    | Location    |
-| -----: | ------: | ----: | --------- | ----------- |
-| 100.0% |       1 |     1 | `require` | `<unknown>` |
-
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler/vendored_fileutils.rb`)
-
-|      % | Samples | Calls | Caller             | Location                          |
-| -----: | ------: | ----: | ------------------ | --------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/bundler.rb` |
-
-##### `<module:DryRun>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
-
-|      % | Samples | Calls | Caller               | Location                                                         |
-| -----: | ------: | ----: | -------------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<module:FileUtils>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-
-##### `block in <module:DryRun>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
-
-|      % | Samples | Calls | Caller            | Location                                                         |
-| -----: | ------: | ----: | ----------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<module:DryRun>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-
-##### `<module:FileUtils>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
-
-|      % | Samples | Calls | Caller             | Location                                                         |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
-
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
-
-|      % | Samples | Calls | Caller             | Location                                             |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/bundler/vendored_fileutils.rb` |
-
-##### `compile` (`../../lib/ruby/3.1.0/erb.rb`)
-
-|      % | Samples | Calls | Caller       | Location                      |
-| -----: | ------: | ----: | ------------ | ----------------------------- |
-| 100.0% |       1 |     1 | `initialize` | `../../lib/ruby/3.1.0/erb.rb` |
-
-##### `scan` (`../../lib/ruby/3.1.0/erb.rb`)
-
-|      % | Samples | Calls | Caller    | Location                      |
-| -----: | ------: | ----: | --------- | ----------------------------- |
-| 100.0% |       1 |     1 | `compile` | `../../lib/ruby/3.1.0/erb.rb` |
-
-##### `initialize` (`../../lib/ruby/3.1.0/erb.rb`)
-
-|      % | Samples | Calls | Caller                             | Location                                                               |
-| -----: | ------: | ----: | ---------------------------------- | ---------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `block in load_yaml_configuration` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/config_loader.rb` |
-
-##### `<module:FileUtils>` (`../../lib/ruby/3.1.0/fileutils.rb`)
-
-|      % | Samples | Calls | Caller             | Location                            |
-| -----: | ------: | ----: | ------------------ | ----------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/fileutils.rb` |
-
-##### `<module:NoWrite>` (`../../lib/ruby/3.1.0/fileutils.rb`)
-
-|      % | Samples | Calls | Caller               | Location                            |
-| -----: | ------: | ----: | -------------------- | ----------------------------------- |
-| 100.0% |       1 |     1 | `<module:FileUtils>` | `../../lib/ruby/3.1.0/fileutils.rb` |
+|      % | Samples | Calls | Caller                  | Location                        |
+| -----: | ------: | ----: | ----------------------- | ------------------------------- |
+| 100.0% |       1 |     1 | `OptionParser#permute!` | `../lib/ruby/3.4.0/optparse.rb` |
 
 #### Callees
 
@@ -830,373 +920,411 @@ Callees ranked by contribution to each function's total samples. Percentages are
 
 ##### `<main>` (`rubocop`)
 
-|     % | Samples | Calls | Callee              | Location                                              |
-| ----: | ------: | ----: | ------------------- | ----------------------------------------------------- |
-| 98.4% |     122 |     1 | `<top (required)>`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop` |
-|  1.6% |       2 |     1 | `activate_bin_path` | `../../lib/ruby/vendor_ruby/rubygems.rb`              |
+|     % | Samples | Calls | Callee                     | Location                        |
+| ----: | ------: | ----: | -------------------------- | ------------------------------- |
+| 97.8% |     132 |     1 | `Kernel#load [c function]` | `<unknown>`                     |
+|  2.2% |       3 |     1 | `Gem.activate_bin_path`    | `../lib/ruby/3.4.0/rubygems.rb` |
 
-##### `<top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`)
+##### `Kernel#load [c function]` (`<unknown>`)
 
-|     % | Samples | Calls | Callee     | Location                                                        |
-| ----: | ------: | ----: | ---------- | --------------------------------------------------------------- |
-| 62.3% |      76 |     1 | `realtime` | `../../lib/ruby/3.1.0/benchmark.rb`                             |
-| 34.4% |      42 |     1 | `require`  | `<unknown>`                                                     |
-|  3.3% |       4 |     1 | `running?` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server.rb` |
+|     % | Samples | Calls | Callee                     | Location                                              |
+| ----: | ------: | ----: | -------------------------- | ----------------------------------------------------- |
+| 65.2% |      86 |     1 | `Benchmark.realtime`       | `../lib/ruby/3.4.0/benchmark.rb`                      |
+| 32.6% |      43 |     1 | `Kernel#require`           | `<unknown>`                                           |
+|  2.3% |       3 |     1 | `RuboCop::Server.running?` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/server.rb` |
 
-##### `realtime` (`../../lib/ruby/3.1.0/benchmark.rb`)
+##### `Benchmark.realtime` (`../lib/ruby/3.4.0/benchmark.rb`)
 
-|      % | Samples | Calls | Callee                      | Location                                              |
-| -----: | ------: | ----: | --------------------------- | ----------------------------------------------------- |
-| 100.0% |      76 |     1 | `block in <top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop` |
+|      % | Samples | Calls | Callee                      | Location                                    |
+| -----: | ------: | ----: | --------------------------- | ------------------------------------------- |
+| 100.0% |      86 |     1 | `block in <top (required)>` | `../bundle/gems/rubocop-1.65.1/exe/rubocop` |
 
-##### `block in <top (required)>` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/exe/rubocop`)
+##### `block in <top (required)>` (`../bundle/gems/rubocop-1.65.1/exe/rubocop`)
 
-|      % | Samples | Calls | Callee | Location                                                     |
-| -----: | ------: | ----: | ------ | ------------------------------------------------------------ |
-| 100.0% |      76 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Callee             | Location                                           |
+| -----: | ------: | ----: | ------------------ | -------------------------------------------------- |
+| 100.0% |      86 |     1 | `RuboCop::CLI#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|     % | Samples | Calls | Callee              | Location                                                         |
-| ----: | ------: | ----: | ------------------- | ---------------------------------------------------------------- |
-| 98.7% |      75 |     1 | `profile_if_needed` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`     |
-|  1.3% |       1 |     1 | `parse`             | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/options.rb` |
+|     % | Samples | Calls | Callee                           | Location                                               |
+| ----: | ------: | ----: | -------------------------------- | ------------------------------------------------------ |
+| 98.8% |      85 |     1 | `RuboCop::CLI#profile_if_needed` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`     |
+|  1.2% |       1 |     1 | `RuboCop::Options#parse`         | `../bundle/gems/rubocop-1.65.1/lib/rubocop/options.rb` |
 
-##### `block in run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#profile_if_needed` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|     % | Samples | Calls | Callee            | Location                                                     |
-| ----: | ------: | ----: | ----------------- | ------------------------------------------------------------ |
-| 93.3% |      70 |     1 | `execute_runners` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
-|  6.7% |       5 |     1 | `act_on_options`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|      % | Samples | Calls | Callee         | Location                                           |
+| -----: | ------: | ----: | -------------- | -------------------------------------------------- |
+| 100.0% |      85 |     1 | `block in run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `profile_if_needed` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `block in run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Callee         | Location                                                     |
-| -----: | ------: | ----: | -------------- | ------------------------------------------------------------ |
-| 100.0% |      75 |     1 | `block in run` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|     % | Samples | Calls | Callee                         | Location                                           |
+| ----: | ------: | ----: | ------------------------------ | -------------------------------------------------- |
+| 94.1% |      80 |     1 | `RuboCop::CLI#execute_runners` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|  5.9% |       5 |     1 | `RuboCop::CLI#act_on_options`  | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
 
-##### `execute_runners` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#execute_runners` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Callee        | Location                                                     |
-| -----: | ------: | ----: | ------------- | ------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `run_command` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|     % | Samples | Calls | Callee                     | Location                                           |
+| ----: | ------: | ----: | -------------------------- | -------------------------------------------------- |
+| 98.8% |      79 |     1 | `RuboCop::CLI#run_command` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+|  1.3% |       1 |     1 | `Kernel#tap`               | `<unknown>`                                        |
 
-##### `run_command` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
+##### `RuboCop::CLI#run_command` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb`)
 
-|      % | Samples | Calls | Callee | Location                                                                 |
-| -----: | ------: | ----: | ------ | ------------------------------------------------------------------------ |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb` |
+|      % | Samples | Calls | Callee                          | Location                                                       |
+| -----: | ------: | ----: | ------------------------------- | -------------------------------------------------------------- |
+| 100.0% |      80 |     2 | `RuboCop::CLI::Environment#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`)
+##### `RuboCop::CLI::Environment#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/environment.rb`)
 
-|      % | Samples | Calls | Callee | Location                                                             |
-| -----: | ------: | ----: | ------ | -------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb` |
+|      % | Samples | Calls | Callee                      | Location                                                   |
+| -----: | ------: | ----: | --------------------------- | ---------------------------------------------------------- |
+| 100.0% |      80 |     2 | `RuboCop::CLI::Command.run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`)
+##### `RuboCop::CLI::Command.run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command.rb`)
 
-|      % | Samples | Calls | Callee | Location                                                                            |
-| -----: | ------: | ----: | ------ | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|     % | Samples | Calls | Callee                                         | Location                                                                      |
+| ----: | ------: | ----: | ---------------------------------------------- | ----------------------------------------------------------------------------- |
+| 98.8% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#run`     | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`     |
+|  1.3% |       1 |     1 | `RuboCop::CLI::Command::SuggestExtensions#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/suggest_extensions.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `Enumerable#reduce [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee           | Location                                                                            |
-| -----: | ------: | ----: | ---------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `execute_runner` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
+|      % | Samples | Calls | Callee                    | Location    |
+| -----: | ------: | ----: | ------------------------- | ----------- |
+| 100.0% |      79 |     1 | `Array#each [c function]` | `<unknown>` |
 
-##### `block in execute_runner` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
+##### `RuboCop::CLI::Command::ExecuteRunner#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Callee | Location                                                        |
-| -----: | ------: | ----: | ------ | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `run`  | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Callee                                                | Location                                                                  |
+| -----: | ------: | ----: | ----------------------------------------------------- | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `run` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
+##### `RuboCop::CLI::Command::ExecuteRunner#execute_runner` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Callee          | Location                                                        |
-| -----: | ------: | ----: | --------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `inspect_files` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
+|      % | Samples | Calls | Callee                                               | Location                                                                  |
+| -----: | ------: | ----: | ---------------------------------------------------- | ------------------------------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::CLI::Command::ExecuteRunner#with_redirect` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `execute_runner` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
-
-|      % | Samples | Calls | Callee          | Location                                                                            |
-| -----: | ------: | ----: | --------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `with_redirect` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-
-##### `with_redirect` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
-
-|      % | Samples | Calls | Callee                    | Location                                                                            |
-| -----: | ------: | ----: | ------------------------- | ----------------------------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `block in execute_runner` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
-
-##### `block in each_inspected_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|      % | Samples | Calls | Callee         | Location                                                        |
-| -----: | ------: | ----: | -------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `process_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `process_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|      % | Samples | Calls | Callee          | Location                                                        |
-| -----: | ------: | ----: | --------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `file_offenses` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `each_inspected_file` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|      % | Samples | Calls | Callee                         | Location                                                        |
-| -----: | ------: | ----: | ------------------------------ | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `block in each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `file_offense_cache` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|     % | Samples | Calls | Callee                   | Location                                                        |
-| ----: | ------: | ----: | ------------------------ | --------------------------------------------------------------- |
-| 98.6% |      69 |     1 | `block in file_offenses` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-|  1.4% |       1 |     1 | `standby_team`           | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `file_offenses` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|      % | Samples | Calls | Callee               | Location                                                        |
-| -----: | ------: | ----: | -------------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `file_offense_cache` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `inspect_files` (`/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
-
-|      % | Samples | Calls | Callee                | Location                                                        |
-| -----: | ------: | ----: | --------------------- | --------------------------------------------------------------- |
-| 100.0% |      70 |     1 | `each_inspected_file` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
-
-##### `require` (`<unknown>`)
-
-|      % | Samples | Calls | Callee             | Location                                                                                     |
-| -----: | ------: | ----: | ------------------ | -------------------------------------------------------------------------------------------- |
-| 168.0% |      42 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop.rb`                                     |
-|  36.0% |       9 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop-ast.rb`                             |
-|  16.0% |       4 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser.rb`                                     |
-|  12.0% |       3 |     1 | `<top (required)>` | `../../lib/ruby/gems/3.1.0/gems/rexml-3.2.5/lib/rexml/document.rb`                           |
-|  12.0% |       3 |     1 | `<top (required)>` | `/var/lib/gems/3.1.0/gems/language_server-protocol-3.17.0.6/lib/language_server-protocol.rb` |
-
-##### `do_parse` (`<unknown>`)
-
-|     % | Samples | Calls | Callee        | Location                                                        |
-| ----: | ------: | ----: | ------------- | --------------------------------------------------------------- |
-| 50.0% |      10 |     4 | `next_token`  | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/base.rb`   |
-|  5.0% |       1 |     1 | `_reduce_230` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb` |
-|  5.0% |       1 |     1 | `_reduce_335` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb` |
-|  5.0% |       1 |     1 | `_reduce_570` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb` |
-|  5.0% |       1 |     1 | `_reduce_600` | `/var/lib/gems/3.1.0/gems/parser-3.3.11.1/lib/parser/ruby27.rb` |
-
-##### `on_send` (`<unknown>`)
-
-|     % | Samples | Calls | Callee                    | Location                                                                  |
-| ----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 92.9% |      13 |    13 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-| 85.7% |      12 |    11 | `block in on_send`        | `<unknown>`                                                               |
-|  7.1% |       1 |     1 | `trigger_restricted_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-
-##### `on_block` (`<unknown>`)
-
-|     % | Samples | Calls | Callee                    | Location                                                                  |
-| ----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 80.0% |       4 |     4 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-| 60.0% |       3 |     2 | `on_begin`                | `<unknown>`                                                               |
-| 60.0% |       3 |     3 | `on_if`                   | `<unknown>`                                                               |
-| 40.0% |       2 |     2 | `on_send`                 | `<unknown>`                                                               |
-| 20.0% |       1 |     1 | `on_until`                | `<unknown>`                                                               |
-
-##### `on_def` (`<unknown>`)
+##### `RuboCop::CLI::Command::ExecuteRunner#with_redirect` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
 |      % | Samples | Calls | Callee                    | Location                                                                  |
 | -----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 280.0% |      14 |     9 | `on_begin`                | `<unknown>`                                                               |
-|  80.0% |       4 |     4 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-|  40.0% |       2 |     2 | `on_block`                | `<unknown>`                                                               |
-|  40.0% |       2 |     1 | `on_ensure`               | `<unknown>`                                                               |
-|  40.0% |       2 |     2 | `on_rescue`               | `<unknown>`                                                               |
+| 100.0% |      79 |     1 | `block in execute_runner` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb` |
 
-##### `on_if` (`<unknown>`)
+##### `block in execute_runner` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/cli/command/execute_runner.rb`)
 
-|      % | Samples | Calls | Callee                    | Location                                                                  |
-| -----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 100.0% |       3 |     3 | `on_begin`                | `<unknown>`                                                               |
-| 100.0% |       3 |     3 | `on_or`                   | `<unknown>`                                                               |
-| 100.0% |       3 |     3 | `on_send`                 | `<unknown>`                                                               |
-|  66.7% |       2 |     2 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-|  33.3% |       1 |     1 | `on_array`                | `<unknown>`                                                               |
+|      % | Samples | Calls | Callee                | Location                                              |
+| -----: | ------: | ----: | --------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#run` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `parse` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `RuboCop::Runner#run` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|      % | Samples | Calls | Callee         | Location                        |
-| -----: | ------: | ----: | -------------- | ------------------------------- |
-| 100.0% |       3 |     3 | `parse_stream` | `../../lib/ruby/3.1.0/psych.rb` |
+|      % | Samples | Calls | Callee                          | Location                                              |
+| -----: | ------: | ----: | ------------------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#inspect_files` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `parse_stream` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `RuboCop::Runner#each_inspected_file` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|      % | Samples | Calls | Callee   | Location                                     |
-| -----: | ------: | ----: | -------- | -------------------------------------------- |
-| 100.0% |       3 |     3 | `scalar` | `../../lib/ruby/3.1.0/psych/tree_builder.rb` |
+|      % | Samples | Calls | Callee                           | Location    |
+| -----: | ------: | ----: | -------------------------------- | ----------- |
+| 100.0% |      79 |     1 | `Enumerable#reduce [c function]` | `<unknown>` |
 
-##### `scalar` (`../../lib/ruby/3.1.0/psych/tree_builder.rb`)
+##### `RuboCop::Runner#inspect_files` (`../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`)
 
-|     % | Samples | Calls | Callee         | Location                                     |
-| ----: | ------: | ----: | -------------- | -------------------------------------------- |
-| 33.3% |       1 |     1 | `initialize`   | `../../lib/ruby/3.1.0/psych/nodes/scalar.rb` |
-| 33.3% |       1 |     1 | `set_location` | `../../lib/ruby/3.1.0/psych/tree_builder.rb` |
+|      % | Samples | Calls | Callee                                | Location                                              |
+| -----: | ------: | ----: | ------------------------------------- | ----------------------------------------------------- |
+| 100.0% |      79 |     1 | `RuboCop::Runner#each_inspected_file` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb` |
 
-##### `safe_load` (`../../lib/ruby/3.1.0/psych.rb`)
+##### `Kernel#require_relative [c function]` (`<unknown>`)
 
-|     % | Samples | Calls | Callee   | Location                                         |
-| ----: | ------: | ----: | -------- | ------------------------------------------------ |
-| 66.7% |       2 |     2 | `parse`  | `../../lib/ruby/3.1.0/psych.rb`                  |
-| 33.3% |       1 |     1 | `accept` | `../../lib/ruby/3.1.0/psych/visitors/to_ruby.rb` |
+|     % | Samples | Calls | Callee                                               | Location                                                            |
+| ----: | ------: | ----: | ---------------------------------------------------- | ------------------------------------------------------------------- |
+| 61.5% |      16 |     9 | `Kernel#require`                                     | `<unknown>`                                                         |
+| 50.0% |      13 |     6 | `RuboCop::AST::NodePattern::Macros#def_node_matcher` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb` |
+|  7.7% |       2 |     2 | `Module#include [c function]`                        | `<unknown>`                                                         |
+|  3.8% |       1 |     1 | `File.realpath [c function]`                         | `<unknown>`                                                         |
+|  3.8% |       1 |     1 | `RuboCop::AST::NodePattern::Macros#def_node_search`  | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb` |
 
-##### `<internal:gem_prelude>` (`<unknown>`)
+##### `Array#each [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee             | Location                                 |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------- |
-| 100.0% |       2 |     1 | `<top (required)>` | `../../lib/ruby/vendor_ruby/rubygems.rb` |
+|      % | Samples | Calls | Callee                             | Location                                                                      |
+| -----: | ------: | ----: | ---------------------------------- | ----------------------------------------------------------------------------- |
+| 725.0% |     174 |    40 | `block in on_dstr`                 | `<unknown>`                                                                   |
+| 329.2% |      79 |     1 | `block in each_inspected_file`     | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                         |
+| 245.8% |      59 |     1 | `block in inspect_file`            | `../bundle/gems/rubocop-1.65.1/lib/rubocop/runner.rb`                         |
+| 154.2% |      37 |    36 | `block in trigger_responding_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb`               |
+| 141.7% |      34 |    25 | `block in each_child_node`         | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node/mixin/descendence.rb` |
 
-##### `on_module` (`<unknown>`)
+##### `Kernel#public_send [c function]` (`<unknown>`)
 
-|       % | Samples | Calls | Callee                    | Location                                                                  |
-| ------: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 2150.0% |      43 |     3 | `on_while`                | `<unknown>`                                                               |
-|  100.0% |       2 |     2 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+|     % | Samples | Calls | Callee                                                         | Location                                                                                  |
+| ----: | ------: | ----: | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 20.0% |       4 |     4 | `RuboCop::Cop::Style::IfUnlessModifier#on_if`                  | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/style/if_unless_modifier.rb`               |
+| 10.0% |       2 |     2 | `RuboCop::Cop::Layout::LineLength#on_potential_breakable_node` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/layout/line_length.rb`                     |
+| 10.0% |       2 |     2 | `RuboCop::Cop::Layout::SpaceAroundOperators#on_assignment`     | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/layout/space_around_operators.rb`          |
+| 10.0% |       2 |     2 | `RuboCop::Cop::Lint::IneffectiveAccessModifier#on_class`       | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/lint/ineffective_access_modifier.rb`       |
+| 10.0% |       2 |     2 | `RuboCop::Cop::MultilineExpressionIndentation#on_send`         | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/mixin/multiline_expression_indentation.rb` |
 
-##### `<top (required)>` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `Racc::Parser#_racc_do_parse_c [c function]` (`<unknown>`)
 
-|     % | Samples | Calls | Callee             | Location                                               |
-| ----: | ------: | ----: | ------------------ | ------------------------------------------------------ |
-| 50.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
-| 50.0% |       1 |     1 | `load_defaults`    | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
+|     % | Samples | Calls | Callee                                         | Location                                              |
+| ----: | ------: | ----: | ---------------------------------------------- | ----------------------------------------------------- |
+| 64.7% |      11 |     5 | `Parser::Base#next_token`                      | `../bundle/gems/parser-3.3.12.0/lib/parser/base.rb`   |
+| 17.6% |       3 |     3 | `RuboCop::AST::NodePattern::Parser#next_token` | `<unknown>`                                           |
+|  5.9% |       1 |     1 | `Parser::Ruby27#_reduce_549`                   | `../bundle/gems/parser-3.3.12.0/lib/parser/ruby27.rb` |
+|  5.9% |       1 |     1 | `Parser::Ruby27#_reduce_580`                   | `../bundle/gems/parser-3.3.12.0/lib/parser/ruby27.rb` |
+|  5.9% |       1 |     1 | `Parser::Ruby27#_reduce_600`                   | `../bundle/gems/parser-3.3.12.0/lib/parser/ruby27.rb` |
 
-##### `activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `Parser::Base#next_token` (`../bundle/gems/parser-3.3.12.0/lib/parser/base.rb`)
 
-|      % | Samples | Calls | Callee                       | Location                                 |
-| -----: | ------: | ----: | ---------------------------- | ---------------------------------------- |
-| 100.0% |       2 |     1 | `block in activate_bin_path` | `../../lib/ruby/vendor_ruby/rubygems.rb` |
+|     % | Samples | Calls | Callee                         | Location                                                     |
+| ----: | ------: | ----: | ------------------------------ | ------------------------------------------------------------ |
+| 90.9% |      10 |     5 | `Parser::Lexer#advance`        | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+|  9.1% |       1 |     1 | `Parser::LexerStrings#advance` | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-strings.rb` |
 
-##### `block in activate_bin_path` (`../../lib/ruby/vendor_ruby/rubygems.rb`)
+##### `Parser::Lexer#advance` (`../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`)
 
-|     % | Samples | Calls | Callee           | Location                                               |
-| ----: | ------: | ----: | ---------------- | ------------------------------------------------------ |
-| 50.0% |       1 |     1 | `finish_resolve` | `../../lib/ruby/vendor_ruby/rubygems.rb`               |
-| 50.0% |       1 |     1 | `activate`       | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
+|     % | Samples | Calls | Callee                                    | Location                                                     |
+| ----: | ------: | ----: | ----------------------------------------- | ------------------------------------------------------------ |
+| 20.0% |       2 |     2 | `Parser::Lexer#emit`                      | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+| 10.0% |       1 |     1 | `Parser::Lexer#emit_instance_var`         | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+| 10.0% |       1 |     1 | `Parser::Lexer#emit_rbrace_rparen_rbrack` | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+| 10.0% |       1 |     1 | `Parser::Lexer#tok`                       | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-F1.rb`      |
+| 10.0% |       1 |     1 | `Parser::LexerStrings#advance`            | `../bundle/gems/parser-3.3.12.0/lib/parser/lexer-strings.rb` |
 
-##### `load` (`../../lib/ruby/vendor_ruby/rubygems/specification.rb`)
+##### `Kernel#require [c function]` (`<unknown>`)
 
-|     % | Samples | Calls | Callee      | Location                                 |
-| ----: | ------: | ----: | ----------- | ---------------------------------------- |
-| 50.0% |       1 |     1 | `open_file` | `../../lib/ruby/vendor_ruby/rubygems.rb` |
-| 50.0% |       1 |     1 | `load`      | `<unknown>`                              |
+|      % | Samples | Calls | Callee                                 | Location                                      |
+| -----: | ------: | ----: | -------------------------------------- | --------------------------------------------- |
+| 800.0% |      56 |     9 | `Kernel#require_relative [c function]` | `<unknown>`                                   |
+| 157.1% |      11 |     3 | `Kernel#require`                       | `<unknown>`                                   |
+|  14.3% |       1 |     1 | `Gem::Specification.load_defaults`     | `../lib/ruby/3.4.0/rubygems/specification.rb` |
 
-##### `load` (`<unknown>`)
+##### `Parser::Source::Buffer#slice` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Calls | Callee       | Location                                               |
-| -----: | ------: | ----: | ------------ | ------------------------------------------------------ |
-| 100.0% |       1 |     1 | `initialize` | `../../lib/ruby/vendor_ruby/rubygems/specification.rb` |
+|     % | Samples | Calls | Callee                       | Location    |
+| ----: | ------: | ----: | ---------------------------- | ----------- |
+| 57.1% |       4 |     4 | `String#encode [c function]` | `<unknown>` |
+| 28.6% |       2 |     2 | `String#[] [c function]`     | `<unknown>` |
 
-##### `tap` (`<unknown>`)
+##### `Array#select [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee         | Location                                                              |
-| -----: | ------: | ----: | -------------- | --------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `block in dir` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/server/cache.rb` |
+|     % | Samples | Calls | Callee                           | Location                                                |
+| ----: | ------: | ----: | -------------------------------- | ------------------------------------------------------- |
+| 40.0% |       2 |     1 | `block in callbacks_needed`      | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/base.rb` |
+| 20.0% |       1 |     1 | `block in roundup_relevant_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/team.rb` |
+| 20.0% |       1 |     1 | `Gem::StubSpecification#valid?`  | `../lib/ruby/3.4.0/rubygems/stub_specification.rb`      |
 
-##### `emit_call` (`<unknown>`)
+##### `Class#new [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee      | Location                                                                              |
-| -----: | ------: | ----: | ----------- | ------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `emit_call` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb` |
+|      % | Samples | Calls | Callee                                     | Location                                                                |
+| -----: | ------: | ----: | ------------------------------------------ | ----------------------------------------------------------------------- |
+| 360.0% |      18 |     1 | `RuboCop::AST::ProcessedSource#initialize` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/processed_source.rb` |
+| 140.0% |       7 |     4 | `RuboCop::AST::NodePattern#initialize`     | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern.rb`     |
+|  60.0% |       3 |     1 | `RuboCop::Cop::Commissioner#initialize`    | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb`         |
+|  60.0% |       3 |     3 | `RuboCop::AST::Node#initialize`            | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`             |
+|  40.0% |       2 |     2 | `Set#initialize`                           | `../lib/ruby/3.4.0/set.rb`                                              |
 
-##### `emit_capture` (`<unknown>`)
+##### `Parser::Source::Buffer#line_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|      % | Samples | Calls | Callee         | Location                                                                              |
-| -----: | ------: | ----: | -------------- | ------------------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `emit_capture` | `/var/lib/gems/3.1.0/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb` |
+|      % | Samples | Calls | Callee                                           | Location                                                     |
+| -----: | ------: | ----: | ------------------------------------------------ | ------------------------------------------------------------ |
+| 100.0% |       5 |     4 | `Parser::Source::Buffer#line_index_for_position` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb` |
 
-##### `on_begin` (`<unknown>`)
+##### `Parser::Source::Buffer#line_index_for_position` (`../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb`)
 
-|        % | Samples | Calls | Callee                    | Location                                                                  |
-| -------: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 13700.0% |     137 |    27 | `on_dstr`                 | `<unknown>`                                                               |
-|   100.0% |       1 |     1 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+|     % | Samples | Calls | Callee                               | Location                                                     |
+| ----: | ------: | ----: | ------------------------------------ | ------------------------------------------------------------ |
+| 40.0% |       2 |     1 | `Parser::Source::Buffer#line_begins` | `../bundle/gems/parser-3.3.12.0/lib/parser/source/buffer.rb` |
 
-##### `block in on_dstr` (`<unknown>`)
+##### `Enumerator#each [c function]` (`<unknown>`)
 
-|       % | Samples | Calls | Callee      | Location    |
-| ------: | ------: | ----: | ----------- | ----------- |
-| 4500.0% |      45 |     3 | `on_module` | `<unknown>` |
-| 2700.0% |      27 |     5 | `on_def`    | `<unknown>` |
-| 2500.0% |      25 |     3 | `on_class`  | `<unknown>` |
-| 1100.0% |      11 |    10 | `on_send`   | `<unknown>` |
-| 1000.0% |      10 |     7 | `on_if`     | `<unknown>` |
+|     % | Samples | Calls | Callee                                                                | Location                                                                             |
+| ----: | ------: | ----: | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| 66.7% |       2 |     2 | `RuboCop::AST::Node#each_ancestor`                                    | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node.rb`                          |
+| 66.7% |       2 |     2 | `RuboCop::AST::NodePattern::Compiler#enforce_same_captures`           | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler.rb`         |
+| 66.7% |       2 |     2 | `RuboCop::AST::NodePattern::Compiler::Binding#union_bind`             | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/compiler/binding.rb` |
+| 66.7% |       2 |     2 | `RuboCop::Cop::Lint::IneffectiveAccessModifier#private_class_methods` | `<unknown>`                                                                          |
+| 33.3% |       1 |     1 | `Integer#downto [c function]`                                         | `<unknown>`                                                                          |
 
-##### `on_ivasgn` (`<unknown>`)
+##### `Thread::Mutex#synchronize [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee                    | Location                                                                  |
-| -----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+|      % | Samples | Calls | Callee                       | Location                        |
+| -----: | ------: | ----: | ---------------------------- | ------------------------------- |
+| 100.0% |       3 |     1 | `block in activate_bin_path` | `../lib/ruby/3.4.0/rubygems.rb` |
 
-##### `on_lvasgn` (`<unknown>`)
+##### `RuboCop::AST::NodePattern::Parser#next_token` (`<unknown>`)
 
-|      % | Samples | Calls | Callee                    | Location                                                                  |
-| -----: | ------: | ----: | ------------------------- | ------------------------------------------------------------------------- |
-| 200.0% |       2 |     2 | `on_send`                 | `<unknown>`                                                               |
-| 100.0% |       1 |     1 | `trigger_responding_cops` | `/var/lib/gems/3.1.0/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
-| 100.0% |       1 |     1 | `on_begin`                | `<unknown>`                                                               |
-| 100.0% |       1 |     1 | `on_if`                   | `<unknown>`                                                               |
-| 100.0% |       1 |     1 | `on_or`                   | `<unknown>`                                                               |
+|      % | Samples | Calls | Callee                                           | Location                                                                      |
+| -----: | ------: | ----: | ------------------------------------------------ | ----------------------------------------------------------------------------- |
+| 100.0% |       3 |     3 | `RuboCop::AST::NodePattern::LexerRex#next_token` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/lexer.rex.rb` |
 
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler.rb`)
+##### `block in activate_bin_path` (`../lib/ruby/3.4.0/rubygems.rb`)
 
-|      % | Samples | Calls | Callee             | Location                                             |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/bundler/vendored_fileutils.rb` |
+|     % | Samples | Calls | Callee                        | Location                                      |
+| ----: | ------: | ----: | ----------------------------- | --------------------------------------------- |
+| 66.7% |       2 |     1 | `Gem.finish_resolve`          | `../lib/ruby/3.4.0/rubygems.rb`               |
+| 33.3% |       1 |     1 | `Gem::Specification#activate` | `../lib/ruby/3.4.0/rubygems/specification.rb` |
 
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler/vendored_fileutils.rb`)
+##### `Gem.activate_bin_path` (`../lib/ruby/3.4.0/rubygems.rb`)
 
-|      % | Samples | Calls | Callee             | Location                                                         |
-| -----: | ------: | ----: | ------------------ | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<top (required)>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
+|      % | Samples | Calls | Callee                                   | Location    |
+| -----: | ------: | ----: | ---------------------------------------- | ----------- |
+| 100.0% |       3 |     1 | `Thread::Mutex#synchronize [c function]` | `<unknown>` |
 
-##### `<module:DryRun>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
+##### `Psych.safe_load` (`../lib/ruby/3.4.0/psych.rb`)
 
-|      % | Samples | Calls | Callee                     | Location                                                         |
-| -----: | ------: | ----: | -------------------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `block in <module:DryRun>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
+|     % | Samples | Calls | Callee                           | Location                                      |
+| ----: | ------: | ----: | -------------------------------- | --------------------------------------------- |
+| 66.7% |       2 |     2 | `Psych::Visitors::ToRuby#accept` | `../lib/ruby/3.4.0/psych/visitors/to_ruby.rb` |
+| 33.3% |       1 |     1 | `Psych.parse`                    | `../lib/ruby/3.4.0/psych.rb`                  |
 
-##### `<module:FileUtils>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
+##### `Enumerable#map [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee            | Location                                                         |
-| -----: | ------: | ----: | ----------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<module:DryRun>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
+|      % | Samples | Calls | Callee                         | Location    |
+| -----: | ------: | ----: | ------------------------------ | ----------- |
+| 100.0% |       2 |     2 | `Enumerator#each [c function]` | `<unknown>` |
 
-##### `<top (required)>` (`../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb`)
+##### `Module#include [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee               | Location                                                         |
-| -----: | ------: | ----: | -------------------- | ---------------------------------------------------------------- |
-| 100.0% |       1 |     1 | `<module:FileUtils>` | `../../lib/ruby/3.1.0/bundler/vendor/fileutils/lib/fileutils.rb` |
+|      % | Samples | Calls | Callee                                | Location    |
+| -----: | ------: | ----: | ------------------------------------- | ----------- |
+| 100.0% |       2 |     2 | `Module#append_features [c function]` | `<unknown>` |
 
-##### `compile` (`../../lib/ruby/3.1.0/erb.rb`)
+##### `Psych::Parser#_native_parse [c function]` (`<unknown>`)
 
-|      % | Samples | Calls | Callee | Location                      |
-| -----: | ------: | ----: | ------ | ----------------------------- |
-| 100.0% |       1 |     1 | `scan` | `../../lib/ruby/3.1.0/erb.rb` |
+|     % | Samples | Calls | Callee                              | Location    |
+| ----: | ------: | ----: | ----------------------------------- | ----------- |
+| 50.0% |       1 |     1 | `Psych::TreeBuilder#start_mapping`  | `<unknown>` |
+| 50.0% |       1 |     1 | `Psych::TreeBuilder#start_sequence` | `<unknown>` |
 
-##### `initialize` (`../../lib/ruby/3.1.0/erb.rb`)
+##### `block in on_send` (`<unknown>`)
 
-|      % | Samples | Calls | Callee    | Location                      |
-| -----: | ------: | ----: | --------- | ----------------------------- |
-| 100.0% |       1 |     1 | `compile` | `../../lib/ruby/3.1.0/erb.rb` |
+|      % | Samples | Calls | Callee                                | Location    |
+| -----: | ------: | ----: | ------------------------------------- | ----------- |
+| 250.0% |       5 |     5 | `RuboCop::Cop::Commissioner#on_send`  | `<unknown>` |
+| 200.0% |       4 |     3 | `RuboCop::Cop::Commissioner#on_block` | `<unknown>` |
+|  50.0% |       1 |     1 | `RuboCop::Cop::Commissioner#on_array` | `<unknown>` |
+|  50.0% |       1 |     1 | `RuboCop::Cop::Commissioner#on_dstr`  | `<unknown>` |
+|  50.0% |       1 |     1 | `RuboCop::Cop::Commissioner#on_lvar`  | `<unknown>` |
 
-##### `<module:FileUtils>` (`../../lib/ruby/3.1.0/fileutils.rb`)
+##### `Psych.parse` (`../lib/ruby/3.4.0/psych.rb`)
 
-|      % | Samples | Calls | Callee             | Location                            |
-| -----: | ------: | ----: | ------------------ | ----------------------------------- |
-| 100.0% |       1 |     1 | `<module:NoWrite>` | `../../lib/ruby/3.1.0/fileutils.rb` |
+|      % | Samples | Calls | Callee               | Location                     |
+| -----: | ------: | ----: | -------------------- | ---------------------------- |
+| 100.0% |       2 |     2 | `Psych.parse_stream` | `../lib/ruby/3.4.0/psych.rb` |
 
-##### `<module:NoWrite>` (`../../lib/ruby/3.1.0/fileutils.rb`)
+##### `Psych.parse_stream` (`../lib/ruby/3.4.0/psych.rb`)
 
-|      % | Samples | Calls | Callee                      | Location                            |
-| -----: | ------: | ----: | --------------------------- | ----------------------------------- |
-| 100.0% |       1 |     1 | `block in <module:NoWrite>` | `../../lib/ruby/3.1.0/fileutils.rb` |
+|      % | Samples | Calls | Callee                | Location                            |
+| -----: | ------: | ----: | --------------------- | ----------------------------------- |
+| 100.0% |       2 |     2 | `Psych::Parser#parse` | `../lib/ruby/3.4.0/psych/parser.rb` |
+
+##### `Psych::Parser#parse` (`../lib/ruby/3.4.0/psych/parser.rb`)
+
+|      % | Samples | Calls | Callee                                     | Location    |
+| -----: | ------: | ----: | ------------------------------------------ | ----------- |
+| 100.0% |       2 |     2 | `Psych::Parser#_native_parse [c function]` | `<unknown>` |
+
+##### `Gem.finish_resolve` (`../lib/ruby/3.4.0/rubygems.rb`)
+
+|      % | Samples | Calls | Callee                            | Location                                    |
+| -----: | ------: | ----: | --------------------------------- | ------------------------------------------- |
+| 100.0% |       2 |     1 | `Gem::RequestSet#resolve_current` | `../lib/ruby/3.4.0/rubygems/request_set.rb` |
+
+##### `Gem::RequestSet#resolve_current` (`../lib/ruby/3.4.0/rubygems/request_set.rb`)
+
+|     % | Samples | Calls | Callee                    | Location                                    |
+| ----: | ------: | ----: | ------------------------- | ------------------------------------------- |
+| 50.0% |       1 |     1 | `Gem::RequestSet#resolve` | `../lib/ruby/3.4.0/rubygems/request_set.rb` |
+| 50.0% |       1 |     1 | `Kernel#require`          | `<unknown>`                                 |
+
+##### `Psych::TreeBuilder#start_mapping` (`<unknown>`)
+
+|      % | Samples | Calls | Callee                   | Location    |
+| -----: | ------: | ----: | ------------------------ | ----------- |
+| 100.0% |       1 |     1 | `Class#new [c function]` | `<unknown>` |
+
+##### `Psych::TreeBuilder#start_sequence` (`<unknown>`)
+
+|      % | Samples | Calls | Callee                                  | Location                                  |
+| -----: | ------: | ----: | --------------------------------------- | ----------------------------------------- |
+| 100.0% |       1 |     1 | `Psych::TreeBuilder#set_start_location` | `../lib/ruby/3.4.0/psych/tree_builder.rb` |
+
+##### `Kernel#tap` (`<unknown>`)
+
+|      % | Samples | Calls | Callee                     | Location                                           |
+| -----: | ------: | ----: | -------------------------- | -------------------------------------------------- |
+| 100.0% |       1 |     1 | `block in execute_runners` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cli.rb` |
+
+##### `RuboCop::AST::Node#lambda_or_proc?` (`<unknown>`)
+
+|      % | Samples | Calls | Callee                     | Location    |
+| -----: | ------: | ----: | -------------------------- | ----------- |
+| 100.0% |       1 |     1 | `RuboCop::AST::Node#proc?` | `<unknown>` |
+
+##### `RuboCop::AST::NodePattern::Parser#emit_list` (`<unknown>`)
+
+|      % | Samples | Calls | Callee                                         | Location                                                                    |
+| -----: | ------: | ----: | ---------------------------------------------- | --------------------------------------------------------------------------- |
+| 100.0% |       1 |     1 | `RuboCop::AST::NodePattern::Builder#emit_list` | `../bundle/gems/rubocop-ast-1.50.0/lib/rubocop/ast/node_pattern/builder.rb` |
+
+##### `RuboCop::Cop::Commissioner#on_send` (`<unknown>`)
+
+|       % | Samples | Calls | Callee                                               | Location                                                        |
+| ------: | ------: | ----: | ---------------------------------------------------- | --------------------------------------------------------------- |
+| 1500.0% |      15 |    14 | `RuboCop::AST::Traversal#on_send`                    | `<unknown>`                                                     |
+| 1200.0% |      12 |    12 | `RuboCop::Cop::Commissioner#trigger_responding_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+|  100.0% |       1 |     1 | `RuboCop::Cop::Commissioner#trigger_restricted_cops` | `../bundle/gems/rubocop-1.65.1/lib/rubocop/cop/commissioner.rb` |
+
+##### `block (2 levels) in each_gemspec` (`../lib/ruby/3.4.0/rubygems/specification.rb`)
+
+|      % | Samples | Calls | Callee               | Location                                      |
+| -----: | ------: | ----: | -------------------- | --------------------------------------------- |
+| 100.0% |       1 |     1 | `block in each_spec` | `../lib/ruby/3.4.0/rubygems/specification.rb` |
+
+##### `block in map_stubs` (`../lib/ruby/3.4.0/rubygems/specification_record.rb`)
+
+|      % | Samples | Calls | Callee                                | Location                                      |
+| -----: | ------: | ----: | ------------------------------------- | --------------------------------------------- |
+| 100.0% |       1 |     1 | `Gem::Specification.gemspec_stubs_in` | `../lib/ruby/3.4.0/rubygems/specification.rb` |
+
+##### `Gem::StubSpecification#valid?` (`../lib/ruby/3.4.0/rubygems/stub_specification.rb`)
+
+|      % | Samples | Calls | Callee                        | Location                                           |
+| -----: | ------: | ----: | ----------------------------- | -------------------------------------------------- |
+| 100.0% |       1 |     1 | `Gem::StubSpecification#data` | `../lib/ruby/3.4.0/rubygems/stub_specification.rb` |
+
+##### `ERB#initialize` (`../lib/ruby/3.4.0/erb.rb`)
+
+|      % | Samples | Calls | Callee                  | Location                            |
+| -----: | ------: | ----: | ----------------------- | ----------------------------------- |
+| 100.0% |       1 |     1 | `ERB::Compiler#compile` | `../lib/ruby/3.4.0/erb/compiler.rb` |
+
+##### `Psych::Nodes::Mapping#initialize` (`../lib/ruby/3.4.0/psych/nodes/mapping.rb`)
+
+|      % | Samples | Calls | Callee                          | Location                                |
+| -----: | ------: | ----: | ------------------------------- | --------------------------------------- |
+| 100.0% |       1 |     1 | `Psych::Nodes::Node#initialize` | `../lib/ruby/3.4.0/psych/nodes/node.rb` |
+
+##### `OptionParser#parse!` (`../lib/ruby/3.4.0/optparse.rb`)
+
+|      % | Samples | Calls | Callee                  | Location                        |
+| -----: | ------: | ----: | ----------------------- | ------------------------------- |
+| 100.0% |       1 |     1 | `OptionParser#permute!` | `../lib/ruby/3.4.0/optparse.rb` |
+
+##### `ERB::Compiler#compile` (`../lib/ruby/3.4.0/erb/compiler.rb`)
+
+|      % | Samples | Calls | Callee                        | Location                            |
+| -----: | ------: | ----: | ----------------------------- | ----------------------------------- |
+| 100.0% |       1 |     1 | `ERB::Compiler::Buffer#close` | `../lib/ruby/3.4.0/erb/compiler.rb` |
+
+##### `OptionParser#order!` (`../lib/ruby/3.4.0/optparse.rb`)
+
+|      % | Samples | Calls | Callee                      | Location    |
+| -----: | ------: | ----: | --------------------------- | ----------- |
+| 100.0% |       1 |     1 | `Kernel#catch [c function]` | `<unknown>` |
