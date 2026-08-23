@@ -2,7 +2,7 @@ import { createWriteStream } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { dirname } from 'node:path'
 import { reasonOf } from '../error.ts'
-import { CliError } from './error.ts'
+import { CliError, isClosedReaderError } from './error.ts'
 import { openPager } from './pager.ts'
 
 export type Output = {
@@ -64,11 +64,10 @@ const openOutput = async (outputPath: string): Promise<Output> => {
       write: text =>
         new Promise((resolve, reject) => {
           // A reader such as `head` can close the pipe before the write
-          // finishes, failing the write with `EPIPE` and emitting an `error`
-          // event that would otherwise go unhandled. A closed pipe is a normal
-          // exit.
+          // finishes, failing the write and emitting an `error` event that
+          // would otherwise go unhandled. A closed pipe is a normal exit.
           const finish = (error?: NodeJS.ErrnoException | null) => {
-            if (!error || error.code === `EPIPE`) {
+            if (!error || isClosedReaderError(error)) {
               resolve()
             } else {
               reject(error)

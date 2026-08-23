@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process'
 import type { ChildProcessByStdio } from 'node:child_process'
 import type { Writable } from 'node:stream'
+import { isClosedReaderError } from './error.ts'
 import type { Output } from './output.ts'
 
 /**
@@ -102,10 +103,10 @@ const writeStdin = (child: PagerProcess, text: string): Promise<void> =>
   new Promise((resolve, reject) => {
     const finish = (error?: NodeJS.ErrnoException | null) => {
       // Quitting the pager (e.g. `q` in `less`) before the write finishes
-      // fails the write, a normal exit path. The code is `EPIPE` when the
-      // pager closed its stdin first, and `ECANCELED` when Node destroyed the
-      // pipe on the pager's exit first.
-      if (!error || error.code === `EPIPE` || error.code === `ECANCELED`) {
+      // fails the write, a normal exit path. The code is `ECANCELED` when Node
+      // destroyed the pipe on the pager's exit before the pager closed its
+      // stdin.
+      if (!error || isClosedReaderError(error) || error.code === `ECANCELED`) {
         resolve()
       } else {
         reject(error)
