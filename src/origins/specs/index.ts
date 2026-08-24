@@ -10,6 +10,7 @@ import { goOriginSpec } from './go.ts'
 import { gperftoolsOriginSpec } from './gperftools.ts'
 import { jdkOriginSpec } from './jdk.ts'
 import { memrayOriginSpec } from './memray.ts'
+import { nixOriginSpec } from './nix.ts'
 import { nodePprofOriginSpec } from './node-pprof.ts'
 import { nodeOriginSpec } from './node.ts'
 import { perfOriginSpec } from './perf.ts'
@@ -58,6 +59,7 @@ export const originSpecs = [
   jdkOriginSpec,
   dotnetTraceOriginSpec,
   eflambeOriginSpec,
+  nixOriginSpec,
   // Before rbspy: a Valgrind-written callgrind file is identified only by its
   // `creator:` origin hint, which a native symbol shaped like an rbspy frame
   // would otherwise outrank.

@@ -3,7 +3,7 @@ import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
 import type { Metric } from '../modalities/metric.ts'
-import type { StackFrame } from '../modalities/stack-frame.ts'
+import type { FunctionIdentity, StackFrame } from '../modalities/stack-frame.ts'
 import type {
   EntryMatch,
   FunctionCategory,
@@ -68,6 +68,13 @@ export const matchEntryForOrigin = (
 ): EntryMatch | undefined => {
   const spec: OriginSpec = originToSpec.get(origin)!
   return spec.matchEntry?.(entry)
+}
+
+export const functionIdentityForContext = ({
+  origin,
+}: ProfileToMdContext): FunctionIdentity => {
+  const spec: OriginSpec = originToSpec.get(origin)!
+  return spec.functionIdentity ?? `definition`
 }
 
 export const normalizeStackFrameForContext = (

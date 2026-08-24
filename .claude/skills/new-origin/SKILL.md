@@ -63,6 +63,9 @@ $ARGUMENTS
      references no file, and a path-based category rule can match it. Check each
      format the origin emits, since one export can spell it differently from
      another
+   - `functionIdentity: 'call-site'` when the profiler records only where each
+     function was called (Nix's evaluator). Fill `StackFrame.callSite` in the
+     normalizer. Functions are then keyed and located by call site
    - `matchEntry` when the profiler bakes run-varying identifiers (build hashes,
      runtime addresses) into names or paths (see `matchEntryFromRules`)
    - `countMetric` when what one of the origin's per-sample counts measures

@@ -6,7 +6,7 @@ export const collapsedConverter = {
   format: `collapsed`,
   title: `Collapsed stacks`,
   extension: `collapsed`,
-  languages: [`elixir`, `java`, `php`, `python`, `ruby`],
+  languages: [`elixir`, `java`, `nix`, `php`, `python`, `ruby`],
   // FlameGraph's stack-collapsing scripts define the format and profile nothing
   // themselves, so no emitting origin is canonical.
   fallbackOrigin: `unknown`,

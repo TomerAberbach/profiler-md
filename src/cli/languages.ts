@@ -90,6 +90,12 @@ const languageMetas = [
     },
   ],
   [
+    `nix`,
+    {
+      name: `Nix`,
+    },
+  ],
+  [
     `php`,
     {
       name: `PHP`,

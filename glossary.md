@@ -44,16 +44,17 @@ ambiguous.
 
 ## Code location
 
-| Term                    | Definition                                                                               | Aliases to avoid |
-| ----------------------- | ---------------------------------------------------------------------------------------- | ---------------- |
-| **Location**            | A source reference where a function is defined, with an optional 1-based line and column | position, path   |
-| **Source reference**    | A file reference or a logical reference                                                  | path             |
-| **Position**            | A 1-based line and optional column within a referenced source                            | offset           |
-| **Definition position** | The position where a function is defined; part of its identity                           | start line       |
-| **Executing position**  | The position a frame was at when recorded; never part of identity                        | sampled line     |
-| **File reference**      | An absolute URL or a relative file path, before resolution to a `URL`                    | path             |
-| **Logical reference**   | A named class, module, namespace, assembly, or library                                   | path, file       |
-| **Source map**          | A mapping from generated-file positions to original source positions                     | —                |
+| Term                    | Definition                                                                                                 | Aliases to avoid |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------- |
+| **Location**            | A source reference identifying a function, with an optional 1-based line and column                        | position, path   |
+| **Source reference**    | A file reference or a logical reference                                                                    | path             |
+| **Position**            | A 1-based line and optional column within a referenced source                                              | offset           |
+| **Definition position** | The position where a function is defined; part of its identity                                             | start line       |
+| **Executing position**  | The position a frame was at when recorded; never part of identity                                          | sampled line     |
+| **Call site**           | The position in the caller where a function was called; part of its identity only under a call-site origin | invocation site  |
+| **File reference**      | An absolute URL or a relative file path, before resolution to a `URL`                                      | path             |
+| **Logical reference**   | A named class, module, namespace, assembly, or library                                                     | path, file       |
+| **Source map**          | A mapping from generated-file positions to original source positions                                       | —                |
 
 ## Costs and functions
 
