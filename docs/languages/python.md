@@ -47,16 +47,17 @@ py-spy dump --pid <pid> --locals
 
 ## py-spy CLI flags
 
-| Flag                | Default      | Description                                                     |
-| ------------------- | ------------ | --------------------------------------------------------------- |
-| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`, `chrometrace` |
-| `-o` / `--output`   | —            | Output file path                                                |
-| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)              |
-| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                             |
-| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads        |
-| `--native`          | off          | Profile native Cython or C extensions                           |
-| `--nonblocking`     | off          | Sample without pausing the process (less accurate)              |
-| `--subprocesses`    | off          | Also profile subprocesses of the target                         |
+| Flag                | Default      | Description                                                           |
+| ------------------- | ------------ | --------------------------------------------------------------------- |
+| `-f` / `--format`   | `flamegraph` | Output format: `flamegraph`, `raw`, `speedscope`, `chrometrace`       |
+| `-o` / `--output`   | —            | Output file path                                                      |
+| `-d` / `--duration` | —            | Duration in seconds (default: until program exits)                    |
+| `-r` / `--rate`     | `100`        | Sampling rate in Hz                                                   |
+| `--idle`            | off          | Include stack traces for idle (sleeping/waiting) threads              |
+| `--native`          | off          | Profile native Cython or C extensions                                 |
+| `--function`        | off          | Record the first line of each function in place of the executing line |
+| `--nonblocking`     | off          | Sample without pausing the process (less accurate)                    |
+| `--subprocesses`    | off          | Also profile subprocesses of the target                               |
 
 ## In-process wall-clock profiling
 
