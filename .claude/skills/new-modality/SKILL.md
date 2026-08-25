@@ -56,9 +56,10 @@ $ARGUMENTS
    - `diff.ts`: aggregated diffing over `src/diff.ts` primitives
    - `format.ts`: aggregated form and diff to Markdown, building tables with
      `src/table.ts` in a colocated `table.ts` like the other modalities. If the
-     modality's tables or headings diverge, update `src/cli/highlight.ts`, which
-     recovers heat intensities by re-parsing the output (column headers like
-     `%`, `Delta`, and `Location`, and `name (location)` heading keys)
+     modality's tables or headings diverge, update
+     `src/cli/highlight-markdown.ts`, which recovers heat intensities by
+     re-parsing the output (column headers like `%`, `Delta`, and `Location`,
+     and `name (location)` heading keys)
    - `index.ts` barrel, `testing.ts` for modality-specific test utilities
    - Colocated tests asserting on Markdown output per the CLAUDE.md testing
      rules

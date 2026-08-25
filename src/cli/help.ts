@@ -3,7 +3,7 @@ import { formatConverters } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
 import { getHelpText, helpTopics } from './cli.ts'
 import { CliError } from './error.ts'
-import { highlightMarkdown } from './highlight.ts'
+import { highlightMarkdown } from './highlight-markdown.ts'
 import {
   languageAliasToPrimary,
   languageExtensionToPrimary,
