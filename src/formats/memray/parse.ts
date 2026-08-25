@@ -1,4 +1,4 @@
-import { HashInterner } from '../../helpers/intern.ts'
+import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import { decompressLz4Frame, isLz4Frame } from '../../helpers/lz4.ts'
 import type {
   CallStackProfile,
@@ -793,7 +793,8 @@ class StackTree {
    */
   readonly #frames: CaptureFrame[] = []
   readonly #frameIndices = new HashInterner<CaptureFrame, CaptureFrame>(
-    (frame, sink) => sink.add(frame.codeObjectId).add(frame.instructionOffset),
+    frame =>
+      mixHash(mixHash(HASH_SEED, frame.codeObjectId), frame.instructionOffset),
     (item, frame) =>
       item.codeObjectId === frame.codeObjectId &&
       item.instructionOffset === frame.instructionOffset,
@@ -805,7 +806,7 @@ class StackTree {
     { parent: number; frame: number },
     { parent: number; frame: number }
   >(
-    (key, sink) => sink.add(key.parent).add(key.frame),
+    key => mixHash(mixHash(HASH_SEED, key.parent), key.frame),
     (item, key) => item.parent === key.parent && item.frame === key.frame,
   )
 

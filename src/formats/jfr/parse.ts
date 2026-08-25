@@ -1,5 +1,5 @@
 import { ByteQueue } from '../../helpers/bytes.ts'
-import { HashInterner } from '../../helpers/intern.ts'
+import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -502,12 +502,13 @@ class JfrParser {
   // keys, keyed by the resolved frames so the result is exact. Owns the stack
   // list; events reference its entries by the index `intern` returns.
   readonly #stackInterner = new HashInterner<JfrStackTrace, JfrStackTrace>(
-    ({ methodIds, leafLine }, sink) => {
+    ({ methodIds, leafLine }) => {
+      let hash = HASH_SEED
       for (const methodId of methodIds) {
-        sink.add(methodId)
+        hash = mixHash(hash, methodId)
       }
       // A missing line uses a sentinel that no valid 1-based line can take.
-      sink.add(leafLine ?? -1)
+      return mixHash(hash, leafLine ?? -1)
     },
     (stack, key) =>
       stack.leafLine === key.leafLine &&
