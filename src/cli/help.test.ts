@@ -3,7 +3,12 @@ import { join } from 'node:path'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
-import { getHelpText, getSections, usageExamples } from './help.ts'
+import {
+  getBriefHelpText,
+  getHelpText,
+  getSections,
+  usageExamples,
+} from './help.ts'
 import { languages } from './languages.ts'
 
 const docsPath = (...segments: string[]): string =>
@@ -124,4 +129,17 @@ test(`getSections keeps every option in a titled section`, () => {
       .flatMap(section => section.entries)
       .flatMap(entry => (entry.term.type === `option` ? entry.term.names : [])),
   ).toEqual(expect.arrayContaining([`--version`, `--completion`]))
+})
+
+test(`getBriefHelpText has the examples and points at the full help`, () => {
+  setStdoutColumns(80)
+
+  const brief = getBriefHelpText()
+
+  expect(brief).toMatch(/^Converts /u)
+  expect(brief).toContain(`\nUsage: profiler-md [OPTIONS] [FILE]\n`)
+  expect(brief).toContain(`\nExamples:\n`)
+  expect(brief).not.toContain(`\nOutput:\n`)
+  expect(brief).toContain(`Run \`profiler-md --help\` for every flag`)
+  expect(brief.split(`\n`).filter(line => line.length > 80)).toEqual([])
 })

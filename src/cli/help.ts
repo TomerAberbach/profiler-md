@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { formatDocPage, getDocPage } from '@optique/core'
 import type { DocEntry, DocSection } from '@optique/core'
-import { commandLine, message } from '@optique/core/message'
+import { commandLine, formatMessage, message } from '@optique/core/message'
 import { formatUsageTerm } from '@optique/core/usage'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
@@ -90,6 +90,11 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] => {
   })
 }
 
+export const printBriefHelp = (): never => {
+  process.stdout.write(getBriefHelpText())
+  process.exit(0)
+}
+
 export const getHelpText = (): string => {
   const maxWidth = getMaxWidth()
   const sections = getSections()
@@ -103,6 +108,17 @@ export const getHelpText = (): string => {
     ...LISTS.map(([label, items]) => formatList(label, items, maxWidth)),
     `\nDocs: ${packageJson.homepage}\nBugs: ${packageJson.bugs.url}\n`,
   ].join(``)
+}
+
+/** The description, the synopsis, the examples, and where the rest of the help is. */
+export const getBriefHelpText = (): string => {
+  const maxWidth = getMaxWidth()
+  const { name } = program.metadata
+  const footer = formatMessage(
+    message`Run ${commandLine(`${name} --help`)} for every flag, ${commandLine(`${name} --help <language>`)} for how to profile a language, and ${commandLine(`${name} --help <format>`)} for what a format contains.`,
+    { maxWidth },
+  )
+  return `${getHeaderText(maxWidth)}\n${footer}\n`
 }
 
 /**
