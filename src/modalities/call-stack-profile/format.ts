@@ -9,7 +9,7 @@ import {
   formatMicroseconds,
 } from '../../helpers/format.ts'
 import { selectTopN } from '../../helpers/heap.ts'
-import { HashInterner } from '../../helpers/intern.ts'
+import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import {
   formatSectionGroup,
   heading,
@@ -756,10 +756,12 @@ const newShownCallStackInterner = (): HashInterner<
   ShownCallStack
 > =>
   new HashInterner(
-    (frames, sink) => {
+    frames => {
+      let hash = HASH_SEED
       for (const frame of frames) {
-        sink.add(frame.type === `hidden` ? -1 : frame.id)
+        hash = mixHash(hash, frame.type === `hidden` ? -1 : frame.id)
       }
+      return hash
     },
     (callStack, frames) =>
       callStack.frames.length === frames.length &&

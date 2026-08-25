@@ -1,31 +1,19 @@
+const FNV_OFFSET_BASIS = 0x81_1c_9d_c5
+const FNV_PRIME = 0x01_00_01_93
+
 /**
- * Accumulates integers into a single 32-bit FNV-1a hash. Callers {@link add}
- * each component of a structural key in order and read the combined hash from
- * {@link value}; the seed and mixing constants live here so callers declare only
- * what to hash, not how.
+ * The seed a structural key's hash starts from. Callers fold each component of
+ * the key into it in order with {@link mixHash}.
  */
-export class HashSink {
-  static readonly #OFFSET_BASIS = 0x81_1c_9d_c5
-  static readonly #PRIME = 0x01_00_01_93
+export const HASH_SEED: number = FNV_OFFSET_BASIS
 
-  #hash = HashSink.#OFFSET_BASIS
-
-  /** Folds {@link value} into the running hash, returning `this` to chain. */
-  public add(value: number): this {
-    this.#hash = Math.imul(this.#hash ^ value, HashSink.#PRIME)
-    return this
-  }
-
-  /** Clears the running hash back to the seed for reuse across keys. */
-  public reset(): void {
-    this.#hash = HashSink.#OFFSET_BASIS
-  }
-
-  /** The accumulated hash as an unsigned 32-bit integer. */
-  public get value(): number {
-    return this.#hash >>> 0
-  }
-}
+/**
+ * Folds {@link value} into the running 32-bit FNV-1a {@link hash} and returns
+ * the new hash. Pure, so a loop over a key's components keeps the running hash
+ * in a local instead of a heap field, and the call inlines.
+ */
+export const mixHash = (hash: number, value: number): number =>
+  Math.imul(hash ^ value, FNV_PRIME)
 
 /**
  * A deduplicating collection: appends one canonical {@link Value} per distinct
@@ -37,8 +25,8 @@ export class HashSink {
  * lookup. That string is allocated and then hashed over its full length, since
  * a freshly built string carries no cached hash; both costs scale with key
  * size, and the allocation feeds GC. This instead folds the key's components
- * into a number directly via a {@link HashSink}, with no string or allocation,
- * and the `Map<number, …>` it indexes by hashes just that one number. The
+ * into a number directly via {@link mixHash}, with no string or allocation, and
+ * the `Map<number, …>` it indexes by hashes just that one number. The
  * caller's {@link matches} check runs only on a hash collision, which is rare,
  * so distinct keys that hash alike still stay distinct.
  *
@@ -55,15 +43,15 @@ export class HashInterner<Key, Value> {
   readonly #values: Value[] = []
   readonly #indicesByHash = new Map<number, number | number[]>()
 
-  // Reused across `intern` calls so hashing a key allocates nothing; safe
-  // because `intern` is synchronous and never reentrant.
-  readonly #sink = new HashSink()
-
-  readonly #hash: (key: Key, sink: HashSink) => void
+  readonly #hash: (key: Key) => number
   readonly #matches: (item: Value, key: Key) => boolean
 
   public constructor(
-    hash: (key: Key, sink: HashSink) => void,
+    /**
+     * Folds the key's components into a hash, starting from {@link HASH_SEED}
+     * and mixing each with {@link mixHash}.
+     */
+    hash: (key: Key) => number,
     matches: (item: Value, key: Key) => boolean,
   ) {
     this.#hash = hash
@@ -83,9 +71,7 @@ export class HashInterner<Key, Value> {
    * a fresh one from {@link create} and returns its index when none matches.
    */
   public intern(key: Key, create: () => Value): number {
-    this.#sink.reset()
-    this.#hash(key, this.#sink)
-    const hash = this.#sink.value
+    const hash = this.#hash(key) >>> 0
     const bucket = this.#indicesByHash.get(hash)
     if (bucket === undefined) {
       const index = this.#add(create)

@@ -1,4 +1,4 @@
-import { HashInterner } from '../../helpers/intern.ts'
+import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import type { SourceLocation } from '../../location.ts'
 import type {
   AggregationProfileToMdOptions,
@@ -88,10 +88,12 @@ class ObservationsAggregator {
     AggregatedCallStackProfileFunction[],
     AggregatedCallStackProfileCallStack
   >(
-    (frames, sink) => {
+    frames => {
+      let hash = HASH_SEED
       for (const frame of frames) {
-        sink.add(frame.id)
+        hash = mixHash(hash, frame.id)
       }
+      return hash
     },
     (callStack, frames) => sameStackFrameIds(callStack.frames, frames),
   )

@@ -1,52 +1,27 @@
 import { fc, test } from '@fast-check/vitest'
 import { describe, expect } from 'vitest'
-import { HashInterner, HashSink } from './intern.ts'
+import { HASH_SEED, HashInterner, mixHash } from './intern.ts'
 
-describe(`HashSink`, () => {
+describe(`mixHash`, () => {
+  const hash = (values: number[]) =>
+    values.reduce((hash, value) => mixHash(hash, value), HASH_SEED) >>> 0
+
   test(`accumulates the same value for the same sequence`, () => {
-    const hash = (values: number[]) => {
-      const sink = new HashSink()
-      for (const value of values) {
-        sink.add(value)
-      }
-      return sink.value
-    }
-
     expect(hash([1, 2, 3])).toBe(hash([1, 2, 3]))
   })
 
   test(`distinguishes order and content`, () => {
-    const hash = (values: number[]) => {
-      const sink = new HashSink()
-      for (const value of values) {
-        sink.add(value)
-      }
-      return sink.value
-    }
-
     expect(hash([1, 2])).not.toBe(hash([2, 1]))
     expect(hash([1, 2])).not.toBe(hash([1, 3]))
     expect(hash([1, 2])).not.toBe(hash([1, 2, 0]))
   })
 
-  test(`reset returns to the seed so a sink can be reused`, () => {
-    const sink = new HashSink()
-    const seed = sink.value
+  test(`is a 32-bit integer`, () => {
+    const value = mixHash(mixHash(HASH_SEED, -1), 0xff_ff_ff_ff)
 
-    sink.add(42).add(7)
-    expect(sink.value).not.toBe(seed)
-
-    sink.reset()
-    expect(sink.value).toBe(seed)
-  })
-
-  test(`is an unsigned 32-bit integer`, () => {
-    const sink = new HashSink()
-    sink.add(-1).add(0xff_ff_ff_ff)
-
-    expect(sink.value).toBeGreaterThanOrEqual(0)
-    expect(sink.value).toBeLessThanOrEqual(0xff_ff_ff_ff)
-    expect(Number.isInteger(sink.value)).toBe(true)
+    expect(value).toBeGreaterThanOrEqual(-0x80_00_00_00)
+    expect(value).toBeLessThanOrEqual(0x7f_ff_ff_ff)
+    expect(Number.isInteger(value)).toBe(true)
   })
 })
 
@@ -57,7 +32,7 @@ describe(`HashSink`, () => {
 const lengthHashedInterner = () => {
   let creates = 0
   const interner = new HashInterner<number[], { key: number[] }>(
-    (key, sink) => sink.add(key.length),
+    key => key.length,
     (item, key) =>
       item.key.length === key.length &&
       item.key.every((value, i) => value === key[i]),
@@ -156,8 +131,8 @@ const keysArb = fc.array(fc.array(fc.nat({ max: 3 }), { maxLength: 4 }), {
 const hashArb = fc
   .integer({ min: 1, max: 8 })
   .map(
-    buckets => (key: number[], sink: HashSink) =>
-      sink.add(key.reduce((sum, value) => sum + value, 0) % buckets),
+    buckets => (key: number[]) =>
+      key.reduce((sum, value) => sum + value, 0) % buckets,
   )
 
 test.prop([keysArb, hashArb])(
