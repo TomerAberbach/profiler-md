@@ -178,6 +178,9 @@ run_memray_for_role() {
       }
       cap /venv /out/default.memray.bin
       cap /venv /out/aggregated.memray.bin --aggregate
+      # --native unwinds the C stack under each Python frame, recording the
+      # allocator and interpreter frames the default capture leaves out.
+      cap /venv /out/native.memray.bin --native
       cap /venv13 /out/v13.memray.bin
     ' -e MEMRAY_V12_VERSION="$MEMRAY_V12_VERSION" \
     -e MEMRAY_V13_VERSION="$MEMRAY_V13_VERSION" \
@@ -382,6 +385,8 @@ for role in base current; do
     copy_memray_capture "$role" default.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.aggregated.$role.memray.bin" \
     copy_memray_capture "$role" aggregated.memray.bin
+  try emit "$GENERATED_INPUTS/python.memray.native.$role.memray.bin" \
+    copy_memray_capture "$role" native.memray.bin
   try emit "$GENERATED_INPUTS/python.memray.v13.$role.memray.bin" \
     copy_memray_capture "$role" v13.memray.bin
   try emit "$GENERATED_INPUTS/python.pyinstrument.$role.speedscope.json" \
