@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
+import ansis from 'ansis'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import packageJson from '../../package.json' with { type: 'json' }
 import { formats } from '../formats/index.ts'
@@ -112,6 +113,21 @@ test(`getHelpText lists the flags runParser adds and the project URLs`, () => {
   expect(help).toContain(`\n  --completion SHELL `)
   expect(help).toContain(`\nDocs: ${packageJson.homepage}\n`)
   expect(help).toContain(`\nBugs: ${packageJson.bugs.url}\n`)
+})
+
+test(`getHelpText colors only the styling, leaving the layout intact`, () => {
+  setStdoutColumns(80)
+  const plain = getHelpText()
+
+  vi.stubEnv(`FORCE_COLOR`, `3`)
+  const colored = getHelpText({ colors: true })
+
+  expect(colored).not.toBe(plain)
+
+  expect(ansis.strip(colored)).toBe(
+    // Inline code loses its backticks when colored
+    plain.replaceAll(`\``, ``),
+  )
 })
 
 test(`getSections keeps every option in a titled section`, () => {

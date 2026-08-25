@@ -10,8 +10,10 @@ import type { Format } from '../formats/index.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES } from '../options.ts'
 import { origins } from '../origins/index.ts'
+import { stdoutSupportsColor } from './ansis.ts'
 import { helpTopics, inputParser, program } from './cli.ts'
 import { CliError } from './error.ts'
+import { highlightHelp, INDENT } from './highlight-help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import {
   languageAliasToPrimary,
@@ -30,7 +32,9 @@ export const printHelpTopic = async (
   { pager }: PrintHelpTopicOptions,
 ): Promise<never> => {
   if (topic === undefined) {
-    await writeOutput(getHelpText(), `-`, { pager })
+    await writeOutput(getHelpText({ colors: stdoutSupportsColor() }), `-`, {
+      pager,
+    })
     process.exit(0)
   }
 
@@ -91,14 +95,20 @@ const seeAlsoTopics = (helpTopic: HelpTopic): string[] => {
 }
 
 export const printBriefHelp = (): never => {
-  process.stdout.write(getBriefHelpText())
+  process.stdout.write(getBriefHelpText({ colors: stdoutSupportsColor() }))
   process.exit(0)
 }
 
-export const getHelpText = (): string => {
+export type HelpTextOptions = {
+  colors?: boolean
+}
+
+export const getHelpText = ({
+  colors = false,
+}: HelpTextOptions = {}): string => {
   const maxWidth = getMaxWidth()
   const sections = getSections()
-  return [
+  const text = [
     getHeaderText(maxWidth),
     formatDocPage(
       program.metadata.name,
@@ -108,17 +118,20 @@ export const getHelpText = (): string => {
     ...LISTS.map(([label, items]) => formatList(label, items, maxWidth)),
     `\nDocs: ${packageJson.homepage}\nBugs: ${packageJson.bugs.url}\n`,
   ].join(``)
+  return highlightHelp(text, { colors })
 }
 
 /** The description, the synopsis, the examples, and where the rest of the help is. */
-export const getBriefHelpText = (): string => {
+export const getBriefHelpText = ({
+  colors = false,
+}: HelpTextOptions = {}): string => {
   const maxWidth = getMaxWidth()
   const { name } = program.metadata
   const footer = formatMessage(
     message`Run ${commandLine(`${name} --help`)} for every flag, ${commandLine(`${name} --help <language>`)} for how to profile a language, and ${commandLine(`${name} --help <format>`)} for what a format contains.`,
     { maxWidth },
   )
-  return `${getHeaderText(maxWidth)}\n${footer}\n`
+  return highlightHelp(`${getHeaderText(maxWidth)}\n${footer}\n`, { colors })
 }
 
 /**
@@ -237,7 +250,7 @@ export const formatUsageExamples = (indent = ``): string =>
     .join(`\n`)
 
 /** The synopsis and where the full help is. */
-export const getUsageHint = (): string => {
+export const getUsageHint = ({ colors = false } = {}): string => {
   const { name } = program.metadata
   const text = formatDocPage(
     name,
@@ -248,7 +261,7 @@ export const getUsageHint = (): string => {
     },
     { maxWidth: getMaxWidth() },
   )
-  return `\n${text}\n`
+  return highlightHelp(`\n${text}\n`, { colors })
 }
 
 export const getMaxWidth = (): number =>
@@ -260,9 +273,6 @@ export const getMaxWidth = (): number =>
 
 // Optique throws below the width its narrowest layout requires
 const MIN_WIDTH = 40
-
-/** The indentation of Optique's doc page entries. */
-const INDENT = `  `
 
 const LISTS: readonly (readonly [string, readonly string[]])[] = [
   [`Formats`, formats],

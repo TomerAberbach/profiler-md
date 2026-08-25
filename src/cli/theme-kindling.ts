@@ -14,6 +14,14 @@ const warmOrange = `#e69875`
 const terracotta = `#c4907a`
 const softRed = `#ca6e63`
 
+export const kindlingColors = {
+  mutedSage,
+  amberBrown,
+  goldenAmber,
+  richOrange,
+  softRed,
+}
+
 const kindlingTheme: ThemeInput = {
   name: `kindling`,
   displayName: `Kindling`,
