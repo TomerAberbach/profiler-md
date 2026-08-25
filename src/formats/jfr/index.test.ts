@@ -20,6 +20,7 @@ import {
 import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { jfrConverter } from './index.ts'
 import { makeJfr } from './testing.ts'
+import type { JfrTestInput } from './testing.ts'
 
 const options = normalizeProfileToMdOptions({ baseURL: `/project` })
 
@@ -740,6 +741,62 @@ describe(`malformed recordings`, () => {
     expect(await convertToMdAsync(jfrConverter, streamOf(bytes), options)).toBe(
       md,
     )
+  })
+
+  test(`reads an unrecognized frame layout like the flat one`, () => {
+    // A frame type with an array field disables the flat frame reader, so the
+    // parser reads the stack traces generically and then flattens them to the
+    // same form.
+    const input: JfrTestInput = {
+      methods: [
+        { name: `leaf`, className: `com.example.L` },
+        { name: `root`, className: `com.example.R` },
+      ],
+      stackTraces: [
+        {
+          frames: [
+            { method: 0, line: 7 },
+            { method: 1, line: 3 },
+          ],
+        },
+        { frames: [{ method: 1, line: 3 }] },
+      ],
+      events: [
+        { type: `cpu`, stack: 0 },
+        { type: `cpu`, stack: 0 },
+        { type: `cpu`, stack: 1 },
+      ],
+    }
+
+    const md = convertBytesToMd(
+      jfrConverter,
+      makeJfr({ ...input, unrecognizedFrameLayout: true }),
+      options,
+    )
+
+    expect(md).toBe(convertBytesToMd(jfrConverter, makeJfr(input), options))
+    expect(selfSamplesTables(md)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Samples: `2`,
+          Function: `leaf`,
+          Location: `com.example.L`,
+        },
+        {
+          '%': `33.3%`,
+          Samples: `1`,
+          Function: `root`,
+          Location: `com.example.R`,
+        },
+      ],
+    ])
+    expect(linesTables(md, `leaf`)).toEqual([
+      [{ '%': `100.0%`, Samples: `2`, Location: `com.example.L:7` }],
+    ])
+    expect(linesTables(md, `root`)).toEqual([
+      [{ '%': `100.0%`, Samples: `1`, Location: `com.example.R:3` }],
+    ])
   })
 
   test(`abandons an event with an unreadable field without dropping others`, () => {
