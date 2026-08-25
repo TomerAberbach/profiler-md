@@ -4,6 +4,7 @@ import { parseV8CpuProfile } from './parse.ts'
 import type { V8CpuProfile } from './parse.ts'
 
 export const v8CpuProfileConverter = {
+  format: `v8-cpu-profile`,
   title: `V8 CPU profile`,
   extension: `cpuprofile`,
   languages: [`javascript`],

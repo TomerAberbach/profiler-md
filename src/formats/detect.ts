@@ -10,7 +10,7 @@ import type {
 import { FormatDetectError } from './error.ts'
 import { classifyLazyParseFailures, describeParseFailure } from './parse.ts'
 import { formatConverters, formats } from './registry.ts'
-import type { Format } from './registry.ts'
+import type { Format, RegisteredFormatConverter } from './registry.ts'
 
 /** An input a format recognized and parsed during auto-detection. */
 export type DetectedInput = { format: Format; parsed: ParsedInput[] }
@@ -27,10 +27,10 @@ export const detectJsonFormat = (
   json: unknown,
   rejections: FormatRejection[],
 ): DetectedInput | undefined => {
-  for (const [format, converter] of jsonFormatConverters) {
+  for (const converter of jsonFormatConverters) {
     const parsed = detectWithConverter(converter, json, rejections)
     if (parsed) {
-      return { format, parsed }
+      return { format: converter.format, parsed }
     }
   }
   return undefined
@@ -40,29 +40,28 @@ export const detectBinaryFormat = (
   bytes: Uint8Array,
   rejections: FormatRejection[],
 ): DetectedInput | undefined => {
-  for (const [format, converter] of binaryFormatConverters) {
+  for (const converter of binaryFormatConverters) {
     const parsed = detectWithConverter(converter, bytes, rejections)
     if (parsed) {
-      return { format, parsed }
+      return { format: converter.format, parsed }
     }
   }
   return undefined
 }
 
-const formatConverterEntries: [Format, FormatConverter][] = formats.map(
-  format => [format, formatConverters[format]],
+const jsonFormatConverters = formatConverters.filter(
+  (
+    converter,
+  ): converter is Extract<RegisteredFormatConverter, JsonFormatConverter> =>
+    converter.type === `json`,
 )
 
-const jsonFormatConverters: [Format, JsonFormatConverter][] =
-  formatConverterEntries.filter(
-    (entry): entry is [Format, JsonFormatConverter] => entry[1].type === `json`,
-  )
-
-const binaryFormatConverters: [Format, BinaryFormatConverter][] =
-  formatConverterEntries.filter(
-    (entry): entry is [Format, BinaryFormatConverter] =>
-      entry[1].type === `binary`,
-  )
+const binaryFormatConverters = formatConverters.filter(
+  (
+    converter,
+  ): converter is Extract<RegisteredFormatConverter, BinaryFormatConverter> =>
+    converter.type === `binary`,
+)
 
 /**
  * Runs a converter's detection and parse, recording a rejection instead of

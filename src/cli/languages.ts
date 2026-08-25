@@ -1,4 +1,4 @@
-import { formatConverters, formats } from '../formats/registry.ts'
+import { formats, formatToConverter } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 
 type LanguageAlias = {
@@ -138,7 +138,7 @@ export const languages: ReadonlyMap<string, Language> = new Map(
     {
       ...meta,
       formats: formats.filter(format =>
-        formatConverters[format].languages.includes(id as never),
+        formatToConverter[format].languages.includes(id as never),
       ),
     },
   ]),

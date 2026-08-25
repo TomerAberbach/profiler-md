@@ -4,6 +4,7 @@ import { matchesPprof } from './matches.ts'
 import { parsePprof } from './parse.ts'
 
 export const pprofConverter = {
+  format: `pprof`,
   title: `pprof`,
   extension: `pprof`,
   languages: [

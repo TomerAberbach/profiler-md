@@ -5,7 +5,7 @@ import { commandLine, formatMessage, message } from '@optique/core/message'
 import { formatUsageTerm } from '@optique/core/usage'
 import type { Usage } from '@optique/core/usage'
 import packageJson from '../../package.json' with { type: 'json' }
-import { formatConverters, formats } from '../formats/index.ts'
+import { formats, formatToConverter } from '../formats/index.ts'
 import type { Format } from '../formats/index.ts'
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES } from '../options.ts'
@@ -65,7 +65,7 @@ const resolveHelpTopic = (topic: string): HelpTopic => {
   if (language) {
     return { type: `language`, id, language }
   }
-  if (Object.hasOwn(formatConverters, topic)) {
+  if (Object.hasOwn(formatToConverter, topic)) {
     return { type: `format`, format: topic as Format }
   }
   throw new CliError(

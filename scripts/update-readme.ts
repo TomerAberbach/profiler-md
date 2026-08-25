@@ -8,7 +8,7 @@ import {
 import type { Example, ExampleVariant } from '../src/cli/examples.ts'
 import { formatUsageExamples } from '../src/cli/help.ts'
 import { languageAliasToPrimary, languages } from '../src/cli/languages.ts'
-import { formatConverters } from '../src/formats/index.ts'
+import { formatToConverter } from '../src/formats/index.ts'
 import type { Format } from '../src/formats/index.ts'
 
 const check = process.argv.includes(`--check`)
@@ -80,7 +80,7 @@ const variantLinks = (combo: Combo): string =>
 
 const formatCell = (id: string, format: Format): string => {
   const link = anchor(
-    formatConverters[format].title,
+    formatToConverter[format].title,
     `docs/formats/${format}.md`,
   )
   const combos = [...(examplesByLanguage.get(id)?.get(format)?.values() ?? [])]

@@ -3,6 +3,7 @@ import { matchesJfr } from './matches.ts'
 import { parseJfr, parseJfrAsync } from './parse.ts'
 
 export const jfrConverter = {
+  format: `jfr`,
   title: `JFR`,
   extension: `jfr`,
   languages: [`java`],

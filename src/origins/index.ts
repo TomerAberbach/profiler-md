@@ -1,4 +1,4 @@
-import { formatConverters } from '../formats/registry.ts'
+import { formatToConverter } from '../formats/registry.ts'
 import type { Format } from '../formats/registry.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import type { HeapSnapshotNodeCategory } from '../modalities/heap-snapshot/type.ts'
@@ -120,7 +120,7 @@ export class OriginDetector {
   #decided: Origin | undefined
 
   public constructor({ format, origin }: UnresolvedProfileToMdContext) {
-    this.#fallback = originToSpec.get(formatConverters[format].fallbackOrigin)!
+    this.#fallback = originToSpec.get(formatToConverter[format].fallbackOrigin)!
     if (origin !== null) {
       // A forced origin skips detection; added entries are ignored.
       this.#candidates = []

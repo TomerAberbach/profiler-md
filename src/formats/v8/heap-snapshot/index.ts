@@ -4,6 +4,7 @@ import { parseV8HeapSnapshot } from './parse.ts'
 import type { V8HeapSnapshot } from './parse.ts'
 
 export const v8HeapSnapshotConverter = {
+  format: `v8-heap-snapshot`,
   title: `V8 heap snapshot`,
   extension: `heapsnapshot`,
   languages: [

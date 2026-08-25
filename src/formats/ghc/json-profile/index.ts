@@ -4,6 +4,7 @@ import { parseGhcJsonProfile } from './parse.ts'
 import type { GhcJsonProfile } from './parse.ts'
 
 export const ghcJsonProfileConverter = {
+  format: `ghc-json-profile`,
   title: `GHC JSON profile`,
   // The runtime writes the JSON report to `<program>.prof`, the same name it
   // uses for the text report, so the examples spell the JSON out.
