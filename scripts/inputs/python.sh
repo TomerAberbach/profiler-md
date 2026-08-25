@@ -67,6 +67,11 @@ run_for_role() {
       cap /out/cpu.collapsed raw
       cap /out/cpu.speedscope.json speedscope
       cap /out/wall.collapsed raw --idle
+      # --function writes the first line of each function in place of the
+      # executing line, in the same "name (file:line)" shape, so one function
+      # is one frame string.
+      cap /out/function.collapsed raw --function
+      cap /out/function.speedscope.json speedscope --function
     ' --cap-add SYS_PTRACE \
     -e PY_SPY_VERSION="$PY_SPY_VERSION" \
     -e BLACK_VERSION="$BLACK_VERSION" || return 1
@@ -266,6 +271,10 @@ for role in base current; do
     copy_python_profile "$role" cpu.speedscope.json
   try emit "$GENERATED_INPUTS/python.py-spy.wall.$role.collapsed" \
     copy_python_profile "$role" wall.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.function.$role.collapsed" \
+    copy_python_profile "$role" function.collapsed
+  try emit "$GENERATED_INPUTS/python.py-spy.function.$role.speedscope.json" \
+    copy_python_profile "$role" function.speedscope.json
   try emit "$GENERATED_INPUTS/python.py-spy.native.$role.collapsed" \
     copy_native_profile "$role" native.collapsed
   try emit "$GENERATED_INPUTS/python.py-spy.native.$role.speedscope.json" \
