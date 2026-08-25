@@ -9,7 +9,7 @@
 import { ByteBuffer } from '../../helpers/testing.ts'
 
 /** A method to place in the constant pools, referenced by index. */
-export type JfrTestMethod = {
+type JfrTestMethod = {
   name: string
   className: string
 
@@ -21,10 +21,10 @@ export type JfrTestMethod = {
 type JfrTestStackFrame = { method: number; line?: number }
 
 /** A call stack referenced by events by index. */
-export type JfrTestStack = { frames: JfrTestStackFrame[] }
+type JfrTestStack = { frames: JfrTestStackFrame[] }
 
 /** An event referencing a {@link JfrTestStack} by index. */
-export type JfrTestEvent = {
+type JfrTestEvent = {
   /**
    * The event type:
    * - `cpu`: `jdk.ExecutionSample`
@@ -70,7 +70,7 @@ export type JfrTestEvent = {
  * an older JDK writes them: `jdk.OldObjectSample` lacks `objectSize` before
  * JDK 21.
  */
-export type JfrEventTypeWithoutWeightField = `live`
+type JfrEventTypeWithoutWeightField = `live`
 
 // Metadata class IDs. Avoid 0 and 1, which are reserved for the metadata and
 // constant pool events in the chunk body.
@@ -101,7 +101,7 @@ const UNKNOWN_FIELD_CLASS = 901
  * type references the parser must recover from. Each option is a list, so a
  * recording can carry several at once.
  */
-export type JfrMalformations = {
+type JfrMalformations = {
   /**
    * Constant pool type ids the metadata never declares, each emitted as an
    * empty pool before the known pools. Exercises the parser skipping an unknown
@@ -117,14 +117,8 @@ export type JfrMalformations = {
   unreadableEventTypes?: string[]
 }
 
-/** Builds a single-chunk JFR recording from synthetic methods, stacks, events. */
-export const makeJfr = ({
-  methods,
-  stackTraces,
-  events,
-  malformations: { emptyUnknownPools = [], unreadableEventTypes = [] } = {},
-  eventTypesWithoutWeightField = [],
-}: {
+/** The synthetic recording `makeJfr` builds, and how it writes it. */
+export type JfrTestInput = {
   methods: JfrTestMethod[]
   stackTraces: JfrTestStack[]
   events: JfrTestEvent[]
@@ -134,7 +128,24 @@ export const makeJfr = ({
 
   /** Optional structural defects for parser-robustness tests. */
   malformations?: JfrMalformations
-}): Uint8Array => {
+
+  /**
+   * Declares an array field on `jdk.types.StackFrame`, written empty in every
+   * frame, so the parser reads stack traces through the generic field reader
+   * instead of the flat frame reader.
+   */
+  unrecognizedFrameLayout?: boolean
+}
+
+/** Builds a single-chunk JFR recording from synthetic methods, stacks, events. */
+export const makeJfr = ({
+  methods,
+  stackTraces,
+  events,
+  malformations: { emptyUnknownPools = [], unreadableEventTypes = [] } = {},
+  eventTypesWithoutWeightField = [],
+  unrecognizedFrameLayout = false,
+}: JfrTestInput): Uint8Array => {
   // Intern symbols and classes into 1-based constant pool keys.
   const symbolKeys = new Map<string, number>()
   const symbolKey = (string: string): number => {
@@ -217,6 +228,9 @@ export const makeJfr = ({
       pool.varint(method + 1) // Method key
       // Line number, or -1 (as an unsigned 32-bit int) when unknown.
       pool.varint(line ?? 0xff_ff_ff_ff)
+      if (unrecognizedFrameLayout) {
+        pool.varint(0) // Empty `tags` array
+      }
     }
   }
 
@@ -281,6 +295,7 @@ export const makeJfr = ({
   const metadata = makeMetadata(
     unreadableEventTypes,
     eventTypesWithoutWeightField,
+    unrecognizedFrameLayout,
   )
   const constantPool = sizedEvent(CONSTANT_POOL_EVENT, pool)
 
@@ -318,6 +333,7 @@ const METADATA_EVENT = 0
 const makeMetadata = (
   unreadableEventTypes: string[],
   eventTypesWithoutWeightField: JfrEventTypeWithoutWeightField[],
+  unrecognizedFrameLayout: boolean,
 ): ByteWriter => {
   const strings = new StringTable()
 
@@ -379,6 +395,7 @@ const makeMetadata = (
     type(STACK_FRAME, `jdk.types.StackFrame`, [
       field(`method`, METHOD, { constantPool: true }),
       field(`lineNumber`, INT),
+      ...(unrecognizedFrameLayout ? [field(`tags`, INT, { array: true })] : []),
     ]),
     type(STACK_TRACE, `jdk.types.StackTrace`, [
       field(`frames`, STACK_FRAME, { array: true }),
