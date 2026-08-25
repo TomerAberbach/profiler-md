@@ -2,12 +2,15 @@
 
 C and C++ profiling uses [gperftools](https://github.com/gperftools/gperftools),
 [Valgrind's Callgrind](https://valgrind.org/docs/manual/cl-manual.html),
-[Linux `perf`](https://perfwiki.github.io/main/), or
-[systing](https://github.com/josefbacik/systing).
+[Linux `perf`](https://perfwiki.github.io/main/),
+[simpleperf](https://android.googlesource.com/platform/system/extras/+/refs/heads/main/simpleperf/doc/README.md),
+or [systing](https://github.com/josefbacik/systing).
 
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
+
+### gperftools
 
 Link with `-lprofiler`:
 
@@ -16,7 +19,7 @@ gcc -O2 -Wl,--no-as-needed -lprofiler -o program program.c    # C
 g++ -O2 -Wl,--no-as-needed -lprofiler -o program program.cpp  # C++
 ```
 
-### CLI
+#### CLI
 
 ```sh
 # Generate a CPU profile
@@ -35,7 +38,7 @@ pprof --proto ./program cpu.prof > cpu.pprof
 | `CPUPROFILE_REALTIME`  | —       | Use wall-clock time (`ITIMER_REAL`) instead of CPU time (`ITIMER_PROF`) when set |
 | `CPUPROFILESIGNAL`     | —       | Signal number to toggle profiling on/off at runtime                              |
 
-### Programmatic API
+#### Programmatic API
 
 ```c
 #include <gperftools/profiler.h>
@@ -47,6 +50,74 @@ ProfilerStart("cpu.prof");
 ProfilerFlush(); // optional: flush buffered samples mid-run
 ProfilerStop();
 ```
+
+### Linux perf
+
+[Linux `perf`](https://perfwiki.github.io/main/) samples any native program
+through the kernel's `perf_event` counters, across user and kernel code, and
+writes `perf.data`. It needs a Linux kernel and a
+`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
+below for kernel stacks).
+
+Build with frame pointers so perf's unwinder can walk the stack:
+
+```sh
+gcc -O2 -g -fno-omit-frame-pointer -o program program.c    # C
+g++ -O2 -g -fno-omit-frame-pointer -o program program.cpp  # C++
+```
+
+```sh
+# Sample a command at 999 Hz, recording call chains
+perf record -F 999 -g -o perf.data -- ./program args
+
+# Or sample a running process for 30 seconds
+perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
+```
+
+### simpleperf
+
+[simpleperf](https://android.googlesource.com/platform/system/extras/+/refs/heads/main/simpleperf/doc/README.md)
+samples a native Android program, or any program on an aarch64 Linux kernel,
+through the same `perf_event` counters as `perf` and writes the same `perf.data`
+layout. The Android NDK includes it (`simpleperf/bin/android/<abi>/simpleperf`)
+as a static executable. Build with frame pointers as for `perf`.
+
+```sh
+# On the device, sample a command at 999 Hz, recording call chains
+simpleperf record -f 999 --call-graph fp -o perf.data -- ./program args
+
+# Or sample an app by package name for 30 seconds
+simpleperf record -f 999 --call-graph fp -o perf.data --app com.example.app --duration 30
+
+# From a host, through adb
+app_profiler.py -p com.example.app -r "-f 999 --call-graph fp" -o perf.data
+```
+
+Both write a `perf.data` that contains addresses rather than function names. See
+`profiler-md --help perf` for how frames are named and how to symbolize them.
+
+## Linux perf CLI flags
+
+| Flag           | Default     | Description                                                          |
+| -------------- | ----------- | -------------------------------------------------------------------- |
+| `-F`           | `4000`      | Samples per second                                                   |
+| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
+| `-g`           | off         | Record call chains                                                   |
+| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
+| `-o`           | `perf.data` | Output path                                                          |
+| `-a`           | off         | Sample every CPU on the system rather than one command               |
+
+## simpleperf CLI flags
+
+| Flag           | Default      | Description                                                          |
+| -------------- | ------------ | -------------------------------------------------------------------- |
+| `-f`           | `4000`       | Samples per second                                                   |
+| `-e`           | `cpu-cycles` | Event to sample (`cpu-clock` where no hardware counter is available) |
+| `-g`           | off          | Record call chains, unwinding with DWARF (this tool rejects them)    |
+| `--call-graph` | —            | How to unwind: `fp` (supported) or `dwarf`                           |
+| `-o`           | `perf.data`  | Output path                                                          |
+| `--app`        | —            | Sample an app by package name                                        |
+| `--duration`   | —            | Seconds to record                                                    |
 
 ## Memory profiling
 
@@ -212,48 +283,6 @@ sudo systing --duration 30 --output profile.systing --pid <pid>
 | `--sample-freq`                   | `1000`     | CPU stack-sampling rate in Hz                                    |
 | `--no-sleep-stack-traces`         | off        | Skip uninterruptible-sleep stacks                                |
 | `--no-interruptible-stack-traces` | off        | Skip interruptible-sleep stacks                                  |
-
-## Linux perf profiling
-
-Samples the call stack through the kernel's own `perf_event` counters, across
-user and kernel code. Useful for finding CPU hot spots, including the ones in
-the kernel.
-
-[Linux `perf`](https://perfwiki.github.io/main/) samples any native program and
-writes `perf.data` itself. It needs a Linux kernel and a
-`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
-below for kernel stacks).
-
-Build with frame pointers so perf's unwinder can walk the stack:
-
-```sh
-gcc -O2 -g -fno-omit-frame-pointer -o program program.c    # C
-g++ -O2 -g -fno-omit-frame-pointer -o program program.cpp  # C++
-```
-
-### CLI
-
-```sh
-# Sample a command at 999 Hz, recording call chains
-perf record -F 999 -g -o perf.data -- ./program args
-
-# Or sample a running process for 30 seconds
-perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
-```
-
-#### Flags
-
-| Flag           | Default     | Description                                                          |
-| -------------- | ----------- | -------------------------------------------------------------------- |
-| `-F`           | `4000`      | Samples per second                                                   |
-| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
-| `-g`           | off         | Record call chains                                                   |
-| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
-| `-o`           | `perf.data` | Output path                                                          |
-| `-a`           | off         | Sample every CPU on the system rather than one command               |
-
-A `perf.data` file holds addresses rather than function names. See
-`profiler-md --help perf` for how frames are named and how to symbolize them.
 
 ## Tips
 

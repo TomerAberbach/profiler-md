@@ -253,6 +253,71 @@ capture_perf() {
   cp "$dir/cpu.perf.data" "$out"
 }
 
+# simpleperf is Android's perf, built as a static executable that runs on any
+# aarch64 Linux kernel, so the Android prebuilt runs unchanged in the Debian
+# container. Because gitiles serves a file's bytes base64-encoded, the asset is
+# the encoded text.
+SIMPLEPERF_TAG="android-16.0.0_r2"
+SIMPLEPERF_B64="$REPO/scripts/inputs/assets/c/simpleperf-android-arm64-$SIMPLEPERF_TAG.b64"
+SIMPLEPERF_URL="https://android.googlesource.com/platform/system/extras/+/refs/tags/$SIMPLEPERF_TAG/simpleperf/scripts/bin/android/arm64/simpleperf?format=TEXT"
+SIMPLEPERF_B64_SHA256="283755306cc16085252a3ab9006a93b7977acfdca10cc0423145228386e4f862"
+
+fetch_simpleperf() {
+  fetch_asset "simpleperf $SIMPLEPERF_TAG (Android arm64 prebuilt)" \
+    "$SIMPLEPERF_URL" "$SIMPLEPERF_B64_SHA256" "$SIMPLEPERF_B64"
+}
+
+# capture_fn for emit: $1=out  $2=role
+#   simpleperf writes perf.data with the feature sections the parser detects
+#   its origin by.
+capture_simpleperf() {
+  local out=$1 role=$2
+  local dir="$WORKDIR/c-simpleperf-$role"
+  mkdir -p "$dir" || return 1
+  fetch_simpleperf || return 1
+  base64 -d "$SIMPLEPERF_B64" >"$dir/simpleperf" || return 1
+  chmod +x "$dir/simpleperf" || return 1
+
+  notice "Profiling zstd with simpleperf ($role)"
+
+  # perf_event_open reaches the host kernel, as for the `perf` capture, so the
+  # container is `--privileged` and runs natively.
+  docker_capture "$dir" '
+      export DEBIAN_FRONTEND=noninteractive
+
+      apt-get update -qq
+      apt-get install -y -qq --no-install-recommends \
+        build-essential git ca-certificates curl unzip procps
+
+      sysctl -w kernel.perf_event_paranoid=-1 >/dev/null 2>&1 || true
+
+      git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
+
+      # Frame pointers so simpleperf can walk the stack without its dwarf
+      # unwinder, whose stack copies the parser ignores.
+      make -C /src/zstd -j"$(nproc)" zstd CFLAGS="-O2 -g -fno-omit-frame-pointer"
+      ZSTD=/src/zstd/zstd
+      [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
+
+      # The same real compression input as the gperftools captures (see the
+      # extraction notes there).
+      mkdir -p /work
+      INPUT=/work/input.bin
+      curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
+      unzip -p /work/dickens.zip dickens >/work/dickens.full
+      head -c 4194304 /work/dickens.full >"$INPUT"
+      rm -f /work/dickens.full
+
+      # cpu-clock rather than the default cpu-cycles: the VM the container runs
+      # in exposes no PMU.
+      /out/simpleperf record -f 999 -e cpu-clock --call-graph fp \
+        -o /out/cpu.perf.data -- "$ZSTD" -19 -f -q "$INPUT" -o /dev/null
+      rm /out/simpleperf
+    ' --privileged -e ROLE="$role" || return 1
+
+  cp "$dir/cpu.perf.data" "$out" || return 1
+}
+
 # These captures need a running Docker daemon.
 ensure_docker
 
@@ -262,6 +327,7 @@ for role in base current; do
   try emit "$GENERATED_INPUTS/c.systing.cpu.$role.systing"   copy_systing_profile "$role"
   try emit "$GENERATED_INPUTS/c.valgrind.$role.callgrind"    capture_callgrind "$role"
   try emit "$GENERATED_INPUTS/c.perf.cpu.$role.perf.data"    capture_perf "$role"
+  try emit "$GENERATED_INPUTS/c.simpleperf.cpu.$role.perf.data" capture_simpleperf "$role"
 done
 
 verify_pairs
