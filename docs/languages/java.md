@@ -212,6 +212,9 @@ asprof --all --nofree -d 30 -f all.jfr <pid>
 | `-f`    | —                  | Output file path                                             |
 | `-i`    | `10ms`             | Sampling interval (e.g. `-i 1ms` for 1000 Hz)                |
 | `--all` | —                  | Enable cpu, wall, alloc, live, nativemem, and lock at once   |
+| `-t`    | off                | Root each stack at its thread's name and id                  |
+| `-a`    | off                | Annotate Java frames with how they were compiled             |
+| `-g`    | off                | Append method signatures                                     |
 | `<pid>` | —                  | Target JVM PID, `jps`, or the application name               |
 
 `-o` overrides the format the `-f` filename's extension selects. A run with

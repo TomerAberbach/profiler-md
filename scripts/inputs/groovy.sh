@@ -47,16 +47,18 @@ ensure_spock() {
 # violations on a real codebase; that's expected, so -failOn stays unset and
 # the CLI exits 0 regardless of violations.
 #
-# The nativemem capture records every malloc/free, and even CodeNarc's startup
-# (loading its ~350 rule classes and the Groovy runtime) emits ~80 MB of
-# events, so that config analyzes one small module with one ruleset to keep
-# the recording under the 100 MB input size limit.
+# Two configs analyze one small module with one ruleset to keep the output
+# under the 100 MB input size limit. The nativemem capture records every
+# malloc/free, and even CodeNarc's startup (loading its ~350 rule classes and
+# the Groovy runtime) emits ~80 MB of events. The cpu-threads-ann-sig capture
+# roots each stack at its thread and appends method signatures, which
+# multiplies CodeNarc's distinct stacks.
 run_jvm_workload() {
   local jvm_arg=$1 cfg=$2 includes rulesets
   fetch_asset "CodeNarc $CODENARC_VERSION all jar" \
     "$CODENARC_URL" "$CODENARC_SHA256" "$CODENARC_JAR" || return 1
   ensure_spock || return 1
-  if [[ "$cfg" == nativemem ]]; then
+  if [[ "$cfg" == nativemem || "$cfg" == cpu-threads-ann-sig ]]; then
     includes='spock-core/**/*.groovy'
     rulesets=rulesets/basic.xml
   else

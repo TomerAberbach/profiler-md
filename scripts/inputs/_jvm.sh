@@ -70,6 +70,17 @@ capture_ap_collapsed() {
   run_jvm_workload "-agentpath:$ap_lib=start,event=cpu,file=$out,collapsed" cpu
 }
 
+# capture_fn for emit: $1=out  $2=role
+#   The options that change how async-profiler writes a collapsed frame:
+#   `threads` roots each stack at its thread's name and id, `ann` suffixes Java
+#   frames with how they were compiled, and `sig` appends method signatures.
+capture_ap_collapsed_annotated() {
+  local out=$1 role=$2
+  ensure_ap_lib || return 1
+  notice "Profiling $JVM_WORKLOAD using async-profiler collapsed ($role, event=cpu,threads,ann,sig)"
+  run_jvm_workload "-agentpath:$ap_lib=start,event=cpu,threads,ann,sig,file=$out,collapsed" cpu-threads-ann-sig
+}
+
 # The JVMs running now, one PID per line, excluding the `jcmd` process listing
 # them. A heap dump needs the workload's PID, and `jcmd -l` is how a JVM is
 # discovered whichever launcher started it (`java`, `kotlinc`, or a compile
@@ -145,6 +156,8 @@ emit_jvm_captures() {
     # async-profiler -> collapsed
     try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu.$role.collapsed" \
       capture_ap_collapsed "$role"
+    try emit "$GENERATED_INPUTS/$JVM_LANGUAGE.async-profiler.cpu-threads-ann-sig.$role.collapsed" \
+      capture_ap_collapsed_annotated "$role"
 
     # JDK Flight Recorder -> JFR
     for cfg in "${JDK_JFR_CONFIGS[@]}"; do
