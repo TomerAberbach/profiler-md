@@ -1,12 +1,12 @@
 # CPU profile diff
 
-Took 12.09s → 12.08s (-12.00ms, -0.1%) over 12,092 samples → 12,080 samples (1.0ms per sample).
+Took 11.95s → 12s (+49.00ms, +0.4%) over 11,955 samples → 12,004 samples (1.0ms per sample).
 
-| Category | Change |    Delta |             % |              Time |         Samples |
-| -------- | -----: | -------: | ------------: | ----------------: | --------------: |
-| Ours     |  -0.3% | -33.00ms | 90.2% → 90.0% |   10.91s → 10.87s | 10,910 → 10,877 |
-| Kernel   |  -1.8% | -17.00ms |   7.8% → 7.6% | 940.0ms → 923.0ms |       940 → 923 |
-| Native   | +15.7% | +38.00ms |   2.0% → 2.3% | 242.0ms → 280.0ms |       242 → 280 |
+| Category |  Change |    Delta |             % |            Time |         Samples |
+| -------- | ------: | -------: | ------------: | --------------: | --------------: |
+| Ours     |   +0.3% | +31.00ms | 99.8% → 99.7% | 11.93s → 11.96s | 11,933 → 11,964 |
+| Kernel   | +209.1% | +23.00ms |   0.1% → 0.3% | 11.0ms → 34.0ms |         11 → 34 |
+| Native   |  -45.5% |  -5.00ms |  0.1% → <0.1% |  11.0ms → 6.0ms |          11 → 6 |
 
 ## Hottest functions
 
@@ -16,157 +16,88 @@ Took 12.09s → 12.08s (-12.00ms, -0.1%) over 12,092 samples → 12,080 samples 
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|  Change |     Delta |             % |              Time |       Samples | Function                                       | Location         |
-| ------: | --------: | ------------: | ----------------: | ------------: | ---------------------------------------------- | ---------------- |
-|  +16.8% | +295.00ms | 14.6% → 17.0% |     1.76s → 2.05s | 1,761 → 2,056 | `ZSTD_compressBlock_opt2`                      | `zstd_opt.c`     |
-|  +51.0% | +106.00ms |   1.7% → 2.6% | 208.0ms → 314.0ms |     208 → 314 | `ZSTD_insertAndFindFirstIndexHash3`            | `zstd_opt.c`     |
-|  +14.1% |  +34.00ms |   2.0% → 2.3% | 241.0ms → 275.0ms |     241 → 275 | `unknown (libc.so.6)`                          | `<unknown>`      |
-|  +13.8% |  +33.00ms |   2.0% → 2.3% | 240.0ms → 273.0ms |     240 → 273 | `ZSTD_litLengthPrice`                          | `zstd_opt.c`     |
-|  +26.5% |  +13.00ms |   0.4% → 0.5% |   49.0ms → 62.0ms |       49 → 62 | `handle_mm_fault ([kernel])`                   | `<unknown>`      |
-|   +6.4% |   +7.00ms |   0.9% → 1.0% | 110.0ms → 117.0ms |     110 → 117 | `ZSTD_rawLiteralsCost`                         | `zstd_opt.c`     |
-| +233.3% |   +7.00ms |  <0.1% → 0.1% |    3.0ms → 10.0ms |        3 → 10 | `HUF_buildCTable_wksp`                         | `huf_compress.c` |
-|  +85.7% |   +6.00ms |          0.1% |    7.0ms → 13.0ms |        7 → 13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>`      |
-|  +45.5% |   +5.00ms |          0.1% |   11.0ms → 16.0ms |       11 → 16 | `HIST_count_parallel_wksp`                     | `hist.c`         |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |         1 → 6 | `FSE_buildCTable_wksp`                         | `fse_compress.c` |
-|     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |         0 → 5 | `FSE_normalizeCount`                           | `fse_compress.c` |
-|  +19.0% |   +4.00ms |          0.2% |   21.0ms → 25.0ms |       21 → 25 | `vfs_read ([kernel])`                          | `<unknown>`      |
-|   +5.9% |   +4.00ms |          0.6% |   68.0ms → 72.0ms |       68 → 72 | `exc_page_fault ([kernel])`                    | `<unknown>`      |
-|     new |   +4.00ms |  0.0% → <0.1% |       0ms → 4.0ms |         0 → 4 | `handle_softirqs ([kernel])`                   | `<unknown>`      |
-|     new |   +3.00ms |  0.0% → <0.1% |       0ms → 3.0ms |         0 → 3 | `unknown (ld-linux-x86-64.so.2)`               | `<unknown>`      |
-|  +18.8% |   +3.00ms |   0.1% → 0.2% |   16.0ms → 19.0ms |       16 → 19 | `folio_alloc_mpol_noprof ([kernel])`           | `<unknown>`      |
-|   +5.6% |   +2.00ms |          0.3% |   36.0ms → 38.0ms |       36 → 38 | `asm_exc_page_fault ([kernel])`                | `<unknown>`      |
-|     new |   +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `do_fault ([kernel])`                          | `<unknown>`      |
-|  +18.2% |   +2.00ms |          0.1% |   11.0ms → 13.0ms |       11 → 13 | `vma_alloc_folio_noprof ([kernel])`            | `<unknown>`      |
-|   +1.6% |   +2.00ms |          1.1% | 128.0ms → 130.0ms |     128 → 130 | `do_anonymous_page ([kernel])`                 | `<unknown>`      |
+|  Change |    Delta |            % |            Time |         Samples | Function                                | Location            |
+| ------: | -------: | -----------: | --------------: | --------------: | --------------------------------------- | ------------------- |
+|   +0.5% | +46.00ms |        84.1% | 10.05s → 10.09s | 10,050 → 10,096 | `ZSTD_btGetAllMatches_noDict_3`         | `zstd_opt.c`        |
+|  +50.0% | +13.00ms |  0.2% → 0.3% | 26.0ms → 39.0ms |         26 → 39 | `ZSTD_rawLiteralsCost`                  | `zstd_opt.c`        |
+|     new |  +7.00ms |  0.0% → 0.1% |     0ms → 7.0ms |           0 → 7 | `handle_softirqs ([kernel])`            | `<unknown>`         |
+| +200.0% |  +4.00ms |        <0.1% |   2.0ms → 6.0ms |           2 → 6 | `FSE_buildCTable_wksp`                  | `fse_compress.c`    |
+|     new |  +4.00ms | 0.0% → <0.1% |     0ms → 4.0ms |           0 → 4 | `clear_page ([kernel])`                 | `<unknown>`         |
+| +150.0% |  +3.00ms |        <0.1% |   2.0ms → 5.0ms |           2 → 5 | `ZSTD_estimateBlockSize_symbolType`     | `zstd_compress.c`   |
+|     new |  +3.00ms | 0.0% → <0.1% |     0ms → 3.0ms |           0 → 3 | `__bpf_trace_softirq ([kernel])`        | `<unknown>`         |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HUF_writeCTable_wksp`                  | `huf_compress.c`    |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HIST_count_simple`                     | `hist.c`            |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `__run_timer_base ([kernel])`           | `<unknown>`         |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `bpf_trace_run1 ([kernel])`             | `<unknown>`         |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `sched_balance_domains ([kernel])`      | `<unknown>`         |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `ZSTDMT_compressionJob`                 | `zstdmt_compress.c` |
+|   +0.1% |  +1.00ms |        13.4% |           1.60s |   1,605 → 1,606 | `ZSTD_compressBlock_opt2`               | `zstd_opt.c`        |
+|   +7.1% |  +1.00ms |         0.1% | 14.0ms → 15.0ms |         14 → 15 | `HIST_count_parallel_wksp`              | `hist.c`            |
+|   +3.4% |  +1.00ms |         0.2% | 29.0ms → 30.0ms |         29 → 30 | `ZSTD_insertBt1`                        | `zstd_opt.c`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `HUF_optimalTableLog`                   | `huf_compress.c`    |
+|  +14.3% |  +1.00ms |         0.1% |   7.0ms → 8.0ms |           7 → 8 | `ZSTD_optLdm_processMatchCandidate`     | `zstd_opt.c`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `futex_wake ([kernel])`                 | `<unknown>`         |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>`         |
 
 ##### Ours
 
-|  Change |     Delta |             % |              Time |       Samples | Function                            | Location                    |
-| ------: | --------: | ------------: | ----------------: | ------------: | ----------------------------------- | --------------------------- |
-|  +16.8% | +295.00ms | 14.6% → 17.0% |     1.76s → 2.05s | 1,761 → 2,056 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
-|  +51.0% | +106.00ms |   1.7% → 2.6% | 208.0ms → 314.0ms |     208 → 314 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
-|  +13.8% |  +33.00ms |   2.0% → 2.3% | 240.0ms → 273.0ms |     240 → 273 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
-|   +6.4% |   +7.00ms |   0.9% → 1.0% | 110.0ms → 117.0ms |     110 → 117 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`                |
-| +233.3% |   +7.00ms |  <0.1% → 0.1% |    3.0ms → 10.0ms |        3 → 10 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
-|  +45.5% |   +5.00ms |          0.1% |   11.0ms → 16.0ms |       11 → 16 | `HIST_count_parallel_wksp`          | `hist.c`                    |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |         1 → 6 | `FSE_buildCTable_wksp`              | `fse_compress.c`            |
-|     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |         0 → 5 | `FSE_normalizeCount`                | `fse_compress.c`            |
-|  +13.3% |   +2.00ms |          0.1% |   15.0ms → 17.0ms |       15 → 17 | `ZSTD_insertBt1`                    | `zstd_opt.c`                |
-|     new |   +2.00ms |  0.0% → <0.1% |       0ms → 2.0ms |         0 → 2 | `FSE_compress_usingCTable_generic`  | `fse_compress.c`            |
-|     new |   +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `ZSTD_compressContinue_internal`    | `zstd_compress.c`           |
-|     new |   +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `HIST_count_wksp`                   | `hist.c`                    |
-|     new |   +1.00ms |  0.0% → <0.1% |       0ms → 1.0ms |         0 → 1 | `ZSTD_buildCTable`                  | `zstd_compress_sequences.c` |
-
-##### Kernel
-
-|  Change |    Delta |            % |              Time |   Samples | Function                                       | Location    |
-| ------: | -------: | -----------: | ----------------: | --------: | ---------------------------------------------- | ----------- |
-|  +26.5% | +13.00ms |  0.4% → 0.5% |   49.0ms → 62.0ms |   49 → 62 | `handle_mm_fault ([kernel])`                   | `<unknown>` |
-|  +85.7% |  +6.00ms |         0.1% |    7.0ms → 13.0ms |    7 → 13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>` |
-|  +19.0% |  +4.00ms |         0.2% |   21.0ms → 25.0ms |   21 → 25 | `vfs_read ([kernel])`                          | `<unknown>` |
-|   +5.9% |  +4.00ms |         0.6% |   68.0ms → 72.0ms |   68 → 72 | `exc_page_fault ([kernel])`                    | `<unknown>` |
-|     new |  +4.00ms | 0.0% → <0.1% |       0ms → 4.0ms |     0 → 4 | `handle_softirqs ([kernel])`                   | `<unknown>` |
-|  +18.8% |  +3.00ms |  0.1% → 0.2% |   16.0ms → 19.0ms |   16 → 19 | `folio_alloc_mpol_noprof ([kernel])`           | `<unknown>` |
-|   +5.6% |  +2.00ms |         0.3% |   36.0ms → 38.0ms |   36 → 38 | `asm_exc_page_fault ([kernel])`                | `<unknown>` |
-|     new |  +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `do_fault ([kernel])`                          | `<unknown>` |
-|  +18.2% |  +2.00ms |         0.1% |   11.0ms → 13.0ms |   11 → 13 | `vma_alloc_folio_noprof ([kernel])`            | `<unknown>` |
-|   +1.6% |  +2.00ms |         1.1% | 128.0ms → 130.0ms | 128 → 130 | `do_anonymous_page ([kernel])`                 | `<unknown>` |
-| +100.0% |  +2.00ms |        <0.1% |     2.0ms → 4.0ms |     2 → 4 | `futex_wake ([kernel])`                        | `<unknown>` |
-|  +66.7% |  +2.00ms |        <0.1% |     3.0ms → 5.0ms |     3 → 5 | `mas_walk ([kernel])`                          | `<unknown>` |
-|     new |  +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `p9_client_rpc ([kernel])`                     | `<unknown>` |
-|     new |  +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `__dentry_kill ([kernel])`                     | `<unknown>` |
-|     new |  +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `lock_mm_and_find_vma ([kernel])`              | `<unknown>` |
-| +100.0% |  +1.00ms |        <0.1% |     1.0ms → 2.0ms |     1 → 2 | `do_mmap ([kernel])`                           | `<unknown>` |
-|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `netfs_read_to_pagecache ([kernel])`           | `<unknown>` |
-|     new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `__do_sys_newfstat ([kernel])`                 | `<unknown>` |
-| +100.0% |  +1.00ms |        <0.1% |     1.0ms → 2.0ms |     1 → 2 | `next_uptodate_folio ([kernel])`               | `<unknown>` |
-|  +50.0% |  +1.00ms |        <0.1% |     2.0ms → 3.0ms |     2 → 3 | `__folio_mod_stat ([kernel])`                  | `<unknown>` |
-
-##### Native
-
-| Change |    Delta |            % |              Time |   Samples | Function                          | Location    |
-| -----: | -------: | -----------: | ----------------: | --------: | --------------------------------- | ----------- |
-| +14.1% | +34.00ms |  2.0% → 2.3% | 241.0ms → 275.0ms | 241 → 275 | `unknown (libc.so.6)`             | `<unknown>` |
-|    new |  +3.00ms | 0.0% → <0.1% |       0ms → 3.0ms |     0 → 3 | `unknown (ld-linux-x86-64.so.2)`  | `<unknown>` |
-|    new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `pthread_cond_signal (libc.so.6)` | `<unknown>` |
-|    new |  +1.00ms | 0.0% → <0.1% |       0ms → 1.0ms |     0 → 1 | `fstatat (libc.so.6)`             | `<unknown>` |
+|  Change |    Delta |            % |            Time |         Samples | Function                            | Location            |
+| ------: | -------: | -----------: | --------------: | --------------: | ----------------------------------- | ------------------- |
+|   +0.5% | +46.00ms |        84.1% | 10.05s → 10.09s | 10,050 → 10,096 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`        |
+|  +50.0% | +13.00ms |  0.2% → 0.3% | 26.0ms → 39.0ms |         26 → 39 | `ZSTD_rawLiteralsCost`              | `zstd_opt.c`        |
+| +200.0% |  +4.00ms |        <0.1% |   2.0ms → 6.0ms |           2 → 6 | `FSE_buildCTable_wksp`              | `fse_compress.c`    |
+| +150.0% |  +3.00ms |        <0.1% |   2.0ms → 5.0ms |           2 → 5 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`   |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HUF_writeCTable_wksp`              | `huf_compress.c`    |
+|     new |  +2.00ms | 0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HIST_count_simple`                 | `hist.c`            |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `ZSTDMT_compressionJob`             | `zstdmt_compress.c` |
+|   +0.1% |  +1.00ms |        13.4% |           1.60s |   1,605 → 1,606 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`        |
+|   +7.1% |  +1.00ms |         0.1% | 14.0ms → 15.0ms |         14 → 15 | `HIST_count_parallel_wksp`          | `hist.c`            |
+|   +3.4% |  +1.00ms |         0.2% | 29.0ms → 30.0ms |         29 → 30 | `ZSTD_insertBt1`                    | `zstd_opt.c`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `HUF_optimalTableLog`               | `huf_compress.c`    |
+|  +14.3% |  +1.00ms |         0.1% |   7.0ms → 8.0ms |           7 → 8 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`        |
+|     new |  +1.00ms | 0.0% → <0.1% |     0ms → 1.0ms |           0 → 1 | `AIO_IOPool_acquireJob`             | `fileio_asyncio.c`  |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |     Delta |             % |              Time |       Samples | Function                                | Location                    |
-| ------: | --------: | ------------: | ----------------: | ------------: | --------------------------------------- | --------------------------- |
-|   -5.4% | -455.00ms | 69.2% → 65.5% |     8.36s → 7.91s | 8,369 → 7,914 | `ZSTD_btGetAllMatches_noDict_3`         | `zstd_opt.c`                |
-|  -16.1% |  -18.00ms |   0.9% → 0.8% |  112.0ms → 94.0ms |      112 → 94 | `ZSTD_optLdm_processMatchCandidate`     | `zstd_opt.c`                |
-|   -4.9% |  -12.00ms |   2.0% → 1.9% | 246.0ms → 234.0ms |     246 → 234 | `alloc_pages_mpol_noprof ([kernel])`    | `<unknown>`                 |
-|  -52.6% |  -10.00ms |   0.2% → 0.1% |    19.0ms → 9.0ms |        19 → 9 | `ZSTD_seqToCodes`                       | `zstd_compress.c`           |
-|   -5.9% |   -6.00ms |          0.8% |  102.0ms → 96.0ms |      102 → 96 | `do_user_addr_fault ([kernel])`         | `<unknown>`                 |
-|  -66.7% |   -6.00ms |  0.1% → <0.1% |     9.0ms → 3.0ms |         9 → 3 | `shmem_get_folio_gfp ([kernel])`        | `<unknown>`                 |
-|  -62.5% |   -5.00ms |  0.1% → <0.1% |     8.0ms → 3.0ms |         8 → 3 | `ZSTD_estimateBlockSize_symbolType`     | `zstd_compress.c`           |
-|  -17.4% |   -4.00ms |          0.2% |   23.0ms → 19.0ms |       23 → 19 | `ZSTD_encodeSequences_bmi2`             | `zstd_compress_sequences.c` |
-| removed |   -3.00ms |  <0.1% → 0.0% |       3.0ms → 0ms |         3 → 0 | `ksys_read ([kernel])`                  | `<unknown>`                 |
-|   -4.1% |   -3.00ms |          0.6% |   74.0ms → 71.0ms |       74 → 71 | `__handle_mm_fault ([kernel])`          | `<unknown>`                 |
-|  -10.3% |   -3.00ms |          0.2% |   29.0ms → 26.0ms |       29 → 26 | `__alloc_pages_noprof ([kernel])`       | `<unknown>`                 |
-|  -15.8% |   -3.00ms |   0.2% → 0.1% |   19.0ms → 16.0ms |       19 → 16 | `__mem_cgroup_charge ([kernel])`        | `<unknown>`                 |
-| removed |   -3.00ms |  <0.1% → 0.0% |       3.0ms → 0ms |         3 → 0 | `irq_exit_rcu ([kernel])`               | `<unknown>`                 |
-|  -75.0% |   -3.00ms |         <0.1% |     4.0ms → 1.0ms |         4 → 1 | `irqentry_exit_to_user_mode ([kernel])` | `<unknown>`                 |
-|  -42.9% |   -3.00ms |  0.1% → <0.1% |     7.0ms → 4.0ms |         7 → 4 | `shmem_file_read_iter ([kernel])`       | `<unknown>`                 |
-|  -75.0% |   -3.00ms |         <0.1% |     4.0ms → 1.0ms |         4 → 1 | `filemap_get_entry ([kernel])`          | `<unknown>`                 |
-| removed |   -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |         2 → 0 | `do_syscall_64 ([kernel])`              | `<unknown>`                 |
-| removed |   -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |         2 → 0 | `__fput ([kernel])`                     | `<unknown>`                 |
-| removed |   -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |         2 → 0 | `path_lookupat ([kernel])`              | `<unknown>`                 |
-| removed |   -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |         2 → 0 | `v9fs_vfs_lookup ([kernel])`            | `<unknown>`                 |
+|  Change |    Delta |            % |             Time |  Samples | Function                               | Location                    |
+| ------: | -------: | -----------: | ---------------: | -------: | -------------------------------------- | --------------------------- |
+|  -12.0% | -13.00ms |  0.9% → 0.8% | 108.0ms → 95.0ms | 108 → 95 | `ZSTD_litLengthPrice`                  | `zstd_opt.c`                |
+|  -53.8% |  -7.00ms | 0.1% → <0.1% |   13.0ms → 6.0ms |   13 → 6 | `ZSTD_encodeSequences`                 | `zstd_compress_sequences.c` |
+|  -28.0% |  -7.00ms |  0.2% → 0.1% |  25.0ms → 18.0ms |  25 → 18 | `ZSTD_insertAndFindFirstIndexHash3`    | `zstd_opt.c`                |
+|  -45.5% |  -5.00ms | 0.1% → <0.1% |   11.0ms → 6.0ms |   11 → 6 | `unknown (libc.so.6)`                  | `<unknown>`                 |
+|  -62.5% |  -5.00ms | 0.1% → <0.1% |    8.0ms → 3.0ms |    8 → 3 | `ZSTD_XXH64_update`                    | `xxhash.h`                  |
+|  -18.2% |  -4.00ms |  0.2% → 0.1% |  22.0ms → 18.0ms |  22 → 18 | `ZSTD_updateStats`                     | `zstd_opt.c`                |
+|  -42.9% |  -3.00ms | 0.1% → <0.1% |    7.0ms → 4.0ms |    7 → 4 | `ZSTD_seqToCodes`                      | `zstd_compress.c`           |
+|  -50.0% |  -2.00ms |        <0.1% |    4.0ms → 2.0ms |    4 → 2 | `ZSTD_deriveSeqStoreChunk`             | `zstd_compress.c`           |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `HUF_estimateCompressedSize`           | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `get_mem_cgroup_from_mm ([kernel])`    | `<unknown>`                 |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `ZSTD_buildSequencesStatistics`        | `zstd_compress.c`           |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_buildCTable_wksp`                 | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `FSE_optimalTableLog`                  | `fse_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `try_to_wake_up ([kernel])`            | `<unknown>`                 |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `ZSTDMT_compressStream_generic`        | `zstdmt_compress.c`         |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `rwsem_down_write_slowpath ([kernel])` | `<unknown>`                 |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `_raw_spin_lock ([kernel])`            | `<unknown>`                 |
+|  -16.7% |  -1.00ms | 0.1% → <0.1% |    6.0ms → 5.0ms |    6 → 5 | `__arch_copy_to_user ([kernel])`       | `<unknown>`                 |
 
 ##### Ours
 
-|  Change |     Delta |             % |             Time |       Samples | Function                            | Location                    |
-| ------: | --------: | ------------: | ---------------: | ------------: | ----------------------------------- | --------------------------- |
-|   -5.4% | -455.00ms | 69.2% → 65.5% |    8.36s → 7.91s | 8,369 → 7,914 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
-|  -16.1% |  -18.00ms |   0.9% → 0.8% | 112.0ms → 94.0ms |      112 → 94 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
-|  -52.6% |  -10.00ms |   0.2% → 0.1% |   19.0ms → 9.0ms |        19 → 9 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
-|  -62.5% |   -5.00ms |  0.1% → <0.1% |    8.0ms → 3.0ms |         8 → 3 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
-|  -17.4% |   -4.00ms |          0.2% |  23.0ms → 19.0ms |       23 → 19 | `ZSTD_encodeSequences_bmi2`         | `zstd_compress_sequences.c` |
-|  -66.7% |   -2.00ms |         <0.1% |    3.0ms → 1.0ms |         3 → 1 | `HIST_count_simple`                 | `hist.c`                    |
-| removed |   -2.00ms |  <0.1% → 0.0% |      2.0ms → 0ms |         2 → 0 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c`           |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `FIO_compressFilename_srcFile`      | `fileio.c`                  |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `ZSTD_compressStream2`              | `zstd_compress.c`           |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `ZSTD_selectBtGetAllMatches`        | `zstd_opt.c`                |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `ZSTD_rescaleFreqs`                 | `zstd_opt.c`                |
-|   -8.3% |   -1.00ms |          0.1% |  12.0ms → 11.0ms |       12 → 11 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `HUF_compress_internal`             | `huf_compress.c`            |
-| removed |   -1.00ms |  <0.1% → 0.0% |      1.0ms → 0ms |         1 → 0 | `ZSTD_setBasePrices`                | `zstd_opt.c`                |
-
-##### Kernel
-
-|  Change |    Delta |            % |              Time |   Samples | Function                                    | Location    |
-| ------: | -------: | -----------: | ----------------: | --------: | ------------------------------------------- | ----------- |
-|   -4.9% | -12.00ms |  2.0% → 1.9% | 246.0ms → 234.0ms | 246 → 234 | `alloc_pages_mpol_noprof ([kernel])`        | `<unknown>` |
-|   -5.9% |  -6.00ms |         0.8% |  102.0ms → 96.0ms |  102 → 96 | `do_user_addr_fault ([kernel])`             | `<unknown>` |
-|  -66.7% |  -6.00ms | 0.1% → <0.1% |     9.0ms → 3.0ms |     9 → 3 | `shmem_get_folio_gfp ([kernel])`            | `<unknown>` |
-| removed |  -3.00ms | <0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `ksys_read ([kernel])`                      | `<unknown>` |
-|   -4.1% |  -3.00ms |         0.6% |   74.0ms → 71.0ms |   74 → 71 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
-|  -10.3% |  -3.00ms |         0.2% |   29.0ms → 26.0ms |   29 → 26 | `__alloc_pages_noprof ([kernel])`           | `<unknown>` |
-|  -15.8% |  -3.00ms |  0.2% → 0.1% |   19.0ms → 16.0ms |   19 → 16 | `__mem_cgroup_charge ([kernel])`            | `<unknown>` |
-| removed |  -3.00ms | <0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `irq_exit_rcu ([kernel])`                   | `<unknown>` |
-|  -75.0% |  -3.00ms |        <0.1% |     4.0ms → 1.0ms |     4 → 1 | `irqentry_exit_to_user_mode ([kernel])`     | `<unknown>` |
-|  -42.9% |  -3.00ms | 0.1% → <0.1% |     7.0ms → 4.0ms |     7 → 4 | `shmem_file_read_iter ([kernel])`           | `<unknown>` |
-|  -75.0% |  -3.00ms |        <0.1% |     4.0ms → 1.0ms |     4 → 1 | `filemap_get_entry ([kernel])`              | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `__fput ([kernel])`                         | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `path_lookupat ([kernel])`                  | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `v9fs_vfs_lookup ([kernel])`                | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `p9_virtio_zc_request ([kernel])`           | `<unknown>` |
-| removed |  -2.00ms | <0.1% → 0.0% |       2.0ms → 0ms |     2 → 0 | `__split_vma ([kernel])`                    | `<unknown>` |
-|  -11.1% |  -2.00ms |         0.1% |   18.0ms → 16.0ms |   18 → 16 | `lock_vma_under_rcu ([kernel])`             | `<unknown>` |
-|   -7.4% |  -2.00ms |         0.2% |   27.0ms → 25.0ms |   27 → 25 | `folio_add_new_anon_rmap ([kernel])`        | `<unknown>` |
-|  -50.0% |  -1.00ms |        <0.1% |     2.0ms → 1.0ms |     2 → 1 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
-
-##### Native
-
-|  Change |   Delta |            % |        Time | Samples | Function       | Location    |
-| ------: | ------: | -----------: | ----------: | ------: | -------------- | ----------- |
-| removed | -1.00ms | <0.1% → 0.0% | 1.0ms → 0ms |   1 → 0 | `_init (zstd)` | `<unknown>` |
+|  Change |    Delta |            % |             Time |  Samples | Function                            | Location                    |
+| ------: | -------: | -----------: | ---------------: | -------: | ----------------------------------- | --------------------------- |
+|  -12.0% | -13.00ms |  0.9% → 0.8% | 108.0ms → 95.0ms | 108 → 95 | `ZSTD_litLengthPrice`               | `zstd_opt.c`                |
+|  -53.8% |  -7.00ms | 0.1% → <0.1% |   13.0ms → 6.0ms |   13 → 6 | `ZSTD_encodeSequences`              | `zstd_compress_sequences.c` |
+|  -28.0% |  -7.00ms |  0.2% → 0.1% |  25.0ms → 18.0ms |  25 → 18 | `ZSTD_insertAndFindFirstIndexHash3` | `zstd_opt.c`                |
+|  -62.5% |  -5.00ms | 0.1% → <0.1% |    8.0ms → 3.0ms |    8 → 3 | `ZSTD_XXH64_update`                 | `xxhash.h`                  |
+|  -18.2% |  -4.00ms |  0.2% → 0.1% |  22.0ms → 18.0ms |  22 → 18 | `ZSTD_updateStats`                  | `zstd_opt.c`                |
+|  -42.9% |  -3.00ms | 0.1% → <0.1% |    7.0ms → 4.0ms |    7 → 4 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
+|  -50.0% |  -2.00ms |        <0.1% |    4.0ms → 2.0ms |    4 → 2 | `ZSTD_deriveSeqStoreChunk`          | `zstd_compress.c`           |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `HUF_estimateCompressedSize`        | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `ZSTD_buildSequencesStatistics`     | `zstd_compress.c`           |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_buildCTable_wksp`              | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `FSE_optimalTableLog`               | `fse_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `ZSTDMT_compressStream_generic`     | `zstdmt_compress.c`         |
 
 ### Total time
 
@@ -174,331 +105,197 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-|  Change |     Delta |             % |              Time |         Samples | Function                                       | Location                    |
-| ------: | --------: | ------------: | ----------------: | --------------: | ---------------------------------------------- | --------------------------- |
-|  +51.0% | +106.00ms |   1.7% → 2.6% | 208.0ms → 314.0ms |       208 → 314 | `ZSTD_insertAndFindFirstIndexHash3`            | `zstd_opt.c`                |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_resetCCtx_internal`                      | `zstd_compress.c`           |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_compressBegin_internal`                  | `zstd_compress.c`           |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_compressBegin_advanced_internal`         | `zstd_compress.c`           |
-|  +13.8% |  +33.00ms |   2.0% → 2.3% | 240.0ms → 273.0ms |       240 → 273 | `ZSTD_litLengthPrice`                          | `zstd_opt.c`                |
-|   +0.1% |  +14.00ms | 97.9% → 98.1% |   11.83s → 11.85s | 11,836 → 11,850 | `ZSTDMT_compressionJob`                        | `zstdmt_compress.c`         |
-| +333.3% |  +10.00ms |  <0.1% → 0.1% |    3.0ms → 13.0ms |          3 → 13 | `HUF_optimalTableLog`                          | `huf_compress.c`            |
-|   +6.4% |   +7.00ms |   0.9% → 1.0% | 110.0ms → 117.0ms |       110 → 117 | `ZSTD_rawLiteralsCost`                         | `zstd_opt.c`                |
-| +233.3% |   +7.00ms |  <0.1% → 0.1% |    3.0ms → 10.0ms |          3 → 10 | `HUF_buildCTable_wksp`                         | `huf_compress.c`            |
-|     new |   +6.00ms |  0.0% → <0.1% |       0ms → 6.0ms |           0 → 6 | `0x7fe83ce32f3b`                               | `<unknown>`                 |
-|   +0.6% |   +5.00ms |   7.0% → 7.1% | 848.0ms → 853.0ms |       848 → 853 | `asm_exc_page_fault ([kernel])`                | `<unknown>`                 |
-|  +62.5% |   +5.00ms |          0.1% |    8.0ms → 13.0ms |          8 → 13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>`                 |
-|  +19.2% |   +5.00ms |   0.2% → 0.3% |   26.0ms → 31.0ms |         26 → 31 | `ZSTD_buildBlockEntropyStats`                  | `zstd_compress.c`           |
-|  +45.5% |   +5.00ms |          0.1% |   11.0ms → 16.0ms |         11 → 16 | `HIST_count_parallel_wksp`                     | `hist.c`                    |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |           1 → 6 | `FSE_buildCTable_wksp`                         | `fse_compress.c`            |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |           1 → 6 | `HUF_writeCTable_wksp`                         | `huf_compress.c`            |
-|     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |           0 → 5 | `handle_softirqs ([kernel])`                   | `<unknown>`                 |
-|     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |           0 → 5 | `FSE_normalizeCount`                           | `fse_compress.c`            |
-|     ~0% |   +4.00ms | 98.4% → 98.6% |            11.90s | 11,902 → 11,906 | `POOL_thread`                                  | `pool.c`                    |
-| +400.0% |   +4.00ms |         <0.1% |     1.0ms → 5.0ms |           1 → 5 | `ZSTD_buildCTable`                             | `zstd_compress_sequences.c` |
+| Change |    Delta |             % |            Time |         Samples | Function                                             | Location            |
+| -----: | -------: | ------------: | --------------: | --------------: | ---------------------------------------------------- | ------------------- |
+|  +0.6% | +62.00ms | 84.3% → 84.5% | 10.07s → 10.14s | 10,079 → 10,141 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`        |
+|  +0.5% | +60.00ms | 97.9% → 98.0% | 11.70s → 11.76s | 11,709 → 11,769 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`        |
+|  +0.5% | +57.00ms | 99.3% → 99.4% | 11.87s → 11.92s | 11,872 → 11,929 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`   |
+|  +0.4% | +50.00ms |         99.9% | 11.94s → 11.99s | 11,944 → 11,994 | `POOL_thread`                                        | `pool.c`            |
+|  +0.4% | +49.00ms |        100.0% |    11.95s → 12s | 11,955 → 12,004 | `unknown (libc.so.6)`                                | `<unknown>`         |
+|  +0.4% | +48.00ms |         99.8% | 11.93s → 11.98s | 11,937 → 11,985 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c` |
+|  +0.4% | +47.00ms |         99.8% | 11.93s → 11.97s | 11,932 → 11,979 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`   |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `__do_softirq ([kernel])`                            | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `____do_softirq ([kernel])`                          | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `call_on_irq_stack ([kernel])`                       | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `do_softirq_own_stack ([kernel])`                    | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `__irq_exit_rcu ([kernel])`                          | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `irq_exit_rcu ([kernel])`                            | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `el0_interrupt ([kernel])`                           | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `__el0_irq_handler_common ([kernel])`                | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `el0t_64_irq_handler ([kernel])`                     | `<unknown>`         |
+|    new | +19.00ms |   0.0% → 0.2% |    0ms → 19.0ms |          0 → 19 | `el0t_64_irq ([kernel])`                             | `<unknown>`         |
+|    new | +16.00ms |   0.0% → 0.1% |    0ms → 16.0ms |          0 → 16 | `handle_softirqs ([kernel])`                         | `<unknown>`         |
+| +50.0% | +13.00ms |   0.2% → 0.3% | 26.0ms → 39.0ms |         26 → 39 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`        |
+| +17.9% |  +5.00ms |   0.2% → 0.3% | 28.0ms → 33.0ms |         28 → 33 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`   |
 
 ##### Ours
 
-|  Change |     Delta |             % |              Time |         Samples | Function                               | Location                    |
-| ------: | --------: | ------------: | ----------------: | --------------: | -------------------------------------- | --------------------------- |
-|  +51.0% | +106.00ms |   1.7% → 2.6% | 208.0ms → 314.0ms |       208 → 314 | `ZSTD_insertAndFindFirstIndexHash3`    | `zstd_opt.c`                |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_resetCCtx_internal`              | `zstd_compress.c`           |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_compressBegin_internal`          | `zstd_compress.c`           |
-|   +6.1% |  +55.00ms |   7.5% → 7.9% | 901.0ms → 956.0ms |       901 → 956 | `ZSTD_compressBegin_advanced_internal` | `zstd_compress.c`           |
-|  +13.8% |  +33.00ms |   2.0% → 2.3% | 240.0ms → 273.0ms |       240 → 273 | `ZSTD_litLengthPrice`                  | `zstd_opt.c`                |
-|   +0.1% |  +14.00ms | 97.9% → 98.1% |   11.83s → 11.85s | 11,836 → 11,850 | `ZSTDMT_compressionJob`                | `zstdmt_compress.c`         |
-| +333.3% |  +10.00ms |  <0.1% → 0.1% |    3.0ms → 13.0ms |          3 → 13 | `HUF_optimalTableLog`                  | `huf_compress.c`            |
-|   +6.4% |   +7.00ms |   0.9% → 1.0% | 110.0ms → 117.0ms |       110 → 117 | `ZSTD_rawLiteralsCost`                 | `zstd_opt.c`                |
-| +233.3% |   +7.00ms |  <0.1% → 0.1% |    3.0ms → 10.0ms |          3 → 10 | `HUF_buildCTable_wksp`                 | `huf_compress.c`            |
-|  +19.2% |   +5.00ms |   0.2% → 0.3% |   26.0ms → 31.0ms |         26 → 31 | `ZSTD_buildBlockEntropyStats`          | `zstd_compress.c`           |
-|  +45.5% |   +5.00ms |          0.1% |   11.0ms → 16.0ms |         11 → 16 | `HIST_count_parallel_wksp`             | `hist.c`                    |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |           1 → 6 | `FSE_buildCTable_wksp`                 | `fse_compress.c`            |
-| +500.0% |   +5.00ms |         <0.1% |     1.0ms → 6.0ms |           1 → 6 | `HUF_writeCTable_wksp`                 | `huf_compress.c`            |
-|     new |   +5.00ms |  0.0% → <0.1% |       0ms → 5.0ms |           0 → 5 | `FSE_normalizeCount`                   | `fse_compress.c`            |
-|     ~0% |   +4.00ms | 98.4% → 98.6% |            11.90s | 11,902 → 11,906 | `POOL_thread`                          | `pool.c`                    |
-| +400.0% |   +4.00ms |         <0.1% |     1.0ms → 5.0ms |           1 → 5 | `ZSTD_buildCTable`                     | `zstd_compress_sequences.c` |
-|  +75.0% |   +3.00ms |  <0.1% → 0.1% |     4.0ms → 7.0ms |           4 → 7 | `HUF_compress_internal`                | `huf_compress.c`            |
-|  +75.0% |   +3.00ms |  <0.1% → 0.1% |     4.0ms → 7.0ms |           4 → 7 | `HUF_compress4X_repeat`                | `huf_compress.c`            |
-|  +75.0% |   +3.00ms |  <0.1% → 0.1% |     4.0ms → 7.0ms |           4 → 7 | `ZSTD_compressLiterals`                | `zstd_compress_literals.c`  |
-|   +5.1% |   +2.00ms |          0.3% |   39.0ms → 41.0ms |         39 → 41 | `ZSTD_deriveBlockSplitsHelper`         | `zstd_compress.c`           |
-
-##### Kernel
-
-|  Change |   Delta |            % |              Time |   Samples | Function                                       | Location    |
-| ------: | ------: | -----------: | ----------------: | --------: | ---------------------------------------------- | ----------- |
-|   +0.6% | +5.00ms |  7.0% → 7.1% | 848.0ms → 853.0ms | 848 → 853 | `asm_exc_page_fault ([kernel])`                | `<unknown>` |
-|  +62.5% | +5.00ms |         0.1% |    8.0ms → 13.0ms |    8 → 13 | `count_memcg_events_mm.constprop.0 ([kernel])` | `<unknown>` |
-|     new | +5.00ms | 0.0% → <0.1% |       0ms → 5.0ms |     0 → 5 | `handle_softirqs ([kernel])`                   | `<unknown>` |
-|   +0.4% | +3.00ms |         6.7% | 812.0ms → 815.0ms | 812 → 815 | `exc_page_fault ([kernel])`                    | `<unknown>` |
-|  +17.6% | +3.00ms |  0.1% → 0.2% |   17.0ms → 20.0ms |   17 → 20 | `copy_page_to_iter ([kernel])`                 | `<unknown>` |
-|     new | +3.00ms | 0.0% → <0.1% |       0ms → 3.0ms |     0 → 3 | `__dentry_kill ([kernel])`                     | `<unknown>` |
-|     new | +3.00ms | 0.0% → <0.1% |       0ms → 3.0ms |     0 → 3 | `dput.part.0 ([kernel])`                       | `<unknown>` |
-|  +66.7% | +2.00ms |        <0.1% |     3.0ms → 5.0ms |     3 → 5 | `path_openat ([kernel])`                       | `<unknown>` |
-| +200.0% | +2.00ms |        <0.1% |     1.0ms → 3.0ms |     1 → 3 | `link_path_walk.part.0.constprop.0 ([kernel])` | `<unknown>` |
-| +100.0% | +2.00ms |        <0.1% |     2.0ms → 4.0ms |     2 → 4 | `futex_wake ([kernel])`                        | `<unknown>` |
-|  +50.0% | +2.00ms |        <0.1% |     4.0ms → 6.0ms |     4 → 6 | `do_futex ([kernel])`                          | `<unknown>` |
-|  +66.7% | +2.00ms |        <0.1% |     3.0ms → 5.0ms |     3 → 5 | `mas_walk ([kernel])`                          | `<unknown>` |
-|  +66.7% | +2.00ms |        <0.1% |     3.0ms → 5.0ms |     3 → 5 | `irq_exit_rcu ([kernel])`                      | `<unknown>` |
-|  +66.7% | +2.00ms |        <0.1% |     3.0ms → 5.0ms |     3 → 5 | `sysvec_apic_timer_interrupt ([kernel])`       | `<unknown>` |
-|  +13.3% | +2.00ms |         0.1% |   15.0ms → 17.0ms |   15 → 17 | `_copy_to_iter ([kernel])`                     | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `p9_client_walk ([kernel])`                    | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `p9_client_rpc ([kernel])`                     | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `pte_alloc_one ([kernel])`                     | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `__pte_alloc ([kernel])`                       | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |       0ms → 2.0ms |     0 → 2 | `lock_mm_and_find_vma ([kernel])`              | `<unknown>` |
-
-##### Native
-
-|  Change |   Delta |            % |          Time | Samples | Function                             | Location    |
-| ------: | ------: | -----------: | ------------: | ------: | ------------------------------------ | ----------- |
-|     new | +6.00ms | 0.0% → <0.1% |   0ms → 6.0ms |   0 → 6 | `0x7fe83ce32f3b`                     | `<unknown>` |
-| +150.0% | +3.00ms |        <0.1% | 2.0ms → 5.0ms |   2 → 5 | `__mmap (libc.so.6)`                 | `<unknown>` |
-| +100.0% | +3.00ms |        <0.1% | 3.0ms → 6.0ms |   3 → 6 | `pthread_cond_signal (libc.so.6)`    | `<unknown>` |
-|     new | +2.00ms | 0.0% → <0.1% |   0ms → 2.0ms |   0 → 2 | `0x7fe83ce5fa91`                     | `<unknown>` |
-|  +33.3% | +1.00ms |        <0.1% | 3.0ms → 4.0ms |   3 → 4 | `pthread_create (libc.so.6)`         | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `GLIBC_PRIVATE (libc.so.6)`          | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `fstatat (libc.so.6)`                | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `__libc_calloc (libc.so.6)`          | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `0x20000`                            | `<unknown>` |
-|     new | +1.00ms | 0.0% → <0.1% |   0ms → 1.0ms |   0 → 1 | `__pthread_mutex_unlock (libc.so.6)` | `<unknown>` |
+|  Change |    Delta |             % |            Time |         Samples | Function                                             | Location                    |
+| ------: | -------: | ------------: | --------------: | --------------: | ---------------------------------------------------- | --------------------------- |
+|   +0.6% | +62.00ms | 84.3% → 84.5% | 10.07s → 10.14s | 10,079 → 10,141 | `ZSTD_btGetAllMatches_noDict_3`                      | `zstd_opt.c`                |
+|   +0.5% | +60.00ms | 97.9% → 98.0% | 11.70s → 11.76s | 11,709 → 11,769 | `ZSTD_compressBlock_opt2`                            | `zstd_opt.c`                |
+|   +0.5% | +57.00ms | 99.3% → 99.4% | 11.87s → 11.92s | 11,872 → 11,929 | `ZSTD_buildSeqStore`                                 | `zstd_compress.c`           |
+|   +0.4% | +50.00ms |         99.9% | 11.94s → 11.99s | 11,944 → 11,994 | `POOL_thread`                                        | `pool.c`                    |
+|   +0.4% | +48.00ms |         99.8% | 11.93s → 11.98s | 11,937 → 11,985 | `ZSTDMT_compressionJob`                              | `zstdmt_compress.c`         |
+|   +0.4% | +47.00ms |         99.8% | 11.93s → 11.97s | 11,932 → 11,979 | `ZSTD_compressContinue_internal`                     | `zstd_compress.c`           |
+|  +50.0% | +13.00ms |   0.2% → 0.3% | 26.0ms → 39.0ms |         26 → 39 | `ZSTD_rawLiteralsCost`                               | `zstd_opt.c`                |
+|  +17.9% |  +5.00ms |   0.2% → 0.3% | 28.0ms → 33.0ms |         28 → 33 | `ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize` | `zstd_compress.c`           |
+|  +62.5% |  +5.00ms |          0.1% |  8.0ms → 13.0ms |          8 → 13 | `ZSTD_estimateBlockSize_symbolType`                  | `zstd_compress.c`           |
+|  +13.8% |  +4.00ms |   0.2% → 0.3% | 29.0ms → 33.0ms |         29 → 33 | `ZSTD_deriveBlockSplitsHelper`                       | `zstd_compress.c`           |
+| +200.0% |  +4.00ms |         <0.1% |   2.0ms → 6.0ms |           2 → 6 | `FSE_buildCTable_wksp`                               | `fse_compress.c`            |
+| +200.0% |  +4.00ms |         <0.1% |   2.0ms → 6.0ms |           2 → 6 | `ZSTD_buildCTable`                                   | `zstd_compress_sequences.c` |
+| +200.0% |  +2.00ms |         <0.1% |   1.0ms → 3.0ms |           1 → 3 | `HUF_writeCTable_wksp`                               | `huf_compress.c`            |
+|     new |  +2.00ms |  0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HIST_count_simple`                                  | `hist.c`                    |
+|     new |  +2.00ms |  0.0% → <0.1% |     0ms → 2.0ms |           0 → 2 | `HIST_count_wksp`                                    | `hist.c`                    |
+|   +7.1% |  +1.00ms |          0.1% | 14.0ms → 15.0ms |         14 → 15 | `HIST_count_parallel_wksp`                           | `hist.c`                    |
+|   +3.4% |  +1.00ms |          0.2% | 29.0ms → 30.0ms |         29 → 30 | `ZSTD_insertBt1`                                     | `zstd_opt.c`                |
+|  +14.3% |  +1.00ms |          0.1% |   7.0ms → 8.0ms |           7 → 8 | `ZSTD_optLdm_processMatchCandidate`                  | `zstd_opt.c`                |
+|  +33.3% |  +1.00ms |         <0.1% |   3.0ms → 4.0ms |           3 → 4 | `HUF_compress_internal`                              | `huf_compress.c`            |
+|  +33.3% |  +1.00ms |         <0.1% |   3.0ms → 4.0ms |           3 → 4 | `HUF_compress4X_repeat`                              | `huf_compress.c`            |
 
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
-| Change |     Delta |             % |              Time |         Samples | Function                                    | Location          |
-| -----: | --------: | ------------: | ----------------: | --------------: | ------------------------------------------- | ----------------- |
-|  -5.4% | -457.00ms | 69.4% → 65.7% |     8.38s → 7.93s |   8,389 → 7,932 | `ZSTD_btGetAllMatches_noDict_3`             | `zstd_opt.c`      |
-|  -0.8% |  -79.00ms | 85.3% → 84.7% |   10.31s → 10.23s | 10,311 → 10,232 | `ZSTD_compressBlock_opt2`                   | `zstd_opt.c`      |
-|  -0.4% |  -45.00ms | 89.7% → 89.4% |   10.84s → 10.79s | 10,844 → 10,799 | `ZSTD_buildSeqStore`                        | `zstd_compress.c` |
-|  -0.4% |  -43.00ms | 90.4% → 90.1% |   10.92s → 10.88s | 10,929 → 10,886 | `ZSTD_compressContinue_internal`            | `zstd_compress.c` |
-|  -0.4% |  -43.00ms | 90.4% → 90.1% |   10.92s → 10.88s | 10,929 → 10,886 | `ZSTD_compressContinue_public`              | `zstd_compress.c` |
-| -13.8% |  -36.00ms |   2.2% → 1.9% | 261.0ms → 225.0ms |       261 → 225 | `ZSTD_compressBlock_btultra2`               | `zstd_opt.c`      |
-| -16.1% |  -18.00ms |   0.9% → 0.8% |  112.0ms → 94.0ms |        112 → 94 | `ZSTD_optLdm_processMatchCandidate`         | `zstd_opt.c`      |
-|  -3.0% |  -17.00ms |   4.7% → 4.5% | 564.0ms → 547.0ms |       564 → 547 | `__handle_mm_fault ([kernel])`              | `<unknown>`       |
-|  -6.1% |  -17.00ms |   2.3% → 2.2% | 278.0ms → 261.0ms |       278 → 261 | `alloc_pages_mpol_noprof ([kernel])`        | `<unknown>`       |
-| -16.3% |  -16.00ms |   0.8% → 0.7% |   98.0ms → 82.0ms |         98 → 82 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`       |
-|  -5.4% |  -16.00ms |   2.4% → 2.3% | 294.0ms → 278.0ms |       294 → 278 | `folio_alloc_mpol_noprof ([kernel])`        | `<unknown>`       |
-| -15.6% |  -15.00ms |   0.8% → 0.7% |   96.0ms → 81.0ms |         96 → 81 | `do_syscall_64 ([kernel])`                  | `<unknown>`       |
-|  -4.6% |  -14.00ms |   2.5% → 2.4% | 305.0ms → 291.0ms |       305 → 291 | `vma_alloc_folio_noprof ([kernel])`         | `<unknown>`       |
-|  -8.3% |  -13.00ms |   1.3% → 1.2% | 156.0ms → 143.0ms |       156 → 143 | `_start (zstd)`                             | `<unknown>`       |
-|  -8.4% |  -13.00ms |   1.3% → 1.2% | 155.0ms → 142.0ms |       155 → 142 | `__libc_start_main (libc.so.6)`             | `<unknown>`       |
-|  -8.4% |  -13.00ms |   1.3% → 1.2% | 154.0ms → 141.0ms |       154 → 141 | `main`                                      | `zstdcli.c`       |
-|  -2.7% |  -13.00ms |   4.0% → 3.9% | 481.0ms → 468.0ms |       481 → 468 | `do_anonymous_page ([kernel])`              | `<unknown>`       |
-|  -7.8% |  -12.00ms |   1.3% → 1.2% | 153.0ms → 141.0ms |       153 → 141 | `FIO_compressFilename`                      | `fileio.c`        |
-|  -7.5% |  -11.00ms |   1.2% → 1.1% | 146.0ms → 135.0ms |       146 → 135 | `FIO_compressFilename_srcFile`              | `fileio.c`        |
-|  -7.1% |  -10.00ms |   1.2% → 1.1% | 140.0ms → 130.0ms |       140 → 130 | `ZSTD_compressStream2`                      | `zstd_compress.c` |
+|  Change |    Delta |            % |             Time |  Samples | Function                                | Location                    |
+| ------: | -------: | -----------: | ---------------: | -------: | --------------------------------------- | --------------------------- |
+|  -12.0% | -13.00ms |  0.9% → 0.8% | 108.0ms → 95.0ms | 108 → 95 | `ZSTD_litLengthPrice`                   | `zstd_opt.c`                |
+|  -60.0% |  -9.00ms | 0.1% → <0.1% |   15.0ms → 6.0ms |   15 → 6 | `ZSTD_encodeSequences`                  | `zstd_compress_sequences.c` |
+|  -39.1% |  -9.00ms |  0.2% → 0.1% |  23.0ms → 14.0ms |  23 → 14 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c`           |
+|  -39.1% |  -9.00ms |  0.2% → 0.1% |  23.0ms → 14.0ms |  23 → 14 | `ZSTD_compressSeqStore_singleBlock`     | `zstd_compress.c`           |
+|  -24.0% |  -6.00ms |         0.2% |  25.0ms → 19.0ms |  25 → 19 | `ZSTD_insertAndFindFirstIndexHash3`     | `zstd_opt.c`                |
+|  -62.5% |  -5.00ms | 0.1% → <0.1% |    8.0ms → 3.0ms |    8 → 3 | `ZSTD_XXH64_update`                     | `xxhash.h`                  |
+|  -18.2% |  -4.00ms |  0.2% → 0.1% |  22.0ms → 18.0ms |  22 → 18 | `ZSTD_updateStats`                      | `zstd_opt.c`                |
+|  -42.9% |  -3.00ms | 0.1% → <0.1% |    7.0ms → 4.0ms |    7 → 4 | `ZSTD_seqToCodes`                       | `zstd_compress.c`           |
+|  -50.0% |  -2.00ms |        <0.1% |    4.0ms → 2.0ms |    4 → 2 | `ZSTD_deriveSeqStoreChunk`              | `zstd_compress.c`           |
+|  -10.5% |  -2.00ms |  0.2% → 0.1% |  19.0ms → 17.0ms |  19 → 17 | `ZSTD_buildBlockEntropyStats`           | `zstd_compress.c`           |
+|  -28.6% |  -2.00ms | 0.1% → <0.1% |    7.0ms → 5.0ms |    7 → 5 | `__arch_copy_to_user ([kernel])`        | `<unknown>`                 |
+|  -28.6% |  -2.00ms | 0.1% → <0.1% |    7.0ms → 5.0ms |    7 → 5 | `copy_page_to_iter ([kernel])`          | `<unknown>`                 |
+|   -5.0% |  -1.00ms |         0.2% |  20.0ms → 19.0ms |  20 → 19 | `ZSTD_compressBlock_btultra2`           | `zstd_opt.c`                |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `HUF_estimateCompressedSize`            | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `get_mem_cgroup_from_mm ([kernel])`     | `<unknown>`                 |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `__mem_cgroup_charge ([kernel])`        | `<unknown>`                 |
+|   -7.7% |  -1.00ms |         0.1% |  13.0ms → 12.0ms |  13 → 12 | `ZSTD_buildSequencesStatistics`         | `zstd_compress.c`           |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_optimalTableLog`                   | `huf_compress.c`            |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_buildCTable_wksp`                  | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `FSE_optimalTableLog`                   | `fse_compress.c`            |
 
 ##### Ours
 
-|  Change |     Delta |             % |              Time |         Samples | Function                            | Location                    |
-| ------: | --------: | ------------: | ----------------: | --------------: | ----------------------------------- | --------------------------- |
-|   -5.4% | -457.00ms | 69.4% → 65.7% |     8.38s → 7.93s |   8,389 → 7,932 | `ZSTD_btGetAllMatches_noDict_3`     | `zstd_opt.c`                |
-|   -0.8% |  -79.00ms | 85.3% → 84.7% |   10.31s → 10.23s | 10,311 → 10,232 | `ZSTD_compressBlock_opt2`           | `zstd_opt.c`                |
-|   -0.4% |  -45.00ms | 89.7% → 89.4% |   10.84s → 10.79s | 10,844 → 10,799 | `ZSTD_buildSeqStore`                | `zstd_compress.c`           |
-|   -0.4% |  -43.00ms | 90.4% → 90.1% |   10.92s → 10.88s | 10,929 → 10,886 | `ZSTD_compressContinue_internal`    | `zstd_compress.c`           |
-|   -0.4% |  -43.00ms | 90.4% → 90.1% |   10.92s → 10.88s | 10,929 → 10,886 | `ZSTD_compressContinue_public`      | `zstd_compress.c`           |
-|  -13.8% |  -36.00ms |   2.2% → 1.9% | 261.0ms → 225.0ms |       261 → 225 | `ZSTD_compressBlock_btultra2`       | `zstd_opt.c`                |
-|  -16.1% |  -18.00ms |   0.9% → 0.8% |  112.0ms → 94.0ms |        112 → 94 | `ZSTD_optLdm_processMatchCandidate` | `zstd_opt.c`                |
-|   -8.4% |  -13.00ms |   1.3% → 1.2% | 154.0ms → 141.0ms |       154 → 141 | `main`                              | `zstdcli.c`                 |
-|   -7.8% |  -12.00ms |   1.3% → 1.2% | 153.0ms → 141.0ms |       153 → 141 | `FIO_compressFilename`              | `fileio.c`                  |
-|   -7.5% |  -11.00ms |   1.2% → 1.1% | 146.0ms → 135.0ms |       146 → 135 | `FIO_compressFilename_srcFile`      | `fileio.c`                  |
-|   -7.1% |  -10.00ms |   1.2% → 1.1% | 140.0ms → 130.0ms |       140 → 130 | `ZSTD_compressStream2`              | `zstd_compress.c`           |
-|  -50.0% |  -10.00ms |   0.2% → 0.1% |   20.0ms → 10.0ms |         20 → 10 | `ZSTD_seqToCodes`                   | `zstd_compress.c`           |
-|  -12.7% |   -8.00ms |          0.5% |   63.0ms → 55.0ms |         63 → 55 | `AIO_ReadPool_executeReadJob`       | `fileio_asyncio.c`          |
-|  -17.6% |   -6.00ms |   0.3% → 0.2% |   34.0ms → 28.0ms |         34 → 28 | `ZSTD_encodeSequences_bmi2`         | `zstd_compress_sequences.c` |
-|  -40.0% |   -2.00ms |         <0.1% |     5.0ms → 3.0ms |           5 → 3 | `AIO_WritePool_create`              | `fileio_asyncio.c`          |
-|  -66.7% |   -2.00ms |         <0.1% |     3.0ms → 1.0ms |           3 → 1 | `HIST_count_simple`                 | `hist.c`                    |
-|   -7.1% |   -2.00ms |          0.2% |   28.0ms → 26.0ms |         28 → 26 | `ZSTD_buildSequencesStatistics`     | `zstd_compress.c`           |
-|  -18.2% |   -2.00ms |          0.1% |    11.0ms → 9.0ms |          11 → 9 | `ZSTD_estimateBlockSize_symbolType` | `zstd_compress.c`           |
-|   -4.3% |   -2.00ms |          0.4% |   46.0ms → 44.0ms |         46 → 44 | `ZSTD_compressSeqStore_singleBlock` | `zstd_compress.c`           |
-| removed |   -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `ZSTD_minCLevel`                    | `zstd_compress.c`           |
-
-##### Kernel
-
-|  Change |    Delta |            % |              Time |   Samples | Function                                    | Location    |
-| ------: | -------: | -----------: | ----------------: | --------: | ------------------------------------------- | ----------- |
-|   -3.0% | -17.00ms |  4.7% → 4.5% | 564.0ms → 547.0ms | 564 → 547 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
-|   -6.1% | -17.00ms |  2.3% → 2.2% | 278.0ms → 261.0ms | 278 → 261 | `alloc_pages_mpol_noprof ([kernel])`        | `<unknown>` |
-|  -16.3% | -16.00ms |  0.8% → 0.7% |   98.0ms → 82.0ms |   98 → 82 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
-|   -5.4% | -16.00ms |  2.4% → 2.3% | 294.0ms → 278.0ms | 294 → 278 | `folio_alloc_mpol_noprof ([kernel])`        | `<unknown>` |
-|  -15.6% | -15.00ms |  0.8% → 0.7% |   96.0ms → 81.0ms |   96 → 81 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-|   -4.6% | -14.00ms |  2.5% → 2.4% | 305.0ms → 291.0ms | 305 → 291 | `vma_alloc_folio_noprof ([kernel])`         | `<unknown>` |
-|   -2.7% | -13.00ms |  4.0% → 3.9% | 481.0ms → 468.0ms | 481 → 468 | `do_anonymous_page ([kernel])`              | `<unknown>` |
-|  -26.3% | -10.00ms |  0.3% → 0.2% |   38.0ms → 28.0ms |   38 → 28 | `shmem_file_read_iter ([kernel])`           | `<unknown>` |
-|  -69.2% |  -9.00ms | 0.1% → <0.1% |    13.0ms → 4.0ms |    13 → 4 | `shmem_get_folio_gfp ([kernel])`            | `<unknown>` |
-|  -12.7% |  -8.00ms |         0.5% |   63.0ms → 55.0ms |   63 → 55 | `ksys_read ([kernel])`                      | `<unknown>` |
-|   -8.3% |  -5.00ms |         0.5% |   60.0ms → 55.0ms |   60 → 55 | `vfs_read ([kernel])`                       | `<unknown>` |
-|  -15.6% |  -5.00ms |  0.3% → 0.2% |   32.0ms → 27.0ms |   32 → 27 | `__alloc_pages_noprof ([kernel])`           | `<unknown>` |
-|  -66.7% |  -4.00ms |        <0.1% |     6.0ms → 2.0ms |     6 → 2 | `filemap_fault ([kernel])`                  | `<unknown>` |
-|  -66.7% |  -4.00ms |        <0.1% |     6.0ms → 2.0ms |     6 → 2 | `__do_fault ([kernel])`                     | `<unknown>` |
-|  -75.0% |  -3.00ms |        <0.1% |     4.0ms → 1.0ms |     4 → 1 | `ksys_mmap_pgoff ([kernel])`                | `<unknown>` |
-| removed |  -3.00ms | <0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `p9_client_read_once ([kernel])`            | `<unknown>` |
-| removed |  -3.00ms | <0.1% → 0.0% |       3.0ms → 0ms |     3 → 0 | `p9_client_read ([kernel])`                 | `<unknown>` |
-|  -75.0% |  -3.00ms |        <0.1% |     4.0ms → 1.0ms |     4 → 1 | `v9fs_issue_read ([kernel])`                | `<unknown>` |
-|  -60.0% |  -3.00ms |        <0.1% |     5.0ms → 2.0ms |     5 → 2 | `netfs_read_folio ([kernel])`               | `<unknown>` |
-|  -60.0% |  -3.00ms |        <0.1% |     5.0ms → 2.0ms |     5 → 2 | `filemap_read_folio ([kernel])`             | `<unknown>` |
-
-##### Native
-
-|  Change |    Delta |             % |              Time |         Samples | Function                                     | Location    |
-| ------: | -------: | ------------: | ----------------: | --------------: | -------------------------------------------- | ----------- |
-|   -8.3% | -13.00ms |   1.3% → 1.2% | 156.0ms → 143.0ms |       156 → 143 | `_start (zstd)`                              | `<unknown>` |
-|   -8.4% | -13.00ms |   1.3% → 1.2% | 155.0ms → 142.0ms |       155 → 142 | `__libc_start_main (libc.so.6)`              | `<unknown>` |
-|   -0.1% |  -8.00ms | 99.7% → 99.8% |            12.05s | 12,058 → 12,050 | `unknown (libc.so.6)`                        | `<unknown>` |
-|  -12.7% |  -8.00ms |          0.5% |   63.0ms → 55.0ms |         63 → 55 | `fread (libc.so.6)`                          | `<unknown>` |
-|  -12.9% |  -8.00ms |   0.5% → 0.4% |   62.0ms → 54.0ms |         62 → 54 | `read (libc.so.6)`                           | `<unknown>` |
-| removed |  -6.00ms |  <0.1% → 0.0% |       6.0ms → 0ms |           6 → 0 | `0x7f8fbd88ef3b`                             | `<unknown>` |
-|  -16.0% |  -4.00ms |          0.2% |   25.0ms → 21.0ms |         25 → 21 | `unknown (ld-linux-x86-64.so.2)`             | `<unknown>` |
-|  -33.3% |  -3.00ms |  0.1% → <0.1% |     9.0ms → 6.0ms |           9 → 6 | `malloc (libc.so.6)`                         | `<unknown>` |
-|  -75.0% |  -3.00ms |         <0.1% |     4.0ms → 1.0ms |           4 → 1 | `pthread_cond_wait (libc.so.6)`              | `<unknown>` |
-| removed |  -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |           2 → 0 | `0x7f8fbd8bba91`                             | `<unknown>` |
-|  -12.5% |  -2.00ms |          0.1% |   16.0ms → 14.0ms |         16 → 14 | `_dl_catch_exception (ld-linux-x86-64.so.2)` | `<unknown>` |
-| removed |  -2.00ms |  <0.1% → 0.0% |       2.0ms → 0ms |           2 → 0 | `_init (zstd)`                               | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `0x7f8fbd8b6724`                             | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `__libc_sigaction (libc.so.6)`               | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `__sysv_signal (libc.so.6)`                  | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `_IO_enable_locks (libc.so.6)`               | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `fopen64 (libc.so.6)`                        | `<unknown>` |
-|  -50.0% |  -1.00ms |         <0.1% |     2.0ms → 1.0ms |           2 → 1 | `_IO_file_doallocate (libc.so.6)`            | `<unknown>` |
-| removed |  -1.00ms |  <0.1% → 0.0% |       1.0ms → 0ms |           1 → 0 | `setvbuf (libc.so.6)`                        | `<unknown>` |
+|  Change |    Delta |            % |             Time |  Samples | Function                                | Location                    |
+| ------: | -------: | -----------: | ---------------: | -------: | --------------------------------------- | --------------------------- |
+|  -12.0% | -13.00ms |  0.9% → 0.8% | 108.0ms → 95.0ms | 108 → 95 | `ZSTD_litLengthPrice`                   | `zstd_opt.c`                |
+|  -60.0% |  -9.00ms | 0.1% → <0.1% |   15.0ms → 6.0ms |   15 → 6 | `ZSTD_encodeSequences`                  | `zstd_compress_sequences.c` |
+|  -39.1% |  -9.00ms |  0.2% → 0.1% |  23.0ms → 14.0ms |  23 → 14 | `ZSTD_entropyCompressSeqStore_internal` | `zstd_compress.c`           |
+|  -39.1% |  -9.00ms |  0.2% → 0.1% |  23.0ms → 14.0ms |  23 → 14 | `ZSTD_compressSeqStore_singleBlock`     | `zstd_compress.c`           |
+|  -24.0% |  -6.00ms |         0.2% |  25.0ms → 19.0ms |  25 → 19 | `ZSTD_insertAndFindFirstIndexHash3`     | `zstd_opt.c`                |
+|  -62.5% |  -5.00ms | 0.1% → <0.1% |    8.0ms → 3.0ms |    8 → 3 | `ZSTD_XXH64_update`                     | `xxhash.h`                  |
+|  -18.2% |  -4.00ms |  0.2% → 0.1% |  22.0ms → 18.0ms |  22 → 18 | `ZSTD_updateStats`                      | `zstd_opt.c`                |
+|  -42.9% |  -3.00ms | 0.1% → <0.1% |    7.0ms → 4.0ms |    7 → 4 | `ZSTD_seqToCodes`                       | `zstd_compress.c`           |
+|  -50.0% |  -2.00ms |        <0.1% |    4.0ms → 2.0ms |    4 → 2 | `ZSTD_deriveSeqStoreChunk`              | `zstd_compress.c`           |
+|  -10.5% |  -2.00ms |  0.2% → 0.1% |  19.0ms → 17.0ms |  19 → 17 | `ZSTD_buildBlockEntropyStats`           | `zstd_compress.c`           |
+|   -5.0% |  -1.00ms |         0.2% |  20.0ms → 19.0ms |  20 → 19 | `ZSTD_compressBlock_btultra2`           | `zstd_opt.c`                |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `HUF_estimateCompressedSize`            | `huf_compress.c`            |
+|   -7.7% |  -1.00ms |         0.1% |  13.0ms → 12.0ms |  13 → 12 | `ZSTD_buildSequencesStatistics`         | `zstd_compress.c`           |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_optimalTableLog`                   | `huf_compress.c`            |
+|  -20.0% |  -1.00ms |        <0.1% |    5.0ms → 4.0ms |    5 → 4 | `HUF_buildCTable_wksp`                  | `huf_compress.c`            |
+| removed |  -1.00ms | <0.1% → 0.0% |      1.0ms → 0ms |    1 → 0 | `FSE_optimalTableLog`                   | `fse_compress.c`            |
+|  -10.0% |  -1.00ms |         0.1% |   10.0ms → 9.0ms |   10 → 9 | `ZSTD_compressStream2`                  | `zstd_compress.c`           |
+|   -9.1% |  -1.00ms |         0.1% |  11.0ms → 10.0ms |  11 → 10 | `FIO_compressFilename_srcFile`          | `fileio.c`                  |
+|   -9.1% |  -1.00ms |         0.1% |  11.0ms → 10.0ms |  11 → 10 | `FIO_compressFilename`                  | `fileio.c`                  |
+|   -9.1% |  -1.00ms |         0.1% |  11.0ms → 10.0ms |  11 → 10 | `main`                                  | `zstdcli.c`                 |
 
 # Uninterruptible sleep profile diff
 
-Slept 69 times → 71 times (+2 times, +2.9%).
+Slept 5 times → 3 times (-2 times, -40.0%).
 
-| Category | Change | Delta |      % |  Sleeps |
-| -------- | -----: | ----: | -----: | ------: |
-| Kernel   |  +2.9% |    +2 | 100.0% | 69 → 71 |
+| Category | Change | Delta |      % | Sleeps |
+| -------- | -----: | ----: | -----: | -----: |
+| Kernel   | -40.0% |    -2 | 100.0% |  5 → 3 |
 
 ## Hottest functions
 
 ### Self sleeps
 
-#### Regressions
+#### Improvements
 
-Functions with the largest increase in uninterruptible sleeps entered directly in the function body, excluding callees.
+Functions with the largest decrease in uninterruptible sleeps entered directly in the function body, excluding callees.
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Function                    | Location    |
-| -----: | ----: | -----: | ------: | --------------------------- | ----------- |
-|  +2.9% |    +2 | 100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| Change | Delta |      % | Sleeps | Function                    | Location    |
+| -----: | ----: | -----: | -----: | --------------------------- | ----------- |
+| -40.0% |    -2 | 100.0% |  5 → 3 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ### Total sleeps
-
-#### Regressions
-
-Functions with the largest increase in total uninterruptible sleeps entered in the function and all its callees.
-
-|  Change | Delta |             % |  Sleeps | Function                                    | Location            |
-| ------: | ----: | ------------: | ------: | ------------------------------------------- | ------------------- |
-|     new |   +14 |  0.0% → 19.7% |  0 → 14 | `0x7fe83ce32f3b`                            | `<unknown>`         |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>`         |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `schedule ([kernel])`                       | `<unknown>`         |
-|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `POOL_create_advanced`                      | `pool.c`            |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTDMT_createCCtx_advanced`                | `zstdmt_compress.c` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTD_CCtx_init_compressStream2`            | `zstd_compress.c`   |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `FIO_compressFilename`                      | `fileio.c`          |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `main`                                      | `zstdcli.c`         |
-|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `unknown (libc.so.6)`                       | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `__libc_start_main (libc.so.6)`             | `<unknown>`         |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `_start (zstd)`                             | `<unknown>`         |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>`         |
-
-##### Kernel
-
-|  Change | Delta |             % |  Sleeps | Function                                    | Location    |
-| ------: | ----: | ------------: | ------: | ------------------------------------------- | ----------- |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `__schedule ([kernel])`                     | `<unknown>` |
-|   +2.9% |    +2 |        100.0% | 69 → 71 | `schedule ([kernel])`                       | `<unknown>` |
-|  +50.0% |    +2 |   5.8% → 8.5% |   4 → 6 | `schedule_preempt_disabled ([kernel])`      | `<unknown>` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `rwsem_down_write_slowpath ([kernel])`      | `<unknown>` |
-| +200.0% |    +2 |   1.4% → 4.2% |   1 → 3 | `down_write_killable ([kernel])`            | `<unknown>` |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-|   +1.6% |    +1 | 88.4% → 87.3% | 61 → 62 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read_once ([kernel])`            | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `p9_client_read ([kernel])`                 | `<unknown>` |
-|   +6.7% |    +1 | 21.7% → 22.5% | 15 → 16 | `v9fs_issue_read ([kernel])`                | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_virtio_zc_request ([kernel])`           | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `p9_client_zc_rpc.constprop.0 ([kernel])`   | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `netfs_read_to_pagecache ([kernel])`        | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `netfs_read_folio ([kernel])`               | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `filemap_read_folio ([kernel])`             | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `filemap_fault ([kernel])`                  | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `__do_fault ([kernel])`                     | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `do_fault ([kernel])`                       | `<unknown>` |
-|  +12.5% |    +1 | 11.6% → 12.7% |   8 → 9 | `__handle_mm_fault ([kernel])`              | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in total uninterruptible sleeps entered in the function and all its callees.
 
-|  Change | Delta |             % |  Sleeps | Function                               | Location    |
-| ------: | ----: | ------------: | ------: | -------------------------------------- | ----------- |
-| removed |   -15 |  21.7% → 0.0% |  15 → 0 | `0x7f8fbd88ef3b`                       | `<unknown>` |
-|   -1.8% |    -1 | 82.6% → 78.9% | 57 → 56 | `p9_client_rpc ([kernel])`             | `<unknown>` |
-|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `p9_client_walk ([kernel])`            | `<unknown>` |
-|   -5.3% |    -1 | 27.5% → 25.4% | 19 → 18 | `v9fs_vfs_lookup ([kernel])`           | `<unknown>` |
-|   -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `path_openat ([kernel])`               | `<unknown>` |
-|   -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `do_filp_open ([kernel])`              | `<unknown>` |
-|   -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `do_open_execat ([kernel])`            | `<unknown>` |
-|   -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `open_exec ([kernel])`                 | `<unknown>` |
-|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `load_elf_binary ([kernel])`           | `<unknown>` |
-|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `bprm_execve ([kernel])`               | `<unknown>` |
-|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `do_execveat_common ([kernel])`        | `<unknown>` |
-|   -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `__x64_sys_execve ([kernel])`          | `<unknown>` |
-|  -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `v9fs_vfs_atomic_open_dotl ([kernel])` | `<unknown>` |
-|  -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `lookup_open.isra.0 ([kernel])`        | `<unknown>` |
+|  Change | Delta |            % | Sleeps | Function                                | Location            |
+| ------: | ----: | -----------: | -----: | --------------------------------------- | ------------------- |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `bpf_trace_run4 ([kernel])`             | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `__schedule ([kernel])`                 | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `schedule ([kernel])`                   | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `schedule_preempt_disabled ([kernel])`  | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `rwsem_down_write_slowpath ([kernel])`  | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `down_write_killable ([kernel])`        | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `do_mprotect_pkey ([kernel])`           | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `__arm64_sys_mprotect ([kernel])`       | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `do_el0_svc ([kernel])`                 | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0_svc ([kernel])`                    | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0t_64_sync_handler ([kernel])`       | `<unknown>`         |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0t_64_sync ([kernel])`               | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `__mprotect (libc.so.6)`                | `<unknown>`         |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `POOL_create_advanced`                  | `pool.c`            |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `ZSTDMT_createCCtx_advanced`            | `zstdmt_compress.c` |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `ZSTD_CCtx_init_compressStream2`        | `zstd_compress.c`   |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `ZSTD_compressStream2`                  | `zstd_compress.c`   |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `FIO_compressFilename_srcFile`          | `fileio.c`          |
 
 ##### Kernel
 
-| Change | Delta |             % |  Sleeps | Function                               | Location    |
-| -----: | ----: | ------------: | ------: | -------------------------------------- | ----------- |
-|  -1.8% |    -1 | 82.6% → 78.9% | 57 → 56 | `p9_client_rpc ([kernel])`             | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `p9_client_walk ([kernel])`            | `<unknown>` |
-|  -5.3% |    -1 | 27.5% → 25.4% | 19 → 18 | `v9fs_vfs_lookup ([kernel])`           | `<unknown>` |
-|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `path_openat ([kernel])`               | `<unknown>` |
-|  -2.3% |    -1 | 62.3% → 59.2% | 43 → 42 | `do_filp_open ([kernel])`              | `<unknown>` |
-|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `do_open_execat ([kernel])`            | `<unknown>` |
-|  -7.7% |    -1 | 18.8% → 16.9% | 13 → 12 | `open_exec ([kernel])`                 | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `load_elf_binary ([kernel])`           | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `bprm_execve ([kernel])`               | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `do_execveat_common ([kernel])`        | `<unknown>` |
-|  -6.7% |    -1 | 21.7% → 19.7% | 15 → 14 | `__x64_sys_execve ([kernel])`          | `<unknown>` |
-| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `v9fs_vfs_atomic_open_dotl ([kernel])` | `<unknown>` |
-| -12.5% |    -1 |  11.6% → 9.9% |   8 → 7 | `lookup_open.isra.0 ([kernel])`        | `<unknown>` |
+|  Change | Delta |            % | Sleeps | Function                                | Location    |
+| ------: | ----: | -----------: | -----: | --------------------------------------- | ----------- |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `__schedule ([kernel])`                 | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `schedule ([kernel])`                   | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `schedule_preempt_disabled ([kernel])`  | `<unknown>` |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `rwsem_down_write_slowpath ([kernel])`  | `<unknown>` |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `down_write_killable ([kernel])`        | `<unknown>` |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `do_mprotect_pkey ([kernel])`           | `<unknown>` |
+| removed |    -2 | 40.0% → 0.0% |  2 → 0 | `__arm64_sys_mprotect ([kernel])`       | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0_svc ([kernel])`                    | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+|  -40.0% |    -2 |       100.0% |  5 → 3 | `el0t_64_sync ([kernel])`               | `<unknown>` |
 
 # Interruptible sleep profile diff
 
-Slept 84 times → 87 times (+3 times, +3.6%).
+Slept 219 times → 215 times (-4 times, -1.8%).
 
-| Category | Change | Delta |      % |  Sleeps |
-| -------- | -----: | ----: | -----: | ------: |
-| Kernel   |  +3.6% |    +3 | 100.0% | 84 → 87 |
+| Category | Change | Delta |      % |    Sleeps |
+| -------- | -----: | ----: | -----: | --------: |
+| Kernel   |  -1.8% |    -4 | 100.0% | 219 → 215 |
 
 ## Hottest functions
 
 ### Self sleeps
 
-#### Regressions
+#### Improvements
 
-Functions with the largest increase in interruptible sleeps entered directly in the function body, excluding callees.
+Functions with the largest decrease in interruptible sleeps entered directly in the function body, excluding callees.
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Function                    | Location    |
-| -----: | ----: | -----: | ------: | --------------------------- | ----------- |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
+| Change | Delta |      % |    Sleeps | Function                    | Location    |
+| -----: | ----: | -----: | --------: | --------------------------- | ----------- |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `bpf_trace_run4 ([kernel])` | `<unknown>` |
 
 ### Total sleeps
 
@@ -506,40 +303,55 @@ Functions with the largest increase in interruptible sleeps entered directly in 
 
 Functions with the largest increase in total interruptible sleeps entered in the function and all its callees.
 
-| Change | Delta |             % |  Sleeps | Function                                    | Location            |
-| -----: | ----: | ------------: | ------: | ------------------------------------------- | ------------------- |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `schedule ([kernel])`                       | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `unknown (libc.so.6)`                       | `<unknown>`         |
-|  +3.6% |    +3 |        100.0% | 84 → 87 | `pthread_cond_wait (libc.so.6)`             | `<unknown>`         |
-|  +2.6% |    +2 | 90.5% → 89.7% | 76 → 78 | `POOL_thread`                               | `pool.c`            |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename_srcFile`              | `fileio.c`          |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `FIO_compressFilename`                      | `fileio.c`          |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `main`                                      | `zstdcli.c`         |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `__libc_start_main (libc.so.6)`             | `<unknown>`         |
-| +12.5% |    +1 |  9.5% → 10.3% |   8 → 9 | `_start (zstd)`                             | `<unknown>`         |
-| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTDMT_compressStream_generic`             | `zstdmt_compress.c` |
-| +16.7% |    +1 |   7.1% → 8.0% |   6 → 7 | `ZSTD_compressStream2`                      | `zstd_compress.c`   |
+| Change | Delta |             % |  Sleeps | Function                        | Location            |
+| -----: | ----: | ------------: | ------: | ------------------------------- | ------------------- |
+|  +4.5% |    +2 | 20.1% → 21.4% | 44 → 46 | `FIO_compressFilename_srcFile`  | `fileio.c`          |
+|  +4.5% |    +2 | 20.1% → 21.4% | 44 → 46 | `FIO_compressFilename`          | `fileio.c`          |
+|  +4.5% |    +2 | 20.1% → 21.4% | 44 → 46 | `main`                          | `zstdcli.c`         |
+|  +4.5% |    +2 | 20.1% → 21.4% | 44 → 46 | `__libc_start_main (libc.so.6)` | `<unknown>`         |
+|  +4.5% |    +2 | 20.1% → 21.4% | 44 → 46 | `_start (zstd)`                 | `<unknown>`         |
+|  +5.1% |    +2 | 17.8% → 19.1% | 39 → 41 | `ZSTDMT_compressStream_generic` | `zstdmt_compress.c` |
+|  +5.1% |    +2 | 17.8% → 19.1% | 39 → 41 | `ZSTD_compressStream2`          | `zstd_compress.c`   |
+
+#### Improvements
+
+Functions with the largest decrease in total interruptible sleeps entered in the function and all its callees.
+
+| Change | Delta |             % |    Sleeps | Function                                | Location    |
+| -----: | ----: | ------------: | --------: | --------------------------------------- | ----------- |
+|  -3.4% |    -6 | 79.9% → 78.6% | 175 → 169 | `POOL_thread`                           | `pool.c`    |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `__schedule ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `schedule ([kernel])`                   | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `futex_do_wait ([kernel])`              | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `__futex_wait ([kernel])`               | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `futex_wait ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `do_futex ([kernel])`                   | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `el0_svc ([kernel])`                    | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `el0t_64_sync ([kernel])`               | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `unknown (libc.so.6)`                   | `<unknown>` |
+|  -1.8% |    -4 |        100.0% | 219 → 215 | `pthread_cond_wait (libc.so.6)`         | `<unknown>` |
 
 ##### Kernel
 
-| Change | Delta |      % |  Sleeps | Function                                    | Location    |
-| -----: | ----: | -----: | ------: | ------------------------------------------- | ----------- |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `bpf_trace_run4 ([kernel])`                 | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `__schedule ([kernel])`                     | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `schedule ([kernel])`                       | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `futex_wait_queue ([kernel])`               | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `__futex_wait ([kernel])`                   | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `futex_wait ([kernel])`                     | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `do_futex ([kernel])`                       | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `__x64_sys_futex ([kernel])`                | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `do_syscall_64 ([kernel])`                  | `<unknown>` |
-|  +3.6% |    +3 | 100.0% | 84 → 87 | `entry_SYSCALL_64_after_hwframe ([kernel])` | `<unknown>` |
+| Change | Delta |      % |    Sleeps | Function                                | Location    |
+| -----: | ----: | -----: | --------: | --------------------------------------- | ----------- |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `bpf_trace_run4 ([kernel])`             | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `__bpf_trace_sched_switch ([kernel])`   | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `__schedule ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `schedule ([kernel])`                   | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `futex_do_wait ([kernel])`              | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `__futex_wait ([kernel])`               | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `futex_wait ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `do_futex ([kernel])`                   | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `__arm64_sys_futex ([kernel])`          | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `invoke_syscall.constprop.0 ([kernel])` | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `do_el0_svc ([kernel])`                 | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `el0_svc ([kernel])`                    | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `el0t_64_sync_handler ([kernel])`       | `<unknown>` |
+|  -1.8% |    -4 | 100.0% | 219 → 215 | `el0t_64_sync ([kernel])`               | `<unknown>` |
