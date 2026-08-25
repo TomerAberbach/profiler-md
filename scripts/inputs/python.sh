@@ -233,6 +233,91 @@ run_pyinstrument_for_role() {
   pyinstrument_rundir[$role]=$dir
 }
 
+# Tachyon is the sampling profiler CPython 3.15 ships in its standard library.
+# It reads the profiled interpreter's memory from outside the process. On macOS
+# that requires root (task_for_pid), so the captures run in the official Python
+# 3.15 image instead of under sudo on the host. They add SYS_PTRACE because the
+# default seccomp profile permits process_vm_readv only with it. Black publishes
+# no compiled wheel for 3.15 yet, so its frames are the pure-Python ones.
+TACHYON_PYTHON_IMAGE="python:3.15.0rc1-trixie"
+HYPOTHESIS_VERSION="6.165.10"
+PYTEST_VERSION="9.1.1"
+
+# The sampling modes to capture Black under, and the sampling options that
+# change which frames a stack contains, each in the default wall mode.
+# `--all-threads` roots stacks at every thread's `tid:` frame instead of the
+# main thread's alone, and `--native` inserts a bare `<native>` frame where the
+# interpreter was running non-Python code.
+TACHYON_BLACK_CONFIGS=(
+  "wall --mode wall"
+  "cpu --mode cpu"
+  "gil --mode gil"
+  "all-threads --all-threads"
+  "native --native"
+)
+
+declare -A tachyon_rundir=()
+run_tachyon_for_role() {
+  local role=$1
+  [[ -n "${tachyon_rundir[$role]:-}" ]] && return 0
+  local dir="$WORKDIR/python-tachyon-$role"
+  mkdir -p "$dir"
+  fetch_pydecimal || return 1
+  cp "$TARGET" "$dir/_pydecimal.py" || return 1
+
+  notice "Profiling black with tachyon ($role)"
+  DOCKER_IMAGE="$TACHYON_PYTHON_IMAGE" docker_capture "$dir" '
+      python -m venv /venv
+      /venv/bin/pip install --quiet "black==$BLACK_VERSION"
+
+      # Each capture formats a fresh copy of the input so Black always has work.
+      while read -r config flags; do
+        cp /out/_pydecimal.py /tmp/work.py
+        # shellcheck disable=SC2086
+        /venv/bin/python -m profiling.sampling run $flags --collapsed \
+          -o "/out/$config.collapsed" -m black /tmp/work.py
+      done <<<"$TACHYON_CONFIGS"
+    ' --cap-add SYS_PTRACE \
+    -e BLACK_VERSION="$BLACK_VERSION" \
+    -e TACHYON_CONFIGS="$(printf '%s\n' "${TACHYON_BLACK_CONFIGS[@]}")" || return 1
+
+  tachyon_rundir[$role]=$dir
+}
+
+# Exception mode keeps a sample only while the thread has an exception in
+# flight or an `except` block on its base exception stack. A Black run produces
+# none because its handlers `continue` or re-raise at once, and the ones in
+# generators set the generator's own exception stack. The capture profiles
+# Hypothesis's shrink-quality tests instead. Each shrink step re-runs the
+# failing example, and the engine formats its traceback inside the `except`
+# block that caught it.
+declare -A tachyon_exception_rundir=()
+run_tachyon_exception_for_role() {
+  local role=$1
+  [[ -n "${tachyon_exception_rundir[$role]:-}" ]] && return 0
+  local dir="$WORKDIR/python-tachyon-exception-$role"
+  mkdir -p "$dir"
+
+  notice "Profiling the hypothesis shrink-quality tests with tachyon --mode exception ($role)"
+  DOCKER_IMAGE="$TACHYON_PYTHON_IMAGE" docker_capture "$dir" '
+      python -m venv /venv
+      /venv/bin/pip install --quiet "hypothesis==$HYPOTHESIS_VERSION" "pytest==$PYTEST_VERSION"
+
+      git -c advice.detachedHead=false clone --quiet --depth 1 \
+        --branch "v$HYPOTHESIS_VERSION" \
+        https://github.com/HypothesisWorks/hypothesis /src/hypothesis
+      cd /src/hypothesis/hypothesis
+
+      /venv/bin/python -m profiling.sampling run --mode exception --collapsed \
+        -o /out/exception.collapsed \
+        -m pytest -q -p no:cacheprovider tests/quality/test_shrink_quality.py
+    ' --cap-add SYS_PTRACE \
+    -e HYPOTHESIS_VERSION="$HYPOTHESIS_VERSION" \
+    -e PYTEST_VERSION="$PYTEST_VERSION" || return 1
+
+  tachyon_exception_rundir[$role]=$dir
+}
+
 # capture_fn for emit: $1=out  $2=role  $3=in-container filename
 copy_python_profile() {
   local out=$1 role=$2 name=$3
@@ -252,6 +337,20 @@ copy_memray_capture() {
   local out=$1 role=$2 name=$3
   run_memray_for_role "$role" || return 1
   cp "${memray_rundir[$role]}/$name" "$out"
+}
+
+# capture_fn for emit: $1=out  $2=role  $3=in-container filename
+copy_tachyon_profile() {
+  local out=$1 role=$2 name=$3
+  run_tachyon_for_role "$role" || return 1
+  cp "${tachyon_rundir[$role]}/$name" "$out"
+}
+
+# capture_fn for emit: $1=out  $2=role
+copy_tachyon_exception_profile() {
+  local out=$1 role=$2
+  run_tachyon_exception_for_role "$role" || return 1
+  cp "${tachyon_exception_rundir[$role]}/exception.collapsed" "$out"
 }
 
 # capture_fn for emit: $1=out  $2=role  $3=in-container filename
@@ -287,6 +386,12 @@ for role in base current; do
     copy_memray_capture "$role" v13.memray.bin
   try emit "$GENERATED_INPUTS/python.pyinstrument.$role.speedscope.json" \
     copy_pyinstrument_profile "$role" default.speedscope.json
+  for config in "${TACHYON_BLACK_CONFIGS[@]%% *}"; do
+    try emit "$GENERATED_INPUTS/python.tachyon.$config.$role.collapsed" \
+      copy_tachyon_profile "$role" "$config.collapsed"
+  done
+  try emit "$GENERATED_INPUTS/python.tachyon.exception.$role.collapsed" \
+    copy_tachyon_exception_profile "$role"
 done
 
 verify_pairs

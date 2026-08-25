@@ -60,9 +60,26 @@ describe(`normalizeStackFrame`, () => {
     })
   })
 
-  test(`leaves a single-colon thread frame as a plain name`, () => {
-    expect(normalizeStackFrame({ name: `tid:15522692` })).toEqual({
-      name: `tid:15522692`,
+  test(`drops the thread frame every stack is rooted at`, () => {
+    expect(normalizeStackFrame({ name: `tid:15522692` })).toBeNull()
+  })
+
+  test(`renames the bare <GC> leaf to the garbage collector label`, () => {
+    expect(normalizeStackFrame({ name: `<GC>` })).toEqual({
+      name: `(garbage collector)`,
+    })
+  })
+
+  test(`renames the bare <native> frame to the native label`, () => {
+    expect(normalizeStackFrame({ name: `<native>` })).toEqual({
+      name: `(native)`,
+    })
+  })
+
+  test(`drops the -1 line of a frame whose line tachyon could not resolve`, () => {
+    expect(normalizeStackFrame({ name: `__init__:__init__:-1` })).toEqual({
+      name: `__init__`,
+      location: { type: `file`, urlOrPath: `__init__` },
     })
   })
 })
@@ -101,6 +118,16 @@ describe(`categorizeEntry`, () => {
       description: `project files are ours`,
       entry: relativeEntry(`f`, `script.py`),
       expected: `ours`,
+    },
+    {
+      description: `the renamed garbage collector frame is garbage-collector`,
+      entry: relativeEntry(`(garbage collector)`),
+      expected: `garbage-collector`,
+    },
+    {
+      description: `the renamed native frame is native`,
+      entry: relativeEntry(`(native)`),
+      expected: `native`,
     },
   ])(`$description`, ({ entry, expected }) => {
     expect(categorizeEntry(entry)).toBe(expected)

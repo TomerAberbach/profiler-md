@@ -70,9 +70,10 @@ describe(`matches`, () => {
 
 describe(`convert`, () => {
   test(`tachyon "file:func:line" stacks: reversal and locations`, () => {
-    // The `tid:` root frame marks the profile as tachyon, whose
-    // `normalizeStackFrame` splits the `file:func:line` shape, keeping the packed
-    // line as the executing line. The duplicate `work` stack sums to 10.
+    // The `tid:` root frame marks the profile as tachyon. Its `normalizeStackFrame`
+    // drops that frame as a pseudo-frame and splits the `file:func:line` shape,
+    // keeping the packed line as the executing line. The duplicate `work` stack
+    // sums to 10.
     const md = convertBytesToMd(
       collapsedConverter,
       makeCollapsed([
@@ -115,12 +116,6 @@ describe(`convert`, () => {
           Samples: `15`,
           Function: `main`,
           Location: `app.py`,
-        },
-        {
-          '%': `100.0%`,
-          Samples: `15`,
-          Function: `tid:1`,
-          Location: `<unknown>`,
         },
         {
           '%': `66.7%`,

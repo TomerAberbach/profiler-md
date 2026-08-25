@@ -78,6 +78,8 @@ const isOrigin = (token: string): token is Origin =>
 
 const configNames: Record<string, string> = {
   [`all-allocations`]: `all allocations`,
+  [`all-threads`]: `all threads`,
+  gil: `GIL`,
   cpu: `CPU`,
   [`cpu-trimpath`]: `CPU (-trimpath)`,
   goroutineleak: `goroutine leak`,
