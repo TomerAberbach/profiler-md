@@ -210,7 +210,16 @@ class ObservationsAggregator {
   #propagateCallStackMetrics(): void {
     const callStacks = this.#callStackInterner.items
     const metricCount = this.#metrics.length
-    const functionIdToLastSeenEpoch = new Uint32Array(this.#keyToFunction.size)
+    const functionCount = this.#keyToFunction.size
+    const functionIdToLastSeenEpoch = new Uint32Array(functionCount)
+
+    // A function is called from few sites, so across stacks a callee repeats
+    // its previous caller more often than not. The cache then replaces the
+    // frame pair's hash lookup with two indexed reads.
+    const lastCallerIdByCalleeId = new Int32Array(functionCount).fill(-1)
+    const lastMetricsByCalleeId = new Array<
+      AggregatedCallStackProfileCalleeMetrics | undefined
+    >(functionCount)
 
     for (let epoch = 1; epoch <= callStacks.length; epoch++) {
       const { frames, selfCount, selfValues } = callStacks[epoch - 1]!
@@ -239,55 +248,60 @@ class ObservationsAggregator {
       }
 
       // A per-stack epoch deduplicates functions that recur within a single
-      // call stack so their totals count it just once.
-      for (const func of frames) {
-        if (functionIdToLastSeenEpoch[func.id] === epoch) {
-          continue
-        }
-        functionIdToLastSeenEpoch[func.id] = epoch
-
-        func.totalCount += selfCount
-        for (let i = 0; i < metricCount; i++) {
-          func.totalValues[i]! += selfValues[i]!
-        }
-      }
-
-      // A frame pair (caller, callee) can recur within a single call stack
-      // (recursion), so a per-pair epoch deduplicates it to count the stack
-      // just once, the same way the function epoch above deduplicates
-      // functions.
-      const maxFramePairCount = frames.length - 1
-      for (let i = 0; i < maxFramePairCount; i++) {
+      // call stack so their totals count it once. A per-pair epoch
+      // deduplicates a frame pair that recurs (recursion) the same way.
+      const lastIndex = frames.length - 1
+      for (let i = 0; i <= lastIndex; i++) {
         const callee = frames[i]!
+
+        if (functionIdToLastSeenEpoch[callee.id] !== epoch) {
+          functionIdToLastSeenEpoch[callee.id] = epoch
+          callee.totalCount += selfCount
+          for (let j = 0; j < metricCount; j++) {
+            callee.totalValues[j]! += selfValues[j]!
+          }
+        }
+
+        if (i === lastIndex) {
+          break
+        }
         const caller = frames[i + 1]!
 
-        let calleeMetrics = caller.calleeIdToMetrics.get(callee.id)
-        if (!calleeMetrics) {
-          calleeMetrics = {
-            callee,
-            totalCount: 0,
-            totalValues: new Float64Array(metricCount),
-            lastSeenEpoch: epoch,
-          }
-          caller.calleeIdToMetrics.set(callee.id, calleeMetrics)
+        let calleeMetrics: AggregatedCallStackProfileCalleeMetrics
+        if (lastCallerIdByCalleeId[callee.id] === caller.id) {
+          calleeMetrics = lastMetricsByCalleeId[callee.id]!
+        } else {
+          let metrics = caller.calleeIdToMetrics.get(callee.id)
+          if (!metrics) {
+            metrics = {
+              callee,
+              totalCount: 0,
+              totalValues: new Float64Array(metricCount),
+              lastSeenEpoch: 0,
+            }
+            caller.calleeIdToMetrics.set(callee.id, metrics)
 
-          // Mirror the new frame pair on the callee, so its set of direct
-          // callers is complete even when it never appears as a leaf (its self
-          // metrics stay zero). The default entry filter reads that set to
-          // decide whether `ours` code calls the function directly.
-          if (!callee.callerIdToMetrics.has(caller.id)) {
-            callee.callerIdToMetrics.set(caller.id, {
-              caller,
-              selfCount: 0,
-              selfValues: new Float64Array(metricCount),
-            })
+            // Mirror the new frame pair on the callee, so its set of direct
+            // callers is complete even when it never appears as a leaf. Its
+            // self metrics then stay zero.
+            if (!callee.callerIdToMetrics.has(caller.id)) {
+              callee.callerIdToMetrics.set(caller.id, {
+                caller,
+                selfCount: 0,
+                selfValues: new Float64Array(metricCount),
+              })
+            }
           }
-        } else if (calleeMetrics.lastSeenEpoch === epoch) {
+          lastCallerIdByCalleeId[callee.id] = caller.id
+          lastMetricsByCalleeId[callee.id] = metrics
+          calleeMetrics = metrics
+        }
+
+        if (calleeMetrics.lastSeenEpoch === epoch) {
           // This is a recursive call. Don't count this callee twice.
           continue
-        } else {
-          calleeMetrics.lastSeenEpoch = epoch
         }
+        calleeMetrics.lastSeenEpoch = epoch
 
         calleeMetrics.totalCount += selfCount
         for (let j = 0; j < metricCount; j++) {
