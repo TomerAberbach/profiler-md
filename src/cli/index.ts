@@ -1,12 +1,12 @@
 import { diffProfilesAsync, profileToMdAsync } from '../index.ts'
 import type { ProfileInput } from '../index.ts'
-import { parseArgs } from './cli.ts'
 import { reportError } from './error.ts'
 import { printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
 import { openInputAsBlob } from './input.ts'
 import { buildOptions } from './options.ts'
 import { checkOutputPath, writeOutput } from './output.ts'
+import { parseArgs } from './parse-args.ts'
 
 try {
   const {

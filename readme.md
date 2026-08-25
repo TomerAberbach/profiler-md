@@ -148,6 +148,8 @@ $ profiler-md --completion pwsh >> $PROFILE.CurrentUserCurrentHost
 
 ### CLI
 
+<!-- CLI_EXAMPLES START -->
+
 ```sh
 # Convert a profile, paged and syntax highlighted
 $ profiler-md profile.cpuprofile
@@ -160,7 +162,12 @@ $ profiler-md profile.pb.gz -o profile.md
 
 # Read a profile from stdin
 $ node --cpu-prof app.js && cat *.cpuprofile | profiler-md
+
+# Show how to profile a language
+$ profiler-md --help python
 ```
+
+<!-- CLI_EXAMPLES END -->
 
 <details>
 <summary>All flags</summary>
@@ -171,36 +178,55 @@ $ node --cpu-prof app.js && cat *.cpuprofile | profiler-md
 
 ```sh
 $ profiler-md --help
-Usage: profiler-md [(-h/--help [TOPIC])] [-f/--format FORMAT] [-r/--origin
-       ORIGIN] [-o/--output FILE] [--top-n N] [--min-category-share FRACTION] [
-       --base-url STRING] [--source-maps GLOB...] [--match-name
-       REGEX=REPLACEMENT...] [--match-location REGEX=REPLACEMENT...] [--category
-       REGEX=CATEGORY...] [--hide REGEX...] [--show REGEX...] [--hide-category
-       CATEGORY...] [--show-category CATEGORY...] [--no-pager] [--color/
-       --no-color] ([FILE] | BASE CURRENT)
-
 Converts performance profiles to human and LLM friendly Markdown.
 
-  -h, --help [TOPIC]                  Show this help message or topic docs
+Usage: profiler-md [OPTIONS] [FILE]
+       profiler-md [OPTIONS] BASE CURRENT
+       profiler-md --help [TOPIC]
+
+Examples:
+  # Convert a profile, paged and syntax highlighted
+  $ profiler-md profile.cpuprofile
+
+  # Diff two profiles or two heap snapshots
+  $ profiler-md base.cpuprofile current.cpuprofile
+
+  # Write the Markdown to a file
+  $ profiler-md profile.pb.gz -o profile.md
+
+  # Read a profile from stdin
+  $ node --cpu-prof app.js && cat *.cpuprofile | profiler-md
+
+  # Show how to profile a language
+  $ profiler-md --help python
+
+  FILE                                Profile to convert (default: stdin)
+  BASE                                Base profile to diff
+  CURRENT                             Current profile to diff against the base
+
+Output:
+  -o, --output FILE                   Output file (default: - for stdout)
+  --no-pager                          Disable stdout paging (default: auto)
+  --color, --no-color                 Enable or disable ANSI syntax 
+                                      highlighting (default: auto)
+
+Input:
   -f, --format FORMAT                 Input profile format (default: auto)
   -r, --origin ORIGIN                 Input profile origin (default: auto)
-  -o, --output FILE                   Output file (default: - for stdout)
+  --source-maps GLOB                  Source maps (JSON or inline) to apply to 
+                                      locations (repeatable)
+  --base-url STRING                   Base URL or path to show paths relative 
+                                      to, or auto for their common ancestor 
+                                      (default: cwd)
+
+Ranking:
   --top-n N                           Entries to show per ranking, including 
                                       category subsections (default: 20)
   --min-category-share FRACTION       Share of a profile a category needs for 
                                       its own subsection, from 0 to 1 (default: 
                                       0.01)
-  --base-url STRING                   Base URL or path to show paths relative 
-                                      to, or "auto" for their common ancestor 
-                                      (default: cwd)
-  --source-maps GLOB                  Source maps (JSON or inline) to apply to 
-                                      locations (repeatable)
-  --match-name REGEX=REPLACEMENT      Rewrite names matching REGEX to 
-                                      REPLACEMENT when pairing diffed entries 
-                                      (repeatable)
-  --match-location REGEX=REPLACEMENT  Rewrite locations (URL, path, or logical 
-                                      name) matching REGEX to REPLACEMENT when 
-                                      pairing diffed entries (repeatable)
+
+Filtering:
   --category REGEX=CATEGORY           Categorize functions whose name or 
                                       location matches REGEX as CATEGORY, first 
                                       rule winning (repeatable)
@@ -215,18 +241,47 @@ Converts performance profiles to human and LLM friendly Markdown.
   --show-category CATEGORY            Show only entries of CATEGORY, still 
                                       counting hidden entries in totals 
                                       (repeatable)
-  --no-pager                          Disable stdout paging (default: auto)
-  --color, --no-color                 Enable or disable ANSI syntax 
-                                      highlighting (default: auto)
-  FILE                                Profile to convert (default: stdin)
-  BASE                                Base profile to diff
-  CURRENT                             Current profile to diff against the base
 
-Formats: callgrind, collapsed, ghc-eventlog, ghc-json-profile, hprof, jfr, jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile, v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
-Origins: async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go, gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs, profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon, unknown, valgrind
-Function categories: ours, third-party, stdlib, native, unknown, garbage-collector, compiler, jit, regexp, kernel, idle
-Heap snapshot categories: object, array, string, concatenated-string, sliced-string, function, code, regexp, number, big-number, symbol, native, object-shape, internal, synthetic, unknown
-Languages: c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy, javascript/typescript, julia, php, python, ruby, rust, swift, zig
+Diffing:
+  --match-name REGEX=REPLACEMENT      Rewrite names matching REGEX to 
+                                      REPLACEMENT when pairing diffed entries 
+                                      (repeatable)
+  --match-location REGEX=REPLACEMENT  Rewrite locations (URL, path, or logical 
+                                      name) matching REGEX to REPLACEMENT when 
+                                      pairing diffed entries (repeatable)
+
+Help:
+  -h, --help [TOPIC]                  Show this help message or topic docs
+  --version                           Show the version
+  --completion SHELL                  Print a completion script for SHELL 
+                                      (bash, fish, nu, pwsh, or zsh)
+
+Formats:
+  callgrind, collapsed, ghc-eventlog, ghc-json-profile, hprof, jfr,
+  jsc-heap-snapshot, memray, perf, pprof, speedscope, systing, v8-cpu-profile,
+  v8-heap-profile, v8-heap-snapshot, webkit-timeline-recording
+
+Origins:
+  async-profiler, bun, chrome, deno, dotnet-trace, eflambe, excimer, ghc, go,
+  gperftools, jdk, memray, node, node-pprof, perf, pprof-jl, pprof-rs,
+  profile-jl, py-spy, pyinstrument, rbspy, safari, simpleperf, systing, tachyon,
+  unknown, valgrind
+
+Function categories:
+  ours, third-party, stdlib, native, unknown, garbage-collector, compiler, jit,
+  regexp, kernel, idle
+
+Heap snapshot categories:
+  object, array, string, concatenated-string, sliced-string, function, code,
+  regexp, number, big-number, symbol, native, object-shape, internal, synthetic,
+  unknown
+
+Languages:
+  c/cpp, csharp/fsharp, elixir/erlang, fortran, go, haskell, java/kotlin/groovy,
+  javascript/typescript, julia, php, python, ruby, rust, swift, zig
+
+Docs: https://github.com/TomerAberbach/profiler-md
+Bugs: https://github.com/TomerAberbach/profiler-md/issues
 ```
 
 <!-- CLI_HELP END -->

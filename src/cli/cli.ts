@@ -1,12 +1,10 @@
-import { formatDocPage, getDocPage, runParser } from '@optique/core'
 import type { InferValue } from '@optique/core'
-import { object, or, tuple } from '@optique/core/constructs'
+import { merge, object, or, tuple } from '@optique/core/constructs'
 import { message, text, value } from '@optique/core/message'
 import type { Message } from '@optique/core/message'
 import { map, multiple, optional, withDefault } from '@optique/core/modifiers'
 import { argument, flag, negatableFlag, option } from '@optique/core/primitives'
 import { defineProgram } from '@optique/core/program'
-import { formatUsageTerm } from '@optique/core/usage'
 import { choice, float, integer, string } from '@optique/core/valueparser'
 import type { ValueParser } from '@optique/core/valueparser'
 import { path } from '@optique/run'
@@ -19,7 +17,6 @@ import { FUNCTION_CATEGORIES } from '../options.ts'
 import type { FunctionCategory } from '../options.ts'
 import { origins } from '../origins/index.ts'
 import { languages } from './languages.ts'
-import { logo } from './logo.ts'
 
 const languageTopics = [...languages.entries()].flatMap(
   ([id, { aliases, extensions }]) => [
@@ -133,15 +130,46 @@ const specified = <Value extends string>(
   value: Value | typeof AUTO | undefined,
 ): Value | undefined => (value === AUTO ? undefined : value)
 
-const parser = object({
-  help: optional(
-    or(
-      option(`-h`, `--help`, choice(helpTopics, { metavar: `[TOPIC]` }), {
-        description: message`Show this help message or topic docs`,
-      }),
-      flag(`-h`, `--help`, { hidden: `help` }),
+export const inputParser = or(
+  optional(
+    argument(path({ metavar: `FILE` }), {
+      description: message`Profile to convert (default: stdin)`,
+    }),
+  ),
+  tuple([
+    argument(path({ metavar: `BASE` }), {
+      description: message`Base profile to diff`,
+    }),
+    argument(path({ metavar: `CURRENT` }), {
+      description: message`Current profile to diff against the base`,
+    }),
+  ]),
+)
+
+const outputFlags = object(`Output`, {
+  output: withDefault(
+    option(`-o`, `--output`, path({ metavar: `FILE` }), {
+      description: message`Output file (default: - for stdout)`,
+    }),
+    `-`,
+  ),
+  pager: map(
+    option(`--no-pager`, {
+      description: message`Disable stdout paging (default: auto)`,
+    }),
+    value => !value,
+  ),
+  color: optional(
+    negatableFlag(
+      { positive: `--color`, negative: `--no-color` },
+      {
+        description: message`Enable or disable ANSI syntax highlighting (default: auto)`,
+      },
     ),
   ),
+})
+
+const inputFlags = object(`Input`, {
   format: map(
     optional(
       option(
@@ -168,12 +196,19 @@ const parser = object({
     ),
     specified,
   ),
-  output: withDefault(
-    option(`-o`, `--output`, path({ metavar: `FILE` }), {
-      description: message`Output file (default: - for stdout)`,
+  sourceMaps: multiple(
+    option(`--source-maps`, string({ metavar: `GLOB` }), {
+      description: message`Source maps (JSON or inline) to apply to locations (repeatable)`,
     }),
-    `-`,
   ),
+  baseURL: optional(
+    option(`--base-url`, string(), {
+      description: message`Base URL or path to show paths relative to, or auto for their common ancestor (default: cwd)`,
+    }),
+  ),
+})
+
+const rankingFlags = object(`Ranking`, {
   topN: optional(
     option(`--top-n`, integer({ metavar: `N`, min: 0 }), {
       description: message`Entries to show per ranking, including category subsections (default: 20)`,
@@ -188,26 +223,9 @@ const parser = object({
       },
     ),
   ),
-  baseURL: optional(
-    option(`--base-url`, string(), {
-      description: message`Base URL or path to show paths relative to, or "auto" for their common ancestor (default: cwd)`,
-    }),
-  ),
-  sourceMaps: multiple(
-    option(`--source-maps`, string({ metavar: `GLOB` }), {
-      description: message`Source maps (JSON or inline) to apply to locations (repeatable)`,
-    }),
-  ),
-  matchName: multiple(
-    option(`--match-name`, regexReplacement(), {
-      description: message`Rewrite names matching REGEX to REPLACEMENT when pairing diffed entries (repeatable)`,
-    }),
-  ),
-  matchLocation: multiple(
-    option(`--match-location`, regexReplacement(), {
-      description: message`Rewrite locations (URL, path, or logical name) matching REGEX to REPLACEMENT when pairing diffed entries (repeatable)`,
-    }),
-  ),
+})
+
+const filteringFlags = object(`Filtering`, {
   category: multiple(
     option(`--category`, regexCategory(), {
       description: message`Categorize functions whose name or location matches REGEX as CATEGORY, first rule winning (repeatable)`,
@@ -241,103 +259,49 @@ const parser = object({
       },
     ),
   ),
-  pager: map(
-    option(`--no-pager`, {
-      description: message`Disable stdout paging (default: auto)`,
+})
+
+const diffingFlags = object(`Diffing`, {
+  matchName: multiple(
+    option(`--match-name`, regexReplacement(), {
+      description: message`Rewrite names matching REGEX to REPLACEMENT when pairing diffed entries (repeatable)`,
     }),
-    value => !value,
   ),
-  color: optional(
-    negatableFlag(
-      { positive: `--color`, negative: `--no-color` },
-      {
-        description: message`Enable or disable ANSI syntax highlighting (default: auto)`,
-      },
-    ),
-  ),
-  input: or(
-    optional(
-      argument(path({ metavar: `FILE` }), {
-        description: message`Profile to convert (default: stdin)`,
-      }),
-    ),
-    tuple([
-      argument(path({ metavar: `BASE` }), {
-        description: message`Base profile to diff`,
-      }),
-      argument(path({ metavar: `CURRENT` }), {
-        description: message`Current profile to diff against the base`,
-      }),
-    ]),
+  matchLocation: multiple(
+    option(`--match-location`, regexReplacement(), {
+      description: message`Rewrite locations (URL, path, or logical name) matching REGEX to REPLACEMENT when pairing diffed entries (repeatable)`,
+    }),
   ),
 })
 
-const program = defineProgram({
+const helpFlags = object(`Help`, {
+  help: optional(
+    or(
+      option(`-h`, `--help`, choice(helpTopics, { metavar: `[TOPIC]` }), {
+        description: message`Show this help message or topic docs`,
+      }),
+      flag(`-h`, `--help`, { hidden: `help` }),
+    ),
+  ),
+})
+
+const parser = merge(
+  object({ input: inputParser }),
+  outputFlags,
+  inputFlags,
+  rankingFlags,
+  filteringFlags,
+  diffingFlags,
+  helpFlags,
+)
+
+export type CLIArgs = InferValue<typeof program.parser>
+
+export const program = defineProgram({
   parser,
   metadata: {
     name: packageJson.name,
     version: packageJson.version,
-    description: message`${text(packageJson.description)}`,
+    brief: message`${text(packageJson.description)}`,
   },
 })
-
-export const getHelpText = (): string => {
-  const docPage = { ...getDocPage(parser)!, ...program.metadata }
-  // A term wider than the description column pushes its first description line
-  // past the column its wrapped lines are indented to
-  const termWidth = Math.max(
-    ...docPage.sections.flatMap(section =>
-      section.entries.map(
-        entry => formatUsageTerm(entry.term, { context: `doc` }).length,
-      ),
-    ),
-  )
-  return `${[
-    formatDocPage(program.metadata.name, docPage, {
-      termWidth,
-      maxWidth: getMaxWidth(),
-    }),
-    `Formats: ${formats.join(`, `)}`,
-    `Origins: ${origins.join(`, `)}`,
-    `Function categories: ${FUNCTION_CATEGORIES.join(`, `)}`,
-    `Heap snapshot categories: ${HEAP_SNAPSHOT_NODE_CATEGORIES.join(`, `)}`,
-    `Languages: ${[...languages.entries()]
-      .map(([id, { aliases }]) =>
-        [id, ...(aliases?.map(alias => alias.id) ?? [])].join(`/`),
-      )
-      .join(`, `)}`,
-  ].join(`\n`)}\n`
-}
-
-export type CLIArgs = InferValue<typeof program.parser>
-
-export const parseArgs = (): CLIArgs =>
-  runParser(parser, program.metadata.name, process.argv.slice(2), {
-    colors: false,
-    maxWidth: getMaxWidth(),
-    version: {
-      value: packageJson.version,
-      option: true,
-      onShow: () => {
-        if (process.stderr.isTTY) {
-          console.error(logo)
-        }
-        return process.exit(0)
-      },
-    },
-    completion: {
-      option: true,
-      onShow: () => process.exit(0),
-    },
-    onError: () => process.exit(2),
-  })
-
-const getMaxWidth = (): number =>
-  Math.max(
-    MIN_WIDTH,
-    // A terminal with no window size reports zero columns
-    process.stdout.columns || Number(process.env.COLUMNS) || 80,
-  )
-
-// Optique throws below the width its narrowest layout requires
-const MIN_WIDTH = 40
