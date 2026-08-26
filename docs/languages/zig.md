@@ -9,6 +9,8 @@ program from the kernel.
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
 
+### gperftools
+
 Link libc dynamically so the profiler can be preloaded, and keep frame pointers
 so its unwinder can walk the stack:
 
@@ -16,7 +18,7 @@ so its unwinder can walk the stack:
 zig build-exe -O ReleaseSafe -fno-omit-frame-pointer -lc program.zig
 ```
 
-### CLI
+#### CLI
 
 ```sh
 # Generate a CPU profile
@@ -35,7 +37,7 @@ pprof --proto ./program cpu.prof > cpu.pprof
 | `CPUPROFILE_REALTIME`  | —       | Use wall-clock time (`ITIMER_REAL`) instead of CPU time (`ITIMER_PROF`) when set |
 | `CPUPROFILESIGNAL`     | —       | Signal number to toggle profiling on/off at runtime                              |
 
-### Programmatic API
+#### Programmatic API
 
 Declare the C entry points and link `-lprofiler`:
 
@@ -53,6 +55,42 @@ ProfilerStop();
 ```sh
 zig build-exe -O ReleaseSafe -fno-omit-frame-pointer -lc -lprofiler program.zig
 ```
+
+### Linux perf
+
+[Linux `perf`](https://perfwiki.github.io/main/) samples any native program
+through the kernel's `perf_event` counters, across user and kernel code, and
+writes `perf.data`. It needs a Linux kernel and a
+`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
+below for kernel stacks).
+
+Build with frame pointers so perf's unwinder can walk the stack:
+
+```sh
+zig build-exe -O ReleaseSafe -fno-omit-frame-pointer program.zig
+```
+
+```sh
+# Sample a command at 999 Hz, recording call chains
+perf record -F 999 -g -o perf.data -- ./program args
+
+# Or sample a running process for 30 seconds
+perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
+```
+
+A `perf.data` file contains addresses rather than function names. See
+`profiler-md --help perf` for how frames are named and how to symbolize them.
+
+## Linux perf CLI flags
+
+| Flag           | Default     | Description                                                          |
+| -------------- | ----------- | -------------------------------------------------------------------- |
+| `-F`           | `4000`      | Samples per second                                                   |
+| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
+| `-g`           | off         | Record call chains                                                   |
+| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
+| `-o`           | `perf.data` | Output path                                                          |
+| `-a`           | off         | Sample every CPU on the system rather than one command               |
 
 ## Memory profiling
 
@@ -86,47 +124,6 @@ pprof --proto ./program heap.prof.0001.heap > heap.pprof
 | `HEAP_PROFILE_TIME_INTERVAL`       | `0`          | Dump a profile every this many seconds (disabled by default)                                  |
 | `HEAPPROFILESIGNAL`                | —            | Signal number to dump a profile on demand                                                     |
 | `HEAP_PROFILE_MMAP`                | `false`      | Also profile `mmap`/`mremap`/`sbrk` calls                                                     |
-
-## Linux perf profiling
-
-Samples the call stack through the kernel's own `perf_event` counters, across
-user and kernel code. Useful for finding CPU hot spots, including the ones in
-the kernel.
-
-[Linux `perf`](https://perfwiki.github.io/main/) samples any native program and
-writes `perf.data` itself. It needs a Linux kernel and a
-`/proc/sys/kernel/perf_event_paranoid` low enough to permit sampling (`1` or
-below for kernel stacks).
-
-Build with frame pointers so perf's unwinder can walk the stack:
-
-```sh
-zig build-exe -O ReleaseSafe -fno-omit-frame-pointer program.zig
-```
-
-### CLI
-
-```sh
-# Sample a command at 999 Hz, recording call chains
-perf record -F 999 -g -o perf.data -- ./program args
-
-# Or sample a running process for 30 seconds
-perf record -F 999 -g -o perf.data --pid <pid> -- sleep 30
-```
-
-#### Flags
-
-| Flag           | Default     | Description                                                          |
-| -------------- | ----------- | -------------------------------------------------------------------- |
-| `-F`           | `4000`      | Samples per second                                                   |
-| `-e`           | `cycles`    | Event to sample (`cpu-clock` where no hardware counter is available) |
-| `-g`           | off         | Record call chains                                                   |
-| `--call-graph` | `fp`        | How to unwind: `fp`, `dwarf` (larger files), or `lbr`                |
-| `-o`           | `perf.data` | Output path                                                          |
-| `-a`           | off         | Sample every CPU on the system rather than one command               |
-
-A `perf.data` file holds addresses rather than function names. See
-`profiler-md --help perf` for how frames are named and how to symbolize them.
 
 ## Tips
 
