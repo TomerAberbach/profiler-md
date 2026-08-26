@@ -8,7 +8,6 @@ import {
 import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   categoryTables,
-  ignoreLogs,
   linesTables,
   profileTitles,
   rankingTables,
@@ -798,7 +797,6 @@ describe(`convert`, () => {
   })
 
   test(`diffs sides holding the same bytes over different allocation counts`, () => {
-    ignoreLogs()
     // A stack's bytes are reported as measured rather than divided across its
     // allocations, which would multiply back to a total off by an ulp and read
     // as a change here.
