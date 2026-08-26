@@ -42,7 +42,9 @@ profiler-md
 │   │   │   ├── matches.ts        # Cheap auto-detection check for the format
 │   │   │   ├── parse.ts          # Parses input into a modality's parsed type
 │   │   │   ├── index.ts          # Exports the format's converter
-│   │   │   └── testing.ts        # Test-only utilities specific to this format (optional)
+│   │   │   ├── testing.ts        # Test-only utilities specific to this format (optional)
+│   │   │   └── <helper>.ts       # Types or structures specific to the format (optional, e.g. hprof/object-ids.ts)
+│   │   ├── <subdirectory>/<shared>.ts # Types shared by a subdirectory's formats (e.g. v8/common.ts, ghc/cost-centre.ts)
 │   │   └── testing.ts            # Test-only utilities for running a converter and reading example inputs
 │   │
 │   ├── origins/                  # Profiler detection and categorization
@@ -50,7 +52,11 @@ profiler-md
 │   │   ├── categorize.ts         # Generic categorization rule helpers
 │   │   ├── jvm.ts                # JVM runtime conventions shared across origins
 │   │   ├── javascript.ts         # JavaScript ecosystem conventions shared across origins
+│   │   ├── jsc.ts                # JavaScriptCore engine conventions shared across origins
 │   │   ├── cpython.ts            # CPython interpreter conventions shared across origins
+│   │   ├── linux.ts              # Linux kernel and system mapping conventions for native profilers
+│   │   ├── swift.ts              # Swift standard library conventions for native profilers
+│   │   ├── zig.ts                # Zig toolchain conventions for native profilers (Zig registers no origin)
 │   │   ├── specs/
 │   │   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jdk)
 │   │   │   └── index.ts          # Exports originSpecs in detection-priority order
@@ -59,6 +65,7 @@ profiler-md
 │   │
 │   ├── modalities/               # Individual modality implementations
 │   │   ├── aggregator.ts         # Uniform per-input aggregator contract all modalities implement
+│   │   ├── category.ts           # Splitting a ranking into per-category subsections
 │   │   ├── diff.ts               # Base/current diffing primitives
 │   │   ├── stack-frame.ts        # Stack frame type, distinct-frame origin detection, and normalization shared across modalities
 │   │   ├── metric.ts             # Recorded metric types, constructors, and equality
@@ -96,6 +103,8 @@ profiler-md
 │   │       └── testing.ts        # Test-only utilities specific to this module
 │   │
 │   ├── options.ts                # API option types and normalization logic
+│   ├── error.ts                  # ProfilerMdError, the class for a failure the caller's input or options caused
+│   ├── logger.ts                 # Logger and LogLevel types, and logger normalization
 │   ├── location.ts               # URL, file path, and line:column location logic
 │   ├── source-map.ts             # Source map resolution logic
 │   ├── testing.ts                # Test-only option resolution, log assertion, and cross-modality Markdown assertion helpers
@@ -103,12 +112,15 @@ profiler-md
 │   │
 │   └── helpers/                  # Truly generic (non-profiling) utility functions
 │       ├── array.ts
+│       ├── bits.ts
 │       ├── bytes.ts
+│       ├── free-indices.ts       # Interval union-find over a range's free indices
 │       ├── graph.ts
 │       ├── heap.ts
 │       ├── format.ts
 │       ├── intern.ts
 │       ├── json.ts
+│       ├── lz4.ts                # LZ4 frame decompression
 │       ├── markdown.ts
 │       ├── testing.ts
 │       └── types.ts
@@ -121,6 +133,9 @@ profiler-md
 ├── skills/
 │   └── profile-optimize/         # Agent skill published with the package
 │
+├── eslint-rules/
+│   └── error-message.js          # ESLint rule enforcing the error and log message wording conventions below
+│
 ├── .claude/
 │   ├── dimensions.md             # Where behavior belongs across format/modality/origin
 │   ├── hooks/lint-format.sh      # Lints and formats each written file
@@ -130,6 +145,7 @@ profiler-md
 │   ├── bench                     # Benchmark the CLI with the given arguments
 │   ├── generate-inputs           # Regenerate examples/input/ by running scripts/inputs/ inside a nix dev shell
 │   ├── inputs/                   # Per-language workload scripts (<lang>.sh + shared _*.sh), assets/ workload inputs, and profiler toolchain nix flake
+│   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
 │   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
 │   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
 │   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
@@ -172,6 +188,9 @@ pnpm update-readme
 pnpm check-examples
 pnpm check-demo
 pnpm check-readme
+
+# Run the CLI from source (Node runs the TypeScript directly)
+node src/cli/index.ts ./examples/input/javascript.node.base.cpuprofile
 
 # Benchmark the CLI with the given args
 pnpm bench ./examples/input/javascript.node.base.cpuprofile
