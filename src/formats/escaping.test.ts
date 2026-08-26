@@ -6,7 +6,7 @@ import {
   selfTimeTables,
   totalTimeTables,
 } from '../modalities/call-stack-profile/testing.ts'
-import { categoryTables, ignoreLogs } from '../testing.ts'
+import { categoryTables } from '../testing.ts'
 
 /**
  * A speedscope profile whose single sampled function has the given untrusted
@@ -62,7 +62,6 @@ const frameName = fc
 test.prop([frameName])(
   `function names round-trip through Markdown exactly`,
   name => {
-    ignoreLogs()
     const md = profileToMd({
       data: makeProfileData(name),
       format: `speedscope`,
@@ -84,14 +83,12 @@ test.each([
   `[link](x)`,
   `<img src=x>`,
 ])(`adversarial function name round-trips exactly: %s`, name => {
-  ignoreLogs()
   const md = profileToMd({ data: makeProfileData(name), format: `speedscope` })
 
   expect(inlineCodeValues(md)).toContain(name)
 })
 
 test(`a newline in a function name normalizes to a space without breaking structure`, () => {
-  ignoreLogs()
   const md = profileToMd({
     data: makeProfileData(`evil\nname`),
     format: `speedscope`,
@@ -113,7 +110,6 @@ test(`a newline in a function name normalizes to a space without breaking struct
 })
 
 test(`a backslash-pipe in a function name normalizes with a space without breaking structure`, () => {
-  ignoreLogs()
   const md = profileToMd({
     data: makeProfileData(`RegExp: a\\|b`),
     format: `speedscope`,
@@ -132,7 +128,6 @@ test(`a backslash-pipe in a function name normalizes with a space without breaki
 })
 
 test(`file paths with Markdown syntax round-trip exactly in locations`, () => {
-  ignoreLogs()
   const md = profileToMd({
     data: makeProfileData(`main`, `path/with_underscores*and*stars.py`),
     format: `speedscope`,

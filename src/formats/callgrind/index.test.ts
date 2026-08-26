@@ -18,7 +18,6 @@ import {
   categorySectionTables,
   categoryTables,
   diffRankingTable,
-  ignoreLogs,
   linesTables,
   profileTitles,
   rankingTable,
@@ -1054,7 +1053,6 @@ describe(`convert`, () => {
   })
 
   test(`diffs base and current call graphs into regressions and improvements`, () => {
-    ignoreLogs()
     const graph = (mainSelf: number, compressSelf: number) => [
       `events: Ir`,
       `fl=(1) /src/main.c`,
@@ -1223,7 +1221,6 @@ describe(`category subsections`, () => {
     // exemption reaches the first test's log check.
     let diffMd: string
     beforeAll(() => {
-      ignoreLogs()
       diffMd = diffProfiles(
         { data: graph(600, 390), format: `callgrind` },
         { data: graph(300, 700), format: `callgrind` },
@@ -1263,7 +1260,6 @@ describe(`category subsections`, () => {
     })
 
     test(`splits a ranking whose functions all fall in one category`, () => {
-      ignoreLogs()
       const singleCategoryMd = diffProfiles(
         {
           data: makeCallgrind([

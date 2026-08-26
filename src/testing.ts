@@ -33,37 +33,29 @@ export const resolveProfileToMdOptions = (
   return { ...rest, baseURL }
 }
 
-const emittedLogs: string[] = []
-let logsIgnored = false
+const emittedLogs: { level: string; line: string }[] = []
 
 /** Records a line the library logged, for {@link expectLogs} to assert. */
 export const recordLog = (level: string, message: string): void => {
-  emittedLogs.push(`${level}: ${message}`)
+  emittedLogs.push({ level, line: `${level}: ${message}` })
 }
 
 /** Asserts the lines logged since the previous call, and consumes them. */
 export const expectLogs = (expected: unknown[]): void => {
-  expect(emittedLogs.splice(0)).toStrictEqual(expected)
+  expect(emittedLogs.splice(0).map(({ line }) => line)).toStrictEqual(expected)
 }
 
 /**
- * Exempts the current test from asserting the lines its conversions log, for
- * a test whose subject is unrelated to them.
+ * Consumes the logged lines a test left unasserted and returns the warn and
+ * error lines among them. An info or debug line states a decision the pipeline
+ * made, which a test asserts only when that decision is its subject, but a warn
+ * or error line reports a condition the test either expects or did not intend.
  */
-export const ignoreLogs = (): void => {
-  logsIgnored = true
-}
-
-/**
- * Consumes the logged lines a test left unasserted, and the test's exemption.
- * Returns the lines unless the test ignored them.
- */
-export const takeUnassertedLogs = (): string[] => {
-  const lines = emittedLogs.splice(0)
-  const ignored = logsIgnored
-  logsIgnored = false
-  return ignored ? [] : lines
-}
+export const takeUnassertedLogs = (): string[] =>
+  emittedLogs
+    .splice(0)
+    .filter(({ level }) => level === `warn` || level === `error`)
+    .map(({ line }) => line)
 
 export const profileTitles = (md: string): string[] =>
   parseMd(md)

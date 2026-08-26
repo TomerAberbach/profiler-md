@@ -300,14 +300,13 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   or an option would change the outcome (e.g. a source map that matched no
   generated file). The test: the caller changes an option or an input after
   reading it
-- Assert every logged line, at every level, with `expectLogs()` in
-  `src/testing.ts`. `src/test-setup.ts` records every line a conversion logs,
-  whatever logger options the test passed, and fails a test that ends with a
-  line `expectLogs()` did not consume. A new log line fails every test whose
-  conversion emits it until they assert it. Call `ignoreLogs()` in a test whose
-  subject is unrelated to what the conversion logs (e.g. a format's diff
-  output), and `expectLogs()` in one whose subject is what the pipeline decided
-  (e.g. the format it detected)
+- Assert logged lines with `expectLogs()` in `src/testing.ts`, which records
+  every line a conversion logs, whatever logger options the test passed.
+  `src/test-setup.ts` fails a test that ends with a `warn` or `error` line
+  `expectLogs()` did not consume, so a new warning fails every test whose
+  conversion emits it until they assert it. Call `expectLogs()` in a test whose
+  subject is what the pipeline decided (e.g. the format it detected). An
+  unasserted `info` or `debug` line fails nothing
 - `info` for one line per decision the pipeline made on the caller's behalf
   (e.g. the detected format). At most a few lines per input
 - `debug` for the reasoning behind an info line, and for detail keyed by a

@@ -35,9 +35,13 @@ const failOnUnassertedLogs = (message: string) => () => {
   }
 }
 
-beforeEach(failOnUnassertedLogs(`a conversion logged lines outside a test`))
+beforeEach(
+  failOnUnassertedLogs(
+    `a conversion logged warn or error lines outside a test`,
+  ),
+)
 afterEach(
   failOnUnassertedLogs(
-    `the test did not pass every line a conversion logged to expectLogs`,
+    `the test did not pass every warn or error line a conversion logged to expectLogs`,
   ),
 )

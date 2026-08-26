@@ -9,7 +9,6 @@ import {
 import { HEAP_SNAPSHOT_NODE_CATEGORIES } from '../modalities/heap-snapshot/type.ts'
 import { FUNCTION_CATEGORIES, normalizeProfileToMdOptions } from '../options.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
-import { ignoreLogs } from '../testing.ts'
 import {
   categorizeHeapSnapshotConstructorForOrigin,
   OriginDetector,
@@ -42,7 +41,6 @@ if (inputFilenames.length > 0) {
     test.each(inputFilenames)(
       `%s resolves to its profiler's origin and categorizes canonically`,
       filename => {
-        ignoreLogs()
         const inputs = aggregateInput(
           readInput(filename),
           normalizeProfileToMdOptions(),
@@ -109,7 +107,6 @@ if (format === undefined) {
       readInput(`javascript.node.base.cpuprofile`)
 
     test(`an explicit origin overrides detection and reaches categorizeFunctions`, () => {
-      ignoreLogs()
       const detectedOrigins: Origin[] = []
       aggregateInput(nodeInput(), recordOriginOptions(detectedOrigins))
       expect(detectedOrigins).toEqual([`node`])
