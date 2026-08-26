@@ -82,6 +82,13 @@ capture_pprof_cpu() {
   node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" >&2
 }
 
+capture_pprof_cpu_lines() {
+  local out=$1 role=$2
+  setup_node || return 1
+  notice "CPU profiling zod type-check using @datadog/pprof with line numbers ($role)"
+  node "$node_proj/datadog-pprof.mjs" "$node_proj" "$out" --line-numbers >&2
+}
+
 capture_pprof_heap() {
   local out=$1 role=$2
   setup_node || return 1
@@ -174,6 +181,8 @@ for role in base current; do
     capture_node_heap_all_allocations "$role"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu.$role.pprof" \
     capture_pprof_cpu "$role"
+  try emit "$GENERATED_INPUTS/javascript.node-pprof.cpu-lines.$role.pprof" \
+    capture_pprof_cpu_lines "$role"
   try emit "$GENERATED_INPUTS/javascript.node-pprof.heap.$role.pprof" \
     capture_pprof_heap "$role"
   try emit "$GENERATED_INPUTS/javascript.deno.$role.cpuprofile" \

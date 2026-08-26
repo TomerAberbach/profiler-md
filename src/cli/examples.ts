@@ -82,6 +82,7 @@ const configNames: Record<string, string> = {
   gil: `GIL`,
   cpu: `CPU`,
   [`cpu-trimpath`]: `CPU (-trimpath)`,
+  [`cpu-lines`]: `CPU (line numbers)`,
   [`cpu-threads-ann-sig`]: `CPU (threads, ann, sig)`,
   goroutineleak: `goroutine leak`,
 }

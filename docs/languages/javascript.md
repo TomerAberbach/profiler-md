@@ -186,6 +186,10 @@ import { encode, time } from '@datadog/pprof'
 
 const profile = await time.profile({ durationMillis: 10_000 })
 await writeFile(`cpu.pb.gz`, await encode(profile))
+
+// Aggregate at the line level instead of the function level
+const byLine = await time.profile({ durationMillis: 10_000, lineNumbers: true })
+await writeFile(`cpu-lines.pb.gz`, await encode(byLine))
 ```
 
 ### Memory profiling
