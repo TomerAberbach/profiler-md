@@ -57,9 +57,16 @@ const format = injectedFormat()
 
 const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope: recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
 const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile: recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
+const V8_CPU_PROFILE_CANDIDATES_LOG = `debug: origin candidates, in priority order: deno, bun, node, chrome`
+const NODE_ORIGIN_LOG = `info: origin: node (detected from the entry post (node:inspector))`
+const CHROME_ORIGIN_LOG = `info: origin: chrome (the fallback: no entry marked another origin)`
 const V8_CPU_PROFILE_DIFF_LOGS = [
   `info: format: v8-cpu-profile (specified)`,
+  V8_CPU_PROFILE_CANDIDATES_LOG,
+  NODE_ORIGIN_LOG,
   `info: format: v8-cpu-profile (specified)`,
+  V8_CPU_PROFILE_CANDIDATES_LOG,
+  `info: origin: deno (detected from the entry __drainNextTickAndMacrotasks (ext:core/01_core.js))`,
 ]
 
 const inputSets = {
@@ -131,7 +138,7 @@ describe(`profileToMd`, () => {
       const md = profileToMd(readInput(filename), { baseURL: null })
 
       expect(md).toMatch(MARKDOWN_REGEX)
-      expectLogs(detectionLogs(filename))
+      expectLogs(detectionLogs(filename, md))
     })
   }
 
@@ -142,7 +149,7 @@ describe(`profileToMd`, () => {
       })
 
       expect(md).toMatch(MARKDOWN_REGEX)
-      expectLogs(detectionLogs(filename))
+      expectLogs(detectionLogs(filename, md))
     })
   }
 
@@ -158,7 +165,7 @@ describe(`profileToMd`, () => {
         const md = profileToMd(iterable, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
-        expectLogs(detectionLogs(filename))
+        expectLogs(detectionLogs(filename, md))
       },
     )
   }
@@ -176,7 +183,11 @@ describe(`profileToMd`, () => {
       expect(forced).toBe(auto)
       expectLogs([
         `info: format: v8-cpu-profile (detected)`,
+        V8_CPU_PROFILE_CANDIDATES_LOG,
+        NODE_ORIGIN_LOG,
         `info: format: v8-cpu-profile (specified)`,
+        V8_CPU_PROFILE_CANDIDATES_LOG,
+        NODE_ORIGIN_LOG,
       ])
     })
 
@@ -572,12 +583,22 @@ describe(`profileToMd`, () => {
         scenario: `before parse returns`,
         data: crashingV8CpuProfile,
         // Detection logs the rejection and moves on, so no format is detected.
-        logs: [V8_CPU_PROFILE_REJECTION_LOG],
+        detectedLogs: [V8_CPU_PROFILE_REJECTION_LOG],
+        specifiedLogs: [`info: format: v8-cpu-profile (specified)`],
       },
       {
         scenario: `while aggregation consumes the parse's lazy iterable`,
         data: lazilyCrashingV8CpuProfile,
-        logs: [`info: format: v8-cpu-profile (detected)`],
+        detectedLogs: [
+          `info: format: v8-cpu-profile (detected)`,
+          V8_CPU_PROFILE_CANDIDATES_LOG,
+          CHROME_ORIGIN_LOG,
+        ],
+        specifiedLogs: [
+          `info: format: v8-cpu-profile (specified)`,
+          V8_CPU_PROFILE_CANDIDATES_LOG,
+          CHROME_ORIGIN_LOG,
+        ],
       },
     ]
 
@@ -622,21 +643,21 @@ describe(`profileToMd`, () => {
 
     test.each(unclassifiedInputs)(
       `detection reports an error a parser did not classify the same way a specified format does, thrown $scenario`,
-      ({ data, logs }) => {
+      ({ data, detectedLogs, specifiedLogs }) => {
         let detected
         try {
           profileToMd(data)
         } catch (error: unknown) {
           detected = error
         }
-        expectLogs(logs)
+        expectLogs(detectedLogs)
         let specified
         try {
           profileToMd({ data, format: `v8-cpu-profile` })
         } catch (error: unknown) {
           specified = error
         }
-        expectLogs([`info: format: v8-cpu-profile (specified)`])
+        expectLogs(specifiedLogs)
 
         expect((detected as Error).message).toBe((specified as Error).message)
         expect(mayBeParserBug(detected)).toBe(true)
@@ -791,7 +812,7 @@ describe(`profileToMdAsync`, () => {
         const md = await profileToMdAsync(blob, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
-        expectLogs(detectionLogs(filename))
+        expectLogs(detectionLogs(filename, md))
       })
 
       test(`from ReadableStream`, async () => {
@@ -805,7 +826,7 @@ describe(`profileToMdAsync`, () => {
         const md = await profileToMdAsync(stream, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
-        expectLogs(detectionLogs(filename))
+        expectLogs(detectionLogs(filename, md))
       })
     })
   }
@@ -821,7 +842,11 @@ describe(`profileToMdAsync`, () => {
       )
 
       expect(md).toMatch(/^# /u)
-      expectLogs([`info: format: v8-cpu-profile (specified)`])
+      expectLogs([
+        `info: format: v8-cpu-profile (specified)`,
+        V8_CPU_PROFILE_CANDIDATES_LOG,
+        NODE_ORIGIN_LOG,
+      ])
     })
 
     test(`forced binary format streams a ReadableStream through parseAsync`, async () => {
@@ -845,10 +870,12 @@ describe(`profileToMdAsync`, () => {
       expect(md).toBe(
         profileToMd({ data: content, format: `collapsed` }, { baseURL: null }),
       )
-      expectLogs([
+      const logs = [
         `info: format: collapsed (specified)`,
-        `info: format: collapsed (specified)`,
-      ])
+        `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
+        `info: origin: py-spy (detected from the entry _run_module_as_main (<frozen runpy>:198))`,
+      ]
+      expectLogs([...logs, ...logs])
     })
 
     test(`throws on unknown data`, async () => {
@@ -1016,6 +1043,10 @@ describe(`origin detection`, () => {
 
     const md = convertJsonToMd(converter, {}, options, `collapsed`)
 
+    expectLogs([
+      `debug: origin candidates, in priority order: py-spy, tachyon, async-profiler, eflambe, rbspy, excimer`,
+      `info: origin: async-profiler (detected from the entry java/util/HashMap.put)`,
+    ])
     expect(selfSamplesTables(md)).toEqual([
       [
         {
@@ -1038,19 +1069,49 @@ describe(`origin detection`, () => {
 })
 
 describe(`logging`, () => {
-  test(`logs the detected format`, () => {
+  test(`logs the detected format and the fallback origin`, () => {
     profileToMd(baseCpuProfile, { baseURL: null })
 
-    expectLogs([`info: format: v8-cpu-profile (detected)`])
+    expectLogs([
+      `info: format: v8-cpu-profile (detected)`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      CHROME_ORIGIN_LOG,
+    ])
   })
 
-  test(`logs the specified format`, () => {
+  test(`logs the specified format and origin`, () => {
     profileToMd(
       { data: baseCpuProfile, format: `v8-cpu-profile`, origin: `deno` },
       { baseURL: null },
     )
 
-    expectLogs([`info: format: v8-cpu-profile (specified)`])
+    expectLogs([
+      `info: format: v8-cpu-profile (specified)`,
+      `info: origin: deno (specified)`,
+    ])
+  })
+
+  test(`logs the entry an origin was detected from`, () => {
+    const cpuProfile = JSON.stringify({
+      nodes: [
+        makeV8CpuProfileRoot([2]),
+        {
+          id: 2,
+          hitCount: 1,
+          callFrame: makeV8CallFrame(`post`, `node:inspector`),
+        },
+      ],
+      samples: [2],
+      timeDeltas: [20],
+    })
+
+    profileToMd(cpuProfile, { baseURL: null })
+
+    expectLogs([
+      `info: format: v8-cpu-profile (detected)`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      NODE_ORIGIN_LOG,
+    ])
   })
 
   test(`logs each format that recognized the input but rejected it`, () => {
@@ -1069,7 +1130,11 @@ describe(`logging`, () => {
     })
 
     expect(received).toStrictEqual([])
-    expectLogs([`info: format: v8-cpu-profile (detected)`])
+    expectLogs([
+      `info: format: v8-cpu-profile (detected)`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      CHROME_ORIGIN_LOG,
+    ])
   })
 
   test(`the logger receives the lines its level enables`, () => {
@@ -1081,8 +1146,15 @@ describe(`logging`, () => {
       logLevel: `info`,
     })
 
-    expect(received).toStrictEqual([`format: v8-cpu-profile (detected)`])
-    expectLogs([`info: format: v8-cpu-profile (detected)`])
+    expect(received).toStrictEqual([
+      `format: v8-cpu-profile (detected)`,
+      `origin: chrome (the fallback: no entry marked another origin)`,
+    ])
+    expectLogs([
+      `info: format: v8-cpu-profile (detected)`,
+      V8_CPU_PROFILE_CANDIDATES_LOG,
+      CHROME_ORIGIN_LOG,
+    ])
   })
 
   test(`throws on an unknown log level`, () => {
@@ -1114,7 +1186,10 @@ describe(`diffProfiles`, () => {
         expect(md).toMatch(MARKDOWN_DIFF_REGEX)
         // No regressions or improvements when diffing an input against itself.
         expect(md).not.toMatch(/Regressions|Improvements/u)
-        expectLogs([...detectionLogs(filename), ...detectionLogs(filename)])
+        expectLogs([
+          ...detectionLogs(filename, md),
+          ...detectionLogs(filename, md),
+        ])
       },
     )
   }
@@ -1424,7 +1499,10 @@ if (smallestAnyInput.length > 0) {
       )
 
       expect(md).toMatch(MARKDOWN_DIFF_REGEX)
-      expectLogs([...detectionLogs(filename), ...detectionLogs(filename)])
+      expectLogs([
+        ...detectionLogs(filename, md),
+        ...detectionLogs(filename, md),
+      ])
     })
   })
 }

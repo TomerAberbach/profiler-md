@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { gunzipSync } from 'node:zlib'
-import { inject } from 'vitest'
+import { expect, inject } from 'vitest'
 import { parseExampleFilename } from '../cli/examples.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import { aggregateParsedInputs } from './aggregate.ts'
@@ -52,10 +52,24 @@ export const readInput = (filename: string): Buffer => {
   return data[0] === 0x1f && data[1] === 0x8b ? gunzipSync(data) : data
 }
 
-/** The lines auto-detecting a committed input logs. */
-export const detectionLogs = (filename: string): string[] => [
-  `info: format: ${parseExampleFilename(filename).format} (detected)`,
-]
+/**
+ * The lines auto-detecting a committed input logs, given the Markdown it
+ * converted to. The origin is the one the filename records, and the evidence
+ * for it varies per input. An input with no profiling data logs no origin.
+ */
+export const detectionLogs = (filename: string, md: string): unknown[] => {
+  const { format, origin } = parseExampleFilename(filename)
+  const logs: unknown[] = [`info: format: ${format} (detected)`]
+  if (!md.startsWith(`No profiling data found.`)) {
+    logs.push(
+      expect.stringMatching(/^debug: origin candidates, in priority order: /u),
+      expect.stringMatching(
+        new RegExp(`^info: origin: ${origin} \\(.+\\)$`, `u`),
+      ),
+    )
+  }
+  return logs
+}
 
 /**
  * The smallest of the given inputs, as a single-element array, or an empty
