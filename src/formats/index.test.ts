@@ -11,7 +11,13 @@ import {
 } from '../modalities/call-stack-profile/testing.ts'
 import { SAMPLES } from '../modalities/metrics.ts'
 import { normalizeProfileToMdOptions } from '../options.ts'
-import { categoryTables, profileTitles, rankingTables } from '../testing.ts'
+import {
+  categoryTables,
+  expectLogs,
+  ignoreLogs,
+  profileTitles,
+  rankingTables,
+} from '../testing.ts'
 import type { JsonFormatConverter } from './converter.ts'
 import { FormatDetectError, mayBeParserBug } from './error.ts'
 import {
@@ -24,6 +30,7 @@ import {
 } from './index.ts'
 import {
   convertJsonToMd,
+  detectionLogs,
   injectedFormat,
   injectedInputs,
   inputPath,
@@ -48,6 +55,13 @@ import {
 vi.setConfig({ testTimeout: 125_000 })
 
 const format = injectedFormat()
+
+const SPEEDSCOPE_REJECTION_LOG = `debug: speedscope: recognized the input but rejected it: Cannot read properties of undefined (reading 'map')`
+const V8_CPU_PROFILE_REJECTION_LOG = `debug: v8-cpu-profile: recognized the input but rejected it: Cannot destructure property 'functionName' of 'callFrame' as it is null.`
+const V8_CPU_PROFILE_DIFF_LOGS = [
+  `info: format: v8-cpu-profile (specified)`,
+  `info: format: v8-cpu-profile (specified)`,
+]
 
 const inputSets = {
   json: new Set<string>(),
@@ -118,6 +132,7 @@ describe(`profileToMd`, () => {
       const md = profileToMd(readInput(filename), { baseURL: null })
 
       expect(md).toMatch(MARKDOWN_REGEX)
+      expectLogs(detectionLogs(filename))
     })
   }
 
@@ -128,6 +143,7 @@ describe(`profileToMd`, () => {
       })
 
       expect(md).toMatch(MARKDOWN_REGEX)
+      expectLogs(detectionLogs(filename))
     })
   }
 
@@ -143,6 +159,7 @@ describe(`profileToMd`, () => {
         const md = profileToMd(iterable, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
+        expectLogs(detectionLogs(filename))
       },
     )
   }
@@ -158,9 +175,14 @@ describe(`profileToMd`, () => {
       )
 
       expect(forced).toBe(auto)
+      expectLogs([
+        `info: format: v8-cpu-profile (detected)`,
+        `info: format: v8-cpu-profile (specified)`,
+      ])
     })
 
     test(`baseURL: 'auto' infers the common ancestor of ours locations`, () => {
+      ignoreLogs()
       // `funcA` and `funcB` span the project; the dependency and builtin frames
       // are not `ours`, so they don't move the inferred base up towards the
       // root.
@@ -245,6 +267,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' falls back to absolute paths when no location qualifies`, () => {
+      ignoreLogs()
       // The only `ours` location is a relative path and the builtin's `node:`
       // URL has no hierarchical path, so nothing qualifies for inference.
       const cpuProfile = JSON.stringify({
@@ -292,6 +315,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' infers the common ancestor of HTTP locations`, () => {
+      ignoreLogs()
       // Both scripts live on one HTTPS origin and differ only by query string,
       // so the inferred base relativizes them while keeping the queries.
       const cpuProfile = JSON.stringify({
@@ -344,6 +368,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' infers the dominant file: base despite a lone HTTP location`, () => {
+      ignoreLogs()
       // Two of the three absolute locations are file: URLs, so the file: group
       // dominates and the lone HTTP location renders absolute.
       const cpuProfile = JSON.stringify({
@@ -411,6 +436,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`baseURL: 'auto' infers the common ancestor from source-mapped locations`, () => {
+      ignoreLogs()
       // The only `ours` location is a generated bundle whose source map points
       // into src/. Inference must follow the map like formatting does: a base
       // inferred from the raw dist/ path would show the mapped source as
@@ -459,6 +485,7 @@ describe(`profileToMd`, () => {
     })
 
     test(`reports when there is no profiling data`, () => {
+      ignoreLogs()
       const md = profileToMd(emptyProfile, { baseURL: null })
 
       expect(md).toBe(`No profiling data found.\n`)
@@ -485,15 +512,18 @@ describe(`profileToMd`, () => {
       })
 
       expect(() => profileToMd(almostSpeedscope)).toThrow(/^Speedscope: /u)
+      expectLogs([SPEEDSCOPE_REJECTION_LOG])
     })
 
     test(`a specified format reports its rejection as that format's`, () => {
+      ignoreLogs()
       expect(() =>
         profileToMd({ data: `funcA;funcB`, format: `collapsed` }),
       ).toThrow(`Collapsed stacks: missing sample count`)
     })
 
     test(`a specified format reports its rejection as that format's when async`, async () => {
+      ignoreLogs()
       await expect(
         profileToMdAsync({
           data: new Blob([`funcA;funcB`]),
@@ -516,6 +546,7 @@ describe(`profileToMd`, () => {
       expect(() => profileToMd(almostBoth)).toThrow(
         /could not detect the profile format, rejected by: Speedscope: .*, V8 CPU profile: /u,
       )
+      expectLogs([SPEEDSCOPE_REJECTION_LOG, V8_CPU_PROFILE_REJECTION_LOG])
     })
 
     test(`detection reports a malformed JSON document as invalid JSON`, () => {
@@ -525,12 +556,14 @@ describe(`profileToMd`, () => {
     })
 
     test(`a specified JSON format reports invalid JSON as its rejection`, () => {
+      ignoreLogs()
       expect(() =>
         profileToMd({ data: `garbage\n`, format: `v8-cpu-profile` }),
       ).toThrow(/^V8 CPU profile: invalid JSON: /u)
     })
 
     test(`a specified JSON format reports invalid JSON as its rejection when async`, async () => {
+      ignoreLogs()
       await expect(
         profileToMdAsync({
           data: new Blob([`garbage\n`]),
@@ -540,22 +573,30 @@ describe(`profileToMd`, () => {
     })
 
     test(`a specified binary format reports its decoder's failure as its rejection`, () => {
+      ignoreLogs()
       expect(() => profileToMd({ data: `garbage\n`, format: `pprof` })).toThrow(
         /^pprof: invalid protobuf encoding: /u,
       )
     })
 
     const unclassifiedInputs = [
-      { scenario: `before parse returns`, data: crashingV8CpuProfile },
+      {
+        scenario: `before parse returns`,
+        data: crashingV8CpuProfile,
+        // Detection logs the rejection and moves on, so no format is detected.
+        logs: [V8_CPU_PROFILE_REJECTION_LOG],
+      },
       {
         scenario: `while aggregation consumes the parse's lazy iterable`,
         data: lazilyCrashingV8CpuProfile,
+        logs: [`info: format: v8-cpu-profile (detected)`],
       },
     ]
 
     test.each(unclassifiedInputs)(
       `a specified format reports an error its parser did not classify as a failure to parse, thrown $scenario`,
       ({ data }) => {
+        ignoreLogs()
         let thrown
         try {
           profileToMd({ data, format: `v8-cpu-profile` })
@@ -574,6 +615,7 @@ describe(`profileToMd`, () => {
     test.each(unclassifiedInputs)(
       `a specified format reports an error its parser did not classify as a failure to parse when async, thrown $scenario`,
       async ({ data }) => {
+        ignoreLogs()
         let thrown
         try {
           await profileToMdAsync({
@@ -594,19 +636,21 @@ describe(`profileToMd`, () => {
 
     test.each(unclassifiedInputs)(
       `detection reports an error a parser did not classify the same way a specified format does, thrown $scenario`,
-      ({ data }) => {
+      ({ data, logs }) => {
         let detected
         try {
           profileToMd(data)
         } catch (error: unknown) {
           detected = error
         }
+        expectLogs(logs)
         let specified
         try {
           profileToMd({ data, format: `v8-cpu-profile` })
         } catch (error: unknown) {
           specified = error
         }
+        expectLogs([`info: format: v8-cpu-profile (specified)`])
 
         expect((detected as Error).message).toBe((specified as Error).message)
         expect(mayBeParserBug(detected)).toBe(true)
@@ -614,6 +658,7 @@ describe(`profileToMd`, () => {
     )
 
     test(`a rejection the parser classified is not a possible bug`, () => {
+      ignoreLogs()
       let thrown
       try {
         profileToMd({ data: `funcA;funcB`, format: `collapsed` })
@@ -630,6 +675,7 @@ describe(`profileToMd`, () => {
     ])(
       `a rejection's message collapses the whitespace of the value it reports, $scenario`,
       ({ format }) => {
+        ignoreLogs()
         const data = new TextEncoder().encode(
           `JAVA PROFILE \nfoo\n  1.0\tbar\0${`\0`.repeat(20)}`,
         )
@@ -641,6 +687,7 @@ describe(`profileToMd`, () => {
     )
 
     test(`a specified format's rejection wraps the parser's error as its cause`, () => {
+      ignoreLogs()
       let thrown
       try {
         profileToMd({ data: crashingV8CpuProfile, format: `v8-cpu-profile` })
@@ -664,11 +711,14 @@ describe(`profileToMd`, () => {
           },
         })
 
-      test.each([
+      const scenarios = [
         { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
         { scenario: `under a specified binary format`, format: `pprof` },
         { scenario: `under auto-detection`, format: undefined },
-      ] as const)(`from an iterable $scenario`, ({ format }) => {
+      ] as const
+
+      test.each(scenarios)(`from an iterable $scenario`, ({ format }) => {
+        ignoreLogs()
         let thrown
         try {
           profileToMd({ data: failingIterable(), format })
@@ -679,11 +729,8 @@ describe(`profileToMd`, () => {
         expect(thrown).toBe(readError)
       })
 
-      test.each([
-        { scenario: `under a specified JSON format`, format: `v8-cpu-profile` },
-        { scenario: `under a specified binary format`, format: `pprof` },
-        { scenario: `under auto-detection`, format: undefined },
-      ] as const)(`from a stream $scenario`, async ({ format }) => {
+      test.each(scenarios)(`from a stream $scenario`, async ({ format }) => {
+        ignoreLogs()
         let thrown
         try {
           await profileToMdAsync({ data: failingStream(), format })
@@ -711,6 +758,7 @@ describe(`profileToMd`, () => {
 
       expect(thrown).toBeInstanceOf(FormatDetectError)
       expect((thrown as FormatDetectError).errors).toHaveLength(1)
+      expectLogs([SPEEDSCOPE_REJECTION_LOG])
     })
 
     test.each([
@@ -719,6 +767,7 @@ describe(`profileToMd`, () => {
     ])(
       `auto-detection of %s propagates a throwing categorizeFunctions`,
       filename => {
+        ignoreLogs()
         // Errors raised after a format is detected are real errors, not
         // detection misses, so they must surface, not be swallowed into an
         // unknown-format error.
@@ -736,6 +785,7 @@ describe(`profileToMd`, () => {
     )
 
     test(`throws when categorizeFunctions returns a misaligned array`, () => {
+      ignoreLogs()
       expect(() =>
         profileToMd(
           { data: baseCpuProfile, format: `v8-cpu-profile` },
@@ -762,6 +812,7 @@ describe(`profileToMdAsync`, () => {
         const md = await profileToMdAsync(blob, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
+        expectLogs(detectionLogs(filename))
       })
 
       test(`from ReadableStream`, async () => {
@@ -775,6 +826,7 @@ describe(`profileToMdAsync`, () => {
         const md = await profileToMdAsync(stream, { baseURL: null })
 
         expect(md).toMatch(MARKDOWN_REGEX)
+        expectLogs(detectionLogs(filename))
       })
     })
   }
@@ -790,6 +842,7 @@ describe(`profileToMdAsync`, () => {
       )
 
       expect(md).toMatch(/^# /u)
+      expectLogs([`info: format: v8-cpu-profile (specified)`])
     })
 
     test(`forced binary format streams a ReadableStream through parseAsync`, async () => {
@@ -813,6 +866,10 @@ describe(`profileToMdAsync`, () => {
       expect(md).toBe(
         profileToMd({ data: content, format: `collapsed` }, { baseURL: null }),
       )
+      expectLogs([
+        `info: format: collapsed (specified)`,
+        `info: format: collapsed (specified)`,
+      ])
     })
 
     test(`throws on unknown data`, async () => {
@@ -1001,6 +1058,71 @@ describe(`origin detection`, () => {
   })
 })
 
+describe(`logging`, () => {
+  test(`logs the detected format`, () => {
+    profileToMd(baseCpuProfile, { baseURL: null })
+
+    expectLogs([`info: format: v8-cpu-profile (detected)`])
+  })
+
+  test(`logs the specified format`, () => {
+    profileToMd(
+      { data: baseCpuProfile, format: `v8-cpu-profile`, origin: `deno` },
+      { baseURL: null },
+    )
+
+    expectLogs([`info: format: v8-cpu-profile (specified)`])
+  })
+
+  test(`logs each format that recognized the input but rejected it`, () => {
+    expect(() => profileToMd(`a;b 1\nc;d x\n`)).toThrow(/invalid sample count/u)
+    expectLogs([
+      `debug: collapsed: recognized the input but rejected it: invalid sample count`,
+    ])
+  })
+
+  test(`the logger receives nothing at the default level`, () => {
+    const received: string[] = []
+
+    profileToMd(baseCpuProfile, {
+      baseURL: null,
+      logger: { info: message => received.push(message) },
+    })
+
+    expect(received).toStrictEqual([])
+    expectLogs([`info: format: v8-cpu-profile (detected)`])
+  })
+
+  test(`the logger receives the lines its level enables`, () => {
+    const received: string[] = []
+
+    profileToMd(baseCpuProfile, {
+      baseURL: null,
+      logger: { info: message => received.push(message) },
+      logLevel: `info`,
+    })
+
+    expect(received).toStrictEqual([`format: v8-cpu-profile (detected)`])
+    expectLogs([`info: format: v8-cpu-profile (detected)`])
+  })
+
+  test(`throws on an unknown log level`, () => {
+    expect(() =>
+      profileToMd(baseCpuProfile, {
+        logLevel: `loud` as `debug`,
+      }),
+    ).toThrow(
+      `logLevel must be one of none, error, warn, info, debug, got: loud`,
+    )
+  })
+
+  test(`expectLogs fails on lines the expectation omits`, () => {
+    profileToMd(baseCpuProfile, { baseURL: null })
+
+    expect(() => expectLogs([])).toThrow()
+  })
+})
+
 describe(`diffProfiles`, () => {
   if (allInputs.length > 0) {
     test.each(allInputs)(
@@ -1013,6 +1135,7 @@ describe(`diffProfiles`, () => {
         expect(md).toMatch(MARKDOWN_DIFF_REGEX)
         // No regressions or improvements when diffing an input against itself.
         expect(md).not.toMatch(/Regressions|Improvements/u)
+        expectLogs([...detectionLogs(filename), ...detectionLogs(filename)])
       },
     )
   }
@@ -1035,9 +1158,11 @@ describe(`diffProfiles`, () => {
       )
 
       expect(md).toMatch(/^# .*diff/iu)
+      expectLogs(V8_CPU_PROFILE_DIFF_LOGS)
     })
 
     test(`diffs two CPU profiles end-to-end`, () => {
+      ignoreLogs()
       const md = diffProfiles(
         { data: baseCpuProfile, format: `v8-cpu-profile` },
         { data: currentCpuProfile, format: `v8-cpu-profile` },
@@ -1097,6 +1222,7 @@ describe(`diffProfiles`, () => {
     })
 
     test(`baseURL: 'auto' infers one common ancestor across both diff sides`, () => {
+      ignoreLogs()
       // The function moved from src/ to lib/ between the two profiles. A
       // per-side base would render both as a bare `a.ts`; the shared base keeps
       // the two locations distinguishable.
@@ -1151,6 +1277,7 @@ describe(`diffProfiles`, () => {
     })
 
     test(`diffs two heap snapshots end-to-end`, () => {
+      ignoreLogs()
       const md = diffProfiles(
         { data: baseHeapSnapshot, format: `v8-heap-snapshot` },
         { data: currentHeapSnapshot, format: `v8-heap-snapshot` },
@@ -1224,6 +1351,7 @@ describe(`diffProfiles`, () => {
     // exhibits a differing build hash.
 
     test(`matchEntry matches functions whose locations differ across profiles`, () => {
+      ignoreLogs()
       // `funcA`'s file carries a per-build suffix, so by default the two sides
       // don't match. The `matchEntry` hook equates the locations; the matched
       // row displays the current profile's real path.
@@ -1286,12 +1414,14 @@ describe(`diffProfiles`, () => {
     })
 
     test(`reports when there is no profiling data`, () => {
+      ignoreLogs()
       const md = diffProfiles(emptyProfile, emptyProfile, { baseURL: null })
 
       expect(md).toBe(`No profiling data found.\n`)
     })
 
     test(`throws on diffing a profile against a snapshot`, () => {
+      ignoreLogs()
       const profileContent = readFileSync(
         inputPath(`javascript.node.base.cpuprofile`),
       )
@@ -1321,6 +1451,7 @@ if (smallestAnyInput.length > 0) {
       )
 
       expect(md).toMatch(MARKDOWN_DIFF_REGEX)
+      expectLogs([...detectionLogs(filename), ...detectionLogs(filename)])
     })
   })
 }

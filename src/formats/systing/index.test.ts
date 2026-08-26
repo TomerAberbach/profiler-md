@@ -11,6 +11,7 @@ import { normalizeProfileToMdOptions } from '../../options.ts'
 import {
   calleesTables,
   categoryTables,
+  ignoreLogs,
   linesTables,
   profileTitles,
   summaryLines,
@@ -465,6 +466,7 @@ describe(`convert`, () => {
   })
 
   test(`a sleep diff names the sleeps it counts`, () => {
+    ignoreLogs()
     const sleeps = (count: number) => [
       [`f`, 0, `do_nanosleep ([kernel]) <0xffff2>`],
       [`s`, 0, [0]],
@@ -484,6 +486,7 @@ describe(`convert`, () => {
   })
 
   test(`rejects a diff of the two sleep kinds, naming both`, () => {
+    ignoreLogs()
     const sleeps = (eventType: number) => [
       [`f`, 0, `do_nanosleep ([kernel]) <0xffff2>`],
       [`s`, 0, [0]],

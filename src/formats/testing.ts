@@ -2,6 +2,7 @@ import { readFileSync, statSync } from 'node:fs'
 import path from 'node:path'
 import { gunzipSync } from 'node:zlib'
 import { inject } from 'vitest'
+import { parseExampleFilename } from '../cli/examples.ts'
 import type { NormalizedProfileToMdOptions } from '../options.ts'
 import { aggregateParsedInputs } from './aggregate.ts'
 import type {
@@ -50,6 +51,11 @@ export const readInput = (filename: string): Buffer => {
   const data = readFileSync(inputPath(filename))
   return data[0] === 0x1f && data[1] === 0x8b ? gunzipSync(data) : data
 }
+
+/** The lines auto-detecting a committed input logs. */
+export const detectionLogs = (filename: string): string[] => [
+  `info: format: ${parseExampleFilename(filename).format} (detected)`,
+]
 
 /**
  * The smallest of the given inputs, as a single-element array, or an empty

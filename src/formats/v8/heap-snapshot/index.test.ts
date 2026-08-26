@@ -7,7 +7,7 @@ import {
   selfSizeTables,
 } from '../../../modalities/heap-snapshot/testing.ts'
 import { normalizeProfileToMdOptions } from '../../../options.ts'
-import { categoryTables, rankingTables } from '../../../testing.ts'
+import { categoryTables, ignoreLogs, rankingTables } from '../../../testing.ts'
 import { diffProfiles } from '../../index.ts'
 import { convertJsonToMd } from '../../testing.ts'
 import { v8HeapSnapshotConverter } from './index.ts'
@@ -486,6 +486,7 @@ describe(`convert`, () => {
   })
 
   test(`matchEntry matches functions whose locations differ across snapshots`, () => {
+    ignoreLogs()
     // The function's script path carries a per-build suffix, so by default the
     // two sides don't match and the function shows as a removed/new pair.
     const base = JSON.stringify(
