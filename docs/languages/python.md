@@ -1,6 +1,8 @@
 # Python
 
-Python profiling uses [py-spy](https://github.com/benfred/py-spy),
+Python profiling uses [py-spy](https://github.com/benfred/py-spy), Tachyon (the
+[sampling profiler](https://docs.python.org/3.15/library/profiling.sampling.html)
+built into Python 3.15),
 [pyinstrument](https://github.com/joerick/pyinstrument),
 [memray](https://github.com/bloomberg/memray), or
 [systing](https://github.com/josefbacik/systing).
@@ -8,6 +10,8 @@ Python profiling uses [py-spy](https://github.com/benfred/py-spy),
 ## CPU profiling
 
 Periodically samples the call stack. Useful for finding CPU hot spots.
+
+### py-spy
 
 ```sh
 # Collapsed format (wrap a script)
@@ -23,14 +27,82 @@ py-spy record -f raw -o cpu.collapsed --pid <pid>
 py-spy record -f raw -o cpu.collapsed --native -- python script.py
 ```
 
+### Tachyon
+
+Tachyon ships with Python 3.15 as `profiling.sampling`. It reads the call stack
+of another interpreter process through the remote debugging interface, so it
+requires no extension and adds no code to the profiled program. Pass
+`--mode cpu` because the default mode samples wall-clock time.
+
+```sh
+# Profile a script
+python -m profiling.sampling run --mode cpu --collapsed -o cpu.collapsed script.py
+
+# Profile a module, as `python -m` would run it
+python -m profiling.sampling run --mode cpu --collapsed -o cpu.collapsed -m black .
+
+# Attach to a running process
+python -m profiling.sampling attach --mode cpu --collapsed -o cpu.collapsed <pid>
+```
+
 ## Wall-clock profiling
 
 Samples wall-clock time rather than CPU time, including time threads spend
 waiting. Useful for I/O-bound or latency-sensitive code.
 
+### py-spy
+
 ```sh
 py-spy record -f raw -o wall.collapsed --idle -- python script.py
 ```
+
+### Tachyon
+
+Wall-clock time is Tachyon's default mode.
+
+```sh
+# Profile a script
+python -m profiling.sampling run --collapsed -o wall.collapsed script.py
+
+# Sample every thread instead of the main thread
+python -m profiling.sampling run --collapsed -o wall.collapsed -a script.py
+
+# Mark where the interpreter was running non-Python code with a `<native>` frame
+python -m profiling.sampling run --collapsed -o wall.collapsed --native script.py
+```
+
+The other modes keep a subset of the wall-clock samples. `--mode gil` keeps the
+samples taken while the thread held the GIL, and `--mode exception` keeps those
+taken while it had an exception in flight or was running an `except` block.
+
+```sh
+python -m profiling.sampling run --mode gil --collapsed -o gil.collapsed script.py
+python -m profiling.sampling run --mode exception --collapsed -o exception.collapsed script.py
+```
+
+### pyinstrument
+
+pyinstrument samples the call stack from inside the interpreter, so it needs no
+ptrace access. Its speedscope renderer writes a format this tool reads.
+
+```sh
+# Profile a script
+pyinstrument -r speedscope -o profile.speedscope.json script.py
+
+# Profile a console script, such as the one an installed package provides
+pyinstrument -r speedscope -o profile.speedscope.json "$(which black)" file.py
+
+# Keep every frame instead of those above the 1% threshold
+pyinstrument --show-all -r speedscope -o profile.speedscope.json script.py
+```
+
+Run a console script by its path rather than as `python -m package`. Under `-m`,
+pyinstrument trims the leading `runpy` frames by descending into the first child
+of each. That child is the import subtree rather than the module body, so the
+export covers only the imports. `--show-all` can trim the run the same way.
+
+By default the export keeps the frames above 1% of the total and folds the rest
+into the self time of the frame that called them.
 
 ## Call stack dump
 
@@ -59,37 +131,21 @@ py-spy dump --pid <pid> --locals
 | `--nonblocking`     | off          | Sample without pausing the process (less accurate)                    |
 | `--subprocesses`    | off          | Also profile subprocesses of the target                               |
 
-## In-process wall-clock profiling
+## Tachyon CLI flags
 
-Samples wall-clock time rather than CPU time, from inside the interpreter rather
-than through ptrace. Useful for I/O-bound or latency-sensitive code.
+| Flag                     | Default | Description                                                           |
+| ------------------------ | ------- | --------------------------------------------------------------------- |
+| `--collapsed`            | off     | Write collapsed stacks instead of the default `pstats` output         |
+| `-o` / `--output`        | —       | Output file path                                                      |
+| `-r` / `--sampling-rate` | `1khz`  | Samples per second                                                    |
+| `-d` / `--duration`      | —       | Duration in seconds (default: until the program exits)                |
+| `--mode`                 | `wall`  | What to sample: `wall`, `cpu`, `gil`, or `exception`                  |
+| `-a` / `--all-threads`   | off     | Sample every thread instead of the main thread                        |
+| `--native`               | off     | Include a `<native>` frame where the interpreter runs non-Python code |
+| `--no-gc`                | off     | Omit the `<GC>` frames garbage collection adds                        |
+| `--subprocesses`         | off     | Also profile subprocesses of the target                               |
 
-[pyinstrument](https://github.com/joerick/pyinstrument) samples the call stack
-from inside the interpreter, so it needs no ptrace access. Its speedscope
-renderer writes a format this tool reads.
-
-### CLI
-
-```sh
-# Profile a script
-pyinstrument -r speedscope -o profile.speedscope.json script.py
-
-# Profile a console script, such as the one an installed package provides
-pyinstrument -r speedscope -o profile.speedscope.json "$(which black)" file.py
-
-# Keep every frame instead of those above the 1% threshold
-pyinstrument --show-all -r speedscope -o profile.speedscope.json script.py
-```
-
-Run a console script by its path rather than as `python -m package`. Under `-m`,
-pyinstrument trims the leading `runpy` frames by descending into the first child
-of each. That child is the import subtree rather than the module body, so the
-export covers only the imports. `--show-all` can trim the run the same way.
-
-By default the export keeps the frames above 1% of the total and folds the rest
-into the self time of the frame that called them.
-
-#### Flags
+## pyinstrument CLI flags
 
 | Flag                  | Default   | Description                                                   |
 | --------------------- | --------- | ------------------------------------------------------------- |
