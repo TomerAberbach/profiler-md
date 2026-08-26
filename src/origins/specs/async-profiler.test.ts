@@ -75,6 +75,41 @@ describe(`normalizeStackFrame`, () => {
       name: `Parker::park`,
     })
   })
+
+  test(`drops the thread frame the threads option roots each stack at`, () => {
+    expect(
+      normalizeStackFrame({ name: `[ForkJoinPool-1-worker-1 tid=35079]` }),
+    ).toBeNull()
+  })
+
+  test.each([`_[j]`, `_[i]`, `_[0]`, `_[1]`])(
+    `strips the %s compilation annotation`,
+    suffix => {
+      expect(
+        normalizeStackFrame({ name: `java/util/HashMap.put${suffix}` }),
+      ).toEqual({
+        name: `put`,
+        location: { type: `logical`, name: `java.util.HashMap` },
+      })
+    },
+  )
+
+  test(`formats a signature, restoring the ; the collapsed format escapes as |`, () => {
+    expect(
+      normalizeStackFrame({
+        name: `java/lang/reflect/Method.invoke(Ljava/lang/Object|[Ljava/lang/Object|)Ljava/lang/Object|_[0]`,
+      }),
+    ).toEqual({
+      name: `invoke(Object, Object[])`,
+      location: { type: `logical`, name: `java.lang.reflect.Method` },
+    })
+  })
+
+  test(`strips the annotation from a native frame without locating it`, () => {
+    expect(
+      normalizeStackFrame({ name: `Parker::park(bool, long)_[j]` }),
+    ).toEqual({ name: `Parker::park(bool, long)` })
+  })
 })
 
 describe(`categorizeEntry`, () => {

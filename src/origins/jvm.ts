@@ -273,6 +273,68 @@ const CLASS_NAME_TO_CATEGORY = new Map<string, HeapSnapshotNodeCategory>(
 export const jvmSourceClassName = (internalName: string): string =>
   internalName.replaceAll(`/`, `.`)
 
+/**
+ * Builds a display name from a method's bare name and JVM method descriptor,
+ * appending the parameter types in Java source syntax so overloads stay
+ * distinguishable: `add` with descriptor
+ * `(Ljava/lang/Object;[Ljava/lang/Object;I)V` becomes
+ * `add(Object, Object[], int)`. Generics are erased in descriptors, so type
+ * parameters appear as their erasure (`Object`). The bare name is returned
+ * unchanged when the descriptor is absent or unparseable, including
+ * async-profiler's `()L;` sentinel for non-Java frames (runtime stubs, native
+ * functions), whose names aren't method names to append `()` to.
+ */
+export const jvmMethodDisplayName = (
+  name: string,
+  descriptor: string,
+): string => {
+  const close = descriptor.indexOf(`)`)
+  if (
+    name === `` ||
+    !descriptor.startsWith(`(`) ||
+    close === -1 ||
+    descriptor === `()L;`
+  ) {
+    return name
+  }
+  return `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
+}
+
+/** Parses a run of JVM field descriptors into Java source type names. */
+const parseDescriptorTypes = (descriptors: string): string[] => {
+  const types: string[] = []
+  let i = 0
+  while (i < descriptors.length) {
+    let arrayDepth = 0
+    while (descriptors[i] === `[`) {
+      arrayDepth++
+      i++
+    }
+
+    const code = descriptors[i]
+    let type: string
+    if (code === `L`) {
+      const end = descriptors.indexOf(`;`, i)
+      // A malformed descriptor with no terminator: stop rather than loop.
+      if (end === -1) {
+        break
+      }
+      type = simpleClassName(descriptors.slice(i + 1, end))
+      i = end + 1
+    } else {
+      type = (code && JVM_PRIMITIVE_DESCRIPTOR_NAMES.get(code)) ?? code ?? ``
+      i++
+    }
+
+    types.push(type + `[]`.repeat(arrayDepth))
+  }
+  return types
+}
+
+/** The bare class name (`Map`) from an internal name (`java/util/Map`). */
+const simpleClassName = (internalName: string): string =>
+  internalName.slice(internalName.lastIndexOf(`/`) + 1)
+
 /** The Java name of each JVM primitive field descriptor code. */
 export const JVM_PRIMITIVE_DESCRIPTOR_NAMES: ReadonlyMap<string, string> =
   new Map([

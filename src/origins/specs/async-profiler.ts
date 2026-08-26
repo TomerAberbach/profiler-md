@@ -4,6 +4,8 @@ import {
   isJvmStdlibNameStackFrame,
   isNativeLibraryStackFrame,
   jvmMatchEntry,
+  jvmMethodDisplayName,
+  jvmSourceClassName,
 } from '../jvm.ts'
 import type { OriginSpec } from '../origin.ts'
 
@@ -28,20 +30,57 @@ export const asyncProfilerOriginSpec = {
       return input
     }
 
+    let name = input.name ?? ``
+    // A thread frame is not a function.
+    if (THREAD_FRAME.test(name)) {
+      return null
+    }
+    // A compilation annotation is not part of the method's identity.
+    name = name.replace(COMPILATION_ANNOTATION, ``)
+
+    const [method, descriptor] = splitMethodDescriptor(name)
+
     // A Java frame is named `package/path/Class.method`. Native (C++/JNI)
     // frames have no `/` and stay location-less.
-    const name = input.name ?? ``
-    const lastDot = name.lastIndexOf(`.`)
-    if (lastDot === -1 || !name.includes(`/`)) {
-      return input
+    const lastDot = method.lastIndexOf(`.`)
+    if (lastDot === -1 || !method.includes(`/`)) {
+      return name === input.name ? input : { name }
     }
 
     return {
-      name: name.slice(lastDot + 1),
+      name: jvmMethodDisplayName(method.slice(lastDot + 1), descriptor),
       location: {
         type: `logical`,
-        name: name.slice(0, lastDot).replaceAll(`/`, `.`),
+        name: jvmSourceClassName(method.slice(0, lastDot)),
       },
     }
   },
 } as const satisfies OriginSpec
+
+/**
+ * Splits a collapsed frame name into the method and the JVM method descriptor
+ * the `sig` option appends to it, or an empty descriptor without the option.
+ * The descriptor's `;` terminators are written as `|` because `;` separates
+ * collapsed frames, so the split restores them.
+ */
+const splitMethodDescriptor = (
+  name: string,
+): [method: string, descriptor: string] => {
+  const open = name.indexOf(`(`)
+  if (open === -1) {
+    return [name, ``]
+  }
+  return [name.slice(0, open), name.slice(open).replaceAll(`|`, `;`)]
+}
+
+/**
+ * The frame the `threads` option roots every stack at: the thread's name and
+ * id, e.g. `[ForkJoinPool-1-worker-1 tid=35079]`.
+ */
+const THREAD_FRAME = /^\[.* tid=\d+\]$/u
+
+/**
+ * The suffix the `ann` option appends to a Java frame: `_[j]` for JIT-compiled,
+ * `_[i]` for inlined, `_[0]` for interpreted, and `_[1]` for C1-compiled.
+ */
+const COMPILATION_ANNOTATION = /_\[[ji01]\]$/u

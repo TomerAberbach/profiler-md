@@ -14,10 +14,7 @@ import {
   SAMPLES,
 } from '../../modalities/metrics.ts'
 import type { StackFrame } from '../../modalities/stack-frame.ts'
-import {
-  JVM_PRIMITIVE_DESCRIPTOR_NAMES,
-  jvmSourceClassName,
-} from '../../origins/jvm.ts'
+import { jvmMethodDisplayName, jvmSourceClassName } from '../../origins/jvm.ts'
 
 /**
  * The kind of profiling an event represents.
@@ -1353,7 +1350,7 @@ class ChunkResolver {
       index = this.#methods.length
       this.#methods.push({
         id: index,
-        name: methodDisplayName(bareName, descriptor),
+        name: jvmMethodDisplayName(bareName, descriptor),
         className,
       })
       this.#methodIndexByIdentity.set(identity, index)
@@ -1438,64 +1435,6 @@ const indexTypeIdsByName = (
   }
   return typeIdsByName
 }
-
-/**
- * Builds a display name from a method's bare name and JVM descriptor, appending
- * a readable parameter list so overloads stay distinguishable: `add` with
- * descriptor `(Ljava/lang/Object;[Ljava/lang/Object;I)V` becomes
- * `add(Object, Object[], int)`. Generics are erased in descriptors, so type
- * parameters surface as their erasure (`Object`). The bare name is returned
- * unchanged when the descriptor is absent or unparseable, including
- * async-profiler's `()L;` sentinel for non-Java frames (runtime stubs, native
- * functions), whose names aren't method names to append `()` to.
- */
-const methodDisplayName = (name: string, descriptor: string): string => {
-  const close = descriptor.indexOf(`)`)
-  if (
-    name === `` ||
-    !descriptor.startsWith(`(`) ||
-    close === -1 ||
-    descriptor === `()L;`
-  ) {
-    return name
-  }
-  return `${name}(${parseDescriptorTypes(descriptor.slice(1, close)).join(`, `)})`
-}
-
-/** Parses a run of JVM field descriptors into readable type names. */
-const parseDescriptorTypes = (descriptors: string): string[] => {
-  const types: string[] = []
-  let i = 0
-  while (i < descriptors.length) {
-    let arrayDepth = 0
-    while (descriptors[i] === `[`) {
-      arrayDepth++
-      i++
-    }
-
-    const code = descriptors[i]
-    let type: string
-    if (code === `L`) {
-      const end = descriptors.indexOf(`;`, i)
-      // A malformed descriptor with no terminator: stop rather than loop.
-      if (end === -1) {
-        break
-      }
-      type = simpleClassName(descriptors.slice(i + 1, end))
-      i = end + 1
-    } else {
-      type = (code && JVM_PRIMITIVE_DESCRIPTOR_NAMES.get(code)) ?? code ?? ``
-      i++
-    }
-
-    types.push(type + `[]`.repeat(arrayDepth))
-  }
-  return types
-}
-
-/** The bare class name (`Map`) from an internal name (`java/util/Map`). */
-const simpleClassName = (internalName: string): string =>
-  internalName.slice(internalName.lastIndexOf(`/`) + 1)
 
 /**
  * Returns a usable 1-based line number, or `undefined`. Native and unknown
