@@ -5,6 +5,8 @@ source scripts/inputs/_common.sh
 
 ZSTD_REPO="https://github.com/facebook/zstd"
 ZSTD_TAG="v1.5.6"
+# systing is not published to crates.io, so cargo installs it from its repository.
+SYSTING_TAG="v1.13.14"
 SILESIA_DICKENS_URL="https://raw.githubusercontent.com/MiloszKrajewski/SilesiaCorpus/3f3fa2cdbbb3795c903b74e774acb309e1360337/dickens.zip"
 
 declare -A rundir=()
@@ -92,9 +94,11 @@ copy_c_profile() {
 # the kernel must expose BTF (`/sys/kernel/btf/vmlinux` — Docker Desktop's
 # and any modern distro's kernels do), and the platform cannot be emulated
 # (BPF programs run on the real kernel), so it uses the host's native
-# architecture instead of the pinned DOCKER_PLATFORM. systing is installed
-# from crates.io, which builds it from source — expect the first run to take
-# a while.
+# architecture instead of the pinned DOCKER_PLATFORM. It must also share the
+# host's pid namespace. systing filters samples by the traced command's pid
+# as the kernel numbers it, and a container's own namespace renumbers it, so
+# the recording contains no stacks. cargo builds systing from source, so the
+# first run takes a while.
 systing_rundir=
 run_systing() {
   if [[ -n "$systing_rundir" ]]; then
@@ -105,8 +109,9 @@ run_systing() {
 
   notice "Profiling zstd with systing (base + current; builds systing from source)"
 
-  docker run --rm --privileged \
+  docker run --rm --privileged --pid=host \
     -v "$dir:/out" \
+    -e SYSTING_TAG="$SYSTING_TAG" \
     "$DOCKER_IMAGE" \
     bash -euo pipefail -c '
       export DEBIAN_FRONTEND=noninteractive
@@ -116,9 +121,14 @@ run_systing() {
         build-essential git ca-certificates curl unzip \
         clang libelf-dev pkg-config bpftool
 
-      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal -q
+      # systing builds its BPF skeletons with rustfmt, which the minimal
+      # profile excludes.
+      curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal -c rustfmt -q
       . "$HOME/.cargo/env"
-      cargo install --locked -q systing
+      # The generated Perfetto protobuf crate and DuckDB compiling side by side
+      # exhaust the memory Docker allocates to its VM.
+      cargo install -j 2 --locked -q --git https://github.com/josefbacik/systing.git \
+        --tag "$SYSTING_TAG" systing
 
       git clone --depth 1 --branch "'"$ZSTD_TAG"'" "'"$ZSTD_REPO"'" /src/zstd
 
@@ -128,13 +138,16 @@ run_systing() {
       ZSTD=/src/zstd/zstd
       [ -x "$ZSTD" ] || ZSTD=/src/zstd/programs/zstd
 
-      # Real compression input: the full Silesia `dickens` corpus. At -19 it
-      # outlasts the recording window, so symbolization runs while zstd is
-      # still alive (systing then stops the traced command, hence `|| true`).
+      # systing symbolizes against the live process when the recording window
+      # closes, and a command that has exited leaves every frame
+      # `unknown ([exited])`. At -19 the input must outlast the window. systing
+      # then stops the traced command, hence `|| true`.
       mkdir -p /work
       INPUT=/work/input.bin
       curl -sSL -o /work/dickens.zip "'"$SILESIA_DICKENS_URL"'"
-      unzip -p /work/dickens.zip dickens >"$INPUT"
+      unzip -p /work/dickens.zip dickens >/work/dickens.full
+      for _ in 1 2 3 4; do cat /work/dickens.full >>"$INPUT"; done
+      rm -f /work/dickens.full
 
       mount -t tracefs tracefs /sys/kernel/tracing 2>/dev/null || true
 
