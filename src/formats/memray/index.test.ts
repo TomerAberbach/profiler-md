@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import { chunk, streamOf } from '../../helpers/testing.ts'
-import { diffProfiles } from '../../index.ts'
+import { diffProfiles, profileToMd, profileToMdAsync } from '../../index.ts'
 import {
   selfSizeTables,
   totalSizeTables,
@@ -13,7 +13,7 @@ import {
   rankingTables,
   summaryLines,
 } from '../../testing.ts'
-import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
+import { convertBytesToMd } from '../testing.ts'
 import { memrayConverter } from './index.ts'
 import { parseMemray } from './parse.ts'
 import {
@@ -67,9 +67,8 @@ const PEAK = `Peak memory profile`
 const LEAKED = `Leaked memory profile`
 
 describe(`matches`, () => {
-  test(`accepts a capture, compressed or not`, () => {
+  test(`accepts a capture`, () => {
     expect(memrayConverter.matches(risesThenFalls)).toBe(true)
-    expect(memrayConverter.matches(asLz4Frame(risesThenFalls))).toBe(true)
   })
 
   test(`rejects bytes that aren't a capture`, () => {
@@ -79,12 +78,6 @@ describe(`matches`, () => {
     )
     expect(
       memrayConverter.matches(new TextEncoder().encode(`{"json": true}`)),
-    ).toBe(false)
-  })
-
-  test(`rejects an LZ4 file that isn't a capture`, () => {
-    expect(
-      memrayConverter.matches(asLz4Frame(new TextEncoder().encode(`hello`))),
     ).toBe(false)
   })
 
@@ -833,12 +826,24 @@ describe(`convert`, () => {
     expect(rankingTables(md, `Self size`, `Improvements`)).toEqual([])
   })
 
+  // `memray run` writes every capture as an LZ4 frame, which the pipeline
+  // strips before the converter sees the bytes.
+  test(`converts a compressed capture`, () => {
+    const md = profileToMd(asLz4Frame(risesThenFalls), { baseURL: `/app` })
+
+    expect(summaryLines(md)).toEqual([
+      `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
+      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    ])
+  })
+
   test(`converts a compressed capture from a stream`, async () => {
-    const compressed = asLz4Frame(risesThenFalls)
-    const md = await convertToMdAsync(
-      memrayConverter,
-      streamOf(...chunk(compressed, 7)),
-      options(),
+    const md = await profileToMdAsync(
+      {
+        data: streamOf(...chunk(asLz4Frame(risesThenFalls), 7)),
+        format: `memray`,
+      },
+      { baseURL: `/app` },
     )
 
     expect(summaryLines(md)).toEqual([

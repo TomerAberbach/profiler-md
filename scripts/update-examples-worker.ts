@@ -2,7 +2,6 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { enableCompileCache } from 'node:module'
 import { join } from 'node:path'
 import { parentPort, workerData } from 'node:worker_threads'
-import { brotliDecompressSync, gunzipSync } from 'node:zlib'
 import type { ProfileToMdOptions } from '../src/options.ts'
 
 // Reuse compiled bytecode across the worker threads and runs, roughly halving
@@ -30,23 +29,8 @@ const { check } = workerData as { check: boolean }
 
 const options: ProfileToMdOptions = { baseURL: `auto` }
 
-// The CLI's decompression rule (`src/cli/input.ts`): brotli by file suffix,
-// gzip by magic bytes. Reading and decompressing synchronously keeps the work
-// on this thread instead of the process-wide libuv pool the threads would
-// contend on.
-const readInput = (inputPath: string): Uint8Array => {
-  const bytes = readFileSync(inputPath)
-  if (inputPath.endsWith(`.br`)) {
-    return brotliDecompressSync(bytes)
-  }
-  if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
-    return gunzipSync(bytes)
-  }
-  return bytes
-}
-
 const convertInputs = (inputPaths: string[]): string => {
-  const inputs = inputPaths.map(readInput)
+  const inputs = inputPaths.map(path => readFileSync(path))
   return inputs.length === 1
     ? profileToMd(inputs[0]!, options)
     : diffProfiles(inputs[0]!, inputs[1]!, options)

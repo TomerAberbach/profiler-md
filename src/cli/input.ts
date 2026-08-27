@@ -1,17 +1,10 @@
 import { createReadStream, openAsBlob } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
-import type { Transform } from 'node:stream'
 import { blob } from 'node:stream/consumers'
-import { pipeline } from 'node:stream/promises'
-import { createBrotliDecompress, createGunzip } from 'node:zlib'
 import { reasonOf } from '../error.ts'
 import { CliError } from './error.ts'
 
 export const openInputAsBlob = async (
-  filePath: string | undefined,
-): Promise<Blob> => decompressBlob(await openRawInputAsBlob(filePath), filePath)
-
-const openRawInputAsBlob = async (
   filePath: string | undefined,
 ): Promise<Blob> => {
   if (!filePath || STDIN_PATHS.has(filePath)) {
@@ -81,49 +74,4 @@ const readStreamAsBlob = async (
       cause: error,
     })
   }
-}
-
-const decompressBlob = async (
-  data: Blob,
-  filePath: string | undefined,
-): Promise<Blob> => {
-  try {
-    if (filePath?.endsWith(`.br`)) {
-      return await decompressStream(
-        data,
-        createBrotliDecompress({ chunkSize: DECOMPRESS_CHUNK_SIZE }),
-      )
-    }
-    const header = new Uint8Array(await data.slice(0, 2).arrayBuffer())
-    if (header[0] === 0x1f && header[1] === 0x8b) {
-      return await decompressStream(
-        data,
-        createGunzip({ chunkSize: DECOMPRESS_CHUNK_SIZE }),
-      )
-    }
-    return data
-  } catch (error) {
-    throw new CliError(
-      `cannot decompress ${filePath ?? `stdin`}: ${reasonOf(error)}`,
-      1,
-      { cause: error },
-    )
-  }
-}
-
-/**
- * The output buffer size for the decompression transforms. With zlib's 16 KiB
- * default, a transform emits a large decompressed input as thousands of
- * chunks, each a separate event-loop hop. A larger buffer keeps the hop count
- * small for the cost of one buffer's memory.
- */
-const DECOMPRESS_CHUNK_SIZE = 4 * 1024 * 1024
-
-const decompressStream = async (
-  data: Blob,
-  transform: Transform,
-): Promise<Blob> => {
-  const decompressedData = blob(transform)
-  await pipeline(data.stream(), transform)
-  return decompressedData
 }

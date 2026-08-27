@@ -1,5 +1,4 @@
 import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
-import { decompressLz4Frame, isLz4Frame } from '../../helpers/lz4.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -37,8 +36,7 @@ import { FormatParseError } from '../error.ts'
  * @see https://github.com/bloomberg/memray/tree/main/src/memray/_memray
  */
 export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
-  const bytes = isLz4Frame(input) ? decompress(input) : input
-  const reader = new ByteReader(bytes)
+  const reader = new ByteReader(input)
   const header = readHeader(reader)
 
   const capture = new Capture(header)
@@ -51,18 +49,10 @@ export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
     // when it was reached.
     const recordsOffset = reader.offset
     const peakOrdinal = new Capture(header).findPeakOrdinal(reader)
-    capture.replay(new ByteReader(bytes, recordsOffset), peakOrdinal)
+    capture.replay(new ByteReader(input, recordsOffset), peakOrdinal)
   }
 
   return capture.toProfiles()
-}
-
-const decompress = (input: Uint8Array): Uint8Array => {
-  try {
-    return decompressLz4Frame(input)
-  } catch (error) {
-    throw new FormatParseError(`invalid LZ4 compression`, { cause: error })
-  }
 }
 
 /** The magic every memray capture begins with: `memray` and a null byte. */

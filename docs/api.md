@@ -143,3 +143,23 @@ console.log(
   ),
 )
 ```
+
+## Compressed inputs
+
+The API strips the compression an input is wrapped in before detecting its
+format, so a profile converts as its profiler wrote it: a gzipped `.pb.gz` pprof
+profile, an LZ4 memray capture, or a profile a user compressed.
+
+Gzip and LZ4 are identified by their magic bytes. Brotli has none, so the API
+tries it only after the input converts to nothing as it is, and reports the
+original failure when that fails too.
+
+Which codecs decode depends on the runtime the package resolves to:
+
+| Runtime     | Sync API                    | Async API                                                                  |
+| ----------- | --------------------------- | -------------------------------------------------------------------------- |
+| Node.js     | gzip, brotli, LZ4           | gzip, brotli, LZ4                                                          |
+| Other (web) | LZ4 (gzip and brotli throw) | gzip, LZ4, and brotli where the runtime's `DecompressionStream` accepts it |
+
+The async API streams a gzipped `Blob` or `ReadableStream` through the decoder
+rather than reading it into memory first. LZ4 is decoded whole.
