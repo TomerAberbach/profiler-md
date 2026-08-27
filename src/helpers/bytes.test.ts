@@ -186,6 +186,28 @@ describe(`ByteQueue`, () => {
     )
   })
 
+  test(`uint8 reads the byte at an offset`, () => {
+    expect(queueOf(bytes(1), bytes(2)).uint8(1)).toBe(2)
+  })
+
+  test(`uint32 reads little-endian when the flag is set`, () => {
+    expect(queueOf(bytes(0x78, 0x56), bytes(0x34, 0x12)).uint32(0, true)).toBe(
+      0x12345678,
+    )
+  })
+
+  test(`uint64 reads an unsigned int64 spanning part boundaries`, () => {
+    // The largest value a number holds exactly, with its high bytes in the
+    // first part.
+    expect(
+      queueOf(
+        bytes(0x00, 0x1f, 0xff, 0xff),
+        bytes(0xff, 0xff, 0xff, 0xff),
+      ).uint64(0),
+    ).toBe(2 ** 53 - 1)
+    expect(queueOf(bytes(1, 0, 0, 0, 0, 0, 0, 0)).uint64(0, true)).toBe(1)
+  })
+
   test(`int64 reads a big-endian signed int64 spanning part boundaries`, () => {
     expect(
       queueOf(
@@ -200,6 +222,14 @@ describe(`ByteQueue`, () => {
     expect([...queue.take(2)]).toEqual([1, 2])
     expect(queue.length).toBe(2)
     expect([...queue.take(2)]).toEqual([3, 4])
+    expect(queue.length).toBe(0)
+  })
+
+  test(`take returns a view of a part that holds the whole chunk`, () => {
+    const part = bytes(1, 2, 3)
+    const queue = queueOf(part)
+    expect(queue.take(2).buffer).toBe(part.buffer)
+    expect(queue.take(1).buffer).toBe(part.buffer)
     expect(queue.length).toBe(0)
   })
 

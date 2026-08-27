@@ -5,7 +5,11 @@ import {
   startsWith,
   streamToUint8Array,
 } from '../helpers/bytes.ts'
-import { decompressLz4Frame, isLz4Frame } from '../helpers/lz4.ts'
+import {
+  decompressLz4Frame,
+  decompressLz4FrameStream,
+  isLz4Frame,
+} from '../helpers/lz4.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
 import { dataToBytes } from './parse.ts'
 import * as runtime from '#compression'
@@ -166,10 +170,11 @@ const decompressIdentified = (bytes: Uint8Array): Decompressed<Uint8Array> => {
 /**
  * The async version of {@link decompressIdentified}.
  *
- * A gzip input streams through its decoder, so the decompressed bytes are
- * never held whole. An LZ4 input is decoded whole, because the frame format
- * has no streaming decoder here. The stream returned for an uncompressed input
- * begins with the bytes read to identify it.
+ * A compressed input streams through its decoder, so the decompressed bytes
+ * are never held whole. The decoder reports a truncation only when the stream
+ * is read to its end, so an attempt that stops reading early misses one past
+ * the bytes it read. The stream returned for an uncompressed input begins with
+ * the bytes read to identify it.
  */
 const decompressIdentifiedAsync = async (
   data: AsyncProfileData,
@@ -180,12 +185,7 @@ const decompressIdentifiedAsync = async (
       return { data: decompressGzipStream(data.stream()), compressed: true }
     }
     if (isLz4Frame(head)) {
-      return {
-        data: new Blob([
-          decompressLz4(new Uint8Array(await data.arrayBuffer())),
-        ]),
-        compressed: true,
-      }
+      return { data: decompressLz4Stream(data.stream()), compressed: true }
     }
     return { data, compressed: false }
   }
@@ -196,10 +196,7 @@ const decompressIdentifiedAsync = async (
     return { data: decompressGzipStream(stream), compressed: true }
   }
   if (isLz4Frame(head)) {
-    return {
-      data: new Blob([decompressLz4(await streamToUint8Array(stream))]),
-      compressed: true,
-    }
+    return { data: decompressLz4Stream(stream), compressed: true }
   }
   return { data: stream, compressed: false }
 }
@@ -231,6 +228,11 @@ const decompressGzipStream = (
   stream: ReadableStream<Uint8Array>,
 ): ReadableStream<Uint8Array> =>
   classifyStreamFailures(runtime.decompressGzipStream(stream), gzipError)
+
+const decompressLz4Stream = (
+  stream: ReadableStream<Uint8Array>,
+): ReadableStream<Uint8Array> =>
+  classifyStreamFailures(decompressLz4FrameStream(stream), lz4Error)
 
 /**
  * Decodes {@link bytes} as brotli, or returns `undefined` when they are not a

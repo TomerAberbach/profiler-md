@@ -177,7 +177,8 @@ The available codecs depend on the runtime the package resolves to:
 | Node.js     | gzip, brotli, LZ4                        | gzip, brotli, LZ4                                                          |
 | Other (web) | LZ4 (gzip throws, brotli is unsupported) | gzip, LZ4, and brotli where the runtime's `DecompressionStream` accepts it |
 
-The async API streams a gzipped `Blob` or `ReadableStream` through the decoder
-when the format is given, so the decompressed bytes are never held whole. Under
-auto-detection the API buffers the decompressed input, because detection reads
-it several times. An LZ4 input is decoded whole either way.
+The async API streams a gzip or LZ4 `Blob` or `ReadableStream` through the
+decoder when the format is given, so the decompressed bytes are never held
+whole. A brotli input is decoded whole, because the API identifies it by
+retrying the conversion. Under auto-detection the API buffers the decompressed
+input, because detection reads it several times.
