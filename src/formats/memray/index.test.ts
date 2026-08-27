@@ -1,4 +1,5 @@
-import { describe, expect, test } from 'vitest'
+import { fc, test } from '@fast-check/vitest'
+import { describe, expect } from 'vitest'
 import { asLz4Frame, chunk, streamOf } from '../../helpers/testing.ts'
 import { diffProfiles, profileToMd, profileToMdAsync } from '../../index.ts'
 import {
@@ -13,9 +14,9 @@ import {
   rankingTables,
   summaryLines,
 } from '../../testing.ts'
-import { convertBytesToMd } from '../testing.ts'
+import { convertBytesToMd, convertToMdAsync } from '../testing.ts'
 import { memrayConverter } from './index.ts'
-import { parseMemray } from './parse.ts'
+import { MINIMUM_COMPACTION_LENGTH, parseMemray } from './parse.ts'
 import {
   MAIN_THREAD_ID,
   makeAggregatedMemray,
@@ -26,6 +27,7 @@ import {
   MEMRAY_MMAP,
   MEMRAY_MUNMAP,
 } from './testing.ts'
+import type { MemrayTestRecord } from './testing.ts'
 
 const CODE_OBJECTS = [
   { id: 1, functionName: `hot`, filename: `/app/hot.py`, firstLineNumber: 10 },
@@ -240,6 +242,206 @@ describe(`convert`, () => {
         },
         {
           '%': `33.3%`,
+          Size: `512 B`,
+          Allocations: `1`,
+          Function: `cold`,
+          Location: `cold.py:20`,
+        },
+      ],
+    ])
+  })
+
+  test(`keeps the allocations live at a peak once most are freed`, () => {
+    // Enough short-lived allocations to fill the log to where a peak compacts
+    // it, all freed before the peak, then the peak itself and a free and an
+    // allocation after it.
+    const churn = new Array<number>(MINIMUM_COMPACTION_LENGTH)
+      .fill(0)
+      .map((_, index) => 0x1_00_00 + index * 8)
+    const md = convertBytesToMd(
+      memrayConverter,
+      makeMemray({
+        codeObjects: CODE_OBJECTS,
+        records: [
+          { type: `thread`, threadId: MAIN_THREAD_ID },
+          { type: `push`, codeObjectId: 1 },
+          ...churn.map(address => ({
+            type: `alloc` as const,
+            allocator: MEMRAY_MALLOC,
+            address,
+            size: 1,
+          })),
+          ...churn.map(address => ({
+            type: `alloc` as const,
+            allocator: MEMRAY_FREE,
+            address,
+          })),
+          { type: `pop` },
+          { type: `push`, codeObjectId: 2 },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MALLOC,
+            address: 0x1000,
+            size: 8192,
+          },
+          { type: `pop` },
+          { type: `push`, codeObjectId: 1 },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MALLOC,
+            address: 0x2000,
+            size: 1024,
+          },
+          { type: `pop` },
+          { type: `push`, codeObjectId: 2 },
+          { type: `alloc`, allocator: MEMRAY_FREE, address: 0x1000 },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_CALLOC,
+            address: 0x3000,
+            size: 512,
+          },
+          { type: `pop` },
+        ],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Held 9\u00A0KiB over 2 allocations (4.5\u00A0KiB per allocation).`,
+      `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
+    ])
+    expect(selfSizeTables(md, PEAK)).toEqual([
+      [
+        {
+          '%': `88.9%`,
+          Size: `8 KiB`,
+          Allocations: `1`,
+          Function: `cold`,
+          Location: `cold.py:20`,
+        },
+        {
+          '%': `11.1%`,
+          Size: `1 KiB`,
+          Allocations: `1`,
+          Function: `hot`,
+          Location: `hot.py:10`,
+        },
+      ],
+    ])
+    expect(selfSizeTables(md, LEAKED)).toEqual([
+      [
+        {
+          '%': `66.7%`,
+          Size: `1 KiB`,
+          Allocations: `1`,
+          Function: `hot`,
+          Location: `hot.py:10`,
+        },
+        {
+          '%': `33.3%`,
+          Size: `512 B`,
+          Allocations: `1`,
+          Function: `cold`,
+          Location: `cold.py:20`,
+        },
+      ],
+    ])
+  })
+
+  test(`keeps the allocations live at the peak once most since are freed`, () => {
+    // A mapping and an allocation make the peak, the allocation is freed, and
+    // then short-lived allocations below the peak fill the log to where it
+    // compacts, twice over, so the second compaction moves what the first
+    // kept. The mapping is unmapped in the middle between the two, and one of
+    // the parts that leaves after the second, by the index the compaction
+    // gave it.
+    const churn = (from: number) =>
+      new Array<number>(MINIMUM_COMPACTION_LENGTH)
+        .fill(0)
+        .flatMap((_, index): MemrayTestRecord[] => [
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MALLOC,
+            address: from + index * 8,
+            size: 1,
+          },
+          { type: `alloc`, allocator: MEMRAY_FREE, address: from + index * 8 },
+        ])
+    const md = convertBytesToMd(
+      memrayConverter,
+      makeMemray({
+        codeObjects: CODE_OBJECTS,
+        records: [
+          { type: `thread`, threadId: MAIN_THREAD_ID },
+          { type: `push`, codeObjectId: 1 },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MMAP,
+            address: 0x10_00_00,
+            size: 8192,
+          },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MALLOC,
+            address: 0x1000,
+            size: 4096,
+          },
+          { type: `alloc`, allocator: MEMRAY_FREE, address: 0x1000 },
+          { type: `pop` },
+          { type: `push`, codeObjectId: 2 },
+          ...churn(0x2_00_00),
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MUNMAP,
+            address: 0x10_08_00,
+            size: 4096,
+          },
+          ...churn(0x3_00_00),
+          {
+            type: `alloc`,
+            allocator: MEMRAY_MUNMAP,
+            address: 0x10_00_00,
+            size: 2048,
+          },
+          {
+            type: `alloc`,
+            allocator: MEMRAY_CALLOC,
+            address: 0x3000,
+            size: 512,
+          },
+          { type: `pop` },
+        ],
+      }),
+      options(),
+    )
+
+    expect(summaryLines(md)).toEqual([
+      `Held 12\u00A0KiB over 2 allocations (6\u00A0KiB per allocation).`,
+      `Leaked 2.5\u00A0KiB over 2 allocations (1.25\u00A0KiB per allocation).`,
+    ])
+    expect(selfSizeTables(md, PEAK)).toEqual([
+      [
+        {
+          '%': `100.0%`,
+          Size: `12 KiB`,
+          Allocations: `2`,
+          Function: `hot`,
+          Location: `hot.py:10`,
+        },
+      ],
+    ])
+    expect(selfSizeTables(md, LEAKED)).toEqual([
+      [
+        {
+          '%': `80.0%`,
+          Size: `2 KiB`,
+          Allocations: `1`,
+          Function: `hot`,
+          Location: `hot.py:10`,
+        },
+        {
+          '%': `20.0%`,
           Size: `512 B`,
           Allocations: `1`,
           Function: `cold`,
@@ -849,5 +1051,98 @@ describe(`convert`, () => {
       `Held 4\u00A0KiB over 2 allocations (2\u00A0KiB per allocation).`,
       `Leaked 1.5\u00A0KiB over 2 allocations (768\u00A0B per allocation).`,
     ])
+  })
+
+  // A record's length is known only by reading it, so a chunk boundary can
+  // fall anywhere inside one, and a record read in part is read again from
+  // its start once more bytes arrive. Every record type of both capture file
+  // formats is cut, since one that changes what a later read depends on
+  // before reading its whole body applies the change twice.
+  const everyRecord = makeMemray({
+    nativeTraces: true,
+    codeObjects: CODE_OBJECTS,
+    records: [
+      {
+        type: `memoryMap`,
+        filename: `/usr/lib/libc.so.6`,
+        address: 0x7f_00_00_00,
+        segments: [
+          { address: 0x7f_00_10_00, size: 4096 },
+          { address: 0x7f_10_00_00, size: 8192 },
+        ],
+      },
+      { type: `threadName`, name: `MainThread` },
+      { type: `thread`, threadId: MAIN_THREAD_ID },
+      { type: `push`, codeObjectId: 1 },
+      { type: `nativeFrame`, instructionPointer: 0x40_00_00, index: 1 },
+      { type: `alloc`, allocator: MEMRAY_MALLOC, address: 0x1000, size: 1024 },
+      { type: `object`, address: 0x1000, created: true },
+      { type: `memory`, residentBytes: 1 << 20, milliseconds: 5 },
+      { type: `alloc`, allocator: MEMRAY_MMAP, address: 0x1_00_00, size: 4096 },
+      {
+        type: `alloc`,
+        allocator: MEMRAY_MUNMAP,
+        address: 0x1_04_00,
+        size: 1024,
+      },
+      { type: `pop` },
+      { type: `push`, codeObjectId: 2 },
+      { type: `alloc`, allocator: MEMRAY_CALLOC, address: 0x2000, size: 512 },
+      { type: `object`, address: 0x1000, created: false },
+      { type: `alloc`, allocator: MEMRAY_FREE, address: 0x1000 },
+      { type: `pop` },
+    ],
+  })
+  const everyAggregatedRecord = makeAggregatedMemray({
+    nativeTraces: true,
+    codeObjects: CODE_OBJECTS,
+    frames: [{ codeObjectId: 1 }, { codeObjectId: 2, instructionOffset: 4 }],
+    stacks: [
+      { frame: 0, parent: 0 },
+      { frame: 1, parent: 1 },
+    ],
+    allocations: [
+      {
+        stack: 1,
+        peakBytes: 1024,
+        peakCount: 1,
+        leakedBytes: 1024,
+        leakedCount: 1,
+      },
+      {
+        stack: 2,
+        peakBytes: 3072,
+        peakCount: 2,
+        leakedBytes: 512,
+        leakedCount: 1,
+      },
+    ],
+    survivingObjects: [0x1000],
+  })
+
+  test.prop([
+    fc.constantFrom(everyRecord, everyAggregatedRecord),
+    fc.integer({ min: 1, max: 64 }),
+  ])(
+    `reads a stream the same way at any chunk size`,
+    async (capture, chunkSize) => {
+      const md = await convertToMdAsync(
+        memrayConverter,
+        streamOf(...chunk(capture, chunkSize)),
+        options(),
+      )
+
+      expect(md).toEqual(convertBytesToMd(memrayConverter, capture, options()))
+    },
+  )
+
+  test(`reports a stream that ends mid-record`, async () => {
+    await expect(
+      convertToMdAsync(
+        memrayConverter,
+        streamOf(...chunk(risesThenFalls.subarray(0, 10), 3)),
+        options(),
+      ),
+    ).rejects.toThrow(`truncated capture`)
   })
 })

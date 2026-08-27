@@ -42,6 +42,17 @@ export type MemrayTestRecord =
   | { type: `nativeFrame`; instructionPointer: number; index: number }
   | { type: `object`; address: number; created: boolean }
 
+  /** The resident memory sampled at a time since tracking started. */
+  | { type: `memory`; residentBytes: number; milliseconds: number }
+
+  /** The segments of a mapped file, as written when the process maps one. */
+  | {
+      type: `memoryMap`
+      filename: string
+      address: number
+      segments: { address: number; size: number }[]
+    }
+
   /** The bytes of a record written by hand, for one no writer emits. */
   | { type: `raw`; bytes: number[] }
 
@@ -107,6 +118,23 @@ export const makeMemray = ({
         break
       case `object`:
         writeObject(writer, state, record, nativeTraces)
+        break
+      case `memory`:
+        writer.byte(RECORD_MEMORY)
+        writer.varint(record.residentBytes)
+        writer.varint(record.milliseconds)
+        break
+      case `memoryMap`:
+        writer.byte(RECORD_MEMORY_MAP_START)
+        writer.byte(RECORD_SEGMENT_HEADER)
+        writer.string(record.filename)
+        writer.varint(record.segments.length)
+        writer.uint64(record.address)
+        for (const segment of record.segments) {
+          writer.byte(RECORD_SEGMENT)
+          writer.uint64(segment.address)
+          writer.varint(segment.size)
+        }
         break
       case `raw`:
         writer.bytes(Uint8Array.from(record.bytes))
@@ -204,7 +232,11 @@ const ALL_ALLOCATIONS = 0
 const AGGREGATED_ALLOCATIONS = 1
 
 const RECORD_TRAILER = 1
+const RECORD_MEMORY = 2
 const RECORD_NATIVE_TRACE_INDEX = 5
+const RECORD_MEMORY_MAP_START = 6
+const RECORD_SEGMENT_HEADER = 7
+const RECORD_SEGMENT = 8
 const RECORD_THREAD = 10
 const RECORD_CONTEXT_SWITCH = 12
 const RECORD_CODE_OBJECT = 14

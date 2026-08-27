@@ -1,3 +1,5 @@
+import { DynamicTypedArray } from '../../helpers/array.ts'
+import { concatUint8Arrays } from '../../helpers/bytes.ts'
 import { HASH_SEED, HashInterner, mixHash } from '../../helpers/intern.ts'
 import type {
   CallStackProfile,
@@ -25,8 +27,8 @@ import { FormatParseError } from '../error.ts'
  * counting each stack's allocations under that measure.
  *
  * A capture holds no aggregate totals, so both measures are computed by
- * replaying the stream: the peak from the live allocations at the moment total
- * memory was highest, and the leaks from the live allocations at the end. A
+ * replaying the stream: the peak from the allocations live at the moment total
+ * memory was highest, and the leaks from the allocations live at the end. A
  * capture written with `--aggregate` stores both per stack already and needs no
  * replay.
  *
@@ -35,24 +37,92 @@ import { FormatParseError } from '../error.ts'
  *
  * @see https://github.com/bloomberg/memray/tree/main/src/memray/_memray
  */
-export const parseMemray = (bytes: Uint8Array): CallStackProfile[] => {
-  const reader = new ByteReader(bytes)
-  const header = readHeader(reader)
+export const parseMemray = (input: Uint8Array): CallStackProfile[] => {
+  const parser = new MemrayParser()
+  parser.push(input)
+  return parser.end()
+}
 
-  const capture = new Capture(header)
-  if (header.fileFormat === `aggregated`) {
-    capture.readAggregated(reader)
-  } else {
-    // Which record left memory at its highest is known only once the whole
-    // stream has been read. A first pass, over a capture state of its own,
-    // finds it. The second pass tracks stacks and aggregates what was live
-    // when it was reached.
-    const recordsOffset = reader.offset
-    const peakOrdinal = new Capture(header).findPeakOrdinal(reader)
-    capture.replay(new ByteReader(bytes, recordsOffset), peakOrdinal)
+/**
+ * The async analogue of {@link parseMemray}, reading the capture a chunk at a
+ * time. Memory is bounded by the allocations live at the peak and the ones
+ * live now, however long the capture.
+ */
+export const parseMemrayAsync = async (
+  stream: ReadableStream<Uint8Array>,
+): Promise<CallStackProfile[]> => {
+  const parser = new MemrayParser()
+  const reader = stream.getReader()
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+      parser.push(value)
+    }
+  } finally {
+    reader.releaseLock()
+  }
+  return parser.end()
+}
+
+/**
+ * Reads a capture incrementally: each {@link push} reads every record the
+ * bytes so far complete, and {@link end} checks the capture stopped at a
+ * record boundary and builds its profiles.
+ *
+ * A record's length is known only by reading it, so a record the buffered
+ * bytes cut short is read until they run out, then rewound and read again once
+ * more bytes arrive. A record handler therefore reads everything it needs
+ * before changing the capture's state.
+ */
+class MemrayParser {
+  readonly #reader = new ByteReader()
+  #capture: Capture | undefined
+  /** Whether the trailer has been read, after which the rest is ignored. */
+  #done = false
+
+  public push(bytes: Uint8Array): void {
+    if (this.#done) {
+      return
+    }
+
+    const reader = this.#reader
+    reader.append(bytes)
+    while (true) {
+      const start = reader.offset
+      try {
+        if (this.#capture === undefined) {
+          this.#capture = new Capture(readHeader(reader))
+        } else if (!this.#capture.readRecord(reader)) {
+          this.#done = true
+          return
+        }
+      } catch (error) {
+        if (error instanceof InputExhaustedError) {
+          reader.rewind(start)
+          return
+        }
+        throw error
+      }
+    }
   }
 
-  return capture.toProfiles()
+  /**
+   * @throws if the capture ended inside its header or a record. A capture
+   *   ending between records without a trailer is read to where it ended, as
+   *   one a killed process left behind.
+   */
+  public end(): CallStackProfile[] {
+    if (
+      !this.#done &&
+      (this.#capture === undefined || this.#reader.remaining > 0)
+    ) {
+      throw new FormatParseError(`truncated capture`)
+    }
+    return this.#capture!.toProfiles()
+  }
 }
 
 /** The magic every memray capture begins with: `memray` and a null byte. */
@@ -311,7 +381,7 @@ class Capture {
   #lastDataPointer = 0
   #lastFirstLineNumber = 0
 
-  readonly #liveHeap = new LiveHeap()
+  readonly #heap = new HeapHistory()
 
   public constructor(header: MemrayHeader) {
     this.#header = header
@@ -324,102 +394,17 @@ class Capture {
   }
 
   /**
-   * Reads every record, tracking only what memory was live, and returns the
-   * ordinal of the allocation record after which the most was.
+   * Reads one record and applies its effect on the capture's state, returning
+   * `false` at the trailer.
    *
-   * Ties resolve to the last such record, as memray's own reporters do.
+   * Reads everything the record holds before changing any state, so that a
+   * record the input cuts short can be read again whole.
    */
-  public findPeakOrdinal(reader: ByteReader): number {
-    let ordinal = 0
-    let peakOrdinal = 0
-    let peakBytes = 0
-
-    this.#readRecords(reader, {
-      onAllocation: (allocator, address, size) => {
-        this.#liveHeap.apply(allocator, address, size, 0)
-        if (this.#liveHeap.bytes >= peakBytes) {
-          peakBytes = this.#liveHeap.bytes
-          peakOrdinal = ordinal
-        }
-        ordinal++
-      },
-      trackStacks: false,
-    })
-
-    return peakOrdinal
-  }
-
-  /**
-   * Reads every record, tracking each thread's stack, and accumulates what was
-   * live at {@link peakOrdinal} and what was still live at the end.
-   */
-  public replay(reader: ByteReader, peakOrdinal: number): void {
-    let ordinal = 0
-    this.#readRecords(reader, {
-      onAllocation: (allocator, address, size) => {
-        this.#liveHeap.apply(
-          allocator,
-          address,
-          size,
-          isDeallocator(allocator) ? 0 : this.#topStack(),
-        )
-        if (ordinal++ === peakOrdinal) {
-          this.#accumulateLive(`peak`)
-        }
-      },
-      trackStacks: true,
-    })
-
-    this.#accumulateLive(`leaked`)
-  }
-
-  /**
-   * Reads a capture written with `--aggregate`, whose records state each
-   * stack's peak and leaked totals rather than the allocations behind them.
-   */
-  public readAggregated(reader: ByteReader): void {
-    while (!reader.done) {
-      const recordType = reader.byte()
-      if (recordType === AGGREGATED_TRAILER || recordType === 0) {
-        break
-      }
-
-      switch (recordType) {
-        case AGGREGATED_MEMORY_SNAPSHOT:
-          // A timestamp and the resident and heap sizes at it.
-          reader.skip(24)
-          break
-        case AGGREGATED_ALLOCATION:
-          this.#readAggregatedAllocation(reader)
-          break
-        case AGGREGATED_PYTHON_TRACE_INDEX: {
-          const frame = reader.varint()
-          const parent = reader.varint()
-          this.#stackTree.addStack(parent, frame)
-          break
-        }
-        case AGGREGATED_PYTHON_FRAME_INDEX: {
-          reader.varint() // The frame's own index, which is its position here
-          const codeObjectId = reader.varint()
-          const instructionOffset = reader.signedVarint()
-          reader.skip(1) // Whether the frame is an entry frame
-          this.#stackTree.addFrame({ codeObjectId, instructionOffset })
-          break
-        }
-        case AGGREGATED_SURVIVING_OBJECT:
-          // An object still alive when tracking ended, written only under
-          // `--track-object-lifetimes`.
-          reader.varint() // Its address
-          if (this.#header.nativeTraces) {
-            reader.varint() // The native frame it was created in
-          }
-          break
-        default:
-          this.#readSharedRecord(reader, recordType, true)
-      }
-    }
-
-    this.#stackTree.checkReferences(this.#maxAllocationStack)
+  public readRecord(reader: ByteReader): boolean {
+    const token = reader.byte()
+    return this.#header.fileFormat === `aggregated`
+      ? this.#readAggregatedRecord(reader, token)
+      : this.#readAllocationsRecord(reader, token)
   }
 
   /**
@@ -428,6 +413,13 @@ class Capture {
    * allocations that measure attributes to a stack.
    */
   public toProfiles(): CallStackProfile[] {
+    if (this.#header.fileFormat === `aggregated`) {
+      this.#stackTree.checkReferences(this.#maxAllocationStack)
+    } else {
+      this.#heap.visitPeak(this.#accumulate(`peak`))
+      this.#heap.visitLeaked(this.#accumulate(`leaked`))
+    }
+
     const frames = this.#stackTree.frames.map(frame =>
       this.#toStackFrame(frame),
     )
@@ -449,74 +441,97 @@ class Capture {
     ]
   }
 
-  /**
-   * Reads records until the trailer, dispatching allocations to
-   * {@link onAllocation} and applying every other record's effect on the
-   * capture's state.
-   */
-  #readRecords(
-    reader: ByteReader,
-    {
-      onAllocation,
-      trackStacks,
-    }: {
-      onAllocation: (allocator: number, address: number, size: number) => void
-      trackStacks: boolean
-    },
-  ): void {
-    while (!reader.done) {
-      const token = reader.byte()
+  /** Reads a record of a capture written without `--aggregate`. */
+  #readAllocationsRecord(reader: ByteReader, token: number): boolean {
+    // A record type that packs flags into its discriminator claims every byte
+    // that sets its bit, so the byte's type is the highest-valued one whose
+    // bit it sets. A zero byte is the padding a capture killed mid-write
+    // leaves.
+    if (token & RECORD_ALLOCATION) {
+      this.#readAllocation(reader, token & 0x7f)
+    } else if (token & RECORD_FRAME_PUSH) {
+      const codeObjectId = reader.varint()
+      const instructionOffset = reader.signedVarint()
+      this.#pushFrame(codeObjectId, instructionOffset)
+    } else if (token & RECORD_OBJECT) {
+      this.#readObject(reader, token & 0x1f)
+    } else if (token & RECORD_FRAME_POP) {
+      this.#popFrames((token & 0x0f) + 1)
+    } else if (token === RECORD_TRAILER || token === 0) {
+      return false
+    } else if (token === RECORD_MEMORY) {
+      reader.varint() // Resident bytes
+      reader.varint() // Milliseconds since tracking started
+    } else {
+      this.#readSharedRecord(reader, token)
+    }
+    return true
+  }
 
-      // A record type that packs flags into its discriminator claims every
-      // byte that sets its bit, so the byte's type is the highest-valued one
-      // whose bit it sets. A zero byte is the padding a capture killed
-      // mid-write leaves.
-      if (token & RECORD_ALLOCATION) {
-        this.#readAllocation(reader, token & 0x7f, onAllocation)
-      } else if (token & RECORD_FRAME_PUSH) {
+  /**
+   * Reads a record of a capture written with `--aggregate`, whose records
+   * state each stack's peak and leaked totals rather than the allocations
+   * behind them.
+   */
+  #readAggregatedRecord(reader: ByteReader, recordType: number): boolean {
+    switch (recordType) {
+      case AGGREGATED_TRAILER:
+      case 0:
+        return false
+      case AGGREGATED_MEMORY_SNAPSHOT:
+        // A timestamp and the resident and heap sizes at it.
+        reader.skip(24)
+        break
+      case AGGREGATED_ALLOCATION:
+        this.#readAggregatedAllocation(reader)
+        break
+      case AGGREGATED_PYTHON_TRACE_INDEX: {
+        const frame = reader.varint()
+        const parent = reader.varint()
+        this.#stackTree.addStack(parent, frame)
+        break
+      }
+      case AGGREGATED_PYTHON_FRAME_INDEX: {
+        reader.varint() // The frame's own index, which is its position here
         const codeObjectId = reader.varint()
         const instructionOffset = reader.signedVarint()
-        if (trackStacks) {
-          this.#pushFrame(codeObjectId, instructionOffset)
-        }
-      } else if (token & RECORD_OBJECT) {
-        this.#readObject(reader, token & 0x1f)
-      } else if (token & RECORD_FRAME_POP) {
-        if (trackStacks) {
-          this.#popFrames((token & 0x0f) + 1)
-        }
-      } else if (token === RECORD_TRAILER || token === 0) {
-        return
-      } else if (token === RECORD_MEMORY) {
-        reader.varint() // Resident bytes
-        reader.varint() // Milliseconds since tracking started
-      } else {
-        this.#readSharedRecord(reader, token, trackStacks)
+        reader.skip(1) // Whether the frame is an entry frame
+        this.#stackTree.addFrame({ codeObjectId, instructionOffset })
+        break
       }
+      case AGGREGATED_SURVIVING_OBJECT:
+        // An object still alive when tracking ended, written only under
+        // `--track-object-lifetimes`.
+        reader.varint() // Its address
+        if (this.#header.nativeTraces) {
+          reader.varint() // The native frame it was created in
+        }
+        break
+      default:
+        this.#readSharedRecord(reader, recordType)
     }
+    return true
   }
 
   /** Reads a record encoded the same way in both capture file formats. */
-  #readSharedRecord(
-    reader: ByteReader,
-    recordType: number,
-    trackCodeObjects: boolean,
-  ): void {
+  #readSharedRecord(reader: ByteReader, recordType: number): void {
     switch (recordType) {
       case RECORD_CODE_OBJECT: {
         const id = reader.varint()
         const functionName = reader.string()
         const filename = reader.string()
-        this.#lastFirstLineNumber += reader.signedVarint()
-        const lineTable = reader.bytes(reader.varint())
-        if (trackCodeObjects) {
-          this.#codeObjects.set(id, {
-            functionName,
-            filename,
-            firstLineNumber: this.#lastFirstLineNumber,
-            lineTable,
-          })
-        }
+        const firstLineNumberDelta = reader.signedVarint()
+        // A copy, since the buffer the view is of is released as reading
+        // moves on.
+        const lineTable = new Uint8Array(reader.bytes(reader.varint()))
+
+        this.#lastFirstLineNumber += firstLineNumberDelta
+        this.#codeObjects.set(id, {
+          functionName,
+          filename,
+          firstLineNumber: this.#lastFirstLineNumber,
+          lineTable,
+        })
         break
       }
       case RECORD_NATIVE_TRACE_INDEX:
@@ -551,12 +566,9 @@ class Capture {
     }
   }
 
-  #readAllocation(
-    reader: ByteReader,
-    flags: number,
-    onAllocation: (allocator: number, address: number, size: number) => void,
-  ): void {
-    const address = this.#readCachedAddress(reader, (flags >> 3) & 0x0f)
+  #readAllocation(reader: ByteReader, flags: number): void {
+    const cacheIndex = (flags >> 3) & 0x0f
+    const address = this.#readAddress(reader, cacheIndex)
 
     let allocator = flags & 0x07
     if (allocator === 0) {
@@ -569,7 +581,13 @@ class Capture {
     }
     const size = simpleDeallocation ? 0 : reader.varint()
 
-    onAllocation(allocator, address, size)
+    this.#cacheAddress(cacheIndex, address)
+    this.#heap.apply(
+      allocator,
+      address,
+      size,
+      isDeallocator(allocator) ? 0 : this.#topStack(),
+    )
   }
 
   /**
@@ -579,15 +597,17 @@ class Capture {
    * tracked objects.
    */
   #readObject(reader: ByteReader, flags: number): void {
-    this.#readCachedAddress(reader, (flags >> 1) & 0x0f)
+    const cacheIndex = (flags >> 1) & 0x0f
+    const address = this.#readAddress(reader, cacheIndex)
     if (this.#header.nativeTraces && (flags & 1) !== 0) {
       reader.signedVarint() // The native frame the object was created in
     }
+    this.#cacheAddress(cacheIndex, address)
   }
 
   /**
    * Resolves an address named by {@link cacheIndex}, reading the address
-   * itself and caching it when the index marks it as uncached.
+   * itself when the index marks it as uncached.
    *
    * Addresses are recorded shifted down by three bits, which every allocator's
    * alignment leaves zero.
@@ -595,22 +615,29 @@ class Capture {
    * @throws if the index names a cache slot no earlier record filled, which a
    *   capture truncated or corrupted before this record leaves behind.
    */
-  #readCachedAddress(reader: ByteReader, cacheIndex: number): number {
-    if (cacheIndex !== 0x0f) {
-      if (cacheIndex >= this.#cachedAddressCount) {
-        throw new FormatParseError(
-          `record names an address no earlier record wrote, got cache index: ${cacheIndex}`,
-        )
-      }
-      return this.#recentAddresses[cacheIndex]!
+  #readAddress(reader: ByteReader, cacheIndex: number): number {
+    if (cacheIndex === UNCACHED_ADDRESS) {
+      return (this.#lastDataPointer + reader.signedVarint()) * 8
     }
 
-    this.#lastDataPointer += reader.signedVarint()
-    const address = this.#lastDataPointer * 8
+    if (cacheIndex >= this.#cachedAddressCount) {
+      throw new FormatParseError(
+        `record names an address no earlier record wrote, got cache index: ${cacheIndex}`,
+      )
+    }
+    return this.#recentAddresses[cacheIndex]!
+  }
+
+  /** Caches an address a record named as uncached, once the record is read. */
+  #cacheAddress(cacheIndex: number, address: number): void {
+    if (cacheIndex !== UNCACHED_ADDRESS) {
+      return
+    }
+
+    this.#lastDataPointer = address / 8
     this.#recentAddresses.copyWithin(1, 0, 14)
     this.#recentAddresses[0] = address
     this.#cachedAddressCount = Math.min(this.#cachedAddressCount + 1, 15)
-    return address
   }
 
   #readAggregatedAllocation(reader: ByteReader): void {
@@ -636,16 +663,18 @@ class Capture {
     usage.leakedBytes += leakedBytes
   }
 
-  /** Adds every live allocation to its stack's {@link measure} totals. */
-  #accumulateLive(measure: `peak` | `leaked`): void {
+  /** A visitor adding each allocation to its stack's {@link measure} totals. */
+  #accumulate(
+    measure: `peak` | `leaked`,
+  ): (size: number, stack: number) => void {
     const bytesKey = measure === `peak` ? `peakBytes` : `leakedBytes`
     const countKey = measure === `peak` ? `peakCount` : `leakedCount`
 
-    this.#liveHeap.visitLive((size, stack) => {
+    return (size, stack) => {
       const usage = this.#usageOf(stack)
       usage[bytesKey] += size
       usage[countKey] += 1
-    })
+    }
   }
 
   #usageOf(stack: number): StackUsage {
@@ -766,6 +795,9 @@ class Capture {
     )
   }
 }
+
+/** The cache index marking a record's address as following it in full. */
+const UNCACHED_ADDRESS = 0x0f
 
 /**
  * The frames a capture defines and the tree of stacks its frame pushes build.
@@ -896,22 +928,55 @@ class StackTree {
 }
 
 /**
- * The memory live at a point in a replay: the allocations at a single address
- * and the address ranges a mapping covers, with the total bytes they hold.
+ * The memory a capture's allocation records leave live, as they are applied
+ * in order: what is live now, and what was live at the peak.
+ *
+ * Which record left memory at its highest is known only once every record is
+ * applied, so the allocations are logged as they arrive, each with the record
+ * that freed it, and the ones live at the peak are read back from the log at
+ * the end. The log is compacted to the allocations live at the peak and the
+ * ones live now once the rest outnumber them, so it holds at most twice those
+ * however long the capture.
+ *
+ * A mapping is logged like an allocation. A `munmap` frees every mapping it
+ * covers and logs the parts of them it leaves, so a mapping unmapped in part
+ * is live before the `munmap` as one entry and after it as its parts.
  */
-class LiveHeap {
-  readonly #allocations = new LiveAllocations()
+class HeapHistory {
+  /** The logged allocations' sizes, stacks, and the ordinal that freed each. */
+  readonly #sizes = new DynamicTypedArray(new Float64Array(1 << 12))
+  readonly #stacks = new DynamicTypedArray(new Int32Array(1 << 12))
+  readonly #freedAt = new DynamicTypedArray(new Float64Array(1 << 12))
+  #logLength = 0
 
-  /** The live address ranges, ordered by start address. */
-  readonly #ranges: LiveRange[] = []
+  /** The live allocations, by address, as indices into the log. */
+  readonly #live = new LiveAllocations()
+
+  /** The live mappings, by address range, as indices into the log. */
+  readonly #ranges = new LiveRanges({
+    free: index => this.#free(index),
+    split: (index, size) => this.#log(size, this.#stacks.array[index]!),
+  })
 
   #bytes = 0
 
-  public get bytes(): number {
-    return this.#bytes
-  }
+  /** The ordinal of the allocation record applied next. */
+  #ordinal = 0
 
-  /** Applies an allocation or deallocation to the live memory. */
+  /** The record after which the most memory was live, and how much. */
+  #peakOrdinal = 0
+  #peakBytes = 0
+  /** The log's length after the peak record: the allocations made by then. */
+  #peakLogLength = 0
+  /** How many allocations were live after the peak record. */
+  #peakLiveCount = 0
+
+  /**
+   * Applies an allocation or deallocation to the live memory.
+   *
+   * Ties for the peak resolve to the last record reaching it, as memray's own
+   * reporters do.
+   */
   public apply(
     allocator: number,
     address: number,
@@ -921,84 +986,251 @@ class LiveHeap {
     switch (allocator) {
       case ALLOCATOR_FREE:
       case ALLOCATOR_PYMALLOC_FREE:
-        this.#bytes -= this.#allocations.remove(address)
+        this.#free(this.#live.remove(address))
         break
       case ALLOCATOR_MMAP:
-        this.#bytes += size
-        this.#addRange(address, size, stack)
+        // A mapping over live ones frees the span it covers before taking it.
+        this.#ranges.remove(address, size)
+        this.#ranges.add(address, size, this.#log(size, stack))
         break
       case ALLOCATOR_MUNMAP:
-        this.#removeRange(address, size)
+        this.#ranges.remove(address, size)
         break
       default:
-        this.#bytes += size - this.#allocations.set(address, size, stack)
+        // An allocation over a live one replaces it, freeing it.
+        this.#free(this.#live.set(address, this.#log(size, stack)))
+    }
+
+    if (this.#bytes >= this.#peakBytes) {
+      this.#peakBytes = this.#bytes
+      this.#peakOrdinal = this.#ordinal
+      this.#peakLogLength = this.#logLength
+      this.#peakLiveCount = this.#liveCount
+    }
+    this.#compactIfMostlyFreed()
+    this.#ordinal++
+  }
+
+  /** Calls {@link visit} with the size and stack of every allocation live at the peak. */
+  public visitPeak(visit: (size: number, stack: number) => void): void {
+    const sizes = this.#sizes.array
+    const stacks = this.#stacks.array
+    const freedAt = this.#freedAt.array
+    for (let index = 0; index < this.#peakLogLength; index++) {
+      if (freedAt[index]! > this.#peakOrdinal) {
+        visit(sizes[index]!, stacks[index]!)
+      }
     }
   }
 
-  /** Calls {@link visit} with the size and stack of every live allocation. */
-  public visitLive(visit: (size: number, stack: number) => void): void {
-    this.#allocations.visitLive(visit)
-    for (const { start, end, stack } of this.#ranges) {
-      visit(end - start, stack)
+  /** Calls {@link visit} with the size and stack of every allocation still live. */
+  public visitLeaked(visit: (size: number, stack: number) => void): void {
+    const sizes = this.#sizes.array
+    const stacks = this.#stacks.array
+    const freedAt = this.#freedAt.array
+    for (let index = 0; index < this.#logLength; index++) {
+      if (freedAt[index] === NEVER_FREED) {
+        visit(sizes[index]!, stacks[index]!)
+      }
     }
   }
 
-  #addRange(start: number, size: number, stack: number): void {
-    // A mapping over live ranges replaces them, so the span it covers is freed
-    // before the new range takes it.
-    this.#removeRange(start, size)
+  get #liveCount(): number {
+    return this.#live.count + this.#ranges.count
+  }
 
-    const range = { start, end: start + size, stack }
-    const index = lowerBound(this.#ranges, start)
-    if (index === this.#ranges.length) {
+  /** Logs an allocation the record being applied made, and returns its index. */
+  #log(size: number, stack: number): number {
+    const index = this.#logLength++
+    this.#sizes.ensureCapacity(this.#logLength)[index] = size
+    this.#stacks.ensureCapacity(this.#logLength)[index] = stack
+    this.#freedAt.ensureCapacity(this.#logLength)[index] = NEVER_FREED
+    this.#bytes += size
+    return index
+  }
+
+  /** Frees the logged allocation at {@link index}, if there is one. */
+  #free(index: number): void {
+    if (index === NO_ALLOCATION) {
+      return
+    }
+    this.#bytes -= this.#sizes.array[index]!
+    this.#freedAt.array[index] = this.#ordinal
+  }
+
+  /**
+   * Drops from the log the allocations neither live at the peak nor live now,
+   * once they may outnumber the rest. Compacting only then keeps the total
+   * cost proportional to the allocations logged.
+   */
+  #compactIfMostlyFreed(): void {
+    const keptAtMost = this.#peakLiveCount + this.#liveCount
+    if (
+      this.#logLength < MINIMUM_COMPACTION_LENGTH ||
+      this.#logLength < keptAtMost * 2
+    ) {
+      return
+    }
+
+    // The log is in order, so the allocations made by the peak stay a prefix
+    // of it. Of those, the ones live after the peak record stay, and of the
+    // rest, the ones live after the record being applied.
+    const peakLogLength = this.#peakLogLength
+    const newIndices = new Int32Array(this.#logLength)
+    this.#peakLogLength = this.#keep(
+      0,
+      peakLogLength,
+      this.#peakOrdinal,
+      newIndices,
+      0,
+    )
+    this.#logLength = this.#keep(
+      peakLogLength,
+      this.#logLength,
+      this.#ordinal,
+      newIndices,
+      this.#peakLogLength,
+    )
+    this.#live.reindex(newIndices)
+    this.#ranges.reindex(newIndices)
+  }
+
+  /**
+   * Moves the logged allocations in `[from, to)` live after the record
+   * {@link liveAfter} down to {@link length} on, recording each one's new
+   * index in {@link newIndices}, and returns the length after them.
+   */
+  #keep(
+    from: number,
+    to: number,
+    liveAfter: number,
+    newIndices: Int32Array,
+    length: number,
+  ): number {
+    const sizes = this.#sizes.array
+    const stacks = this.#stacks.array
+    const freedAt = this.#freedAt.array
+    for (let index = from; index < to; index++) {
+      const freed = freedAt[index]!
+      if (freed > liveAfter) {
+        sizes[length] = sizes[index]!
+        stacks[length] = stacks[index]!
+        freedAt[length] = freed
+        newIndices[index] = length++
+      } else {
+        newIndices[index] = NO_ALLOCATION
+      }
+    }
+    return length
+  }
+}
+
+/** The `freedAt` of a logged allocation nothing has freed. */
+const NEVER_FREED = Infinity
+
+/** The log below which compaction is not worth its pass. */
+export const MINIMUM_COMPACTION_LENGTH = 1 << 12
+
+/** What the log the mappings are in does when a `munmap` frees one in part. */
+type RangeLog = {
+  /** Frees the logged mapping at `index`. */
+  free: (index: number) => void
+
+  /**
+   * Logs the part of the mapping at `index` a `munmap` left, of `size` bytes,
+   * and returns its index.
+   */
+  split: (index: number, size: number) => number
+}
+
+/**
+ * The address ranges live mappings cover, ordered by start address, each an
+ * index into the allocation log.
+ */
+class LiveRanges {
+  readonly #ranges: LiveRange[] = []
+  readonly #log: RangeLog
+
+  public constructor(log: RangeLog) {
+    this.#log = log
+  }
+
+  public get count(): number {
+    return this.#ranges.length
+  }
+
+  /**
+   * Adds the range of the logged mapping at {@link index}. It must cover no
+   * live range.
+   */
+  public add(start: number, size: number, index: number): void {
+    const range = { start, end: start + size, index }
+    const position = lowerBound(this.#ranges, start)
+    if (position === this.#ranges.length) {
       this.#ranges.push(range)
     } else {
-      this.#ranges.splice(index, 0, range)
+      this.#ranges.splice(position, 0, range)
     }
   }
 
   /**
    * Frees the part of every live range that `[start, start + size)` covers,
    * removing a range it covers entirely, shortening one it covers an end of,
-   * and splitting one it covers the middle of.
+   * and splitting one it covers the middle of. Each part a range keeps is
+   * logged as a mapping of its own.
    */
-  #removeRange(start: number, size: number): void {
+  public remove(start: number, size: number): void {
     const end = start + size
     const ranges = this.#ranges
 
     // A range starting before `start` may still reach into the freed span, so
     // the scan begins one before the first range starting at or after it.
-    let index = Math.max(0, lowerBound(ranges, start) - 1)
-    while (index < ranges.length && ranges[index]!.start < end) {
-      const range = ranges[index]!
+    let position = Math.max(0, lowerBound(ranges, start) - 1)
+    while (position < ranges.length && ranges[position]!.start < end) {
+      const range = ranges[position]!
       const overlapStart = Math.max(range.start, start)
       const overlapEnd = Math.min(range.end, end)
       if (overlapStart >= overlapEnd) {
-        index++
+        position++
         continue
       }
 
-      this.#bytes -= overlapEnd - overlapStart
+      const { index } = range
+      this.#log.free(index)
       if (overlapStart === range.start && overlapEnd === range.end) {
-        ranges.splice(index, 1)
+        ranges.splice(position, 1)
       } else if (overlapStart === range.start) {
         range.start = overlapEnd
-        index++
+        range.index = this.#log.split(index, range.end - range.start)
+        position++
       } else if (overlapEnd === range.end) {
         range.end = overlapStart
-        index++
+        range.index = this.#log.split(index, range.end - range.start)
+        position++
       } else {
-        const tail = { start: overlapEnd, end: range.end, stack: range.stack }
+        const tailEnd = range.end
         range.end = overlapStart
-        ranges.splice(index + 1, 0, tail)
-        index += 2
+        range.index = this.#log.split(index, range.end - range.start)
+        ranges.splice(position + 1, 0, {
+          start: overlapEnd,
+          end: tailEnd,
+          index: this.#log.split(index, tailEnd - overlapEnd),
+        })
+        position += 2
       }
+    }
+  }
+
+  /** Replaces each mapping's index with `newIndices[index]`. */
+  public reindex(newIndices: Int32Array): void {
+    for (const range of this.#ranges) {
+      range.index = newIndices[range.index]!
     }
   }
 }
 
 /** A live address range, which a partial `munmap` can shrink or split. */
-type LiveRange = { start: number; end: number; stack: number }
+type LiveRange = { start: number; end: number; index: number }
 
 /** The index of the first range starting at or after {@link start}. */
 const lowerBound = (ranges: LiveRange[], start: number): number => {
@@ -1016,7 +1248,8 @@ const lowerBound = (ranges: LiveRange[], start: number): number => {
 }
 
 /**
- * The allocations live at a point in a replay, by address.
+ * The allocations live at a point in a replay, by address, each an index into
+ * the allocation log.
  *
  * An open-addressed table over typed arrays rather than a `Map`, because the
  * replay does a lookup per allocation record over addresses scattered across
@@ -1033,48 +1266,62 @@ class LiveAllocations {
   /** Each slot's address, or `0` when the slot is free. */
   #addresses: Float64Array
 
-  #sizes: Float64Array
-  #stacks: Int32Array
+  #indices: Int32Array
   #count = 0
 
-  public constructor(capacity = 1 << 12) {
+  public constructor(capacity = MINIMUM_TABLE_CAPACITY) {
     this.#mask = capacity - 1
     this.#addresses = new Float64Array(capacity)
-    this.#sizes = new Float64Array(capacity)
-    this.#stacks = new Int32Array(capacity)
+    this.#indices = new Int32Array(capacity)
+  }
+
+  public get count(): number {
+    return this.#count
   }
 
   /**
    * Records the allocation at {@link address}, replacing any live there, and
-   * returns the size it replaced, or `0` when nothing was live there.
+   * returns the index it replaced, or {@link NO_ALLOCATION} when nothing was
+   * live there.
    */
-  public set(address: number, size: number, stack: number): number {
+  public set(address: number, index: number): number {
     const slot = this.#slotOf(address)
-    const replaced = this.#addresses[slot] === 0 ? 0 : this.#sizes[slot]!
-    this.#fill(slot, address, size, stack)
+    const replaced =
+      this.#addresses[slot] === 0 ? NO_ALLOCATION : this.#indices[slot]!
+    this.#fill(slot, address, index)
     return replaced
   }
 
   /**
-   * Removes the allocation at {@link address} and returns its size, or `0`
-   * when nothing is live there.
+   * Removes the allocation at {@link address} and returns its index, or
+   * {@link NO_ALLOCATION} when nothing is live there.
    */
   public remove(address: number): number {
     const slot = this.#slotOf(address)
     if (this.#addresses[slot] === 0) {
-      return 0
+      return NO_ALLOCATION
     }
 
-    const size = this.#sizes[slot]!
+    const index = this.#indices[slot]!
     this.#empty(slot)
-    return size
+    return index
   }
 
-  /** Calls {@link visit} with the size and stack of every live allocation. */
-  public visitLive(visit: (size: number, stack: number) => void): void {
+  /**
+   * Replaces each allocation's index with `newIndices[index]`, in a smaller
+   * table when far fewer allocations are live than the table grew for, so a
+   * pass over it costs what is live rather than what once was.
+   */
+  public reindex(newIndices: Int32Array): void {
+    const capacity = tableCapacityFor(this.#count)
+    if (capacity < this.#addresses.length) {
+      this.#rehash(capacity, newIndices)
+      return
+    }
+
     for (let slot = 0; slot <= this.#mask; slot++) {
       if (this.#addresses[slot] !== 0) {
-        visit(this.#sizes[slot]!, this.#stacks[slot]!)
+        this.#indices[slot] = newIndices[this.#indices[slot]!]!
       }
     }
   }
@@ -1094,17 +1341,16 @@ class LiveAllocations {
     }
   }
 
-  #fill(slot: number, address: number, size: number, stack: number): void {
+  #fill(slot: number, address: number, index: number): void {
     if (this.#addresses[slot] === 0) {
       this.#addresses[slot] = address
       this.#count++
     }
-    this.#sizes[slot] = size
-    this.#stacks[slot] = stack
+    this.#indices[slot] = index
 
     // Probes stay short only while the table is under half full.
     if (this.#count * 2 > this.#mask) {
-      this.#grow()
+      this.#rehash((this.#mask + 1) * 2)
     }
   }
 
@@ -1131,34 +1377,51 @@ class LiveAllocations {
         ((candidate - hole) & this.#mask)
       ) {
         this.#addresses[hole] = address
-        this.#sizes[hole] = this.#sizes[candidate]!
-        this.#stacks[hole] = this.#stacks[candidate]!
+        this.#indices[hole] = this.#indices[candidate]!
         this.#addresses[candidate] = 0
         hole = candidate
       }
     }
   }
 
-  #grow(): void {
+  /**
+   * Moves every allocation into a new table of {@link capacity} slots,
+   * replacing each one's index with `newIndices[index]` when given.
+   */
+  #rehash(capacity: number, newIndices?: Int32Array): void {
     const addresses = this.#addresses
-    const sizes = this.#sizes
-    const stacks = this.#stacks
+    const indices = this.#indices
 
-    const capacity = (this.#mask + 1) * 2
     this.#mask = capacity - 1
     this.#addresses = new Float64Array(capacity)
-    this.#sizes = new Float64Array(capacity)
-    this.#stacks = new Int32Array(capacity)
+    this.#indices = new Int32Array(capacity)
     this.#count = 0
 
     for (let slot = 0; slot < addresses.length; slot++) {
       const address = addresses[slot]!
       if (address !== 0) {
-        this.#fill(this.#slotOf(address), address, sizes[slot]!, stacks[slot]!)
+        const index = indices[slot]!
+        this.#fill(
+          this.#slotOf(address),
+          address,
+          newIndices ? newIndices[index]! : index,
+        )
       }
     }
   }
 }
+
+/** The index {@link LiveAllocations} returns for an address nothing is live at. */
+const NO_ALLOCATION = -1
+
+const MINIMUM_TABLE_CAPACITY = 1 << 12
+
+/**
+ * The smallest table at most a quarter full at {@link count} allocations, so
+ * that it grows again only once they double.
+ */
+const tableCapacityFor = (count: number): number =>
+  Math.max(MINIMUM_TABLE_CAPACITY, 2 ** Math.ceil(Math.log2(count * 4 || 1)))
 
 /**
  * Hashes an address's low 32 bits into a slot index. The bits above them
@@ -1312,25 +1575,46 @@ const lineNumberFromLineDeltas = (
   return line
 }
 
-/** A cursor over a capture's bytes. */
+/**
+ * A cursor over a capture's bytes, which arrive in chunks.
+ *
+ * A read past the buffered bytes throws {@link InputExhaustedError}, for the caller
+ * to {@link rewind} and retry once more bytes are appended.
+ */
 class ByteReader {
-  readonly #bytes: Uint8Array
-  readonly #view: DataView
+  #bytes: Uint8Array = new Uint8Array(0)
+  #view = new DataView(this.#bytes.buffer)
   readonly #decoder = new TextDecoder()
-  #offset: number
-
-  public constructor(bytes: Uint8Array, offset = 0) {
-    this.#bytes = bytes
-    this.#view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
-    this.#offset = offset
-  }
+  #offset = 0
 
   public get offset(): number {
     return this.#offset
   }
 
-  public get done(): boolean {
-    return this.#offset >= this.#bytes.length
+  /** The buffered bytes not yet read. */
+  public get remaining(): number {
+    return this.#bytes.length - this.#offset
+  }
+
+  /**
+   * Appends {@link bytes} after the unread ones, dropping the read ones. The
+   * offset is then relative to the unread bytes, so rewind only to an offset
+   * taken since the last append.
+   */
+  public append(bytes: Uint8Array): void {
+    const unread = this.#bytes.subarray(this.#offset)
+    this.#bytes =
+      unread.length === 0 ? bytes : concatUint8Arrays([unread, bytes])
+    this.#view = new DataView(
+      this.#bytes.buffer,
+      this.#bytes.byteOffset,
+      this.#bytes.byteLength,
+    )
+    this.#offset = 0
+  }
+
+  public rewind(offset: number): void {
+    this.#offset = offset
   }
 
   public byte(): number {
@@ -1386,6 +1670,7 @@ class ByteReader {
     return this.#decoder.decode(this.#bytes.subarray(start, this.#offset - 1))
   }
 
+  /** Reads {@link count} bytes as a view, valid until the next append. */
   public bytes(count: number): Uint8Array {
     const start = this.#offset
     this.skip(count)
@@ -1399,7 +1684,16 @@ class ByteReader {
 
   #require(count: number): void {
     if (this.#offset + count > this.#bytes.length) {
-      throw new FormatParseError(`truncated capture`)
+      throw new InputExhaustedError()
     }
+  }
+}
+
+/** Thrown by a read past the bytes buffered so far. */
+class InputExhaustedError extends Error {
+  public constructor() {
+    super(`input exhausted`)
+    // eslint-disable-next-line stylistic/quotes
+    this.name = 'InputExhaustedError'
   }
 }
