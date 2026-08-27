@@ -127,14 +127,30 @@ const makeFormattingProfileToMdOptions = (
   inputs: AggregatedInput[],
 ): FormattingProfileToMdOptions => {
   const { baseURL } = options
-  return baseURL === `auto`
-    ? {
-        ...options,
-        baseURL: commonAncestorDirectoryURL(
-          collectInferableURLs(inputs, { ...options, baseURL: undefined }),
-        ),
-      }
-    : { ...options, baseURL }
+  if (baseURL !== `auto`) {
+    return { ...options, baseURL }
+  }
+
+  const urls = collectInferableURLs(inputs, { ...options, baseURL: undefined })
+  const inferredBaseURL = commonAncestorDirectoryURL(urls)
+  logInferredBaseURL(inferredBaseURL, urls, options)
+  return { ...options, baseURL: inferredBaseURL }
+}
+
+const logInferredBaseURL = (
+  inferredBaseURL: URL | undefined,
+  urls: readonly URL[],
+  { logger }: NormalizedProfileToMdOptions,
+): void => {
+  if (inferredBaseURL) {
+    logger.info?.(
+      `base URL: inferred ${inferredBaseURL.href} from ${urls.length} locations`,
+    )
+  } else {
+    logger.warn?.(
+      `base URL "auto" inferred no directory, so paths stay absolute: no function categorized as ours has an absolute location`,
+    )
+  }
 }
 
 /**
