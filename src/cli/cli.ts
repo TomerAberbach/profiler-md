@@ -53,9 +53,19 @@ const parseRegex = (
   } catch (error) {
     return {
       success: false,
-      error: message`expected a valid regex, got: ${value(pattern)} (${text(reasonOf(error))})`,
+      error: message`expected a valid regex, ${text(regexErrorReason(error))}, got: ${value(pattern)}`,
     }
   }
+}
+
+/**
+ * The reason a regex failed to compile, lowercased. V8 reports it as
+ * `Invalid regular expression: /<pattern>/<flags>: <reason>`, so the reason is
+ * the text after the last colon.
+ */
+const regexErrorReason = (error: unknown): string => {
+  const reason = reasonOf(error).split(`: `).at(-1)!
+  return reason.charAt(0).toLowerCase() + reason.slice(1)
 }
 
 const regex = (): ValueParser<`sync`, RegExp> => ({

@@ -507,7 +507,7 @@ test(`sourceMaps warns about relative sources with no base URL`, () => {
   expectLogs([
     ...DETECTION_LOGS,
     `info: source maps: 1 of 2 generated files have a source map`,
-    `warn: source map sources are relative paths, so their locations stay unmapped until baseURL is set`,
+    `warn: source map sources are relative paths, so their locations stay unmapped\n  hint: pass baseURL to resolve them`,
     `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js, whose sources are relative paths and stay unmapped without a base URL`,
     `debug: file:///project/dist/b.js: no source map`,
   ])

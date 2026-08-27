@@ -314,6 +314,11 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Write a message as `<what failed>: <detail>`, or as a single clause when there
   is no useful prefix. Put the offending value last, after `got: `.
   `eslint-rules/error-message.js` checks the remaining wording conventions
+- A message has at most one colon, the one after its prefix. NEVER nest a clause
+  in parentheses or chain a second colon: write a qualifier into the prefix
+  (`detected format: collapsed`), a reason as a clause (`because ...`), and what
+  the caller can do on a continuation line indented by two spaces
+  (`\n  hint: pass baseURL to resolve them`), which a logger prints as is
 - Name what the caller controls (a flag, an option, a file path), never an
   internal function. An invariant message is the exception, since only a
   maintainer reads it

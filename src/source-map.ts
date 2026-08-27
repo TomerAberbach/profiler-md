@@ -185,7 +185,7 @@ export class SourceMapResolver {
         mappedFiles.some(({ relativeSource }) => relativeSource)
       ) {
         logger.warn(
-          `source map sources are relative paths, so their locations stay unmapped until baseURL is set`,
+          `source map sources are relative paths, so their locations stay unmapped\n  hint: pass baseURL to resolve them`,
         )
       }
     }

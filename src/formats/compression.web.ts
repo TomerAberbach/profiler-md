@@ -3,7 +3,7 @@ import type { CompressionRuntime } from './compression.ts'
 
 export const decompressGzip: CompressionRuntime[`decompressGzip`] = () => {
   throw new ProfilerMdError(
-    `cannot decompress a gzip input synchronously in this runtime: use the async API, or decompress the input first`,
+    `cannot decompress a gzip input synchronously in this runtime\n  hint: use the async API, or decompress the input first`,
   )
 }
 

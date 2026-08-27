@@ -287,7 +287,7 @@ describe.each<[string, CompressionRuntime]>([
   } else {
     test(`cannot decode synchronously`, () => {
       expect(() => runtime.decompressGzip(gzipped)).toThrow(
-        /^cannot decompress a gzip input synchronously in this runtime: /u,
+        /^cannot decompress a gzip input synchronously in this runtime\n {2}hint: /u,
       )
       expect(runtime.tryDecompressBrotli(brotlied)).toBeUndefined()
     })
