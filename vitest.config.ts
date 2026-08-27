@@ -1,6 +1,6 @@
 import { readdirSync, statSync } from 'node:fs'
 import path from 'node:path'
-import { configDefaults, defineConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config'
 import { parseExampleFilename } from './src/cli/examples.ts'
 import { formats } from './src/formats/registry.ts'
 import type { Format } from './src/formats/registry.ts'
@@ -151,7 +151,6 @@ export default defineConfig({
     pool: `threads`,
     isolate: false,
     setupFiles: [`src/test-setup.ts`],
-    exclude: [...configDefaults.exclude, `.claude/worktrees/**`],
     projects,
     coverage: {
       include: [`src`],

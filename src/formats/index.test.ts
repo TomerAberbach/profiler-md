@@ -1,8 +1,10 @@
 import { readdirSync, readFileSync } from 'node:fs'
+import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
 import { ProfilerMdError } from '../error.ts'
+import { asLz4Frame } from '../helpers/testing.ts'
 import { sourceReferenceId } from '../location.ts'
 import type { CallStackProfile } from '../modalities/call-stack-profile/index.ts'
 import {
@@ -127,6 +129,133 @@ if (format === undefined) {
       )
 
       expect(projectInputs.sort()).toEqual(readdirSync(inputPath()).sort())
+    })
+  })
+}
+
+if (format === undefined) {
+  // The pipeline strips an input's compression before detection, so these run
+  // on a profile of no particular format: a speedscope file with no profiles,
+  // which converts to the no-data message.
+  describe(`compressed inputs`, () => {
+    const bytes = new TextEncoder().encode(emptyProfile)
+    const gzipped = new Uint8Array(gzipSync(bytes))
+    const brotlied = new Uint8Array(brotliCompressSync(bytes))
+    const lz4ed = asLz4Frame(bytes)
+    const NO_DATA = `No profiling data found.\n`
+    const CODECS: [string, Uint8Array][] = [
+      [`gzip`, gzipped],
+      [`brotli`, brotlied],
+      [`LZ4`, lz4ed],
+    ]
+    /** A decoding attempt identifies brotli, and it consumes a stream. */
+    const MAGIC_CODECS = CODECS.filter(([name]) => name !== `brotli`)
+
+    test.each(CODECS)(`profileToMd detects a %s input`, (_, compressed) => {
+      expect(profileToMd(compressed)).toBe(NO_DATA)
+      expect(
+        profileToMd([compressed.subarray(0, 9), compressed.subarray(9)]),
+      ).toBe(NO_DATA)
+    })
+
+    test.each(CODECS)(
+      `profileToMd converts a %s input of a specified format`,
+      (_, compressed) => {
+        expect(profileToMd({ data: compressed, format: `speedscope` })).toBe(
+          NO_DATA,
+        )
+      },
+    )
+
+    test.each(CODECS)(
+      `profileToMdAsync detects a %s input`,
+      async (_, compressed) => {
+        expect(await profileToMdAsync(new Blob([compressed]))).toBe(NO_DATA)
+        expect(await profileToMdAsync(new Blob([compressed]).stream())).toBe(
+          NO_DATA,
+        )
+      },
+    )
+
+    test.each(MAGIC_CODECS)(
+      `profileToMdAsync converts a %s input of a specified format`,
+      async (_, compressed) => {
+        expect(
+          await profileToMdAsync({
+            data: new Blob([compressed]),
+            format: `speedscope`,
+          }),
+        ).toBe(NO_DATA)
+        expect(
+          await profileToMdAsync({
+            data: new Blob([compressed]).stream(),
+            format: `speedscope`,
+          }),
+        ).toBe(NO_DATA)
+      },
+    )
+
+    // Brotli has no magic bytes, so the pipeline tries it only once the bytes
+    // fail as they are. That first attempt consumes a stream.
+    test(`profileToMdAsync tries brotli on a blob of a specified format, not a stream`, async () => {
+      expect(
+        await profileToMdAsync({
+          data: new Blob([brotlied]),
+          format: `speedscope`,
+        }),
+      ).toBe(NO_DATA)
+      await expect(
+        profileToMdAsync({
+          data: new Blob([brotlied]).stream(),
+          format: `speedscope`,
+        }),
+      ).rejects.toThrow(`Speedscope: invalid JSON`)
+    })
+
+    test(`reports the original failure when brotli is not the answer either`, () => {
+      expect(() =>
+        profileToMd(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])),
+      ).toThrow(FormatDetectError)
+    })
+
+    test(`reports a corrupt compressed input as the caller's`, () => {
+      expect(() => profileToMd(gzipped.subarray(0, 20))).toThrow(
+        `cannot decompress the gzip input`,
+      )
+      expect(() => profileToMd(lz4ed.subarray(0, 12))).toThrow(
+        `cannot decompress the LZ4 input`,
+      )
+    })
+  })
+
+  describe(`named inputs`, () => {
+    const unusable = `{"nodes": [`
+
+    test(`report their name with a failure they cause`, () => {
+      expect(() =>
+        profileToMd({ data: unusable, name: `example.cpuprofile` }),
+      ).toThrow(/^example\.cpuprofile: /u)
+    })
+
+    test.each([
+      [`base`, 0],
+      [`current`, 1],
+    ])(`name the %s side of a diff`, (name, index) => {
+      const sides = [emptyProfile, emptyProfile]
+      sides[index] = unusable
+
+      expect(() =>
+        diffProfiles(
+          { data: sides[0]!, name: `base.cpuprofile` },
+          { data: sides[1]!, name: `current.cpuprofile` },
+        ),
+      ).toThrow(new RegExp(`^${name}\\.cpuprofile: `, `u`))
+    })
+
+    test(`leave an unnamed input's failure alone`, () => {
+      expect(() => profileToMd(unusable)).toThrow(
+        /^could not detect the profile format, /u,
+      )
     })
   })
 }

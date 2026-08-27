@@ -17,7 +17,14 @@ export class ProfilerMdError extends Error {
 }
 
 /** An error's message on one line, for embedding in another message. */
-export const reasonOf = (error: unknown): string =>
+export const reasonOf = (error: unknown): string => {
+  const reason = messageOf(error)
+  return !reason && error instanceof Error && error.cause instanceof Error
+    ? reasonOf(error.cause)
+    : reason
+}
+
+const messageOf = (error: unknown): string =>
   (error instanceof Error ? error.message : String(error))
     .replaceAll(/\s+/gu, ` `)
     .trim()

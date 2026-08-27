@@ -28,25 +28,34 @@ export type ProfileData = string | Uint8Array | Iterable<Uint8Array>
 export type AsyncProfileData = Blob | ReadableStream<Uint8Array>
 
 /**
- * Profile data with an optional explicit format and origin.
+ * Profile data with an optional explicit format and origin, and an optional
+ * name for the data's source.
  *
- * The format and origin are auto-detected if not specified.
+ * The format and origin are auto-detected if not specified. The name is
+ * reported with a failure the input causes, so a diff states which of its two
+ * inputs failed.
  */
 export type ProfileInput<Data> =
-  Data | { data: Data; format?: Format; origin?: Origin }
+  Data | { data: Data; format?: Format; origin?: Origin; name?: string }
 
 export type NormalizedProfileInput<Data> = {
   data: Data
   format: Format | undefined
   origin: Origin | undefined
+  name: string | undefined
 }
 
 export const normalizeProfileInput = <Data>(
   input: ProfileInput<Data>,
 ): NormalizedProfileInput<Data> =>
   typeof input === `object` && input !== null && `data` in input
-    ? { data: input.data, format: input.format, origin: input.origin }
-    : { data: input, format: undefined, origin: undefined }
+    ? {
+        data: input.data,
+        format: input.format,
+        origin: input.origin,
+        name: input.name,
+      }
+    : { data: input, format: undefined, origin: undefined, name: undefined }
 
 /**
  * The category of code a function originated from.

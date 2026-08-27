@@ -15,7 +15,7 @@ profiler-md
 │   │   ├── index.ts              # CLI entry point that orchestrates the run
 │   │   ├── cli.ts                # Optique flag and topic definitions, and the program
 │   │   ├── parse-args.ts         # Runs the Optique parser over argv, restating its errors in this CLI's style
-│   │   ├── input.ts              # Reads stdin or file, decompresses gzip/brotli
+│   │   ├── input.ts              # Opens stdin or a file as a Blob, reporting a read failure
 │   │   ├── options.ts            # Builds API options from CLI flags
 │   │   ├── output.ts             # Writes Markdown to file or stdout (optionally paged)
 │   │   ├── pager.ts              # Spawns $PAGER or `less` for stdout output
@@ -34,6 +34,9 @@ profiler-md
 │   │   ├── registry.ts           # Format converter registry
 │   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
 │   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
+│   │   ├── compression.ts        # Strips gzip and LZ4 by their magic bytes, and tries brotli last, using the runtime's decoders
+│   │   ├── compression.node.ts   # The `#compression` runtime a Node bundle resolves to (node:zlib)
+│   │   ├── compression.web.ts    # The `#compression` runtime every other bundle resolves to (DecompressionStream)
 │   │   ├── detect.ts             # Format auto-detection and its undetected-format error
 │   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
 │   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
@@ -59,6 +62,7 @@ profiler-md
 │   │   ├── zig.ts                # Zig toolchain conventions for native profilers (Zig registers no origin)
 │   │   ├── specs/
 │   │   │   ├── <name>.ts         # One file per origin (e.g. node, node-pprof, jdk)
+│   │   │   ├── go-std-packages.txt # Pinned `go list std` output the go spec's test checks its stdlib rule against
 │   │   │   └── index.ts          # Exports originSpecs in detection-priority order
 │   │   ├── index.ts              # Origin registry and derived detector
 │   │   └── testing.ts            # Test-only origin detection and entry construction helpers
@@ -201,7 +205,7 @@ pnpm categories
 pnpm categories --rule '^LinearScan'
 
 # Generate inputs
-pnpm generate-inputs           # --missing: skip already-generated inputs
+pnpm generate-inputs           # Skip already-generated inputs (the default, --missing)
 pnpm generate-inputs --all     # Delete targets first, regenerate all
 pnpm generate-inputs go ruby   # Limit to named workload scripts
 ```

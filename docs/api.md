@@ -46,6 +46,20 @@ console.log(
 )
 ```
 
+The same object takes a `name` for the data's source. The message of a failure
+the input causes begins with it, so a diff states which of its two inputs
+failed:
+
+```js
+// Error: base.pprof: pprof: invalid protobuf encoding: …
+console.log(
+  await diffProfilesAsync(
+    { data: await openAsBlob(`base.pprof`), name: `base.pprof` },
+    { data: await openAsBlob(`current.pprof`), name: `current.pprof` },
+  ),
+)
+```
+
 ## Diffing
 
 Diff two profiles or two heap snapshots:
@@ -143,3 +157,27 @@ console.log(
   ),
 )
 ```
+
+## Compressed inputs
+
+The API strips an input's compression before detecting its format, so a profile
+converts as its profiler wrote it: a gzipped `.pb.gz` pprof profile, an LZ4
+memray capture, or a profile a user compressed.
+
+The API identifies gzip and LZ4 by their magic bytes, and reports a failure to
+decode either as an error naming the codec. Brotli has none, so the API tries it
+only after the input fails to convert as it is, and reports the original failure
+when the brotli attempt fails too. A brotli input therefore reports the
+conversion's own failure, never a decompression error.
+
+The available codecs depend on the runtime the package resolves to:
+
+| Runtime     | Sync API                                 | Async API                                                                  |
+| ----------- | ---------------------------------------- | -------------------------------------------------------------------------- |
+| Node.js     | gzip, brotli, LZ4                        | gzip, brotli, LZ4                                                          |
+| Other (web) | LZ4 (gzip throws, brotli is unsupported) | gzip, LZ4, and brotli where the runtime's `DecompressionStream` accepts it |
+
+The async API streams a gzipped `Blob` or `ReadableStream` through the decoder
+when the format is given, so the decompressed bytes are never held whole. Under
+auto-detection the API buffers the decompressed input, because detection reads
+it several times. An LZ4 input is decoded whole either way.

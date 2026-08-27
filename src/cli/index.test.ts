@@ -525,12 +525,13 @@ if (format === undefined) {
     await rm(dir, { recursive: true })
   })
 
-  // Only gzip is detectable from stdin, where there is no extension, since it
-  // has a magic-number header and brotli does not.
-  test.concurrent(`auto-decompresses gzip from stdin`, async () => {
+  test.concurrent.each([
+    { compression: `gzip`, compress: gzipAsync },
+    { compression: `brotli`, compress: brotliCompressAsync },
+  ])(`auto-decompresses $compression from stdin`, async ({ compress }) => {
     const { status, stdout } = await runCli(
       [],
-      await gzipAsync(cpuProfileContent),
+      await compress(cpuProfileContent),
     )
 
     expect(status).toBe(0)
@@ -699,7 +700,7 @@ if (format === undefined) {
       expect(status).toBe(1)
       const [errorLine, ...caveatLines] = stderr.split(`\n`)
       expect(errorLine).toContain(
-        `error: V8 CPU profile: failed to parse the input: `,
+        `error: stdin: V8 CPU profile: failed to parse the input: `,
       )
       const traceLines = caveatLines.splice(3)
       expect(caveatLines).toEqual([
@@ -724,7 +725,9 @@ if (format === undefined) {
       )
 
       expect(status).toBe(1)
-      expect(stderr).toBe(`error: Collapsed stacks: missing sample count\n`)
+      expect(stderr).toBe(
+        `error: stdin: Collapsed stacks: missing sample count\n`,
+      )
     },
   )
 
@@ -747,13 +750,13 @@ if (format === undefined) {
       scenario: `stdin with invalid JSON under an explicit JSON format`,
       args: [`--format`, `v8-cpu-profile`],
       input: `garbage\n`,
-      expectedStderr: `error: V8 CPU profile: invalid JSON: `,
+      expectedStderr: `error: stdin: V8 CPU profile: invalid JSON: `,
       expectedStatus: 1,
     },
     {
       scenario: `a JSON file under --format pprof`,
       args: [`--format`, `pprof`, inputPath(`javascript.node.base.cpuprofile`)],
-      expectedStderr: `error: pprof: invalid protobuf encoding: `,
+      expectedStderr: `error: ${inputPath(`javascript.node.base.cpuprofile`)}: pprof: invalid protobuf encoding: `,
       expectedStatus: 1,
     },
     {

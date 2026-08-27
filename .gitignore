@@ -1,7 +1,6 @@
 /node_modules/
 /coverage/
 /dist/
-.claude/worktrees
 
 # Large input assets we fetch.
 scripts/inputs/assets/c

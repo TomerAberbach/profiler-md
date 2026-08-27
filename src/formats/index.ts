@@ -1,4 +1,4 @@
-import { concatUint8Arrays, streamToUint8Array } from '../helpers/bytes.ts'
+import { ProfilerMdError } from '../error.ts'
 import {
   maybeJson,
   maybeJsonAsync,
@@ -8,6 +8,7 @@ import {
 import type {
   AggregationProfileToMdOptions,
   AsyncProfileData,
+  NormalizedProfileInput,
   ProfileData,
   ProfileInput,
   ProfileToMdOptions,
@@ -17,13 +18,18 @@ import {
   normalizeProfileToMdOptions,
 } from '../options.ts'
 import { aggregateParsedInputs, makeContext } from './aggregate.ts'
+import {
+  withBufferedDecompressedAsync,
+  withDecompressed,
+  withDecompressedAsync,
+} from './compression.ts'
 import type { AggregatedInput } from './converter.ts'
 import {
   detectBinaryFormat,
   detectJsonFormat,
   toUndetectedFormatError,
 } from './detect.ts'
-import type { FormatRejection } from './detect.ts'
+import type { DetectedInput, FormatRejection } from './detect.ts'
 import { formatAggregatedDiff, formatAggregatedInputs } from './format.ts'
 import {
   dataToBytes,
@@ -119,22 +125,103 @@ export const aggregateInput = (
   input: ProfileInput<ProfileData>,
   options: AggregationProfileToMdOptions,
 ): AggregatedInput[] => {
-  const { data, format, origin } = normalizeProfileInput(input)
+  const { name, ...normalized } = normalizeProfileInput(input)
+  try {
+    return aggregateNormalizedInput(normalized, options)
+  } catch (error: unknown) {
+    throw prefixInputName(error, name)
+  }
+}
 
+const aggregateNormalizedInput = (
+  { data, format, origin }: Omit<NormalizedProfileInput<ProfileData>, `name`>,
+  options: AggregationProfileToMdOptions,
+): AggregatedInput[] => {
   if (format) {
     logFormat(format, `specified`, options)
 
-    const parsed = parseAsFormat(formatToConverter[format], data)
+    const converter = formatToConverter[format]
+    const parsed = withDecompressed(data, decompressed =>
+      parseAsFormat(converter, decompressed),
+    )
     return aggregateParsedInputs(parsed, options, makeContext(format, origin))
   }
 
-  // Buffer an `Iterable` up front because it might be one-shot, but we need to
-  // read it multiple times for detection.
-  const isIterable = typeof data !== `string` && !ArrayBuffer.isView(data)
-  const buffered: string | Uint8Array = isIterable
-    ? concatUint8Arrays(data)
-    : data
+  const detected = withDecompressed(data, decompressed =>
+    detectFormat(decompressed, options),
+  )
+  logFormat(detected.format, `detected`, options)
 
+  return aggregateParsedInputs(
+    detected.parsed,
+    options,
+    makeContext(detected.format, origin),
+  )
+}
+
+const aggregateInputAsync = async (
+  input: ProfileInput<AsyncProfileData>,
+  options: AggregationProfileToMdOptions,
+): Promise<AggregatedInput[]> => {
+  const { name, ...normalized } = normalizeProfileInput(input)
+  try {
+    return await aggregateNormalizedInputAsync(normalized, options)
+  } catch (error: unknown) {
+    throw prefixInputName(error, name)
+  }
+}
+
+const aggregateNormalizedInputAsync = async (
+  {
+    data,
+    format,
+    origin,
+  }: Omit<NormalizedProfileInput<AsyncProfileData>, `name`>,
+  options: AggregationProfileToMdOptions,
+): Promise<AggregatedInput[]> => {
+  if (format) {
+    logFormat(format, `specified`, options)
+
+    const converter = formatToConverter[format]
+    const parsed = await withDecompressedAsync(data, decompressed =>
+      parseAsFormatAsync(converter, decompressed),
+    )
+    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
+  }
+
+  // Detection reads the data several times.
+  const detected = await withBufferedDecompressedAsync(data, decompressed =>
+    detectFormatAsync(decompressed, options),
+  )
+  logFormat(detected.format, `detected`, options)
+
+  return aggregateParsedInputs(
+    detected.parsed,
+    options,
+    makeContext(detected.format, origin),
+  )
+}
+
+/**
+ * Prefixes an error's message with the name of the input it came from, so a
+ * diff states which of its two inputs failed. It returns an error the caller's
+ * data threw unchanged, because the caller already knows which data it was
+ * reading.
+ */
+const prefixInputName = (error: unknown, name: string | undefined): unknown =>
+  name === undefined || !(error instanceof ProfilerMdError)
+    ? error
+    : new ProfilerMdError(`${name}: ${error.message}`, { cause: error })
+
+/**
+ * Detects the format of buffered data and parses it.
+ *
+ * @throws a `FormatDetectError` when no format accepts the data.
+ */
+const detectFormat = (
+  buffered: string | Uint8Array,
+  options: AggregationProfileToMdOptions,
+): DetectedInput => {
   let json: unknown
   let jsonError: unknown
   if (maybeJson(buffered)) {
@@ -156,33 +243,13 @@ export const aggregateInput = (
   if (!detected) {
     throw toUndetectedFormatError(rejections, jsonError)
   }
-  logFormat(detected.format, `detected`, options)
-
-  return aggregateParsedInputs(
-    detected.parsed,
-    options,
-    makeContext(detected.format, origin),
-  )
+  return detected
 }
 
-const aggregateInputAsync = async (
-  input: ProfileInput<AsyncProfileData>,
+const detectFormatAsync = async (
+  buffered: Blob | Uint8Array,
   options: AggregationProfileToMdOptions,
-): Promise<AggregatedInput[]> => {
-  const { data, format, origin } = normalizeProfileInput(input)
-
-  if (format) {
-    logFormat(format, `specified`, options)
-
-    const parsed = await parseAsFormatAsync(formatToConverter[format], data)
-    return aggregateParsedInputs(parsed, options, makeContext(format, origin))
-  }
-
-  // Buffer a `ReadableStream` up front because it might be one-shot, but we
-  // need to read it multiple times for detection.
-  const buffered: Blob | Uint8Array =
-    data instanceof Blob ? data : await streamToUint8Array(data)
-
+): Promise<DetectedInput> => {
   let json: unknown
   let jsonError: unknown
   const couldBeJson =
@@ -222,13 +289,7 @@ const aggregateInputAsync = async (
   if (!detected) {
     throw toUndetectedFormatError(rejections, jsonError)
   }
-  logFormat(detected.format, `detected`, options)
-
-  return aggregateParsedInputs(
-    detected.parsed,
-    options,
-    makeContext(detected.format, origin),
-  )
+  return detected
 }
 
 const logFormat = (
