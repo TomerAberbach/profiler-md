@@ -1,4 +1,4 @@
-import { ProfilerMdError, reasonOf } from '../error.ts'
+import { ProfilerMdError } from '../error.ts'
 import {
   classifyStreamFailures,
   concatUint8Arrays,
@@ -279,12 +279,12 @@ const decompressLz4 = (bytes: Uint8Array): Uint8Array => {
 }
 
 const gzipError = (error: unknown): ProfilerMdError =>
-  new ProfilerMdError(`cannot decompress the gzip input: ${reasonOf(error)}`, {
+  new ProfilerMdError(`cannot decompress the gzip input`, {
     cause: error,
   })
 
 const lz4Error = (error: unknown): ProfilerMdError =>
-  new ProfilerMdError(`cannot decompress the LZ4 input: ${reasonOf(error)}`, {
+  new ProfilerMdError(`cannot decompress the LZ4 input`, {
     cause: error,
   })
 

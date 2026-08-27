@@ -2,7 +2,6 @@ import { glob, readFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import convertSourceMap from 'convert-source-map'
-import { reasonOf } from '../error.ts'
 import type { DeepReadonly } from '../helpers/types.ts'
 import {
   defaultCategorizeFunctions,
@@ -195,21 +194,17 @@ const loadSourceMaps = async (
       try {
         content = await readFile(path, `utf8`)
       } catch (error) {
-        throw new CliError(
-          `cannot read source map ${path}: ${reasonOf(error)}`,
-          1,
-          { cause: error },
-        )
+        throw new CliError(`cannot read source map ${path}`, 1, {
+          cause: error,
+        })
       }
 
       try {
         return parseSourceMap(content, path, logger)
       } catch (error) {
-        throw new CliError(
-          `cannot parse source map ${path}: ${reasonOf(error)}`,
-          1,
-          { cause: error },
-        )
+        throw new CliError(`cannot parse source map ${path}`, 1, {
+          cause: error,
+        })
       }
     }),
   )

@@ -133,9 +133,7 @@ test(`sourceMaps throws for an invalid source map`, () => {
     resolveProfileToMdOptions({
       sourceMaps: [mapping({ file: `/app.js`, version: `2` })],
     }),
-  ).toThrow(
-    `sourceMaps entry for /app.js is an invalid source map: Unsupported version: 2`,
-  )
+  ).toThrow(`sourceMaps entry for /app.js is an invalid source map`)
 })
 
 test.each([

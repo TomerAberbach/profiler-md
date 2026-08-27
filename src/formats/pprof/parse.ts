@@ -1,5 +1,4 @@
 import { Profile as PprofProto } from 'pprof-format'
-import { reasonOf } from '../../error.ts'
 import type {
   CallStackProfile,
   Observation,
@@ -15,10 +14,7 @@ export const parsePprof = (bytes: Uint8Array): CallStackProfile[] => {
   try {
     profile = PprofProto.decode(bytes)
   } catch (error) {
-    throw new FormatParseError(
-      `invalid protobuf encoding: ${reasonOf(error)}`,
-      { cause: error },
-    )
+    throw new FormatParseError(`invalid protobuf encoding`, { cause: error })
   }
   const string = makeStringReader(profile)
 

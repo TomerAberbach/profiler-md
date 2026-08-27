@@ -103,7 +103,7 @@ describe(`matches`, () => {
     }
 
     expect(thrown).toBeInstanceOf(FormatParseError)
-    expect((thrown as Error).message).toMatch(/^invalid JSON: /u)
+    expect((thrown as Error).message).toBe(`invalid JSON`)
     expect((thrown as Error).cause).toBeInstanceOf(SyntaxError)
   })
 

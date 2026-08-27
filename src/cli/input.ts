@@ -1,7 +1,6 @@
 import { createReadStream, openAsBlob } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { blob } from 'node:stream/consumers'
-import { reasonOf } from '../error.ts'
 import { CliError } from './error.ts'
 
 export const openInputAsBlob = async (
@@ -22,9 +21,7 @@ export const openInputAsBlob = async (
         cause: error,
       })
     }
-    throw new CliError(`cannot read ${filePath}: ${reasonOf(error)}`, 1, {
-      cause: error,
-    })
+    throw new CliError(`cannot read ${filePath}`, 1, { cause: error })
   }
   if (stats.isDirectory()) {
     throw new CliError(`cannot read ${filePath}: is a directory`, 1)
@@ -49,9 +46,7 @@ export const openInputAsBlob = async (
   try {
     return await openAsBlob(filePath)
   } catch (error) {
-    throw new CliError(`cannot read ${filePath}: ${reasonOf(error)}`, 1, {
-      cause: error,
-    })
+    throw new CliError(`cannot read ${filePath}`, 1, { cause: error })
   }
 }
 
@@ -74,8 +69,6 @@ const readStreamAsBlob = async (
   try {
     return await blob(stream)
   } catch (error) {
-    throw new CliError(`cannot read ${source}: ${reasonOf(error)}`, 1, {
-      cause: error,
-    })
+    throw new CliError(`cannot read ${source}`, 1, { cause: error })
   }
 }

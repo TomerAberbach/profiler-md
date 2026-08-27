@@ -1,7 +1,6 @@
 import { createWriteStream } from 'node:fs'
 import { access, constants, stat } from 'node:fs/promises'
 import { dirname } from 'node:path'
-import { reasonOf } from '../error.ts'
 import { CliError, isClosedReaderError } from './error.ts'
 import { openPager } from './pager.ts'
 
@@ -95,12 +94,16 @@ const openOutput = async (outputPath: string): Promise<Output> => {
   }
 }
 
-const writeError = (outputPath: string, error: unknown): CliError =>
-  new CliError(
-    `cannot write ${outputPath}: ${WRITE_ERROR_REASONS.get(errorCodeOf(error)) ?? reasonOf(error)}`,
+const writeError = (outputPath: string, error: unknown): CliError => {
+  const reason = WRITE_ERROR_REASONS.get(errorCodeOf(error))
+  return new CliError(
+    reason
+      ? `cannot write ${outputPath}: ${reason}`
+      : `cannot write ${outputPath}`,
     1,
     { cause: error },
   )
+}
 
 const errorCodeOf = (error: unknown): string | undefined =>
   error instanceof Error && `code` in error && typeof error.code === `string`
