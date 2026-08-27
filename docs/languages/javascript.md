@@ -283,6 +283,14 @@ Open the Web Inspector with **Develop → Show Web Inspector** (or ⌥⌘I).
 5. Click **Stop Recording**.
 6. Click the **Export** button (arrow icon) and save as a `.json` file.
 
+With the **Network** instrument enabled, the export embeds every request and
+response of the recording as a HAR entry: URLs, request and response headers,
+cookies, and request bodies. Those can include session cookies, credentials, and
+your location or public IP address, which some sites store in a cookie or echo
+in a response header. This tool reads none of it, so disable the Network
+instrument before recording, or redact the sensitive headers and cookies before
+sharing the file.
+
 ### Heap snapshots
 
 Open the **Memory** panel, select **Heap Snapshot**, and click **Take
