@@ -471,9 +471,10 @@ const cpuProfile = JSON.stringify({
 })
 
 const DETECTION_LOGS = [
-  `info: format: v8-cpu-profile (detected)`,
+  `info: detected format: v8-cpu-profile`,
   `debug: origin candidates, in priority order: deno, bun, node, chrome`,
-  `info: origin: chrome (the fallback: no entry marked another origin)`,
+  `info: fallback origin: chrome`,
+  `debug: no entry marked another origin`,
 ]
 
 test(`sourceMaps reports each generated file and warns about a map matching none`, () => {
@@ -487,10 +488,10 @@ test(`sourceMaps reports each generated file and warns about a map matching none
 
   expectLogs([
     ...DETECTION_LOGS,
-    `info: source maps: 1 of 2 generated files have a source map`,
-    `warn: source map for file:///project/dist/c.js matched no generated file in the profile, whose generated files are: file:///project/dist/a.js, file:///project/dist/b.js`,
-    `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js`,
-    `debug: file:///project/dist/b.js: no source map`,
+    `info: source maps matched 1 of 2 generated files`,
+    `warn: source map for file:///project/dist/c.js matched none of the profile's generated files: file:///project/dist/a.js, file:///project/dist/b.js`,
+    `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js`,
+    `debug: file:///project/dist/b.js has no source map`,
   ])
 })
 
@@ -504,10 +505,10 @@ test(`sourceMaps warns about relative sources with no base URL`, () => {
 
   expectLogs([
     ...DETECTION_LOGS,
-    `info: source maps: 1 of 2 generated files have a source map`,
+    `info: source maps matched 1 of 2 generated files`,
     `warn: source map sources are relative paths, so their locations stay unmapped\n  hint: pass baseURL to resolve them`,
-    `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js, whose sources are relative paths and stay unmapped without a base URL`,
-    `debug: file:///project/dist/b.js: no source map`,
+    `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js, whose sources are relative paths and stay unmapped without a base URL`,
+    `debug: file:///project/dist/b.js has no source map`,
   ])
 })
 
@@ -522,10 +523,11 @@ test(`sourceMaps resolves relative sources against an inferred base URL without 
   expect(markdown).toContain(`../src/a.ts:1:1`)
   expectLogs([
     ...DETECTION_LOGS,
-    `info: base URL: inferred file:///project/dist/ from 2 locations`,
-    `info: source maps: 1 of 2 generated files have a source map`,
-    `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js`,
-    `debug: file:///project/dist/b.js: no source map`,
+    `info: inferred base URL: file:///project/dist/`,
+    `debug: the base URL is the common directory of 2 absolute locations categorized as ours`,
+    `info: source maps matched 1 of 2 generated files`,
+    `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js`,
+    `debug: file:///project/dist/b.js has no source map`,
   ])
 })
 
@@ -539,9 +541,9 @@ test(`sourceMaps counts and matches generated files formatting does not show`, (
 
   expectLogs([
     ...DETECTION_LOGS,
-    `info: source maps: 1 of 2 generated files have a source map`,
-    `debug: file:///project/dist/a.js: no source map`,
-    `debug: file:///project/dist/b.js: mapped by the source map for file:///project/dist/b.js`,
+    `info: source maps matched 1 of 2 generated files`,
+    `debug: file:///project/dist/a.js has no source map`,
+    `debug: file:///project/dist/b.js is mapped by the source map for file:///project/dist/b.js`,
   ])
 })
 
@@ -568,13 +570,13 @@ test(`sourceMaps reports each conversion's generated files when options are shar
 
   expectLogs([
     ...DETECTION_LOGS,
-    `info: source maps: 1 of 2 generated files have a source map`,
-    `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js`,
-    `debug: file:///project/dist/b.js: no source map`,
+    `info: source maps matched 1 of 2 generated files`,
+    `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js`,
+    `debug: file:///project/dist/b.js has no source map`,
     ...DETECTION_LOGS,
-    `info: source maps: 0 of 1 generated files have a source map`,
-    `warn: source map for file:///project/dist/a.js matched no generated file in the profile, whose generated files are: file:///project/dist/c.js`,
-    `debug: file:///project/dist/c.js: no source map`,
+    `info: source maps matched 0 of 1 generated files`,
+    `warn: source map for file:///project/dist/a.js matched none of the profile's generated files: file:///project/dist/c.js`,
+    `debug: file:///project/dist/c.js has no source map`,
   ])
 })
 
@@ -587,9 +589,9 @@ test(`sourceMaps reports the positions a source map has no mapping for`, () => {
 
   expectLogs([
     ...DETECTION_LOGS,
-    `info: source maps: 1 of 2 generated files have a source map`,
-    `debug: file:///project/dist/a.js: mapped by the source map for file:///project/dist/a.js, which has no mapping for 1 position (e.g. 1:1)`,
-    `debug: file:///project/dist/b.js: no source map`,
+    `info: source maps matched 1 of 2 generated files`,
+    `debug: file:///project/dist/a.js is mapped by the source map for file:///project/dist/a.js, which has no mapping for 1 position such as 1:1`,
+    `debug: file:///project/dist/b.js has no source map`,
   ])
 })
 

@@ -1120,19 +1120,21 @@ describe(`convert`, () => {
     survivingObjects: [0x1000],
   })
 
-  test.prop([
-    fc.constantFrom(everyRecord, everyAggregatedRecord),
-    fc.integer({ min: 1, max: 64 }),
-  ])(
+  const captures = [everyRecord, everyAggregatedRecord].map(capture => ({
+    capture,
+    expectedMd: convertBytesToMd(memrayConverter, capture, options()),
+  }))
+
+  test.prop([fc.constantFrom(...captures), fc.integer({ min: 1, max: 64 })])(
     `reads a stream the same way at any chunk size`,
-    async (capture, chunkSize) => {
+    async ({ capture, expectedMd }, chunkSize) => {
       const md = await convertToMdAsync(
         memrayConverter,
         streamOf(...chunk(capture, chunkSize)),
         options(),
       )
 
-      expect(md).toEqual(convertBytesToMd(memrayConverter, capture, options()))
+      expect(md).toEqual(expectedMd)
     },
   )
 

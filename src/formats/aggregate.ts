@@ -65,31 +65,36 @@ const logOrigin = (
   }
 
   const { evidence, candidates } = detector
-  if (evidence.type !== `specified`) {
-    debug?.(`origin candidates, in priority order: ${candidates.join(`, `)}`)
+  if (evidence.type === `specified`) {
+    info?.(`specified origin: ${origin}`)
+    return
   }
-  info?.(`origin: ${origin} (${describeOriginEvidence(evidence)})`)
+
+  debug?.(`origin candidates, in priority order: ${candidates.join(`, `)}`)
+  if (evidence.type === `fallback`) {
+    info?.(`fallback origin: ${origin}`)
+    debug?.(`no entry marked another origin`)
+    return
+  }
+
+  info?.(`detected origin: ${origin}`)
+  debug?.(describeOriginEvidence(origin, evidence))
 }
 
-const describeOriginEvidence = (evidence: OriginEvidence): string => {
-  switch (evidence.type) {
-    case `specified`:
-      return `specified`
-    case `marker`:
-      return `detected from the entry ${describeEntry(evidence.entry)}`
-    case `hint`:
-      return `detected from the format's metadata`
-    case `fallback`:
-      return `the fallback: no entry marked another origin`
-  }
-}
+const describeOriginEvidence = (
+  origin: Origin,
+  evidence: OriginEvidence & { type: `marker` | `hint` },
+): string =>
+  evidence.type === `marker`
+    ? `${origin} is marked by the entry ${describeEntry(evidence.entry)}`
+    : `${origin} is named by the format's metadata`
 
 const describeEntry = ({
   name,
   location,
 }: DeepReadonly<ProfileEntry>): string => {
   const described = name ?? `<anonymous>`
-  return location ? `${described} (${sourceReferenceId(location)})` : described
+  return location ? `${described} in ${sourceReferenceId(location)}` : described
 }
 
 /**

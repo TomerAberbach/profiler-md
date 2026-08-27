@@ -298,5 +298,5 @@ const logFormat = (
   evidence: `specified` | `detected`,
   { logger }: AggregationProfileToMdOptions,
 ): void => {
-  logger.info?.(`format: ${format} (${evidence})`)
+  logger.info?.(`${evidence} format: ${format}`)
 }

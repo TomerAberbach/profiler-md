@@ -347,7 +347,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   subject is what the pipeline decided (e.g. the format it detected). An
   unasserted `info` or `debug` line fails nothing
 - `info` for one line per decision the pipeline made on the caller's behalf
-  (e.g. the detected format). At most a few lines per input
+  (e.g. the detected format). At most a few lines per input. State the decision
+  alone, with how it was made in the prefix (`detected origin: node`,
+  `fallback origin: chrome`), and the evidence in a `debug` line
 - `debug` for the reasoning behind an info line, and for detail keyed by a
   distinct file, format, or record type, such as each format that rejected the
   input and why. Count per key in a `Map` and log once at the end. NEVER log per

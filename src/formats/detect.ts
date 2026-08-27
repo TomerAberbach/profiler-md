@@ -79,7 +79,7 @@ const detectWithConverter = <Input>(
     }
   } catch (error: unknown) {
     logger.debug?.(
-      `${converter.format}: skipped because detection threw: ${reasonOf(error)}`,
+      `skipped ${converter.format} because its detection threw: ${reasonOf(error)}`,
     )
     return undefined
   }
@@ -88,7 +88,7 @@ const detectWithConverter = <Input>(
     return classifyLazyParseFailures(converter, converter.parse(input))
   } catch (error: unknown) {
     logger.debug?.(
-      `${converter.format}: recognized the input but rejected it: ${reasonOf(error)}`,
+      `${converter.format} recognized the input but rejected it: ${reasonOf(error)}`,
     )
     rejections.push(toFormatRejectionError(converter, error))
     return undefined
