@@ -102,6 +102,10 @@ try {
   }
   const highlightedMarkdown = await highlightMarkdown(markdown, { outputPath })
 
+  // Logs and Markdown share the terminal, so a line keeps the heading apart.
+  if (isTTYOutput(outputPath)) {
+    logger.separate()
+  }
   await writeOutput(highlightedMarkdown, outputPath, { pager })
 } catch (error) {
   reportError(error, { logger, logLevel })
