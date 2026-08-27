@@ -54,6 +54,12 @@ declare -A JDK_JFR_OPTS=(
 )
 JDK_JFR_CONFIGS=(cpu alloc live lock all)
 
+# The `profile` template records the JVM's environment variables and the
+# machine's whole process list. Both describe the machine that generated the
+# input rather than the workload, and the inputs are committed to a public
+# repository. profiler-md reads neither event.
+JDK_JFR_PRIVACY_OPTS="+jdk.InitialEnvironmentVariable#enabled=false,+jdk.SystemProcess#enabled=false"
+
 # capture_fn for emit: $1=out  $2=role  $3=config  $4=event-spec
 capture_ap_jfr() {
   local out=$1 role=$2 cfg=$3 event_spec=$4
@@ -141,7 +147,7 @@ capture_jdk_heap_dump() {
 capture_jdk_jfr() {
   local out=$1 role=$2 cfg=$3 extra=$4
   notice "Profiling $JVM_WORKLOAD using JDK Flight Recorder ($role, $extra)"
-  run_jvm_workload "-XX:StartFlightRecording=filename=$out,$extra" "$cfg"
+  run_jvm_workload "-XX:StartFlightRecording=filename=$out,$extra,$JDK_JFR_PRIVACY_OPTS" "$cfg"
 }
 
 emit_jvm_captures() {
