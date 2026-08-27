@@ -219,7 +219,8 @@ cli() { node "$REPO/src/cli/index.ts" "$@"; }
 # generation time, while the workload can still be shrunk.
 MAX_INPUT_BYTES=$((100 * 1024 * 1024))
 
-# Verifies a single generated input converts to Markdown. Returns non-zero if it doesn't
+# Verifies a single generated input converts to Markdown and contains nothing about
+# the generating machine. Returns non-zero if it doesn't
 # (the `|| return 1` matters: under `try`, set -e is off, so an unchecked failing
 # `cli` would otherwise fall through to the "Verified" echo and report success).
 verify_generated_input() {
@@ -229,6 +230,8 @@ verify_generated_input() {
   ((bytes < MAX_INPUT_BYTES)) \
     || { echo "  TOO LARGE ($((bytes)) bytes; GitHub's limit is 100 MB — shrink the workload): $(rel "$out")" >&2; return 1; }
   cli "$out" >/dev/null || { echo "  FAILED to convert: $(rel "$out")" >&2; return 1; }
+  node "$REPO/scripts/check-input-privacy.ts" "$out" >/dev/null \
+    || { echo "  CONTAINS data about this machine (see above; disable it in the profiler, or redact it): $(rel "$out")" >&2; return 1; }
   echo "Verified $(rel "$out")"
 }
 

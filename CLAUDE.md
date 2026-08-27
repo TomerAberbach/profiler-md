@@ -152,6 +152,7 @@ profiler-md
 │   ├── categories.ts             # Report the categories the examples emit, or the names a candidate rule matches
 │   ├── update-examples.ts        # Update examples/output/ from examples/input/ on a worker thread pool
 │   ├── update-examples-worker.ts # Converts one example per message, then checks or writes it
+│   ├── check-input-privacy.ts    # Fails an input containing data about the generating machine (addresses, cookies, environment, process list)
 │   ├── update-readme.ts          # Update the readme (CLI examples, help, and language matrix) from src/cli/help.ts and src/cli/languages.ts
 │   └── update-demo.ts            # Record assets/demo.gif with vhs and embed its input digest
 │
@@ -192,6 +193,10 @@ pnpm update-readme
 pnpm check-examples
 pnpm check-demo
 pnpm check-readme
+
+# Fail any committed input (or the given ones) containing data about the generating machine
+pnpm check-input-privacy
+pnpm check-input-privacy examples/input/java.jdk.cpu.base.jfr
 
 # Run the CLI from source (Node runs the TypeScript directly)
 node src/cli/index.ts ./examples/input/javascript.node.base.cpuprofile
@@ -269,6 +274,9 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   come from the `languages` of every registered converter
 - When a profiler emits no supported format, the format is missing. Implement it
   (`/new-format`)
+- An input should never containt data about the machine that generated it (e.g.
+  no environment variables, process list, etc.).
+  `scripts/check-input-privacy.ts` verifies this
 
 ### Types
 

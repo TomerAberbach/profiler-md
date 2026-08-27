@@ -68,6 +68,13 @@ If loaded from `/new-format`, skip step 1 and return to that workflow after step
    Check every export of one recording, since a profiler can write a different
    placeholder in each
 
+   Check what the profiler recorded about the machine rather than the program
+   (e.g. environment variables, the process list, etc.). Disable the recording
+   of such data in the workload script (e.g. `JDK_JFR_PRIVACY_OPTS` in
+   `_jvm.sh`) rather than redacting it after, so a regenerated input contains
+   none of it. Document the flags in `docs/languages/` and update
+   `scripts/check-input-privacy.ts` if it wouldn't have caught the data
+
 ## Validate
 
 4. Convert each input with `node src/cli/index.ts <input>`, and each
