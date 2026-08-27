@@ -1,14 +1,14 @@
 # Heap snapshot
 
-Allocated 12.9 MiB across 700,479 nodes and 790,411 edges.
+Allocated 13.3 MiB across 700,716 nodes and 846,539 edges.
 
 | Category           |     % |     Size |   Nodes |
 | ------------------ | ----: | -------: | ------: |
-| Array              | 57.9% | 7.47 MiB | 130,173 |
-| Number             | 29.6% | 3.82 MiB | 501,096 |
-| Object             |  9.8% | 1.26 MiB |  43,510 |
-| String             |  2.4% |  314 KiB |  22,932 |
-| Object shape       |  0.3% | 43.7 KiB |   2,672 |
+| Array              | 59.3% | 7.91 MiB | 130,256 |
+| Number             | 28.6% | 3.82 MiB | 501,096 |
+| Object             |  9.5% | 1.27 MiB |  43,665 |
+| String             |  2.3% |  313 KiB |  22,930 |
+| Object shape       |  0.3% | 43.7 KiB |   2,673 |
 | Big number         | <0.1% | 2.52 KiB |      92 |
 | Regular expression | <0.1% |    333 B |       3 |
 | Synthetic          |  0.0% |      0 B |       1 |
@@ -21,23 +21,23 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 |     % |     Size | Instances | Constructor                                     |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 29.6% | 3.82 MiB |   500,051 | `java.lang.Double`                              |
-| 29.6% | 3.82 MiB |   100,010 | `java.lang.Double[]`                            |
-| 12.0% | 1.54 MiB |    23,678 | `byte[]`                                        |
-| 10.9% | 1.41 MiB |     1,969 | `java.lang.Object[]`                            |
-|  3.0% |  393 KiB |     5,825 | `java.util.LinkedHashMap`                       |
-|  2.4% |  314 KiB |    22,932 | `java.lang.String`                              |
-|  2.1% |  278 KiB |    10,153 | `java.util.HashMap$Node`                        |
-|  1.5% |  193 KiB |     1,941 | `int[]`                                         |
-|  1.3% |  176 KiB |       422 | `java.util.HashMap$Node[]`                      |
+| 28.6% | 3.82 MiB |   500,051 | `java.lang.Double`                              |
+| 28.6% | 3.82 MiB |   100,010 | `java.lang.Double[]`                            |
+| 13.9% | 1.85 MiB |     2,042 | `java.lang.Object[]`                            |
+| 11.6% | 1.54 MiB |    23,676 | `byte[]`                                        |
+|  2.9% |  393 KiB |     5,825 | `java.util.LinkedHashMap`                       |
+|  2.3% |  313 KiB |    22,930 | `java.lang.String`                              |
+|  2.0% |  280 KiB |    10,223 | `java.util.HashMap$Node`                        |
+|  1.4% |  189 KiB |     1,938 | `int[]`                                         |
+|  1.3% |  177 KiB |       436 | `java.util.HashMap$Node[]`                      |
 |  1.3% |  171 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`   |
 |  0.9% |  117 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
 |  0.4% | 51.3 KiB |       223 | `char[]`                                        |
 |  0.4% | 51.2 KiB |     1,191 | `java.util.LinkedHashMap$Entry`                 |
 |  0.3% | 45.2 KiB |     5,785 | `java.util.jar.Attributes`                      |
-|  0.3% | 43.7 KiB |     2,672 | `java.lang.Class`                               |
+|  0.3% | 43.7 KiB |     2,673 | `java.lang.Class`                               |
 |  0.2% |   32 KiB |         2 | `scala.math.BigInt[]`                           |
-|  0.2% | 30.6 KiB |       711 | `java.lang.invoke.MemberName`                   |
+|  0.2% | 30.5 KiB |       710 | `java.lang.invoke.MemberName`                   |
 |  0.2% | 29.3 KiB |       624 | `java.lang.invoke.MethodType`                   |
 |  0.2% |   29 KiB |       256 | `java.lang.ref.SoftReference[]`                 |
 |  0.2% |   22 KiB |       627 | `jdk.internal.util.WeakReferenceKey`            |
@@ -48,11 +48,11 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 |     % |     Size | Instances | Constructor                                     |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 29.6% | 3.82 MiB |   100,010 | `java.lang.Double[]`                            |
-| 12.0% | 1.54 MiB |    23,678 | `byte[]`                                        |
-| 10.9% | 1.41 MiB |     1,969 | `java.lang.Object[]`                            |
-|  1.5% |  193 KiB |     1,941 | `int[]`                                         |
-|  1.3% |  176 KiB |       422 | `java.util.HashMap$Node[]`                      |
+| 28.6% | 3.82 MiB |   100,010 | `java.lang.Double[]`                            |
+| 13.9% | 1.85 MiB |     2,042 | `java.lang.Object[]`                            |
+| 11.6% | 1.54 MiB |    23,676 | `byte[]`                                        |
+|  1.4% |  189 KiB |     1,938 | `int[]`                                         |
+|  1.3% |  177 KiB |       436 | `java.util.HashMap$Node[]`                      |
 |  0.9% |  117 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
 |  0.4% | 51.3 KiB |       223 | `char[]`                                        |
 |  0.2% |   32 KiB |         2 | `scala.math.BigInt[]`                           |
@@ -62,7 +62,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 |  0.1% | 11.7 KiB |        40 | `java.lang.invoke.MethodHandle[]`               |
 |  0.1% | 10.9 KiB |       497 | `java.lang.Class[]`                             |
 |  0.1% |    8 KiB |         1 | `java.nio.ByteBuffer[]`                         |
-|  0.1% |  7.5 KiB |        15 | `java.util.concurrent.ForkJoinTask[]`           |
+|  0.1% |    8 KiB |        16 | `java.util.concurrent.ForkJoinTask[]`           |
 | <0.1% | 5.66 KiB |       116 | `java.lang.invoke.LambdaForm$Name[]`            |
 | <0.1% | 2.77 KiB |         2 | `java.time.LocalDateTime[]`                     |
 | <0.1% |  2.7 KiB |         1 | `byte[][]`                                      |
@@ -73,7 +73,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 |     % |     Size | Instances | Constructor         |
 | ----: | -------: | --------: | ------------------- |
-| 29.6% | 3.82 MiB |   500,051 | `java.lang.Double`  |
+| 28.6% | 3.82 MiB |   500,051 | `java.lang.Double`  |
 | <0.1% |    2 KiB |       256 | `java.lang.Long`    |
 | <0.1% | 1.08 KiB |       276 | `java.lang.Integer` |
 | <0.1% |    512 B |       256 | `java.lang.Short`   |
@@ -84,22 +84,22 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 |     % |     Size | Instances | Constructor                                       |
 | ----: | -------: | --------: | ------------------------------------------------- |
-|  3.0% |  393 KiB |     5,825 | `java.util.LinkedHashMap`                         |
-|  2.1% |  278 KiB |    10,153 | `java.util.HashMap$Node`                          |
+|  2.9% |  393 KiB |     5,825 | `java.util.LinkedHashMap`                         |
+|  2.0% |  280 KiB |    10,223 | `java.util.HashMap$Node`                          |
 |  1.3% |  171 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`     |
 |  0.4% | 51.2 KiB |     1,191 | `java.util.LinkedHashMap$Entry`                   |
 |  0.3% | 45.2 KiB |     5,785 | `java.util.jar.Attributes`                        |
-|  0.2% | 30.6 KiB |       711 | `java.lang.invoke.MemberName`                     |
+|  0.2% | 30.5 KiB |       710 | `java.lang.invoke.MemberName`                     |
 |  0.2% | 29.3 KiB |       624 | `java.lang.invoke.MethodType`                     |
 |  0.2% |   22 KiB |       627 | `jdk.internal.util.WeakReferenceKey`              |
-|  0.1% | 18.2 KiB |       388 | `java.util.HashMap`                               |
+|  0.1% | 18.8 KiB |       402 | `java.util.HashMap`                               |
 |  0.1% | 10.5 KiB |       317 | `java.lang.invoke.LambdaForm$Name`                |
 |  0.1% | 10.3 KiB |       264 | `sun.security.util.KnownOIDs`                     |
 |  0.1% | 9.76 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`          |
 |  0.1% | 9.67 KiB |       101 | `java.lang.reflect.Field`                         |
 |  0.1% | 8.77 KiB |       374 | `java.lang.module.ModuleDescriptor$Exports`       |
 |  0.1% | 8.38 KiB |        67 | `java.net.URI`                                    |
-|  0.1% | 7.18 KiB |       171 | `java.lang.invoke.DirectMethodHandle`             |
+|  0.1% | 7.14 KiB |       170 | `java.lang.invoke.DirectMethodHandle`             |
 |  0.1% | 7.09 KiB |       123 | `java.lang.invoke.DirectMethodHandle$Constructor` |
 | <0.1% | 6.21 KiB |       159 | `java.lang.ref.SoftReference`                     |
 | <0.1% | 5.88 KiB |        64 | `java.lang.module.ModuleDescriptor`               |
@@ -109,7 +109,7 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 
 |    % |    Size | Instances | Constructor        |
 | ---: | ------: | --------: | ------------------ |
-| 2.4% | 314 KiB |    22,932 | `java.lang.String` |
+| 2.3% | 313 KiB |    22,930 | `java.lang.String` |
 
 #### Instances
 
@@ -117,23 +117,33 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.lang.Double`
 
-|     % | Size | Instances | Path                     |
-| ----: | ---: | --------: | ------------------------ |
-| <0.1% |  8 B |         1 | `[4] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[3] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[2] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[1] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[0] java.lang.Double[]` |
+|     % | Size | Instances | Path                                         |
+| ----: | ---: | --------: | -------------------------------------------- |
+| <0.1% |  8 B |         1 | `.DOUBLE_ZERO class sun.invoke.util.Wrapper` |
+| <0.1% |  8 B |         1 | `[4] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[3] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[2] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[1] java.lang.Double[]`                     |
 
 ##### `java.lang.Double[]`
 
 |     % |    Size | Instances | Path                                                            |
 | ----: | ------: | --------: | --------------------------------------------------------------- |
-|  4.0% | 157 KiB |     4,024 | `(GC root)`                                                     |
-| <0.1% |    40 B |         1 | `[33081] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    40 B |         1 | `[33080] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    40 B |         1 | `[33079] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    40 B |         1 | `[33078] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| 24.0% | 936 KiB |    23,971 | `(GC root)`                                                     |
+| <0.1% |    40 B |         1 | `[49459] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |    40 B |         1 | `[49458] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |    40 B |         1 | `[49457] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |    40 B |         1 | `[49456] java.lang.Object[] ← .elementData java.util.ArrayList` |
+
+##### `java.lang.Object[]`
+
+|     % |     Size | Instances | Path                                                                                                                         |
+| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- |
+| 44.0% |  834 KiB |         1 | `.elementData java.util.ArrayList`                                                                                           |
+|  3.2% | 60.2 KiB |         1 | `(GC root)`                                                                                                                  |
+|  1.0% | 19.5 KiB |         1 | `.elementData java.util.ArrayList ← .value java.util.HashMap$Node ← [2] java.util.HashMap$Node[] ← .table java.util.HashMap` |
+|  1.0% | 19.5 KiB |         1 | `.elementData java.util.ArrayList ← .value java.util.HashMap$Node ← [3] java.util.HashMap$Node[] ← .table java.util.HashMap` |
+|  1.0% | 19.5 KiB |         1 | `.elementData java.util.ArrayList ← .value java.util.HashMap$Node ← [4] java.util.HashMap$Node[] ← .table java.util.HashMap` |
 
 ##### `byte[]`
 
@@ -145,61 +155,51 @@ Instances ranked by contribution to each constructor's self size.
 |  0.5% | 7.24 KiB |         1 | `.value java.lang.String ← [0] java.lang.Object[] ← .elementData java.util.ArrayList ← .classes jdk.internal.loader.ClassLoaders$PlatformClassLoader`                                                   |
 |  0.1% | 1.41 KiB |         1 | `[133] byte[][] ← .ruleArray class sun.util.calendar.ZoneInfoFile`                                                                                                                                      |
 
-##### `java.lang.Object[]`
-
-|     % |     Size | Instances | Path                                                                                                                         |
-| ----: | -------: | --------: | ---------------------------------------------------------------------------------------------------------------------------- |
-| 57.6% |  834 KiB |         1 | `.elementData java.util.ArrayList`                                                                                           |
-|  5.4% | 78.1 KiB |         2 | `(GC root)`                                                                                                                  |
-|  1.1% | 16.6 KiB |         1 | `.elements java.util.ImmutableCollections$SetN`                                                                              |
-|  0.7% | 9.77 KiB |         1 | `.elementData java.util.ArrayList ← .value java.util.HashMap$Node ← [0] java.util.HashMap$Node[] ← .table java.util.HashMap` |
-|  0.7% | 9.77 KiB |         1 | `.elementData java.util.ArrayList ← .value java.util.HashMap$Node ← [1] java.util.HashMap$Node[] ← .table java.util.HashMap` |
-
 ##### `java.util.LinkedHashMap`
 
 |     % |  Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ----: | ----: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 138 B |         2 | `.map java.util.jar.Attributes ← .attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+|  0.1% | 276 B |         4 | `.map java.util.jar.Attributes ← .attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | <0.1% |  69 B |         1 | `.v java.util.Collections$SingletonMap ← .valueTextMap java.time.format.DateTimeTextProvider$LocaleStore ← .val$store java.time.format.DateTimeFormatterBuilder$1 ← .provider java.time.format.DateTimeFormatterBuilder$TextPrinterParser ← [5] java.time.format.DateTimeFormatterBuilder$DateTimePrinterParser[] ← .printerParsers java.time.format.DateTimeFormatterBuilder$CompositePrinterParser ← .printerParser java.time.format.DateTimeFormatter ← .RFC_1123_DATE_TIME class java.time.format.DateTimeFormatter`                                                                                                                                                            |
 | <0.1% |  69 B |         1 | `.v java.util.Collections$SingletonMap ← .valueTextMap java.time.format.DateTimeTextProvider$LocaleStore ← .val$store java.time.format.DateTimeFormatterBuilder$1 ← .provider java.time.format.DateTimeFormatterBuilder$TextPrinterParser ← [0] java.time.format.DateTimeFormatterBuilder$DateTimePrinterParser[] ← .printerParsers java.time.format.DateTimeFormatterBuilder$CompositePrinterParser ← [2] java.time.format.DateTimeFormatterBuilder$DateTimePrinterParser[] ← .printerParsers java.time.format.DateTimeFormatterBuilder$CompositePrinterParser ← .printerParser java.time.format.DateTimeFormatter ← .RFC_1123_DATE_TIME class java.time.format.DateTimeFormatter` |
-| <0.1% |  69 B |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| <0.1% |  69 B |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [24] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| <0.1% |  69 B |         1 | `.map java.util.jar.Attributes ← .value java.util.HashMap$Node ← [44] java.util.HashMap$Node[] ← .table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| <0.1% |  69 B |         1 | `.map java.util.jar.Attributes ← .value java.util.HashMap$Node ← [43] java.util.HashMap$Node[] ← .table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
 ##### `java.lang.String`
 
-|     % |  Size | Instances | Path                                                          |
-| ----: | ----: | --------: | ------------------------------------------------------------- |
-|  0.1% | 350 B |        25 | `(GC root)`                                                   |
-| <0.1% |  14 B |         1 | `.basicTypeString sun.invoke.util.Wrapper`                    |
-| <0.1% |  14 B |         1 | `.name java.lang.invoke.MemberName`                           |
-| <0.1% |  14 B |         1 | `.NULL_SENTINEL class java.lang.Class$ReflectionData`         |
-| <0.1% |  14 B |         1 | `.NOTIF_EMITTER class java.lang.management.ManagementFactory` |
+|     % |  Size | Instances | Path                                                                                                                                  |
+| ----: | ----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 126 B |         9 | `(GC root)`                                                                                                                           |
+| <0.1% |  14 B |         1 | `.key java.util.HashMap$Node ← [27] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider` |
+| <0.1% |  14 B |         1 | `.key java.util.HashMap$Node ← [26] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider` |
+| <0.1% |  14 B |         1 | `.key java.util.HashMap$Node ← [25] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider` |
+| <0.1% |  14 B |         1 | `.key java.util.HashMap$Node ← [24] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider` |
 
 ##### `java.util.HashMap$Node`
 
-|     % | Size | Instances | Path                                                                                                                                                        |
-| ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 28 B |         1 | `[7] java.util.HashMap$Node[] ← .table java.util.HashMap ← .languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                                |
-| <0.1% | 28 B |         1 | `[4] java.util.HashMap$Node[] ← .table java.util.HashMap ← .languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                                |
-| <0.1% | 28 B |         1 | `[1] java.util.HashMap$Node[] ← .table java.util.HashMap ← .languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                                |
-| <0.1% | 28 B |         1 | `.next java.util.HashMap$Node ← [1] java.util.HashMap$Node[] ← .table java.util.HashMap ← .languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo` |
-| <0.1% | 28 B |         1 | `[0] java.util.HashMap$Node[] ← .table java.util.HashMap ← .languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                                |
+|     % | Size | Instances | Path                                                                                                                                   |
+| ----: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 28 B |         1 | `[27] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider`                                |
+| <0.1% | 28 B |         1 | `[26] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider`                                |
+| <0.1% | 28 B |         1 | `[25] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider`                                |
+| <0.1% | 28 B |         1 | `[24] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider`                                |
+| <0.1% | 28 B |         1 | `.next java.util.HashMap$Node ← [24] java.util.HashMap$Node[] ← .table java.util.HashMap ← .knownEngines class java.security.Provider` |
 
 ##### `int[]`
 
 |     % |     Size | Instances | Path                                            |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 48.2% | 93.2 KiB |         6 | `.entries java.util.zip.ZipFile$Source`         |
-| 14.5% |   28 KiB |         9 | `(GC root)`                                     |
-|  5.9% | 11.4 KiB |         2 | `.table java.util.zip.ZipFile$Source`           |
-|  2.1% | 4.13 KiB |         1 | `.A class java.lang.CharacterData00`            |
-|  1.2% | 2.36 KiB |         1 | `.indices class sun.util.calendar.ZoneInfoFile` |
+| 49.4% | 93.2 KiB |         6 | `.entries java.util.zip.ZipFile$Source`         |
+| 15.3% | 28.9 KiB |         9 | `(GC root)`                                     |
+|  6.1% | 11.4 KiB |         2 | `.table java.util.zip.ZipFile$Source`           |
+|  2.2% | 4.13 KiB |         1 | `.A class java.lang.CharacterData00`            |
+|  1.3% | 2.36 KiB |         1 | `.indices class sun.util.calendar.ZoneInfoFile` |
 
 ##### `java.util.HashMap$Node[]`
 
 |     % |   Size | Instances | Path                                                                                                                                                                                                                                                                                                                                    |
 | ----: | -----: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 36.4% | 64 KiB |         2 | `.table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                    |
+| 36.1% | 64 KiB |         2 | `.table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                                                                                    |
 |  4.5% |  8 KiB |         1 | `.table java.util.HashMap`                                                                                                                                                                                                                                                                                                              |
 |  4.5% |  8 KiB |         1 | `.table java.util.HashMap ← .lookup sun.text.resources.cldr.FormatData ← .table java.util.concurrent.ConcurrentHashMap ← .cacheList class sun.util.resources.Bundles`                                                                                                                                                                   |
 |  4.5% |  8 KiB |         1 | `.table java.util.HashMap ← .lookup sun.text.resources.cldr.FormatData_en ← .referent sun.util.resources.Bundles$BundleReference ← .val java.util.concurrent.ConcurrentHashMap$Node ← [17] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .cacheList class sun.util.resources.Bundles` |
@@ -207,13 +207,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.util.concurrent.ConcurrentHashMap$Node`
 
-|     % | Size | Instances | Path                                                                                                                                                                                                     |
-| ----: | ---: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 28 B |         1 | `[7] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .libraries jdk.internal.loader.NativeLibraries ← .NATIVE_LIBS class jdk.internal.loader.BootLoader` |
-| <0.1% | 28 B |         1 | `[5] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .libraries jdk.internal.loader.NativeLibraries ← .NATIVE_LIBS class jdk.internal.loader.BootLoader` |
-| <0.1% | 28 B |         1 | `[22] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                          |
-| <0.1% | 28 B |         1 | `[14] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                          |
-| <0.1% | 28 B |         1 | `.next java.util.concurrent.ConcurrentHashMap$Node ← [14] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`      |
+|     % | Size | Instances | Path                                                                                                                                                                                                                                                    |
+| ----: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <0.1% | 28 B |         1 | `[22] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                                                                         |
+| <0.1% | 28 B |         1 | `[14] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                                                                         |
+| <0.1% | 28 B |         1 | `.next java.util.concurrent.ConcurrentHashMap$Node ← [14] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                     |
+| <0.1% | 28 B |         1 | `.next java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [14] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader` |
+| <0.1% | 28 B |         1 | `[13] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                                                                         |
 
 ##### `java.util.concurrent.ConcurrentHashMap$Node[]`
 
@@ -223,7 +223,7 @@ Instances ranked by contribution to each constructor's self size.
 | 13.7% | 16 KiB |         1 | `.table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap jdk.internal.loader.ClassLoaders$AppClassLoader`                                                                   |
 | 13.7% | 16 KiB |         1 | `.table java.util.concurrent.ConcurrentHashMap`                                                                                                                                      |
 |  6.9% |  8 KiB |         1 | `.table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap java.net.URLClassLoader`                                                                                           |
-|  6.9% |  8 KiB |         1 | `.table java.util.concurrent.ConcurrentHashMap ← .name2enum class sun.security.util.KnownOIDs`                                                                                       |
+|  6.9% |  8 KiB |         1 | `.table java.util.concurrent.ConcurrentHashMap ← .parallelLockMap jdk.internal.loader.ClassLoaders$PlatformClassLoader`                                                              |
 
 ##### `char[]`
 
@@ -249,7 +249,7 @@ Instances ranked by contribution to each constructor's self size.
 
 |     % | Size | Instances | Path                                                                                                                                                                                                                                |
 | ----: | ---: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <0.1% | 16 B |         2 | `.attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                              |
+|  0.1% | 32 B |         4 | `.attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                              |
 | <0.1% |  8 B |         1 | `.value java.util.HashMap$Node ← [44] java.util.HashMap$Node[] ← .table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                |
 | <0.1% |  8 B |         1 | `.value java.util.HashMap$Node ← [43] java.util.HashMap$Node[] ← .table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                |
 | <0.1% |  8 B |         1 | `.value java.util.HashMap$Node ← [42] java.util.HashMap$Node[] ← .table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                |
@@ -278,17 +278,17 @@ Instances ranked by contribution to each constructor's self size.
 | ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 0.3% | 88 B |         2 | `(GC root)`                                                                                                                                                                    |
 | 0.3% | 88 B |         2 | `.member java.lang.invoke.LambdaForm$NamedFunction ← .function java.lang.invoke.LambdaForm$Name ← [5] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
-| 0.1% | 44 B |         1 | `[5] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN`                                                                                                      |
 | 0.1% | 44 B |         1 | `.member java.lang.invoke.LambdaForm$NamedFunction ← .function java.lang.invoke.LambdaForm$Name ← [3] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
 | 0.1% | 44 B |         1 | `.member java.lang.invoke.LambdaForm$NamedFunction ← .function java.lang.invoke.LambdaForm$Name ← [6] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+| 0.1% | 44 B |         1 | `.member java.lang.invoke.LambdaForm$NamedFunction`                                                                                                                            |
 
 ##### `java.lang.invoke.MethodType`
 
 |     % |   Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                             |
 | ----: | -----: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 65.1% | 19 KiB |       406 | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.2% |   48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [414] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType` |
 |  0.2% |   48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [217] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
+|  0.2% |   48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [414] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType` |
 |  0.2% |   48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [573] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
 |  0.2% |   48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [752] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
 
@@ -323,13 +323,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.util.HashMap`
 
-|    % | Size | Instances | Path                                                                                        |
-| ---: | ---: | --------: | ------------------------------------------------------------------------------------------- |
-| 0.3% | 48 B |         1 | `.languageAliasMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                          |
-| 0.3% | 48 B |         1 | `.FIELD_MAP class java.time.format.DateTimeFormatterBuilder`                                |
-| 0.3% | 48 B |         1 | `(GC root)`                                                                                 |
-| 0.3% | 48 B |         1 | `.map java.util.HashSet ← .NATIVE_ACCESS_MODULES class jdk.internal.module.ModuleBootstrap` |
-| 0.3% | 48 B |         1 | `.parentLocalesMap class sun.util.cldr.CLDRBaseLocaleDataMetaInfo`                          |
+|    % | Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.5% | 96 B |         2 | `.children java.util.logging.LogManager$LogNode ← .userContext java.util.logging.LogManager`                                                                                                                                                                                                                                                                                                                                                                                 |
+| 0.2% | 48 B |         1 | `.knownEngines class java.security.Provider`                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 0.2% | 48 B |         1 | `.children java.util.logging.LogManager$LogNode ← .root java.util.logging.LogManager$SystemLoggerContext ← .systemContext java.util.logging.LogManager`                                                                                                                                                                                                                                                                                                                      |
+| 0.2% | 48 B |         1 | `.FIELD_MAP class java.time.format.DateTimeFormatterBuilder`                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 0.2% | 48 B |         1 | `.parsable java.time.format.DateTimeTextProvider$LocaleStore ← .val$store java.time.format.DateTimeFormatterBuilder$1 ← .provider java.time.format.DateTimeFormatterBuilder$TextPrinterParser ← [5] java.time.format.DateTimeFormatterBuilder$DateTimePrinterParser[] ← .printerParsers java.time.format.DateTimeFormatterBuilder$CompositePrinterParser ← .printerParser java.time.format.DateTimeFormatter ← .RFC_1123_DATE_TIME class java.time.format.DateTimeFormatter` |
 
 ##### `long[]`
 
@@ -355,41 +355,41 @@ Instances ranked by contribution to each constructor's self size.
 
 |     % |     Size | Instances | Path                                                                             |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------- |
-| 78.3% | 8.53 KiB |       319 | `.ptypes java.lang.invoke.MethodType`                                            |
-| 14.0% | 1.52 KiB |        67 | `(GC root)`                                                                      |
+| 78.5% | 8.55 KiB |       322 | `.ptypes java.lang.invoke.MethodType`                                            |
+| 13.9% | 1.52 KiB |        66 | `(GC root)`                                                                      |
 |  0.2% |     24 B |         1 | `.STATICALLY_INVOCABLE_PACKAGES class java.lang.invoke.InvokerBytecodeGenerator` |
 |  0.1% |      8 B |         1 | `.parameterTypes java.lang.reflect.Method`                                       |
 |  0.1% |      8 B |         1 | `.METHOD_HANDLE_ARRAY class java.lang.invoke.MethodType`                         |
 
 ##### `java.lang.invoke.LambdaForm$Name`
 
-|    % | Size | Instances | Path                                                                          |
-| ---: | ---: | --------: | ----------------------------------------------------------------------------- |
-| 0.6% | 68 B |         2 | `[4] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
-| 0.6% | 68 B |         2 | `(GC root)`                                                                   |
-| 0.6% | 68 B |         2 | `[3] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
-| 0.3% | 34 B |         1 | `[9] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
-| 0.3% | 34 B |         1 | `[5] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+|    % |  Size | Instances | Path                                                                          |
+| ---: | ----: | --------: | ----------------------------------------------------------------------------- |
+| 0.9% | 102 B |         3 | `[5] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+| 0.3% |  34 B |         1 | `[4] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+| 0.3% |  34 B |         1 | `[3] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+| 0.3% |  34 B |         1 | `[6] java.lang.invoke.LambdaForm$Name[] ← .names java.lang.invoke.LambdaForm` |
+| 0.3% |  34 B |         1 | `(GC root)`                                                                   |
 
 ##### `sun.security.util.KnownOIDs`
 
-|    % | Size | Instances | Path                                                       |
-| ---: | ---: | --------: | ---------------------------------------------------------- |
-| 0.4% | 40 B |         1 | `.AES_256$KWP$NoPadding class sun.security.util.KnownOIDs` |
-| 0.4% | 40 B |         1 | `.SHA3_512withRSA class sun.security.util.KnownOIDs`       |
-| 0.4% | 40 B |         1 | `.sect131r1 class sun.security.util.KnownOIDs`             |
-| 0.4% | 40 B |         1 | `.sect131r2 class sun.security.util.KnownOIDs`             |
-| 0.4% | 40 B |         1 | `.OCSPNoCheck class sun.security.util.KnownOIDs`           |
+|    % | Size | Instances | Path                                                          |
+| ---: | ---: | --------: | ------------------------------------------------------------- |
+| 0.4% | 40 B |         1 | `.InvalidityDate class sun.security.util.KnownOIDs`           |
+| 0.4% | 40 B |         1 | `.DeltaCRLIndicator class sun.security.util.KnownOIDs`        |
+| 0.4% | 40 B |         1 | `.IssuingDistributionPoint class sun.security.util.KnownOIDs` |
+| 0.4% | 40 B |         1 | `.CertificateIssuer class sun.security.util.KnownOIDs`        |
+| 0.4% | 40 B |         1 | `.NameConstraints class sun.security.util.KnownOIDs`          |
 
 ##### `java.util.concurrent.ConcurrentHashMap`
 
-|    % | Size | Instances | Path                                                                                                 |
-| ---: | ---: | --------: | ---------------------------------------------------------------------------------------------------- |
-| 0.8% | 84 B |         1 | `.libraries jdk.internal.loader.NativeLibraries ← .NATIVE_LIBS class jdk.internal.loader.BootLoader` |
-| 0.8% | 84 B |         1 | `.parallelLockMap java.net.URLClassLoader`                                                           |
-| 0.8% | 84 B |         1 | `.map sun.util.locale.BaseLocale$Cache ← .CACHE class sun.util.locale.BaseLocale$Cache`              |
-| 0.8% | 84 B |         1 | `.CLASS_LOADER_VALUE_MAP class jdk.internal.loader.BootLoader`                                       |
-| 0.8% | 84 B |         1 | `.LOOKASIDE_TABLE class java.lang.invoke.MethodHandles$Lookup`                                       |
+|    % | Size | Instances | Path                                                         |
+| ---: | ---: | --------: | ------------------------------------------------------------ |
+| 0.8% | 84 B |         1 | `.CACHE class java.time.format.DateTimeTextProvider`         |
+| 0.8% | 84 B |         1 | `.CACHE class java.time.format.DecimalStyle`                 |
+| 0.8% | 84 B |         1 | `.CHRONOS_BY_TYPE class java.time.chrono.AbstractChronology` |
+| 0.8% | 84 B |         1 | `.CHRONOS_BY_ID class java.time.chrono.AbstractChronology`   |
+| 0.8% | 84 B |         1 | `.parallelLockMap java.net.URLClassLoader`                   |
 
 ##### `java.lang.reflect.Field`
 
@@ -412,9 +412,9 @@ Instances ranked by contribution to each constructor's self size.
 |    % |  Size | Instances | Path                                                              |
 | ---: | ----: | --------: | ----------------------------------------------------------------- |
 | 3.0% | 256 B |         2 | `(GC root)`                                                       |
-| 1.5% | 128 B |         1 | `.moduleMetadataUri class org.renaissance.core.Launcher`          |
 | 1.5% | 128 B |         1 | `.benchmarkMetadataUri class org.renaissance.core.BenchmarkSuite` |
 | 1.5% | 128 B |         1 | `.moduleMetadataUri class org.renaissance.core.BenchmarkSuite`    |
+| 1.5% | 128 B |         1 | `.moduleMetadataUri class org.renaissance.core.Launcher`          |
 | 1.5% | 128 B |         1 | `.location jdk.internal.module.ModuleReferenceImpl`               |
 
 ##### `java.nio.ByteBuffer[]`
@@ -425,39 +425,39 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.util.concurrent.ForkJoinTask[]`
 
-|      % |    Size | Instances | Path                                                 |
-| -----: | ------: | --------: | ---------------------------------------------------- |
-| 100.0% | 7.5 KiB |        15 | `.array java.util.concurrent.ForkJoinPool$WorkQueue` |
+|      % |  Size | Instances | Path                                                 |
+| -----: | ----: | --------: | ---------------------------------------------------- |
+| 100.0% | 8 KiB |        16 | `.array java.util.concurrent.ForkJoinPool$WorkQueue` |
 
 ##### `java.lang.invoke.DirectMethodHandle`
 
-|    % |  Size | Instances | Path                                                                                                       |
-| ---: | ----: | --------: | ---------------------------------------------------------------------------------------------------------- |
-| 5.8% | 430 B |        10 | `(GC root)`                                                                                                |
-| 0.6% |  43 B |         1 | `.e0 java.util.ImmutableCollections$List12 ← .factories java.lang.invoke.BoundMethodHandle$SpeciesData`    |
-| 0.6% |  43 B |         1 | `[36] java.lang.Object[] ← .<resolved_references> class sun.util.locale.provider.JRELocaleProviderAdapter` |
-| 0.6% |  43 B |         1 | `[49] java.lang.Object[] ← .<resolved_references> class java.time.format.DateTimeFormatterBuilder`         |
-| 0.6% |  43 B |         1 | `[24] java.lang.Object[] ← .<resolved_references> class sun.util.cldr.CLDRLocaleProviderAdapter`           |
+|     % |     Size | Instances | Path                                                                                                                                                                |
+| ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 15.3% | 1.09 KiB |        26 | `(GC root)`                                                                                                                                                         |
+|  1.2% |     86 B |         2 | `.e0 java.util.ImmutableCollections$List12 ← .factories java.lang.invoke.BoundMethodHandle$SpeciesData`                                                             |
+|  0.6% |     43 B |         1 | `[33] java.lang.Object[] ← .<resolved_references> class java.security.Security`                                                                                     |
+|  0.6% |     43 B |         1 | `.target java.lang.invoke.MethodHandleImpl$AsVarargsCollector ← [1] java.lang.Object[] ← .<resolved_references> class java.util.logging.LogManager$LoggerContext$1` |
+|  0.6% |     43 B |         1 | `.RELEASE_FENCE class scala.runtime.Statics$VM ← [283] java.lang.Object[] ← .elementData java.util.ArrayList ← .classes java.net.URLClassLoader`                    |
 
 ##### `java.lang.invoke.DirectMethodHandle$Constructor`
 
-|    % |  Size | Instances | Path                                                                                                       |
-| ---: | ----: | --------: | ---------------------------------------------------------------------------------------------------------- |
-| 3.3% | 236 B |         4 | `(GC root)`                                                                                                |
-| 0.8% |  59 B |         1 | `[23] java.lang.Object[] ← .<resolved_references> class org.renaissance.jdk.concurrent.JavaKMeans`         |
-| 0.8% |  59 B |         1 | `[75] java.lang.Object[] ← .<resolved_references> class sun.util.locale.provider.JRELocaleProviderAdapter` |
-| 0.8% |  59 B |         1 | `[4] java.lang.Object[] ← .<resolved_references> class java.util.stream.FindOps$FindSink$OfRef`            |
-| 0.8% |  59 B |         1 | `[4] java.lang.Object[] ← .<resolved_references> class java.lang.WeakPairMap`                              |
+|    % |  Size | Instances | Path                                                                                               |
+| ---: | ----: | --------: | -------------------------------------------------------------------------------------------------- |
+| 4.1% | 295 B |         5 | `(GC root)`                                                                                        |
+| 0.8% |  59 B |         1 | `[21] java.lang.Object[] ← .<resolved_references> class org.renaissance.jdk.concurrent.JavaKMeans` |
+| 0.8% |  59 B |         1 | `[244] java.lang.Object[] ← .<resolved_references> class java.util.stream.Collectors`              |
+| 0.8% |  59 B |         1 | `[106] java.lang.Object[] ← .<resolved_references> class java.util.regex.Pattern`                  |
+| 0.8% |  59 B |         1 | `[97] java.lang.Object[] ← .<resolved_references> class java.util.regex.Pattern`                   |
 
 ##### `java.lang.ref.SoftReference`
 
 |    % |  Size | Instances | Path                                                                                 |
 | ---: | ----: | --------: | ------------------------------------------------------------------------------------ |
-| 2.5% | 160 B |         4 | `[2] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`   |
+| 1.9% | 120 B |         3 | `(GC root)`                                                                          |
+| 1.9% | 120 B |         3 | `[2] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`   |
 | 1.3% |  80 B |         2 | `[0] java.lang.ref.SoftReference[] ← .methodHandles java.lang.invoke.MethodTypeForm` |
 | 0.6% |  40 B |         1 | `[4] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`   |
-| 0.6% |  40 B |         1 | `[15] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`  |
-| 0.6% |  40 B |         1 | `[10] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`  |
+| 0.6% |  40 B |         1 | `[20] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`  |
 
 ##### `java.lang.module.ModuleDescriptor`
 
@@ -467,13 +467,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.lang.invoke.LambdaForm`
 
-|     % |  Size | Instances | Path                                                                                                                                                                                                                             |
-| ----: | ----: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 17.1% | 1 KiB |        19 | `(GC root)`                                                                                                                                                                                                                      |
-|  1.8% | 108 B |         2 | `.referent java.lang.ref.SoftReference ← [10] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                      |
-|  0.9% |  54 B |         1 | `.referent java.lang.ref.SoftReference ← [15] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                      |
-|  0.9% |  54 B |         1 | `.referent java.lang.ref.SoftReference ← [7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                       |
-|  0.9% |  54 B |         1 | `.referent java.lang.invoke.LambdaFormEditor$Transform ← .transformCache java.lang.invoke.LambdaForm ← .referent java.lang.ref.SoftReference ← [7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm` |
+|     % |     Size | Instances | Path                                                                                                                                                                                                                             |
+| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 19.8% | 1.16 KiB |        22 | `(GC root)`                                                                                                                                                                                                                      |
+|  3.6% |    216 B |         4 | `.referent java.lang.ref.SoftReference ← [10] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                      |
+|  1.8% |    108 B |         2 | `.referent java.lang.ref.SoftReference ← [15] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                      |
+|  0.9% |     54 B |         1 | `.referent java.lang.ref.SoftReference ← [7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm`                                                                                                       |
+|  0.9% |     54 B |         1 | `.referent java.lang.invoke.LambdaFormEditor$Transform ← .transformCache java.lang.invoke.LambdaForm ← .referent java.lang.ref.SoftReference ← [7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm` |
 
 ##### `java.lang.invoke.LambdaForm$Name[]`
 
@@ -524,13 +524,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `java.lang.Integer`
 
-|    % | Size | Instances | Path                                                                                                                                                                                                         |
-| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0.4% |  4 B |         1 | `[5] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[4] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[3] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[2] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[1] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
+|    % | Size | Instances | Path                                                                                                                                                                                                                                                    |
+| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← [31] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`                                                     |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [31] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset` |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← [15] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`                                                     |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [0] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`  |
+| 0.4% |  4 B |         1 | `[5] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer`                                            |
 
 ##### `java.lang.Short`
 
@@ -564,26 +564,26 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 |     % |     Size | Instances | Constructor                                     |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 59.1% | 7.63 MiB |   100,010 | `java.lang.Double[]`                            |
-| 49.2% | 6.35 MiB |     1,969 | `java.lang.Object[]`                            |
-| 46.2% | 5.96 MiB |       165 | `java.util.ArrayList`                           |
-| 29.6% | 3.82 MiB |   500,051 | `java.lang.Double`                              |
-| 12.9% | 1.66 MiB |       388 | `java.util.HashMap`                             |
-| 12.8% | 1.66 MiB |       422 | `java.util.HashMap$Node[]`                      |
-| 11.7% | 1.52 MiB |    10,153 | `java.util.HashMap$Node`                        |
-| 11.7% | 1.51 MiB |    23,678 | `byte[]`                                        |
-|  7.7% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                   |
-|  7.6% | 1003 KiB |        10 | `java.util.jar.JarFile`                         |
-|  7.6% | 1000 KiB |         7 | `java.util.jar.Manifest`                        |
-|  7.3% |  969 KiB |     2,672 | `java.lang.Class`                               |
-|  7.2% |  951 KiB |    22,932 | `java.lang.String`                              |
-|  6.3% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                  |
-|  4.1% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`        |
-|  4.0% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                       |
-|  4.0% |  527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
-|  3.4% |  453 KiB |     5,785 | `java.util.jar.Attributes`                      |
-|  2.5% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`   |
-|  1.3% |  165 KiB |     1,941 | `int[]`                                         |
+| 57.2% | 7.63 MiB |   100,010 | `java.lang.Double[]`                            |
+| 28.6% | 3.82 MiB |   500,051 | `java.lang.Double`                              |
+| 22.8% | 3.04 MiB |     2,042 | `java.lang.Object[]`                            |
+| 19.8% | 2.65 MiB |       236 | `java.util.ArrayList`                           |
+| 15.4% | 2.05 MiB |       436 | `java.util.HashMap$Node[]`                      |
+| 15.1% | 2.01 MiB |       402 | `java.util.HashMap`                             |
+| 14.5% | 1.94 MiB |    10,223 | `java.util.HashMap$Node`                        |
+| 11.3% | 1.51 MiB |    23,676 | `byte[]`                                        |
+|  7.4% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                   |
+|  7.3% | 1003 KiB |        10 | `java.util.jar.JarFile`                         |
+|  7.3% | 1000 KiB |         7 | `java.util.jar.Manifest`                        |
+|  7.1% |  968 KiB |     2,673 | `java.lang.Class`                               |
+|  7.0% |  951 KiB |    22,930 | `java.lang.String`                              |
+|  6.1% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                  |
+|  3.9% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`        |
+|  3.9% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                       |
+|  3.9% |  527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
+|  3.3% |  453 KiB |     5,785 | `java.util.jar.Attributes`                      |
+|  2.4% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`   |
+|  1.2% |  162 KiB |     1,938 | `int[]`                                         |
 
 #### Categories
 
@@ -591,12 +591,12 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 |     % |     Size | Instances | Constructor                                     |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 59.1% | 7.63 MiB |   100,010 | `java.lang.Double[]`                            |
-| 49.2% | 6.35 MiB |     1,969 | `java.lang.Object[]`                            |
-| 12.8% | 1.66 MiB |       422 | `java.util.HashMap$Node[]`                      |
-| 11.7% | 1.51 MiB |    23,678 | `byte[]`                                        |
-|  4.0% |  527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
-|  1.3% |  165 KiB |     1,941 | `int[]`                                         |
+| 57.2% | 7.63 MiB |   100,010 | `java.lang.Double[]`                            |
+| 22.8% | 3.04 MiB |     2,042 | `java.lang.Object[]`                            |
+| 15.4% | 2.05 MiB |       436 | `java.util.HashMap$Node[]`                      |
+| 11.3% | 1.51 MiB |    23,676 | `byte[]`                                        |
+|  3.9% |  527 KiB |        94 | `java.util.concurrent.ConcurrentHashMap$Node[]` |
+|  1.2% |  162 KiB |     1,938 | `int[]`                                         |
 |  0.7% | 89.4 KiB |         1 | `byte[][]`                                      |
 |  0.4% | 51.3 KiB |       223 | `char[]`                                        |
 |  0.3% | 41.1 KiB |       256 | `java.lang.ref.SoftReference[]`                 |
@@ -610,13 +610,13 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 |  0.1% | 9.69 KiB |         2 | `java.time.LocalDateTime[]`                     |
 |  0.1% | 8.47 KiB |         1 | `java.lang.ThreadLocal$ThreadLocalMap$Entry[]`  |
 |  0.1% |    8 KiB |         1 | `java.nio.ByteBuffer[]`                         |
-|  0.1% |  7.5 KiB |        15 | `java.util.concurrent.ForkJoinTask[]`           |
+|  0.1% |    8 KiB |        16 | `java.util.concurrent.ForkJoinTask[]`           |
 
 ##### Number
 
 |     % |     Size | Instances | Constructor         |
 | ----: | -------: | --------: | ------------------- |
-| 29.6% | 3.82 MiB |   500,051 | `java.lang.Double`  |
+| 28.6% | 3.82 MiB |   500,051 | `java.lang.Double`  |
 | <0.1% |    2 KiB |       256 | `java.lang.Long`    |
 | <0.1% | 1.08 KiB |       276 | `java.lang.Integer` |
 | <0.1% |    512 B |       256 | `java.lang.Short`   |
@@ -625,34 +625,34 @@ Constructors ranked by bytes allocated for their instances and all nodes that wo
 
 ##### Object
 
-|     % |     Size | Instances | Constructor                                   |
-| ----: | -------: | --------: | --------------------------------------------- |
-| 46.2% | 5.96 MiB |       165 | `java.util.ArrayList`                         |
-| 12.9% | 1.66 MiB |       388 | `java.util.HashMap`                           |
-| 11.7% | 1.52 MiB |    10,153 | `java.util.HashMap$Node`                      |
-|  7.7% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                 |
-|  7.6% | 1003 KiB |        10 | `java.util.jar.JarFile`                       |
-|  7.6% | 1000 KiB |         7 | `java.util.jar.Manifest`                      |
-|  6.3% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                |
-|  4.1% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`      |
-|  4.0% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                     |
-|  3.4% |  453 KiB |     5,785 | `java.util.jar.Attributes`                    |
-|  2.5% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node` |
-|  1.1% |  139 KiB |         2 | `java.net.URLClassLoader`                     |
-|  1.0% |  127 KiB |         2 | `org.renaissance.core.ModuleLoader`           |
-|  0.9% |  124 KiB |        38 | `java.util.LinkedHashSet`                     |
-|  0.9% |  123 KiB |     1,191 | `java.util.LinkedHashMap$Entry`               |
-|  0.9% |  116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`        |
-|  0.6% | 79.5 KiB |       624 | `java.lang.invoke.MethodType`                 |
-|  0.6% |   79 KiB |        72 | `java.lang.Module`                            |
-|  0.6% | 77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`         |
-|  0.6% | 77.4 KiB |       224 | `java.util.HashSet`                           |
+|     % |     Size | Instances | Constructor                                                |
+| ----: | -------: | --------: | ---------------------------------------------------------- |
+| 19.8% | 2.65 MiB |       236 | `java.util.ArrayList`                                      |
+| 15.1% | 2.01 MiB |       402 | `java.util.HashMap`                                        |
+| 14.5% | 1.94 MiB |    10,223 | `java.util.HashMap$Node`                                   |
+|  7.4% | 1015 KiB |       159 | `java.lang.ref.SoftReference`                              |
+|  7.3% | 1003 KiB |        10 | `java.util.jar.JarFile`                                    |
+|  7.3% | 1000 KiB |         7 | `java.util.jar.Manifest`                                   |
+|  6.1% |  829 KiB |        10 | `java.util.zip.ZipFile$Source`                             |
+|  3.9% |  536 KiB |       119 | `java.util.concurrent.ConcurrentHashMap`                   |
+|  3.9% |  533 KiB |     5,825 | `java.util.LinkedHashMap`                                  |
+|  3.3% |  453 KiB |     5,785 | `java.util.jar.Attributes`                                 |
+|  2.4% |  334 KiB |     6,259 | `java.util.concurrent.ConcurrentHashMap$Node`              |
+|  1.0% |  139 KiB |         2 | `java.net.URLClassLoader`                                  |
+|  0.9% |  127 KiB |         2 | `org.renaissance.core.ModuleLoader`                        |
+|  0.9% |  124 KiB |        38 | `java.util.LinkedHashSet`                                  |
+|  0.9% |  123 KiB |     1,191 | `java.util.LinkedHashMap$Entry`                            |
+|  0.8% |  116 KiB |         1 | `java.time.zone.TzdbZoneRulesProvider`                     |
+|  0.8% |  109 KiB |        54 | `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask` |
+|  0.6% | 79.5 KiB |       624 | `java.lang.invoke.MethodType`                              |
+|  0.6% |   79 KiB |        72 | `java.lang.Module`                                         |
+|  0.6% | 77.8 KiB |       154 | `java.util.ImmutableCollections$SetN`                      |
 
 ##### String
 
 |    % |    Size | Instances | Constructor        |
 | ---: | ------: | --------: | ------------------ |
-| 7.2% | 951 KiB |    22,932 | `java.lang.String` |
+| 7.0% | 951 KiB |    22,930 | `java.lang.String` |
 
 #### Instances
 
@@ -660,73 +660,73 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `java.lang.Double[]`
 
-|     % |    Size | Instances | Path                                                            |
-| ----: | ------: | --------: | --------------------------------------------------------------- |
-|  4.0% | 314 KiB |     4,024 | `(GC root)`                                                     |
-| <0.1% |    80 B |         1 | `[33081] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    80 B |         1 | `[33080] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    80 B |         1 | `[33079] java.lang.Object[] ← .elementData java.util.ArrayList` |
-| <0.1% |    80 B |         1 | `[33078] java.lang.Object[] ← .elementData java.util.ArrayList` |
+|     % |     Size | Instances | Path                                                            |
+| ----: | -------: | --------: | --------------------------------------------------------------- |
+| 24.0% | 1.83 MiB |    23,971 | `(GC root)`                                                     |
+| <0.1% |     80 B |         1 | `[49459] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |     80 B |         1 | `[49458] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |     80 B |         1 | `[49457] java.lang.Object[] ← .elementData java.util.ArrayList` |
+| <0.1% |     80 B |         1 | `[49456] java.lang.Object[] ← .elementData java.util.ArrayList` |
+
+##### `java.lang.Double`
+
+|     % | Size | Instances | Path                                         |
+| ----: | ---: | --------: | -------------------------------------------- |
+| <0.1% |  8 B |         1 | `.DOUBLE_ZERO class sun.invoke.util.Wrapper` |
+| <0.1% |  8 B |         1 | `[4] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[3] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[2] java.lang.Double[]`                     |
+| <0.1% |  8 B |         1 | `[1] java.lang.Double[]`                     |
 
 ##### `java.lang.Object[]`
 
 |     % |     Size | Instances | Path                                                                  |
 | ----: | -------: | --------: | --------------------------------------------------------------------- |
-| 87.9% | 5.58 MiB |         1 | `.elementData java.util.ArrayList`                                    |
-|  2.1% |  140 KiB |         2 | `(GC root)`                                                           |
-|  1.2% | 76.1 KiB |         2 | `.elementData java.util.ArrayList ← .classes java.net.URLClassLoader` |
-|  0.6% | 37.4 KiB |         1 | `.elements java.util.ImmutableCollections$SetN`                       |
-|  0.4% | 26.8 KiB |         1 | `[2221] java.lang.Object[]`                                           |
+| 60.7% | 1.85 MiB |         1 | `.elementData java.util.ArrayList`                                    |
+|  4.5% |  140 KiB |         2 | `(GC root)`                                                           |
+|  2.4% | 76.1 KiB |         2 | `.elementData java.util.ArrayList ← .classes java.net.URLClassLoader` |
+|  1.2% | 37.4 KiB |         1 | `.elements java.util.ImmutableCollections$SetN`                       |
+|  0.9% | 26.8 KiB |         1 | `[2221] java.lang.Object[]`                                           |
 
 ##### `java.util.ArrayList`
 
 |     % |     Size | Instances | Path                                                                                      |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------- |
-| 93.6% | 5.58 MiB |         1 | `(GC root)`                                                                               |
-|  1.2% | 76.1 KiB |         2 | `.classes java.net.URLClassLoader`                                                        |
-|  0.2% | 9.78 KiB |         1 | `.value java.util.HashMap$Node ← [0] java.util.HashMap$Node[] ← .table java.util.HashMap` |
-|  0.2% | 9.78 KiB |         1 | `.value java.util.HashMap$Node ← [1] java.util.HashMap$Node[] ← .table java.util.HashMap` |
-|  0.2% | 9.78 KiB |         1 | `.value java.util.HashMap$Node ← [2] java.util.HashMap$Node[] ← .table java.util.HashMap` |
-
-##### `java.lang.Double`
-
-|     % | Size | Instances | Path                     |
-| ----: | ---: | --------: | ------------------------ |
-| <0.1% |  8 B |         1 | `[4] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[3] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[2] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[1] java.lang.Double[]` |
-| <0.1% |  8 B |         1 | `[0] java.lang.Double[]` |
-
-##### `java.util.HashMap`
-
-|     % |     Size | Instances | Path                                                                                                                                          |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 57.6% |  981 KiB |         2 | `.entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                     |
-| 16.1% |  275 KiB |         5 | `(GC root)`                                                                                                                                   |
-|  3.7% | 63.3 KiB |         1 | `.jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
-|  3.7% | 63.3 KiB |         1 | `.jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
-|  1.8% | 31.1 KiB |         1 | `.lookup sun.text.resources.cldr.FormatData ← .table java.util.concurrent.ConcurrentHashMap ← .cacheList class sun.util.resources.Bundles`    |
+| 69.7% | 1.85 MiB |         1 | `(GC root)`                                                                               |
+|  2.8% | 76.1 KiB |         2 | `.classes java.net.URLClassLoader`                                                        |
+|  0.7% | 19.5 KiB |         1 | `.value java.util.HashMap$Node ← [2] java.util.HashMap$Node[] ← .table java.util.HashMap` |
+|  0.7% | 19.5 KiB |         1 | `.value java.util.HashMap$Node ← [3] java.util.HashMap$Node[] ← .table java.util.HashMap` |
+|  0.7% | 19.5 KiB |         1 | `.value java.util.HashMap$Node ← [4] java.util.HashMap$Node[] ← .table java.util.HashMap` |
 
 ##### `java.util.HashMap$Node[]`
 
 |     % |     Size | Instances | Path                                                                                                                                                                     |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 57.9% |  981 KiB |         2 | `.table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                     |
-| 16.2% |  275 KiB |         5 | `.table java.util.HashMap`                                                                                                                                               |
-|  3.7% | 63.2 KiB |         1 | `.table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
-|  3.7% | 63.2 KiB |         1 | `.table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
-|  1.8% |   31 KiB |         1 | `.table java.util.HashMap ← .lookup sun.text.resources.cldr.FormatData ← .table java.util.concurrent.ConcurrentHashMap ← .cacheList class sun.util.resources.Bundles`    |
+| 46.8% |  981 KiB |         2 | `.table java.util.HashMap ← .entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                     |
+| 21.5% |  451 KiB |         7 | `.table java.util.HashMap`                                                                                                                                               |
+|  3.0% | 63.2 KiB |         1 | `.table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
+|  3.0% | 63.2 KiB |         1 | `.table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
+|  2.3% | 49.1 KiB |         1 | `.table java.util.HashMap ← .result org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                                                                            |
+
+##### `java.util.HashMap`
+
+|     % |     Size | Instances | Path                                                                                                                                          |
+| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 47.7% |  981 KiB |         2 | `.entries java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                     |
+| 21.9% |  452 KiB |         7 | `(GC root)`                                                                                                                                   |
+|  3.1% | 63.3 KiB |         1 | `.jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
+|  3.1% | 63.3 KiB |         1 | `.jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
+|  2.4% | 49.2 KiB |         1 | `.result org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                                                                            |
 
 ##### `java.util.HashMap$Node`
 
-|    % |     Size | Instances | Path                                                                                                                                                                                                                                    |
-| ---: | -------: | --------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.3% |   20 KiB |         1 | `[21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
-| 1.3% |   20 KiB |         1 | `[21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite`                                |
-| 1.2% | 19.2 KiB |         1 | `.next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
-| 1.2% | 19.2 KiB |         1 | `.next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
-| 1.2% | 19.1 KiB |         1 | `[19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+|    % |     Size | Instances | Path                                                                                                                                                                                                     |
+| ---: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 7.4% |  147 KiB |         6 | `[4] java.util.HashMap$Node[] ← .table java.util.HashMap`                                                                                                                                                |
+| 1.0% |   20 KiB |         1 | `[21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
+| 1.0% |   20 KiB |         1 | `[21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
+| 1.0% | 19.6 KiB |         1 | `(GC root)`                                                                                                                                                                                              |
+| 1.0% | 19.6 KiB |         1 | `[4] java.util.HashMap$Node[] ← .table java.util.HashMap ← .result org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`                                                                             |
 
 ##### `byte[]`
 
@@ -745,8 +745,8 @@ Instances ranked by contribution to each constructor's retained size.
 | 98.5% | 1000 KiB |         7 | `.manRef java.util.jar.JarFile`                                                    |
 |  0.2% |  1.7 KiB |         2 | `[7] java.lang.ref.SoftReference[] ← .lambdaForms java.lang.invoke.MethodTypeForm` |
 |  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$AppClassLoader`                   |
-|  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$BootClassLoader`                  |
 |  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$PlatformClassLoader`              |
+|  0.1% |    716 B |         1 | `.resourceCache jdk.internal.loader.ClassLoaders$BootClassLoader`                  |
 
 ##### `java.util.jar.JarFile`
 
@@ -792,7 +792,7 @@ Instances ranked by contribution to each constructor's retained size.
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------ |
 | 20.8% |  111 KiB |         1 | `.regionToRules java.time.zone.TzdbZoneRulesProvider`                                                                                |
 | 10.4% | 55.5 KiB |         1 | `.map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType` |
-| 10.1% | 54.4 KiB |         1 | `.cacheList class sun.util.resources.Bundles`                                                                                        |
+| 10.2% | 54.4 KiB |         1 | `.cacheList class sun.util.resources.Bundles`                                                                                        |
 |  7.4% | 39.8 KiB |         1 | `(GC root)`                                                                                                                          |
 |  6.9% | 36.9 KiB |         1 | `.parallelLockMap jdk.internal.loader.ClassLoaders$AppClassLoader`                                                                   |
 
@@ -800,11 +800,11 @@ Instances ranked by contribution to each constructor's retained size.
 
 |    % |     Size | Instances | Path                                                                                                                                                                                                                                                                                                   |
 | ---: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 3.6% | 19.2 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 3.6% | 19.2 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
-| 3.5% | 18.6 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+| 3.6% | 19.2 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 3.5% | 18.6 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite`                                |
-| 1.7% |  8.8 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+| 3.5% | 18.6 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+| 1.7% |  8.8 KiB |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite`                                |
 
 ##### `java.util.concurrent.ConcurrentHashMap$Node[]`
 
@@ -840,11 +840,11 @@ Instances ranked by contribution to each constructor's retained size.
 
 |     % |     Size | Instances | Path                                            |
 | ----: | -------: | --------: | ----------------------------------------------- |
-| 56.4% | 93.2 KiB |         6 | `.entries java.util.zip.ZipFile$Source`         |
-| 17.0% |   28 KiB |         9 | `(GC root)`                                     |
-|  6.9% | 11.4 KiB |         2 | `.table java.util.zip.ZipFile$Source`           |
+| 57.4% | 93.2 KiB |         6 | `.entries java.util.zip.ZipFile$Source`         |
+| 17.8% | 28.9 KiB |         9 | `(GC root)`                                     |
+|  7.0% | 11.4 KiB |         2 | `.table java.util.zip.ZipFile$Source`           |
 |  2.5% | 4.13 KiB |         1 | `.A class java.lang.CharacterData00`            |
-|  1.4% | 2.36 KiB |         1 | `.indices class sun.util.calendar.ZoneInfoFile` |
+|  1.5% | 2.36 KiB |         1 | `.indices class sun.util.calendar.ZoneInfoFile` |
 
 ##### `java.net.URLClassLoader`
 
@@ -856,34 +856,40 @@ Instances ranked by contribution to each constructor's retained size.
 
 |     % |     Size | Instances | Path                                                                            |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------- |
-| 50.0% | 63.3 KiB |         1 | `(GC root)`                                                                     |
 | 50.0% | 63.3 KiB |         1 | `.value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
+| 50.0% | 63.3 KiB |         1 | `(GC root)`                                                                     |
 
 ##### `java.util.LinkedHashSet`
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                                                                                    |
 | ----: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 15.4% | 19.2 KiB |         1 | `.value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 15.4% | 19.2 KiB |         1 | `.value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
-| 15.0% | 18.6 KiB |         1 | `.value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+| 15.4% | 19.2 KiB |         1 | `.value java.util.HashMap$Node ← .next java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 15.0% | 18.6 KiB |         1 | `.value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite`                                |
-|  7.1% | 8.81 KiB |         1 | `.value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+| 15.0% | 18.6 KiB |         1 | `.value java.util.HashMap$Node ← [19] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                                                |
+|  7.1% | 8.81 KiB |         1 | `.value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite`                                |
 
 ##### `java.util.LinkedHashMap$Entry`
 
 |    % |     Size | Instances | Path                                                                                                                                                                                                                                                                    |
 | ---: | -------: | --------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 8.7% | 10.6 KiB |         2 | `.map java.util.jar.Attributes ← .attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                                                  |
-| 0.6% |    712 B |         5 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 0.6% |    712 B |         5 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
+| 0.6% |    712 B |         5 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [30] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
 | 0.5% |    612 B |         2 | `.tail java.util.LinkedHashMap ← .map java.util.jar.Attributes ← .attr java.util.jar.Manifest ← .referent java.lang.ref.SoftReference ← .manRef java.util.jar.JarFile`                                                                                                  |
-| 0.1% |    130 B |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader`                                                                                 |
+| 0.1% |    130 B |         1 | `.map java.util.LinkedHashSet ← .value java.util.HashMap$Node ← [21] java.util.HashMap$Node[] ← .table java.util.HashMap ← .jarResourcePathsByModule org.renaissance.core.ModuleLoader ← .value java.util.Optional ← .moduleLoader org.renaissance.core.BenchmarkSuite` |
 
 ##### `java.time.zone.TzdbZoneRulesProvider`
 
 |      % |    Size | Instances | Path        |
 | -----: | ------: | --------: | ----------- |
 | 100.0% | 116 KiB |         1 | `(GC root)` |
+
+##### `org.renaissance.jdk.concurrent.JavaKMeans$AssignmentTask`
+
+|      % |    Size | Instances | Path        |
+| -----: | ------: | --------: | ----------- |
+| 100.0% | 109 KiB |        54 | `(GC root)` |
 
 ##### `byte[][]`
 
@@ -895,9 +901,9 @@ Instances ranked by contribution to each constructor's retained size.
 
 |     % |     Size | Instances | Path                                                                                                                                                                                                                                                                                                                                                                                             |
 | ----: | -------: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 97.0% | 77.1 KiB |       573 | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                      |
-|  0.1% |     48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [414] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType` |
+| 96.8% | 76.9 KiB |       569 | `(GC root)`                                                                                                                                                                                                                                                                                                                                                                                      |
 |  0.1% |     48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [217] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
+|  0.1% |     48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [414] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType` |
 |  0.1% |     48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [573] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
 |  0.1% |     48 B |         1 | `.referent jdk.internal.util.WeakReferenceKey ← .key java.util.concurrent.ConcurrentHashMap$Node ← [752] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .map jdk.internal.util.ReferencedKeyMap ← .map jdk.internal.util.ReferencedKeySet ← .internTable class java.lang.invoke.MethodType`                                                     |
 
@@ -920,16 +926,6 @@ Instances ranked by contribution to each constructor's retained size.
 |  8.6% | 6.69 KiB |         3 | `.packages java.lang.module.ModuleDescriptor`                                                                                                     |
 |  1.3% | 1.01 KiB |         1 | `.mrefs jdk.internal.module.SystemModuleFinders$SystemModuleFinder ← .finder jdk.internal.module.ArchivedModuleGraph ← [2217] java.lang.Object[]` |
 |  1.3% | 1.01 KiB |         1 | `.modules java.lang.module.Configuration`                                                                                                         |
-
-##### `java.util.HashSet`
-
-|     % |     Size | Instances | Path                                                                                                                             |
-| ----: | -------: | --------: | -------------------------------------------------------------------------------------------------------------------------------- |
-| 31.7% | 24.6 KiB |         1 | `.c java.util.Collections$UnmodifiableSet ← .ZONE_IDS class java.time.zone.ZoneRulesProvider`                                    |
-|  0.9% |    732 B |         1 | `.value java.util.HashMap$Node ← [203] java.util.HashMap$Node[] ← .table java.util.HashMap ← .exportedPackages java.lang.Module` |
-|  0.7% |    520 B |         1 | `.value java.util.HashMap$Node ← [96] java.util.HashMap$Node[] ← .table java.util.HashMap ← .exportedPackages java.lang.Module`  |
-|  0.7% |    520 B |         1 | `.value java.util.HashMap$Node ← [190] java.util.HashMap$Node[] ← .table java.util.HashMap ← .exportedPackages java.lang.Module` |
-|  0.6% |    492 B |         1 | `.reads java.lang.Module`                                                                                                        |
 
 ##### `char[]`
 
@@ -1007,8 +1003,8 @@ Instances ranked by contribution to each constructor's retained size.
 
 |     % |     Size | Instances | Path                                                                             |
 | ----: | -------: | --------: | -------------------------------------------------------------------------------- |
-| 78.8% | 8.53 KiB |       319 | `.ptypes java.lang.invoke.MethodType`                                            |
-| 14.1% | 1.52 KiB |        67 | `(GC root)`                                                                      |
+| 79.0% | 8.55 KiB |       322 | `.ptypes java.lang.invoke.MethodType`                                            |
+| 14.0% | 1.52 KiB |        66 | `(GC root)`                                                                      |
 |  0.2% |     24 B |         1 | `.STATICALLY_INVOCABLE_PACKAGES class java.lang.invoke.InvokerBytecodeGenerator` |
 |  0.1% |      8 B |         1 | `.parameterTypes java.lang.reflect.Method`                                       |
 |  0.1% |      8 B |         1 | `.METHOD_HANDLE_ARRAY class java.lang.invoke.MethodType`                         |
@@ -1034,9 +1030,9 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `java.util.concurrent.ForkJoinTask[]`
 
-|      % |    Size | Instances | Path                                                 |
-| -----: | ------: | --------: | ---------------------------------------------------- |
-| 100.0% | 7.5 KiB |        15 | `.array java.util.concurrent.ForkJoinPool$WorkQueue` |
+|      % |  Size | Instances | Path                                                 |
+| -----: | ----: | --------: | ---------------------------------------------------- |
+| 100.0% | 8 KiB |        16 | `.array java.util.concurrent.ForkJoinPool$WorkQueue` |
 
 ##### `java.lang.Long`
 
@@ -1050,13 +1046,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `java.lang.Integer`
 
-|    % | Size | Instances | Path                                                                                                                                                                                                         |
-| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 0.4% |  4 B |         1 | `[5] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[4] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[3] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[2] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
-| 0.4% |  4 B |         1 | `[1] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer` |
+|    % | Size | Instances | Path                                                                                                                                                                                                                                                    |
+| ---: | ---: | --------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← [31] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`                                                     |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [31] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset` |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← [15] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`                                                     |
+| 0.4% |  4 B |         1 | `.key java.util.concurrent.ConcurrentHashMap$Node ← .next java.util.concurrent.ConcurrentHashMap$Node ← [0] java.util.concurrent.ConcurrentHashMap$Node[] ← .table java.util.concurrent.ConcurrentHashMap ← .SECONDS_CACHE class java.time.ZoneOffset`  |
+| 0.4% |  4 B |         1 | `[5] java.lang.Object[] ← .elements java.util.ImmutableCollections$ListN ← .TRANSFORM_MODS java.lang.invoke.BoundMethodHandle$Specializer$Factory ← .factory java.lang.invoke.BoundMethodHandle$Specializer`                                            |
 
 ##### `java.lang.Short`
 

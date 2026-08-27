@@ -1,13 +1,13 @@
 # CPU profile diff
 
-Took 5.58s (-1.76ms, ~0%) over 4,237 samples → 4,226 samples (1.3ms per sample).
+Took 5.53s → 5.79s (+266.31ms, +4.8%) over 4,148 samples → 4,388 samples (1.3ms per sample).
 
-| Category         | Change |    Delta |             % |              Time |       Samples |
-| ---------------- | -----: | -------: | ------------: | ----------------: | ------------: |
-| Third-party      |  -1.2% | -60.10ms | 92.7% → 91.7% |     5.17s → 5.11s | 3,933 → 3,906 |
-| Standard library | +22.7% | +56.40ms |   4.4% → 5.5% | 248.3ms → 304.7ms |     182 → 197 |
-| Native           |  +0.5% |  +0.77ms |          2.8% | 158.0ms → 158.8ms |           122 |
-| Unknown          |    new |  +1.16ms |  0.0% → <0.1% |       0ms → 1.2ms |         0 → 1 |
+| Category         | Change |     Delta |             % |              Time |       Samples |
+| ---------------- | -----: | --------: | ------------: | ----------------: | ------------: |
+| Third-party      |  +6.7% | +341.28ms | 91.7% → 93.4% |     5.07s → 5.41s | 3,814 → 4,092 |
+| Standard library | -18.1% |  -50.37ms |   5.0% → 3.9% | 277.8ms → 227.5ms |     195 → 177 |
+| Native           | -14.4% |  -25.93ms |   3.3% → 2.7% | 180.5ms → 154.5ms |     139 → 118 |
+| Unknown          |    new |   +1.33ms |  0.0% → <0.1% |       0ms → 1.3ms |         0 → 1 |
 
 ## Hottest functions
 
@@ -17,170 +17,169 @@ Took 5.58s (-1.76ms, ~0%) over 4,237 samples → 4,226 samples (1.3ms per sample
 
 Functions with the largest increase in time spent directly in the function body, excluding callees.
 
-|   Change |    Delta |            % |              Time |   Samples | Function                               | Location                                                                                 |
-| -------: | -------: | -----------: | ----------------: | --------: | -------------------------------------- | ---------------------------------------------------------------------------------------- |
-| +4221.9% | +62.15ms | <0.1% → 1.1% |    1.5ms → 63.6ms |    1 → 10 | `toString`                             | `<unknown>`                                                                              |
-|    +8.2% | +18.22ms |  4.0% → 4.3% | 222.4ms → 240.6ms | 160 → 173 | `checkTypeRelatedTo`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
-|  +479.4% | +17.93ms |  0.1% → 0.4% |    3.7ms → 21.7ms |     3 → 5 | `getNamedMembers`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:50411:33` |
-|   +52.7% | +15.77ms |  0.5% → 0.8% |   29.9ms → 45.7ms |   23 → 34 | `isFreshLiteralType`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61377:36` |
-|   +13.3% | +15.42ms |  2.1% → 2.3% | 115.5ms → 131.0ms |  88 → 104 | `getObjectTypeInstantiation`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44` |
-|   +36.9% | +15.14ms |  0.7% → 1.0% |   41.0ms → 56.2ms |   32 → 43 | `getIdentifierToken`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36` |
-| +1347.2% | +15.14ms | <0.1% → 0.3% |    1.1ms → 16.3ms |    1 → 12 | `getSymbolId`                          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:46923:25` |
-|   +44.8% | +13.37ms |  0.5% → 0.8% |   29.8ms → 43.2ms |   23 → 32 | `createTypeReference`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37` |
-|  +316.5% | +12.09ms |  0.1% → 0.3% |    3.8ms → 15.9ms |    3 → 11 | `forEach`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`   |
-|   +39.8% | +11.18ms |  0.5% → 0.7% |   28.1ms → 39.2ms |   22 → 30 | `instantiateTypeWorker`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39` |
-|   +50.9% | +11.02ms |  0.4% → 0.6% |   21.6ms → 32.7ms |   17 → 25 | `resolveStructuredTypeMembers`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57178:46` |
-|   +61.8% | +10.94ms |  0.3% → 0.5% |   17.7ms → 28.6ms |   14 → 22 | `getSingleBaseForNonAugmentingSubtype` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65696:54` |
-|   +46.9% | +10.05ms |  0.4% → 0.6% |   21.4ms → 31.5ms |   17 → 24 | `getApparentTypeOfMappedType`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57576:45` |
-|  +194.4% |  +9.95ms |  0.1% → 0.3% |    5.1ms → 15.1ms |    4 → 10 | `getTypeAtFlowNode`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68534:39` |
-|   +54.8% |  +9.35ms |  0.3% → 0.5% |   17.1ms → 26.4ms |   13 → 19 | `getCheckFlags`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19218:27` |
-|   +61.5% |  +9.33ms |  0.3% → 0.4% |   15.2ms → 24.5ms |   12 → 18 | `checkIdentifier`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:69711:33` |
-|   +37.7% |  +8.75ms |  0.4% → 0.6% |   23.2ms → 31.9ms |   18 → 25 | `createUnionOrIntersectionProperty`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51` |
-|   +44.3% |  +8.55ms |  0.3% → 0.5% |   19.3ms → 27.9ms |   15 → 22 | `setParent`                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:20787:23` |
-|   +26.4% |  +8.47ms |  0.6% → 0.7% |   32.0ms → 40.5ms |   25 → 30 | `some`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:945:18`   |
-|   +68.9% |  +8.19ms |  0.2% → 0.4% |   11.9ms → 20.1ms |    9 → 16 | `compareSignaturesRelated`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42` |
+|   Change |    Delta |            % |              Time |   Samples | Function                                       | Location                                                                                 |
+| -------: | -------: | -----------: | ----------------: | --------: | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
+|  +162.9% | +36.88ms |  0.4% → 1.0% |   22.6ms → 59.5ms |   18 → 34 | `forEachChild`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:29919:26` |
+|   +47.1% | +33.77ms |  1.3% → 1.8% |  71.7ms → 105.5ms |   55 → 81 | `getNormalizedType`                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
+|   +11.1% | +26.91ms |  4.4% → 4.6% | 241.6ms → 268.5ms | 180 → 191 | `checkTypeRelatedTo`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
+|   +21.1% | +25.55ms |  2.2% → 2.5% | 121.1ms → 146.6ms |  93 → 113 | `isRelatedTo`                                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
+| +1520.7% | +20.12ms | <0.1% → 0.4% |    1.3ms → 21.4ms |     1 → 4 | `_loop_18`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63565:41` |
+|  +221.4% | +19.13ms |  0.2% → 0.5% |    8.6ms → 27.8ms |    7 → 22 | `compareSignaturesRelated`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42` |
+|  +168.7% | +17.18ms |  0.2% → 0.5% |   10.2ms → 27.4ms |    8 → 22 | `getTypeAliasInstantiation`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58731:43` |
+|   +26.5% | +16.88ms |  1.2% → 1.4% |   63.7ms → 80.5ms |   48 → 62 | `getTypeListId`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58595:31` |
+|   +75.8% | +15.17ms |  0.4% → 0.6% |   20.0ms → 35.2ms |   16 → 27 | `getMappedType`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31` |
+|  +203.3% | +14.93ms |  0.1% → 0.4% |    7.3ms → 22.3ms |    6 → 16 | `getReducedApparentType`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57608:40` |
+|   +14.9% | +14.60ms |  1.8% → 1.9% |  97.7ms → 112.3ms |   74 → 88 | `concat`                                       | `<unknown>`                                                                              |
+|  +122.7% | +13.22ms |  0.2% → 0.4% |   10.8ms → 24.0ms |    8 → 19 | `checkPropertyAccessExpressionOrQualifiedName` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72679:62` |
+|   +26.7% | +11.96ms |  0.8% → 1.0% |   44.7ms → 56.7ms |   34 → 43 | `getReducedType`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57798:32` |
+|  +189.4% | +11.55ms |  0.1% → 0.3% |    6.1ms → 17.6ms |    5 → 14 | `getUnionType`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:59698:30` |
+|  +215.7% |  +9.96ms |  0.1% → 0.3% |    4.6ms → 14.6ms |    4 → 11 | `filter`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:610:20`   |
+|  +380.1% |  +9.79ms | <0.1% → 0.2% |    2.6ms → 12.4ms |     2 → 6 | `getNamedMembers`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:50411:33` |
+|   +93.6% |  +9.77ms |  0.2% → 0.3% |   10.4ms → 20.2ms |    8 → 15 | `findAncestor`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12537:26` |
+|   +74.6% |  +9.51ms |  0.2% → 0.4% |   12.8ms → 22.3ms |   10 → 18 | `getCombinedFlags`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12431:30` |
+|  +694.0% |  +9.11ms | <0.1% → 0.2% |    1.3ms → 10.4ms |     1 → 8 | `getTypeWithThisArgument`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:56374:41` |
+|  +251.4% |  +9.06ms |  0.1% → 0.2% |    3.6ms → 12.7ms |    3 → 10 | `getSingleSignature`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:73489:36` |
 
 ##### Third-party
 
-|   Change |    Delta |            % |              Time |   Samples | Function                               | Location                                                                                  |
-| -------: | -------: | -----------: | ----------------: | --------: | -------------------------------------- | ----------------------------------------------------------------------------------------- |
-|    +8.2% | +18.22ms |  4.0% → 4.3% | 222.4ms → 240.6ms | 160 → 173 | `checkTypeRelatedTo`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|  +479.4% | +17.93ms |  0.1% → 0.4% |    3.7ms → 21.7ms |     3 → 5 | `getNamedMembers`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:50411:33`  |
-|   +52.7% | +15.77ms |  0.5% → 0.8% |   29.9ms → 45.7ms |   23 → 34 | `isFreshLiteralType`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61377:36`  |
-|   +13.3% | +15.42ms |  2.1% → 2.3% | 115.5ms → 131.0ms |  88 → 104 | `getObjectTypeInstantiation`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61740:44`  |
-|   +36.9% | +15.14ms |  0.7% → 1.0% |   41.0ms → 56.2ms |   32 → 43 | `getIdentifierToken`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11153:36`  |
-| +1347.2% | +15.14ms | <0.1% → 0.3% |    1.1ms → 16.3ms |    1 → 12 | `getSymbolId`                          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:46923:25`  |
-|   +44.8% | +13.37ms |  0.5% → 0.8% |   29.8ms → 43.2ms |   23 → 32 | `createTypeReference`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37`  |
-|  +316.5% | +12.09ms |  0.1% → 0.3% |    3.8ms → 15.9ms |    3 → 11 | `forEach`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
-|   +39.8% | +11.18ms |  0.5% → 0.7% |   28.1ms → 39.2ms |   22 → 30 | `instantiateTypeWorker`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61983:39`  |
-|   +50.9% | +11.02ms |  0.4% → 0.6% |   21.6ms → 32.7ms |   17 → 25 | `resolveStructuredTypeMembers`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57178:46`  |
-|   +61.8% | +10.94ms |  0.3% → 0.5% |   17.7ms → 28.6ms |   14 → 22 | `getSingleBaseForNonAugmentingSubtype` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65696:54`  |
-|   +46.9% | +10.05ms |  0.4% → 0.6% |   21.4ms → 31.5ms |   17 → 24 | `getApparentTypeOfMappedType`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57576:45`  |
-|  +194.4% |  +9.95ms |  0.1% → 0.3% |    5.1ms → 15.1ms |    4 → 10 | `getTypeAtFlowNode`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68534:39`  |
-|   +54.8% |  +9.35ms |  0.3% → 0.5% |   17.1ms → 26.4ms |   13 → 19 | `getCheckFlags`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19218:27`  |
-|   +61.5% |  +9.33ms |  0.3% → 0.4% |   15.2ms → 24.5ms |   12 → 18 | `checkIdentifier`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:69711:33`  |
-|   +37.7% |  +8.75ms |  0.4% → 0.6% |   23.2ms → 31.9ms |   18 → 25 | `createUnionOrIntersectionProperty`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51`  |
-|   +44.3% |  +8.55ms |  0.3% → 0.5% |   19.3ms → 27.9ms |   15 → 22 | `setParent`                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:20787:23`  |
-|   +26.4% |  +8.47ms |  0.6% → 0.7% |   32.0ms → 40.5ms |   25 → 30 | `some`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:945:18`    |
-|   +68.9% |  +8.19ms |  0.2% → 0.4% |   11.9ms → 20.1ms |    9 → 16 | `compareSignaturesRelated`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42`  |
-|  +210.1% |  +8.17ms |  0.1% → 0.2% |    3.9ms → 12.1ms |     3 → 9 | `TokenObject`                          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:159643:29` |
+|   Change |    Delta |            % |              Time |   Samples | Function                                       | Location                                                                                 |
+| -------: | -------: | -----------: | ----------------: | --------: | ---------------------------------------------- | ---------------------------------------------------------------------------------------- |
+|  +162.9% | +36.88ms |  0.4% → 1.0% |   22.6ms → 59.5ms |   18 → 34 | `forEachChild`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:29919:26` |
+|   +47.1% | +33.77ms |  1.3% → 1.8% |  71.7ms → 105.5ms |   55 → 81 | `getNormalizedType`                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35` |
+|   +11.1% | +26.91ms |  4.4% → 4.6% | 241.6ms → 268.5ms | 180 → 191 | `checkTypeRelatedTo`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36` |
+|   +21.1% | +25.55ms |  2.2% → 2.5% | 121.1ms → 146.6ms |  93 → 113 | `isRelatedTo`                                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33` |
+| +1520.7% | +20.12ms | <0.1% → 0.4% |    1.3ms → 21.4ms |     1 → 4 | `_loop_18`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63565:41` |
+|  +221.4% | +19.13ms |  0.2% → 0.5% |    8.6ms → 27.8ms |    7 → 22 | `compareSignaturesRelated`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42` |
+|  +168.7% | +17.18ms |  0.2% → 0.5% |   10.2ms → 27.4ms |    8 → 22 | `getTypeAliasInstantiation`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58731:43` |
+|   +26.5% | +16.88ms |  1.2% → 1.4% |   63.7ms → 80.5ms |   48 → 62 | `getTypeListId`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58595:31` |
+|   +75.8% | +15.17ms |  0.4% → 0.6% |   20.0ms → 35.2ms |   16 → 27 | `getMappedType`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61620:31` |
+|  +203.3% | +14.93ms |  0.1% → 0.4% |    7.3ms → 22.3ms |    6 → 16 | `getReducedApparentType`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57608:40` |
+|  +122.7% | +13.22ms |  0.2% → 0.4% |   10.8ms → 24.0ms |    8 → 19 | `checkPropertyAccessExpressionOrQualifiedName` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72679:62` |
+|   +26.7% | +11.96ms |  0.8% → 1.0% |   44.7ms → 56.7ms |   34 → 43 | `getReducedType`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57798:32` |
+|  +189.4% | +11.55ms |  0.1% → 0.3% |    6.1ms → 17.6ms |    5 → 14 | `getUnionType`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:59698:30` |
+|  +215.7% |  +9.96ms |  0.1% → 0.3% |    4.6ms → 14.6ms |    4 → 11 | `filter`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:610:20`   |
+|  +380.1% |  +9.79ms | <0.1% → 0.2% |    2.6ms → 12.4ms |     2 → 6 | `getNamedMembers`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:50411:33` |
+|   +93.6% |  +9.77ms |  0.2% → 0.3% |   10.4ms → 20.2ms |    8 → 15 | `findAncestor`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12537:26` |
+|   +74.6% |  +9.51ms |  0.2% → 0.4% |   12.8ms → 22.3ms |   10 → 18 | `getCombinedFlags`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12431:30` |
+|  +694.0% |  +9.11ms | <0.1% → 0.2% |    1.3ms → 10.4ms |     1 → 8 | `getTypeWithThisArgument`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:56374:41` |
+|  +251.4% |  +9.06ms |  0.1% → 0.2% |    3.6ms → 12.7ms |    3 → 10 | `getSingleSignature`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:73489:36` |
+|  +165.3% |  +8.85ms |  0.1% → 0.2% |    5.4ms → 14.2ms |    4 → 12 | `getConditionalType`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60911:36` |
 
 ##### Standard library
 
-|   Change |    Delta |            % |              Time | Samples | Function         | Location                           |
-| -------: | -------: | -----------: | ----------------: | ------: | ---------------- | ---------------------------------- |
-| +4221.9% | +62.15ms | <0.1% → 1.1% |    1.5ms → 63.6ms |  1 → 10 | `toString`       | `<unknown>`                        |
-|    +5.9% |  +6.89ms |  2.1% → 2.2% | 117.7ms → 124.6ms | 92 → 97 | `concat`         | `<unknown>`                        |
-|  +131.9% |  +5.96ms |  0.1% → 0.2% |    4.5ms → 10.5ms |   4 → 8 | `get`            | `<unknown>`                        |
-|   +28.9% |  +4.78ms |  0.3% → 0.4% |   16.6ms → 21.3ms | 13 → 17 | `forEach`        | `<unknown>`                        |
-|   +94.2% |  +3.81ms |         0.1% |     4.0ms → 7.8ms |   3 → 6 | `Map`            | `<unknown>`                        |
-|      new |  +2.38ms | 0.0% → <0.1% |       0ms → 2.4ms |   0 → 2 | `lastIndexOf`    | `<unknown>`                        |
-|      new |  +1.44ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `removeListener` | `node:events:206:63`               |
-|      new |  +1.43ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `exec`           | `<unknown>`                        |
-|      new |  +1.26ms | 0.0% → <0.1% |       0ms → 1.3ms |   0 → 1 | `test`           | `<unknown>`                        |
-|    +3.9% |  +1.25ms |         0.6% |   32.1ms → 33.4ms |      25 | `slice`          | `<unknown>`                        |
-|      new |  +1.24ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `Writable`       | `internal:streams/writable:172:18` |
-|      new |  +1.20ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `delete`         | `<unknown>`                        |
-|      new |  +1.20ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `every`          | `<unknown>`                        |
-|      new |  +1.09ms | 0.0% → <0.1% |       0ms → 1.1ms |   0 → 1 | `find`           | `<unknown>`                        |
-|      new |  +1.07ms | 0.0% → <0.1% |       0ms → 1.1ms |   0 → 1 | `values`         | `<unknown>`                        |
-|   +34.3% |  +0.38ms |        <0.1% |     1.1ms → 1.5ms |       1 | `splice`         | `<unknown>`                        |
-|   +15.2% |  +0.20ms |        <0.1% |     1.3ms → 1.5ms |       1 | `charCodeAt`     | `<unknown>`                        |
+|  Change |    Delta |            % |             Time | Samples | Function      | Location                    |
+| ------: | -------: | -----------: | ---------------: | ------: | ------------- | --------------------------- |
+|  +14.9% | +14.60ms |  1.8% → 1.9% | 97.7ms → 112.3ms | 74 → 88 | `concat`      | `<unknown>`                 |
+| +501.9% |  +5.67ms | <0.1% → 0.1% |    1.1ms → 6.8ms |   1 → 5 | `toString`    | `<unknown>`                 |
+|  +53.3% |  +2.94ms |         0.1% |    5.5ms → 8.5ms |   4 → 7 | `set`         | `<unknown>`                 |
+|  +93.7% |  +2.33ms | <0.1% → 0.1% |    2.5ms → 4.8ms |   2 → 4 | `lastIndexOf` | `<unknown>`                 |
+| +122.6% |  +1.66ms | <0.1% → 0.1% |    1.4ms → 3.0ms |   1 → 2 | `some`        | `<unknown>`                 |
+|     new |  +1.50ms | 0.0% → <0.1% |      0ms → 1.5ms |   0 → 1 | `every`       | `<unknown>`                 |
+|     new |  +1.49ms | 0.0% → <0.1% |      0ms → 1.5ms |   0 → 1 | `(anonymous)` | `internal:primordials:1:11` |
+|     new |  +1.25ms | 0.0% → <0.1% |      0ms → 1.2ms |   0 → 1 | `replace`     | `<unknown>`                 |
+|     new |  +1.24ms | 0.0% → <0.1% |      0ms → 1.2ms |   0 → 1 | `trim`        | `<unknown>`                 |
+|     new |  +1.23ms | 0.0% → <0.1% |      0ms → 1.2ms |   0 → 1 | `resolve`     | `<unknown>`                 |
+|     new |  +1.14ms | 0.0% → <0.1% |      0ms → 1.1ms |   0 → 1 | `substr`      | `<unknown>`                 |
+|     new |  +1.10ms | 0.0% → <0.1% |      0ms → 1.1ms |   0 → 1 | `charCodeAt`  | `<unknown>`                 |
+|  +64.1% |  +0.98ms |        <0.1% |    1.5ms → 2.5ms |   1 → 2 | `trimStart`   | `<unknown>`                 |
+|   +3.1% |  +0.07ms |        <0.1% |    2.4ms → 2.5ms |       2 | `Map`         | `<unknown>`                 |
 
 ##### Native
 
-|  Change |   Delta |            % |            Time | Samples | Function                                               | Location    |
-| ------: | ------: | -----------: | --------------: | ------: | ------------------------------------------------------ | ----------- |
-|     new | +3.72ms |  0.0% → 0.1% |     0ms → 3.7ms |   0 → 3 | `parseModule`                                          | `<unknown>` |
-| +113.0% | +2.93ms | <0.1% → 0.1% |   2.6ms → 5.5ms |   2 → 4 | `stringSplitFast`                                      | `<unknown>` |
-|     new | +1.49ms | 0.0% → <0.1% |     0ms → 1.5ms |   0 → 1 | `/(\stypes\s*=\s*)(?:(?:'([^']*)')\|(?:"([^"]*)"))/im` | `<unknown>` |
-|     new | +1.48ms | 0.0% → <0.1% |     0ms → 1.5ms |   0 → 1 | `/^#!.*/`                                              | `<unknown>` |
-|     new | +1.10ms | 0.0% → <0.1% |     0ms → 1.1ms |   0 → 1 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+/g`            | `<unknown>` |
-|   +2.0% | +0.53ms |         0.5% | 26.2ms → 26.8ms |      21 | `statSync`                                             | `<unknown>` |
+|  Change |   Delta |            % |            Time | Samples | Function                                 | Location    |
+| ------: | ------: | -----------: | --------------: | ------: | ---------------------------------------- | ----------- |
+|  +25.9% | +6.22ms |  0.4% → 0.5% | 24.0ms → 30.2ms | 19 → 22 | `statSync`                               | `<unknown>` |
+| +139.3% | +3.66ms | <0.1% → 0.1% |   2.6ms → 6.3ms |   2 → 5 | `stringSplitFast`                        | `<unknown>` |
+| +129.0% | +1.98ms | <0.1% → 0.1% |   1.5ms → 3.5ms |   1 → 3 | `readdirSync`                            | `<unknown>` |
+|     new | +1.34ms | 0.0% → <0.1% |     0ms → 1.3ms |   0 → 1 | `hasObservableSideEffectsForRegExpSplit` | `<unknown>` |
+|     new | +1.27ms | 0.0% → <0.1% |     0ms → 1.3ms |   0 → 1 | `file`                                   | `<unknown>` |
+|   +7.1% | +0.35ms |         0.1% |   5.0ms → 5.3ms |       4 | `realpathNativeSync`                     | `<unknown>` |
+|  +27.9% | +0.33ms |        <0.1% |   1.2ms → 1.5ms |       1 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`    | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in time spent directly in the function body, excluding callees.
 
-|  Change |    Delta |            % |              Time |   Samples | Function                          | Location                                                                                  |
-| ------: | -------: | -----------: | ----------------: | --------: | --------------------------------- | ----------------------------------------------------------------------------------------- |
-|  -83.1% | -48.24ms |  1.0% → 0.2% |    58.0ms → 9.8ms |     8 → 7 | `NodeObject`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:159367:28` |
-|  -74.7% | -23.09ms |  0.6% → 0.1% |    30.9ms → 7.8ms |    12 → 6 | `set`                             | `<unknown>`                                                                               |
-|  -24.0% | -17.70ms |  1.3% → 1.0% |   73.9ms → 56.2ms |   56 → 45 | `structuredTypeRelatedToWorker`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|  -32.5% | -16.17ms |  0.9% → 0.6% |   49.8ms → 33.6ms |   37 → 20 | `map`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:647:17`    |
-|  -93.0% | -15.68ms | 0.3% → <0.1% |    16.9ms → 1.2ms |    13 → 1 | `getConditionalFlowTypeOfType`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58908:46`  |
-|  -61.8% | -14.25ms |  0.4% → 0.2% |    23.0ms → 8.8ms |    17 → 7 | `getConditionalType`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60911:36`  |
-|  -30.8% | -13.41ms |  0.8% → 0.5% |   43.5ms → 30.1ms |   33 → 24 | `instantiateSymbol`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61711:35`  |
-|  -13.8% | -11.98ms |  1.6% → 1.3% |   86.8ms → 74.8ms |   66 → 57 | `getTypeListId`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58595:31`  |
-| removed | -11.17ms |  0.2% → 0.0% |      11.2ms → 0ms |     8 → 0 | `isFromInferenceBlockedSource`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66555:46`  |
-|  -28.3% | -10.92ms |  0.7% → 0.5% |   38.6ms → 27.7ms |   31 → 21 | `resolveNameHelper`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:48322:35`  |
-|  -43.9% | -10.64ms |  0.4% → 0.2% |   24.3ms → 13.6ms |   19 → 11 | `isTypeRelatedTo`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33`  |
-|  -52.9% | -10.03ms |  0.3% → 0.2% |    18.9ms → 8.9ms |    14 → 6 | `addDeclarationToSymbol`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43524:40`  |
-|  -47.2% |  -9.70ms |  0.4% → 0.2% |   20.6ms → 10.9ms |    15 → 8 | `getAliasId`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58618:28`  |
-|   -5.1% |  -9.39ms |  3.3% → 3.1% | 184.7ms → 175.3ms | 142 → 135 | `recursiveTypeRelatedTo`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|  -37.6% |  -9.11ms |  0.4% → 0.3% |   24.2ms → 15.1ms |   19 → 12 | `getConditionalTypeInstantiation` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61936:49`  |
-|  -14.5% |  -8.96ms |  1.1% → 0.9% |   61.7ms → 52.8ms |   47 → 41 | `getRelationKey`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32`  |
-|  -49.4% |  -8.79ms |  0.3% → 0.2% |    17.8ms → 9.0ms |    14 → 7 | `getTypeOfSymbol`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:55373:33`  |
-|  -42.4% |  -8.40ms |  0.4% → 0.2% |   19.8ms → 11.4ms |    15 → 9 | `getSignaturesOfStructuredType`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57884:47`  |
-|  -44.3% |  -8.38ms |  0.3% → 0.2% |   18.9ms → 10.5ms |    14 → 8 | `isSimpleTypeRelatedTo`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62886:39`  |
-|  -87.4% |  -8.24ms | 0.2% → <0.1% |     9.4ms → 1.2ms |     7 → 1 | `parseDelimitedList`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32208:36`  |
+| Change |    Delta |            % |              Time |  Samples | Function                            | Location                                                                                 |
+| -----: | -------: | -----------: | ----------------: | -------: | ----------------------------------- | ---------------------------------------------------------------------------------------- |
+| -71.5% | -54.97ms |  1.4% → 0.4% |   76.9ms → 21.9ms |  47 → 17 | `slice`                             | `<unknown>`                                                                              |
+| -70.4% | -30.82ms |  0.8% → 0.2% |   43.8ms → 13.0ms |  34 → 10 | `signaturesRelatedTo`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41` |
+| -19.4% | -30.33ms |  2.8% → 2.2% | 156.0ms → 125.7ms | 122 → 97 | `getObjectFlags`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28` |
+| -52.1% | -19.88ms |  0.7% → 0.3% |   38.1ms → 18.2ms |  28 → 14 | `readFileSync`                      | `<unknown>`                                                                              |
+| -31.4% | -14.56ms |  0.8% → 0.5% |   46.4ms → 31.9ms |  36 → 25 | `inferFromTypes`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36` |
+| -34.4% | -13.85ms |  0.7% → 0.5% |   40.3ms → 26.5ms |  31 → 21 | `isFreshLiteralType`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61377:36` |
+| -71.8% | -13.69ms |  0.3% → 0.1% |    19.0ms → 5.4ms |   10 → 4 | `next`                              | `<unknown>`                                                                              |
+| -18.6% | -11.91ms |  1.2% → 0.9% |   63.9ms → 52.0ms |  48 → 40 | `getApparentType`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57594:33` |
+| -75.1% | -11.89ms |  0.3% → 0.1% |    15.8ms → 3.9ms |   12 → 3 | `addDeclarationToSymbol`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43524:40` |
+| -59.7% | -11.72ms |  0.4% → 0.1% |    19.6ms → 7.9ms |   15 → 6 | `getGenericObjectFlags`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60651:39` |
+| -89.6% | -10.68ms | 0.2% → <0.1% |    11.9ms → 1.2ms |    9 → 1 | `createSignature`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:56437:33` |
+| -29.9% | -10.32ms |  0.6% → 0.4% |   34.5ms → 24.2ms |  22 → 19 | `getFlowTypeOfReference`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68502:40` |
+| -55.8% |  -9.57ms |  0.3% → 0.1% |    17.1ms → 7.6ms |   13 → 6 | `checkExpressionWithContextualType` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77427:51` |
+| -40.1% |  -9.07ms |  0.4% → 0.2% |   22.6ms → 13.6ms |  17 → 11 | `bind`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45448:22` |
+| -24.5% |  -9.07ms |  0.7% → 0.5% |   37.0ms → 27.9ms |  28 → 22 | `scan`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22` |
+| -23.0% |  -8.77ms |  0.7% → 0.5% |   38.1ms → 29.3ms |  30 → 23 | `createTypeReference`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37` |
+| -31.1% |  -8.73ms |  0.5% → 0.3% |   28.0ms → 19.3ms |  22 → 15 | `setTextRangePos`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:20749:29` |
+| -20.5% |  -8.72ms |  0.8% → 0.6% |   42.6ms → 33.9ms |  33 → 25 | `instantiateTypeWithAlias`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61964:42` |
+| -29.1% |  -8.70ms |  0.5% → 0.4% |   29.9ms → 21.2ms |  22 → 16 | `forEach`                           | `<unknown>`                                                                              |
+| -65.9% |  -7.60ms |  0.2% → 0.1% |    11.5ms → 3.9ms |    9 → 3 | `isWeakType`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65236:28` |
 
 ##### Third-party
 
-|  Change |    Delta |            % |              Time |   Samples | Function                          | Location                                                                                  |
-| ------: | -------: | -----------: | ----------------: | --------: | --------------------------------- | ----------------------------------------------------------------------------------------- |
-|  -83.1% | -48.24ms |  1.0% → 0.2% |    58.0ms → 9.8ms |     8 → 7 | `NodeObject`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:159367:28` |
-|  -24.0% | -17.70ms |  1.3% → 1.0% |   73.9ms → 56.2ms |   56 → 45 | `structuredTypeRelatedToWorker`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|  -32.5% | -16.17ms |  0.9% → 0.6% |   49.8ms → 33.6ms |   37 → 20 | `map`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:647:17`    |
-|  -93.0% | -15.68ms | 0.3% → <0.1% |    16.9ms → 1.2ms |    13 → 1 | `getConditionalFlowTypeOfType`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58908:46`  |
-|  -61.8% | -14.25ms |  0.4% → 0.2% |    23.0ms → 8.8ms |    17 → 7 | `getConditionalType`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60911:36`  |
-|  -30.8% | -13.41ms |  0.8% → 0.5% |   43.5ms → 30.1ms |   33 → 24 | `instantiateSymbol`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61711:35`  |
-|  -13.8% | -11.98ms |  1.6% → 1.3% |   86.8ms → 74.8ms |   66 → 57 | `getTypeListId`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58595:31`  |
-| removed | -11.17ms |  0.2% → 0.0% |      11.2ms → 0ms |     8 → 0 | `isFromInferenceBlockedSource`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66555:46`  |
-|  -28.3% | -10.92ms |  0.7% → 0.5% |   38.6ms → 27.7ms |   31 → 21 | `resolveNameHelper`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:48322:35`  |
-|  -43.9% | -10.64ms |  0.4% → 0.2% |   24.3ms → 13.6ms |   19 → 11 | `isTypeRelatedTo`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62938:33`  |
-|  -52.9% | -10.03ms |  0.3% → 0.2% |    18.9ms → 8.9ms |    14 → 6 | `addDeclarationToSymbol`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43524:40`  |
-|  -47.2% |  -9.70ms |  0.4% → 0.2% |   20.6ms → 10.9ms |    15 → 8 | `getAliasId`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58618:28`  |
-|   -5.1% |  -9.39ms |  3.3% → 3.1% | 184.7ms → 175.3ms | 142 → 135 | `recursiveTypeRelatedTo`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|  -37.6% |  -9.11ms |  0.4% → 0.3% |   24.2ms → 15.1ms |   19 → 12 | `getConditionalTypeInstantiation` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61936:49`  |
-|  -14.5% |  -8.96ms |  1.1% → 0.9% |   61.7ms → 52.8ms |   47 → 41 | `getRelationKey`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65390:32`  |
-|  -49.4% |  -8.79ms |  0.3% → 0.2% |    17.8ms → 9.0ms |    14 → 7 | `getTypeOfSymbol`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:55373:33`  |
-|  -42.4% |  -8.40ms |  0.4% → 0.2% |   19.8ms → 11.4ms |    15 → 9 | `getSignaturesOfStructuredType`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57884:47`  |
-|  -44.3% |  -8.38ms |  0.3% → 0.2% |   18.9ms → 10.5ms |    14 → 8 | `isSimpleTypeRelatedTo`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62886:39`  |
-|  -87.4% |  -8.24ms | 0.2% → <0.1% |     9.4ms → 1.2ms |     7 → 1 | `parseDelimitedList`              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32208:36`  |
-|  -76.0% |  -8.06ms | 0.2% → <0.1% |    10.6ms → 2.5ms |     8 → 2 | `speculationHelper`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31200:35`  |
+| Change |    Delta |            % |              Time |  Samples | Function                            | Location                                                                                  |
+| -----: | -------: | -----------: | ----------------: | -------: | ----------------------------------- | ----------------------------------------------------------------------------------------- |
+| -70.4% | -30.82ms |  0.8% → 0.2% |   43.8ms → 13.0ms |  34 → 10 | `signaturesRelatedTo`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41`  |
+| -19.4% | -30.33ms |  2.8% → 2.2% | 156.0ms → 125.7ms | 122 → 97 | `getObjectFlags`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28`  |
+| -31.4% | -14.56ms |  0.8% → 0.5% |   46.4ms → 31.9ms |  36 → 25 | `inferFromTypes`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36`  |
+| -34.4% | -13.85ms |  0.7% → 0.5% |   40.3ms → 26.5ms |  31 → 21 | `isFreshLiteralType`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61377:36`  |
+| -18.6% | -11.91ms |  1.2% → 0.9% |   63.9ms → 52.0ms |  48 → 40 | `getApparentType`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57594:33`  |
+| -75.1% | -11.89ms |  0.3% → 0.1% |    15.8ms → 3.9ms |   12 → 3 | `addDeclarationToSymbol`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43524:40`  |
+| -59.7% | -11.72ms |  0.4% → 0.1% |    19.6ms → 7.9ms |   15 → 6 | `getGenericObjectFlags`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60651:39`  |
+| -89.6% | -10.68ms | 0.2% → <0.1% |    11.9ms → 1.2ms |    9 → 1 | `createSignature`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:56437:33`  |
+| -29.9% | -10.32ms |  0.6% → 0.4% |   34.5ms → 24.2ms |  22 → 19 | `getFlowTypeOfReference`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:68502:40`  |
+| -55.8% |  -9.57ms |  0.3% → 0.1% |    17.1ms → 7.6ms |   13 → 6 | `checkExpressionWithContextualType` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77427:51`  |
+| -40.1% |  -9.07ms |  0.4% → 0.2% |   22.6ms → 13.6ms |  17 → 11 | `bind`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:45448:22`  |
+| -24.5% |  -9.07ms |  0.7% → 0.5% |   37.0ms → 27.9ms |  28 → 22 | `scan`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22`  |
+| -23.0% |  -8.77ms |  0.7% → 0.5% |   38.1ms → 29.3ms |  30 → 23 | `createTypeReference`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:58635:37`  |
+| -31.1% |  -8.73ms |  0.5% → 0.3% |   28.0ms → 19.3ms |  22 → 15 | `setTextRangePos`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:20749:29`  |
+| -20.5% |  -8.72ms |  0.8% → 0.6% |   42.6ms → 33.9ms |  33 → 25 | `instantiateTypeWithAlias`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61964:42`  |
+| -65.9% |  -7.60ms |  0.2% → 0.1% |    11.5ms → 3.9ms |    9 → 3 | `isWeakType`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65236:28`  |
+| -33.2% |  -7.52ms |  0.4% → 0.3% |   22.7ms → 15.1ms |  17 → 12 | `scanJsDocToken`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11950:32`  |
+| -73.0% |  -7.14ms | 0.2% → <0.1% |     9.8ms → 2.6ms |    7 → 2 | `NodeObject`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:159367:28` |
+| -64.5% |  -6.83ms |  0.2% → 0.1% |    10.6ms → 3.8ms |    8 → 3 | `getNonAssignedNameOfDeclaration`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12672:45`  |
+| -33.6% |  -6.76ms |  0.4% → 0.2% |   20.1ms → 13.3ms |  15 → 10 | `(anonymous)`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12116:63`  |
 
 ##### Standard library
 
-|  Change |    Delta |            % |            Time | Samples | Function     | Location                    |
-| ------: | -------: | -----------: | --------------: | ------: | ------------ | --------------------------- |
-|  -74.7% | -23.09ms |  0.6% → 0.1% |  30.9ms → 7.8ms |  12 → 6 | `set`        | `<unknown>`                 |
-|  -66.2% |  -2.82ms | 0.1% → <0.1% |   4.3ms → 1.4ms |   3 → 1 | `push`       | `<unknown>`                 |
-|  -18.0% |  -2.24ms |         0.2% | 12.4ms → 10.2ms |  10 → 8 | `join`       | `<unknown>`                 |
-|  -32.0% |  -1.99ms |         0.1% |   6.2ms → 4.2ms |   5 → 3 | `next`       | `<unknown>`                 |
-|  -60.0% |  -1.62ms |        <0.1% |   2.7ms → 1.1ms |   2 → 1 | `some`       | `<unknown>`                 |
-| removed |  -1.58ms | <0.1% → 0.0% |     1.6ms → 0ms |   1 → 0 | `resolve`    | `<unknown>`                 |
-| removed |  -1.41ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `ReadStream` | `internal:fs/streams:52:20` |
-| removed |  -1.38ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `String`     | `<unknown>`                 |
-| removed |  -1.34ms | <0.1% → 0.0% |     1.3ms → 0ms |   1 → 0 | `replace`    | `<unknown>`                 |
-| removed |  -1.23ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `add`        | `<unknown>`                 |
-| removed |  -1.17ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `trimStart`  | `<unknown>`                 |
-|  -47.5% |  -1.06ms |        <0.1% |   2.2ms → 1.2ms |   2 → 1 | `unshift`    | `<unknown>`                 |
-|  -19.0% |  -0.27ms |        <0.1% |   1.4ms → 1.2ms |       1 | `assign`     | `<unknown>`                 |
-|  -13.4% |  -0.17ms |        <0.1% |   1.2ms → 1.1ms |       1 | `map`        | `<unknown>`                 |
+|  Change |    Delta |            % |            Time | Samples | Function        | Location                           |
+| ------: | -------: | -----------: | --------------: | ------: | --------------- | ---------------------------------- |
+|  -71.5% | -54.97ms |  1.4% → 0.4% | 76.9ms → 21.9ms | 47 → 17 | `slice`         | `<unknown>`                        |
+|  -71.8% | -13.69ms |  0.3% → 0.1% |  19.0ms → 5.4ms |  10 → 4 | `next`          | `<unknown>`                        |
+|  -29.1% |  -8.70ms |  0.5% → 0.4% | 29.9ms → 21.2ms | 22 → 16 | `forEach`       | `<unknown>`                        |
+| removed |  -2.24ms | <0.1% → 0.0% |     2.2ms → 0ms |   2 → 0 | `assign`        | `<unknown>`                        |
+|  -18.4% |  -2.11ms |         0.2% |  11.5ms → 9.4ms |   9 → 7 | `join`          | `<unknown>`                        |
+|  -55.3% |  -1.32ms |        <0.1% |   2.4ms → 1.1ms |   2 → 1 | `test`          | `<unknown>`                        |
+| removed |  -1.31ms | <0.1% → 0.0% |     1.3ms → 0ms |   1 → 0 | `splice`        | `<unknown>`                        |
+| removed |  -1.27ms | <0.1% → 0.0% |     1.3ms → 0ms |   1 → 0 | `pop`           | `<unknown>`                        |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `onConstructed` | `internal:streams/writable:166:65` |
+|  -21.3% |  -0.32ms |        <0.1% |   1.5ms → 1.2ms |       1 | `push`          | `<unknown>`                        |
+|   -7.7% |  -0.21ms | 0.1% → <0.1% |   2.8ms → 2.6ms |       2 | `map`           | `<unknown>`                        |
+|   -1.6% |  -0.21ms |         0.2% | 13.1ms → 12.9ms |      10 | `get`           | `<unknown>`                        |
+|   -0.2% |  -4.00µs |        <0.1% |           2.5ms |       2 | `unshift`       | `<unknown>`                        |
 
 ##### Native
 
-|  Change |   Delta |            % |            Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                | Location    |
-| ------: | ------: | -----------: | --------------: | ------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|  -13.3% | -3.75ms |  0.5% → 0.4% | 28.1ms → 24.4ms | 21 → 18 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|   -3.4% | -1.96ms |         1.0% | 58.4ms → 56.4ms | 45 → 43 | `anonymous`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|   -5.9% | -1.81ms |         0.5% | 30.5ms → 28.6ms | 24 → 23 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.RhDkiq\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-fixtures\.0q5jPY\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-| removed | -1.52ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `ownKeys`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-| removed | -1.08ms | <0.1% → 0.0% |     1.1ms → 0ms |   1 → 0 | `require`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-|   -6.3% | -0.17ms |        <0.1% |   2.7ms → 2.5ms |       2 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|   -2.0% | -0.11ms |         0.1% |   5.5ms → 5.4ms |       4 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|   -5.5% | -0.08ms |        <0.1% |   1.5ms → 1.4ms |       1 | `@lazy`                                                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
+|  Change |    Delta |            % |            Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
+| ------: | -------: | -----------: | --------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -52.1% | -19.88ms |  0.7% → 0.3% | 38.1ms → 18.2ms | 28 → 14 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
+|   -8.4% |  -5.54ms |  1.2% → 1.0% | 66.0ms → 60.5ms | 52 → 46 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
+| removed |  -3.99ms |  0.1% → 0.0% |     4.0ms → 0ms |   3 → 0 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+/g`                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
+| removed |  -2.50ms | <0.1% → 0.0% |     2.5ms → 0ms |   2 → 0 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
+|   -6.9% |  -1.96ms |         0.5% | 28.3ms → 26.4ms | 22 → 21 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.TBtwcX\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.DBmawf\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
+| removed |  -1.54ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `newRegistryEntry`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
+| removed |  -1.46ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `fetch`                                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
+| removed |  -1.45ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `stream`                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
+| removed |  -1.41ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `/^\.\.?($\|[\\/])/`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+| removed |  -1.37ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `setPrototypeDirect`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
 
 ### Total time
 
@@ -188,183 +187,192 @@ Functions with the largest decrease in time spent directly in the function body,
 
 Functions with the largest increase in total time spent in the function and all its callees.
 
-|   Change |    Delta |             % |              Time |       Samples | Function                        | Location                                                                                  |
-| -------: | -------: | ------------: | ----------------: | ------------: | ------------------------------- | ----------------------------------------------------------------------------------------- |
-|    +3.3% | +82.63ms | 44.9% → 46.4% |     2.50s → 2.59s | 1,916 → 1,965 | `checkTypeRelatedTo`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|    +3.5% | +67.17ms | 34.8% → 36.0% |     1.94s → 2.01s | 1,485 → 1,529 | `checkExpressionCached`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77450:39`  |
-|    +3.3% | +66.11ms | 36.2% → 37.4% |     2.02s → 2.08s | 1,561 → 1,583 | `recursiveTypeRelatedTo`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|    +9.3% | +62.55ms | 12.0% → 13.1% | 670.5ms → 733.1ms |     505 → 558 | `applyToParameterTypes`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66270:39`  |
-|    +3.0% | +62.44ms | 37.7% → 38.8% |     2.10s → 2.16s | 1,614 → 1,645 | `isRelatedTo`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`  |
-|    +6.2% | +62.40ms | 17.9% → 19.0% |   999.9ms → 1.06s |     757 → 813 | `inferTypes`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66691:28`  |
-| +4221.9% | +62.15ms |  <0.1% → 1.1% |    1.5ms → 63.6ms |        1 → 10 | `toString`                      | `<unknown>`                                                                               |
-|  +197.4% | +58.40ms |   0.5% → 1.6% |   29.6ms → 88.0ms |       22 → 28 | `readFile`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7890:30`   |
-|    +5.8% | +58.01ms | 17.8% → 18.9% |   996.3ms → 1.05s |     754 → 807 | `inferFromTypes`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36`  |
-|    +3.2% | +57.83ms | 32.3% → 33.3% |     1.80s → 1.86s | 1,392 → 1,411 | `structuredTypeRelatedToWorker` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|    +3.1% | +57.74ms | 33.1% → 34.2% |     1.84s → 1.90s | 1,428 → 1,446 | `structuredTypeRelatedTo`       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45`  |
-|    +7.6% | +57.56ms | 13.6% → 14.6% | 757.0ms → 814.6ms |     573 → 620 | `inferFromSignatures`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67275:41`  |
-|  +230.5% | +55.07ms |   0.4% → 1.4% |   23.9ms → 79.0ms |       19 → 21 | `getSourceFile`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113089:31` |
-|    +6.1% | +54.70ms | 16.1% → 17.1% | 898.5ms → 953.2ms |     682 → 727 | `inferFromObjectTypes`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67171:42`  |
-|    +8.4% | +54.23ms | 11.6% → 12.5% | 645.5ms → 699.7ms |     485 → 534 | `inferFromContravariantTypes`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66981:49`  |
-|    +5.9% | +53.82ms | 16.3% → 17.2% | 907.8ms → 961.6ms |     689 → 733 | `invokeOnce`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66918:32`  |
-|   +18.1% | +53.81ms |   5.3% → 6.3% | 297.0ms → 350.8ms |     218 → 257 | `getNormalizedType`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35`  |
-|    +3.8% | +50.68ms | 24.0% → 24.9% |     1.34s → 1.39s | 1,036 → 1,060 | `signaturesRelatedTo`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41`  |
-|    +7.8% | +49.15ms | 11.3% → 12.2% | 631.5ms → 680.6ms |     476 → 518 | `inferFromMatchingTypes`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66951:44`  |
-|    +3.4% | +43.15ms | 22.7% → 23.5% |     1.26s → 1.30s |     977 → 995 | `compareSignaturesRelated`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42`  |
+| Change |     Delta |              % |          Time |       Samples | Function                        | Location                                                                                  |
+| -----: | --------: | -------------: | ------------: | ------------: | ------------------------------- | ----------------------------------------------------------------------------------------- |
+|  +5.9% | +274.91ms |  83.8% → 84.7% | 4.63s → 4.91s | 3,504 → 3,748 | `flatMap`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`    |
+|  +5.9% | +274.47ms |  83.7% → 84.6% | 4.62s → 4.90s | 3,499 → 3,743 | `(anonymous)`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
+|  +5.0% | +274.08ms |  99.7% → 99.8% | 5.51s → 5.78s | 4,134 → 4,380 | `typeCheckProject`              | `tsc-workload.mjs:3:33`                                                                   |
+|  +5.0% | +274.08ms |  99.7% → 99.8% | 5.51s → 5.78s | 4,134 → 4,380 | `evaluate`                      | `<unknown>`                                                                               |
+|  +5.0% | +274.08ms |  99.7% → 99.8% | 5.51s → 5.78s | 4,134 → 4,380 | `moduleEvaluation`              | `<unknown>`                                                                               |
+|  +5.9% | +273.47ms |  83.8% → 84.7% | 4.63s → 4.90s | 3,504 → 3,747 | `getDiagnosticsHelper`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
+|  +5.0% | +273.00ms |  99.7% → 99.8% | 5.51s → 5.78s | 4,135 → 4,380 | `processTicksAndRejections`     | `<unknown>`                                                                               |
+|  +4.9% | +272.54ms |  99.7% → 99.8% | 5.51s → 5.78s | 4,135 → 4,380 | `loadAndEvaluateModule`         | `<unknown>`                                                                               |
+|  +5.9% | +272.44ms |  83.8% → 84.6% | 4.63s → 4.90s | 3,502 → 3,744 | `getAndCacheDiagnostics`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
+|  +5.9% | +272.37ms |  83.8% → 84.7% | 4.63s → 4.90s | 3,503 → 3,745 | `getSemanticDiagnosticsForFile` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
+|  +5.8% | +270.87ms |  83.8% → 84.6% | 4.63s → 4.90s | 3,502 → 3,743 | `runWithCancellationToken`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
+|  +4.9% | +269.23ms | 99.9% → 100.0% | 5.52s → 5.79s | 4,144 → 4,386 | `(anonymous)`                   | `<unknown>`                                                                               |
+|  +4.8% | +248.81ms |          93.5% | 5.17s → 5.41s | 3,874 → 4,098 | `forEach`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
+|  +5.6% | +243.61ms |  78.5% → 79.1% | 4.33s → 4.58s | 3,278 → 3,518 | `getDiagnosticsWorker`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`  |
+|  +5.6% | +243.61ms |  78.5% → 79.1% | 4.33s → 4.58s | 3,278 → 3,518 | `getDiagnostics`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
+|  +5.6% | +242.06ms |  78.5% → 79.0% | 4.33s → 4.58s | 3,278 → 3,517 | `checkSourceFile`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`  |
+|  +5.5% | +238.47ms |  78.5% → 79.0% | 4.33s → 4.57s | 3,278 → 3,514 | `checkSourceFileWorker`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39`  |
+|  +5.4% | +232.85ms |  77.6% → 78.1% | 4.29s → 4.52s | 3,246 → 3,474 | `checkSourceElement`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`  |
+|  +6.7% | +211.89ms |  57.3% → 58.3% | 3.16s → 3.37s | 2,400 → 2,583 | `checkBlock`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80106:28`  |
+|  +7.1% | +207.91ms |  53.2% → 54.4% | 2.94s → 3.15s | 2,230 → 2,427 | `checkCallExpression`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75115:37`  |
 
 ##### Third-party
 
-|  Change |    Delta |             % |              Time |       Samples | Function                        | Location                                                                                  |
-| ------: | -------: | ------------: | ----------------: | ------------: | ------------------------------- | ----------------------------------------------------------------------------------------- |
-|   +3.3% | +82.63ms | 44.9% → 46.4% |     2.50s → 2.59s | 1,916 → 1,965 | `checkTypeRelatedTo`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62999:36`  |
-|   +3.5% | +67.17ms | 34.8% → 36.0% |     1.94s → 2.01s | 1,485 → 1,529 | `checkExpressionCached`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77450:39`  |
-|   +3.3% | +66.11ms | 36.2% → 37.4% |     2.02s → 2.08s | 1,561 → 1,583 | `recursiveTypeRelatedTo`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63805:44`  |
-|   +9.3% | +62.55ms | 12.0% → 13.1% | 670.5ms → 733.1ms |     505 → 558 | `applyToParameterTypes`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66270:39`  |
-|   +3.0% | +62.44ms | 37.7% → 38.8% |     2.10s → 2.16s | 1,614 → 1,645 | `isRelatedTo`                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63309:33`  |
-|   +6.2% | +62.40ms | 17.9% → 19.0% |   999.9ms → 1.06s |     757 → 813 | `inferTypes`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66691:28`  |
-| +197.4% | +58.40ms |   0.5% → 1.6% |   29.6ms → 88.0ms |       22 → 28 | `readFile`                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7890:30`   |
-|   +5.8% | +58.01ms | 17.8% → 18.9% |   996.3ms → 1.05s |     754 → 807 | `inferFromTypes`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66703:36`  |
-|   +3.2% | +57.83ms | 32.3% → 33.3% |     1.80s → 1.86s | 1,392 → 1,411 | `structuredTypeRelatedToWorker` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63924:51`  |
-|   +3.1% | +57.74ms | 33.1% → 34.2% |     1.84s → 1.90s | 1,428 → 1,446 | `structuredTypeRelatedTo`       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63918:45`  |
-|   +7.6% | +57.56ms | 13.6% → 14.6% | 757.0ms → 814.6ms |     573 → 620 | `inferFromSignatures`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67275:41`  |
-| +230.5% | +55.07ms |   0.4% → 1.4% |   23.9ms → 79.0ms |       19 → 21 | `getSourceFile`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:113089:31` |
-|   +6.1% | +54.70ms | 16.1% → 17.1% | 898.5ms → 953.2ms |     682 → 727 | `inferFromObjectTypes`          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:67171:42`  |
-|   +8.4% | +54.23ms | 11.6% → 12.5% | 645.5ms → 699.7ms |     485 → 534 | `inferFromContravariantTypes`   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66981:49`  |
-|   +5.9% | +53.82ms | 16.3% → 17.2% | 907.8ms → 961.6ms |     689 → 733 | `invokeOnce`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66918:32`  |
-|  +18.1% | +53.81ms |   5.3% → 6.3% | 297.0ms → 350.8ms |     218 → 257 | `getNormalizedType`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62973:35`  |
-|   +3.8% | +50.68ms | 24.0% → 24.9% |     1.34s → 1.39s | 1,036 → 1,060 | `signaturesRelatedTo`           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:64910:41`  |
-|   +7.8% | +49.15ms | 11.3% → 12.2% | 631.5ms → 680.6ms |     476 → 518 | `inferFromMatchingTypes`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66951:44`  |
-|   +3.4% | +43.15ms | 22.7% → 23.5% |     1.26s → 1.30s |     977 → 995 | `compareSignaturesRelated`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:62671:42`  |
-|   +8.8% | +40.26ms |   8.1% → 8.9% | 455.2ms → 495.5ms |     352 → 379 | `forEachChild`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:29919:26`  |
+| Change |     Delta |             % |          Time |       Samples | Function                                               | Location                                                                                  |
+| -----: | --------: | ------------: | ------------: | ------------: | ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+|  +5.9% | +274.91ms | 83.8% → 84.7% | 4.63s → 4.91s | 3,504 → 3,748 | `flatMap`                                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:712:21`    |
+|  +5.9% | +274.47ms | 83.7% → 84.6% | 4.62s → 4.90s | 3,499 → 3,743 | `(anonymous)`                                          | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114735:54` |
+|  +5.9% | +273.47ms | 83.8% → 84.7% | 4.63s → 4.90s | 3,504 → 3,747 | `getDiagnosticsHelper`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114649:38` |
+|  +5.9% | +272.44ms | 83.8% → 84.6% | 4.63s → 4.90s | 3,502 → 3,744 | `getAndCacheDiagnostics`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:115004:40` |
+|  +5.9% | +272.37ms | 83.8% → 84.7% | 4.63s → 4.90s | 3,503 → 3,745 | `getSemanticDiagnosticsForFile`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114728:47` |
+|  +5.8% | +270.87ms | 83.8% → 84.6% | 4.63s → 4.90s | 3,502 → 3,743 | `runWithCancellationToken`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:114707:42` |
+|  +4.8% | +248.81ms |         93.5% | 5.17s → 5.41s | 3,874 → 4,098 | `forEach`                                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:388:21`    |
+|  +5.6% | +243.61ms | 78.5% → 79.1% | 4.33s → 4.58s | 3,278 → 3,518 | `getDiagnosticsWorker`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83741:38`  |
+|  +5.6% | +243.61ms | 78.5% → 79.1% | 4.33s → 4.58s | 3,278 → 3,518 | `getDiagnostics`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83729:32`  |
+|  +5.6% | +242.06ms | 78.5% → 79.0% | 4.33s → 4.58s | 3,278 → 3,517 | `checkSourceFile`                                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83652:33`  |
+|  +5.5% | +238.47ms | 78.5% → 79.0% | 4.33s → 4.57s | 3,278 → 3,514 | `checkSourceFileWorker`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83677:39`  |
+|  +5.4% | +232.85ms | 77.6% → 78.1% | 4.29s → 4.52s | 3,246 → 3,474 | `checkSourceElement`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83329:36`  |
+|  +6.7% | +211.89ms | 57.3% → 58.3% | 3.16s → 3.37s | 2,400 → 2,583 | `checkBlock`                                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:80106:28`  |
+|  +7.1% | +207.91ms | 53.2% → 54.4% | 2.94s → 3.15s | 2,230 → 2,427 | `checkCallExpression`                                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75115:37`  |
+|  +6.9% | +190.84ms | 50.4% → 51.3% | 2.78s → 2.97s | 2,110 → 2,293 | `getResolvedSignature`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:74982:38`  |
+|  +7.3% | +177.03ms | 43.6% → 44.7% | 2.41s → 2.58s | 1,830 → 1,974 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76186:70`  |
+|  +7.2% | +173.26ms | 43.7% → 44.7% | 2.41s → 2.59s | 1,834 → 1,975 | `checkDeferredNode`                                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83613:35`  |
+|  +7.1% | +171.94ms | 43.7% → 44.7% | 2.41s → 2.59s | 1,835 → 1,975 | `checkDeferredNodes`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83607:36`  |
+|  +5.3% | +171.44ms | 58.6% → 58.9% | 3.24s → 3.41s | 2,455 → 2,630 | `checkExpression`                                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77792:33`  |
+|  +8.2% | +159.74ms | 35.3% → 36.5% | 1.95s → 2.11s | 1,475 → 1,616 | `checkExpressionCached`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77450:39`  |
 
 ##### Standard library
 
-|   Change |    Delta |            % |              Time | Samples | Function         | Location                           |
-| -------: | -------: | -----------: | ----------------: | ------: | ---------------- | ---------------------------------- |
-| +4221.9% | +62.15ms | <0.1% → 1.1% |    1.5ms → 63.6ms |  1 → 10 | `toString`       | `<unknown>`                        |
-|    +5.9% |  +6.89ms |  2.1% → 2.2% | 117.7ms → 124.6ms | 92 → 97 | `concat`         | `<unknown>`                        |
-|  +131.9% |  +5.96ms |  0.1% → 0.2% |    4.5ms → 10.5ms |   4 → 8 | `get`            | `<unknown>`                        |
-|   +94.2% |  +3.81ms |         0.1% |     4.0ms → 7.8ms |   3 → 6 | `Map`            | `<unknown>`                        |
-|  +283.4% |  +3.75ms | <0.1% → 0.1% |     1.3ms → 5.1ms |   1 → 4 | `find`           | `<unknown>`                        |
-|      new |  +2.92ms |  0.0% → 0.1% |       0ms → 2.9ms |   0 → 2 | `exec`           | `<unknown>`                        |
-|      new |  +2.38ms | 0.0% → <0.1% |       0ms → 2.4ms |   0 → 2 | `lastIndexOf`    | `<unknown>`                        |
-|  +177.3% |  +2.19ms | <0.1% → 0.1% |     1.2ms → 3.4ms |   1 → 3 | `map`            | `<unknown>`                        |
-|  +154.4% |  +1.61ms |        <0.1% |     1.0ms → 2.7ms |   1 → 2 | `(anonymous)`    | `internal:streams/operators:1:11`  |
-|   +63.2% |  +1.60ms | <0.1% → 0.1% |     2.5ms → 4.1ms |   2 → 3 | `sort`           | `<unknown>`                        |
-|      new |  +1.44ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `removeListener` | `node:events:206:63`               |
-|      new |  +1.44ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `onceWrapper`    | `node:events:192:21`               |
-|      new |  +1.44ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `emit`           | `node:events:78:48`                |
-|      new |  +1.44ms | 0.0% → <0.1% |       0ms → 1.4ms |   0 → 1 | `onConstruct`    | `internal:streams/destroy:128:23`  |
-|    +3.9% |  +1.25ms |         0.6% |   32.1ms → 33.4ms |      25 | `slice`          | `<unknown>`                        |
-|      new |  +1.24ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `Writable`       | `internal:streams/writable:172:18` |
-|      new |  +1.24ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `WriteStream`    | `internal:fs/streams:196:21`       |
-|      new |  +1.20ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `delete`         | `<unknown>`                        |
-|      new |  +1.20ms | 0.0% → <0.1% |       0ms → 1.2ms |   0 → 1 | `every`          | `<unknown>`                        |
-|      new |  +1.15ms | 0.0% → <0.1% |       0ms → 1.1ms |   0 → 1 | `(anonymous)`    | `internal:streams/duplex:1:11`     |
+|  Change |     Delta |             % |             Time |       Samples | Function      | Location                       |
+| ------: | --------: | ------------: | ---------------: | ------------: | ------------- | ------------------------------ |
+|   +7.4% | +181.89ms | 44.3% → 45.4% |    2.44s → 2.62s | 1,858 → 2,005 | `forEach`     | `<unknown>`                    |
+|  +14.9% |  +14.60ms |   1.8% → 1.9% | 97.7ms → 112.3ms |       74 → 88 | `concat`      | `<unknown>`                    |
+| +501.9% |   +5.67ms |  <0.1% → 0.1% |    1.1ms → 6.8ms |         1 → 5 | `toString`    | `<unknown>`                    |
+|  +43.1% |   +4.17ms |          0.2% |   9.7ms → 13.9ms |        7 → 11 | `some`        | `<unknown>`                    |
+|  +53.3% |   +2.94ms |          0.1% |    5.5ms → 8.5ms |         4 → 7 | `set`         | `<unknown>`                    |
+|  +93.7% |   +2.33ms |  <0.1% → 0.1% |    2.5ms → 4.8ms |         2 → 4 | `lastIndexOf` | `<unknown>`                    |
+|     new |   +1.50ms |  0.0% → <0.1% |      0ms → 1.5ms |         0 → 1 | `every`       | `<unknown>`                    |
+|     new |   +1.49ms |  0.0% → <0.1% |      0ms → 1.5ms |         0 → 1 | `(anonymous)` | `internal:primordials:1:11`    |
+|     new |   +1.49ms |  0.0% → <0.1% |      0ms → 1.5ms |         0 → 1 | `(anonymous)` | `internal:shared:1:11`         |
+|     new |   +1.49ms |  0.0% → <0.1% |      0ms → 1.5ms |         0 → 1 | `(anonymous)` | `internal:validators:1:11`     |
+|     new |   +1.27ms |  0.0% → <0.1% |      0ms → 1.3ms |         0 → 1 | `WriteStream` | `internal:fs/streams:196:21`   |
+|     new |   +1.25ms |  0.0% → <0.1% |      0ms → 1.2ms |         0 → 1 | `replace`     | `<unknown>`                    |
+|     new |   +1.24ms |  0.0% → <0.1% |      0ms → 1.2ms |         0 → 1 | `trim`        | `<unknown>`                    |
+|     new |   +1.23ms |  0.0% → <0.1% |      0ms → 1.2ms |         0 → 1 | `resolve`     | `<unknown>`                    |
+|     new |   +1.14ms |  0.0% → <0.1% |      0ms → 1.1ms |         0 → 1 | `substr`      | `<unknown>`                    |
+|     new |   +1.10ms |  0.0% → <0.1% |      0ms → 1.1ms |         0 → 1 | `charCodeAt`  | `<unknown>`                    |
+|  +64.1% |   +0.98ms |         <0.1% |    1.5ms → 2.5ms |         1 → 2 | `trimStart`   | `<unknown>`                    |
+|  +38.3% |   +0.41ms |         <0.1% |    1.1ms → 1.5ms |             1 | `(anonymous)` | `internal:streams/duplex:1:11` |
+|   +3.1% |   +0.07ms |         <0.1% |    2.4ms → 2.5ms |             2 | `Map`         | `<unknown>`                    |
 
 ##### Native
 
-|  Change |   Delta |            % |            Time | Samples | Function                                               | Location    |
-| ------: | ------: | -----------: | --------------: | ------: | ------------------------------------------------------ | ----------- |
-| +113.0% | +2.93ms | <0.1% → 0.1% |   2.6ms → 5.5ms |   2 → 4 | `stringSplitFast`                                      | `<unknown>` |
-|     new | +1.49ms | 0.0% → <0.1% |     0ms → 1.5ms |   0 → 1 | `/(\stypes\s*=\s*)(?:(?:'([^']*)')\|(?:"([^"]*)"))/im` | `<unknown>` |
-|     new | +1.48ms | 0.0% → <0.1% |     0ms → 1.5ms |   0 → 1 | `/^#!.*/`                                              | `<unknown>` |
-|     new | +1.44ms | 0.0% → <0.1% |     0ms → 1.4ms |   0 → 1 | `bound onceWrapper`                                    | `<unknown>` |
-|     new | +1.27ms | 0.0% → <0.1% |     0ms → 1.3ms |   0 → 1 | `bound realpathNativeSync`                             | `<unknown>` |
-|     new | +1.10ms | 0.0% → <0.1% |     0ms → 1.1ms |   0 → 1 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+/g`            | `<unknown>` |
-|  +13.5% | +1.06ms |  0.1% → 0.2% |   7.8ms → 8.9ms |   6 → 7 | `parseModule`                                          | `<unknown>` |
-|   +1.0% | +0.74ms |         1.4% | 76.5ms → 77.3ms |      59 | `require`                                              | `<unknown>` |
-|   +1.0% | +0.74ms |         1.4% | 76.5ms → 77.3ms |      59 | `bound require`                                        | `<unknown>` |
-|   +2.0% | +0.53ms |         0.5% | 26.2ms → 26.8ms |      21 | `statSync`                                             | `<unknown>` |
+|  Change |     Delta |             % |            Time |       Samples | Function                                 | Location    |
+| ------: | --------: | ------------: | --------------: | ------------: | ---------------------------------------- | ----------- |
+|   +5.0% | +274.08ms | 99.7% → 99.8% |   5.51s → 5.78s | 4,134 → 4,380 | `evaluate`                               | `<unknown>` |
+|   +5.0% | +274.08ms | 99.7% → 99.8% |   5.51s → 5.78s | 4,134 → 4,380 | `moduleEvaluation`                       | `<unknown>` |
+|   +5.0% | +273.00ms | 99.7% → 99.8% |   5.51s → 5.78s | 4,135 → 4,380 | `processTicksAndRejections`              | `<unknown>` |
+|   +4.9% | +272.54ms | 99.7% → 99.8% |   5.51s → 5.78s | 4,135 → 4,380 | `loadAndEvaluateModule`                  | `<unknown>` |
+|  +25.9% |   +6.22ms |   0.4% → 0.5% | 24.0ms → 30.2ms |       19 → 22 | `statSync`                               | `<unknown>` |
+| +139.3% |   +3.66ms |  <0.1% → 0.1% |   2.6ms → 6.3ms |         2 → 5 | `stringSplitFast`                        | `<unknown>` |
+| +248.1% |   +3.00ms |  <0.1% → 0.1% |   1.2ms → 4.2ms |         1 → 3 | `bound realpathNativeSync`               | `<unknown>` |
+| +129.0% |   +1.98ms |  <0.1% → 0.1% |   1.5ms → 3.5ms |         1 → 3 | `readdirSync`                            | `<unknown>` |
+|     new |   +1.34ms |  0.0% → <0.1% |     0ms → 1.3ms |         0 → 1 | `hasObservableSideEffectsForRegExpSplit` | `<unknown>` |
+|     new |   +1.34ms |  0.0% → <0.1% |     0ms → 1.3ms |         0 → 1 | `[Symbol.split]`                         | `<unknown>` |
+|     new |   +1.27ms |  0.0% → <0.1% |     0ms → 1.3ms |         0 → 1 | `file`                                   | `<unknown>` |
+|   +7.1% |   +0.35ms |          0.1% |   5.0ms → 5.3ms |             4 | `realpathNativeSync`                     | `<unknown>` |
+|  +27.9% |   +0.33ms |         <0.1% |   1.2ms → 1.5ms |             1 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`    | `<unknown>` |
 
 #### Improvements
 
 Functions with the largest decrease in total time spent in the function and all its callees.
 
-|  Change |    Delta |             % |              Time |       Samples | Function                                               | Location                                                                                 |
-| ------: | -------: | ------------: | ----------------: | ------------: | ------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-|   -8.9% | -70.19ms | 14.2% → 12.9% | 791.0ms → 720.8ms |     599 → 557 | `checkPropertyAccessExpression`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72575:47` |
-|   -2.6% | -67.87ms | 46.0% → 44.8% |     2.57s → 2.50s | 1,957 → 1,918 | `forEach`                                              | `<unknown>`                                                                              |
-|  -63.6% | -67.34ms |   1.9% → 0.7% |  105.8ms → 38.5ms |       82 → 30 | `tryGetTypeAtPosition`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75528:38` |
-|  -11.0% | -67.14ms |  10.9% → 9.7% | 610.7ms → 543.5ms |     427 → 415 | `parseSourceFile`                                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30679:33` |
-|  -10.8% | -65.73ms |  10.9% → 9.8% | 610.7ms → 545.0ms |     427 → 416 | `createSourceFile`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30483:30` |
-|  -10.6% | -64.34ms |  10.9% → 9.7% | 607.9ms → 543.5ms |     425 → 415 | `parseSourceFileWorker`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30853:39` |
-|  -66.0% | -63.10ms |   1.7% → 0.6% |   95.6ms → 32.5ms |       36 → 25 | `parseBracketedList`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32274:36` |
-|   -2.4% | -61.47ms | 45.2% → 44.1% |     2.52s → 2.46s | 1,921 → 1,886 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76186:70` |
-|  -10.1% | -60.00ms |  10.6% → 9.5% | 592.7ms → 532.7ms |     415 → 407 | `parseList`                                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31892:27` |
-|  -98.1% | -59.40ms |  1.1% → <0.1% |    60.6ms → 1.2ms |         9 → 1 | `parseImportClause`                                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36273:35` |
-|   -2.3% | -59.13ms | 45.3% → 44.2% |     2.52s → 2.47s | 1,924 → 1,891 | `checkDeferredNodes`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83607:36` |
-|   -2.3% | -59.09ms | 45.3% → 44.2% |     2.52s → 2.46s | 1,923 → 1,890 | `checkDeferredNode`                                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83613:35` |
-|  -91.4% | -58.69ms |   1.1% → 0.1% |    64.2ms → 5.5ms |        12 → 4 | `parseNamedImportsOrExports`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36324:44` |
-|   -7.1% | -58.00ms | 14.7% → 13.7% | 822.4ms → 764.4ms |     622 → 589 | `checkNonNullExpression`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72531:40` |
-| removed | -57.98ms |   1.0% → 0.0% |      58.0ms → 0ms |         7 → 0 | `createImportSpecifier`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:24726:39` |
-|  -92.9% | -57.26ms |   1.1% → 0.1% |    61.6ms → 4.4ms |        10 → 3 | `parseImportOrExportSpecifier`                         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36344:46` |
-|  -20.0% | -56.13ms |   5.0% → 4.0% | 281.3ms → 225.2ms |     176 → 172 | `parseDelimitedList`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32208:36` |
-|  -89.4% | -55.57ms |   1.1% → 0.1% |    62.1ms → 6.6ms |        10 → 4 | `parseImportDeclarationOrImportEqualsDeclaration`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36192:65` |
-|  -25.4% | -54.18ms |   3.8% → 2.8% | 213.3ms → 159.2ms |     129 → 122 | `parseModuleBlock`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36106:34` |
-|  -92.7% | -53.70ms |   1.0% → 0.1% |    57.9ms → 4.2ms |         8 → 3 | `createBaseNode`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:22089:32` |
+|  Change |    Delta |            % |              Time |   Samples | Function                            | Location                                                                                 |
+| ------: | -------: | -----------: | ----------------: | --------: | ----------------------------------- | ---------------------------------------------------------------------------------------- |
+|  -68.3% | -55.26ms |  1.5% → 0.4% |   81.0ms → 25.7ms |   49 → 20 | `captureErrorCalculationState`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63069:50` |
+|  -71.5% | -54.97ms |  1.4% → 0.4% |   76.9ms → 21.9ms |   47 → 17 | `slice`                             | `<unknown>`                                                                              |
+|  -78.2% | -33.26ms |  0.8% → 0.2% |    42.5ms → 9.2ms |    21 → 7 | `isTypeAssignableToKind`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76512:40` |
+|   -6.1% | -31.06ms |  9.3% → 8.3% | 513.0ms → 481.9ms | 377 → 371 | `checkMethodDeclaration`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:78362:40` |
+|  -82.6% | -30.98ms |  0.7% → 0.1% |    37.5ms → 6.5ms |    17 → 5 | `getAwaitedTypeNoAlias`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79269:39` |
+|  -19.4% | -30.33ms |  2.8% → 2.2% | 156.0ms → 125.7ms |  122 → 97 | `getObjectFlags`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28` |
+|  -76.2% | -29.56ms |  0.7% → 0.2% |    38.8ms → 9.2ms |    18 → 7 | `checkAwaitedType`                  | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79184:34` |
+|  -95.6% | -28.11ms | 0.5% → <0.1% |    29.4ms → 1.3ms |    11 → 1 | `isThenableType`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79193:32` |
+| removed | -27.00ms |  0.5% → 0.0% |      27.0ms → 0ms |     9 → 0 | `checkAsyncFunctionReturnType`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79374:46` |
+|   -4.6% | -22.83ms |  9.0% → 8.2% | 496.9ms → 474.1ms | 375 → 365 | `getSignatureApplicabilityError`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:73779:48` |
+|  -53.6% | -21.06ms |  0.7% → 0.3% |   39.3ms → 18.2ms |   29 → 14 | `readFileWorker`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7859:36`  |
+|  -27.8% | -20.91ms |  1.4% → 0.9% |   75.2ms → 54.2ms |   57 → 41 | `speculationHelper`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12034:35` |
+|  -26.0% | -20.57ms |  1.4% → 1.0% |   79.0ms → 58.4ms |   60 → 44 | `speculationHelper`                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31200:35` |
+|  -10.6% | -20.31ms |  3.5% → 2.9% | 190.8ms → 170.5ms | 143 → 133 | `createUnionOrIntersectionProperty` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51` |
+|  -40.2% | -20.21ms |  0.9% → 0.5% |   50.2ms → 30.0ms |   38 → 24 | `inferFromTypeArguments`            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66970:44` |
+|  -25.1% | -20.04ms |  1.4% → 1.0% |   79.8ms → 59.8ms |   59 → 41 | `declareSymbol`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43626:31` |
+|  -52.1% | -19.88ms |  0.7% → 0.3% |   38.1ms → 18.2ms |   28 → 14 | `readFileSync`                      | `<unknown>`                                                                              |
+|  -15.0% | -19.87ms |  2.4% → 1.9% | 132.2ms → 112.3ms |  100 → 87 | `scan`                              | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22` |
+|  -31.9% | -19.41ms |  1.1% → 0.7% |   60.9ms → 41.5ms |   45 → 32 | `instantiateMappedTypeTemplate`     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61911:47` |
+|  -60.4% | -18.33ms |  0.5% → 0.2% |   30.4ms → 12.0ms |    23 → 9 | `getGenericObjectFlags`             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60651:39` |
 
 ##### Third-party
 
-|  Change |    Delta |             % |              Time |       Samples | Function                                               | Location                                                                                 |
-| ------: | -------: | ------------: | ----------------: | ------------: | ------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-|   -8.9% | -70.19ms | 14.2% → 12.9% | 791.0ms → 720.8ms |     599 → 557 | `checkPropertyAccessExpression`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72575:47` |
-|  -63.6% | -67.34ms |   1.9% → 0.7% |  105.8ms → 38.5ms |       82 → 30 | `tryGetTypeAtPosition`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:75528:38` |
-|  -11.0% | -67.14ms |  10.9% → 9.7% | 610.7ms → 543.5ms |     427 → 415 | `parseSourceFile`                                      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30679:33` |
-|  -10.8% | -65.73ms |  10.9% → 9.8% | 610.7ms → 545.0ms |     427 → 416 | `createSourceFile`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30483:30` |
-|  -10.6% | -64.34ms |  10.9% → 9.7% | 607.9ms → 543.5ms |     425 → 415 | `parseSourceFileWorker`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:30853:39` |
-|  -66.0% | -63.10ms |   1.7% → 0.6% |   95.6ms → 32.5ms |       36 → 25 | `parseBracketedList`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32274:36` |
-|   -2.4% | -61.47ms | 45.2% → 44.1% |     2.52s → 2.46s | 1,921 → 1,886 | `checkFunctionExpressionOrObjectLiteralMethodDeferred` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76186:70` |
-|  -10.1% | -60.00ms |  10.6% → 9.5% | 592.7ms → 532.7ms |     415 → 407 | `parseList`                                            | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31892:27` |
-|  -98.1% | -59.40ms |  1.1% → <0.1% |    60.6ms → 1.2ms |         9 → 1 | `parseImportClause`                                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36273:35` |
-|   -2.3% | -59.13ms | 45.3% → 44.2% |     2.52s → 2.47s | 1,924 → 1,891 | `checkDeferredNodes`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83607:36` |
-|   -2.3% | -59.09ms | 45.3% → 44.2% |     2.52s → 2.46s | 1,923 → 1,890 | `checkDeferredNode`                                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:83613:35` |
-|  -91.4% | -58.69ms |   1.1% → 0.1% |    64.2ms → 5.5ms |        12 → 4 | `parseNamedImportsOrExports`                           | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36324:44` |
-|   -7.1% | -58.00ms | 14.7% → 13.7% | 822.4ms → 764.4ms |     622 → 589 | `checkNonNullExpression`                               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:72531:40` |
-| removed | -57.98ms |   1.0% → 0.0% |      58.0ms → 0ms |         7 → 0 | `createImportSpecifier`                                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:24726:39` |
-|  -92.9% | -57.26ms |   1.1% → 0.1% |    61.6ms → 4.4ms |        10 → 3 | `parseImportOrExportSpecifier`                         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36344:46` |
-|  -20.0% | -56.13ms |   5.0% → 4.0% | 281.3ms → 225.2ms |     176 → 172 | `parseDelimitedList`                                   | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:32208:36` |
-|  -89.4% | -55.57ms |   1.1% → 0.1% |    62.1ms → 6.6ms |        10 → 4 | `parseImportDeclarationOrImportEqualsDeclaration`      | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36192:65` |
-|  -25.4% | -54.18ms |   3.8% → 2.8% | 213.3ms → 159.2ms |     129 → 122 | `parseModuleBlock`                                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:36106:34` |
-|  -92.7% | -53.70ms |   1.0% → 0.1% |    57.9ms → 4.2ms |         8 → 3 | `createBaseNode`                                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:22089:32` |
-|  -18.9% | -50.28ms |   4.8% → 3.9% | 265.9ms → 215.6ms |     200 → 168 | `getQuickTypeOfExpression`                             | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:77740:42` |
+|  Change |    Delta |            % |              Time |   Samples | Function                               | Location                                                                                 |
+| ------: | -------: | -----------: | ----------------: | --------: | -------------------------------------- | ---------------------------------------------------------------------------------------- |
+|  -68.3% | -55.26ms |  1.5% → 0.4% |   81.0ms → 25.7ms |   49 → 20 | `captureErrorCalculationState`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:63069:50` |
+|  -78.2% | -33.26ms |  0.8% → 0.2% |    42.5ms → 9.2ms |    21 → 7 | `isTypeAssignableToKind`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:76512:40` |
+|   -6.1% | -31.06ms |  9.3% → 8.3% | 513.0ms → 481.9ms | 377 → 371 | `checkMethodDeclaration`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:78362:40` |
+|  -82.6% | -30.98ms |  0.7% → 0.1% |    37.5ms → 6.5ms |    17 → 5 | `getAwaitedTypeNoAlias`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79269:39` |
+|  -19.4% | -30.33ms |  2.8% → 2.2% | 156.0ms → 125.7ms |  122 → 97 | `getObjectFlags`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:19394:28` |
+|  -76.2% | -29.56ms |  0.7% → 0.2% |    38.8ms → 9.2ms |    18 → 7 | `checkAwaitedType`                     | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79184:34` |
+|  -95.6% | -28.11ms | 0.5% → <0.1% |    29.4ms → 1.3ms |    11 → 1 | `isThenableType`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79193:32` |
+| removed | -27.00ms |  0.5% → 0.0% |      27.0ms → 0ms |     9 → 0 | `checkAsyncFunctionReturnType`         | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:79374:46` |
+|   -4.6% | -22.83ms |  9.0% → 8.2% | 496.9ms → 474.1ms | 375 → 365 | `getSignatureApplicabilityError`       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:73779:48` |
+|  -53.6% | -21.06ms |  0.7% → 0.3% |   39.3ms → 18.2ms |   29 → 14 | `readFileWorker`                       | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:7859:36`  |
+|  -27.8% | -20.91ms |  1.4% → 0.9% |   75.2ms → 54.2ms |   57 → 41 | `speculationHelper`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:12034:35` |
+|  -26.0% | -20.57ms |  1.4% → 1.0% |   79.0ms → 58.4ms |   60 → 44 | `speculationHelper`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:31200:35` |
+|  -10.6% | -20.31ms |  3.5% → 2.9% | 190.8ms → 170.5ms | 143 → 133 | `createUnionOrIntersectionProperty`    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:57615:51` |
+|  -40.2% | -20.21ms |  0.9% → 0.5% |   50.2ms → 30.0ms |   38 → 24 | `inferFromTypeArguments`               | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:66970:44` |
+|  -25.1% | -20.04ms |  1.4% → 1.0% |   79.8ms → 59.8ms |   59 → 41 | `declareSymbol`                        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:43626:31` |
+|  -15.0% | -19.87ms |  2.4% → 1.9% | 132.2ms → 112.3ms |  100 → 87 | `scan`                                 | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:11226:22` |
+|  -31.9% | -19.41ms |  1.1% → 0.7% |   60.9ms → 41.5ms |   45 → 32 | `instantiateMappedTypeTemplate`        | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:61911:47` |
+|  -60.4% | -18.33ms |  0.5% → 0.2% |   30.4ms → 12.0ms |    23 → 9 | `getGenericObjectFlags`                | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:60651:39` |
+|  -46.7% | -18.02ms |  0.7% → 0.4% |   38.6ms → 20.5ms |   30 → 15 | `discriminateTypeByDiscriminableItems` | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:65195:54` |
+|  -34.8% | -18.00ms |  0.9% → 0.6% |   51.7ms → 33.7ms |   39 → 26 | `parseNonArrayType`                    | `node_modules/.deno/typescript@4.5.5/node_modules/typescript/lib/typescript.js:33066:35` |
 
 ##### Standard library
 
-|  Change |    Delta |             % |            Time |       Samples | Function          | Location                     |
-| ------: | -------: | ------------: | --------------: | ------------: | ----------------- | ---------------------------- |
-|   -2.6% | -67.87ms | 46.0% → 44.8% |   2.57s → 2.50s | 1,957 → 1,918 | `forEach`         | `<unknown>`                  |
-|  -74.7% | -23.09ms |   0.6% → 0.1% |  30.9ms → 7.8ms |        12 → 6 | `set`             | `<unknown>`                  |
-|  -66.2% |  -2.82ms |  0.1% → <0.1% |   4.3ms → 1.4ms |         3 → 1 | `push`            | `<unknown>`                  |
-|  -18.0% |  -2.24ms |          0.2% | 12.4ms → 10.2ms |        10 → 8 | `join`            | `<unknown>`                  |
-|  -32.0% |  -1.99ms |          0.1% |   6.2ms → 4.2ms |         5 → 3 | `next`            | `<unknown>`                  |
-| removed |  -1.58ms |  <0.1% → 0.0% |     1.6ms → 0ms |         1 → 0 | `resolve`         | `<unknown>`                  |
-| removed |  -1.52ms |  <0.1% → 0.0% |     1.5ms → 0ms |         1 → 0 | `makeSafe`        | `internal:primordials:27:15` |
-| removed |  -1.52ms |  <0.1% → 0.0% |     1.5ms → 0ms |         1 → 0 | `(anonymous)`     | `internal:primordials:1:11`  |
-| removed |  -1.52ms |  <0.1% → 0.0% |     1.5ms → 0ms |         1 → 0 | `(anonymous)`     | `internal:shared:1:11`       |
-| removed |  -1.52ms |  <0.1% → 0.0% |     1.5ms → 0ms |         1 → 0 | `(anonymous)`     | `internal:validators:1:11`   |
-|  -13.1% |  -1.49ms |          0.2% |  11.4ms → 9.9ms |         9 → 8 | `test`            | `<unknown>`                  |
-| removed |  -1.41ms |  <0.1% → 0.0% |     1.4ms → 0ms |         1 → 0 | `ReadStream`      | `internal:fs/streams:52:20`  |
-| removed |  -1.41ms |  <0.1% → 0.0% |     1.4ms → 0ms |         1 → 0 | `ReadStream`      | `node:tty:7:20`              |
-| removed |  -1.38ms |  <0.1% → 0.0% |     1.4ms → 0ms |         1 → 0 | `String`          | `<unknown>`                  |
-| removed |  -1.34ms |  <0.1% → 0.0% |     1.3ms → 0ms |         1 → 0 | `replace`         | `<unknown>`                  |
-| removed |  -1.23ms |  <0.1% → 0.0% |     1.2ms → 0ms |         1 → 0 | `add`             | `<unknown>`                  |
-| removed |  -1.17ms |  <0.1% → 0.0% |     1.2ms → 0ms |         1 → 0 | `trimStart`       | `<unknown>`                  |
-|  -29.1% |  -1.09ms |  0.1% → <0.1% |   3.7ms → 2.7ms |         3 → 2 | `get WriteStream` | `node:fs:587:18`             |
-|  -47.5% |  -1.06ms |         <0.1% |   2.2ms → 1.2ms |         2 → 1 | `unshift`         | `<unknown>`                  |
-|   -5.6% |  -0.44ms |          0.1% |   7.9ms → 7.4ms |             6 | `some`            | `<unknown>`                  |
+|  Change |    Delta |            % |            Time | Samples | Function          | Location                           |
+| ------: | -------: | -----------: | --------------: | ------: | ----------------- | ---------------------------------- |
+|  -71.5% | -54.97ms |  1.4% → 0.4% | 76.9ms → 21.9ms | 47 → 17 | `slice`           | `<unknown>`                        |
+|  -71.8% | -13.69ms |  0.3% → 0.1% |  19.0ms → 5.4ms |  10 → 4 | `next`            | `<unknown>`                        |
+|  -75.4% |  -3.79ms | 0.1% → <0.1% |   5.0ms → 1.2ms |   4 → 1 | `find`            | `<unknown>`                        |
+|  -41.3% |  -2.79ms |         0.1% |   6.7ms → 4.0ms |   5 → 3 | `map`             | `<unknown>`                        |
+|  -45.2% |  -2.32ms | 0.1% → <0.1% |   5.1ms → 2.8ms |   4 → 2 | `get WriteStream` | `node:fs:587:18`                   |
+|  -18.1% |  -2.27ms |         0.2% | 12.5ms → 10.2ms |  10 → 8 | `test`            | `<unknown>`                        |
+| removed |  -2.24ms | <0.1% → 0.0% |     2.2ms → 0ms |   2 → 0 | `assign`          | `<unknown>`                        |
+|  -59.6% |  -2.18ms | 0.1% → <0.1% |   3.7ms → 1.5ms |   3 → 1 | `(anonymous)`     | `internal:stream:1:11`             |
+|  -59.6% |  -2.18ms | 0.1% → <0.1% |   3.7ms → 1.5ms |   3 → 1 | `(anonymous)`     | `node:stream:1:11`                 |
+|  -59.6% |  -2.18ms | 0.1% → <0.1% |   3.7ms → 1.5ms |   3 → 1 | `(anonymous)`     | `internal:fs/streams:1:11`         |
+|  -18.4% |  -2.11ms |         0.2% |  11.5ms → 9.4ms |   9 → 7 | `join`            | `<unknown>`                        |
+|  -33.9% |  -1.35ms | 0.1% → <0.1% |   4.0ms → 2.6ms |   3 → 2 | `sort`            | `<unknown>`                        |
+| removed |  -1.31ms | <0.1% → 0.0% |     1.3ms → 0ms |   1 → 0 | `splice`          | `<unknown>`                        |
+| removed |  -1.27ms | <0.1% → 0.0% |     1.3ms → 0ms |   1 → 0 | `pop`             | `<unknown>`                        |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `onConstructed`   | `internal:streams/writable:166:65` |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `(anonymous)`     | `internal:streams/writable:196:33` |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `emit`            | `node:events:78:48`                |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `onConstruct`     | `internal:streams/destroy:128:23`  |
+|  -35.5% |  -0.81ms |        <0.1% |   2.3ms → 1.5ms |   2 → 1 | `(anonymous)`     | `internal:streams/pipeline:1:11`   |
+|  -35.5% |  -0.81ms |        <0.1% |   2.3ms → 1.5ms |   2 → 1 | `(anonymous)`     | `internal:streams/compose:1:11`    |
 
 ##### Native
 
-|  Change |   Delta |             % |            Time |       Samples | Function                                                                                                                                                                                                                                                                                                                                                                | Location    |
-| ------: | ------: | ------------: | --------------: | ------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-|   -0.1% | -8.11ms | 99.8% → 99.7% |   5.57s → 5.56s | 4,230 → 4,214 | `evaluate`                                                                                                                                                                                                                                                                                                                                                              | `<unknown>` |
-|   -0.1% | -4.17ms | 99.8% → 99.7% |   5.57s → 5.56s | 4,228 → 4,214 | `moduleEvaluation`                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
-|   -0.1% | -4.17ms | 99.8% → 99.7% |   5.57s → 5.56s | 4,228 → 4,214 | `loadAndEvaluateModule`                                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
-|  -13.3% | -3.75ms |   0.5% → 0.4% | 28.1ms → 24.4ms |       21 → 18 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
-|     ~0% | -2.73ms | 99.8% → 99.7% |           5.57s | 4,228 → 4,215 | `processTicksAndRejections`                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|   -5.9% | -1.81ms |          0.5% | 30.5ms → 28.6ms |       24 → 23 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.RhDkiq\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-fixtures\.0q5jPY\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
-| removed | -1.52ms |  <0.1% → 0.0% |     1.5ms → 0ms |         1 → 0 | `ownKeys`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
-|   -0.8% | -0.67ms |          1.5% | 81.9ms → 81.2ms |       63 → 62 | `anonymous`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
-|   -6.3% | -0.17ms |         <0.1% |   2.7ms → 2.5ms |             2 | `/(?:\/\/)\|(?:^\|\/)\.\.?(?:$\|\/)/`                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
-|   -2.0% | -0.11ms |          0.1% |   5.5ms → 5.4ms |             4 | `realpathNativeSync`                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
-|   -5.5% | -0.08ms |         <0.1% |   1.5ms → 1.4ms |             1 | `@lazy`                                                                                                                                                                                                                                                                                                                                                                 | `<unknown>` |
+|  Change |    Delta |            % |            Time | Samples | Function                                                                                                                                                                                                                                                                                                                                                                         | Location    |
+| ------: | -------: | -----------: | --------------: | ------: | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+|  -52.1% | -19.88ms |  0.7% → 0.3% | 38.1ms → 18.2ms | 28 → 14 | `readFileSync`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
+|  -40.9% |  -4.75ms |  0.2% → 0.1% |  11.6ms → 6.9ms |   9 → 5 | `parseModule`                                                                                                                                                                                                                                                                                                                                                                    | `<unknown>` |
+| removed |  -3.99ms |  0.1% → 0.0% |     4.0ms → 0ms |   3 → 0 | `/[^\u0130\u0131\u00DFa-z0-9\\/:\-_\. ]+/g`                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
+|   -4.0% |  -3.52ms |  1.6% → 1.5% | 88.8ms → 85.3ms | 69 → 65 | `anonymous`                                                                                                                                                                                                                                                                                                                                                                      | `<unknown>` |
+|   -6.9% |  -1.96ms |         0.5% | 28.3ms → 26.4ms | 22 → 21 | `/^\/tmp\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))nix\-shell\.TBtwcX\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))profiler\-md\-input\-generation\.DBmawf\/zod\/src(\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))[^/.][^/]*)*?\/(?!(node_modules\|bower_components\|jspm_packages)(\/\|$))([^./]([^./]\|(\.(?!min\.js$))?)*)?$/i` | `<unknown>` |
+| removed |  -1.54ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `newRegistryEntry`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
+| removed |  -1.54ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `ensureRegistered`                                                                                                                                                                                                                                                                                                                                                               | `<unknown>` |
+| removed |  -1.54ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `loadModule`                                                                                                                                                                                                                                                                                                                                                                     | `<unknown>` |
+| removed |  -1.46ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `fetch`                                                                                                                                                                                                                                                                                                                                                                          | `<unknown>` |
+| removed |  -1.46ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `requestFetch`                                                                                                                                                                                                                                                                                                                                                                   | `<unknown>` |
+| removed |  -1.46ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `requestInstantiate`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+| removed |  -1.46ms | <0.1% → 0.0% |     1.5ms → 0ms |   1 → 0 | `requestSatisfyUtil`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+| removed |  -1.45ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `stream`                                                                                                                                                                                                                                                                                                                                                                         | `<unknown>` |
+|   -1.8% |  -1.44ms |  1.5% → 1.4% | 81.2ms → 79.7ms | 63 → 61 | `require`                                                                                                                                                                                                                                                                                                                                                                        | `<unknown>` |
+|   -1.8% |  -1.44ms |  1.5% → 1.4% | 81.2ms → 79.7ms | 63 → 61 | `bound require`                                                                                                                                                                                                                                                                                                                                                                  | `<unknown>` |
+| removed |  -1.41ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `/^\.\.?($\|[\\/])/`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+| removed |  -1.37ms | <0.1% → 0.0% |     1.4ms → 0ms |   1 → 0 | `setPrototypeDirect`                                                                                                                                                                                                                                                                                                                                                             | `<unknown>` |
+| removed |  -1.21ms | <0.1% → 0.0% |     1.2ms → 0ms |   1 → 0 | `bound onceWrapper`                                                                                                                                                                                                                                                                                                                                                              | `<unknown>` |

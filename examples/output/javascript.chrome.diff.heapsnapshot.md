@@ -87,7 +87,7 @@ Strings with the largest increase in size.
 
 | Change | Delta |            % |       Size | Value                                                | Path        |
 | -----: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
-|    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:52789E855ACDCDA1A5B613DDD40E0D9D…` | `(GC root)` |
+|    new | +68 B | 0.0% → <0.1% | 0 B → 68 B | `http://127.0.0.1:52789C80445967457A4710C1EB7DFD11…` | `(GC root)` |
 
 ### Improvements
 
@@ -97,4 +97,4 @@ Strings with the largest decrease in size.
 
 |  Change | Delta |            % |       Size | Value                                                | Path        |
 | ------: | ----: | -----------: | ---------: | ---------------------------------------------------- | ----------- |
-| removed | -68 B | <0.1% → 0.0% | 68 B → 0 B | `http://127.0.0.1:527895C4268906A52093F2E56B7F6E5A…` | `(GC root)` |
+| removed | -68 B | <0.1% → 0.0% | 68 B → 0 B | `http://127.0.0.1:527893B08E012C138775B217D54FB781…` | `(GC root)` |

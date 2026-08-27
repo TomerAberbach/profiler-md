@@ -96,8 +96,8 @@ Constructors ranked by bytes allocated for their instances, excluding nodes kept
 | <0.1% |    208 B |         1 | `ScriptedAnimationController`                | `<unknown>` |
 | <0.1% |    200 B |         1 | `IntersectionObserver`                       | `<unknown>` |
 | <0.1% |    192 B |         1 | `NavigationHistoryEntry`                     | `<unknown>` |
+| <0.1% |    184 B |         1 | `DocumentTimeline`                           | `<unknown>` |
 | <0.1% |    184 B |         1 | `<script type="module" src="/workload.mjs">` | `<unknown>` |
-| <0.1% |    184 B |         1 | `PerformanceNavigationTiming`                | `<unknown>` |
 
 ##### Array
 
@@ -132,13 +132,13 @@ Instances ranked by contribution to each constructor's self size.
 
 ##### `Text` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                      |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------- |
-| 12.5% | 2.03 KiB |        26 | `[3] <h2> ← [3] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                   |
-|  9.6% | 1.56 KiB |        20 | `[3] <p> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                    |
-|  1.9% |    320 B |         4 | `[3] <p> ← .__retained Window / http://127.0.0.1:52789`                                                   |
-|  1.9% |    320 B |         4 | `[3] <span class="hashtag"> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789` |
-|  0.5% |     80 B |         1 | `(GC root)`                                                                                               |
+|    % |     Size | Instances | Path                                                                                                      |
+| ---: | -------: | --------: | --------------------------------------------------------------------------------------------------------- |
+| 6.3% | 1.02 KiB |        13 | `[3] <h2> ← [3] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                   |
+| 5.3% |    880 B |        11 | `[3] <p> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                    |
+| 0.5% |     80 B |         1 | `[3] <span class="hashtag"> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789` |
+| 0.5% |     80 B |         1 | `[3] <span class="hashtag"> ← .__retained Window / http://127.0.0.1:52789`                                |
+| 0.5% |     80 B |         1 | `[3] <p> ← .__retained Window / http://127.0.0.1:52789`                                                   |
 
 ##### `system / ExternalStringData` (`<unknown>`)
 
@@ -219,7 +219,7 @@ Instances ranked by contribution to each constructor's self size.
 
 |      % |  Size | Instances | Path                                                |
 | -----: | ----: | --------: | --------------------------------------------------- |
-| 100.0% | 968 B |         1 | `[1] InternalNode ← [8] InternalNode ← [24] Window` |
+| 100.0% | 968 B |         1 | `[1] InternalNode ← [7] InternalNode ← [24] Window` |
 
 ##### `<span class="hashtag">` (`<unknown>`)
 
@@ -251,14 +251,14 @@ Instances ranked by contribution to each constructor's self size.
 
 |      % |  Size | Instances | Path                                   |
 | -----: | ----: | --------: | -------------------------------------- |
-| 100.0% | 328 B |         1 | `[6] InternalNode ← [31] HTMLDocument` |
+| 100.0% | 328 B |         1 | `[3] InternalNode ← [31] HTMLDocument` |
 
 ##### `PerformanceResourceTiming` (`<unknown>`)
 
 |     % |  Size | Instances | Path                                                                                     |
 | ----: | ----: | --------: | ---------------------------------------------------------------------------------------- |
-| 50.0% | 152 B |         1 | `[1] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
-| 50.0% | 152 B |         1 | `[2] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
+| 50.0% | 152 B |         1 | `[1] InternalNode ← [3] Performance ← [1] InternalNode ← [7] InternalNode ← [24] Window` |
+| 50.0% | 152 B |         1 | `[2] InternalNode ← [3] Performance ← [1] InternalNode ← [7] InternalNode ← [24] Window` |
 
 ##### `MutationObserver` (`<unknown>`)
 
@@ -278,7 +278,7 @@ Instances ranked by contribution to each constructor's self size.
 
 |      % |  Size | Instances | Path                                                      |
 | -----: | ----: | --------: | --------------------------------------------------------- |
-| 100.0% | 200 B |         1 | `[2] InternalNode ← [1] InternalNode ← [31] HTMLDocument` |
+| 100.0% | 200 B |         1 | `[2] InternalNode ← [4] InternalNode ← [31] HTMLDocument` |
 
 ##### `NavigationHistoryEntry` (`<unknown>`)
 
@@ -286,17 +286,17 @@ Instances ranked by contribution to each constructor's self size.
 | -----: | ----: | --------: | ------------ |
 | 100.0% | 192 B |         1 | `[6] Window` |
 
+##### `DocumentTimeline` (`<unknown>`)
+
+|      % |  Size | Instances | Path                |
+| -----: | ----: | --------: | ------------------- |
+| 100.0% | 184 B |         1 | `[22] HTMLDocument` |
+
 ##### `<script type="module" src="/workload.mjs">` (`<unknown>`)
 
 |      % |  Size | Instances | Path         |
 | -----: | ----: | --------: | ------------ |
 | 100.0% | 184 B |         1 | `[1] <head>` |
-
-##### `PerformanceNavigationTiming` (`<unknown>`)
-
-|      % |  Size | Instances | Path                                                                  |
-| -----: | ----: | --------: | --------------------------------------------------------------------- |
-| 100.0% | 184 B |         1 | `[6] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
 
 ##### `Generator` (`workload.mjs:1:1`)
 
@@ -559,13 +559,13 @@ Instances ranked by contribution to each constructor's retained size.
 
 ##### `Text` (`<unknown>`)
 
-|     % |     Size | Instances | Path                                                                                                      |
-| ----: | -------: | --------: | --------------------------------------------------------------------------------------------------------- |
-| 12.5% | 2.03 KiB |        26 | `[3] <h2> ← [3] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                   |
-|  9.6% | 1.56 KiB |        20 | `[3] <p> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                    |
-|  1.9% |    320 B |         4 | `[3] <p> ← .__retained Window / http://127.0.0.1:52789`                                                   |
-|  1.9% |    320 B |         4 | `[3] <span class="hashtag"> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789` |
-|  0.5% |     80 B |         1 | `(GC root)`                                                                                               |
+|    % |     Size | Instances | Path                                                                                                      |
+| ---: | -------: | --------: | --------------------------------------------------------------------------------------------------------- |
+| 6.3% | 1.02 KiB |        13 | `[3] <h2> ← [3] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                   |
+| 5.3% |    880 B |        11 | `[3] <p> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789`                    |
+| 0.5% |     80 B |         1 | `[3] <span class="hashtag"> ← [4] <article class="status"> ← .__retained Window / http://127.0.0.1:52789` |
+| 0.5% |     80 B |         1 | `[3] <span class="hashtag"> ← .__retained Window / http://127.0.0.1:52789`                                |
+| 0.5% |     80 B |         1 | `[3] <p> ← .__retained Window / http://127.0.0.1:52789`                                                   |
 
 ##### `<p>` (`<unknown>`)
 
@@ -683,7 +683,7 @@ Instances ranked by contribution to each constructor's retained size.
 |     % |     Size | Instances | Path                                  |
 | ----: | -------: | --------: | ------------------------------------- |
 | 59.8% |  2.1 KiB |         1 | `[24] Window`                         |
-| 51.6% | 1.81 KiB |         1 | `[8] InternalNode ← [24] Window`      |
+| 51.6% | 1.81 KiB |         1 | `[7] InternalNode ← [24] Window`      |
 | 21.6% |    776 B |         1 | `(GC root)`                           |
 | 21.6% |    776 B |         1 | `[1] InternalNode`                    |
 | 18.9% |    680 B |         1 | `[3] InternalNode ← [1] InternalNode` |
@@ -693,7 +693,7 @@ Instances ranked by contribution to each constructor's retained size.
 |     % |     Size | Instances | Path                                                     |
 | ----: | -------: | --------: | -------------------------------------------------------- |
 | 99.1% | 3.39 KiB |         1 | `(GC root)`                                              |
-|  0.5% |     16 B |         1 | `[1] InternalNode ← [1] InternalNode ← [1] InternalNode` |
+|  0.5% |     16 B |         1 | `[3] InternalNode ← [1] InternalNode ← [1] InternalNode` |
 |  0.5% |     16 B |         1 | `.441 array`                                             |
 
 ##### `Element` (`<unknown>`)
@@ -734,7 +734,7 @@ Instances ranked by contribution to each constructor's retained size.
 
 |      % |     Size | Instances | Path                                                |
 | -----: | -------: | --------: | --------------------------------------------------- |
-| 100.0% | 1.81 KiB |         1 | `[1] InternalNode ← [8] InternalNode ← [24] Window` |
+| 100.0% | 1.81 KiB |         1 | `[1] InternalNode ← [7] InternalNode ← [24] Window` |
 
 ##### `<span class="hashtag">` (`<unknown>`)
 
@@ -798,14 +798,14 @@ Instances ranked by contribution to each constructor's retained size.
 
 |      % |  Size | Instances | Path                                   |
 | -----: | ----: | --------: | -------------------------------------- |
-| 100.0% | 328 B |         1 | `[6] InternalNode ← [31] HTMLDocument` |
+| 100.0% | 328 B |         1 | `[3] InternalNode ← [31] HTMLDocument` |
 
 ##### `PerformanceResourceTiming` (`<unknown>`)
 
 |     % |  Size | Instances | Path                                                                                     |
 | ----: | ----: | --------: | ---------------------------------------------------------------------------------------- |
-| 50.0% | 152 B |         1 | `[1] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
-| 50.0% | 152 B |         1 | `[2] InternalNode ← [3] Performance ← [1] InternalNode ← [8] InternalNode ← [24] Window` |
+| 50.0% | 152 B |         1 | `[1] InternalNode ← [3] Performance ← [1] InternalNode ← [7] InternalNode ← [24] Window` |
+| 50.0% | 152 B |         1 | `[2] InternalNode ← [3] Performance ← [1] InternalNode ← [7] InternalNode ← [24] Window` |
 
 ##### `<script type="module" src="/workload.mjs">` (`<unknown>`)
 
