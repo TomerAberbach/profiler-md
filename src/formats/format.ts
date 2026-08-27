@@ -26,7 +26,7 @@ import type {
   FormattingProfileToMdOptions,
   NormalizedProfileToMdOptions,
 } from '../options.ts'
-import { sourceMapSourceLocation } from '../source-map.ts'
+import { SourceMapResolver } from '../source-map.ts'
 import type { AggregatedInput, ParsedInput } from './converter.ts'
 
 export const formatAggregatedInputs = (
@@ -44,6 +44,7 @@ export const formatAggregatedInputs = (
         return formatHeapSnapshot(input, formattingOptions)
     }
   })
+  formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
 }
 
@@ -105,6 +106,7 @@ export const formatAggregatedDiff = (
       `cannot diff a ${modalityName(baseInput.type)} against a ${modalityName(currentInput.type)}`,
     )
   })
+  formattingOptions.sourceMaps.report(formattingOptions.baseURL)
   return toMarkdown(contents)
 }
 
@@ -117,24 +119,40 @@ const toMarkdown = (contents: RootContent[]): string =>
   )
 
 /**
- * Resolves a `baseURL` of `'auto'` to the common ancestor directory of the
- * aggregated {@link inputs}.
- *
- * Any other `baseURL` passes through unchanged.
+ * Wraps the source maps in a resolver for this conversion, and records in it
+ * every generated file the aggregated {@link inputs} reference. Resolves a
+ * `baseURL` of `'auto'` to the common ancestor directory of the inputs, and
+ * passes any other `baseURL` through unchanged.
  */
 const makeFormattingProfileToMdOptions = (
   options: NormalizedProfileToMdOptions,
   inputs: AggregatedInput[],
 ): FormattingProfileToMdOptions => {
+  const sourceMaps = new SourceMapResolver(options.sourceMaps, options.logger)
   const { baseURL } = options
   if (baseURL !== `auto`) {
-    return { ...options, baseURL }
+    for (const { location } of locations(inputs)) {
+      sourceMaps.addGeneratedFile(location)
+    }
+    return { ...options, baseURL, sourceMaps }
   }
 
-  const urls = collectInferableURLs(inputs, { ...options, baseURL: undefined })
+  // The resolver maps each location first, so the base is inferred from the
+  // locations formatting will show. A relative source cannot contribute,
+  // because it resolves only against the base being inferred.
+  const urls: URL[] = []
+  for (const { location, inferable } of locations(inputs)) {
+    sourceMaps.addGeneratedFile(location)
+    if (inferable) {
+      const mappedLocation = sourceMaps.resolve(location, undefined)
+      if (isBaseURLInferableLocation(mappedLocation)) {
+        urls.push(mappedLocation.url)
+      }
+    }
+  }
   const inferredBaseURL = commonAncestorDirectoryURL(urls)
   logInferredBaseURL(inferredBaseURL, urls, options)
-  return { ...options, baseURL: inferredBaseURL }
+  return { ...options, baseURL: inferredBaseURL, sourceMaps }
 }
 
 const logInferredBaseURL = (
@@ -154,45 +172,41 @@ const logInferredBaseURL = (
 }
 
 /**
- * Collects the base-URL-inferable absolute URLs of {@link inputs}' entries.
+ * Yields the location of each entity in {@link inputs}, and whether the
+ * location may contribute to base URL inference.
  *
- * Applies source maps first so the base is inferred from the locations
- * formatting will show.
+ * Only a function categorized `ours` contributes, because a dependency's
+ * install path can be far outside the source tree. Including it would move the
+ * inferred base up to an ancestor the install path shares with the tree. Every
+ * heap snapshot entity contributes.
  */
-const collectInferableURLs = (
+function* locations(
   inputs: AggregatedInput[],
-  options: FormattingProfileToMdOptions,
-): URL[] => {
-  const urls: URL[] = []
-  const collect = (location: SourceLocation | undefined) => {
-    if (!location) {
-      return
-    }
-    const mappedLocation = sourceMapSourceLocation(location, options)
-    if (isBaseURLInferableLocation(mappedLocation)) {
-      urls.push(mappedLocation.url)
-    }
-  }
-
+): Iterable<{ location: SourceLocation; inferable: boolean }> {
   for (const input of inputs) {
     switch (input.type) {
       case `call-stack-profile`:
       case `call-graph`:
         for (const func of input.functions) {
-          // Only `ours`-categorized functions contribute, because a
-          // dependency's install path can be far outside the source tree and
-          // would raise the base to a shared root.
-          if (func.category === `ours`) {
-            collect(func.location)
+          if (func.location) {
+            yield {
+              location: func.location,
+              // Only `ours`-categorized functions contribute, because a
+              // dependency's install path can be far outside the source tree
+              // and would raise the base to a shared root.
+              inferable: func.category === `ours`,
+            }
           }
         }
         break
       case `heap-snapshot`:
         for (const entity of [...input.constructors, ...input.functions]) {
-          collect(entityLocation(entity))
+          const location = entityLocation(entity)
+          if (location) {
+            yield { location, inferable: true }
+          }
         }
         break
     }
   }
-  return urls
 }
