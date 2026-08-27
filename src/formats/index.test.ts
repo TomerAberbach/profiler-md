@@ -209,7 +209,7 @@ if (format === undefined) {
           data: new Blob([brotlied]).stream(),
           format: `speedscope`,
         }),
-      ).rejects.toThrow(`Speedscope: invalid JSON`)
+      ).rejects.toThrow(`speedscope: invalid JSON`)
     })
 
     test(`reports the original failure when brotli is not the answer either`, () => {
@@ -650,14 +650,14 @@ describe(`profileToMd`, () => {
         profiles: [],
       })
 
-      expect(() => profileToMd(almostSpeedscope)).toThrow(/^Speedscope: /u)
+      expect(() => profileToMd(almostSpeedscope)).toThrow(/^speedscope: /u)
       expectLogs([SPEEDSCOPE_REJECTION_LOG])
     })
 
     test(`a specified format reports its rejection as that format's`, () => {
       expect(() =>
         profileToMd({ data: `funcA;funcB`, format: `collapsed` }),
-      ).toThrow(`Collapsed stacks: missing sample count`)
+      ).toThrow(`collapsed: missing sample count`)
     })
 
     test(`a specified format reports its rejection as that format's when async`, async () => {
@@ -666,7 +666,7 @@ describe(`profileToMd`, () => {
           data: new Blob([`funcA;funcB`]),
           format: `collapsed`,
         }),
-      ).rejects.toThrow(`Collapsed stacks: missing sample count`)
+      ).rejects.toThrow(`collapsed: missing sample count`)
     })
 
     test(`detection names every format that rejected the input`, () => {
@@ -681,7 +681,7 @@ describe(`profileToMd`, () => {
       })
 
       expect(() => profileToMd(almostBoth)).toThrow(
-        /could not detect the profile format, rejected by: Speedscope: .*, V8 CPU profile: /u,
+        `could not detect the profile format, rejected by speedscope and v8-cpu-profile`,
       )
       expectLogs([SPEEDSCOPE_REJECTION_LOG, V8_CPU_PROFILE_REJECTION_LOG])
     })
@@ -695,7 +695,7 @@ describe(`profileToMd`, () => {
     test(`a specified JSON format reports invalid JSON as its rejection`, () => {
       expect(() =>
         profileToMd({ data: `garbage\n`, format: `v8-cpu-profile` }),
-      ).toThrow(`V8 CPU profile: invalid JSON`)
+      ).toThrow(`v8-cpu-profile: invalid JSON`)
     })
 
     test(`a specified JSON format reports invalid JSON as its rejection when async`, async () => {
@@ -704,7 +704,7 @@ describe(`profileToMd`, () => {
           data: new Blob([`garbage\n`]),
           format: `v8-cpu-profile`,
         }),
-      ).rejects.toThrow(`V8 CPU profile: invalid JSON`)
+      ).rejects.toThrow(`v8-cpu-profile: invalid JSON`)
     })
 
     test(`a specified binary format reports its decoder's failure as its rejection`, () => {
@@ -749,7 +749,7 @@ describe(`profileToMd`, () => {
 
         expect(thrown).toBeInstanceOf(ProfilerMdError)
         expect((thrown as Error).message).toMatch(
-          `V8 CPU profile: failed to parse the input`,
+          `v8-cpu-profile: failed to parse the input`,
         )
         expect(mayBeParserBug(thrown)).toBe(true)
       },
@@ -770,7 +770,7 @@ describe(`profileToMd`, () => {
 
         expect(thrown).toBeInstanceOf(ProfilerMdError)
         expect((thrown as Error).message).toMatch(
-          `V8 CPU profile: failed to parse the input`,
+          `v8-cpu-profile: failed to parse the input`,
         )
         expect(mayBeParserBug(thrown)).toBe(true)
       },
@@ -821,7 +821,7 @@ describe(`profileToMd`, () => {
         )
 
         expect(() => profileToMd(format ? { data, format } : data)).toThrow(
-          `HPROF: unsupported format name, got: JAVA PROFILE foo 1.0 bar`,
+          `hprof: unsupported format name, got: JAVA PROFILE foo 1.0 bar`,
         )
       },
     )
@@ -894,7 +894,7 @@ describe(`profileToMd`, () => {
       }
 
       expect(thrown).toBeInstanceOf(FormatDetectError)
-      expect((thrown as FormatDetectError).errors).toHaveLength(1)
+      expect((thrown as FormatDetectError).rejections).toHaveLength(1)
       expectLogs([SPEEDSCOPE_REJECTION_LOG])
     })
 

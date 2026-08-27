@@ -200,27 +200,22 @@ export const dataToBytes = (data: ProfileData): Uint8Array => {
 
 let textEncoder: InstanceType<typeof TextEncoder> | undefined
 
-const toFormatRejectionError = (
+/**
+ * Wraps the error a parse threw as the format's rejection, with the message
+ * `<format>: <reason>`.
+ *
+ * A {@link FormatParseError}'s message states the violation the parser
+ * identified. The parser did not classify any other error, so the reason is
+ * `failed to parse the input`, and the error itself is the cause.
+ */
+export const toFormatRejectionError = (
   converter: FormatConverter,
   error: unknown,
 ): FormatRejectionError =>
-  new FormatRejectionError(describeParseFailure(converter, error), {
-    cause: error,
-  })
-
-/**
- * A parse's failure as `<title>: <reason>`.
- *
- * A {@link FormatParseError}'s message states the violation the parser
- * identified. The parser did not classify any other error, so its reason is
- * `failed to parse the input`, and the error itself is the cause.
- */
-export const describeParseFailure = (
-  converter: FormatConverter,
-  error: unknown,
-): string =>
-  `${converter.title}: ${
+  new FormatRejectionError(
+    converter.format,
     error instanceof FormatParseError
       ? messageOf(error)
-      : `failed to parse the input`
-  }`
+      : `failed to parse the input`,
+    { cause: error },
+  )

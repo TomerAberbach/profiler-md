@@ -295,7 +295,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   its own indented `caused by:` line under the message, and `reasonOf` joins the
   chain for a log line
 - A converter's `parse` throws a `FormatParseError` stating the reason alone,
-  and the conversion pipeline prefixes the format's title. Write `matches` to
+  and the conversion pipeline prefixes the format's ID. Write `matches` to
   accept anything of the format, including a version or variant the parser
   rejects, so auto-detection reports that reason instead of an undetectable
   input
@@ -304,7 +304,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
   identified. Any other error escaping `parse` is one the parser did not
   classify: the input violates the format in a way the parser does not check, or
   the parser has a bug. The pipeline reports both as unusable input. It reports
-  the second as `<title>: failed to parse the input` with the error as its
+  the second as `<format>: failed to parse the input` with the error as its
   cause, and the CLI adds a bug report caveat to it (`mayBeParserBug`). The
   classification is the same under auto-detection and a specified format, and
   the same for an error a parsed input's lazy iterable throws while aggregation
@@ -325,7 +325,7 @@ pnpm generate-inputs go ruby   # Limit to named workload scripts
 - Name what the caller controls (a flag, an option, a file path), never an
   internal function. An invariant message is the exception, since only a
   maintainer reads it
-- Derive a format or origin name from the registry (e.g. `FormatMeta.title`),
+- Derive a format or origin name from the registry (e.g. `converter.format`),
   never a string literal
 
 ### Logging

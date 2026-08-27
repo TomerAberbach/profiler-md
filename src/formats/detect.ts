@@ -1,4 +1,5 @@
 import { reasonOf } from '../error.ts'
+import { formatConjunction } from '../helpers/format.ts'
 import type { AggregationProfileToMdOptions } from '../options.ts'
 import type {
   BinaryFormatConverter,
@@ -9,24 +10,17 @@ import type {
   ParsedInput,
 } from './converter.ts'
 import { FormatDetectError } from './error.ts'
-import { classifyLazyParseFailures, describeParseFailure } from './parse.ts'
+import type { FormatRejectionError } from './error.ts'
+import { classifyLazyParseFailures, toFormatRejectionError } from './parse.ts'
 import { formatConverters, formats } from './registry.ts'
 import type { Format, RegisteredFormatConverter } from './registry.ts'
 
 /** An input a format recognized and parsed during auto-detection. */
 export type DetectedInput = { format: Format; parsed: ParsedInput[] }
 
-/**
- * A converter that recognized the input, but whose parse rejected it.
- *
- * Detection continues with the next format, and reports the rejections when no
- * format parses the input.
- */
-export type FormatRejection = { converter: FormatConverter; error: unknown }
-
 export const detectJsonFormat = (
   json: unknown,
-  rejections: FormatRejection[],
+  rejections: FormatRejectionError[],
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const converter of jsonFormatConverters) {
@@ -40,7 +34,7 @@ export const detectJsonFormat = (
 
 export const detectBinaryFormat = (
   bytes: Uint8Array,
-  rejections: FormatRejection[],
+  rejections: FormatRejectionError[],
   options: AggregationProfileToMdOptions,
 ): DetectedInput | undefined => {
   for (const converter of binaryFormatConverters) {
@@ -76,7 +70,7 @@ const binaryFormatConverters = formatConverters.filter(
 const detectWithConverter = <Input>(
   converter: FormatConverter & Detect<Input> & Parse<Input>,
   input: Input,
-  rejections: FormatRejection[],
+  rejections: FormatRejectionError[],
   { logger }: AggregationProfileToMdOptions,
 ): ParsedInput[] | undefined => {
   try {
@@ -96,7 +90,7 @@ const detectWithConverter = <Input>(
     logger.debug?.(
       `${converter.format}: recognized the input but rejected it: ${reasonOf(error)}`,
     )
-    rejections.push({ converter, error })
+    rejections.push(toFormatRejectionError(converter, error))
     return undefined
   }
 }
@@ -105,35 +99,34 @@ const detectWithConverter = <Input>(
  * Reports why auto-detection resolved no format.
  *
  * A single rejection is reported as that format's failure, because the input
- * is that format and failed to parse. Several rejections name each format with
- * its reason. No rejection means no format recognized the input.
+ * is that format and failed to parse. Several rejections name each format, and
+ * the error's rejections state each one's reason. No rejection means no format
+ * recognized the input.
  */
 export const toUndetectedFormatError = (
-  rejections: readonly FormatRejection[],
+  rejections: readonly FormatRejectionError[],
   jsonError: unknown,
 ): FormatDetectError => {
-  const [rejection] = rejections
-  if (rejections.length === 1) {
+  if (rejections.length > 1) {
     return new FormatDetectError(
-      describeParseFailure(rejection!.converter, rejection!.error),
-      [rejection!.error],
-      { cause: rejection!.error },
+      `could not detect the profile format, rejected by ${formatConjunction(
+        rejections.map(({ format }) => format),
+      )}`,
+      rejections,
     )
   }
 
-  if (rejections.length > 1) {
-    return new FormatDetectError(
-      `could not detect the profile format, rejected by: ${rejections
-        .map(({ converter, error }) => describeParseFailure(converter, error))
-        .join(`, `)}`,
-      rejections.map(({ error }) => error),
-    )
+  const [rejection] = rejections
+  if (rejection !== undefined) {
+    return new FormatDetectError(rejection.message, rejections, {
+      cause: rejection,
+    })
   }
 
   if (jsonError !== undefined) {
     return new FormatDetectError(
       `could not detect the profile format, the input reads as JSON but is invalid JSON`,
-      [jsonError],
+      [],
       { cause: jsonError },
     )
   }
