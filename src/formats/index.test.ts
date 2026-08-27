@@ -1,4 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs'
+import { brotliCompressSync, gzipSync } from 'node:zlib'
 import { describe, expect, test, vi } from 'vitest'
 import { projects } from '../../vitest.config.ts'
 import { parseExampleFilename } from '../cli/examples.ts'
@@ -27,6 +28,7 @@ import {
   profileToMd,
   profileToMdAsync,
 } from './index.ts'
+import { asLz4Frame } from './memray/testing.ts'
 import {
   convertJsonToMd,
   detectionLogs,
@@ -127,6 +129,107 @@ if (format === undefined) {
       )
 
       expect(projectInputs.sort()).toEqual(readdirSync(inputPath()).sort())
+    })
+  })
+}
+
+if (format === undefined) {
+  // The pipeline strips an input's compression before detection, so these run
+  // on a profile of no particular format: a speedscope file with no profiles,
+  // which converts to the no-data message.
+  describe(`compressed inputs`, () => {
+    const bytes = new TextEncoder().encode(emptyProfile)
+    const gzipped = new Uint8Array(gzipSync(bytes))
+    const brotlied = new Uint8Array(brotliCompressSync(bytes))
+    const lz4ed = asLz4Frame(bytes)
+    const NO_DATA = `No profiling data found.\n`
+
+    test.each([
+      [`gzip`, gzipped],
+      [`brotli`, brotlied],
+      [`LZ4`, lz4ed],
+    ])(`profileToMd detects a %s input`, (_, compressed) => {
+      expect(profileToMd(compressed)).toBe(NO_DATA)
+      expect(
+        profileToMd([compressed.subarray(0, 9), compressed.subarray(9)]),
+      ).toBe(NO_DATA)
+    })
+
+    test.each([
+      [`gzip`, gzipped],
+      [`brotli`, brotlied],
+      [`LZ4`, lz4ed],
+    ])(
+      `profileToMd converts a %s input of a specified format`,
+      (_, compressed) => {
+        expect(profileToMd({ data: compressed, format: `speedscope` })).toBe(
+          NO_DATA,
+        )
+      },
+    )
+
+    test.each([
+      [`gzip`, gzipped],
+      [`brotli`, brotlied],
+      [`LZ4`, lz4ed],
+    ])(`profileToMdAsync detects a %s input`, async (_, compressed) => {
+      expect(await profileToMdAsync(new Blob([compressed]))).toBe(NO_DATA)
+      expect(await profileToMdAsync(new Blob([compressed]).stream())).toBe(
+        NO_DATA,
+      )
+    })
+
+    test.each([
+      [`gzip`, gzipped],
+      [`LZ4`, lz4ed],
+    ])(
+      `profileToMdAsync converts a %s input of a specified format`,
+      async (_, compressed) => {
+        expect(
+          await profileToMdAsync({
+            data: new Blob([compressed]),
+            format: `speedscope`,
+          }),
+        ).toBe(NO_DATA)
+        expect(
+          await profileToMdAsync({
+            data: new Blob([compressed]).stream(),
+            format: `speedscope`,
+          }),
+        ).toBe(NO_DATA)
+      },
+    )
+
+    // Brotli has no magic bytes, so it is tried only once the bytes fail as
+    // they are. A stream is consumed by that first attempt.
+    test(`profileToMdAsync tries brotli on a blob of a specified format, not a stream`, async () => {
+      expect(
+        await profileToMdAsync({
+          data: new Blob([brotlied]),
+          format: `speedscope`,
+        }),
+      ).toBe(NO_DATA)
+      await expect(
+        profileToMdAsync({
+          data: new Blob([brotlied]).stream(),
+          format: `speedscope`,
+        }),
+      ).rejects.toThrow(`Speedscope: invalid JSON`)
+    })
+
+    test(`reports the original failure when brotli is not the answer either`, () => {
+      expect(() =>
+        profileToMd(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])),
+      ).toThrow(FormatDetectError)
+    })
+
+    test(`reports a corrupt compressed input as the caller's`, () => {
+      expect(() => profileToMd(gzipped.subarray(0, 20))).toThrow(
+        `cannot decompress the gzip input`,
+      )
+      expect(() => profileToMd(lz4ed.subarray(0, 12))).toThrow(
+        `cannot decompress the LZ4 input`,
+      )
     })
   })
 }

@@ -34,6 +34,9 @@ profiler-md
 │   │   ├── registry.ts           # Format converter registry
 │   │   ├── error.ts              # Parse, rejection, and detection error classes, and the bug report caveat check
 │   │   ├── parse.ts              # JSON decode and specified-format parse wrappers that classify a parse failure
+│   │   ├── compression.ts        # Strips gzip and LZ4 by magic, and tries brotli as a last resort, through the runtime's decoders
+│   │   ├── compression.node.ts   # The `#compression` runtime a Node bundle resolves to (node:zlib)
+│   │   ├── compression.web.ts    # The `#compression` runtime every other bundle resolves to (DecompressionStream)
 │   │   ├── detect.ts             # Format auto-detection and its undetected-format error
 │   │   ├── aggregate.ts          # Parsed input to aggregated input dispatch across modalities, with origin detection
 │   │   ├── format.ts             # Aggregated input and diff to Markdown dispatch across modalities
