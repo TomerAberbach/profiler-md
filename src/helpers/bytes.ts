@@ -20,6 +20,36 @@ export const streamToUint8Array = async (
   return concatUint8Arrays(chunks)
 }
 
+/**
+ * Wraps {@link stream} so an error it throws is replaced with the error
+ * {@link toError} builds from it.
+ *
+ * The source is read on the first pull, so a wrapper nothing reads leaves the
+ * source unlocked and cancellable.
+ */
+export const classifyStreamFailures = (
+  stream: ReadableStream<Uint8Array>,
+  toError: (error: unknown) => Error,
+): ReadableStream<Uint8Array> => {
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined
+  return new ReadableStream<Uint8Array>({
+    pull: async controller => {
+      let result
+      try {
+        result = await (reader ??= stream.getReader()).read()
+      } catch (error: unknown) {
+        throw toError(error)
+      }
+      if (result.done) {
+        controller.close()
+      } else {
+        controller.enqueue(result.value)
+      }
+    },
+    cancel: async reason => await (reader ?? stream).cancel(reason),
+  })
+}
+
 export const concatUint8Arrays = (arrays: Iterable<Uint8Array>): Uint8Array => {
   const arrayArray: Uint8Array[] = Array.isArray(arrays)
     ? (arrays as Uint8Array[])

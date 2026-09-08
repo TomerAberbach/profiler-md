@@ -58,9 +58,16 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
+      "node": "./dist/node/index.mjs",
       "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
+  },
+  "imports": {
+    "#compression": {
+      "node": "./src/formats/compression.node.ts",
+      "default": "./src/formats/compression.web.ts"
+    }
   },
   "scripts": {
     "format:base": "prettier --cache --write",

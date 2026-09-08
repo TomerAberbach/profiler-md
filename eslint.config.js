@@ -3,7 +3,7 @@ import { errorMessage } from './eslint-rules/error-message.js'
 
 export default [
   ...config,
-  { ignores: [`skills/**/*`, `.claude/worktrees/**/*`] },
+  { ignores: [`skills/**/*`] },
   {
     plugins: { local: { rules: { 'error-message': errorMessage } } },
     rules: {

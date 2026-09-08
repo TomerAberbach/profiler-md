@@ -34,9 +34,10 @@ export const chunk = (bytes: Uint8Array, chunkSize: number): Uint8Array[] => {
 /**
  * A growable buffer of bytes written for a test.
  *
- * It encodes the parts binary formats share: single bytes, byte runs, and
- * unsigned LEB128. A format's writer wraps it and adds the integer widths,
- * endianness, and record framing its own encoding uses.
+ * It encodes the parts binary formats share: single bytes, byte runs,
+ * little-endian unsigned 32-bit integers, and unsigned LEB128. A format's
+ * writer wraps it and adds the remaining integer widths, endianness, and
+ * record framing its own encoding uses.
  */
 export class ByteBuffer {
   readonly #bytes = new DynamicTypedArray(new Uint8Array(1024))
@@ -51,6 +52,13 @@ export class ByteBuffer {
       .ensureCapacity(this.#length + bytes.length)
       .set(bytes, this.#length)
     this.#length += bytes.length
+  }
+
+  /** Writes a little-endian unsigned 32-bit integer. */
+  public uint32(value: number): void {
+    for (let shift = 0; shift < 32; shift += 8) {
+      this.byte((value >>> shift) & 0xff)
+    }
   }
 
   /** Writes an unsigned LEB128 integer, seven bits per byte, low group first. */
@@ -68,6 +76,49 @@ export class ByteBuffer {
     return this.#bytes.array.slice(0, this.#length)
   }
 }
+
+/**
+ * Wraps blocks in an LZ4 frame, declaring {@link contentSize} as the size it
+ * decompresses to when one is given. A block is compressed unless
+ * {@link uncompressed} is set, in which case its bytes are its content
+ * verbatim.
+ */
+export const lz4FrameOf = (
+  blocks: ArrayLike<number>[],
+  {
+    uncompressed = false,
+    contentSize,
+  }: { uncompressed?: boolean; contentSize?: bigint } = {},
+): Uint8Array => {
+  const writer = new ByteBuffer()
+  writer.uint32(0x18_4d_22_04)
+  writer.byte(contentSize === undefined ? 0b0100_0000 : 0b0100_1000) // Version 1
+  writer.byte(0b0100_0000) // A 64 KiB maximum block size
+  if (contentSize !== undefined) {
+    for (let shift = 0n; shift < 64n; shift += 8n) {
+      writer.byte(Number((contentSize >> shift) & 0xffn))
+    }
+  }
+  writer.byte(0) // The header checksum, which readers may ignore
+
+  for (const block of blocks) {
+    const bytes = Uint8Array.from(block)
+    writer.uint32(
+      uncompressed ? (bytes.length | 0x80_00_00_00) >>> 0 : bytes.length,
+    )
+    writer.bytes(bytes)
+  }
+
+  writer.uint32(0) // The end mark
+  return writer.toBytes()
+}
+
+/**
+ * Wraps bytes in an LZ4 frame of uncompressed blocks. Any LZ4 reader accepts
+ * the frame, and writing it requires no compressor.
+ */
+export const asLz4Frame = (bytes: Uint8Array): Uint8Array =>
+  lz4FrameOf(chunk(bytes, 0x1_00_00), { uncompressed: true })
 
 type Row = Record<string, string>
 export type Table = Row[]

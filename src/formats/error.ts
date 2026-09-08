@@ -66,6 +66,9 @@ export const mayBeParserBug = (error: unknown): boolean =>
  * The errors a conversion error wraps that a parser threw without classifying
  * them, in detection order. Empty when the error is not a conversion error, or
  * when every wrapped error is a {@link FormatParseError}.
+ *
+ * An error that only restates another, such as one naming the input a failure
+ * came from, resolves to its cause.
  */
 export const unclassifiedParseFailures = (error: unknown): unknown[] => {
   if (error instanceof FormatDetectError) {
@@ -73,6 +76,9 @@ export const unclassifiedParseFailures = (error: unknown): unknown[] => {
   }
   if (error instanceof FormatRejectionError) {
     return isUnclassifiedParseFailure(error.cause) ? [error.cause] : []
+  }
+  if (error instanceof Error && error.cause !== undefined) {
+    return unclassifiedParseFailures(error.cause)
   }
   return []
 }

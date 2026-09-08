@@ -3,7 +3,7 @@ import type { ProfileInput } from '../index.ts'
 import { CliError, reportError } from './error.ts'
 import { printBriefHelp, printHelpTopic } from './help.ts'
 import { highlightMarkdown } from './highlight-markdown.ts'
-import { openInputAsBlob } from './input.ts'
+import { inputName, openInputAsBlob } from './input.ts'
 import { buildOptions } from './options.ts'
 import { checkOutputPath, isTTYOutput, writeOutput } from './output.ts'
 import { parseArgs } from './parse-args.ts'
@@ -52,8 +52,10 @@ try {
 
   await checkOutputPath(outputPath)
 
-  const toInput = <Data>(data: Data): ProfileInput<Data> =>
-    format || origin ? { data, format, origin } : data
+  const toInput = <Data>(
+    data: Data,
+    filePath: string | undefined,
+  ): ProfileInput<Data> => ({ data, format, origin, name: inputName(filePath) })
   const optionsPromise = buildOptions({
     topN,
     minCategoryShare,
@@ -73,7 +75,7 @@ try {
       openInputAsBlob(basePath),
       optionsPromise,
     ])
-    markdown = await profileToMdAsync(toInput(data), options)
+    markdown = await profileToMdAsync(toInput(data, basePath), options)
   } else {
     const [baseData, currentData, options] = await Promise.all([
       openInputAsBlob(basePath),
@@ -81,8 +83,8 @@ try {
       optionsPromise,
     ])
     markdown = await diffProfilesAsync(
-      toInput(baseData),
-      toInput(currentData),
+      toInput(baseData, basePath),
+      toInput(currentData, currentPath),
       options,
     )
   }

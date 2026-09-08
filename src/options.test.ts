@@ -10,39 +10,43 @@ import {
 import type { ProfileInput } from './options.ts'
 
 describe(`normalizeProfileInput`, () => {
-  test(`bare data has no explicit format or origin`, () => {
+  test(`bare data has no explicit format, origin, or name`, () => {
     expect(normalizeProfileInput(`profile-data`)).toStrictEqual({
       data: `profile-data`,
       format: undefined,
       origin: undefined,
+      name: undefined,
     })
   })
 
-  test(`bare binary data has no explicit format or origin`, () => {
+  test(`bare binary data has no explicit format, origin, or name`, () => {
     const data = new Uint8Array([1, 2, 3])
 
     expect(normalizeProfileInput(data)).toStrictEqual({
       data,
       format: undefined,
       origin: undefined,
+      name: undefined,
     })
   })
 
-  test(`wrapped data carries its explicit format and origin`, () => {
+  test(`wrapped data carries its explicit format, origin, and name`, () => {
     const input: ProfileInput<string> = {
       data: `profile-data`,
       format: `v8-cpu-profile`,
       origin: `node`,
+      name: `profile.cpuprofile`,
     }
 
     expect(normalizeProfileInput(input)).toStrictEqual(input)
   })
 
-  test(`wrapped data without a format or origin leaves them undefined`, () => {
+  test(`wrapped data without a format, origin, or name leaves them undefined`, () => {
     expect(normalizeProfileInput({ data: `profile-data` })).toStrictEqual({
       data: `profile-data`,
       format: undefined,
       origin: undefined,
+      name: undefined,
     })
   })
 })

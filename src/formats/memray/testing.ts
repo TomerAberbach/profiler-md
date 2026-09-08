@@ -200,28 +200,6 @@ export const makeAggregatedMemray = ({
   return writer.toBytes()
 }
 
-/**
- * Wraps bytes in an LZ4 frame of uncompressed blocks, which `memray run`
- * writes a compressed equivalent of. Valid to any LZ4 reader, and it needs no
- * compressor.
- */
-export const asLz4Frame = (bytes: Uint8Array): Uint8Array => {
-  const writer = new ByteWriter()
-  writer.uint32(0x18_4d_22_04)
-  writer.byte(0b0100_0000) // Version 1, with no optional fields
-  writer.byte(0b0100_0000) // A 64 KiB maximum block size
-  writer.byte(0) // The header checksum, which readers may ignore
-
-  for (let offset = 0; offset < bytes.length; offset += 0x1_00_00) {
-    const block = bytes.subarray(offset, offset + 0x1_00_00)
-    writer.uint32((block.length | 0x80_00_00_00) >>> 0)
-    writer.bytes(block)
-  }
-
-  writer.uint32(0) // The end mark
-  return writer.toBytes()
-}
-
 const ALL_ALLOCATIONS = 0
 const AGGREGATED_ALLOCATIONS = 1
 
@@ -427,9 +405,7 @@ class ByteWriter {
   }
 
   public uint32(value: number): void {
-    for (let shift = 0; shift < 32; shift += 8) {
-      this.byte((value >>> shift) & 0xff)
-    }
+    this.#buffer.uint32(value)
   }
 
   public uint64(value: number): void {

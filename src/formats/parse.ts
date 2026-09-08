@@ -1,6 +1,6 @@
 import { JumboJSON } from 'jumbo-json'
 import { reasonOf } from '../error.ts'
-import { concatUint8Arrays } from '../helpers/bytes.ts'
+import { classifyStreamFailures, concatUint8Arrays } from '../helpers/bytes.ts'
 import type { AsyncProfileData, ProfileData } from '../options.ts'
 import type { FormatConverter, ParsedInput } from './converter.ts'
 import { FormatParseError, FormatRejectionError } from './error.ts'
@@ -182,25 +182,8 @@ function* guardIterableReads(
 
 const guardStreamReads = (
   stream: ReadableStream<Uint8Array>,
-): ReadableStream<Uint8Array> => {
-  const reader = stream.getReader()
-  return new ReadableStream<Uint8Array>({
-    pull: async controller => {
-      let result
-      try {
-        result = await reader.read()
-      } catch (error: unknown) {
-        throw new InputReadError(error)
-      }
-      if (result.done) {
-        controller.close()
-      } else {
-        controller.enqueue(result.value)
-      }
-    },
-    cancel: reason => reader.cancel(reason),
-  })
-}
+): ReadableStream<Uint8Array> =>
+  classifyStreamFailures(stream, error => new InputReadError(error))
 
 const dataToStream = (data: AsyncProfileData): ReadableStream<Uint8Array> =>
   data instanceof Blob ? data.stream() : data
